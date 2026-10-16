@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-16T11:32:15.269Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-16T14:06:05.054Z. Do not edit by hand.
 
 ---
 
@@ -102,8 +102,8 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 284.3 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 66.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 298.9 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 68.9 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 526.0 KB | ✅ | — |
@@ -145,7 +145,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 257.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 258.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -909,7 +909,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 38.7 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 179.2 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.3 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
@@ -1761,7 +1761,7 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 387.2 KB | ✅ | — |
+| `data/policy_briefs.json` | 404.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 180.5 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
@@ -1774,7 +1774,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 15.4 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 24.0 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 20.8 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 158.8 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -1782,7 +1782,7 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 22.6 KB | ✅ | — |
-| `data/url-health.json` | 607.5 KB | ✅ | — |
+| `data/url-health.json` | 580.1 KB | ✅ | — |
 
 ---
 
@@ -2322,7 +2322,7 @@
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
 | `test/upstream-vintage-watch.test.mjs` | 14.2 KB |
-| `test/url-health-policy.test.mjs` | 13.5 KB |
+| `test/url-health-policy.test.mjs` | 13.9 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
 | `test/validate-site.js` | 9.6 KB |
