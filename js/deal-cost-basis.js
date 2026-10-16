@@ -206,8 +206,9 @@
     return out;
   }
 
+  // Without its sourced rule a fee is untested whatever its amount.
   function contractorUntested(t) {
-    return !!(t && t.status && t.status.applied && t.fee > 0 && t.excess === null);
+    return !!(t && t.excess === null && t.fee > 0);
   }
 
   /** CHFA's base for the developer fee limit, QAP 3.M.3. */
@@ -269,8 +270,9 @@
         reason: 'The contractor fee could not be tested against CHFA\'s limit (' + String(contractorTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
     }
     var feeInBasis = (e.developer_fee || 0) + (e.consultant_fee || 0);
-    if (developerTest && developerTest.status && developerTest.status.applied && developerTest.fee !== null
-      && developerTest.excess === null && feeInBasis > 0) {
+    var developerUntested = developerTest && developerTest.excess === null
+      && (!developerTest.status || !developerTest.status.applied || developerTest.fee !== null);
+    if (developerUntested && feeInBasis > 0) {
       return { contractor: null, developer: null, total: null,
         reason: 'The developer fee could not be tested against CHFA\'s limit (' + String(developerTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
     }

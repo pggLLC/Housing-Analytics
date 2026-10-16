@@ -198,6 +198,12 @@ async function test(name, fn) {
       assert(detail.includes(label) && !/\$\d|\d%/.test(after.slice(0, 120)), label + ' shows no figure: ' + after.slice(0, 120));
     }
     assert.equal(p.w.__DealCalc.getResult().costBasis.basis.capacity, null);
+    // An entered award does not depend on the mix, so its equity stays known.
+    setField(p, 'dc-credit-awarded', 1000000);
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.costBasis.basis.capacity, null, 'still no calculated capacity');
+    assert.equal(r.annualCredits, 1000000);
+    assert.equal(r.equity, 1000000 * 10 * r.equityPrice);
     assert.deepEqual(p.errors, []);
   });
 

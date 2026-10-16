@@ -1045,7 +1045,8 @@
     // An invalid unit mix leaves no basis figure to show, only its reason.
     basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
       invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
-    if (!unitMixError && chfaRegime) {
+    // An entered award is known even while the unit mix is invalid.
+    if (chfaRegime && (!unitMixError || basis.creditForEquityBasis === 'awarded')) {
       annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
       equity = annualCredits * CREDIT_YEARS * equityPrice;
       // Without the gap calculation the capacity is unknown (QAP 3.M.1), and so is the credit.

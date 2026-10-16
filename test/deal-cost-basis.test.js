@@ -186,6 +186,24 @@ test('acceptance 4: aggregate developer plus consultant fee fails a 15% limit, d
   assert.equal(u.reason, 'rule not sourced');
 });
 
+test('an in-basis fee whose limit rule is unsourced leaves the basis reduction unknown, not $0', () => {
+  const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  assert(summary.eligibleById.developer_fee > 0 && summary.eligibleById.overhead + summary.eligibleById.profit > 0, 'non-vacuous: both fees sit in basis');
+  const contractor = cb.contractorFeeTest({ byId: summary.byId, units: 60, rules });
+  const base = cb.developerFeeBase(summary, contractor);
+  const developer = cb.developerFeeTest({ developerFee: summary.byId.developer_fee, base: base.base, units: 60, rules });
+  assert.equal(cb.feeExcessInBasis(summary, contractor, developer).total, 0, 'both tested: a measured $0');
+  for (const key of ['contractor_fee_limit', 'developer_fee_limit']) {
+    const r = clone(rules); delete r.rules[key].source;
+    const c = cb.contractorFeeTest({ byId: summary.byId, units: 60, rules: r });
+    const b = cb.developerFeeBase(summary, c);
+    const d = cb.developerFeeTest({ developerFee: summary.byId.developer_fee, base: b.base, baseReason: b.reason, units: 60, rules: r });
+    const ex = cb.feeExcessInBasis(summary, c, d);
+    assert.equal(ex.total, null, key);
+    assert.match(ex.reason, /could not be tested.*rule not sourced/, key);
+  }
+});
+
 test('developer fee base follows QAP 3.M.3 and the contractor fee test uses its tier', () => {
   const lines = cb.exampleLines();
   const summary = cb.summarizeCosts(lines, 20000000);
