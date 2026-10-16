@@ -14,7 +14,7 @@
    "letter_of_intent": "A letter of intent is on CHFA's rolling list"
   },
   "stage_rule": "A project's stage is the furthest stage any source records for it. A loss followed by a later application reads as applied. Nothing here says a project is built or open: CHFA's property feed copies the allocation year into its placed-in-service field for recent deals, so that field is not used.",
-  "join_rule": "Events are one project when their names match after normalising (the rule scripts/funding/build_lihtc_applications.py uses to match applications to awards) and their counties agree. A project renamed between application and award is joined when the two rows print the same street address (same county, same phase, sizes within 15%), or name the same sponsor in the same town with the same unit count and years no more than one apart; otherwise it stays two rows. Sponsors are used to match only and are never published.",
+  "join_rule": "Events are one project when their names match after normalising (the rule scripts/funding/build_lihtc_applications.py uses to match applications to awards) and their counties agree. A project renamed between application and award is joined when the two rows print the same street address (same county, same phase, sizes within 15% or the same sponsor within two years), or name the same sponsor in the same town with the same unit count and years no more than one apart; otherwise it stays two rows. Sponsors are used to match only and are never published.",
   "amount_note": "Amounts are as printed: tax credits are ANNUAL credit amounts; grants and loans are dollars. amount_label says which. Never add credits to dollars.",
   "public_safety": "Sponsor, owner and contact fields are not copied, and quotes have them removed. Projects on the owner exclusion list are left out by hash.",
   "inputs": {
@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 725,
+  "project_count": 723,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 399
+  "statewide_recent_projects": 397
  },
  "county_summary": {
   "08001": {
@@ -121,8 +121,8 @@
   },
   "08005": {
    "name": "Arapahoe County",
-   "projects": 32,
-   "homes": 3211,
+   "projects": 31,
+   "homes": 3154,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -133,7 +133,7 @@
     },
     "funded": {
      "projects": 21,
-     "homes": 1956,
+     "homes": 2046,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -142,8 +142,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 3,
-     "homes": 443,
+     "projects": 2,
+     "homes": 296,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 100,
-   "homes": 10492,
+   "projects": 99,
+   "homes": 10311,
    "projects_without_homes": 1,
    "multi_county_projects": 0,
    "by_stage": {
@@ -693,8 +693,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 19,
-     "homes": 1988,
+     "projects": 18,
+     "homes": 1807,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -2838,7 +2838,7 @@
    ]
   },
   {
-   "id": "10660-colfax-08005",
+   "id": "ironton-08005",
    "name": "10660 E Colfax",
    "city": "Aurora",
    "county_fips": "08005",
@@ -2848,9 +2848,9 @@
    "stage": "funded",
    "first_year": 2025,
    "latest_year": 2026,
-   "total_units": 57,
+   "total_units": 147,
    "total_units_unavailable_reason": null,
-   "restricted_units": 57,
+   "restricted_units": 147,
    "restricted_units_unavailable_reason": null,
    "events": [
     {
@@ -2878,6 +2878,18 @@
      "quote": "Type: N,I/F; Name: 10660 E Colfax; Address: 10660 E Colfax Avenue; City: Aurora; Total Units: 57; LI Units: 57; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $114,000",
      "round": "2026 Round One",
      "as_of": "2026-02-09"
+    },
+    {
+     "stage": "applied",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 2853317,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Building Type: N; Resident Type: I/F; Name: Ironton Apartments; Address: 10660 E. Colfax Avenue; City: Aurora; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,853,317; PAB Issuer: CHFA; PAB Requested: $23,264,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $294,000",
+     "round": "2026 Round Two",
+     "as_of": "2026-08-11"
     }
    ]
   },
@@ -3066,36 +3078,6 @@
      "quote": "Type: N,I/F,SH; Name: Hazelbrook HUB Apartments; Address: Sable Blvd and Centerpointe Drive; City: Aurora; Total Units: 48; LI Units: 48; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $96,000",
      "round": "2026 Round One",
      "as_of": "2026-02-09"
-    }
-   ]
-  },
-  {
-   "id": "ironton-08005",
-   "name": "Ironton Apartments",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "applied",
-   "first_year": 2026,
-   "latest_year": 2026,
-   "total_units": 147,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 147,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "applied",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 2853317,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Building Type: N; Resident Type: I/F; Name: Ironton Apartments; Address: 10660 E. Colfax Avenue; City: Aurora; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,853,317; PAB Issuer: CHFA; PAB Requested: $23,264,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $294,000",
-     "round": "2026 Round Two",
-     "as_of": "2026-08-11"
     }
    ]
   },
@@ -8617,71 +8599,6 @@
    ]
   },
   {
-   "id": "creekside-flats-08031",
-   "name": "Creekside Flats",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2025,
-   "total_units": 150,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 150,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 2994139,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Type: N; Target Type: F; Name: Creekside Flats; Address: 5375 W 10th Avenue; City: Denver; County: Denver; Federal Credit Amount: $2,994,139; Accelerated State Credit Amount: $1,800,000; Bond Issuer: CHFA; Bond Amount: $34,000,000; Total Units: 150; LI Units: 150",
-     "state_credit": 1800000,
-     "bond_amount": 34000000
-    },
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Concessionary Debt",
-     "amount": 4975000,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/07/Prop123-AHFF-FY24-25-LIHTC-GapFinance-ConcessionaryDebtSelections.pdf",
-     "quote": "Project Name: Creekside Flats; Location: Denver; Proposition 123 Funds Awarded: $4,975,000; Estimated Unit Count: 150; Program: LIHTC Gap Finance"
-    },
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Creekside Flats; PROJ_ADD: 5375 W 10th Ave; PROJ_CTY: Denver; N_UNITS: 150; LI_UNITS: 150; YR_ALLOC: 2024; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    },
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "Housing Development Grant",
-     "amount": 1950000,
-     "amount_label": "awarded",
-     "source_url": "https://drive.google.com/file/d/1s1Wbu1ukynNutQek3LSbvAFfIyBwxtlC/view",
-     "quote": "Project: Creekside Flats; Town: Denver; Program: Housing Development Grant (HDG); Amount: $1,950,000; Amount basis: awarded; Homes: 150; Announced: 2025-05-13; Source: State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)",
-     "announced": "2025-05-13",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)"
-    }
-   ]
-  },
-  {
    "id": "denver-dry-goods-08031",
    "name": "Denver Dry Goods",
    "city": "Denver",
@@ -9024,6 +8941,83 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
      "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
+    }
+   ]
+  },
+  {
+   "id": "nest-on-10th-08031",
+   "name": "Nest on 10th",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "funded",
+   "first_year": 2023,
+   "latest_year": 2025,
+   "total_units": 150,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 150,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "not_funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 3737317,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Bldg. Type: N; Pop Type: F; Name: Nest on 10th; Address: 5375 W 10th Avenue; City: Denver; Total Units: 181; LI Units: 181; Federal 4% Credit Amount Requested: $3,737,317; PAB Issuer: CHFA; PAB Amount Requested: $42,000,000; State Credit Amount Requested: $1,100,000",
+     "round": "2023 Round Two",
+     "as_of": "2023-08-11"
+    },
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 2994139,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+     "quote": "Type: N; Target Type: F; Name: Creekside Flats; Address: 5375 W 10th Avenue; City: Denver; County: Denver; Federal Credit Amount: $2,994,139; Accelerated State Credit Amount: $1,800,000; Bond Issuer: CHFA; Bond Amount: $34,000,000; Total Units: 150; LI Units: 150",
+     "state_credit": 1800000,
+     "bond_amount": 34000000
+    },
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Concessionary Debt",
+     "amount": 4975000,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/07/Prop123-AHFF-FY24-25-LIHTC-GapFinance-ConcessionaryDebtSelections.pdf",
+     "quote": "Project Name: Creekside Flats; Location: Denver; Proposition 123 Funds Awarded: $4,975,000; Estimated Unit Count: 150; Program: LIHTC Gap Finance"
+    },
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Creekside Flats; PROJ_ADD: 5375 W 10th Ave; PROJ_CTY: Denver; N_UNITS: 150; LI_UNITS: 150; YR_ALLOC: 2024; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    },
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "DOLA",
+     "program": "Housing Development Grant",
+     "amount": 1950000,
+     "amount_label": "awarded",
+     "source_url": "https://drive.google.com/file/d/1s1Wbu1ukynNutQek3LSbvAFfIyBwxtlC/view",
+     "quote": "Project: Creekside Flats; Town: Denver; Program: Housing Development Grant (HDG); Amount: $1,950,000; Amount basis: awarded; Homes: 150; Announced: 2025-05-13; Source: State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)",
+     "announced": "2025-05-13",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)"
     }
    ]
   },
@@ -15609,36 +15603,6 @@
      "confirmed": false,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
      "homes_unavailable_reason": "the award counts shelter beds, not homes"
-    }
-   ]
-  },
-  {
-   "id": "nest-on-10th-08031",
-   "name": "Nest on 10th",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "not_funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 181,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 181,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 3737317,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Bldg. Type: N; Pop Type: F; Name: Nest on 10th; Address: 5375 W 10th Avenue; City: Denver; Total Units: 181; LI Units: 181; Federal 4% Credit Amount Requested: $3,737,317; PAB Issuer: CHFA; PAB Amount Requested: $42,000,000; State Credit Amount Requested: $1,100,000",
-     "round": "2023 Round Two",
-     "as_of": "2023-08-11"
     }
    ]
   },

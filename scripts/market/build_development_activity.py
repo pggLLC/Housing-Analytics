@@ -605,12 +605,22 @@ def printed_address(quote: str | None) -> str | None:
     return ' '.join(words) if len(words) > 1 and words[0].isdigit() else None
 
 
+def resized_by_one_sponsor(a: list[dict], b: list[dict]) -> bool:
+    """At one address, the same sponsor two years apart or less is one project
+    even when it was resized: Nest on 10th (181 homes, not funded 2023) came
+    back as Creekside Flats (150, funded 2024), both Archway's at 5375 W. 10th."""
+    orgs = lambda evs: frozenset().union(*(e.get('_sponsors') or frozenset() for e in evs))
+    years = lambda evs: [e['year'] for e in evs if e.get('year')]
+    return bool(orgs(a) & orgs(b)) and any(abs(x - y) <= 2 for x in years(a) for y in years(b))
+
+
 def address_joined(projects: list[dict]) -> list[dict]:
     """A project renamed between application and award keeps its address: Cole
     Flats and Cole Train are both 63 homes at 1675 E. 35th Avenue. Two rows in
     one county at one printed address, in the same phase and within 15% of each
-    other's size, are one project; Kappa Tower II and III at one address stay
-    two. Copies; the ledger is unchanged."""
+    other's size or named by one sponsor within two years, are one project;
+    Kappa Tower II and III at one address stay two. Copies; the ledger is
+    unchanged."""
     out: list[dict] = []
     for src in projects:
         p = dict(src, events=list(src['events']))
@@ -619,9 +629,10 @@ def address_joined(projects: list[dict]) -> list[dict]:
         for q in out:
             if addrs and q['county_fips'] and q['county_fips'] == p['county_fips'] \
                     and addrs & {a for a in (printed_address(e.get('quote')) for e in q['events']) if a} \
-                    and phase(q['_name_n']) == phase(p['_name_n']) and any(
+                    and phase(q['_name_n']) == phase(p['_name_n']) and (any(
                         abs(k - u) <= 0.15 * max(k, u)
-                        for k in (e['_units'][0] for e in q['events'] if e.get('_units')) for u in sizes):
+                        for k in (e['_units'][0] for e in q['events'] if e.get('_units')) for u in sizes)
+                        or resized_by_one_sponsor(p['events'], q['events'])):
                 q['events'] += p['events']
                 break
         else:
@@ -824,7 +835,8 @@ def build() -> dict:
             'join_rule': ('Events are one project when their names match after normalising (the rule '
                           'scripts/funding/build_lihtc_applications.py uses to match applications to awards) and '
                           'their counties agree. A project renamed between application and award is joined when '
-                          'the two rows print the same street address (same county, same phase, sizes within 15%), '
+                          'the two rows print the same street address (same county, same phase, sizes within 15% or the '
+                          'same sponsor within two years), '
                           'or name the same sponsor in the same town with the same unit count and years no more '
                           'than one apart; otherwise it stays two rows. Sponsors are used to match only and are '
                           'never published.'),

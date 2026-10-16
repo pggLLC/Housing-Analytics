@@ -597,3 +597,15 @@ def test_feed_addresses_join_renames_and_dola_homes_do_not_make_a_sponsor_match(
     names = {p['name'] for p in load()['projects']}
     assert len({'Hawthorn Court', 'Diagonal Plaza'} & names) == 1
     assert {'St. Louis Landing', 'Victoria Village Building D'} <= names
+
+
+def test_one_sponsor_resizing_a_project_at_one_address_keeps_one_project():
+    # Nest on 10th (181, not funded 2023) is Creekside Flats (150, funded 2024):
+    # one sponsor at 5375 W. 10th Avenue (#2261 review)
+    archway = frozenset({'archway investment'})
+    a = [{'year': 2023, '_sponsors': archway}]
+    assert dev.resized_by_one_sponsor(a, [{'year': 2024, '_sponsors': archway}])
+    assert not dev.resized_by_one_sponsor(a, [{'year': 2024, '_sponsors': frozenset({'someone else'})}])
+    assert not dev.resized_by_one_sponsor(a, [{'year': 2027, '_sponsors': archway}])
+    names = {p['name'] for p in load()['projects']}
+    assert len({'Nest on 10th', 'Creekside Flats'} & names) == 1
