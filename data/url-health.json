@@ -1,6 +1,6 @@
 {
   "lastSweepAt": "2026-10-16T11:12:35.002Z",
-  "urlCount": 1941,
+  "urlCount": 1936,
   "byUrl": {
     "http://127.0.0.1:8080/": {
       "status": "skip",
@@ -6333,14 +6333,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 1
     },
-    "https://tellurideco.portal.civicclerk.com (generic portal shell; the CivicClerk Events API answers HTTP 404, so no CivicClerk tenant)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query": {
       "status": "timeout",
       "httpStatus": null,
@@ -7997,14 +7989,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://www.centennialco.gov (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.centennialco.gov/AgendaCenter": {
       "status": "broken",
       "httpStatus": 404,
@@ -8811,14 +8795,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0
     },
-    "https://www.ci.wheatridge.co.us (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P": {
       "status": "auth",
       "httpStatus": 403,
@@ -9399,14 +9375,6 @@
       "lastOkAt": "2026-10-02T12:22:01.597Z",
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 2
-    },
-    "https://www.crestedbutte-co.gov (redirects to townofcrestedbutte.colorado.gov; CloudFront answers HTTP 403 unless browser Accept headers are sent)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.crgov.com/": {
       "status": "auth",
@@ -10160,14 +10128,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-06-01T11:22:28.534Z",
       "consecutiveFailures": 0
-    },
-    "https://www.englewoodco.gov (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.englewoodco.gov/AgendaCenter": {
       "status": "broken",
