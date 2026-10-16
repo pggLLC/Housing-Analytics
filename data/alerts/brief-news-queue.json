@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-15T11:52:21Z",
-    "as_of": "2026-10-15",
+    "generated": "2026-10-16T11:44:16Z",
+    "as_of": "2026-10-16",
     "stale_days": 30,
-    "events_as_of": "2026-10-15",
+    "events_as_of": "2026-10-16",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
+        {
+          "title": "Real Estate Report: Colorado home sales fall 15.1% as buyers pull back in Denver metro",
+          "source": "ColoradoBiz",
+          "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOMV9GREdiVTNMWC1UWEc1TGdlMjRqZkQwNGs5MVJUY0VsY3FWX3B6OW1aamVTQ1FCc19SdG5VQk1VOFl6cXpQVDg3UzVNRmt0bXJFMW15ckdTU0xyMHpZRmM2V1FhVUFIU01hcHpMdUROSmVqQU16UGZ5UG5NUEVmaU5QWmpyUQ?oc=5",
+          "date": "2026-10-16",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "This Denver house inspired a famous horror film",
           "source": "Denver Gazette",
@@ -286,8 +294,8 @@
         }
       ],
       "reasons": [
-        "29 new stories naming it",
-        "not reviewed in 118 days"
+        "30 new stories naming it",
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -297,7 +305,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Colorado Springs housing snapshot shows rising costs",
@@ -508,7 +516,7 @@
       ],
       "reasons": [
         "24 new stories naming it",
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -518,7 +526,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "The allure and struggle of making Fort Collins home",
@@ -589,7 +597,72 @@
       ],
       "reasons": [
         "7 new stories naming it",
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Nearly 100 homes proposed west of Glenwood Springs",
+          "source": "PostIndependent.com",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOSVlLQUZEUkhWTjFHeWhMZDBkc09xamdhQ3FxZzRKZkZxRTdxV1d3MFhPX21fQnNnQ1ZWZTZJY1ZsNHQ0TzUyUVVxU19Bc3RxUmFGRkJvR1hIdmxZSHlRU25MLU43NERuS3NqM2Fpb3BKRWdUdk1YbkJYOHBmLWRUSEU4MDVpay1IZnVsWTZuMHRYQQ?oc=5",
+          "date": "2026-08-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action against ICE facility landlord",
+          "source": "Rocky Mountain PBS",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOFFScU5jQkFCUEF1NWJWUVJqX0FnaFI1YjRPRU9OekVsUEthc3hPU3FnUjkxMERucVRocjNfeDEwdDRjUlB3VlRHYzJXRElCTTRwYmwxNGhObnFGaXp0eVQtN0RZNFJOdW94ZVlxNms4VEZYRkN2X0FRUXVweDdteGNxakM2dWlxTEM1VEJWbi1icDQ?oc=5",
+          "date": "2026-08-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action over ICE facility",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMlh5QWJ1T0xLMXVWMS1hNVhBU0x1RFF6bExoMzUybzFPclpKNjVvVGN2eHR6dnJidUhVRmExeFdiWXExQkV5czc3U2Vrd2tLNnRrMTFBZ3pKRVNINE9fZXFnTlB3ZWdyTXRWWjNSc3FuUlppYkVXVVhKMnVXUXItWkd3cGdBQnI1RWFoWWdhTUhrSUo1MlpZdmVrZVJpenpPcGxKckM0M3NzMGVTRWJDQzluNGk?oc=5",
+          "date": "2026-08-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs opens lottery for deed-restricted townhome",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZROG1PM2JRMDN6SGRCMkpvRVk0YUJUT1JWVXBTbFZhTWYzUS1UbmxwTngzeUdVTGpmejNmNW9HQ1NDcFZEYXpyZlZKeTFGOXdKSnlvSzYtQ0JGYnBlck5tTllTeVhyQ29xTXE0MHVmVVlaR09ranN3a3FYSkZ4VFRJRUE0b3dZLTlVdmx5OWFIRjJlWVVRaEk0RXdnQQ?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "county",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "4 new stories naming it",
+        "2 new stories about its county",
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -599,7 +672,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions",
@@ -646,64 +719,7 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 118 days"
-      ]
-    },
-    {
-      "geoid": "0830780",
-      "jurisdiction": "City of Glenwood Springs",
-      "scope": "place",
-      "county_fips": "08045",
-      "published": true,
-      "last_curated": "2026-06-19",
-      "days_since_review": 118,
-      "stories": [
-        {
-          "title": "Nearly 100 homes proposed west of Glenwood Springs",
-          "source": "PostIndependent.com",
-          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOSVlLQUZEUkhWTjFHeWhMZDBkc09xamdhQ3FxZzRKZkZxRTdxV1d3MFhPX21fQnNnQ1ZWZTZJY1ZsNHQ0TzUyUVVxU19Bc3RxUmFGRkJvR1hIdmxZSHlRU25MLU43NERuS3NqM2Fpb3BKRWdUdk1YbkJYOHBmLWRUSEU4MDVpay1IZnVsWTZuMHRYQQ?oc=5",
-          "date": "2026-08-31",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Glenwood Springs City Council votes to pursue legal action against ICE facility landlord",
-          "source": "Rocky Mountain PBS",
-          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOFFScU5jQkFCUEF1NWJWUVJqX0FnaFI1YjRPRU9OekVsUEthc3hPU3FnUjkxMERucVRocjNfeDEwdDRjUlB3VlRHYzJXRElCTTRwYmwxNGhObnFGaXp0eVQtN0RZNFJOdW94ZVlxNms4VEZYRkN2X0FRUXVweDdteGNxakM2dWlxTEM1VEJWbi1icDQ?oc=5",
-          "date": "2026-08-07",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Glenwood Springs City Council votes to pursue legal action over ICE facility",
-          "source": "Post Independent",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMlh5QWJ1T0xLMXVWMS1hNVhBU0x1RFF6bExoMzUybzFPclpKNjVvVGN2eHR6dnJidUhVRmExeFdiWXExQkV5czc3U2Vrd2tLNnRrMTFBZ3pKRVNINE9fZXFnTlB3ZWdyTXRWWjNSc3FuUlppYkVXVVhKMnVXUXItWkd3cGdBQnI1RWFoWWdhTUhrSUo1MlpZdmVrZVJpenpPcGxKckM0M3NzMGVTRWJDQzluNGk?oc=5",
-          "date": "2026-08-07",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Glenwood Springs opens lottery for deed-restricted townhome",
-          "source": "Post Independent",
-          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZROG1PM2JRMDN6SGRCMkpvRVk0YUJUT1JWVXBTbFZhTWYzUS1UbmxwTngzeUdVTGpmejNmNW9HQ1NDcFZEYXpyZlZKeTFGOXdKSnlvSzYtQ0JGYnBlck5tTllTeVhyQ29xTXE0MHVmVVlaR09ranN3a3FYSkZ4VFRJRUE0b3dZLTlVdmx5OWFIRjJlWVVRaEk0RXdnQQ?oc=5",
-          "date": "2026-07-22",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
-          "source": "Post Independent",
-          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
-          "date": "2026-09-29",
-          "match": "county",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "4 new stories naming it",
-        "1 new story about its county",
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -713,7 +729,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
@@ -760,82 +776,7 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 118 days"
-      ]
-    },
-    {
-      "geoid": "0810105",
-      "jurisdiction": "Town of Buena Vista",
-      "scope": "place",
-      "county_fips": "08015",
-      "published": false,
-      "last_curated": "2026-07-30",
-      "days_since_review": 77,
-      "stories": [
-        {
-          "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
-          "source": "Ark Valley Voice",
-          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQLWtLdjdjVk0xZ19Xd0ZoeUxIMWNjYktCNnJ2VjhIUE5uTk5xcjNrMDNiLXVLX0VpZy1BbTFPX2o1QklNUUljUUxPemNLRXkwQjVTUGJmcldHZktqV2dobC1HWGVhZWN0REtqZmNtWThtbE9waHU1bEI3NHcyOHhjb0MwdTBzek8zcDlnQk00dlRheEQzUVhqMU1XUjZyQzlwaTFGNEplcXpYaWR1WURzcnVuRGxIa050dkl5MHFRbmFmN3c?oc=5",
-          "date": "2026-10-03",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Housing Needs Assessment Preliminary Results Highlight Struggle to Afford Life in Buena Vista - by Carly Winchell",
-          "source": "Ark Valley Voice",
-          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUktOQ0hqSFNPeVJtWFlnV090VXBab2VTQ2ppUS1HOWppaVJubkhKbnpXdUdmdW5SQUc4NnQ3RGNtdDBYRk5wQzJxejNDd1lVYkx3ZzRBMHdHbUxSVGY0UmV6Um03YkFwblpCb2hXMzFidDJibVdiZ016YjZaRlJ3YmRXc1RWY2t3bnY1UmxmZW5keWJBZGFfSkhtd0tMNEo3dEtJcERIR01iRDN1MkVlZWhxRlFGU05fQTVvY2x3?oc=5",
-          "date": "2026-08-31",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds",
-          "source": "Ark Valley Voice",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa0VpbmpuaFBKUlh6S3dNTkNqLTZoWHI1YXBSUDItTlAtTUdIQTJwRnVuZzBWVXpaTjJXWWMxOUxpY1diTjFQS0VxR2t1TF9lQ1F6TTZrVXRyODV0YW9SUEhqUEY1bXZKOG0xS3RMUXN6OUprNFJkcG53d2o0MFZiYTgtN3lfSnhxRk9LVE1BZnVIY3hLUm1FQ2pZeE0zSGlYbDRsT2w0SlYzVzdPN1ZNQ0pwTUk?oc=5",
-          "date": "2026-08-14",
-          "match": "county",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "2 new stories naming it",
-        "1 new story about its county",
-        "not reviewed in 77 days",
-        "draft, not shown on the site"
-      ]
-    },
-    {
-      "geoid": "0818310",
-      "jurisdiction": "Town of Crested Butte",
-      "scope": "place",
-      "county_fips": "08051",
-      "published": false,
-      "last_curated": "2026-07-30",
-      "days_since_review": 77,
-      "stories": [
-        {
-          "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
-          "source": "Affordable Housing Finance",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
-          "date": "2026-10-06",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
-          "source": "coloradobiz.com",
-          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
-          "date": "2026-09-29",
-          "match": "place",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "2 new stories naming it",
-        "not reviewed in 77 days",
-        "draft, not shown on the site"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -845,13 +786,21 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
           "source": "Post Independent",
           "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
           "date": "2026-09-29",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
           "match": "place",
           "also": []
         },
@@ -898,9 +847,117 @@
       ],
       "events": [],
       "reasons": [
-        "1 new story naming it",
+        "2 new stories naming it",
         "5 new stories about its towns",
-        "not reviewed in 118 days",
+        "not reviewed in 119 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0810105",
+      "jurisdiction": "Town of Buena Vista",
+      "scope": "place",
+      "county_fips": "08015",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQLWtLdjdjVk0xZ19Xd0ZoeUxIMWNjYktCNnJ2VjhIUE5uTk5xcjNrMDNiLXVLX0VpZy1BbTFPX2o1QklNUUljUUxPemNLRXkwQjVTUGJmcldHZktqV2dobC1HWGVhZWN0REtqZmNtWThtbE9waHU1bEI3NHcyOHhjb0MwdTBzek8zcDlnQk00dlRheEQzUVhqMU1XUjZyQzlwaTFGNEplcXpYaWR1WURzcnVuRGxIa050dkl5MHFRbmFmN3c?oc=5",
+          "date": "2026-10-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Housing Needs Assessment Preliminary Results Highlight Struggle to Afford Life in Buena Vista - by Carly Winchell",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUktOQ0hqSFNPeVJtWFlnV090VXBab2VTQ2ppUS1HOWppaVJubkhKbnpXdUdmdW5SQUc4NnQ3RGNtdDBYRk5wQzJxejNDd1lVYkx3ZzRBMHdHbUxSVGY0UmV6Um03YkFwblpCb2hXMzFidDJibVdiZ016YjZaRlJ3YmRXc1RWY2t3bnY1UmxmZW5keWJBZGFfSkhtd0tMNEo3dEtJcERIR01iRDN1MkVlZWhxRlFGU05fQTVvY2x3?oc=5",
+          "date": "2026-08-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa0VpbmpuaFBKUlh6S3dNTkNqLTZoWHI1YXBSUDItTlAtTUdIQTJwRnVuZzBWVXpaTjJXWWMxOUxpY1diTjFQS0VxR2t1TF9lQ1F6TTZrVXRyODV0YW9SUEhqUEY1bXZKOG0xS3RMUXN6OUprNFJkcG53d2o0MFZiYTgtN3lfSnhxRk9LVE1BZnVIY3hLUm1FQ2pZeE0zSGlYbDRsT2w0SlYzVzdPN1ZNQ0pwTUk?oc=5",
+          "date": "2026-08-14",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "1 new story about its county",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "scope": "place",
+      "county_fips": "08107",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Development-fee debate reveals no easy answer to Steamboat Springs’ housing challenge",
+          "source": "SteamboatToday.com",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOY3VsX05uTWVSSThvQW5sNXVqNVFpZHpiazBqX1JKU3U2MDlzT3VIN3dZc3NJcVc1cXNPVS01UnhiS2VNaG1vbmVlaEZSc0o1dUZCaV8yNm50SVJXNXQ1SnhqSWU5cFpVZ3JCRDlmd0xQZXIzLTRSV0Z5ZkpnRUoyeW5TXzdwLWNjWmpsUHFsN1g1amM3SnhFdFhZb0xTbnl6Q2s2bk0zQ3ktdExZdlZvVlM3Si16UDROR3o3UXdR?oc=5",
+          "date": "2026-09-24",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
+          "source": "Mansion Global",
+          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
+          "date": "2026-08-08",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "scope": "place",
+      "county_fips": "08051",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
+          "source": "Affordable Housing Finance",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
+          "date": "2026-10-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
+          "source": "coloradobiz.com",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
+          "date": "2026-09-29",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "not reviewed in 78 days",
         "draft, not shown on the site"
       ]
     },
@@ -911,7 +968,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -958,7 +1015,7 @@
       "reasons": [
         "1 new story naming it",
         "4 new stories about its towns",
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -968,7 +1025,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
@@ -985,13 +1042,21 @@
           "date": "2026-09-29",
           "match": "county",
           "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
         }
       ],
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "1 new story about its county",
-        "not reviewed in 118 days"
+        "2 new stories about its county",
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -1001,7 +1066,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 77,
+      "days_since_review": 78,
       "stories": [
         {
           "title": "Durango School District expands workforce housing",
@@ -1015,32 +1080,7 @@
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "not reviewed in 77 days",
-        "draft, not shown on the site"
-      ]
-    },
-    {
-      "geoid": "0873825",
-      "jurisdiction": "City of Steamboat Springs",
-      "scope": "place",
-      "county_fips": "08107",
-      "published": false,
-      "last_curated": "2026-07-30",
-      "days_since_review": 77,
-      "stories": [
-        {
-          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
-          "source": "Mansion Global",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd30gHnAUFVX3lxTE5EVkdUQnZoSXhxXzJLQTV3R1pzaE5vMHZ3cEhWTF9tajh0bDMyOTdjOGotUjY1VGo4WFFKQ0pFZ0p4VGc1MklDemExcHAtUmJiamF3WWVKeE8zUm41czBGZTJ2aHpyeG1HNDhMblA0U29IY2FxR3dSYlNoWEVkdlpyZ0tmNDRURE8zbTdjWHk2TnJSQzF0UF9ocHdidjltQm02a1NBYnhER1dMUDBUQWRVM2lCT2tvcUp2UzEwV3Y4MFdtWVRYS1ZhY3Ixb19yWkJpczFmMklPNlpYcjVtQ1d0Y3FmdGhsbw?oc=5",
-          "date": "2026-08-08",
-          "match": "place",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 new story naming it",
-        "not reviewed in 77 days",
+        "not reviewed in 78 days",
         "draft, not shown on the site"
       ]
     },
@@ -1051,7 +1091,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 77,
+      "days_since_review": 78,
       "stories": [
         {
           "title": "Council discusses hiring consultants to review Telluride housing policies",
@@ -1065,8 +1105,40 @@
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "not reviewed in 77 days",
+        "not reviewed in 78 days",
         "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0870195",
+      "jurisdiction": "Town of Silt",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-06-20",
+      "days_since_review": 118,
+      "stories": [
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "county",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories about its county",
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -1076,7 +1148,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -1090,31 +1162,7 @@
       "events": [],
       "reasons": [
         "1 new story about its county",
-        "not reviewed in 118 days"
-      ]
-    },
-    {
-      "geoid": "0870195",
-      "jurisdiction": "Town of Silt",
-      "scope": "place",
-      "county_fips": "08045",
-      "published": true,
-      "last_curated": "2026-06-20",
-      "days_since_review": 117,
-      "stories": [
-        {
-          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
-          "source": "Post Independent",
-          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
-          "date": "2026-09-29",
-          "match": "county",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -1124,11 +1172,11 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -1138,11 +1186,11 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-07-06",
-      "days_since_review": 101,
+      "days_since_review": 102,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 101 days"
+        "not reviewed in 102 days"
       ]
     }
   ],

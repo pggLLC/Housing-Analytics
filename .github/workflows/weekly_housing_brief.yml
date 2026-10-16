@@ -48,6 +48,9 @@ permissions:
 concurrency:
   group: data-commits
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 jobs:
   refresh-policy-briefs:
@@ -81,6 +84,16 @@ jobs:
           https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
           https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
           https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
+
+          # ── Google News: funding rounds and the infrastructure housing needs ──
+          # Added 2026-10-15: none of the searches above found infrastructure
+          # money (water, sewer, tap fees, DOLA grants). The agency pages
+          # themselves are watched by chfa-qap-watch.yml (funding-watch job).
+          https://news.google.com/rss/search?q=colorado+housing+infrastructure+grant&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=%22Energy+and+Mineral+Impact%22+OR+EIAF+colorado&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+%22tap+fees%22+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+water+sewer+housing+grant&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=DOLA+grant+housing+colorado&hl=en-US&gl=US&ceid=US:en
 
           # ── NCSHA: National Council of State Housing Agencies ──
           https://www.ncsha.org/feed/

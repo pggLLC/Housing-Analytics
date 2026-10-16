@@ -9,7 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { fundingProgramFindings } = require('../../scripts/lib/funding-program-audit');
+const { fundingProgramFindings, fundingWatchFindings } = require('../../scripts/lib/funding-program-audit');
 
 const ROOT = path.join(__dirname, '..', '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -508,7 +508,10 @@ function checkFundingPrograms(today = new Date().toISOString().slice(0, 10)) {
             recommendation: 'Restore the file from main.',
         });
     }
-    return issues.concat(fundingProgramFindings({ guide, soft, today }).map(f => ({ type: 'data', ...f })));
+    // What the funding watch saw on the agencies' pages (absent before its first run).
+    const watch = safeReadJson(path.join(DATA_DIR, 'audit', 'funding-watch.json'));
+    return issues.concat(fundingProgramFindings({ guide, soft, today }).map(f => ({ type: 'data', ...f })))
+        .concat(fundingWatchFindings({ watch }).map(f => ({ type: 'data', ...f })));
 }
 
 /**

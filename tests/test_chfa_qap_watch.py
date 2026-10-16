@@ -356,13 +356,18 @@ def test_workflow_agrees_with_the_script():
     assert f"git add {rel} data/_manifest.json data/manifest.json" in commit_step
     assert re.search(r'--summary\s+"?\$RUNNER_TEMP/', wf), "run summary must be written outside data/"
     assert "pypdf" in wf, "the workflow must install the PDF parser the script imports"
+    # Two crons since 2026-10-15: the weekly QAP watch and the daily funding watch
+    # (tests/test_funding_watch.py), each gating its own job.
     crons = re.findall(r"cron:\s*'([^']+)'", wf)
-    assert len(crons) == 1
-    minute = crons[0].split()[0]
-    assert minute not in ("0", "00"), "keep crons off :00 (AGENTS.md)"
+    assert len(crons) == 2 and len({c.split()[0] for c in crons}) == 2
+    qap_job = wf[wf.index("  watch:"):wf.index("  funding-watch:")]
+    assert any(f"github.event.schedule == '{c}'" in qap_job for c in crons), "the QAP job runs on its own cron"
     others = [p for p in (ROOT / ".github" / "workflows").glob("*.yml") if p.name != WORKFLOW.name]
     used = {m.split()[0] for p in others for m in re.findall(r"cron:\s*'([^']+)'", p.read_text())}
-    assert minute not in used, f"minute {minute} is already used by another workflow"
+    for cron in crons:
+        minute = cron.split()[0]
+        assert minute not in ("0", "00"), "keep crons off :00 (AGENTS.md)"
+        assert minute not in used, f"minute {minute} is already used by another workflow"
 
 
 def test_main_refuses_to_write_a_result_over_the_ceiling(tmp_path, monkeypatch):

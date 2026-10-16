@@ -90,9 +90,11 @@ jobs:
       - name: Run deploy preflight checks
         run: node scripts/deploy-preflight.js
 
-      - name: Refresh CHFA LIHTC data
-        run: node scripts/fetch-chfa-lihtc.js
-        continue-on-error: true
+      # No data fetch here. The deploy publishes exactly the committed data that
+      # CI tested. A fetch at this point skipped the validation, county split and
+      # derived rebuild that fetch-chfa-lihtc.yml runs, and stamped the footer's
+      # "data as of" date with the deploy time. test/data-commits-queue.test.js
+      # fails if a fetch script comes back.
 
       - name: Run pages availability checks
         run: node test/pages-availability-check.js

@@ -187,4 +187,79 @@ ledgerAgreement(DATA);
   ok(/prop123Map\[prop123Key\(rec\.name\)\]/.test(page) && /prop123Key\(p\.jurisdiction \|\| p\.name\)/.test(page), 'both sides of the lookup use the key');
 }
 
+// ---- 7. The Where to build map agrees with the awards file and keeps contacts honest.
+{
+  const LBM = require(join(ROOT, 'js/whitepaper/land-banking-map.js'));
+  const all = LBM.summarize(DATA.awards);
+  ok(all.awards === DATA.meta.award_count && all.amount === DATA.meta.total_awarded && all.units === DATA.meta.total_estimated_units,
+    'the map summary is the file\'s totals');
+  const towns = LBM.groupByTown(DATA.awards);
+  const geoids = new Set(DATA.awards.flatMap((a) => a.places.map((p) => p.geoid)));
+  ok(towns.length === geoids.size && all.towns === geoids.size, `one pin per town (${towns.length})`);
+  for (const a of DATA.awards) {
+    for (const p of a.places) ok(towns.find((t) => t.geoid === p.geoid).awards.includes(a), `${a.id} is on the ${p.name} pin`);
+  }
+  const C = LBM.contactIndex(CONTACTS);
+  for (const a of DATA.awards) ok(C[a.id], `${a.id} has a contact entry on the map`);
+  for (const t of towns) {
+    const html = LBM.popupHtml(t, DATA, C, false);
+    ok(html.includes(`developer-brief.html?geoid=${t.geoid}`), `${t.name} links to its report`);
+    for (const a of t.awards) ok(html.includes(a.project.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name} lists ${a.project}`);
+  }
+  // CHFA-printed contacts show as quoted; researched ones say "to confirm".
+  const chfa = CONTACTS.from_award_lists[0];
+  const chfaHtml = LBM.contactHtml(C[chfa.award_id], DATA, false);
+  ok(chfaHtml.includes(chfa.email) && chfaHtml.includes('named on CHFA') && !chfaHtml.includes('to confirm'), 'a CHFA-printed contact is shown as CHFA\'s');
+  const res = CONTACTS.researched.find((c) => c.status === 'found' && c.confirmed !== true && !CONTACTS.from_award_lists.some((x) => x.award_id === c.award_id));
+  ok(res && LBM.contactHtml(C[res.award_id], DATA, false).includes('to confirm'), 'a researched contact is marked to confirm');
+  const nf = CONTACTS.researched.find((c) => c.status === 'not_found');
+  ok(nf && LBM.contactHtml(C[nf.award_id], DATA, false).includes('No public contact found') && LBM.contactHtml(C[nf.award_id], DATA, false).includes(DATA.meta.program_email),
+    'an award with no contact points to CHFA');
+  ok(LBM.contactHtml(undefined, DATA, true).includes('Contacts are not in this copy'), 'a missing contacts file is said, not hidden');
+  // Sabotage: a confirmed researched contact loses the tag, and markup in a name is escaped.
+  ok(!LBM.contactHtml({ ...C[res.award_id], confirmed: true }, DATA, false).includes('to confirm'), 'sabotage: confirming a contact removes the tag');
+  ok(!LBM.contactHtml({ kind: 'chfa', name: '<img src=x>' }, DATA, false).includes('<img'), 'contact names are escaped');
+  // Every town's tap target is at least 44px across, however small its pin.
+  ok(towns.every((t) => 2 * LBM.hitRadius(t) >= 44), 'every pin has a 44px tap target');
+  // Close pins: a tap goes to the nearest town, not whichever pin was drawn last.
+  // Project so Denver and Thornton sit 8px apart, as they do at state zoom on a phone.
+  const den = towns.find((t) => t.name === 'Denver'), tho = towns.find((t) => t.name === 'Thornton');
+  ok(den && tho, 'Denver and Thornton both have pins');
+  const K = 8 / Math.hypot(den.lat - tho.lat, den.lng - tho.lng);
+  const proj = ([lat, lng]) => ({ x: lng * K, y: -lat * K });
+  const at = (t, dx = 0) => { const p = proj([t.lat, t.lng]); return { x: p.x + dx, y: p.y }; };
+  ok(LBM.nearestTown(towns, at(den), proj) === den, 'a tap on Denver points at Denver, not Thornton');
+  // Every town keeps its full 44px area: a tap 21px from Denver, on the far side of Thornton,
+  // still reaches Denver (in a chooser with Thornton), not Thornton alone.
+  const dx = (proj([tho.lat, tho.lng]).x - proj([den.lat, den.lng]).x) >= 0 ? 1 : -1;
+  const near = LBM.townsNear(towns, at(den, 21 * dx), proj);
+  ok(near.includes(den) && near.includes(tho), 'a tap 21px past Denver toward Thornton still reaches Denver');
+  ok(towns.every((t) => LBM.townsNear(towns, at(t, 21), proj).includes(t) && LBM.townsNear(towns, at(t, -21), proj).includes(t)), 'every town is reachable 21px either side of its pin');
+  ok(LBM.nearestTown([den], at(den, 21), proj) === den && LBM.nearestTown([den], at(den, 23), proj) === null, 'the tap reaches 22px from a pin and no further');
+  // An exact town search opens that town, even when a shared award keeps other towns on the map.
+  const shared = DATA.awards.find((a) => a.places.length > 1);
+  ok(shared, 'the file has an award shared by several towns');
+  for (const p of shared.places) {
+    const t = LBM.townForSearch(LBM.groupByTown(LBM.filterAwards(DATA.awards, p.name)), p.name);
+    ok(t && t.geoid === p.geoid, `searching "${p.name}" opens ${p.name}`);
+  }
+  ok(LBM.townForSearch(towns, '') === null && LBM.townForSearch(towns, 'county') === null, 'a broad or empty search opens nothing');
+  // Keyboard path: every pin's town is also a button, with its award count.
+  const list = LBM.townListHtml(towns);
+  ok((list.match(/<button type="button" data-lbm-town=/g) || []).length === towns.length, `every town is also a button (${towns.length})`);
+  ok(towns.every((t) => list.includes(`data-lbm-town="${t.geoid}"`)), 'each button opens its own town');
+  const narrowed = LBM.filterAwards(DATA.awards, 'leadville');
+  ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
+
+  const page = read('developer-where.html');
+  ok(page.includes('data-land-banking-map') && page.includes('js/whitepaper/land-banking-map.js') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
+    'Where to build carries the map section');
+  ok(/#lbmMap \.leaflet-control-zoom a \{[^}]*width:44px;[^}]*height:44px/.test(page), 'the zoom buttons are 44px');
+  ok(page.includes('data-lbm-towns') && /data-lbm-detail[^>]*tabindex="-1"/.test(page), 'the page carries the town list and a focusable details panel');
+  ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
+  // The contacts are gated: the module ships only inside js/whitepaper, which the public build leaves out.
+  const pub = read('scripts/build-public-site.mjs');
+  ok(pub.includes("'js/whitepaper'") && pub.includes("'data/jurisdiction-briefs'") && pub.includes("'developer-where.html'"), 'the public build leaves out the map, its page and the contacts');
+}
+
 console.log(`land-banking-awards: ${checks} checks passed`);
