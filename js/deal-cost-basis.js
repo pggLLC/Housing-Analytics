@@ -310,7 +310,7 @@
     // 26 U.S.C. 42(d)(2): bought from an unrelated party, and last placed in service
     // ten or more years ago. The user confirms that; nothing here can check it.
     if (args.acquisitionEligible > 0 && !args.acquisitionQualifies) {
-      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, last placed in service ten or more years ago), or take the purchase out of basis.');
+      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, and not placed in service during the ten years before purchase), or take the purchase out of basis.');
     }
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;

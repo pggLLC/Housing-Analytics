@@ -2357,7 +2357,7 @@
         </label>
         <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
           <input id="dc-acq-42d2" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
-          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party and last placed in service ten or more years ago (needed before a purchase counts in basis)</span>
+          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, and not placed in service during the ten years before you bought it (needed before a purchase counts in basis)</span>
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
