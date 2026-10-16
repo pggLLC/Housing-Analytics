@@ -492,14 +492,23 @@ def source_title(a: dict) -> str | None:
 def dola_town(a: dict, known: dict) -> str | None:
     """The town a DOLA record prints, unless the parser cut it from a street
     address: "th Avenue Denver" (from "...th Avenue") is a fragment, and its
-    trailing "Denver" is a street's town, not the project's. A fragment falls
-    back to a known town the name ends with ("Navigation Campus - Aurora"),
-    else to no town at all."""
+    trailing "Denver" names the street's town. A town the project name ends
+    with wins ("Navigation Campus - Aurora" is in Aurora); otherwise the
+    fragment's trailing words are the town when they name a known one ("th Ave.
+    Denver" is Denver, "th St. between Tuxedo and Pueblo Blvd. Pueblo" is
+    Pueblo), else there is no town."""
     town = a.get('town')
     if not town or not re.match(r'(?:st|nd|rd|th)\b', town):
         return town
     m = re.search(r' - ([A-Za-z .]+)$', a.get('name') or '')
-    return m[1].strip() if m and awards.norm(m[1]) in known else None
+    if m and awards.norm(m[1]) in known:
+        return m[1].strip()
+    words = town.split()
+    for k in (3, 2, 1):
+        tail = ' '.join(words[-k:])
+        if len(words) > k and awards.norm(tail) in known:
+            return tail
+    return None
 
 
 def dola_quote(a: dict, town: str | None = None, beds: bool = False) -> str:

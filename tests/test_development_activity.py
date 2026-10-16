@@ -667,7 +667,7 @@ def test_a_dola_town_cut_from_a_street_is_not_the_town_and_beds_are_labelled_bed
     # "th Avenue Denver" is a street fragment; Navigation Campus - Aurora is in Aurora (#2261 review)
     known = {'aurora': '08005', 'denver': '08031'}
     assert dev.dola_town({'name': 'Navigation Campus - Aurora', 'town': 'th Avenue Denver'}, known) == 'Aurora'
-    assert dev.dola_town({'name': 'Somewhere', 'town': 'th Avenue Denver'}, known) is None
+    assert dev.dola_town({'name': 'Somewhere', 'town': 'th Avenue Nowhere'}, known) is None
     assert dev.dola_town({'name': 'X', 'town': 'Salida'}, known) == 'Salida'
     rows = {p['name']: p for p in load()['projects']}
     nav = rows['Navigation Campus - Aurora']
@@ -693,3 +693,19 @@ def test_a_word_describing_the_homes_does_not_split_a_project():
     assert len(rows('Colorado Springs', '08041', 170)) == 2
     committed = [p for p in load()['projects'] if p['name'].startswith('Albion') and p['county_fips'] == '08031']
     assert len(committed) == 1, [p['name'] for p in committed]
+
+
+def test_a_street_fragment_keeps_its_trailing_known_town():
+    # "th Ave. Denver" (Park Plaza) is Denver and "th St. between Tuxedo and
+    # Pueblo Blvd. Pueblo" is Pueblo; only a town the name ends with overrides
+    # it, and an unknown tail is no town (#2261 review)
+    known = {'denver': '08031', 'pueblo': '08101', 'aurora': '08005'}
+    assert dev.dola_town({'name': 'Park Plaza', 'town': 'th Ave. Denver'}, known) == 'Denver'
+    assert dev.dola_town({'name': 'Pikes Peak Park', 'town': 'th St. between Tuxedo and Pueblo Blvd. Pueblo'},
+                         known) == 'Pueblo'
+    assert dev.dola_town({'name': 'Navigation Campus - Aurora', 'town': 'th Avenue Denver'}, known) == 'Aurora'
+    assert dev.dola_town({'name': 'X', 'town': 'th Street Nowhere'}, known) is None
+    rows = {p['name']: p for p in load()['projects']}
+    assert rows['Park Plaza']['county_fips'] == '08031'
+    assert rows['Pikes Peak Park Phase I Infrastructure THLF']['county_fips'] == '08101'
+    assert rows['Delta Shelter TAHG']['county_fips'] == '08029'

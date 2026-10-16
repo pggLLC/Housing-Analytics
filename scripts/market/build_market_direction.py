@@ -227,6 +227,10 @@ def jobs_signal(fips: str) -> dict:
     years = sorted(int(y) for y in emp if isinstance(emp[y], (int, float)))
     if 2019 not in years or years[-1] <= 2019:
         return {'value': None, 'unavailable_reason': 'LEHD jobs missing for 2019 or a later year'}
+    if emp['2019'] <= 0 or emp[str(years[-1])] <= 0:
+        # a zero job count is a suppressed or failed figure, not a county with no jobs
+        return {'value': None, 'unavailable_reason': f'LEHD jobs for 2019 or {years[-1]} are zero or negative, '
+                                                     'which is a missing figure, not a count'}
     return {'value': pct(emp[str(years[-1])], emp['2019']), 'from_year': 2019, 'to_year': years[-1],
             'jobs_from': emp['2019'], 'jobs_to': emp[str(years[-1])]}
 

@@ -230,3 +230,18 @@ def test_a_missing_recent_demand_figure_is_null_with_its_reason():
         r = c['recent_demand']
         assert r['net_migration'] is not None or r.get('net_migration_unavailable_reason')
         assert r['households_value'] is not None or r.get('households_unavailable_reason')
+
+
+def test_a_zero_lehd_endpoint_is_a_missing_figure_with_its_reason(tmp_path, monkeypatch):
+    # a suppressed 0 must not leave a null jobs reading without a reason (#2261 review)
+    import shutil
+    lehd = tmp_path / 'lehd'
+    shutil.copytree(md.LEHD_DIR, lehd)
+    f = lehd / '08001.json'
+    d = json.loads(f.read_text())
+    d['annualEmployment']['2019'] = 0
+    f.write_text(json.dumps(d))
+    monkeypatch.setattr(md, 'LEHD_DIR', str(lehd))
+    sig = md.jobs_signal('08001')
+    assert sig['value'] is None and 'zero' in sig['unavailable_reason']
+    assert md.jobs_signal('08005')['value'] is not None
