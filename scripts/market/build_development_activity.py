@@ -132,6 +132,10 @@ def core_name(name: str) -> str:
     return re.sub(r'\s+', ' ', re.sub(r'\bphase (?:1|one)\b|\bpsh\b', ' ', n)).strip()
 
 
+# Postal localities a source prints as the town that are neither Census places
+# nor CDPs, so no registry names their county. Census 2020 gazetteer has no
+# Conifer; the community sits wholly in Jefferson County (US-285 corridor).
+LOCALITY_COUNTY = {'conifer': '08059'}
 ADDRESS_WORDS = {'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'st', 'street', 'ave', 'avenue',
                  'rd', 'road', 'blvd', 'boulevard', 'dr', 'drive', 'way', 'ct', 'court', 'pl', 'place',
                  'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane'}
@@ -260,7 +264,9 @@ class Ledger:
                     city = ' '.join((city or '').split()[-k:])
                     break
         if not county and city_n and ',' not in (city or ''):
-            county = self.city_county.get(city_n)  # a town wholly in one county
+            # a town wholly in one county, or a postal locality that is
+            # neither a place nor a CDP (Conifer)
+            county = self.city_county.get(city_n) or LOCALITY_COUNTY.get(city_n)
         elif county and city_n in self.city_county and county not in self.city_counties.get(city_n, ()) \
                 and self.city_county[city_n] in (counties or ()):
             # the source itself lists the town's county beside a conflicting one:
@@ -304,8 +310,11 @@ class Ledger:
             # units (King's Crossing: 178 DOLA homes, CHFA 179 total / 178 LI)
             event['_units_from_homes'] = event.get('agency') == 'DOLA'
         event['_name'] = name
-        key = (event['stage'], event.get('year'), event.get('program'), event.get('source_url'))
-        if any((e['stage'], e.get('year'), e.get('program'), e.get('source_url')) == key for e in p['events']):
+        # one source read twice adds nothing; two printed rows in one report
+        # (Renaissance Legacy Lofts' 64- and 34-home components) are two events
+        key = lambda e: (e['stage'], e.get('year'), e.get('program'), e.get('source_url'), e.get('quote'),
+                         e.get('amount'))
+        if any(key(e) == key(event) for e in p['events']):
             return
         p['events'].append(event)
 
@@ -666,21 +675,22 @@ def town_labels_joined(projects: list[dict]) -> list[dict]:
 
 
 def twin_award_units(events: list[dict]) -> tuple[int, int | None] | None:
-    """Homes across a 4% and a 9% award in the project's latest award year,
-    when the two counts differ by more than 15%; otherwise None."""
+    """Homes across the CHFA credit awards of the project's latest award year
+    when there are two or more and every pair differs by more than 15%: those
+    are separate buildings or components (Vina Senior's 4% 102 and 9% 50;
+    Renaissance Legacy Lofts' 64 and 34 in one 2020 report). Two awards of
+    about one size are one building financed twice (Sol's 132 and 130)."""
     awards = [e for e in events if e['agency'] == 'CHFA' and e['stage'] == 'funded'
               and re.match(r'LIHTC [49]%', e.get('program') or '') and e.get('_units')]
     if not awards:
         return None
     year = max(e.get('year') or 0 for e in awards)
-    four = [e['_units'] for e in awards if e.get('year') == year and e['program'].startswith('LIHTC 4%')]
-    nine = [e['_units'] for e in awards if e.get('year') == year and e['program'].startswith('LIHTC 9%')]
-    if len(four) != 1 or len(nine) != 1:
+    parts = [e['_units'] for e in awards if e.get('year') == year]
+    if len(parts) < 2 or any(abs(a[0] - b[0]) <= 0.15 * max(a[0], b[0])
+                             for i, a in enumerate(parts) for b in parts[i + 1:]):
         return None
-    (t4, r4), (t9, r9) = four[0], nine[0]
-    if abs(t4 - t9) <= 0.15 * max(t4, t9):
-        return None
-    return t4 + t9, (r4 + r9 if r4 is not None and r9 is not None else None)
+    restricted = [r for _, r in parts]
+    return sum(t for t, _ in parts), (sum(restricted) if None not in restricted else None)
 
 
 def finish(L: Ledger) -> list[dict]:

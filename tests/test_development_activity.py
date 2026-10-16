@@ -281,7 +281,10 @@ def test_a_printed_unit_count_wins_over_a_misparsed_ledger_count():
     for p in d['projects']:
         if p['name'] in printed and p['total_units'] and len(printed[p['name']]) == 1:
             award_events = [e for e in p['events'] if 'Total Units:' in (e['quote'] or '')]
-            if award_events and award_events[-1] is p['events'][-1]:
+            components = [e for e in award_events if e['year'] == award_events[-1]['year']
+                          and e['program'].startswith('LIHTC')]
+            if award_events and award_events[-1] is p['events'][-1] and len(components) < 2:
+                # components of one award year are summed (Vida at St. Anthony's 112 + 64)
                 assert p['total_units'] in printed[p['name']], (p['name'], p['total_units'])
                 checked += 1
     assert checked > 40  # renamed projects joined by address end on a feed row and are not checked
@@ -609,3 +612,14 @@ def test_one_sponsor_resizing_a_project_at_one_address_keeps_one_project():
     assert not dev.resized_by_one_sponsor(a, [{'year': 2027, '_sponsors': archway}])
     names = {p['name'] for p in load()['projects']}
     assert len({'Nest on 10th', 'Creekside Flats'} & names) == 1
+
+
+def test_component_rows_in_one_report_are_kept_and_summed_and_conifer_has_its_county():
+    # Renaissance Legacy Lofts: 64 and 34 homes in the 2020 report; Conifer
+    # Heights is in Jefferson County though Conifer is no Census place (#2261 review)
+    rows = {p['name']: p for p in load()['projects']}
+    rll = rows['Renaissance Legacy Lofts']
+    assert sum(e['program'].startswith('LIHTC 9%') for e in rll['events']) == 2
+    assert rll['total_units'] == 98
+    assert rows['Sol']['total_units'] == 132  # one building financed twice is not summed
+    assert rows['Conifer Heights']['county_fips'] == '08059'

@@ -38,7 +38,7 @@
   "project_count": 723,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 397
+  "statewide_recent_projects": 398
  },
  "county_summary": {
   "08001": {
@@ -1213,8 +1213,8 @@
   },
   "08059": {
    "name": "Jefferson County",
-   "projects": 24,
-   "homes": 1853,
+   "projects": 25,
+   "homes": 1909,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1239,8 +1239,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 2,
-     "homes": 242,
+     "projects": 3,
+     "homes": 298,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -11686,36 +11686,6 @@
    ]
   },
   {
-   "id": "conifer-heights-conifer",
-   "name": "Conifer Heights",
-   "city": "Conifer",
-   "county_fips": null,
-   "county_fips_all": null,
-   "county": null,
-   "place_geoid": null,
-   "stage": "not_funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 56,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 56,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1450000,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: F, N; Name: Conifer Heights; Address: Highway 285 and Conifer Town Centre Drive; City: Conifer; Total Units: 56; Total LI Units: 56; Federal 9% Credit Requested: $1,450,000",
-     "round": "2024 Round One",
-     "as_of": "2024-02-09"
-    }
-   ]
-  },
-  {
    "id": "zocalo-liora",
    "name": "Zocalo Liora CHIF",
    "city": null,
@@ -13445,6 +13415,36 @@
      "amount_label": "awarded",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/06/Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
      "quote": "Project Name: Balsam Townhomes; Location: Lakewood; Proposition 123 Funds Requested: $1,881,360; Proposition 123 Funds Awarded: $1,881,360; Projected Units: 20; Equity Option Election: Mixed-Income Investment"
+    }
+   ]
+  },
+  {
+   "id": "conifer-heights-08059",
+   "name": "Conifer Heights",
+   "city": "Conifer",
+   "county_fips": "08059",
+   "county_fips_all": null,
+   "county": "Jefferson County",
+   "place_geoid": null,
+   "stage": "not_funded",
+   "first_year": 2024,
+   "latest_year": 2024,
+   "total_units": 56,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 56,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "not_funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1450000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: F, N; Name: Conifer Heights; Address: Highway 285 and Conifer Town Centre Drive; City: Conifer; Total Units: 56; Total LI Units: 56; Federal 9% Credit Requested: $1,450,000",
+     "round": "2024 Round One",
+     "as_of": "2024-02-09"
     }
    ]
   },
@@ -21848,9 +21848,9 @@
    "stage": "funded",
    "first_year": 2020,
    "latest_year": 2020,
-   "total_units": 64,
+   "total_units": 98,
    "total_units_unavailable_reason": null,
-   "restricted_units": 64,
+   "restricted_units": 98,
    "restricted_units_unavailable_reason": null,
    "events": [
     {
@@ -21862,6 +21862,16 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/3cc9acfe-0e46-455d-ac37-a2167b823a9d/2020-Round-1-Award-Report.pdf",
      "quote": "Type: N,M; Name: Renaissance Legacy Lofts; Address: 2175 California St; City: Denver; Credit Amount Requested: $1,350,000; Total Units: 64; Total LI Units: 64"
+    },
+    {
+     "stage": "funded",
+     "year": 2020,
+     "agency": "CHFA",
+     "program": "LIHTC 9% + state",
+     "amount": 398808,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/3cc9acfe-0e46-455d-ac37-a2167b823a9d/2020-Round-1-Award-Report.pdf",
+     "quote": "Type: N,H; Name: Renaissance Legacy Lofts; Address: 2175 California St; City: Denver; Credit Amount Requested: $398,808; Total Units: 34; Total LI Units: 34"
     },
     {
      "stage": "funded",
@@ -28480,9 +28490,9 @@
    "stage": "funded",
    "first_year": 2016,
    "latest_year": 2016,
-   "total_units": 112,
+   "total_units": 176,
    "total_units_unavailable_reason": null,
-   "restricted_units": 112,
+   "restricted_units": 176,
    "restricted_units_unavailable_reason": null,
    "events": [
     {
@@ -28494,6 +28504,16 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/8dbb8512-b3bd-4f66-af97-769082377f3f/2016-Round-2-Award-Report.pdf",
      "quote": "Type: N,S; Name: Vida at St. Anthony's (4% Portion); Address: 4017 W. Colfax Avenue; City: Denver; Credit Amount: $1,067,781; Total Units: 112; LI Units: 112; 30%: 13; 40%: 36; 50%: 37; 60%: 25; Market Employee: 1"
+    },
+    {
+     "stage": "funded",
+     "year": 2016,
+     "agency": "CHFA",
+     "program": "LIHTC 9% + state",
+     "amount": 1250000,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/8dbb8512-b3bd-4f66-af97-769082377f3f/2016-Round-2-Award-Report.pdf",
+     "quote": "Type: N,S; Name: Vida at St. Anthony's (9% Portion); Address: 4017 W. Colfax Avenue; City: Denver; Credit Amount: $1,250,000; Total Units: 64; LI Units: 64; 30%: 8; 40%: 20; 50%: 20; 60%: 16; Market Employee: 0"
     }
    ]
   },
