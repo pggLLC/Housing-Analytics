@@ -86,6 +86,16 @@ for (const [id, limit, ok, bad] of [['pf-rent-growth', 5, '5', '100'], ['pf-exp-
   assert.equal(r.waterfall, null, id + ': and the waterfall');
   assert(r.unavailable['exit.nNoi'].includes('0% to ' + limit + '%'), id + ': the reason names the range');
 }
+// #2160: a deferred fee is a source in CHFA's gap method however its amount is
+// set, so auto-balance and the same manual deferral reserve the same credit.
+{
+  const auto = computeDeal(inputsFor('A'));
+  const manualIn = inputsFor('A'); manualIn.fields['dc-deferred-auto-balance'] = false;
+  const manual = computeDeal(manualIn);
+  assert(auto.deferredDevFee > 0, 'non-vacuous: auto-balance defers part of the fee when the gap method binds');
+  assert.equal(auto.deferredDevFee, manual.deferredDevFee, 'auto-balance defers what the manual setting would');
+  assert.equal(auto.annualCredits, manual.annualCredits, 'and the gap method reserves the same credit');
+}
 // Grep the whole module (stricter than just computeDeal's body).
 const source = fs.readFileSync(path.join(root, 'js/deal-engine.js'), 'utf8');
 assert(!/\b(?:document|window)\b/.test(source), 'engine is independent of browser state');

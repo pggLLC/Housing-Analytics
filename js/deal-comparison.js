@@ -135,7 +135,8 @@
   var DEAL_OUTPUT_METRICS = [
     { key: 'eligibleBasis',  label: 'Qualified Basis',      fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'annualCredits',  label: 'Annual Tax Credits',   fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
-    { key: 'creditEquity',   label: 'Tax Credit Equity',    fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
+    { key: 'creditEquity',   label: 'Federal Credit Equity', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
+    { key: 'stateCreditEquity', label: 'State Credit Equity', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'annualRents',    label: 'Annual Gross Rents',   fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'firstMortgage',  label: 'Supportable Mortgage', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'gap',            label: 'Funding Gap',          fmt: function (v) { return _fmtDollars(_parseCurrency(v)); },

@@ -1183,6 +1183,8 @@
           eligibleBasis:   (document.getElementById('dc-r-basis')    || {}).textContent || null,
           annualCredits:   (document.getElementById('dc-r-credits')  || {}).textContent || null,
           creditEquity:    (document.getElementById('dc-r-equity')   || {}).textContent || null,
+          // State credit equity is its own source in Sources & Uses (#2160).
+          stateCreditEquity: outText('dc-su-state'),
           annualRents:     (document.getElementById('dc-r-rents')    || {}).textContent || null,
           mortgageConst:   (document.getElementById('dc-r-mc')       || {}).textContent || null,
           firstMortgage:   (document.getElementById('dc-r-mortgage') || {}).textContent || null,

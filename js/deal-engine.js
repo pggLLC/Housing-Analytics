@@ -1035,9 +1035,11 @@
     // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
     // left after every source but equity from the sale of Housing Tax Credits,
     // which the QAP uses for federal and state credit alike, so state credit
-    // equity is left out here too. A manual deferral is a source; an
-    // auto-balanced one only fills what credit equity leaves, so it is not.
-    var otherSources = mortgage + impactGrant + totalLoanPrincipal + (autoBalance ? 0 : deferredCap);
+    // equity is left out here too. A deferred fee is a source however its
+    // amount is set. Auto-balance counts the full deferral it may use, so the
+    // credit is the least that closes the gap (26 U.S.C. 42(m)(2)(A)); when
+    // that binds, the gap left for deferral is exactly that amount.
+    var otherSources = mortgage + impactGrant + totalLoanPrincipal + deferredCap;
     var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
       otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
     basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit }));

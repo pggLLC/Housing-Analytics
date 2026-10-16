@@ -133,6 +133,13 @@ async function test(name, fn) {
     assert.equal(r.waterfall.autoLpEquity, r.equity + r.stateEquity, 'automatic LP equity is federal plus state');
     assert.equal(r.waterfall.lpEquity, r.equity + r.stateEquity);
     assert.notEqual(text(p, 'dc-wf-lp-equity-auto'), 'Unavailable');
+    const snap = p.w.__DealCalcShare.buildSnapshot();
+    assert.equal(snap.outputs.stateCreditEquity.value, r.stateEquity, 'JSON export carries state credit equity');
+    assert.equal(snap.outputs.creditEquity.value, r.equity, 'and federal credit equity separately');
+    assert.equal(p.w._dcReadDealState().outputs.stateCreditEquity, money(r.stateEquity), 'a saved comparison carries it too');
+    const c = p.d.getElementById('dc-su-gap').methodologyContext;
+    assert(Math.abs(c.tdc - c.equity - c.mortgage - c.grants - c.softLoans - c.deferred - r.gap) < 0.01,
+      'the gap explanation adds up to the gap shown, state credit equity included');
     const withState = r.gap;
     setField(p, 'dc-rent-limit-regime', 'market');
     p.w.__DealCalc.recalculate();

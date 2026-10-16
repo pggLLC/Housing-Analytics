@@ -3857,6 +3857,7 @@
       totalOwnershipGap: ['forSale.totalSubsidyGap']
     } : {
       eligibleBasis: ['eligibleBasis'], annualCredits: ['annualCredits'], creditEquity: ['equity'],
+      stateCreditEquity: ['stateEquity'],
       annualRents: ['annualRents'], developerFee: ['devFeeTotal'], deferredDeveloperFee: ['deferredDevFee'],
       stabilizedNoi: ['noi'], mortgageConstant: ['mc', 'percent4'], firstMortgage: ['mortgage'],
       annualDebtService: ['annualDebtService'], dscr: ['baseDSCR', 'ratio'],
@@ -3878,7 +3879,7 @@
         : style === 'percent4' ? (value * 100).toFixed(4) + '%'
         : style === 'percent1' ? (value * 100).toFixed(1) + '%' : '$' + Math.round(value).toLocaleString('en-US');
       if (value != null && key === 'stabilizedNoi' && !result.dscrAutoMode && value > 0) display += ' (manual)';
-      if (result && !result.chfaRegime && ['eligibleBasis', 'annualCredits', 'creditEquity'].indexOf(key) !== -1) {
+      if (result && !result.chfaRegime && ['eligibleBasis', 'annualCredits', 'creditEquity', 'stateCreditEquity'].indexOf(key) !== -1) {
         display = key === 'eligibleBasis' ? 'Not applicable' : NO_LIHTC_CREDITS;
       }
       records[key] = { value: value, display: display, unavailableReason: reason || null };
@@ -4666,8 +4667,8 @@
       impactNoteEl.textContent = parts.length ? parts.join(' · ') : 'Add tranches to model CHFA / Prop 123 / local PHA stack.';
     }
 
-    // Update Sources & Uses table
-    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity, mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
+    // Update Sources & Uses table. Its equity is federal plus state credit equity, as in the gap.
+    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity + numeric(result.stateEquity), mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
       unavailableReason: !isFinite(gap) ? (noiUnknownReason || rentsUnknownReason || 'financing sources are unavailable') : tdc > 0 ? null : 'total development cost is missing',
       sources: explanationSourceContext() });
     var su = {
