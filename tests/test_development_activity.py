@@ -728,3 +728,28 @@ def test_a_name_spelled_out_at_the_same_size_is_one_project():
     assert len(rows('Ridgegate', 'Ridgegate Parkway Commons', 101, 101)) == 2
     committed = [p for p in load()['projects'] if p['name'].lower().startswith('ridgegate') and 'enior' in p['name']]
     assert len(committed) == 1, [p['name'] for p in committed]
+
+
+def test_a_townless_row_joins_its_sponsors_project_in_the_county_at_a_near_size():
+    # Rocky Mountain Lake Apartments (DOLA 2026, no town, 125 requested) is
+    # the Coalition's 4745 N Federal Blvd (109) in Denver (#2261 review); with
+    # both towns printed the sizes must still match, and 60 homes stays apart
+    url = 'https://example.org/a.pdf'
+
+    def rows(town_b, units_b):
+        L = dev.Ledger(set(), {}, {'08031': 'Denver County'})
+        L.county_places = {}
+        L.city_county, L.city_counties = {}, {}
+        L.add('4745 N Federal Blvd', 'Denver', '08031',
+              dev.ev('applied', 2026, 'CHFA', 'p', url, 'Name: 4745 N Federal Blvd',
+                     _sponsors=dev.sponsor_keys('Colorado Coalition for the Homeless')), 109)
+        L.add('Rocky Mountain Lake Apartments', town_b, '08031',
+              dev.ev('funded', 2026, 'DOLA', 'p', url, 'Project: Rocky Mountain Lake Apartments',
+                     _sponsors=dev.sponsor_keys('Colorado Coalition for the Homeless')), units_b)
+        return dev.finish(L)
+
+    assert len(rows(None, 125)) == 1
+    assert len(rows('Denver', 125)) == 2
+    assert len(rows(None, 60)) == 2
+    names = {p['name'] for p in load()['projects'] if p['county_fips'] == '08031'}
+    assert not {'4745 N Federal Blvd', 'Rocky Mountain Lake Apartments'} <= names

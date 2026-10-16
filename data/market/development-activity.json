@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 721,
+  "project_count": 720,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 396
+  "statewide_recent_projects": 395
  },
  "county_summary": {
   "08001": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 97,
-   "homes": 10141,
+   "projects": 96,
+   "homes": 10016,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -679,7 +679,7 @@
     },
     "funded": {
      "projects": 56,
-     "homes": 5733,
+     "homes": 5717,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -688,8 +688,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 7,
-     "homes": 888,
+     "projects": 6,
+     "homes": 779,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -4141,7 +4141,7 @@
    "county_fips_all": null,
    "county": "Denver County",
    "place_geoid": "0820000",
-   "stage": "applied",
+   "stage": "funded",
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 109,
@@ -4160,6 +4160,20 @@
      "quote": "Building Type: N; Resident Type: I/F,SH; Name: 4745 N Federal Blvd; Address: 4745 N Federal Boulevard; City: Denver; Total Units: 109; LI Units: 109; Federal 4% Credit Requested: $1,996,411; PAB Issuer: CHFA; PAB Requested: $20,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $218,000",
      "round": "2026 Round Two",
      "as_of": "2026-08-11"
+    },
+    {
+     "stage": "funded",
+     "year": 2026,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 3500000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+     "quote": "Project: Rocky Mountain Lake Apartments; Program: Rental; Amount: $3,500,000; Amount basis: requested; Homes: 125; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
+     "announced": "2026-06",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -4939,38 +4953,6 @@
      "quote": "Building Type: N; Resident Type: I/F; Name: Ridge; Address: 4050 N Colorado Boulevard; City: Denver; Total Units: 140; LI Units: 140; Federal 4% Credit Requested: $4,088,715; PAB Issuer: CHFA; PAB Requested: $26,500,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $599,015; TOC Credit Requested: $280,000",
      "round": "2026 Round Two",
      "as_of": "2026-08-11"
-    }
-   ]
-  },
-  {
-   "id": "rocky-mountain-lake-08031",
-   "name": "Rocky Mountain Lake Apartments",
-   "city": null,
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2026,
-   "latest_year": 2026,
-   "total_units": 125,
-   "total_units_unavailable_reason": null,
-   "restricted_units": null,
-   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "DOLA",
-     "program": "Division of Housing award",
-     "amount": 3500000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Rocky Mountain Lake Apartments; Program: Rental; Amount: $3,500,000; Amount basis: requested; Homes: 125; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
-     "announced": "2026-06",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },

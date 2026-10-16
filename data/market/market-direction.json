@@ -1384,8 +1384,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 97,
-    "homes": 10141,
+    "projects": 96,
+    "homes": 10016,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -1396,7 +1396,7 @@
      },
      "funded": {
       "projects": 56,
-      "homes": 5733,
+      "homes": 5717,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -1405,8 +1405,8 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 7,
-      "homes": 888,
+      "projects": 6,
+      "homes": 779,
       "projects_without_homes": 0
      },
      "not_funded": {

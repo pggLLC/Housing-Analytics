@@ -630,10 +630,18 @@ def sponsor_joined(projects: list[dict]) -> list[dict]:
         size = project_size(p['events'])
         years = {e['year'] for e in p['events'] if e.get('year')}
         for q in out:
-            if orgs and p['county_fips'] and q['county_fips'] == p['county_fips'] and q['_city_n'] == p['_city_n'] \
+            # a row with no town (DOLA prints none for some awards) agrees on
+            # the county alone, and only at a size within 15%: Rocky Mountain
+            # Lake Apartments (DOLA, 125 requested) is the Coalition's 4745 N
+            # Federal Blvd (109) in Denver
+            other = project_size(q['events'])
+            townless = not (q['_city_n'] and p['_city_n'])
+            if orgs and p['county_fips'] and q['county_fips'] == p['county_fips'] \
+                    and (q['_city_n'] == p['_city_n'] or townless) \
                     and orgs & frozenset().union(*(e.get('_sponsors') or frozenset() for e in q['events'])) \
                     and phase(q['_name_n']) == phase(p['_name_n']) \
-                    and size is not None and size == project_size(q['events']) \
+                    and size is not None and other is not None \
+                    and (size == other or (townless and abs(size - other) <= 0.15 * max(size, other))) \
                     and any(abs(a - b) <= 1 for a in years for b in (e['year'] for e in q['events'] if e.get('year'))):
                 q['events'] += p['events']
                 break
