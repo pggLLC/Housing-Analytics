@@ -135,3 +135,24 @@ def test_rule_order():
     assert md.call_of(sig(price=20))[0] == 'not_enough_data'
     # growth without two rising market signals is steady, not emerging
     assert md.call_of(sig(permits=0, price=20, rent=1, population=2.0, jobs=10))[0] == 'steady'
+
+
+def test_affordable_activity_carries_the_ledger_qualifications():
+    ledger = read('data/market/development-activity.json')
+    partial = multi = 0
+    for f, c in DOC['counties'].items():
+        s, a = ledger['county_summary'][f], c['affordable_activity']
+        assert a['projects_without_homes'] == s['projects_without_homes'], f
+        assert a['multi_county_projects'] == s['multi_county_projects'], f
+        partial += bool(a['projects_without_homes'])
+        multi += bool(a['multi_county_projects'])
+    assert partial and multi  # the scan reached both qualifications
+
+
+def test_generated_at_is_the_newest_input_stamp_under_any_key_name():
+    stamps = [md.stamp(read(p)['meta']) for p in (
+        'data/hna/permits.json', 'data/market/fhfa_hpi_subcounty_co.json', 'data/market/zori_rents_co.json',
+        'data/market/fmr_co.json', 'data/market/development-activity.json')]
+    assert all(stamps), stamps  # every input's own stamp was found
+    assert DOC['meta']['generated_at'] == max(stamps)
+    assert md.stamp({'generated_at_utc': '2026-10-11T04:30:29Z'}) == '2026-10-11T04:30:29Z'

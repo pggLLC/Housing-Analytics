@@ -247,14 +247,33 @@ SPONSOR_FIELD = re.compile(
     r'\s*[^:;]*\b(sponsor|owner|developer|contact|e-?mail|phone|grantee|borrower|applicant|partner)\w*[^:;]*:', re.I)
 
 
-def strip_sponsor(quote: str | None) -> str | None:
+CONTACT = re.compile(r'[\w.+-]+@[\w-]+(\.[\w-]+)+|\(?\b\d{3}\)?[-. ]\d{3}[-. ]\d{4}\b')
+
+
+def strip_sponsor(quote: str | None, sponsor: str | None = None) -> str | None:
     """Quotes are printed rows; drop the sponsor / owner / contact fields so the
-    public file names no company."""
+    public file names no company. A row printed as one line ("... 60 60 Grand
+    Junction Housing Authority <contact name> <phone> <email>") has no field
+    headings: it is cut where its sponsor begins, since the contact follows.
+    Any e-mail address or phone number left is removed."""
     if not quote:
         return quote
     parts = [s for s in quote.split('; ')
              if not SPONSOR_FIELD.match(s)]
-    return '; '.join(parts)
+    out = '; '.join(parts)
+    if out.startswith('Line as printed: '):
+        cut = None
+        if sponsor and len(sponsor) > 3 and sponsor in out:
+            cut = out.index(sponsor)
+        elif CONTACT.search(out):
+            # no sponsor recorded: the sponsor and contact follow the last
+            # number printed before the first phone or e-mail
+            head = out[:CONTACT.search(out).start()]
+            nums = list(re.finditer(r'(?<!\S)\$?[\d,]+(?!\S)', head))
+            cut = nums[-1].end() if nums else len('Line as printed: ')
+        if cut is not None:
+            out = out[:cut].rstrip() + ' [sponsor and contact not copied]'
+    return CONTACT.sub('[contact not copied]', out)
 
 
 def load_applications(L: Ledger) -> int:
@@ -290,6 +309,7 @@ def load_awards(L: Ledger) -> int:
             continue
         row = by_key.get(key)
         quote = row['quote'] if row else None
+        sponsor = (row or {}).get('sponsor')
         name = (row or {}).get('name') or a['name']
         location = (row or {}).get('location') or a.get('location')
         land = a['program'] == 'Prop 123 Land Banking'
@@ -309,7 +329,7 @@ def load_awards(L: Ledger) -> int:
                 ('Amount', money(amt)), ('Year', a.get('year'))) if v)
         L.add(name, location, a.get('county_fips'),
               ev('land_funded' if land else 'funded', a.get('year'), a['agency'], a['program'],
-                 a.get('source_url'), strip_sponsor(quote), amt, label, quote_basis=basis,
+                 a.get('source_url'), strip_sponsor(quote, sponsor), amt, label, quote_basis=basis,
                  state_credit=a.get('state_credit'), bond_amount=a.get('bond_amount'),
                  tenure=a.get('detail') if land else None),
               a.get('total_units'), a.get('restricted_units'))

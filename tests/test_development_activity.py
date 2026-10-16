@@ -236,3 +236,26 @@ def test_a_dola_site_award_without_a_home_count_is_kept_with_units_null():
     rows = dev.finish(L)
     assert [(r['name'], r['total_units']) for r in rows] == [('Gamma Park', None)]
     assert L.programs_left_out == 1
+
+
+def test_no_quote_carries_a_phone_number_or_email():
+    d = load()
+    quotes = [e['quote'] or '' for p in d['projects'] for e in p['events']]
+    assert len(quotes) > 1000
+    for q in quotes:
+        assert not dev.CONTACT.search(q), q
+
+
+def test_a_line_printed_row_is_cut_before_its_sponsor_and_contact():
+    line = ('Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 '
+            'Example Housing Authority Pat Doe 970-555-0100 pdoe@example.org')
+    want = ('Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 '
+            '[sponsor and contact not copied]')
+    assert dev.strip_sponsor(line) == want  # no sponsor recorded: cut after the last number
+    assert dev.strip_sponsor(line, 'Example Housing Authority') == want
+    # a structured quote whose project name contains its sponsor is left whole
+    q = 'Project Name: Metro Caring Housing; Total Units: 40'
+    assert dev.strip_sponsor(q, 'Metro Caring') == q
+    # a phone or e-mail in any other field is removed too
+    assert dev.strip_sponsor('Name: X; Note: call 970-555-0100 or a@b.org') == \
+        'Name: X; Note: call [contact not copied] or [contact not copied]'

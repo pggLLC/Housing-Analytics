@@ -80,6 +80,15 @@ EDGES = {
 }
 
 
+STAMP_KEYS = ('generated_at', 'generated', 'generated_at_utc', 'last_verified')
+
+
+def stamp(meta: dict) -> str | None:
+    """An input file's own refresh stamp; the builders name it differently
+    (build_market_rents_co.py writes generated_at_utc, FHFA only last_verified)."""
+    return next((str(meta[k]) for k in STAMP_KEYS if meta.get(k)), None)
+
+
 def read(path: str):
     with open(path) as fh:
         return json.load(fh)
@@ -228,12 +237,14 @@ def build() -> dict:
             'rent_edge': rent_edge(f, limits, fmr),
             'affordable_activity': {'since': activity['meta'].get('summary_since'),
                                     'projects': act['projects'], 'homes': act['homes'],
+                                    # homes leaves out projects that print no count, and a
+                                    # scattered site in several counties counts in each
+                                    'projects_without_homes': act['projects_without_homes'],
+                                    'multi_county_projects': act['multi_county_projects'],
                                     'by_stage': {k: v for k, v in act['by_stage'].items() if v['projects']}}
             if act else None,
         }
-    stamps = [permits['meta'].get('generated_at'), fhfa['meta'].get('generated') or fhfa['meta'].get('generated_at'),
-              zori['meta'].get('generated') or zori['meta'].get('generated_at'),
-              fmr_doc['meta'].get('generated'), activity['meta'].get('generated_at')]
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity)]
     tally: dict[str, int] = {}
     edge_tally: dict[str, int] = {}
     for r in counties.values():
