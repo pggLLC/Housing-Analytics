@@ -532,7 +532,8 @@
         var p = s.split(':');
         return {
           program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
-          cashflowPayPct: p[5], accrueMode: p[6], priority: p[7], loanType: p[8], maturity: p[9], ioYears: p[10]
+          cashflowPayPct: p[5], accrueMode: p[6], priority: p[7], loanType: p[8], maturity: p[9], ioYears: p[10],
+          fundSource: p[11] || null
         };
       });
     }

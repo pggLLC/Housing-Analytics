@@ -396,7 +396,12 @@
     if (!capKey) out.cap.reason = 'CHFA sets no per-project federal limit for 4% credits with private activity bonds.';
     else {
       var cap = ruleStatus(rules, capKey);
-      if (!cap.applied) out.cap.reason = cap.reason;
+      if (!cap.applied) {
+        // The 9% limit is required; without it the capacity could be overstated.
+        out.cap.reason = cap.reason;
+        out.capacity = null;
+        out.reasons.capacity = 'Credit capacity needs CHFA\'s federal 9% limit, which is unavailable: ' + cap.reason + '.';
+      }
       else {
         out.cap.applied = true;
         out.cap.amount = cap.rule.annual_cap;

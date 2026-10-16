@@ -71,7 +71,11 @@ test('acceptance 2: a fixture rule with no source is not applied and says "rule 
   const { result } = runBasisCase(cases.basisCase, r);
   assert.equal(result.cap.applied, false);
   assert.equal(result.cap.reason, 'rule not sourced');
-  assert.equal(round(result.capacity), cases.basisCase.expected.calculatedCredit);
+  assert.equal(round(result.calculatedCredit), cases.basisCase.expected.calculatedCredit, 'non-vacuous: Method One still has a value');
+  // The 9% limit is required, so without it the capacity is unknown, not uncapped Method One.
+  assert.equal(result.capacity, null);
+  assert.equal(result.creditForEquity, null);
+  assert.match(result.reasons.capacity, /federal 9% limit.*rule not sourced/);
   const unknownSource = clone(rules);
   unknownSource.rules.credit_cap_federal_9pct.source = 'S99';
   assert.equal(cb.ruleStatus(unknownSource, 'credit_cap_federal_9pct').reason, 'rule not sourced');

@@ -86,6 +86,10 @@ async function test(name, fn) {
     assert.equal(text(p, 'dc-r-basis'), before, 'a grant with no federal money leaves basis alone');
     fed.value = 'federal'; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
     assert.equal(text(p, 'dc-r-basis'), money(cb.summarizeCosts(cb.exampleLines(), 20000000).eligible - 500000));
+    // The JSON export carries the classification that decides the basis reduction.
+    const tranches = p.w.__DealCalcShare.buildSnapshot().tranches;
+    assert(tranches && tranches.length > 0, 'non-vacuous: the export has tranches');
+    assert.equal(tranches.find(t => t.mode === 'grant').fundSource, 'federal');
     fed.value = ''; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
     assert.match(text(p, 'dc-r-basis'), /federal money/);
   });
