@@ -16,7 +16,11 @@ reader can disagree with the rule and still use the numbers:
               (data/market/fhfa_hpi_subcounty_co.json)
   rent        Zillow Observed Rent Index, year-over-year
               (data/market/zori_rents_co.json; larger markets only)
-  population  DOLA ten-year population growth rate (data/hna/projections/)
+  population  DOLA household population, ten-year growth rate
+              (data/hna/source/dola_profiles_county.csv). Household
+              population leaves out group quarters (prisons, dorms, nursing
+              homes), which house no one in the housing market: Crowley and
+              Bent lose prison population while their households grow
   jobs        LEHD LODES jobs located in the county, 2019 to the latest year
               (data/hna/lehd/)
 
@@ -35,7 +39,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import csv
 import json
+import re
 import os
 import sys
 
@@ -46,7 +52,7 @@ GEO_CONFIG = os.path.join(ROOT, 'data', 'hna', 'geo-config.json')
 PERMITS = os.path.join(ROOT, 'data', 'hna', 'permits.json')
 FHFA = os.path.join(ROOT, 'data', 'market', 'fhfa_hpi_subcounty_co.json')
 ZORI = os.path.join(ROOT, 'data', 'market', 'zori_rents_co.json')
-PROJECTIONS_DIR = os.path.join(ROOT, 'data', 'hna', 'projections')
+DOLA_PROFILES = os.path.join(ROOT, 'data', 'hna', 'source', 'dola_profiles_county.csv')
 LEHD_DIR = os.path.join(ROOT, 'data', 'hna', 'lehd')
 RENT_LIMITS = os.path.join(ROOT, 'data', 'chfa-income-rent-limits-2026.json')
 FMR = os.path.join(ROOT, 'data', 'market', 'fmr_co.json')
@@ -60,7 +66,7 @@ THRESHOLDS = {
     'permits': (15.0, -15.0),    # % change, 2021–25 vs 2016–20
     'price': (12.0, 4.0),        # % change since 2022, nominal; 4% over three years is a real-terms fall
     'rent': (3.0, 0.0),          # % change over a year
-    'population': (0.5, 0.0),    # % a year over ten years
+    'population': (0.5, 0.0),    # household population, % a year over ten years
     'jobs': (5.0, 0.0),          # % change since 2019
 }
 RENT_EDGE_THIN = 10.0  # a 60% rent less than this % of the FMR below it is a thin edge
@@ -70,7 +76,7 @@ CALLS = {
                  'and none is falling.'),
     'steady': 'Neither rising nor falling on the rule below.',
     'softening': 'At least two of permits, prices and rents are falling.',
-    'falling_demand': 'Population and jobs are both shrinking.',
+    'falling_demand': 'Household population and jobs are both shrinking.',
     'not_enough_data': 'Fewer than two market signals and no reading of both population and jobs.',
 }
 EDGES = {
@@ -142,16 +148,65 @@ def rent_signal(rec: dict | None) -> dict:
     return out
 
 
-def population_signal(fips: str) -> dict:
+def read_profiles(path: str) -> tuple[dict, str | None]:
+    """DOLA county profiles: {(county fips, year): row}, and the file's own
+    stamp from its first line ("Vintage 2024 Prepared October 2025")."""
+    with open(path, newline='') as fh:
+        first = fh.readline()
+        rows = {(f"08{r['countyfips'].zfill(3)}", int(r['year'])): r for r in csv.DictReader(fh)}
+    m = re.search(r'Prepared (\w+) (\d{4})', first)
+    months = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
+              'october', 'november', 'december')
+    prepared = f'{m.group(2)}-{months.index(m.group(1).lower()) + 1:02d}' \
+        if m and m.group(1).lower() in months else None
+    return rows, prepared
+
+
+def num(row: dict | None, col: str) -> float | None:
     try:
-        d = read(os.path.join(PROJECTIONS_DIR, f'{fips}.json'))
-    except OSError:
-        return {'value': None, 'unavailable_reason': 'no DOLA county file'}
-    v = d.get('historic_cagr_10y')
-    out = {'value': round(v * 100, 2) if isinstance(v, (int, float)) else None, 'base_year': d.get('baseYear')}
+        v = float((row or {})[col])
+    except (KeyError, TypeError, ValueError):
+        return None
+    return v
+
+
+def cagr(new, old, years: int) -> float | None:
+    if not new or not old or new <= 0 or old <= 0:
+        return None
+    return round(((new / old) ** (1 / years) - 1) * 100, 2)
+
+
+def population_signal(fips: str, prof: dict) -> dict:
+    latest = max((y for f, y in prof if f == fips), default=None)
+    if latest is None:
+        return {'value': None, 'unavailable_reason': 'no DOLA estimates for this county'}
+    base, now = prof.get((fips, latest - 10)), prof[(fips, latest)]
+    out = {'value': cagr(num(now, 'householdpopulation'), num(base, 'householdpopulation'), 10),
+           'measure': 'household population, % a year',
+           'from_year': latest - 10, 'to_year': latest,
+           # total population is shown beside it: where they part, group quarters moved
+           'total_population_value': cagr(num(now, 'totalpopulation'), num(base, 'totalpopulation'), 10),
+           'group_quarters_from': num(base, 'groupquarterspopulation'),
+           'group_quarters_to': num(now, 'groupquarterspopulation')}
     if out['value'] is None:
-        out['unavailable_reason'] = 'DOLA file carries no ten-year growth rate'
+        out['unavailable_reason'] = f'DOLA household population missing for {latest - 10} or {latest}'
     return out
+
+
+def recent_demand(fips: str, prof: dict) -> dict:
+    """Context beside the call, not part of it: DOLA households over the last
+    five estimate years and net migration over the same years."""
+    latest = max((y for f, y in prof if f == fips), default=None)
+    if latest is None:
+        return {'households_value': None, 'unavailable_reason': 'no DOLA estimates for this county'}
+    years = range(latest - 4, latest + 1)
+    mig = [num(prof.get((fips, y)), 'netmigration') for y in years]
+    return {'from_year': latest - 5, 'to_year': latest,
+            'households_value': cagr(num(prof[(fips, latest)], 'households'),
+                                     num(prof.get((fips, latest - 5)), 'households'), 5),
+            'households_measure': 'households, % a year',
+            'net_migration': None if any(v is None for v in mig) else int(sum(mig)),
+            'net_migration_years': f'{latest - 4}–{latest}'}
 
 
 def jobs_signal(fips: str) -> dict:
@@ -218,6 +273,7 @@ def build() -> dict:
         activity = read(ACTIVITY)
     except OSError:
         activity = {'meta': {}, 'county_summary': {}}
+    prof, prof_stamp = read_profiles(DOLA_PROFILES)
     years = permits['years']
     counties = {}
     for c in sorted(geo['counties'], key=lambda c: c['geoid']):
@@ -226,7 +282,7 @@ def build() -> dict:
             'permits': permits_signal(permits['counties'].get(f), years),
             'price': price_signal(fhfa['counties'].get(f)),
             'rent': rent_signal(zori['counties'].get(f)),
-            'population': population_signal(f),
+            'population': population_signal(f, prof),
             'jobs': jobs_signal(f),
         }
         for k in sig:
@@ -235,6 +291,7 @@ def build() -> dict:
         act = activity['county_summary'].get(f)
         counties[f] = {
             'name': c['label'], 'call': call, 'call_basis': why, 'signals': sig,
+            'recent_demand': recent_demand(f, prof),
             'rent_edge': rent_edge(f, limits, fmr),
             'affordable_activity': {'since': activity['meta'].get('summary_since'),
                                     'projects': act['projects'], 'homes': act['homes'],
@@ -246,12 +303,12 @@ def build() -> dict:
             if act else None,
         }
     stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc)] + [stamp(geo)]
-    for folder in (PROJECTIONS_DIR, LEHD_DIR):  # the per-county population and jobs files
-        for f in counties:
-            try:
-                stamps.append(stamp(read(os.path.join(folder, f'{f}.json'))))
-            except OSError:
-                continue  # a county with no file has a null signal and adds no stamp
+    stamps.append(prof_stamp)
+    for f in counties:  # the per-county jobs files
+        try:
+            stamps.append(stamp(read(os.path.join(LEHD_DIR, f'{f}.json'))))
+        except OSError:
+            continue  # a county with no file has a null signal and adds no stamp
     tally: dict[str, int] = {}
     edge_tally: dict[str, int] = {}
     for r in counties.values():
@@ -288,9 +345,10 @@ def build() -> dict:
                           'url': fhfa['meta'].get('source_page_url') or fhfa['meta'].get('source_url')},
                 'rent': {'file': 'data/market/zori_rents_co.json', 'source': zori['meta'].get('source'),
                          'url': zori['meta'].get('city_url')},
-                'population': {'file': 'data/hna/projections/<county>.json',
-                               'source': 'DOLA State Demography Office, county components of change',
-                               'url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv'},
+                'population': {'file': 'data/hna/source/dola_profiles_county.csv',
+                               'source': 'DOLA State Demography Office, county profiles (household population, '
+                                         'households, net migration)',
+                               'url': 'https://storage.googleapis.com/co-publicdata/profiles-county.csv'},
                 'jobs': {'file': 'data/hna/lehd/<county>.json', 'source': 'U.S. Census Bureau LEHD LODES8 (WAC)',
                          'url': 'https://lehd.ces.census.gov/data/lodes/LODES8/co/'},
                 'fmr': {'file': 'data/market/fmr_co.json', 'source': fmr_doc['meta'].get('source'),

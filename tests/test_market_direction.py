@@ -153,10 +153,11 @@ def test_generated_at_is_the_newest_input_stamp_under_any_key_name():
     stamps = [md.stamp(read(p)['meta']) for p in (
         'data/hna/permits.json', 'data/market/fhfa_hpi_subcounty_co.json', 'data/market/zori_rents_co.json',
         'data/market/fmr_co.json', 'data/market/development-activity.json', 'data/chfa-income-rent-limits-2026.json')]
-    per_county = [md.stamp(read(f'data/hna/{d}/{f}.json')) for d in ('projections', 'lehd') for f in DOC['counties']
-                  if os.path.exists(os.path.join(ROOT, 'data', 'hna', d, f'{f}.json'))]
+    per_county = [md.stamp(read(f'data/hna/lehd/{f}.json')) for f in DOC['counties']
+                  if os.path.exists(os.path.join(ROOT, 'data', 'hna', 'lehd', f'{f}.json'))]
     stamps.append(md.stamp(read('data/hna/geo-config.json')))  # the county list and names
-    assert all(stamps) and len(per_county) > 100 and all(per_county), stamps  # every input's own stamp was found
+    stamps.append(md.read_profiles(md.DOLA_PROFILES)[1])  # DOLA's "Prepared <month> <year>" line
+    assert all(stamps) and len(per_county) > 50 and all(per_county), stamps  # every input's own stamp was found
     assert DOC['meta']['generated_at'] == max(stamps + per_county)
     # a later LEHD or projection refresh moves the stamp
     assert md.stamp({'updated': '2027-01-01T00:00:00Z'}) == '2027-01-01T00:00:00Z'
@@ -184,3 +185,27 @@ def test_the_rent_edge_description_names_the_measure_computed():
         assert 'above the 60% AMI rent by' not in text, text
     grand = DOC['counties']['08049']['rent_edge']
     assert grand['edge_pct'] == round((grand['fmr_2br'] - grand['lihtc_60_2br']) / grand['fmr_2br'] * 100, 1)
+
+
+def test_population_is_household_population_so_prison_moves_do_not_read_as_demand():
+    # Crowley and Bent lost prison (group quarters) population while their
+    # households grew; total population called them falling demand (#2261 QA)
+    prof, prepared = md.read_profiles(md.DOLA_PROFILES)
+    assert prepared and len(prepared) == 7
+    checked = 0
+    for f, c in DOC['counties'].items():
+        s = c['signals']['population']
+        a, b = prof[(f, s['from_year'])], prof[(f, s['to_year'])]
+        want = round((float(b['householdpopulation']) / float(a['householdpopulation'])) ** 0.1 * 100 - 100, 2)
+        assert abs(s['value'] - want) <= 0.01, (f, s['value'], want)
+        assert s['to_year'] == max(y for g, y in prof if g == f)
+        checked += 1
+    assert checked == 64
+    for f in ('08025', '08011'):  # Crowley, Bent
+        s = DOC['counties'][f]['signals']['population']
+        assert s['total_population_value'] < 0 < s['value'] and s['group_quarters_to'] < s['group_quarters_from']
+        assert DOC['counties'][f]['call'] != 'falling_demand'
+    # recent households and net migration sit beside the call and agree with DOLA
+    r = DOC['counties']['08031']['recent_demand']
+    y = r['to_year']
+    assert r['net_migration'] == int(sum(float(prof[('08031', k)]['netmigration']) for k in range(y - 4, y + 1)))

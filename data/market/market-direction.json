@@ -9,7 +9,7 @@
    "emerging": "People or jobs are growing, at least two of permits, prices and rents are rising, and none is falling.",
    "steady": "Neither rising nor falling on the rule below.",
    "softening": "At least two of permits, prices and rents are falling.",
-   "falling_demand": "Population and jobs are both shrinking.",
+   "falling_demand": "Household population and jobs are both shrinking.",
    "not_enough_data": "Fewer than two market signals and no reading of both population and jobs."
   },
   "rule_order": "not_enough_data, then falling_demand, then softening, then emerging, else steady: the first that applies is the call",
@@ -60,9 +60,9 @@
     "url": "https://files.zillowstatic.com/research/public_csvs/zori/City_zori_uc_sfrcondomfr_sm_sa_month.csv"
    },
    "population": {
-    "file": "data/hna/projections/<county>.json",
-    "source": "DOLA State Demography Office, county components of change",
-    "url": "https://storage.googleapis.com/co-publicdata/components-change-county.csv"
+    "file": "data/hna/source/dola_profiles_county.csv",
+    "source": "DOLA State Demography Office, county profiles (household population, households, net migration)",
+    "url": "https://storage.googleapis.com/co-publicdata/profiles-county.csv"
    },
    "jobs": {
     "file": "data/hna/lehd/<county>.json",
@@ -86,10 +86,10 @@
    }
   },
   "call_counts": {
-   "emerging": 12,
-   "falling_demand": 8,
+   "emerging": 11,
+   "falling_demand": 5,
    "softening": 7,
-   "steady": 37
+   "steady": 41
   },
   "rent_edge_counts": {
    "clear": 20,
@@ -124,7 +124,12 @@
     },
     "population": {
      "value": 1.26,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.26,
+     "group_quarters_from": 4211.0,
+     "group_quarters_to": 4639.0,
      "reading": "up"
     },
     "jobs": {
@@ -135,6 +140,14 @@
      "jobs_to": 254922,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.83,
+    "households_measure": "households, % a year",
+    "net_migration": 11973,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -180,8 +193,8 @@
   },
   "08003": {
    "name": "Alamosa County",
-   "call": "emerging",
-   "call_basis": "rising: permits, price; growing: population",
+   "call": "steady",
+   "call_basis": "rising: permits, price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -204,9 +217,14 @@
      "reading": null
     },
     "population": {
-     "value": 0.52,
-     "base_year": 2024,
-     "reading": "up"
+     "value": 0.48,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.52,
+     "group_quarters_from": 865.0,
+     "group_quarters_to": 977.0,
+     "reading": "flat"
     },
     "jobs": {
      "value": 2.0,
@@ -216,6 +234,14 @@
      "jobs_to": 7016,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.93,
+    "households_measure": "households, % a year",
+    "net_migration": 325,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1149,
@@ -265,7 +291,12 @@
     },
     "population": {
      "value": 0.75,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.75,
+     "group_quarters_from": 4975.0,
+     "group_quarters_to": 5510.0,
      "reading": "up"
     },
     "jobs": {
@@ -276,6 +307,14 @@
      "jobs_to": 352398,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.87,
+    "households_measure": "households, % a year",
+    "net_migration": -1224,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -340,8 +379,13 @@
      "reading": null
     },
     "population": {
-     "value": 1.71,
-     "base_year": 2024,
+     "value": 1.74,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.71,
+     "group_quarters_from": 113.0,
+     "group_quarters_to": 93.0,
      "reading": "up"
     },
     "jobs": {
@@ -352,6 +396,14 @@
      "jobs_to": 4733,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.6,
+    "households_measure": "households, % a year",
+    "net_migration": 1100,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1542,
@@ -408,8 +460,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.48,
-     "base_year": 2024,
+     "value": -0.42,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.48,
+     "group_quarters_from": 64.0,
+     "group_quarters_to": 42.0,
      "reading": "down"
     },
     "jobs": {
@@ -420,6 +477,14 @@
      "jobs_to": 1256,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": -0.15,
+    "households_measure": "households, % a year",
+    "net_migration": -19,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1014,
@@ -439,8 +504,8 @@
   },
   "08011": {
    "name": "Bent County",
-   "call": "falling_demand",
-   "call_basis": "population -0.18%/yr and jobs -14.3% since 2019",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -464,9 +529,14 @@
      "reading": null
     },
     "population": {
-     "value": -0.18,
-     "base_year": 2024,
-     "reading": "down"
+     "value": 0.43,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.18,
+     "group_quarters_from": 1869.0,
+     "group_quarters_to": 1587.0,
+     "reading": "flat"
     },
     "jobs": {
      "value": -14.3,
@@ -476,6 +546,14 @@
      "jobs_to": 856,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.89,
+    "households_measure": "households, % a year",
+    "net_migration": -60,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1150,
@@ -518,8 +596,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 0.49,
-     "base_year": 2024,
+     "value": 0.41,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.49,
+     "group_quarters_from": 12306.0,
+     "group_quarters_to": 15593.0,
      "reading": "flat"
     },
     "jobs": {
@@ -530,6 +613,14 @@
      "jobs_to": 190563,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.1,
+    "households_measure": "households, % a year",
+    "net_migration": -246,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2033,
@@ -593,8 +684,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 2.3,
-     "base_year": 2024,
+     "value": 2.28,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.3,
+     "group_quarters_from": 259.0,
+     "group_quarters_to": 470.0,
      "reading": "up"
     },
     "jobs": {
@@ -605,6 +701,14 @@
      "jobs_to": 40980,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.44,
+    "households_measure": "households, % a year",
+    "net_migration": 4861,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -668,8 +772,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 1.42,
-     "base_year": 2024,
+     "value": 1.72,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.42,
+     "group_quarters_from": 1452.0,
+     "group_quarters_to": 1097.0,
      "reading": "up"
     },
     "jobs": {
@@ -680,6 +789,14 @@
      "jobs_to": 8710,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.96,
+    "households_measure": "households, % a year",
+    "net_migration": 1633,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1755,
@@ -716,7 +833,7 @@
   "08017": {
    "name": "Cheyenne County",
    "call": "falling_demand",
-   "call_basis": "population -0.45%/yr and jobs -8.3% since 2019",
+   "call_basis": "population -0.33%/yr and jobs -8.3% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -741,8 +858,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.45,
-     "base_year": 2024,
+     "value": -0.33,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.45,
+     "group_quarters_from": 42.0,
+     "group_quarters_to": 19.0,
      "reading": "down"
     },
     "jobs": {
@@ -753,6 +875,14 @@
      "jobs_to": 576,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.5,
+    "households_measure": "households, % a year",
+    "net_migration": -2,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1167,
@@ -796,7 +926,12 @@
     },
     "population": {
      "value": 0.1,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.1,
+     "group_quarters_from": 85.0,
+     "group_quarters_to": 82.0,
      "reading": "flat"
     },
     "jobs": {
@@ -807,6 +942,14 @@
      "jobs_to": 3636,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.71,
+    "households_measure": "households, % a year",
+    "net_migration": -270,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -857,8 +1000,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.61,
-     "base_year": 2024,
+     "value": -0.63,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.61,
+     "group_quarters_from": 47.0,
+     "group_quarters_to": 64.0,
      "reading": "down"
     },
     "jobs": {
@@ -869,6 +1017,14 @@
      "jobs_to": 1403,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.82,
+    "households_measure": "households, % a year",
+    "net_migration": 33,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1014,
@@ -914,8 +1070,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.49,
-     "base_year": 2024,
+     "value": 0.46,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.49,
+     "group_quarters_from": 0.0,
+     "group_quarters_to": 12.0,
      "reading": "flat"
     },
     "jobs": {
@@ -926,6 +1087,14 @@
      "jobs_to": 728,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.19,
+    "households_measure": "households, % a year",
+    "net_migration": 276,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1014,
@@ -945,8 +1114,8 @@
   },
   "08025": {
    "name": "Crowley County",
-   "call": "falling_demand",
-   "call_basis": "population -0.37%/yr and jobs -21.4% since 2019",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -971,9 +1140,14 @@
      "reading": null
     },
     "population": {
-     "value": -0.37,
-     "base_year": 2024,
-     "reading": "down"
+     "value": 0.09,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.37,
+     "group_quarters_from": 2746.0,
+     "group_quarters_to": 2506.0,
+     "reading": "flat"
     },
     "jobs": {
      "value": -21.4,
@@ -983,6 +1157,14 @@
      "jobs_to": 769,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.61,
+    "households_measure": "households, % a year",
+    "net_migration": -41,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1405,
@@ -1026,8 +1208,13 @@
      "reading": null
     },
     "population": {
-     "value": 2.28,
-     "base_year": 2024,
+     "value": 2.3,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.28,
+     "group_quarters_from": 13.0,
+     "group_quarters_to": 3.0,
      "reading": "up"
     },
     "jobs": {
@@ -1038,6 +1225,14 @@
      "jobs_to": 1060,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.65,
+    "households_measure": "households, % a year",
+    "net_migration": 971,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1202,
@@ -1081,8 +1276,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.72,
-     "base_year": 2024,
+     "value": 0.8,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.72,
+     "group_quarters_from": 747.0,
+     "group_quarters_to": 546.0,
      "reading": "up"
     },
     "jobs": {
@@ -1093,6 +1293,14 @@
      "jobs_to": 8348,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.46,
+    "households_measure": "households, % a year",
+    "net_migration": 1931,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1266,
@@ -1141,8 +1349,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 1.01,
-     "base_year": 2024,
+     "value": 1.04,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.01,
+     "group_quarters_from": 16158.0,
+     "group_quarters_to": 15839.0,
      "reading": "up"
     },
     "jobs": {
@@ -1153,6 +1366,14 @@
      "jobs_to": 557853,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.04,
+    "households_measure": "households, % a year",
+    "net_migration": 2395,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -1230,7 +1451,12 @@
     },
     "population": {
      "value": 0.58,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.58,
+     "group_quarters_from": 0.0,
+     "group_quarters_to": 0.0,
      "reading": "up"
     },
     "jobs": {
@@ -1241,6 +1467,14 @@
      "jobs_to": 521,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.92,
+    "households_measure": "households, % a year",
+    "net_migration": 183,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1332,
@@ -1283,8 +1517,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 2.28,
-     "base_year": 2024,
+     "value": 2.27,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.28,
+     "group_quarters_from": 1185.0,
+     "group_quarters_to": 1713.0,
      "reading": "up"
     },
     "jobs": {
@@ -1295,6 +1534,14 @@
      "jobs_to": 144461,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.95,
+    "households_measure": "households, % a year",
+    "net_migration": 33915,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -1353,8 +1600,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.34,
-     "base_year": 2024,
+     "value": 0.33,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.34,
+     "group_quarters_from": 76.0,
+     "group_quarters_to": 106.0,
      "reading": "flat"
     },
     "jobs": {
@@ -1365,6 +1617,14 @@
      "jobs_to": 36343,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.79,
+    "households_measure": "households, % a year",
+    "net_migration": -2266,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2607,
@@ -1424,8 +1684,13 @@
      "reading": null
     },
     "population": {
-     "value": 2.21,
-     "base_year": 2024,
+     "value": 2.23,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.21,
+     "group_quarters_from": 72.0,
+     "group_quarters_to": 41.0,
      "reading": "up"
     },
     "jobs": {
@@ -1436,6 +1701,14 @@
      "jobs_to": 4921,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.89,
+    "households_measure": "households, % a year",
+    "net_migration": 3441,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -1478,8 +1751,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 1.24,
-     "base_year": 2024,
+     "value": 1.25,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.24,
+     "group_quarters_from": 20025.0,
+     "group_quarters_to": 21787.0,
      "reading": "up"
     },
     "jobs": {
@@ -1490,6 +1768,14 @@
      "jobs_to": 284746,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.12,
+    "households_measure": "households, % a year",
+    "net_migration": 10201,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1621,
@@ -1553,8 +1839,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.61,
-     "base_year": 2024,
+     "value": 0.72,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.61,
+     "group_quarters_from": 8358.0,
+     "group_quarters_to": 8417.0,
      "reading": "up"
     },
     "jobs": {
@@ -1565,6 +1856,14 @@
      "jobs_to": 11334,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.87,
+    "households_measure": "households, % a year",
+    "net_migration": 3115,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1436,
@@ -1614,7 +1913,12 @@
     },
     "population": {
      "value": 1.01,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.01,
+     "group_quarters_from": 984.0,
+     "group_quarters_to": 1079.0,
      "reading": "up"
     },
     "jobs": {
@@ -1625,6 +1929,14 @@
      "jobs_to": 23651,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.31,
+    "households_measure": "households, % a year",
+    "net_migration": 976,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1781,
@@ -1685,7 +1997,12 @@
     },
     "population": {
      "value": 0.76,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.76,
+     "group_quarters_from": 45.0,
+     "group_quarters_to": 48.0,
      "reading": "up"
     },
     "jobs": {
@@ -1696,6 +2013,14 @@
      "jobs_to": 4255,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.72,
+    "households_measure": "households, % a year",
+    "net_migration": 210,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -1738,8 +2063,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.82,
-     "base_year": 2024,
+     "value": 0.83,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.82,
+     "group_quarters_from": 212.0,
+     "group_quarters_to": 212.0,
      "reading": "up"
     },
     "jobs": {
@@ -1750,6 +2080,14 @@
      "jobs_to": 7229,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.11,
+    "households_measure": "households, % a year",
+    "net_migration": 601,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1844,
@@ -1809,8 +2147,13 @@
      "reading": null
     },
     "population": {
-     "value": 1.07,
-     "base_year": 2024,
+     "value": 1.1,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.07,
+     "group_quarters_from": 1003.0,
+     "group_quarters_to": 1074.0,
      "reading": "up"
     },
     "jobs": {
@@ -1821,6 +2164,14 @@
      "jobs_to": 8882,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.33,
+    "households_measure": "households, % a year",
+    "net_migration": 138,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1437,
@@ -1876,8 +2227,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.82,
-     "base_year": 2024,
+     "value": -0.4,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.82,
+     "group_quarters_from": 34.0,
+     "group_quarters_to": 0.0,
      "reading": "down"
     },
     "jobs": {
@@ -1888,6 +2244,14 @@
      "jobs_to": 263,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.74,
+    "households_measure": "households, % a year",
+    "net_migration": -25,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1316,
@@ -1931,9 +2295,14 @@
      "reading": null
     },
     "population": {
-     "value": 0.47,
-     "base_year": 2024,
-     "reading": "flat"
+     "value": 0.53,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.47,
+     "group_quarters_from": 140.0,
+     "group_quarters_to": 109.0,
+     "reading": "up"
     },
     "jobs": {
      "value": 20.5,
@@ -1943,6 +2312,14 @@
      "jobs_to": 1539,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.77,
+    "households_measure": "households, % a year",
+    "net_migration": 668,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1116,
@@ -1974,7 +2351,7 @@
   "08057": {
    "name": "Jackson County",
    "call": "falling_demand",
-   "call_basis": "population -0.83%/yr and jobs -0.9% since 2019",
+   "call_basis": "population -0.84%/yr and jobs -0.9% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -1999,8 +2376,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.83,
-     "base_year": 2024,
+     "value": -0.84,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.83,
+     "group_quarters_from": 2.0,
+     "group_quarters_to": 2.0,
      "reading": "down"
     },
     "jobs": {
@@ -2011,6 +2393,14 @@
      "jobs_to": 464,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.3,
+    "households_measure": "households, % a year",
+    "net_migration": -90,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1485,
@@ -2053,8 +2443,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 0.34,
-     "base_year": 2024,
+     "value": 0.33,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.34,
+     "group_quarters_from": 8026.0,
+     "group_quarters_to": 8988.0,
      "reading": "flat"
     },
     "jobs": {
@@ -2065,6 +2460,14 @@
      "jobs_to": 259943,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.82,
+    "households_measure": "households, % a year",
+    "net_migration": -5678,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -2136,8 +2539,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.17,
-     "base_year": 2024,
+     "value": 0.12,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.17,
+     "group_quarters_from": 22.0,
+     "group_quarters_to": 29.0,
      "reading": "flat"
     },
     "jobs": {
@@ -2148,6 +2556,14 @@
      "jobs_to": 433,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.17,
+    "households_measure": "households, % a year",
+    "net_migration": -28,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1319,
@@ -2192,8 +2608,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.81,
-     "base_year": 2024,
+     "value": -0.02,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.81,
+     "group_quarters_from": 682.0,
+     "group_quarters_to": 93.0,
      "reading": "down"
     },
     "jobs": {
@@ -2204,6 +2625,14 @@
      "jobs_to": 2756,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.1,
+    "households_measure": "households, % a year",
+    "net_migration": -113,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1241,
@@ -2247,8 +2676,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.37,
-     "base_year": 2024,
+     "value": 0.34,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.37,
+     "group_quarters_from": 90.0,
+     "group_quarters_to": 118.0,
      "reading": "flat"
     },
     "jobs": {
@@ -2259,6 +2693,14 @@
      "jobs_to": 2064,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.87,
+    "households_measure": "households, % a year",
+    "net_migration": -392,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1485,
@@ -2312,8 +2754,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 0.6,
-     "base_year": 2024,
+     "value": 0.63,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.6,
+     "group_quarters_from": 1954.0,
+     "group_quarters_to": 1904.0,
      "reading": "up"
     },
     "jobs": {
@@ -2324,6 +2771,14 @@
      "jobs_to": 25833,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.12,
+    "households_measure": "households, % a year",
+    "net_migration": 1291,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1821,
@@ -2377,8 +2832,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 1.45,
-     "base_year": 2024,
+     "value": 1.42,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.45,
+     "group_quarters_from": 9677.0,
+     "group_quarters_to": 12162.0,
      "reading": "up"
     },
     "jobs": {
@@ -2389,6 +2849,14 @@
      "jobs_to": 161552,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.41,
+    "households_measure": "households, % a year",
+    "net_migration": 15936,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1759,
@@ -2458,8 +2926,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.35,
-     "base_year": 2024,
+     "value": -0.29,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.35,
+     "group_quarters_from": 794.0,
+     "group_quarters_to": 685.0,
      "reading": "down"
     },
     "jobs": {
@@ -2470,6 +2943,14 @@
      "jobs_to": 4514,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.29,
+    "households_measure": "households, % a year",
+    "net_migration": 414,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1291,
@@ -2525,8 +3006,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.07,
-     "base_year": 2024,
+     "value": 0.14,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.07,
+     "group_quarters_from": 1014.0,
+     "group_quarters_to": 988.0,
      "reading": "flat"
     },
     "jobs": {
@@ -2537,6 +3023,14 @@
      "jobs_to": 2000,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.45,
+    "households_measure": "households, % a year",
+    "net_migration": 16,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1070,
@@ -2557,7 +3051,7 @@
   "08075": {
    "name": "Logan County",
    "call": "falling_demand",
-   "call_basis": "population -0.56%/yr and jobs -4.6% since 2019",
+   "call_basis": "population -0.36%/yr and jobs -4.6% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -2580,8 +3074,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.56,
-     "base_year": 2024,
+     "value": -0.36,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.56,
+     "group_quarters_from": 3312.0,
+     "group_quarters_to": 2756.0,
      "reading": "down"
     },
     "jobs": {
@@ -2592,6 +3091,14 @@
      "jobs_to": 6794,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.12,
+    "households_measure": "households, % a year",
+    "net_migration": -416,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1249,
@@ -2645,8 +3152,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 0.87,
-     "base_year": 2024,
+     "value": 0.9,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.87,
+     "group_quarters_from": 4303.0,
+     "group_quarters_to": 4160.0,
      "reading": "up"
     },
     "jobs": {
@@ -2657,6 +3169,14 @@
      "jobs_to": 65394,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.46,
+    "households_measure": "households, % a year",
+    "net_migration": 7816,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1282,
@@ -2723,7 +3243,12 @@
     },
     "population": {
      "value": 2.26,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.26,
+     "group_quarters_from": 0.0,
+     "group_quarters_to": 0.0,
      "reading": "up"
     },
     "jobs": {
@@ -2734,6 +3259,14 @@
      "jobs_to": 329,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 2.15,
+    "households_measure": "households, % a year",
+    "net_migration": 124,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1485,
@@ -2778,7 +3311,12 @@
     },
     "population": {
      "value": 0.13,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.13,
+     "group_quarters_from": 109.0,
+     "group_quarters_to": 106.0,
      "reading": "flat"
     },
     "jobs": {
@@ -2789,6 +3327,14 @@
      "jobs_to": 4358,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.13,
+    "households_measure": "households, % a year",
+    "net_migration": -245,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1225,
@@ -2837,8 +3383,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.54,
-     "base_year": 2024,
+     "value": 0.52,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.54,
+     "group_quarters_from": 258.0,
+     "group_quarters_to": 321.0,
      "reading": "up"
     },
     "jobs": {
@@ -2849,6 +3400,14 @@
      "jobs_to": 9333,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.32,
+    "households_measure": "households, % a year",
+    "net_migration": 1586,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1280,
@@ -2902,8 +3461,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.78,
-     "base_year": 2024,
+     "value": 0.77,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.78,
+     "group_quarters_from": 589.0,
+     "group_quarters_to": 690.0,
      "reading": "up"
     },
     "jobs": {
@@ -2914,6 +3478,14 @@
      "jobs_to": 15713,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.53,
+    "households_measure": "households, % a year",
+    "net_migration": 2922,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1321,
@@ -2968,8 +3540,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.74,
-     "base_year": 2024,
+     "value": 0.79,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.74,
+     "group_quarters_from": 524.0,
+     "group_quarters_to": 412.0,
      "reading": "up"
     },
     "jobs": {
@@ -2980,6 +3557,14 @@
      "jobs_to": 12665,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.07,
+    "households_measure": "households, % a year",
+    "net_migration": 642,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1261,
@@ -3011,7 +3596,7 @@
   "08089": {
    "name": "Otero County",
    "call": "falling_demand",
-   "call_basis": "population -0.47%/yr and jobs -5.4% since 2019",
+   "call_basis": "population -0.42%/yr and jobs -5.4% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -3035,8 +3620,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.47,
-     "base_year": 2024,
+     "value": -0.42,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.47,
+     "group_quarters_from": 427.0,
+     "group_quarters_to": 314.0,
      "reading": "down"
     },
     "jobs": {
@@ -3047,6 +3637,14 @@
      "jobs_to": 5492,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.09,
+    "households_measure": "households, % a year",
+    "net_migration": -394,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1059,
@@ -3097,7 +3695,12 @@
     },
     "population": {
      "value": 1.38,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.38,
+     "group_quarters_from": 0.0,
+     "group_quarters_to": 0.0,
      "reading": "up"
     },
     "jobs": {
@@ -3108,6 +3711,14 @@
      "jobs_to": 2043,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.84,
+    "households_measure": "households, % a year",
+    "net_migration": 335,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1640,
@@ -3157,8 +3768,13 @@
      "reading": null
     },
     "population": {
-     "value": 1.51,
-     "base_year": 2024,
+     "value": 1.54,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.51,
+     "group_quarters_from": 67.0,
+     "group_quarters_to": 26.0,
      "reading": "up"
     },
     "jobs": {
@@ -3169,6 +3785,14 @@
      "jobs_to": 2763,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.74,
+    "households_measure": "households, % a year",
+    "net_migration": 787,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2169,
@@ -3213,8 +3837,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.02,
-     "base_year": 2024,
+     "value": -0.01,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.02,
+     "group_quarters_from": 64.0,
+     "group_quarters_to": 58.0,
      "reading": "down"
     },
     "jobs": {
@@ -3225,6 +3854,14 @@
      "jobs_to": 1755,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.28,
+    "households_measure": "households, % a year",
+    "net_migration": 35,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1137,
@@ -3267,8 +3904,13 @@
      "reading": "up"
     },
     "population": {
-     "value": -0.54,
-     "base_year": 2024,
+     "value": -0.53,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.54,
+     "group_quarters_from": 72.0,
+     "group_quarters_to": 47.0,
      "reading": "down"
     },
     "jobs": {
@@ -3279,6 +3921,14 @@
      "jobs_to": 18787,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.57,
+    "households_measure": "households, % a year",
+    "net_migration": -1116,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2597,
@@ -3329,8 +3979,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.07,
-     "base_year": 2024,
+     "value": -0.04,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.07,
+     "group_quarters_from": 336.0,
+     "group_quarters_to": 308.0,
      "reading": "down"
     },
     "jobs": {
@@ -3341,6 +3996,14 @@
      "jobs_to": 4547,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": -0.18,
+    "households_measure": "households, % a year",
+    "net_migration": -71,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1050,
@@ -3383,8 +4046,13 @@
      "reading": "flat"
     },
     "population": {
-     "value": 0.55,
-     "base_year": 2024,
+     "value": 0.58,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.55,
+     "group_quarters_from": 3941.0,
+     "group_quarters_to": 3704.0,
      "reading": "up"
     },
     "jobs": {
@@ -3395,6 +4063,14 @@
      "jobs_to": 56090,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.95,
+    "households_measure": "households, % a year",
+    "net_migration": 5135,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1263,
@@ -3454,9 +4130,14 @@
      "reading": null
     },
     "population": {
-     "value": -0.06,
-     "base_year": 2024,
-     "reading": "down"
+     "value": 0.07,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.06,
+     "group_quarters_from": 290.0,
+     "group_quarters_to": 204.0,
+     "reading": "flat"
     },
     "jobs": {
      "value": 0.5,
@@ -3466,6 +4147,14 @@
      "jobs_to": 2839,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.3,
+    "households_measure": "households, % a year",
+    "net_migration": 96,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1165,
@@ -3515,8 +4204,13 @@
      "reading": null
     },
     "population": {
-     "value": -0.59,
-     "base_year": 2024,
+     "value": -0.56,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.59,
+     "group_quarters_from": 172.0,
+     "group_quarters_to": 126.0,
      "reading": "down"
     },
     "jobs": {
@@ -3527,6 +4221,14 @@
      "jobs_to": 3889,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.61,
+    "households_measure": "households, % a year",
+    "net_migration": -269,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1220,
@@ -3580,8 +4282,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.65,
-     "base_year": 2024,
+     "value": 0.63,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.65,
+     "group_quarters_from": 341.0,
+     "group_quarters_to": 417.0,
      "reading": "up"
     },
     "jobs": {
@@ -3592,6 +4299,14 @@
      "jobs_to": 15001,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.75,
+    "households_measure": "households, % a year",
+    "net_migration": 395,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2384,
@@ -3647,8 +4362,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.79,
-     "base_year": 2024,
+     "value": 0.81,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.79,
+     "group_quarters_from": 24.0,
+     "group_quarters_to": 16.0,
      "reading": "up"
     },
     "jobs": {
@@ -3659,6 +4379,14 @@
      "jobs_to": 1529,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.51,
+    "households_measure": "households, % a year",
+    "net_migration": 359,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1059,
@@ -3715,7 +4443,12 @@
     },
     "population": {
      "value": 1.57,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 1.57,
+     "group_quarters_from": 0.0,
+     "group_quarters_to": 0.0,
      "reading": "up"
     },
     "jobs": {
@@ -3726,6 +4459,14 @@
      "jobs_to": 336,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.27,
+    "households_measure": "households, % a year",
+    "net_migration": 123,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1344,
@@ -3776,8 +4517,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.1,
-     "base_year": 2024,
+     "value": 0.31,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.1,
+     "group_quarters_from": 167.0,
+     "group_quarters_to": 5.0,
      "reading": "flat"
     },
     "jobs": {
@@ -3788,6 +4534,14 @@
      "jobs_to": 6337,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.85,
+    "households_measure": "households, % a year",
+    "net_migration": -409,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1631,
@@ -3839,7 +4593,12 @@
     },
     "population": {
      "value": -0.45,
-     "base_year": 2024,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.45,
+     "group_quarters_from": 38.0,
+     "group_quarters_to": 36.0,
      "reading": "down"
     },
     "jobs": {
@@ -3850,6 +4609,14 @@
      "jobs_to": 576,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.07,
+    "households_measure": "households, % a year",
+    "net_migration": -3,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1014,
@@ -3892,8 +4659,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.46,
-     "base_year": 2024,
+     "value": 0.33,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.46,
+     "group_quarters_from": 387.0,
+     "group_quarters_to": 816.0,
      "reading": "flat"
     },
     "jobs": {
@@ -3904,6 +4676,14 @@
      "jobs_to": 24362,
      "reading": "up"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.71,
+    "households_measure": "households, % a year",
+    "net_migration": -1165,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 2766,
@@ -3962,8 +4742,13 @@
      "reading": "up"
     },
     "population": {
-     "value": 0.71,
-     "base_year": 2024,
+     "value": 0.73,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.71,
+     "group_quarters_from": 151.0,
+     "group_quarters_to": 128.0,
      "reading": "up"
     },
     "jobs": {
@@ -3974,6 +4759,14 @@
      "jobs_to": 7478,
      "reading": "flat"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 1.23,
+    "households_measure": "households, % a year",
+    "net_migration": 391,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1474,
@@ -4029,8 +4822,13 @@
      "reading": null
     },
     "population": {
-     "value": 0.33,
-     "base_year": 2024,
+     "value": 0.16,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 0.33,
+     "group_quarters_from": 80.0,
+     "group_quarters_to": 163.0,
      "reading": "flat"
     },
     "jobs": {
@@ -4041,6 +4839,14 @@
      "jobs_to": 1118,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.2,
+    "households_measure": "households, % a year",
+    "net_migration": 24,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1297,
@@ -4083,8 +4889,13 @@
      "reading": "down"
     },
     "population": {
-     "value": 2.97,
-     "base_year": 2024,
+     "value": 3.05,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": 2.97,
+     "group_quarters_from": 5345.0,
+     "group_quarters_to": 4366.0,
      "reading": "up"
     },
     "jobs": {
@@ -4095,6 +4906,14 @@
      "jobs_to": 109846,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 3.22,
+    "households_measure": "households, % a year",
+    "net_migration": 35861,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1647,
@@ -4130,8 +4949,8 @@
   },
   "08125": {
    "name": "Yuma County",
-   "call": "falling_demand",
-   "call_basis": "population -0.16%/yr and jobs -15.6% since 2019",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4155,9 +4974,14 @@
      "reading": null
     },
     "population": {
-     "value": -0.16,
-     "base_year": 2024,
-     "reading": "down"
+     "value": 0.04,
+     "measure": "household population, % a year",
+     "from_year": 2014,
+     "to_year": 2024,
+     "total_population_value": -0.16,
+     "group_quarters_from": 365.0,
+     "group_quarters_to": 164.0,
+     "reading": "flat"
     },
     "jobs": {
      "value": -15.6,
@@ -4167,6 +4991,14 @@
      "jobs_to": 3579,
      "reading": "down"
     }
+   },
+   "recent_demand": {
+    "from_year": 2019,
+    "to_year": 2024,
+    "households_value": 0.16,
+    "households_measure": "households, % a year",
+    "net_migration": -93,
+    "net_migration_years": "2020–2024"
    },
    "rent_edge": {
     "fmr_2br": 1132,
