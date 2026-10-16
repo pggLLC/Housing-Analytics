@@ -714,7 +714,7 @@ def test_a_street_fragment_keeps_its_trailing_known_town():
 def test_a_name_spelled_out_at_the_same_size_is_one_project():
     # RidgeGate Senior (CHFA 2022, DOLA 2023) and Ridgegate Parkway Affordable
     # Senior (Prop 123 2023) are one 101-home Lone Tree building (#2261
-    # review); a different size, or a one-word name, stays apart
+    # review); a different size, or names that each carry their own word, stay apart
     q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
 
     def rows(a, b, ua, ub):
@@ -725,7 +725,7 @@ def test_a_name_spelled_out_at_the_same_size_is_one_project():
 
     assert len(rows('RidgeGate Senior', 'Ridgegate Parkway Affordable Senior', 101, 101)) == 1
     assert len(rows('RidgeGate Senior', 'Ridgegate Parkway Affordable Senior', 101, 96)) == 2
-    assert len(rows('Ridgegate', 'Ridgegate Parkway Commons', 101, 101)) == 2
+    assert len(rows('Ridgegate North', 'Ridgegate Parkway Commons', 101, 101)) == 2
     committed = [p for p in load()['projects'] if p['name'].lower().startswith('ridgegate') and 'enior' in p['name']]
     assert len(committed) == 1, [p['name'] for p in committed]
 
@@ -753,3 +753,22 @@ def test_a_townless_row_joins_its_sponsors_project_in_the_county_at_a_near_size(
     assert len(rows(None, 60)) == 2
     names = {p['name'] for p in load()['projects'] if p['county_fips'] == '08031'}
     assert not {'4745 N Federal Blvd', 'Rocky Mountain Lake Apartments'} <= names
+
+
+def test_a_townless_short_name_joins_its_project_in_the_county_at_the_same_size():
+    # DOLA prints no town for "Mosaic PSH" (58 homes, 2025); it is Denver's
+    # "Commons at Mosaic" (58) (#2261 review). Without a town only an exact
+    # size joins, and a typo-close name is not enough
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+
+    def rows(b, town_b, units_b):
+        L = _ledger()
+        L.add('Commons at Mosaic', 'Denver', '08031', dev.ev('funded', 2025, 'OEDIT', 'p', **q), 58)
+        L.add(b, town_b, '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), units_b)
+        return dev.finish(L)
+
+    assert len(rows('Mosaic PSH', None, 58)) == 1
+    assert len(rows('Mosaic PSH', None, 55)) == 2
+    assert len(rows('Commons at Mosaik', None, 58)) == 2
+    committed = [p for p in load()['projects'] if 'mosaic' in p['name'].lower() and p['total_units'] == 58]
+    assert len(committed) == 1, [p['name'] for p in committed]

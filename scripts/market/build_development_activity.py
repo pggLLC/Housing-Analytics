@@ -181,7 +181,10 @@ def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int |
     the same county, town, phase and size, and names that differ by a typo
     or by a word that describes the homes, or one name spelled out inside the
     other at the same home count."""
-    if not (county and county == p['county_fips'] and city_n and city_n == p['_city_n'] and units) \
+    # a row that prints no town (some DOLA awards) can agree only on the
+    # county, and then only by the name rules below at the same home count
+    townless = not (city_n and p['_city_n'])
+    if not (county and county == p['county_fips'] and (townless or city_n == p['_city_n']) and units) \
             or phase(p['_name_n']) != phase(name_n):
         return False
     known = [e['_units'][0] for e in p['events'] if e.get('_units')]
@@ -190,13 +193,15 @@ def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int |
     # "Albion Affordable Apartments" and "Albion Apartments": a word that
     # describes the homes rather than naming the building
     plain = lambda n: ' '.join(w for w in n.split() if w not in DESCRIPTIVE_WORDS)
-    if plain(p['_name_n']) == plain(name_n):
+    if plain(p['_name_n']) == plain(name_n) and (not townless or units in known):
         return True
     # "Ridgegate Parkway Affordable Senior" spells out "RidgeGate Senior": one
     # name's words all inside the other's, joined only at the same home count
     wa, wb = set(plain(p['_name_n']).split()), set(plain(name_n).split())
-    if len(min(wa, wb, key=len)) >= 2 and (wa <= wb or wb <= wa) and units in known:
+    if (wa <= wb or wb <= wa) and min(wa, wb, key=len) and units in known:
         return True
+    if townless:
+        return False  # "Mosaic PSH" (no town) is "Commons at Mosaic" (Denver), both 58
     a, b = p['_name_n'].replace(' ', ''), name_n.replace(' ', '')
     return difflib.SequenceMatcher(None, a, b).ratio() >= 0.9
 
