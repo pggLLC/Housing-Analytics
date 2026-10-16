@@ -7189,7 +7189,7 @@
       "funding_type": [
         "grant"
       ],
-      "status": "watch",
+      "status": "rounds",
       "what_it_funds": "Infrastructure upgrades and support for regulated affordable housing in the Transit Centers and Neighborhood Centers of certified Transit-Oriented Communities.",
       "award_size": "No suggested minimum or maximum. The pilot round awarded $13,327,830 in February 2026.",
       "rate": null,
@@ -7493,7 +7493,7 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans, planning grants and some principal forgiveness for the design and construction of drinking water systems.",
-      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness, if eligible, depends on the funding tranche: up to $1 million from Base, $2.5 million from BIL (Bipartisan Infrastructure Law), $10 million for lead service lines and $30 million for PFAS. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community or BIL status): up to $10 million for lead service lines and up to $30 million for emerging contaminants such as PFAS, for disadvantaged communities and BIL-eligible borrowers; for other projects, up to $2.5 million for BIL-eligible Category 2 disadvantaged communities, $2 million for Category 1, and $1 million for BIL-eligible borrowers that are not disadvantaged communities. Design and engineering grants up to $300,000 for disadvantaged communities, currently limited. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
@@ -7541,6 +7541,10 @@
         {
           "label": "www.cwrpda.com/loan-application-deadlines",
           "url": "https://www.cwrpda.com/loan-application-deadlines"
+        },
+        {
+          "label": "www.cwrpda.com/principal-forgiveness-pf-grant-calculator",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         }
       ],
       "evidence": [
@@ -7576,11 +7580,6 @@
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF of up to $1 million if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
-        },
-        {
-          "field": "award_size",
           "quote": "There is currently a $30 million dollar cap on funding through the DWRF program.",
           "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
         },
@@ -7591,18 +7590,48 @@
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF of up to $2.5 million if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+          "quote": "Last change as of June 5, 2026 CWRPDA Board Meeting",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF of up to $10 million if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+          "quote": "All PF amounts are subject to availability and determination and approval of DAC or BIL eligible status.",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF of up to $30 million if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+          "quote": "Up to $10 million for DACs and BIL-eligible",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $30 million for DACs and BIL-eligible",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $2.5 million for BIL-eligible Category 2 DACs only",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $2 million for BIL-eligible Category 1 DACs only",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $1 million (BIL-eligible non-DACs)",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $300,000",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Currently, DAC D&E grants are limited.",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
           "field": "rate",
@@ -7689,7 +7718,7 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans and planning grants for wastewater, stormwater, nonpoint-source and source water projects.",
-      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness, if eligible, depends on the funding tranche: up to $500,000 from Base; from BIL (Bipartisan Infrastructure Law) for disadvantaged communities only; and available for PFAS projects. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness up to $1.5 million, for disadvantaged communities only (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community status). Design and engineering grants up to $300,000 for disadvantaged communities. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year. Reduced green project rates apply only to the first $3 million of a green project loan.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
@@ -7738,6 +7767,10 @@
         {
           "label": "www.cwrpda.com/loan-application-deadlines",
           "url": "https://www.cwrpda.com/loan-application-deadlines"
+        },
+        {
+          "label": "www.cwrpda.com/principal-forgiveness-pf-grant-calculator",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         }
       ],
       "evidence": [
@@ -7773,11 +7806,6 @@
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF of up to $500,000 if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
-        },
-        {
-          "field": "award_size",
           "quote": "There is currently a $18 million dollar cap on funding through the WPCRF program.",
           "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
         },
@@ -7788,13 +7816,23 @@
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF is available for DACs only.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+          "quote": "Last change as of June 5, 2026 CWRPDA Board Meeting",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
           "field": "award_size",
-          "quote": "Upfront PF available if eligible.",
-          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+          "quote": "All PF amounts are subject to availability and determination and approval of DAC or BIL eligible status.",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $1.5 million for DACs-only",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "field": "award_size",
+          "quote": "Up to $300,000",
+          "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
           "field": "rate",
