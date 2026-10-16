@@ -186,6 +186,31 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('an invalid unit mix shows no basis figure in the detail, only its reason', async () => {
+    const p = await openPage('');
+    assert.match(text(p, 'dc-cb-detail'), /Credit capacity[^$]*\$[1-9]/, 'non-vacuous: a valid mix shows a capacity');
+    setField(p, 'dc-units', 5);
+    assert(p.d.getElementById('dc-units-sync-warn'), 'the mix is flagged invalid');
+    const detail = text(p, 'dc-cb-detail');
+    assert.match(detail, /Fix the unit mix/);
+    for (const label of ['Applicable fraction', 'Qualified basis', 'Method One: qualified basis credit', 'Credit capacity']) {
+      const after = detail.slice(detail.indexOf(label) + label.length).split(/Method|Cost per/)[0];
+      assert(detail.includes(label) && !/\$\d|\d%/.test(after.slice(0, 120)), label + ' shows no figure: ' + after.slice(0, 120));
+    }
+    assert.equal(p.w.__DealCalc.getResult().costBasis.basis.capacity, null);
+    assert.deepEqual(p.errors, []);
+  });
+
+  await test('the boost help text agrees with the boost rules and the CHFA percentage input', async () => {
+    const p = await openPage('');
+    const help = text(p, 'dc-boost-help');
+    const fixedPct = Math.round((rules.rules.basis_boost.multiplier - 1) * 100);
+    const maxPct = +p.d.getElementById('dc-boost-pct').max;
+    assert(help.includes('QCT, DDA or SADDA boost raises eligible basis by ' + fixedPct + '%'), help);
+    assert(help.includes('up to ' + maxPct + '%'), 'the CHFA boost is variable up to the input limit: ' + help);
+    assert.equal(maxPct, Math.round((rules.rules.basis_boost.designations.chfa.max_multiplier - 1) * 100), 'the input limit is the rule\'s CHFA maximum');
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);

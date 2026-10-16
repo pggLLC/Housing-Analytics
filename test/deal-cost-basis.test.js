@@ -391,6 +391,22 @@ test('capacity is the smaller of Method One and the gap calculation, and Method 
   assert.equal(base9({ gapCredit: gap, rules: noMethods, awarded: 150000 }).creditForEquity, 150000, 'an entered award is still the award');
 });
 
+test('an entered award survives a stopped basis calculation; an invalid mix stops it with its reason', () => {
+  // Basis cannot be calculated (unconfirmed acquisition), but the award does not depend on it.
+  const stopped = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false, awarded: 150000 });
+  assert.equal(stopped.calculatedCredit, null, 'non-vacuous: the calculation stopped');
+  assert.match(stopped.reasons.eligibleBasis, /42\(d\)\(2\)/);
+  assert.equal(stopped.creditForEquity, 150000);
+  assert.equal(stopped.creditForEquityBasis, 'awarded');
+  assert.equal(base9({ eligibleCost: null, costReason: 'Costs do not reconcile.', awarded: 150000 }).creditForEquity, 150000);
+  assert.equal(base9({ eligibleCost: null, costReason: 'Costs do not reconcile.' }).creditForEquity, null, 'no award, no credit');
+  assert.equal(base9({ eligibleCost: null, awarded: -5 }).creditForEquity, null, 'an invalid award is not an award');
+  const invalid = base9({ invalidReason: 'Fix the unit mix.' });
+  assert.equal(invalid.reasons.eligibleBasis, 'Fix the unit mix.');
+  for (const k of ['qualifiedBasis', 'calculatedCredit', 'capacity', 'applicableFraction']) assert.equal(invalid[k], null, k);
+  assert.equal(invalid.gapMethod.credit, null);
+});
+
 test('a fee above CHFA’s limit comes out of eligible basis, but only the part that was in basis', () => {
   const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
   const dev = cb.developerFeeTest({ developerFee: 2000000, consultantFee: 200000, base: 13000000, units: 40, rules });

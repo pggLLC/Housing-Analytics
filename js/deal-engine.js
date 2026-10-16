@@ -1042,7 +1042,9 @@
     var otherSources = mortgage + impactGrant + totalLoanPrincipal + deferredCap;
     var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
       otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
-    basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit }));
+    // An invalid unit mix leaves no basis figure to show, only its reason.
+    basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
+      invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
     if (!unitMixError && chfaRegime) {
       annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
       equity = annualCredits * CREDIT_YEARS * equityPrice;

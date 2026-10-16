@@ -309,7 +309,18 @@
       costLimitMethod: { checked: false, reason: null },
       capacity: null, requested: null, awarded: null, creditForEquity: null, creditForEquityBasis: null,
       flags: [], reasons: {} };
-    function stop(key, reason) { out.reasons[key] = reason; return out; }
+    // An entered award is the award whatever the basis calculation can show, so
+    // a stop still carries it (an invalid entry is rejected below instead).
+    function stop(key, reason) {
+      out.reasons[key] = reason;
+      var entered = num(args.awarded);
+      if (key !== 'awarded' && entered !== null && Number.isFinite(entered) && entered >= 0) {
+        out.awarded = entered; out.creditForEquity = entered; out.creditForEquityBasis = 'awarded';
+      }
+      return out;
+    }
+
+    if (args.invalidReason) return stop('eligibleBasis', args.invalidReason);
 
     if (args.eligibleCost === null || !Number.isFinite(args.eligibleCost)) return stop('eligibleBasis', args.costReason || 'Itemize development costs.');
     out.eligibleBasis = args.eligibleCost;

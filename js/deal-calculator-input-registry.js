@@ -70,7 +70,7 @@
     'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.',
     'dc-res-sf': 'Floor area of all residential rental units, excluding common areas.',
     'dc-restricted-sf': 'Floor area of the units counted as LIHTC units, for the floor-space fraction. Leave out restricted units that are not LIHTC units.',
-    'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the 30% basis boost.',
+    'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the basis boost (30% for QCT, DDA or SADDA; up to 30% for CHFA).',
     'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
     'dc-boost-pct': 'Basis boost percentage in CHFA\'s letter (CHFA state designation only, up to 30%).',
     'dc-credit-requested': 'Annual federal credit requested in the application.',

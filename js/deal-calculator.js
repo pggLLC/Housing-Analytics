@@ -2091,7 +2091,7 @@
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
           </label>
           <p id="dc-boost-help" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
-            The boost raises eligible basis by 30% once. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
+            A QCT, DDA or SADDA boost raises eligible basis by 30% once; a CHFA boost raises it once by the percentage in CHFA's letter, up to 30%. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
           </p>
           <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
