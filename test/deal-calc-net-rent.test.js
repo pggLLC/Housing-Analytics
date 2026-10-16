@@ -10,6 +10,7 @@ const hud = require('../data/hud-fmr-income-limits.json');
 const zori = require('../data/market/zori_rents_co.json');
 const bedroomMix = require('../data/market/acs_renter_bedrooms_co.json');
 const read = (p) => fs.readFileSync(p, 'utf8');
+const underwritingRules = JSON.parse(read('data/policy/lihtc-underwriting-rules.json'));
 const plain = (v) => JSON.parse(JSON.stringify(v));
 const settle = () => new Promise((r) => setImmediate(r));
 const fips = '08031';
@@ -33,7 +34,8 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   w.setTimeout = () => 0; w.setInterval = () => 0;
   w.fetch = (url) => {
     const s = String(url);
-    const data = s.includes('chfa-income-rent-limits') ? chfa : s.includes('hud-fmr-income-limits') ? hud : s.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix : null;
+    const data = s.includes('chfa-income-rent-limits') ? chfa : s.includes('hud-fmr-income-limits') ? hud : s.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix
+      : s.includes('lihtc-underwriting-rules') ? underwritingRules : null;
     return Promise.resolve({ ok: data != null, json: () => Promise.resolve(data) });
   };
   if (saved) w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(saved));
