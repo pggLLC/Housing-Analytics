@@ -5486,7 +5486,7 @@
    "first_year": 2024,
    "latest_year": 2026,
    "total_units": 80,
-   "restricted_units": null,
+   "restricted_units": 80,
    "events": [
     {
      "stage": "funded",
@@ -8499,7 +8499,7 @@
    "first_year": 2025,
    "latest_year": 2025,
    "total_units": 60,
-   "restricted_units": null,
+   "restricted_units": 60,
    "events": [
     {
      "stage": "funded",
@@ -9712,7 +9712,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 67,
-   "restricted_units": null,
+   "restricted_units": 66,
    "events": [
     {
      "stage": "not_funded",
@@ -12013,7 +12013,7 @@
    "first_year": 2022,
    "latest_year": 2024,
    "total_units": 65,
-   "restricted_units": null,
+   "restricted_units": 65,
    "events": [
     {
      "stage": "funded",
@@ -13979,7 +13979,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 210,
-   "restricted_units": null,
+   "restricted_units": 210,
    "events": [
     {
      "stage": "funded",
@@ -15225,7 +15225,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 102,
-   "restricted_units": null,
+   "restricted_units": 102,
    "events": [
     {
      "stage": "funded",
@@ -16159,7 +16159,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 182,
-   "restricted_units": null,
+   "restricted_units": 180,
    "events": [
     {
      "stage": "funded",
@@ -17412,7 +17412,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 30,
-   "restricted_units": null,
+   "restricted_units": 30,
    "events": [
     {
      "stage": "funded",
@@ -17784,7 +17784,7 @@
   {
    "id": "wintergreen-ridge-08117",
    "name": "Wintergreen Ridge",
-   "city": "Summit County",
+   "city": "Keystone",
    "county_fips": "08117",
    "county_fips_all": null,
    "county": "Summit County",
@@ -17793,7 +17793,7 @@
    "first_year": 2021,
    "latest_year": 2023,
    "total_units": 47,
-   "restricted_units": null,
+   "restricted_units": 46,
    "events": [
     {
      "stage": "funded",

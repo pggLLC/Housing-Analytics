@@ -246,6 +246,9 @@ class Ledger:
             p['_counties'] = sorted(set(p.get('_counties') or []) | {c for c in counties if c in self.county_names})
         if not p['place_geoid']:
             p['place_geoid'] = place or self.place_of(city, p['county_fips'])
+            if p['place_geoid'] and city:
+                # the town the place ID names, not a broader label ("Summit County")
+                p['city'], p['_city_n'] = city, city_n
         # units are chosen in finish() from the latest event that prints them
         if units:
             event['_units'] = (units, restricted)
@@ -496,7 +499,9 @@ def town_labels_joined(projects: list[dict]) -> list[dict]:
                         abs(k - u) <= 0.15 * max(k, u)
                         for k in (e['_units'][0] for e in q['events'] if e.get('_units')) for u in sizes):
                 q['events'] += p['events']
-                q['place_geoid'] = q['place_geoid'] or p['place_geoid']
+                if not q['place_geoid'] and p['place_geoid']:
+                    # the town the place ID names, not a broader label ("Summit County")
+                    q['place_geoid'], q['city'], q['_city_n'] = p['place_geoid'], p['city'], p['_city_n']
                 break
         else:
             out.append(p)
@@ -517,8 +522,14 @@ def finish(L: Ledger) -> list[dict]:
         sized = [e for e in p['events'] if e.get('_units') and not e.get('_units_from_homes')] \
             or [e for e in p['events'] if e.get('_units')]  # DOLA's homes only when no other source prints units
         if sized:
-            p['total_units'], p['restricted_units'] = max(
-                sized, key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))['_units']
+            order = lambda e: (e.get('year') or 0, STAGES[e['stage']][0])
+            p['total_units'], p['restricted_units'] = max(sized, key=order)['_units']
+            # a later source that prints only a total (OEDIT) keeps the newest
+            # restricted count another source printed, if it fits in that total
+            if p['restricted_units'] is None:
+                kept = [e for e in sized if e['_units'][1] is not None and e['_units'][1] <= p['total_units']]
+                if kept:
+                    p['restricted_units'] = max(kept, key=order)['_units'][1]
         # the ledger's name column sometimes carries the next column's text
         # ("Tungsten Village fka: Third Street Community Boulder County Housing
         # Authority"); the shortest name a source prints is the cleanest

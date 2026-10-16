@@ -428,3 +428,24 @@ def test_one_project_printed_under_two_town_labels_or_spacings_is_one_row():
     L.add('Aster Place', 'Rifle', '08045', dev.ev('funded', 2025, 'CHFA', 'p', **q), 120)
     got = sorted((r['city'], len(r['events'])) for r in dev.finish(L))
     assert got == [('Colorado Springs', 2), ('Parachute', 3), ('Rifle', 1)], got
+
+
+def test_a_total_only_source_keeps_the_restricted_count_and_an_adopted_place_brings_its_town():
+    # OEDIT prints only a total; CHFA's LI units must survive it, and a row
+    # that takes Keystone's place ID must not keep "Summit County" as its city
+    L = dev.Ledger(set(), {'keystone': '0840550'}, {'08117': 'Summit County'})
+    L.county_places = {'08117': {'0840550'}}
+    L.city_county = {'keystone': '08117'}
+    L.city_counties = {'keystone': {'08117'}}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Wintergreen Ridge', 'Summit County', '08117', dev.ev('funded', 2023, 'OEDIT', 'p', **q), 47)
+    L.add('Wintergreen Ridge', 'Keystone', '08117', dev.ev('funded', 2022, 'CHFA', 'p', **q), 47, 46)
+    L.add('Wintergreen Ridge', 'Keystone', '08117', dev.ev('funded', 2024, 'OEDIT', 'q', **q), 47)
+    r = dev.finish(L)
+    assert len(r) == 1 and (r[0]['total_units'], r[0]['restricted_units']) == (47, 46)
+    assert (r[0]['city'], r[0]['place_geoid']) == ('Keystone', '0840550')
+    rows = {p['id']: p for p in load()['projects']}
+    assert (rows['canyon-vista-08045']['restricted_units'], rows['wintergreen-ridge-08117']['restricted_units']) == (80, 46)
+    assert rows['wintergreen-ridge-08117']['city'] == 'Keystone'
+    placed = [p for p in rows.values() if p['place_geoid'] and p['city']]
+    assert len(placed) > 300 and not [p['id'] for p in placed if 'county' in p['city'].lower()]
