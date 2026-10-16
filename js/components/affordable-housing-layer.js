@@ -280,9 +280,13 @@
     // USDA RD: years to expiration is the urgent signal
     else if (Number.isFinite(p.years_to_expiration)) {
       var y = p.years_to_expiration;
-      bits.push(y <= 5
-        ? '⚠ expires in ' + y + 'y'
-        : y + 'y to expiration');
+      // A negative value is a restriction date already past: say so
+      // rather than "expires in -20y".
+      bits.push(y < 0
+        ? '⚠ restriction expired ' + (-y) + 'y ago'
+        : (y <= 5
+          ? '⚠ expires in ' + y + 'y'
+          : y + 'y to expiration'));
     }
     // HUD MF: subsidy type tells you what contract it is
     else if (p.subsidy_type && p.subsidy_type !== 'unknown') {

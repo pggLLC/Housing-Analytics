@@ -2101,10 +2101,10 @@
     },
     "housingPlans": [
       {
-        "name": "La Plata County Housing Needs Assessment",
+        "name": "La Plata County Housing Needs Assessment (Root Policy Research for the Regional Housing Alliance, updated for SB24-174)",
         "type": "HNA",
-        "year": 2021,
-        "url": "https://www.google.com/search?q=%22La%20Plata%20County%20Housing%20Needs%20Assessment%22%20Colorado"
+        "year": 2025,
+        "url": "https://laplatahousing.colorado.gov/community-resources/housing-needs-assessment"
       },
       {
         "name": "La Plata County Comprehensive Plan (Housing)",

@@ -916,8 +916,9 @@
             else if (st && st.indexOf('fha') === 0)   precRec.fha++;
             else if (st && st.indexOf('usda-rd') === 0) precRec.usdaRd++;
             else                                       precRec.other++;
-            // Urgency (USDA RD only)
-            if (Number.isFinite(p.years_to_expiration)) {
+            // Urgency (USDA RD only). A negative value is a restriction
+            // already past (risk_status 'expired'), not one expiring soon.
+            if (Number.isFinite(p.years_to_expiration) && p.years_to_expiration >= 0) {
               if (p.years_to_expiration <= 5)  precRec.urgent5y++;
               if (p.years_to_expiration <= 10) precRec.expiringSoon10y++;
             }
@@ -4151,6 +4152,7 @@
       function factFor(p) {
         if (p.pbv_contract_sunset)              return 'PBV sunsets ' + escHtml(p.pbv_contract_sunset);
         if (Number.isFinite(p.years_to_expiration)) {
+          if (p.years_to_expiration < 0) return '⚠ restriction expired ' + (-p.years_to_expiration) + 'y ago';
           return p.years_to_expiration <= 5
             ? '⚠ expires in ' + p.years_to_expiration + 'y'
             : p.years_to_expiration + 'y to expiration';

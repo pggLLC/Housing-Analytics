@@ -20,7 +20,7 @@
     },
     "method": "Per-jurisdiction direct allocation = localPerCapita × population for cities/counties clearing the $1,000,000 minimum. Jurisdictions not listed receive $0 direct and draw from the DOLA Statewide Balance / CHFA pool. Amounts are gross INITIAL allocations, not net-of-commitments available balances.",
     "caveat": "A local direct allocation is a CAPACITY / issuing-authority signal, NOT a ceiling on 4% bond deals and NOT the usual funding source. Most CO 4% LIHTC deals draw from CHFA’s statewide pool, or the locality cedes its allocation to CHFA. Local cap also funds single-family mortgage bonds, MCCs, and IDBs, or is relinquished by the Sept 15 deadline.",
-    "policyContext": "Going forward, the federal 50% bond-financing test drops to 25% for projects placed in service after 2025-12-31 — roughly doubling the deals a given cap supports. CHFA also runs a Multifamily Bond Recycling Program that stretches cap without consuming fresh volume. Net: per-jurisdiction cap is rarely the binding constraint for a CO 4% deal."
+    "policyContext": "Going forward, the federal 50% bond-financing test drops to 25% for buildings placed in service after 2025-12-31 where at least 5% of aggregate basis is financed by bonds issued after 2025-12-31 (the 25% test is not available on a pre-2026 bond issue alone) — roughly doubling the deals a given cap supports. CHFA also runs a Multifamily Bond Recycling Program that stretches cap without consuming fresh volume. Net: per-jurisdiction cap is rarely the binding constraint for a CO 4% deal."
   },
   "allocations": {
     "0820000": {
