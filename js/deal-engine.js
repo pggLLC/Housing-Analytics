@@ -520,12 +520,14 @@
       baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
   }
   function capitalWaterfall(result, fields) {
+    // The investor buys both credits, so the automatic LP amount is federal plus state equity.
+    var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
-        result.equity, result.deferredDevFee].every(known)) return null;
+        autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
       hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
     var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
-    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : result.equity;
+    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
     var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
     var gpResidualPct = fieldNumber(fields, 'dc-wf-gp-residual', 30) / 100;
     if (![lpEquityOverride, prefRate, gpResidualPct].every(known)) return null;
@@ -601,7 +603,7 @@
       lpEquity: lpEquity, lpTotal: lpTotal, gpTotal: gpTotal,
       lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
       prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
-      autoLpEquity: result.equity, annualCredits: result.annualCredits,
+      autoLpEquity: autoLpEquity, annualCredits: result.annualCredits,
       inputs: exit
     };
   }
@@ -839,8 +841,10 @@
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
       price: fields['dc-state-price'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
     // No state credit entered is no source; an incomplete one is unknown.
-    var stateEquity = !stateCredit.entered ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;
-    if (stateCredit.entered && stateCredit.equity === null && !basisUnknownReason) basisUnknownReason = stateCredit.reason;
+    // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
+    var stateCreditApplies = chfaRegime && stateCredit.entered;
+    var stateEquity = !stateCreditApplies ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;
+    if (stateCreditApplies && stateCredit.equity === null && !basisUnknownReason) basisUnknownReason = stateCredit.reason;
 
     // The applicable-fraction note was rendered before the legacy block.
     // Retain that value separately so even the invalid-mix display is unchanged.

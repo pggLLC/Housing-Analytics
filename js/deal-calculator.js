@@ -6395,7 +6395,10 @@
         var result = getResult();
         var wf = result && result.waterfall;
         var autoEl = document.getElementById('dc-wf-lp-equity-auto');
-        if (autoEl) autoEl.textContent = _fmtMoney(result && result.equity);
+        // Federal plus state credit equity, the same amount the waterfall uses when not overridden.
+        var autoLp = result && Number.isFinite(result.equity) && Number.isFinite(result.stateEquity)
+          ? result.equity + result.stateEquity : null;
+        if (autoEl) autoEl.textContent = _fmtMoney(autoLp);
         var reason = result && result.unavailable.waterfall || 'The deal calculation is unavailable.';
         ['dcWaterfallTable', 'dcWaterfallAnnualTable'].forEach(function (id) {
           var el = document.getElementById(id);

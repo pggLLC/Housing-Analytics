@@ -121,6 +121,28 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('state credit equity joins the automatic LP buy-in, and only under CHFA LIHTC', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-county-select', '08001');
+    await new Promise((r) => setTimeout(r, 600));
+    setField(p, 'dc-state-annual', 400000); setField(p, 'dc-state-price', 0.8);
+    p.w.__DealCalc.recalculate();
+    let r = p.w.__DealCalc.getResult();
+    assert(r.stateEquity > 0 && r.equity > 0, 'non-vacuous: both credits produce equity');
+    assert(r.waterfall, 'non-vacuous: the waterfall is computed');
+    assert.equal(r.waterfall.autoLpEquity, r.equity + r.stateEquity, 'automatic LP equity is federal plus state');
+    assert.equal(r.waterfall.lpEquity, r.equity + r.stateEquity);
+    assert.notEqual(text(p, 'dc-wf-lp-equity-auto'), 'Unavailable');
+    const withState = r.gap;
+    setField(p, 'dc-rent-limit-regime', 'market');
+    p.w.__DealCalc.recalculate();
+    r = p.w.__DealCalc.getResult();
+    assert.equal(r.equity, 0, 'no federal credit outside CHFA LIHTC');
+    assert.equal(r.stateEquity, 0, 'the state credit pairs with the federal credit, so it is no source either');
+    assert.notEqual(r.gap, withState, 'non-vacuous: the regime change moved the gap');
+    assert.deepEqual(p.errors, []);
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
