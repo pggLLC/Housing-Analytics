@@ -179,7 +179,8 @@ def same_project(a: str, b: str) -> bool:
 def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int | None) -> bool:
     """One letter off in one source ("Geteway North" for "Gateway North"):
     the same county, town, phase and size, and names that differ by a typo
-    or by a word that describes the homes."""
+    or by a word that describes the homes, or one name spelled out inside the
+    other at the same home count."""
     if not (county and county == p['county_fips'] and city_n and city_n == p['_city_n'] and units) \
             or phase(p['_name_n']) != phase(name_n):
         return False
@@ -190,6 +191,11 @@ def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int |
     # describes the homes rather than naming the building
     plain = lambda n: ' '.join(w for w in n.split() if w not in DESCRIPTIVE_WORDS)
     if plain(p['_name_n']) == plain(name_n):
+        return True
+    # "Ridgegate Parkway Affordable Senior" spells out "RidgeGate Senior": one
+    # name's words all inside the other's, joined only at the same home count
+    wa, wb = set(plain(p['_name_n']).split()), set(plain(name_n).split())
+    if len(min(wa, wb, key=len)) >= 2 and (wa <= wb or wb <= wa) and units in known:
         return True
     a, b = p['_name_n'].replace(' ', ''), name_n.replace(' ', '')
     return difflib.SequenceMatcher(None, a, b).ratio() >= 0.9

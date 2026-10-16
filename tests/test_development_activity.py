@@ -709,3 +709,22 @@ def test_a_street_fragment_keeps_its_trailing_known_town():
     assert rows['Park Plaza']['county_fips'] == '08031'
     assert rows['Pikes Peak Park Phase I Infrastructure THLF']['county_fips'] == '08101'
     assert rows['Delta Shelter TAHG']['county_fips'] == '08029'
+
+
+def test_a_name_spelled_out_at_the_same_size_is_one_project():
+    # RidgeGate Senior (CHFA 2022, DOLA 2023) and Ridgegate Parkway Affordable
+    # Senior (Prop 123 2023) are one 101-home Lone Tree building (#2261
+    # review); a different size, or a one-word name, stays apart
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+
+    def rows(a, b, ua, ub):
+        L = _ledger()
+        L.add(a, 'Denver', '08031', dev.ev('funded', 2022, 'CHFA', 'p', **q), ua)
+        L.add(b, 'Denver', '08031', dev.ev('funded', 2023, 'OEDIT', 'p', **q), ub)
+        return dev.finish(L)
+
+    assert len(rows('RidgeGate Senior', 'Ridgegate Parkway Affordable Senior', 101, 101)) == 1
+    assert len(rows('RidgeGate Senior', 'Ridgegate Parkway Affordable Senior', 101, 96)) == 2
+    assert len(rows('Ridgegate', 'Ridgegate Parkway Commons', 101, 101)) == 2
+    committed = [p for p in load()['projects'] if p['name'].lower().startswith('ridgegate') and 'enior' in p['name']]
+    assert len(committed) == 1, [p['name'] for p in committed]

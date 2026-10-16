@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 722,
+  "project_count": 721,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 397
+  "statewide_recent_projects": 396
  },
  "county_summary": {
   "08001": {
@@ -745,8 +745,8 @@
   },
   "08035": {
    "name": "Douglas County",
-   "projects": 10,
-   "homes": 960,
+   "projects": 9,
+   "homes": 859,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -756,8 +756,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 8,
-     "homes": 830,
+     "projects": 7,
+     "homes": 729,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -15989,6 +15989,16 @@
     {
      "stage": "funded",
      "year": 2023,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Concessionary Debt",
+     "amount": 2898000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2023/12/Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
+     "quote": "Project Name: Ridgegate Parkway Affordable Senior; Location: Lone Tree; Funds Requested: $2,898,000; Number of Units: 101; Program: LIHTC Gap"
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
      "agency": "DOLA",
      "program": "Housing Development Grant",
      "amount": 3200000,
@@ -15999,34 +16009,6 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
-    }
-   ]
-  },
-  {
-   "id": "ridgegate-parkway-affordable-senior-08035",
-   "name": "Ridgegate Parkway Affordable Senior",
-   "city": "Lone Tree",
-   "county_fips": "08035",
-   "county_fips_all": null,
-   "county": "Douglas County",
-   "place_geoid": "0845955",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 101,
-   "total_units_unavailable_reason": null,
-   "restricted_units": null,
-   "restricted_units_unavailable_reason": "no source prints an income-restricted count; OEDIT / CHFA (Prop 123 AHFF) prints total homes only",
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Concessionary Debt",
-     "amount": 2898000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2023/12/Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
-     "quote": "Project Name: Ridgegate Parkway Affordable Senior; Location: Lone Tree; Funds Requested: $2,898,000; Number of Units: 101; Program: LIHTC Gap"
     }
    ]
   },
