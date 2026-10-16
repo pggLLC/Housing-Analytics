@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-15T12:38:07.738Z",
-  "totalScanned": 1737,
-  "newSourceCount": 1706,
+  "scanTimestamp": "2026-10-16T12:22:10.092Z",
+  "totalScanned": 1742,
+  "newSourceCount": 1711,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 848706,
+      "sizeBytes": 851618,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7711,
+      "sizeBytes": 7705,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,13 +92,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 291088,
+      "sizeBytes": 306045,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 67566,
+      "sizeBytes": 70531,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -127,6 +127,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/audit/funding-watch.json",
+      "sizeBytes": 538582,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/audit/quarantine-candidates.json",
       "sizeBytes": 483,
       "inDataManifest": false,
@@ -134,7 +140,7 @@
     },
     {
       "path": "data/audit/upstream-vintage-watch.json",
-      "sizeBytes": 844,
+      "sizeBytes": 1173,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -296,7 +302,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 261127,
+      "sizeBytes": 263815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4874,7 +4880,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 39650,
+      "sizeBytes": 6696,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9907,8 +9913,26 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/funding-awards/award-rows.json",
+      "sizeBytes": 244242,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/funding-awards/developer-aliases.json",
+      "sizeBytes": 7533,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/funding-awards/documents.json",
       "sizeBytes": 40885,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/funding-awards/dola-awards.json",
+      "sizeBytes": 331297,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9921,6 +9945,12 @@
     {
       "path": "data/policy/funding-awards/ledger.json",
       "sizeBytes": 356064,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/funding-watch-sources.json",
+      "sizeBytes": 7550,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10034,7 +10064,7 @@
     },
     {
       "path": "data/policy/prop123-rental-rules.json",
-      "sizeBytes": 32963,
+      "sizeBytes": 33966,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10094,7 +10124,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 396517,
+      "sizeBytes": 414118,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10112,13 +10142,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12608,
+      "sizeBytes": 12594,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 164108,
+      "sizeBytes": 165560,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10160,7 +10190,7 @@
     },
     {
       "path": "data/reports/a11y-baseline.json",
-      "sizeBytes": 2670,
+      "sizeBytes": 15764,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10172,7 +10202,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 24571,
+      "sizeBytes": 21262,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10214,7 +10244,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 428599,
+      "sizeBytes": 622101,
       "inDataManifest": false,
       "inFilesManifest": true
     },
