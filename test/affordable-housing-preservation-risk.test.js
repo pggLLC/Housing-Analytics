@@ -52,7 +52,7 @@ function thresholdSites(src) {
   const aliasRe = /\b([A-Za-z_$][\w$]*)\s*=\s*[\w$.]*\byears_to_expiration\b/g;
   let m;
   while ((m = aliasRe.exec(src))) if (!names.includes(m[1])) names.push(m[1]);
-  const alt = names.map((n) => n.replace(/\$/g, '\\$')).join('|');
+  const alt = names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   const cmpRe = new RegExp('\\b(?:' + alt + ')\\s*<=?\\s*[1-9]\\d*\\b', 'g');
   const guardRe = new RegExp('\\b(?:' + alt + ')\\s*(?:<\\s*0|>=\\s*0)\\b');
   const sites = [];
