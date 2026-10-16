@@ -32,11 +32,12 @@ assert(builderSrc.includes('function preservationRiskStatus'), 'builder should d
 assert(/expBuckets\s*=\s*\{\s*'expired'/.test(builderSrc) && /y < 0\) expBuckets\['expired'\]/.test(builderSrc),
   'builder urgency breakdown should count a past restriction date as expired, not 0-5y');
 
-// Every renderer that formats years_to_expiration must branch on a negative
-// value before the "expires in" leg, or a lapsed restriction renders as
-// "expires in -20y". Structural check: a `< 0 ?` (or `< 0) return`) guard
-// within the statement that carries the wording. The wording itself is a
-// choice and is not pinned.
+// Every consumer that thresholds years_to_expiration — a renderer choosing an
+// "expires in" leg, a rollup counting <= 5 / <= 10 — must first rule out a
+// negative value, or a lapsed restriction renders as "expires in -20y" and is
+// counted as expiring within five years. Discovery is structural: a comparison
+// of years_to_expiration, or of a local alias assigned from it, against a
+// positive threshold. The display copy is a choice and is never read.
 function walkJs(dir, out) {
   fs.readdirSync(dir, { withFileTypes: true }).forEach((d) => {
     if (d.name === 'vendor') return;
@@ -46,21 +47,35 @@ function walkJs(dir, out) {
   });
   return out;
 }
-const expiresMarker = "'⚠ expires in '";
-const renderers = walkJs(path.join(ROOT, 'js'), []).filter((f) => fs.readFileSync(f, 'utf8').includes(expiresMarker));
-assert(renderers.length >= 4, `scan should find the renderers that format years_to_expiration (found ${renderers.length})`);
-renderers.forEach((f) => {
+function thresholdSites(src) {
+  const names = ['years_to_expiration'];
+  const aliasRe = /\b([A-Za-z_$][\w$]*)\s*=\s*[\w$.]*\byears_to_expiration\b/g;
+  let m;
+  while ((m = aliasRe.exec(src))) if (!names.includes(m[1])) names.push(m[1]);
+  const alt = names.map((n) => n.replace(/\$/g, '\\$')).join('|');
+  const cmpRe = new RegExp('\\b(?:' + alt + ')\\s*<=?\\s*[1-9]\\d*\\b', 'g');
+  const guardRe = new RegExp('\\b(?:' + alt + ')\\s*(?:<\\s*0|>=\\s*0)\\b');
+  const sites = [];
+  while ((m = cmpRe.exec(src))) sites.push({ at: m.index, text: m[0] });
+  return { sites, guardRe };
+}
+const scanned = walkJs(path.join(ROOT, 'js'), []).concat([path.join(ROOT, 'scripts/build-affordable-housing-properties.js')]);
+let thresholdCount = 0;
+scanned.forEach((f) => {
   const src = fs.readFileSync(f, 'utf8');
-  let from = 0;
-  while (true) {
-    const at = src.indexOf(expiresMarker, from);
-    if (at === -1) break;
-    const window = src.slice(Math.max(0, at - 260), at);
-    assert(/(?:years_to_expiration|\by)\s*<\s*0\s*(?:\?|\)\s*return)/.test(window),
-      `${path.relative(ROOT, f)} formats years_to_expiration without a negative-value branch near offset ${at}`);
-    from = at + expiresMarker.length;
-  }
+  if (!src.includes('years_to_expiration')) return;
+  const { sites, guardRe } = thresholdSites(src);
+  sites.forEach((site) => {
+    // A comparison quoted in a comment is not code.
+    const linePrefix = src.slice(src.lastIndexOf('\n', site.at) + 1, site.at);
+    if (/\/\/|^\s*\*/.test(linePrefix)) return;
+    thresholdCount++;
+    const window = src.slice(Math.max(0, site.at - 320), site.at);
+    assert(guardRe.test(window),
+      `${path.relative(ROOT, f)} compares years_to_expiration ("${site.text}") without first ruling out a negative value, near offset ${site.at}`);
+  });
 });
+assert(thresholdCount > 0, 'scan should find consumers that threshold years_to_expiration');
 assert(layerSrc.includes('Preservation source inventory'), 'map legend should label preservation-candidate as source inventory');
 assert(layerSrc.includes('This is source-feed membership, not an at-risk finding'), 'map legend should not imply every preservation-candidate is at risk');
 assert(layerSrc.includes('Restriction timing known'), 'map legend should include a separate known-expiration entry');

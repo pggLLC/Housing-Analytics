@@ -916,8 +916,9 @@
             else if (st && st.indexOf('fha') === 0)   precRec.fha++;
             else if (st && st.indexOf('usda-rd') === 0) precRec.usdaRd++;
             else                                       precRec.other++;
-            // Urgency (USDA RD only)
-            if (Number.isFinite(p.years_to_expiration)) {
+            // Urgency (USDA RD only). A negative value is a restriction
+            // already past (risk_status 'expired'), not one expiring soon.
+            if (Number.isFinite(p.years_to_expiration) && p.years_to_expiration >= 0) {
               if (p.years_to_expiration <= 5)  precRec.urgent5y++;
               if (p.years_to_expiration <= 10) precRec.expiringSoon10y++;
             }

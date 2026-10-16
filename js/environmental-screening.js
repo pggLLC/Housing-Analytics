@@ -136,6 +136,18 @@
       };
     }
 
+    if (_floodFeatures.length === 0) {
+      // load(null, …) after both FEMA requests failed, or an empty layer.
+      // A layer that never arrived says nothing about this site.
+      return {
+        zone:         'Unknown',
+        riskLevel:    'unknown',
+        sfha:         false,
+        year100Flood: false,
+        narrative:    'Flood risk not assessed: the flood layer could not be loaded. Check the FEMA Map Service Center for this site.'
+      };
+    }
+
     var matched = null;
     for (var i = 0; i < _floodFeatures.length; i++) {
       var f = _floodFeatures[i];
@@ -329,11 +341,14 @@
    * @returns {Promise<void>}
    */
   function load(floodGeoJSON, epaData) {
-    if (floodGeoJSON && floodGeoJSON.features) {
-      _floodFeatures = floodGeoJSON.features.filter(function (f) {
+    // A null layer (both FEMA requests failed in market-analysis.js) or one
+    // with no polygons leaves _floodFeatures empty, and _assessFlood() then
+    // reports the flood screen as not assessed rather than "Zone X".
+    _floodFeatures = (floodGeoJSON && Array.isArray(floodGeoJSON.features))
+      ? floodGeoJSON.features.filter(function (f) {
         return f && f.geometry && f.properties;
-      });
-    }
+      })
+      : [];
     _floodSample = !!(floodGeoJSON && (
       /\bsample\b/i.test((floodGeoJSON.meta && floodGeoJSON.meta.note) || '') ||
       (_floodFeatures.length > 0 && _floodFeatures.length < 10)));
