@@ -204,6 +204,22 @@ test('an in-basis fee whose limit rule is unsourced leaves the basis reduction u
   }
 });
 
+test('an over-limit fee split across basis treatments reduces basis only when the split settles it', () => {
+  const run = (profitBasis) => {
+    const lines = cb.exampleLines().map(l => l.id === 'profit' ? Object.assign({}, l, { basis: profitBasis }) : l);
+    const summary = cb.summarizeCosts(lines, 20000000);
+    // Identity of interest at 80 units: a 6% limit on $11,900,000, so $36,000 of the $750,000 fee is over.
+    const c = cb.contractorFeeTest({ byId: summary.byId, units: 80, identityOfInterest: true, rules });
+    assert.equal(Math.round(c.excess), 36000, 'non-vacuous: the fee is over the limit');
+    return cb.feeExcessInBasis(summary, c, null);
+  };
+  assert.equal(Math.round(run('eligible').contractor), 36000, 'all in basis: the whole excess comes off');
+  // $250,000 overhead in basis, $500,000 profit outside: the $36,000 could fall on either.
+  const mixed = run('ineligible');
+  assert.equal(mixed.total, null);
+  assert.match(mixed.reason, /somewhere from \$0 to \$36,000/);
+});
+
 test('developer fee base follows QAP 3.M.3 and the contractor fee test uses its tier', () => {
   const lines = cb.exampleLines();
   const summary = cb.summarizeCosts(lines, 20000000);

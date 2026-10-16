@@ -276,12 +276,27 @@
       return { contractor: null, developer: null, total: null,
         reason: 'The developer fee could not be tested against CHFA\'s limit (' + String(developerTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
     }
+    // The excess comes off basis only as far as it falls on in-basis fees. When the
+    // paired fees are partly outside basis, nothing says which part was over, so the
+    // reduction is a range; unless that range is one figure, it is unknown.
+    var b = (summary && summary.byId) || {};
+    function inBasisPart(excess, inBasis, total, label) {
+      var outside = Math.max(0, total - inBasis);
+      var low = Math.max(0, excess - outside), high = Math.min(excess, inBasis);
+      if (high - low > 0.5) {
+        out.reason = 'The ' + label + ' over CHFA\'s limit could come from fees in basis or outside it, so the reduction in basis is somewhere from '
+          + money(low) + ' to ' + money(high) + '; put all of those fees in or out of basis to settle it.';
+        return null;
+      }
+      return high;
+    }
     if (contractorTest && contractorTest.excess > 0) {
-      out.contractor = Math.min(contractorTest.excess, (e.overhead || 0) + (e.profit || 0));
+      out.contractor = inBasisPart(contractorTest.excess, (e.overhead || 0) + (e.profit || 0), (b.overhead || 0) + (b.profit || 0), 'contractor fee');
     }
     if (developerTest && developerTest.excess > 0) {
-      out.developer = Math.min(developerTest.excess, (e.developer_fee || 0) + (e.consultant_fee || 0));
+      out.developer = inBasisPart(developerTest.excess, feeInBasis, (b.developer_fee || 0) + (b.consultant_fee || 0), 'developer fee');
     }
+    if (out.contractor === null || out.developer === null) { out.contractor = null; out.developer = null; out.total = null; return out; }
     out.total = out.contractor + out.developer;
     return out;
   }
