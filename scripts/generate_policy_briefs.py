@@ -48,6 +48,7 @@ TOPIC_LABELS: dict[str, str] = {
     'market': 'Housing Market',
     'policy': 'Housing Policy',
     'construction': 'Construction & Permitting',
+    'infrastructure': 'Infrastructure & Funding',
     'tool_watch': 'Tool Evaluations',
     'general': 'General',
 }
@@ -60,6 +61,7 @@ RELATED_DATA_MAP: dict[str, str] = {
     'zoning': 'data/policy/prop123_jurisdictions.json',
     'policy': 'data/policy/prop123_jurisdictions.json',
     'construction': 'data/market/hud_lihtc_co.geojson',
+    'infrastructure': 'data/policy/funding-watch-sources.json',
     'tool_watch': 'data/policy/tool-watch.json',
     'homelessness': 'data/market/acs_tract_metrics_co.json',
     'general': 'data/market/acs_tract_metrics_co.json',
