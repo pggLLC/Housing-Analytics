@@ -413,7 +413,12 @@
     var methods = ruleStatus(rules, 'credit_reservation_methods');
     out.costLimitMethod.reason = methods.applied ? methods.rule.cost_basis_limit_reason : 'Credit reservation methods: ' + methods.reason + '.';
     var gm = args.gapCredit;
-    if (!methods.applied) out.gapMethod.reason = out.costLimitMethod.reason;
+    if (!methods.applied) {
+      // Without the sourced reservation rule, Method Two is unknown and could be lower.
+      out.gapMethod.reason = out.costLimitMethod.reason;
+      out.capacity = null;
+      out.reasons.capacity = 'Credit capacity needs CHFA\'s reservation rule, which is unavailable: ' + out.costLimitMethod.reason;
+    }
     else if (!gm) out.gapMethod.reason = 'The funding gap is not calculated yet.';
     else if (gm.credit === null) {
       // Method Two could be lower than Method One, so without it the capacity is unknown.

@@ -377,6 +377,14 @@ test('capacity is the smaller of Method One and the gap calculation, and Method 
   assert.equal(base9({ gapCredit: unknown, awarded: 150000 }).creditForEquity, 150000, 'an entered award is still the award');
   assert.match(r.costLimitMethod.reason, /Excel application/);
   assert.equal(r.costLimitMethod.checked, false);
+  // Without the sourced reservation rule, Method Two is unknown too: no capacity, no equity.
+  const noMethods = clone(rules); delete noMethods.rules.credit_reservation_methods;
+  const nm = base9({ gapCredit: gap, rules: noMethods });
+  assert(nm.calculatedCredit > 0, 'non-vacuous: Method One alone has a value');
+  assert.equal(nm.capacity, null);
+  assert.equal(nm.creditForEquity, null);
+  assert.match(nm.reasons.capacity, /reservation rule.*rule not sourced/);
+  assert.equal(base9({ gapCredit: gap, rules: noMethods, awarded: 150000 }).creditForEquity, 150000, 'an entered award is still the award');
 });
 
 test('a fee above CHFA’s limit comes out of eligible basis, but only the part that was in basis', () => {
