@@ -222,7 +222,9 @@
           if (p.program_type.indexOf('preservation-candidate') !== -1) {
             var r = state.preservationByCity[city] || { total: 0, urgent5y: 0 };
             r.total++;
-            if (Number.isFinite(p.years_to_expiration) && p.years_to_expiration <= 5) r.urgent5y++;
+            // A negative value is a restriction already past (risk_status
+            // 'expired'); it is not expiring within five years.
+            if (Number.isFinite(p.years_to_expiration) && p.years_to_expiration >= 0 && p.years_to_expiration <= 5) r.urgent5y++;
             state.preservationByCity[city] = r;
           }
         });

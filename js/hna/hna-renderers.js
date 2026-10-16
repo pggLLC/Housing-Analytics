@@ -2466,9 +2466,11 @@
       if (p.pbv_contract_sunset) {
         factParts.push('PBV sunsets ' + escHtml(p.pbv_contract_sunset));
       } else if (Number.isFinite(p.years_to_expiration)) {
-        factParts.push(p.years_to_expiration <= 5
-          ? '⚠ expires in ' + p.years_to_expiration + 'y'
-          : p.years_to_expiration + 'y to expiration');
+        factParts.push(p.years_to_expiration < 0
+          ? '⚠ restriction expired ' + (-p.years_to_expiration) + 'y ago'
+          : (p.years_to_expiration <= 5
+            ? '⚠ expires in ' + p.years_to_expiration + 'y'
+            : p.years_to_expiration + 'y to expiration'));
       } else if (p.subsidy_type && p.subsidy_type !== 'unknown') {
         factParts.push(escHtml(p.subsidy_type));
       } else if (p.city) {
