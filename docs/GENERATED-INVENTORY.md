@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-16T14:06:05.054Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-16T15:31:57.517Z. Do not edit by hand.
 
 ---
 
@@ -910,7 +910,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
-| `data/hna/local-resources.json` | 179.2 KB | ✅ | — |
+| `data/hna/local-resources.json` | 179.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.3 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1728,7 +1728,7 @@
 | `data/policy/funding-awards/award-rows.json` | 238.5 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 39.9 KB | ✅ | — |
-| `data/policy/funding-awards/dola-awards.json` | 323.5 KB | ✅ | — |
+| `data/policy/funding-awards/dola-awards.json` | 323.6 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 7.4 KB | ✅ | — |
@@ -1746,7 +1746,7 @@
 | `data/policy/local-housing-funds.json` | 137.1 KB | ✅ | — |
 | `data/policy/local-support.json` | 146.6 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
-| `data/policy/pab-allocations.json` | 17.3 KB | ✅ | — |
+| `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 74.2 KB | ✅ | — |
@@ -1801,7 +1801,7 @@
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
-| `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
+| `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
 | `test/agency-funding.test.mjs` | 12.7 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
@@ -2285,7 +2285,7 @@
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_bps_and_status_freshness.py` | 9.4 KB |
-| `test/test_environmental_screening.js` | 17.9 KB |
+| `test/test_environmental_screening.js` | 19.7 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
 | `test/test_fetch_fred_data.py` | 4.2 KB |
 | `test/test_fmr_flatten_guard.py` | 10.1 KB |
@@ -2431,7 +2431,7 @@
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-hna-data.yml` | 33.0 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.1 KB |
-| `.github/workflows/cache-hud-gis-data.yml` | 13.1 KB |
+| `.github/workflows/cache-hud-gis-data.yml` | 13.7 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 25.0 KB |

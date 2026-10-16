@@ -5281,9 +5281,9 @@
     {
       "name": "Pine River Commons",
       "grantee": "BAYFIELD HAGA LLC",
-      "town": "Bayfield Parkway Bayfield",
-      "county_fips": null,
-      "county_method": null,
+      "town": "Bayfield",
+      "county_fips": "08067",
+      "county_method": "town as printed, matched to its Census place",
       "program": "Prop 123 homeownership (AHOP)",
       "program_as_printed": "Prop 123 AHOP",
       "amount": 1100000,
@@ -6434,8 +6434,8 @@
       "id": "fy2425-039"
     },
     {
-      "name": "HomesFund",
-      "grantee": "Mortgage/Downpayment Assistance in Southwest Colorado",
+      "name": "Mortgage/Downpayment Assistance in Southwest Colorado",
+      "grantee": "HomesFund",
       "town": null,
       "county_fips": null,
       "county_method": null,
