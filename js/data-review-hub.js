@@ -374,9 +374,10 @@
       var tooltip = 'Opens ' + wf + ' in GitHub Actions — click "Run workflow" there to dispatch a fresh fetch.';
       return '<a class="drh-btn drh-btn--sm ' + pill + '" href="' + _esc(url) + '"' +
              ' target="_blank" rel="noopener" title="' + _esc(tooltip) + '"' +
-             ' style="background:' + (s.status === 'stale' ? '#dc262618' : '#f59e0b18') +
-             ';color:' + (s.status === 'stale' ? '#b91c1c' : '#92400e') +
-             ';border:1px solid ' + (s.status === 'stale' ? '#dc262640' : '#f59e0b40') + '">' +
+             // Theme tokens, not hex: the light-mode hex was 2.06:1 in dark mode.
+             ' style="background:' + (s.status === 'stale' ? 'var(--bad-dim)' : 'var(--warn-dim)') +
+             ';color:' + (s.status === 'stale' ? 'var(--bad)' : 'var(--warn)') +
+             ';border:1px solid currentColor">' +
              label + '</a>';
     }
     // Fallback: no specific workflow mapped — link to the Actions tab so
