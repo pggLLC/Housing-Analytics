@@ -245,7 +245,7 @@ def build() -> dict:
                                     'by_stage': {k: v for k, v in act['by_stage'].items() if v['projects']}}
             if act else None,
         }
-    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc)]
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc)] + [stamp(geo)]
     for folder in (PROJECTIONS_DIR, LEHD_DIR):  # the per-county population and jobs files
         for f in counties:
             try:

@@ -28,16 +28,16 @@
    "chfa_applications": 156,
    "award_ledger": 429,
    "chfa_2026_round_one": 14,
-   "dola_awards": 246,
+   "dola_awards": 227,
    "chfa_property_list": 404
   },
   "excluded_events": 0,
-  "program_awards_left_out": 89,
+  "program_awards_left_out": 91,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 778,
+  "project_count": 776,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 429
+  "statewide_recent_projects": 428
  },
  "county_summary": {
   "08001": {
@@ -433,7 +433,7 @@
   "08019": {
    "name": "Clear Creek County",
    "projects": 4,
-   "homes": 231,
+   "homes": 261,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -444,7 +444,7 @@
     },
     "funded": {
      "projects": 4,
-     "homes": 231,
+     "homes": 261,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -667,7 +667,7 @@
   "08031": {
    "name": "Denver County",
    "projects": 111,
-   "homes": 11728,
+   "homes": 11660,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -678,7 +678,7 @@
     },
     "funded": {
      "projects": 66,
-     "homes": 6810,
+     "homes": 6742,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -1018,7 +1018,7 @@
   "08049": {
    "name": "Grand County",
    "projects": 8,
-   "homes": 625,
+   "homes": 693,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1029,7 +1029,7 @@
     },
     "funded": {
      "projects": 6,
-     "homes": 566,
+     "homes": 634,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -1564,7 +1564,7 @@
   "08077": {
    "name": "Mesa County",
    "projects": 11,
-   "homes": 1385,
+   "homes": 1384,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1575,7 +1575,7 @@
     },
     "funded": {
      "projects": 6,
-     "homes": 499,
+     "homes": 498,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -2031,8 +2031,8 @@
   },
   "08101": {
    "name": "Pueblo County",
-   "projects": 7,
-   "homes": 489,
+   "projects": 6,
+   "homes": 474,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -2042,8 +2042,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 5,
-     "homes": 330,
+     "projects": 4,
+     "homes": 315,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -2637,7 +2637,7 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 104,
-   "restricted_units": null,
+   "restricted_units": 104,
    "events": [
     {
      "stage": "funded",
@@ -2718,7 +2718,7 @@
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 103,
-   "restricted_units": null,
+   "restricted_units": 103,
    "events": [
     {
      "stage": "applied",
@@ -2873,8 +2873,8 @@
    "stage": "funded",
    "first_year": 2026,
    "latest_year": 2026,
-   "total_units": 60,
-   "restricted_units": null,
+   "total_units": 59,
+   "restricted_units": 59,
    "events": [
     {
      "stage": "applied",
@@ -3241,7 +3241,7 @@
    "first_year": 2024,
    "latest_year": 2026,
    "total_units": 75,
-   "restricted_units": null,
+   "restricted_units": 75,
    "events": [
     {
      "stage": "not_funded",
@@ -3307,7 +3307,7 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 72,
-   "restricted_units": null,
+   "restricted_units": 72,
    "events": [
     {
      "stage": "not_funded",
@@ -3361,7 +3361,7 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 60,
-   "restricted_units": null,
+   "restricted_units": 60,
    "events": [
     {
      "stage": "funded",
@@ -3774,7 +3774,7 @@
    "stage": "funded",
    "first_year": 2025,
    "latest_year": 2026,
-   "total_units": 37,
+   "total_units": 52,
    "restricted_units": null,
    "events": [
     {
@@ -3815,8 +3815,8 @@
    "stage": "funded",
    "first_year": 2025,
    "latest_year": 2026,
-   "total_units": 50,
-   "restricted_units": null,
+   "total_units": 65,
+   "restricted_units": 64,
    "events": [
     {
      "stage": "not_funded",
@@ -3858,7 +3858,7 @@
    "first_year": 2023,
    "latest_year": 2026,
    "total_units": 118,
-   "restricted_units": null,
+   "restricted_units": 118,
    "events": [
     {
      "stage": "not_funded",
@@ -3935,7 +3935,7 @@
    "first_year": 2024,
    "latest_year": 2026,
    "total_units": 80,
-   "restricted_units": null,
+   "restricted_units": 80,
    "events": [
     {
      "stage": "not_funded",
@@ -4359,7 +4359,7 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 156,
-   "restricted_units": null,
+   "restricted_units": 156,
    "events": [
     {
      "stage": "funded",
@@ -4516,8 +4516,8 @@
    "stage": "funded",
    "first_year": 2023,
    "latest_year": 2026,
-   "total_units": 149,
-   "restricted_units": null,
+   "total_units": 150,
+   "restricted_units": 150,
    "events": [
     {
      "stage": "applied",
@@ -4726,7 +4726,7 @@
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 110,
-   "restricted_units": null,
+   "restricted_units": 110,
    "events": [
     {
      "stage": "applied",
@@ -5225,7 +5225,7 @@
    "first_year": 2024,
    "latest_year": 2026,
    "total_units": 204,
-   "restricted_units": null,
+   "restricted_units": 204,
    "events": [
     {
      "stage": "funded",
@@ -5921,7 +5921,7 @@
    "first_year": 2023,
    "latest_year": 2026,
    "total_units": 73,
-   "restricted_units": null,
+   "restricted_units": 73,
    "events": [
     {
      "stage": "land_funded",
@@ -5997,7 +5997,7 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 54,
-   "restricted_units": null,
+   "restricted_units": 54,
    "events": [
     {
      "stage": "funded",
@@ -6150,7 +6150,7 @@
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 62,
-   "restricted_units": null,
+   "restricted_units": 62,
    "events": [
     {
      "stage": "applied",
@@ -6191,7 +6191,7 @@
    "stage": "funded",
    "first_year": 2024,
    "latest_year": 2026,
-   "total_units": 107,
+   "total_units": 106,
    "restricted_units": null,
    "events": [
     {
@@ -7056,7 +7056,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 50,
-   "restricted_units": null,
+   "restricted_units": 50,
    "events": [
     {
      "stage": "funded",
@@ -7146,7 +7146,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 43,
-   "restricted_units": null,
+   "restricted_units": 43,
    "events": [
     {
      "stage": "not_funded",
@@ -7210,7 +7210,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 85,
-   "restricted_units": null,
+   "restricted_units": 85,
    "events": [
     {
      "stage": "funded",
@@ -7572,7 +7572,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 40,
-   "restricted_units": null,
+   "restricted_units": 40,
    "events": [
     {
      "stage": "funded",
@@ -8130,7 +8130,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 64,
-   "restricted_units": null,
+   "restricted_units": 64,
    "events": [
     {
      "stage": "not_funded",
@@ -8283,7 +8283,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 70,
-   "restricted_units": null,
+   "restricted_units": 70,
    "events": [
     {
      "stage": "not_funded",
@@ -8414,7 +8414,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 150,
-   "restricted_units": null,
+   "restricted_units": 150,
    "events": [
     {
      "stage": "funded",
@@ -8504,7 +8504,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 106,
-   "restricted_units": null,
+   "restricted_units": 106,
    "events": [
     {
      "stage": "funded",
@@ -8775,7 +8775,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 100,
-   "restricted_units": null,
+   "restricted_units": 100,
    "events": [
     {
      "stage": "funded",
@@ -9516,7 +9516,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 68,
-   "restricted_units": null,
+   "restricted_units": 68,
    "events": [
     {
      "stage": "not_funded",
@@ -9764,7 +9764,7 @@
    "stage": "funded",
    "first_year": 2024,
    "latest_year": 2025,
-   "total_units": 7,
+   "total_units": 75,
    "restricted_units": null,
    "events": [
     {
@@ -10725,7 +10725,7 @@
    "first_year": 2024,
    "latest_year": 2025,
    "total_units": 54,
-   "restricted_units": null,
+   "restricted_units": 54,
    "events": [
     {
      "stage": "funded",
@@ -11021,36 +11021,6 @@
    ]
   },
   {
-   "id": "city-pueblo-08101",
-   "name": "City of Pueblo",
-   "city": null,
-   "county_fips": "08101",
-   "county_fips_all": null,
-   "county": "Pueblo County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 15,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "Prop 123 homeownership (AHOP)",
-     "amount": 100000,
-     "amount_label": "awarded",
-     "source_url": "https://drive.google.com/file/d/1w3Th1DYn7LdEVXwaztQlxb5YYXTKlTl4/view",
-     "quote": "Project: City of Pueblo; Program: Proposition 123 (AHOP); Amount: $100,000; Amount basis: awarded; Homes: 15; Announced: 2025-03-11; Source: State Housing Board vote summary, meeting of 2025-03-11 (printed in the 2025-04-08 board packet)",
-     "announced": "2025-03-11",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "State Housing Board vote summary, meeting of 2025-03-11 (printed in the 2025-04-08 board packet)"
-    }
-   ]
-  },
-  {
    "id": "compass-pointe-08101",
    "name": "Compass Pointe",
    "city": "Pueblo",
@@ -11062,7 +11032,7 @@
    "first_year": 2023,
    "latest_year": 2025,
    "total_units": 192,
-   "restricted_units": null,
+   "restricted_units": 192,
    "events": [
     {
      "stage": "not_funded",
@@ -11557,36 +11527,6 @@
    ]
   },
   {
-   "id": "homesfund",
-   "name": "HomesFund",
-   "city": null,
-   "county_fips": null,
-   "county_fips_all": null,
-   "county": null,
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 70,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "DOLA",
-     "program": "Prop 123 support fund",
-     "amount": 1699970,
-     "amount_label": "awarded",
-     "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-     "quote": "Project: HomesFund; Program: Proposition 123; Amount: $1,699,970; Amount basis: awarded; Homes: 70; Announced: 2024-07-01/2025-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-     "announced": "2024-07-01/2025-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)"
-    }
-   ]
-  },
-  {
    "id": "zocalo-liora-chif",
    "name": "Zocalo Liora CHIF",
    "city": null,
@@ -11687,7 +11627,7 @@
    "first_year": 2023,
    "latest_year": 2024,
    "total_units": 120,
-   "restricted_units": null,
+   "restricted_units": 120,
    "events": [
     {
      "stage": "funded",
@@ -11923,8 +11863,8 @@
    "stage": "funded",
    "first_year": 2023,
    "latest_year": 2024,
-   "total_units": 178,
-   "restricted_units": null,
+   "total_units": 179,
+   "restricted_units": 178,
    "events": [
     {
      "stage": "funded",
@@ -12534,7 +12474,7 @@
    "first_year": 2023,
    "latest_year": 2024,
    "total_units": 190,
-   "restricted_units": null,
+   "restricted_units": 190,
    "events": [
     {
      "stage": "funded",
@@ -13139,7 +13079,7 @@
    "first_year": 2023,
    "latest_year": 2024,
    "total_units": 232,
-   "restricted_units": null,
+   "restricted_units": 232,
    "events": [
     {
      "stage": "funded",
@@ -14344,7 +14284,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 192,
-   "restricted_units": null,
+   "restricted_units": 192,
    "events": [
     {
      "stage": "funded",
@@ -14787,7 +14727,7 @@
    "first_year": 2023,
    "latest_year": 2023,
    "total_units": 72,
-   "restricted_units": null,
+   "restricted_units": 71,
    "events": [
     {
      "stage": "funded",
@@ -15361,7 +15301,7 @@
    "first_year": 2021,
    "latest_year": 2023,
    "total_units": 212,
-   "restricted_units": null,
+   "restricted_units": 212,
    "events": [
     {
      "stage": "funded",
@@ -15571,7 +15511,7 @@
    "first_year": 2021,
    "latest_year": 2023,
    "total_units": 80,
-   "restricted_units": null,
+   "restricted_units": 80,
    "events": [
     {
      "stage": "funded",
@@ -15792,7 +15732,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 128,
-   "restricted_units": null,
+   "restricted_units": 128,
    "events": [
     {
      "stage": "funded",
@@ -15844,8 +15784,8 @@
    "stage": "funded",
    "first_year": 2022,
    "latest_year": 2023,
-   "total_units": 167,
-   "restricted_units": null,
+   "total_units": 98,
+   "restricted_units": 97,
    "events": [
     {
      "stage": "funded",
@@ -16057,7 +15997,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 101,
-   "restricted_units": null,
+   "restricted_units": 101,
    "events": [
     {
      "stage": "funded",
@@ -16299,7 +16239,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 51,
-   "restricted_units": null,
+   "restricted_units": 51,
    "events": [
     {
      "stage": "funded",
@@ -16351,7 +16291,7 @@
    "first_year": 2022,
    "latest_year": 2023,
    "total_units": 192,
-   "restricted_units": null,
+   "restricted_units": 192,
    "events": [
     {
      "stage": "funded",

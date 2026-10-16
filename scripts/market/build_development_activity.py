@@ -92,6 +92,8 @@ NOT_A_PROJECT = re.compile(r'down ?payment|\bDPA\b|rehabilitation program|\bSFOO
                            r'mortgage|\bprograms?\b|\bSFR\b|DPA\b|single family owner|first time home ?ownership|'
                            r'initiative|\bAHIF ?\d*\b|\bROC\b|Resident Ownership Capital|Impact Development Fund|'
                            r'Next Step 2 Generation', re.I)
+DOLA_PROGRAM_TEXT = re.compile(r'opted[- ]in areas|various (?:addresses|locations)|\brepairs?\b|'
+                               r'down ?payment|mortgage', re.I)
 # A Prop 123 homeownership (AHOP) award that prints no homes funds buyers or
 # repairs across a service area, not homes on one site.
 NO_HOMES_MEANS_PROGRAM = {'Prop 123 homeownership (AHOP)'}
@@ -226,6 +228,9 @@ class Ledger:
         # units are chosen in finish() from the latest event that prints them
         if units:
             event['_units'] = (units, restricted)
+            # DOLA prints homes served, not the property's total and restricted
+            # units (King's Crossing: 178 DOLA homes, CHFA 179 total / 178 LI)
+            event['_units_from_homes'] = event.get('agency') == 'DOLA'
         event['_name'] = name
         key = (event['stage'], event.get('year'), event.get('program'), event.get('source_url'))
         if any((e['stage'], e.get('year'), e.get('program'), e.get('source_url')) == key for e in p['events']):
@@ -386,6 +391,13 @@ def load_dola(L: Ledger) -> int:
         if not a.get('homes') and a.get('program') in NO_HOMES_MEANS_PROGRAM:
             L.programs_left_out += 1
             continue
+        # the printed award (not copied out) says when a short name ("City of
+        # Pueblo", "HomesFund") is a repair, buyer-assistance or opted-in-area
+        # program rather than homes on a site
+        printed = ' '.join(str(a.get(k) or '') for k in ('quote', 'grantee', 'program_as_printed'))
+        if DOLA_PROGRAM_TEXT.search(printed):
+            L.programs_left_out += 1
+            continue
         label = 'awarded' if a.get('amount_basis') == 'awarded' else 'requested (award amount not printed)'
         L.add(a['name'], a.get('town'), a.get('county_fips'),
               ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a),
@@ -435,7 +447,8 @@ def finish(L: Ledger) -> list[dict]:
         stage = best['stage']
         if best['stage'] == 'not_funded' and last['stage'] in ('applied', 'letter_of_intent'):
             stage = last['stage']
-        sized = [e for e in p['events'] if e.get('_units')]
+        sized = [e for e in p['events'] if e.get('_units') and not e.get('_units_from_homes')] \
+            or [e for e in p['events'] if e.get('_units')]  # DOLA's homes only when no other source prints units
         if sized:
             p['total_units'], p['restricted_units'] = max(
                 sized, key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))['_units']
@@ -445,6 +458,7 @@ def finish(L: Ledger) -> list[dict]:
         p['name'] = min((e['_name'] for e in p['events']), key=len)
         for e in p['events']:
             e.pop('_units', None)
+            e.pop('_units_from_homes', None)
             e.pop('_name', None)
         years = [e['year'] for e in p['events'] if e.get('year')]
         p['county_fips_all'] = p.get('_counties') if not p['county_fips'] and len(p.get('_counties') or []) > 1 else None

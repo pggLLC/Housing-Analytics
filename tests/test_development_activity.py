@@ -286,3 +286,28 @@ def test_a_printed_unit_count_wins_over_a_misparsed_ledger_count():
     assert checked > 50
     vs = next(p for p in d['projects'] if p['name'] == 'Valley Sun Village')
     assert vs['total_units'] == 50
+
+
+def test_a_dola_program_award_is_left_out_by_its_printed_text():
+    dola = read_json('data/policy/funding-awards/dola-awards.json')['awards']
+    programs = [a for a in dola if a.get('homes') and dev.DOLA_PROGRAM_TEXT.search(
+        ' '.join(str(a.get(k) or '') for k in ('quote', 'grantee', 'program_as_printed')))]
+    assert {'City of Pueblo', 'HomesFund'} <= {a['name'] for a in programs}
+    d = load()
+    dola_names = {e['quote'].split(';')[0] for p in d['projects'] for e in p['events'] if e['agency'] == 'DOLA'}
+    for a in programs:
+        assert f"Project: {a['name']}" not in dola_names, a['name']
+    # a mobile home park sold to its owner-occupants is a site, not a program
+    assert any(p['name'] == 'Swiss Village' for p in d['projects'])
+
+
+def test_dola_homes_never_replace_a_printed_unit_count():
+    L = _ledger()
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add("King's Crossing", 'Denver', '08031', dev.ev('funded', 2024, 'CHFA', 'p', **q), 179, 178)
+    L.add("King's Crossing", 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), 178)
+    r = dev.finish(L)[0]
+    assert (r['total_units'], r['restricted_units']) == (179, 178)
+    L = _ledger()
+    L.add('Only Dola', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), 40)
+    assert dev.finish(L)[0]['total_units'] == 40  # DOLA's count stands when nothing else prints one
