@@ -513,3 +513,23 @@ def test_dola_fund_suffixes_join_and_a_twin_deal_counts_both_buildings():
     committed = load()['projects']
     assert sum(p['name'].startswith('Zocalo Liora') for p in committed) == 1
     assert next(p for p in committed if p['name'] == 'Vina Senior Residences')['total_units'] == 152
+
+
+def test_address_names_join_however_the_street_is_abbreviated():
+    # 101 Main and 101 W. Main St are one Frisco building (#2261 review);
+    # another house number on the same street is another building
+    assert dev.core_name('101 W. Main St') == dev.core_name('101 Main')
+    assert dev.core_name('3 Mile MHP - Prop-123') == dev.core_name('3 Mile Mobile Home Park')
+    assert dev.core_name('4965 Washington Street') != dev.core_name('4995 Washington')
+    names = {p['name'] for p in load()['projects']}
+    assert len({'101 Main', '101 W. Main St'} & names) == 1
+
+
+def test_a_null_unit_count_carries_its_reason():
+    # an unknown count is null with the reason, never 0 (AGENTS.md; #2261 review)
+    rows = load()['projects']
+    for p in rows:
+        for k in ('total_units', 'restricted_units'):
+            assert (p[k] is None) == bool(p[f'{k}_unavailable_reason']), (p['name'], k)
+            assert p[k] != 0, (p['name'], k)
+    assert any(p['restricted_units'] is None for p in rows)  # the scan found absences to check

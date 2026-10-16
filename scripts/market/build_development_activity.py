@@ -124,9 +124,16 @@ def core_name(name: str) -> str:
     # names each financing award after its fund ("Zocalo Liora CHIF" and
     # "Zocalo Liora THLF" are one development)
     n = re.sub(r'\s(?:thlf|tahlf|chif|tahg|hdg)$', '', n)
+    n = re.sub(r'\sprop 123$', '', n)  # "3 Mile MHP - Prop-123" names the fund, not a second park
+    # a name that is a street address reads alike however the street is
+    # abbreviated: "101 W. Main St" and "101 Main" are one Frisco building
+    if re.match(r'\d+ ', n):
+        n = ' '.join(w for w in n.split() if w not in ADDRESS_WORDS)
     return re.sub(r'\s+', ' ', re.sub(r'\bphase (?:1|one)\b|\bpsh\b', ' ', n)).strip()
 
 
+ADDRESS_WORDS = {'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'st', 'street', 'ave', 'avenue',
+                 'rd', 'road', 'blvd', 'boulevard', 'dr', 'drive', 'way', 'ct', 'court', 'pl', 'place'}
 ROMAN = {'iv': '4', 'v': '5', 'vi': '6', 'vii': '7', 'viii': '8', 'ix': '9'}  # norm_name maps i–iii
 
 
@@ -595,6 +602,14 @@ def finish(L: Ledger) -> list[dict]:
             twin = twin_award_units(p['events'])
             if twin and twin[0] > p['total_units']:
                 p['total_units'], p['restricted_units'] = twin
+        # an unknown count is null with the reason, never 0
+        p['total_units_unavailable_reason'] = None if p.get('total_units') is not None else \
+            'no source prints a home count for this project'
+        p['restricted_units_unavailable_reason'] = None if p.get('restricted_units') is not None else (
+            p['total_units_unavailable_reason'] if p.get('total_units') is None else
+            'no source prints an income-restricted count; '
+            + ' and '.join(sorted({e['agency'] for e in sized}))
+            + (' prints' if len({e['agency'] for e in sized}) == 1 else ' print') + ' total homes only')
         # the ledger's name column sometimes carries the next column's text
         # ("Tungsten Village fka: Third Street Community Boulder County Housing
         # Authority"); the shortest name a source prints is the cleanest
@@ -617,7 +632,8 @@ def finish(L: Ledger) -> list[dict]:
         if seen[r['id']] > 1:
             r['id'] += f"-{seen[r['id']]}"
     return [{k: r[k] for k in ('id', 'name', 'city', 'county_fips', 'county_fips_all', 'county', 'place_geoid', 'stage',
-                               'first_year', 'latest_year', 'total_units', 'restricted_units', 'events')}
+                               'first_year', 'latest_year', 'total_units', 'total_units_unavailable_reason', 'restricted_units',
+                               'restricted_units_unavailable_reason', 'events')}
             for r in out]
 
 
