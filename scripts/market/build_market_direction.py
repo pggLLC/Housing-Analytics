@@ -251,7 +251,7 @@ def build() -> dict:
             try:
                 stamps.append(stamp(read(os.path.join(folder, f'{f}.json'))))
             except OSError:
-                pass
+                continue  # a county with no file has a null signal and adds no stamp
     tally: dict[str, int] = {}
     edge_tally: dict[str, int] = {}
     for r in counties.values():
