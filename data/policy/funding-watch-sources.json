@@ -103,11 +103,11 @@
       "why": "Division of Housing application deadlines and State Housing Board award results; a new line means a round opened or was decided."
     },
     {
-      "id": "doh-pab-direct-allocations",
+      "id": "doh-private-activity-bonds",
       "agency": "DOLA Division of Housing",
-      "title": "Private Activity Bond Direct Allocations 2026",
-      "url": "https://doh.colorado.gov/private-activity-bond-direct-allocations-2026",
-      "why": "Statewide private activity bond cap given directly to local issuers; a change shows bond cap moving toward 4% housing deals."
+      "title": "Private Activity Bonds",
+      "url": "https://doh.colorado.gov/private-activity-bonds",
+      "why": "DOH's private activity bond index, which links each year's direct allocations page; a new year's link means new bond cap has been given to local issuers for 4% housing deals."
     },
     {
       "id": "dola-prop123",
