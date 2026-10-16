@@ -41,6 +41,10 @@ study or a CHFA award prediction.
   limits, is published only in CHFA's Excel application and is not checked. The
   per-project limits assume the applicant and its affiliates have no other active
   CHFA applications; requests in those count against the same limits.
+- Two CHFA conditions are disclosed beside the figures they limit but not yet
+  checked: the tax-exempt bond aggregate basis test for 4% credits, and CHFA's
+  minimum rehabilitation hard costs (the greater of 20% of the building's
+  adjusted basis or $20,000 per unit) for acquisition and rehabilitation.
 - State credit counts as a source only once CHFA has awarded it, because CHFA
   sizes it with a three-test calculation this calculator does not model. Each
   CHFA state credit application has its own limit; the 9% pairing is a fixed

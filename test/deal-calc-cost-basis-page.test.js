@@ -92,8 +92,10 @@ async function test(name, fn) {
 
   await test('a 4% deal names its state credit application, and each application has its own limit', async () => {
     const p = await openPage('');
+    assert(!text(p, 'dc-cb-detail').includes(cb.BOND_TEST_NOTE), 'a 9% deal has no bond test');
     setField(p, 'dc-rate-4', true);
     assert.equal(p.w.__DealCalc.getResult().creditType, '4', 'the 4% scenario is selected');
+    assert(text(p, 'dc-cb-detail').includes(cb.BOND_TEST_NOTE), 'a 4% deal says the aggregate basis test is assumed, not checked');
     setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-price', 0.8); setField(p, 'dc-state-awarded', true);
     const r = () => p.w.__DealCalc.getResult().costBasis.stateCredit;
     assert.equal(r().equity, null);

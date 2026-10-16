@@ -13,7 +13,7 @@
       "adopted": "In force for the stated period; the calculator applies it.",
       "draft": "Proposed but not adopted; shown separately and not applied."
     },
-    "not_included": "CHFA's cost basis limits (Method Three, published only in the Excel application), the state credit three-test calculation, HUD subsidy layering limits, CHFA's discretionary developer-fee increase for special populations, and CHFA's discretion to award less credit than the calculated amount."
+    "not_included": "CHFA's cost basis limits (Method Three, published only in the Excel application), the state credit three-test calculation, HUD subsidy layering limits, CHFA's discretionary developer-fee increase for special populations, the tax-exempt bond aggregate basis test for 4% credits, CHFA's minimum rehabilitation hard costs, and CHFA's discretion to award less credit than the calculated amount."
   },
   "sources": {
     "S1": {

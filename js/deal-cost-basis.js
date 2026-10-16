@@ -84,6 +84,9 @@
   /** Status of one rule: applied only when adopted and its source exists. */
   // QAP 3.L sets CHFA's credit limits per project AND per applicant (with affiliates), so
   // requests in the applicant's other active applications use up the same limit.
+  // Two CHFA conditions the calculator has no inputs for yet; it says so beside the figures they limit.
+  var BOND_TEST_NOTE = 'Assumes the tax-exempt bonds meet the aggregate basis test. Otherwise CHFA allows 4% credit only on the share of eligible basis the bonds finance (CHFA 2025-2026 QAP, PDF page 54). Not checked here.';
+  var REHAB_MINIMUM_NOTE = 'CHFA also requires rehabilitation hard costs, not counting acquisition or soft costs, above the greater of 20% of the building\'s adjusted basis or $20,000 per unit (CHFA 2025-2026 QAP, PDF page 35). Not checked here.';
   var APPLICANT_LIMIT_NOTE = 'CHFA\'s limits apply per project and per applicant, with its affiliates, so credit requested in their other active CHFA applications leaves less for this one. These figures assume there are none.';
 
   function ruleStatus(rules, key) {
@@ -568,7 +571,7 @@
   }
 
   return {
-    RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
+    RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, BOND_TEST_NOTE: BOND_TEST_NOTE, REHAB_MINIMUM_NOTE: REHAB_MINIMUM_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
     CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
