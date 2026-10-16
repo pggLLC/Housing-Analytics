@@ -20,6 +20,11 @@ dev = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(dev)
 
 
+def read_json(rel):
+    with open(os.path.join(ROOT, rel)) as fh:
+        return json.load(fh)
+
+
 def load():
     with open(OUT) as fh:
         return json.load(fh)
@@ -108,3 +113,76 @@ def test_furthest_stage_wins_and_a_reapplication_outranks_a_loss():
     assert dev.finish(L)[0]['stage'] == 'applied'
     L.add('Test Place', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'q', **q))
     assert dev.finish(L)[0]['stage'] == 'funded'
+
+
+def test_ownership_and_partner_headings_are_stripped_too():
+    q = 'Project Name: X; Ownership: Some Group; General Partner: Y LLC; Total Units: 40'
+    assert dev.strip_sponsor(q) == 'Project Name: X; Total Units: 40'
+
+
+def test_dola_quotes_do_not_carry_the_grantee():
+    d = load()
+    dola = read_json('data/policy/funding-awards/dola-awards.json')['awards']
+    grantees = {a['grantee'] for a in dola if a.get('grantee') and len(a['grantee']) > 5}
+    quotes = [e['quote'] for p in d['projects'] for e in p['events'] if e['agency'] == 'DOLA']
+    assert len(quotes) > 100
+    for p in d['projects']:
+        for e in p['events']:
+            if e['agency'] != 'DOLA':
+                continue
+            for g in grantees:
+                if g in e['quote']:
+                    assert g in p['name'] or g in (p['city'] or ''), (g, e['quote'])
+
+
+def test_no_project_name_carries_an_award_report_sponsor():
+    d = load()
+    rows = read_json('data/policy/funding-awards/award-rows.json')['rows']
+    sponsors = {r['sponsor'] for r in rows if r.get('sponsor') and len(r['sponsor']) > 8}
+    assert len(sponsors) > 50
+    # a sponsor the report itself prints inside the project's name ("Metro
+    # Caring" for "Metro Caring Housing") is the project's name, not a leak
+    sponsors -= {r['sponsor'] for r in rows if r.get('sponsor') and r['sponsor'] in (r.get('name') or '')}
+    for p in d['projects']:
+        for s in sponsors:
+            assert s not in p['name'], (s, p['name'])
+
+
+def _ledger():
+    L = dev.Ledger(set(), {}, {'08031': 'Denver County', '08041': 'El Paso County'})
+    L.county_places = {}
+    L.city_county = {'denver': '08031', 'colorado springs': '08041'}
+    L.city_counties = {'denver': {'08031'}, 'colorado springs': {'08041'}}
+    return L
+
+
+def test_same_name_in_two_towns_is_two_projects_even_with_a_wrong_county():
+    L = _ledger()
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: Ridge')
+    L.add('Ridge', 'Colorado Springs', '08041', dev.ev('funded', 2016, 'CHFA', 'p', **q), 60)
+    L.add('Ridge', 'Denver', '08041', dev.ev('applied', 2026, 'CHFA', 'p', **q), 140)
+    rows = dev.finish(L)
+    assert sorted((r['city'], r['county_fips'], r['stage']) for r in rows) == [
+        ('Colorado Springs', '08041', 'funded'), ('Denver', '08031', 'applied')]
+
+
+def test_a_name_inside_another_joins_only_when_units_agree():
+    L = _ledger()
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Park Avenue West Apartments', 'Denver', '08031', dev.ev('funded', 2019, 'CHFA', 'p', **q), 122)
+    L.add('Park Avenue Apartments', 'Denver', '08031', dev.ev('funded', 2025, 'CHFA', 'p', **q), 60)
+    L.add('Park Avenue Apartments', 'Denver', '08031', dev.ev('applied', 2024, 'CHFA', 'p', **q), 60)
+    assert len(dev.finish(L)) == 2
+
+
+def test_a_project_without_units_is_counted_never_as_zero_homes():
+    L = _ledger()
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Alpha', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q))
+    rows = dev.finish(L)
+    s = dev.county_summary(rows, {'08031': 'Denver County'}, 2022)['08031']
+    assert s['projects'] == 1 and s['projects_without_homes'] == 1 and s['homes'] is None
+    assert s['by_stage']['funded']['homes'] is None
+    L.add('Beta', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), 40)
+    s = dev.county_summary(dev.finish(L), {'08031': 'Denver County'}, 2022)['08031']
+    assert (s['projects'], s['homes'], s['projects_without_homes']) == (2, 40, 1)

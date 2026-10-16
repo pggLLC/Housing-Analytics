@@ -52,6 +52,11 @@ _spec = importlib.util.spec_from_file_location(
 apps_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(apps_mod)
 awards = apps_mod.awards
+sys.path.insert(0, os.path.join(ROOT, 'scripts', 'funding'))
+_spec = importlib.util.spec_from_file_location(
+    'build_award_rows', os.path.join(ROOT, 'scripts', 'funding', 'build_award_rows.py'))
+rows_mod = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(rows_mod)
 
 APPLICATIONS = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')
 EXCLUDED = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications-excluded.json')
@@ -139,7 +144,7 @@ class Ledger:
             return None  # a scattered site in several towns has no one place
         return g if g and (not county or g in self.county_places.get(county, ())) else None
 
-    def find(self, name_n: str, county: str | None, city_n: str) -> dict | None:
+    def find(self, name_n: str, county: str | None, city_n: str, units: int | None) -> dict | None:
         for p in self.projects:
             if not same_project(p['_name_n'], name_n):
                 continue
@@ -147,8 +152,16 @@ class Ledger:
                     and county not in self.city_counties.get(p['_city_n'], ()) \
                     and p['county_fips'] not in self.city_counties.get(city_n, ()):
                 continue  # a town in two counties (Aurora) may be printed with either
-            if not county and city_n and p['_city_n'] and p['_city_n'] != city_n:
+            # two towns are two projects ("The Ridge" in Colorado Springs and in
+            # Denver), unless one printing contains the other ("Pueblo CHFA")
+            if city_n and p['_city_n'] and city_n not in p['_city_n'] and p['_city_n'] not in city_n:
                 continue
+            # a name inside a longer name ("Park Avenue Apartments", "Park Avenue
+            # West Apartments") is one project only if the unit counts agree
+            if p['_name_n'] != name_n and units:
+                known = [e['_units'][0] for e in p['events'] if e.get('_units')]
+                if known and not any(abs(k - units) <= 0.15 * max(k, units) for k in known):
+                    continue
             return p
         return None
 
@@ -177,7 +190,12 @@ class Ledger:
                     break
         if not county and city_n and ',' not in (city or ''):
             county = self.city_county.get(city_n)  # a town wholly in one county
-        p = self.find(name_n, county, city_n)
+        elif county and city_n in self.city_county and county not in self.city_counties.get(city_n, ()):
+            # the printed town lies wholly in another county: the town wins (an
+            # application for "Ridge" in Denver was placed in El Paso County by
+            # matching its name to an older Colorado Springs property)
+            county = self.city_county[city_n]
+        p = self.find(name_n, county, city_n, units)
         if p is None:
             p = {'name': name, 'city': city or None, 'county_fips': county,
                  'county': self.county_names.get(county) if county else None,
@@ -210,7 +228,7 @@ def ev(stage: str, year, agency: str, program: str, source_url: str | None, quot
 
 
 SPONSOR_FIELD = re.compile(
-    r'\s*[^:;]*\b(sponsors?|owners?|developers?|contacts?|e-?mail|phone|grantee|borrowers?|applicants?)\b[^:;]*:', re.I)
+    r'\s*[^:;]*\b(sponsor|owner|developer|contact|e-?mail|phone|grantee|borrower|applicant|partner)\w*[^:;]*:', re.I)
 
 
 def strip_sponsor(quote: str | None) -> str | None:
@@ -243,16 +261,20 @@ def load_applications(L: Ledger) -> int:
 
 
 def load_awards(L: Ledger) -> int:
-    rows = read(AWARD_ROWS)['rows']
-    by_file: dict[str, list[dict]] = {}
-    for r in rows:
-        by_file.setdefault(r['source_file'], []).append(r)
+    # Each ledger award has one printed row in award-rows.json under the same
+    # key (file, amount, units, counter). The printed row's name and location
+    # are used: the ledger's own name column runs into the sponsor column on
+    # some reports ("Adams County Housing Authority N,S Crossing Pointe Phase I").
+    by_key = {r['key']: r for r in read(AWARD_ROWS)['rows']}
+    ledger = read(LEDGER)['awards']
     n = 0
-    for a in read(LEDGER)['awards']:
+    for a, key in zip(ledger, rows_mod.ledger_keys(ledger)):
         if (a.get('year') or 0) < FIRST_YEAR:
             continue
-        quote = next((r['quote'] for r in by_file.get(a['source_file'], [])
-                      if apps_mod.similar(apps_mod.norm_name(r.get('name') or ''), apps_mod.norm_name(a['name']))), None)
+        row = by_key.get(key)
+        quote = row['quote'] if row else None
+        name = (row or {}).get('name') or a['name']
+        location = (row or {}).get('location') or a.get('location')
         land = a['program'] == 'Prop 123 Land Banking'
         if a.get('amount_awarded'):
             amt, label = a['amount_awarded'], 'awarded'
@@ -266,9 +288,9 @@ def load_awards(L: Ledger) -> int:
         if quote is None:  # award-rows has no printed row for it: list the parsed fields instead
             basis = 'fields as parsed from the award report; no printed row matched'
             quote = '; '.join(f'{k}: {v}' for k, v in (
-                ('Name', a['name']), ('Location', a.get('location')), ('Total Units', a.get('total_units')),
+                ('Name', name), ('Location', location), ('Total Units', a.get('total_units')),
                 ('Amount', money(amt)), ('Year', a.get('year'))) if v)
-        L.add(a['name'], a.get('location'), a.get('county_fips'),
+        L.add(name, location, a.get('county_fips'),
               ev('land_funded' if land else 'funded', a.get('year'), a['agency'], a['program'],
                  a.get('source_url'), strip_sponsor(quote), amt, label, quote_basis=basis,
                  state_credit=a.get('state_credit'), bond_amount=a.get('bond_amount'),
@@ -295,6 +317,16 @@ def load_round_2026(L: Ledger) -> int:
     return n
 
 
+def dola_quote(a: dict) -> str:
+    """DOLA sources print the grantee or owner beside the project (a pipe row's
+    second field, a board summary's prose), so the quote is rebuilt from the
+    fields that name the project only."""
+    return '; '.join(f'{k}: {v}' for k, v in (
+        ('Project', a.get('name')), ('Town', a.get('town')), ('Program', a.get('program_as_printed') or a.get('program')),
+        ('Amount', money(a.get('amount'))), ('Amount basis', a.get('amount_basis')), ('Homes', a.get('homes')),
+        ('Announced', a.get('announced') or a.get('year')), ('Source', a.get('source_title'))) if v)
+
+
 def load_dola(L: Ledger) -> int:
     n = 0
     for a in read(DOLA)['awards']:
@@ -302,8 +334,10 @@ def load_dola(L: Ledger) -> int:
             continue  # an award with no homes printed is a program grant, not a project
         label = 'awarded' if a.get('amount_basis') == 'awarded' else 'requested (award amount not printed)'
         L.add(a['name'], a.get('town'), a.get('county_fips'),
-              ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), a.get('quote'),
+              ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a),
                  a.get('amount'), label, announced=a.get('announced'),
+                 quote_basis=('fields as recorded from the source; the printed text names the grantee, '
+                              'so it is not copied'),
                  confirmed=a.get('confirmed'), source_title=a.get('source_title')),
               a.get('homes'))
         n += 1
@@ -375,18 +409,27 @@ def finish(L: Ledger) -> list[dict]:
 
 
 def county_summary(projects: list[dict], county_names: dict[str, str], since: int) -> dict:
-    out = {f: {'name': n, 'projects': 0, 'homes': 0, 'by_stage': {s: {'projects': 0, 'homes': 0} for s in STAGES}}
+    """Projects and homes by county and stage. A project with no unit count
+    adds to projects_without_homes, never 0 to homes; a group whose projects
+    all lack a count has homes null."""
+    def bucket():
+        return {'projects': 0, 'homes': 0, 'projects_without_homes': 0}
+    out = {f: dict(name=n, **bucket(), by_stage={s: bucket() for s in STAGES})
            for f, n in sorted(county_names.items())}
     for p in projects:
         f = p['county_fips']
         if f not in out or (p['latest_year'] or 0) < since:
             continue
-        homes = p['total_units'] or 0
-        c = out[f]
-        c['projects'] += 1
-        c['homes'] += homes
-        c['by_stage'][p['stage']]['projects'] += 1
-        c['by_stage'][p['stage']]['homes'] += homes
+        for b in (out[f], out[f]['by_stage'][p['stage']]):
+            b['projects'] += 1
+            if p['total_units']:
+                b['homes'] += p['total_units']
+            else:
+                b['projects_without_homes'] += 1
+    for c in out.values():
+        for b in [c, *c['by_stage'].values()]:
+            if b['projects'] and b['projects'] == b['projects_without_homes']:
+                b['homes'] = None
     return out
 
 
@@ -461,7 +504,9 @@ def build() -> dict:
             'summary_since': since,
             'summary_note': (f'county_summary counts projects whose latest event is {since} or later (the latest '
                              f'year any source records, {latest}, less three), by stage, '
-                             'with homes as printed (total units). Counties with none are listed with zeros.'),
+                             'with homes as printed (total units). homes counts only projects that print a unit '
+                             'count; projects_without_homes says how many do not, and homes is null when none '
+                             'does. Counties with no projects are listed with zeros.'),
         },
         'county_summary': county_summary(projects, county_names, since),
         'projects': projects,
