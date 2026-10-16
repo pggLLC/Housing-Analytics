@@ -222,6 +222,25 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('a 9% deal with a purchase and a federal grant asks where the grant went', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-tdc', 21000000);
+    setField(p, 'dc-cost-building_acquisition', 1000000);
+    setField(p, 'dc-acq-42d2', true);
+    const row = p.d.querySelector('[data-tranche-id]');
+    const amount = row.querySelector('.dc-tr-amount'); amount.value = '500000'; amount.dispatchEvent(new p.w.Event('input', { bubbles: true }));
+    const grant = row.querySelector('.dc-tr-mode[value="grant"]'); grant.checked = true; grant.dispatchEvent(new p.w.Event('change', { bubbles: true }));
+    const fed = row.querySelector('.dc-tr-fed'); fed.value = 'federal'; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
+    assert.match(text(p, 'dc-r-basis'), /Unavailable.*paid for the building purchase/);
+    assert.equal(p.w.__DealCalc.getResult().costBasis.basis.calculatedCredit, null);
+    setField(p, 'dc-grant-acq', 0);
+    const b = p.w.__DealCalc.getResult().costBasis.basis;
+    const other = cb.summarizeCosts(cb.exampleLines(), 20000000).eligible - 500000;
+    assert.equal(text(p, 'dc-r-basis'), money(other + 1000000));
+    assert.equal(Math.round(b.calculatedCredit), Math.round(1000000 * 0.04 + other * 0.09), 'purchase at 4%, the rest at 9%');
+    assert.deepEqual(p.errors, []);
+  });
+
   await test('the boost help text agrees with the boost rules and the CHFA percentage input', async () => {
     const p = await openPage('');
     const help = text(p, 'dc-boost-help');

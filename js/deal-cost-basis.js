@@ -338,12 +338,28 @@
     if (args.feeExcess === null) return stop('afterGrant', args.feeReason || 'The fee to take out of basis is unknown.');
     out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
     out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
-    // Fees are never acquisition basis. With no input saying which costs a grant
-    // financed, a federal grant is spread over acquisition and other basis in
-    // proportion, so neither bucket is charged first (Method One prices them apart).
+    // Fees are never acquisition basis. A federal grant reduces the basis it financed.
+    // Method One prices acquisition and other basis at different rates on a 9% deal,
+    // so there the split must be entered; where the rates match it cannot change the
+    // credit, and the grant is spread over both in proportion.
     var acqCost = Math.min(Math.max(0, args.acquisitionEligible || 0), out.eligibleBasis);
     var otherCost = Math.max(0, out.eligibleBasis - acqCost - out.feeReduction);
     var grantOnAcq = acqCost + otherCost > 0 ? out.grantReduction * acqCost / (acqCost + otherCost) : 0;
+    out.grantSplitEntered = false;
+    if (out.grantReduction > 0 && acqCost > 0 && otherCost > 0 && String(args.creditType) === '9') {
+      var enteredOnAcq = num(args.grantOnAcquisition);
+      if (enteredOnAcq === null) {
+        return stop('afterGrant', 'Enter how much of the federal grant paid for the building purchase: on a 9% deal acquisition basis earns the 4% rate and the rest earns 9%, so where the grant went changes the credit.');
+      }
+      if (!Number.isFinite(enteredOnAcq) || enteredOnAcq < 0 || enteredOnAcq > Math.min(out.grantReduction, acqCost) + 0.5) {
+        return stop('afterGrant', 'Enter a federal grant amount for the building purchase between $0 and ' + money(Math.min(out.grantReduction, acqCost)) + '.');
+      }
+      if (out.grantReduction - enteredOnAcq > otherCost + 0.5) {
+        return stop('afterGrant', 'The federal grant left for other costs is more than their basis; enter more of it against the building purchase.');
+      }
+      grantOnAcq = enteredOnAcq;
+      out.grantSplitEntered = true;
+    }
     out.grantOnAcquisition = acqCost > 0 && out.grantReduction > 0 ? grantOnAcq : 0;
 
     var boost = ruleStatus(rules, 'basis_boost');
@@ -529,8 +545,9 @@
       if (!Number.isFinite(amount) || amount < 0) { out.reason = 'Enter an annual ' + st[2].toLowerCase() + ' of $0 or more.'; return out; }
       var cap = ruleStatus(args.rules, st[1]);
       var row = { label: st[2], annual: amount, allowedAnnual: amount, cap: null, capReason: null };
-      if (!cap.applied) row.capReason = st[2] + ' limit: ' + cap.reason + '.';
-      else if (cap.rule.fixed_annual) {
+      // Without its sourced limit the allowed amount is unknown, so no equity.
+      if (!cap.applied) { out.reason = st[2] + ' limit: ' + cap.reason + '.'; return out; }
+      if (cap.rule.fixed_annual) {
         // A fixed pairing is that amount or none (QAP 3.L), not a ceiling.
         if (amount !== cap.rule.fixed_annual) {
           out.reason = 'CHFA pairs a fixed ' + money(cap.rule.fixed_annual) + ' of ' + st[2].toLowerCase() + ' a year with this application (' +

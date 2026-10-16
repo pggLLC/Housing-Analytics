@@ -27,7 +27,8 @@ function runBasisCase(c, ruleFile, overrides) {
     eligibleCost: summary.eligible, costReason: summary.reason, acquisitionEligible: summary.acquisitionEligible, acquisitionQualifies: c.acquisitionQualifies !== false,
     grantReduction: grants.reduction, grantReason: grants.reason, designation: c.designation, evidence: c.evidence,
     creditType: c.creditType, creditRate: c.creditRate, units: c.units, lowIncomeUnits: c.lowIncomeUnits,
-    residentialSf: c.residentialSf, lowIncomeSf: c.lowIncomeSf, requested: c.requested, awarded: c.awarded, rules: ruleFile }) };
+    residentialSf: c.residentialSf, lowIncomeSf: c.lowIncomeSf, requested: c.requested, awarded: c.awarded,
+    grantOnAcquisition: c.grantOnAcquisition, rules: ruleFile }) };
 }
 
 test('fixtures are marked invented', () => {
@@ -115,10 +116,9 @@ test('a designation without evidence, or CHFA boost on a 4% deal, gives no boost
 
 test('the boost applies once, never to acquisition basis, and never above eligible cost x 130%', () => {
   const lines = clone(cases.basisCase.lines).concat([{ id: 'building_acquisition', label: 'Building', group: 'acquisition', basis: 'eligible', amount: 1000000 }]);
-  const { result } = runBasisCase(cases.basisCase, rules, { lines, tdc: 21600000 });
-  // The case's $500,000 federal grant is spread over $1,000,000 acquisition and $18,200,000 other basis.
-  const grantOnAcq = 500000 * 1000000 / 19200000;
-  assert.equal(round(result.boostedBasis), round((18200000 - (500000 - grantOnAcq)) * 1.3 + (1000000 - grantOnAcq)));
+  // The case's $500,000 federal grant paid only for the rehabilitation (entered: $0 against the purchase).
+  const { result } = runBasisCase(cases.basisCase, rules, { lines, tdc: 21600000, grantOnAcquisition: 0 });
+  assert.equal(round(result.boostedBasis), round((18200000 - 500000) * 1.3 + 1000000));
   for (const designation of ['qct', 'dda', 'sadda']) {
     const r = runBasisCase(cases.basisCase, rules, { designation, tranches: [] }).result;
     assert(r.boostedBasis <= r.eligibleBasis * 1.3 + 0.01, designation + ' stays within 130%');
@@ -327,6 +327,12 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   assert.match(nine.reason, /federal 4% credits/);
   const noTerm = JSON.parse(JSON.stringify(rules)); delete noTerm.rules.state_credit_term;
   assert.match(cb.stateCredit({ annual: 400000, price: 0.8, creditType: '9', rules: noTerm }).reason, /rule not sourced/);
+  // An awarded amount with no sourced limit has no enforceable cap: no equity, not the entered amount.
+  assert(four('bond_fall', 60).equity > 0, 'non-vacuous: with its limit the stream has equity');
+  const noCap = clone(rules); delete noCap.rules.credit_cap_state_with_4pct.source;
+  const uncapped = four('bond_fall', 60, { rules: noCap });
+  assert.equal(uncapped.equity, null);
+  assert.match(uncapped.reason, /State credit limit: rule not sourced/);
   // Unknown units are not zero units.
   for (const units of [undefined, null, '', 0]) {
     const s0 = four('bond_fall', units);
@@ -365,10 +371,21 @@ test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabili
   assert.equal(u.calculatedCredit, null);
   assert.match(u.reasons.acquisitionRate, /rule not sourced/);
   assert.equal(Math.round(base9({ rules: unsourced }).calculatedCredit), 180000, 'no acquisition, no acquisition rate needed');
-  // A federal grant is spread over acquisition and other basis, not charged to one first.
-  const g = base9({ acquisitionEligible: 1000000, grantReduction: 1000000 });
-  assert.equal(Math.round(g.grantOnAcquisition), 500000);
-  assert.equal(Math.round(g.calculatedCredit), 500000 * 0.04 + 500000 * 0.09);
+  // On a 9% deal the rates differ, so where a federal grant went changes the credit:
+  // the split must be entered, never assumed.
+  const unsplit = base9({ acquisitionEligible: 1000000, grantReduction: 1000000 });
+  assert.equal(unsplit.calculatedCredit, null);
+  assert.match(unsplit.reasons.afterGrant, /paid for the building purchase/);
+  const onRehab = base9({ acquisitionEligible: 1000000, grantReduction: 1000000, grantOnAcquisition: 0 });
+  assert.equal(Math.round(onRehab.calculatedCredit), 1000000 * 0.04, 'Codex example scaled: grant all on rehab');
+  const onAcq = base9({ acquisitionEligible: 1000000, grantReduction: 1000000, grantOnAcquisition: 1000000 });
+  assert.equal(Math.round(onAcq.calculatedCredit), 1000000 * 0.09);
+  assert.match(base9({ acquisitionEligible: 1000000, grantReduction: 1000000, grantOnAcquisition: 1500000 }).reasons.afterGrant, /between \$0 and \$1,000,000/);
+  // On a 4% deal both earn the same rate, so the proportional spread cannot change the credit.
+  const fourSplit = cb.basisAndCredit({ eligibleCost: 2000000, grantReduction: 1000000, designation: 'none', creditType: '4', creditRate: 0.04,
+    units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, acquisitionQualifies: true, rules });
+  assert.equal(Math.round(fourSplit.calculatedCredit), 1000000 * 0.04);
+  assert.equal(Math.round(fourSplit.grantOnAcquisition), 500000);
 });
 
 test('capacity is the smaller of Method One and the gap calculation, and Method Three says it is not checked', () => {

@@ -2363,6 +2363,11 @@
           <input id="dc-acq-42d2" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
           <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, not placed in service during the ten years before you bought it, and rehabilitated enough to earn its own credit under 42(e) (needed before a purchase counts in basis)</span>
         </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for the building purchase ($; needed on a 9% deal with both a purchase and other basis, because the purchase earns 4% and the rest 9%)</span>
+          <input id="dc-grant-acq" type="number" min="0" step="1000" placeholder="not entered"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+        </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
             Deferred Developer Fee cap: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
@@ -3282,7 +3287,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-state-awarded', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3983,7 +3988,7 @@
     row('Cost in eligible basis', money(basis.eligibleBasis, basis.reasons.eligibleBasis));
     if (basis.feeReduction > 0) row('Less fees above CHFA\'s limits', fmt(basis.feeReduction), 'CHFA limits the fees in calculating credit; a reduction in fees reduces eligible basis (QAP 3.M.3).');
     row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).'
-      + (basis.grantOnAcquisition > 0 ? ' Spread over acquisition and other basis in proportion: ' + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
+      + (basis.grantOnAcquisition > 0 ? (basis.grantSplitEntered ? ' As entered: ' : ' Spread over acquisition and other basis in proportion (the credit rates match): ') + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
     row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
     row('Basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation + ', ' + Math.round((basis.boost.multiplier - 1) * 100) + '%' : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
     row('Basis after boost', money(basis.boostedBasis, basis.reasons.afterGrant));
