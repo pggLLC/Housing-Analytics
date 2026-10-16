@@ -209,3 +209,19 @@ def test_population_is_household_population_so_prison_moves_do_not_read_as_deman
     r = DOC['counties']['08031']['recent_demand']
     y = r['to_year']
     assert r['net_migration'] == int(sum(float(prof[('08031', k)]['netmigration']) for k in range(y - 4, y + 1)))
+
+
+def test_a_missing_recent_demand_figure_is_null_with_its_reason():
+    prof, _ = md.read_profiles(md.DOLA_PROFILES)
+    gap = dict(prof)
+    gap[('08031', 2022)] = dict(gap[('08031', 2022)], netmigration='')
+    gap[('08031', 2019)] = dict(gap[('08031', 2019)], households='')
+    r = md.recent_demand('08031', gap)
+    assert r['net_migration'] is None and 'net migration missing' in r['net_migration_unavailable_reason']
+    assert r['households_value'] is None and 'households missing' in r['households_unavailable_reason']
+    full = md.recent_demand('08031', prof)
+    assert full['net_migration'] is not None and 'net_migration_unavailable_reason' not in full
+    for c in DOC['counties'].values():  # the committed file: every null carries its reason
+        r = c['recent_demand']
+        assert r['net_migration'] is not None or r.get('net_migration_unavailable_reason')
+        assert r['households_value'] is not None or r.get('households_unavailable_reason')

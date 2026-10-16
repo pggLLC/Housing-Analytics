@@ -201,12 +201,18 @@ def recent_demand(fips: str, prof: dict) -> dict:
         return {'households_value': None, 'unavailable_reason': 'no DOLA estimates for this county'}
     years = range(latest - 4, latest + 1)
     mig = [num(prof.get((fips, y)), 'netmigration') for y in years]
-    return {'from_year': latest - 5, 'to_year': latest,
-            'households_value': cagr(num(prof[(fips, latest)], 'households'),
-                                     num(prof.get((fips, latest - 5)), 'households'), 5),
-            'households_measure': 'households, % a year',
-            'net_migration': None if any(v is None for v in mig) else int(sum(mig)),
-            'net_migration_years': f'{latest - 4}–{latest}'}
+    out = {'from_year': latest - 5, 'to_year': latest,
+           'households_value': cagr(num(prof[(fips, latest)], 'households'),
+                                    num(prof.get((fips, latest - 5)), 'households'), 5),
+           'households_measure': 'households, % a year',
+           'net_migration': None if any(v is None for v in mig) else int(sum(mig)),
+           'net_migration_years': f'{latest - 4}–{latest}'}
+    if out['households_value'] is None:
+        out['households_unavailable_reason'] = f'DOLA households missing for {latest - 5} or {latest}'
+    if out['net_migration'] is None:
+        out['net_migration_unavailable_reason'] = \
+            f'DOLA net migration missing for a year in {latest - 4}–{latest}; a partial sum is not shown'
+    return out
 
 
 def jobs_signal(fips: str) -> dict:
