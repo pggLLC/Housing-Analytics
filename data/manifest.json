@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T11:33:07.344110Z",
+  "generated": "2026-10-16T12:43:27.891440Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7705
+      "bytes": 7699
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,12 +74,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 291088
+      "bytes": 306045
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 67566
+      "bytes": 70531
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -334,7 +334,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 263815
+      "bytes": 264608
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4159,7 +4159,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 39650
+      "bytes": 6696
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -8524,7 +8524,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 396517
+      "bytes": 414118
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -8594,7 +8594,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24571
+      "bytes": 21262
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
