@@ -284,7 +284,7 @@ def test_a_printed_unit_count_wins_over_a_misparsed_ledger_count():
             if award_events and award_events[-1] is p['events'][-1]:
                 assert p['total_units'] in printed[p['name']], (p['name'], p['total_units'])
                 checked += 1
-    assert checked > 50
+    assert checked > 40  # renamed projects joined by address end on a feed row and are not checked
     vs = next(p for p in d['projects'] if p['name'] == 'Valley Sun Village')
     assert vs['total_units'] == 50
 
@@ -583,3 +583,17 @@ def test_shelter_beds_are_not_homes():
     for name in ('Navigation Campus - Aurora', 'Fort Collins Rescue Mission TAHG'):
         assert rows[name]['total_units'] is None
         assert 'shelter beds' in rows[name]['total_units_unavailable_reason']
+
+
+def test_feed_addresses_join_renames_and_dola_homes_do_not_make_a_sponsor_match():
+    # Hawthorn Court (feed) is Diagonal Plaza (award), both 73 homes at 3320
+    # 28th Street; DOLA's 35 homes at St. Louis Landing (129) must not join the
+    # separate 35-home Victoria Village Building D (#2261 review)
+    assert dev.printed_address('PROJECT: Hawthorn Court; PROJ_ADD: 3320 28th Street; PROJ_CTY: Boulder') == '3320 28th'
+    assert dev.printed_address('PROJ_ADD: 51993 Hwy 6') == dev.printed_address('Address: 51993 Highway 6')
+    ev = lambda y, u, homes=False: {'year': y, 'stage': 'funded', '_units': (u, None), '_units_from_homes': homes}
+    assert dev.project_size([ev(2024, 129), ev(2026, 35, homes=True)]) == 129
+    assert dev.project_size([ev(2026, 35, homes=True)]) == 35
+    names = {p['name'] for p in load()['projects']}
+    assert len({'Hawthorn Court', 'Diagonal Plaza'} & names) == 1
+    assert {'St. Louis Landing', 'Victoria Village Building D'} <= names

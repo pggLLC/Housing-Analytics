@@ -133,7 +133,8 @@ def core_name(name: str) -> str:
 
 
 ADDRESS_WORDS = {'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'st', 'street', 'ave', 'avenue',
-                 'rd', 'road', 'blvd', 'boulevard', 'dr', 'drive', 'way', 'ct', 'court', 'pl', 'place'}
+                 'rd', 'road', 'blvd', 'boulevard', 'dr', 'drive', 'way', 'ct', 'court', 'pl', 'place',
+                 'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane'}
 ROMAN = {'iv': '4', 'v': '5', 'vi': '6', 'vii': '7', 'viii': '8', 'ix': '9'}  # norm_name maps i–iii
 
 
@@ -526,7 +527,8 @@ def load_feed(L: Ledger) -> int:
         status = p.get('ComplianceStatus')
         building = bool(status and 'construction' in status.lower())
         quote = '; '.join(f'{k}: {v}' for k, v in (
-            ('PROJECT', p.get('PROJECT')), ('PROJ_CTY', p.get('PROJ_CTY')), ('N_UNITS', p.get('N_UNITS')),
+            ('PROJECT', p.get('PROJECT')), ('PROJ_ADD', p.get('PROJ_ADD')), ('PROJ_CTY', p.get('PROJ_CTY')),
+            ('N_UNITS', p.get('N_UNITS')),
             ('LI_UNITS', p.get('LI_UNITS')), ('YR_ALLOC', p.get('YR_ALLOC')), ('CREDIT', p.get('CREDIT')),
             ('ComplianceStatus', status)) if v not in (None, ''))
         L.add(p.get('PROJECT') or p.get('ReportedName'), p.get('PROJ_CTY'), p.get('CNTY_FIPS'),
@@ -556,23 +558,34 @@ def sponsor_keys(sponsor: str | None) -> frozenset:
     return frozenset(keys)
 
 
+def project_size(events: list[dict]) -> int | None:
+    """The total the latest unit-printing source gives, or DOLA's homes count
+    when nothing else prints one. DOLA counts the homes an award serves, which
+    can be part of a project: St. Louis Landing is 129 homes, and DOLA's 35
+    must not make it the separate 35-home Victoria Village Building D."""
+    sized = [e for e in events if e.get('_units') and not e.get('_units_from_homes')] \
+        or [e for e in events if e.get('_units')]
+    # the count finish() publishes: the latest source's
+    return max(sized, key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))['_units'][0] if sized else None
+
+
 def sponsor_joined(projects: list[dict]) -> list[dict]:
     """A renamed project with no shared address keeps its sponsor: "1600 Pearl
     St Apartments" (Prop 123 equity) and "Pearl Street Apartments" (DOLA) are
     both Northeast Denver Housing Center's 158 homes in Denver. Rows in one
-    town and county with a shared sponsor, the same phase, the same unit count
+    town and county with a shared sponsor, the same phase, the same size
     and awards no more than a year apart are one project. Copies."""
     out: list[dict] = []
     for src in projects:
         p = dict(src, events=list(src['events']))
         orgs = frozenset().union(*(e.get('_sponsors') or frozenset() for e in p['events']))
-        sizes = {e['_units'][0] for e in p['events'] if e.get('_units')}
+        size = project_size(p['events'])
         years = {e['year'] for e in p['events'] if e.get('year')}
         for q in out:
             if orgs and p['county_fips'] and q['county_fips'] == p['county_fips'] and q['_city_n'] == p['_city_n'] \
                     and orgs & frozenset().union(*(e.get('_sponsors') or frozenset() for e in q['events'])) \
                     and phase(q['_name_n']) == phase(p['_name_n']) \
-                    and sizes & {e['_units'][0] for e in q['events'] if e.get('_units')} \
+                    and size is not None and size == project_size(q['events']) \
                     and any(abs(a - b) <= 1 for a in years for b in (e['year'] for e in q['events'] if e.get('year'))):
                 q['events'] += p['events']
                 break
@@ -585,7 +598,7 @@ def printed_address(quote: str | None) -> str | None:
     """The house number and street a source prints ("Address: 1675 E. 35th
     Avenue"), with directions and street-type words dropped; None when the
     quote prints no street address."""
-    m = re.search(r'Address: ([^;]+)', quote or '')
+    m = re.search(r'(?:Address|PROJ_ADD): ([^;]+)', quote or '')
     if not m:
         return None
     words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', m[1].lower()).split() if w not in ADDRESS_WORDS]
