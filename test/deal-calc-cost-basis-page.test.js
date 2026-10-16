@@ -27,7 +27,10 @@ async function test(name, fn) {
     assert.equal(text(p, 'dc-cb-not-itemized'), money(summary.notItemized));
     assert.equal(text(p, 'dc-cb-contract'), money(summary.contract));
     assert.equal(text(p, 'dc-r-basis'), money(summary.eligible), 'every default unit is restricted, so qualified basis = cost in basis');
-    assert.equal(text(p, 'dc-cb-capacity'), money(summary.eligible * 0.09));
+    // With no county there is no mortgage, so CHFA's gap method cannot run and capacity is unknown.
+    assert.equal(text(p, 'dc-cb-capacity'), 'Unavailable');
+    assert.match(text(p, 'dc-cb-credit-note'), /needs CHFA's gap calculation/);
+    assert(text(p, 'dc-cb-detail').includes(money(summary.eligible * 0.09)), 'Method One is still shown');
     assert.equal(text(p, 'dc-cb-requested'), 'Not entered');
     assert.equal(text(p, 'dc-cb-awarded'), 'Not entered');
     assert.match(text(p, 'dc-cost-example-note'), /invented example budget/i);
@@ -45,8 +48,7 @@ async function test(name, fn) {
     const boosted = cb.summarizeCosts(cb.exampleLines(), 20000000).eligible * rules.rules.basis_boost.multiplier;
     assert.equal(text(p, 'dc-r-basis'), money(boosted));
     assert(boosted * 0.09 > rules.rules.credit_cap_federal_9pct.annual_cap, 'non-vacuous: the boosted credit is above the cap');
-    assert.equal(text(p, 'dc-cb-capacity'), money(rules.rules.credit_cap_federal_9pct.annual_cap));
-    assert.match(text(p, 'dc-cb-credit-note'), /Capped at \$1,800,000/);
+    assert.match(text(p, 'dc-cb-detail'), /Capped at \$1,800,000/, 'the cap limits Method One and says why');
     setField(p, 'dc-credit-requested', 1700000);
     setField(p, 'dc-credit-awarded', 1600000);
     assert.equal(text(p, 'dc-cb-requested'), '$1,700,000');
@@ -114,6 +116,7 @@ async function test(name, fn) {
     p.w.__DealCalc.recalculate();
     const before = p.w.__DealCalc.getResult().costBasis.basis.gapMethod;
     assert.equal(before.applied, true);
+    assert.equal(text(p, 'dc-cb-capacity'), money(p.w.__DealCalc.getResult().costBasis.basis.capacity), 'once the gap method runs, capacity is known');
     setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
     const r = p.w.__DealCalc.getResult();
     assert(r.stateEquity > 0, 'non-vacuous: state credit equity is in the capital stack');

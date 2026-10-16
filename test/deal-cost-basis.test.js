@@ -361,9 +361,15 @@ test('capacity is the smaller of Method One and the gap calculation, and Method 
   assert.equal(Math.round(big.capacity), 180000, 'a gap that needs more than Method One does not raise it');
   const unknown = cb.gapCredit({ tdc: 2000000, otherSources: NaN, otherReason: 'Mortgage unknown.', price: 0.9, rules });
   assert.equal(unknown.credit, null);
+  // Method Two could be below Method One, so while it cannot run the capacity is unknown, not Method One.
   const keep = base9({ gapCredit: unknown });
-  assert.equal(Math.round(keep.capacity), 180000);
+  assert(keep.calculatedCredit > 0, 'non-vacuous: Method One alone has a value');
+  assert.equal(keep.capacity, null);
+  assert.equal(keep.creditForEquity, null, 'no equity from an unbounded capacity');
+  assert.match(keep.reasons.capacity, /gap calculation.*Mortgage unknown\./);
   assert.equal(keep.gapMethod.reason, 'Mortgage unknown.');
+  assert.equal(base9({ gapCredit: unknown, requested: 150000 }).creditForEquity, null, 'a request is limited by a capacity we cannot know');
+  assert.equal(base9({ gapCredit: unknown, awarded: 150000 }).creditForEquity, 150000, 'an entered award is still the award');
   assert.match(r.costLimitMethod.reason, /Excel application/);
   assert.equal(r.costLimitMethod.checked, false);
 });

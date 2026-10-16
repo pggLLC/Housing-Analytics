@@ -407,8 +407,12 @@
     var gm = args.gapCredit;
     if (!methods.applied) out.gapMethod.reason = out.costLimitMethod.reason;
     else if (!gm) out.gapMethod.reason = 'The funding gap is not calculated yet.';
-    else if (gm.credit === null) out.gapMethod.reason = gm.reason;
-    else {
+    else if (gm.credit === null) {
+      // Method Two could be lower than Method One, so without it the capacity is unknown.
+      out.gapMethod.reason = gm.reason;
+      out.capacity = null;
+      out.reasons.capacity = 'Credit capacity needs CHFA\'s gap calculation, which cannot run yet: ' + gm.reason;
+    } else {
       out.gapMethod.applied = true; out.gapMethod.credit = gm.credit; out.gapMethod.gap = gm.gap; out.gapMethod.citation = methods.citation;
       if (gm.credit < out.capacity - 0.5) {
         out.capacity = gm.credit;
@@ -424,9 +428,10 @@
     out.requested = requested; out.awarded = awarded;
     if (requested === null) out.reasons.requested = 'No request entered.';
     if (awarded === null) out.reasons.awarded = 'No award entered.';
-    if (requested !== null && requested > out.capacity + 0.5) out.flags.push('The request is more than the credit capacity.');
+    if (requested !== null && out.capacity !== null && requested > out.capacity + 0.5) out.flags.push('The request is more than the credit capacity.');
     if (awarded !== null && requested !== null && awarded > requested + 0.5) out.flags.push('The award is more than the request.');
     if (awarded !== null) { out.creditForEquity = awarded; out.creditForEquityBasis = 'awarded'; }
+    else if (out.capacity === null) { out.creditForEquity = null; out.creditForEquityBasis = null; }
     else if (requested !== null) { out.creditForEquity = Math.min(requested, out.capacity); out.creditForEquityBasis = 'requested'; }
     else { out.creditForEquity = out.capacity; out.creditForEquityBasis = 'capacity'; }
     return out;

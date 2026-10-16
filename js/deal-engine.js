@@ -1046,6 +1046,8 @@
     if (!unitMixError && chfaRegime) {
       annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
       equity = annualCredits * CREDIT_YEARS * equityPrice;
+      // Without the gap calculation the capacity is unknown (QAP 3.M.1), and so is the credit.
+      if (basis.creditForEquity === null && !basisUnknownReason) basisUnknownReason = basis.reasons.capacity || null;
     }
     var gapBeforeDeferred = tdc - equity - stateEquity - mortgage - impactGrant - totalLoanPrincipal;
     // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
