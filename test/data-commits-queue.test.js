@@ -1,0 +1,133 @@
+#!/usr/bin/env node
+// test/data-commits-queue.test.js
+//
+// Two agreements between the data workflows and what the site publishes.
+//
+// 1. Every workflow in the shared `data-commits` concurrency group declares
+//    `queue: max`. Without it GitHub keeps one pending run per group and
+//    silently cancels the others: ten scheduled data runs were dropped that way
+//    between 2026-08-15 and 2026-10-11, each cancelled with zero jobs, grey
+//    rather than red. A workflow that pushes to main outside the group can race
+//    the ones inside it, so the pushers outside it are listed exactly, each with
+//    its reason, and the list may only shrink.
+//
+// 2. deploy.yml publishes the committed data and fetches none of its own. It
+//    used to run scripts/fetch-chfa-lihtc.js with continue-on-error, which
+//    skipped the validation, county split and derived rebuild that
+//    fetch-chfa-lihtc.yml runs, and stamped the map footer's "data as of" date
+//    with the deploy time.
+'use strict';
+
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
+
+const ROOT = path.resolve(__dirname, '..');
+const WF_DIR = path.join(ROOT, '.github', 'workflows');
+
+// Workflows that push a commit to main but sit outside data-commits. Moving each
+// into the shared queue behind one push script is the follow-up ("2.1") from the
+// 2026-10-15 workflow review.
+const OUTSIDE_QUEUE = {
+  'archive-audit-post-merge.yml': 'post-merge generated files; own group shared with refresh-working-paper, retries 3x (pending 2.1)',
+  'refresh-working-paper.yml': 'paper figures; shares paper-figures-refresh with the post-merge job (pending 2.1)',
+  'chfa-qap-watch.yml': 'weekly QAP snapshot; own group (pending 2.1, before it goes daily)',
+  'discover-local-resources-weekly.yml': 'weekly candidate list; own group (pending 2.1)',
+  'pab-allocations-annual.yml': 'annual; own group (pending 2.1)',
+  'qa-status.yml': 'daily QA status file; own group (pending 2.1)',
+  'rebuild-bps-permits.yml': 'permits chain; own group (pending 2.1)',
+  'refresh-co-demographics.yml': 'monthly; own group, retries 5x (pending 2.1)',
+  'upstream-vintage-watch.yml': 'weekly vintage file; own group (pending 2.1)',
+  'url-health-weekly.yml': 'weekly URL report; own group (pending 2.1)',
+  'backfill_housing_brief.yml': 'manual-only GDELT backfill, last run 2026-04 (pending 2.1)',
+};
+
+// Workflows whose `git push` never puts a commit on main.
+const NOT_MAIN = {
+  'cleanup-stale-branches.yml': 'deletes stale branches',
+  'docs-sync.yml': 'pushes a PR branch',
+  'market_data_build.yml': 'pushes a PR branch',
+  'external-references-check.yml': '"git push" is text in an issue body',
+};
+
+let passed = 0;
+function test(name, fn) {
+  fn();
+  passed += 1;
+  console.log('  ✓ ' + name);
+}
+
+const docs = {};
+for (const f of fs.readdirSync(WF_DIR).filter((x) => x.endsWith('.yml'))) {
+  docs[f] = yaml.load(fs.readFileSync(path.join(WF_DIR, f), 'utf8'));
+}
+
+function inDataCommits(doc) {
+  const c = doc.concurrency;
+  return Boolean(c && typeof c === 'object' && /data-commits/.test(String(c.group)));
+}
+
+function runText(doc) {
+  const out = [];
+  for (const job of Object.values(doc.jobs || {})) {
+    for (const s of job.steps || []) {
+      if (s.run) out.push(s.run);
+      if (s.with && s.with.script) out.push(String(s.with.script));
+    }
+  }
+  return out.join('\n');
+}
+
+function pushesToMain(f, doc) {
+  if (NOT_MAIN[f]) return false;
+  const text = runText(doc);
+  return /(^|[\s;&|(])git push\b/m.test(text)
+    || /commit-with-derived-chain\.sh(?![^\n]*--no-push)/.test(text)
+    || /push-inventory-sync\.sh/.test(text);
+}
+
+const queued = Object.keys(docs).filter((f) => inDataCommits(docs[f]));
+
+test('the scan finds the data-commits workflows', () => {
+  assert.ok(queued.length >= 25, `expected at least 25 workflows in data-commits, found ${queued.length}`);
+});
+
+test('every data-commits workflow keeps all waiting runs (queue: max)', () => {
+  const missing = queued.filter((f) => docs[f].concurrency.queue !== 'max');
+  assert.deepStrictEqual(missing, [],
+    `these drop pending runs silently; add "queue: max" under concurrency: ${missing.join(', ')}`);
+});
+
+test('no data-commits workflow cancels a run in progress', () => {
+  // queue: max is invalid with cancel-in-progress: true, and cancelling a data
+  // run mid-push is the failure the group exists to prevent.
+  const cancelling = queued.filter((f) => docs[f].concurrency['cancel-in-progress'] !== false);
+  assert.deepStrictEqual(cancelling, []);
+});
+
+test('every workflow that pushes to main is in data-commits or listed with a reason', () => {
+  const outside = Object.keys(docs)
+    .filter((f) => pushesToMain(f, docs[f]) && !inDataCommits(docs[f]))
+    .sort();
+  assert.ok(Object.keys(docs).filter((f) => pushesToMain(f, docs[f])).length >= 25,
+    'the push scan should find the data workflows that commit to main');
+  assert.deepStrictEqual(outside, Object.keys(OUTSIDE_QUEUE).sort(),
+    'OUTSIDE_QUEUE must list exactly the main-pushers outside data-commits: '
+    + 'join the group, or list the file with its reason');
+});
+
+test('deploy.yml fetches no data of its own', () => {
+  const doc = docs['deploy.yml'];
+  assert.ok(doc && doc.jobs && doc.jobs.deploy, 'deploy.yml has a deploy job');
+  const steps = doc.jobs.deploy.steps || [];
+  assert.ok(steps.some((s) => /build-public-site/.test(s.run || '')),
+    'the scan reads the deploy steps that build the site');
+  const fetching = steps
+    .filter((s) => /scripts\/[\w/.-]*fetch[\w.-]*/i.test(s.run || ''))
+    .map((s) => s.name || s.run);
+  assert.deepStrictEqual(fetching, [],
+    'the deploy must publish committed data; refresh data in its own workflow, which validates and commits it');
+});
+
+console.log(`\n${passed} passed`);

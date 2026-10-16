@@ -1,8 +1,14 @@
 name: Run All Data Workflows
 
+# Manual only: a "refresh everything" button for after an outage.
+#
+# It ran every Sunday until 2026-10-16, but every workflow it dispatches has its
+# own schedule, so Sunday re-ran each of them a second time: Kalshi and CHFA
+# LIHTC twice every Sunday, and the HNA and market data builds on Saturday and
+# again on Sunday. The extra runs crowded the shared data-commits queue on the
+# day it dropped refreshes. test/pages-availability-check.js fails if any
+# workflow listed below loses its own schedule.
 on:
-  schedule:
-    - cron: '43 0 * * 0'   # Sundays 00:43 UTC
   workflow_dispatch:
 
 permissions:

@@ -8,6 +8,9 @@ on:
 concurrency:
   group: data-commits
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 permissions:
   actions: write   # dispatch deploy.yml after the data push
