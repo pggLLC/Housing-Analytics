@@ -1,6 +1,6 @@
 {
   "lastSweepAt": "2026-10-16T11:12:35.002Z",
-  "urlCount": 1941,
+  "urlCount": 1869,
   "byUrl": {
     "http://127.0.0.1:8080/": {
       "status": "skip",
@@ -778,14 +778,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
-    "https://api.municode.com/search%20(Weld%20County%20Code,%20searches:%20affordable%20housing,%20low%20income,%20attainable,%20workforce%20housing,%20fee%20waiver)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://api.stlouisfed.org/fred/series/observations": {
       "status": "skip",
       "httpStatus": null,
@@ -941,14 +933,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://aurora.municipal.codes/%20(HTTP%20403)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL": {
       "status": "ok",
@@ -1195,14 +1179,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://carbondalegov.community.diligentoneplatform.com/Services/ItemsService.svc/portal/search%20(Diligent%20document%20search%20for%20minutes)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://carbondalegov.community.diligentoneplatform.com/document/23455": {
       "status": "ok",
       "httpStatus": 200,
@@ -1250,15 +1226,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://carbondalegov.diligent.community/Portal/MeetingInformation.aspx?Id=528%20(Board%20of%20Trustees%20regular%20meeting%20list,%20Jul%202023%20-%20Oct%202026;%20every%20agenda%20text-searched)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://carbondalegov.community.diligentoneplatform.com/Portal/MeetingInformation.aspx?Id=528%20(Board%20of%20Trustees%20regular%20meeting%20list,%20Jul%202023%20-%20Oct%202026;%20every%20agenda%20text-searched)"
     },
     "https://carbondalegov.org/Community%20Housing%20Plan%20Adopted%20011023.pdf": {
       "status": "ok",
@@ -1376,22 +1343,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://cdola.colorado.gov/commitment-filings%20(Glenwood's%20Prop%20123%20commitment%20was%20accepted%207/14/2023,%20before%20the%20window)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://cdola.colorado.gov/commitment-filings%20(Rifle's%20Prop%20123%20commitment%20was%20accepted%209/12/2023,%20before%20the%20window)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://cdola.colorado.gov/division-of-housing": {
       "status": "allow",
       "httpStatus": null,
@@ -1423,30 +1374,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://cdola.colorado.gov/housing-plans%20SB24-174%20approved%20HNA%20sheet%20(no%20Fort%20Collins%20entry)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://cdola.colorado.gov/housing-plans%20SB24-174%20approved%20HNA%20sheet%20(no%20Salida%20or%20Chaffee%20County%20entry)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://cdola.colorado.gov/housing-plans%20and%20its%20linked%20'SB24-174%20Approved%20Housing%20Needs%20Assessments%20and%20Housing%20Action%20Plans'%20sheet%20(CSV%20export)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://cdola.colorado.gov/leadership": {
       "status": "ok",
@@ -1610,14 +1537,6 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://cityofsalida.com/%20(HTTP%20403)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf": {
       "status": "ok",
       "httpStatus": 200,
@@ -1705,14 +1624,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://cogs.us/DocumentCenter/View/9961%20(2010%20Strategic%20Housing%20Plan%20-%20superseded)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://coho.indibuild.com/indibuild-pipeline.html": {
       "status": "broken",
@@ -2789,15 +2700,6 @@
       "consecutiveFailures": 0,
       "redirectTo": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Error/NotFound?aspxerrorpath=/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2421_Minutes_2_17_2026_5_00_00_PM.pdf"
     },
-    "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Meetings/Search?dropid=11&mtids=108&dropsv=10/01/2023&dropev=10/10/2026%20(75%20City%20Council%20minutes,%20Oct%202023%20-%20Aug%202026,%20all%20downloaded%20and%20searched)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Error/NotFound?aspxerrorpath=/OnBaseAgendaOnline/Meetings/Search"
-    },
     "https://doh.colorado.gov/": {
       "status": "ok",
       "httpStatus": 200,
@@ -2976,24 +2878,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://durangogov.hylandcloud.com/251agendaonline/Error/NotFound?aspxerrorpath=/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf"
-    },
-    "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/x.pdf?documentType=1&meetingId=8179&itemId=86755&publishId=22517&isSection=False&isAttachment=True%20(CDC%20staff%20report,%202026-09-28)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://durangogov.hylandcloud.com/251agendaonline/Error/NotFound?aspxerrorpath=/251agendaonline/Documents/DownloadFileBytes/x.pdf"
-    },
-    "https://durangogov.hylandcloud.com/251agendaonline/Meetings/Search%20(City%20Council%20regular%20and%20special%20meetings%202023-10-01%20to%202026-10-10;%2087%20minutes%20PDFs%20downloaded%20and%20searched)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://durangogov.hylandcloud.com/251agendaonline/Error/NotFound?aspxerrorpath=/251agendaonline/Meetings/Search%20(City%20Council%20regular%20and%20special%20meetings%202023-10-01%20to%202026-10-10;%2087%20minutes%20PDFs%20downloaded%20and%20searched)"
     },
     "https://eelp.law.harvard.edu/tracker/rollback-executive-order-directed-agencies-to-eliminate-use-and-enforcement-of-disparate-impact-standard/": {
       "status": "ok",
@@ -3229,15 +3113,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://fcgov.com/affordable-housing%20(HTTP%20403)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1,
-      "redirectTo": "https://www.fcgov.com/affordable-housing%20(http%20403)/"
     },
     "https://federalfunds.colorado.gov/solar-for-all": {
       "status": "allow",
@@ -3785,14 +3660,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://www.glenwoodcaverns.com/"
-    },
-    "https://glenwoodspringsco.api.civicclerk.com/v1/Events%20(City%20Council%20minutes%20Oct%202025%20-%20Jun%202026,%20all%20text-searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=6999,plainText=false%29": {
       "status": "ok",
@@ -4717,15 +4584,6 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://library.municode.com/co/centennial/codes/municipal_code%20(Municode%20API%20search%20incl.%20Land%20Development%20Code%20ch.%2012:%20affordable,%20attainable,%20inclusionary,%20deed-restricted,%20income%20restricted,%20fast%20track,%20Proposition%20123)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://library.municode.com/co/centennial/codes/municipal_code%20(Municode%20API%20search%20incl.%20Land%20Development%20Code%20ch.%2012:%20affordable,%20attainable,%20inclusionary,%20deed-restricted,%20income%20restricted,%20fast%20track,%20Proposition%20123)/"
-    },
     "https://library.municode.com/co/commerce_city/codes/land_development_code?nodeId=ARTIIIDERE_DIV1GEPR_BAP_S21-3160FOMAFE": {
       "status": "ok",
       "httpStatus": 200,
@@ -4796,14 +4654,6 @@
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
-      "consecutiveFailures": 0
-    },
-    "https://library.municode.com/co/englewood/codes/code_of_ordinances%20(4-9-1,%2016-5-5,%2016-2,%204-3-6,%202-1-7)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
     "https://library.municode.com/co/englewood/codes/code_of_ordinances?nodeId=TIT16UNDECO_CH5REDEDE_16-5-5ATHOGU": {
@@ -5070,14 +4920,6 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://library.municode.com/co/parker/codes/municipal_code%20(Municode%20API%20search:%20affordable,%20attainable,%20inclusionary,%20deed-restricted,%20income%20restricted,%20fast%20track,%20Proposition%20123)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
     "https://library.municode.com/co/ridgway/codes/code_of_ordinances?nodeId=CH7LAUSRE_S1GEPR_7-1-7FECO": {
       "status": "ok",
       "httpStatus": 200,
@@ -5118,23 +4960,7 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://library.municode.com/co/thornton/codes/code_of_ordinances%20(Municode%20API%20search:%20affordable,%20inclusionary,%20deed-restricted,%20income-restricted,%20housing%20fund)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
     "https://library.municode.com/co/weld_county/codes/charter_and_county_code?nodeId=CH20IMFE_ARTIIMFE_S20-1-70EX": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
-    "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances%20(ch.%2026%20secs.%2026-106,%2026-116,%2026-123,%2026-305,%2026-307,%2026-414,%2026-1109,%2026-1407;%20searches%20for%20housing%20fund%20/%20waive%20fees)": {
       "status": "ok",
       "httpStatus": 200,
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",
@@ -5332,14 +5158,6 @@
     "https://multifamily.fanniemae.com/financing-options/affordable-loans/tax-exempt-bond-credit-enhancement": {
       "status": "auth",
       "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://municode.northglenn.org/%20(all%20179%20content%20pages%20crawled)": {
-      "status": "broken",
-      "httpStatus": 404,
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
@@ -5616,30 +5434,6 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://pitkincoco.api.civicclerk.com/v1/Events%20(CivicClerk%20BOCC%20regular-meeting%20agendas%202023-10%20to%202026-10,%20all%20agendas%20text-searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://pitkincoco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8131,plainText=false%29%20(7/23/2025%20agenda%20packet)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://pitkincounty.com/DocumentCenter/View/14272%20(2017%20ordinance%20-%20out%20of%20window)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-": {
       "status": "ok",
       "httpStatus": 200,
@@ -5663,15 +5457,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://pitkincounty.com/DocumentCenter/View/34744/Emergency%20(draft%202025%20mobile%20home%20park%20ordinance,%20unsigned%20-%20not%20used)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://pitkincounty.com/DocumentCenter/View/34744/Emergency?bidId="
     },
     "https://pitkincounty.com/DocumentCenter/View/35692/2026-Mgrs-budget-ltr": {
       "status": "ok",
@@ -5739,39 +5524,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://pub-garfield.escribemeetings.com/%20(BOCC%20meetings%202023-10%20to%202026-10;%20all%20189%20HTML%20agendas%20text-searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://pub-garfield.escribemeetings.com/FileStream.ashx?DocumentId=1231%20(BOCC%20minutes%20PDFs%20-%20Cloudflare%20browser%20challenge,%20unreadable)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://public.destinyhosted.com/adv_search_results.cfm?fp=ADVSRCH&id=26783%20(agenda%20item%20search:%20housing,%20affordable,%20deed%20restrict)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
-    "https://public.destinyhosted.com/agenda_publish.cfm?id=26783%20(City%20Council%20and%20P&Z%20minutes%202023-10%20through%202026-10;%20143%20documents%20downloaded%20and%20searched)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://public.destinyhosted.com/26783%20(City%20Council%20and%20P/agenda/"
-    },
     "https://public.destinyhosted.com/cortedocs/2024/CC/20240709_157/157_07092024.doc": {
       "status": "ok",
       "httpStatus": 200,
@@ -5811,31 +5563,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://records.aspen.gov/WebLink/DocView.aspx?id=1796837%20(connection%20reset%20through%20proxy%20-%20Laserfiche%20minutes/resolutions%20unreachable)": {
-      "status": "timeout",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://records.fcgov.com/WebLink/Browse.aspx%20(HTTP%20200%20but%20JavaScript-only%20Laserfiche%20shell,%20no%20document%20text)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://records.pitkincounty.com/weblink/Browse.aspx?startid=9&dbid=0%20(Laserfiche%20BOCC%20minutes/resolutions/ordinances%20index)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://records.pitkincounty.com/weblink/Browse.aspx?startid=9&dbid=0%20(Laserfiche%20BOCC%20minutes/resolutions/ordinances%20index)&cr=1"
     },
     "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=460322&dbid=0&repo=LFRecords": {
       "status": "ok",
@@ -5967,22 +5694,6 @@
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 22
-    },
-    "https://rifleco.api.civicclerk.com/v1/Events%20(City%20Council%20agendas%202023-10%20to%202026-10,%20all%20text-searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=1235,plainText=false%29%20(signed%20minutes%20are%20image%20scans%20with%20no%20text%20layer;%20draft%20minutes%20were%20read%20from%20the%20following%20meeting's%20packet%20instead)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
     },
     "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29": {
       "status": "ok",
@@ -6317,25 +6028,9 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://telluride.municipal.codes/LUC/2-247%20(HTTP%20403)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://telluride.municipal.codes/TMC/4-9-10": {
       "status": "auth",
       "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://tellurideco.portal.civicclerk.com (generic portal shell; the CivicClerk Events API answers HTTP 404, so no CivicClerk tenant)": {
-      "status": "broken",
-      "httpStatus": null,
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
@@ -6388,14 +6083,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://townofcrestedbutte.colorado.gov/government/town-council%20(2025-2026%20agendas,%20minutes%20and%20packets%20only)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://townofcrestedbutte.colorado.gov/rates-fees-and-discounts": {
       "status": "ok",
@@ -6749,22 +6436,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://webapi.legistar.com/v1/coloradosprings/matters%20(title%20searches:%20affordab,%20ousing,%20Housing%20Plan,%20HomeCOS,%20Needs%20Assessment,%20attainable,%20workforce%20housing,%20deed%20restrict,%20Eligible%20Affordable,%20income-restricted,%20Proposition%20123;%20intro%202021-10-01%20onward)": {
-      "status": "broken",
-      "httpStatus": 400,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://webapi.legistar.com/v1/denver/matters%20(title%20searches:%20affordab,%20Strategic%20Plan,%20Housing%20Plan,%20Needs%20Assessment,%20Comprehensive%20Plan;%20intro%202021-10-01%20onward)": {
-      "status": "broken",
-      "httpStatus": 400,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://westminsterco.gov/1038/Housing-Resources": {
       "status": "ok",
@@ -7137,14 +6808,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://www.aspen.gov/1389/State-County-and-Local-Sales-and-Use-Tax"
-    },
-    "https://www.aspen.gov/AgendaCenter%20(only%20pre-2022%20items;%20council%20records%20live%20in%20Laserfiche)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.aspen.gov/CivicAlerts.asp?AID=863": {
       "status": "ok",
@@ -7679,22 +7342,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0
     },
-    "https://www.buenavistaco.gov/AgendaCenter%20(Board%20of%20Trustees%20and%20Planning%20&%20Zoning%20minutes,%20Oct%202023%20-%20Sep%202026:%20116%20minutes%20PDFs%20downloaded;%20110%20are%20image-only%20scans%20with%20no%20text%20layer)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_09092025-2016%20(Trustee%20packet%20with%20draft%20minutes%20of%20Aug%2026,%202025)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_12092025-2066": {
       "status": "ok",
       "httpStatus": 200,
@@ -7702,14 +7349,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_12092025-2066%20(Trustee%20packet%20with%20draft%20minutes%20of%20Nov%2025,%202025)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_03242026-2117": {
       "status": "ok",
@@ -7751,14 +7390,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
-    "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_11192025-2054%20(Planning%20&%20Zoning%20minutes)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.buenavistaco.gov/DocumentCenter/View/5431": {
       "status": "ok",
       "httpStatus": 200,
@@ -7767,14 +7398,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://www.buenavistaco.gov/DocumentCenter/View/5431/Buena-Vista-Comprehensive-Plan-2025-PDF?bidId="
-    },
-    "https://www.buenavistaco.gov/DocumentCenter/View/5431%20(Comprehensive%20Plan%202025%20PDF)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.buildageneration.org/": {
       "status": "ok",
@@ -7996,14 +7619,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://www.centennialco.gov (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.centennialco.gov/AgendaCenter": {
       "status": "broken",
@@ -8811,14 +8426,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0
     },
-    "https://www.ci.wheatridge.co.us (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P": {
       "status": "auth",
       "httpStatus": 403,
@@ -8946,14 +8553,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 20
     },
-    "https://www.cityofsalida.com/%20(HTTP%20403,%20Cloudflare%20'Just%20a%20moment...'%20challenge)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.cityofsalida.com/AgendaCenter": {
       "status": "auth",
       "httpStatus": 403,
@@ -8961,22 +8560,6 @@
       "lastOkAt": null,
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 20
-    },
-    "https://www.cityofsalida.com/commdev/page/inclusionary-housing%20(HTTP%20403,%20Cloudflare%20challenge)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://www.cityofsalida.com/ordinance/resolution-city-council-city-salida-colorado-establishing-affordable-housing-fee-transfer%20(HTTP%20403,%20Cloudflare%20challenge)": {
-      "status": "auth",
-      "httpStatus": 403,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.cityofwestminster.us/": {
       "status": "ok",
@@ -9100,14 +8683,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
-    },
-    "https://www.cogs.us/AgendaCenter%20(City%20Council%20minutes%202023-2025,%20all%20text-searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049": {
       "status": "ok",
@@ -9352,14 +8927,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
-    "https://www.cortezco.gov/AgendaCenter%20(City%20Council%20minutes%20here%20end%20in%202022;%20some%20requests%20reset%20the%20connection)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL": {
       "status": "ok",
       "httpStatus": 200,
@@ -9399,14 +8966,6 @@
       "lastOkAt": "2026-10-02T12:22:01.597Z",
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 2
-    },
-    "https://www.crestedbutte-co.gov (redirects to townofcrestedbutte.colorado.gov; CloudFront answers HTTP 403 unless browser Accept headers are sent)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.crgov.com/": {
       "status": "auth",
@@ -9830,28 +9389,12 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 20
     },
-    "https://www.durangoco.gov/AgendaCenter%20(HTTP%20404)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025": {
       "status": "ok",
       "httpStatus": 200,
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
-      "consecutiveFailures": 0
-    },
-    "https://www.durangoco.gov/Search?searchPhrase=housing%20needs%20assessment%20(search%20results%20not%20rendered%20server-side)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
     "https://www.durangogov.org/": {
@@ -10161,14 +9704,6 @@
       "firstSeenAt": "2026-06-01T11:22:28.534Z",
       "consecutiveFailures": 0
     },
-    "https://www.englewoodco.gov (HTTP 403)": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.englewoodco.gov/AgendaCenter": {
       "status": "broken",
       "httpStatus": 404,
@@ -10266,14 +9801,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 19
     },
-    "https://www.fcgov.com/cityclerk/agendas%20(HTTP%20403)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.fcgov.com/cityclerk/agendas.php": {
       "status": "ok",
       "httpStatus": 200,
@@ -10291,23 +9818,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://www.fortcollins.gov/Government/Boards-and-Commissions"
-    },
-    "https://www.fcgov.com/elections/files/reso-073-ballot-property-tax-affordable-housing-only.pdf%20(HTTP%20403)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0,
-      "redirectTo": "https://www.fortcollins.gov/Government/Elections"
-    },
-    "https://www.fcgov.com/housing/%20(HTTP%20403)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
     },
     "https://www.fcgov.com/socialsustainability/": {
       "status": "ok",
@@ -10471,22 +9981,6 @@
       "consecutiveFailures": 0,
       "redirectTo": "https://unitedwaydenver.org/"
     },
-    "https://www.fortcollins.gov/%20(HTTP%20403)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://www.fortcollins.gov/News-Articles/News/2026-Q1/City-adds-2-acres-to-Affordable-Housing-Land-Bank%20(HTTP%20403)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.fortcollins.gov/Services/Housing/Affordable-Housing": {
       "status": "ok",
       "httpStatus": 200,
@@ -10584,14 +10078,6 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 0
     },
-    "https://www.fruita.org/AgendaCenter%20(City%20Council%202023-2026%20and%20Planning%20Commission%202023-2026%20minutes%20lists;%20~125%20minutes%20PDFs%20from%202023-10%20onward%20downloaded%20and%20searched)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.fruita.org/AgendaCenter/ViewFile/Agenda/_11042025-946?packet=true": {
       "status": "ok",
       "httpStatus": 200,
@@ -10656,14 +10142,6 @@
       "firstSeenAt": "2026-10-02T12:22:01.597Z",
       "consecutiveFailures": 0
     },
-    "https://www.fruita.org/Search?searchPhrase=housing%20action%20plan%20(no%20plan%20PDF%20link%20found)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
     "https://www.fruita.org/m/newsflash/home/detail/27": {
       "status": "ok",
       "httpStatus": 200,
@@ -10714,15 +10192,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
     },
-    "https://www.garfieldcountyco.gov/board-commissioners/meeting-minutes/%20(archive%20only%20through%202012)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1,
-      "redirectTo": "https://www.garfieldcountyco.gov/board-commissioners/meeting-minutes/%20(archive%20only%20through%202012"
-    },
     "https://www.garfieldcountyco.gov/board-commissioners/meetings": {
       "status": "ok",
       "httpStatus": 200,
@@ -10731,15 +10200,6 @@
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://www.garfieldcountyco.gov/board-commissioners/meetings/"
-    },
-    "https://www.garfieldcountyco.gov/news/county-approves-glenwood-mobile-home-park-improvements/%20(infrastructure%20permit,%20no%20affordability%20terms%20-%20not%20recorded)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1,
-      "redirectTo": "https://www.garfieldcountyco.gov/news/county-approves-glenwood-mobile-home-park-improvements/%20(infrastructure%20permit,%20no%20affordability%20terms%20-%20not%20recorded"
     },
     "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/": {
       "status": "ok",
@@ -10756,15 +10216,6 @@
       "lastOkAt": "2026-10-16T11:12:35.002Z",
       "firstSeenAt": "2026-10-16T11:12:35.002Z",
       "consecutiveFailures": 0
-    },
-    "https://www.garfieldcountyco.gov/news/text-amendments-approved-to-support-housing/%20(April%202023,%20before%20window)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1,
-      "redirectTo": "https://www.garfieldcountyco.gov/news/text-amendments-approved-to-support-housing/%20(April%202023,%20before%20window"
     },
     "https://www.garfieldre2.org/": {
       "status": "ok",
@@ -14769,14 +14220,6 @@
       "consecutiveFailures": 0,
       "redirectTo": "https://www.steamboatsprings.net/DocumentCenter/View/42270/2025-Steamboat-Community-Plan-Revised-Remediated?bidId="
     },
-    "https://www.steamboatsprings.net/DocumentCenter/View/42270%20(Steamboat%20Springs%20Community%20Plan%202025)": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
     "https://www.steamboatsprings.net/housing": {
       "status": "ok",
       "httpStatus": 200,
@@ -15128,38 +14571,6 @@
       "consecutiveFailures": 0
     },
     "https://www.townofsilt.org/adopted_studies_": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
-    "https://www.townofsilt.org/board_of_trustees_agendas_minutes%20(signed%20minutes%202025-2026%20are%20image-only%20scans%20with%20no%20text%20layer)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
-    "https://www.townofsilt.org/board_of_trustees_packets%20(43%20packets%202025-2026%20downloaded%20and%20searched;%20packets%20contain%20text%20draft%20minutes%20of%20the%20previous%20meeting)": {
-      "status": "broken",
-      "httpStatus": 400,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 1
-    },
-    "https://www.townofsilt.org/community_development%20(Comprehensive%20Plan%202017%20only%20-%20older%20than%205%20years)": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-10-16T11:12:35.002Z",
-      "lastOkAt": "2026-10-16T11:12:35.002Z",
-      "firstSeenAt": "2026-10-16T11:12:35.002Z",
-      "consecutiveFailures": 0
-    },
-    "https://www.townofsilt.org/resolutions_%20(2025-2026%20resolution%20titles)": {
       "status": "ok",
       "httpStatus": 200,
       "lastCheckedAt": "2026-10-16T11:12:35.002Z",

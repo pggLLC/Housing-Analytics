@@ -7,8 +7,8 @@ This guide covers common failure modes for the data-building workflows in this r
 ## Weekly Data Sync Failures (`run-all-workflows.yml`)
 
 ### Symptoms
-- The **Run All Data Workflows** orchestration job fails on Sunday
-- One or more of the 13 child workflows did not complete successfully
+- The **Run All Data Workflows** orchestration job fails. It runs only when someone dispatches it (manual-only since #2254); every child also runs on its own schedule.
+- One or more of the 10 child workflows did not complete successfully
 - GitHub issue tagged `market-data-build-failure` appears automatically
 
 ### Diagnosis steps
@@ -199,10 +199,10 @@ node scripts/validate-critical-data.js
 
 | Workflow | Schedule | Cron |
 |----------|----------|------|
-| `market_data_build.yml` | Every Sunday at 23:00 UTC | `0 23 * * 0` |
-| `run-all-workflows.yml` | Every Sunday at 00:00 UTC | `0 0 * * 0` |
+| `market_data_build.yml` | Every Saturday at 05:23 UTC | `23 5 * * 6` |
+| `run-all-workflows.yml` | Manual only (Actions → Run All Data Workflows → Run workflow) | none |
 
-> **Note:** `run-all-workflows.yml` also triggers `market_data_build.yml` as part of its orchestration, so the market data build effectively runs twice on Sundays. This is intentional — the standalone 23:00 UTC run ensures fresh data before the new week, and the midnight orchestration verifies all workflows complete together.
+> **Note:** `run-all-workflows.yml` ran every Sunday until #2254. Every workflow it dispatches has its own schedule, so the Sunday run made each of them run twice and crowded the shared `data-commits` queue. It is now a manual "refresh everything" button for after an outage. GitHub starts scheduled runs about three hours after the cron time, so read these as days, not clock times.
 
 ---
 
