@@ -114,7 +114,7 @@ async function test(name, fn) {
     p.w.__DealCalc.recalculate();
     const before = p.w.__DealCalc.getResult().costBasis.basis.gapMethod;
     assert.equal(before.applied, true);
-    setField(p, 'dc-state-annual', 400000); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
     const r = p.w.__DealCalc.getResult();
     assert(r.stateEquity > 0, 'non-vacuous: state credit equity is in the capital stack');
     assert.equal(r.costBasis.basis.gapMethod.gap, before.gap, 'the gap left for credit equity ignores state credit equity');
@@ -125,7 +125,7 @@ async function test(name, fn) {
     const p = await openPage('');
     setField(p, 'dc-county-select', '08001');
     await new Promise((r) => setTimeout(r, 600));
-    setField(p, 'dc-state-annual', 400000); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
     p.w.__DealCalc.recalculate();
     let r = p.w.__DealCalc.getResult();
     assert(r.stateEquity > 0 && r.equity > 0, 'non-vacuous: both credits produce equity');
@@ -148,6 +148,17 @@ async function test(name, fn) {
     assert.equal(r.stateEquity, 0, 'the state credit pairs with the federal credit, so it is no source either');
     assert.notEqual(r.gap, withState, 'non-vacuous: the regime change moved the gap');
     assert.deepEqual(p.errors, []);
+  });
+
+  await test('the floor-space input and its help text both count only LIHTC units', async () => {
+    const p = await openPage('');
+    const label = p.d.getElementById('dc-restricted-sf').closest('label').textContent;
+    const help = p.w.DealCalculatorInputRegistry.get('dc-restricted-sf').definition;
+    // The engine's numerator is LIHTC floor space, so the label and the help must both name LIHTC units.
+    for (const [name, words] of [['label', label], ['help text', help]]) {
+      assert.match(words, /LIHTC units/, name + ' names the units the fraction counts');
+      assert.doesNotMatch(words, /floor area of (all |the )?income-restricted units/i, name + ' does not widen it to every restricted unit');
+    }
   });
 
   close();

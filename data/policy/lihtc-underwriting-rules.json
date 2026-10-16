@@ -213,7 +213,7 @@
       "quote": "CHFA will pair, if requested, a fixed amount of $500,000 of standard annual state credit with federal 9 percent Housing Tax Credit Applications.",
       "credit_type": "9",
       "credit": "state",
-      "annual_cap": 500000,
+      "fixed_annual": 500000,
       "federal_credit_type": "9"
     },
     "credit_cap_state_round_two_accelerated": {

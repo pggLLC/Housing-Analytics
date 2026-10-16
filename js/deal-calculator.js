@@ -2243,7 +2243,7 @@
           <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">CHFA state credit application (each has its own limit)
             <select id="dc-state-path" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
               <option value="">Not answered (a 9% deal uses the 9% pairing)</option>
-              <option value="with_9pct">Paired with a 9% application: $500,000 a year</option>
+              <option value="with_9pct">Paired with a 9% application: a fixed $500,000 a year</option>
               <option value="round_two">Round Two with 4%: accelerated up to $1,300,000 plus paired standard up to $600,000 a year</option>
               <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000 a year</option>
             </select></label>

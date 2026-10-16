@@ -270,10 +270,15 @@ test('underwriting thresholds use the rule\'s forecast years', () => {
 });
 
 test('state credits stay a separate source with CHFA\'s limit; pay-in schedules need all three stages', () => {
-  const s = cb.stateCredit({ annual: 600000, price: 0.8, creditType: '9', units: 60, rules });
-  assert.equal(s.allowedAnnual, 500000);
+  const s = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, rules });
+  assert.equal(s.allowedAnnual, rules.rules.credit_cap_state_with_9pct.fixed_annual);
   assert.equal(s.equity, 500000 * 6 * 0.8);
-  assert.match(s.capReason, /capped at \$500,000/);
+  // The 9% pairing is a fixed amount, so any other amount is unknown, above or below it.
+  for (const other of [100000, 600000]) {
+    const o = cb.stateCredit({ annual: other, price: 0.8, creditType: '9', units: 60, rules });
+    assert.equal(o.equity, null, other + ' is not the fixed pairing');
+    assert.match(o.reason, /fixed \$500,000 of standard state credit/);
+  }
   assert.equal(s.years, rules.rules.state_credit_term.years, 'six-year allocation from the rules file');
   // A 4% deal must say which CHFA application it is: each path has its own limit (QAP 3.L).
   const four = (path, units, extra) => cb.stateCredit(Object.assign({ annual: 2000000, price: 0.8, creditType: '4', units, path, rules }, extra));
@@ -403,7 +408,7 @@ test('every rule cites a source that exists, with a location and a quote that st
   const R = rules.rules;
   const fmt = (n) => n.toLocaleString('en-US');
   assert(R.credit_cap_federal_9pct.quote.includes('$' + fmt(R.credit_cap_federal_9pct.annual_cap)));
-  assert(R.credit_cap_state_with_9pct.quote.includes('$' + fmt(R.credit_cap_state_with_9pct.annual_cap)));
+  assert(R.credit_cap_state_with_9pct.quote.includes('a fixed amount of $' + fmt(R.credit_cap_state_with_9pct.fixed_annual)));
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap)));
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap_per_unit) + ' per unit'));
   assert(R.credit_cap_state_with_4pct.quote.includes('Private Activity Bonds') && R.credit_cap_state_with_4pct.quote.includes('September, October, and November'));

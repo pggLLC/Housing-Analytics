@@ -494,7 +494,14 @@
       var cap = ruleStatus(args.rules, st[1]);
       var row = { label: st[2], annual: amount, allowedAnnual: amount, cap: null, capReason: null };
       if (!cap.applied) row.capReason = st[2] + ' limit: ' + cap.reason + '.';
-      else {
+      else if (cap.rule.fixed_annual) {
+        // A fixed pairing is that amount or none (QAP 3.L), not a ceiling.
+        if (amount !== cap.rule.fixed_annual) {
+          out.reason = 'CHFA pairs a fixed ' + money(cap.rule.fixed_annual) + ' of ' + st[2].toLowerCase() + ' a year with this application (' +
+            cap.citation + '); enter ' + money(cap.rule.fixed_annual) + ', or clear the state credit.'; return out;
+        }
+        row.cap = cap.rule.fixed_annual;
+      } else {
         var units = num(args.units);
         if (cap.rule.annual_cap_per_unit && (units === null || !Number.isFinite(units) || units <= 0)) {
           out.reason = 'Enter the number of units; this state credit limit is set per unit.'; return out;
