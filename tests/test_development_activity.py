@@ -445,7 +445,7 @@ def test_a_total_only_source_keeps_the_restricted_count_and_an_adopted_place_bri
     assert len(r) == 1 and (r[0]['total_units'], r[0]['restricted_units']) == (47, 46)
     assert (r[0]['city'], r[0]['place_geoid']) == ('Keystone', '0840550')
     rows = {p['id']: p for p in load()['projects']}
-    assert (rows['canyon-vista-08045']['restricted_units'], rows['wintergreen-ridge-08117']['restricted_units']) == (80, 46)
+    assert (rows['glenwood-gardens-08045']['restricted_units'], rows['wintergreen-ridge-08117']['restricted_units']) == (80, 46)
     assert rows['wintergreen-ridge-08117']['city'] == 'Keystone'
     placed = [p for p in rows.values() if p['place_geoid'] and p['city']]
     assert len(placed) > 300 and not [p['id'] for p in placed if 'county' in p['city'].lower()]
@@ -553,3 +553,33 @@ def test_a_renamed_project_at_one_address_is_one_project():
     assert len(rows) == 3, sorted(r['name'] for r in rows)
     names = {p['name'] for p in load()['projects']}
     assert len({'Cole Flats', 'Cole Train'} & names) == 1
+
+
+def test_a_renamed_project_with_one_sponsor_is_one_project_and_sponsors_stay_private():
+    # 1600 Pearl St Apartments / Pearl Street Apartments: Northeast Denver
+    # Housing Center's 158 homes (#2261 review); another sponsor stays apart
+    assert dev.sponsor_keys('1600 Pearl LLC/Northeast Denver Housing Center') == \
+        dev.sponsor_keys('Northeast Denver Housing Center, Inc.') == {'northeast denver housing center'}
+    L = dev.Ledger(set(), {}, {'08031': 'Denver County'})
+    L.county_places = {}
+    L.city_county, L.city_counties = {}, {}
+    url = 'https://example.org/a.pdf'
+    for name, sponsor, yr, units in (('1600 Pearl St Apartments', '1600 Pearl LLC/Northeast Denver Housing Center', 2025, 158),
+                                     ('Pearl Street Apartments', 'Northeast Denver Housing Center, Inc.', 2025, 158),
+                                     ('Pearl Commons', 'Another Developer', 2025, 158)):
+        L.add(name, 'Denver', '08031', dev.ev('funded', yr, 'DOLA', 'p', url, f'Project: {name}',
+                                              _sponsors=dev.sponsor_keys(sponsor)), units)
+    rows = dev.finish(L)
+    assert len(rows) == 2, sorted(r['name'] for r in rows)
+    assert all('_sponsors' not in e for r in rows for e in r['events'])
+    d = load()
+    assert sum(p['name'] in ('1600 Pearl St Apartments', 'Pearl Street Apartments') for p in d['projects']) == 1
+    assert 'Northeast Denver' not in json.dumps(d) and '_sponsors' not in json.dumps(d)
+
+
+def test_shelter_beds_are_not_homes():
+    # Navigation Campus - Aurora's 255 and Fort Collins Rescue Mission's 200 are beds (#2261 review)
+    rows = {p['name']: p for p in load()['projects']}
+    for name in ('Navigation Campus - Aurora', 'Fort Collins Rescue Mission TAHG'):
+        assert rows[name]['total_units'] is None
+        assert 'shelter beds' in rows[name]['total_units_unavailable_reason']

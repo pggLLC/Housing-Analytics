@@ -364,7 +364,7 @@ def load_applications(L: Ledger) -> int:
         L.add(a['name'], a.get('city'), a.get('county_fips'),
               ev(stage, a.get('year'), 'CHFA', f"Housing tax credit {a.get('credit_type')} application",
                  a.get('source_url'), strip_sponsor(a.get('quote')), req, 'annual credit requested',
-                 round=a.get('round_label'), as_of=a.get('source_as_of')),
+                 round=a.get('round_label'), as_of=a.get('source_as_of'), _sponsors=sponsor_keys(a.get('sponsor')) or None),
               a.get('total_units'), a.get('restricted_units'),
               a['place_geoids'][0] if len(a.get('place_geoids') or []) == 1 else None,
               a.get('county_fips_all'))
@@ -422,7 +422,8 @@ def load_awards(L: Ledger) -> int:
               ev('land_funded' if land else 'funded', a.get('year'), a['agency'], a['program'],
                  a.get('source_url'), strip_sponsor(quote, sponsor), amt, label, quote_basis=basis,
                  state_credit=a.get('state_credit'), bond_amount=a.get('bond_amount'),
-                 tenure=a.get('detail') if land else None),
+                 tenure=a.get('detail') if land else None,
+                 _sponsors=sponsor_keys(sponsor or a.get('sponsor')) or None),
               printed_units(row and row['quote'], a.get('total_units'), 'Total Units'),
               printed_units(row and row['quote'], a.get('restricted_units'), r'(?:Total )?(?:LI|TC) Units'))
         n += 1
@@ -479,6 +480,9 @@ def dola_quote(a: dict) -> str:
         ('Announced', a.get('announced') or a.get('year')), ('Source', source_title(a))) if v)
 
 
+BEDS = re.compile(r'Target indicator:[^.;]*\(Beds\)|\bshelter beds\b', re.I)
+
+
 def load_dola(L: Ledger) -> int:
     n = 0
     for a in read(DOLA)['awards']:
@@ -493,14 +497,20 @@ def load_dola(L: Ledger) -> int:
             L.programs_left_out += 1
             continue
         label = 'awarded' if a.get('amount_basis') == 'awarded' else 'requested (award amount not printed)'
+        # a count DOLA reports in shelter beds is not homes: Navigation Campus -
+        # Aurora's 255 and Fort Collins Rescue Mission's 200 are beds
+        beds = bool(BEDS.search(a.get('note') or ''))
+        homes = None if beds else a.get('homes')
         L.add(a['name'], a.get('town'), a.get('county_fips'),
               ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a),
                  a.get('amount'), label, announced=a.get('announced'),
                  quote_basis=('fields as recorded from the source; the printed text names the grantee, '
                               'so it is not copied'),
                  confirmed=a.get('confirmed'), source_title=source_title(a),
-                 homes_unavailable_reason=None if a.get('homes') else 'the award does not print a home count'),
-              a.get('homes'))
+                 homes_unavailable_reason=None if homes else (
+                     'the award counts shelter beds, not homes' if beds else 'the award does not print a home count'),
+                 _sponsors=sponsor_keys(a.get('grantee')) or None),
+              homes)
         n += 1
     return n
 
@@ -528,6 +538,47 @@ def load_feed(L: Ledger) -> int:
               p.get('N_UNITS'), p.get('LI_UNITS'))
         n += 1
     return n
+
+
+SPONSOR_NOISE = re.compile(r'\b(inc|llc|lllp|lp|ltd|corp|corporation|co|the)\b')
+
+
+def sponsor_keys(sponsor: str | None) -> frozenset:
+    """The organisations a sponsor or grantee field names, normalised: "1600
+    Pearl LLC/Northeast Denver Housing Center" names "northeast denver housing
+    center" (a single-asset LLC named for its address is not an identity).
+    Used only to match; never published."""
+    keys = set()
+    for part in re.split(r'[/,;&]| and ', (sponsor or '').lower()):
+        k = ' '.join(SPONSOR_NOISE.sub(' ', re.sub(r'[^a-z0-9 ]', ' ', part)).split())
+        if len(k) > 3 and not k[0].isdigit():
+            keys.add(k)
+    return frozenset(keys)
+
+
+def sponsor_joined(projects: list[dict]) -> list[dict]:
+    """A renamed project with no shared address keeps its sponsor: "1600 Pearl
+    St Apartments" (Prop 123 equity) and "Pearl Street Apartments" (DOLA) are
+    both Northeast Denver Housing Center's 158 homes in Denver. Rows in one
+    town and county with a shared sponsor, the same phase, the same unit count
+    and awards no more than a year apart are one project. Copies."""
+    out: list[dict] = []
+    for src in projects:
+        p = dict(src, events=list(src['events']))
+        orgs = frozenset().union(*(e.get('_sponsors') or frozenset() for e in p['events']))
+        sizes = {e['_units'][0] for e in p['events'] if e.get('_units')}
+        years = {e['year'] for e in p['events'] if e.get('year')}
+        for q in out:
+            if orgs and p['county_fips'] and q['county_fips'] == p['county_fips'] and q['_city_n'] == p['_city_n'] \
+                    and orgs & frozenset().union(*(e.get('_sponsors') or frozenset() for e in q['events'])) \
+                    and phase(q['_name_n']) == phase(p['_name_n']) \
+                    and sizes & {e['_units'][0] for e in q['events'] if e.get('_units')} \
+                    and any(abs(a - b) <= 1 for a in years for b in (e['year'] for e in q['events'] if e.get('year'))):
+                q['events'] += p['events']
+                break
+        else:
+            out.append(p)
+    return out
 
 
 def printed_address(quote: str | None) -> str | None:
@@ -610,7 +661,7 @@ def twin_award_units(events: list[dict]) -> tuple[int, int | None] | None:
 
 def finish(L: Ledger) -> list[dict]:
     out = []
-    for src in address_joined(town_labels_joined(L.projects)):
+    for src in sponsor_joined(address_joined(town_labels_joined(L.projects))):
         p = dict(src, events=[dict(e) for e in src['events']])  # finish() leaves the ledger as it was
         p['events'].sort(key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))
         best = max(p['events'], key=lambda e: (STAGES[e['stage']][0], e.get('year') or 0))
@@ -639,7 +690,9 @@ def finish(L: Ledger) -> list[dict]:
                 p['total_units'], p['restricted_units'] = twin
         # an unknown count is null with the reason, never 0
         p['total_units_unavailable_reason'] = None if p.get('total_units') is not None else \
-            'no source prints a home count for this project'
+            ('the only count a source prints is shelter beds, not homes'
+             if any('shelter beds' in (e.get('homes_unavailable_reason') or '') for e in p['events'])
+             else 'no source prints a home count for this project')
         p['restricted_units_unavailable_reason'] = None if p.get('restricted_units') is not None else (
             p['total_units_unavailable_reason'] if p.get('total_units') is None else
             'no source prints an income-restricted count; '
@@ -653,6 +706,7 @@ def finish(L: Ledger) -> list[dict]:
             e.pop('_units', None)
             e.pop('_units_from_homes', None)
             e.pop('_name', None)
+            e.pop('_sponsors', None)
         years = [e['year'] for e in p['events'] if e.get('year')]
         p['county_fips_all'] = p.get('_counties') if not p['county_fips'] and len(p.get('_counties') or []) > 1 else None
         row = {k: v for k, v in p.items() if not k.startswith('_')}
@@ -756,7 +810,11 @@ def build() -> dict:
                            'recent deals, so that field is not used.'),
             'join_rule': ('Events are one project when their names match after normalising (the rule '
                           'scripts/funding/build_lihtc_applications.py uses to match applications to awards) and '
-                          'their counties agree. A project renamed between application and award stays two rows.'),
+                          'their counties agree. A project renamed between application and award is joined when '
+                          'the two rows print the same street address (same county, same phase, sizes within 15%), '
+                          'or name the same sponsor in the same town with the same unit count and years no more '
+                          'than one apart; otherwise it stays two rows. Sponsors are used to match only and are '
+                          'never published.'),
             'amount_note': ('Amounts are as printed: tax credits are ANNUAL credit amounts; grants and loans are '
                             'dollars. amount_label says which. Never add credits to dollars.'),
             'public_safety': ('Sponsor, owner and contact fields are not copied, and quotes have them removed. '
