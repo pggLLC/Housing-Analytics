@@ -2100,7 +2100,12 @@
       "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Housing%22%20Colorado"
     },
     "housingPlans": [
-      {"name": "La Plata County Housing Needs Assessment (Root Policy Research for the Regional Housing Alliance, updated for SB24-174)", "type": "HNA", "year": 2025, "url": "https://laplatahousing.colorado.gov/community-resources/housing-needs-assessment"},
+      {
+        "name": "La Plata County Housing Needs Assessment (Root Policy Research for the Regional Housing Alliance, updated for SB24-174)",
+        "type": "HNA",
+        "year": 2025,
+        "url": "https://laplatahousing.colorado.gov/community-resources/housing-needs-assessment"
+      },
       {
         "name": "La Plata County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
