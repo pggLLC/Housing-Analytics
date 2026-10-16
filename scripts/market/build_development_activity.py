@@ -248,9 +248,11 @@ class Ledger:
                 or awards.norm(city or '') in ('varied', 'various', 'statewide'):
             self.programs_left_out += 1
             return
+        # an excluded project is added and joined like any other, so a renamed
+        # alias (another source, another name) joins it and leaves with it;
+        # finish() drops every project holding an excluded event
         if apps_mod.exclusion_hash(name, city or '') in self.excluded:
-            self.left_out += 1
-            return
+            event['_excluded'] = True
         name_n, city_n = core_name(name), awards.norm(city or '')
         county = county if county and county.startswith(STATE_FIPS) and len(county) == 5 else None
         if city_n and city_n not in self.city_county and ',' not in (city or ''):
@@ -480,13 +482,27 @@ def source_title(a: dict) -> str | None:
     return f"{m['page']}: awards announced {month}"
 
 
-def dola_quote(a: dict) -> str:
+def dola_town(a: dict, known: dict) -> str | None:
+    """The town a DOLA record prints, unless the parser cut it from a street
+    address: "th Avenue Denver" (from "...th Avenue") is a fragment, and its
+    trailing "Denver" is a street's town, not the project's. A fragment falls
+    back to a known town the name ends with ("Navigation Campus - Aurora"),
+    else to no town at all."""
+    town = a.get('town')
+    if not town or not re.match(r'(?:st|nd|rd|th)\b', town):
+        return town
+    m = re.search(r' - ([A-Za-z .]+)$', a.get('name') or '')
+    return m[1].strip() if m and awards.norm(m[1]) in known else None
+
+
+def dola_quote(a: dict, town: str | None = None, beds: bool = False) -> str:
     """DOLA sources print the grantee or owner beside the project (a pipe row's
     second field, a board summary's prose), so the quote is rebuilt from the
     fields that name the project only."""
     return '; '.join(f'{k}: {v}' for k, v in (
-        ('Project', a.get('name')), ('Town', a.get('town')), ('Program', a.get('program_as_printed') or a.get('program')),
-        ('Amount', money(a.get('amount'))), ('Amount basis', a.get('amount_basis')), ('Homes', a.get('homes')),
+        ('Project', a.get('name')), ('Town', town), ('Program', a.get('program_as_printed') or a.get('program')),
+        ('Amount', money(a.get('amount'))), ('Amount basis', a.get('amount_basis')),
+        ('Shelter beds' if beds else 'Homes', a.get('homes')),
         ('Announced', a.get('announced') or a.get('year')), ('Source', source_title(a))) if v)
 
 
@@ -511,8 +527,9 @@ def load_dola(L: Ledger) -> int:
         # Aurora's 255 and Fort Collins Rescue Mission's 200 are beds
         beds = bool(BEDS.search(a.get('note') or ''))
         homes = None if beds else a.get('homes')
-        L.add(a['name'], a.get('town'), a.get('county_fips'),
-              ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a),
+        town = dola_town(a, L.city_county)
+        L.add(a['name'], town, a.get('county_fips'),
+              ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a, town, beds),
                  a.get('amount'), label, announced=a.get('announced'),
                  quote_basis=('fields as recorded from the source; the printed text names the grantee, '
                               'so it is not copied'),
@@ -695,7 +712,10 @@ def twin_award_units(events: list[dict]) -> tuple[int, int | None] | None:
 
 def finish(L: Ledger) -> list[dict]:
     out = []
-    for src in sponsor_joined(address_joined(town_labels_joined(L.projects))):
+    joined = sponsor_joined(address_joined(town_labels_joined(L.projects)))
+    kept = [p for p in joined if not any(e.get('_excluded') for e in p['events'])]
+    L.left_out = sum(len(p['events']) for p in joined) - sum(len(p['events']) for p in kept)
+    for src in kept:
         p = dict(src, events=[dict(e) for e in src['events']])  # finish() leaves the ledger as it was
         p['events'].sort(key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))
         best = max(p['events'], key=lambda e: (STAGES[e['stage']][0], e.get('year') or 0))

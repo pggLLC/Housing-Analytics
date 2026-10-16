@@ -645,3 +645,31 @@ def test_an_unreadable_exclusion_list_stops_the_build(tmp_path):
         pass
     else:
         raise AssertionError('built past a missing exclusion list')
+
+
+def test_an_excluded_projects_renamed_alias_leaves_with_it():
+    # an alias another source prints under another name joins the excluded
+    # project by address, and both are dropped (#2261 review)
+    name, city = 'Hidden Project', 'Denver'
+    L = dev.Ledger({dev.apps_mod.exclusion_hash(name, city)}, {}, {'08031': 'Denver County'})
+    L.county_places = {}
+    L.city_county, L.city_counties = {}, {}
+    url = 'https://example.org/a.pdf'
+    L.add(name, city, '08031', dev.ev('applied', 2024, 'CHFA', 'p', url, 'Name: Hidden Project; Address: 100 Main St'), 40)
+    L.add('Renamed Flats', city, '08031', dev.ev('funded', 2025, 'CHFA', 'p', url, 'Name: Renamed Flats; Address: 100 Main Street'), 40)
+    L.add('Other Place', city, '08031', dev.ev('funded', 2025, 'CHFA', 'p', url, 'Name: Other Place; Address: 9 Elm St'), 40)
+    rows = dev.finish(L)
+    assert [r['name'] for r in rows] == ['Other Place'] and L.left_out == 2
+    assert 'Hidden' not in json.dumps(rows)
+
+
+def test_a_dola_town_cut_from_a_street_is_not_the_town_and_beds_are_labelled_beds():
+    # "th Avenue Denver" is a street fragment; Navigation Campus - Aurora is in Aurora (#2261 review)
+    known = {'aurora': '08005', 'denver': '08031'}
+    assert dev.dola_town({'name': 'Navigation Campus - Aurora', 'town': 'th Avenue Denver'}, known) == 'Aurora'
+    assert dev.dola_town({'name': 'Somewhere', 'town': 'th Avenue Denver'}, known) is None
+    assert dev.dola_town({'name': 'X', 'town': 'Salida'}, known) == 'Salida'
+    rows = {p['name']: p for p in load()['projects']}
+    nav = rows['Navigation Campus - Aurora']
+    assert nav['county_fips'] == '08005'
+    assert 'Homes: 255' not in json.dumps(nav) and 'Shelter beds: 255' in nav['events'][0]['quote']
