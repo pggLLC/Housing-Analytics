@@ -165,7 +165,8 @@ def test_same_name_in_two_towns_is_two_projects_even_with_a_wrong_county():
     L = _ledger()
     q = dict(source_url='https://example.org/a.pdf', quote='Name: Ridge')
     L.add('Ridge', 'Colorado Springs', '08041', dev.ev('funded', 2016, 'CHFA', 'p', **q), 60)
-    L.add('Ridge', 'Denver', '08041', dev.ev('applied', 2026, 'CHFA', 'p', **q), 140)
+    L.add('Ridge', 'Denver', '08041', dev.ev('applied', 2026, 'CHFA', 'p', **q), 140,
+          counties=['08031', '08041'])  # the application lists both counties
     rows = dev.finish(L)
     assert sorted((r['city'], r['county_fips'], r['stage']) for r in rows) == [
         ('Colorado Springs', '08041', 'funded'), ('Denver', '08031', 'applied')]
@@ -378,3 +379,21 @@ def test_a_dola_source_title_names_the_awards_month_not_another_tables():
     aug = dict(june, announced='2025-08')
     assert dev.source_title(aug) == june['source_title']
     assert dev.source_title(dict(june, source_title='Some press release')) == 'Some press release'
+
+
+def test_a_printed_county_stands_against_a_postal_town_name():
+    # "Denver" is also the postal name for homes in unincorporated Adams County
+    # (Elmwood North, 8000 N Pecos Street); a county the source prints, with no
+    # conflicting county in its own list, is kept (#2261 review)
+    L = dev.Ledger(set(), {}, {'08031': 'Denver County', '08001': 'Adams County'})
+    L.county_places = {}
+    L.city_county = {'denver': '08031'}
+    L.city_counties = {'denver': {'08031'}}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Elmwood North', 'Denver', '08001', dev.ev('funded', 2025, 'CHFA', 'p', **q), 70, counties=['08001'])
+    assert dev.finish(L)[0]['county_fips'] == '08001'
+    rows = {(p['name'], p['city']): p for p in load()['projects']}
+    assert rows[('Elmwood North', 'Denver')]['county_fips'] == '08001'
+    assert rows[('Dawson Square', 'Denver')]['county_fips'] == '08001'
+    assert rows[('Sophia', 'Englewood')]['county_fips'] == '08035'
+    assert rows[('Ridge', 'Denver')]['county_fips'] == '08031'  # the corrected application still stands

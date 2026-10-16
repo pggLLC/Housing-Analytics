@@ -43,8 +43,8 @@
  "county_summary": {
   "08001": {
    "name": "Adams County",
-   "projects": 23,
-   "homes": 2322,
+   "projects": 25,
+   "homes": 2427,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -54,8 +54,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 14,
-     "homes": 1119,
+     "projects": 16,
+     "homes": 1224,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -121,8 +121,8 @@
   },
   "08005": {
    "name": "Arapahoe County",
-   "projects": 35,
-   "homes": 3478,
+   "projects": 34,
+   "homes": 3320,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -132,8 +132,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 24,
-     "homes": 2223,
+     "projects": 23,
+     "homes": 2065,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 111,
-   "homes": 11660,
+   "projects": 109,
+   "homes": 11555,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -678,8 +678,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 66,
-     "homes": 6742,
+     "projects": 64,
+     "homes": 6637,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -745,8 +745,8 @@
   },
   "08035": {
    "name": "Douglas County",
-   "projects": 9,
-   "homes": 802,
+   "projects": 10,
+   "homes": 960,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -756,8 +756,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 7,
-     "homes": 672,
+     "projects": 8,
+     "homes": 830,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -6595,6 +6595,70 @@
    ]
   },
   {
+   "id": "dawson-square-08001",
+   "name": "Dawson Square",
+   "city": "Denver",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2025,
+   "latest_year": 2025,
+   "total_units": 35,
+   "restricted_units": 35,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 860347,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+     "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: Acquisition/ Rehabilitation; Property Name: Dawson Square; Address: 8710 Dawson Street; City: Denver; County: Adams; QCT: No; DDA: No; SADDA: No; Federal 4% Credit Amount Issued *: $860,347; PAB Issuer **: Adams County HA dba Maiker Housing Partners; PAB Amount ***: $9,425,799; Total Units: 35; LI Units: 35; Sect. 8: Yes",
+     "bond_amount": 9425799
+    }
+   ]
+  },
+  {
+   "id": "elmwood-north-08001",
+   "name": "Elmwood North",
+   "city": "Denver",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2025,
+   "latest_year": 2025,
+   "total_units": 70,
+   "restricted_units": 70,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "MIHTC",
+     "amount": 1650000,
+     "amount_label": "annual middle-income credit",
+     "source_url": "https://www.chfainfo.com/getattachment/44641e72-053a-42e7-8be0-5e613d51b242/2025-MIHTC-Award-Report.pdf",
+     "quote": "Type: I/F, N; Name: Elmwood North; Address: 8000 N Pecos Street; City: Denver; County: Adams; Total Units: 70; Total MIHTC Units: 70; MIHTC Amount Requested: $1,650,000"
+    },
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (MIHTC)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Elmwood North; PROJ_CTY: Denver; N_UNITS: 70; LI_UNITS: 0; YR_ALLOC: 2025; CREDIT: MIHTC; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "emporia-duplexes-08001",
    "name": "Emporia Duplexes",
    "city": "Aurora",
@@ -8313,33 +8377,6 @@
    ]
   },
   {
-   "id": "dawson-square-08031",
-   "name": "Dawson Square",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 35,
-   "restricted_units": 35,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 860347,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
-     "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: Acquisition/ Rehabilitation; Property Name: Dawson Square; Address: 8710 Dawson Street; City: Denver; County: Adams; QCT: No; DDA: No; SADDA: No; Federal 4% Credit Amount Issued *: $860,347; PAB Issuer **: Adams County HA dba Maiker Housing Partners; PAB Amount ***: $9,425,799; Total Units: 35; LI Units: 35; Sect. 8: Yes",
-     "bond_amount": 9425799
-    }
-   ]
-  },
-  {
    "id": "denver-dry-goods-08031",
    "name": "Denver Dry Goods",
    "city": "Denver",
@@ -8389,43 +8426,6 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
      "source_title": "State Housing Board vote summary, meeting of 2025-02-11 (printed in the 2025-03-11 board packet)"
-    }
-   ]
-  },
-  {
-   "id": "elmwood-north-08031",
-   "name": "Elmwood North",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 70,
-   "restricted_units": 70,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "MIHTC",
-     "amount": 1650000,
-     "amount_label": "annual middle-income credit",
-     "source_url": "https://www.chfainfo.com/getattachment/44641e72-053a-42e7-8be0-5e613d51b242/2025-MIHTC-Award-Report.pdf",
-     "quote": "Type: I/F, N; Name: Elmwood North; Address: 8000 N Pecos Street; City: Denver; County: Adams; Total Units: 70; Total MIHTC Units: 70; MIHTC Amount Requested: $1,650,000"
-    },
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (MIHTC)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Elmwood North; PROJ_CTY: Denver; N_UNITS: 70; LI_UNITS: 0; YR_ALLOC: 2025; CREDIT: MIHTC; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -14252,44 +14252,6 @@
    ]
   },
   {
-   "id": "sophia-08005",
-   "name": "Sophia",
-   "city": "Englewood",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0824785",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 158,
-   "restricted_units": 158,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 2788896,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
-     "quote": "Cycle Year: 2023; Resident Type: Older Adult; Building Type: New Construction; Property Name: Sophia; Address: North East Corner of Maroon Cir and Meridian Blvd; City: Englewood; County: Douglas; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $2,788,896; PAB Issuer **: Douglas County Housing Partnership; PAB Amount ***: $28,900,000; Total Units: 158; LI Units: 158; Sect. 8: No",
-     "bond_amount": 28900000
-    },
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Sophia; PROJ_CTY: Englewood; N_UNITS: 158; LI_UNITS: 158; YR_ALLOC: 2023; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "chris-mountain-2-08007",
    "name": "Chris Mountain II",
    "city": "Pagosa Springs",
@@ -15897,6 +15859,44 @@
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2023/12/Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
      "quote": "Project Name: Ridgegate Parkway Affordable Senior; Location: Lone Tree; Funds Requested: $2,898,000; Number of Units: 101; Program: LIHTC Gap"
+    }
+   ]
+  },
+  {
+   "id": "sophia-08035",
+   "name": "Sophia",
+   "city": "Englewood",
+   "county_fips": "08035",
+   "county_fips_all": null,
+   "county": "Douglas County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": 158,
+   "restricted_units": 158,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 2788896,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+     "quote": "Cycle Year: 2023; Resident Type: Older Adult; Building Type: New Construction; Property Name: Sophia; Address: North East Corner of Maroon Cir and Meridian Blvd; City: Englewood; County: Douglas; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $2,788,896; PAB Issuer **: Douglas County Housing Partnership; PAB Amount ***: $28,900,000; Total Units: 158; LI Units: 158; Sect. 8: No",
+     "bond_amount": 28900000
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Sophia; PROJ_CTY: Englewood; N_UNITS: 158; LI_UNITS: 158; YR_ALLOC: 2023; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -19335,6 +19335,33 @@
    ]
   },
   {
+   "id": "casa-redonda-de-vigil-08001",
+   "name": "Casa Redonda de Vigil",
+   "city": "Denver",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2021,
+   "latest_year": 2021,
+   "total_units": 42,
+   "restricted_units": 42,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Casa Redonda de Vigil; PROJ_CTY: Denver; N_UNITS: 42; LI_UNITS: 42; YR_ALLOC: 2021; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "greyhound-park-empowerment-08001",
    "name": "Greyhound Park Empowerment Apartments",
    "city": "Commerce City",
@@ -19959,33 +19986,6 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Archway Community on the Mosaic Community Campus; PROJ_CTY: Denver; N_UNITS: 154; LI_UNITS: 154; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "casa-redonda-de-vigil-08031",
-   "name": "Casa Redonda de Vigil",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2021,
-   "latest_year": 2021,
-   "total_units": 42,
-   "restricted_units": 42,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Casa Redonda de Vigil; PROJ_CTY: Denver; N_UNITS: 42; LI_UNITS: 42; YR_ALLOC: 2021; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -21167,33 +21167,6 @@
    ]
   },
   {
-   "id": "apex-south-08005",
-   "name": "Apex South",
-   "city": "Englewood",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0824785",
-   "stage": "funded",
-   "first_year": 2020,
-   "latest_year": 2020,
-   "total_units": 208,
-   "restricted_units": 208,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2020,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Apex South; PROJ_CTY: Englewood; N_UNITS: 208; LI_UNITS: 208; YR_ALLOC: 2020; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "point-affordable-08005",
    "name": "Point Affordable Apartments",
    "city": "Aurora",
@@ -21732,6 +21705,33 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Valor on the Fax; PROJ_CTY: Denver; N_UNITS: 72; LI_UNITS: 72; YR_ALLOC: 2020; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "apex-south-08035",
+   "name": "Apex South",
+   "city": "Englewood",
+   "county_fips": "08035",
+   "county_fips_all": null,
+   "county": "Douglas County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2020,
+   "latest_year": 2020,
+   "total_units": 208,
+   "restricted_units": 208,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2020,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Apex South; PROJ_CTY: Englewood; N_UNITS: 208; LI_UNITS: 208; YR_ALLOC: 2020; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -22381,6 +22381,33 @@
    ]
   },
   {
+   "id": "caraway-08001",
+   "name": "Caraway",
+   "city": "Denver",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": 116,
+   "restricted_units": 116,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Caraway; PROJ_CTY: Denver; N_UNITS: 116; LI_UNITS: 116; YR_ALLOC: 2019; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "landing-08001",
    "name": "Landing",
    "city": "Commerce City",
@@ -22403,33 +22430,6 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Landing; PROJ_CTY: Commerce City; N_UNITS: 223; LI_UNITS: 223; YR_ALLOC: 2019; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "sheridan-gardens-08005",
-   "name": "Sheridan Gardens",
-   "city": "Englewood",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0824785",
-   "stage": "funded",
-   "first_year": 2019,
-   "latest_year": 2019,
-   "total_units": 48,
-   "restricted_units": 48,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2019,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Sheridan Gardens; PROJ_CTY: Englewood; N_UNITS: 48; LI_UNITS: 48; YR_ALLOC: 2019; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -22887,33 +22887,6 @@
    ]
   },
   {
-   "id": "caraway-08031",
-   "name": "Caraway",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2019,
-   "latest_year": 2019,
-   "total_units": 116,
-   "restricted_units": 116,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2019,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Caraway; PROJ_CTY: Denver; N_UNITS: 116; LI_UNITS: 116; YR_ALLOC: 2019; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "charity-south-house-08031",
    "name": "Charity's House Apartments",
    "city": "Denver",
@@ -23152,6 +23125,33 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Reserves at Green Valley Ranch; PROJ_CTY: Denver; N_UNITS: 144; LI_UNITS: 144; YR_ALLOC: 2019; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "sheridan-gardens-08031",
+   "name": "Sheridan Gardens",
+   "city": "Englewood",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": 48,
+   "restricted_units": 48,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Sheridan Gardens; PROJ_CTY: Englewood; N_UNITS: 48; LI_UNITS: 48; YR_ALLOC: 2019; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -24005,33 +24005,6 @@
    ]
   },
   {
-   "id": "apex-meridian-2-08005",
-   "name": "Apex Meridian II",
-   "city": "Englewood",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0824785",
-   "stage": "funded",
-   "first_year": 2018,
-   "latest_year": 2018,
-   "total_units": 156,
-   "restricted_units": 155,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2018,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Apex Meridian II; PROJ_CTY: Englewood; N_UNITS: 156; LI_UNITS: 155; YR_ALLOC: 2018; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "aspen-meadows-aurora-08005",
    "name": "Aspen Meadows Aurora",
    "city": "Aurora",
@@ -24747,6 +24720,33 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Olin Hotel Apartments; PROJ_CTY: Denver; N_UNITS: 112; LI_UNITS: 112; YR_ALLOC: 2018; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "apex-meridian-2-08035",
+   "name": "Apex Meridian II",
+   "city": "Englewood",
+   "county_fips": "08035",
+   "county_fips_all": null,
+   "county": "Douglas County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2018,
+   "latest_year": 2018,
+   "total_units": 156,
+   "restricted_units": 155,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2018,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Apex Meridian II; PROJ_CTY: Englewood; N_UNITS: 156; LI_UNITS: 155; YR_ALLOC: 2018; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -26924,6 +26924,33 @@
    ]
   },
   {
+   "id": "baker-school-08001",
+   "name": "Baker School Apartments",
+   "city": "Denver",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2016,
+   "latest_year": 2016,
+   "total_units": 142,
+   "restricted_units": 142,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2016,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Baker School Apartments; PROJ_CTY: Denver; N_UNITS: 142; LI_UNITS: 142; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "north-range-crossings-08001",
    "name": "North Range Crossings",
    "city": "Commerce City",
@@ -27139,6 +27166,33 @@
    ]
   },
   {
+   "id": "sierra-vista-08005",
+   "name": "Sierra Vista Apartments",
+   "city": "Denver",
+   "county_fips": "08005",
+   "county_fips_all": null,
+   "county": "Arapahoe County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2016,
+   "latest_year": 2016,
+   "total_units": 209,
+   "restricted_units": 209,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2016,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Sierra Vista Apartments; PROJ_CTY: Denver; N_UNITS: 209; LI_UNITS: 209; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "village-westerly-creek-3-08005",
    "name": "Village at Westerly Creek 3",
    "city": "Aurora",
@@ -27172,6 +27226,33 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Village at Westerly Creek Building 3; PROJ_CTY: Aurora; N_UNITS: 74; LI_UNITS: 74; YR_ALLOC: 2016; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "willow-street-2-08005",
+   "name": "Willow Street Residences II",
+   "city": "Denver",
+   "county_fips": "08005",
+   "county_fips_all": null,
+   "county": "Arapahoe County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2016,
+   "latest_year": 2016,
+   "total_units": 80,
+   "restricted_units": 80,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2016,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Willow Street Residences II; PROJ_CTY: Denver; N_UNITS: 80; LI_UNITS: 80; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -27575,33 +27656,6 @@
    ]
   },
   {
-   "id": "baker-school-08031",
-   "name": "Baker School Apartments",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2016,
-   "latest_year": 2016,
-   "total_units": 142,
-   "restricted_units": 142,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2016,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Baker School Apartments; PROJ_CTY: Denver; N_UNITS: 142; LI_UNITS: 142; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "boulevard-one-08031",
    "name": "Boulevard One Residences",
    "city": "Denver",
@@ -27818,33 +27872,6 @@
    ]
   },
   {
-   "id": "sierra-vista-08031",
-   "name": "Sierra Vista Apartments",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2016,
-   "latest_year": 2016,
-   "total_units": 209,
-   "restricted_units": 209,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2016,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Sierra Vista Apartments; PROJ_CTY: Denver; N_UNITS: 209; LI_UNITS: 209; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "slohi-flats-08031",
    "name": "SloHi Flats",
    "city": "Denver",
@@ -27957,33 +27984,6 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: William Tell Apartments; PROJ_CTY: Denver; N_UNITS: 81; LI_UNITS: 81; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "willow-street-2-08031",
-   "name": "Willow Street Residences II",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2016,
-   "latest_year": 2016,
-   "total_units": 80,
-   "restricted_units": 80,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2016,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Willow Street Residences II; PROJ_CTY: Denver; N_UNITS: 80; LI_UNITS: 80; YR_ALLOC: 2016; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]

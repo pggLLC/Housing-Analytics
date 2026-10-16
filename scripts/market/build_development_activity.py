@@ -205,10 +205,14 @@ class Ledger:
                     break
         if not county and city_n and ',' not in (city or ''):
             county = self.city_county.get(city_n)  # a town wholly in one county
-        elif county and city_n in self.city_county and county not in self.city_counties.get(city_n, ()):
-            # the printed town lies wholly in another county: the town wins (an
-            # application for "Ridge" in Denver was placed in El Paso County by
-            # matching its name to an older Colorado Springs property)
+        elif county and city_n in self.city_county and county not in self.city_counties.get(city_n, ()) \
+                and self.city_county[city_n] in (counties or ()):
+            # the source itself lists the town's county beside a conflicting one:
+            # the town wins (an application for "Ridge" in Denver, listed in
+            # Denver and El Paso, was placed in El Paso by matching its name to
+            # an older Colorado Springs property). A printed county with no such
+            # conflict in its own source stands: "Denver" and "Englewood" are
+            # also postal names for homes in Adams and Douglas counties
             county = self.city_county[city_n]
         p = self.find(name_n, county, city_n, units)
         if p is None:
