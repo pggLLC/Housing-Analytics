@@ -207,6 +207,21 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('unknown credits leave no sensitivity chart, and the note names the credit reason', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-county-select', '08001');
+    const mount = p.d.getElementById('tornadoChartMount');
+    assert.match(mount.textContent, /Equity Price\$[1-9]/, 'non-vacuous: known credits draw equity bars');
+    p.w.__DealCalc.setCostRules(null);
+    const r = p.w.__DealCalc.getResult();
+    assert(r.noi > 0, 'NOI is still known');
+    assert.equal(r.annualCredits, null);
+    assert.equal(r.tornado, null);
+    assert(!/Equity Price\$/.test(mount.textContent), 'no $0 equity bars');
+    assert(mount.textContent.includes('Sensitivity needs a known credit amount. ' + r.basisUnknownReason), mount.textContent);
+    assert.deepEqual(p.errors, []);
+  });
+
   await test('the boost help text agrees with the boost rules and the CHFA percentage input', async () => {
     const p = await openPage('');
     const help = text(p, 'dc-boost-help');

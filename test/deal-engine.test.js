@@ -72,6 +72,14 @@ for (const scenario of ['A', 'B']) {
   assert.equal(known.sensitivityKnown, true);
   assert(Number.isFinite(known.tornado.mortLo) && known.tornado.mortLo > 0, `${scenario}: known sensitivity is still computed`);
 }
+// Known NOI and rents but unknown credits: the equity swings would be $0, so no sensitivity.
+const noRules = inputsFor('A'); noRules.costRules = null;
+const creditsUnknown = computeDeal(noRules);
+assert(creditsUnknown.noi > 0 && creditsUnknown.annualRents > 0, 'non-vacuous: NOI and rents are known');
+assert.equal(creditsUnknown.annualCredits, null);
+assert.equal(creditsUnknown.sensitivityKnown, false);
+assert.equal(creditsUnknown.tornado, null);
+assert(creditsUnknown.unavailable.tornado, 'tornado: reason travels with absence');
 assert.equal(unknown.exit.nNoi, null);
 assert(unknown.unavailable['exit.nNoi']);
 assert(!JSON.stringify(unknown).includes('NaN'));

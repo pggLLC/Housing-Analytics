@@ -4802,9 +4802,11 @@
     // why instead of a chart.
     var tornadoMount = document.getElementById('tornadoChartMount');
     if (tornadoMount && tdc > 0 && !sensitivityKnown) {
+      var rollKnown = isFinite(noi) && !rentsUnknownReason;
       tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
-        'Sensitivity needs a known NOI and rent roll. ' +
-        ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '') + '</p>';
+        (rollKnown && result.basisUnknownReason
+          ? 'Sensitivity needs a known credit amount. ' + _escHtml(result.basisUnknownReason)
+          : 'Sensitivity needs a known NOI and rent roll. ' + ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '')) + '</p>';
     }
     if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {

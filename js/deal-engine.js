@@ -1140,14 +1140,15 @@
     // Sensitivity needs known NOI and rents. Without them every swing below
     // would be computed from 0 and published as a real figure, so report
     // the whole block as unavailable instead (its reason comes from reasonFor).
-    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0;
+    // The equity bars need known credits too (0 outside CHFA LIHTC is measured).
+    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits);
     var tornado = !sensitivityKnown ? null : (function () {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
         var vu  = vacFrac() * 100;
         var ou  = safeVal('dc-opex') || 450;
         var u   = units || 60;
-        var acr = annualCredits || 0;
+        var acr = annualCredits;
 
         // Equity pricing: ±$0.03
         var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
