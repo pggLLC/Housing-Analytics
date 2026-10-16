@@ -26,7 +26,7 @@ assert(engineSrc.includes('units: units, lowIncomeUnits: lihtcUnits'), 'engine p
 {
   const cb = require('../js/deal-cost-basis.js');
   const af = (lowIncomeSf) => cb.basisAndCredit({ eligibleCost: 1000, grantReduction: 0, units: 60, lowIncomeUnits: 40,
-    residentialSf: 60000, lowIncomeSf, creditRate: 0.09, creditType: '9', rules: null }).applicableFraction;
+    residentialSf: 60000, lowIncomeSf, creditRate: 0.09, creditType: '9', rules: require('../data/policy/lihtc-underwriting-rules.json') }).applicableFraction;
   assert(Math.abs(af(45000) - 40 / 60) < 1e-9, 'unit fraction wins when it is lower');
   assert.strictEqual(af(30000), 0.5, 'floor-space fraction wins when it is lower');
 }

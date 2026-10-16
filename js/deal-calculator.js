@@ -2368,6 +2368,11 @@
           <input id="dc-grant-acq" type="number" min="0" step="1000" placeholder="not entered"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
         </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for costs outside eligible basis, such as land or reserves ($; enter 0 if none; a federal grant reduces basis only by what it paid for in basis)</span>
+          <input id="dc-grant-outside" type="number" min="0" step="1000" placeholder="not entered"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+        </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
             Deferred Developer Fee cap: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
@@ -3287,7 +3292,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-state-awarded', 'dc-state-path']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3988,6 +3993,7 @@
     row('Cost in eligible basis', money(basis.eligibleBasis, basis.reasons.eligibleBasis));
     if (basis.feeReduction > 0) row('Less fees above CHFA\'s limits', fmt(basis.feeReduction), 'CHFA limits the fees in calculating credit; a reduction in fees reduces eligible basis (QAP 3.M.3).');
     row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).'
+      + (basis.grantOutsideBasis > 0 ? ' ' + fmt(basis.grantOutsideBasis) + ' of federal grant money paid for costs outside basis and does not reduce it.' : '')
       + (basis.grantOnAcquisition > 0 ? (basis.grantSplitEntered ? ' As entered: ' : ' Spread over acquisition and other basis in proportion (the credit rates match and no boost applies): ') + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
     row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
     row('Basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation + ', ' + Math.round((basis.boost.multiplier - 1) * 100) + '%' : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);

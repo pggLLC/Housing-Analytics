@@ -822,7 +822,7 @@
     var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);
     var basisArgs = { eligibleCost: costSummary.eligible, costReason: costSummary.reason,
       acquisitionEligible: costSummary.acquisitionEligible, acquisitionQualifies: !!fields['dc-acq-42d2'], grantReduction: grantTreatment.reduction,
-      grantOnAcquisition: fields['dc-grant-acq'],
+      grantOnAcquisition: fields['dc-grant-acq'], grantOutsideBasis: fields['dc-grant-outside'], ineligibleCost: costSummary.ineligible,
       grantReason: grantTreatment.reason, designation: fields['dc-boost-designation'], evidence: fields['dc-boost-evidence'],
       awardedBoostPct: fields['dc-boost-pct'],
       creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,

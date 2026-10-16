@@ -343,6 +343,23 @@
     out.eligibleBasis = args.eligibleCost;
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
+    // A federal grant reduces basis only by what it paid for in basis (42(d)(5)(A));
+    // a grant spent on land or reserves does not. Where the deal has costs outside
+    // basis, the user says how much of the grant went there.
+    out.grantOutsideBasis = 0;
+    var ineligibleCost = num(args.ineligibleCost);
+    if (out.grantReduction > 0 && ineligibleCost !== null && ineligibleCost > 0) {
+      var outside = num(args.grantOutsideBasis);
+      if (outside === null) {
+        return stop('afterGrant', 'Enter how much of the federal grant paid for costs outside eligible basis, such as land or reserves ($0 if none): a federal grant reduces basis only by what it paid for in basis (26 U.S.C. 42(d)(5)(A)).');
+      }
+      var maxOutside = Math.min(out.grantReduction, ineligibleCost);
+      if (!Number.isFinite(outside) || outside < 0 || outside > maxOutside + 0.5) {
+        return stop('afterGrant', 'Enter a federal grant amount for costs outside eligible basis between $0 and ' + money(maxOutside) + '.');
+      }
+      out.grantOutsideBasis = Math.min(outside, maxOutside);
+      out.grantReduction -= out.grantOutsideBasis;
+    }
     if (args.feeExcess === null) return stop('afterGrant', args.feeReason || 'The fee to take out of basis is unknown.');
     out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
     out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
@@ -425,6 +442,8 @@
       if (liSf > resSf) return stop('applicableFraction', 'Restricted floor space is more than residential floor space.');
       out.floorFraction = liSf / resSf;
     }
+    var fractionRule = ruleStatus(rules, 'applicable_fraction');
+    if (!fractionRule.applied) return stop('applicableFraction', 'Applicable fraction: ' + fractionRule.reason + '.');
     out.applicableFraction = Math.min(out.unitFraction, out.floorFraction);
     out.qualifiedBasis = out.boostedBasis * out.applicableFraction;
     // Acquisition basis earns the acquisition rate; on a 9% deal that is CHFA's

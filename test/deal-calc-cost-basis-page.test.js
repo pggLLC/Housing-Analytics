@@ -85,7 +85,13 @@ async function test(name, fn) {
     fed.value = 'nonfederal'; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
     assert.equal(text(p, 'dc-r-basis'), before, 'a grant with no federal money leaves basis alone');
     fed.value = 'federal'; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
-    assert.equal(text(p, 'dc-r-basis'), money(cb.summarizeCosts(cb.exampleLines(), 20000000).eligible - 500000));
+    // The example deal has land and reserves, so the page asks how much of the grant went there.
+    assert.match(text(p, 'dc-r-basis'), /Unavailable.*costs outside eligible basis/);
+    setField(p, 'dc-grant-outside', 200000);
+    const eligible = cb.summarizeCosts(cb.exampleLines(), 20000000).eligible;
+    assert.equal(text(p, 'dc-r-basis'), money(eligible - 300000), 'only the grant spent in basis reduces it');
+    setField(p, 'dc-grant-outside', 0);
+    assert.equal(text(p, 'dc-r-basis'), money(eligible - 500000));
     // The JSON export carries the classification that decides the basis reduction.
     const tranches = p.w.__DealCalcShare.buildSnapshot().tranches;
     assert(tranches && tranches.length > 0, 'non-vacuous: the export has tranches');
@@ -231,6 +237,7 @@ async function test(name, fn) {
     const amount = row.querySelector('.dc-tr-amount'); amount.value = '500000'; amount.dispatchEvent(new p.w.Event('input', { bubbles: true }));
     const grant = row.querySelector('.dc-tr-mode[value="grant"]'); grant.checked = true; grant.dispatchEvent(new p.w.Event('change', { bubbles: true }));
     const fed = row.querySelector('.dc-tr-fed'); fed.value = 'federal'; fed.dispatchEvent(new p.w.Event('change', { bubbles: true }));
+    setField(p, 'dc-grant-outside', 0);
     assert.match(text(p, 'dc-r-basis'), /Unavailable.*paid for the building purchase/);
     assert.equal(p.w.__DealCalc.getResult().costBasis.basis.calculatedCredit, null);
     setField(p, 'dc-grant-acq', 0);

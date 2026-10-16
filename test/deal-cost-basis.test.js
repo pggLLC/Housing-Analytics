@@ -417,6 +417,29 @@ test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabili
   assert.equal(Math.round(onAcq4.calculatedCredit), 13000000 * 0.04);
 });
 
+test('a federal grant reduces basis only by what it paid for in basis', () => {
+  // Codex's example: a $2M federal grant spent on land must not reduce building basis.
+  const withLand = (extra) => base9(Object.assign({ grantReduction: 2000000, ineligibleCost: 3000000 }, extra));
+  const asked = withLand({});
+  assert.equal(asked.calculatedCredit, null);
+  assert.match(asked.reasons.afterGrant, /costs outside eligible basis/);
+  assert.equal(Math.round(withLand({ grantOutsideBasis: 2000000 }).afterGrant), 2000000, 'all on land: basis untouched');
+  assert.equal(Math.round(withLand({ grantOutsideBasis: 500000 }).afterGrant), 500000, 'part on land: only the rest reduces basis');
+  assert.match(withLand({ grantOutsideBasis: 2500000 }).reasons.afterGrant, /between \$0 and \$2,000,000/);
+  assert.equal(Math.round(base9({ grantReduction: 500000, ineligibleCost: 0 }).afterGrant), 1500000, 'nothing outside basis, nothing to ask');
+});
+
+test('the applicable fraction is withheld when its rule is unsourced', () => {
+  const unsourced = JSON.parse(JSON.stringify(rules)); delete unsourced.rules.applicable_fraction;
+  const r = base9({ rules: unsourced });
+  assert.equal(r.applicableFraction, null);
+  assert.equal(r.qualifiedBasis, null);
+  assert.equal(r.calculatedCredit, null);
+  assert.equal(r.capacity, null);
+  assert.match(r.reasons.applicableFraction, /Applicable fraction: rule not sourced/);
+  assert(base9({}).calculatedCredit > 0, 'non-vacuous: sourced, it calculates');
+});
+
 test('a purchase a federal grant paid for in full needs no 42(d)(2) confirmation', () => {
   const covered = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false, grantReduction: 1000000, grantOnAcquisition: 1000000 });
   assert.equal(Math.round(covered.calculatedCredit), 1000000 * 0.09, 'credit on the rehabilitation basis alone');
