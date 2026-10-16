@@ -162,8 +162,8 @@ const TRAILING_PUNCTUATION_RX = /(?:(?<!\.)\.|[,;:!?*"'`>\\|])$/;
  */
 export function sanitizeExtractedUrl(raw) {
   if (typeof raw !== 'string') return null;
-  // A data field can hold an address followed by a note ("https://x.gov
-  // (HTTP 403)"); the address ends at the first whitespace.
+  // A data field can hold an address followed by a note, such as a
+  // "(HTTP 403)" after the host; the address ends at the first whitespace.
   let url = decodeHtmlEntities(raw.trim()).split(/\s/)[0];
   let previous;
   do {
