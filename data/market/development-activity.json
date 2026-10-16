@@ -33,6 +33,7 @@
   },
   "excluded_events": 0,
   "program_awards_left_out": 91,
+  "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
   "project_count": 776,
   "summary_since": 2023,
@@ -2984,17 +2985,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Grove at Pinewood; Address: 200 S. Ironton Street; City: Aurora; Total Units: 49; Total LI Units: 49; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $98,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Grove at Pinewood; City: Aurora; Total Units: 49; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -3118,17 +3108,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Metro Center Apartments; Address: Alameda Ave at Sable Blvd; City: Aurora; Total Units: 58; Total LI Units: 58; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $116,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Metro Center Apartments; City: Aurora; Total Units: 58; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -3635,17 +3614,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, SP; Name: Willoughby Corner Phase 2; Address: 678 Willoughby Drive; City: Lafayette; Total Units: 32; Total LI Units: 32; Federal 9% Credit Awarded: $1,582,767; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $64,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1582767,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Willoughby Corner Phase 2; City: Lafayette; Total Units: 32; Federal credit: $1,582,767; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -4164,17 +4132,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: A/R, OA; Name: Barth Hotel; Address: 1514 17th St.; City: Denver; Total Units: 50; Total LI Units: 50; Federal 9% Credit Awarded: $1,450,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $100,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1450000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Barth Hotel; City: Denver; Total Units: 50; Federal credit: $1,450,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -4212,17 +4169,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: A/R, I/F, SH; Name: Commons at Mosaic; Address: 1740 & 1790 Pontiac Street; City: Denver; Total Units: 58; Total LI Units: 58; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $116,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Commons at Mosaic; City: Denver; Total Units: 58; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -4700,17 +4646,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Montbello Townhomes; Address: 14400 Andrews Drive; City: Denver; Total Units: 39; Total LI Units: 39; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Montbello Townhomes; City: Denver; Total Units: 39; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -5326,17 +5261,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: 123 Manitou; Address: 123 Manitou Avenue; City: Manitou Springs; Total Units: 50; Total LI Units: 50; Federal 9% Credit Awarded: $1,613,506; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1613506,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: 123 Manitou; City: Manitou Springs; Total Units: 50; Federal credit: $1,613,506; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -5468,17 +5392,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, OA; Name: Silver Key Apartments at North Weber; Address: 2126 N. Weber Street; City: Colorado Springs; Total Units: 49; Total LI Units: 49; Federal 9% Credit Awarded: $1,697,491; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1697491,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Silver Key Apartments at North Weber; City: Colorado Springs; Total Units: 49; Federal credit: $1,697,491; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -5558,17 +5471,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: GardenWalk of Cañon City; Address: 3232 Independence Road; City: Cañon City; Total Units: 42; Total LI Units: 42; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: GardenWalk of Cañon City; City: Cañon City; Total Units: 42; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -6124,17 +6026,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Crawford Commons; Address: 32 1/2 Road and Friendship Drive; City: Clifton; Total Units: 60; Total LI Units: 60; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Crawford Commons; City: Clifton; Total Units: 60; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -6331,17 +6222,6 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Ute Mountain Homes I; Address: East Rodeo Drive and future Road C; City: Towaoc; Total Units: 15; Total LI Units: 15; Federal 9% Credit Awarded: $1,196,414"
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 946447,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Ute Mountain Homes I; City: Towaoc; Total Units: 15; Federal credit: $946,447; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -6368,17 +6248,6 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Cedar Creek Commons; Address: 65890 Ogden Road; City: Montrose; Total Units: 36; Total LI Units: 36; Federal 9% Credit Awarded: $1,589,628"
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1333530,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Cedar Creek Commons; City: Montrose; Total Units: 36; Federal credit: $1,333,530; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -6570,17 +6439,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Crossroads at Divide; Address: Clark Ranch Road and Lone Ranger Road; City: Divide; Total Units: 36; Total LI Units: 36; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Crossroads at Divide; City: Divide; Total Units: 36; Federal credit: $1,800,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },
@@ -6648,17 +6506,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, OA; Name: Wildflower Flats; Address: 1501 2nd Street; City: Fort Lupton; Total Units: 60; Total LI Units: 60; Federal 9% Credit Awarded: $1,780,000; Standard State Credit Awarded: $500,000",
      "state_credit": 500000
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "2026 Round One housing tax credits",
-     "amount": 1780000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Name: Wildflower Flats; City: Fort Lupton; Total Units: 60; Federal credit: $1,780,000; State credit: $500,000",
-     "announced": "2026-05-21"
     }
    ]
   },

@@ -149,6 +149,7 @@ class Ledger:
         self.county_names = county_names
         self.left_out = 0
         self.programs_left_out = 0
+        self.supplement_duplicates = 0
         self.city_county: dict[str, str] = {}
 
     def place_of(self, city: str | None, county: str | None) -> str | None:
@@ -217,6 +218,14 @@ class Ledger:
                  'total_units': None, 'restricted_units': None, 'events': [],
                  '_name_n': name_n, '_city_n': city_n}
             self.projects.append(p)
+        # a supplemental reading of a report the award ledger already carries
+        # (the 2026 Round One file) adds nothing; the ledger's printed row wins
+        if event.pop('_supplement', False) and any(
+                (e['agency'], e.get('year'), e['stage'], e.get('source_url'))
+                == (event['agency'], event.get('year'), event['stage'], event.get('source_url'))
+                for e in p['events']):
+            self.supplement_duplicates += 1
+            return
         if not p['county_fips'] and county:
             p['county_fips'], p['county'] = county, self.county_names.get(county)
         # a scattered site printed with no one county but a list of counties
@@ -369,7 +378,8 @@ def load_round_2026(L: Ledger) -> int:
             ('Federal credit', money(fed)), ('State credit', money(a.get('state_credit')))) if v)
         L.add(a['name'], a.get('city'), a.get('county_fips'),
               ev('funded', 2026, 'CHFA', '2026 Round One housing tax credits', meta.get('pdf_report_url') or meta.get('source_url'),
-                 quote, fed, 'annual federal credit', announced=meta.get('announcement_date')),
+                 quote, fed, 'annual federal credit', announced=meta.get('announcement_date'),
+                 _supplement=True),
               a.get('total_units'))
         n += 1
     return n
@@ -577,6 +587,7 @@ def build() -> dict:
             'events_read': counts,
             'excluded_events': L.left_out,
             'program_awards_left_out': L.programs_left_out,
+            'round_one_2026_already_in_ledger': L.supplement_duplicates,
             'program_awards_note': ('Awards that fund a program rather than homes on a site (down payment '
                                     'assistance, rehabilitation and single-family repair programs, statewide '
                                     'NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop '

@@ -336,3 +336,21 @@ def test_a_town_in_several_counties_keeps_its_place_in_each():
     assert checked > 20  # the scan reached the cross-county towns (Aurora, Westminster, ...)
     crossbar = next(p for p in d['projects'] if p['name'].startswith('Crossbar Commons'))
     assert (crossbar['county_fips'], crossbar['place_geoid']) == ('08001', '0804000')
+
+
+def test_an_award_the_ledger_prints_is_not_added_again_from_the_round_file():
+    d = load()
+    assert d['meta']['round_one_2026_already_in_ledger'] > 0  # the round file overlaps the ledger today
+    for p in d['projects']:
+        keys = [(e['agency'], e['year'], e['stage'], e['source_url']) for e in p['events']
+                if e['program'] in ('2026 Round One housing tax credits',)]
+        others = {(e['agency'], e['year'], e['stage'], e['source_url']) for e in p['events']
+                  if e['program'] != '2026 Round One housing tax credits'}
+        assert not set(keys) & others, p['name']
+    L = _ledger()
+    q = dict(source_url='https://example.org/round.pdf', quote='Name: X')
+    L.add('Ute Mountain Homes I', 'Denver', '08031', dev.ev('funded', 2026, 'CHFA', 'LIHTC 9% + state', amount=1196414, **q), 15)
+    L.add('Ute Mountain Homes I', 'Denver', '08031',
+          dev.ev('funded', 2026, 'CHFA', '2026 Round One housing tax credits', amount=946447, _supplement=True, **q), 15)
+    r = dev.finish(L)[0]
+    assert [e['amount'] for e in r['events']] == [1196414] and L.supplement_duplicates == 1
