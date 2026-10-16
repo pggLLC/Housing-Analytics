@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T11:44:20.010Z",
+    "generated_at": "2026-10-16T14:06:30.070Z",
     "root": "data/",
     "file_count": 1737,
-    "total_size_bytes": 185010096,
+    "total_size_bytes": 184946573,
     "kinds": {
       "json": 1694,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7705,
-      "mtime": "2026-10-15T13:19:15.413Z",
+      "size_bytes": 7699,
+      "mtime": "2026-10-16T14:05:06.970Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-16T03:29:40.635Z",
+      "mtime": "2026-10-16T14:06:26.898Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1450,8 +1450,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 263815,
-      "mtime": "2026-10-15T13:19:15.477Z",
+      "size_bytes": 264608,
+      "mtime": "2026-10-16T14:05:07.035Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1466,7 +1466,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1706,
+      "primary_array_length": 1711,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -16990,8 +16990,8 @@
     {
       "path": "hna/local-resources-candidates.json",
       "kind": "json",
-      "size_bytes": 39650,
-      "mtime": "2026-10-10T04:14:58.314Z",
+      "size_bytes": 6696,
+      "mtime": "2026-10-16T14:05:07.108Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -17004,7 +17004,7 @@
       ],
       "key_count": 7,
       "primary_array_key": "notFound",
-      "primary_array_length": 4,
+      "primary_array_length": 21,
       "primary_array_first_keys": [
         "geoid",
         "name",
@@ -30971,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 220140,
-      "mtime": "2026-10-16T11:43:36.081Z",
+      "size_bytes": 220139,
+      "mtime": "2026-10-16T14:06:05.016Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32436,7 +32436,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-16T03:29:42.483Z",
+      "mtime": "2026-10-16T14:06:28.568Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32460,7 +32460,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-16T03:29:42.049Z",
+      "mtime": "2026-10-16T14:06:28.199Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35680,8 +35680,8 @@
     {
       "path": "reports/developer-url-health.json",
       "kind": "json",
-      "size_bytes": 24571,
-      "mtime": "2026-10-10T04:14:58.639Z",
+      "size_bytes": 21262,
+      "mtime": "2026-10-16T14:05:07.392Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35690,8 +35690,8 @@
         "ok_count"
       ],
       "key_count": 4,
-      "primary_array_key": "warnings",
-      "primary_array_length": 56,
+      "primary_array_key": "broken",
+      "primary_array_length": 46,
       "primary_array_first_keys": [
         "url",
         "status",
@@ -35858,8 +35858,8 @@
     {
       "path": "url-health.json",
       "kind": "json",
-      "size_bytes": 622101,
-      "mtime": "2026-10-16T11:32:52.499Z",
+      "size_bytes": 594055,
+      "mtime": "2026-10-16T14:05:07.397Z",
       "shape": "object",
       "keys": [
         "lastSweepAt",
