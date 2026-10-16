@@ -152,7 +152,23 @@ def test_affordable_activity_carries_the_ledger_qualifications():
 def test_generated_at_is_the_newest_input_stamp_under_any_key_name():
     stamps = [md.stamp(read(p)['meta']) for p in (
         'data/hna/permits.json', 'data/market/fhfa_hpi_subcounty_co.json', 'data/market/zori_rents_co.json',
-        'data/market/fmr_co.json', 'data/market/development-activity.json')]
-    assert all(stamps), stamps  # every input's own stamp was found
-    assert DOC['meta']['generated_at'] == max(stamps)
+        'data/market/fmr_co.json', 'data/market/development-activity.json', 'data/chfa-income-rent-limits-2026.json')]
+    per_county = [md.stamp(read(f'data/hna/{d}/{f}.json')) for d in ('projections', 'lehd') for f in DOC['counties']
+                  if os.path.exists(os.path.join(ROOT, 'data', 'hna', d, f'{f}.json'))]
+    assert all(stamps) and len(per_county) > 100 and all(per_county), stamps  # every input's own stamp was found
+    assert DOC['meta']['generated_at'] == max(stamps + per_county)
+    # a later LEHD or projection refresh moves the stamp
+    assert md.stamp({'updated': '2027-01-01T00:00:00Z'}) == '2027-01-01T00:00:00Z'
     assert md.stamp({'generated_at_utc': '2026-10-11T04:30:29Z'}) == '2026-10-11T04:30:29Z'
+
+
+def test_a_later_lehd_refresh_moves_generated_at(tmp_path, monkeypatch):
+    import shutil
+    lehd = tmp_path / 'lehd'
+    shutil.copytree(md.LEHD_DIR, lehd)
+    f = lehd / '08001.json'
+    d = json.loads(f.read_text())
+    d['updated'] = '2030-01-01T00:00:00Z'
+    f.write_text(json.dumps(d))
+    monkeypatch.setattr(md, 'LEHD_DIR', str(lehd))
+    assert md.build()['meta']['generated_at'] == '2030-01-01T00:00:00Z'

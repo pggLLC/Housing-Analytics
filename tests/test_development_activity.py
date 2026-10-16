@@ -259,3 +259,30 @@ def test_a_line_printed_row_is_cut_before_its_sponsor_and_contact():
     # a phone or e-mail in any other field is removed too
     assert dev.strip_sponsor('Name: X; Note: call 970-555-0100 or a@b.org') == \
         'Name: X; Note: call [contact not copied] or [contact not copied]'
+
+
+def test_a_printed_unit_count_wins_over_a_misparsed_ledger_count():
+    q = 'Type: A/R,S; Name: Valley Sun Village; City: Cortez; Total Units: 50; Total LI Units: 50'
+    assert dev.printed_units(q, 3933, 'Total Units') == 50
+    assert dev.printed_units('Type: N; Name: X; Total Units: 77; Total TC Units: 70', None,
+                             r'(?:Total )?(?:LI|TC) Units') == 70
+    # no units field: the parsed count stands only if the row prints it
+    assert dev.printed_units('Line as printed: X Denver $1,000 60 60', 60, 'Total Units') == 60
+    assert dev.printed_units('Line as printed: X Denver $1,000 60 60', 3933, 'Total Units') is None
+    d = load()
+    rows = read_json('data/policy/funding-awards/award-rows.json')['rows']
+    printed = {}
+    for r in rows:
+        m = __import__('re').search(r'(?:^|; )Total Units: (\d+)(?:;|$)', r['quote'] or '')
+        if m and r.get('name'):
+            printed.setdefault(r['name'], set()).add(int(m.group(1)))
+    checked = 0
+    for p in d['projects']:
+        if p['name'] in printed and p['total_units'] and len(printed[p['name']]) == 1:
+            award_events = [e for e in p['events'] if 'Total Units:' in (e['quote'] or '')]
+            if award_events and award_events[-1] is p['events'][-1]:
+                assert p['total_units'] in printed[p['name']], (p['name'], p['total_units'])
+                checked += 1
+    assert checked > 50
+    vs = next(p for p in d['projects'] if p['name'] == 'Valley Sun Village')
+    assert vs['total_units'] == 50

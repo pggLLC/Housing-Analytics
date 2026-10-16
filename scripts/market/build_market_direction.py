@@ -80,12 +80,13 @@ EDGES = {
 }
 
 
-STAMP_KEYS = ('generated_at', 'generated', 'generated_at_utc', 'last_verified')
+STAMP_KEYS = ('generated_at', 'generated', 'generated_at_utc', 'updated', 'last_verified')
 
 
 def stamp(meta: dict) -> str | None:
     """An input file's own refresh stamp; the builders name it differently
-    (build_market_rents_co.py writes generated_at_utc, FHFA only last_verified)."""
+    (build_market_rents_co.py writes generated_at_utc, FHFA only last_verified,
+    the DOLA projection and LEHD county files a top-level updated)."""
     return next((str(meta[k]) for k in STAMP_KEYS if meta.get(k)), None)
 
 
@@ -244,7 +245,13 @@ def build() -> dict:
                                     'by_stage': {k: v for k, v in act['by_stage'].items() if v['projects']}}
             if act else None,
         }
-    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity)]
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc)]
+    for folder in (PROJECTIONS_DIR, LEHD_DIR):  # the per-county population and jobs files
+        for f in counties:
+            try:
+                stamps.append(stamp(read(os.path.join(folder, f'{f}.json'))))
+            except OSError:
+                pass
     tally: dict[str, int] = {}
     edge_tally: dict[str, int] = {}
     for r in counties.values():

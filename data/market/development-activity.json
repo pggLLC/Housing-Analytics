@@ -34,7 +34,7 @@
   "excluded_events": 0,
   "program_awards_left_out": 89,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 777,
+  "project_count": 778,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
   "statewide_recent_projects": 429
@@ -18246,8 +18246,8 @@
    "stage": "funded",
    "first_year": 2022,
    "latest_year": 2022,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 137,
+   "restricted_units": 137,
    "events": [
     {
      "stage": "funded",
@@ -18597,8 +18597,8 @@
    "stage": "funded",
    "first_year": 2022,
    "latest_year": 2022,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 100,
+   "restricted_units": 100,
    "events": [
     {
      "stage": "funded",
@@ -19126,8 +19126,8 @@
    "stage": "funded",
    "first_year": 2022,
    "latest_year": 2022,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 85,
+   "restricted_units": 85,
    "events": [
     {
      "stage": "funded",
@@ -19219,8 +19219,8 @@
    "stage": "funded",
    "first_year": 2022,
    "latest_year": 2022,
-   "total_units": 72,
-   "restricted_units": 72,
+   "total_units": 71,
+   "restricted_units": 71,
    "events": [
     {
      "stage": "funded",
@@ -21298,8 +21298,8 @@
    "stage": "funded",
    "first_year": 2020,
    "latest_year": 2020,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 59,
+   "restricted_units": 59,
    "events": [
     {
      "stage": "funded",
@@ -22104,8 +22104,8 @@
    "stage": "funded",
    "first_year": 2020,
    "latest_year": 2020,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 85,
+   "restricted_units": 85,
    "events": [
     {
      "stage": "funded",
@@ -22198,8 +22198,8 @@
    "stage": "funded",
    "first_year": 2020,
    "latest_year": 2020,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 100,
+   "restricted_units": 100,
    "events": [
     {
      "stage": "funded",
@@ -24873,8 +24873,8 @@
    "stage": "funded",
    "first_year": 2018,
    "latest_year": 2018,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 95,
+   "restricted_units": 95,
    "events": [
     {
      "stage": "funded",
@@ -25157,8 +25157,8 @@
    "stage": "funded",
    "first_year": 2018,
    "latest_year": 2018,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 53,
+   "restricted_units": 53,
    "events": [
     {
      "stage": "funded",
@@ -25426,8 +25426,8 @@
    "stage": "funded",
    "first_year": 2018,
    "latest_year": 2018,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 51,
+   "restricted_units": 51,
    "events": [
     {
      "stage": "funded",
@@ -25553,8 +25553,8 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 64,
+   "restricted_units": 64,
    "events": [
     {
      "stage": "funded",
@@ -25806,7 +25806,7 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": 3452,
+   "total_units": 50,
    "restricted_units": 50,
    "events": [
     {
@@ -25860,7 +25860,7 @@
    "first_year": 2017,
    "latest_year": 2017,
    "total_units": 50,
-   "restricted_units": 50,
+   "restricted_units": 49,
    "events": [
     {
      "stage": "funded",
@@ -26398,8 +26398,8 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": 66,
-   "restricted_units": 66,
+   "total_units": 65,
+   "restricted_units": 65,
    "events": [
     {
      "stage": "funded",
@@ -26823,8 +26823,8 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": 13,
-   "restricted_units": 13,
+   "total_units": 41,
+   "restricted_units": 41,
    "events": [
     {
      "stage": "funded",
@@ -26835,17 +26835,6 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/2017-Round-2-Award-Report.pdf",
      "quote": "Type: N,F; Name: Trinidad Artspace Lofts; Address: 200, 218, and 228 West Main St. and .59 acres at South Oak St. and East Elm St.; City: Trinidad; Credit Amount Requested: $1,147,895; Total Units: 41; Total LI Units: 41"
-    },
-    {
-     "stage": "funded",
-     "year": 2017,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (9% Competitive)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Trinidad Artspace Lofts Main; PROJ_CTY: Trinidad; N_UNITS: 13; LI_UNITS: 13; YR_ALLOC: 2017; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -26872,6 +26861,33 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Trinidad Artspace Lofts Elm; PROJ_CTY: Trinidad; N_UNITS: 28; LI_UNITS: 28; YR_ALLOC: 2017; CREDIT: 9% Competitive"
+    }
+   ]
+  },
+  {
+   "id": "trinidad-artspace-main-08071",
+   "name": "Trinidad Artspace Lofts Main",
+   "city": "Trinidad",
+   "county_fips": "08071",
+   "county_fips_all": null,
+   "county": "Las Animas County",
+   "place_geoid": "0878610",
+   "stage": "funded",
+   "first_year": 2017,
+   "latest_year": 2017,
+   "total_units": 13,
+   "restricted_units": 13,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2017,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (9% Competitive)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Trinidad Artspace Lofts Main; PROJ_CTY: Trinidad; N_UNITS: 13; LI_UNITS: 13; YR_ALLOC: 2017; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -26923,7 +26939,7 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": 3933,
+   "total_units": 50,
    "restricted_units": 50,
    "events": [
     {
@@ -27078,8 +27094,8 @@
    "stage": "funded",
    "first_year": 2017,
    "latest_year": 2017,
-   "total_units": null,
-   "restricted_units": null,
+   "total_units": 40,
+   "restricted_units": 40,
    "events": [
     {
      "stage": "funded",

@@ -296,6 +296,21 @@ def load_applications(L: Ledger) -> int:
     return n
 
 
+def printed_units(quote: str | None, parsed: int | None, field: str) -> int | None:
+    """The unit count the printed row shows. A row with a "Total Units: 50"
+    field is read from it; otherwise the parsed count is kept only if the row
+    prints it. The ledger's parser ran a 2017 report's units into the next
+    column (Valley Sun Village "3933", printed "Total Units: 50")."""
+    if not quote:
+        return parsed
+    m = re.search(rf'(?:^|; ){field}: ([\d,]+)(?:;|$)', quote)
+    if m:
+        return int(m.group(1).replace(',', '')) or None
+    if parsed and not re.search(rf'(?<![\d,])({re.escape(format(parsed, ","))}|{parsed})(?![\d,])', quote):
+        return None
+    return parsed
+
+
 def load_awards(L: Ledger) -> int:
     # Each ledger award has one printed row in award-rows.json under the same
     # key (file, amount, units, counter). The printed row's name and location
@@ -332,7 +347,8 @@ def load_awards(L: Ledger) -> int:
                  a.get('source_url'), strip_sponsor(quote, sponsor), amt, label, quote_basis=basis,
                  state_credit=a.get('state_credit'), bond_amount=a.get('bond_amount'),
                  tenure=a.get('detail') if land else None),
-              a.get('total_units'), a.get('restricted_units'))
+              printed_units(row and row['quote'], a.get('total_units'), 'Total Units'),
+              printed_units(row and row['quote'], a.get('restricted_units'), r'(?:Total )?(?:LI|TC) Units'))
         n += 1
     return n
 
