@@ -827,13 +827,14 @@
       requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules };
     var basis = cbm.basisAndCredit(basisArgs);
     var basisUnknownReason = null;
-    ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {
+    // Outside CHFA LIHTC there is no basis or credit, so nothing about them is unknown.
+    if (chfaRegime) ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {
       if (!basisUnknownReason && basis.reasons[key] && (key !== 'requested' && key !== 'awarded' || basis.creditForEquity === null)) basisUnknownReason = basis.reasons[key];
     });
     var applicableFraction = basis.applicableFraction === null ? NaN : basis.applicableFraction;
     var eligibleBasisRaw = basis.boostedBasis === null ? NaN : basis.boostedBasis;
     var eligibleBasis    = basis.qualifiedBasis === null ? NaN : basis.qualifiedBasis;
-    var annualCredits    = basis.creditForEquity === null ? NaN : basis.creditForEquity;
+    var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
       price: fields['dc-state-price'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
@@ -1036,7 +1037,7 @@
     var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
       otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
     basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit }));
-    if (!unitMixError) {
+    if (!unitMixError && chfaRegime) {
       annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
       equity = annualCredits * CREDIT_YEARS * equityPrice;
     }
