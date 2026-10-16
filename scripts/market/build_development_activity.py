@@ -120,7 +120,10 @@ def core_name(name: str) -> str:
     n = re.sub(r' [49]$', '', apps_mod.norm_name(name))
     n = re.sub(r'\bmobile home park\b', 'mhp', n)  # "Capitol City MHP" is the same park
     # "Phase 1" is every unphased name's phase, and "PSH" describes the homes,
-    # not a second project ("Marshall Homes PSH", "The Osborn - PSH")
+    # not a second project ("Marshall Homes PSH", "The Osborn - PSH"); DOLA
+    # names each financing award after its fund ("Zocalo Liora CHIF" and
+    # "Zocalo Liora THLF" are one development)
+    n = re.sub(r'\s(?:thlf|tahlf|chif|tahg|hdg)$', '', n)
     return re.sub(r'\s+', ' ', re.sub(r'\bphase (?:1|one)\b|\bpsh\b', ' ', n)).strip()
 
 
@@ -545,6 +548,24 @@ def town_labels_joined(projects: list[dict]) -> list[dict]:
     return out
 
 
+def twin_award_units(events: list[dict]) -> tuple[int, int | None] | None:
+    """Homes across a 4% and a 9% award in the project's latest award year,
+    when the two counts differ by more than 15%; otherwise None."""
+    awards = [e for e in events if e['agency'] == 'CHFA' and e['stage'] == 'funded'
+              and re.match(r'LIHTC [49]%', e.get('program') or '') and e.get('_units')]
+    if not awards:
+        return None
+    year = max(e.get('year') or 0 for e in awards)
+    four = [e['_units'] for e in awards if e.get('year') == year and e['program'].startswith('LIHTC 4%')]
+    nine = [e['_units'] for e in awards if e.get('year') == year and e['program'].startswith('LIHTC 9%')]
+    if len(four) != 1 or len(nine) != 1:
+        return None
+    (t4, r4), (t9, r9) = four[0], nine[0]
+    if abs(t4 - t9) <= 0.15 * max(t4, t9):
+        return None
+    return t4 + t9, (r4 + r9 if r4 is not None and r9 is not None else None)
+
+
 def finish(L: Ledger) -> list[dict]:
     out = []
     for src in town_labels_joined(L.projects):
@@ -567,6 +588,13 @@ def finish(L: Ledger) -> list[dict]:
                 kept = [e for e in sized if e['_units'][1] is not None and e['_units'][1] <= p['total_units']]
                 if kept:
                     p['restricted_units'] = max(kept, key=order)['_units'][1]
+            # a twin deal's 4% and 9% awards are two buildings: Vina Senior's
+            # 102 homes under 4% and 50 under 9% are 152, which the property
+            # list printing the 4% half alone must not undercut. Two awards
+            # within 15% of each other are one building financed twice (Sol).
+            twin = twin_award_units(p['events'])
+            if twin and twin[0] > p['total_units']:
+                p['total_units'], p['restricted_units'] = twin
         # the ledger's name column sometimes carries the next column's text
         # ("Tungsten Village fka: Third Street Community Boulder County Housing
         # Authority"); the shortest name a source prints is the cleanest

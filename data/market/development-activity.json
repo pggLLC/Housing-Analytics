@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 758,
+  "project_count": 755,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 416
+  "statewide_recent_projects": 414
  },
  "county_summary": {
   "08001": {
@@ -277,8 +277,8 @@
   },
   "08013": {
    "name": "Boulder County",
-   "projects": 24,
-   "homes": 1467,
+   "projects": 23,
+   "homes": 1436,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -288,8 +288,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 17,
-     "homes": 1056,
+     "projects": 16,
+     "homes": 1025,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -355,8 +355,8 @@
   },
   "08015": {
    "name": "Chaffee County",
-   "projects": 17,
-   "homes": 504,
+   "projects": 16,
+   "homes": 436,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -366,8 +366,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 12,
-     "homes": 292,
+     "projects": 11,
+     "homes": 224,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -668,7 +668,7 @@
   "08031": {
    "name": "Denver County",
    "projects": 105,
-   "homes": 11186,
+   "homes": 11236,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -679,7 +679,7 @@
     },
     "funded": {
      "projects": 60,
-     "homes": 6218,
+     "homes": 6268,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -7757,18 +7757,32 @@
   },
   {
    "id": "crossing-08015",
-   "name": "The Crossing Apartments",
+   "name": "The Crossing THLF",
    "city": "Buena Vista",
    "county_fips": "08015",
    "county_fips_all": null,
    "county": "Chaffee County",
    "place_geoid": "0810105",
    "stage": "funded",
-   "first_year": 2024,
+   "first_year": 2023,
    "latest_year": 2025,
    "total_units": 33,
    "restricted_units": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "Revolving loan fund (SB22-159)",
+     "amount": 3000000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
+     "quote": "Project: The Crossing THLF; Town: Crossman's Addition to the Town of Buena Vista Buena Vista; Program: SB22-159; Amount: $3,000,000; Amount basis: awarded; Homes: 68; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
+     "announced": "2023-07-01/2024-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
+    },
     {
      "stage": "funded",
      "year": 2024,
@@ -11294,7 +11308,7 @@
    ]
   },
   {
-   "id": "zocalo-liora-chif",
+   "id": "zocalo-liora",
    "name": "Zocalo Liora CHIF",
    "city": null,
    "county_fips": null,
@@ -11321,23 +11335,7 @@
      "confirmed": true,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
      "homes_unavailable_reason": "the award does not print a home count"
-    }
-   ]
-  },
-  {
-   "id": "zocalo-liora-thlf",
-   "name": "Zocalo Liora THLF",
-   "city": null,
-   "county_fips": null,
-   "county_fips_all": null,
-   "county": null,
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": null,
-   "restricted_units": null,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2024,
@@ -12631,8 +12629,8 @@
    "stage": "funded",
    "first_year": 2024,
    "latest_year": 2024,
-   "total_units": 102,
-   "restricted_units": 102,
+   "total_units": 152,
+   "restricted_units": 152,
    "events": [
     {
      "stage": "funded",
@@ -13766,7 +13764,7 @@
    ]
   },
   {
-   "id": "bridge-house-rtw-englewood-tahg-08005",
+   "id": "bridge-house-rtw-englewood-08005",
    "name": "Bridge House RTW Englewood TAHG",
    "city": "Englewood",
    "county_fips": "08005",
@@ -14153,33 +14151,6 @@
     {
      "stage": "funded",
      "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Ascent at Hover Crossing; PROJ_CTY: Longmont; N_UNITS: 75; LI_UNITS: 75; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "ascent-hover-crossing-thlf-08013",
-   "name": "Ascent at Hover Crossing THLF",
-   "city": "Longmont",
-   "county_fips": "08013",
-   "county_fips_all": null,
-   "county": "Boulder County",
-   "place_geoid": "0845970",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 31,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
      "agency": "DOLA",
      "program": "Revolving loan fund (SB22-159)",
      "amount": 3000000,
@@ -14190,6 +14161,17 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Ascent at Hover Crossing; PROJ_CTY: Longmont; N_UNITS: 75; LI_UNITS: 75; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -14371,7 +14353,7 @@
    ]
   },
   {
-   "id": "discovery-tahg-08014",
+   "id": "discovery-08014",
    "name": "Discovery TAHG",
    "city": "Broomfield",
    "county_fips": "08014",
@@ -14486,7 +14468,7 @@
    ]
   },
   {
-   "id": "carbonate-street-tahlf-08015",
+   "id": "carbonate-street-08015",
    "name": "Carbonate Street Phase 1 TAHLF",
    "city": "Buena Vista",
    "county_fips": "08015",
@@ -14546,7 +14528,7 @@
    ]
   },
   {
-   "id": "jane-south-place-tahg-08015",
+   "id": "jane-south-place-08015",
    "name": "Jane's Place TAHG",
    "city": "Salida",
    "county_fips": "08015",
@@ -14630,36 +14612,6 @@
    ]
   },
   {
-   "id": "crossing-thlf-08015",
-   "name": "The Crossing THLF",
-   "city": "Buena Vista",
-   "county_fips": "08015",
-   "county_fips_all": null,
-   "county": "Chaffee County",
-   "place_geoid": "0810105",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 68,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "DOLA",
-     "program": "Revolving loan fund (SB22-159)",
-     "amount": 3000000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
-     "quote": "Project: The Crossing THLF; Town: Crossman's Addition to the Town of Buena Vista Buena Vista; Program: SB22-159; Amount: $3,000,000; Amount basis: awarded; Homes: 68; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
-     "announced": "2023-07-01/2024-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
-    }
-   ]
-  },
-  {
    "id": "west-end-salida-08015",
    "name": "West End - Salida",
    "city": "Salida",
@@ -14690,7 +14642,7 @@
    ]
   },
   {
-   "id": "delta-shelter-tahg-08029",
+   "id": "delta-shelter-08029",
    "name": "Delta Shelter TAHG",
    "city": "Delta",
    "county_fips": "08029",
@@ -15529,7 +15481,7 @@
    ]
   },
   {
-   "id": "west-holden-place-thlf-08031",
+   "id": "west-holden-place-08031",
    "name": "West Holden Place THLF",
    "city": "Denver",
    "county_fips": "08031",
@@ -15751,7 +15703,7 @@
    ]
   },
   {
-   "id": "cmc-echda-attainable-housing-tahg-08037",
+   "id": "cmc-echda-attainable-housing-08037",
    "name": "CMC/ECHDA Attainable Housing TAHG",
    "city": null,
    "county_fips": "08037",
@@ -15809,7 +15761,7 @@
    ]
   },
   {
-   "id": "haymeadow-tahg-08037",
+   "id": "haymeadow-08037",
    "name": "Haymeadow TAHG",
    "city": "Eagle",
    "county_fips": "08037",
@@ -15839,7 +15791,7 @@
    ]
   },
   {
-   "id": "response-shelter-tahg-08037",
+   "id": "response-shelter-08037",
    "name": "Response Shelter TAHG",
    "city": "Basalt",
    "county_fips": "08037",
@@ -16279,7 +16231,7 @@
    ]
   },
   {
-   "id": "granby-community-housing-tahg-08049",
+   "id": "granby-community-housing-08049",
    "name": "Granby Community Housing TAHG",
    "city": "Granby",
    "county_fips": "08049",
@@ -16387,7 +16339,7 @@
    ]
   },
   {
-   "id": "loma-vista-thlf-08055",
+   "id": "loma-vista-08055",
    "name": "Loma Vista Apartments THLF",
    "city": "Walsenburg",
    "county_fips": "08055",
@@ -16565,7 +16517,7 @@
    ]
   },
   {
-   "id": "mountain-view-flats-tahg-08059",
+   "id": "mountain-view-flats-08059",
    "name": "Mountain View Flats TAHG",
    "city": "Lakewood",
    "county_fips": "08059",
@@ -16595,7 +16547,7 @@
    ]
   },
   {
-   "id": "parkview-village-thlf-08059",
+   "id": "parkview-village-08059",
    "name": "Parkview Village THLF",
    "city": "Arvada",
    "county_fips": "08059",
@@ -16820,7 +16772,7 @@
    ]
   },
   {
-   "id": "fort-collins-rescue-mission-tahg-08069",
+   "id": "fort-collins-rescue-mission-08069",
    "name": "Fort Collins Rescue Mission TAHG",
    "city": "Fort Collins",
    "county_fips": "08069",
@@ -17342,7 +17294,7 @@
    ]
   },
   {
-   "id": "pikes-peak-park-infrastructure-thlf-08101",
+   "id": "pikes-peak-park-infrastructure-08101",
    "name": "Pikes Peak Park Phase I Infrastructure THLF",
    "city": "Pueblo",
    "county_fips": "08101",
@@ -17558,7 +17510,7 @@
    ]
   },
   {
-   "id": "usfs-compound-tahg-08117",
+   "id": "usfs-compound-08117",
    "name": "USFS Compound TAHG",
    "city": "Dillon",
    "county_fips": "08117",

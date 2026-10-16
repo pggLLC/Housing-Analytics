@@ -488,3 +488,28 @@ def test_accents_trailing_phases_psh_and_one_letter_typos_do_not_split_a_project
     for a, b in (('GardenWalk of Cañon City', 'GardenWalk of Canon City'), ('Chris Mountain II', 'Chris Mountain Phase II'),
                  ('Marshall Homes', 'Marshall Homes PSH'), ('Gateway North', 'Geteway North')):
         assert not {a, b} <= committed and {a, b} & committed, (a, b)  # one row, under one of its names
+
+
+def test_dola_fund_suffixes_join_and_a_twin_deal_counts_both_buildings():
+    # Zocalo Liora CHIF / THLF are one development; Vina Senior's 4% (102) and
+    # 9% (50) awards are 152 homes; Sol's 132 and 130 are one building (#2261 review)
+    L = dev.Ledger(set(), {}, {'08031': 'Denver County'})
+    L.county_places = {}
+    L.city_county, L.city_counties = {}, {}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Zocalo Liora CHIF', None, None, dev.ev('funded', 2024, 'DOLA', 'Housing Development Grant', **q))
+    L.add('Zocalo Liora THLF', None, None, dev.ev('funded', 2024, 'DOLA', 'Revolving loan fund', **q))
+    L.add('Vina Senior Residences', 'Denver', '08031', dev.ev('funded', 2024, 'CHFA', 'LIHTC 4% + state', **q), 102, 102)
+    L.add('Viña Senior Residences', 'Denver', '08031', dev.ev('funded', 2024, 'CHFA', 'LIHTC 9% + state', **q), 50, 50)
+    L.add('Vina Senior Residences 4', 'Denver', '08031',
+          dev.ev('funded', 2024, 'CHFA', 'Housing tax credit property list (4%)', **q), 102, 102)
+    L.add('Sol', 'Denver', '08031', dev.ev('funded', 2021, 'CHFA', 'LIHTC 4% + state', **q), 132, 132)
+    L.add('Sol', 'Denver', '08031', dev.ev('funded', 2021, 'CHFA', 'LIHTC 9% + state', **q), 130, 130)
+    rows = {r['name']: r for r in dev.finish(L)}
+    assert len(rows) == 3, sorted(rows)
+    vina = next(r for n, r in rows.items() if n.startswith('Vina'))
+    assert (vina['total_units'], vina['restricted_units']) == (152, 152)
+    assert rows['Sol']['total_units'] == 132
+    committed = load()['projects']
+    assert sum(p['name'].startswith('Zocalo Liora') for p in committed) == 1
+    assert next(p for p in committed if p['name'] == 'Vina Senior Residences')['total_units'] == 152
