@@ -402,6 +402,32 @@ test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabili
     units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, acquisitionQualifies: true, rules });
   assert.equal(Math.round(fourSplit.calculatedCredit), 1000000 * 0.04);
   assert.equal(Math.round(fourSplit.grantOnAcquisition), 500000);
+  // A boost skips acquisition basis, so on a boosted 4% deal the split changes the credit too
+  // (Codex's example: $10M purchase, $10M rehab, $10M grant all on the purchase -> $13M boosted).
+  const boosted4 = (extra) => cb.basisAndCredit(Object.assign({ eligibleCost: 20000000, grantReduction: 10000000, designation: 'qct',
+    evidence: 'HUD QCT list', creditType: '4', creditRate: 0.04, units: 10, lowIncomeUnits: 10, acquisitionEligible: 10000000,
+    acquisitionQualifies: true, rules }, extra));
+  assert.equal(boosted4({ designation: 'none' }).calculatedCredit > 0, true, 'no boost: proportional spread still stands');
+  const unsplit4 = boosted4({});
+  assert.equal(unsplit4.boost.applied, true, 'non-vacuous: the boost applies');
+  assert.equal(unsplit4.calculatedCredit, null);
+  assert.match(unsplit4.reasons.afterGrant, /boost does not apply to acquisition basis/);
+  const onAcq4 = boosted4({ grantOnAcquisition: 10000000 });
+  assert.equal(Math.round(onAcq4.boostedBasis), 13000000);
+  assert.equal(Math.round(onAcq4.calculatedCredit), 13000000 * 0.04);
+});
+
+test('a purchase a federal grant paid for in full needs no 42(d)(2) confirmation', () => {
+  const covered = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false, grantReduction: 1000000, grantOnAcquisition: 1000000 });
+  assert.equal(Math.round(covered.calculatedCredit), 1000000 * 0.09, 'credit on the rehabilitation basis alone');
+  const partly = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false, grantReduction: 1000000, grantOnAcquisition: 400000 });
+  assert.equal(partly.calculatedCredit, null, 'acquisition basis remains, so it still needs the confirmation');
+  assert.match(partly.reasons.eligibleBasis, /42\(d\)\(2\)/);
+  // On a 4% unboosted deal the split is optional, but an entry still decides what is left to confirm.
+  const four = (extra) => cb.basisAndCredit(Object.assign({ eligibleCost: 2000000, grantReduction: 1000000, designation: 'none', creditType: '4',
+    creditRate: 0.04, units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, acquisitionQualifies: false, rules }, extra));
+  assert.equal(Math.round(four({ grantOnAcquisition: 1000000 }).calculatedCredit), 1000000 * 0.04);
+  assert.match(four({}).reasons.eligibleBasis, /grant that paid for it/);
 });
 
 test('capacity is the smaller of Method One and the gap calculation, and Method Three says it is not checked', () => {

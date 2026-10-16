@@ -341,42 +341,11 @@
 
     if (args.eligibleCost === null || !Number.isFinite(args.eligibleCost)) return stop('eligibleBasis', args.costReason || 'Itemize development costs.');
     out.eligibleBasis = args.eligibleCost;
-    // An existing building's purchase price is basis only when the purchase meets
-    // 26 U.S.C. 42(d)(2): bought from an unrelated party, and last placed in service
-    // ten or more years ago, with a rehabilitation that earns its own credit under
-    // 42(e) (42(d)(2)(B)(iv)). The user confirms that; nothing here can check it.
-    if (args.acquisitionEligible > 0 && !args.acquisitionQualifies) {
-      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, not placed in service during the ten years before purchase, and rehabilitated enough to earn a credit under 42(e)), or take the purchase out of basis.');
-    }
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
     if (args.feeExcess === null) return stop('afterGrant', args.feeReason || 'The fee to take out of basis is unknown.');
     out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
     out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
-    // Fees are never acquisition basis. A federal grant reduces the basis it financed.
-    // Method One prices acquisition and other basis at different rates on a 9% deal,
-    // so there the split must be entered; where the rates match it cannot change the
-    // credit, and the grant is spread over both in proportion.
-    var acqCost = Math.min(Math.max(0, args.acquisitionEligible || 0), out.eligibleBasis);
-    var otherCost = Math.max(0, out.eligibleBasis - acqCost - out.feeReduction);
-    var grantOnAcq = acqCost + otherCost > 0 ? out.grantReduction * acqCost / (acqCost + otherCost) : 0;
-    out.grantSplitEntered = false;
-    if (out.grantReduction > 0 && acqCost > 0 && otherCost > 0 && String(args.creditType) === '9') {
-      var enteredOnAcq = num(args.grantOnAcquisition);
-      if (enteredOnAcq === null) {
-        return stop('afterGrant', 'Enter how much of the federal grant paid for the building purchase: on a 9% deal acquisition basis earns the 4% rate and the rest earns 9%, so where the grant went changes the credit.');
-      }
-      if (!Number.isFinite(enteredOnAcq) || enteredOnAcq < 0 || enteredOnAcq > Math.min(out.grantReduction, acqCost) + 0.5) {
-        return stop('afterGrant', 'Enter a federal grant amount for the building purchase between $0 and ' + money(Math.min(out.grantReduction, acqCost)) + '.');
-      }
-      if (out.grantReduction - enteredOnAcq > otherCost + 0.5) {
-        return stop('afterGrant', 'The federal grant left for other costs is more than their basis; enter more of it against the building purchase.');
-      }
-      grantOnAcq = enteredOnAcq;
-      out.grantSplitEntered = true;
-    }
-    out.grantOnAcquisition = acqCost > 0 && out.grantReduction > 0 ? grantOnAcq : 0;
-
     var boost = ruleStatus(rules, 'basis_boost');
     var designation = args.designation || 'none';
     var evidence = typeof args.evidence === 'string' ? args.evidence.trim() : '';
@@ -397,6 +366,43 @@
       }
       if (!out.boost.reason) { out.boost.applied = true; out.boost.multiplier = multiplier; out.boost.citation = boost.citation; out.boost.designation = d.label; }
     }
+    // Fees are never acquisition basis. A federal grant reduces the basis it financed.
+    // Where it went changes the credit when acquisition and other basis are priced
+    // differently: on a 9% deal (4% vs 9% rates) or under a boost (which skips
+    // acquisition basis). There the split must be entered; otherwise it cannot change
+    // the credit, and the grant is spread over both in proportion.
+    var acqCost = Math.min(Math.max(0, args.acquisitionEligible || 0), out.eligibleBasis);
+    var otherCost = Math.max(0, out.eligibleBasis - acqCost - out.feeReduction);
+    var grantOnAcq = acqCost + otherCost > 0 ? out.grantReduction * acqCost / (acqCost + otherCost) : 0;
+    out.grantSplitEntered = false;
+    var enteredOnAcq = num(args.grantOnAcquisition);
+    var splitMatters = String(args.creditType) === '9' || out.boost.applied;
+    if (out.grantReduction > 0 && acqCost > 0 && otherCost > 0 && (splitMatters || (enteredOnAcq !== null && !args.acquisitionQualifies))) {
+      if (enteredOnAcq === null) {
+        return stop('afterGrant', 'Enter how much of the federal grant paid for the building purchase: '
+          + (String(args.creditType) === '9' ? 'on a 9% deal acquisition basis earns the 4% rate and the rest earns 9%' : 'the basis boost does not apply to acquisition basis')
+          + ', so where the grant went changes the credit.');
+      }
+      if (!Number.isFinite(enteredOnAcq) || enteredOnAcq < 0 || enteredOnAcq > Math.min(out.grantReduction, acqCost) + 0.5) {
+        return stop('afterGrant', 'Enter a federal grant amount for the building purchase between $0 and ' + money(Math.min(out.grantReduction, acqCost)) + '.');
+      }
+      if (out.grantReduction - enteredOnAcq > otherCost + 0.5) {
+        return stop('afterGrant', 'The federal grant left for other costs is more than their basis; enter more of it against the building purchase.');
+      }
+      grantOnAcq = enteredOnAcq;
+      out.grantSplitEntered = true;
+    }
+    out.grantOnAcquisition = acqCost > 0 && out.grantReduction > 0 ? grantOnAcq : 0;
+    // An existing building's purchase price is basis only when the purchase meets
+    // 26 U.S.C. 42(d)(2): bought from an unrelated party, and last placed in service
+    // ten or more years ago, with a rehabilitation that earns its own credit under
+    // 42(e) (42(d)(2)(B)(iv)). The user confirms that; nothing here can check it.
+    // A purchase a federal grant paid for in full leaves no acquisition basis to confirm.
+    if (acqCost - grantOnAcq > 0.5 && !args.acquisitionQualifies) {
+      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, not placed in service during the ten years before purchase, and rehabilitated enough to earn a credit under 42(e)), or take the purchase out of basis'
+        + (out.grantReduction > 0 ? ', or enter the federal grant that paid for it if the grant covered all of it' : '') + '.');
+    }
+
     // One boost, never on acquisition basis, and never above eligible cost x 130%.
     var acquisition = Math.min(out.afterGrant, Math.max(0, acqCost - grantOnAcq));
     var boostable = out.afterGrant - acquisition;
