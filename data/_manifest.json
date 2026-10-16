@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T18:49:12.096Z",
+    "generated_at": "2026-10-16T11:33:03.481Z",
     "root": "data/",
-    "file_count": 1735,
-    "total_size_bytes": 184231916,
+    "file_count": 1736,
+    "total_size_bytes": 184435870,
     "kinds": {
-      "json": 1692,
+      "json": 1693,
       "geojson": 33,
       "csv": 10
     }
@@ -499,10 +499,48 @@
       ]
     },
     {
+      "path": "audit/funding-watch.json",
+      "kind": "json",
+      "size_bytes": 538582,
+      "mtime": "2026-10-16T11:31:12.147Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "generated_at",
+        "note",
+        "content_trust",
+        "pages",
+        "federal_notices",
+        "federal_sources",
+        "federal_baselined_queries",
+        "changes",
+        "has_changes",
+        "fetch_failures",
+        "federal_failures",
+        "federal_capped",
+        "pages_capped"
+      ],
+      "key_count": 16,
+      "primary_array_key": "federal_notices",
+      "primary_array_length": 530,
+      "primary_array_first_keys": [
+        "key",
+        "source",
+        "query",
+        "number",
+        "title",
+        "agency",
+        "published",
+        "url",
+        "first_seen_at",
+        "queries"
+      ]
+    },
+    {
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T18:49:07.727Z",
+      "mtime": "2026-10-16T03:29:40.635Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -520,8 +558,8 @@
     {
       "path": "audit/upstream-vintage-watch.json",
       "kind": "json",
-      "size_bytes": 844,
-      "mtime": "2026-10-09T12:58:33.285Z",
+      "size_bytes": 1173,
+      "mtime": "2026-10-16T10:03:46.586Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -530,7 +568,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "sources",
-      "primary_array_length": 3,
+      "primary_array_length": 4,
       "primary_array_first_keys": [
         "source",
         "current_vintage",
@@ -903,7 +941,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-15T11:37:07.098Z",
+      "mtime": "2026-10-16T11:32:58.241Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1019,7 +1057,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-15T11:37:04.808Z",
+      "mtime": "2026-10-16T11:32:55.173Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1605,8 +1643,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1256890,
-      "mtime": "2026-10-15T10:14:58.526Z",
+      "size_bytes": 1257896,
+      "mtime": "2026-10-16T10:03:46.607Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30933,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 219890,
-      "mtime": "2026-10-15T18:48:12.036Z",
+      "size_bytes": 220019,
+      "mtime": "2026-10-16T11:33:01.475Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32362,7 +32400,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-15T11:37:07.190Z",
+      "mtime": "2026-10-16T11:32:58.318Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32398,7 +32436,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-15T18:49:09.745Z",
+      "mtime": "2026-10-16T03:29:42.483Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32422,7 +32460,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T18:49:09.232Z",
+      "mtime": "2026-10-16T03:29:42.049Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34568,6 +34606,29 @@
       ]
     },
     {
+      "path": "policy/funding-watch-sources.json",
+      "kind": "json",
+      "size_bytes": 7550,
+      "mtime": "2026-10-16T11:32:52.488Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "agency_pages",
+        "federal"
+      ],
+      "key_count": 4,
+      "primary_array_key": "agency_pages",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "id",
+        "agency",
+        "title",
+        "url",
+        "why"
+      ]
+    },
+    {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
       "size_bytes": 17186,
@@ -35372,8 +35433,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12608,
-      "mtime": "2026-10-15T10:14:59.970Z",
+      "size_bytes": 12594,
+      "mtime": "2026-10-16T10:03:48.168Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -35392,8 +35453,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 164108,
-      "mtime": "2026-10-15T10:15:00.032Z",
+      "size_bytes": 165560,
+      "mtime": "2026-10-16T10:03:48.211Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35401,7 +35462,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 184,
+      "primary_array_length": 185,
       "primary_array_first_keys": [
         "date",
         "events"
@@ -35797,8 +35858,8 @@
     {
       "path": "url-health.json",
       "kind": "json",
-      "size_bytes": 428599,
-      "mtime": "2026-10-09T13:23:43.418Z",
+      "size_bytes": 622101,
+      "mtime": "2026-10-16T11:32:52.499Z",
       "shape": "object",
       "keys": [
         "lastSweepAt",

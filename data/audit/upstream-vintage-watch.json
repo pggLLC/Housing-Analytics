@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T11:58:59.423Z",
+  "generated_at": "2026-10-16T09:57:24.737Z",
   "sources": [
     {
       "source": "HUD CHAS",
@@ -11,10 +11,10 @@
     },
     {
       "source": "HUD FMR",
-      "current_vintage": "FY2026",
+      "current_vintage": "FY2027",
       "latest_vintage": "FY2027",
       "is_outdated": false,
-      "notes": "Within expected refresh window (HUD ships FMR annually in April)."
+      "notes": "Matches the fiscal year in effect."
     },
     {
       "source": "Census ACS 5-year",
@@ -22,10 +22,18 @@
       "latest_vintage": "2024",
       "is_outdated": false,
       "notes": "Within expected refresh window (ACS 5-year ships annually in December)."
+    },
+    {
+      "source": "CHFA tax credit rounds",
+      "current_vintage": "2026 Round One (bridge)",
+      "latest_vintage": "2026 Round One (bridge)",
+      "is_outdated": false,
+      "status": "verified",
+      "notes": "Every published CHFA round for 2025-2026 is in the repo (2025 Round One (feed), 2025 Round Two (feed), 2026 Round One (bridge))."
     }
   ],
   "summary": {
-    "checked": 3,
+    "checked": 4,
     "outdated": 0,
     "errors": 1
   }

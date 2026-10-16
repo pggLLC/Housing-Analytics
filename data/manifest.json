@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-15T18:49:16.158580Z",
+  "generated": "2026-10-16T11:33:07.344110Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 850251
+      "bytes": 851618
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -126,6 +126,11 @@
       "placeholder": false,
       "bytes": 2971688
     },
+    "data/audit/funding-watch.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 538582
+    },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -134,7 +139,7 @@
     "data/audit/upstream-vintage-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 844
+      "bytes": 1173
     },
     "data/benchmarks/str-license-counts.json": {
       "featureCount": 0,
@@ -364,7 +369,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1256890
+      "bytes": 1257896
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -8366,6 +8371,11 @@
       "placeholder": false,
       "bytes": 356064
     },
+    "data/policy/funding-watch-sources.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 7550
+    },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8529,12 +8539,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12608
+      "bytes": 12594
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 164108
+      "bytes": 165560
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -8624,7 +8634,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 428599
+      "bytes": 622101
     }
   }
 }
