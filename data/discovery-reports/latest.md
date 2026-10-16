@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-15T12:38:07.738Z
+**Scan timestamp:** 2026-10-16T12:22:10.092Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1737 |
-| New (unregistered) | 1706 |
+| Files scanned | 1742 |
+| New (unregistered) | 1711 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (829 KB)
+- `data/_manifest.json` (832 KB)
 - `data/_qa-status.json` (8 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (16 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,12 +28,13 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (284 KB)
-- `data/alerts/brief-news-queue.json` (66 KB)
+- `data/alerts/alerts_archive.json` (299 KB)
+- `data/alerts/brief-news-queue.json` (69 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3869 KB)
 - `data/audit/chfa-qap-watch.json` (2902 KB)
+- `data/audit/funding-watch.json` (526 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -62,7 +63,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (4117 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (255 KB)
+- `data/discovery-reports/latest.json` (258 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -825,7 +826,7 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (39 KB)
+- `data/hna/local-resources-candidates.json` (7 KB)
 - `data/hna/local-resources.json` (179 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (270 KB)
@@ -1664,9 +1665,13 @@
 - `data/policy/county-parcel-sources.json` (22 KB)
 - `data/policy/developer-ownership-funding.json` (20 KB)
 - `data/policy/fee-reductions.json` (567 KB)
+- `data/policy/funding-awards/award-rows.json` (239 KB)
+- `data/policy/funding-awards/developer-aliases.json` (7 KB)
 - `data/policy/funding-awards/documents.json` (40 KB)
+- `data/policy/funding-awards/dola-awards.json` (324 KB)
 - `data/policy/funding-awards/land-banking-corrections.json` (7 KB)
 - `data/policy/funding-awards/ledger.json` (348 KB)
+- `data/policy/funding-watch-sources.json` (7 KB)
 - `data/policy/homeownership-programs.json` (17 KB)
 - `data/policy/housing-events-curated.json` (2 KB)
 - `data/policy/housing-events.json` (15 KB)
@@ -1685,7 +1690,7 @@
 - `data/policy/policy-timeline.json` (7 KB)
 - `data/policy/policy-watch.json` (50 KB)
 - `data/policy/prop123-land-banking-awards.json` (74 KB)
-- `data/policy/prop123-rental-rules.json` (32 KB)
+- `data/policy/prop123-rental-rules.json` (33 KB)
 - `data/policy/resale-conventions.json` (7 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/resident-services.json` (34 KB)
@@ -1695,27 +1700,27 @@
 - `data/policy/thiz-map-status.json` (2 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
-- `data/policy_briefs.json` (387 KB)
+- `data/policy_briefs.json` (404 KB)
 - `data/policy_briefs_curated.json` (181 KB)
 - `data/polymarket-curated.json` (4 KB)
 - `data/polymarket-data.json` (12 KB)
-- `data/polymarket-history.json` (160 KB)
+- `data/polymarket-history.json` (162 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
 - `data/provenance/housing-needs-assessment.json` (6 KB)
 - `data/provenance/market-analysis.json` (2 KB)
-- `data/reports/a11y-baseline.json` (3 KB)
+- `data/reports/a11y-baseline.json` (15 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (24 KB)
+- `data/reports/developer-url-health.json` (21 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (159 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/table-header-tips.json` (15 KB)
 - `data/tax-abatement-inventory.json` (23 KB)
-- `data/url-health.json` (419 KB)
+- `data/url-health.json` (608 KB)
 - `data/zillow/median_list_price_metro.csv` (847 KB)
 - `data/zillow/zhvi_metro.csv` (4373 KB)
 - `data/zillow/zori_metro.csv` (1042 KB)
