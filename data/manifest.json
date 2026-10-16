@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T14:06:33.146753Z",
+  "generated": "2026-10-16T15:32:30.913940Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1523383
+      "bytes": 1522524
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -4164,7 +4164,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183499
+      "bytes": 183559
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -8359,7 +8359,7 @@
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331297
+      "bytes": 331326
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,
@@ -8449,7 +8449,7 @@
     "data/policy/pab-allocations.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17710
+      "bytes": 17856
     },
     "data/policy/policy-timeline.json": {
       "featureCount": 0,
