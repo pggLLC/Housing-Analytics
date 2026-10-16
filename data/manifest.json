@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-16T11:18:43.019612Z",
+  "generated": "2026-10-16T11:31:17.034366Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 850252
+      "bytes": 851618
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -125,6 +125,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2971688
+    },
+    "data/audit/funding-watch.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 538582
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -8365,6 +8370,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 356064
+    },
+    "data/policy/funding-watch-sources.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 7550
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
