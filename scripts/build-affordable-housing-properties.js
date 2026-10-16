@@ -136,6 +136,9 @@ function normalizeLihtc(feature, idx) {
 
 function preservationRiskStatus(yearsToExpiration) {
   if (!Number.isFinite(yearsToExpiration)) return null;
+  // A date already past is a lapsed or unrenewed restriction in the source
+  // feed, not one expiring within five years; keep it in its own bucket.
+  if (yearsToExpiration < 0) return 'expired';
   if (yearsToExpiration <= 5) return 'expiration_0_5_years';
   if (yearsToExpiration <= 10) return 'expiration_6_10_years';
   if (yearsToExpiration <= 20) return 'expiration_11_20_years';

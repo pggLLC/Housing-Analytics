@@ -39,6 +39,10 @@
 
   /* ── Internal state ─────────────────────────────────────────────── */
   var _floodFeatures  = [];
+  // True when the loaded flood layer is a sample (its meta.note says so, or it
+  // holds only a handful of polygons). A point that matches none of a sample's
+  // polygons was not assessed; it is not "outside the flood hazard area".
+  var _floodSample    = false;
   var _superfundSites = [];
   var _brownfieldSites = [];
   var _hazmatCoverageStatus = 'coverage_unknown';
@@ -141,6 +145,19 @@
           break;
         }
       } catch (e) { /* skip malformed features */ }
+    }
+
+    if (!matched && _floodSample) {
+      // The stub at data/environmental/fema-flood-co.geojson holds four
+      // polygons in Denver, Boulder and El Paso counties. Everywhere else a
+      // miss means "not covered", so the answer is unknown, never "Zone X".
+      return {
+        zone:         'Unknown',
+        riskLevel:    'unknown',
+        sfha:         false,
+        year100Flood: false,
+        narrative:    'Flood risk not assessed: the flood layer loaded on this page is a sample of a few counties. Check the FEMA Map Service Center for this site.'
+      };
     }
 
     if (!matched) {
@@ -317,6 +334,9 @@
         return f && f.geometry && f.properties;
       });
     }
+    _floodSample = !!(floodGeoJSON && (
+      /\bsample\b/i.test((floodGeoJSON.meta && floodGeoJSON.meta.note) || '') ||
+      (_floodFeatures.length > 0 && _floodFeatures.length < 10)));
     if (epaData) {
       _superfundSites  = epaData.superfundSites  || [];
       _brownfieldSites = epaData.brownfieldSites || [];

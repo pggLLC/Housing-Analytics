@@ -17,13 +17,16 @@ const preservation = properties.filter((p) => (p.program_type || []).includes('p
 const withExpiration = preservation.filter((p) => Number.isFinite(p.years_to_expiration));
 const withRisk = preservation.filter((p) => p.risk_status != null);
 const withoutExpirationRisk = preservation.filter((p) => !Number.isFinite(p.years_to_expiration) && p.risk_status != null);
-const urgent5y = preservation.filter((p) => Number.isFinite(p.years_to_expiration) && p.years_to_expiration <= 5);
+const urgent5y = preservation.filter((p) => Number.isFinite(p.years_to_expiration) && p.years_to_expiration >= 0 && p.years_to_expiration <= 5);
+const lapsed = preservation.filter((p) => Number.isFinite(p.years_to_expiration) && p.years_to_expiration < 0);
 
 assert.equal(preservation.length, props.metadata.program_type_counts['preservation-candidate'], 'metadata preservation-candidate count should match records');
 assert(withExpiration.length > 0, 'fixture should include preservation records with known expiration timing');
 assert.equal(withRisk.length, withExpiration.length, 'risk_status should be populated exactly for records with expiration evidence');
 assert.equal(withoutExpirationRisk.length, 0, 'risk_status must stay null when no expiration evidence exists');
 assert(urgent5y.every((p) => p.risk_status === 'expiration_0_5_years'), '0-5y expiration records should carry the urgent risk_status bucket');
+assert(lapsed.length > 0, 'fixture should include records whose restriction date is already past');
+assert(lapsed.every((p) => p.risk_status === 'expired'), 'a restriction date already past is bucketed expired, never 0-5 years');
 
 assert(builderSrc.includes('function preservationRiskStatus'), 'builder should define risk_status from expiration evidence');
 assert(layerSrc.includes('Preservation source inventory'), 'map legend should label preservation-candidate as source inventory');

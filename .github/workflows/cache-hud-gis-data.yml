@@ -76,11 +76,14 @@ jobs:
           node - <<'EOF'
           const fs    = require('fs');
 
-          // HUD publishes a new layer for each designation year, effective Jan 1.
-          // Try this year's layer, then last year's: a hard-coded year kept
-          // serving an expired designation set without any error.
+          // HUD publishes a new layer for each designation year, effective Jan 1,
+          // and posts the coming year's designations each autumn (the 2027 lists
+          // on 2026-10-06, 91 FR 63573). Every application filed after that date
+          // is for the coming year, so try next year's layer first, then this
+          // year's, then last year's: a hard-coded year kept serving an expired
+          // designation set without any error.
           const THIS_YEAR = new Date().getUTCFullYear();
-          const YEARS = [THIS_YEAR, THIS_YEAR - 1];
+          const YEARS = [THIS_YEAR + 1, THIS_YEAR, THIS_YEAR - 1];
           const urlFor = (y) => `https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_${y}/FeatureServer/0/query`;
           let QCT_URL = urlFor(YEARS[0]);
           const PAGE    = 1000;
@@ -159,11 +162,14 @@ jobs:
           node - <<'EOF'
           const fs    = require('fs');
 
-          // HUD publishes a new layer for each designation year, effective Jan 1.
-          // Try this year's layer, then last year's: a hard-coded year kept
-          // serving an expired designation set without any error.
+          // HUD publishes a new layer for each designation year, effective Jan 1,
+          // and posts the coming year's designations each autumn (the 2027 lists
+          // on 2026-10-06, 91 FR 63573). Every application filed after that date
+          // is for the coming year, so try next year's layer first, then this
+          // year's, then last year's: a hard-coded year kept serving an expired
+          // designation set without any error.
           const THIS_YEAR = new Date().getUTCFullYear();
-          const YEARS = [THIS_YEAR, THIS_YEAR - 1];
+          const YEARS = [THIS_YEAR + 1, THIS_YEAR, THIS_YEAR - 1];
           const urlFor = (y) => `https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_${y}/FeatureServer/0/query`;
           let DDA_URL = urlFor(YEARS[0]);
           const PAGE    = 1000;
