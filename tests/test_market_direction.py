@@ -173,3 +173,14 @@ def test_a_later_lehd_refresh_moves_generated_at(tmp_path, monkeypatch):
     f.write_text(json.dumps(d))
     monkeypatch.setattr(md, 'LEHD_DIR', str(lehd))
     assert md.build()['meta']['generated_at'] == '2030-01-01T00:00:00Z'
+
+
+def test_the_rent_edge_description_names_the_measure_computed():
+    # edge_pct is the 60% rent's discount below the FMR as a share of the FMR;
+    # the descriptions must say so, not call it the FMR's premium over the 60% rent
+    note = DOC['meta']['rent_edge_note']
+    assert '(FMR - 60% rent) / FMR' in note
+    for text in DOC['meta']['rent_edge'].values():
+        assert 'above the 60% AMI rent by' not in text, text
+    grand = DOC['counties']['08049']['rent_edge']
+    assert grand['edge_pct'] == round((grand['fmr_2br'] - grand['lihtc_60_2br']) / grand['fmr_2br'] * 100, 1)

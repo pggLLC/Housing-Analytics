@@ -63,7 +63,7 @@ THRESHOLDS = {
     'population': (0.5, 0.0),    # % a year over ten years
     'jobs': (5.0, 0.0),          # % change since 2019
 }
-RENT_EDGE_THIN = 10.0  # FMR above the 60% rent by less than this % is a thin edge
+RENT_EDGE_THIN = 10.0  # a 60% rent less than this % of the FMR below it is a thin edge
 
 CALLS = {
     'emerging': ('People or jobs are growing, at least two of permits, prices and rents are rising, '
@@ -75,8 +75,8 @@ CALLS = {
 }
 EDGES = {
     'no_edge': "The FMR is at or below the 60% AMI rent: a 60% unit can't charge its 60% rent.",
-    'thin': f'The FMR is above the 60% AMI rent by less than {RENT_EDGE_THIN:.0f}%.',
-    'clear': f'The FMR is above the 60% AMI rent by {RENT_EDGE_THIN:.0f}% or more.',
+    'thin': f'The 60% AMI rent is below the FMR by less than {RENT_EDGE_THIN:.0f}% of the FMR.',
+    'clear': f'The 60% AMI rent is below the FMR by {RENT_EDGE_THIN:.0f}% of the FMR or more.',
 }
 
 
@@ -278,7 +278,9 @@ def build() -> dict:
                                'area; several counties share a metro FMR, and non-metro counties often sit at '
                                'the state non-metro level. CHFA 60% rents are gross and use HUD income limits, '
                                'which hold rural counties at a national non-metro floor. Both are gross rents '
-                               '(utilities included).'),
+                               '(utilities included). edge_pct is (FMR - 60% rent) / FMR: the discount a 60% '
+                               'unit offers against the market, as a share of the market rent, not the premium '
+                               'of the FMR over the 60% rent.'),
             'sources': {
                 'permits': {'file': 'data/hna/permits.json', 'source': permits['meta'].get('source'),
                             'url': (permits['meta'].get('source_urls') or [None])[0]},

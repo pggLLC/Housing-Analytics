@@ -536,7 +536,9 @@ def build() -> dict:
     since = latest - 3
     stamps = [read(APPLICATIONS)['meta'].get('generated_at'), read(LEDGER)['meta'].get('generated_at'),
               read(LIHTC_FEED).get('fetchedAt'), read(DOLA)['meta'].get('captured'),
-              read(ROUND_2026)['metadata'].get('parsed_at')]
+              read(ROUND_2026)['metadata'].get('parsed_at'),
+              # the geography that names counties and places and joins towns to them
+              read(GEO_CONFIG).get('updated'), read(CROSS_COUNTY)['meta'].get('generated_at')]
     generated = max(str(x) for x in stamps if x)
     return {
         'meta': {

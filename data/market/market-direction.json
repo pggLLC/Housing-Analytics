@@ -39,10 +39,10 @@
   "permit_floor": 50,
   "rent_edge": {
    "no_edge": "The FMR is at or below the 60% AMI rent: a 60% unit can't charge its 60% rent.",
-   "thin": "The FMR is above the 60% AMI rent by less than 10%.",
-   "clear": "The FMR is above the 60% AMI rent by 10% or more."
+   "thin": "The 60% AMI rent is below the FMR by less than 10% of the FMR.",
+   "clear": "The 60% AMI rent is below the FMR by 10% of the FMR or more."
   },
-  "rent_edge_note": "HUD FMR is the 40th-percentile gross rent of recent movers for the county's FMR area; several counties share a metro FMR, and non-metro counties often sit at the state non-metro level. CHFA 60% rents are gross and use HUD income limits, which hold rural counties at a national non-metro floor. Both are gross rents (utilities included).",
+  "rent_edge_note": "HUD FMR is the 40th-percentile gross rent of recent movers for the county's FMR area; several counties share a metro FMR, and non-metro counties often sit at the state non-metro level. CHFA 60% rents are gross and use HUD income limits, which hold rural counties at a national non-metro floor. Both are gross rents (utilities included). edge_pct is (FMR - 60% rent) / FMR: the discount a 60% unit offers against the market, as a share of the market rent, not the premium of the FMR over the 60% rent.",
   "sources": {
    "permits": {
     "file": "data/hna/permits.json",

@@ -311,3 +311,12 @@ def test_dola_homes_never_replace_a_printed_unit_count():
     L = _ledger()
     L.add('Only Dola', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), 40)
     assert dev.finish(L)[0]['total_units'] == 40  # DOLA's count stands when nothing else prints one
+
+
+def test_a_later_geography_refresh_moves_generated_at(tmp_path, monkeypatch):
+    geo = read_json('data/hna/geo-config.json')
+    geo['updated'] = '2030-01-01T00:00:00Z'
+    f = tmp_path / 'geo-config.json'
+    f.write_text(json.dumps(geo))
+    monkeypatch.setattr(dev, 'GEO_CONFIG', str(f))
+    assert dev.build()['meta']['generated_at'] == '2030-01-01T00:00:00Z'
