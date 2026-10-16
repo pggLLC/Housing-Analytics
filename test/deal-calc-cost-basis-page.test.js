@@ -156,12 +156,17 @@ async function test(name, fn) {
     assert(Math.abs(c.tdc - c.equity - c.mortgage - c.grants - c.softLoans - c.deferred - r.gap) < 0.01,
       'the gap explanation adds up to the gap shown, state credit equity included');
     const withState = r.gap;
+    for (const label of ['Method One: qualified basis credit', 'State credit allowed']) assert(text(p, 'dc-cb-detail').includes(label), 'non-vacuous: CHFA LIHTC shows ' + label);
     setField(p, 'dc-rent-limit-regime', 'market');
     p.w.__DealCalc.recalculate();
     r = p.w.__DealCalc.getResult();
     assert.equal(r.equity, 0, 'no federal credit outside CHFA LIHTC');
     assert.equal(r.stateEquity, 0, 'the state credit pairs with the federal credit, so it is no source either');
     assert.notEqual(r.gap, withState, 'non-vacuous: the regime change moved the gap');
+    // The detail shows no credit figure where the headline says there is no credit.
+    const detail = text(p, 'dc-cb-detail');
+    for (const label of ['Method One: qualified basis credit', 'Method Two: gap calculation', 'Credit capacity', 'Qualified basis', 'State credit allowed', 'Equity pay-in']) assert(!detail.includes(label), label + ' is hidden outside CHFA LIHTC');
+    assert(detail.includes('No LIHTC credits'), 'and the detail says why, in the headline\'s words');
     assert.deepEqual(p.errors, []);
   });
 
