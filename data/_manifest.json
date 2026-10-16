@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T14:06:30.070Z",
+    "generated_at": "2026-10-16T15:32:27.036Z",
     "root": "data/",
     "file_count": 1737,
-    "total_size_bytes": 184946573,
+    "total_size_bytes": 184945949,
     "kinds": {
       "json": 1694,
       "geojson": 33,
@@ -199,7 +199,7 @@
       "path": "affordable-housing/properties-manifest.json",
       "kind": "json",
       "size_bytes": 118,
-      "mtime": "2026-10-11T11:45:17.009Z",
+      "mtime": "2026-10-16T15:30:48.611Z",
       "shape": "object",
       "keys": [
         "v",
@@ -215,8 +215,8 @@
     {
       "path": "affordable-housing/properties.json",
       "kind": "json",
-      "size_bytes": 1523383,
-      "mtime": "2026-10-11T11:45:17.009Z",
+      "size_bytes": 1522524,
+      "mtime": "2026-10-16T15:30:48.614Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-16T14:06:26.898Z",
+      "mtime": "2026-10-16T15:32:23.295Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -17014,8 +17014,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 183499,
-      "mtime": "2026-10-11T07:50:12.305Z",
+      "size_bytes": 183559,
+      "mtime": "2026-10-16T15:30:48.778Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -32436,7 +32436,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-16T14:06:28.568Z",
+      "mtime": "2026-10-16T15:32:25.135Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32460,7 +32460,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-16T14:06:28.199Z",
+      "mtime": "2026-10-16T15:32:24.708Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34536,8 +34536,8 @@
     {
       "path": "policy/funding-awards/dola-awards.json",
       "kind": "json",
-      "size_bytes": 331297,
-      "mtime": "2026-10-15T17:33:42.063Z",
+      "size_bytes": 331326,
+      "mtime": "2026-10-16T15:30:49.105Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34949,8 +34949,8 @@
     {
       "path": "policy/pab-allocations.json",
       "kind": "json",
-      "size_bytes": 17710,
-      "mtime": "2026-10-14T08:31:22.786Z",
+      "size_bytes": 17856,
+      "mtime": "2026-10-16T15:30:49.108Z",
       "shape": "object",
       "keys": [
         "metadata",
