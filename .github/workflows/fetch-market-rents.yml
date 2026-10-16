@@ -78,6 +78,9 @@ jobs:
       # with the rents, or nothing is committed (AGENTS.md).
       - name: Rebuild derived data and commit the rents
         id: commit
+        # a dispatch on a branch commits to that branch, never to main
+        env:
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
           scripts/commit-with-derived-chain.sh "chore: update CO market rents (ZORI, Apartment List) [$(date -u '+%Y-%m-%d')]" -- \
             data/market/zori_rents_co.json data/market/apartment_list_co.json

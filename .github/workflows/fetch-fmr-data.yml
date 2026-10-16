@@ -177,6 +177,9 @@ jobs:
       # with the HUD files, or nothing is committed (AGENTS.md).
       - name: Rebuild derived data and commit the HUD refresh
         id: commit
+        # a dispatch on a branch commits to that branch, never to main
+        env:
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
           LABEL_FILES=$(node --input-type=module -e "import('./scripts/sync-hud-vintage-labels.mjs').then(m => console.log([...new Set(m.RULES.flatMap(r => r.files))].join(' ')))")
           scripts/commit-with-derived-chain.sh "chore: update HUD data artifacts [$(date -u '+%Y-%m-%d')]" -- \
