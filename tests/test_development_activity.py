@@ -53,9 +53,14 @@ def test_every_event_is_sourced_and_staged():
 def test_county_summary_carries_all_64_counties():
     d = load()
     assert len(d['county_summary']) == 64
+    since = d['meta']['summary_since']
+    recent = [p for p in d['projects'] if (p['county_fips'] or p['county_fips_all']) and (p['latest_year'] or 0) >= since]
+    assert d['meta']['statewide_recent_projects'] == len(recent) > 0
+    # a scattered site in several counties counts once in each of them
     total = sum(c['projects'] for c in d['county_summary'].values())
-    recent = [p for p in d['projects'] if p['county_fips'] and (p['latest_year'] or 0) >= d['meta']['summary_since']]
-    assert total == len(recent) > 0
+    assert total == sum(len(p['county_fips_all'] or [1]) for p in recent)
+    assert sum(c['multi_county_projects'] for c in d['county_summary'].values()) == sum(
+        len(p['county_fips_all']) for p in recent if p['county_fips_all'])
 
 
 def test_no_sponsor_or_owner_is_named():
@@ -186,3 +191,48 @@ def test_a_project_without_units_is_counted_never_as_zero_homes():
     L.add('Beta', 'Denver', '08031', dev.ev('funded', 2025, 'DOLA', 'p', **q), 40)
     s = dev.county_summary(dev.finish(L), {'08031': 'Denver County'}, 2022)['08031']
     assert (s['projects'], s['homes'], s['projects_without_homes']) == (2, 40, 1)
+
+
+def test_a_scattered_site_in_two_counties_counts_in_both():
+    L = _ledger()
+    L.county_names['08037'], L.county_names['08117'] = 'Eagle County', 'Summit County'
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Holy Cross Village (scattered site)', 'Gypsum, Silverthorne', None,
+          dev.ev('letter_of_intent', 2026, 'CHFA', 'p', **q), 122, counties=['08037', '08117'])
+    rows = dev.finish(L)
+    assert rows[0]['county_fips'] is None and rows[0]['county_fips_all'] == ['08037', '08117']
+    s = dev.county_summary(rows, {'08037': 'Eagle County', '08117': 'Summit County'}, 2023)
+    for f in ('08037', '08117'):
+        assert (s[f]['projects'], s[f]['homes'], s[f]['multi_county_projects']) == (1, 122, 1)
+        assert s[f]['by_stage']['letter_of_intent']['projects'] == 1
+
+
+def test_the_committed_ledger_keeps_the_eagle_summit_scattered_site():
+    apps = read_json('data/jurisdiction-briefs/_lihtc-applications.json')['applications']
+    multi = [a for a in apps if not a.get('county_fips') and len(a.get('county_fips_all') or []) > 1
+             and (a.get('year') or 0) >= dev.FIRST_YEAR and dev.APP_STAGE.get(a.get('outcome'))]
+    assert multi  # the scan found a multi-county application to check
+    d = load()
+    for a in multi:
+        p = next(p for p in d['projects'] if p['county_fips_all'] == sorted(a['county_fips_all']))
+        assert dev.same_project(dev.core_name(p['name']), dev.core_name(a['name']))
+
+
+def test_a_dola_site_award_without_a_home_count_is_kept_with_units_null():
+    dola = read_json('data/policy/funding-awards/dola-awards.json')['awards']
+    assert any(a['name'] == 'Capitol City Mobile Home Park' and a['homes'] is None for a in dola)
+    d = load()
+    p = next(p for p in d['projects'] if 'capitol city' in p['name'].lower())
+    assert {e['program'] for e in p['events']} >= {'Division of Housing award'}
+    # an award that prints no homes says so; it is never a zero
+    for p in d['projects']:
+        for e in p['events']:
+            if e.get('homes_unavailable_reason'):
+                assert e['agency'] == 'DOLA'
+    L = _ledger()
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Gamma Park', 'Denver', '08031', dev.ev('funded', 2024, 'DOLA', 'Division of Housing award', **q), None)
+    L.add('City of Denver SFR', 'Denver', '08031', dev.ev('funded', 2024, 'DOLA', 'p', **q), None)
+    rows = dev.finish(L)
+    assert [(r['name'], r['total_units']) for r in rows] == [('Gamma Park', None)]
+    assert L.programs_left_out == 1

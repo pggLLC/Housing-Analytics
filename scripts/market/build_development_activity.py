@@ -89,9 +89,19 @@ STATE_FIPS = '08'
 # assistance, rehabilitation programs, statewide NOFAs. They are counted in
 # meta.program_awards_left_out, not listed as projects.
 NOT_A_PROJECT = re.compile(r'down ?payment|\bDPA\b|rehabilitation program|\bSFOO\b|\bNOFA\b|statewide|'
-                           r'mortgage|\bprograms?\b', re.I)
+                           r'mortgage|\bprograms?\b|\bSFR\b|DPA\b|single family owner|first time home ?ownership|'
+                           r'initiative|\bAHIF ?\d*\b|\bROC\b|Resident Ownership Capital|Impact Development Fund|'
+                           r'Next Step 2 Generation', re.I)
+# A Prop 123 homeownership (AHOP) award that prints no homes funds buyers or
+# repairs across a service area, not homes on one site.
+NO_HOMES_MEANS_PROGRAM = {'Prop 123 homeownership (AHOP)'}
 # Prop 123 Modular Finance lends to factories, not to a housing site.
 NOT_A_SITE_PROGRAMS = {'Prop 123 Modular Finance'}
+
+
+# a rebuilt quote's Source field is the article's headline, not the award
+# ("... affordable housing, down payment grants across the state")
+SOURCE_FIELD = re.compile(r'(^|; )Source: [^;]*')
 
 
 def core_name(name: str) -> str:
@@ -99,7 +109,8 @@ def core_name(name: str) -> str:
     Park Phase II") or a trailing credit-type digit ("Ives II 4"), normalised."""
     name = re.split(r'\bf\.?k\.?a\b', name, flags=re.I)[0]
     name = re.sub(r'\((phase[^)]*)\)', r' \1 ', name, flags=re.I)  # norm_name drops brackets
-    return re.sub(r' [49]$', '', apps_mod.norm_name(name))
+    n = re.sub(r' [49]$', '', apps_mod.norm_name(name))
+    return re.sub(r'\bmobile home park\b', 'mhp', n)  # "Capitol City MHP" is the same park
 
 
 def phase(n: str) -> str:
@@ -166,10 +177,11 @@ class Ledger:
         return None
 
     def add(self, name: str, city: str | None, county: str | None, event: dict,
-            units: int | None = None, restricted: int | None = None, place: str | None = None) -> None:
+            units: int | None = None, restricted: int | None = None, place: str | None = None,
+            counties: list[str] | None = None) -> None:
         if not name:
             return
-        if NOT_A_PROJECT.search(name) or re.search(r'down ?payment', event.get('quote') or '', re.I) or event.get('program') in NOT_A_SITE_PROGRAMS \
+        if NOT_A_PROJECT.search(name) or re.search(r'down ?payment', SOURCE_FIELD.sub('', event.get('quote') or ''), re.I) or event.get('program') in NOT_A_SITE_PROGRAMS \
                 or awards.norm(city or '') in ('varied', 'various', 'statewide'):
             self.programs_left_out += 1
             return
@@ -205,6 +217,10 @@ class Ledger:
             self.projects.append(p)
         if not p['county_fips'] and county:
             p['county_fips'], p['county'] = county, self.county_names.get(county)
+        # a scattered site printed with no one county but a list of counties
+        # (Gypsum and Silverthorne) belongs to each of them
+        if not county and counties and len(counties) > 1:
+            p['_counties'] = sorted(set(p.get('_counties') or []) | {c for c in counties if c in self.county_names})
         if not p['place_geoid']:
             p['place_geoid'] = place or self.place_of(city, p['county_fips'])
         # units are chosen in finish() from the latest event that prints them
@@ -255,7 +271,8 @@ def load_applications(L: Ledger) -> int:
                  a.get('source_url'), strip_sponsor(a.get('quote')), req, 'annual credit requested',
                  round=a.get('round_label'), as_of=a.get('source_as_of')),
               a.get('total_units'), a.get('restricted_units'),
-              a['place_geoids'][0] if len(a.get('place_geoids') or []) == 1 else None)
+              a['place_geoids'][0] if len(a.get('place_geoids') or []) == 1 else None,
+              a.get('county_fips_all'))
         n += 1
     return n
 
@@ -330,15 +347,17 @@ def dola_quote(a: dict) -> str:
 def load_dola(L: Ledger) -> int:
     n = 0
     for a in read(DOLA)['awards']:
-        if not a.get('homes'):
-            continue  # an award with no homes printed is a program grant, not a project
+        if not a.get('homes') and a.get('program') in NO_HOMES_MEANS_PROGRAM:
+            L.programs_left_out += 1
+            continue
         label = 'awarded' if a.get('amount_basis') == 'awarded' else 'requested (award amount not printed)'
         L.add(a['name'], a.get('town'), a.get('county_fips'),
               ev('funded', a.get('year'), 'DOLA', a['program'], a.get('source_url'), dola_quote(a),
                  a.get('amount'), label, announced=a.get('announced'),
                  quote_basis=('fields as recorded from the source; the printed text names the grantee, '
                               'so it is not copied'),
-                 confirmed=a.get('confirmed'), source_title=a.get('source_title')),
+                 confirmed=a.get('confirmed'), source_title=a.get('source_title'),
+                 homes_unavailable_reason=None if a.get('homes') else 'the award does not print a home count'),
               a.get('homes'))
         n += 1
     return n
@@ -392,6 +411,7 @@ def finish(L: Ledger) -> list[dict]:
             e.pop('_units', None)
             e.pop('_name', None)
         years = [e['year'] for e in p['events'] if e.get('year')]
+        p['county_fips_all'] = p.get('_counties') if not p['county_fips'] and len(p.get('_counties') or []) > 1 else None
         row = {k: v for k, v in p.items() if not k.startswith('_')}
         row.update({'stage': stage, 'first_year': min(years) if years else None,
                     'latest_year': max(years) if years else None})
@@ -403,7 +423,7 @@ def finish(L: Ledger) -> list[dict]:
         seen[r['id']] = seen.get(r['id'], 0) + 1
         if seen[r['id']] > 1:
             r['id'] += f"-{seen[r['id']]}"
-    return [{k: r[k] for k in ('id', 'name', 'city', 'county_fips', 'county', 'place_geoid', 'stage',
+    return [{k: r[k] for k in ('id', 'name', 'city', 'county_fips', 'county_fips_all', 'county', 'place_geoid', 'stage',
                                'first_year', 'latest_year', 'total_units', 'restricted_units', 'events')}
             for r in out]
 
@@ -411,15 +431,18 @@ def finish(L: Ledger) -> list[dict]:
 def county_summary(projects: list[dict], county_names: dict[str, str], since: int) -> dict:
     """Projects and homes by county and stage. A project with no unit count
     adds to projects_without_homes, never 0 to homes; a group whose projects
-    all lack a count has homes null."""
+    all lack a count has homes null. A scattered site in several counties
+    counts in each of them and adds to that county's multi_county_projects,
+    so county rows do not sum to a statewide total."""
     def bucket():
         return {'projects': 0, 'homes': 0, 'projects_without_homes': 0}
-    out = {f: dict(name=n, **bucket(), by_stage={s: bucket() for s in STAGES})
+    out = {f: dict(name=n, **bucket(), multi_county_projects=0, by_stage={s: bucket() for s in STAGES})
            for f, n in sorted(county_names.items())}
-    for p in projects:
-        f = p['county_fips']
+    for p, f in ((p, f) for p in projects for f in (p.get('county_fips_all') or [p['county_fips']])):
         if f not in out or (p['latest_year'] or 0) < since:
             continue
+        if p.get('county_fips_all'):
+            out[f]['multi_county_projects'] += 1
         for b in (out[f], out[f]['by_stage'][p['stage']]):
             b['projects'] += 1
             if p['total_units']:
@@ -498,15 +521,22 @@ def build() -> dict:
             'excluded_events': L.left_out,
             'program_awards_left_out': L.programs_left_out,
             'program_awards_note': ('Awards that fund a program rather than homes on a site (down payment '
-                                    'assistance, rehabilitation programs, statewide NOFAs, Prop 123 Modular '
-                                    'Finance loans to factories) are counted here and not listed.'),
+                                    'assistance, rehabilitation and single-family repair programs, statewide '
+                                    'NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop '
+                                    '123 homeownership awards that print no homes) are counted here and not '
+                                    'listed. A site award that prints no home count is listed with units null.'),
             'project_count': len(projects),
             'summary_since': since,
             'summary_note': (f'county_summary counts projects whose latest event is {since} or later (the latest '
                              f'year any source records, {latest}, less three), by stage, '
                              'with homes as printed (total units). homes counts only projects that print a unit '
                              'count; projects_without_homes says how many do not, and homes is null when none '
-                             'does. Counties with no projects are listed with zeros.'),
+                             'does. Counties with no projects are listed with zeros. A scattered site an '
+                             'application places in several counties (county_fips null, county_fips_all listed) '
+                             'counts in each and in multi_county_projects, so county rows can sum to more than '
+                             'statewide_recent_projects.'),
+            'statewide_recent_projects': sum(1 for p in projects if (p['latest_year'] or 0) >= since
+                                             and (p['county_fips'] or p['county_fips_all'])),
         },
         'county_summary': county_summary(projects, county_names, since),
         'projects': projects,
