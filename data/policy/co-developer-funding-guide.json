@@ -7478,7 +7478,7 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans, planning grants and some principal forgiveness for the design and construction of drinking water systems.",
-      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness up to $1 million if eligible. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness, if eligible, depends on the funding tranche: up to $1 million from Base, $2.5 million from BIL (Bipartisan Infrastructure Law), $10 million for lead service lines and $30 million for PFAS. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
@@ -7575,6 +7575,21 @@
           "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
         },
         {
+          "field": "award_size",
+          "quote": "Upfront PF of up to $2.5 million if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF of up to $10 million if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF of up to $30 million if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
           "field": "rate",
           "quote": "For 2025, the Authority Board of Directors is offering loans of less than $3,000,000 as direct loans, at an interest rate of 3.25% for 20 years and 3.50% for up to 30 years, or less if your community qualifies as disadvantaged.",
           "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
@@ -7659,7 +7674,7 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans and planning grants for wastewater, stormwater, nonpoint-source and source water projects.",
-      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness up to $500,000 if eligible. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness, if eligible, depends on the funding tranche: up to $500,000 from Base; from BIL (Bipartisan Infrastructure Law) for disadvantaged communities only; and available for PFAS projects. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year. Reduced green project rates apply only to the first $3 million of a green project loan.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
@@ -7755,6 +7770,16 @@
           "field": "award_size",
           "quote": "Planning grants can assist with costs up to $10,000 associated with the project needs assessment and/or environmental assessment development.",
           "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF is available for DACs only.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF available if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
         },
         {
           "field": "rate",
