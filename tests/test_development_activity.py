@@ -533,3 +533,23 @@ def test_a_null_unit_count_carries_its_reason():
             assert (p[k] is None) == bool(p[f'{k}_unavailable_reason']), (p['name'], k)
             assert p[k] != 0, (p['name'], k)
     assert any(p['restricted_units'] is None for p in rows)  # the scan found absences to check
+
+
+def test_a_renamed_project_at_one_address_is_one_project():
+    # Cole Flats and Cole Train: 63 homes at 1675 E. 35th Avenue (#2261 review);
+    # Kappa Tower II and III share an address but are two phases
+    assert dev.printed_address('Name: Cole Train; Address: 1675 E. 35th Avenue; City: Denver') == \
+        dev.printed_address('Property Name: Cole Flats; Address: 1675 E 35th Ave') == '1675 35th'
+    assert dev.printed_address('Name: X; City: Denver') is None
+    L = dev.Ledger(set(), {}, {'08031': 'Denver County'})
+    L.county_places = {}
+    L.city_county, L.city_counties = {}, {}
+    url = 'https://example.org/a.pdf'
+    for name, yr, units in (('Cole Train', 2023, 63), ('Cole Flats', 2024, 63),
+                            ('Kappa Tower II', 2020, 70), ('Kappa Tower III', 2022, 66)):
+        L.add(name, 'Denver', '08031', dev.ev('funded', yr, 'CHFA', 'p', url,
+                                              f'Name: {name}; Address: 1675 E. 35th Avenue; Total Units: {units}'), units)
+    rows = dev.finish(L)
+    assert len(rows) == 3, sorted(r['name'] for r in rows)
+    names = {p['name'] for p in load()['projects']}
+    assert len({'Cole Flats', 'Cole Train'} & names) == 1

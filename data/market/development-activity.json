@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 753,
+  "project_count": 748,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 412
+  "statewide_recent_projects": 407
  },
  "county_summary": {
   "08001": {
@@ -121,8 +121,8 @@
   },
   "08005": {
    "name": "Arapahoe County",
-   "projects": 34,
-   "homes": 3320,
+   "projects": 33,
+   "homes": 3271,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -132,8 +132,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 23,
-     "homes": 2065,
+     "projects": 22,
+     "homes": 2016,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -277,8 +277,8 @@
   },
   "08013": {
    "name": "Boulder County",
-   "projects": 23,
-   "homes": 1436,
+   "projects": 22,
+   "homes": 1406,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -298,8 +298,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 4,
-     "homes": 215,
+     "projects": 3,
+     "homes": 185,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 105,
-   "homes": 11224,
+   "projects": 103,
+   "homes": 11015,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -688,13 +688,13 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 8,
-     "homes": 951,
+     "projects": 7,
+     "homes": 888,
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 20,
-     "homes": 2134,
+     "projects": 19,
+     "homes": 1988,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -1564,8 +1564,8 @@
   },
   "08077": {
    "name": "Mesa County",
-   "projects": 11,
-   "homes": 1384,
+   "projects": 10,
+   "homes": 1322,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1590,8 +1590,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 2,
-     "homes": 242,
+     "projects": 1,
+     "homes": 180,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -2986,35 +2986,6 @@
    ]
   },
   {
-   "id": "grove-pinewood-08005",
-   "name": "Grove at Pinewood",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "funded",
-   "first_year": 2026,
-   "latest_year": 2026,
-   "total_units": 49,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 49,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "LIHTC 9% + state",
-     "amount": 1800000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Type: N, I/F; Name: Grove at Pinewood; Address: 200 S. Ironton Street; City: Aurora; Total Units: 49; Total LI Units: 49; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $98,000",
-     "state_credit": 500000
-    }
-   ]
-  },
-  {
    "id": "hazelbrook-hub-08005",
    "name": "Hazelbrook HUB Apartments",
    "city": "Aurora",
@@ -3141,6 +3112,57 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: N, I/F; Name: Metro Center Apartments; Address: Alameda Ave at Sable Blvd; City: Aurora; Total Units: 58; Total LI Units: 58; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $116,000",
+     "state_credit": 500000
+    }
+   ]
+  },
+  {
+   "id": "pinewood-modular-08005",
+   "name": "Pinewood Modular",
+   "city": "Aurora",
+   "county_fips": "08005",
+   "county_fips_all": null,
+   "county": "Arapahoe County",
+   "place_geoid": "0804000",
+   "stage": "funded",
+   "first_year": 2024,
+   "latest_year": 2026,
+   "total_units": 49,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 49,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Concessionary Debt",
+     "amount": 489500,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf",
+     "quote": "Project Name: Pinewood Modular; Location: Aurora; Proposition 123 Funds Awarded: $489,500; Estimated Unit Count: 45; Program: Predevelopment"
+    },
+    {
+     "stage": "not_funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1598467,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: N, I/F; Name: Pinewood Modular; Address: 200 S Ironton Street; City: Aurora; Total Units: 49; Total LI Units: 49; Federal 9% Credit Requested: $1,598,467; Standard State Credit Requested: $650,000; TOC Credit Requested: $63,700",
+     "round": "2025 Round One",
+     "as_of": "2025-02-12"
+    },
+    {
+     "stage": "funded",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "LIHTC 9% + state",
+     "amount": 1800000,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+     "quote": "Type: N, I/F; Name: Grove at Pinewood; Address: 200 S. Ironton Street; City: Aurora; Total Units: 49; Total LI Units: 49; Federal 9% Credit Awarded: $1,800,000; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $98,000",
      "state_credit": 500000
     }
    ]
@@ -4392,7 +4414,7 @@
    ]
   },
   {
-   "id": "green-valley-vistas-08031",
+   "id": "5000-tower-08031",
    "name": "Green Valley Vistas",
    "city": "Denver",
    "county_fips": "08031",
@@ -4400,13 +4422,25 @@
    "county": "Denver County",
    "place_geoid": "0820000",
    "stage": "funded",
-   "first_year": 2025,
+   "first_year": 2024,
    "latest_year": 2026,
    "total_units": 156,
    "total_units_unavailable_reason": null,
    "restricted_units": 156,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "not_funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 2713038,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Bldg. Type: N; Pop Type: F; Name: 5000 Tower Apartments; Address: 5000 Tower Road; City: Denver; Total Units: 146; LI Units: 146; Federal 4% Credit Amount Requested: $2,713,038; PAB Issuer: CHFA; PAB Amount Requested: $31,000,000; State Credit Amount Requested*: $1,800,000",
+     "round": "2024 Round Two",
+     "as_of": "2024-08-15"
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -6254,13 +6288,25 @@
    "county": "Mesa County",
    "place_geoid": "0831660",
    "stage": "funded",
-   "first_year": 2026,
+   "first_year": 2025,
    "latest_year": 2026,
    "total_units": 62,
    "total_units_unavailable_reason": null,
    "restricted_units": 62,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "not_funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 1344522,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Building Type: N; Resident Type: O/A, V; Name: Salt Flats Older Adults Apartments; Address: 450 28 Road; City: Grand Junction; Total Units: 62; LI Units: 62; Federal 4% Credit Requested: $1,344,522; PAB Issuer: CHFA; PAB Requested: $14,250,000; State Credit Requested*: $1,680,653",
+     "round": "2025 Round Two",
+     "as_of": "2025-08-12"
+    },
     {
      "stage": "applied",
      "year": 2026,
@@ -7256,46 +7302,6 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
      "source_title": "State Housing Board vote summary, meeting of 2025-07-08 (printed in the 2025-10-21 board packet)"
-    }
-   ]
-  },
-  {
-   "id": "pinewood-modular-08005",
-   "name": "Pinewood Modular",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2025,
-   "total_units": 49,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 49,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Concessionary Debt",
-     "amount": 489500,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf",
-     "quote": "Project Name: Pinewood Modular; Location: Aurora; Proposition 123 Funds Awarded: $489,500; Estimated Unit Count: 45; Program: Predevelopment"
-    },
-    {
-     "stage": "not_funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1598467,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: N, I/F; Name: Pinewood Modular; Address: 200 S Ironton Street; City: Aurora; Total Units: 49; Total LI Units: 49; Federal 9% Credit Requested: $1,598,467; Standard State Credit Requested: $650,000; TOC Credit Requested: $63,700",
-     "round": "2025 Round One",
-     "as_of": "2025-02-12"
     }
    ]
   },
@@ -8587,7 +8593,7 @@
    "county_fips_all": null,
    "county": "Denver County",
    "place_geoid": "0820000",
-   "stage": "applied",
+   "stage": "funded",
    "first_year": 2025,
    "latest_year": 2025,
    "total_units": 63,
@@ -8606,25 +8612,7 @@
      "quote": "Building Type: N; Resident Type: I/F; Name: Cole Flats; Address: 1675 E. 35th Avenue; City: Denver; Total Units: 63; LI Units: 63; Federal 4% Credit Requested: $887,121; PAB Issuer: CHFA; PAB Requested: $12,000,000; State Credit Requested*: $1,108,901; TOC Credit Reqeuested: $81,900",
      "round": "2025 Round Two",
      "as_of": "2025-08-12"
-    }
-   ]
-  },
-  {
-   "id": "cole-train-08031",
-   "name": "Cole Train",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 63,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 63,
-   "restricted_units_unavailable_reason": null,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -11085,36 +11073,6 @@
    ]
   },
   {
-   "id": "salt-flats-older-adults-08077",
-   "name": "Salt Flats Older Adults Apartments",
-   "city": "Grand Junction",
-   "county_fips": "08077",
-   "county_fips_all": null,
-   "county": "Mesa County",
-   "place_geoid": "0831660",
-   "stage": "not_funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 62,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 62,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 1344522,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Building Type: N; Resident Type: O/A, V; Name: Salt Flats Older Adults Apartments; Address: 450 28 Road; City: Grand Junction; Total Units: 62; LI Units: 62; Federal 4% Credit Requested: $1,344,522; PAB Issuer: CHFA; PAB Requested: $14,250,000; State Credit Requested*: $1,680,653",
-     "round": "2025 Round Two",
-     "as_of": "2025-08-12"
-    }
-   ]
-  },
-  {
    "id": "mada-kinikin-affordable-housing-childcare-community-08085",
    "name": "MADA Kinikin Affordable Housing & Childcare Community",
    "city": "Montrose",
@@ -12249,7 +12207,7 @@
    ]
   },
   {
-   "id": "annex-08013",
+   "id": "grace-commons-annex-08013",
    "name": "Annex",
    "city": "Boulder",
    "county_fips": "08013",
@@ -12274,6 +12232,18 @@
      "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf",
      "quote": "Type: N,F; Name: Annex; Address: 1603 Walnut Street; City: Boulder; Credit Requested: $1,350,000; Total Units: 30; Total LI Units: 30",
      "round": "2023 Round One"
+    },
+    {
+     "stage": "applied",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1160637,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: F, N; Name: Grace Commons Annex; Address: 1603 Walnut Street; City: Boulder; Total Units: 30; Total LI Units: 30; Federal 9% Credit Requested: $1,160,637",
+     "round": "2024 Round One",
+     "as_of": "2024-02-09"
     },
     {
      "stage": "funded",
@@ -12325,36 +12295,6 @@
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
      "quote": "Project Name: Fairways Phase II; Location: Boulder; Funding Awarded: $2,600,000; Purpose: Rental and Homeownership; Estimated Units: 48",
      "tenure": "Rental and Homeownership"
-    }
-   ]
-  },
-  {
-   "id": "grace-commons-annex-08013",
-   "name": "Grace Commons Annex",
-   "city": "Boulder",
-   "county_fips": "08013",
-   "county_fips_all": null,
-   "county": "Boulder County",
-   "place_geoid": "0807850",
-   "stage": "applied",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 30,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 30,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "applied",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1160637,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: F, N; Name: Grace Commons Annex; Address: 1603 Walnut Street; City: Boulder; Total Units: 30; Total LI Units: 30; Federal 9% Credit Requested: $1,160,637",
-     "round": "2024 Round One",
-     "as_of": "2024-02-09"
     }
    ]
   },
@@ -12705,36 +12645,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: 4340 South Monaco; PROJ_CTY: Denver; N_UNITS: 143; LI_UNITS: 143; YR_ALLOC: 2024; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "5000-tower-08031",
-   "name": "5000 Tower Apartments",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "not_funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 146,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 146,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 2713038,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Bldg. Type: N; Pop Type: F; Name: 5000 Tower Apartments; Address: 5000 Tower Road; City: Denver; Total Units: 146; LI Units: 146; Federal 4% Credit Amount Requested: $2,713,038; PAB Issuer: CHFA; PAB Amount Requested: $31,000,000; State Credit Amount Requested*: $1,800,000",
-     "round": "2024 Round Two",
-     "as_of": "2024-08-15"
     }
    ]
   },

@@ -325,14 +325,14 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 34,
-    "homes": 3320,
+    "projects": 33,
+    "homes": 3271,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 23,
-      "homes": 2065,
+      "projects": 22,
+      "homes": 2016,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -631,8 +631,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 23,
-    "homes": 1436,
+    "projects": 22,
+    "homes": 1406,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -647,8 +647,8 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 4,
-      "homes": 215,
+      "projects": 3,
+      "homes": 185,
       "projects_without_homes": 0
      },
      "not_funded": {
@@ -1384,8 +1384,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 105,
-    "homes": 11224,
+    "projects": 103,
+    "homes": 11015,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -1405,13 +1405,13 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 8,
-      "homes": 951,
+      "projects": 7,
+      "homes": 888,
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 20,
-      "homes": 2134,
+      "projects": 19,
+      "homes": 1988,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -3187,8 +3187,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 11,
-    "homes": 1384,
+    "projects": 10,
+    "homes": 1322,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -3208,8 +3208,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 2,
-      "homes": 242,
+      "projects": 1,
+      "homes": 180,
       "projects_without_homes": 0
      }
     }

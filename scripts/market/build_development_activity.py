@@ -530,6 +530,41 @@ def load_feed(L: Ledger) -> int:
     return n
 
 
+def printed_address(quote: str | None) -> str | None:
+    """The house number and street a source prints ("Address: 1675 E. 35th
+    Avenue"), with directions and street-type words dropped; None when the
+    quote prints no street address."""
+    m = re.search(r'Address: ([^;]+)', quote or '')
+    if not m:
+        return None
+    words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', m[1].lower()).split() if w not in ADDRESS_WORDS]
+    return ' '.join(words) if len(words) > 1 and words[0].isdigit() else None
+
+
+def address_joined(projects: list[dict]) -> list[dict]:
+    """A project renamed between application and award keeps its address: Cole
+    Flats and Cole Train are both 63 homes at 1675 E. 35th Avenue. Two rows in
+    one county at one printed address, in the same phase and within 15% of each
+    other's size, are one project; Kappa Tower II and III at one address stay
+    two. Copies; the ledger is unchanged."""
+    out: list[dict] = []
+    for src in projects:
+        p = dict(src, events=list(src['events']))
+        addrs = {a for a in (printed_address(e.get('quote')) for e in p['events']) if a}
+        sizes = [e['_units'][0] for e in p['events'] if e.get('_units')]
+        for q in out:
+            if addrs and q['county_fips'] and q['county_fips'] == p['county_fips'] \
+                    and addrs & {a for a in (printed_address(e.get('quote')) for e in q['events']) if a} \
+                    and phase(q['_name_n']) == phase(p['_name_n']) and any(
+                        abs(k - u) <= 0.15 * max(k, u)
+                        for k in (e['_units'][0] for e in q['events'] if e.get('_units')) for u in sizes):
+                q['events'] += p['events']
+                break
+        else:
+            out.append(p)
+    return out
+
+
 def town_labels_joined(projects: list[dict]) -> list[dict]:
     """One name in one county printed under two town labels, with a unit count
     the two share, is one project: Aster Place is "Parachute" in its
@@ -575,7 +610,7 @@ def twin_award_units(events: list[dict]) -> tuple[int, int | None] | None:
 
 def finish(L: Ledger) -> list[dict]:
     out = []
-    for src in town_labels_joined(L.projects):
+    for src in address_joined(town_labels_joined(L.projects)):
         p = dict(src, events=[dict(e) for e in src['events']])  # finish() leaves the ledger as it was
         p['events'].sort(key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))
         best = max(p['events'], key=lambda e: (STAGES[e['stage']][0], e.get('year') or 0))
