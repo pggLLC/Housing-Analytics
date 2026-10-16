@@ -49,6 +49,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # paper:build in the derived chain measures repo history
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -163,26 +171,18 @@ jobs:
       - name: Sync HUD vintage labels to the fetched data
         run: node scripts/sync-hud-vintage-labels.mjs
 
-      - name: Commit and push data files
+      # fmr_co.json feeds data/market/market-direction.json (the rent edge), an
+      # input of the derived chain, so the commit goes through
+      # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
+      # with the HUD files, or nothing is committed (AGENTS.md).
+      - name: Rebuild derived data and commit the HUD refresh
+        id: commit
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          npm run audit:file-manifest
           LABEL_FILES=$(node --input-type=module -e "import('./scripts/sync-hud-vintage-labels.mjs').then(m => console.log([...new Set(m.RULES.flatMap(r => r.files))].join(' ')))")
-          git add data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json data/market/hud_zip_tract_crosswalk_co.json data/manifest.json data/_manifest.json $LABEL_FILES
-          if git diff --cached --quiet; then
-            echo "No HUD data changes to commit."
-          else
-            git commit -m "chore: update HUD data artifacts [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}"
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
-              git commit --amend --no-edit
-            fi
-            git push
-          fi
+          scripts/commit-with-derived-chain.sh "chore: update HUD data artifacts [$(date -u '+%Y-%m-%d')]" -- \
+            data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json \
+            data/market/hud_zip_tract_crosswalk_co.json $LABEL_FILES
       - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy

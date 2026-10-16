@@ -112,6 +112,19 @@ export const CHAIN = [
        + 'rebuilt index leaves the Funding vs Need tab stale without it',
   },
   {
+    id: 'development-activity',
+    argv: ['python3', 'scripts/market/build_development_activity.py'],
+    why: 'data/market/development-activity.json joins the award ledger, the CHFA '
+       + 'applicant reports, DOLA awards and the CHFA property feed into one row per '
+       + 'project; every workflow that refreshes one of those commits through this chain',
+  },
+  {
+    id: 'market-direction',
+    argv: ['python3', 'scripts/market/build_market_direction.py'],
+    why: 'data/market/market-direction.json reads permits, DOLA projections, LEHD jobs, '
+       + 'FHFA, Zillow, FMR and the development ledger; it runs after the ledger it summarises',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',

@@ -1,0 +1,3948 @@
+{
+ "meta": {
+  "generated_at": "2026-10-15T09:41:33Z",
+  "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
+  "generator": "scripts/market/build_market_direction.py",
+  "title": "Colorado county housing market direction and tax-credit rent edge",
+  "geography": "all 64 Colorado counties; places follow once the county rule is reviewed",
+  "calls": {
+   "emerging": "People or jobs are growing, at least two of permits, prices and rents are rising, and none is falling.",
+   "steady": "Neither rising nor falling on the rule below.",
+   "softening": "At least two of permits, prices and rents are falling.",
+   "falling_demand": "Population and jobs are both shrinking.",
+   "not_enough_data": "Fewer than two market signals and no reading of both population and jobs."
+  },
+  "rule_order": "not_enough_data, then falling_demand, then softening, then emerging, else steady: the first that applies is the call",
+  "thresholds": {
+   "permits": {
+    "up_at_or_above": 15.0,
+    "down_at_or_below": -15.0
+   },
+   "price": {
+    "up_at_or_above": 12.0,
+    "down_at_or_below": 4.0
+   },
+   "rent": {
+    "up_at_or_above": 3.0,
+    "down_at_or_below": 0.0
+   },
+   "population": {
+    "up_at_or_above": 0.5,
+    "down_at_or_below": 0.0
+   },
+   "jobs": {
+    "up_at_or_above": 5.0,
+    "down_at_or_below": 0.0
+   }
+  },
+  "threshold_note": "Thresholds are a reviewer's choice, not a standard. Prices are nominal: about 4% over three years is a fall after inflation. A signal between its two thresholds reads flat.",
+  "permit_floor": 50,
+  "rent_edge": {
+   "no_edge": "The FMR is at or below the 60% AMI rent: a 60% unit can't charge its 60% rent.",
+   "thin": "The FMR is above the 60% AMI rent by less than 10%.",
+   "clear": "The FMR is above the 60% AMI rent by 10% or more."
+  },
+  "rent_edge_note": "HUD FMR is the 40th-percentile gross rent of recent movers for the county's FMR area; several counties share a metro FMR, and non-metro counties often sit at the state non-metro level. CHFA 60% rents are gross and use HUD income limits, which hold rural counties at a national non-metro floor. Both are gross rents (utilities included).",
+  "sources": {
+   "permits": {
+    "file": "data/hna/permits.json",
+    "source": "U.S. Census Bureau Building Permits Survey (BPS), annual county and place files",
+    "url": "https://www2.census.gov/econ/bps/County/"
+   },
+   "price": {
+    "file": "data/market/fhfa_hpi_subcounty_co.json",
+    "source": "FHFA annual Census-tract House Price Index",
+    "url": "https://www.fhfa.gov/house-price-index"
+   },
+   "rent": {
+    "file": "data/market/zori_rents_co.json",
+    "source": "Zillow Observed Rent Index (ZORI) — smoothed, seasonally adjusted",
+    "url": "https://files.zillowstatic.com/research/public_csvs/zori/City_zori_uc_sfrcondomfr_sm_sa_month.csv"
+   },
+   "population": {
+    "file": "data/hna/projections/<county>.json",
+    "source": "DOLA State Demography Office, county components of change",
+    "url": "https://storage.googleapis.com/co-publicdata/components-change-county.csv"
+   },
+   "jobs": {
+    "file": "data/hna/lehd/<county>.json",
+    "source": "U.S. Census Bureau LEHD LODES8 (WAC)",
+    "url": "https://lehd.ces.census.gov/data/lodes/LODES8/co/"
+   },
+   "fmr": {
+    "file": "data/market/fmr_co.json",
+    "source": "HUD Fair Market Rents API",
+    "fiscal_year": 2027,
+    "url": "https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2027"
+   },
+   "lihtc_rents": {
+    "file": "data/chfa-income-rent-limits-2026.json",
+    "source": "CHFA — 2026 Income Limit and Maximum Rent Tables for All Colorado Counties",
+    "effective": "2026-05-01",
+    "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+   },
+   "affordable_activity": {
+    "file": "data/market/development-activity.json"
+   }
+  },
+  "call_counts": {
+   "emerging": 12,
+   "falling_demand": 8,
+   "softening": 7,
+   "steady": 37
+  },
+  "rent_edge_counts": {
+   "clear": 20,
+   "no_edge": 33,
+   "thin": 11
+  }
+ },
+ "counties": {
+  "08001": {
+   "name": "Adams County",
+   "call": "softening",
+   "call_basis": "falling: price, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 14699,
+     "period_b": "2021–2025",
+     "units_b": 15294,
+     "value": 4.0,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 1.7,
+     "reading": "down"
+    },
+    "rent": {
+     "value": -0.5,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 1.26,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 11.8,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 228036,
+     "jobs_to": 254922,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 24,
+    "homes": 2375,
+    "by_stage": {
+     "under_construction": {
+      "projects": 2,
+      "homes": 150
+     },
+     "funded": {
+      "projects": 15,
+      "homes": 1172
+     },
+     "land_funded": {
+      "projects": 4,
+      "homes": 625
+     },
+     "applied": {
+      "projects": 2,
+      "homes": 300
+     },
+     "letter_of_intent": {
+      "projects": 1,
+      "homes": 128
+     }
+    }
+   }
+  },
+  "08003": {
+   "name": "Alamosa County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 302,
+     "period_b": "2021–2025",
+     "units_b": 385,
+     "value": 27.5,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 23.7,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.52,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 2.0,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 6878,
+     "jobs_to": 7016,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1149,
+    "fmr_area": "Alamosa County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -14.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 1,
+    "homes": 46,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 46
+     }
+    }
+   }
+  },
+  "08005": {
+   "name": "Arapahoe County",
+   "call": "softening",
+   "call_basis": "falling: price, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 18646,
+     "period_b": "2021–2025",
+     "units_b": 22778,
+     "value": 22.2,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 2.7,
+     "reading": "down"
+    },
+    "rent": {
+     "value": -1.5,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 0.75,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 4.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 338223,
+     "jobs_to": 352398,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 33,
+    "homes": 3176,
+    "by_stage": {
+     "funded": {
+      "projects": 23,
+      "homes": 2065
+     },
+     "land_funded": {
+      "projects": 4,
+      "homes": 520
+     },
+     "applied": {
+      "projects": 3,
+      "homes": 443
+     },
+     "not_funded": {
+      "projects": 3,
+      "homes": 148
+     }
+    }
+   }
+  },
+  "08007": {
+   "name": "Archuleta County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 787,
+     "period_b": "2021–2025",
+     "units_b": 750,
+     "value": -4.7,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 9.9,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 1.71,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 9.8,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4312,
+     "jobs_to": 4733,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1542,
+    "fmr_area": "Archuleta County, CO",
+    "lihtc_60_2br": 1327,
+    "edge_pct": 13.9,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 5,
+    "homes": 131,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 120
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 11
+     }
+    }
+   }
+  },
+  "08009": {
+   "name": "Baca County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 7,
+     "period_b": "2021–2025",
+     "units_b": 34,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.48,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 15.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1084,
+     "jobs_to": 1256,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1014,
+    "fmr_area": "Baca County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -29.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08011": {
+   "name": "Bent County",
+   "call": "falling_demand",
+   "call_basis": "population -0.18%/yr and jobs -14.3% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 15,
+     "period_b": "2021–2025",
+     "units_b": 41,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 27.1,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.18,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -14.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 999,
+     "jobs_to": 856,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1150,
+    "fmr_area": "Bent County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -14.3,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08013": {
+   "name": "Boulder County",
+   "call": "softening",
+   "call_basis": "falling: permits, price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 9754,
+     "period_b": "2021–2025",
+     "units_b": 8202,
+     "value": -15.9,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 4.0,
+     "reading": "down"
+    },
+    "rent": {
+     "value": 1.4,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 0.49,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 3.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 184131,
+     "jobs_to": 190563,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2033,
+    "fmr_area": "Boulder, CO MSA",
+    "lihtc_60_2br": 2025,
+    "edge_pct": 0.4,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 23,
+    "homes": 1436,
+    "by_stage": {
+     "funded": {
+      "projects": 16,
+      "homes": 1025
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 83
+     },
+     "applied": {
+      "projects": 4,
+      "homes": 215
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 113
+     }
+    }
+   }
+  },
+  "08014": {
+   "name": "Broomfield County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 2517,
+     "period_b": "2021–2025",
+     "units_b": 3691,
+     "value": 46.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 6.8,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": -0.0,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 2.3,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 4.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 39130,
+     "jobs_to": 40980,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 9,
+    "homes": 733,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 214
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 72
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 169
+     },
+     "not_funded": {
+      "projects": 3,
+      "homes": 278
+     }
+    }
+   }
+  },
+  "08015": {
+   "name": "Chaffee County",
+   "call": "steady",
+   "call_basis": "rising: permits, price; falling: rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 792,
+     "period_b": "2021–2025",
+     "units_b": 1375,
+     "value": 73.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 16.3,
+     "reading": "up"
+    },
+    "rent": {
+     "value": -2.9,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 1.42,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 12.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7761,
+     "jobs_to": 8710,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1755,
+    "fmr_area": "Chaffee County, CO",
+    "lihtc_60_2br": 1500,
+    "edge_pct": 14.5,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 18,
+    "homes": 563,
+    "by_stage": {
+     "funded": {
+      "projects": 13,
+      "homes": 351
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 117
+     },
+     "not_funded": {
+      "projects": 3,
+      "homes": 95
+     }
+    }
+   }
+  },
+  "08017": {
+   "name": "Cheyenne County",
+   "call": "falling_demand",
+   "call_basis": "population -0.45%/yr and jobs -8.3% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 32,
+     "period_b": "2021–2025",
+     "units_b": 34,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.45,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -8.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 628,
+     "jobs_to": 576,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1167,
+    "fmr_area": "Cheyenne County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -12.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08019": {
+   "name": "Clear Creek County",
+   "call": "softening",
+   "call_basis": "falling: permits, price, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 237,
+     "period_b": "2021–2025",
+     "units_b": 182,
+     "value": -23.2,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 2.9,
+     "reading": "down"
+    },
+    "rent": {
+     "value": -0.0,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 0.1,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 2.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 3557,
+     "jobs_to": 3636,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 4,
+    "homes": 231,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 231
+     }
+    }
+   }
+  },
+  "08021": {
+   "name": "Conejos County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 128,
+     "period_b": "2021–2025",
+     "units_b": 161,
+     "value": 25.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.61,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 3.1,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1361,
+     "jobs_to": 1403,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1014,
+    "fmr_area": "Conejos County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -29.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08023": {
+   "name": "Costilla County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 44,
+     "period_b": "2021–2025",
+     "units_b": 259,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.49,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": -22.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 942,
+     "jobs_to": 728,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1014,
+    "fmr_area": "Costilla County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -29.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08025": {
+   "name": "Crowley County",
+   "call": "falling_demand",
+   "call_basis": "population -0.37%/yr and jobs -21.4% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 22,
+     "period_b": "2021–2025",
+     "units_b": 64,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.37,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -21.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 978,
+     "jobs_to": 769,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1405,
+    "fmr_area": "Crowley County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 6.4,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08027": {
+   "name": "Custer County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 414,
+     "period_b": "2021–2025",
+     "units_b": 577,
+     "value": 39.4,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 9.0,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 2.28,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 24.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 849,
+     "jobs_to": 1060,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1202,
+    "fmr_area": "Custer County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -9.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08029": {
+   "name": "Delta County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population, jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 248,
+     "period_b": "2021–2025",
+     "units_b": 509,
+     "value": 105.2,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 17.3,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.72,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 6.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7850,
+     "jobs_to": 8348,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1266,
+    "fmr_area": "Delta County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -3.9,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 100,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 100
+     }
+    }
+   }
+  },
+  "08031": {
+   "name": "Denver County",
+   "call": "softening",
+   "call_basis": "falling: permits, price, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 38634,
+     "period_b": "2021–2025",
+     "units_b": 32742,
+     "value": -15.3,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 1.6,
+     "reading": "down"
+    },
+    "rent": {
+     "value": -0.4,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 1.01,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 5.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 529574,
+     "jobs_to": 557853,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 107,
+    "homes": 11444,
+    "by_stage": {
+     "under_construction": {
+      "projects": 3,
+      "homes": 252
+     },
+     "funded": {
+      "projects": 62,
+      "homes": 6496
+     },
+     "land_funded": {
+      "projects": 10,
+      "homes": 974
+     },
+     "applied": {
+      "projects": 8,
+      "homes": 931
+     },
+     "not_funded": {
+      "projects": 21,
+      "homes": 2304
+     },
+     "letter_of_intent": {
+      "projects": 3,
+      "homes": 487
+     }
+    }
+   }
+  },
+  "08033": {
+   "name": "Dolores County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 11,
+     "period_b": "2021–2025",
+     "units_b": 30,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.58,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 9.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 476,
+     "jobs_to": 521,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1332,
+    "fmr_area": "Dolores County, CO",
+    "lihtc_60_2br": 1318,
+    "edge_pct": 1.1,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08035": {
+   "name": "Douglas County",
+   "call": "softening",
+   "call_basis": "falling: price, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 17668,
+     "period_b": "2021–2025",
+     "units_b": 19456,
+     "value": 10.1,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 4.0,
+     "reading": "down"
+    },
+    "rent": {
+     "value": -0.8,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 2.28,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 10.1,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 131244,
+     "jobs_to": 144461,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 10,
+    "homes": 960,
+    "by_stage": {
+     "funded": {
+      "projects": 8,
+      "homes": 830
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 80
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 50
+     }
+    }
+   }
+  },
+  "08037": {
+   "name": "Eagle County",
+   "call": "steady",
+   "call_basis": "rising: price, rent; falling: permits",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 2187,
+     "period_b": "2021–2025",
+     "units_b": 1772,
+     "value": -19.0,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 24.2,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 4.5,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.34,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 9.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 33220,
+     "jobs_to": 36343,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2607,
+    "fmr_area": "Eagle County, CO",
+    "lihtc_60_2br": 1873,
+    "edge_pct": 28.2,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 5,
+    "homes": 361,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 223
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 138
+     }
+    }
+   }
+  },
+  "08039": {
+   "name": "Elbert County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 992,
+     "period_b": "2021–2025",
+     "units_b": 1837,
+     "value": 85.2,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 6.7,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 2.21,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 23.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 3973,
+     "jobs_to": 4921,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08041": {
+   "name": "El Paso County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 27682,
+     "period_b": "2021–2025",
+     "units_b": 32510,
+     "value": 17.4,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 2.7,
+     "reading": "down"
+    },
+    "rent": {
+     "value": 2.3,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 1.24,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 5.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 268864,
+     "jobs_to": 284746,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1621,
+    "fmr_area": "Colorado Springs, CO HUD Metro FMR Area",
+    "lihtc_60_2br": 1572,
+    "edge_pct": 3.0,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 25,
+    "homes": 2612,
+    "by_stage": {
+     "funded": {
+      "projects": 20,
+      "homes": 2248
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 18
+     },
+     "applied": {
+      "projects": 2,
+      "homes": 220
+     },
+     "not_funded": {
+      "projects": 2,
+      "homes": 126
+     }
+    }
+   }
+  },
+  "08043": {
+   "name": "Fremont County",
+   "call": "steady",
+   "call_basis": "rising: rent; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 635,
+     "period_b": "2021–2025",
+     "units_b": 729,
+     "value": 14.8,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 10.0,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": 4.4,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.61,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 4.8,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 10816,
+     "jobs_to": 11334,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1436,
+    "fmr_area": "Fremont County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 8.4,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 3,
+    "homes": 103,
+    "by_stage": {
+     "funded": {
+      "projects": 3,
+      "homes": 103
+     }
+    }
+   }
+  },
+  "08045": {
+   "name": "Garfield County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 1200,
+     "period_b": "2021–2025",
+     "units_b": 1494,
+     "value": 24.5,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 22.7,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 0.5,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 1.01,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -5.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 25019,
+     "jobs_to": 23651,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1781,
+    "fmr_area": "Garfield County, CO",
+    "lihtc_60_2br": 1540,
+    "edge_pct": 13.5,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 11,
+    "homes": 636,
+    "by_stage": {
+     "funded": {
+      "projects": 8,
+      "homes": 417
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 180
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 39
+     }
+    }
+   }
+  },
+  "08047": {
+   "name": "Gilpin County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 158,
+     "period_b": "2021–2025",
+     "units_b": 135,
+     "value": -14.6,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 3.4,
+     "reading": "down"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.76,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -7.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4587,
+     "jobs_to": 4255,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08049": {
+   "name": "Grand County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price, rent; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 1029,
+     "period_b": "2021–2025",
+     "units_b": 1691,
+     "value": 64.3,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 16.4,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 4.2,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.82,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -1.8,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7364,
+     "jobs_to": 7229,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1844,
+    "fmr_area": "Grand County, CO",
+    "lihtc_60_2br": 1662,
+    "edge_pct": 9.9,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 7,
+    "homes": 496,
+    "by_stage": {
+     "funded": {
+      "projects": 5,
+      "homes": 437
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 24
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 35
+     }
+    }
+   }
+  },
+  "08051": {
+   "name": "Gunnison County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 835,
+     "period_b": "2021–2025",
+     "units_b": 737,
+     "value": -11.7,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 25.7,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 1.07,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 18.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7470,
+     "jobs_to": 8882,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1437,
+    "fmr_area": "Gunnison County, CO",
+    "lihtc_60_2br": 1669,
+    "edge_pct": -16.1,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 141,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 34
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 107
+     }
+    }
+   }
+  },
+  "08053": {
+   "name": "Hinsdale County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 44,
+     "period_b": "2021–2025",
+     "units_b": 66,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 15.0,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.82,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 1.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 260,
+     "jobs_to": 263,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1316,
+    "fmr_area": "Hinsdale County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 0.1,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08055": {
+   "name": "Huerfano County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 191,
+     "period_b": "2021–2025",
+     "units_b": 276,
+     "value": 44.5,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 4.0,
+     "reading": "down"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.47,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 20.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1277,
+     "jobs_to": 1539,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1116,
+    "fmr_area": "Huerfano County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -17.8,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 32,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 17
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 15
+     }
+    }
+   }
+  },
+  "08057": {
+   "name": "Jackson County",
+   "call": "falling_demand",
+   "call_basis": "population -0.83%/yr and jobs -0.9% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 31,
+     "period_b": "2021–2025",
+     "units_b": 14,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.83,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -0.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 468,
+     "jobs_to": 464,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1485,
+    "fmr_area": "Jackson County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 11.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08059": {
+   "name": "Jefferson County",
+   "call": "softening",
+   "call_basis": "falling: permits, rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 11091,
+     "period_b": "2021–2025",
+     "units_b": 8199,
+     "value": -26.1,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 5.5,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": -0.2,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 0.34,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 2.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 254182,
+     "jobs_to": 259943,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 24,
+    "homes": 1853,
+    "by_stage": {
+     "under_construction": {
+      "projects": 1,
+      "homes": 98
+     },
+     "funded": {
+      "projects": 15,
+      "homes": 1302
+     },
+     "land_funded": {
+      "projects": 5,
+      "homes": 127
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 84
+     },
+     "not_funded": {
+      "projects": 2,
+      "homes": 242
+     }
+    }
+   }
+  },
+  "08061": {
+   "name": "Kiowa County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 8,
+     "period_b": "2021–2025",
+     "units_b": 24,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.17,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": -7.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 469,
+     "jobs_to": 433,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1319,
+    "fmr_area": "Kiowa County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 0.3,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08063": {
+   "name": "Kit Carson County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 20,
+     "period_b": "2021–2025",
+     "units_b": 24,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 12.3,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.81,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 4.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 2637,
+     "jobs_to": 2756,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1241,
+    "fmr_area": "Kit Carson County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -6.0,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08065": {
+   "name": "Lake County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 197,
+     "period_b": "2021–2025",
+     "units_b": 281,
+     "value": 42.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 16.2,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.37,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 10.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1870,
+     "jobs_to": 2064,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1485,
+    "fmr_area": "Lake County, CO",
+    "lihtc_60_2br": 1551,
+    "edge_pct": -4.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 6,
+    "homes": 184,
+    "by_stage": {
+     "funded": {
+      "projects": 5,
+      "homes": 140
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 44
+     }
+    }
+   }
+  },
+  "08067": {
+   "name": "La Plata County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 1656,
+     "period_b": "2021–2025",
+     "units_b": 1745,
+     "value": 5.4,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 18.0,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 0.7,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 0.6,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 2.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 25158,
+     "jobs_to": 25833,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1821,
+    "fmr_area": "La Plata County, CO",
+    "lihtc_60_2br": 1549,
+    "edge_pct": 14.9,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 6,
+    "homes": 195,
+    "by_stage": {
+     "funded": {
+      "projects": 5,
+      "homes": 168
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 27
+     }
+    }
+   }
+  },
+  "08069": {
+   "name": "Larimer County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 14466,
+     "period_b": "2021–2025",
+     "units_b": 12701,
+     "value": -12.2,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 7.4,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": 1.7,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 1.45,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 6.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 152066,
+     "jobs_to": 161552,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1759,
+    "fmr_area": "Fort Collins-Loveland, CO MSA",
+    "lihtc_60_2br": 1761,
+    "edge_pct": -0.1,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 19,
+    "homes": 1484,
+    "by_stage": {
+     "funded": {
+      "projects": 13,
+      "homes": 1108
+     },
+     "land_funded": {
+      "projects": 3,
+      "homes": 160
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 112
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 48
+     },
+     "letter_of_intent": {
+      "projects": 1,
+      "homes": 56
+     }
+    }
+   }
+  },
+  "08071": {
+   "name": "Las Animas County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 153,
+     "period_b": "2021–2025",
+     "units_b": 190,
+     "value": 24.2,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 9.9,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.35,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 3.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4360,
+     "jobs_to": 4514,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1291,
+    "fmr_area": "Las Animas County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -1.9,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 3,
+    "homes": 114,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 86
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 28
+     }
+    }
+   }
+  },
+  "08073": {
+   "name": "Lincoln County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 62,
+     "period_b": "2021–2025",
+     "units_b": 48,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 11.9,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.07,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 5.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1901,
+     "jobs_to": 2000,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1070,
+    "fmr_area": "Lincoln County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -22.9,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08075": {
+   "name": "Logan County",
+   "call": "falling_demand",
+   "call_basis": "population -0.56%/yr and jobs -4.6% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 81,
+     "period_b": "2021–2025",
+     "units_b": 62,
+     "value": -23.5,
+     "reading": "down"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 12.3,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.56,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -4.6,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7122,
+     "jobs_to": 6794,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1249,
+    "fmr_area": "Logan County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -5.3,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 84,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 54
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 30
+     }
+    }
+   }
+  },
+  "08077": {
+   "name": "Mesa County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 4004,
+     "period_b": "2021–2025",
+     "units_b": 5270,
+     "value": 31.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 15.4,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 1.9,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 0.87,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 4.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 62772,
+     "jobs_to": 65394,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1282,
+    "fmr_area": "Grand Junction, CO MSA",
+    "lihtc_60_2br": 1359,
+    "edge_pct": -6.0,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 11,
+    "homes": 1385,
+    "by_stage": {
+     "funded": {
+      "projects": 6,
+      "homes": 499
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 500
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 144
+     },
+     "not_funded": {
+      "projects": 2,
+      "homes": 242
+     }
+    }
+   }
+  },
+  "08079": {
+   "name": "Mineral County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 94,
+     "period_b": "2021–2025",
+     "units_b": 41,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 52.0,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 2.26,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -6.0,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 350,
+     "jobs_to": 329,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1485,
+    "fmr_area": "Mineral County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 11.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08081": {
+   "name": "Moffat County",
+   "call": "steady",
+   "call_basis": "rising: permits, price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 59,
+     "period_b": "2021–2025",
+     "units_b": 89,
+     "value": 50.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 18.9,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.13,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 0.6,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4334,
+     "jobs_to": 4358,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1225,
+    "fmr_area": "Moffat County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -7.3,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 3,
+    "homes": 212,
+    "by_stage": {
+     "funded": {
+      "projects": 3,
+      "homes": 212
+     }
+    }
+   }
+  },
+  "08083": {
+   "name": "Montezuma County",
+   "call": "emerging",
+   "call_basis": "rising: price, rent; growing: population, jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 118,
+     "period_b": "2021–2025",
+     "units_b": 117,
+     "value": -0.8,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 13.7,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 3.3,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.54,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 5.8,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 8821,
+     "jobs_to": 9333,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1280,
+    "fmr_area": "Montezuma County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -2.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 4,
+    "homes": 97,
+    "by_stage": {
+     "funded": {
+      "projects": 3,
+      "homes": 27
+     },
+     "applied": {
+      "projects": 1,
+      "homes": 70
+     }
+    }
+   }
+  },
+  "08085": {
+   "name": "Montrose County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price, rent; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 1210,
+     "period_b": "2021–2025",
+     "units_b": 1726,
+     "value": 42.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 13.9,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 5.5,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.78,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 3.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 15118,
+     "jobs_to": 15713,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1321,
+    "fmr_area": "Montrose County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 0.5,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 6,
+    "homes": 308,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 196
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 112
+     }
+    }
+   }
+  },
+  "08087": {
+   "name": "Morgan County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 563,
+     "period_b": "2021–2025",
+     "units_b": 663,
+     "value": 17.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 6.9,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.74,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 1.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 12428,
+     "jobs_to": 12665,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1261,
+    "fmr_area": "Morgan County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -4.3,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 3,
+    "homes": 283,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 238
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 45
+     }
+    }
+   }
+  },
+  "08089": {
+   "name": "Otero County",
+   "call": "falling_demand",
+   "call_basis": "population -0.47%/yr and jobs -5.4% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 25,
+     "period_b": "2021–2025",
+     "units_b": 113,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 9.4,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.47,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -5.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 5803,
+     "jobs_to": 5492,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1059,
+    "fmr_area": "Otero County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -24.2,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 59,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 59
+     }
+    }
+   }
+  },
+  "08091": {
+   "name": "Ouray County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population, jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 291,
+     "period_b": "2021–2025",
+     "units_b": 469,
+     "value": 61.2,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 24.9,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 1.38,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 11.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1836,
+     "jobs_to": 2043,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1640,
+    "fmr_area": "Ouray County, CO",
+    "lihtc_60_2br": 1518,
+    "edge_pct": 7.4,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 3,
+    "homes": 31,
+    "by_stage": {
+     "funded": {
+      "projects": 3,
+      "homes": 31
+     }
+    }
+   }
+  },
+  "08093": {
+   "name": "Park County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 809,
+     "period_b": "2021–2025",
+     "units_b": 869,
+     "value": 7.4,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 7.4,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": "2026-08-31",
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 1.51,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 16.0,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 2382,
+     "jobs_to": 2763,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2169,
+    "fmr_area": "Denver-Aurora-Centennial, CO MSA",
+    "lihtc_60_2br": 1944,
+    "edge_pct": 10.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08095": {
+   "name": "Phillips County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 38,
+     "period_b": "2021–2025",
+     "units_b": 33,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": -2.3,
+     "reading": "down"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.02,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 9.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1600,
+     "jobs_to": 1755,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1137,
+    "fmr_area": "Phillips County, CO",
+    "lihtc_60_2br": 1392,
+    "edge_pct": -22.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08097": {
+   "name": "Pitkin County",
+   "call": "steady",
+   "call_basis": "rising: permits, price, rent; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 313,
+     "period_b": "2021–2025",
+     "units_b": 415,
+     "value": 32.6,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 25.4,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 16.0,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": -0.54,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 2.1,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 18409,
+     "jobs_to": 18787,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2597,
+    "fmr_area": "Pitkin County, CO",
+    "lihtc_60_2br": 1918,
+    "edge_pct": 26.1,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 239,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 239
+     }
+    }
+   }
+  },
+  "08099": {
+   "name": "Prowers County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 28,
+     "period_b": "2021–2025",
+     "units_b": 62,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 22.1,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.07,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 4.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4351,
+     "jobs_to": 4547,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1050,
+    "fmr_area": "Prowers County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -25.2,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08101": {
+   "name": "Pueblo County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 2196,
+     "period_b": "2021–2025",
+     "units_b": 2031,
+     "value": -7.5,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": -0.6,
+     "reading": "down"
+    },
+    "rent": {
+     "value": 0.2,
+     "month": "2026-08-31",
+     "reading": "flat"
+    },
+    "population": {
+     "value": 0.55,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -1.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 56907,
+     "jobs_to": 56090,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1263,
+    "fmr_area": "Pueblo, CO MSA",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -4.1,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 7,
+    "homes": 489,
+    "by_stage": {
+     "funded": {
+      "projects": 5,
+      "homes": 330
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 98
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 61
+     }
+    }
+   }
+  },
+  "08103": {
+   "name": "Rio Blanco County",
+   "call": "steady",
+   "call_basis": "rising: permits, price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 55,
+     "period_b": "2021–2025",
+     "units_b": 77,
+     "value": 40.0,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 15.2,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.06,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 0.5,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 2824,
+     "jobs_to": 2839,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1165,
+    "fmr_area": "Rio Blanco County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -12.9,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 1,
+    "homes": 6,
+    "by_stage": {
+     "land_funded": {
+      "projects": 1,
+      "homes": 6
+     }
+    }
+   }
+  },
+  "08105": {
+   "name": "Rio Grande County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 97,
+     "period_b": "2021–2025",
+     "units_b": 229,
+     "value": 136.1,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 25.4,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.59,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": 8.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 3578,
+     "jobs_to": 3889,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1220,
+    "fmr_area": "Rio Grande County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -7.8,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 4,
+    "homes": 49,
+    "by_stage": {
+     "funded": {
+      "projects": 3,
+      "homes": 46
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 3
+     }
+    }
+   }
+  },
+  "08107": {
+   "name": "Routt County",
+   "call": "emerging",
+   "call_basis": "rising: permits, price, rent; growing: population",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 983,
+     "period_b": "2021–2025",
+     "units_b": 1797,
+     "value": 82.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 24.5,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 5.4,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.65,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -1.7,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 15262,
+     "jobs_to": 15001,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2384,
+    "fmr_area": "Routt County, CO",
+    "lihtc_60_2br": 1873,
+    "edge_pct": 21.4,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 5,
+    "homes": 199,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 149
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 50
+     }
+    }
+   }
+  },
+  "08109": {
+   "name": "Saguache County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 377,
+     "period_b": "2021–2025",
+     "units_b": 410,
+     "value": 8.8,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.79,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -0.9,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1543,
+     "jobs_to": 1529,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1059,
+    "fmr_area": "Saguache County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -24.2,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 2,
+    "homes": 62,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 32
+     },
+     "not_funded": {
+      "projects": 1,
+      "homes": 30
+     }
+    }
+   }
+  },
+  "08111": {
+   "name": "San Juan County",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 36,
+     "period_b": "2021–2025",
+     "units_b": 73,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 12.2,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 1.57,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 12.0,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 300,
+     "jobs_to": 336,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1344,
+    "fmr_area": "San Juan County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": 2.2,
+    "reading": "thin"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 1,
+    "homes": 8,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 8
+     }
+    }
+   }
+  },
+  "08113": {
+   "name": "San Miguel County",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 241,
+     "period_b": "2021–2025",
+     "units_b": 332,
+     "value": 37.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": null,
+     "value": null,
+     "unavailable_reason": "FHFA publishes no index for this county",
+     "reading": null
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.1,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": -0.2,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 6352,
+     "jobs_to": 6337,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1631,
+    "fmr_area": "San Miguel County, CO",
+    "lihtc_60_2br": 1770,
+    "edge_pct": -8.5,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 1,
+    "homes": 21,
+    "by_stage": {
+     "funded": {
+      "projects": 1,
+      "homes": 21
+     }
+    }
+   }
+  },
+  "08115": {
+   "name": "Sedgwick County",
+   "call": "falling_demand",
+   "call_basis": "population -0.45%/yr and jobs -21.3% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 9,
+     "period_b": "2021–2025",
+     "units_b": 10,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 4.4,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.45,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -21.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 732,
+     "jobs_to": 576,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1014,
+    "fmr_area": "Sedgwick County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -29.7,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08117": {
+   "name": "Summit County",
+   "call": "emerging",
+   "call_basis": "rising: price, rent; growing: jobs",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 2143,
+     "period_b": "2021–2025",
+     "units_b": 1928,
+     "value": -10.0,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 21.9,
+     "reading": "up"
+    },
+    "rent": {
+     "value": 4.2,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.46,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": 10.3,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 22086,
+     "jobs_to": 24362,
+     "reading": "up"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 2766,
+    "fmr_area": "Summit County, CO",
+    "lihtc_60_2br": 1969,
+    "edge_pct": 28.8,
+    "reading": "clear"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 5,
+    "homes": 353,
+    "by_stage": {
+     "funded": {
+      "projects": 4,
+      "homes": 313
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 40
+     }
+    }
+   }
+  },
+  "08119": {
+   "name": "Teller County",
+   "call": "steady",
+   "call_basis": "rising: permits, rent; falling: price",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 623,
+     "period_b": "2021–2025",
+     "units_b": 765,
+     "value": 22.8,
+     "reading": "up"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 3.1,
+     "reading": "down"
+    },
+    "rent": {
+     "value": 9.7,
+     "month": "2026-08-31",
+     "reading": "up"
+    },
+    "population": {
+     "value": 0.71,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": 4.6,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 7147,
+     "jobs_to": 7478,
+     "reading": "flat"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1474,
+    "fmr_area": "Teller County, CO HUD Metro FMR Area",
+    "lihtc_60_2br": 1521,
+    "edge_pct": -3.2,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 4,
+    "homes": 189,
+    "by_stage": {
+     "funded": {
+      "projects": 2,
+      "homes": 49
+     },
+     "land_funded": {
+      "projects": 2,
+      "homes": 140
+     }
+    }
+   }
+  },
+  "08121": {
+   "name": "Washington County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 40,
+     "period_b": "2021–2025",
+     "units_b": 17,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 10.9,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": 0.33,
+     "base_year": 2024,
+     "reading": "flat"
+    },
+    "jobs": {
+     "value": -0.4,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 1123,
+     "jobs_to": 1118,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1297,
+    "fmr_area": "Washington County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -1.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  },
+  "08123": {
+   "name": "Weld County",
+   "call": "steady",
+   "call_basis": "rising: none; falling: rent",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 19334,
+     "period_b": "2021–2025",
+     "units_b": 21522,
+     "value": 11.3,
+     "reading": "flat"
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 5.7,
+     "reading": "flat"
+    },
+    "rent": {
+     "value": -0.1,
+     "month": "2026-08-31",
+     "reading": "down"
+    },
+    "population": {
+     "value": 2.97,
+     "base_year": 2024,
+     "reading": "up"
+    },
+    "jobs": {
+     "value": -1.0,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 110933,
+     "jobs_to": 109846,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1647,
+    "fmr_area": "Greeley, CO MSA",
+    "lihtc_60_2br": 1687,
+    "edge_pct": -2.4,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 8,
+    "homes": 949,
+    "by_stage": {
+     "funded": {
+      "projects": 6,
+      "homes": 705
+     },
+     "land_funded": {
+      "projects": 1,
+      "homes": 102
+     },
+     "letter_of_intent": {
+      "projects": 1,
+      "homes": 142
+     }
+    }
+   }
+  },
+  "08125": {
+   "name": "Yuma County",
+   "call": "falling_demand",
+   "call_basis": "population -0.16%/yr and jobs -15.6% since 2019",
+   "signals": {
+    "permits": {
+     "period_a": "2016–2020",
+     "units_a": 15,
+     "period_b": "2021–2025",
+     "units_b": 51,
+     "value": null,
+     "unavailable_reason": "fewer than 50 units in a five-year period; the change would be noise",
+     "reading": null
+    },
+    "price": {
+     "from_year": 2022,
+     "to_year": 2025,
+     "value": 20.7,
+     "reading": "up"
+    },
+    "rent": {
+     "value": null,
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this county",
+     "reading": null
+    },
+    "population": {
+     "value": -0.16,
+     "base_year": 2024,
+     "reading": "down"
+    },
+    "jobs": {
+     "value": -15.6,
+     "from_year": 2019,
+     "to_year": 2023,
+     "jobs_from": 4240,
+     "jobs_to": 3579,
+     "reading": "down"
+    }
+   },
+   "rent_edge": {
+    "fmr_2br": 1132,
+    "fmr_area": "Yuma County, CO",
+    "lihtc_60_2br": 1315,
+    "edge_pct": -16.2,
+    "reading": "no_edge"
+   },
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 0,
+    "homes": 0,
+    "by_stage": {}
+   }
+  }
+ }
+}

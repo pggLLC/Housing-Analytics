@@ -72,30 +72,18 @@ jobs:
       - name: Validate output
         run: node scripts/validate-schemas.js
 
-      - name: Commit and push data files
+      # zori_rents_co.json feeds data/market/market-direction.json, an input of
+      # the derived chain, so the commit goes through
+      # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
+      # with the rents, or nothing is committed (AGENTS.md).
+      - name: Rebuild derived data and commit the rents
+        id: commit
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Two manifests, in this order: data/manifest.json records the
-          # byte count of data/_manifest.json (AGENTS.md, two-manifest trap).
-          npm run -s audit:file-manifest
-          python3 scripts/rebuild_manifest.py
-          git add data/market/zori_rents_co.json data/market/apartment_list_co.json data/_manifest.json data/manifest.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit — data is up to date."
-          else
-            git commit -m "chore: update CO market rents (ZORI, Apartment List) [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash -X theirs origin main
-            npm run -s audit:file-manifest
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/_manifest.json data/manifest.json
-              git commit --amend --no-edit
-            fi
-            git push
-          fi
+          scripts/commit-with-derived-chain.sh "chore: update CO market rents (ZORI, Apartment List) [$(date -u '+%Y-%m-%d')]" -- \
+            data/market/zori_rents_co.json data/market/apartment_list_co.json
 
       - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy
 
