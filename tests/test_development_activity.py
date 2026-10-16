@@ -354,3 +354,27 @@ def test_an_award_the_ledger_prints_is_not_added_again_from_the_round_file():
           dev.ev('funded', 2026, 'CHFA', '2026 Round One housing tax credits', amount=946447, _supplement=True, **q), 15)
     r = dev.finish(L)[0]
     assert [e['amount'] for e in r['events']] == [1196414] and L.supplement_duplicates == 1
+
+
+def test_a_dola_source_title_names_the_awards_month_not_another_tables():
+    # a page printing one awards table per round must not be cited with the
+    # heading of a table from another month (#2261 review)
+    dola = {a['id']: a for a in read_json('data/policy/funding-awards/dola-awards.json')['awards']}
+    checked = 0
+    for p in load()['projects']:
+        for e in p['events']:
+            if e['agency'] != 'DOLA' or not e.get('announced'):
+                continue
+            m = dev.TABLE_TITLE.match(e.get('source_title') or '')
+            ann = e['announced']
+            if m and len(ann) == 7:
+                assert f"{m['month']} {m['year']}" == f"{dev.MONTHS[int(ann[5:7]) - 1]} {ann[:4]}", (p['name'], e)
+            if 'Application Schedule' in (e.get('source_title') or ''):
+                assert ('Source: ' + e['source_title']) in e['quote'], p['name']
+                checked += 1
+    assert checked > 10  # the scan reached the per-round table awards
+    june = dola['doh-2026-06-10-02']
+    assert dev.source_title(june) == 'DOH Application Schedule and Awards page: awards announced June 2026'
+    aug = dict(june, announced='2025-08')
+    assert dev.source_title(aug) == june['source_title']
+    assert dev.source_title(dict(june, source_title='Some press release')) == 'Some press release'

@@ -2741,11 +2741,11 @@
      "amount": 2300000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Irving Street Senior Residences; Program: Rental; Amount: $2,300,000; Amount basis: requested; Homes: 103; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Irving Street Senior Residences; Program: Rental; Amount: $2,300,000; Amount basis: requested; Homes: 103; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -2771,11 +2771,11 @@
      "amount": 25000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Maiker Boyers; Program: Rental; Amount: $25,000; Amount basis: requested; Homes: 117; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Maiker Boyers; Program: Rental; Amount: $25,000; Amount basis: requested; Homes: 117; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -2801,11 +2801,11 @@
      "amount": 770000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Mountain Vista; Program: Rental; Amount: $770,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Mountain Vista; Program: Rental; Amount: $770,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "not_funded",
@@ -2843,11 +2843,11 @@
      "amount": 2000000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: 10660 E. Colfax; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 90; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: 10660 E. Colfax; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 90; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "not_funded",
@@ -2897,11 +2897,11 @@
      "amount": 1200000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: 1218-1268 Dallas; Program: Rental; Amount: $1,200,000; Amount basis: requested; Homes: 60; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: 1218-1268 Dallas; Program: Rental; Amount: $1,200,000; Amount basis: requested; Homes: 60; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -3188,11 +3188,11 @@
      "amount": 1500000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: The Stables II; Program: Rental; Amount: $1,500,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: The Stables II; Program: Rental; Amount: $1,500,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "not_funded",
@@ -3266,11 +3266,11 @@
      "amount": 1700000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Stanley 98; Program: Rental; Amount: $1,700,000; Amount basis: requested; Homes: 75; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Stanley 98; Program: Rental; Amount: $1,700,000; Amount basis: requested; Homes: 75; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -3320,11 +3320,11 @@
      "amount": 1440000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Starlight; Program: Rental; Amount: $1,440,000; Amount basis: requested; Homes: 72; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Starlight; Program: Rental; Amount: $1,440,000; Amount basis: requested; Homes: 72; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -3402,11 +3402,11 @@
      "amount": 1350000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: 1886 Hover; Program: Rental; Amount: $1,350,000; Amount basis: requested; Homes: 40; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: 1886 Hover; Program: Rental; Amount: $1,350,000; Amount basis: requested; Homes: 40; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "not_funded",
@@ -3806,11 +3806,11 @@
      "amount": 2500000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Miner Street Apartments; Program: Rental; Amount: $2,500,000; Amount basis: requested; Homes: 50; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Miner Street Apartments; Program: Rental; Amount: $2,500,000; Amount basis: requested; Homes: 50; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -3988,11 +3988,11 @@
      "amount": 2000000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: 40th Avenue Apartments; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 115; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: 40th Avenue Apartments; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 115; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "not_funded",
@@ -4116,11 +4116,11 @@
      "amount": 750000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Barth Hotel; Program: Rental; Amount: $750,000; Amount basis: requested; Homes: 50; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Barth Hotel; Program: Rental; Amount: $750,000; Amount basis: requested; Homes: 50; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "funded",
@@ -4683,11 +4683,11 @@
      "amount": 4400000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Platte River Commons; Program: Rental; Amount: $4,400,000; Amount basis: requested; Homes: 110; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Platte River Commons; Program: Rental; Amount: $4,400,000; Amount basis: requested; Homes: 110; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -4713,11 +4713,11 @@
      "amount": 3300000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Reserves at Green Valley Ranch II; Program: Rental; Amount: $3,300,000; Amount basis: requested; Homes: 120; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Reserves at Green Valley Ranch II; Program: Rental; Amount: $3,300,000; Amount basis: requested; Homes: 120; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -4823,11 +4823,11 @@
      "amount": 3500000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Rocky Mountain Lake Apartments; Program: Rental; Amount: $3,500,000; Amount basis: requested; Homes: 125; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Rocky Mountain Lake Apartments; Program: Rental; Amount: $3,500,000; Amount basis: requested; Homes: 125; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -5245,11 +5245,11 @@
      "amount": 1000000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: 123 Manitou; Program: Rental; Amount: $1,000,000; Amount basis: requested; Homes: 50; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: 123 Manitou; Program: Rental; Amount: $1,000,000; Amount basis: requested; Homes: 50; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "funded",
@@ -5376,11 +5376,11 @@
      "amount": 1862000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Silver Key Weber; Program: Rental; Amount: $1,862,000; Amount basis: requested; Homes: 49; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Silver Key Weber; Program: Rental; Amount: $1,862,000; Amount basis: requested; Homes: 49; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "funded",
@@ -5633,11 +5633,11 @@
      "amount": 2500000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: The Lift; Program: Rental; Amount: $2,500,000; Amount basis: requested; Homes: 139; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: The Lift; Program: Rental; Amount: $2,500,000; Amount basis: requested; Homes: 139; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -5663,11 +5663,11 @@
      "amount": 1045000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Cooperativa Nueva Union; Program: Homeownership; Amount: $1,045,000; Amount basis: requested; Homes: 28; Announced: 2026-05; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Cooperativa Nueva Union; Program: Homeownership; Amount: $1,045,000; Amount basis: requested; Homes: 28; Announced: 2026-05; Source: DOH Application Schedule and Awards page: awards announced May 2026",
      "announced": "2026-05",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced May 2026"
     }
    ]
   },
@@ -6010,11 +6010,11 @@
      "amount": 2000000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Crawford Commons - Clifton; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 60; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Crawford Commons - Clifton; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 60; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "funded",
@@ -6063,11 +6063,11 @@
      "amount": 2790000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Haven at Salt Flats; Program: Rental; Amount: $2,790,000; Amount basis: requested; Homes: 62; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Haven at Salt Flats; Program: Rental; Amount: $2,790,000; Amount basis: requested; Homes: 62; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -6337,11 +6337,11 @@
      "amount": 1237500,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Hillside Village Apartments Rehab; Program: Rental; Amount: $1,237,500; Amount basis: requested; Homes: 55; Announced: 2026-06; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Hillside Village Apartments Rehab; Program: Rental; Amount: $1,237,500; Amount basis: requested; Homes: 55; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
      "announced": "2026-06",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -8711,11 +8711,11 @@
      "amount": 2000000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Mosaic PSH; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 58; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: Mosaic PSH; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 58; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     }
    ]
   },
@@ -9493,11 +9493,11 @@
      "amount": 775000,
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: GardenWalk of Canon City; Program: Rental; Amount: $775,000; Amount basis: requested; Homes: 42; Announced: 2025-11; Source: DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+     "quote": "Project: GardenWalk of Canon City; Program: Rental; Amount: $775,000; Amount basis: requested; Homes: 42; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
      "announced": "2025-11",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA"
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     }
    ]
   },

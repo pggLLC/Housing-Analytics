@@ -385,6 +385,28 @@ def load_round_2026(L: Ledger) -> int:
     return n
 
 
+MONTHS = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+          'October', 'November', 'December')
+TABLE_TITLE = re.compile(r'^(?P<page>[^:]+): (?P<month>[A-Z][a-z]+) (?P<year>\d{4}) Awards\b.*$')
+
+
+def source_title(a: dict) -> str | None:
+    """A page that prints one awards table per round is recorded with one
+    table's heading, and some awards carry the heading of a table announced in
+    another month. The heading is kept only when its month is the award's own;
+    otherwise the title names the page and the award's month, so the ledger
+    never points a reader at the wrong table."""
+    title = a.get('source_title')
+    m = TABLE_TITLE.match(title or '')
+    ann = str(a.get('announced') or '')
+    if not m or not re.fullmatch(r'\d{4}-\d{2}', ann):
+        return title
+    month = f"{MONTHS[int(ann[5:7]) - 1]} {ann[:4]}"
+    if f"{m['month']} {m['year']}" == month:
+        return title
+    return f"{m['page']}: awards announced {month}"
+
+
 def dola_quote(a: dict) -> str:
     """DOLA sources print the grantee or owner beside the project (a pipe row's
     second field, a board summary's prose), so the quote is rebuilt from the
@@ -392,7 +414,7 @@ def dola_quote(a: dict) -> str:
     return '; '.join(f'{k}: {v}' for k, v in (
         ('Project', a.get('name')), ('Town', a.get('town')), ('Program', a.get('program_as_printed') or a.get('program')),
         ('Amount', money(a.get('amount'))), ('Amount basis', a.get('amount_basis')), ('Homes', a.get('homes')),
-        ('Announced', a.get('announced') or a.get('year')), ('Source', a.get('source_title'))) if v)
+        ('Announced', a.get('announced') or a.get('year')), ('Source', source_title(a))) if v)
 
 
 def load_dola(L: Ledger) -> int:
@@ -414,7 +436,7 @@ def load_dola(L: Ledger) -> int:
                  a.get('amount'), label, announced=a.get('announced'),
                  quote_basis=('fields as recorded from the source; the printed text names the grantee, '
                               'so it is not copied'),
-                 confirmed=a.get('confirmed'), source_title=a.get('source_title'),
+                 confirmed=a.get('confirmed'), source_title=source_title(a),
                  homes_unavailable_reason=None if a.get('homes') else 'the award does not print a home count'),
               a.get('homes'))
         n += 1
