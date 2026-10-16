@@ -38,7 +38,12 @@ TIMEOUT = 20
 MAX_AGE_DAYS = int(os.environ.get('ALERTS_MAX_AGE_DAYS', '90'))
 
 # Default topic keyword map — used to auto-tag items
+# First match wins. Infrastructure comes first: "water and sewer grant for
+# affordable housing" is an infrastructure-funding story, and with
+# affordable_housing first no story could ever reach this topic (2026-10-15).
 TOPIC_KEYWORDS: dict[str, list[str]] = {
+    'infrastructure': ['infrastructure', 'water and sewer', 'wastewater', 'sewer', 'tap fee',
+                       'water connection', 'broadband', 'mineral impact', 'eiaf', 'severance tax'],
     'affordable_housing': ['affordable housing', 'low-income housing', 'lihtc', 'tax credit', 'hud'],
     'rent': ['rent', 'rental', 'eviction', 'tenant', 'landlord'],
     'homelessness': ['homeless', 'unsheltered', 'shelter'],
