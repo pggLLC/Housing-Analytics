@@ -673,3 +673,23 @@ def test_a_dola_town_cut_from_a_street_is_not_the_town_and_beds_are_labelled_bed
     nav = rows['Navigation Campus - Aurora']
     assert nav['county_fips'] == '08005'
     assert 'Homes: 255' not in json.dumps(nav) and 'Shelter beds: 255' in nav['events'][0]['quote']
+
+
+def test_a_word_describing_the_homes_does_not_split_a_project():
+    # Albion Affordable Apartments (CHFA 2023, 169) and Albion Apartments
+    # (DOLA 2025, 170) are one Denver building (#2261 review); the same words
+    # at another size, or in another town, stay apart
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+
+    def rows(second_town, second_county, second_units):
+        L = _ledger()
+        L.add('Albion Affordable Apartments', 'Denver', '08031', dev.ev('funded', 2023, 'CHFA', 'p', **q), 169)
+        L.add('Albion Apartments', second_town, second_county,
+              dev.ev('funded', 2025, 'DOLA', 'p', **q), second_units)
+        return dev.finish(L)
+
+    assert len(rows('Denver', '08031', 170)) == 1
+    assert len(rows('Denver', '08031', 60)) == 2
+    assert len(rows('Colorado Springs', '08041', 170)) == 2
+    committed = [p for p in load()['projects'] if p['name'].startswith('Albion') and p['county_fips'] == '08031']
+    assert len(committed) == 1, [p['name'] for p in committed]

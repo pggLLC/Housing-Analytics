@@ -139,6 +139,7 @@ LOCALITY_COUNTY = {'conifer': '08059'}
 ADDRESS_WORDS = {'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'st', 'street', 'ave', 'avenue',
                  'rd', 'road', 'blvd', 'boulevard', 'dr', 'drive', 'way', 'ct', 'court', 'pl', 'place',
                  'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane'}
+DESCRIPTIVE_WORDS = {'affordable'}  # read only with the same town, phase and size
 ROMAN = {'iv': '4', 'v': '5', 'vi': '6', 'vii': '7', 'viii': '8', 'ix': '9'}  # norm_name maps i–iii
 
 
@@ -177,13 +178,19 @@ def same_project(a: str, b: str) -> bool:
 
 def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int | None) -> bool:
     """One letter off in one source ("Geteway North" for "Gateway North"):
-    the same county, town, phase and size, and names that differ by a typo."""
+    the same county, town, phase and size, and names that differ by a typo
+    or by a word that describes the homes."""
     if not (county and county == p['county_fips'] and city_n and city_n == p['_city_n'] and units) \
             or phase(p['_name_n']) != phase(name_n):
         return False
     known = [e['_units'][0] for e in p['events'] if e.get('_units')]
     if not any(abs(k - units) <= 0.15 * max(k, units) for k in known):
         return False
+    # "Albion Affordable Apartments" and "Albion Apartments": a word that
+    # describes the homes rather than naming the building
+    plain = lambda n: ' '.join(w for w in n.split() if w not in DESCRIPTIVE_WORDS)
+    if plain(p['_name_n']) == plain(name_n):
+        return True
     a, b = p['_name_n'].replace(' ', ''), name_n.replace(' ', '')
     return difflib.SequenceMatcher(None, a, b).ratio() >= 0.9
 

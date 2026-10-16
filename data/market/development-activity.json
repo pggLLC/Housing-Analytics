@@ -35,10 +35,10 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 723,
+  "project_count": 722,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 395
+  "statewide_recent_projects": 394
  },
  "county_summary": {
   "08001": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 97,
-   "homes": 10285,
+   "projects": 96,
+   "homes": 10115,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -678,8 +678,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 56,
-     "homes": 5877,
+     "projects": 55,
+     "homes": 5707,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -8289,7 +8289,7 @@
    ]
   },
   {
-   "id": "albion-08031",
+   "id": "albion-affordable-08031",
    "name": "Albion Apartments",
    "city": "Denver",
    "county_fips": "08031",
@@ -8297,13 +8297,36 @@
    "county": "Denver County",
    "place_geoid": "0820000",
    "stage": "funded",
-   "first_year": 2025,
+   "first_year": 2023,
    "latest_year": 2025,
-   "total_units": 170,
+   "total_units": 169,
    "total_units_unavailable_reason": null,
-   "restricted_units": null,
-   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
+   "restricted_units": 169,
+   "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 3770714,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
+     "quote": "Type: N; Target Type: F; Name: Albion Affordable Apartments; Address: Northeast Corner S Albion St and E Iliff Ave; City: Denver; County: Denver; Federal Credit Amount: $3,770,714; State Credit Amount: $1,100,000; Bond Issuer: CHFA; Bond Amount: $43,750,000; Total Units: 169; LI Units: 169",
+     "state_credit": 1100000,
+     "bond_amount": 43750000
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Albion Affordable Apartments; PROJ_ADD: NE Corner of S Albion St and Iliff Ave; PROJ_CTY: Denver; N_UNITS: 170; LI_UNITS: 170; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -15238,47 +15261,6 @@
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY23-24-EquityPreliminarySelections.pdf",
      "quote": "Line as printed: 1936 Grove Apartments Denver $3,699,545 28 Mixed-Income Investment"
-    }
-   ]
-  },
-  {
-   "id": "albion-affordable-08031",
-   "name": "Albion Affordable Apartments",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 169,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 169,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 3770714,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Type: N; Target Type: F; Name: Albion Affordable Apartments; Address: Northeast Corner S Albion St and E Iliff Ave; City: Denver; County: Denver; Federal Credit Amount: $3,770,714; State Credit Amount: $1,100,000; Bond Issuer: CHFA; Bond Amount: $43,750,000; Total Units: 169; LI Units: 169",
-     "state_credit": 1100000,
-     "bond_amount": 43750000
-    },
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Albion Affordable Apartments; PROJ_ADD: NE Corner of S Albion St and Iliff Ave; PROJ_CTY: Denver; N_UNITS: 170; LI_UNITS: 170; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
     }
    ]
   },
