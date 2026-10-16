@@ -270,18 +270,18 @@ test('underwriting thresholds use the rule\'s forecast years', () => {
 });
 
 test('state credits stay a separate source with CHFA\'s limit; pay-in schedules need all three stages', () => {
-  const s = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, rules });
+  const s = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, awarded: true, rules });
   assert.equal(s.allowedAnnual, rules.rules.credit_cap_state_with_9pct.fixed_annual);
   assert.equal(s.equity, 500000 * 6 * 0.8);
   // The 9% pairing is a fixed amount, so any other amount is unknown, above or below it.
   for (const other of [100000, 600000]) {
-    const o = cb.stateCredit({ annual: other, price: 0.8, creditType: '9', units: 60, rules });
+    const o = cb.stateCredit({ annual: other, price: 0.8, creditType: '9', units: 60, awarded: true, rules });
     assert.equal(o.equity, null, other + ' is not the fixed pairing');
     assert.match(o.reason, /fixed \$500,000 of standard state credit/);
   }
   assert.equal(s.years, rules.rules.state_credit_term.years, 'six-year allocation from the rules file');
   // A 4% deal must say which CHFA application it is: each path has its own limit (QAP 3.L).
-  const four = (path, units, extra) => cb.stateCredit(Object.assign({ annual: 2000000, price: 0.8, creditType: '4', units, path, rules }, extra));
+  const four = (path, units, extra) => cb.stateCredit(Object.assign({ annual: 2000000, price: 0.8, creditType: '4', units, path, awarded: true, rules }, extra));
   assert.equal(four(undefined, 50).equity, null);
   assert.match(four(undefined, 50).reason, /which CHFA state credit application/);
   assert.equal(four('bond_fall', 50).allowedAnnual, 500000, '$10,000 per unit for 50 units');
@@ -314,6 +314,11 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   }
   assert.equal(cb.stateCredit({ annual: 400000, price: '', creditType: '9', rules }).equity, null);
   assert.equal(cb.stateCredit({ annual: null, rules }).entered, false);
+  // The state three-test is not modeled, so a proposed amount within the limit is still not a source.
+  const proposed = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, rules });
+  assert.equal(proposed.allowedAnnual, 500000, 'non-vacuous: the amount passes the application limit');
+  assert.equal(proposed.equity, null, 'a proposed state credit is not equity');
+  assert.match(proposed.reason, /three-test/);
   const p = cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 40 });
   assert.deepEqual(p.installments.map((i) => i.amount), [200000, 400000, 400000]);
   assert.match(cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 30 }).reason, /90%/);
@@ -497,6 +502,16 @@ test('a building purchase counts in basis only once the 42(d)(2) conditions are 
   const unconfirmed = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false });
   assert.equal(unconfirmed.calculatedCredit, null);
   assert.match(unconfirmed.reasons.eligibleBasis, /42\(d\)\(2\)/);
+  // 42(d)(2)(B)(iv): the purchase also needs a rehabilitation that earns its own 42(e) credit.
+  // The reason and the box the user ticks must ask for the same conditions.
+  const page = require('node:fs').readFileSync(require('node:path').join(__dirname, '../js/deal-calculator.js'), 'utf8');
+  const box = /id="dc-acq-42d2"[^>]*>\s*<span>([^<]+)<\/span>/.exec(page);
+  assert(box, 'non-vacuous: the confirmation box is on the page');
+  for (const [name, words] of [['reason', unconfirmed.reasons.eligibleBasis], ['checkbox', box[1]]]) {
+    assert.match(words, /unrelated party/, name + ' names the related-party test');
+    assert.match(words, /ten years/, name + ' names the ten-year test');
+    assert.match(words, /42\(e\)/, name + ' names the rehabilitation test');
+  }
   assert(base9({ acquisitionEligible: 1000000 }).calculatedCredit > 0, 'confirmed, it counts');
   assert(base9({ acquisitionEligible: 0, acquisitionQualifies: false }).calculatedCredit > 0, 'no purchase in basis, nothing to confirm');
 });

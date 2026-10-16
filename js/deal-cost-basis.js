@@ -82,6 +82,10 @@
   function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
 
   /** Status of one rule: applied only when adopted and its source exists. */
+  // QAP 3.L sets CHFA's credit limits per project AND per applicant (with affiliates), so
+  // requests in the applicant's other active applications use up the same limit.
+  var APPLICANT_LIMIT_NOTE = 'CHFA\'s limits apply per project and per applicant, with its affiliates, so credit requested in their other active CHFA applications leaves less for this one. These figures assume there are none.';
+
   function ruleStatus(rules, key) {
     var file = rules || {};
     var rule = file.rules && file.rules[key];
@@ -308,9 +312,10 @@
     out.eligibleBasis = args.eligibleCost;
     // An existing building's purchase price is basis only when the purchase meets
     // 26 U.S.C. 42(d)(2): bought from an unrelated party, and last placed in service
-    // ten or more years ago. The user confirms that; nothing here can check it.
+    // ten or more years ago, with a rehabilitation that earns its own credit under
+    // 42(e) (42(d)(2)(B)(iv)). The user confirms that; nothing here can check it.
     if (args.acquisitionEligible > 0 && !args.acquisitionQualifies) {
-      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, and not placed in service during the ten years before purchase), or take the purchase out of basis.');
+      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, not placed in service during the ten years before purchase, and rehabilitated enough to earn a credit under 42(e)), or take the purchase out of basis.');
     }
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
@@ -521,6 +526,12 @@
     out.allowedAnnual = allowed;
     out.cap = out.streams.length === 1 ? out.streams[0].cap : null;
     out.capReason = notes.length ? notes.join(' ') : null;
+    // CHFA sizes the state credit with a three-test calculation (QAP 3.M.2) that is not
+    // modeled here, so only an awarded amount is a source.
+    if (!args.awarded) {
+      out.reason = 'A proposed state credit is not a source yet: CHFA sizes it with a three-test calculation (QAP 3.M.2) this calculator does not model. Tick "CHFA has awarded this state credit" once it is awarded, or clear it.';
+      return out;
+    }
     out.equity = allowed * out.years * price;
     return out;
   }
@@ -557,7 +568,7 @@
   }
 
   return {
-    RULE_NOT_SOURCED: RULE_NOT_SOURCED, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
+    RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
     CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,

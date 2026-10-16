@@ -839,7 +839,7 @@
     var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
-      price: fields['dc-state-price'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
+      price: fields['dc-state-price'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
     // No state credit entered is no source; an incomplete one is unknown.
     // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
     var stateCreditApplies = chfaRegime && stateCredit.entered;

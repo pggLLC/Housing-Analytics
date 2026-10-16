@@ -94,7 +94,7 @@ async function test(name, fn) {
     const p = await openPage('');
     setField(p, 'dc-rate-4', true);
     assert.equal(p.w.__DealCalc.getResult().creditType, '4', 'the 4% scenario is selected');
-    setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-price', 0.8); setField(p, 'dc-state-awarded', true);
     const r = () => p.w.__DealCalc.getResult().costBasis.stateCredit;
     assert.equal(r().equity, null);
     assert.match(r().reason, /which CHFA state credit application/);
@@ -117,7 +117,7 @@ async function test(name, fn) {
     const before = p.w.__DealCalc.getResult().costBasis.basis.gapMethod;
     assert.equal(before.applied, true);
     assert.equal(text(p, 'dc-cb-capacity'), money(p.w.__DealCalc.getResult().costBasis.basis.capacity), 'once the gap method runs, capacity is known');
-    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8); setField(p, 'dc-state-awarded', true);
     const r = p.w.__DealCalc.getResult();
     assert(r.stateEquity > 0, 'non-vacuous: state credit equity is in the capital stack');
     assert.equal(r.costBasis.basis.gapMethod.gap, before.gap, 'the gap left for credit equity ignores state credit equity');
@@ -128,7 +128,7 @@ async function test(name, fn) {
     const p = await openPage('');
     setField(p, 'dc-county-select', '08001');
     await new Promise((r) => setTimeout(r, 600));
-    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8); setField(p, 'dc-state-awarded', true);
     p.w.__DealCalc.recalculate();
     let r = p.w.__DealCalc.getResult();
     assert(r.stateEquity > 0 && r.equity > 0, 'non-vacuous: both credits produce equity');
@@ -162,6 +162,22 @@ async function test(name, fn) {
       assert.match(words, /LIHTC units/, name + ' names the units the fraction counts');
       assert.doesNotMatch(words, /floor area of (all |the )?income-restricted units/i, name + ' does not widen it to every restricted unit');
     }
+  });
+
+  await test('a proposed state credit is not a source until it is awarded; CHFA limits disclose other applications', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-county-select', '08001');
+    await new Promise((r) => setTimeout(r, 600));
+    setField(p, 'dc-state-annual', 500000); setField(p, 'dc-state-price', 0.8);
+    let r = p.w.__DealCalc.getResult();
+    assert.equal(r.costBasis.stateCredit.allowedAnnual, 500000, 'non-vacuous: within the 9% pairing');
+    assert(!Number.isFinite(r.stateEquity), 'a proposed amount is not equity');
+    assert.match(r.costBasis.stateCredit.reason, /three-test/);
+    setField(p, 'dc-state-awarded', true);
+    r = p.w.__DealCalc.getResult();
+    assert.equal(r.stateEquity, 500000 * rules.rules.state_credit_term.years * 0.8, 'an award is a source');
+    assert(text(p, 'dc-cb-detail').includes(cb.APPLICANT_LIMIT_NOTE), 'the per-project limit says other active applications count against it');
+    assert.deepEqual(p.errors, []);
   });
 
   close();

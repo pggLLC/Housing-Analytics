@@ -2255,7 +2255,11 @@
             <label style="display:block;font-size:var(--small);color:var(--muted);">Price per $1 of state credit
               <input id="dc-state-price" type="number" min="0" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
           </div>
-          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation.</p>
+          <label style="display:flex;align-items:flex-start;gap:0.55rem;margin-top:.35rem;font-size:var(--small);cursor:pointer;min-height:44px;">
+            <input id="dc-state-awarded" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+            <span>CHFA has awarded this state credit (a proposed amount does not count: CHFA sizes it with a three-test calculation this calculator does not model)</span>
+          </label>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation. CHFA's limits apply per project and per applicant, with its affiliates, so other active applications leave less; these figures assume there are none.</p>
           <div role="group" aria-labelledby="dc-fed-payin-h" style="margin-top:var(--sp2);">
             <p id="dc-fed-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Federal equity pay-in (% of federal equity)</p>
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
@@ -2357,7 +2361,7 @@
         </label>
         <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
           <input id="dc-acq-42d2" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
-          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, and not placed in service during the ten years before you bought it (needed before a purchase counts in basis)</span>
+          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, not placed in service during the ten years before you bought it, and rehabilitated enough to earn its own credit under 42(e) (needed before a purchase counts in basis)</span>
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
@@ -3278,7 +3282,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-path']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3286,7 +3290,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-path'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -3989,7 +3993,7 @@
     if (basis.acquisitionQualified > 0) row('Acquisition credit rate', basis.acquisitionRate == null ? basis.reasons.acquisitionRate : (basis.acquisitionRate * 100).toFixed(2) + '%',
       basis.acquisitionCitation ? 'Acquisition basis earns CHFA\'s 4% acquisition floor, not 9% (' + basis.acquisitionCitation + '). The calculator has no input for a higher applicable percentage.' : 'Acquisition basis earns the same rate on a 4% deal.');
     row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'));
-    row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', basis.cap.reason || basis.cap.citation);
+    row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
     row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
       basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
     row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
