@@ -2355,6 +2355,10 @@
           <input id="dc-special-pop" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
           <span>The project serves people experiencing homelessness or special populations (CHFA then keeps all of an acquisition in the developer fee base)</span>
         </label>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
+          <input id="dc-acq-42d2" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party and last placed in service ten or more years ago (needed before a purchase counts in basis)</span>
+        </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
             Deferred Developer Fee cap: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
@@ -3274,7 +3278,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-state-path']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3282,7 +3286,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-state-path'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-path'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });

@@ -76,6 +76,7 @@
     'dc-credit-requested': 'Annual federal credit requested in the application.',
     'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',
     'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',
+    'dc-acq-42d2': 'Whether an existing building purchase meets 26 U.S.C. 42(d)(2), so its price can count in eligible basis.',
     'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
     'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
     'dc-state-annual': 'Annual state housing tax credit for the project.',

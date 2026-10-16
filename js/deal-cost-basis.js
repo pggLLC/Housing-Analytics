@@ -28,7 +28,10 @@
   // line in exactly one subtotal, so the contractor contract is a subset of the
   // uses, never added on top of them.
   // Lines that can never be in eligible basis, so the page offers no choice.
-  var NEVER_IN_BASIS = Object.freeze({ land: 'Land is never in eligible basis: eligible basis is the building\'s adjusted basis (26 U.S.C. 42(d)(1)).' });
+  var NEVER_IN_BASIS = Object.freeze({
+    land: 'Land is never in eligible basis: eligible basis is the building\'s adjusted basis (26 U.S.C. 42(d)(1)).',
+    reserves: 'Reserves are cash held for operations, not depreciable building property, so they are never in eligible basis.'
+  });
   var LINE_TEMPLATE = Object.freeze([
     ['land', 'Land', 'acquisition', 'ineligible'],
     ['building_acquisition', 'Existing building purchase', 'acquisition', 'eligible'],
@@ -303,6 +306,12 @@
 
     if (args.eligibleCost === null || !Number.isFinite(args.eligibleCost)) return stop('eligibleBasis', args.costReason || 'Itemize development costs.');
     out.eligibleBasis = args.eligibleCost;
+    // An existing building's purchase price is basis only when the purchase meets
+    // 26 U.S.C. 42(d)(2): bought from an unrelated party, and last placed in service
+    // ten or more years ago. The user confirms that; nothing here can check it.
+    if (args.acquisitionEligible > 0 && !args.acquisitionQualifies) {
+      return stop('eligibleBasis', 'Confirm the building purchase meets 26 U.S.C. 42(d)(2) (bought from an unrelated party, last placed in service ten or more years ago), or take the purchase out of basis.');
+    }
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
     if (args.feeExcess === null) return stop('afterGrant', args.feeReason || 'The fee to take out of basis is unknown.');
@@ -351,7 +360,7 @@
     else if (out.unitFraction === 0) out.floorFraction = 0; // no low-income unit, no low-income floor space
     else {
       var resSf = num(args.residentialSf), liSf = num(args.lowIncomeSf);
-      if (resSf === null || liSf === null || !Number.isFinite(resSf) || !Number.isFinite(liSf) || resSf <= 0 || liSf < 0) {
+      if (resSf === null || liSf === null || !Number.isFinite(resSf) || !Number.isFinite(liSf) || resSf <= 0 || liSf <= 0) {
         return stop('applicableFraction', 'Enter the floor space of the restricted units and of all residential units; the law uses the lower of the unit and floor-space fractions.');
       }
       if (liSf > resSf) return stop('applicableFraction', 'Restricted floor space is more than residential floor space.');
@@ -473,7 +482,7 @@
       out.reason = 'Only Round Two pairs a separate standard state credit; clear the paired amount or choose Round Two.'; return out;
     }
     // CHFA pairs the standard credit with an accelerated award (QAP 3.L), so it never stands alone.
-    if (path === 'round_two' && standard !== null && num(args.annual) === null) {
+    if (path === 'round_two' && standard !== null && !(annual !== null && Number.isFinite(annual) && annual > 0)) {
       out.reason = 'Round Two pairs the standard state credit with an accelerated award; enter the accelerated amount too.'; return out;
     }
     var allowed = 0, notes = [];

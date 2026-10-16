@@ -24,7 +24,7 @@ function runBasisCase(c, ruleFile, overrides) {
   const summary = cb.summarizeCosts(c.lines, c.tdc);
   const grants = cb.grantBasisReduction(c.tranches, ruleFile);
   return { summary, grants, result: cb.basisAndCredit({
-    eligibleCost: summary.eligible, costReason: summary.reason, acquisitionEligible: summary.acquisitionEligible,
+    eligibleCost: summary.eligible, costReason: summary.reason, acquisitionEligible: summary.acquisitionEligible, acquisitionQualifies: c.acquisitionQualifies !== false,
     grantReduction: grants.reduction, grantReason: grants.reason, designation: c.designation, evidence: c.evidence,
     creditType: c.creditType, creditRate: c.creditRate, units: c.units, lowIncomeUnits: c.lowIncomeUnits,
     residentialSf: c.residentialSf, lowIncomeSf: c.lowIncomeSf, requested: c.requested, awarded: c.awarded, rules: ruleFile }) };
@@ -290,6 +290,7 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   const alone = four('round_two', 50, { annual: null, standardAnnual: 400000 });
   assert.equal(alone.equity, null, 'the paired standard credit never stands alone');
   assert.match(alone.reason, /enter the accelerated amount/);
+  assert.match(four('round_two', 50, { annual: 0, standardAnnual: 400000 }).reason, /enter the accelerated amount/, 'a $0 accelerated award is no award');
   assert.match(four('bond_fall', 50, { standardAnnual: 100000 }).reason, /Only Round Two/);
   // A path belongs to one federal credit type.
   assert.match(four('with_9pct', 50).reason, /federal 9% credits/);
@@ -316,7 +317,7 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
 
 // Codex review of #2251: CHFA's reservation rules that Method One alone missed.
 const base9 = (extra) => cb.basisAndCredit(Object.assign({ eligibleCost: 2000000, grantReduction: 0, designation: 'none',
-  creditType: '9', creditRate: 0.09, units: 10, lowIncomeUnits: 10, rules }, extra));
+  creditType: '9', creditRate: 0.09, units: 10, lowIncomeUnits: 10, acquisitionQualifies: true, rules }, extra));
 
 test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabilitation the 9% rate', () => {
   const r = base9({ acquisitionEligible: 1000000 });
@@ -325,7 +326,7 @@ test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabili
   assert.equal(base9({ acquisitionEligible: 1000000, acquisitionApr: 0.03 }).acquisitionRate, 0.04);
   assert.equal(Math.round(r.calculatedCredit), 40000 + 90000);
   const four = cb.basisAndCredit({ eligibleCost: 2000000, grantReduction: 0, designation: 'none', creditType: '4', creditRate: 0.04,
-    units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, rules });
+    units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, acquisitionQualifies: true, rules });
   assert.equal(Math.round(four.calculatedCredit), 80000);
   const unsourced = JSON.parse(JSON.stringify(rules)); delete unsourced.rules.acquisition_credit_rate;
   const u = base9({ acquisitionEligible: 1000000, rules: unsourced });
@@ -479,6 +480,27 @@ test('an untested contractor fee in basis leaves the developer fee base and the 
   const excess = cb.feeExcessInBasis(summary, con, { status: { applied: true }, fee: 0, excess: 0 });
   assert.equal(excess.total, null);
   assert.match(excess.reason, /contractor fee could not be tested/);
+});
+
+test('a building purchase counts in basis only once the 42(d)(2) conditions are confirmed', () => {
+  const unconfirmed = base9({ acquisitionEligible: 1000000, acquisitionQualifies: false });
+  assert.equal(unconfirmed.calculatedCredit, null);
+  assert.match(unconfirmed.reasons.eligibleBasis, /42\(d\)\(2\)/);
+  assert(base9({ acquisitionEligible: 1000000 }).calculatedCredit > 0, 'confirmed, it counts');
+  assert(base9({ acquisitionEligible: 0, acquisitionQualifies: false }).calculatedCredit > 0, 'no purchase in basis, nothing to confirm');
+});
+
+test('reserves are never in eligible basis, whatever their line says', () => {
+  const base = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  const summary = cb.summarizeCosts(cb.exampleLines().map((l) => l.id === 'reserves' ? Object.assign({}, l, { basis: 'eligible' }) : l), 20000000);
+  assert(summary.byId.reserves > 0, 'non-vacuous: the example has reserves');
+  assert.equal(summary.eligible, base.eligible);
+});
+
+test('zero LIHTC floor space with LIHTC units is not a measurement', () => {
+  const r = base9({ units: 10, lowIncomeUnits: 6, residentialSf: 8000, lowIncomeSf: 0 });
+  assert.equal(r.applicableFraction, null);
+  assert.match(r.reasons.applicableFraction, /floor space/);
 });
 
 test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
