@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T03:29:44.390Z",
+    "generated_at": "2026-10-16T10:03:49.626Z",
     "root": "data/",
     "file_count": 1735,
-    "total_size_bytes": 184231916,
+    "total_size_bytes": 184234690,
     "kinds": {
       "json": 1692,
       "geojson": 33,
@@ -520,8 +520,8 @@
     {
       "path": "audit/upstream-vintage-watch.json",
       "kind": "json",
-      "size_bytes": 844,
-      "mtime": "2026-10-09T12:58:33.285Z",
+      "size_bytes": 1173,
+      "mtime": "2026-10-16T10:03:46.586Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -530,7 +530,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "sources",
-      "primary_array_length": 3,
+      "primary_array_length": 4,
       "primary_array_first_keys": [
         "source",
         "current_vintage",
@@ -1605,8 +1605,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1256890,
-      "mtime": "2026-10-15T10:14:58.526Z",
+      "size_bytes": 1257896,
+      "mtime": "2026-10-16T10:03:46.607Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30933,8 +30933,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 219890,
-      "mtime": "2026-10-15T18:48:12.036Z",
+      "size_bytes": 219891,
+      "mtime": "2026-10-16T10:03:46.740Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -35372,8 +35372,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12608,
-      "mtime": "2026-10-15T10:14:59.970Z",
+      "size_bytes": 12594,
+      "mtime": "2026-10-16T10:03:48.168Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -35392,8 +35392,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 164108,
-      "mtime": "2026-10-15T10:15:00.032Z",
+      "size_bytes": 165560,
+      "mtime": "2026-10-16T10:03:48.211Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35401,7 +35401,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 184,
+      "primary_array_length": 185,
       "primary_array_first_keys": [
         "date",
         "events"
