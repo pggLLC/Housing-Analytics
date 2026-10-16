@@ -4151,6 +4151,7 @@
       function factFor(p) {
         if (p.pbv_contract_sunset)              return 'PBV sunsets ' + escHtml(p.pbv_contract_sunset);
         if (Number.isFinite(p.years_to_expiration)) {
+          if (p.years_to_expiration < 0) return '⚠ restriction expired ' + (-p.years_to_expiration) + 'y ago';
           return p.years_to_expiration <= 5
             ? '⚠ expires in ' + p.years_to_expiration + 'y'
             : p.years_to_expiration + 'y to expiration';

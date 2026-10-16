@@ -587,11 +587,12 @@ function main() {
   }
 
   // Urgency breakdown for USDA RD (years to expiration)
-  const expBuckets = { '0-5y': 0, '5-10y': 0, '10-20y': 0, '20y+': 0 };
+  const expBuckets = { 'expired': 0, '0-5y': 0, '5-10y': 0, '10-20y': 0, '20y+': 0 };
   all.forEach(p => {
     const y = p.years_to_expiration;
     if (y == null) return;
-    if (y <= 5) expBuckets['0-5y']++;
+    if (y < 0) expBuckets['expired']++;
+    else if (y <= 5) expBuckets['0-5y']++;
     else if (y <= 10) expBuckets['5-10y']++;
     else if (y <= 20) expBuckets['10-20y']++;
     else expBuckets['20y+']++;

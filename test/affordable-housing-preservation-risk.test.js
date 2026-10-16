@@ -29,6 +29,38 @@ assert(lapsed.length > 0, 'fixture should include records whose restriction date
 assert(lapsed.every((p) => p.risk_status === 'expired'), 'a restriction date already past is bucketed expired, never 0-5 years');
 
 assert(builderSrc.includes('function preservationRiskStatus'), 'builder should define risk_status from expiration evidence');
+assert(/expBuckets\s*=\s*\{\s*'expired'/.test(builderSrc) && /y < 0\) expBuckets\['expired'\]/.test(builderSrc),
+  'builder urgency breakdown should count a past restriction date as expired, not 0-5y');
+
+// Every renderer that formats years_to_expiration must branch on a negative
+// value before the "expires in" leg, or a lapsed restriction renders as
+// "expires in -20y". Structural check: a `< 0 ?` (or `< 0) return`) guard
+// within the statement that carries the wording. The wording itself is a
+// choice and is not pinned.
+function walkJs(dir, out) {
+  fs.readdirSync(dir, { withFileTypes: true }).forEach((d) => {
+    if (d.name === 'vendor') return;
+    const full = path.join(dir, d.name);
+    if (d.isDirectory()) walkJs(full, out);
+    else if (d.name.endsWith('.js')) out.push(full);
+  });
+  return out;
+}
+const expiresMarker = "'⚠ expires in '";
+const renderers = walkJs(path.join(ROOT, 'js'), []).filter((f) => fs.readFileSync(f, 'utf8').includes(expiresMarker));
+assert(renderers.length >= 4, `scan should find the renderers that format years_to_expiration (found ${renderers.length})`);
+renderers.forEach((f) => {
+  const src = fs.readFileSync(f, 'utf8');
+  let from = 0;
+  while (true) {
+    const at = src.indexOf(expiresMarker, from);
+    if (at === -1) break;
+    const window = src.slice(Math.max(0, at - 260), at);
+    assert(/(?:years_to_expiration|\by)\s*<\s*0\s*(?:\?|\)\s*return)/.test(window),
+      `${path.relative(ROOT, f)} formats years_to_expiration without a negative-value branch near offset ${at}`);
+    from = at + expiresMarker.length;
+  }
+});
 assert(layerSrc.includes('Preservation source inventory'), 'map legend should label preservation-candidate as source inventory');
 assert(layerSrc.includes('This is source-feed membership, not an at-risk finding'), 'map legend should not imply every preservation-candidate is at risk');
 assert(layerSrc.includes('Restriction timing known'), 'map legend should include a separate known-expiration entry');
