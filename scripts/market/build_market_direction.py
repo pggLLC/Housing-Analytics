@@ -198,7 +198,10 @@ def recent_demand(fips: str, prof: dict) -> dict:
     five estimate years and net migration over the same years."""
     latest = max((y for f, y in prof if f == fips), default=None)
     if latest is None:
-        return {'households_value': None, 'unavailable_reason': 'no DOLA estimates for this county'}
+        why = 'no DOLA estimates for this county'
+        return {'from_year': None, 'to_year': None, 'households_value': None,
+                'households_measure': 'households, % a year', 'households_unavailable_reason': why,
+                'net_migration': None, 'net_migration_years': None, 'net_migration_unavailable_reason': why}
     years = range(latest - 4, latest + 1)
     mig = [num(prof.get((fips, y)), 'netmigration') for y in years]
     out = {'from_year': latest - 5, 'to_year': latest,

@@ -1395,8 +1395,8 @@
       "projects_without_homes": 0
      },
      "funded": {
-      "projects": 64,
-      "homes": 6637,
+      "projects": 63,
+      "homes": 6467,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -1410,8 +1410,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 20,
-      "homes": 2134,
+      "projects": 21,
+      "homes": 2304,
       "projects_without_homes": 0
      },
      "letter_of_intent": {

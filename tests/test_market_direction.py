@@ -219,6 +219,11 @@ def test_a_missing_recent_demand_figure_is_null_with_its_reason():
     r = md.recent_demand('08031', gap)
     assert r['net_migration'] is None and 'net migration missing' in r['net_migration_unavailable_reason']
     assert r['households_value'] is None and 'households missing' in r['households_unavailable_reason']
+    absent = md.recent_demand('08031', {k: v for k, v in prof.items() if k[0] != '08031'})
+    assert absent['households_value'] is None and absent['households_unavailable_reason']
+    assert absent['net_migration'] is None and absent['net_migration_unavailable_reason']
+    assert set(absent) == set(md.recent_demand('08031', prof)) | {'households_unavailable_reason',
+                                                                 'net_migration_unavailable_reason'}
     full = md.recent_demand('08031', prof)
     assert full['net_migration'] is not None and 'net_migration_unavailable_reason' not in full
     for c in DOC['counties'].values():  # the committed file: every null carries its reason

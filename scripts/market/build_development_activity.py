@@ -93,7 +93,9 @@ NOT_A_PROJECT = re.compile(r'down ?payment|\bDPA\b|rehabilitation program|\bSFOO
                            r'initiative|\bAHIF ?\d*\b|\bROC\b|Resident Ownership Capital|Impact Development Fund|'
                            r'Next Step 2 Generation', re.I)
 DOLA_PROGRAM_TEXT = re.compile(r'opted[- ]in areas|various (?:addresses|locations)|\brepairs?\b|'
-                               r'down ?payment|mortgage', re.I)
+                               r'down ?payment|mortgage|'
+                               # services and vouchers fund people in homes, not the homes
+                               r'tenancy support|\bvouchers?\b', re.I)
 # A Prop 123 homeownership (AHOP) award that prints no homes funds buyers or
 # repairs across a service area, not homes on one site.
 NO_HOMES_MEANS_PROGRAM = {'Prop 123 homeownership (AHOP)'}

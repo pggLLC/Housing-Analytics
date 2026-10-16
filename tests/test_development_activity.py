@@ -449,3 +449,11 @@ def test_a_total_only_source_keeps_the_restricted_count_and_an_adopted_place_bri
     assert rows['wintergreen-ridge-08117']['city'] == 'Keystone'
     placed = [p for p in rows.values() if p['place_geoid'] and p['city']]
     assert len(placed) > 300 and not [p['id'] for p in placed if 'county' in p['city'].lower()]
+
+
+def test_a_dola_services_or_voucher_award_is_not_a_development():
+    # WISH Community: tenancy support services plus project-based vouchers, no homes (#2261 review)
+    names = {p['name'] for p in load()['projects']}
+    assert 'WISH Community' not in names
+    assert dev.DOLA_PROGRAM_TEXT.search('Sixteen (16) Project Based State Housing Vouchers and $57,000 in annual Tenancy Support')
+    assert not dev.DOLA_PROGRAM_TEXT.search('Housing Development Grant (HDG) grant to Volunteers of America National Services')

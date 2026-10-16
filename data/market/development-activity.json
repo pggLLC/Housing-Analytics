@@ -28,14 +28,14 @@
    "chfa_applications": 156,
    "award_ledger": 429,
    "chfa_2026_round_one": 14,
-   "dola_awards": 227,
+   "dola_awards": 225,
    "chfa_property_list": 404
   },
   "excluded_events": 0,
-  "program_awards_left_out": 91,
+  "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 772,
+  "project_count": 771,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
   "statewide_recent_projects": 426
@@ -678,8 +678,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 64,
-     "homes": 6637,
+     "projects": 63,
+     "homes": 6467,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -693,8 +693,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 20,
-     "homes": 2134,
+     "projects": 21,
+     "homes": 2304,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -6510,37 +6510,6 @@
    ]
   },
   {
-   "id": "wish-community",
-   "name": "WISH Community",
-   "city": null,
-   "county_fips": null,
-   "county_fips_all": null,
-   "county": null,
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": null,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "HOME (federal)",
-     "amount": 57000,
-     "amount_label": "awarded",
-     "source_url": "https://drive.google.com/file/d/1UQKFflyoSEZ0Mwwp7JDCQuz6GpocNI7g/view",
-     "quote": "Project: WISH Community; Program: HOME-ARP (Tenancy Support Services) plus 16 Project Based State Housing Vouchers; Amount: $57,000; Amount basis: awarded; Announced: 2025-01-28; Source: State Housing Board vote summary, meeting of 2025-01-28 (printed in the 2025-02-11 board packet)",
-     "announced": "2025-01-28",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "State Housing Board vote summary, meeting of 2025-01-28 (printed in the 2025-02-11 board packet)",
-     "homes_unavailable_reason": "the award does not print a home count"
-    }
-   ]
-  },
-  {
    "id": "9151-north-pearl-street-08001",
    "name": "9151 N. Pearl Street",
    "city": "Thornton",
@@ -7925,49 +7894,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: 4965 Washington Street; PROJ_CTY: Denver; N_UNITS: 170; LI_UNITS: 170; YR_ALLOC: 2025; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "4995-washington-08031",
-   "name": "4995 Washington",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2025,
-   "total_units": 170,
-   "restricted_units": 170,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 5061234,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Bldg. Type: N; Pop Type: F; Name: 4995 Washington; Address: 4995 Washington Street; City: Denver; Total Units: 170; LI Units: 170; Federal 4% Credit Amount Requested: $5,061,234; PAB Issuer: CHFA; PAB Amount Requested: $53,719,968; State Credit Amount Requested: $1,100,000",
-     "round": "2023 Round Two",
-     "as_of": "2023-08-11"
-    },
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "Annual RFA for the Creation of Supportive Housing - Tenancy Support",
-     "amount": 72000,
-     "amount_label": "awarded",
-     "source_url": "https://drive.google.com/file/d/1UQKFflyoSEZ0Mwwp7JDCQuz6GpocNI7g/view",
-     "quote": "Project: 4995 Washington Street; Program: Annual RFA for the Creation of Supportive Housing - Tenancy Support; Amount: $72,000; Amount basis: awarded; Announced: 2025-01-28; Source: State Housing Board vote summary, meeting of 2025-01-28 (printed in the 2025-02-11 board packet)",
-     "announced": "2025-01-28",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "State Housing Board vote summary, meeting of 2025-01-28 (printed in the 2025-02-11 board packet)",
-     "homes_unavailable_reason": "the award does not print a home count"
     }
    ]
   },
@@ -14944,6 +14870,34 @@
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY23-24-EquityPreliminarySelections.pdf",
      "quote": "Line as printed: 1936 Grove Apartments Denver $3,699,545 28 Mixed-Income Investment"
+    }
+   ]
+  },
+  {
+   "id": "4995-washington-08031",
+   "name": "4995 Washington",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "not_funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": 170,
+   "restricted_units": 170,
+   "events": [
+    {
+     "stage": "not_funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 5061234,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Bldg. Type: N; Pop Type: F; Name: 4995 Washington; Address: 4995 Washington Street; City: Denver; Total Units: 170; LI Units: 170; Federal 4% Credit Amount Requested: $5,061,234; PAB Issuer: CHFA; PAB Amount Requested: $53,719,968; State Credit Amount Requested: $1,100,000",
+     "round": "2023 Round Two",
+     "as_of": "2023-08-11"
     }
    ]
   },
