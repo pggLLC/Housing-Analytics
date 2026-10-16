@@ -7060,7 +7060,7 @@
       "application_cycle": "One round: letters of intent in August 2023, awards in April 2024. Closed to new applicants.",
       "key_considerations": [
         "Closed: funding is no longer available. It is listed so a practitioner who hears of it knows it has ended.",
-        "The model it set (local government applies, infrastructure only, 20% match) is the same one the Transit Oriented Communities grant uses."
+        "The Transit Oriented Communities grant follows a similar model (local government applies, infrastructure only), but asks a 25% local match, not 20%."
       ],
       "fit": {
         "role": "support",
@@ -7484,11 +7484,11 @@
       "ami_restriction": null,
       "affordability_period": null,
       "eligible_applicants": "Government agencies and private nonprofit public water systems.",
-      "eligible_projects": "Projects identified in the annual eligibility survey of the 20-year capital needs of Colorado water, sewer and stormwater systems.",
+      "eligible_projects": "Drinking water projects on the eligibility list built from the annual survey of Colorado systems' 20-year capital needs. Sewer and stormwater projects go to the Water Pollution Control Revolving Fund.",
       "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
       "key_considerations": [
         "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
-        "The utility or district applies, not the developer. It matters to housing where a new site needs water or sewer capacity the system has to finance.",
+        "The utility or district applies, not the developer. It matters to housing where a new site needs drinking water capacity the system has to finance; sewer capacity is financed through the Water Pollution Control Revolving Fund.",
         "The administrator says loans are extremely competitive and may be prioritized after cuts to the federal capitalization grant."
       ],
       "fit": {
@@ -7680,11 +7680,11 @@
       "ami_restriction": null,
       "affordability_period": null,
       "eligible_applicants": "Governmental agencies only; private nonprofit systems cannot receive WPCRF funding.",
-      "eligible_projects": "Projects identified in the annual eligibility survey of the 20-year capital needs of Colorado water, sewer and stormwater systems.",
+      "eligible_projects": "Wastewater, stormwater, nonpoint-source and source water projects on the eligibility list built from the annual survey of Colorado systems' 20-year capital needs. Drinking water projects go to the Drinking Water Revolving Fund.",
       "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
       "key_considerations": [
         "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
-        "The utility or district applies, not the developer. It matters to housing where a new site needs water or sewer capacity the system has to finance.",
+        "The utility or district applies, not the developer. It matters to housing where a new site needs sewer or stormwater capacity the system has to finance; drinking water is financed through the Drinking Water Revolving Fund.",
         "The administrator says loans are extremely competitive and may be prioritized after cuts to the federal capitalization grant.",
         "The two pages disagree on the cap ($25 million vs $18 million); confirm with the Authority."
       ],
