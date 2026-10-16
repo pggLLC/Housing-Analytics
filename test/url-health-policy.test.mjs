@@ -251,6 +251,9 @@ for (const url of Object.keys(committedCache.byUrl)) {
     `cache holds a CSP directive separator in the host: ${url}`);
   assert.ok(!/\s/.test(url),
     `cache holds whitespace (a note read as part of the URL): ${url}`);
+  // The same note after new URL() has encoded its space: ".../%20(HTTP%20403)".
+  assert.ok(!/%20\([^()]*\)\/?$/.test(url),
+    `cache holds an encoded note after the address: ${url}`);
   assert.ok(!url.includes('&amp;'),
     `cache holds an undecoded HTML entity: ${url}`);
   assert.ok(!/[{}]/.test(url),
