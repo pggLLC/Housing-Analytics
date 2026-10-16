@@ -788,13 +788,24 @@ def county_summary(projects: list[dict], county_names: dict[str, str], since: in
     return out
 
 
+def read_exclusions(path: str) -> set[str]:
+    """The owner exclusion list. The ledger promises an excluded project is in
+    no source, so a list that cannot be read stops the build instead of
+    publishing everything (fail closed)."""
+    try:
+        entries = read(path)['excluded']
+        hashes = {e['sha256'] for e in entries}
+    except (OSError, KeyError, TypeError, ValueError) as err:
+        raise SystemExit(f'cannot read the owner exclusion list {path}: {err!r}; not building') from err
+    if not all(isinstance(h, str) and re.fullmatch(r'[0-9a-f]{64}', h) for h in hashes):
+        raise SystemExit(f'the owner exclusion list {path} holds an entry that is not a sha256; not building')
+    return hashes
+
+
 def build() -> dict:
     geo = read(GEO_CONFIG)
     county_names = {c['geoid']: c['label'] for c in geo['counties']}
-    try:
-        excluded = {e['sha256'] for e in read(EXCLUDED)['excluded']}
-    except (OSError, KeyError, ValueError):
-        excluded = set()
+    excluded = read_exclusions(EXCLUDED)
     L = Ledger(excluded, apps_mod.load_places(), county_names)
     L.county_places = {}
     _, city_counties = awards.load_geo()

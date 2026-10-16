@@ -623,3 +623,25 @@ def test_component_rows_in_one_report_are_kept_and_summed_and_conifer_has_its_co
     assert rll['total_units'] == 98
     assert rows['Sol']['total_units'] == 132  # one building financed twice is not summed
     assert rows['Conifer Heights']['county_fips'] == '08059'
+
+
+def test_an_unreadable_exclusion_list_stops_the_build(tmp_path):
+    # fail closed: an excluded project must never publish because its list broke (#2261 review)
+    good = tmp_path / 'ok.json'
+    good.write_text(json.dumps({'excluded': [{'sha256': 'a' * 64}]}))
+    assert dev.read_exclusions(str(good)) == {'a' * 64}
+    for body in ('{', json.dumps({'excluded': [{'name': 'x'}]}), json.dumps({'excluded': [{'sha256': 'nothex'}]}),
+                 json.dumps({})):
+        bad = tmp_path / 'bad.json'
+        bad.write_text(body)
+        try:
+            dev.read_exclusions(str(bad))
+        except SystemExit:
+            continue
+        raise AssertionError(f'built past a broken exclusion list: {body}')
+    try:
+        dev.read_exclusions(str(tmp_path / 'missing.json'))
+    except SystemExit:
+        pass
+    else:
+        raise AssertionError('built past a missing exclusion list')
