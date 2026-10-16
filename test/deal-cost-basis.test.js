@@ -427,6 +427,11 @@ test('a federal grant reduces basis only by what it paid for in basis', () => {
   assert.equal(Math.round(withLand({ grantOutsideBasis: 500000 }).afterGrant), 500000, 'part on land: only the rest reduces basis');
   assert.match(withLand({ grantOutsideBasis: 2500000 }).reasons.afterGrant, /between \$0 and \$2,000,000/);
   assert.equal(Math.round(base9({ grantReduction: 500000, ineligibleCost: 0 }).afterGrant), 1500000, 'nothing outside basis, nothing to ask');
+  // Codex's overlap example: $1M basis, $500k fee excess, a $500k grant spent on that excess.
+  const overlap = (extra) => base9(Object.assign({ eligibleCost: 1000000, feeExcess: 500000, grantReduction: 500000, ineligibleCost: 0 }, extra));
+  assert.match(overlap({}).reasons.afterGrant, /fees above CHFA's limits/, 'a fee excess alone is a cost outside basis to ask about');
+  assert.equal(Math.round(overlap({ grantOutsideBasis: 500000 }).afterGrant), 500000, 'the fee dollars come out once, not twice');
+  assert.equal(Math.round(overlap({ grantOutsideBasis: 0 }).afterGrant), 0);
 });
 
 test('the applicable fraction is withheld when its rule is unsourced', () => {

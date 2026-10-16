@@ -2369,7 +2369,7 @@
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
         </label>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for costs outside eligible basis, such as land or reserves ($; enter 0 if none; a federal grant reduces basis only by what it paid for in basis)</span>
+          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for costs outside eligible basis, such as land, reserves or fees above CHFA's limits ($; enter 0 if none; a federal grant reduces basis only by what it paid for in basis)</span>
           <input id="dc-grant-outside" type="number" min="0" step="1000" placeholder="not entered"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
         </label>

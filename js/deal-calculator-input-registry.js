@@ -78,7 +78,7 @@
     'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',
     'dc-state-awarded': 'Whether CHFA has awarded the state credit entered; only an award counts as a source.',
     'dc-grant-acq': 'Federal grant dollars that paid for the building purchase; needed when a grant covers both acquisition and other basis on a 9% deal, where the two earn different credit rates, or under a basis boost, which skips acquisition basis.',
-    'dc-grant-outside': 'Federal grant dollars that paid for costs outside eligible basis, such as land or reserves; a federal grant reduces basis only by what it paid for in basis.',
+    'dc-grant-outside': 'Federal grant dollars that paid for costs outside eligible basis, such as land, reserves or fees above CHFA\'s limits; a federal grant reduces basis only by what it paid for in basis.',
     'dc-acq-42d2': 'Whether an existing building purchase meets 26 U.S.C. 42(d)(2), including a rehabilitation that earns its own credit under 42(e), so its price can count in eligible basis.',
     'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
     'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
