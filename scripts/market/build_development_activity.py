@@ -448,14 +448,21 @@ def load_awards(L: Ledger) -> int:
             quote = '; '.join(f'{k}: {v}' for k, v in (
                 ('Name', name), ('Location', location), ('Total Units', a.get('total_units')),
                 ('Amount', money(amt)), ('Year', a.get('year'))) if v)
-        L.add(name, location, a.get('county_fips'),
+        # a scattered site whose towns lie in several counties ("Trinidad,
+        # Walsenburg, Fort Garland") belongs to each, as an application's does
+        county, counties = a.get('county_fips'), None
+        towns = {L.city_county.get(awards.norm(t)) for t in re.split(r',|&|\band\b', location or '') if t.strip()}
+        if len(towns - {None}) > 1:
+            county, counties = None, sorted(towns - {None})
+        L.add(name, location, county,
               ev('land_funded' if land else 'funded', a.get('year'), a['agency'], a['program'],
                  a.get('source_url'), strip_sponsor(quote, sponsor), amt, label, quote_basis=basis,
                  state_credit=a.get('state_credit'), bond_amount=a.get('bond_amount'),
                  tenure=a.get('detail') if land else None,
                  _sponsors=sponsor_keys(sponsor or a.get('sponsor')) or None),
               printed_units(row and row['quote'], a.get('total_units'), 'Total Units'),
-              printed_units(row and row['quote'], a.get('restricted_units'), r'(?:Total )?(?:LI|TC) Units'))
+              printed_units(row and row['quote'], a.get('restricted_units'), r'(?:Total )?(?:LI|TC) Units'),
+              counties=counties)
         n += 1
     return n
 
@@ -662,7 +669,9 @@ def printed_address(quote: str | None) -> str | None:
     m = re.search(r'(?:Address|PROJ_ADD): ([^;]+)', quote or '')
     if not m:
         return None
-    words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', m[1].lower()).split() if w not in ADDRESS_WORDS]
+    # "12251 and 12253 East Cornell Avenue" is the building at 12251
+    street = re.sub(r'^\s*(\d+)\s*(?:and|&|-)\s*\d+\b', r'\1', m[1], flags=re.I)
+    words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', street.lower()).split() if w not in ADDRESS_WORDS]
     return ' '.join(words) if len(words) > 1 and words[0].isdigit() else None
 
 

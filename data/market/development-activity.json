@@ -35,7 +35,7 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 717,
+  "project_count": 716,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
   "statewide_recent_projects": 394
@@ -511,10 +511,10 @@
   },
   "08023": {
    "name": "Costilla County",
-   "projects": 0,
-   "homes": 0,
+   "projects": 1,
+   "homes": 28,
    "projects_without_homes": 0,
-   "multi_county_projects": 0,
+   "multi_county_projects": 1,
    "by_stage": {
     "under_construction": {
      "projects": 0,
@@ -527,8 +527,8 @@
      "projects_without_homes": 0
     },
     "land_funded": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 28,
      "projects_without_homes": 0
     },
     "applied": {
@@ -1135,10 +1135,10 @@
   },
   "08055": {
    "name": "Huerfano County",
-   "projects": 2,
-   "homes": 32,
+   "projects": 3,
+   "homes": 60,
    "projects_without_homes": 0,
-   "multi_county_projects": 0,
+   "multi_county_projects": 1,
    "by_stage": {
     "under_construction": {
      "projects": 0,
@@ -1151,8 +1151,8 @@
      "projects_without_homes": 0
     },
     "land_funded": {
-     "projects": 1,
-     "homes": 15,
+     "projects": 2,
+     "homes": 43,
      "projects_without_homes": 0
     },
     "applied": {
@@ -1450,7 +1450,7 @@
    "projects": 3,
    "homes": 114,
    "projects_without_homes": 0,
-   "multi_county_projects": 0,
+   "multi_county_projects": 1,
    "by_stage": {
     "under_construction": {
      "projects": 0,
@@ -14047,6 +14047,39 @@
    ]
   },
   {
+   "id": "rural-southern-colorado-homeownership-portfolio-1-trinidad-walsenburg-fort-garland",
+   "name": "Rural Southern Colorado Homeownership Portfolio 1",
+   "city": "Trinidad, Walsenburg, Fort Garland",
+   "county_fips": null,
+   "county_fips_all": [
+    "08023",
+    "08055",
+    "08071"
+   ],
+   "county": null,
+   "place_geoid": null,
+   "stage": "land_funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": 28,
+   "total_units_unavailable_reason": null,
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints an income-restricted count; OEDIT / CHFA (Prop 123 AHFF) prints total homes only",
+   "events": [
+    {
+     "stage": "land_funded",
+     "year": 2023,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Land Banking",
+     "amount": 750000,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
+     "quote": "Project Name: Rural Southern Colorado Homeownership Portfolio 1; County-City: Las Animas County - Trinidad, Walsenburg, Fort Garland; Total Amount Awarded: $750,000; Purpose: Homeownership; Estimated Units: 28",
+     "tenure": "Homeownership"
+    }
+   ]
+  },
+  {
    "id": "overlook-uplands-08001",
    "name": "Overlook @ Uplands",
    "city": "Westminster",
@@ -17309,35 +17342,6 @@
      "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf",
      "quote": "Type: N,F; Name: Westview at PrairieStar; Address: 1180 Little Branch Lane; City: Berthoud; Credit Requested: $1,390,775; Total Units: 48; Total LI Units: 48",
      "round": "2023 Round One"
-    }
-   ]
-  },
-  {
-   "id": "rural-southern-colorado-homeownership-portfolio-1-08071",
-   "name": "Rural Southern Colorado Homeownership Portfolio 1",
-   "city": "Trinidad, Walsenburg, Fort Garland",
-   "county_fips": "08071",
-   "county_fips_all": null,
-   "county": "Las Animas County",
-   "place_geoid": null,
-   "stage": "land_funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 28,
-   "total_units_unavailable_reason": null,
-   "restricted_units": null,
-   "restricted_units_unavailable_reason": "no source prints an income-restricted count; OEDIT / CHFA (Prop 123 AHFF) prints total homes only",
-   "events": [
-    {
-     "stage": "land_funded",
-     "year": 2023,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Land Banking",
-     "amount": 750000,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
-     "quote": "Project Name: Rural Southern Colorado Homeownership Portfolio 1; County-City: Las Animas County - Trinidad, Walsenburg, Fort Garland; Total Amount Awarded: $750,000; Purpose: Homeownership; Estimated Units: 28",
-     "tenure": "Homeownership"
     }
    ]
   },
@@ -25940,7 +25944,7 @@
   },
   {
    "id": "cornell-senior-08005",
-   "name": "Cornell Senior Apartments",
+   "name": "Nine Mile Senior Living",
    "city": "Aurora",
    "county_fips": "08005",
    "county_fips_all": null,
@@ -25963,25 +25967,7 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/2017-Round-2-Award-Report.pdf",
      "quote": "Type: N,S; Name: Cornell Senior Apartments; Address: 12251 and 12253 East Cornell Avenue; City: Aurora; Credit Amount Requested: $992,180; Total Units: 50; Total LI Units: 50"
-    }
-   ]
-  },
-  {
-   "id": "nine-mile-senior-living-08005",
-   "name": "Nine Mile Senior Living",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "funded",
-   "first_year": 2017,
-   "latest_year": 2017,
-   "total_units": 50,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 50,
-   "restricted_units_unavailable_reason": null,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2017,

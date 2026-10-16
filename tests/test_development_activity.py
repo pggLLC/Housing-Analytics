@@ -287,7 +287,7 @@ def test_a_printed_unit_count_wins_over_a_misparsed_ledger_count():
                 # components of one award year are summed (Vida at St. Anthony's 112 + 64)
                 assert p['total_units'] in printed[p['name']], (p['name'], p['total_units'])
                 checked += 1
-    assert checked > 40  # renamed projects joined by address end on a feed row and are not checked
+    assert checked > 30  # renamed projects joined by address or name end on a feed row and are not checked
     vs = next(p for p in d['projects'] if p['name'] == 'Valley Sun Village')
     assert vs['total_units'] == 50
 
@@ -772,3 +772,25 @@ def test_a_townless_short_name_joins_its_project_in_the_county_at_the_same_size(
     assert len(rows('Commons at Mosaik', None, 58)) == 2
     committed = [p for p in load()['projects'] if 'mosaic' in p['name'].lower() and p['total_units'] == 58]
     assert len(committed) == 1, [p['name'] for p in committed]
+
+
+def test_a_pair_of_house_numbers_is_the_building_at_the_first():
+    # Cornell Senior Apartments (12251 and 12253 East Cornell Avenue) is Nine
+    # Mile Senior Living (12251 E Cornell Ave), 50 homes in Aurora (#2261 review)
+    assert dev.printed_address('Address: 12251 and 12253 East Cornell Avenue; City: Aurora') == \
+        dev.printed_address('PROJ_ADD: 12251 E Cornell Ave; PROJ_CTY: Aurora') == '12251 cornell'
+    assert dev.printed_address('Address: 1740 & 1790 Pontiac Street') == '1740 pontiac'
+    assert dev.printed_address('Address: 12253 E Cornell Ave') != '12251 cornell'
+    rows = [p for p in load()['projects'] if p['name'] in ('Nine Mile Senior Living', 'Cornell Senior Apartments')]
+    assert len(rows) == 1
+
+
+def test_an_award_in_towns_of_several_counties_counts_in_each():
+    # Rural Southern Colorado Homeownership Portfolio 1: Trinidad, Walsenburg,
+    # Fort Garland are Las Animas, Huerfano and Costilla (#2261 review)
+    row = next(p for p in load()['projects'] if p['name'] == 'Rural Southern Colorado Homeownership Portfolio 1')
+    assert row['county_fips'] is None and row['county_fips_all'] == ['08023', '08055', '08071']
+    md = read_json('data/market/market-direction.json')['counties']
+    md = md if isinstance(md, dict) else {c['fips']: c for c in md}
+    for f in ('08023', '08055', '08071'):
+        assert md[f]['affordable_activity']['multi_county_projects'] >= 1, f
