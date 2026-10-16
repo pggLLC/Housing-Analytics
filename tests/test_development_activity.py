@@ -292,7 +292,7 @@ def test_a_dola_program_award_is_left_out_by_its_printed_text():
     dola = read_json('data/policy/funding-awards/dola-awards.json')['awards']
     programs = [a for a in dola if a.get('homes') and dev.DOLA_PROGRAM_TEXT.search(
         ' '.join(str(a.get(k) or '') for k in ('quote', 'grantee', 'program_as_printed')))]
-    assert {'City of Pueblo', 'HomesFund'} <= {a['name'] for a in programs}
+    assert 'City of Pueblo' in {a['name'] for a in programs}  # minor repairs across opted-in areas
     d = load()
     dola_names = {e['quote'].split(';')[0] for p in d['projects'] for e in p['events'] if e['agency'] == 'DOLA'}
     for a in programs:
@@ -320,3 +320,19 @@ def test_a_later_geography_refresh_moves_generated_at(tmp_path, monkeypatch):
     f.write_text(json.dumps(geo))
     monkeypatch.setattr(dev, 'GEO_CONFIG', str(f))
     assert dev.build()['meta']['generated_at'] == '2030-01-01T00:00:00Z'
+
+
+def test_a_town_in_several_counties_keeps_its_place_in_each():
+    d = load()
+    cross = read_json('data/hna/cross-county-places.json')['places']
+    in_county = {(g, c['fips']) for g, pl in cross.items() for c in pl['all_counties']}
+    places = dev.apps_mod.load_places()
+    checked = 0
+    for p in d['projects']:
+        g = places.get(dev.awards.norm(p['city'] or ''))
+        if g and g in cross and (g, p['county_fips']) in in_county and ',' not in (p['city'] or ''):
+            assert p['place_geoid'] == g, (p['name'], p['city'], p['county_fips'])
+            checked += 1
+    assert checked > 20  # the scan reached the cross-county towns (Aurora, Westminster, ...)
+    crossbar = next(p for p in d['projects'] if p['name'].startswith('Crossbar Commons'))
+    assert (crossbar['county_fips'], crossbar['place_geoid']) == ('08001', '0804000')

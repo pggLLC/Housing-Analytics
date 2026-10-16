@@ -522,6 +522,11 @@ def build() -> dict:
         L.city_counties.setdefault(awards.norm(pl['name']), set()).update(c['fips'] for c in pl['all_counties'])
     for p in geo['places'] + geo['cdps']:
         L.county_places.setdefault(p['containingCounty'], set()).add(p['geoid'])
+    # a town in several counties is a place in each of them (Aurora in Adams,
+    # Westminster in Jefferson), not only in its containingCounty
+    for geoid, pl in read(CROSS_COUNTY)['places'].items():
+        for c in pl['all_counties']:
+            L.county_places.setdefault(c['fips'], set()).add(geoid)
     counts = {
         'chfa_applications': load_applications(L),
         'award_ledger': load_awards(L),
