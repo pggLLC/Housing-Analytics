@@ -353,8 +353,9 @@
     if (out.boostedBasis > ceiling) out.boostedBasis = ceiling;
 
     var units = args.units, lowIncomeUnits = args.lowIncomeUnits;
-    if (!(lowIncomeUnits > 0)) units = units > 0 ? units : 1; // no low-income unit: the fraction is 0, not unknown
+    // The unit count comes first: with it unknown, even zero low-income units give no fraction.
     if (!(units > 0)) return stop('applicableFraction', 'Enter the number of units.');
+    if (!(lowIncomeUnits >= 0)) return stop('applicableFraction', 'Enter how many units are LIHTC units.');
     out.unitFraction = Math.min(1, Math.max(0, lowIncomeUnits / units));
     if (out.unitFraction === 1) out.floorFraction = 1; // every residential unit is low-income
     else if (out.unitFraction === 0) out.floorFraction = 0; // no low-income unit, no low-income floor space

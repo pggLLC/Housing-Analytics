@@ -503,6 +503,15 @@ test('zero LIHTC floor space with LIHTC units is not a measurement', () => {
   assert.match(r.reasons.applicableFraction, /floor space/);
 });
 
+test('an unknown unit count gives no applicable fraction, even with zero LIHTC units', () => {
+  for (const units of [null, 0]) {
+    const r = base9({ units, lowIncomeUnits: 0 });
+    assert.equal(r.applicableFraction, null);
+    assert.match(r.reasons.applicableFraction, /number of units/);
+  }
+  assert.equal(base9({ units: 10, lowIncomeUnits: 0 }).applicableFraction, 0, 'a known project with no LIHTC units is 0%');
+});
+
 test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
   const m = src.match(/id="dc-tdc"[^>]*value="(\d+)"/);
