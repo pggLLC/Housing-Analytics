@@ -35,6 +35,7 @@ function change(w, id, value, event = 'change') {
   el.dispatchEvent(new w.Event(event, { bubbles: true }));
 }
 const text = (w, id) => w.document.getElementById(id).textContent.trim();
+const underwritingRules = JSON.parse(read('data/policy/lihtc-underwriting-rules.json'));
 async function calculator(saved = subject(), options = {}) {
   const errors = [], vc = new VirtualConsole();
   vc.on('jsdomError', e => { if (!e.message.startsWith('Not implemented')) errors.push(e.message); });
@@ -43,7 +44,8 @@ async function calculator(saved = subject(), options = {}) {
   w.setTimeout = () => 0; w.setInterval = () => 0;
   w.fetch = url => {
     const path = String(url), data = path.includes('chfa-income-rent-limits') ? chfa
-      : path.includes('hud-fmr-income-limits') ? hud : path.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix : null;
+      : path.includes('hud-fmr-income-limits') ? hud : path.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix
+      : path.includes('lihtc-underwriting-rules') ? underwritingRules : null;
     return Promise.resolve({ ok: data != null, json: () => Promise.resolve(data) });
   };
   if (saved) w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(saved));
