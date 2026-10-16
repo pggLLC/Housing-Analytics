@@ -39,11 +39,13 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import difflib
 import importlib.util
 import json
 import os
 import re
 import sys
+import unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -112,14 +114,33 @@ def core_name(name: str) -> str:
     """A project's name without a former name ("Canopy at Red Oak fka: Red Oak
     Park Phase II") or a trailing credit-type digit ("Ives II 4"), normalised."""
     name = re.split(r'\bf\.?k\.?a\b', name, flags=re.I)[0]
+    # "Cañon" and "Canon" are one word; norm_name would split the ñ into a space
+    name = unicodedata.normalize('NFKD', name.replace('\u2019', "'")).encode('ascii', 'ignore').decode()
     name = re.sub(r'\((phase[^)]*)\)', r' \1 ', name, flags=re.I)  # norm_name drops brackets
     n = re.sub(r' [49]$', '', apps_mod.norm_name(name))
-    return re.sub(r'\bmobile home park\b', 'mhp', n)  # "Capitol City MHP" is the same park
+    n = re.sub(r'\bmobile home park\b', 'mhp', n)  # "Capitol City MHP" is the same park
+    # "Phase 1" is every unphased name's phase, and "PSH" describes the homes,
+    # not a second project ("Marshall Homes PSH", "The Osborn - PSH")
+    return re.sub(r'\s+', ' ', re.sub(r'\bphase (?:1|one)\b|\bpsh\b', ' ', n)).strip()
+
+
+ROMAN = {'iv': '4', 'v': '5', 'vi': '6', 'vii': '7', 'viii': '8', 'ix': '9'}  # norm_name maps i–iii
 
 
 def phase(n: str) -> str:
-    m = re.search(r'\bphase (\w+)', n)
-    return {'one': '1', 'two': '2', 'three': '3'}.get(m.group(1), m.group(1)) if m else '1'
+    """The phase a name prints, as "phase 2" or as a trailing "2" or "II"
+    ("Chris Mountain II" is "Chris Mountain Phase II", and "Lumien Apartments
+    II LLC" is phase 2); a two-digit trailing number is part of the name
+    ("Walden 35")."""
+    m = re.search(r'\bphase (\w+)', n) or re.search(r'(?:^|\s)(\d|iv|v|vi|vii|viii|ix)(?:\s+(?:llc|lp|ltd))?$', n)
+    if not m:
+        return '1'
+    v = m.group(1)
+    return {'one': '1', 'two': '2', 'three': '3'}.get(v, ROMAN.get(v, v))
+
+
+def without_phase_word(n: str) -> str:
+    return ' '.join(w for w in n.split() if w != 'phase')
 
 
 def same_project(a: str, b: str) -> bool:
@@ -130,12 +151,26 @@ def same_project(a: str, b: str) -> bool:
     Valley Ranch")."""
     if phase(a) != phase(b):
         return False
+    a, b = without_phase_word(a), without_phase_word(b)
     if a.replace(' ', '') == b.replace(' ', ''):
         return True  # "JetWing Flats" and "Jet Wing Flats"
     if not apps_mod.similar(a, b):
         return False
     wa, wb = set(a.split()), set(b.split())
     return not (wa - wb and wb - wa) or a == b
+
+
+def misspelt(p: dict, name_n: str, county: str | None, city_n: str, units: int | None) -> bool:
+    """One letter off in one source ("Geteway North" for "Gateway North"):
+    the same county, town, phase and size, and names that differ by a typo."""
+    if not (county and county == p['county_fips'] and city_n and city_n == p['_city_n'] and units) \
+            or phase(p['_name_n']) != phase(name_n):
+        return False
+    known = [e['_units'][0] for e in p['events'] if e.get('_units')]
+    if not any(abs(k - units) <= 0.15 * max(k, units) for k in known):
+        return False
+    a, b = p['_name_n'].replace(' ', ''), name_n.replace(' ', '')
+    return difflib.SequenceMatcher(None, a, b).ratio() >= 0.9
 
 
 def read(path: str):
@@ -166,7 +201,7 @@ class Ledger:
 
     def find(self, name_n: str, county: str | None, city_n: str, units: int | None) -> dict | None:
         for p in self.projects:
-            if not same_project(p['_name_n'], name_n):
+            if not same_project(p['_name_n'], name_n) and not misspelt(p, name_n, county, city_n, units):
                 continue
             if county and p['county_fips'] and p['county_fips'] != county \
                     and county not in self.city_counties.get(p['_city_n'], ()) \
@@ -535,7 +570,7 @@ def finish(L: Ledger) -> list[dict]:
         # the ledger's name column sometimes carries the next column's text
         # ("Tungsten Village fka: Third Street Community Boulder County Housing
         # Authority"); the shortest name a source prints is the cleanest
-        p['name'] = min((e['_name'] for e in p['events']), key=len)
+        p['name'] = min((e['_name'] for e in p['events']), key=lambda n: (len(n), n))  # a tie: "Gateway" before "Geteway"
         for e in p['events']:
             e.pop('_units', None)
             e.pop('_units_from_homes', None)

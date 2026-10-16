@@ -457,3 +457,34 @@ def test_a_dola_services_or_voucher_award_is_not_a_development():
     assert 'WISH Community' not in names
     assert dev.DOLA_PROGRAM_TEXT.search('Sixteen (16) Project Based State Housing Vouchers and $57,000 in annual Tenancy Support')
     assert not dev.DOLA_PROGRAM_TEXT.search('Housing Development Grant (HDG) grant to Volunteers of America National Services')
+
+
+def test_accents_trailing_phases_psh_and_one_letter_typos_do_not_split_a_project():
+    # GardenWalk of Cañon/Canon City, Chris Mountain II / Phase II, Marshall
+    # Homes / Marshall Homes PSH, Geteway / Gateway North (#2261 review)
+    L = dev.Ledger(set(), {}, {'08043': 'Fremont County', '08007': 'Archuleta County',
+                               '08059': 'Jefferson County', '08031': 'Denver County', '08067': 'La Plata County'})
+    L.county_places = {}
+    L.city_county, L.city_counties = {}, {}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    pairs = [('GardenWalk of Cañon City', 'GardenWalk of Canon City', 'Canon City', '08043', 42, 42),
+             ('Chris Mountain II', 'Chris Mountain Phase II', 'Pagosa Springs', '08007', 10, 10),
+             ('Marshall Homes', 'Marshall Homes PSH', 'Arvada', '08059', 85, 85),
+             ('Gateway North', 'Geteway North', 'Denver', '08031', 95, 95),
+             ('Lumien Apartments II', 'Lumien Apartments II LLC', 'Durango', '08067', 36, 36),
+             ("King's Crossing", 'King\u2019s Crossing', 'Aurora', '08031', 179, 178)]
+    for a, b, city, county, ua, ub in pairs:
+        L.add(a, city, county, dev.ev('funded', 2024, 'CHFA', 'p', **q), ua)
+        L.add(b, city, county, dev.ev('funded', 2025, 'DOLA', 'p', **q), ub)
+    # kept apart: another phase, another name a letter or two off at another size
+    L.add('Chris Mountain', 'Pagosa Springs', '08007', dev.ev('funded', 2020, 'CHFA', 'p', **q), 40)
+    L.add('Gateway South', 'Denver', '08031', dev.ev('funded', 2018, 'CHFA', 'p', **q), 92)
+    L.add('Walden 35 Phase II', 'Denver', '08031', dev.ev('funded', 2020, 'CHFA', 'p', **q), 60)
+    L.add('Walden 35', 'Denver', '08031', dev.ev('funded', 2019, 'CHFA', 'p', **q), 60)
+    rows = dev.finish(L)
+    assert len(rows) == len(pairs) + 4, sorted(r['name'] for r in rows)
+    assert 'Gateway North' in {r['name'] for r in rows}
+    committed = {p['name'] for p in load()['projects']}
+    for a, b in (('GardenWalk of Cañon City', 'GardenWalk of Canon City'), ('Chris Mountain II', 'Chris Mountain Phase II'),
+                 ('Marshall Homes', 'Marshall Homes PSH'), ('Gateway North', 'Geteway North')):
+        assert not {a, b} <= committed and {a, b} & committed, (a, b)  # one row, under one of its names

@@ -35,16 +35,16 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 771,
+  "project_count": 758,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 426
+  "statewide_recent_projects": 416
  },
  "county_summary": {
   "08001": {
    "name": "Adams County",
-   "projects": 25,
-   "homes": 2427,
+   "projects": 24,
+   "homes": 2391,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -55,12 +55,12 @@
     },
     "funded": {
      "projects": 16,
-     "homes": 1224,
+     "homes": 1308,
      "projects_without_homes": 0
     },
     "land_funded": {
-     "projects": 4,
-     "homes": 625,
+     "projects": 3,
+     "homes": 505,
      "projects_without_homes": 0
     },
     "applied": {
@@ -160,8 +160,8 @@
   },
   "08007": {
    "name": "Archuleta County",
-   "projects": 5,
-   "homes": 131,
+   "projects": 4,
+   "homes": 121,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -171,8 +171,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 4,
-     "homes": 120,
+     "projects": 3,
+     "homes": 110,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -667,8 +667,8 @@
   },
   "08031": {
    "name": "Denver County",
-   "projects": 109,
-   "homes": 11555,
+   "projects": 105,
+   "homes": 11186,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -678,8 +678,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 63,
-     "homes": 6467,
+     "projects": 60,
+     "homes": 6218,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -688,8 +688,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 9,
-     "homes": 1071,
+     "projects": 8,
+     "homes": 951,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -901,8 +901,8 @@
   },
   "08043": {
    "name": "Fremont County",
-   "projects": 3,
-   "homes": 103,
+   "projects": 2,
+   "homes": 61,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -912,8 +912,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 3,
-     "homes": 103,
+     "projects": 2,
+     "homes": 61,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -1018,8 +1018,8 @@
   },
   "08049": {
    "name": "Grand County",
-   "projects": 8,
-   "homes": 693,
+   "projects": 7,
+   "homes": 658,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1029,8 +1029,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 6,
-     "homes": 634,
+     "projects": 5,
+     "homes": 599,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -1408,8 +1408,8 @@
   },
   "08069": {
    "name": "Larimer County",
-   "projects": 19,
-   "homes": 1417,
+   "projects": 18,
+   "homes": 1351,
    "projects_without_homes": 1,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1419,8 +1419,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 13,
-     "homes": 1041,
+     "projects": 12,
+     "homes": 975,
      "projects_without_homes": 1
     },
     "land_funded": {
@@ -1798,8 +1798,8 @@
   },
   "08089": {
    "name": "Otero County",
-   "projects": 2,
-   "homes": 59,
+   "projects": 1,
+   "homes": 30,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1809,8 +1809,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 2,
-     "homes": 59,
+     "projects": 1,
+     "homes": 30,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -4638,6 +4638,16 @@
     },
     {
      "stage": "funded",
+     "year": 2025,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Concessionary Debt",
+     "amount": 1450000,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
+     "quote": "Project Name: Montbello Townhomes - Phase 1; Location: Denver; Proposition 123 Funds Requested: $1,450,000; Proposition 123 Funds Awarded: $1,450,000; Projected Units: 39; Loan Option: LIHTC Gap"
+    },
+    {
+     "stage": "funded",
      "year": 2026,
      "agency": "CHFA",
      "program": "LIHTC 9% + state",
@@ -4692,44 +4702,14 @@
    ]
   },
   {
-   "id": "reserves-green-valley-ranch-2-08031",
-   "name": "Reserves at Green Valley Ranch II",
-   "city": null,
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2026,
-   "latest_year": 2026,
-   "total_units": 120,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "DOLA",
-     "program": "Division of Housing award",
-     "amount": 3300000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Reserves at Green Valley Ranch II; Program: Rental; Amount: $3,300,000; Amount basis: requested; Homes: 120; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
-     "announced": "2026-06",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
-    }
-   ]
-  },
-  {
    "id": "reserves-green-valley-ranch-phase-2-08031",
-   "name": "Reserves at Green Valley Ranch Phase II",
+   "name": "Reserves at Green Valley Ranch II",
    "city": "Denver",
    "county_fips": "08031",
    "county_fips_all": null,
    "county": "Denver County",
    "place_geoid": "0820000",
-   "stage": "applied",
+   "stage": "funded",
    "first_year": 2024,
    "latest_year": 2026,
    "total_units": 120,
@@ -4770,6 +4750,20 @@
      "quote": "Building Type: N; Resident Type: I/F; Name: Reserves at Green Valley Ranch Phase II; Address: 4991 N Telluride Street; City: Denver; Total Units: 120; LI Units: 120; Federal 4% Credit Requested: $2,315,543; PAB Issuer: CHFA; PAB Requested: $17,300,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000",
      "round": "2026 Round Two",
      "as_of": "2026-08-11"
+    },
+    {
+     "stage": "funded",
+     "year": 2026,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 3300000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+     "quote": "Project: Reserves at Green Valley Ranch II; Program: Rental; Amount: $3,300,000; Amount basis: requested; Homes: 120; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
+     "announced": "2026-06",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -4919,7 +4913,7 @@
   },
   {
    "id": "townview-08031",
-   "name": "Townview Apartments",
+   "name": "Townview Phase I",
    "city": "Denver",
    "county_fips": "08031",
    "county_fips_all": null,
@@ -4929,8 +4923,20 @@
    "first_year": 2025,
    "latest_year": 2026,
    "total_units": 160,
-   "restricted_units": null,
+   "restricted_units": 160,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 2550233,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+     "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Townview Phase I; Address: 1600 Hooker Street; City: Denver; County: Denver; QCT: No; DDA: No; SADDA: No; Federal 4% Credit Amount Issued *: $2,550,233; Noncompetitive State Credit Amount Issued*: $700,000; TOC Credit Amount (if applicable): $200,000; PAB Issuer **: City and County of Denver; PAB Amount ***: $27,400,000; Total Units: 160; LI Units: 160; Sect. 8: No",
+     "state_credit": 700000,
+     "bond_amount": 27400000
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -5424,8 +5430,8 @@
    ]
   },
   {
-   "id": "gardenwalk-ca-on-city-08043",
-   "name": "GardenWalk of Cañon City",
+   "id": "gardenwalk-canon-city-08043",
+   "name": "GardenWalk of Canon City",
    "city": "Canon City",
    "county_fips": "08043",
    "county_fips_all": null,
@@ -5460,6 +5466,20 @@
      "quote": "Type: N, I/F; Name: GardenWalk of Cañon City; Address: 3232 Independence Road; City: Canon City; Total Units: 42; Total LI Units: 42; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000",
      "round": "2025 Round One",
      "as_of": "2025-02-12"
+    },
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 775000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+     "quote": "Project: GardenWalk of Canon City; Program: Rental; Amount: $775,000; Amount basis: requested; Homes: 42; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
+     "announced": "2025-11",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
      "stage": "funded",
@@ -5534,11 +5554,21 @@
    "county": "Grand County",
    "place_geoid": "0828305",
    "stage": "funded",
-   "first_year": 2026,
+   "first_year": 2024,
    "latest_year": 2026,
-   "total_units": 35,
+   "total_units": 129,
    "restricted_units": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Equity",
+     "amount": 12900000,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/06/Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
+     "quote": "Project Name: St Louis Landing Phase I; Location: Fraser; Proposition 123 Funds Requested: $12,900,000; Proposition 123 Funds Awarded: $12,900,000; Projected Units: 129; Equity Option Election: Affordability-Driven Investment"
+    },
     {
      "stage": "funded",
      "year": 2026,
@@ -6764,19 +6794,30 @@
    ]
   },
   {
-   "id": "foundry-phase-1-08001",
-   "name": "The Foundry Phase I",
+   "id": "foundry-08001",
+   "name": "The Foundry",
    "city": "Commerce City",
    "county_fips": "08001",
    "county_fips_all": null,
    "county": "Adams County",
    "place_geoid": "0816495",
    "stage": "funded",
-   "first_year": 2025,
+   "first_year": 2024,
    "latest_year": 2025,
-   "total_units": 36,
+   "total_units": 120,
    "restricted_units": null,
    "events": [
+    {
+     "stage": "land_funded",
+     "year": 2024,
+     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+     "program": "Prop 123 Land Banking",
+     "amount": 4750000,
+     "amount_label": "awarded",
+     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
+     "quote": "Project Name: The Foundry; Location: Commerce City; Funding Awarded: $4,750,000; Purpose: Rental and Homeownership; Estimated Units: 120",
+     "tenure": "Rental and Homeownership"
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -6871,7 +6912,7 @@
    ]
   },
   {
-   "id": "arapahoe-psh-08005",
+   "id": "arapahoe-08005",
    "name": "Arapahoe PSH",
    "city": "Aurora",
    "county_fips": "08005",
@@ -7170,18 +7211,32 @@
   },
   {
    "id": "chris-mountain-phase-2-08007",
-   "name": "Chris Mountain Phase II",
+   "name": "Chris Mountain II",
    "city": "Pagosa Springs",
    "county_fips": "08007",
    "county_fips_all": null,
    "county": "Archuleta County",
    "place_geoid": "0856860",
    "stage": "funded",
-   "first_year": 2025,
+   "first_year": 2023,
    "latest_year": 2025,
    "total_units": 10,
    "restricted_units": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "Prop 123 homeownership (AHOP)",
+     "amount": 550000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
+     "quote": "Project: Chris Mountain II; Town: Trails Blvd Pagosa Springs; Program: Prop 123 AHOP; Amount: $550,000; Amount basis: awarded; Homes: 10; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
+     "announced": "2023-07-01/2024-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
+    },
     {
      "stage": "funded",
      "year": 2025,
@@ -8060,7 +8115,7 @@
    ]
   },
   {
-   "id": "central-park-station-phase-1-08031",
+   "id": "central-park-station-08031",
    "name": "Central Park Station",
    "city": "Denver",
    "county_fips": "08031",
@@ -8590,33 +8645,7 @@
    ]
   },
   {
-   "id": "montbello-townhomes-phase-1-08031",
-   "name": "Montbello Townhomes - Phase 1",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 39,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Concessionary Debt",
-     "amount": 1450000,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
-     "quote": "Project Name: Montbello Townhomes - Phase 1; Location: Denver; Proposition 123 Funds Requested: $1,450,000; Proposition 123 Funds Awarded: $1,450,000; Projected Units: 39; Loan Option: LIHTC Gap"
-    }
-   ]
-  },
-  {
-   "id": "mosaic-psh-08031",
+   "id": "mosaic-08031",
    "name": "Mosaic PSH",
    "city": null,
    "county_fips": "08031",
@@ -8938,34 +8967,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Tapestry LIHTC; PROJ_CTY: Denver; N_UNITS: 72; LI_UNITS: 72; YR_ALLOC: 2025; CREDIT: 9% and State and TOC; ComplianceStatus: Pre-Compliance - Construction Phase",
      "compliance_status": "Pre-Compliance - Construction Phase"
-    }
-   ]
-  },
-  {
-   "id": "townview-phase-1-08031",
-   "name": "Townview Phase I",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 160,
-   "restricted_units": 160,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 2550233,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
-     "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Townview Phase I; Address: 1600 Hooker Street; City: Denver; County: Denver; QCT: No; DDA: No; SADDA: No; Federal 4% Credit Amount Issued *: $2,550,233; Noncompetitive State Credit Amount Issued*: $700,000; TOC Credit Amount (if applicable): $200,000; PAB Issuer **: City and County of Denver; PAB Amount ***: $27,400,000; Total Units: 160; LI Units: 160; Sect. 8: No",
-     "state_credit": 700000,
-     "bond_amount": 27400000
     }
    ]
   },
@@ -9417,36 +9418,6 @@
      "amount_label": "awarded",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
      "quote": "Project Name: Trinity Apartments; Location: Colorado Springs; Proposition 123 Funds Requested: $485,000; Proposition 123 Funds Awarded: $485,000; Projected Units: 75; Loan Option: LIHTC Predevelopment Finance"
-    }
-   ]
-  },
-  {
-   "id": "gardenwalk-canon-city-08043",
-   "name": "GardenWalk of Canon City",
-   "city": null,
-   "county_fips": "08043",
-   "county_fips_all": null,
-   "county": "Fremont County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2025,
-   "latest_year": 2025,
-   "total_units": 42,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "Division of Housing award",
-     "amount": 775000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: GardenWalk of Canon City; Program: Rental; Amount: $775,000; Amount basis: requested; Homes: 42; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
-     "announced": "2025-11",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     }
    ]
   },
@@ -10612,7 +10583,7 @@
    ]
   },
   {
-   "id": "liberty-phase-1-08077",
+   "id": "liberty-08077",
    "name": "Liberty Apartments Phase I",
    "city": "Grand Junction",
    "county_fips": "08077",
@@ -11500,33 +11471,6 @@
      "quote": "Type: N; Target Type: F, SP; Name: Maiker Uplands; Address: 2880 W. 88th Avenue; City: Westminster; County: Adams; Federal Credit Amount: $1,653,187; Accelerated State Credit Amount: $1,786,024; Bond Issuer: Adams County Housing Authority; Bond Amount: $17,520,080; Total Units: 70; LI Units: 70",
      "state_credit": 1786024,
      "bond_amount": 17520080
-    }
-   ]
-  },
-  {
-   "id": "foundry-08001",
-   "name": "The Foundry",
-   "city": "Commerce City",
-   "county_fips": "08001",
-   "county_fips_all": null,
-   "county": "Adams County",
-   "place_geoid": "0816495",
-   "stage": "land_funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 120,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "land_funded",
-     "year": 2024,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Land Banking",
-     "amount": 4750000,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
-     "quote": "Project Name: The Foundry; Location: Commerce City; Funding Awarded: $4,750,000; Purpose: Rental and Homeownership; Estimated Units: 120",
-     "tenure": "Rental and Homeownership"
     }
    ]
   },
@@ -12706,39 +12650,23 @@
      "stage": "funded",
      "year": 2024,
      "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and Noncompetitive State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Vina Senior Residences 4; PROJ_CTY: Denver; N_UNITS: 102; LI_UNITS: 102; YR_ALLOC: 2024; CREDIT: 4% and Noncompetitive State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "vi-a-senior-08031",
-   "name": "Viña Senior Residences",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 50,
-   "restricted_units": 50,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "CHFA",
      "program": "LIHTC 9% + state",
      "amount": 1333863,
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
      "quote": "Type: S, N; Name: Viña Senior Residences; Address: 2150 E. 49th Avenue; City: Denver; Total Units: 50; Total LI Units: 50; Federal 9% Credit Awarded: $1,333,863; Standard State Credit Awarded: $700,000",
      "state_credit": 700000
+    },
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and Noncompetitive State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Vina Senior Residences 4; PROJ_CTY: Denver; N_UNITS: 102; LI_UNITS: 102; YR_ALLOC: 2024; CREDIT: 4% and Noncompetitive State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -13113,32 +13041,6 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": true,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)"
-    }
-   ]
-  },
-  {
-   "id": "street-louis-landing-phase-1-08049",
-   "name": "St Louis Landing Phase I",
-   "city": "Fraser",
-   "county_fips": "08049",
-   "county_fips_all": null,
-   "county": "Grand County",
-   "place_geoid": "0828305",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 129,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "OEDIT / CHFA (Prop 123 AHFF)",
-     "program": "Prop 123 Equity",
-     "amount": 12900000,
-     "amount_label": "awarded",
-     "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/06/Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
-     "quote": "Project Name: St Louis Landing Phase I; Location: Fraser; Proposition 123 Funds Requested: $12,900,000; Proposition 123 Funds Awarded: $12,900,000; Projected Units: 129; Equity Option Election: Affordability-Driven Investment"
     }
    ]
   },
@@ -14146,36 +14048,6 @@
    ]
   },
   {
-   "id": "chris-mountain-2-08007",
-   "name": "Chris Mountain II",
-   "city": "Pagosa Springs",
-   "county_fips": "08007",
-   "county_fips_all": null,
-   "county": "Archuleta County",
-   "place_geoid": "0856860",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 10,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
-     "agency": "DOLA",
-     "program": "Prop 123 homeownership (AHOP)",
-     "amount": 550000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
-     "quote": "Project: Chris Mountain II; Town: Trails Blvd Pagosa Springs; Program: Prop 123 AHOP; Amount: $550,000; Amount basis: awarded; Homes: 10; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
-     "announced": "2023-07-01/2024-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
-    }
-   ]
-  },
-  {
    "id": "timberline-pagosa-springs-08007",
    "name": "Timberline at Pagosa Springs",
    "city": "Pagosa Springs",
@@ -14614,7 +14486,7 @@
    ]
   },
   {
-   "id": "carbonate-street-phase-1-tahlf-08015",
+   "id": "carbonate-street-tahlf-08015",
    "name": "Carbonate Street Phase 1 TAHLF",
    "city": "Buena Vista",
    "county_fips": "08015",
@@ -16651,19 +16523,31 @@
    ]
   },
   {
-   "id": "marshall-psh-08059",
-   "name": "Marshall Homes PSH",
+   "id": "marshall-08059",
+   "name": "Marshall Homes",
    "city": "Arvada",
    "county_fips": "08059",
    "county_fips_all": null,
    "county": "Jefferson County",
    "place_geoid": "0803455",
    "stage": "funded",
-   "first_year": 2023,
+   "first_year": 2022,
    "latest_year": 2023,
    "total_units": 85,
-   "restricted_units": null,
+   "restricted_units": 85,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1553542,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf",
+     "quote": "Typ e *: N; Target **: H; Name: Marshall Homes; Address: 5549 Marshall Street; City: Arvada; County: Jefferson; Federal Credit: $1,553,542; State Credit: $648,429; Bond Issuer: CHFA; Bond Amount: $17,075,000; Total Units: 85; Total TC Units: 85",
+     "state_credit": 648429,
+     "bond_amount": 17075000
+    },
     {
      "stage": "funded",
      "year": 2023,
@@ -16911,33 +16795,6 @@
     {
      "stage": "funded",
      "year": 2023,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Edge III; PROJ_CTY: Loveland; N_UNITS: 66; LI_UNITS: 66; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "edge-phase-3-08069",
-   "name": "Edge Phase III Apartments",
-   "city": "Loveland",
-   "county_fips": "08069",
-   "county_fips_all": null,
-   "county": "Larimer County",
-   "place_geoid": "0846465",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 66,
-   "restricted_units": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2023,
      "agency": "DOLA",
      "program": "Revolving loan fund (SB22-159)",
      "amount": 4550000,
@@ -16948,6 +16805,17 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Edge III; PROJ_CTY: Loveland; N_UNITS: 66; LI_UNITS: 66; YR_ALLOC: 2023; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -17398,23 +17266,7 @@
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2023/12/Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
      "quote": "Project Name: The Osborn; Location: Rocky Ford; Funds Requested: $800,000; Number of Units: 30; Program: LIHTC Gap"
-    }
-   ]
-  },
-  {
-   "id": "osborn-psh-08089",
-   "name": "The Osborn - PSH",
-   "city": "Rocky Ford",
-   "county_fips": "08089",
-   "county_fips_all": null,
-   "county": "Otero County",
-   "place_geoid": "0865190",
-   "stage": "funded",
-   "first_year": 2023,
-   "latest_year": 2023,
-   "total_units": 29,
-   "restricted_units": null,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2023,
@@ -17490,7 +17342,7 @@
    ]
   },
   {
-   "id": "pikes-peak-park-phase-1-infrastructure-thlf-08101",
+   "id": "pikes-peak-park-infrastructure-thlf-08101",
    "name": "Pikes Peak Park Phase I Infrastructure THLF",
    "city": "Pueblo",
    "county_fips": "08101",
@@ -18832,34 +18684,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Legacy Senior Residences; PROJ_CTY: Arvada; N_UNITS: 72; LI_UNITS: 72; YR_ALLOC: 2022; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "marshall-08059",
-   "name": "Marshall Homes",
-   "city": "Arvada",
-   "county_fips": "08059",
-   "county_fips_all": null,
-   "county": "Jefferson County",
-   "place_geoid": "0803455",
-   "stage": "funded",
-   "first_year": 2022,
-   "latest_year": 2022,
-   "total_units": 85,
-   "restricted_units": 85,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2022,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 1553542,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf",
-     "quote": "Typ e *: N; Target **: H; Name: Marshall Homes; Address: 5549 Marshall Street; City: Arvada; County: Jefferson; Federal Credit: $1,553,542; State Credit: $648,429; Bond Issuer: CHFA; Bond Amount: $17,075,000; Total Units: 85; Total TC Units: 85",
-     "state_credit": 648429,
-     "bond_amount": 17075000
     }
    ]
   },
@@ -24003,6 +23827,43 @@
    ]
   },
   {
+   "id": "veterans-renaissance-fitzsimons-08005",
+   "name": "Renaissance Veterans Apartments at Fitzsimons",
+   "city": "Aurora",
+   "county_fips": "08005",
+   "county_fips_all": null,
+   "county": "Arapahoe County",
+   "place_geoid": "0804000",
+   "stage": "funded",
+   "first_year": 2018,
+   "latest_year": 2018,
+   "total_units": 60,
+   "restricted_units": 59,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2018,
+     "agency": "CHFA",
+     "program": "LIHTC 9% + state",
+     "amount": 1350000,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
+     "quote": "Type: N,H; Name: Veterans Renaissance Apartments at Fitzsimons; Address: 1919 N. Quentin Street; City: Aurora; Credit Amount Requested: $1,350,000; Total Units: 60; Total LI Units: 59"
+    },
+    {
+     "stage": "funded",
+     "year": 2018,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (9% Competitive)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Renaissance Veterans Apartments at Fitzsimons; PROJ_CTY: Aurora; N_UNITS: 60; LI_UNITS: 59; YR_ALLOC: 2018; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "hoffman-08005",
    "name": "Residences at Hoffman",
    "city": "Aurora",
@@ -24037,43 +23898,6 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Residences at Hoffman; PROJ_CTY: Aurora; N_UNITS: 85; LI_UNITS: 85; YR_ALLOC: 2018; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "veterans-renaissance-fitzsimons-08005",
-   "name": "Veterans Renaissance Apartments at Fitzsimons",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "funded",
-   "first_year": 2018,
-   "latest_year": 2018,
-   "total_units": 60,
-   "restricted_units": 59,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2018,
-     "agency": "CHFA",
-     "program": "LIHTC 9% + state",
-     "amount": 1350000,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
-     "quote": "Type: N,H; Name: Veterans Renaissance Apartments at Fitzsimons; Address: 1919 N. Quentin Street; City: Aurora; Credit Amount Requested: $1,350,000; Total Units: 60; Total LI Units: 59"
-    },
-    {
-     "stage": "funded",
-     "year": 2018,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (9% Competitive)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Renaissance Veterans Apartments at Fitzsimons; PROJ_CTY: Aurora; N_UNITS: 60; LI_UNITS: 59; YR_ALLOC: 2018; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -24449,7 +24273,7 @@
    ]
   },
   {
-   "id": "gateway-north-08031",
+   "id": "geteway-north-08031",
    "name": "Gateway North",
    "city": "Denver",
    "county_fips": "08031",
@@ -24462,6 +24286,16 @@
    "total_units": 95,
    "restricted_units": 95,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2018,
+     "agency": "CHFA",
+     "program": "LIHTC 9% + state",
+     "amount": 1426148,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
+     "quote": "Type: A/R,F; Name: Geteway North; Address: 1005 Decatur Street; City: Denver; Credit Amount Requested: $1,426,148; Total Units: 95; Total LI Units: 95"
+    },
     {
      "stage": "funded",
      "year": 2018,
@@ -24509,32 +24343,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Gateway South Apartments; PROJ_CTY: Denver; N_UNITS: 92; LI_UNITS: 58; YR_ALLOC: 2018; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "geteway-north-08031",
-   "name": "Geteway North",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2018,
-   "latest_year": 2018,
-   "total_units": 95,
-   "restricted_units": 95,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2018,
-     "agency": "CHFA",
-     "program": "LIHTC 9% + state",
-     "amount": 1426148,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
-     "quote": "Type: A/R,F; Name: Geteway North; Address: 1005 Decatur Street; City: Denver; Credit Amount Requested: $1,426,148; Total Units: 95; Total LI Units: 95"
     }
    ]
   },
@@ -25193,35 +25001,8 @@
    ]
   },
   {
-   "id": "crossing-pointe-north-08001",
+   "id": "crossing-pointe-08001",
    "name": "Crossing Pointe North",
-   "city": "Thornton",
-   "county_fips": "08001",
-   "county_fips_all": null,
-   "county": "Adams County",
-   "place_geoid": "0877290",
-   "stage": "funded",
-   "first_year": 2017,
-   "latest_year": 2017,
-   "total_units": 64,
-   "restricted_units": 64,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2017,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (9% Competitive)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Crossing Pointe North; PROJ_CTY: Thornton; N_UNITS: 64; LI_UNITS: 64; YR_ALLOC: 2017; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "crossing-pointe-phase-1-08001",
-   "name": "Crossing Pointe Phase I",
    "city": "Thornton",
    "county_fips": "08001",
    "county_fips_all": null,
@@ -25242,6 +25023,17 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/2017-Round-2-Award-Report.pdf",
      "quote": "Type: N,S; Name: Crossing Pointe Phase I; Address: 4220 East 104th Avenue; City: Thornton; Credit Amount Requested: $1,250,000; Total Units: 64; Total LI Units: 64"
+    },
+    {
+     "stage": "funded",
+     "year": 2017,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (9% Competitive)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Crossing Pointe North; PROJ_CTY: Thornton; N_UNITS: 64; LI_UNITS: 64; YR_ALLOC: 2017; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
     }
    ]
   },
@@ -27932,7 +27724,7 @@
    ]
   },
   {
-   "id": "greenway-flats-psh-08041",
+   "id": "greenway-flats-08041",
    "name": "Greenway Flats PSH",
    "city": "Colorado Springs",
    "county_fips": "08041",
