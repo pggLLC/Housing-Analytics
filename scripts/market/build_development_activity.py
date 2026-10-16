@@ -126,7 +126,11 @@ def same_project(a: str, b: str) -> bool:
     "Walden 35 Phase II"), and two names that each carry a word the other lacks
     are different projects ("Exodus at Green Valley Ranch", "Reserves at Green
     Valley Ranch")."""
-    if not apps_mod.similar(a, b) or phase(a) != phase(b):
+    if phase(a) != phase(b):
+        return False
+    if a.replace(' ', '') == b.replace(' ', ''):
+        return True  # "JetWing Flats" and "Jet Wing Flats"
+    if not apps_mod.similar(a, b):
         return False
     wa, wb = set(a.split()), set(b.split())
     return not (wa - wb and wb - wa) or a == b
@@ -168,14 +172,18 @@ class Ledger:
                 continue  # a town in two counties (Aurora) may be printed with either
             # two towns are two projects ("The Ridge" in Colorado Springs and in
             # Denver), unless one printing contains the other ("Pueblo CHFA")
+            known = [e['_units'][0] for e in p['events'] if e.get('_units')]
+            agree = bool(units and known and any(abs(k - units) <= 0.15 * max(k, units) for k in known))
             if city_n and p['_city_n'] and city_n not in p['_city_n'] and p['_city_n'] not in city_n:
-                continue
+                # ...except one name in one county with the same size printed
+                # under two town labels: Aster Place in "Parachute" and
+                # "Battlement Mesa", Shooks Run in "Colordo Springs"
+                if not (county and county == p['county_fips'] and p['_name_n'] == name_n and agree):
+                    continue
             # a name inside a longer name ("Park Avenue Apartments", "Park Avenue
             # West Apartments") is one project only if the unit counts agree
-            if p['_name_n'] != name_n and units:
-                known = [e['_units'][0] for e in p['events'] if e.get('_units')]
-                if known and not any(abs(k - units) <= 0.15 * max(k, units) for k in known):
-                    continue
+            if p['_name_n'] != name_n and units and known and not agree:
+                continue
             return p
         return None
 
@@ -472,9 +480,32 @@ def load_feed(L: Ledger) -> int:
     return n
 
 
+def town_labels_joined(projects: list[dict]) -> list[dict]:
+    """One name in one county printed under two town labels, with a unit count
+    the two share, is one project: Aster Place is "Parachute" in its
+    application and "Battlement Mesa" in its award. find() cannot always see
+    this, because the 2023 application printed 40 units and the 58-unit award
+    arrived before the 58-unit property row. Copies; the ledger is unchanged."""
+    out: list[dict] = []
+    for src in projects:
+        p = dict(src, events=list(src['events']))
+        sizes = [e['_units'][0] for e in p['events'] if e.get('_units')]
+        for q in out:
+            if q['county_fips'] and q['county_fips'] == p['county_fips'] and q['_name_n'] == p['_name_n'] \
+                    and q['_city_n'] != p['_city_n'] and any(
+                        abs(k - u) <= 0.15 * max(k, u)
+                        for k in (e['_units'][0] for e in q['events'] if e.get('_units')) for u in sizes):
+                q['events'] += p['events']
+                q['place_geoid'] = q['place_geoid'] or p['place_geoid']
+                break
+        else:
+            out.append(p)
+    return out
+
+
 def finish(L: Ledger) -> list[dict]:
     out = []
-    for src in L.projects:
+    for src in town_labels_joined(L.projects):
         p = dict(src, events=[dict(e) for e in src['events']])  # finish() leaves the ledger as it was
         p['events'].sort(key=lambda e: (e.get('year') or 0, STAGES[e['stage']][0]))
         best = max(p['events'], key=lambda e: (STAGES[e['stage']][0], e.get('year') or 0))

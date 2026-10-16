@@ -397,3 +397,34 @@ def test_a_printed_county_stands_against_a_postal_town_name():
     assert rows[('Dawson Square', 'Denver')]['county_fips'] == '08001'
     assert rows[('Sophia', 'Englewood')]['county_fips'] == '08035'
     assert rows[('Ridge', 'Denver')]['county_fips'] == '08031'  # the corrected application still stands
+
+
+def test_one_project_printed_under_two_town_labels_or_spacings_is_one_row():
+    # Aster Place ("Parachute" / "Battlement Mesa"), JetWing / Jet Wing Flats,
+    # Shooks Run in "Colordo Springs", Wintergreen Ridge in "Summit County" /
+    # "Keystone" were each two rows (#2261 review)
+    seen, rows = {}, load()['projects']
+    for p in rows:
+        if not (p['county_fips'] and p['total_units']):
+            continue
+        key = (p['county_fips'], dev.core_name(p['name']).replace(' ', ''))
+        for other in seen.get(key, []):
+            assert abs(other['total_units'] - p['total_units']) > 0.15 * max(other['total_units'], p['total_units']), \
+                (p['name'], p['city'], other['city'])
+        seen.setdefault(key, []).append(p)
+    assert len(seen) > 400  # the scan covered the ledger
+    L = dev.Ledger(set(), {}, {'08045': 'Garfield County', '08041': 'El Paso County'})
+    L.county_places = {}
+    L.city_county = {'parachute': '08045', 'colorado springs': '08041'}
+    L.city_counties = {'parachute': {'08045'}, 'colorado springs': {'08041'}}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    # the earlier application printed 40 units, so the award cannot join it on arrival
+    L.add('Aster Place', 'Parachute', '08045', dev.ev('not_funded', 2023, 'CHFA', 'p', **q), 40)
+    L.add('Aster Place', 'Battlement Mesa', '08045', dev.ev('funded', 2024, 'CHFA', 'p', **q), 58)
+    L.add('Aster Place', 'Parachute', '08045', dev.ev('funded', 2024, 'CHFA', 'q', **q), 58)
+    L.add('JetWing Flats', 'Colorado Springs', '08041', dev.ev('applied', 2023, 'CHFA', 'p', **q), 68)
+    L.add('Jet Wing Flats', 'Colorado Springs', '08041', dev.ev('funded', 2024, 'CHFA', 'p', **q), 68)
+    # a same-named project of another size in another town of the county stays apart
+    L.add('Aster Place', 'Rifle', '08045', dev.ev('funded', 2025, 'CHFA', 'p', **q), 120)
+    got = sorted((r['city'], len(r['events'])) for r in dev.finish(L))
+    assert got == [('Colorado Springs', 2), ('Parachute', 3), ('Rifle', 1)], got

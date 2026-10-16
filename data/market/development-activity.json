@@ -35,10 +35,10 @@
   "program_awards_left_out": 91,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 776,
+  "project_count": 772,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 428
+  "statewide_recent_projects": 426
  },
  "county_summary": {
   "08001": {
@@ -862,8 +862,8 @@
   },
   "08041": {
    "name": "El Paso County",
-   "projects": 24,
-   "homes": 2472,
+   "projects": 23,
+   "homes": 2404,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -873,8 +873,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 19,
-     "homes": 2108,
+     "projects": 18,
+     "homes": 2040,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -940,8 +940,8 @@
   },
   "08045": {
    "name": "Garfield County",
-   "projects": 12,
-   "homes": 694,
+   "projects": 11,
+   "homes": 636,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -951,8 +951,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 9,
-     "homes": 475,
+     "projects": 8,
+     "homes": 417,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -9379,6 +9379,29 @@
     },
     {
      "stage": "funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1355280,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+     "quote": "Type: N; Target Type: F; Name: Jet Wing Flats; Address: 2040 Jet Wing Drive; City: Colorado Springs; County: El Paso; Federal Credit Amount: $1,355,280; Accelerated State Credit Amount: $1,800,000; Bond Issuer: CHFA; Bond Amount: $14,719,687; Total Units: 68; LI Units: 68",
+     "state_credit": 1800000,
+     "bond_amount": 14719687
+    },
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Jet Wing Flats; PROJ_CTY: Colorado Springs; N_UNITS: 68; LI_UNITS: 68; YR_ALLOC: 2024; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    },
+    {
+     "stage": "funded",
      "year": 2025,
      "agency": "DOLA",
      "program": "Housing Development Grant",
@@ -12876,45 +12899,6 @@
    ]
   },
   {
-   "id": "jet-wing-flats-08041",
-   "name": "Jet Wing Flats",
-   "city": "Colorado Springs",
-   "county_fips": "08041",
-   "county_fips_all": null,
-   "county": "El Paso County",
-   "place_geoid": "0816000",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 68,
-   "restricted_units": 68,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 1355280,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
-     "quote": "Type: N; Target Type: F; Name: Jet Wing Flats; Address: 2040 Jet Wing Drive; City: Colorado Springs; County: El Paso; Federal Credit Amount: $1,355,280; Accelerated State Credit Amount: $1,800,000; Bond Issuer: CHFA; Bond Amount: $14,719,687; Total Units: 68; LI Units: 68",
-     "state_credit": 1800000,
-     "bond_amount": 14719687
-    },
-    {
-     "stage": "funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Jet Wing Flats; PROJ_CTY: Colorado Springs; N_UNITS: 68; LI_UNITS: 68; YR_ALLOC: 2024; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "royal-pine-08041",
    "name": "Royal Pine Apartments",
    "city": "Colorado Springs",
@@ -13094,23 +13078,7 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Aster Place; PROJ_CTY: Parachute; N_UNITS: 58; LI_UNITS: 58; YR_ALLOC: 2024; CREDIT: 9% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "aster-place-08045-2",
-   "name": "Aster Place",
-   "city": "Battlement Mesa",
-   "county_fips": "08045",
-   "county_fips_all": null,
-   "county": "Garfield County",
-   "place_geoid": "0805120",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 58,
-   "restricted_units": 58,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2024,
@@ -17820,13 +17788,24 @@
    "county_fips": "08117",
    "county_fips_all": null,
    "county": "Summit County",
-   "place_geoid": null,
+   "place_geoid": "0840550",
    "stage": "funded",
-   "first_year": 2023,
+   "first_year": 2021,
    "latest_year": 2023,
    "total_units": 47,
    "restricted_units": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Wintergreen Ridge; PROJ_CTY: Keystone; N_UNITS: 47; LI_UNITS: 46; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    },
     {
      "stage": "funded",
      "year": 2023,
@@ -20887,33 +20866,6 @@
    ]
   },
   {
-   "id": "wintergreen-ridge-08117-2",
-   "name": "Wintergreen Ridge",
-   "city": "Keystone",
-   "county_fips": "08117",
-   "county_fips_all": null,
-   "county": "Summit County",
-   "place_geoid": "0840550",
-   "stage": "funded",
-   "first_year": 2021,
-   "latest_year": 2021,
-   "total_units": 47,
-   "restricted_units": 46,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Wintergreen Ridge; PROJ_CTY: Keystone; N_UNITS: 47; LI_UNITS: 46; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "copper-platte-08123",
    "name": "Copper Platte Apartments",
    "city": "Greeley",
@@ -23415,23 +23367,7 @@
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/52b45440-7788-4762-9a75-c9c632623a8f/2019-Round-2-Award-Report.pdf",
      "quote": "Type: N,F; Name: Shooks Run Apartments; Address: 502 East Fountain Boulevard; City: Colorado Springs; Credit Amount Requested: $1,011,891; Total Units: 40; Total LI Units: 40"
-    }
-   ]
-  },
-  {
-   "id": "shooks-run-08041-2",
-   "name": "Shooks Run Apartments",
-   "city": "Colordo Springs",
-   "county_fips": "08041",
-   "county_fips_all": null,
-   "county": "El Paso County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2019,
-   "latest_year": 2019,
-   "total_units": 40,
-   "restricted_units": 40,
-   "events": [
+    },
     {
      "stage": "funded",
      "year": 2019,
