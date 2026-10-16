@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T11:31:13.731Z",
+    "generated_at": "2026-10-16T11:33:03.481Z",
     "root": "data/",
-    "file_count": 1737,
-    "total_size_bytes": 184974324,
+    "file_count": 1736,
+    "total_size_bytes": 184435870,
     "kinds": {
-      "json": 1694,
+      "json": 1693,
       "geojson": 33,
       "csv": 10
     }
@@ -941,7 +941,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-15T11:37:07.098Z",
+      "mtime": "2026-10-16T11:32:58.241Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1057,7 +1057,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-15T11:37:04.808Z",
+      "mtime": "2026-10-16T11:32:55.173Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30971,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 219891,
-      "mtime": "2026-10-16T10:03:46.740Z",
+      "size_bytes": 220019,
+      "mtime": "2026-10-16T11:33:01.475Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32400,7 +32400,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-15T11:37:07.190Z",
+      "mtime": "2026-10-16T11:32:58.318Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34609,7 +34609,7 @@
       "path": "policy/funding-watch-sources.json",
       "kind": "json",
       "size_bytes": 7550,
-      "mtime": "2026-10-16T11:29:29.758Z",
+      "mtime": "2026-10-16T11:32:52.488Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35859,7 +35859,7 @@
       "path": "url-health.json",
       "kind": "json",
       "size_bytes": 622101,
-      "mtime": "2026-10-16T11:29:29.773Z",
+      "mtime": "2026-10-16T11:32:52.499Z",
       "shape": "object",
       "keys": [
         "lastSweepAt",
