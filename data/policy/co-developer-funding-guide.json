@@ -7194,8 +7194,8 @@
       "award_size": "No suggested minimum or maximum. The pilot round awarded $13,327,830 in February 2026.",
       "rate": null,
       "term": null,
-      "ami_restriction": "Regulated affordable housing: units under a recorded use covenant or similar agreement, or income-restricted under a local inclusionary ordinance or other program. No AMI ceiling is stated.",
-      "affordability_period": null,
+      "ami_restriction": "Regulated affordable housing (C.R.S. § 29-35-103(16)) must meet all three tests: it carries a recorded use covenant or similar agreement as a condition of funding, or is income-restricted under a local inclusionary ordinance or other program; it caps rent or sale prices for a household size at an area median income set annually by HUD; and it is occupied by low- to moderate-income households for a period set in the covenant. The statute names no single AMI level; the project's covenant sets it.",
+      "affordability_period": "The period stated in the project's recorded covenant or similar agreement; the statute sets no minimum.",
       "eligible_applicants": "Municipalities, counties, cities and city-counties certified by DOLA as Transit Oriented Communities. A pre-application meeting with DOLA is required before the portal opens to the applicant.",
       "eligible_projects": "On-site infrastructure for affordable housing in a Transit or Neighborhood Center, and public infrastructure in or primarily benefiting one. A housing component needs at least 15 dwelling units per acre. A 25% local match is required; administrative costs are not eligible.",
       "application_cycle": "The pilot round ran October 27 to December 12, 2025. DOLA says a second round will be held in 2027, with an information session tentatively in fall 2026, and that more funding is not guaranteed.",
@@ -7223,6 +7223,10 @@
         {
           "label": "docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export",
           "url": "https://docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export?format=txt"
+        },
+        {
+          "label": "HB24-1313 (enrolled), C.R.S. § 29-35-103(16)",
+          "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024A/bills/2024a_1313_enr.pdf"
         }
       ],
       "evidence": [
@@ -7265,6 +7269,21 @@
           "field": "ami_restriction",
           "quote": "Regulated affordable housing refers to affordable units that, as a condition of funding, encumbers the property with a restricted use covenant or similar recorded agreement to ensure affordability, or has been income-restricted under a local inclusionary zoning ordinance or other regulation or program (C.R.S. § 29-35-103(16)).",
           "url": "https://docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export?format=txt"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "RESTRICTS OR LIMITS MAXIMUM RENTAL OR SALE PRICE FOR HOUSEHOLDS OF A GIVEN SIZE AT A GIVEN AREA MEDIAN INCOME, AS ESTABLISHED ANNUALLY BY THE UNITED STATES DEPARTMENT OF HOUSING AND URBAN DEVELOPMENT",
+          "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024A/bills/2024a_1313_enr.pdf"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "ENSURES OCCUPANCY BY LOW- TO MODERATE-INCOME HOUSEHOLDS FOR A SPECIFIED PERIOD DETAILED IN A RESTRICTIVE USE COVENANT OR SIMILAR RECORDED AGREEMENT.",
+          "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024A/bills/2024a_1313_enr.pdf"
+        },
+        {
+          "field": "affordability_period",
+          "quote": "ENSURES OCCUPANCY BY LOW- TO MODERATE-INCOME HOUSEHOLDS FOR A SPECIFIED PERIOD DETAILED IN A RESTRICTIVE USE COVENANT OR SIMILAR RECORDED AGREEMENT.",
+          "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024A/bills/2024a_1313_enr.pdf"
         },
         {
           "field": "eligible_applicants",
@@ -7315,10 +7334,6 @@
         {
           "field": "term",
           "reason": "The TOCI page and guidelines state no grant performance period."
-        },
-        {
-          "field": "affordability_period",
-          "reason": "The administrator's pages state no affordability period."
         }
       ],
       "last_checked": "2026-10-15"
