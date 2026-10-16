@@ -7083,6 +7083,7 @@
     getOutputRecords: getOutputRecords,
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
+    setCostRules: function (rules) { _costRules = rules; recalculate(); },
     setProgramRentTables: setProgramRentTables,
     getRentLimitsMetadata: getRentLimitsMetadata,
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,

@@ -71,6 +71,8 @@ assert.equal(aitChfaFail.chfaAllUnitsMet, false, 'CHFA all-residential-units res
 assert.equal(aitChfaFail.countedLihtcUnits, 0, 'a CHFA-ineligible AIT mix is not credited');
 
 dc.renderForTest(document.getElementById('dealCalcMount'));
+// The page fetches the underwriting rules; load the real file the same way.
+dc.setCostRules(JSON.parse(fs.readFileSync(path.join(root, 'data/policy/lihtc-underwriting-rules.json'), 'utf8')));
 assert.equal(document.getElementById('dc-minimum-set-aside').value, '40-60', 'rendered default is 40-60');
 assert.equal(document.getElementById('dc-units-20').value, '0', 'new 20% tier defaults to zero units');
 // #2160: the default qualified basis is the invented example budget's cost in
