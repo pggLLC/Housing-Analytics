@@ -20,13 +20,15 @@ def fake_getter(tables, fail=()):
     known = {g for data in tables.values() for g in data}
 
     def get(url, key=""):
+        year = int(url.split("/data/")[1].split("/")[0])
         series = "acs1" if "/acs/acs1" in url else "acs5"
         table = "subject" if "/subject?" in url else "profile"
         level = ("state" if "for=state:08" in url else
                  "county" if "for=county:" in url else "place")
         if (series, table, level) in fail:
             return None
-        data = tables.get((series, table, level))
+        data = tables.get((series, table, level, year), tables.get((series, table, level))
+                          if year == 2024 else None)
         if data is None and series == "acs5":
             data = {g: {} for g in known if mod.level_of(g) == level}
         gets = url.split("get=")[1].split("&")[0].split(",")
@@ -131,9 +133,9 @@ def test_refuses_to_write_on_a_failed_or_short_request():
     gid = "0800007"
     tables = {("acs5", "profile", "place"): {gid: {"DP05_0001E": 1, "DP05_0001M": 1}}}
     sums = {gid: summary(DP05_0001E=1)}
-    # One failed request, even for a level with no summaries, writes nothing.
+    # One failed request writes nothing, even an ACS 1-year one.
     with pytest.raises(SystemExit):
-        mod.build(sums, 2024, key="", getter=fake_getter(tables, fail={("acs1", "profile", "county")}))
+        mod.build(sums, 2024, key="", getter=fake_getter(tables, fail={("acs1", "profile", "place")}))
     # A 5-year table missing a geography the site has writes nothing.
     with pytest.raises(SystemExit):
         mod.build({**sums, "0800008": summary(DP05_0001E=2)}, 2024, key="",
@@ -160,6 +162,21 @@ def test_derived_keeps_the_estimate_when_only_the_margin_is_unknown():
                     2024, key="", getter=fake_getter(tables))
     d = doc["geos"][gid]["rent_burden_30plus"]
     assert d["e"] == 40.0 and d["m"] is None and "different ACS series" in d["why"]
+
+
+def test_s0801_is_matched_at_its_own_stored_year():
+    gid = "0800010"
+    tables = {
+        ("acs5", "profile", "place"): {gid: {"DP05_0001E": 500, "DP05_0001M": 80}},
+        ("acs5", "subject", "place", 2022): {gid: {"S0801_C01_046E": 24.3, "S0801_C01_046M": 6.1}},
+        ("acs5", "subject", "place", 2024): {gid: {"S0801_C01_046E": 24.3, "S0801_C01_046M": 9.9}},
+    }
+    s = summary(DP05_0001E=500)
+    s["acsS0801"] = {"_acsYear": 2022, "S0801_C01_046E": 24.3}
+    doc = mod.build({gid: s}, 2024, key="", getter=fake_getter(tables))
+    e = doc["geos"][gid]["S0801_C01_046E"]
+    assert (e["y"], e["m"]) == (2022, 6.1)
+    assert doc["geos"][gid]["DP05_0001E"]["y"] == 2024
 
 
 def test_committed_file_covers_every_summary_when_present():
