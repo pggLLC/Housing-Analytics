@@ -2,8 +2,8 @@
   "meta": {
     "source": "EPA Envirofacts SEMS and FRS/ACRES",
     "state": "Colorado",
-    "retrieved_at": "2026-10-10T23:05:00Z",
-    "generated": "2026-10-10T23:05:00Z",
+    "retrieved_at": "2026-10-17T11:06:02Z",
+    "generated": "2026-10-17T11:06:02Z",
     "coverage_status": "full_statewide",
     "coverage_reason": "Statewide Colorado queries of EPA SEMS NPL sites and FRS-linked ACRES brownfield program records.",
     "query_urls": {
