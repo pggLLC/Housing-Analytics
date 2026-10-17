@@ -727,10 +727,14 @@ function lossAccounting() {
   }
   // §10: the ranking's priced count against HUD's affordable-and-available count, statewide at <=30% AMI.
   const priced = readJson('data/co_ami_gap_by_county.json');
-  const pricedUnits = priced.ok && priced.data.statewide && priced.data.statewide.units_priced_affordable_le_ami_pct
-    ? priced.data.statewide.units_priced_affordable_le_ami_pct['30'] : null;
+  // Sum the county records, each priced against its own county AMI, so the comparison with HUD's
+  // county-summed count differs by method and not also by which AMI sets the threshold.
+  const pricedCounties = priced.ok && Array.isArray(priced.data.counties) ? priced.data.counties : [];
+  const countyUnits = pricedCounties.map((c) => c && c.units_priced_affordable_le_ami_pct && c.units_priced_affordable_le_ami_pct['30']);
+  const pricedUnits = countyUnits.length === 64 && countyUnits.every(Number.isFinite)
+    ? countyUnits.reduce((a, n) => a + n, 0) : null;
   out.gap30_priced_units_statewide = Number.isFinite(pricedUnits) ? pricedUnits
-    : absent('methods_data.gap30_priced_units_statewide', priced.ok ? 'co_ami_gap_by_county.json has no statewide 30% priced count' : priced.reason);
+    : absent('methods_data.gap30_priced_units_statewide', priced.ok ? 'co_ami_gap_by_county.json does not carry a 30% priced count for all 64 counties' : priced.reason);
   const aa = readJson('data/hna/chas_affordable_available.json');
   const aa30 = aa.ok && aa.data.statewide && aa.data.statewide.tiers && aa.data.statewide.tiers['30'];
   out.gap30_aa_homes_statewide = aa30 && Number.isFinite(aa30.affordable_available_homes) ? aa30.affordable_available_homes
