@@ -20,6 +20,7 @@
   /* ── Constants ────────────────────────────────────────────────────── */
   var TRACT_BOUNDARIES_URL = 'data/market/tract_boundaries_co.geojson';
   var TRACT_CENTROIDS_URL  = 'data/market/tract_centroids_co.json';
+  var BARRIERS_URL         = 'data/market/natural_barriers_co.geojson';
   var NEARBY_RADIUS_MI     = 12;     // show tracts within this radius of click
   var AUTOSELECT_RADIUS_MI = 4;      // pre-select tracts within this radius
                                      // (4 mi handles rural sites where the
@@ -38,6 +39,16 @@
     fillColor:   '#096e65',
     fillOpacity: 0.18,
     dashArray:   null
+  };
+  /* A selected tract that a natural feature separates from the site, before
+     the analyst applies the proposal: still in the market area, drawn so
+     the analyst can see what Apply would remove. */
+  var STYLE_PROPOSED_OUT = {
+    color:       '#b91c1c',
+    weight:      2,
+    fillColor:   '#b91c1c',
+    fillOpacity: 0.10,
+    dashArray:   '6 4'
   };
   var STYLE_HOVER = {
     weight:      3,
@@ -65,6 +76,13 @@
   var _rationale        = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
   var _onChange         = null;       // user callback(selectedGeoids)
   var _siteCenter       = null;       // { lat, lon }
+  var _barriersCache    = null;       // { features, generated }, or false when the file failed
+  var _nf               = _nfOff();   // natural-feature option state (see getNaturalFeatures)
+
+  function _nfOff() {
+    return { status: 'off', reason: null, supported: null, vintage: null,
+             proposed: [], kept: {}, preApply: null };
+  }
 
   /* ── Persistence ──────────────────────────────────────────────────── */
   var STORAGE_KEY = 'coho.pmaTractPicker.v1';
@@ -76,6 +94,7 @@
         selected: Array.from(_selected),
         autoSelected: Array.from(_autoSelected),
         rationale: _rationale,
+        naturalFeatures: _nf,
         updated_at: Date.now()
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -170,9 +189,7 @@
           _selected.add(gid);
         }
         _applyStyle(layer, gid);
-        _persist();
-        _drawUnionOutline();
-        if (typeof _onChange === 'function') _onChange(Array.from(_selected));
+        _changed();
       },
       mouseover: function () {
         layer.setStyle(STYLE_HOVER);
@@ -181,10 +198,42 @@
         _applyStyle(layer, gid);
       }
     });
-    layer.bindTooltip(
-      'Tract ' + gid + (_selected.has(gid) ? ' · selected' : ' · click to add'),
-      { sticky: true, opacity: 0.9 }
-    );
+    layer.bindTooltip(_tooltipText(gid), { sticky: true, opacity: 0.9 });
+  }
+
+  function _tooltipText(gid) {
+    var p = _proposalFor(gid);
+    var state = _selected.has(gid) ? 'selected' : 'click to add';
+    if (p) {
+      var kept = Object.prototype.hasOwnProperty.call(_nf.kept, gid);
+      if (kept) state += ' · kept across ' + p.feature;
+      else if (_nf.status === 'proposed' && _selected.has(gid)) state += ' · proposed out: across ' + p.feature;
+      else if (_nf.status === 'applied' && !_selected.has(gid)) state += ' · excluded: across ' + p.feature;
+    }
+    return 'Tract ' + gid + ' · ' + state;
+  }
+
+  function _proposalFor(gid) {
+    if (_nf.status !== 'proposed' && _nf.status !== 'applied') return null;
+    for (var i = 0; i < _nf.proposed.length; i++) {
+      if (_nf.proposed[i].geoid === gid) return _nf.proposed[i];
+    }
+    return null;
+  }
+
+  /* Every selection change ends here: save, redraw the outline, tell the page. */
+  function _changed() {
+    _persist();
+    _drawUnionOutline();
+    if (typeof _onChange === 'function') _onChange(Array.from(_selected));
+  }
+
+  function _restyleAll() {
+    if (!_tractLayer || typeof _tractLayer.eachLayer !== 'function') return;
+    _tractLayer.eachLayer(function (layer) {
+      var gid = layer && _featureGeoid(layer.feature);
+      if (gid && layer.setStyle) _applyStyle(layer, gid);
+    });
   }
 
   function _featureGeoid(feature) {
@@ -196,7 +245,15 @@
   }
 
   function _applyStyle(layer, gid) {
-    layer.setStyle(_selected.has(gid) ? STYLE_SELECTED : STYLE_UNSELECTED);
+    var style = _selected.has(gid) ? STYLE_SELECTED : STYLE_UNSELECTED;
+    if (_selected.has(gid) && _nf.status === 'proposed' && _proposalFor(gid) &&
+        !Object.prototype.hasOwnProperty.call(_nf.kept, gid)) {
+      style = STYLE_PROPOSED_OUT;
+    }
+    layer.setStyle(style);
+    if (typeof layer.setTooltipContent === 'function' && layer.getTooltip && layer.getTooltip()) {
+      layer.setTooltipContent(_tooltipText(gid));
+    }
   }
 
   /* ── Public API ───────────────────────────────────────────────────── */
@@ -217,9 +274,12 @@
     if (!window.L || !map || typeof lat !== 'number' || typeof lon !== 'number') {
       return Promise.reject(new Error('PMATractPicker.init: invalid arguments'));
     }
+    // clear() resets the site, so it runs first; before 2026-10-17 it ran
+    // after, which left the site null for the saved selection and for the
+    // natural-feature test.
+    clear(map);
     _siteCenter = { lat: lat, lon: lon };
     _onChange   = onChange || null;
-    clear(map);
 
     return _loadData().then(function (data) {
       // Filter to nearby tracts by centroid distance
@@ -243,6 +303,9 @@
       if (sameSite && persisted.selected && persisted.selected.length) {
         persisted.selected.forEach(function (gid) { _selected.add(gid); });
         _rationale = persisted.rationale || '';
+        if (persisted.naturalFeatures && persisted.naturalFeatures.status) {
+          _nf = Object.assign(_nfOff(), persisted.naturalFeatures);
+        }
         console.log('[PMATractPicker] restored ' + _selected.size + ' tracts from localStorage');
       } else {
         nearby.forEach(function (f) {
@@ -430,6 +493,7 @@
     _autoSelected = new Set();
     _rationale    = '';
     _siteCenter   = null;
+    _nf           = _nfOff();
   }
 
   function _setsEqual(a, b) {
@@ -468,7 +532,8 @@
       selected:            Array.from(_selected).sort(),
       curated:             wasCurated(),
       rationale:           _rationale,
-      autoSelectRadiusMi:  AUTOSELECT_RADIUS_MI
+      autoSelectRadiusMi:  AUTOSELECT_RADIUS_MI,
+      naturalFeatures:     getNaturalFeatures()
     };
   }
 
@@ -521,15 +586,185 @@
 
   function clearSelection() {
     _selected = new Set();
-    if (_tractLayer && typeof _tractLayer.eachLayer === 'function') {
-      _tractLayer.eachLayer(function (layer) {
-        if (!layer || !layer.feature || !layer.setStyle) return;
-        layer.setStyle(STYLE_UNSELECTED);
-      });
+    _restyleAll();
+    _changed();
+  }
+
+  /* ── Natural features as a market-area limit ─────────────────────── */
+  // Off by default. Turned on, COHO proposes the selected tracts that a
+  // supported feature separates from the site (PMABarriers.
+  // proposeTractExclusions); nothing leaves the market area until Apply.
+  // A tract a bridge or interchange connects is kept with the analyst's
+  // reason, and turning the option off restores the selection from before
+  // Apply. Tracts stay whole: counts are sums over getSelectedGeoids().
+
+  function _loadBarriers() {
+    if (_barriersCache !== null) return Promise.resolve(_barriersCache);
+    return _fetchJSON(BARRIERS_URL).then(function (gj) {
+      var features = gj && Array.isArray(gj.features) ? gj.features : [];
+      _barriersCache = features.length
+        ? { features: features, generated: (gj.meta && gj.meta.generated) || null }
+        : false;
+      return _barriersCache;
+    }).catch(function () {
+      _barriersCache = false;
+      return false;
+    });
+  }
+
+  function _ringContains(ring, x, y) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+      if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
     }
-    _persist();
-    _drawUnionOutline();
-    if (typeof _onChange === 'function') _onChange([]);
+    return inside;
+  }
+
+  /* The tract the site sits in. It is never proposed for exclusion: a
+     market area without the site's own tract is not a market area. */
+  function _siteGeoid() {
+    if (!_siteCenter || !_boundariesCache) return null;
+    var x = _siteCenter.lon, y = _siteCenter.lat;
+    var features = _boundariesCache.features || [];
+    for (var i = 0; i < features.length; i++) {
+      var g = features[i].geometry;
+      if (!g) continue;
+      var polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+      for (var k = 0; k < polys.length; k++) {
+        if (polys[k][0] && _ringContains(polys[k][0], x, y)) return _featureGeoid(features[i]);
+      }
+    }
+    return null;
+  }
+
+  function _computeProposal(barriers) {
+    var B = window.PMABarriers;
+    var tracts = Array.from(_selected).map(function (gid) {
+      var c = _centroidsCache && _centroidsCache[gid];
+      return c ? { geoid: gid, lat: c.lat, lon: c.lon } : null;
+    }).filter(Boolean);
+    if (!B || typeof B.proposeTractExclusions !== 'function') {
+      return { status: 'unavailable', reason: 'the natural-feature module did not load', supported: null, exclusions: [] };
+    }
+    return B.proposeTractExclusions(_siteCenter.lat, _siteCenter.lon, tracts,
+      barriers ? barriers.features : null, _siteGeoid());
+  }
+
+  /**
+   * Turn the option on: propose exclusions from the current selection.
+   * @returns {Promise<object>} getNaturalFeatures()
+   */
+  function proposeNaturalFeatures() {
+    if (!_siteCenter) return Promise.resolve(getNaturalFeatures());
+    return _loadBarriers().then(function (barriers) {
+      var r = _computeProposal(barriers);
+      _nf = Object.assign(_nfOff(), {
+        status:    r.status,
+        reason:    r.reason,
+        supported: r.supported,
+        vintage:   barriers ? barriers.generated : null,
+        proposed:  r.exclusions,
+        kept:      _nf.kept || {}
+      });
+      _restyleAll();
+      _persist();
+      return getNaturalFeatures();
+    });
+  }
+
+  /**
+   * Remove the proposed tracts that are not kept. The proposal is re-run on
+   * the selection as it stands, so tracts added since it was drawn are tested
+   * too. The selection from before Apply is stored for turning the option off.
+   * @returns {object} getNaturalFeatures()
+   */
+  function applyNaturalFeatures() {
+    if (_nf.status !== 'proposed' || !_barriersCache) return getNaturalFeatures();
+    var r = _computeProposal(_barriersCache);
+    if (r.status !== 'proposed') return getNaturalFeatures();
+    _nf.preApply = Array.from(_selected).sort();
+    _nf.proposed = r.exclusions;
+    _nf.status   = 'applied';
+    r.exclusions.forEach(function (p) {
+      if (!Object.prototype.hasOwnProperty.call(_nf.kept, p.geoid)) _selected.delete(p.geoid);
+    });
+    _restyleAll();
+    _changed();
+    return getNaturalFeatures();
+  }
+
+  /**
+   * Keep (or stop keeping) a proposed tract because a crossing connects it.
+   * After Apply, keeping puts the tract back and un-keeping removes it.
+   */
+  function setNaturalFeatureKeep(geoid, keep, reason) {
+    if (!_proposalFor(geoid)) return getNaturalFeatures();
+    if (keep) _nf.kept[geoid] = String(reason == null ? '' : reason).slice(0, 200);
+    else delete _nf.kept[geoid];
+    if (_nf.status === 'applied') {
+      if (keep) _selected.add(geoid); else _selected.delete(geoid);
+    }
+    _restyleAll();
+    _changed();
+    return getNaturalFeatures();
+  }
+
+  /** Turn the option off; an applied proposal is undone exactly. */
+  function turnOffNaturalFeatures() {
+    if (_nf.status === 'applied' && Array.isArray(_nf.preApply)) {
+      _selected = new Set(_nf.preApply);
+    }
+    _nf = _nfOff();
+    _restyleAll();
+    _changed();
+    return getNaturalFeatures();
+  }
+
+  /**
+   * The option's state, as every surface reads it (narrative, audit export,
+   * saved run). Each proposed tract carries how it got its state:
+   * 'proposed out' (before Apply), 'excluded by feature', 'kept: crossing',
+   * or 're-added by analyst' (excluded, then clicked back in).
+   */
+  function getNaturalFeatures() {
+    var out = { status: _nf.status };
+    if (_nf.status === 'off') return out;
+    out.reason           = _nf.reason;
+    out.supportedFeatures = _nf.supported;
+    out.inventoryVintage = _nf.vintage;
+    out.test             = 'straight line from the site to the tract centroid crosses the feature';
+    out.preApply         = _nf.preApply ? _nf.preApply.slice() : null;
+    out.tracts = _nf.proposed.map(function (p) {
+      var kept = Object.prototype.hasOwnProperty.call(_nf.kept, p.geoid);
+      var inSet = _selected.has(p.geoid);
+      var state;
+      if (kept) state = 'kept: crossing';
+      else if (_nf.status === 'proposed') state = 'proposed out';
+      else state = inSet ? 're-added by analyst' : 'excluded by feature';
+      var t = { geoid: p.geoid, feature: p.feature, featureType: p.featureType, state: state };
+      if (kept) t.keepReason = _nf.kept[p.geoid];
+      return t;
+    });
+    return out;
+  }
+
+  /** A plain sentence for the rationale box, generated from getNaturalFeatures(). */
+  function naturalFeatureSummary() {
+    var nf = getNaturalFeatures();
+    if (nf.status !== 'applied') return '';
+    var excluded = nf.tracts.filter(function (t) { return t.state === 'excluded by feature'; });
+    var kept = nf.tracts.filter(function (t) { return t.state === 'kept: crossing'; });
+    var features = [];
+    excluded.forEach(function (t) { if (features.indexOf(t.feature) < 0) features.push(t.feature); });
+    var text = 'Excluded ' + excluded.length + ' tract' + (excluded.length === 1 ? '' : 's') +
+      (features.length ? ' across ' + features.join(', ') : '') + '.';
+    if (kept.length) {
+      text += ' Kept ' + kept.length + ' for crossings: ' + kept.map(function (t) {
+        return t.geoid + (t.keepReason ? ' (' + t.keepReason + ')' : '');
+      }).join('; ') + '.';
+    }
+    return text;
   }
 
   window.PMATractPicker = {
@@ -542,6 +777,12 @@
     wasCurated:          wasCurated,
     setRationale:        setRationale,
     getRationale:        getRationale,
-    getCurationMetadata: getCurationMetadata
+    getCurationMetadata: getCurationMetadata,
+    proposeNaturalFeatures: proposeNaturalFeatures,
+    applyNaturalFeatures:   applyNaturalFeatures,
+    setNaturalFeatureKeep:  setNaturalFeatureKeep,
+    turnOffNaturalFeatures: turnOffNaturalFeatures,
+    getNaturalFeatures:     getNaturalFeatures,
+    naturalFeatureSummary:  naturalFeatureSummary
   };
 })();

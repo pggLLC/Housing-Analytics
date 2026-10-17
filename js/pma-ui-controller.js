@@ -937,6 +937,11 @@
         var ta = $id('pmaTractRationale');
         if (ta) ta.value = '';
         _wireTractRationaleInput();
+        _wireNaturalFeatures();
+        // A saved proposal is drawn again from the feature file, so Apply
+        // tests the selection as it stands now.
+        var nfSaved = picker.getNaturalFeatures ? picker.getNaturalFeatures() : { status: 'off' };
+        if (nfSaved.status === 'proposed') _proposeNaturalFeatures();
         _onTractSelectionChange(r.selected);
       })
       .catch(function (err) {
@@ -995,6 +1000,137 @@
         : '(none — click tracts on the map to add them)';
     }
     _refreshTractCurationBanner();
+    _renderNaturalFeatures();
+  }
+
+  /* ── Natural features as a market-area limit ─────────────────────── */
+  // The picker holds the state (PMATractPicker.getNaturalFeatures); this
+  // draws it and passes the analyst's choices back.
+
+  function _proposeNaturalFeatures() {
+    var picker = window.PMATractPicker;
+    if (!picker || typeof picker.proposeNaturalFeatures !== 'function') return;
+    var status = $id('pmaNfStatus');
+    if (status) { status.hidden = false; status.textContent = 'Checking natural features\u2026'; }
+    picker.proposeNaturalFeatures().then(_renderNaturalFeatures);
+  }
+
+  function _wireNaturalFeatures() {
+    var toggle = $id('pmaNfToggle');
+    if (!toggle || toggle._wired) return;
+    toggle._wired = true;
+    var list = $id('pmaNfSupportedList');
+    if (list && window.PMABarriers && window.PMABarriers.SUPPORTED_FEATURES) {
+      list.textContent = window.PMABarriers.SUPPORTED_FEATURES;
+    }
+    toggle.addEventListener('change', function () {
+      var picker = window.PMATractPicker;
+      if (!picker) return;
+      if (toggle.checked) _proposeNaturalFeatures();
+      else picker.turnOffNaturalFeatures();
+      _renderNaturalFeatures();
+    });
+    var apply = $id('pmaNfApply');
+    if (apply) {
+      apply.addEventListener('click', function () {
+        var picker = window.PMATractPicker;
+        if (!picker) return;
+        picker.applyNaturalFeatures();
+        // Pre-fill the rationale with what was done; the analyst can edit it.
+        var summary = picker.naturalFeatureSummary();
+        var ta = $id('pmaTractRationale');
+        if (ta && summary && ta.value.indexOf(summary) < 0) {
+          ta.value = ta.value.trim() ? ta.value.trim() + '\n' + summary : summary;
+          ta._nfSummary = summary;
+          picker.setRationale(ta.value);
+        }
+        _refreshTractCurationBanner();
+        _renderNaturalFeatures();
+      });
+    }
+  }
+
+  function _renderNaturalFeatures() {
+    var picker = window.PMATractPicker;
+    var toggle = $id('pmaNfToggle');
+    var status = $id('pmaNfStatus');
+    var list   = $id('pmaNfList');
+    var apply  = $id('pmaNfApply');
+    if (!picker || typeof picker.getNaturalFeatures !== 'function' || !status || !list) return;
+    var nf = picker.getNaturalFeatures();
+    if (toggle) toggle.checked = nf.status !== 'off';
+    // The sentence Apply wrote into the rationale follows later keeps and
+    // re-adds (and leaves when the option is turned off), so the rationale
+    // never disagrees with the narrative's own count. Text the analyst
+    // edited is theirs and is left alone.
+    var ta = $id('pmaTractRationale');
+    if (ta && ta._nfSummary && ta.value.indexOf(ta._nfSummary) >= 0) {
+      var nextSummary = picker.naturalFeatureSummary();
+      if (nextSummary !== ta._nfSummary) {
+        ta.value = ta.value.replace(ta._nfSummary, nextSummary).replace(/\n{2,}/g, '\n').trim();
+        ta._nfSummary = nextSummary || null;
+        picker.setRationale(ta.value);
+      }
+    }
+    var tracts = nf.tracts || [];
+    var excluded = tracts.filter(function (t) { return t.state === 'excluded by feature'; }).length;
+    var kept = tracts.filter(function (t) { return t.state === 'kept: crossing'; }).length;
+    var text = '';
+    if (nf.status === 'unavailable') {
+      text = 'Natural-feature data unavailable for this area; the market area is your tract selection only.';
+    } else if (nf.status === 'no_features') {
+      text = 'None of the supported features lies between the site and your selected tracts. The market area is your tract selection only.';
+    } else if (nf.status === 'proposed' && !tracts.length) {
+      text = 'None of your selected tracts is across a supported feature. The market area is your tract selection only.';
+    } else if (nf.status === 'proposed') {
+      text = tracts.length + ' of your selected tracts ' + (tracts.length === 1 ? 'is' : 'are') +
+        ' across a supported feature (dashed red on the map). Keep any that a bridge, interchange or underpass connects, then press Apply. Nothing leaves the market area until you do.';
+    } else if (nf.status === 'applied') {
+      text = 'Applied: ' + excluded + ' tract' + (excluded === 1 ? '' : 's') + ' excluded, ' + kept +
+        ' kept for crossings. You can still add or remove any tract on the map; turning this off restores your selection from before Apply.';
+    }
+    status.hidden = !text;
+    if (text) status.textContent = text;
+    if (apply) apply.hidden = !(nf.status === 'proposed' && tracts.length);
+
+    list.textContent = '';
+    list.hidden = !tracts.length;
+    tracts.forEach(function (t) {
+      var li = document.createElement('li');
+      li.style.cssText = 'padding:.3rem 0;border-top:1px solid var(--border)';
+      li.dataset.geoid = t.geoid;
+      li.dataset.state = t.state;
+      var head = document.createElement('div');
+      head.textContent = 'Tract ' + t.geoid + ' \u00b7 across ' + t.feature + ' \u00b7 ' + t.state;
+      li.appendChild(head);
+      var id = 'pmaNfKeep-' + t.geoid;
+      var label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.style.cssText = 'display:inline-flex;gap:.35rem;align-items:center;margin-top:.2rem;cursor:pointer;min-height:24px';
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.id = id;
+      box.checked = t.state === 'kept: crossing';
+      label.appendChild(box);
+      label.appendChild(document.createTextNode('Keep (crossing or connection)'));
+      li.appendChild(label);
+      var reason = document.createElement('input');
+      reason.type = 'text';
+      reason.maxLength = 200;
+      reason.placeholder = 'e.g., bridge at 22 Rd';
+      reason.setAttribute('aria-label', 'Crossing that connects tract ' + t.geoid);
+      reason.value = t.keepReason || '';
+      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;margin-top:.2rem;padding:.25rem .4rem;font-size:.76rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
+      li.appendChild(reason);
+      box.addEventListener('change', function () {
+        picker.setNaturalFeatureKeep(t.geoid, box.checked, reason.value);
+        if (box.checked) { var r = list.querySelector('li[data-geoid="' + t.geoid + '"] input[type="text"]'); if (r) r.focus(); }
+      });
+      reason.addEventListener('change', function () {
+        if (box.checked) picker.setNaturalFeatureKeep(t.geoid, true, reason.value);
+      });
+      list.appendChild(li);
+    });
   }
 
   function _refreshTractCurationBanner() {
