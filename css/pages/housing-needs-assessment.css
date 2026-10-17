@@ -1101,10 +1101,14 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .hna-rail__list li { counter-increment: rail; }
 
 .hna-rail__link {
-  display: block;
-  /* WCAG 2.2 target size: each rail link is at least 24px tall (axe
-     target-size flagged 51 rail links on the four HNA chapter pages). */
-  min-height: 24px;
+  /* Touch target: at least 44px tall (copilot-instructions Rule 14; axe
+     target-size flagged 51 rail links on the four HNA chapter pages). Long
+     section names wrap instead of being cut off with an ellipsis. */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  min-height: 44px;
   box-sizing: border-box;
   padding: .25rem .45rem .25rem .55rem;
   border-left: 2px solid transparent;
@@ -1112,9 +1116,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   color: var(--muted, #374151);
   text-decoration: none;
   line-height: 1.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .hna-rail__link:hover,
 .hna-rail__link:focus-visible {
