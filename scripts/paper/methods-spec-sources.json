@@ -235,6 +235,31 @@
           "file": "scripts/hna/build_place_chas.py",
           "function": "aggregate_place",
           "sha": "26f9dea55efacbc0"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "region": "scoring-chain",
+          "sha": "397eab773951a452"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "compute_percentile_ranks",
+          "sha": "8e2aa94c65522627"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "modelParams",
+          "sha": "64d20eef53f09156"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "monthlyCostPerPriceDollar",
+          "sha": "dccca041a89b889a"
+        },
+        {
+          "file": "scripts/build_rent_burden_crosscheck.mjs",
+          "function": "propMoe",
+          "sha": "de102dd9d51120fb"
         }
       ],
       "reviewed": "2026-10-17"

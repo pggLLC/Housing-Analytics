@@ -735,12 +735,18 @@ function lossAccounting() {
   const aa30 = aa.ok && aa.data.statewide && aa.data.statewide.tiers && aa.data.statewide.tiers['30'];
   out.gap30_aa_homes_statewide = aa30 && Number.isFinite(aa30.affordable_available_homes) ? aa30.affordable_available_homes
     : absent('methods_data.gap30_aa_homes_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  out.gap30_aa_occupied_statewide = aa30 && Number.isFinite(aa30.occupied_by_group) ? aa30.occupied_by_group
+    : absent('methods_data.gap30_aa_occupied_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  out.gap30_aa_vacant_statewide = aa30 && Number.isFinite(aa30.vacant_for_rent) ? aa30.vacant_for_rent
+    : absent('methods_data.gap30_aa_vacant_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
   out.chas_place_table_places = aa.ok && aa.data.places ? Object.keys(aa.data.places).length
     : absent('methods_data.chas_place_table_places', aa.ok ? 'chas_affordable_available.json has no places' : aa.reason);
   // §10: sampling error of the place renter cost-burden rate (ACS 5-year, 90% margin, percentage points).
   const rb = readJson('data/processed/rent_burden_crosscheck.json');
   if (!rb.ok) {
     out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', rb.reason);
+    out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', rb.reason);
+    out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', rb.reason);
   } else {
     const moes = Object.values(rb.data.geos || {})
       .filter((g) => g.geoType === 'place')

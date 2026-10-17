@@ -1017,9 +1017,10 @@ weighted_avg(F)  =  ───────────────       F* = { f
           <h3>The rental gap: homes priced in the band, not homes available to it</h3>
           <p>
             The ranking&rsquo;s housing gap compares renter households by income (ACS B25118) with
-            rental homes by gross rent (ACS B25063), both placed into bands against HUD&rsquo;s area
-            median income. It counts every home whose rent fits a band as supply for that band, whoever
-            lives in it.
+            occupied rental homes by gross rent (ACS B25063, homes paying cash rent), both placed into
+            bands against HUD&rsquo;s area median income. It counts every occupied home whose rent fits
+            a band as supply for that band, whoever lives in it. Vacant rentals and homes rented
+            without cash rent are not counted.
           </p>
           <p>
             The main alternative is HUD&rsquo;s affordable-and-available count, which the National
@@ -1029,9 +1030,12 @@ weighted_avg(F)  =  ───────────────       F* = { f
             the better measure for the lowest incomes, because a cheap home held by a higher-income
             household is not available to a lower-income one. The difference is large. Statewide, the
             priced count finds <span data-figure="methods_data.gap30_priced_units_statewide" data-figure-format="comma">92,401</span>
-            rental homes at or below the 30% AMI rent. HUD&rsquo;s count finds
-            <span data-figure="methods_data.gap30_aa_homes_statewide" data-figure-format="comma">45,794</span>
-            that are affordable and available.
+            occupied rental homes at or below the 30% AMI rent. HUD finds
+            <span data-figure="methods_data.gap30_aa_occupied_statewide" data-figure-format="comma">42,707</span>
+            such homes rented by a household in that band, plus
+            <span data-figure="methods_data.gap30_aa_vacant_statewide" data-figure-format="comma">3,087</span>
+            vacant for rent: <span data-figure="methods_data.gap30_aa_homes_statewide" data-figure-format="comma">45,794</span>
+            affordable and available in all.
           </p>
           <p>
             The ranking was built on the priced count before HUD&rsquo;s place tables were in this
