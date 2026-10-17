@@ -1027,7 +1027,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-10-17T14:50:54Z",
+  "generated_at": "2026-10-17T15:03:14Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "method": "present_incommuter_need = (LODES main in-commuters (all jobs, JT00) x county primary CE01+CE02 jobs (JT01) per job located there + LODES aux JT01 out-of-state in-commuters earning SE01+SE02) / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer (scenarios; no statewide source). A deficit today, not a 20-year projection.",
@@ -1036,7 +1036,10 @@
    0.5
   ],
   "sources": {
-   "acs_b08202": "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids=<sumlevel>|04000US08",
+   "acs_b08202": [
+    "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids=050|04000US08",
+    "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids=160|04000US08"
+   ],
    "acs_release": {
     "id": "acs2024_5yr",
     "name": "ACS 2024 5-year",

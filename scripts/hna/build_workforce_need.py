@@ -55,14 +55,18 @@ SRC = os.path.join(ROOT, 'data', 'hna', 'source')
 OUT = os.path.join(ROOT, 'data', 'hna', 'workforce-need.json')
 
 JOBS_URL = 'https://storage.googleapis.com/co-publicdata/jobs-county.csv'
-B08202_URL = 'https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids={sumlevel}|04000US08'
+# Full URLs, not templates: the source-URL sweep fetches every URL it finds.
+B08202_URLS = {
+    '050': 'https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids=050|04000US08',
+    '160': 'https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids=160|04000US08',
+}
 # LODES "main" holds jobs whose worker also lives in Colorado; workers who
 # live out of state are only in "aux". County inflow and place-od-flows.json
 # both come from main, so aux is added here, by workplace, or border counties
 # (La Plata, Archuleta, Montezuma, Larimer, Weld, Mesa) read low.
 LODES_YEAR = 2023
-AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_%d.csv.gz' % LODES_YEAR
-WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_%d.csv.gz' % LODES_YEAR
+AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2023.csv.gz'
+WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_2023.csv.gz'
 XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
 BASE_YEAR = 2024
@@ -83,9 +87,9 @@ def fetch():
     with urllib.request.urlopen(JOBS_URL, timeout=120) as r, \
             open(os.path.join(SRC, 'dola_jobs_county.csv'), 'wb') as f:
         f.write(r.read())
-    out = {'source': B08202_URL.format(sumlevel='<sumlevel>'), 'table': 'B08202', 'geos': {}}
+    out = {'sources': list(B08202_URLS.values()), 'table': 'B08202', 'geos': {}}
     for sumlevel in ('050', '160'):
-        with urllib.request.urlopen(B08202_URL.format(sumlevel=sumlevel), timeout=120) as r:
+        with urllib.request.urlopen(B08202_URLS[sumlevel], timeout=120) as r:
             d = json.load(r)
         out['release'] = d.get('release')
         for k, v in d['data'].items():
@@ -305,7 +309,7 @@ def build():
             'sources': {
                 'lodes_od': 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz',
                 'lodes_od_aux': aux.get('source'),
-                'acs_b08202': b08202.get('source'),
+                'acs_b08202': b08202.get('sources') or b08202.get('source'),
                 'acs_release': b08202.get('release'),
                 'dola_jobs': JOBS_URL,
                 'dola_jobs_vintage': vintage,
