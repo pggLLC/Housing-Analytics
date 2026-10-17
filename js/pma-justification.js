@@ -18,12 +18,11 @@
   'use strict';
 
   /* ── Constants ────────────────────────────────────────────────────── */
-  // NOTE (Rule 3 / Rule 18): Update DATA_VINTAGE and LODES_VINTAGE together
-  // whenever the underlying data vintage advances.  These values must stay in
-  // sync with the pyramidYear / baseYear in projection data files.
-  // DATA_VINTAGE corresponds to 'generated'/'updated' sentinel keys (Rule 18).
-  var DATA_VINTAGE   = 'ACS_2023_5YR';
+  // The ACS vintage is read from the tract file the run used
+  // (data/market/acs_tract_metrics_co.json meta.vintage), never typed here: a
+  // hard-coded 'ACS_2023_5YR' outlived the 2024 refresh (2026-10-17 audit).
   var LODES_VINTAGE  = '2021';
+  var VINTAGE_UNAVAILABLE = 'ACS vintage not supplied with this run';
   var SCHEMA_VERSION = '2.0';
 
   /* ── Narrative templates ─────────────────────────────────────────── */
@@ -89,6 +88,41 @@
    * @param {object} [overrides] - manually supplied component data (optional)
    * @returns {object} ScoreRun
    */
+  /**
+   * ACS vintage label from the tract metrics metadata, e.g. 'ACS_2024_5YR'.
+   * Source: overrides.acsMeta, else the page's cached tract metrics
+   * (PMADataCache 'acsMetrics'). null when neither carries a vintage.
+   */
+  function resolveDataVintage(overrides) {
+    var meta = overrides && overrides.acsMeta;
+    if (!meta && typeof window !== 'undefined' && window.PMADataCache &&
+        typeof window.PMADataCache.get === 'function') {
+      try {
+        var cached = window.PMADataCache.get('acsMetrics');
+        meta = cached && cached.meta;
+      } catch (_) { meta = null; }
+    }
+    var v = meta ? parseInt(meta.vintage, 10) : NaN;
+    return Number.isFinite(v) && v > 2000 ? 'ACS_' + v + '_5YR' : null;
+  }
+
+  /**
+   * The vintage to report for a run, which may be a saved one restored from
+   * localStorage. Runs saved before 2026-10-17 carry a hard-coded label that
+   * did not come from the data, so only a label marked as read from the tract
+   * metadata is trusted. When the tract data loaded now is a different
+   * vintage, the label stays the run's own and a note says to re-run.
+   * @returns {{ label: (string|null), note: (string|null) }}
+   */
+  function runVintage(scoreRun) {
+    var saved = scoreRun && scoreRun.data_vintage_source === 'tract-metadata' ? (scoreRun.data_vintage || null) : null;
+    var current = resolveDataVintage({});
+    var note = saved && current && saved !== current
+      ? 'This run used ' + saved + '; the tract data loaded now is ' + current + '. Re-run the analysis to use it.'
+      : null;
+    return { label: saved, note: note };
+  }
+
   function synthesizePMA(overrides) {
     overrides = overrides || {};
     lastRunId = _generateRunId();
@@ -109,7 +143,8 @@
       run_id:       lastRunId,
       created_at:   _ts(),
       schema_version: SCHEMA_VERSION,
-      data_vintage: DATA_VINTAGE,
+      data_vintage: resolveDataVintage(overrides),
+      data_vintage_source: 'tract-metadata',
       lodes_vintage: LODES_VINTAGE,
 
       commuting:        commuting,
@@ -203,14 +238,19 @@
       'NHPD coverage is unverified. Preservation totals and risk are unknown; no matching record does not mean no preservation risk.');
 
     // Barriers
+    // Only a boundary that was actually redrawn around a feature may be said
+    // to exclude it. PMABarriers returns the boundary unchanged, so nearby
+    // features are context: until 2026-10-17 their counts were narrated as
+    // "the boundary excludes" them.
+    // No code path redraws the boundary yet, so no flag on a run (saved or
+    // supplied) can make this paragraph claim an exclusion.
     var b = scoreRun.barriers || {};
     if (b.waterBodyCount > 0 || b.highwayCount > 0) {
-      parts.push(
-        'The boundary excludes significant natural and manmade barriers, including ' +
-        (b.waterBodyCount || 0) + ' water feature(s) and ' +
-        (b.highwayCount   || 0) + ' major highway segment(s), ' +
-        'which prevent practical access for prospective residents.'
-      );
+      // The counts come from a fixed search envelope around the site (10-15
+      // miles), not from features inside the chosen tracts or buffer.
+      parts.push('The barrier scan of the vicinity around the site found ' + (b.waterBodyCount || 0) + ' water feature(s) and ' +
+        (b.highwayCount || 0) + ' major highway segment(s); they were not checked against the market area itself. They were noted as context; the market area was not ' +
+        'redrawn around them, so any natural-barrier limit must come from the tracts chosen for the boundary.');
     }
 
     // Employment
@@ -313,7 +353,16 @@
       if (!floodKnown) {
         infraNotes.push('flood exposure could not be determined from FEMA data and must be confirmed by a flood determination');
       } else if (floodPct > 10) {
-        infraNotes.push(floodPct + ' % of the site area is in a FEMA flood zone');
+        // Say what was measured and over what geography. No site polygon is
+        // intersected, so this is never a share of the site's own area.
+        var fm = i.floodMeasure || {};
+        if (fm.kind === 'tract-share' && fm.tractCount > 0) {
+          infraNotes.push(fm.sfhaTractCount + ' of ' + fm.tractCount + ' census tracts near the site (' + floodPct +
+            ' %) contain a FEMA Special Flood Hazard Area; the site\'s own flood status needs a site boundary and a flood determination');
+        } else {
+          infraNotes.push('area flood indicators read ' + floodPct + ' % (' + (fm.description || 'an area-level indicator') +
+            '); the site\'s own flood status needs a site boundary and a flood determination');
+        }
       }
       if (i.sewerCapacityAdequate === false) infraNotes.push('local sewer capacity may require upgrade');
       if (infraNotes.length) {
@@ -325,8 +374,10 @@
     }
 
     // Data quality note
+    var vintage = runVintage(scoreRun);
     parts.push(
-      'Data vintage: ' + scoreRun.data_vintage + '. ' +
+      'Data vintage: ' + (vintage.label || VINTAGE_UNAVAILABLE) + '. ' +
+      (vintage.note ? vintage.note + ' ' : '') +
       'Analysis quality: ' + (scoreRun.dataQuality || 'STANDARD') + '. ' +
       'Run ID: ' + scoreRun.run_id + '.'
     );
@@ -355,7 +406,8 @@
       run_id:               scoreRun.run_id || lastRunId,
       generated_at:         _ts(),
       schema_version:       SCHEMA_VERSION,
-      data_vintage:         scoreRun.data_vintage || DATA_VINTAGE,
+      data_vintage:         runVintage(scoreRun).label,
+      data_vintage_note:    runVintage(scoreRun).note,
       lodes_vintage:        scoreRun.lodes_vintage || LODES_VINTAGE,
       narrative:            generateNarrative(scoreRun),
       layers:               getLayerOrder(),
@@ -382,7 +434,8 @@
     scoreRun = scoreRun || lastScoreRun;
     if (!scoreRun) { return '{}'; }
     var trail = generateAuditTrail(scoreRun);
-    var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail });
+    var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail,
+      data_vintage: trail.data_vintage });
     var competitive = scoreRun.competitiveSet || {};
     var coverage = competitive.nhpdCoverage || { status: 'unavailable', complete: false,
       recordCount: null, generated: null,
@@ -463,7 +516,7 @@
       generateAuditTrail:   generateAuditTrail,
       exportToJSON:         exportToJSON,
       getLayerOrder:        getLayerOrder,
-      DATA_VINTAGE:         DATA_VINTAGE,
+      resolveDataVintage:   resolveDataVintage,
       SCHEMA_VERSION:       SCHEMA_VERSION
     };
   }
@@ -475,7 +528,7 @@
       generateAuditTrail:   generateAuditTrail,
       exportToJSON:         exportToJSON,
       getLayerOrder:        getLayerOrder,
-      DATA_VINTAGE:         DATA_VINTAGE,
+      resolveDataVintage:   resolveDataVintage,
       SCHEMA_VERSION:       SCHEMA_VERSION
     };
   }

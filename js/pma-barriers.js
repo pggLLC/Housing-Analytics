@@ -177,6 +177,9 @@
       highwaysExcluded:    lastExcludedPct.highways,
       landCoverExcluded:   lastExcludedPct.landCover,
       totalExcluded:       Math.min(0.8, lastExcludedPct.water + lastExcludedPct.highways + lastExcludedPct.landCover),
+      // subtractBarriers returns the boundary unchanged; nothing is excluded
+      // from it. The *Excluded fractions above are count-based estimates.
+      boundaryExcludesFeatures: false,
       waterBodyCount:      lastWaterBodies.length,
       highwayCount:        lastHighways.length,
       barrierLandCoverCount: lastLandCover.filter(function (lc) { return BARRIER_LAND_COVER[lc.classCode]; }).length
