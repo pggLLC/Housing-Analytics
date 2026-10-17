@@ -121,6 +121,23 @@
       sources: ['funding-vs-need'],
       notes: 'This download is the table as displayed. "Download every field (CSV)" on the page gives the raw fields behind it, including county FIPS codes and credit amounts.'
     },
+    'dd-market-direction-counties': {
+      title: 'Housing market direction by county',
+      description: 'One row per Colorado county: its market call, the readings behind it, homes permitted this year against last, the tax-credit rent edge and affordable homes in the pipeline.',
+      sources: ['market-direction']
+    },
+    'dd-market-direction-towns': {
+      title: 'Housing market direction by town',
+      description: 'One row per incorporated town, plus each census-designated place when the page’s box is ticked, for the county and call selected on the page: its market call and the readings behind it. The Type column says which each row is.',
+      sources: ['market-direction'],
+      selection: { County: '#mdCounty', Call: '#mdTownCall', 'Census-designated places included': '#mdCdps' }
+    },
+    'dd-market-projects': {
+      title: 'Affordable projects in a county',
+      description: 'Every affordable-housing project a state agency recorded in the selected county since 2016, newest first.',
+      sources: ['development-activity'],
+      selection: { County: '#mdCounty' }
+    },
 
     /* ── lihtc-allocations.html ──────────────────────────────────────── */
     'la-regions': {

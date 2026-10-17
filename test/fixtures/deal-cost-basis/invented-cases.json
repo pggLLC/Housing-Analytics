@@ -5,8 +5,8 @@
     "tdc": 20600000,
     "lines": [
       { "id": "land", "label": "Land", "group": "acquisition", "basis": "ineligible", "amount": 1500000 },
-      { "id": "structures", "label": "Hard costs", "group": "contract", "basis": "eligible", "amount": 14000000 },
-      { "id": "financing", "label": "Soft costs", "group": "soft", "basis": "partial", "amount": 2500000, "eligibleAmount": 2200000 },
+      { "id": "structures", "label": "Hard costs", "group": "construction", "basis": "eligible", "amount": 14000000 },
+      { "id": "soft_other", "label": "Soft costs", "group": "soft", "basis": "partial", "amount": 2500000, "eligibleAmount": 2200000 },
       { "id": "reserves", "label": "Reserves", "group": "reserves", "basis": "ineligible", "amount": 600000 },
       { "id": "developer_fee", "label": "Developer fee", "group": "fees", "basis": "eligible", "amount": 2000000 }
     ],

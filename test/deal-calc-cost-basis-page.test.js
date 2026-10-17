@@ -263,6 +263,68 @@ async function test(name, fn) {
     assert.equal(maxPct, Math.round((rules.rules.basis_boost.designations.chfa.max_multiplier - 1) * 100), 'the input limit is the rule\'s CHFA maximum');
   });
 
+  await test('costs sit in DOH\'s categories with subtotals, cost per unit and per SF, and DOH\'s fee share', async () => {
+    const p = await openPage('');
+    const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
+    const per = p.w.__DealCalc.getResult().costBasis.costPerSf;
+    assert(per.units > 0, 'non-vacuous: the default deal has units');
+    const groups = Array.from(p.d.querySelectorAll('[data-cost-group]'));
+    assert.deepEqual(groups.map((g) => g.getAttribute('data-cost-group')), cb.GROUPS.map((g) => g.id));
+    for (const g of cb.GROUPS) {
+      const shown = p.d.querySelector('[data-cost-subtotal="' + g.id + '"]').textContent.trim();
+      assert.equal(shown, money(summary.groups[g.id] || 0), g.label + ' subtotal');
+    }
+    const line = p.d.querySelector('[data-cost-per="structures"]').textContent;
+    assert(line.includes(money(summary.byId.structures / per.units) + ' per unit'), line);
+    const detail = text(p, 'dc-cb-detail');
+    assert(detail.includes(money(cb.sumIds(summary.byId, cb.HARD_COST_IDS) / per.units)), 'hard cost per unit is shown');
+    const share = cb.dohDeveloperFeeShare(summary);
+    assert(share.value > 0, 'non-vacuous: the example has a DOH fee share');
+    const shareText = p.d.querySelector('[data-doh-fee-share]').textContent;
+    assert(shareText.includes((share.value * 100).toFixed(1) + '%') && shareText.includes(money(share.base)), shareText);
+    // Cost left unitemized could be hard, land or soft, so the split waits for it.
+    setField(p, 'dc-cost-structures', 9400000);
+    assert.equal(p.w.__DealCalc.getResult().costBasis.costPerSf.hardPerUnit.value, null);
+    assert.match(text(p, 'dc-cb-detail'), /Itemize all of Total Development Cost/);
+    setField(p, 'dc-cost-structures', 10400000);
+    // A line error blanks the subtotals rather than showing a partial sum.
+    setField(p, 'dc-cost-construction_interest-eligible', '');
+    assert.equal(p.d.querySelector('[data-cost-subtotal="construction"]').textContent.trim(), '—');
+    assert.deepEqual(p.errors, []);
+  });
+
+  await test('a link saved before the DOH layout opens with the budget it saved', async () => {
+    // The pre-DOH example budget as that page's share link carried it, with profit taken out of basis.
+    const saved = { land: 1000000, building_acquisition: '', site_work: 1000000, structures: 10400000, general_requirements: 600000,
+      overhead: 250000, profit: 500000, bonds: 120000, insurance: 130000, contractor_contingency: 500000, owner_contingency: 400000,
+      escalation: 200000, design: 700000, permits: 400000, financing: 1200000, soft_contingency: 200000, developer_fee: 1900000,
+      consultant_fee: '', reserves: 500000 };
+    const q = new URLSearchParams({ tdc: '20000000' });
+    for (const [id, v] of Object.entries(saved)) q.set('cost-' + id, String(v));
+    q.set('cost-profit-basis', 'ineligible'); q.set('cost-financing-basis', 'partial'); q.set('cost-financing-eligible', '900000');
+    const old = await openPage('?' + q.toString());
+    const total = Object.values(saved).reduce((a, v) => a + (+v || 0), 0);
+    assert.equal(total, 20000000, 'non-vacuous: the saved budget is the whole $20M');
+    // In basis: everything but land, reserves, profit and the ineligible part of financing.
+    const eligible = total - 1000000 - 500000 - 500000 - 300000;
+    assert.equal(text(old, 'dc-cb-itemized'), money(total), 'the DOH example lines the old budget never named are empty');
+    assert.equal(text(old, 'dc-cb-eligible-cost'), money(eligible));
+    assert.equal(text(old, 'dc-r-basis'), money(eligible));
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit').value, '750000');
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit-basis').value, 'partial');
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit-eligible').value, '250000');
+    assert.equal(old.d.getElementById('dc-cost-soft_other').value, '1200000');
+    assert.equal(old.d.getElementById('dc-cost-construction_interest').value, '');
+    assert.equal(old.d.getElementById('dc-cost-construction_other').value, '200000', 'the saved escalation allowance is Construction, Other');
+    assert.equal(old.d.getElementById('dc-cost-construction_other-basis').value, 'eligible');
+    assert.equal(old.d.getElementById('dc-cost-construction_interest-eligible').value, '', 'no example eligible part on an emptied line');
+    assert.equal(old.d.getElementById('dc-cost-professional_other').value, '700000', 'architecture and engineering is Professional fees, Other');
+    assert.equal(old.d.getElementById('dc-cost-design').value, '');
+    assert.equal(old.d.getElementById('dc-cost-reserve_other').value, '500000', 'operating and replacement reserves are Reserves, Other');
+    assert.equal(old.d.getElementById('dc-cost-reserves').value, '');
+    assert.deepEqual(old.errors, []);
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
