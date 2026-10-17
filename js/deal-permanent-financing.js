@@ -61,6 +61,17 @@
   }
   function isGroup(id) { return GROUPS.some(function (g) { return g.id === id; }); }
 
+  // The year-1 contractual payment on a must-pay senior loan, for when the
+  // engine's schedule has no year (NOI unknown): the payment does not depend on NOI.
+  function contractualSeniorPayment(loan, principal, mc) {
+    if (!loan || !known(principal)) return null;
+    if (loan.type === 'interest_only' || (loan.type === 'io_then_amortizing' && loan.ioYears >= 1)) {
+      return known(loan.rate) ? principal * loan.rate / 100 : null;
+    }
+    if (loan.type === 'amortizing' || loan.type === 'io_then_amortizing') return known(mc) ? principal * mc : null;
+    return null;
+  }
+
   /** The DOH group a tranche counts in, with the reason when it has none. */
   function trancheGroup(t) {
     // Historic credit proceeds are equity; entered as a loan, the row is a loan
@@ -122,7 +133,8 @@
         principal: seniorPrincipal,
         // The engine's first-year senior payment for the chosen repayment type:
         // interest only pays interest.
-        annualPayment: seniorPrincipal !== null && known(r.annualDebtService) ? r.annualDebtService : null,
+        annualPayment: seniorPrincipal === null ? null
+          : known(r.annualDebtService) ? r.annualDebtService : contractualSeniorPayment(seniorLoan, seniorPrincipal, r.mc),
         reason: seniorType ? null : 'Choose the first mortgage\'s DOH loan type.' });
       if (!seniorType) out.reasons.push('Choose the first mortgage\'s DOH loan type.');
     }

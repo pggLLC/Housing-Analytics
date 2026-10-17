@@ -113,6 +113,17 @@ test('a cash-flow or deferred loan cannot be a hard mortgage: it is held apart w
   close(s.hardMortgages[1].annualPayment, 1000000 * 0.03, 'interest only at 3%');
 });
 
+test('an entered senior loan keeps its contractual payment when NOI is unknown', () => {
+  // The engine's schedule has no year without NOI, so the payment comes from the terms.
+  const loan = (type) => ({ obligations: { loans: [{ senior: true, type, rate: 6, ioYears: 2 }] }, mortgage: 1000000, mc: 0.08, annualDebtService: null, noi: null, gap: 0, tdc: 1 });
+  close(pf.summarize({ result: loan('amortizing'), tranches: [], seniorLenderType: 'C' }).hardMortgages[0].annualPayment, 80000, 'amortizing: principal x constant');
+  close(pf.summarize({ result: loan('interest_only'), tranches: [], seniorLenderType: 'C' }).hardMortgages[0].annualPayment, 60000, 'interest only: principal x rate');
+  close(pf.summarize({ result: loan('io_then_amortizing'), tranches: [], seniorLenderType: 'C' }).hardMortgages[0].annualPayment, 60000, 'interest-only years first');
+  const s = pf.summarize({ result: loan('amortizing'), tranches: [], seniorLenderType: 'C' });
+  assert.equal(s.dcr, null); assert.equal(s.hardMortgages[0].cumulativeDcr, null);
+  assert.equal(pf.summarize({ result: Object.assign(loan('amortizing'), { mc: NaN }), tranches: [], seniorLenderType: 'C' }).hardMortgages[0].annualPayment, null, 'unknown terms stay unknown');
+});
+
 test('a cash-flow, deferred or forgivable senior loan is held apart too, and still counted', () => {
   for (const type of ['cash_flow', 'accrue_defer', 'forgivable']) {
     const i = withTranches('A', STACK);
