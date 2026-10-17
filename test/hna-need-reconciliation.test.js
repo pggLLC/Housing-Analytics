@@ -260,19 +260,20 @@ async function render(selection, countyFips) {
     assert.strictEqual(Number(row.dataset.units), Math.round(want), `Colorado row ${row.dataset.units} ≠ county sum ${Math.round(want)}`);
   });
 
-  await test('Colorado\'s in-commuter row is the sum of the 64 county lines, not unavailable', async () => {
+  await test('Colorado\'s in-commuter row counts only out-of-state commuters, summed over the 64 counties', async () => {
     const co = await render({ geoType: 'state', geoid: '08', label: 'Colorado',
       profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } }, '08');
     const wn = JSON.parse(read('data/hna/workforce-need.json'));
     const ids = Object.keys(wn.counties).filter((k) => /^08\d{3}$/.test(k));
     assert.strictEqual(ids.length, 64, `${ids.length} county records; the sum needs all 64`);
-    const lo = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_25, 0);
-    const hi = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_50, 0);
-    assert(lo > 0, 'the counties sum to 0; nothing to check');
+    const homes = ids.reduce((s, k) => s + wn.counties[k].out_of_state_low_middle_wage / wn.counties[k].workers_per_working_household, 0);
+    const all = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_25, 0);
+    assert(homes > 0, 'no out-of-state commuters in the county records; nothing to check');
     const row = co.row('incommuter');
     assert(row, 'Colorado has no in-commuter row');
-    assert.strictEqual(Number(row.dataset.units), lo, `Colorado row ${row.dataset.units} ≠ county 25% sum ${lo}`);
-    assert(row.textContent.includes(hi.toLocaleString('en-US')), `the 50% sum ${hi} is not stated`);
+    assert.strictEqual(Number(row.dataset.units), Math.round(homes * 0.25), `Colorado row ${row.dataset.units} ≠ out-of-state 25% ${Math.round(homes * 0.25)}`);
+    assert(Number(row.dataset.units) < all, 'Colorado counts commuters between its own counties as needing extra homes');
+    assert(row.textContent.includes(Math.round(homes * 0.5).toLocaleString('en-US')), 'the 50% scenario is not stated');
   });
 
   await test('a horizon past the projection reads replacement at the year the page actually shows', async () => {

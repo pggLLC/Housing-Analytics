@@ -2634,22 +2634,22 @@
     const doc = _workforceNeedDoc;
     if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
     if (geoid === '08') {
-      // Colorado: the sum of the 64 county lines, each worker counted once,
-      // in the county they work in. Any county missing → no total, so a
-      // partial sum never reads as the state.
+      // Colorado: only the in-commuters who live in another state. A worker
+      // who moves closer across a Colorado county line leaves a Colorado home
+      // behind, so the state needs no extra home for them. Each county's
+      // out-of-state low/middle-wage workers over its own workers per working
+      // household, summed; any county missing → no total.
       const recs = Object.keys(doc.counties || {}).filter((k) => /^08\d{3}$/.test(k)).map((k) => doc.counties[k]);
-      let low = 0;
-      let high = 0;
+      let homes = 0;
       let have = 0;
       for (const c of recs) {
-        const n = c && c.present_incommuter_need;
-        const a = n ? window.HNAUtils.safeNum(n.move_closer_25) : null;
-        const b = n ? window.HNAUtils.safeNum(n.move_closer_50) : null;
-        if (a === null || b === null) continue;
-        low += a; high += b; have += 1;
+        const w = c ? window.HNAUtils.safeNum(c.out_of_state_low_middle_wage) : null;
+        const wph = c ? window.HNAUtils.safeNum(c.workers_per_working_household) : null;
+        if (w === null || wph === null || wph <= 0) continue;
+        homes += w / wph; have += 1;
       }
-      if (have !== 64) return { low: null, high: null, reason: have + ' of 64 counties have an in-commuter figure, so no statewide total is shown.' };
-      return { low, high, wph: null, countyWage: false, stateSum: true, reason: null };
+      if (have !== 64) return { low: null, high: null, reason: have + ' of 64 counties have an out-of-state in-commuter figure, so no statewide total is shown.' };
+      return { low: Math.round(homes * 0.25), high: Math.round(homes * 0.5), wph: null, countyWage: false, stateSum: true, reason: null };
     }
     const rec = (doc.counties && doc.counties[geoid]) || (doc.places && doc.places[geoid]) || null;
     const n = rec && rec.present_incommuter_need;
@@ -2810,9 +2810,15 @@
    * reason when any county is missing or its years do not line up, so a
    * partial sum never reads as the state.
    */
+  // The pending promise is memoized, not just the result: the vacancy slider
+  // re-runs applyAssumptions on every input, and each run must not start
+  // another 64 fetches.
   let _statewideReplacement;
-  async function _loadStatewideReplacement() {
-    if (_statewideReplacement !== undefined) return _statewideReplacement;
+  function _loadStatewideReplacement() {
+    if (!_statewideReplacement) _statewideReplacement = _sumStatewideReplacement();
+    return _statewideReplacement;
+  }
+  async function _sumStatewideReplacement() {
     const fips = ['014'];
     for (let n = 1; n <= 125; n += 2) fips.push(String(n).padStart(3, '0'));
     const docs = await Promise.all(fips.map((f) =>
@@ -2830,10 +2836,9 @@
         if (v === null) { sum[i] = null; } else if (sum[i] !== null) { sum[i] += v; }
       }
     }
-    _statewideReplacement = missing
+    return missing
       ? { years: null, cumulative_units: null, reason: missing + ' of 64 county projections have no replacement estimate, so no statewide total is shown.' }
       : { years, cumulative_units: sum, reason: null };
-    return _statewideReplacement;
   }
 
   /**
@@ -2909,7 +2914,7 @@
           + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
           + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
           + '. No statewide source measures that share, so both are shown. A deficit today, not a projection, and not part of the figure used'
-          + (inc.stateSum ? '; summed over the 64 counties, each worker counted in the county they work in, including people who commute between Colorado counties.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+          + (inc.stateSum ? '; for Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
         inFigure: false,
         unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
       },
