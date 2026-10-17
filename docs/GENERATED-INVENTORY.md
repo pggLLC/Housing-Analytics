@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T21:07:46.231Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T21:10:20.482Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 150.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 65.6 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 75.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
@@ -2462,7 +2462,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-hna-data.yml` | 34.2 KB |
-| `.github/workflows/build-rent-burden-crosscheck.yml` | 4.1 KB |
+| `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.7 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
