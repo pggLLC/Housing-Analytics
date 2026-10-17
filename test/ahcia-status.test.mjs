@@ -107,3 +107,23 @@ test('changing the data changes the page; a missing entry says so', async () => 
   assert.doesNotMatch(missing.textContent, /\bcosponsors\b/, 'a missing bill still shows a cosponsor count');
   assert.equal(doc.querySelector('[data-ahcia="cosponsor-stat"]').textContent, '—', 'a partial total is shown as if complete');
 });
+
+// The two provisions Public Law 119-21 already enacted must read as enacted in
+// "Key Provisions" whenever the watchlist records them as enacted; describing
+// an enacted law with proposal wording ("commonly described as") is the stale
+// status this page carried until 2026-10-17.
+test('Key Provisions agree with the watchlist on enacted provisions', () => {
+  const byId = Object.fromEntries(WATCH.entries.map((e) => [e.id, e]));
+  const pairs = [
+    ['obbba-lihtc-ceiling-12pct', '1) Expand 9% credit allocations'],
+    ['obbba-lihtc-bond-25pct-test', '2) Lower the 4% bond financing threshold'],
+  ];
+  for (const [id, heading] of pairs) {
+    const entry = byId[id];
+    assert.ok(entry, `watchlist carries ${id}`);
+    const enacted = entry.status === 'enacted';
+    assert.equal(HTML.includes(`${heading} (enacted)`), enacted,
+      `"${heading}" is marked enacted exactly when ${id} is enacted (${entry.status})`);
+  }
+  assert.ok(!HTML.includes('Commonly described as moving'), 'bond test is stated as enacted law, not as a description');
+});

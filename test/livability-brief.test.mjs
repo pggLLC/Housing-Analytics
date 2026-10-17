@@ -84,7 +84,9 @@ test('the universal design points the brief states equal the QAP', () => {
   const row = table.rows.find((r) => r[2] === quote.section);
   assert.ok(row, 'no table row for the universal design section');
   assert.equal(toNumber(row[1].match(/^(\w+) points?$/)[1]), qapPoints, 'table points disagree with the QAP');
-  const said = squash(brief.summary).match(/awards (\w+) points? for universal design/i);
+  // The QAP is a draft, so the summary may say "would award"; the point value
+  // must still equal the QAP quote.
+  const said = squash(brief.summary).match(/(?:would )?awards? (\w+) points? for universal design/i);
   assert.ok(said, 'the summary no longer states the universal design points');
   assert.equal(toNumber(said[1]), qapPoints, 'summary points disagree with the QAP');
 });
