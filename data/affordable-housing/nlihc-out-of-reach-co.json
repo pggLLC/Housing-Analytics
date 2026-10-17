@@ -26,7 +26,7 @@
   "by_county": {
     "08001": {
       "county_name": "Adams",
-      "nlihc_area": "Adams County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -54,7 +54,7 @@
     },
     "08005": {
       "county_name": "Arapahoe",
-      "nlihc_area": "Arapahoe County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -110,7 +110,7 @@
     },
     "08013": {
       "county_name": "Boulder",
-      "nlihc_area": "Boulder County",
+      "nlihc_area": "Boulder MSA",
       "fmr_2br": 2124,
       "fmr_1br": 1795,
       "two_br_housing_wage": 40.85,
@@ -124,7 +124,7 @@
     },
     "08014": {
       "county_name": "Broomfield",
-      "nlihc_area": "Broomfield County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -166,7 +166,7 @@
     },
     "08019": {
       "county_name": "Clear Creek",
-      "nlihc_area": "Clear Creek County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -250,7 +250,7 @@
     },
     "08031": {
       "county_name": "Denver",
-      "nlihc_area": "Denver County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -278,7 +278,7 @@
     },
     "08035": {
       "county_name": "Douglas",
-      "nlihc_area": "Douglas County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -306,7 +306,7 @@
     },
     "08039": {
       "county_name": "Elbert",
-      "nlihc_area": "Elbert County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -320,7 +320,7 @@
     },
     "08041": {
       "county_name": "El Paso",
-      "nlihc_area": "El Paso County",
+      "nlihc_area": "Colorado Springs HMFA",
       "fmr_2br": 1735,
       "fmr_1br": 1464,
       "two_br_housing_wage": 33.37,
@@ -362,7 +362,7 @@
     },
     "08047": {
       "county_name": "Gilpin",
-      "nlihc_area": "Gilpin County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -432,7 +432,7 @@
     },
     "08057": {
       "county_name": "Jackson",
-      "nlihc_area": "Jackson County †",
+      "nlihc_area": "Jackson County",
       "fmr_2br": 989,
       "fmr_1br": 754,
       "two_br_housing_wage": 19.02,
@@ -446,7 +446,7 @@
     },
     "08059": {
       "county_name": "Jefferson",
-      "nlihc_area": "Jefferson County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -516,7 +516,7 @@
     },
     "08069": {
       "county_name": "Larimer",
-      "nlihc_area": "Larimer County",
+      "nlihc_area": "Fort Collins-Loveland MSA",
       "fmr_2br": 1732,
       "fmr_1br": 1537,
       "two_br_housing_wage": 33.31,
@@ -572,7 +572,7 @@
     },
     "08077": {
       "county_name": "Mesa",
-      "nlihc_area": "Mesa County",
+      "nlihc_area": "Grand Junction MSA",
       "fmr_2br": 1249,
       "fmr_1br": 986,
       "two_br_housing_wage": 24.02,
@@ -684,7 +684,7 @@
     },
     "08093": {
       "county_name": "Park",
-      "nlihc_area": "Park County",
+      "nlihc_area": "Denver-Aurora-Centennial MSA",
       "fmr_2br": 2089,
       "fmr_1br": 1754,
       "two_br_housing_wage": 40.17,
@@ -740,7 +740,7 @@
     },
     "08101": {
       "county_name": "Pueblo",
-      "nlihc_area": "Pueblo County",
+      "nlihc_area": "Pueblo MSA",
       "fmr_2br": 1269,
       "fmr_1br": 967,
       "two_br_housing_wage": 24.4,
@@ -866,7 +866,7 @@
     },
     "08119": {
       "county_name": "Teller",
-      "nlihc_area": "Teller County",
+      "nlihc_area": "Teller County HMFA",
       "fmr_2br": 1493,
       "fmr_1br": 1362,
       "two_br_housing_wage": 28.71,
@@ -894,7 +894,7 @@
     },
     "08123": {
       "county_name": "Weld",
-      "nlihc_area": "Weld County",
+      "nlihc_area": "Greeley MSA",
       "fmr_2br": 1563,
       "fmr_1br": 1238,
       "two_br_housing_wage": 30.06,

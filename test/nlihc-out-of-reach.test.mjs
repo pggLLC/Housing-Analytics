@@ -74,3 +74,21 @@ test('the housing-costs article quotes the same Out of Reach figures', () => {
   assert.ok(html.includes(`$${s.fmr_2br.toLocaleString('en-US')}/month`), 'same 2-BR Fair Market Rent');
   assert.ok(html.includes(`$${s.two_br_housing_wage.toFixed(2)}/hr`), 'same 2-BR housing wage');
 });
+
+test('a county priced at a metro rent area is labelled with that area', () => {
+  const rows = Object.values(DATA.by_county);
+  const own = (c) => c.nlihc_area === `${c.county_name} County`;
+  const areas = new Map();
+  rows.filter((c) => !own(c)).forEach((c) => {
+    const k = `${c.fmr_2br}|${c.two_br_housing_wage}`;
+    const prev = areas.get(c.nlihc_area);
+    assert.ok(!prev || prev === k, `${c.nlihc_area}: its counties carry one FMR and housing wage`);
+    areas.set(c.nlihc_area, k);
+  });
+  assert.ok(areas.size >= 5, `scan found ${areas.size} metro rent areas`);
+  const metroKeys = new Set(areas.values());
+  rows.filter(own).forEach((c) => {
+    assert.ok(!metroKeys.has(`${c.fmr_2br}|${c.two_br_housing_wage}`),
+      `${c.county_name} shares a metro area's rent figures but is labelled as its own area`);
+  });
+});
