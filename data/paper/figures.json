@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "9f13c3f75",
+  "generated_from_commit": "79dbd1e69",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-17",
-    "total_commits": 8415,
+    "total_commits": 8419,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 818,
-        "pct_of_peak": 57.2
+        "commits": 822,
+        "pct_of_peak": 57.5
       }
     ]
   },
@@ -68,7 +68,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 67,
-    "test_files": 554,
+    "test_files": 555,
     "absence_test_cases": 272,
     "absence_tests": 106,
     "lihtc_features": 926
@@ -246,14 +246,14 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 447281,
+    "hand_written_lines": 448279,
     "generated_place_page_lines": 226828,
     "top_level_pages": 69,
-    "html_nonblank_lines": 48625,
-    "html_distinct_lines": 19831,
-    "html_distinct_share": 0.408,
+    "html_nonblank_lines": 48727,
+    "html_distinct_lines": 19912,
+    "html_distinct_share": 0.409,
     "substantial_tools": 27,
-    "declared_data_sources": 81,
+    "declared_data_sources": 83,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
       "means": "what a commissioned team would bill to build this from a specification, NOT the effort expended here",
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "9f13c3f75",
+    "extracted_at_commit": "79dbd1e69",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
