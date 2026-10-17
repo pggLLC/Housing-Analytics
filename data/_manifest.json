@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T01:36:24.562Z",
+    "generated_at": "2026-10-17T03:02:33.462Z",
     "root": "data/",
     "file_count": 1740,
-    "total_size_bytes": 186229538,
+    "total_size_bytes": 186297228,
     "kinds": {
       "json": 1697,
       "geojson": 33,
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T01:36:22.335Z",
+      "mtime": "2026-10-17T03:02:30.493Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30971,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 220395,
-      "mtime": "2026-10-17T01:36:05.421Z",
+      "size_bytes": 220527,
+      "mtime": "2026-10-17T03:02:08.525Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32479,8 +32479,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15109,
-      "mtime": "2026-10-17T01:36:23.491Z",
+      "size_bytes": 15107,
+      "mtime": "2026-10-17T03:02:32.005Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32504,7 +32504,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T01:36:23.201Z",
+      "mtime": "2026-10-17T03:02:31.654Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34382,8 +34382,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 365611,
-      "mtime": "2026-10-14T11:08:27.218Z",
+      "size_bytes": 430304,
+      "mtime": "2026-10-17T03:01:07.203Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34394,7 +34394,7 @@
       ],
       "key_count": 5,
       "primary_array_key": "programs",
-      "primary_array_length": 48,
+      "primary_array_length": 54,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -34652,8 +34652,8 @@
     {
       "path": "policy/funding-watch-sources.json",
       "kind": "json",
-      "size_bytes": 7550,
-      "mtime": "2026-10-16T11:32:52.488Z",
+      "size_bytes": 10417,
+      "mtime": "2026-10-17T03:01:07.207Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34663,7 +34663,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "agency_pages",
-      "primary_array_length": 12,
+      "primary_array_length": 20,
       "primary_array_first_keys": [
         "id",
         "agency",
