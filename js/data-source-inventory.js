@@ -1196,7 +1196,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1732,
+      features: 1735,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1210,7 +1210,7 @@
       provider: 'Colorado Legislature / Internal',
       url: 'https://leg.colorado.gov/',
       localFile: 'data/policy/tax-credit-legislation.json',
-      lastUpdated: '2026-10-11',
+      lastUpdated: '2026-10-17',
       updateFrequency: 'Session-based',
       maxAgeDays: 180,
       geoUnit: 'Statewide',

@@ -166,6 +166,7 @@ jobs:
             data/hna/source/dola_components_county.csv
             data/hna/source/dola_profiles_county.csv
             data/hna/source/dola_sya_county.csv
+            data/hna/source/dola_household_county.csv
           key: hna-build-${{ github.run_id }}-dola-v1
 
       - name: Build cached HNA datasets — DOLA
@@ -191,6 +192,7 @@ jobs:
             data/hna/source/dola_components_county.csv
             data/hna/source/dola_profiles_county.csv
             data/hna/source/dola_sya_county.csv
+            data/hna/source/dola_household_county.csv
           key: hna-build-${{ github.run_id }}-dola-v1
 
       - name: Finalize cached HNA datasets
@@ -286,6 +288,15 @@ jobs:
         run: |
           echo "── Rebuilding place CHAS aggregates ──"
           python3 scripts/hna/build_place_chas.py 2>&1
+
+      - name: Phase 6.45 — Rebuild in-commuter workforce need
+        if: ${{ inputs.statewide_only != true }}
+        # Reads the LEHD county files and ACS summaries refreshed above, and
+        # refreshes the DOLA jobs and ACS B08202 inputs under data/hna/source/
+        # (--fetch; a failed download keeps the cached copy, whose vintage
+        # meta.sources records). tests/test_workforce_need.py recomputes the
+        # output from those inputs, so it must be rebuilt whenever they move.
+        run: python3 scripts/hna/build_workforce_need.py --fetch 2>&1
 
       - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
         if: ${{ inputs.statewide_only != true }}

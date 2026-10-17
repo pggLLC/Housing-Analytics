@@ -197,6 +197,21 @@ def safe_float(val, default: float = 0.0) -> float:
         return default
 
 
+
+
+def round_like_math_round(value: float) -> int:
+    """Round a whole-unit figure the way the page does (JavaScript Math.round).
+
+    Python's round() is banker's rounding: 352.5 becomes 352 while the HNA page,
+    rounding the same ledger value with Math.round, shows 353. The index and the
+    page must agree (test/hna-projection-integrity.test.js); the SDO household
+    forecast (#2260) produced the first exact half, El Jebel's 352.5. This is
+    floor(x + 0.5), Math.round's rule, which also sends a negative half toward
+    zero (-352.5 -> -352) where _round_half_up below would give -353.
+    """
+    return int(math.floor(value + 0.5))
+
+
 def _load_json(path: str) -> dict | list | None:
     try:
         with open(path, encoding="utf-8") as fh:
@@ -1504,7 +1519,7 @@ def compute_metrics(
                 population_projection_20yr = int(safe_float(pop_dola[-1]))
             future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
             if future_units:
-                future_units_needed_20yr = int(round(safe_float(future_units[-1])))
+                future_units_needed_20yr = round_like_math_round(safe_float(future_units[-1]))
                 # A county is its own geography — no apportionment happens, and
                 # saying so keeps every row's basis answerable rather than
                 # leaving the county rows blank and the reader guessing.
@@ -1516,7 +1531,7 @@ def compute_metrics(
         place_proj = load_place_projections().get(geoid) if geoid else None
         incremental = (place_proj or {}).get("incremental_units_needed") or []
         if incremental:
-            future_units_needed_20yr = int(round(safe_float(incremental[-1])))
+            future_units_needed_20yr = round_like_math_round(safe_float(incremental[-1]))
             projection_basis = (place_proj or {}).get("method") or "place_ledger"
         # population_projection_20yr is independent of the units-needed
         # ledger above and must run whether or not this place has a ledger
@@ -1554,7 +1569,7 @@ def compute_metrics(
                     future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
                     if future_units and future_units_needed_20yr is None:
                         share = min(population / base_pop, 1.0)
-                        future_units_needed_20yr = int(round(safe_float(future_units[-1]) * share))
+                        future_units_needed_20yr = round_like_math_round(safe_float(future_units[-1]) * share)
                         projection_basis = "county_population_share"
 
     # ── The workforce reading, applied to the published figure ────────────

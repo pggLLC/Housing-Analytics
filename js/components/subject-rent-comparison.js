@@ -114,9 +114,12 @@
         ' have a proposed rent OVER the CHFA max (non-compliant).'
       ]));
 
-      var tableWrap = $h('div', { style: { overflowX: 'auto',
+      // The wrapper is the scroll box (the table opts out of the mobile table
+      // scroll in responsive.css) and is focusable so a keyboard user can scroll it.
+      var tableWrap = $h('div', { tabindex: '0', role: 'region', 'aria-label': 'Rent comparison (scrolls sideways)',
+        style: { overflowX: 'auto',
         border: '1px solid var(--border)', borderRadius: '4px' } });
-      var t = $h('table', { style: { width: '100%', borderCollapse: 'collapse',
+      var t = $h('table', { 'class': 'no-mobile-scroll', style: { width: '100%', borderCollapse: 'collapse',
         fontSize: '.78rem' } });
       t.appendChild($h('caption', { 'data-role': 'chfa-table-vintage', style: { textAlign: 'left', padding: '6px' } }, [
         (tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') + ' · effective ' + (tableLimit.effectiveDate || '—')

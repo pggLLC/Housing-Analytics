@@ -285,6 +285,7 @@
       pmaScore:             pma.score,
       pmaConfidence:        pma.confidence,
       ami30UnitsNeeded:     gap.ami30UnitsNeeded,
+      ami30Scope:           'area',
       ami50UnitsNeeded:     gap.ami50UnitsNeeded,
       ami60UnitsNeeded:     gap.ami60UnitsNeeded,
       totalUndersupply:     gap.totalUndersupply,
