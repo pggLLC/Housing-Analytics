@@ -146,8 +146,9 @@
       annualOpex = inputs.annualOpex, annualRepReserve = inputs.annualRepReserve,
       netPropTax = inputs.netPropTax, annualDebtService = inputs.annualDebtService;
     // Other income (DOH's parking, laundry and fees) is not stressed with rent.
-    var otherIncome = inputs.annualOtherIncome || 0;
-    if (![annualRents, vacancyPct, annualOpex, annualRepReserve, netPropTax, annualDebtService].every(known)
+    // Callers without other income pass none; a null one is unknown, not $0.
+    var otherIncome = inputs.annualOtherIncome === undefined ? 0 : inputs.annualOtherIncome;
+    if (![annualRents, otherIncome, vacancyPct, annualOpex, annualRepReserve, netPropTax, annualDebtService].every(known)
         || annualDebtService <= 0 || annualRents <= 0) return null;
 
     var rentS = +constants.rentStressPct;
@@ -485,7 +486,8 @@
   }
 
   function operatingProjection(result, fields) {
-    if (!result.dscrAutoMode || ![result.annualRents, result.noi, result.annualOpex,
+    var otherIncomeBase = result.annualOtherIncome === undefined ? 0 : result.annualOtherIncome;
+    if (!result.dscrAutoMode || ![result.annualRents, otherIncomeBase, result.noi, result.annualOpex,
         result.annualRepReserve, result.netPropTax, result.annualDebtService,
         result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known) || !result.obligations.years) return null;
     var years = fieldNumber(fields, 'pf-years', 15);
@@ -494,7 +496,7 @@
     for (var y = 1; y <= 50; y++) {
       var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
-      var rents = result.annualRents * rm, otherIncome = (result.annualOtherIncome || 0) * rm;
+      var rents = result.annualRents * rm, otherIncome = otherIncomeBase * rm;
       var vacancyLoss = (rents + otherIncome) * result.vacancyRate;
       var egi = rents + otherIncome - vacancyLoss, opex = result.annualOpex * em;
       var reserve = result.annualRepReserve * em, tax = result.netPropTax * em;
@@ -900,9 +902,12 @@
       operatingSummary = obm.summarizeOperating(inputs.operatingLines, inputs.otherIncomeLines || []);
       // Other income is resolved in both NOI modes, so the sensitivity and the
       // export carry it even when NOI itself is entered by hand.
-      if (!operatingSummary.reason) otherIncomePerUnitYear = operatingSummary.otherIncomePerUnitYear;
+      // A budget with a reason has no measured other income: null, never $0.
+      otherIncomePerUnitYear = operatingSummary.reason ? null : operatingSummary.otherIncomePerUnitYear;
     }
-    annualOtherIncome = otherIncomePerUnitYear * (units || 60);
+    annualOtherIncome = otherIncomePerUnitYear == null ? null : otherIncomePerUnitYear * (units || 60);
+    // Arithmetic reads NaN for an unknown, so nothing built on it is a number.
+    var otherIncomeForMath = annualOtherIncome == null ? NaN : annualOtherIncome;
     if (autoNoi) {
       var vacancyPct = vacFrac();
       // Entered zero is valid; a cleared operating line is unmeasured.
@@ -920,7 +925,7 @@
         operatingInputsReason = 'Enter the annual property tax per unit.';
       }
       // DOH applies vacancy to rent plus other income.
-      var effectiveGrossIncome = (annualRents + annualOtherIncome) * (1 - vacancyPct);
+      var effectiveGrossIncome = (annualRents + otherIncomeForMath) * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);
       var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
@@ -972,7 +977,7 @@
     var loanNoi = Array.from({ length: 50 }, function (_, index) {
       if (index === 0) return noi;
       return autoNoi && [annualRents, annualOpex, annualRepReserve, netPropTax, rentGrowthForLoans, expenseGrowthForLoans].every(known)
-        ? (annualRents + annualOtherIncome) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
+        ? (annualRents + otherIncomeForMath) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
           - (annualOpex + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index) : null;
     });
     var obligations = debtInputsReason ? { loans: null, years: null, unavailableReason: debtInputsReason }
@@ -1009,7 +1014,7 @@
     var annualDebtService = firstLoanYear ? firstLoanYear.seniorDebtService : null;
     var breakEvenOcc = known(allMustPayDebtService) && annualRents > 0
       ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService) / (annualRents + annualOtherIncome), 1)
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService) / (annualRents + otherIncomeForMath), 1)
           : null)
       : null;
 
@@ -1187,7 +1192,7 @@
         var mortHi = seniorMode === 'entered' ? mortgage : (mcHi > 0 && noi > 0) ? Math.max(0, noi / dcr - totalSoftDebtService) / mcHi : 0;
 
         // Compute EGI from available scope variables
-        var _egi = ((annualRents || 0) + annualOtherIncome) * (1 - (vu / 100));
+        var _egi = ((annualRents || 0) + otherIncomeForMath) * (1 - (vu / 100));
         var _repRes = (safeVal('dc-rep-reserve') || 350) * u;
 
         // OpEx: ±$50/unit/month
@@ -1195,8 +1200,8 @@
         var noiHi = _egi - (Math.max(200, ou - 50) * 12 * u) - _repRes - (netPropTax || 0);
 
         // Vacancy: ±2%
-        var vacLoEgi = ((annualRents || 0) + annualOtherIncome) * (1 - Math.min(0.15, (vu + 2) / 100));
-        var vacHiEgi = ((annualRents || 0) + annualOtherIncome) * (1 - Math.max(0.01, (vu - 2) / 100));
+        var vacLoEgi = ((annualRents || 0) + otherIncomeForMath) * (1 - Math.min(0.15, (vu + 2) / 100));
+        var vacHiEgi = ((annualRents || 0) + otherIncomeForMath) * (1 - Math.max(0.01, (vu - 2) / 100));
 
         return { eqP: eqP, ir: ir, vu: vu, ou: ou, eqLo: eqLo, eqHi: eqHi,
           mortLo: mortLo, mortHi: mortHi, noiLo: noiLo, noiHi: noiHi,

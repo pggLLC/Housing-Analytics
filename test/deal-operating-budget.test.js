@@ -92,6 +92,33 @@ test('a blank budget makes NOI unknown with the budget\'s reason', () => {
   assert.equal(r.projection, null);
 });
 
+test('other income from a budget with a reason is unknown, never $0', () => {
+  const blankExpenses = ob.exampleLines().map(l => Object.assign(l, { amount: null }));
+  const parking = ob.exampleIncome(); parking[0].amount = 120;
+  const badIncome = ob.exampleIncome(); badIncome[1].amount = '-5';
+  for (const [name, lines, income] of [['blank expenses with parking income', blankExpenses, parking], ['an invalid income line', null, badIncome]]) {
+    const i = withBudget('A', lines, income);
+    const r = computeDeal(i);
+    assert(r.operatingSummary.reason, name + ': fixture has a reason');
+    assert.equal(r.annualOtherIncome, null, name + ': annual other income');
+    assert.equal(r.otherIncomePerUnitYear, null, name + ': per unit');
+    assert(!Number.isFinite(r.effectiveGrossIncome), name + ': EGI is not a number built on an unknown');
+    i.fields['dc-auto-noi'] = false; i.fields['dc-noi'] = '500000';
+    const m = computeDeal(i);
+    assert.equal(m.annualOtherIncome, null, name + ': manual NOI mode too');
+    assert(m.tornado === null || !Number.isFinite(m.tornado.vacHiEgi), name + ': no swing built on $0');
+  }
+  // The engine helpers read a null as unknown, and an absent field as none.
+  const base = computeDeal(withBudget('A'));
+  const stressInputs = { annualRents: base.annualRents, vacancyPct: base.vacancyRate, annualOpex: base.annualOpex,
+    annualRepReserve: base.annualRepReserve, netPropTax: base.netPropTax, annualDebtService: base.allMustPayDebtService };
+  const { computeDscrStressScenarios } = require('../js/deal-engine.js');
+  if (computeDscrStressScenarios) {
+    assert(computeDscrStressScenarios(stressInputs), 'no other income field: computed');
+    assert.equal(computeDscrStressScenarios(Object.assign({ annualOtherIncome: null }, stressInputs)), null, 'null other income: unknown');
+  }
+});
+
 test('old links: the monthly figure loads, times 12, into Other expenses, Other', () => {
   const read = obj => key => (Object.prototype.hasOwnProperty.call(obj, key) ? obj[key] : null);
   const out = ob.legacyOperatingFields(read({ opex: '500' }));
