@@ -142,7 +142,7 @@
 <h4 style="margin: 0 0 0.75rem 0;">Phase 2: Application &amp; Award (Months 7-12)</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
 <li><strong>QAP Compliance:</strong> Ensure project meets all threshold requirements</li>
-<li><strong>Scoring Strategy:</strong> Maximize points (typically need 90%+ to compete)</li>
+<li><strong>Scoring Strategy:</strong> Maximize points under the scoring section of CHFA's current QAP</li>
 <li><strong>Community Engagement:</strong> Local support letters (often worth points)</li>
 <li><strong>Syndicator Engagement:</strong> Preliminary pricing letters for underwriting</li>
 <li><strong>Application Submission:</strong> Compete in annual allocation round</li>
@@ -185,8 +185,12 @@
       set('lihtcGuideNat4', nat.credit_4pct);
       set('lihtcGuideCo', co.median_all_credits);
       set('lihtcGuideRegion', region.median_all_credits);
+      set('lihtcGuideMkt9', nat.credit_9pct);
+      set('lihtcGuideMkt4', nat.credit_4pct);
       var vEl = document.getElementById('lihtcGuideVintage');
       if (vEl && j.meta && j.meta.vintage) vEl.textContent = j.meta.vintage;
+      var mvEl = document.getElementById('lihtcGuideMktVintage');
+      if (mvEl && j.meta && j.meta.vintage) mvEl.textContent = j.meta.vintage;
       // The credits-to-cash diagram works its example at the Colorado median
       // and 5 cents below it. With no published median the arithmetic has no
       // price to use, so it says so rather than keeping the static figures.
@@ -226,7 +230,7 @@
 <li><strong>Tenant Certification:</strong> Verify income, household size annually</li>
 <li><strong>Rent Restrictions:</strong> Cannot exceed HUD/state limits by bedroom size, AMI level</li>
 <li><strong>Physical Inspections:</strong> Annual state inspections, REAC every 3 years</li>
-<li><strong>Compliance Period:</strong> Minimum 15 years (30 in most states via extended use)</li>
+<li><strong>Compliance Period:</strong> 15-year compliance period plus at least 15 years of extended use, so a 30-year minimum in every state (IRC §42(i)(1), §42(h)(6))</li>
 </ul>
 <div class="data-source">Noncompliance = Recapture: Investors may demand repayment if credits are lost. Maintain impeccable records.</div>
 </div>
@@ -369,13 +373,13 @@
 </tr>
 <tr>
 <td><strong>Credit value per $1M basis</strong></td>
-<td>~$900K/yr × 10 = $9M over 10 yrs</td>
-<td>~$400K/yr × 10 = $4M over 10 yrs</td>
+<td>~$90K/yr × 10 = $900K over 10 yrs</td>
+<td>~$40K/yr × 10 = $400K over 10 yrs</td>
 </tr>
 <tr>
 <td><strong>Allocation process</strong></td>
 <td>Competitive annual QAP round at CHFA; ~1 in 3 applications funded</td>
-<td>Non-competitive if PAB cap available — automatic if project passes 50% test</td>
+<td>Non-competitive if PAB cap available — automatic if project passes the 50% test, or the 25% test for buildings placed in service after 2025 where bonds issued after 2025 finance at least 5% of basis (Public Law 119-21 §70422)</td>
 </tr>
 <tr>
 <td><strong>Min scale</strong></td>
@@ -494,7 +498,7 @@
 <h4 style="margin: 0 0 0.5rem 0;">Compliance &amp; Timing</h4>
 <ul style="line-height: 1.7; color: var(--mcm-beige); font-size: 0.9rem; padding-left: 1.25rem;">
 <li>Missing placed-in-service deadline (9%: 24 mo; 4%: varies)</li>
-<li>10% test failure (must incur 10% of reasonably expected basis within 6 mo of carryover)</li>
+<li>10% test failure (must incur 10% of reasonably expected basis within 12 months of the carryover allocation, IRC §42(h)(1)(E)(ii))</li>
 <li>Davis-Bacon wage violations on federally funded stack</li>
 <li>Environmental review (NEPA) delays from federal funds</li>
 <li>URA relocation requirements not budgeted correctly</li>
@@ -588,11 +592,11 @@
   combined pricing can reach $1.00+ on a per-dollar-of-basis basis.
 </p>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li><strong>Annual authority:</strong> $12M for 2026 — set by HB 24-1434 and varies by year ($20M in 2024, $16M in 2025, $12M in 2026, stepping back toward $20M by 2029); CHFA allocates.</li>
+<li><strong>Annual authority:</strong> $10M a year of standard state credit through 2031, plus accelerated credit set by HB 24-1434: $20M in 2024, $16M in 2025, $12M in 2026 and 2027, $16M in 2028 and $20M a year in 2029 to 2031; CHFA allocates.</li>
 <li><strong>Layering:</strong> State credits are claimed alongside federal; both count against eligible basis</li>
-<li><strong>Pricing:</strong> State credits typically priced ~$0.70–$0.85 (lower than federal because CO investor pool is smaller)</li>
+<li><strong>Pricing:</strong> No official or citable market source publishes Colorado state-credit pricing (checked 2026-07-17); get investor quotes deal by deal rather than assuming a price</li>
 <li><strong>Priority populations:</strong> CHFA state-credit QAP prioritizes PSH, veterans, mountain-resort workforce</li>
-<li><strong>Risk:</strong> New program — rule uncertainty, fewer comparables for underwriting, investor familiarity limited</li>
+<li><strong>Risk:</strong> The standard credit is long-standing; the accelerated credit (70% claimed in year one) is newer, so it has fewer underwriting comparables</li>
 </ul>
 <div class="data-source">
   <strong>Practical framing:</strong> If your deal is marginal on federal-only economics, state-credit eligibility
@@ -601,7 +605,7 @@
   <br><br>
   <strong>Sources:</strong>
   <a href="https://leg.colorado.gov/bills/hb24-1434" target="_blank" rel="noopener" style="color: var(--mcm-teal);">HB 24-1434 (Colorado General Assembly)</a> ·
-  <a href="https://www.chfainfo.com/" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA (administering agency)</a> ·
+  <a href="https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA state credit page (administering agency)</a> ·
   <a href="https://cdola.colorado.gov/division-of-housing" target="_blank" rel="noopener" style="color: var(--mcm-teal);">Colorado Division of Housing</a>
 </div>
 </div>
@@ -657,7 +661,7 @@
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Role of State Housing Finance Agencies</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige);">
-                    State HFAs receive annual LIHTC allocations from the U.S. Treasury based on state population (an IRS §42 per-capita multiplier plus a small-state minimum, both adjusted for inflation annually). Your role is to maximize the production of high-quality affordable housing by designing effective Qualified Allocation Plans (QAPs) and making strategic award decisions.
+                    State HFAs receive annual LIHTC allocations from the U.S. Treasury based on state population (the greater of a per-capita amount times state population or a small-state minimum, both adjusted for inflation annually and raised 12% from 2026 by Public Law 119-21; for 2026, $3.416 per person or $3,953,600, IRS Rev. Proc. 2025-32). Your role is to maximize the production of high-quality affordable housing by designing effective Qualified Allocation Plans (QAPs) and making strategic award decisions.
                 </p>
 <h4 style="margin: 2rem 0 1rem 0;">QAP Strategic Considerations:</h4>
 <div style="display: grid; gap: 1.5rem;">
@@ -700,8 +704,8 @@
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3>Colorado 2026 QAP Example: Competitive Scoring</h3>
-<div class="table-wrap" role="region" tabindex="0" aria-label="Colorado 2026 QAP Example: Competitive Scoring table"><table>
+<h3>Illustration: How a QAP Groups Scoring Points</h3>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Illustration of QAP scoring categories table"><table>
 <thead>
 <tr>
 <th>Scoring Category</th>
@@ -748,11 +752,11 @@
 <tr style="border-top: 2px solid var(--mcm-teal);">
 <td><strong>TOTAL POSSIBLE</strong></td>
 <td><strong>100</strong></td>
-<td>Typical award threshold: 90+</td>
+<td>Illustrative weights only</td>
 </tr>
 </tbody>
 </table></div>
-<div class="data-source">Source: CHFA 2026 QAP (illustrative). Actual scoring varies by state. Review your state's QAP annually for changes.</div>
+<div class="data-source">Illustrative categories and weights, not CHFA's point schedule. CHFA's adopted plan is the 2025–26 QAP; the 2027–28 QAP is still a draft. Read the scoring section of the <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener" style="color: var(--mcm-teal);">current CHFA QAP</a> for real points and thresholds.</div>
 </div>
 </section>
 <div class="accent-bar"></div>
@@ -863,32 +867,56 @@
 <tbody>
 <tr>
 <td><strong>9% Credit Pricing</strong></td>
-<td>$0.87 (down from $0.94 in 2024)</td>
-<td>Lower prices = higher yields; driven by oversupply concerns, rate uncertainty</td>
+<td><span id="lihtcGuideMkt9">$0.82</span> national average (Novogradac <span id="lihtcGuideMktVintage">2026-Q2</span>)</td>
+<td>Lower prices = higher investor yields and less equity per credit</td>
 </tr>
 <tr>
 <td><strong>4% Credit Pricing</strong></td>
-<td>$0.85 (stable)</td>
+<td><span id="lihtcGuideMkt4">$0.83</span> national average (same source)</td>
 <td>Competitive with 9%; useful for acquisition/rehab, bond deals</td>
 </tr>
 <tr>
 <td><strong>Construction Costs</strong></td>
-<td>+40% since 2019</td>
+<td>See <a href="construction-commodities.html" style="color: var(--mcm-teal);">Construction Commodities</a> for current price series</td>
 <td>Budget risk; stress test pro formas with +10% contingency</td>
 </tr>
 <tr>
 <td><strong>Interest Rates</strong></td>
-<td>Perm debt: 5-6%</td>
+<td>10-year Treasury <span id="lihtcGuideDgs10">5.10%</span> (FRED DGS10, <span id="lihtcGuideDgs10Date">2026-10-15</span>); permanent loans price above it</td>
 <td>Higher debt service = tighter cash flow, more equity needed</td>
 </tr>
 <tr>
 <td><strong>CRA Pressure</strong></td>
-<td>Potential expansion pending</td>
+<td>No final CRA rule; rescission proposed July 2025, OCC/FDIC proposal published 2026-08-12</td>
 <td>If credit unions/insurance cos added, demand ↑, pricing ↑</td>
 </tr>
 </tbody>
 </table></div>
-<div class="data-source">See CRA Expansion Analysis for probability-weighted pricing scenarios: $0.90-$0.93 expected by Q4 2027.</div>
+<div class="data-source">See <a href="cra-expansion-analysis.html" style="color: var(--mcm-teal);">CRA Expansion Analysis</a> for the rulemaking record and scenarios.</div>
+<script>
+/* The 10-year Treasury in the market table reads data/fred-data.json so the
+   figure moves with the data. A missing or non-positive value reads as
+   "not published", never 0%. */
+(function () {
+  'use strict';
+  fetch('data/fred-data.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      var obs = j && j.series && j.series.DGS10 && j.series.DGS10.observations;
+      if (!Array.isArray(obs)) return;
+      var last = null;
+      for (var i = obs.length - 1; i >= 0; i--) {
+        var v = obs[i] && obs[i].value !== '.' && obs[i].value !== null && obs[i].value !== '' ? parseFloat(obs[i].value) : NaN;
+        if (isFinite(v) && v > 0) { last = { v: v, d: obs[i].date }; break; }
+      }
+      var rate = document.getElementById('lihtcGuideDgs10');
+      var date = document.getElementById('lihtcGuideDgs10Date');
+      if (rate) rate.textContent = last ? last.v.toFixed(2) + '%' : 'not published';
+      if (date && last) date.textContent = last.d;
+    })
+    .catch(function () { /* static text remains visible */ });
+})();
+</script>
 </div>
 </section>
 <div class="accent-bar"></div>
