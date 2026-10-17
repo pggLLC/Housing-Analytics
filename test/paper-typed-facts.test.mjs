@@ -91,3 +91,16 @@ test('housing-costs article: snapshot and statewide rent agree with the data fil
   // must not claim to flag figures by one.
   assert.ok(!/figures are flagged as unreliable/.test(html), 'no claim of CV flagging that the page does not do');
 });
+
+test('fair-housing article: no surface still calls the closed comment period open', () => {
+  const html = read('article-fair-housing-rollback.html');
+  // The comment deadline the page names must be in the past tense once it has
+  // passed; the og/meta descriptions and lede are what link previews show.
+  const m = html.match(/comment period[^.]{0,40}?(\d{1,2}) October (\d{4})/);
+  assert.ok(m, 'page names the Title VI comment deadline');
+  const deadline = new Date(`${m[2]}-10-${m[1].padStart(2, '0')}T23:59:59Z`);
+  if (Date.now() > deadline.getTime()) {
+    assert.ok(!/still open for comment|comments close \d|Comment before \d/.test(html),
+      'after the deadline no surface invites comments or calls the period open');
+  }
+});
