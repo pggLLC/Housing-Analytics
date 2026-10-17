@@ -82,11 +82,24 @@ WORKER_CELLS = {
 }
 
 
+def _write_atomic(name, data):
+    path = os.path.join(SRC, name)
+    tmp = path + '.tmp'
+    with open(tmp, 'wb') as f:
+        f.write(data)
+    os.replace(tmp, path)
+
+
 def fetch():
+    """Download every input into memory, check each one, and only then
+    replace the cached copies, all three together. A failed or partial
+    download leaves the cache exactly as it was."""
     os.makedirs(SRC, exist_ok=True)
-    with urllib.request.urlopen(JOBS_URL, timeout=120) as r, \
-            open(os.path.join(SRC, 'dola_jobs_county.csv'), 'wb') as f:
-        f.write(r.read())
+    with urllib.request.urlopen(JOBS_URL, timeout=120) as r:
+        jobs_csv = r.read()
+    _vintage, jobs = parse_jobs(jobs_csv.decode('utf-8'))
+    if len(jobs) != 64:
+        raise ValueError('DOLA jobs file has %d counties, not 64' % len(jobs))
     out = {'sources': list(B08202_URLS.values()), 'table': 'B08202', 'geos': {}}
     for sumlevel in ('050', '160'):
         with urllib.request.urlopen(B08202_URLS[sumlevel], timeout=120) as r:
@@ -95,9 +108,15 @@ def fetch():
         for k, v in d['data'].items():
             t = v['B08202']
             out['geos'][k.split('US')[1]] = {'estimate': t['estimate'], 'moe': t['error']}
-    with open(os.path.join(SRC, 'acs_b08202.json'), 'w') as f:
-        json.dump(out, f, separators=(',', ':'), sort_keys=True)
-    fetch_aux()
+    n_cty = sum(1 for k in out['geos'] if len(k) == 5)
+    if n_cty != 64:
+        raise ValueError('ACS B08202 has %d counties, not 64' % n_cty)
+    aux = fetch_aux()
+    if len(aux['counties']) != 64 or len(aux['wac_primary_counties']) != 64:
+        raise ValueError('LODES primary-job summary does not cover all 64 counties')
+    _write_atomic('dola_jobs_county.csv', jobs_csv)
+    _write_atomic('acs_b08202.json', json.dumps(out, separators=(',', ':'), sort_keys=True).encode('utf-8'))
+    _write_atomic('lodes_primary_jobs.json', (json.dumps(aux, indent=1, sort_keys=True) + '\n').encode('utf-8'))
 
 
 def fetch_aux():
@@ -140,9 +159,7 @@ def fetch_aux():
         'counties': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(counties.items())},
         'places': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(places.items())},
     }
-    with open(os.path.join(SRC, 'lodes_primary_jobs.json'), 'w', encoding='utf-8') as f:
-        json.dump(out, f, indent=1, sort_keys=True)
-        f.write('\n')
+    return out
 
 
 def read_json(path):
@@ -163,10 +180,10 @@ def num(v):
     return None if math.isnan(x) else x
 
 
-def load_jobs():
-    path = os.path.join(SRC, 'dola_jobs_county.csv')
-    with open(path, encoding='utf-8') as f:
-        rows = list(csv.reader(f))
+def parse_jobs(text):
+    rows = list(csv.reader(io.StringIO(text)))
+    if len(rows) < 3:
+        raise ValueError('DOLA jobs file is empty or truncated')
     vintage = rows[0][0]
     by = {}
     for r in rows[2:]:
@@ -177,6 +194,11 @@ def load_jobs():
         if 1 <= fips <= 125:
             by.setdefault('08%03d' % fips, {})[year] = jobs
     return vintage, by
+
+
+def load_jobs():
+    with open(os.path.join(SRC, 'dola_jobs_county.csv'), encoding='utf-8') as f:
+        return parse_jobs(f.read())
 
 
 def workers_per_household(cell):
