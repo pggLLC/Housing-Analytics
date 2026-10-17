@@ -196,3 +196,15 @@ def test_briefs_summarise_only_headlines_the_stories_keep(geos):
         assert headline in story_titles
     assert not any('Yuma' in a['title'] or 'Richmondshire' in a['title'] or 'Evanston' in a['title']
                    for a in kept)
+
+
+def test_a_colorado_headline_naming_another_state_stays_in_briefs_and_stories(geos):
+    kept = alert('Colorado lawmakers borrow Oregon zoning reforms', 'Patch')
+    dropped = alert('Oregon lawmakers pass zoning reforms', 'Patch')
+    town_elsewhere = alert('Aurora, Illinois approves housing plan', 'Patch')
+    stories, _ = gpb.build_stories([kept, dropped, town_elsewhere], geos)
+    s = by_title(stories)
+    assert 'Colorado lawmakers borrow Oregon zoning reforms' in s
+    assert 'Oregon lawmakers pass zoning reforms' not in s
+    assert 'Aurora, Illinois approves housing plan' not in s
+    assert gpb.in_scope_alerts([kept, dropped, town_elsewhere], geos) == [kept]

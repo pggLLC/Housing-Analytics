@@ -46,17 +46,19 @@ assert(!/veterans|resort/i.test(prio), 'no priority the QAP does not name');
 
 // AHCIA homes figure: dated source, and it says the estimate predates the enacted part.
 const ahcia = read('lihtc-enhancement-ahcia.html');
-const stat = ahcia.match(/<p class="num"[^>]*>([^<]+)<\/p>\s*<p class="lbl">([\s\S]*?)<\/p>/g).find((s) => /homes/.test(s));
+const stat = ahcia.match(/<p class="num">([^<]+)<\/p>\s*<p class="lbl">([\s\S]*?)<\/p>/g).find((s) => /homes/.test(s));
 assert(stat, 'AHCIA page has the homes stat');
-assert(hrefs(stat).some((h) => h.startsWith('https://rentalhousingaction.org/wp-content/uploads/2026/10/')), 'homes figure links the dated ACTION fact sheet');
-// The figure shown must be the one the quoted ACTION sentence gives, compared
-// as whole numbers so a changed figure fails and a reworded label does not.
+// The source fact lives here, outside the page, so changing the page alone
+// cannot make it agree: ACTION Campaign national fact sheet, updated October
+// 2026: "Up to 1,589,100 additional affordable homes could be financed".
+const ACTION = {
+  url: 'https://rentalhousingaction.org/wp-content/uploads/2026/10/ACTION-NATIONAL-OCT-2026.pdf',
+  homes: 1589100,
+};
+assert(hrefs(stat).some((h) => h === ACTION.url), 'homes figure links the dated ACTION fact sheet');
 const shownNum = stat.match(/<p class="num"[^>]*>[^<\d]*([\d,]+)/);
-const quote = (stat.match(/data-source-quote="([^"]+)"/) || [])[1];
-assert(shownNum && quote, 'homes stat carries its number and the source sentence it comes from');
-assert(/ACTION/.test(quote) && /October 2026/.test(quote), 'quote names the ACTION fact sheet and its date');
-const quoted = [...quote.matchAll(/\b\d{1,3}(?:,\d{3})+\b/g)].map((m) => m[0]);
-assert.deepEqual(quoted, [shownNum[1]], `homes figure ${shownNum[1]} is the figure the source sentence gives`);
+assert(shownNum, 'homes stat shows a number');
+assert.equal(Number(shownNum[1].replace(/,/g, '')), ACTION.homes, `homes figure ${shownNum[1]} is the ACTION fact sheet's total`);
 const law = JSON.parse(read('data/policy/tax-credit-legislation.json'));
 assert(JSON.stringify(law).includes('119-21') && stat.includes('Public Law 119-21'), 'caveat names the law the watch file records as enacted');
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);

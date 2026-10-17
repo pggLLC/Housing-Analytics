@@ -413,6 +413,12 @@ def norm_title(t: str) -> str:
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     """'colorado', 'federal', or None (another state's news, or not housing policy)."""
     hay = f'{title} {source}'
+    # A headline that says Colorado outright is Colorado news even when it names
+    # another state ("Colorado lawmakers borrow Oregon zoning reforms"). Only the
+    # headline counts here: a bare town name ("Aurora, Illinois") or a Colorado
+    # outlet carrying another state's story still falls to OTHER_STATE_RE.
+    if COLORADO_RE.search(title):
+        return 'colorado'
     if OTHER_STATE_RE.search(hay):
         return None
     if distinct_place or COLORADO_RE.search(hay):
