@@ -3041,9 +3041,33 @@
       }
     }
 
+    // Counties and the state carry the household series their stored need
+    // figure was computed from (housing_need.households_dola), labelled per
+    // year by housing_need.household_method. Where that series is the SDO
+    // county household forecast, recomputing population x the base-year
+    // headship rate here understated growth (La Plata: 2,149 beside the
+    // note's 4,982; #2260). Under the default "current" headship assumption
+    // the calculator therefore reads the stored series; "trend" is the
+    // user's own request for population x a trended headship rate and keeps
+    // that model. A missing or non-positive stored value falls back to the
+    // population x headship arithmetic, never to 0.
+    const isPlaceSelection = !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection));
+    let storedHouseholds = null;
+    let storedHouseholdMethod = null;
+    if (i >= 0 && headshipMode !== 'trend' && !isPlaceSelection) {
+      const storedSeries = proj?.housing_need?.households_dola;
+      const storedAt = Array.isArray(storedSeries) ? window.HNAUtils.safeNum(storedSeries[i]) : null;
+      if (storedAt !== null && storedAt > 0) {
+        storedHouseholds = storedAt;
+        const methodSeries = proj?.housing_need?.household_method;
+        storedHouseholdMethod = (Array.isArray(methodSeries) && typeof methodSeries[i] === 'string') ? methodSeries[i] : null;
+      }
+    }
     const popH = (i>=0) ? popSel[i] : null;
-    const hsH = (i>=0) ? headshipAt(i) : null;
-    const hhH = (popH!==null && hsH!==null) ? (popH * hsH) : null;
+    const hsH = storedHouseholds !== null
+      ? ((popH !== null && popH > 0) ? (storedHouseholds / popH) : null)
+      : ((i>=0) ? headshipAt(i) : null);
+    const hhH = storedHouseholds !== null ? storedHouseholds : ((popH!==null && hsH!==null) ? (popH * hsH) : null);
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
     // The larger of the resident-growth reading and the workforce reading; see
     // _productionNeed. Subtracting the TOTAL stock from demand computed at the
@@ -3172,6 +3196,19 @@
           crossCounty: placeProjectionRec.cross_county === true,
         });
       } else {
+        // Name the series the households came from, read from the file's own
+        // label, so the trace cannot outlive the method that produced the number.
+        const geoWord = selection && selection.geoType === 'state' ? 'statewide' : 'county';
+        const storedIsForecast = storedHouseholds !== null && storedHouseholdMethod === 'sdo_household_forecast';
+        const headshipModeLabel = headshipMode === 'trend'
+          ? 'Trend headship assumption used by the calculation; the stored household series is not used in this mode.'
+          : storedHouseholds === null
+            ? 'Constant base-year headship rate used by the calculation.'
+            : storedIsForecast
+              ? `Implied by the SDO ${geoWord} household forecast: stored households ÷ projected population.`
+              : storedHouseholdMethod === 'mixed'
+                ? `Implied by the stored ${geoWord} household series: the SDO household forecast where published, a constant headship rate elsewhere.`
+                : `Constant base-year headship rate, as carried by the stored ${geoWord} household series.`;
         window.HNARenderers.renderProjectionCalculationTrace({
           available: incUnits !== null,
           mode: 'direct',
@@ -3180,15 +3217,20 @@
             ? 'Containing-county DOLA/SDO forecast scaled to the selected place/CDP'
             : (selection && selection.geoType === 'state'
               ? 'Direct statewide DOLA/SDO projection'
-              : 'Direct county DOLA/SDO components-of-change projection'),
+              : (storedIsForecast
+                ? 'Direct county SDO household forecast on the DOLA/SDO components-of-change population projection'
+                : 'Direct county DOLA/SDO components-of-change projection')),
           provenanceNote: selection && selection.geoType !== 'county' && selection.geoType !== 'state'
             ? 'Fallback path uses current population share and recent relative growth; covered places use the stored place-projection path shown separately.'
-            : 'County source: SDO components-change-county.csv.',
+            : (storedIsForecast
+              ? 'County sources: SDO household-county.csv (households) and components-change-county.csv (population).'
+              : 'County source: SDO components-change-county.csv.'),
           projectedPopulation: popH,
           headshipRate: hsH,
-          headshipModeLabel: headshipMode === 'trend'
-            ? 'Trend headship assumption used by the calculation.'
-            : 'Constant base-year headship rate used by the calculation.',
+          headshipModeLabel,
+          householdsNote: storedHouseholds !== null
+            ? `Read from the stored ${geoWord} household series for ${endYear} (housing_need.households_dola), the series the stored DOLA need figure is computed from.`
+            : 'Projected population × headship rate.',
           projectedHouseholds: hhH,
           targetVacancy: targetVac,
           totalUnitsRequired: needUnits,

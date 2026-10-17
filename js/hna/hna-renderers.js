@@ -3908,7 +3908,7 @@
         'DOLA/SDO components-of-change forecast for ' + trace.endYear + '.');
       rows += row('Headship rate', pct(trace.headshipRate, 3), trace.headshipModeLabel);
       rows += row('Projected households', num(trace.projectedHouseholds, 1),
-        'Projected population × headship rate.');
+        trace.householdsNote || 'Projected population × headship rate.');
       rows += row('Target vacancy', pct(trace.targetVacancy, 3), 'Screening assumption selected above.');
       rows += row('Total housing units required', num(trace.totalUnitsRequired, 1),
         'Projected households ÷ (1 − target vacancy).');

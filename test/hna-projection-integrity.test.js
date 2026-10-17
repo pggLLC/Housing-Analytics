@@ -22,8 +22,8 @@ function closeEnough(actual, expected, label) {
 function assertProjectionData() {
   assert(HNA_HTML.includes('id="projectionCalculationTrace"'), 'HNA includes expandable projection trace');
   assert(HNA_HTML.includes('id="projectionCalculationTraceBody"'), 'HNA includes projection trace output region');
-  assert(HNA_HTML.includes('County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy).'), 'HNA quotes the documented projection method');
-  assert(HNA_HTML.includes('County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json'), 'HNA quotes the documented county and place sources');
+  assert(HNA_HTML.includes('County housing units needed over the 20-year horizon: the stored SDO county household series (the SDO household forecast where it is published, otherwise the components-of-change population forecast × constant base-year headship rate), divided by (1 − target vacancy); the trend headship option recomputes households as population × a trended headship rate instead.'), 'HNA quotes the documented projection method');
+  assert(HNA_HTML.includes('County source series: SDO components-change-county.csv (population) and, where published, household-county.csv (households). Place source series: data/hna/projections/places.json'), 'HNA quotes the documented county and place sources');
   assert(HNA_HTML.includes('Cross-county municipalities use combined-county denominators before applying the blended share.'), 'HNA quotes cross-county place provenance');
   const data = JSON.parse(fs.readFileSync(PLACES_PATH, 'utf8'));
   const places = data.places || {};
@@ -135,6 +135,83 @@ function projectionFixture() {
     },
     scenarios: {},
   };
+}
+
+/**
+ * Under the default ("current") headship assumption the county and statewide
+ * calculator reads the projection file's stored household series
+ * (housing_need.households_dola) instead of recomputing population × the
+ * base-year headship rate, and the trace names which series it read from the
+ * file's own per-year label (housing_need.household_method) (#2260). Pinned as
+ * agreement: a fixture per label, and the committed La Plata file against its
+ * own label.
+ */
+async function assertCountyCalculatorReadsStoredHouseholds() {
+  const FORECAST_WORDS = 'SDO county household forecast';
+  const CONSTANT_WORDS = 'Constant base-year headship rate';
+  const mesa = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+  const render = async (proj, selection, headshipMode) => {
+    const dom = new JSDOM(makeHtml(), { url: 'about:blank' });
+    installBrowserStubs(dom, { places: {} });
+    if (headshipMode) document.querySelector('input[name="headship"]').value = headshipMode;
+    loadHnaModules();
+    window.HNAState.state.currentSelection = selection;
+    await window.HNAController.applyAssumptions(proj, selection);
+    return {
+      trace: document.getElementById('projectionCalculationTraceBody').textContent,
+      headline: document.getElementById('statUnitsNeed').textContent,
+    };
+  };
+  const withSeries = (households, method) => {
+    const p = projectionFixture();
+    p.housing_need.households_dola = households;
+    if (method) p.housing_need.household_method = method;
+    return p;
+  };
+
+  // Forecast-labelled series: the stored households drive the figure, not population × headship.
+  let r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa);
+  assert(r.trace.includes('90,000.0'), `trace shows the stored households (90,000.0): ${r.trace}`);
+  assert(!r.trace.includes('77,187.5'), 'trace no longer shows population × base-year headship (77,187.5)');
+  assert(r.trace.includes('47.368%'), 'trace shows the headship the stored series implies (90,000 ÷ 190,000)');
+  assert(r.trace.includes('94,736.8'), 'trace shows stored households ÷ (1 − 5% vacancy)');
+  assert.equal(r.headline, '24,737', 'headline is stored households ÷ 0.95 − 70,000 existing units');
+  assert(r.trace.includes(FORECAST_WORDS) && !r.trace.includes(CONSTANT_WORDS), `trace names the household forecast when the file says so: ${r.trace}`);
+  assert(r.trace.includes('household-county.csv'), 'trace names the household forecast source file');
+
+  // Constant-headship-labelled series: same arithmetic, labelled as the fallback, never as the forecast.
+  r = await render(withSeries([65000, 77187.5], ['constant_headship', 'constant_headship']), mesa);
+  assert(r.trace.includes('77,187.5') && r.trace.includes(CONSTANT_WORDS) && !r.trace.includes(FORECAST_WORDS), 'trace names the constant-headship fallback when the file says so');
+  assert.equal(r.headline, '11,250', 'constant-headship series reproduces the population × headship headline');
+
+  // Unlabelled series (files built before the label existed) is used but never called a forecast.
+  r = await render(withSeries([65000, 77187.5]), mesa);
+  assert(r.trace.includes(CONSTANT_WORDS) && !r.trace.includes(FORECAST_WORDS), 'unlabelled series is not called a forecast');
+
+  // No value at the horizon: population × headship, never 0, and no forecast claim.
+  r = await render(withSeries([65000, null], ['sdo_household_forecast', null]), mesa);
+  assert(r.trace.includes('77,187.5') && !r.trace.includes(FORECAST_WORDS), 'null at the horizon falls back to population × headship without claiming the forecast');
+  assert.equal(r.headline, '11,250', 'fallback headline is population × headship ÷ 0.95 − existing units');
+
+  // Trend headship: the user asked for population × a trended headship rate; the stored series is not used.
+  r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'trend');
+  assert(r.trace.includes('77,187.5') && r.trace.includes('Trend headship') && !r.trace.includes(FORECAST_WORDS), 'trend mode keeps population × trended headship and does not claim the forecast');
+
+  // Committed La Plata file: the households row is the stored 2044 value, and the words match the file's own label.
+  const laPlata = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/projections/08067.json'), 'utf8'));
+  const idx = laPlata.years.indexOf(2044);
+  const stored = laPlata.housing_need.households_dola[idx];
+  assert(Number.isFinite(stored) && stored > 0, 'La Plata carries a stored 2044 household value (the check below is not vacuous)');
+  const fmt = (v, d) => Number(v).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  r = await render(laPlata, { geoType: 'county', geoid: '08067', label: 'La Plata County' });
+  assert(r.trace.includes(fmt(stored, 1)), `La Plata trace shows the stored 2044 households ${fmt(stored, 1)}: ${r.trace}`);
+  assert(r.trace.includes(fmt(stored / 0.95, 1)), 'La Plata trace shows stored households ÷ (1 − 5% vacancy)');
+  const label = Array.isArray(laPlata.housing_need.household_method) ? laPlata.housing_need.household_method[idx] : null;
+  if (label === 'sdo_household_forecast') {
+    assert(r.trace.includes(FORECAST_WORDS) && !r.trace.includes(CONSTANT_WORDS), `La Plata trace names the forecast its file carries: ${r.trace}`);
+  } else {
+    assert(r.trace.includes(CONSTANT_WORDS) && !r.trace.includes(FORECAST_WORDS), `La Plata trace names the constant-headship series its file carries: ${r.trace}`);
+  }
 }
 
 async function assertCountyReconciliationNote() {
@@ -343,6 +420,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
   await assertHouseholdOnlyPlaceNote();
   await assertBlendedPlaceTrace();
   const reconciled = await assertRealDataReconciliation();
+  await assertCountyCalculatorReadsStoredHouseholds();
   console.log(`HNA projection integrity tests passed (Mesa County ${reconciled.countyHeadline}; Milliken ${reconciled.placeHeadline})`);
 })().catch((err) => {
   console.error(err);
