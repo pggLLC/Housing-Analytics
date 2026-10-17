@@ -87,7 +87,8 @@ def towns_from_rows(rows: list[dict], towns: dict[str, str], years: list[int]) -
 
 
 def main() -> int:
-    geo = json.load(open(GEO_CONFIG))
+    with open(GEO_CONFIG) as fh:
+        geo = json.load(fh)
     towns = {p['geoid']: p['label'] for p in geo['places']}
     codes = sorted(int(g[2:]) for g in towns)
     try:
