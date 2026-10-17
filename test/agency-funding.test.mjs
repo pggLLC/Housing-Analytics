@@ -181,7 +181,7 @@ linkers.forEach((f) => {
   ok(names.length >= 1 && names.every((t) => t === h1), `${f} links to the page by its name (${names.join(' | ') || 'no link'})`);
 });
 const report = read('js/whitepaper/jurisdiction-whitepaper.js');
-ok(/'where-housing-money-goes\.html#county=' \+ county/.test(report) && /k === 'county'/.test(js),
+ok(/'https:\/\/cohoanalytics\.com\/where-housing-money-goes\.html#county=' \+ county/.test(report) && /k === 'county'/.test(js),
   'the Jurisdiction Report opens the page on its county, a key the view reads');
 const deep = read('colorado-deep-dive.html');
 ok(!/data-agency-funding/.test(deep) && !/agency-funding\.js/.test(deep), 'Colorado Deep Dive links to the page instead of holding a second copy');

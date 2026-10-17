@@ -514,8 +514,9 @@
 
   function fundingSection(row, src, FundingFit) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
-    // Every state award in this county, by agency and developer, on its own page.
-    var awardsHref = /^08\d{3}$/.test(county || '') ? 'where-housing-money-goes.html#county=' + county : null;
+    // Every state award in this county, by agency and developer, on its own page. Absolute, like the
+    // Deal Calculator link, so the downloaded report's link still works.
+    var awardsHref = /^08\d{3}$/.test(county || '') ? 'https://cohoanalytics.com/where-housing-money-goes.html#county=' + county : null;
     if (!FundingFit || !src.fundingGuide) return { programs: null, awardsHref: awardsHref, source: sourcePath('fundingGuide') };
     var out = {};
     ['9%', '4%'].forEach(function (ex) {
