@@ -157,6 +157,11 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   assert.deepEqual(sorted(P2.getSelectedGeoids()), plain, 'counts stay those of the plain selection');
   const t2 = J.generateNarrative(Object.assign(J.synthesizePMA({}), { pmaTractSelection: P2.getCurationMetadata() }));
   assert(/data was unavailable/i.test(t2) && !/were excluded/i.test(t2), 'the narrative says the data was unavailable');
+  // A failed load is not cached: turning the option on again retries it.
+  blockBarriers = false;
+  P2.turnOffNaturalFeatures();
+  assert.equal((await P2.proposeNaturalFeatures()).status, 'proposed', 'the file is fetched again once it is reachable');
+  P2.turnOffNaturalFeatures();
 
   // ── turned off while the file loads: the late proposal is dropped ───────
   blockBarriers = false;

@@ -621,15 +621,17 @@
   // Apply. Tracts stay whole: counts are sums over getSelectedGeoids().
 
   function _loadBarriers() {
-    if (_barriersCache !== null) return Promise.resolve(_barriersCache);
+    // Only a loaded file is kept; a failed load is retried the next time
+    // the option is turned on.
+    if (_barriersCache) return Promise.resolve(_barriersCache);
     return _fetchJSON(BARRIERS_URL).then(function (gj) {
       var features = gj && Array.isArray(gj.features) ? gj.features : [];
       _barriersCache = features.length
         ? { features: features, generated: (gj.meta && gj.meta.generated) || null }
-        : false;
-      return _barriersCache;
+        : null;
+      return _barriersCache || false;
     }).catch(function () {
-      _barriersCache = false;
+      _barriersCache = null;
       return false;
     });
   }

@@ -741,6 +741,7 @@
       }
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
+      _lastRunTractKey = _tractKey(pickedER);
       // The justification narrative and the concept-card recommendation are
       // conclusions about this PMA too. PMAEngine.runAnalysis has already
       // said on the score card why it is not bound; nothing is drawn here
@@ -990,7 +991,28 @@
     return true;
   }
 
+  /* The tract set the shown results were computed from. A later change to
+     the set (a click, Apply, Keep, Clear all, turning natural features off)
+     takes those results down, so the counts, narrative and exports never
+     describe a boundary other than the one on the map. */
+  var _lastRunTractKey = null;
+  function _tractKey(geoids) { return (geoids || []).slice().sort().join(','); }
+
+  function _invalidateIfTractsChanged(geoids) {
+    if (_lastRunTractKey === null || _method !== 'tract') return;
+    if (document.body.getAttribute('data-pma-result-state') !== 'current') return;
+    if (_tractKey(geoids) === _lastRunTractKey) return;
+    _lastRunTractKey = null;
+    var eng = window.PMAEngine;
+    if (eng && typeof eng.blockCustomPma === 'function') {
+      eng.blockCustomPma('the selected tracts changed after the last run; press Run Analysis to update the results');
+    } else {
+      _clearConclusions();
+    }
+  }
+
   function _onTractSelectionChange(geoids) {
+    _invalidateIfTractsChanged(geoids);
     var summary = $id('pmaTractPickerSummary');
     var countEl = $id('pmaSelectedTractCount');
     var listEl  = $id('pmaTractGeoidList');
@@ -1242,6 +1264,7 @@
         }
         runOptions.tractGeoids = picked;
         runOptions.tractBoundary = picker && picker.getBoundary ? picker.getBoundary() : null;
+        _lastRunTractKey = _tractKey(picked);
         if (window.PMAEngine && typeof window.PMAEngine.runAnalysis === 'function') {
           window.PMAEngine.runAnalysis(lat, lon, runOptions);
         }
