@@ -112,3 +112,11 @@ def test_place_wage_share_is_the_places_own_jobs():
     assert WN['places']['0804000']['wage_share_basis'] == 'place', 'Aurora is not using its own jobs'
     for fips, w in AUX['wac_primary_counties'].items():
         assert w['all_jobs'] == load('data/hna/lehd/%s.json' % fips)['C000'], fips + ': WAC JT00 total differs from the county LEHD file'
+
+
+def test_place_flows_share_the_lodes_year_of_the_other_inputs():
+    # Place flows from another LODES year would mix vintages; the builder
+    # leaves places unavailable then, so the committed file must agree.
+    od_year = load('data/hna/place-od-flows.json')['meta']['year']
+    assert od_year == AUX['year'], f'place flows LODES {od_year}, aux/WAC {AUX["year"]}'
+    assert any(p.get('present_incommuter_need') for p in WN['places'].values()), 'no place has a figure'

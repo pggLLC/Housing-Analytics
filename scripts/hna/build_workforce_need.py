@@ -277,7 +277,13 @@ def build():
     vintage, jobs = load_jobs()
     b08202 = read_json(os.path.join(SRC, 'acs_b08202.json')) or {}
     acs = b08202.get('geos') or {}
-    od = (read_json(os.path.join(ROOT, 'data', 'hna', 'place-od-flows.json')) or {}).get('places') or {}
+    od_doc = read_json(os.path.join(ROOT, 'data', 'hna', 'place-od-flows.json')) or {}
+    od_year = (od_doc.get('meta') or {}).get('year')
+    # The aux and WAC inputs are LODES_YEAR; place flows from another year
+    # (a dispatch of rebuild-place-od-flows.yml for 2022, say) would mix
+    # vintages, so places are left unavailable rather than computed from both.
+    od_mismatch = od_year is not None and int(od_year) != LODES_YEAR
+    od = {} if od_mismatch else (od_doc.get('places') or {})
     geo = read_json(os.path.join(ROOT, 'data', 'hna', 'geo-config.json')) or {}
     aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
 
@@ -347,7 +353,8 @@ def build():
                 'share_of_county_households': round(hh / chh, 4) if (hh is not None and chh) else None,
             }
             if rec['present_incommuter_need'] is None:
-                rec['unavailableReason'] = ('No block-level LODES record for this place.' if not flows
+                rec['unavailableReason'] = (('Place commuting flows are LODES %s; the out-of-state and wage inputs are %s, so the two are not combined.' % (od_year, LODES_YEAR)) if od_mismatch
+                                            else 'No block-level LODES record for this place.' if not flows
                                             else 'Missing wage bands or ACS workers per household for this place.')
             out_places[gid] = rec
 
