@@ -260,6 +260,11 @@
           "file": "scripts/build_rent_burden_crosscheck.mjs",
           "function": "propMoe",
           "sha": "de102dd9d51120fb"
+        },
+        {
+          "file": "scripts/hna/build_chas_affordable_available.py",
+          "function": "compute",
+          "sha": "3b91ae689d1a9626"
         }
       ],
       "reviewed": "2026-10-17"
