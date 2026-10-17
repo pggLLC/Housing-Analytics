@@ -739,12 +739,20 @@ function lossAccounting() {
     : absent('methods_data.gap30_aa_occupied_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
   out.gap30_aa_vacant_statewide = aa30 && Number.isFinite(aa30.vacant_for_rent) ? aa30.vacant_for_rent
     : absent('methods_data.gap30_aa_vacant_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  // Vintages travel with the figures, so a refresh cannot leave a new count under an old label.
+  const span = (v) => (typeof v === 'string' && /^\d{4}-\d{4}$/.test(v) ? v.replace('-', '\u2013') : null);
+  const acsYear = priced.ok && priced.data.meta ? Number(priced.data.meta.acs_year) : NaN;
+  out.gap30_priced_vintage = Number.isInteger(acsYear) ? `${acsYear - 4}\u2013${acsYear}`
+    : absent('methods_data.gap30_priced_vintage', priced.ok ? 'co_ami_gap_by_county.json meta has no acs_year' : priced.reason);
+  out.gap30_aa_vintage = (aa.ok && aa.data.meta && span(aa.data.meta.vintage))
+    || absent('methods_data.gap30_aa_vintage', aa.ok ? 'chas_affordable_available.json meta has no vintage' : aa.reason);
   out.chas_place_table_places = aa.ok && aa.data.places ? Object.keys(aa.data.places).length
     : absent('methods_data.chas_place_table_places', aa.ok ? 'chas_affordable_available.json has no places' : aa.reason);
   // §10: sampling error of the place renter cost-burden rate (ACS 5-year, 90% margin, percentage points).
   const rb = readJson('data/processed/rent_burden_crosscheck.json');
   if (!rb.ok) {
     out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', rb.reason);
+    out.renter_burden_moe_vintage = absent('methods_data.renter_burden_moe_vintage', rb.reason);
     out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', rb.reason);
     out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', rb.reason);
   } else {
@@ -754,6 +762,8 @@ function lossAccounting() {
       .filter((a) => a && Number.isFinite(a.moe) && Number.isFinite(a.rate))
       .map((a) => a.moe * 100)
       .sort((a, b) => a - b);
+    out.renter_burden_moe_vintage = (rb.data.meta && span(rb.data.meta.acs5_vintage))
+      || absent('methods_data.renter_burden_moe_vintage', 'rent_burden_crosscheck.json meta has no acs5_vintage');
     if (!moes.length) {
       const why = 'rent_burden_crosscheck.json has no place with an ACS 5-year rate and margin';
       out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', why);
