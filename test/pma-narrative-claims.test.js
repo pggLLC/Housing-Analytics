@@ -34,9 +34,10 @@ if (!boundaryChanged) {
   assert(!/\bexclud/i.test(text.split('\n\n').find((p) => /water feature/.test(p))),
     'an unchanged boundary is never said to exclude the features');
 }
-// A boundary that really was redrawn may say so: the claim follows the flag.
+// No code path redraws the boundary, so even a run carrying a true flag
+// (supplied by a caller or edited in a saved run) gets no exclusion claim.
 text = J.generateNarrative(J.synthesizePMA({ barriers: Object.assign({}, barriers, { boundaryExcludesFeatures: true }) }));
-assert(/exclud/i.test(text.split('\n\n').find((p) => /water feature/.test(p))), 'a redrawn boundary may state the exclusion');
+assert(!/exclud/i.test(text.split('\n\n').find((p) => /water feature/.test(p))), 'a flag alone never produces an exclusion claim');
 
 // ── 2. flood ────────────────────────────────────────────────────────────────
 // The local-data shape: 6 of 11 nearby tracts contain an SFHA.
@@ -73,5 +74,24 @@ delete global.PMADataCache;
 run = J.synthesizePMA({});
 assert.equal(run.data_vintage, null, 'no metadata means no vintage, not a guessed one');
 assert(/Data vintage: ACS vintage not supplied/.test(J.generateNarrative(run)), 'and the narrative says so');
+
+// A run restored from localStorage: a pre-fix run carries the old hard-coded
+// label, which never came from the data, so it is not reported; a current run
+// keeps its own label, and a note appears when the loaded tract data differs.
+const legacyRun = { run_id: 'old', data_vintage: 'ACS_2023_5YR', barriers: {} };
+global.PMADataCache = { get: (k) => (k === 'acsMetrics' ? { meta: fileMeta } : null) };
+assert(!J.generateNarrative(legacyRun).includes('ACS_2023_5YR'), 'a pre-fix saved label is not reported as the data vintage');
+assert.equal(J.generateAuditTrail(legacyRun).data_vintage, null, 'nor carried into the audit trail');
+assert.equal(JSON.parse(J.exportToJSON(legacyRun)).data_vintage, null, 'nor into the export top level');
+const savedRun = JSON.parse(JSON.stringify(J.synthesizePMA({ acsMeta: { vintage: '2019' } })));
+const savedText = J.generateNarrative(savedRun);
+assert(savedText.includes('Data vintage: ACS_2019_5YR'), 'a saved run keeps the vintage it was computed with');
+assert(savedText.includes(want), 'and says the loaded tract data is now ' + want);
+const exported = JSON.parse(J.exportToJSON(savedRun));
+assert.equal(exported.data_vintage, exported.auditTrail.data_vintage, 'export top level and audit trail agree');
+assert(exported.auditTrail.data_vintage_note && exported.auditTrail.data_vintage_note.includes(want), 'the export carries the re-run note');
+const freshRun = J.synthesizePMA({ acsMeta: fileMeta });
+assert.equal(J.generateAuditTrail(freshRun).data_vintage_note, null, 'no note when the run matches the loaded data');
+delete global.PMADataCache;
 
 console.log(`pma-narrative-claims: PASS (barriers, flood measure, ${want})`);

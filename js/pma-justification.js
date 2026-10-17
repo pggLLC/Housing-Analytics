@@ -106,6 +106,23 @@
     return Number.isFinite(v) && v > 2000 ? 'ACS_' + v + '_5YR' : null;
   }
 
+  /**
+   * The vintage to report for a run, which may be a saved one restored from
+   * localStorage. Runs saved before 2026-10-17 carry a hard-coded label that
+   * did not come from the data, so only a label marked as read from the tract
+   * metadata is trusted. When the tract data loaded now is a different
+   * vintage, the label stays the run's own and a note says to re-run.
+   * @returns {{ label: (string|null), note: (string|null) }}
+   */
+  function runVintage(scoreRun) {
+    var saved = scoreRun && scoreRun.data_vintage_source === 'tract-metadata' ? (scoreRun.data_vintage || null) : null;
+    var current = resolveDataVintage({});
+    var note = saved && current && saved !== current
+      ? 'This run used ' + saved + '; the tract data loaded now is ' + current + '. Re-run the analysis to use it.'
+      : null;
+    return { label: saved, note: note };
+  }
+
   function synthesizePMA(overrides) {
     overrides = overrides || {};
     lastRunId = _generateRunId();
@@ -127,6 +144,7 @@
       created_at:   _ts(),
       schema_version: SCHEMA_VERSION,
       data_vintage: resolveDataVintage(overrides),
+      data_vintage_source: 'tract-metadata',
       lodes_vintage: LODES_VINTAGE,
 
       commuting:        commuting,
@@ -224,14 +242,13 @@
     // to exclude it. PMABarriers returns the boundary unchanged, so nearby
     // features are context: until 2026-10-17 their counts were narrated as
     // "the boundary excludes" them.
+    // No code path redraws the boundary yet, so no flag on a run (saved or
+    // supplied) can make this paragraph claim an exclusion.
     var b = scoreRun.barriers || {};
     if (b.waterBodyCount > 0 || b.highwayCount > 0) {
-      var barrierCounts = (b.waterBodyCount || 0) + ' water feature(s) and ' +
-        (b.highwayCount || 0) + ' major highway segment(s)';
-      parts.push(b.boundaryExcludesFeatures === true
-        ? 'The boundary was drawn to exclude ' + barrierCounts + ' that limit practical access for prospective residents.'
-        : 'The analysis area contains ' + barrierCounts + '. They were noted as context; the market area was not ' +
-          'redrawn around them, so any natural-barrier limit must come from the tracts chosen for the boundary.');
+      parts.push('The analysis area contains ' + (b.waterBodyCount || 0) + ' water feature(s) and ' +
+        (b.highwayCount || 0) + ' major highway segment(s). They were noted as context; the market area was not ' +
+        'redrawn around them, so any natural-barrier limit must come from the tracts chosen for the boundary.');
     }
 
     // Employment
@@ -355,8 +372,10 @@
     }
 
     // Data quality note
+    var vintage = runVintage(scoreRun);
     parts.push(
-      'Data vintage: ' + (scoreRun.data_vintage || VINTAGE_UNAVAILABLE) + '. ' +
+      'Data vintage: ' + (vintage.label || VINTAGE_UNAVAILABLE) + '. ' +
+      (vintage.note ? vintage.note + ' ' : '') +
       'Analysis quality: ' + (scoreRun.dataQuality || 'STANDARD') + '. ' +
       'Run ID: ' + scoreRun.run_id + '.'
     );
@@ -385,7 +404,8 @@
       run_id:               scoreRun.run_id || lastRunId,
       generated_at:         _ts(),
       schema_version:       SCHEMA_VERSION,
-      data_vintage:         scoreRun.data_vintage || null,
+      data_vintage:         runVintage(scoreRun).label,
+      data_vintage_note:    runVintage(scoreRun).note,
       lodes_vintage:        scoreRun.lodes_vintage || LODES_VINTAGE,
       narrative:            generateNarrative(scoreRun),
       layers:               getLayerOrder(),
@@ -412,7 +432,8 @@
     scoreRun = scoreRun || lastScoreRun;
     if (!scoreRun) { return '{}'; }
     var trail = generateAuditTrail(scoreRun);
-    var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail });
+    var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail,
+      data_vintage: trail.data_vintage });
     var competitive = scoreRun.competitiveSet || {};
     var coverage = competitive.nhpdCoverage || { status: 'unavailable', complete: false,
       recordCount: null, generated: null,
