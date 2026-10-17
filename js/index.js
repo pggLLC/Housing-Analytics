@@ -119,7 +119,10 @@
       .then(function (data) {
         var need = data && data.housing_need && data.housing_need.incremental_units_needed_dola;
         if (Array.isArray(need) && need.length) {
-          var last = Number(need[need.length - 1]);
+          // A year any county cannot value is null in the statewide series,
+          // and Number(null) is 0 (#1480): leave "—", never a 0 need.
+          var raw = need[need.length - 1];
+          var last = (raw == null || raw === '') ? NaN : Number(raw);
           if (Number.isFinite(last)) setText('snapUnits20', fmtInt(Math.round(last)));
         }
       })

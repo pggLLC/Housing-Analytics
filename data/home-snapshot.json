@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T14:54:14.082Z",
+  "generated": "2026-10-17T15:48:10.377Z",
   "values": {
     "renter_cost_burden_pct": 50.5,
     "lihtc_property_count": 926,
@@ -47,7 +47,7 @@
       "source": "fetchedAt"
     },
     "data/hna/projections/08.json": {
-      "updated": "2026-10-17T14:46:55Z",
+      "updated": "2026-10-17T15:26:42Z",
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {
