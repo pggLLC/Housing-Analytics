@@ -3,7 +3,8 @@
  * Market Direction tab on colorado-deep-dive.html: what the page shows must
  * agree with the files it reads, in a real browser on the committed data.
  *
- *   - the four county tiles equal meta.call_counts, and the headline names each count;
+ *   - the county tiles equal meta.call_counts for every call the file has (a served copy
+ *     adds a county with not enough data), and the headline names each count by its measure;
  *   - the headline's statewide permit figures are the sums of the counties' permits_ytd;
  *   - the county table has one row per county in the file, each with the file's call
  *     and its year-to-date permits;
@@ -25,13 +26,13 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'http://example.org';
 const JS = 'js/market-direction.js';
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const MD = readJson('data/market/market-direction.json');
+const BASE = readJson('data/market/market-direction.json');
 const LEDGER = readJson('data/market/development-activity.json');
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 // Eagle: it has towns and a scattered-site project the ledger places in two counties.
 const PICK = '08037';
 
-async function render(browser, script) {
+async function render(browser, script, md = null) {
   const tab = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const errors = [];
   tab.on('pageerror', (e) => errors.push(e.message));
@@ -40,6 +41,7 @@ async function render(browser, script) {
     if (u.origin !== ORIGIN) return route.abort();
     const rel = decodeURIComponent(u.pathname.slice(1));
     if (rel === JS && script != null) return route.fulfill({ body: script, contentType: 'text/javascript' });
+    if (rel === 'data/market/market-direction.json' && md) return route.fulfill({ body: JSON.stringify(md), contentType: 'application/json' });
     const file = path.resolve(ROOT, rel);
     if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
@@ -57,6 +59,8 @@ async function render(browser, script) {
     const out = {
       summary: (document.getElementById('mdSummary') || {}).textContent || '',
       intro: (document.getElementById('mdIntro') || {}).textContent || '',
+      mapText: (document.getElementById('mdMapText') || {}).textContent || '',
+      legend: [...document.querySelectorAll('#mdLegend li')].map((li) => li.textContent.trim()),
       kpis: [...document.querySelectorAll('#mdKpis .mi-kpi')].map((k) => ({ value: k.querySelector('.mi-kpi-value').textContent.trim(), label: k.querySelector('.mi-kpi-label').textContent.trim() })),
       heads,
       counties: rows('mdCountyBody'),
@@ -79,10 +83,12 @@ async function render(browser, script) {
   return { view, errors };
 }
 
-const LABEL = { emerging: 'Emerging', steady: 'Steady', softening: 'Softening', falling_demand: 'Falling demand' };
+const LABEL = { emerging: 'Emerging', steady: 'Steady', softening: 'Softening', falling_demand: 'Falling demand', not_enough_data: 'Not enough data' };
+// How the headline names each county call; falling demand is measured in household population, not households.
+const HEADLINE = { falling_demand: 'losing household population and jobs', not_enough_data: 'without enough data to call' };
 const int = (s) => Number(String(s).replace(/[^\d]/g, ''));
 
-function checks({ view, errors }) {
+function checks({ view, errors }, MD = BASE) {
   const fails = [];
   const fail = (m) => fails.push(m);
   if (errors.length) fail(`page errors: ${errors.join('; ')}`);
@@ -90,13 +96,20 @@ function checks({ view, errors }) {
   const counties = Object.entries(MD.counties);
 
   // tiles and headline
-  if (view.kpis.length !== 4) fail(`${view.kpis.length} county tiles, expected 4`);
-  for (const [k, label] of Object.entries(LABEL)) {
+  // every call the file defines or counts, so no county drops out of the tiles, headline, legend or map text
+  const calls = [...new Set([...Object.keys(MD.meta.calls), ...Object.keys(cc)])].filter((k) => cc[k] || k !== 'not_enough_data');
+  if (view.kpis.length !== calls.length) fail(`${view.kpis.length} county tiles, the file has ${calls.length} calls`);
+  if (Object.values(cc).reduce((a, b) => a + b, 0) !== counties.length) fail('meta.call_counts does not total the counties');
+  for (const k of calls) {
+    const label = LABEL[k] || k;
+    if (!view.legend.includes(label)) fail(`the map legend lacks ${label}`);
     const tile = view.kpis.find((t) => t.label.toLowerCase().startsWith(label.toLowerCase()));
     if (!tile) fail(`no tile for ${label}`);
     else if (int(tile.value) !== cc[k]) fail(`${label} tile shows ${tile.value}, the file counts ${cc[k]}`);
-    if (!new RegExp(`\\b${cc[k]} (are |is )?${k === 'falling_demand' ? 'losing' : label.toLowerCase()}`).test(view.summary)) fail(`headline does not give ${cc[k]} ${label}`);
+    if (cc[k] && !new RegExp(`\\b${cc[k]} (are |is )?${HEADLINE[k] || label.toLowerCase()}\\b`).test(view.summary)) fail(`headline does not give ${cc[k]} ${label}`);
   }
+  for (const [, c] of counties) if (!view.mapText.includes(c.name.replace(/ County$/, ''))) fail(`the map's text alternative omits ${c.name}`);
+  if (/losing households\b/.test(view.summary)) fail('the headline says households are falling; the rule measures household population');
   if (!view.summary.includes(`${counties.length} counties`)) fail(`headline does not say ${counties.length} counties`);
   const now = counties.reduce((s, [, c]) => s + c.permits_ytd.ytd.total, 0);
   const before = counties.reduce((s, [, c]) => s + c.permits_ytd.prior_ytd.total, 0);
@@ -176,6 +189,24 @@ try {
   assert.deepEqual(fails, [], fails.join('\n'));
   console.log('market-direction tab: PASS (page agrees with market-direction.json and the ledger)');
 
+  // A county with too little data to call: the committed file has none, so serve a copy
+  // that moves one county (not the picked one) to not_enough_data and recounts.
+  const gap = structuredClone(BASE);
+  const moved = Object.keys(gap.counties).find((f) => f !== PICK && gap.counties[f].call === 'steady');
+  gap.meta.call_counts.steady--;
+  gap.meta.call_counts.not_enough_data = (gap.meta.call_counts.not_enough_data || 0) + 1;
+  gap.counties[moved].call = 'not_enough_data';
+  const gapFails = checks(await render(browser, null, gap), gap);
+  assert.deepEqual(gapFails, [], gapFails.join('\n'));
+  console.log(`  a county with not enough data (${gap.counties[moved].name}) is counted in the tiles, headline, legend and map text`);
+  const fixed = "  var COUNTY_ORDER = [];";
+  assert.ok(src.includes(fixed), 'sabotage "the county calls hard-coded": the target text is in the script');
+  const hard = src.replace(fixed, "  var COUNTY_ORDER = ['emerging', 'steady', 'softening', 'falling_demand'];").replace('      COUNTY_ORDER = countyOrder(d);\n', '');
+  assert.notEqual(hard, src);
+  const hf = checks(await render(browser, hard, gap), gap);
+  assert.ok(hf.some((m) => /tiles|Not enough data|omits/.test(m)), `sabotage "the county calls hard-coded" was not caught: ${hf.join(' / ') || 'no failures'}`);
+  console.log('  sabotage caught: the county calls hard-coded to four');
+
   const SABOTAGE = [
     ['a tile count off by one', "fmtInt(cc[k] || 0)", "fmtInt((cc[k] || 0) + 1)", /tile shows/],
     ['the county call shown as Steady', "return { text: callLabel(c.call), sort: COUNTY_ORDER.indexOf(c.call) };", "return { text: 'Steady', sort: 0 };", /table says Steady/],
@@ -185,6 +216,7 @@ try {
     ['town definitions replaced by county ones', "town = m.places.calls[k]", "town = m.calls[k]", /lacks the definition/],
     ['town introduction given the county rule', "'A town call reads ' + demand(data.meta.places.thresholds)", "'A town call reads ' + demand(data.meta.thresholds)", /town introduction claims jobs/],
     ['CDPs shown by default', "return (cdps || p.type === 'town')", "return (true || p.type === 'town')", /town table shows/],
+    ['falling demand called a loss of households', "'losing household population and jobs'", "'losing households and jobs'", /headline (does not give|says households)/],
     ['multi-county projects left out', " || (Array.isArray(p.county_fips_all) && p.county_fips_all.indexOf(fips) >= 0)", '', /lists \d+ projects/],
   ];
   for (const [name, from, to, expect] of SABOTAGE) {

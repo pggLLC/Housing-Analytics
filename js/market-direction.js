@@ -36,7 +36,18 @@
     second_home_shift: { label: 'Second-home shift', color: '#7c3aed' },
     not_enough_data: { label: 'Not enough data', color: '#e5e7eb' }
   };
-  var COUNTY_ORDER = ['emerging', 'steady', 'softening', 'falling_demand'];
+  // The county calls in the order the file publishes them (meta.calls), plus any
+  // call a county carries that meta.calls does not define, so every county is counted.
+  var COUNTY_ORDER = [];
+  function countyOrder(d) {
+    var order = Object.keys(d.meta.calls || {});
+    Object.keys(d.meta.call_counts || {}).forEach(function (k) { if (order.indexOf(k) < 0) order.push(k); });
+    return order;
+  }
+  // A call gets a tile when any county has it; the four rules that can always apply keep theirs at zero.
+  function tileCalls(cc) {
+    return COUNTY_ORDER.filter(function (k) { return cc[k] || k !== 'not_enough_data'; });
+  }
   var STAGES = {
     under_construction: 'Under construction', funded: 'Funded', land_funded: 'Land funded',
     applied: 'Applied', letter_of_intent: 'Letter of intent', not_funded: 'Not funded'
@@ -69,6 +80,7 @@
   function el(id) { return document.getElementById(id); }
   function setText(id, text) { var e = el(id); if (e) e.textContent = text; }
   function callLabel(c) { return CALLS[c] ? CALLS[c].label : c; }
+  function callColor(c) { return CALLS[c] ? CALLS[c].color : '#e5e7eb'; }
 
   // "rising: permits, price; falling: none" → "Rising: permits, price".
   function why(basis) {
@@ -108,14 +120,14 @@
     var cc = data.meta.call_counts;
     var n = counties.length;
     var parts = COUNTY_ORDER.filter(function (k) { return cc[k]; }).map(function (k) {
-      return cc[k] + ' ' + (k === 'falling_demand' ? 'losing households and jobs' : callLabel(k).toLowerCase());
+      return cc[k] + ' ' + (k === 'falling_demand' ? 'losing household population and jobs' : k === 'not_enough_data' ? 'without enough data to call' : callLabel(k).toLowerCase());
     });
     parts[0] = parts[0].replace(/^(\d+) /, function (m, k) { return k + (k === '1' ? ' is ' : ' are '); });
     var lead = 'Of Colorado’s ' + n + ' counties, ' + (parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' : '') + parts[parts.length - 1] + '.';
     var tc = (data.meta.places.call_counts || {}).town || {};
     var towns = places.filter(function (p) { return p.type === 'town'; }).length;
     var townLine = ' Of ' + towns + ' towns, ' + (tc.emerging || 0) + ' are emerging, ' + (tc.softening || 0) + ' softening and ' +
-      (tc.falling_demand || 0) + ' losing households with a market signal that agrees.';
+      (tc.falling_demand || 0) + ' losing household population with a market signal that agrees.';
     var t = through();
     var now = 0, before = 0, have = 0;
     counties.forEach(function (c) {
@@ -140,8 +152,8 @@
 
     var kpis = el('mdKpis');
     if (kpis) {
-      kpis.innerHTML = COUNTY_ORDER.map(function (k) {
-        return '<div class="mi-kpi"><div class="mi-kpi-value"><span class="md-swatch" style="background:' + CALLS[k].color + '" aria-hidden="true"></span>' +
+      kpis.innerHTML = tileCalls(cc).map(function (k) {
+        return '<div class="mi-kpi"><div class="mi-kpi-value"><span class="md-swatch" style="background:' + callColor(k) + '" aria-hidden="true"></span>' +
           fmtInt(cc[k] || 0) + '</div><div class="mi-kpi-label">' + escapeHtml(callLabel(k)) + ' counties</div>' +
           '<div class="mi-kpi-sub">' + escapeHtml(data.meta.calls[k] || '') + '</div></div>';
       }).join('');
@@ -153,8 +165,8 @@
     var mount = el('mdMap');
     var legend = el('mdLegend');
     if (legend) {
-      legend.innerHTML = COUNTY_ORDER.map(function (k) {
-        return '<li><span class="md-swatch" style="background:' + CALLS[k].color + '" aria-hidden="true"></span>' + escapeHtml(callLabel(k)) + '</li>';
+      legend.innerHTML = tileCalls(data.meta.call_counts || {}).map(function (k) {
+        return '<li><span class="md-swatch" style="background:' + callColor(k) + '" aria-hidden="true"></span>' + escapeHtml(callLabel(k)) + '</li>';
       }).join('');
     }
     var byCall = {};
@@ -174,7 +186,7 @@
       var layer = global.L.geoJSON(b, {
         style: function (f) {
           var c = byFips[f.properties && f.properties.GEOID];
-          return { color: '#fff', weight: 1, fillColor: c && CALLS[c.call] ? CALLS[c.call].color : '#e5e7eb', fillOpacity: 0.85 };
+          return { color: '#fff', weight: 1, fillColor: callColor(c && c.call), fillOpacity: 0.85 };
         },
         onEachFeature: function (f, fl) {
           var c = byFips[f.properties && f.properties.GEOID];
@@ -442,6 +454,7 @@
     started = true;
     fetchJSON(FILE).then(function (d) {
       data = d;
+      COUNTY_ORDER = countyOrder(d);
       counties = Object.keys(d.counties).map(function (k) { var c = d.counties[k]; c.fips = k; return c; });
       places = Object.keys(d.places).map(function (k) { var p = d.places[k]; p.geoid = k; return p; });
       renderSummary();
