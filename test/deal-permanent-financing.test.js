@@ -72,11 +72,26 @@ test('a tranche marked a hard mortgage becomes the second mortgage, with its own
   close(s.totals.government, 500000, 'only the HOME grant is left as government');
   close(s.totals.totalSources + s.totals.gap, r.tdc, 'still adds to TDC');
   const first = s.hardMortgages[0], second = s.hardMortgages[1];
-  close(first.annualPayment, r.mortgage * r.mc, 'first mortgage payment from its rate and term');
+  close(first.annualPayment, r.mortgage * r.mc, 'an amortizing first mortgage pays its rate and term');
+  close(first.annualPayment, r.annualDebtService, 'the engine\'s own first-year senior payment');
   close(first.cumulativeDcr, r.noi / first.annualPayment, 'DCR on the first mortgage');
   close(second.cumulativeDcr, r.noi / (first.annualPayment + second.annualPayment), 'DCR through the second is cumulative');
   close(s.dcr, second.cumulativeDcr, 'all hard debt');
   close(s.possibleDebtService, r.noi / 1.15, 'DOH\'s possible debt service at 1.15');
+});
+
+test('the first mortgage payment follows its repayment type, not the amortizing constant', () => {
+  const io = withTranches('A', STACK); io.fields['dc-senior-type'] = 'interest_only';
+  const r = computeDeal(io);
+  const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C' });
+  assert(r.mortgage > 0 && Number.isFinite(r.annualDebtService), 'a real interest-only result');
+  assert(Math.abs(r.annualDebtService - r.mortgage * r.mc) > 1, 'interest only differs from amortizing');
+  close(s.hardMortgages[0].annualPayment, r.annualDebtService, 'interest-only payment');
+  const deferred = withTranches('A', STACK); deferred.fields['dc-senior-type'] = 'accrue_defer';
+  const d = computeDeal(deferred);
+  const ds = pf.summarize({ result: d, tranches: d.tranches, seniorLenderType: 'C' });
+  if (d.annualDebtService === null) assert.equal(ds.hardMortgages[0].annualPayment, null, 'unknown stays unknown');
+  else { assert.equal(ds.hardMortgages[0].annualPayment, d.annualDebtService); assert.equal(ds.hardMortgages[0].cumulativeDcr, d.annualDebtService > 0 ? d.noi / d.annualDebtService : null); }
 });
 
 test('an ungrouped or untyped source is unknown with a reason, and still counts in total sources', () => {

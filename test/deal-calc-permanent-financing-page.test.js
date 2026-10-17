@@ -94,7 +94,7 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
-  await test('a share link carries each tranche\'s DOH group and the lender type; an older link keeps the program default', async () => {
+  await test('a share link and the JSON export carry each tranche\'s DOH group and the lender type; an older link keeps the program default', async () => {
     const sender = await openPage('', null, { jurisdiction: fruta });
     setRow(sender, 0, '.dc-tr-prog', 'prop123');
     setRow(sender, 0, '.dc-tr-amount', '400000');
@@ -104,6 +104,8 @@ async function test(name, fn) {
     const tr = params.get('tr');
     assert.equal(tr.split(':')[12], 'owner', 'the thirteenth tranche field is the DOH group');
     assert.equal(params.get('senior-lender-type'), 'T');
+    const snap = sender.w.__DealCalcShare.buildSnapshot();
+    assert.equal(snap.tranches[0].doh, 'owner', 'the JSON export carries the DOH group too');
     const recipient = await openPage('?' + params.toString(), null, { jurisdiction: fruta });
     assert.equal(doh(recipient, 0).value, 'owner');
     assert.equal(val(recipient, 'dc-senior-lender-type'), 'T');

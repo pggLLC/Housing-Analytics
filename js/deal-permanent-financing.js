@@ -105,7 +105,9 @@
     var seniorPrincipal = known(r.mortgage) ? r.mortgage : null;
     out.hardMortgages.push({ label: 'First mortgage', source: 'senior', lenderType: seniorType,
       principal: seniorPrincipal,
-      annualPayment: seniorPrincipal !== null && known(r.mc) ? seniorPrincipal * r.mc : null,
+      // The engine's first-year senior payment for the chosen repayment type:
+      // interest only pays interest, and deferred or cash-flow loans owe nothing fixed.
+      annualPayment: seniorPrincipal !== null && known(r.annualDebtService) ? r.annualDebtService : null,
       reason: seniorType ? null : 'Choose the first mortgage\'s DOH loan type.' });
     if (!seniorType) out.reasons.push('Choose the first mortgage\'s DOH loan type.');
 
