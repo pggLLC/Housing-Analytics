@@ -5014,14 +5014,18 @@
           '<span style="color:var(--text);font-weight:500;">' + escHtml(s.name) + '</span> &middot; ' +
           escHtml(_htnFmtSignalValue(s.name, s.value)) +
           (s.normalised != null
-            ? ' <span style="opacity:.7;">(score ' + s.normalised + ')</span>'
+            // Muted colour, not opacity: opacity .7 on muted text fell below
+            // 4.5:1 (axe color-contrast, 18 elements on hna-what-to-do).
+            ? ' <span>(score ' + s.normalised + ')</span>'
             : '') +
           '</li>';
       }).join('');
       var pe = r.plainEnglish || '';
       var lr = r.lihtcRelevance || '';
       return '' +
-        '<div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);' +
+        // role=listitem: each row is a child of the role=list ranking below
+        // (axe aria-required-children, critical).
+        '<div role="listitem" style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);' +
         'gap:1rem;padding:.85rem 0;border-top:1px solid var(--border,#e5e7eb);">' +
           '<div>' +
             '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem;">' +

@@ -160,5 +160,18 @@ run('the shell is built before the renderers populate main', () => {
     'ensureShell runs synchronously on DOMContentLoaded, before the delayed rail build');
 });
 
+run('rail links meet the 44px touch target and do not clip long section names', () => {
+  // copilot-instructions.md Rule 14 sets the floor; read it from there.
+  const rule = fs.readFileSync(path.join(ROOT, '.github/copilot-instructions.md'), 'utf8')
+    .match(/Rule 14[^\n]*?at least (\d+)\s*[×x]\s*\d+/);
+  assert.ok(rule, 'found the touch-target rule');
+  const css = fs.readFileSync(path.join(ROOT, 'css/pages/housing-needs-assessment.css'), 'utf8');
+  const block = css.match(/\n\.hna-rail__link\s*\{([^}]*)\}/);
+  assert.ok(block, 'found the rail link rule');
+  const minH = block[1].match(/min-height:\s*(\d+)px/);
+  assert.ok(minH && Number(minH[1]) >= Number(rule[1]), `rail link min-height ${minH && minH[1]}px meets the ${rule[1]}px rule`);
+  assert.ok(!/white-space:\s*nowrap|text-overflow:\s*ellipsis/.test(block[1]), 'long section names wrap rather than being cut off');
+});
+
 if (failures) { console.error('hna-section-rail: FAIL'); process.exitCode = 1; }
 else console.log('hna-section-rail: PASS');
