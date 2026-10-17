@@ -76,6 +76,10 @@ CAUTION = "use_with_caution"
 # independent total, so it has no sampling error; the rest mean "not
 # available", and must never be read as a margin.
 CONTROLLED = -555555555
+# What census_get returns for HTTP 404: the API has no such dataset, as for
+# the 2020 ACS 1-year, which the Census Bureau did not release (pandemic data
+# collection), or a year not yet published. That is not a failed request.
+NOT_PUBLISHED = "not published"
 
 
 def moe_name(var: str) -> str:
@@ -126,9 +130,10 @@ def tolerance(var: str) -> float:
 
 def census_get(url: str, key: str = ""):
     """Rows from the Census API, [] when it has no geography to report (HTTP
-    204, as ACS 1-year does for a level with none over 65,000 people), or None
-    when the request failed. url never carries the key, so it is safe to log;
-    the key is added only to the request itself."""
+    204, as ACS 1-year does for a level with none over 65,000 people),
+    NOT_PUBLISHED when the dataset does not exist (HTTP 404), or None when the
+    request failed. url never carries the key, so it is safe to log; the key
+    is added only to the request itself."""
     full = url + ("&key=" + urllib.parse.quote(key) if key else "")
     req = urllib.request.Request(full, headers={"User-Agent": "coho-acs-reliability"})
     try:
@@ -136,6 +141,9 @@ def census_get(url: str, key: str = ""):
             status = r.status
             body = r.read().decode("utf-8")
     except urllib.error.HTTPError as e:
+        if e.code == 404:
+            print(f"  not published (HTTP 404): {url}", file=sys.stderr)
+            return NOT_PUBLISHED
         print(f"  HTTP {e.code} for {url}", file=sys.stderr)
         return None
     except (urllib.error.URLError, TimeoutError) as e:
@@ -154,7 +162,8 @@ def census_get(url: str, key: str = ""):
 
 
 def fetch_level(year, series, table, variables, level, key, getter=census_get):
-    """{geoid: {var: value}} for one series, table and geography level."""
+    """{geoid: {var: value}} for one series, table and geography level, or
+    None when the Census Bureau publishes no such dataset."""
     gets = []
     for v in variables:
         gets += [v, moe_name(v)]
@@ -167,6 +176,8 @@ def fetch_level(year, series, table, variables, level, key, getter=census_get):
            "place": "for=place:*&in=state:08"}[level]
     url = f"{base}?get={','.join(gets)}&{geo}"
     rows = getter(url, key)
+    if rows == NOT_PUBLISHED:
+        return None
     if rows is None:
         # One failed request would leave every figure at that level without a
         # margin, and the commit would replace good margins with nulls.
@@ -347,17 +358,23 @@ def build(all_summaries, year, key, getter=census_get):
             years["subject"].update(fallback_years(y))
     levels = sorted({level_of(g) for g in all_summaries})
     published = {t: {} for t in tables}
+    not_published = set()
     for table, variables in tables.items():
         for y in sorted(years[table], reverse=True):
             for series in SERIES:
                 got = {}
                 for level in levels:
                     lv = fetch_level(y, series, table, list(variables), level, key, getter)
+                    if lv is None:
+                        not_published.add(f"{y} {series} {table}")
+                        print(f"  {table} {y} {series} {level}: not published")
+                        continue
                     print(f"  {table} {y} {series} {level}: {len(lv)} geographies")
                     got.update(lv)
                 published[table][(y, series)] = got
     # The 5-year tables publish every geography, so a short response at the
-    # stamped year means a truncated or wrong request, not missing data.
+    # stamped year means a truncated or wrong request, not missing data. This
+    # also stops the build when the stamped year itself is not published.
     for table in tables:
         for gid, s in all_summaries.items():
             block = s.get("acsProfile" if table == "profile" else "acsS0801")
@@ -394,6 +411,7 @@ def build(all_summaries, year, key, getter=census_get):
             "series_rule": "each figure uses the series (s) whose published estimate "
                            "equals the stored one; a figure matching neither has no "
                            "margin and a reason (why)",
+            "not_published": sorted(not_published),
             "derived": {k: f"sum of {' + '.join(v['sum_of'])}; MOE = root sum of squares"
                         for k, v in DERIVED.items()},
             "variables": labels,
