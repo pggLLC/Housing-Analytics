@@ -101,8 +101,9 @@
     "emerging": "Household population is growing, at least two of permits, prices and rents are rising, and none is falling.",
     "steady": "Neither rising nor falling on the rule below.",
     "softening": "At least two of permits, prices and rents are falling.",
-    "falling_demand": "Household population is shrinking by 0.25% a year or more (towns only; CDPs have no DOLA series).",
-    "not_enough_data": "Fewer than two market signals and no household population reading."
+    "falling_demand": "Household population is shrinking by 0.25% a year or more, at least one of permits, prices and rents is falling or flat, and none is rising (towns only; CDPs have no DOLA series).",
+    "not_enough_data": "Fewer than two market signals and no household population reading, or a shrinking household population that no permit, price or rent reading confirms.",
+    "second_home_shift": "Household population is shrinking where seasonal homes are at least 20% of all homes: homes are leaving the year-round market, which is not falling demand."
    },
    "thresholds": {
     "permits": {
@@ -122,7 +123,14 @@
      "down_at_or_below": -0.25
     }
    },
-   "rule_note": "The county rule on what a place has. Price is one year of FHFA tract indexes modelled to the place, read against the county thresholds scaled to a year. No town-level jobs trend exists, so demand is household population alone; county_call is the county's call, for context. A town of a few hundred homes often has fewer than two market signals: that is not_enough_data, not a guess.",
+   "rule_note": "The county rule on what a place has. Price is one year of FHFA tract indexes modelled to the place, read against the county thresholds scaled to a year. No town-level jobs trend exists, so demand is household population alone; county_call is the county's call, for context. A town of a few hundred homes often has fewer than two market signals: that is not_enough_data, not a guess. With no jobs trend, a shrinking household population is falling_demand only when a market signal agrees (one falling or flat, none rising); where seasonal homes are 20% or more of homes (ACS, not graded unreliable) it is second_home_shift; unconfirmed it is not_enough_data; contradicted by a rising signal it is read on the market rule.",
+   "rule_order": "not_enough_data (no demand reading), then for shrinking household population: second_home_shift, not_enough_data (no market signal), falling_demand (none rising), else on to softening, then emerging, else steady",
+   "second_home_share": 0.2,
+   "seasonal_homes_source": {
+    "file": "data/hna/second-homes-str.json",
+    "source": "ACS 5-year B25004_006 over B25001 (seasonal, recreational or occasional use)",
+    "release": "ACS 2024 5-year"
+   },
    "population_source": {
     "file": "data/market/dola_muni_household_population.json",
     "source": "Colorado State Demography Office, municipal population estimates (household population)",
@@ -138,10 +146,11 @@
    "call_counts": {
     "town": {
      "emerging": 5,
-     "falling_demand": 75,
-     "not_enough_data": 1,
+     "falling_demand": 11,
+     "not_enough_data": 49,
+     "second_home_shift": 7,
      "softening": 24,
-     "steady": 167
+     "steady": 176
     },
     "cdp": {
      "not_enough_data": 203,
@@ -5108,6 +5117,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -5142,6 +5155,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -5149,8 +5166,8 @@
    "name": "Aguilar (town)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -0.89%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.89%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5183,6 +5200,10 @@
      "households_to": 450,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0875,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -5217,6 +5238,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0055,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -5260,6 +5285,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5300,6 +5329,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0101,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -5339,6 +5372,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5371,6 +5408,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5437,
+    "reliability": "use_with_caution"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -5413,6 +5454,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1522,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5447,6 +5492,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.84,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -5479,6 +5528,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -5513,6 +5566,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5520,8 +5577,8 @@
    "name": "Antonito (town)",
    "type": "town",
    "county_fips": "08021",
-   "call": "falling_demand",
-   "call_basis": "household population -1.59%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.59%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5555,6 +5612,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0844,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5587,6 +5648,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0082,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -5622,6 +5687,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -5656,6 +5725,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3432,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5689,6 +5762,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -5727,6 +5804,10 @@
      "households_to": 201,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -5767,6 +5848,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0031,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -5779,8 +5864,8 @@
    "name": "Aspen (city)",
    "type": "town",
    "county_fips": "08097",
-   "call": "falling_demand",
-   "call_basis": "household population -0.84%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -0.84%/yr; seasonal homes 24% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5811,6 +5896,10 @@
      "households_to": 6540,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2362,
+    "reliability": "reliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -5850,6 +5939,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.041,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -5883,6 +5976,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -5924,6 +6021,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0112,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -5962,6 +6063,10 @@
      "households_to": 397985,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0037,
+    "reliability": "use_with_caution"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -6009,6 +6114,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3394,
+    "reliability": "reliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6041,6 +6150,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6075,6 +6188,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -6116,6 +6233,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0614,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -6153,6 +6274,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0251,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -6193,6 +6318,10 @@
      "households_to": 2899,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0145,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -6239,6 +6368,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -6271,6 +6404,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0077,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -6312,6 +6449,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0035,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -6325,7 +6466,7 @@
    "type": "town",
    "county_fips": "08063",
    "call": "falling_demand",
-   "call_basis": "household population -1.22%/yr",
+   "call_basis": "household population -1.22%/yr; price down",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -6357,6 +6498,10 @@
      "households_to": 183,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6391,6 +6536,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1869,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6424,6 +6573,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0103,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6432,7 +6585,7 @@
    "type": "town",
    "county_fips": "08047",
    "call": "falling_demand",
-   "call_basis": "household population -0.91%/yr",
+   "call_basis": "household population -0.91%/yr; price down",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -6464,6 +6617,10 @@
      "households_to": 125,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.023,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6507,6 +6664,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0583,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6539,6 +6700,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6582,6 +6747,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4202,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -6614,6 +6783,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6648,6 +6821,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -6655,8 +6832,8 @@
    "name": "Bonanza (town)",
    "type": "town",
    "county_fips": "08109",
-   "call": "falling_demand",
-   "call_basis": "household population -2.98%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -2.98%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -6685,6 +6862,10 @@
      "households_to": 17,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6718,6 +6899,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -6757,6 +6942,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0786,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6795,6 +6984,10 @@
      "households_to": 93882,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0091,
+    "reliability": "use_with_caution"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -6842,6 +7035,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0107,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -6876,6 +7073,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -6883,8 +7084,8 @@
    "name": "Branson (town)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -2.35%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -2.35%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -6913,6 +7114,10 @@
      "households_to": 56,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1077,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -6955,6 +7160,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5589,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -6994,6 +7203,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -7026,6 +7239,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -7066,6 +7283,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0066,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -7103,6 +7324,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.14,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -7145,6 +7370,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7183,6 +7412,10 @@
      "households_to": 77983,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0092,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -7230,6 +7463,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0221,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7266,6 +7503,10 @@
      "households_to": 3060,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.028,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -7313,6 +7554,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7346,6 +7591,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -7354,7 +7603,7 @@
    "type": "town",
    "county_fips": "08041",
    "call": "falling_demand",
-   "call_basis": "household population -0.25%/yr",
+   "call_basis": "household population -0.25%/yr; price flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -7387,6 +7636,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.031,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7394,8 +7647,8 @@
    "name": "Campo (town)",
    "type": "town",
    "county_fips": "08009",
-   "call": "falling_demand",
-   "call_basis": "household population -1.06%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.06%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -7424,6 +7677,10 @@
      "households_to": 98,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -7464,6 +7721,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0306,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -7503,6 +7764,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7540,6 +7805,10 @@
      "unavailable_reason": "DOLA reports no household population for 2014 or 2024",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -7581,6 +7850,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0183,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -7618,6 +7891,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1479,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -7658,6 +7935,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0016,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -7695,6 +7976,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0413,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -7735,6 +8020,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0003,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -7774,6 +8063,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2857,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -7808,6 +8101,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -7840,6 +8137,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -7881,6 +8182,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0215,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -7920,6 +8225,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0021,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -7932,8 +8241,8 @@
    "name": "Center (town)",
    "type": "town",
    "county_fips": "08109",
-   "call": "falling_demand",
-   "call_basis": "household population -1.07%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.07%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -7966,6 +8275,10 @@
      "households_to": 1895,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.017,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -8009,6 +8322,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1599,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8041,6 +8358,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -8080,6 +8401,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -8112,6 +8437,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.02,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -8154,6 +8483,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -8161,8 +8494,8 @@
    "name": "Cheyenne Wells (town)",
    "type": "town",
    "county_fips": "08017",
-   "call": "falling_demand",
-   "call_basis": "household population -1.25%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.25%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -8196,6 +8529,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0451,
+    "reliability": "unreliable"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -8228,6 +8565,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -8271,6 +8612,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3082,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8302,6 +8647,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -8340,6 +8689,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0714,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -8383,6 +8736,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.028,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8416,6 +8773,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.369,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8423,8 +8784,8 @@
    "name": "Cokedale (town)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -0.47%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.47%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -8454,6 +8815,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.15,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8462,7 +8827,7 @@
    "type": "town",
    "county_fips": "08077",
    "call": "falling_demand",
-   "call_basis": "household population -1.19%/yr",
+   "call_basis": "household population -1.19%/yr; price down",
    "signals": {
     "permits": {
      "value": null,
@@ -8490,6 +8855,10 @@
      "households_to": 370,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0896,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -8524,6 +8893,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -8556,6 +8929,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1304,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -8592,6 +8969,10 @@
      "households_to": 485437,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0046,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -8630,6 +9011,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0117,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -8672,6 +9057,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0139,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -8704,6 +9093,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -8744,6 +9137,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.004,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -8783,6 +9180,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8817,6 +9218,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.125,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -8850,6 +9255,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7062,
+    "reliability": "reliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -8890,6 +9299,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0213,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -8927,6 +9340,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3086,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -8968,6 +9385,10 @@
      "households_to": 8816,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0153,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -9015,6 +9436,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0388,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -9055,6 +9480,10 @@
      "households_to": 1610,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3418,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -9103,6 +9532,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0532,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -9144,6 +9577,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1349,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -9181,6 +9618,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -9224,6 +9665,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1111,
+    "reliability": "unreliable"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -9231,8 +9676,8 @@
    "name": "Crowley (town)",
    "type": "town",
    "county_fips": "08025",
-   "call": "falling_demand",
-   "call_basis": "household population -0.43%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.43%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -9265,6 +9710,10 @@
      "households_to": 160,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -9306,6 +9755,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -9338,6 +9791,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -9375,6 +9832,10 @@
      "households_to": 488,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0242,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -9416,6 +9877,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -9423,8 +9888,8 @@
    "name": "Del Norte (town)",
    "type": "town",
    "county_fips": "08105",
-   "call": "falling_demand",
-   "call_basis": "household population -1.26%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.26%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -9453,6 +9918,10 @@
      "households_to": 1335,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.039,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -9493,6 +9962,10 @@
      "households_to": 9365,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -9538,6 +10011,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0076,
+    "reliability": "reliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -9576,6 +10053,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -9613,6 +10094,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5743,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -9625,8 +10110,8 @@
    "name": "Dinosaur (town)",
    "type": "town",
    "county_fips": "08081",
-   "call": "falling_demand",
-   "call_basis": "household population -0.33%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.33%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -9660,6 +10145,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0872,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -9692,6 +10181,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -9739,6 +10232,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -9777,6 +10274,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -9784,8 +10285,8 @@
    "name": "Dove Creek (town)",
    "type": "town",
    "county_fips": "08033",
-   "call": "falling_demand",
-   "call_basis": "household population -0.73%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.73%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -9814,6 +10315,10 @@
      "households_to": 646,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0427,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -9849,6 +10354,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -9881,6 +10390,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -9920,6 +10433,10 @@
      "households_to": 17899,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.023,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -9968,6 +10485,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0114,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10008,6 +10529,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0099,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -10045,6 +10570,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10087,6 +10616,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10119,6 +10652,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10161,6 +10698,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10169,7 +10710,7 @@
    "type": "town",
    "county_fips": "08059",
    "call": "falling_demand",
-   "call_basis": "household population -0.64%/yr",
+   "call_basis": "household population -0.64%/yr; price down",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -10201,6 +10742,10 @@
      "households_to": 4924,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0324,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10236,6 +10781,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2306,
+    "reliability": "reliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10268,6 +10817,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -10302,6 +10855,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3125,
+    "reliability": "use_with_caution"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -10335,6 +10892,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10376,6 +10937,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10410,6 +10975,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0112,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10442,6 +11011,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -10476,6 +11049,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2525,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -10513,6 +11090,10 @@
      "households_to": 331,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0175,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10552,6 +11133,10 @@
      "households_to": 34103,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0053,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -10597,6 +11182,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0011,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10604,8 +11193,8 @@
    "name": "Estes Park (town)",
    "type": "town",
    "county_fips": "08069",
-   "call": "falling_demand",
-   "call_basis": "household population -0.81%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -0.81%/yr; seasonal homes 25% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -10636,6 +11225,10 @@
      "households_to": 5874,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2507,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -10681,6 +11274,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0041,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10712,6 +11309,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0514,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -10750,6 +11351,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0081,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -10792,6 +11397,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0562,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10833,6 +11442,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -10871,6 +11484,10 @@
      "households_to": 19265,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0014,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -10913,6 +11530,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0352,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -10920,8 +11541,8 @@
    "name": "Fleming (town)",
    "type": "town",
    "county_fips": "08075",
-   "call": "falling_demand",
-   "call_basis": "household population -0.37%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.37%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -10954,6 +11575,10 @@
      "households_to": 422,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -10995,6 +11620,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0172,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -11033,6 +11662,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -11065,6 +11698,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0778,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -11099,6 +11736,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -11139,6 +11780,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.005,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -11177,6 +11822,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0591,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -11217,6 +11866,10 @@
      "households_to": 9636,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0038,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -11264,6 +11917,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -11305,6 +11962,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -11339,6 +12000,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0018,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -11346,8 +12011,8 @@
    "name": "Fowler (town)",
    "type": "town",
    "county_fips": "08089",
-   "call": "falling_demand",
-   "call_basis": "household population -0.42%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.42%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -11380,6 +12045,10 @@
      "households_to": 1158,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -11423,6 +12092,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0311,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -11455,6 +12128,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -11493,6 +12170,10 @@
      "households_to": 1447,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4986,
+    "reliability": "reliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -11538,6 +12219,10 @@
      "households_to": 17437,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -11585,6 +12270,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5218,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -11626,6 +12315,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0123,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -11664,6 +12357,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0074,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -11697,6 +12394,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 1.0,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -11739,6 +12440,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0599,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -11773,6 +12478,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.136,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -11805,6 +12514,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1724,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -11839,6 +12552,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0188,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -11876,6 +12593,10 @@
      "households_to": 147,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0242,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -11917,6 +12638,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1612,
+    "reliability": "use_with_caution"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -11956,6 +12681,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0885,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -11963,8 +12692,8 @@
    "name": "Gilcrest (town)",
    "type": "town",
    "county_fips": "08123",
-   "call": "falling_demand",
-   "call_basis": "household population -0.28%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -11997,6 +12726,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12005,7 +12738,7 @@
    "type": "town",
    "county_fips": "08005",
    "call": "falling_demand",
-   "call_basis": "household population -0.79%/yr",
+   "call_basis": "household population -0.79%/yr; rent down",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -12037,6 +12770,10 @@
      "households_to": 4598,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -12071,6 +12808,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -12103,6 +12844,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12142,6 +12887,10 @@
      "households_to": 10001,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0274,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -12187,6 +12936,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.004,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -12225,6 +12978,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12258,6 +13015,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -12265,8 +13026,8 @@
    "name": "Granada (town)",
    "type": "town",
    "county_fips": "08099",
-   "call": "falling_demand",
-   "call_basis": "household population -0.31%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.31%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -12299,6 +13060,10 @@
      "households_to": 443,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.019,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12336,6 +13101,10 @@
      "households_to": 2190,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.335,
+    "reliability": "reliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -12377,6 +13146,10 @@
      "households_to": 65850,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0134,
+    "reliability": "use_with_caution"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -12420,6 +13193,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7035,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -12453,6 +13230,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -12493,6 +13274,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0011,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -12505,8 +13290,8 @@
    "name": "Green Mountain Falls (town)",
    "type": "town",
    "county_fips": "08041",
-   "call": "falling_demand",
-   "call_basis": "household population -1.50%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -1.50%/yr; seasonal homes 48% of homes",
    "signals": {
     "permits": {
      "value": null,
@@ -12534,6 +13319,10 @@
      "households_to": 642,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4784,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12575,6 +13364,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0058,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -12582,8 +13375,8 @@
    "name": "Grover (town)",
    "type": "town",
    "county_fips": "08123",
-   "call": "falling_demand",
-   "call_basis": "household population -0.38%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -12615,6 +13408,10 @@
      "households_to": 154,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12649,6 +13446,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4595,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12681,6 +13482,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0038,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -12721,6 +13526,10 @@
      "households_to": 5864,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0197,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -12767,6 +13576,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0188,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12774,8 +13587,8 @@
    "name": "Hartman (town)",
    "type": "town",
    "county_fips": "08099",
-   "call": "falling_demand",
-   "call_basis": "household population -0.35%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.35%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -12804,6 +13617,10 @@
      "households_to": 56,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12838,6 +13655,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12871,6 +13692,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12910,6 +13735,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -12917,8 +13746,8 @@
    "name": "Haxtun (town)",
    "type": "town",
    "county_fips": "08095",
-   "call": "falling_demand",
-   "call_basis": "household population -0.37%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.37%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -12951,6 +13780,10 @@
      "households_to": 946,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -12988,6 +13821,10 @@
      "households_to": 2018,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0254,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -13028,6 +13865,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.6627,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -13062,6 +13903,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.6964,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -13093,6 +13938,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0031,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -13141,6 +13990,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13174,6 +14027,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -13217,6 +14074,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13249,6 +14110,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0109,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -13291,6 +14156,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0178,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13298,8 +14167,8 @@
    "name": "Hooper (town)",
    "type": "town",
    "county_fips": "08003",
-   "call": "falling_demand",
-   "call_basis": "household population -1.62%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.62%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -13332,6 +14201,10 @@
      "households_to": 79,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -13374,6 +14247,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -13411,6 +14288,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1342,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -13443,6 +14324,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2827,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -13484,6 +14369,10 @@
      "households_to": 1625,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -13527,6 +14416,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0232,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13568,6 +14461,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.019,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -13607,6 +14504,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0385,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13639,6 +14540,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -13681,6 +14586,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0095,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -13693,8 +14602,8 @@
    "name": "Iliff (town)",
    "type": "town",
    "county_fips": "08075",
-   "call": "falling_demand",
-   "call_basis": "household population -0.32%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.32%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -13728,6 +14637,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0237,
+    "reliability": "unreliable"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -13760,6 +14673,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1206,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -13795,6 +14712,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -13828,6 +14749,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4324,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13835,8 +14760,8 @@
    "name": "Jamestown (town)",
    "type": "town",
    "county_fips": "08013",
-   "call": "falling_demand",
-   "call_basis": "household population -1.15%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.15%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -13865,6 +14790,10 @@
      "households_to": 244,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0519,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -13900,6 +14829,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13933,6 +14866,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -13965,6 +14902,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0235,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -14005,6 +14946,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14012,8 +14957,8 @@
    "name": "Julesburg (town)",
    "type": "town",
    "county_fips": "08115",
-   "call": "falling_demand",
-   "call_basis": "household population -0.26%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.26%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -14046,6 +14991,10 @@
      "households_to": 1197,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0541,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -14087,6 +15036,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0112,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14119,6 +15072,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.003,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -14161,6 +15118,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14194,6 +15155,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5998,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -14206,8 +15171,8 @@
    "name": "Kim (town)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -2.08%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -2.08%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -14236,6 +15201,10 @@
      "households_to": 64,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -14278,6 +15247,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14311,6 +15284,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2727,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14318,8 +15295,8 @@
    "name": "Kit Carson (town)",
    "type": "town",
    "county_fips": "08017",
-   "call": "falling_demand",
-   "call_basis": "household population -0.28%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.28%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -14353,6 +15330,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -14385,6 +15366,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -14422,6 +15407,10 @@
      "households_to": 1497,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0229,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -14462,6 +15451,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0013,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -14501,6 +15494,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14508,8 +15505,8 @@
    "name": "La Jara (town)",
    "type": "town",
    "county_fips": "08021",
-   "call": "falling_demand",
-   "call_basis": "household population -0.81%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.81%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -14543,6 +15540,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0861,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14550,8 +15551,8 @@
    "name": "La Junta (city)",
    "type": "town",
    "county_fips": "08089",
-   "call": "falling_demand",
-   "call_basis": "household population -0.29%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -14583,6 +15584,10 @@
      "households_to": 6762,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -14617,6 +15622,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -14656,6 +15665,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4111,
+    "reliability": "reliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14692,6 +15705,10 @@
      "households_to": 15,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -14731,6 +15748,10 @@
      "households_to": 152729,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0032,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -14778,6 +15799,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0029,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14810,6 +15835,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -14847,6 +15876,10 @@
      "households_to": 204,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -14888,6 +15921,10 @@
      "households_to": 2314,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -14931,6 +15968,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0199,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -14972,6 +16013,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1605,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -15006,6 +16051,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -15038,6 +16087,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -15075,6 +16128,10 @@
      "households_to": 2600,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1993,
+    "reliability": "use_with_caution"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -15114,6 +16171,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2363,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -15148,6 +16209,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0774,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -15181,6 +16246,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -15223,6 +16292,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -15255,6 +16328,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0193,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -15294,6 +16371,10 @@
      "households_to": 45811,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0014,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -15340,6 +16421,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -15373,6 +16458,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1485,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -15416,6 +16505,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -15448,6 +16541,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -15487,6 +16584,10 @@
      "households_to": 14519,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -15532,6 +16633,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0008,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -15576,6 +16681,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0062,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -15614,6 +16723,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0809,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -15654,6 +16767,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0011,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -15692,6 +16809,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -15734,6 +16855,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -15768,6 +16893,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -15801,6 +16930,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -15839,6 +16972,10 @@
      "households_to": 953,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0052,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -15881,6 +17018,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0233,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -15917,6 +17058,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.075,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -15929,8 +17074,8 @@
    "name": "Manzanola (town)",
    "type": "town",
    "county_fips": "08089",
-   "call": "falling_demand",
-   "call_basis": "household population -1.52%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.52%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -15963,6 +17108,10 @@
      "households_to": 326,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -16006,6 +17155,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0984,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16038,6 +17191,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -16073,6 +17230,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16107,6 +17268,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16139,6 +17304,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1404,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -16179,6 +17348,10 @@
      "households_to": 6915,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -16221,6 +17394,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0404,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16252,6 +17429,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0109,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -16286,6 +17467,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -16293,8 +17478,8 @@
    "name": "Merino (town)",
    "type": "town",
    "county_fips": "08075",
-   "call": "falling_demand",
-   "call_basis": "household population -0.79%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.79%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16328,6 +17513,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0267,
+    "reliability": "unreliable"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -16360,6 +17549,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1838,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -16401,6 +17594,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0048,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16408,8 +17605,8 @@
    "name": "Minturn (town)",
    "type": "town",
    "county_fips": "08037",
-   "call": "falling_demand",
-   "call_basis": "household population -0.73%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.73%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16443,6 +17640,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1609,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16450,8 +17651,8 @@
    "name": "Moffat (town)",
    "type": "town",
    "county_fips": "08109",
-   "call": "falling_demand",
-   "call_basis": "household population -1.07%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.07%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16485,6 +17686,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16492,8 +17697,8 @@
    "name": "Monte Vista (city)",
    "type": "town",
    "county_fips": "08105",
-   "call": "falling_demand",
-   "call_basis": "household population -0.68%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.68%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -16522,6 +17727,10 @@
      "households_to": 4002,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0389,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -16566,6 +17775,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3455,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -16604,6 +17817,10 @@
      "households_to": 21319,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.012,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -16646,6 +17863,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0166,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16679,6 +17900,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16687,7 +17912,7 @@
    "type": "town",
    "county_fips": "08059",
    "call": "falling_demand",
-   "call_basis": "household population -0.38%/yr",
+   "call_basis": "household population -0.38%/yr; price down",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16719,6 +17944,10 @@
      "households_to": 259,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0927,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -16753,6 +17982,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -16761,7 +17994,7 @@
    "type": "town",
    "county_fips": "08059",
    "call": "falling_demand",
-   "call_basis": "household population -0.29%/yr",
+   "call_basis": "household population -0.29%/yr; price flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16793,6 +18026,10 @@
      "households_to": 516,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -16836,6 +18073,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.268,
+    "reliability": "reliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16877,6 +18118,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5727,
+    "reliability": "reliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16911,6 +18156,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2203,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -16944,6 +18193,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3524,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -16951,8 +18204,8 @@
    "name": "Naturita (town)",
    "type": "town",
    "county_fips": "08085",
-   "call": "falling_demand",
-   "call_basis": "household population -0.56%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.56%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -16986,6 +18239,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -16994,7 +18251,7 @@
    "type": "town",
    "county_fips": "08013",
    "call": "falling_demand",
-   "call_basis": "household population -0.70%/yr",
+   "call_basis": "household population -0.70%/yr; price flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17026,6 +18283,10 @@
      "households_to": 1410,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0302,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -17067,6 +18328,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0073,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17099,6 +18364,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -17133,6 +18402,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0857,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17166,6 +18439,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -17207,6 +18484,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0005,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -17246,6 +18527,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "falling_demand",
    "affordable_activity": null
   },
@@ -17279,6 +18564,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -17318,6 +18607,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17325,8 +18618,8 @@
    "name": "Nucla (town)",
    "type": "town",
    "county_fips": "08085",
-   "call": "falling_demand",
-   "call_basis": "household population -0.77%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.77%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17359,6 +18652,10 @@
      "households_to": 581,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -17401,6 +18698,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0273,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17438,6 +18739,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0991,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17445,8 +18750,8 @@
    "name": "Olathe (town)",
    "type": "town",
    "county_fips": "08085",
-   "call": "falling_demand",
-   "call_basis": "household population -0.61%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17479,6 +18784,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0392,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17486,8 +18795,8 @@
    "name": "Olney Springs (town)",
    "type": "town",
    "county_fips": "08025",
-   "call": "falling_demand",
-   "call_basis": "household population -1.15%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.15%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17521,6 +18830,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0231,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17528,8 +18841,8 @@
    "name": "Ophir (town)",
    "type": "town",
    "county_fips": "08113",
-   "call": "falling_demand",
-   "call_basis": "household population -1.05%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.05%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17563,6 +18876,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0882,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17595,6 +18912,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -17636,6 +18957,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0247,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17668,6 +18993,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -17711,6 +19040,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17749,6 +19082,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -17756,8 +19093,8 @@
    "name": "Ouray (city)",
    "type": "town",
    "county_fips": "08091",
-   "call": "falling_demand",
-   "call_basis": "household population -0.40%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -0.40%/yr; seasonal homes 28% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17790,6 +19127,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2782,
+    "reliability": "use_with_caution"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -17802,8 +19143,8 @@
    "name": "Ovid (town)",
    "type": "town",
    "county_fips": "08115",
-   "call": "falling_demand",
-   "call_basis": "household population -1.22%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.22%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17836,6 +19177,10 @@
      "households_to": 261,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0535,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -17870,6 +19215,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -17910,6 +19259,10 @@
      "households_to": 1709,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2326,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -17953,6 +19306,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -17989,6 +19346,10 @@
      "households_to": 2656,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0255,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18032,6 +19393,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1724,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18072,6 +19437,10 @@
      "households_to": 1428,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.052,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -18114,6 +19483,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -18152,6 +19525,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -18184,6 +19561,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18224,6 +19605,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0034,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -18262,6 +19647,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -18269,8 +19658,8 @@
    "name": "Peetz (town)",
    "type": "town",
    "county_fips": "08075",
-   "call": "falling_demand",
-   "call_basis": "household population -1.26%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.26%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -18303,6 +19692,10 @@
      "households_to": 207,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0265,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -18337,6 +19730,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0407,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18369,6 +19766,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -18403,6 +19804,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -18434,6 +19839,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18468,6 +19877,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -18501,6 +19914,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4717,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18543,6 +19960,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18576,6 +19997,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1354,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -18608,6 +20033,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -18651,6 +20080,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.6845,
+    "reliability": "use_with_caution"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18684,6 +20117,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1011,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18726,6 +20163,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18762,6 +20203,10 @@
      "households_to": 1409,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0799,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -18801,6 +20246,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18834,6 +20283,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.25,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -18841,8 +20294,8 @@
    "name": "Pritchett (town)",
    "type": "town",
    "county_fips": "08009",
-   "call": "falling_demand",
-   "call_basis": "household population -1.56%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.56%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -18871,6 +20324,10 @@
      "households_to": 106,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -18907,6 +20364,10 @@
      "households_to": 109210,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0062,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -18946,6 +20407,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0091,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18954,7 +20419,7 @@
    "type": "town",
    "county_fips": "08041",
    "call": "falling_demand",
-   "call_basis": "household population -0.95%/yr",
+   "call_basis": "household population -0.95%/yr; price flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -18987,6 +20452,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -18995,7 +20464,7 @@
    "type": "town",
    "county_fips": "08103",
    "call": "falling_demand",
-   "call_basis": "household population -0.84%/yr",
+   "call_basis": "household population -0.84%/yr; price flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -19028,6 +20497,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -19040,8 +20513,8 @@
    "name": "Raymer (New Raymer) (town)",
    "type": "town",
    "county_fips": "08123",
-   "call": "falling_demand",
-   "call_basis": "household population -0.27%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "value": null,
@@ -19069,6 +20542,10 @@
      "households_to": 108,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19112,6 +20589,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1394,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19144,6 +20625,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7856,
+    "reliability": "reliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19178,6 +20663,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0357,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -19210,6 +20699,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19244,6 +20737,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -19287,6 +20784,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.112,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19326,6 +20827,10 @@
      "households_to": 1317,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0226,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -19372,6 +20877,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0174,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": {
     "since": 2023,
@@ -19409,6 +20918,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19452,6 +20965,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1201,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19459,8 +20976,8 @@
    "name": "Rocky Ford (city)",
    "type": "town",
    "county_fips": "08089",
-   "call": "falling_demand",
-   "call_basis": "household population -0.70%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.70%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -19493,6 +21010,10 @@
      "households_to": 3637,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0034,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": {
@@ -19532,6 +21053,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19539,8 +21064,8 @@
    "name": "Romeo (town)",
    "type": "town",
    "county_fips": "08021",
-   "call": "falling_demand",
-   "call_basis": "household population -0.39%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.39%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -19569,6 +21094,10 @@
      "households_to": 303,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19602,6 +21131,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.01,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -19640,6 +21173,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3271,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19673,6 +21210,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19680,8 +21221,8 @@
    "name": "Saguache (town)",
    "type": "town",
    "county_fips": "08109",
-   "call": "falling_demand",
-   "call_basis": "household population -0.25%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.25%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -19714,6 +21255,10 @@
      "households_to": 513,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0592,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -19753,6 +21298,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -19785,6 +21334,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7352,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -19822,6 +21375,10 @@
      "households_to": 6044,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0952,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -19861,6 +21418,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -19894,6 +21455,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19932,6 +21497,10 @@
      "households_to": 892,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -19975,6 +21544,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1127,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20017,6 +21590,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20048,6 +21625,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20083,6 +21664,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -20090,8 +21675,8 @@
    "name": "Sedgwick (town)",
    "type": "town",
    "county_fips": "08115",
-   "call": "falling_demand",
-   "call_basis": "household population -0.36%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.36%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -20124,6 +21709,10 @@
      "households_to": 163,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1818,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -20158,6 +21747,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20200,6 +21793,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20232,6 +21829,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -20273,6 +21874,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20305,6 +21910,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -20345,6 +21954,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0153,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -20352,8 +21965,8 @@
    "name": "Sheridan Lake (town)",
    "type": "town",
    "county_fips": "08061",
-   "call": "falling_demand",
-   "call_basis": "household population -2.88%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -2.88%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -20382,6 +21995,10 @@
      "households_to": 56,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20416,6 +22033,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0018,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -20448,6 +22069,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.041,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -20488,6 +22113,10 @@
      "households_to": 3816,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -20535,6 +22164,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1198,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20576,6 +22209,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4122,
+    "reliability": "use_with_caution"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -20614,6 +22251,10 @@
      "households_to": 5431,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.257,
+    "reliability": "use_with_caution"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -20655,6 +22296,10 @@
      "households_to": 724,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2514,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -20703,6 +22348,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20736,6 +22385,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20743,8 +22396,8 @@
    "name": "Snowmass Village (town)",
    "type": "town",
    "county_fips": "08097",
-   "call": "falling_demand",
-   "call_basis": "household population -0.46%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -0.46%/yr; seasonal homes 34% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -20776,6 +22429,10 @@
      "households_to": 2961,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3355,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20809,6 +22466,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20844,6 +22505,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20876,6 +22541,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1273,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -20914,6 +22583,10 @@
      "households_to": 508,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.4782,
+    "reliability": "use_with_caution"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -20962,6 +22635,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -20969,8 +22646,8 @@
    "name": "Starkville (town)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -1.22%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.22%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -20999,6 +22676,10 @@
      "households_to": 61,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -21035,6 +22716,10 @@
      "households_to": 13088,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2946,
+    "reliability": "reliable"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -21075,6 +22760,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21082,8 +22771,8 @@
    "name": "Sterling (city)",
    "type": "town",
    "county_fips": "08075",
-   "call": "falling_demand",
-   "call_basis": "household population -0.56%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -21115,6 +22804,10 @@
      "households_to": 10371,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0055,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": {
@@ -21155,6 +22848,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21187,6 +22884,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -21222,6 +22923,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7951,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -21255,6 +22960,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21286,6 +22995,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -21328,6 +23041,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -21335,8 +23052,8 @@
    "name": "Sugar City (town)",
    "type": "town",
    "county_fips": "08025",
-   "call": "falling_demand",
-   "call_basis": "household population -0.61%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.61%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -21369,6 +23086,10 @@
      "households_to": 252,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0321,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -21403,6 +23124,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.3008,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21435,6 +23160,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -21475,6 +23204,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0021,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -21487,8 +23220,8 @@
    "name": "Swink (town)",
    "type": "town",
    "county_fips": "08089",
-   "call": "falling_demand",
-   "call_basis": "household population -0.54%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -21520,6 +23253,10 @@
      "households_to": 588,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -21554,6 +23291,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2727,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -21587,6 +23328,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21594,8 +23339,8 @@
    "name": "Telluride (town)",
    "type": "town",
    "county_fips": "08113",
-   "call": "falling_demand",
-   "call_basis": "household population -0.37%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -0.37%/yr; seasonal homes 30% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -21627,6 +23372,10 @@
      "households_to": 2460,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2964,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -21660,6 +23409,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0045,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -21699,6 +23452,10 @@
      "households_to": 146100,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0029,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -21745,6 +23502,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -21778,6 +23539,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21810,6 +23575,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "emerging",
    "affordable_activity": {
@@ -21850,6 +23619,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -21883,6 +23656,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -21890,8 +23667,8 @@
    "name": "Trinidad (city)",
    "type": "town",
    "county_fips": "08071",
-   "call": "falling_demand",
-   "call_basis": "household population -0.45%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.45%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -21924,6 +23701,10 @@
      "households_to": 8032,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.047,
+    "reliability": "use_with_caution"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -21963,6 +23744,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -21996,6 +23781,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2581,
+    "reliability": "unreliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -22003,8 +23792,8 @@
    "name": "Two Buttes (town)",
    "type": "town",
    "county_fips": "08009",
-   "call": "falling_demand",
-   "call_basis": "household population -1.44%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -1.44%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "value": null,
@@ -22033,6 +23822,10 @@
      "households_to": 32,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -22067,6 +23860,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0896,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -22100,6 +23897,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1383,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -22107,8 +23908,8 @@
    "name": "Vail (town)",
    "type": "town",
    "county_fips": "08037",
-   "call": "falling_demand",
-   "call_basis": "household population -1.37%/yr",
+   "call": "second_home_shift",
+   "call_basis": "household population -1.37%/yr; seasonal homes 51% of homes",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -22140,6 +23941,10 @@
      "households_to": 4406,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.5105,
+    "reliability": "reliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -22175,6 +23980,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22208,6 +24017,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -22243,6 +24056,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22250,8 +24067,8 @@
    "name": "Victor (city)",
    "type": "town",
    "county_fips": "08119",
-   "call": "falling_demand",
-   "call_basis": "household population -0.51%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -22283,6 +24100,10 @@
      "households_to": 360,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1661,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -22322,6 +24143,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22355,6 +24180,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22362,8 +24191,8 @@
    "name": "Vona (town)",
    "type": "town",
    "county_fips": "08063",
-   "call": "falling_demand",
-   "call_basis": "household population -0.81%/yr",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "value": null,
@@ -22392,6 +24221,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22399,8 +24232,8 @@
    "name": "Walden (town)",
    "type": "town",
    "county_fips": "08057",
-   "call": "falling_demand",
-   "call_basis": "household population -0.66%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.66%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -22433,6 +24266,10 @@
      "households_to": 551,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0796,
+    "reliability": "unreliable"
    },
    "county_call": "falling_demand",
    "affordable_activity": null
@@ -22475,6 +24312,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0888,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -22487,8 +24328,8 @@
    "name": "Walsh (town)",
    "type": "town",
    "county_fips": "08009",
-   "call": "falling_demand",
-   "call_basis": "household population -0.47%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -0.47%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -22522,6 +24363,10 @@
      "reading": "down"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0245,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22529,8 +24374,8 @@
    "name": "Ward (town)",
    "type": "town",
    "county_fips": "08013",
-   "call": "falling_demand",
-   "call_basis": "household population -2.21%/yr",
+   "call": "not_enough_data",
+   "call_basis": "household population -2.21%/yr, but no permit, price or rent reading confirms it",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -22563,6 +24408,10 @@
      "households_to": 124,
      "reading": "down"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1053,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -22597,6 +24446,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -22630,6 +24483,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "softening",
    "affordable_activity": null
   },
@@ -22662,6 +24519,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.1392,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -22702,6 +24563,10 @@
      "households_to": 11985,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -22744,6 +24609,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2047,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22777,6 +24646,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.2537,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -22817,6 +24690,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.006,
+    "reliability": "unreliable"
+   },
    "county_call": "softening",
    "affordable_activity": {
     "since": 2023,
@@ -22856,6 +24733,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -22888,6 +24769,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "softening",
    "affordable_activity": null
@@ -22927,6 +24812,10 @@
      "households_to": 32528,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0029,
+    "reliability": "unreliable"
    },
    "county_call": "softening",
    "affordable_activity": {
@@ -22973,6 +24862,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.017,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -23010,6 +24903,10 @@
      "households_to": 435,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -23052,6 +24949,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0432,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -23090,6 +24991,10 @@
      "households_to": 40908,
      "reading": "up"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0061,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": {
@@ -23137,6 +25042,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.7127,
+    "reliability": "reliable"
+   },
    "county_call": "emerging",
    "affordable_activity": null
   },
@@ -23170,6 +25079,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": null,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -23210,6 +25123,10 @@
      "reading": "up"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0112,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": {
     "since": 2023,
@@ -23249,6 +25166,10 @@
      "reading": null
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -23282,6 +25203,10 @@
      "unavailable_reason": "DOLA estimates cover incorporated towns only, not CDPs",
      "reading": null
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0,
+    "reliability": "zero_estimate"
    },
    "county_call": "steady",
    "affordable_activity": null
@@ -23325,6 +25250,10 @@
      "reading": "flat"
     }
    },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0072,
+    "reliability": "unreliable"
+   },
    "county_call": "steady",
    "affordable_activity": null
   },
@@ -23362,6 +25291,10 @@
      "households_to": 391,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0919,
+    "reliability": "unreliable"
    },
    "county_call": "emerging",
    "affordable_activity": null
@@ -23403,6 +25336,10 @@
      "households_to": 3420,
      "reading": "flat"
     }
+   },
+   "seasonal_homes": {
+    "share_of_housing_units": 0.0594,
+    "reliability": "unreliable"
    },
    "county_call": "steady",
    "affordable_activity": null

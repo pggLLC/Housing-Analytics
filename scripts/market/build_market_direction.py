@@ -35,8 +35,11 @@ the place, one year's change against the price thresholds scaled to a year;
 rent where Zillow publishes the city; and DOLA household population for
 incorporated towns (data/market/dola_muni_household_population.json). No
 town-level jobs trend exists, so a town's demand reading is its household
-population alone, and falling demand means it is shrinking; the county's
-call is shown beside each place for context. CDPs have no DOLA series, so
+population alone. A shrinking town is falling demand only when a market
+signal agrees (one falling or flat, none rising); where ACS counts 20% or more
+of its homes as seasonal (data/hna/second-homes-str.json) it is a second-home
+shift instead, and with no market signal at all it is not enough data. The
+county's call is shown beside each place for context. CDPs have no DOLA series, so
 their demand is null with that reason.
 
 A missing signal is null with the reason, never zero. Writes
@@ -69,6 +72,7 @@ RENT_LIMITS = os.path.join(ROOT, 'data', 'chfa-income-rent-limits-2026.json')
 FMR = os.path.join(ROOT, 'data', 'market', 'fmr_co.json')
 ACTIVITY = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
 DOLA_TOWNS = os.path.join(ROOT, 'data', 'market', 'dola_muni_household_population.json')
+SECOND_HOMES = os.path.join(ROOT, 'data', 'hna', 'second-homes-str.json')
 OUT = os.path.join(ROOT, 'data', 'market', 'market-direction.json')
 
 PERMIT_FLOOR = 50       # units in EACH five-year period before the change is read
@@ -99,9 +103,18 @@ PLACE_THRESHOLDS = dict(THRESHOLDS, price=(4.0, 1.3), population=(0.5, -0.25))
 PLACE_CALLS = dict(CALLS,
                    emerging=('Household population is growing, at least two of permits, prices and rents are '
                              'rising, and none is falling.'),
-                   falling_demand=('Household population is shrinking by 0.25% a year or more (towns only; '
+                   falling_demand=('Household population is shrinking by 0.25% a year or more, at least one of '
+                                   'permits, prices and rents is falling or flat, and none is rising (towns only; '
                                    'CDPs have no DOLA series).'),
-                   not_enough_data='Fewer than two market signals and no household population reading.')
+                   second_home_shift=('Household population is shrinking where seasonal homes are at least '
+                                      '20% of all homes: homes are leaving the year-round market, which is not '
+                                      'falling demand.'),
+                   not_enough_data=('Fewer than two market signals and no household population reading, or a '
+                                    'shrinking household population that no permit, price or rent reading '
+                                    'confirms.'))
+# a town shrinking in year-round households while this share of its homes
+# are seasonal is losing homes to second-home use, not losing demand
+SECOND_HOME_SHARE = 0.20
 EDGES = {
     'no_edge': "The FMR is at or below the 60% AMI rent: a 60% unit can't charge its 60% rent.",
     'thin': f'The 60% AMI rent is below the FMR by less than {RENT_EDGE_THIN:.0f}% of the FMR.',
@@ -328,7 +341,9 @@ def town_population_signal(rec: dict | None, is_cdp: bool) -> dict:
     return out
 
 
-def place_call(sig: dict) -> tuple[str, str]:
+def place_call(sig: dict, seasonal: dict | None = None) -> tuple[str, str]:
+    """seasonal is the place's ACS seasonal-homes record; a share graded
+    unreliable is not used."""
     r = {k: place_reading(k, sig[k]['value']) for k in ('permits', 'price', 'rent', 'population')}
     market = [k for k in ('permits', 'price', 'rent') if r[k] is not None]
     falling = [k for k in market if r[k] == 'down']
@@ -337,7 +352,17 @@ def place_call(sig: dict) -> tuple[str, str]:
     if len(market) < 2 and pop is None:
         return 'not_enough_data', 'fewer than two market signals and no household population reading'
     if r['population'] == 'down':
-        return 'falling_demand', f'household population {pop:+.2f}%/yr'
+        share = (seasonal or {}).get('share_of_housing_units')
+        if share is not None and share >= SECOND_HOME_SHARE and seasonal.get('reliability') != 'unreliable':
+            return 'second_home_shift', f'household population {pop:+.2f}%/yr; seasonal homes {share:.0%} of homes'
+        if not market:
+            return 'not_enough_data', (f'household population {pop:+.2f}%/yr, but no permit, price or rent '
+                                       'reading confirms it')
+        if not rising:
+            return 'falling_demand', (f'household population {pop:+.2f}%/yr; '
+                                      + ', '.join(f'{k} {r[k]}' for k in market))
+        # a rising market signal contradicts the household decline: read on
+        # the market rule, which cannot reach emerging with population down
     if len(falling) >= 2:
         return 'softening', 'falling: ' + ', '.join(falling)
     if r['population'] == 'up' and len(rising) >= 2 and not falling:
@@ -436,6 +461,10 @@ def build() -> dict:
         towns = read(DOLA_TOWNS)
     except OSError:
         towns = {'meta': {}, 'towns': {}}
+    try:
+        second_homes = read(SECOND_HOMES)
+    except OSError:
+        second_homes = {'meta': {}, 'geographies': {}}
     zori_by_place, zori_unmatched = zori_places(zori['cities'], geo['places'] + [dict(p, type='cdp') for p in geo['cdps']])
     activity_by_place = place_activity(activity.get('projects') or [], activity['meta'].get('summary_since'))
     places = {}
@@ -455,15 +484,22 @@ def build() -> dict:
                 if g not in zori_by_place else 'Zillow publishes no year-over-year change for this place'
         for k in sig:
             sig[k]['reading'] = place_reading(k, sig[k]['value'])
-        call, why = place_call(sig)
+        sh = second_homes['geographies'].get(g) or {}
+        seasonal = sh.get('seasonal_homes')
+        call, why = place_call(sig, seasonal)
         county = pl.get('containingCounty')
         places[g] = {
             'name': pl['label'], 'type': 'cdp' if is_cdp else 'town', 'county_fips': county,
             'call': call, 'call_basis': why, 'signals': sig,
+            'seasonal_homes': {'share_of_housing_units': seasonal.get('share_of_housing_units'),
+                               'reliability': seasonal.get('reliability')} if seasonal else
+            {'share_of_housing_units': None,
+             'unavailable_reason': sh.get('seasonal_homes_unavailable_reason') or 'no ACS seasonal-homes record'},
             'county_call': counties.get(county, {}).get('call'),
             'affordable_activity': activity_by_place.get(g),
         }
-    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc, towns)] + [stamp(geo)]
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc, towns, second_homes)]
+    stamps.append(stamp(geo))
     stamps.append(prof_stamp)
     for f in counties:  # the per-county jobs files
         try:
@@ -530,7 +566,20 @@ def build() -> dict:
                               'modelled to the place, read against the county thresholds scaled to a year. '
                               'No town-level jobs trend exists, so demand is household population alone; '
                               'county_call is the county\'s call, for context. A town of a few hundred homes '
-                              'often has fewer than two market signals: that is not_enough_data, not a guess.'),
+                              'often has fewer than two market signals: that is not_enough_data, not a guess. '
+                              'With no jobs trend, a shrinking household population is falling_demand only when '
+                              'a market signal agrees (one falling or flat, none rising); where seasonal homes '
+                              'are 20% or more of homes (ACS, not graded unreliable) it is second_home_shift; '
+                              'unconfirmed it is not_enough_data; contradicted by a rising signal it is read on '
+                              'the market rule.'),
+                'rule_order': ('not_enough_data (no demand reading), then for shrinking household population: '
+                               'second_home_shift, not_enough_data (no market signal), falling_demand (none '
+                               'rising), else on to softening, then emerging, else steady'),
+                'second_home_share': SECOND_HOME_SHARE,
+                'seasonal_homes_source': {'file': 'data/hna/second-homes-str.json',
+                                          'source': 'ACS 5-year B25004_006 over B25001 (seasonal, recreational '
+                                                    'or occasional use)',
+                                          'release': (second_homes['meta'].get('acs_release') or {}).get('name')},
                 'population_source': {'file': 'data/market/dola_muni_household_population.json',
                                       'source': towns['meta'].get('source'), 'url': towns['meta'].get('source_url'),
                                       'years': towns['meta'].get('years')},

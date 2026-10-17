@@ -263,12 +263,55 @@ def test_every_geo_config_place_has_a_row():
 def test_each_place_call_is_what_the_place_rule_gives_for_its_printed_signals():
     checked = 0
     for g, r in PLACES.items():
-        assert (r['call'], r['call_basis']) == md.place_call(r['signals']), g
+        assert (r['call'], r['call_basis']) == md.place_call(r['signals'], SEASONAL.get(g)), g
         for k, s in r['signals'].items():
             assert s['reading'] == md.place_reading(k, s['value']), (g, k)
         checked += 1
     assert checked > 400
-    assert {r['call'] for r in PLACES.values()} >= {'steady', 'falling_demand', 'not_enough_data'}
+    assert {r['call'] for r in PLACES.values()} >= {'steady', 'falling_demand', 'not_enough_data',
+                                                    'second_home_shift'}
+
+
+SEASONAL = {g: r.get('seasonal_homes') for g, r in read('data/hna/second-homes-str.json')['geographies'].items()}
+
+
+def test_a_places_seasonal_share_is_the_second_homes_files():
+    shown = 0
+    for g, r in PLACES.items():
+        src = SEASONAL.get(g)
+        if src:
+            assert r['seasonal_homes'] == {'share_of_housing_units': src['share_of_housing_units'],
+                                           'reliability': src['reliability']}, g
+            shown += 1
+        else:
+            assert r['seasonal_homes']['share_of_housing_units'] is None
+            assert r['seasonal_homes']['unavailable_reason'], g
+    assert shown > 400
+
+
+def test_falling_demand_in_a_town_needs_a_market_signal_to_agree():
+    shrinking = {'value': -0.8}
+    sig = {'permits': {'value': None}, 'price': {'value': 1.0}, 'rent': {'value': None}, 'population': shrinking}
+    assert md.place_call(sig)[0] == 'falling_demand'           # price down agrees
+    sig['price']['value'] = 6.0
+    assert md.place_call(sig)[0] == 'steady'                   # price up contradicts it
+    sig['price']['value'] = None
+    call, why = md.place_call(sig)
+    assert call == 'not_enough_data' and 'confirms' in why     # households alone
+    sig['price']['value'] = 1.0
+    resort = {'share_of_housing_units': 0.51, 'reliability': 'reliable'}
+    assert md.place_call(sig, resort)[0] == 'second_home_shift'
+    assert md.place_call(sig, dict(resort, reliability='unreliable'))[0] == 'falling_demand'
+    assert md.place_call(sig, dict(resort, share_of_housing_units=0.19))[0] == 'falling_demand'
+
+
+def test_a_second_home_shift_call_agrees_with_its_seasonal_share():
+    calls = [(g, r) for g, r in PLACES.items() if r['call'] == 'second_home_shift']
+    assert calls
+    for g, r in calls:
+        s = r['seasonal_homes']
+        assert s['share_of_housing_units'] >= DOC['meta']['places']['second_home_share'], g
+        assert s['reliability'] != 'unreliable' and r['signals']['population']['reading'] == 'down', g
 
 
 def test_a_towns_population_signal_agrees_with_the_dola_file():
