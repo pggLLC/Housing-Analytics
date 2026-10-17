@@ -899,7 +899,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-10-17T12:04:38Z",
+  "generated_at": "2026-10-17T14:34:28Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "method": "present_incommuter_need = LODES in-commuters x county CE01+CE02 share of jobs located there / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer (scenarios; no statewide source). A deficit today, not a 20-year projection.",
@@ -2348,7 +2348,7 @@
     "move_closer_25": 2,
     "move_closer_50": 5
    },
-   "share_of_county_households": 0.0005,
+   "share_of_county_households": 0.0003,
    "share_of_county_jobs": 0.0001,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.27,
@@ -2406,7 +2406,7 @@
     "move_closer_25": 223,
     "move_closer_50": 445
    },
-   "share_of_county_households": 0.0112,
+   "share_of_county_households": 0.0029,
    "share_of_county_jobs": 0.069,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.0,
@@ -2436,7 +2436,7 @@
     "move_closer_25": 0,
     "move_closer_50": 0
    },
-   "share_of_county_households": 0.0019,
+   "share_of_county_households": 0.0017,
    "share_of_county_jobs": 0.0003,
    "wage_share_basis": "county",
    "workers_per_working_household": 2.0,
@@ -4001,7 +4001,7 @@
     "move_closer_25": 33,
     "move_closer_50": 66
    },
-   "share_of_county_households": 0.0691,
+   "share_of_county_households": 0.0742,
    "share_of_county_jobs": 0.0369,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.649,
@@ -4196,7 +4196,7 @@
     "move_closer_25": 32,
     "move_closer_50": 63
    },
-   "share_of_county_households": 0.0046,
+   "share_of_county_households": 0.0049,
    "share_of_county_jobs": 0.006,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.797,
@@ -4496,7 +4496,7 @@
     "move_closer_25": 3,
     "move_closer_50": 6
    },
-   "share_of_county_households": 0.0077,
+   "share_of_county_households": 0.0051,
    "share_of_county_jobs": 0.0051,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.103,
@@ -4541,7 +4541,7 @@
     "move_closer_25": 4,
     "move_closer_50": 8
    },
-   "share_of_county_households": 0.1465,
+   "share_of_county_households": 0.1274,
    "share_of_county_jobs": 0.1076,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.907,
@@ -4614,7 +4614,7 @@
     "move_closer_25": 30,
     "move_closer_50": 61
    },
-   "share_of_county_households": 0.0736,
+   "share_of_county_households": 0.079,
    "share_of_county_jobs": 0.2167,
    "wage_share_basis": "county",
    "workers_per_working_household": 1.376,

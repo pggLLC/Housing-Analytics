@@ -39,6 +39,7 @@ import argparse
 import csv
 import json
 import os
+import math
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -65,8 +66,9 @@ WORKER_CELLS = {
 
 def fetch():
     os.makedirs(SRC, exist_ok=True)
-    with urllib.request.urlopen(JOBS_URL, timeout=120) as r:
-        open(os.path.join(SRC, 'dola_jobs_county.csv'), 'wb').write(r.read())
+    with urllib.request.urlopen(JOBS_URL, timeout=120) as r, \
+            open(os.path.join(SRC, 'dola_jobs_county.csv'), 'wb') as f:
+        f.write(r.read())
     out = {'source': B08202_URL.format(sumlevel='<sumlevel>'), 'table': 'B08202', 'geos': {}}
     for sumlevel in ('050', '160'):
         with urllib.request.urlopen(B08202_URL.format(sumlevel=sumlevel), timeout=120) as r:
@@ -94,12 +96,13 @@ def num(v):
         x = float(v)
     except (TypeError, ValueError):
         return None
-    return x if x == x else None
+    return None if math.isnan(x) else x
 
 
 def load_jobs():
     path = os.path.join(SRC, 'dola_jobs_county.csv')
-    rows = list(csv.reader(open(path, encoding='utf-8')))
+    with open(path, encoding='utf-8') as f:
+        rows = list(csv.reader(f))
     vintage = rows[0][0]
     by = {}
     for r in rows[2:]:
