@@ -47,8 +47,14 @@ for (const f of pages) {
     footers++;
     // What the visitor sees: the rail item marked as the current step (its
     // data-step and its printed number), plus the analytics step tag.
-    const active = doc.querySelector('.wf-step--active, .wf-step[aria-current="step"]');
-    assert(active, `${f} has a footer naming step ${said[1]} but no active rail step`);
+    // The highlighted item and the one announced to screen readers are
+    // checked separately: each must be unique, and they must be the same item.
+    const lit = doc.querySelectorAll('.wf-step--active');
+    const current = doc.querySelectorAll('.wf-step[aria-current="step"]');
+    assert.equal(lit.length, 1, `${f}: expected one highlighted rail step, found ${lit.length}`);
+    assert.equal(current.length, 1, `${f}: expected one aria-current rail step, found ${current.length}`);
+    assert(lit[0] === current[0], `${f}: the highlighted rail step and the aria-current one are different items`);
+    const active = lit[0];
     const shown = active.querySelector('.wf-step__num');
     const own = [active.getAttribute('data-step'), shown && shown.textContent.trim(),
       (doc.querySelector('script[data-step]') || active).getAttribute('data-step')];
@@ -74,7 +80,8 @@ assert(controls.length > 0, 'the scan found the Scenario Builder controls');
 // added input such as "zoning" or "rents" fails unless the page offers it.
 const FRAMING = new Set(['how', 'could', 'would', 'might', 'does', 'do', 'will', 'can', 'change', 'changes',
   'affect', 'the', 'a', 'an', 'and', 'or', 'of', 'in', 'to', 'people', 'homes', 'housing', 'needed', 'need']);
-const stem = (word) => word.replace(/(es|s)$/, '').slice(0, 5);
+// Whole words, singular: "births" matches "Birth rate"; "birthdays" does not.
+const stem = (word) => word.replace(/s$/, '');
 const controlStems = new Set(controls.split(/[^a-z]+/).filter(Boolean).map(stem));
 const named = question.split(/[^a-z]+/).filter((t) => t && !FRAMING.has(t));
 assert(named.length > 0, `the scenario question names at least one input ("${question}")`);
