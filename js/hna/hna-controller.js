@@ -2633,6 +2633,24 @@
     }
     const doc = _workforceNeedDoc;
     if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
+    if (geoid === '08') {
+      // Colorado: the sum of the 64 county lines, each worker counted once,
+      // in the county they work in. Any county missing → no total, so a
+      // partial sum never reads as the state.
+      const recs = Object.keys(doc.counties || {}).filter((k) => /^08\d{3}$/.test(k)).map((k) => doc.counties[k]);
+      let low = 0;
+      let high = 0;
+      let have = 0;
+      for (const c of recs) {
+        const n = c && c.present_incommuter_need;
+        const a = n ? window.HNAUtils.safeNum(n.move_closer_25) : null;
+        const b = n ? window.HNAUtils.safeNum(n.move_closer_50) : null;
+        if (a === null || b === null) continue;
+        low += a; high += b; have += 1;
+      }
+      if (have !== 64) return { low: null, high: null, reason: have + ' of 64 counties have an in-commuter figure, so no statewide total is shown.' };
+      return { low, high, wph: null, countyWage: false, stateSum: true, reason: null };
+    }
     const rec = (doc.counties && doc.counties[geoid]) || (doc.places && doc.places[geoid]) || null;
     const n = rec && rec.present_incommuter_need;
     if (!n) return { low: null, high: null, reason: (rec && rec.unavailableReason) || 'No in-commuter record for this geography.' };
@@ -2891,7 +2909,7 @@
           + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
           + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
           + '. No statewide source measures that share, so both are shown. A deficit today, not a projection, and not part of the figure used'
-          + (inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+          + (inc.stateSum ? '; summed over the 64 counties, each worker counted in the county they work in, including people who commute between Colorado counties.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
         inFigure: false,
         unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
       },
@@ -3479,7 +3497,7 @@
         existingGapUnits,
         replacementUnits: _replacement.units,
         replacementUnavailable: _replacement.reason,
-        incommuter: await _loadIncommuterNeed(selection && selection.geoType !== 'state' ? (selection.geoid || countyFips5) : null),
+        incommuter: await _loadIncommuterNeed(!selection ? null : selection.geoType === 'state' ? '08' : (selection.geoid || countyFips5)),
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,

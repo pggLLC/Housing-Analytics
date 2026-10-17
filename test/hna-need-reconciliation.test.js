@@ -260,6 +260,21 @@ async function render(selection, countyFips) {
     assert.strictEqual(Number(row.dataset.units), Math.round(want), `Colorado row ${row.dataset.units} ≠ county sum ${Math.round(want)}`);
   });
 
+  await test('Colorado\'s in-commuter row is the sum of the 64 county lines, not unavailable', async () => {
+    const co = await render({ geoType: 'state', geoid: '08', label: 'Colorado',
+      profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } }, '08');
+    const wn = JSON.parse(read('data/hna/workforce-need.json'));
+    const ids = Object.keys(wn.counties).filter((k) => /^08\d{3}$/.test(k));
+    assert.strictEqual(ids.length, 64, `${ids.length} county records; the sum needs all 64`);
+    const lo = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_25, 0);
+    const hi = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_50, 0);
+    assert(lo > 0, 'the counties sum to 0; nothing to check');
+    const row = co.row('incommuter');
+    assert(row, 'Colorado has no in-commuter row');
+    assert.strictEqual(Number(row.dataset.units), lo, `Colorado row ${row.dataset.units} ≠ county 25% sum ${lo}`);
+    assert(row.textContent.includes(hi.toLocaleString('en-US')), `the 50% sum ${hi} is not stated`);
+  });
+
   await test('a horizon past the projection reads replacement at the year the page actually shows', async () => {
     const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
     install(dom);
