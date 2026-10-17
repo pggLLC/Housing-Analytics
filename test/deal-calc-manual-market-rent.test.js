@@ -80,7 +80,13 @@ async function test(name,fn) {
       'ZORI mode does not display a required override source field');
     assert.equal(p.w.getComputedStyle(p.d.getElementById('dc-market-bedroom-wrap')).display,'none',
       'a known bedroom mix does not display the no-mix fallback control');
-    const basis=(+p.d.getElementById('dc-tdc').value)*(+p.d.getElementById('dc-basis-pct').value/100)*(48/60);
+    // #2160: basis is the itemized cost in basis (the invented example budget)
+    // times the lower of the unit (48/60) and floor-space (50,000/60,000) fractions.
+    for(const [id,v] of [['dc-res-sf','60000'],['dc-restricted-sf','50000']]) {
+      const el=p.d.getElementById(id); el.value=v; el.dispatchEvent(new p.w.Event('input',{bubbles:true}));
+    }
+    const costBasis=require('../js/deal-cost-basis.js');
+    const basis=costBasis.summarizeCosts(costBasis.exampleLines(),+p.d.getElementById('dc-tdc').value).eligible*(48/60);
     assert.equal(text(p,'dc-r-basis'),money(basis),'market units never enter LIHTC eligible basis');
     assert.equal(text(p,'dc-r-credits'),money(basis*0.09),'market units earn no credits');
     for(const br of ['1br','2br']) {
@@ -176,6 +182,8 @@ async function test(name,fn) {
   });
   await test('unknown rent blocks manual deferred-fee exit, waterfall and pro forma; entering a source restores them',async()=>{
     const p=await openPage('',null,{jurisdiction}); mix(p,restricted,60);
+    // #2160: market units make the floor-space fraction part of the credit.
+    setField(p,'dc-res-sf',60000); setField(p,'dc-restricted-sf',48000);
     setField(p,'dc-deferred-auto-balance',false);
     setField(p,'dc-deferred-pct',40);
     assert(/\$[0-9]/.test(text(p,'dc-exit-resale')),'start with a priced exit');

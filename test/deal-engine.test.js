@@ -19,7 +19,7 @@ for (const scenario of ['A', 'B']) {
   const input = inputsFor(scenario);
   const before = clone(input);
   const result = computeDeal(input);
-  const figures = require('./helpers/deal-engine-l1-expected.cjs')(scenario, golden.scenarios[scenario].figures);
+  const figures = require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, golden.scenarios[scenario].figures));
   for (const [key, id] of Object.entries(moneyFields)) {
     assert.equal(money(result[key]), figures[id], `${scenario}: ${key} equals the pre-move display`); checked++;
   }
@@ -72,6 +72,14 @@ for (const scenario of ['A', 'B']) {
   assert.equal(known.sensitivityKnown, true);
   assert(Number.isFinite(known.tornado.mortLo) && known.tornado.mortLo > 0, `${scenario}: known sensitivity is still computed`);
 }
+// Known NOI and rents but unknown credits: the equity swings would be $0, so no sensitivity.
+const noRules = inputsFor('A'); noRules.costRules = null;
+const creditsUnknown = computeDeal(noRules);
+assert(creditsUnknown.noi > 0 && creditsUnknown.annualRents > 0, 'non-vacuous: NOI and rents are known');
+assert.equal(creditsUnknown.annualCredits, null);
+assert.equal(creditsUnknown.sensitivityKnown, false);
+assert.equal(creditsUnknown.tornado, null);
+assert(creditsUnknown.unavailable.tornado, 'tornado: reason travels with absence');
 assert.equal(unknown.exit.nNoi, null);
 assert(unknown.unavailable['exit.nNoi']);
 assert(!JSON.stringify(unknown).includes('NaN'));
@@ -85,6 +93,16 @@ for (const [id, limit, ok, bad] of [['pf-rent-growth', 5, '5', '100'], ['pf-exp-
   assert.equal(r.projection, null, id + ': and the projection');
   assert.equal(r.waterfall, null, id + ': and the waterfall');
   assert(r.unavailable['exit.nNoi'].includes('0% to ' + limit + '%'), id + ': the reason names the range');
+}
+// #2160: a deferred fee is a source in CHFA's gap method however its amount is
+// set, so auto-balance and the same manual deferral reserve the same credit.
+{
+  const auto = computeDeal(inputsFor('A'));
+  const manualIn = inputsFor('A'); manualIn.fields['dc-deferred-auto-balance'] = false;
+  const manual = computeDeal(manualIn);
+  assert(auto.deferredDevFee > 0, 'non-vacuous: auto-balance defers part of the fee when the gap method binds');
+  assert.equal(auto.deferredDevFee, manual.deferredDevFee, 'auto-balance defers what the manual setting would');
+  assert.equal(auto.annualCredits, manual.annualCredits, 'and the gap method reserves the same credit');
 }
 // Grep the whole module (stricter than just computeDeal's body).
 const source = fs.readFileSync(path.join(root, 'js/deal-engine.js'), 'utf8');

@@ -124,7 +124,7 @@
     { key: 'creditType',  label: 'Credit Type',       fmt: function (v) { return escHtml(v || '—'); } },
     { key: 'tdc',         label: 'Total Dev. Cost',    fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'units',       label: 'Total Units',        fmt: function (v) { return _fmtInt(v); } },
-    { key: 'basisPct',    label: 'Eligible Basis %',   fmt: function (v) { return _fmtPct(v); } },
+    { key: 'boostDesignation', label: 'Basis Boost',  fmt: function (v) { return escHtml(v && v !== 'none' ? v.toUpperCase() : 'None'); } },
     { key: 'equityPrice', label: 'Equity Price ($/cr)',fmt: function (v) { return v ? '$' + (+v).toFixed(2) : '—'; } },
     { key: 'noi',         label: 'Net Operating Income',fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'dcr',         label: 'Debt Coverage Ratio', fmt: function (v) { return v ? (+v).toFixed(2) + 'x' : '—'; } },
@@ -133,9 +133,10 @@
   ];
 
   var DEAL_OUTPUT_METRICS = [
-    { key: 'eligibleBasis',  label: 'Eligible Basis',      fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
+    { key: 'eligibleBasis',  label: 'Qualified Basis',      fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'annualCredits',  label: 'Annual Tax Credits',   fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
-    { key: 'creditEquity',   label: 'Tax Credit Equity',    fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
+    { key: 'creditEquity',   label: 'Federal Credit Equity', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
+    { key: 'stateCreditEquity', label: 'State Credit Equity', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'annualRents',    label: 'Annual Gross Rents',   fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'firstMortgage',  label: 'Supportable Mortgage', fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'gap',            label: 'Funding Gap',          fmt: function (v) { return _fmtDollars(_parseCurrency(v)); },

@@ -352,7 +352,8 @@ async function roundTrip(sender, label, savedSubject) {
     const warn = p.d.getElementById('dc-units-sync-warn');
     assert(!warn.hidden && /exceed Total Units/.test(warn.textContent), 'the hard error did not show');
     ['dc-r-basis', 'dc-r-credits', 'dc-r-equity', 'dc-r-rents'].forEach((id) =>
-      assert.strictEqual(p.d.getElementById(id).textContent.trim(), '—', id + ' still renders ' + p.d.getElementById(id).textContent));
+      // No figure: a bare dash, or "Unavailable — <reason>" where the basis panel names the reason (#2160).
+      assert.match(p.d.getElementById(id).textContent.trim(), /^(—|Unavailable — \D+)$/, id + ' still renders ' + p.d.getElementById(id).textContent));
     assert(p.d.getElementById('dc-su-gap').textContent.includes(p.w.__DealCalc.getResult().unavailable.gap), 'invalid mix gap carries the engine reason');
     const msa = p.d.getElementById('dc-minimum-set-aside-status').textContent;
     assert(!/Qualifies/.test(msa) && !/60 of 20/.test(msa), 'set-aside still evaluated: ' + msa);
