@@ -350,6 +350,22 @@
                  style="margin-top:.5rem;padding:.4rem .6rem;border-left:3px solid #d97706;background:rgba(217,119,6,.10);color:var(--text);font-size:.78rem;line-height:1.45">
               <strong>Auto-selection ring (4 mi).</strong> No tracts added or removed yet. CHFA review expects a boundary justified by natural barriers, school districts, jurisdictional lines, or commute sheds — not a radius snapped to tract edges. Adjust the selection, write a rationale below, or both.
             </div>
+            <div id="pmaNaturalFeatures" style="margin-top:.55rem;padding-top:.5rem;border-top:1px solid var(--border)">
+              <label for="pmaNfToggle" style="display:flex;gap:.45rem;align-items:center;min-height:44px;font-size:.8rem;font-weight:600;color:var(--text);cursor:pointer">
+                <input type="checkbox" id="pmaNfToggle" style="width:20px;height:20px;margin:0;flex:none">
+                <span>Use natural features to limit the market area</span>
+              </label>
+              <p id="pmaNfSupported" style="margin:.2rem 0 0 1.4rem;font-size:.74rem;line-height:1.45;color:var(--muted)">
+                Checks <span id="pmaNfSupportedList">interstates, rivers, and named lakes and reservoirs</span>. Not ridges or mountains: COHO has no data for them. A tract is proposed when the straight line from the site to the tract's centre crosses one of these.
+              </p>
+              <div id="pmaNfStatus" role="status" aria-live="polite" hidden
+                   style="margin:.4rem 0 0 1.4rem;font-size:.76rem;line-height:1.45;color:var(--text)"></div>
+              <ul id="pmaNfList" hidden style="list-style:none;margin:.35rem 0 0 1.4rem;padding:0;font-size:.76rem;line-height:1.4"></ul>
+              <button type="button" id="pmaNfApply" hidden
+                      style="margin:.4rem 0 0 1.4rem;padding:.3rem 1rem;min-height:44px;min-width:44px;font-size:.78rem;border:1px solid var(--accent);background:var(--card);color:var(--accent);font-weight:600;border-radius:4px;cursor:pointer">
+                Apply
+              </button>
+            </div>
             <label for="pmaTractRationale"
                    style="display:block;margin:.55rem 0 .2rem;font-size:.78rem;font-weight:600;color:var(--text)">
               PMA boundary rationale <span style="font-weight:400;color:var(--muted)">(included verbatim in the CHFA justification narrative)</span>
