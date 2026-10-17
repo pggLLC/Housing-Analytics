@@ -472,6 +472,23 @@
         }
       }
 
+      // Each load gets a sequence number; changing the selection or starting
+      // another load supersedes it, so a late reply (success or failure)
+      // cannot replace the projection for what is selected now.
+      var loadSeq = 0;
+      var loading = false;
+      select.addEventListener('change', function () {
+        var loaded = window.ScenarioBuilder && window.ScenarioBuilder.loadedGeography();
+        if (!loading && (!loaded || loaded.geoid === select.value)) return;
+        loadSeq += 1;
+        loading = false;
+        var entry = geoIndex[select.value];
+        var reason = 'Selection changed to ' + (entry ? entry.name : 'a new geography') +
+          '. Press Load Geography Data to project it; the earlier projection was cleared.';
+        statusEl.textContent = reason;
+        if (window.ScenarioBuilder) window.ScenarioBuilder.init({ unavailableReason: reason });
+      });
+
       loadBtn.addEventListener('click', function () {
         var geoid = select.value;
         if (!geoid) {
@@ -517,8 +534,12 @@
           }
         }
 
+        var seq = ++loadSeq;
+        loading = true;
         fetchJSON('data/hna/dola_sya/' + countyFips + '.json')
           .then(function (dolaData) {
+            if (seq !== loadSeq) return;
+            loading = false;
             // Apply downscaling factor to the male/female cohorts so the
             // projection model treats this as a place-scale jurisdiction.
             // Pass through unmodified for counties (scaleFactor = 1).
@@ -538,9 +559,12 @@
             }
           })
           .catch(function () {
-            statusEl.textContent = 'DOLA data not available for ' + displayName + ' — using statewide defaults.';
+            if (seq !== loadSeq) return;
+            loading = false;
+            var reason = 'Population data could not be loaded for ' + displayName + ', so no projection is shown. Try Load Geography Data again.';
+            statusEl.textContent = reason;
             if (window.ScenarioBuilder) {
-              window.ScenarioBuilder.init({});
+              window.ScenarioBuilder.init({ unavailableReason: reason });
             }
           });
       });
@@ -665,16 +689,16 @@
     // #10 Export panel
     if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');
 
-    // #14 Enable save button after county data loads
-    var sbLoadBtn = document.getElementById('sbLoadCounty');
-    if (sbLoadBtn) {
-      sbLoadBtn.addEventListener('click', function () {
-        setTimeout(function () {
-          var sb = document.getElementById('sbSaveBtn');
-          if (sb) { sb.disabled = false; sb.removeAttribute('title'); }
-        }, 1200);
-      });
-    }
+    // #14 Enable save only while a geography's own data is loaded. Until
+    // 2026-10-17 a timer enabled it 1.2 s after any click, loaded or not.
+    document.addEventListener('scenario-builder:state', function (e) {
+      var sb = document.getElementById('sbSaveBtn');
+      if (!sb) return;
+      var geo = e.detail && e.detail.geography;
+      sb.disabled = !geo;
+      if (geo) sb.removeAttribute('title');
+      else sb.setAttribute('title', 'Load a geography above to enable saving');
+    });
 
     var saveBtn = document.getElementById('sbSaveBtn');
     var confirm = document.getElementById('sbSaveConfirm');
@@ -682,10 +706,14 @@
       saveBtn.addEventListener('click', function () {
         if (!window.WorkflowState) return;
         try {
-          var sel = document.getElementById('sbGeoSelect');
+          // Record the geography whose data was projected, not whatever the
+          // selector shows now (it can change without a reload).
+          var geo = window.ScenarioBuilder && window.ScenarioBuilder.loadedGeography();
+          if (!geo) return;
           var snapshot = {
             completedAt: new Date().toISOString(),
-            county: sel ? (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].text) : null
+            county: geo.displayName,
+            geoid: geo.geoid
           };
           WorkflowState.setStep('scenario', snapshot);
           if (confirm) { confirm.removeAttribute('hidden'); saveBtn.textContent = 'Saved ✓'; saveBtn.disabled = true; setTimeout(function(){ confirm.setAttribute('hidden',''); }, 3000); }
