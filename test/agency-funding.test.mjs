@@ -185,6 +185,8 @@ ok(/'https:\/\/cohoanalytics\.com\/where-housing-money-goes\.html#county=' \+ co
   'the Jurisdiction Report opens the page on its county, a key the view reads');
 const deep = read('colorado-deep-dive.html');
 ok(!/data-agency-funding/.test(deep) && !/agency-funding\.js/.test(deep), 'Colorado Deep Dive links to the page instead of holding a second copy');
+ok(/parts\[0\] === 'tab-need' && parts\.length > 1\)[\s\S]{0,80}location\.replace\('where-housing-money-goes\.html#' \+ parts\.slice\(1\)\.join\('&'\)\)/.test(deep),
+  'links shared while the view was in the tab (#tab-need&county=…) go to the page with their search');
 const files = [...js.matchAll(/'(data\/[^']+\.(?:json|geojson))'/g)].map((m) => m[1]);
 ok(files.length >= 5, 'found the data files the view reads');
 const about = (js.match(/<details class=\\"hm-about\\"[\s\S]*?<\/details>/) || [''])[0];

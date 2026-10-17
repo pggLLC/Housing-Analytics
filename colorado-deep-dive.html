@@ -3257,8 +3257,14 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     });
 
     /* A hash naming an outer panel opens it: market-intelligence.html redirects to #tab-signals, historical-trends.html to #tab-history. */
-    /* Links shared while the award view lived in this tab carry a search after the tab name (#tab-need&county=08049); keep only the tab. */
-    var hash = window.location.hash.replace('#', '').split('&')[0];
+    /* Links shared while the award view lived in this tab carry its search after the tab name
+       (#tab-need&county=08049): send them to the award view's own page with that search. */
+    var parts = window.location.hash.replace('#', '').split('&');
+    if (parts[0] === 'tab-need' && parts.length > 1) {
+      window.location.replace('where-housing-money-goes.html#' + parts.slice(1).join('&'));
+      return;
+    }
+    var hash = parts[0];
     if (hash && hash !== 'tab-deepdive' && document.querySelector('.page-tabs [aria-controls="' + hash + '"]')) {
       select(hash);
       var bar = document.querySelector('.page-tabs');
