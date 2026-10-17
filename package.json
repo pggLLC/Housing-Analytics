@@ -217,7 +217,7 @@
     "test:deal-calc-screening-apply": "node test/deal-calc-screening-apply.test.js",
     "test:deal-calc-ami-bands": "node test/deal-calc-ami-bands.test.js",
     "test:deal-calc-studio-units": "node test/deal-calc-studio-units.test.js && node test/deal-calc-minimum-set-aside.test.js",
-    "test:pma-flood-absence": "node test/pma-flood-absence.test.js && node test/pma-narrative-claims.test.js",
+    "test:pma-flood-absence": "node test/pma-flood-absence.test.js && node test/pma-narrative-claims.test.js && node test/pma-natural-features.test.js",
     "test:notify-cancelled": "node test/notify-cancelled-outcome.test.js",
     "test:acs-fetch-retries": "python3 test/acs-fetch-retries.test.py",
     "test:deal-calc-equity-pricing": "node test/deal-calc-equity-pricing.test.js",

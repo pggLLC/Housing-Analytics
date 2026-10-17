@@ -307,6 +307,147 @@
     return excluded;
   }
 
+  /* ── Proposed exclusions for the tract picker ─────────────────────── */
+
+  /* The feature types the market-area option uses, as stated on screen.
+     Interstates only: they are crossed only at interchanges and
+     underpasses, while a US route through a town is a surface street with
+     signals (US 6 is North Avenue in Grand Junction). Water is rivers,
+     lakes and reservoirs; creeks, canals and unnamed ponds are left out
+     because a pond or ditch between the site and a tract does not separate
+     a market. */
+  var SUPPORTED_FEATURES = 'interstates carrying ' + MIN_BARRIER_AADT.toLocaleString('en-US') +
+    '+ vehicles a day, rivers, and named lakes and reservoirs';
+
+  /* Route "070A" sign I -> "I-70" (sign U -> "US 70"); "Colorado Riv" -> "Colorado River", "Grand Lk" -> "Grand Lake". */
+  function _featureLabel(props) {
+    if (props.barrier_type === 'highway') {
+      var n = parseInt(props.route, 10);
+      if (!isFinite(n)) return props.name || null;
+      return (props.route_sign === 'I' ? 'I-' : 'US ') + n;
+    }
+    return String(props.name || '').trim()
+      .replace(/\bRiv\b/g, 'River').replace(/\bLks\b/g, 'Lakes').replace(/\bLk\b/g, 'Lake');
+  }
+
+  /* 'river' | 'lake' for a qualifying water feature, else null. */
+  function _waterKind(props) {
+    var name = String(props.name || '').trim();
+    // The file abbreviates and numbers its names ("Lk Hope", "Cottonwood
+    // Lake Number 5", "Road Canyon Reservoir No 1"), so match the word anywhere.
+    if (props.sub_type === 'river' || /\bRiv(er)?\b/.test(name)) return 'river';
+    if (/\b(Lks?|Lakes?|Reservoirs?)\b/.test(name)) return 'lake';
+    return null;
+  }
+
+  /* One record per qualifying feature, with its line segments. The tract
+     picker re-runs the proposal on every click, so the result is kept for
+     the feature array it came from. */
+  var _supportedCache = { input: null, out: null };
+  function _supportedFeatures(features) {
+    if (features && features === _supportedCache.input) return _supportedCache.out;
+    var out = _normalizeFeatures(features);
+    _supportedCache = { input: features, out: out };
+    return out;
+  }
+
+  function _normalizeFeatures(features) {
+    var out = [];
+    (features || []).forEach(function (f) {
+      if (!f || !f.geometry || !f.properties) return;
+      var p = f.properties;
+      var kind;
+      if (p.barrier_type === 'highway') {
+        if (p.route_sign !== 'I') return;
+        var aadt = Number(p.aadt);
+        if (!(aadt >= MIN_BARRIER_AADT)) return;
+        kind = 'highway';
+      } else if (p.barrier_type === 'water') {
+        kind = _waterKind(p);
+        if (!kind) return;
+      } else {
+        return;
+      }
+      var label = _featureLabel(p);
+      if (!label) return;
+      var lines = [];
+      var g = f.geometry;
+      if (g.type === 'LineString') lines = [g.coordinates];
+      else if (g.type === 'MultiLineString' || g.type === 'Polygon') lines = g.coordinates;
+      else if (g.type === 'MultiPolygon') g.coordinates.forEach(function (poly) { lines = lines.concat(poly); });
+      var segs = [];
+      lines.forEach(function (line) {
+        for (var i = 0; line && i < line.length - 1; i++) {
+          segs.push([line[i][0], line[i][1], line[i + 1][0], line[i + 1][1]]);
+        }
+      });
+      if (segs.length) out.push({ label: label, kind: kind, segs: segs });
+    });
+    return out;
+  }
+
+  /**
+   * Propose which tracts a supported natural feature separates from the site.
+   * A tract is proposed when the straight line from the site to its centroid
+   * crosses a feature. Nothing is removed here: the tract picker shows the
+   * proposals and the analyst applies them, keeping any tract that a bridge
+   * or interchange connects.
+   *
+   * @param {number} siteLat
+   * @param {number} siteLon
+   * @param {Array}  tracts   [{geoid, lat, lon}]
+   * @param {Array|null} barrierFeatures features of natural_barriers_co.geojson; null when it did not load
+   * @param {string} [siteGeoid] the tract containing the site, which is never proposed
+   * @returns {{status: string, reason: string|null, supported: string, exclusions: Array<{geoid, feature, featureType}>}}
+   *   status: 'proposed' (features were tested), 'no_features' (none of the
+   *   supported types near the site or the tracts), or 'unavailable' (no data).
+   */
+  function proposeTractExclusions(siteLat, siteLon, tracts, barrierFeatures, siteGeoid) {
+    var base = { supported: SUPPORTED_FEATURES, exclusions: [] };
+    if (!Array.isArray(barrierFeatures) || !barrierFeatures.length) {
+      return Object.assign(base, { status: 'unavailable',
+        reason: 'the natural-feature file did not load' });
+    }
+    if (!Number.isFinite(siteLat) || !Number.isFinite(siteLon)) {
+      return Object.assign(base, { status: 'unavailable', reason: 'no site location' });
+    }
+    var pts = (tracts || []).filter(function (t) {
+      return t && t.geoid && Number.isFinite(t.lat) && Number.isFinite(t.lon);
+    });
+    // Only features near the site-to-tract lines can cross them.
+    var minX = siteLon, maxX = siteLon, minY = siteLat, maxY = siteLat;
+    pts.forEach(function (t) {
+      minX = Math.min(minX, t.lon); maxX = Math.max(maxX, t.lon);
+      minY = Math.min(minY, t.lat); maxY = Math.max(maxY, t.lat);
+    });
+    var near = [];
+    _supportedFeatures(barrierFeatures).forEach(function (f) {
+      var segs = f.segs.filter(function (s) {
+        return Math.max(s[0], s[2]) >= minX && Math.min(s[0], s[2]) <= maxX &&
+               Math.max(s[1], s[3]) >= minY && Math.min(s[1], s[3]) <= maxY;
+      });
+      if (segs.length) near.push({ label: f.label, kind: f.kind, segs: segs });
+    });
+    if (!near.length) {
+      return Object.assign(base, { status: 'no_features',
+        reason: 'none of the supported features lies between the site and the selected tracts' });
+    }
+    pts.forEach(function (t) {
+      if (siteGeoid && String(t.geoid) === String(siteGeoid)) return;
+      for (var i = 0; i < near.length; i++) {
+        var f = near[i];
+        for (var j = 0; j < f.segs.length; j++) {
+          var s = f.segs[j];
+          if (_segmentsIntersect(siteLon, siteLat, t.lon, t.lat, s[0], s[1], s[2], s[3])) {
+            base.exclusions.push({ geoid: String(t.geoid), feature: f.label, featureType: f.kind });
+            return;
+          }
+        }
+      }
+    });
+    return Object.assign(base, { status: 'proposed', reason: null });
+  }
+
   /* ── Public API ──────────────────────────────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMABarriers = {
@@ -316,6 +457,8 @@
       subtractBarriers:         subtractBarriers,
       getBarrierSummary:        getBarrierSummary,
       identifyExcludedTracts:   identifyExcludedTracts,
+      proposeTractExclusions:   proposeTractExclusions,
+      SUPPORTED_FEATURES:       SUPPORTED_FEATURES,
       BARRIER_LAND_COVER:       BARRIER_LAND_COVER,
       MIN_BARRIER_AADT:         MIN_BARRIER_AADT
     };
@@ -328,6 +471,7 @@
       fetchStateHighways:  fetchStateHighways,
       subtractBarriers:    subtractBarriers,
       getBarrierSummary:   getBarrierSummary,
+      proposeTractExclusions: proposeTractExclusions,
       BARRIER_LAND_COVER:  BARRIER_LAND_COVER
     };
   }

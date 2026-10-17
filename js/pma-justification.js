@@ -61,6 +61,38 @@
    * inline; longer lists collapse to "first … last (N total)" so the
    * narrative stays under ~500 words.
    */
+  /* The natural-feature option's paragraph, built from the picker's record
+     (PMATractPicker.getNaturalFeatures). A tract is called excluded only
+     when the option was applied and the tract is absent from the boundary's
+     own GEOID list, so the sentence cannot disagree with the map or counts. */
+  function _naturalFeatureSentence(nf, boundaryGeoids) {
+    if (!nf || !nf.status || nf.status === 'off') return '';
+    if (nf.status === 'unavailable' || nf.status === 'no_features') {
+      return 'Natural features were not used to limit the market area: ' +
+        (nf.status === 'unavailable' ? 'natural-feature data was unavailable for this area'
+          : 'none of the supported features lies between the site and the selected tracts') +
+        '. The market area is the analyst\'s tract selection only.';
+    }
+    if (nf.status !== 'applied') return '';
+    var inSet = {};
+    (boundaryGeoids || []).forEach(function (g) { inSet[g] = true; });
+    var tracts = Array.isArray(nf.tracts) ? nf.tracts : [];
+    var excluded = tracts.filter(function (t) { return t.state === 'excluded by feature' && !inSet[t.geoid]; });
+    var kept = tracts.filter(function (t) { return t.state === 'kept: crossing' && inSet[t.geoid]; });
+    var features = [];
+    excluded.forEach(function (t) { if (features.indexOf(t.feature) < 0) features.push(t.feature); });
+    var text = 'Natural features were used to limit the market area (' +
+      (nf.supportedFeatures || 'supported features') + '; a tract counts as across a feature when the ' +
+      'straight line from the site to its centre crosses it). ' + excluded.length + ' tract(s) were excluded' +
+      (features.length ? ' across ' + features.join(', ') : '') + '.';
+    if (kept.length) {
+      text += ' ' + kept.length + ' tract(s) were kept because a crossing connects them: ' +
+        kept.map(function (t) { return t.geoid + (t.keepReason ? ' (' + t.keepReason + ')' : ''); }).join('; ') + '.';
+    }
+    text += ' Ridges and mountains were not checked.';
+    return text;
+  }
+
   function _summarizeGeoidList(geoids) {
     if (!geoids || !geoids.length) return '(none)';
     var sorted = geoids.slice().sort();
@@ -197,6 +229,8 @@
           'Analyst rationale for boundary delineation: ' + picked.rationale.trim()
         );
       }
+      var nfLine = _naturalFeatureSentence(picked.naturalFeatures, pickedGeoids);
+      if (nfLine) parts.push(nfLine);
       if (picked.curated === false) {
         parts.push(
           'CAVEAT: This boundary is the unedited ' + (picked.autoSelectRadiusMi || 4) +

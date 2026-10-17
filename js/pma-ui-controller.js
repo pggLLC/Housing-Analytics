@@ -742,6 +742,7 @@
       }
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
+      _lastRunTractKey = _currentTractKey();
       // The justification narrative and the concept-card recommendation are
       // conclusions about this PMA too. PMAEngine.runAnalysis has already
       // said on the score card why it is not bound; nothing is drawn here
@@ -935,9 +936,16 @@
     picker.init(mapRef, lat, lon, _onTractSelectionChange)
       .then(function (r) {
         // picker.init resets rationale to ''; mirror that in the textarea
+        // A returning site restores its saved rationale; show it, so the
+        // box and the narrative say the same thing.
         var ta = $id('pmaTractRationale');
-        if (ta) ta.value = '';
+        if (ta) ta.value = picker.getRationale ? picker.getRationale() : '';
         _wireTractRationaleInput();
+        _wireNaturalFeatures();
+        // A saved state from before Apply is checked again against the
+        // feature file, so later selection changes are tested as well.
+        var nfSaved = picker.getNaturalFeatures ? picker.getNaturalFeatures() : { status: 'off' };
+        if (nfSaved.status !== 'off' && nfSaved.status !== 'applied') _proposeNaturalFeatures();
         _onTractSelectionChange(r.selected);
       })
       .catch(function (err) {
@@ -984,7 +992,52 @@
     return true;
   }
 
+  /* The tract set the shown results were computed from. A later change to
+     the set (a click, Apply, Keep, Clear all, turning natural features off)
+     takes those results down, so the counts, narrative and exports never
+     describe a boundary other than the one on the map. */
+  var _lastRunTractKey = null;
+  // What a tract run's results depend on: the GEOIDs, and the natural-feature
+  // record the narrative and exports carry once it is used (applied, or
+  // reported as unavailable / none nearby). A proposal not yet applied
+  // changes neither, so it does not count.
+  function _tractKey(selection) {
+    if (!selection) return '';
+    var key = (selection.selected || []).slice().sort().join(',');
+    var nf = selection.naturalFeatures;
+    if (nf && nf.status && nf.status !== 'off' && nf.status !== 'proposed') {
+      key += '|' + nf.status + ':' + (nf.tracts || []).map(function (t) {
+        return t.geoid + '=' + t.state + (t.keepReason ? '(' + t.keepReason + ')' : '');
+      }).sort().join(';');
+    }
+    return key;
+  }
+  function _currentTractKey() {
+    var picker = window.PMATractPicker;
+    return picker && typeof picker.getCurationMetadata === 'function'
+      ? _tractKey(picker.getCurationMetadata()) : null;
+  }
+
+  function _invalidateIfTractsChanged() {
+    if (_lastRunTractKey === null || _method !== 'tract') return;
+    if (_currentTractKey() === _lastRunTractKey) return;
+    // A run still in flight was started on the old set too. Taking its
+    // results down also bumps the conclusion revision (clearConclusions), so
+    // its completion cannot republish them for a boundary no longer on the map.
+    // A restored run leaves the attribute unset, so only 'pending' (results
+    // already down) is skipped.
+    if (!_running && document.body.getAttribute('data-pma-result-state') === 'pending') return;
+    _lastRunTractKey = null;
+    var eng = window.PMAEngine;
+    if (eng && typeof eng.blockCustomPma === 'function') {
+      eng.blockCustomPma('the selected tracts changed after the last run; press Run Analysis to update the results');
+    } else {
+      _clearConclusions();
+    }
+  }
+
   function _onTractSelectionChange(geoids) {
+    _invalidateIfTractsChanged();
     var summary = $id('pmaTractPickerSummary');
     var countEl = $id('pmaSelectedTractCount');
     var listEl  = $id('pmaTractGeoidList');
@@ -996,6 +1049,146 @@
         : '(none — click tracts on the map to add them)';
     }
     _refreshTractCurationBanner();
+    _renderNaturalFeatures();
+  }
+
+  /* ── Natural features as a market-area limit ─────────────────────── */
+  // The picker holds the state (PMATractPicker.getNaturalFeatures); this
+  // draws it and passes the analyst's choices back.
+
+  // True while the first proposal waits on the barrier file; the toggle stays
+  // checked meanwhile so the analyst can uncheck it to cancel.
+  var _nfLoading = false;
+  var _nfLoadToken = 0;
+
+  function _proposeNaturalFeatures() {
+    var picker = window.PMATractPicker;
+    if (!picker || typeof picker.proposeNaturalFeatures !== 'function') return;
+    var status = $id('pmaNfStatus');
+    var token = ++_nfLoadToken;
+    _nfLoading = true;
+    if (status) { status.hidden = false; status.textContent = 'Checking natural features\u2026'; }
+    function settled() {
+      if (token !== _nfLoadToken) return;   // superseded by a later toggle
+      _nfLoading = false;
+      _renderNaturalFeatures();
+    }
+    picker.proposeNaturalFeatures().then(settled, settled);
+  }
+
+  function _wireNaturalFeatures() {
+    var toggle = $id('pmaNfToggle');
+    if (!toggle || toggle._wired) return;
+    toggle._wired = true;
+    var list = $id('pmaNfSupportedList');
+    if (list && window.PMABarriers && window.PMABarriers.SUPPORTED_FEATURES) {
+      list.textContent = window.PMABarriers.SUPPORTED_FEATURES;
+    }
+    toggle.addEventListener('change', function () {
+      var picker = window.PMATractPicker;
+      if (!picker) return;
+      if (toggle.checked) {
+        _proposeNaturalFeatures();
+        if (_nfLoading) return;
+      } else {
+        _nfLoading = false;
+        _nfLoadToken++;
+        picker.turnOffNaturalFeatures();
+      }
+      _renderNaturalFeatures();
+    });
+    var apply = $id('pmaNfApply');
+    if (apply) {
+      apply.addEventListener('click', function () {
+        var picker = window.PMATractPicker;
+        if (!picker) return;
+        picker.applyNaturalFeatures();
+        _refreshTractCurationBanner();
+        _renderNaturalFeatures();
+      });
+    }
+  }
+
+  function _renderNaturalFeatures() {
+    var picker = window.PMATractPicker;
+    var toggle = $id('pmaNfToggle');
+    var status = $id('pmaNfStatus');
+    var list   = $id('pmaNfList');
+    var apply  = $id('pmaNfApply');
+    if (!picker || typeof picker.getNaturalFeatures !== 'function' || !status || !list) return;
+    var nf = picker.getNaturalFeatures();
+    if (_nfLoading && nf.status === 'off') {
+      if (toggle) toggle.checked = true;
+      return;
+    }
+    if (toggle) toggle.checked = nf.status !== 'off';
+    // The picker keeps its generated rationale sentence current; mirror it
+    // unless the analyst is typing in the box.
+    var ta = $id('pmaTractRationale');
+    if (ta && document.activeElement !== ta && typeof picker.getRationale === 'function'
+        && ta.value !== picker.getRationale()) {
+      ta.value = picker.getRationale();
+    }
+    var tracts = nf.tracts || [];
+    var excluded = tracts.filter(function (t) { return t.state === 'excluded by feature'; }).length;
+    var kept = tracts.filter(function (t) { return t.state === 'kept: crossing'; }).length;
+    var text = '';
+    if (nf.status === 'unavailable') {
+      text = 'Natural-feature data unavailable for this area; the market area is your tract selection only.';
+    } else if (nf.status === 'no_features') {
+      text = 'None of the supported features lies between the site and your selected tracts. The market area is your tract selection only.';
+    } else if (nf.status === 'proposed' && !tracts.length) {
+      text = 'None of your selected tracts is across a supported feature. The market area is your tract selection only.';
+    } else if (nf.status === 'proposed') {
+      text = tracts.length + ' of your selected tracts ' + (tracts.length === 1 ? 'is' : 'are') +
+        ' across a supported feature (dashed red on the map). Keep any that a bridge, interchange or underpass connects, then press Apply. Nothing leaves the market area until you do.';
+    } else if (nf.status === 'applied') {
+      text = 'Applied: ' + excluded + ' tract' + (excluded === 1 ? '' : 's') + ' excluded, ' + kept +
+        ' kept for crossings. You can still add or remove any tract on the map; turning this off restores your selection from before Apply.';
+    }
+    status.hidden = !text;
+    if (text) status.textContent = text;
+    if (apply) apply.hidden = !(nf.status === 'proposed' && tracts.length);
+
+    list.textContent = '';
+    list.hidden = !tracts.length;
+    tracts.forEach(function (t) {
+      var li = document.createElement('li');
+      li.style.cssText = 'padding:.3rem 0;border-top:1px solid var(--border)';
+      li.dataset.geoid = t.geoid;
+      li.dataset.state = t.state;
+      var head = document.createElement('div');
+      head.textContent = 'Tract ' + t.geoid + ' \u00b7 across ' + t.feature + ' \u00b7 ' + t.state;
+      li.appendChild(head);
+      var id = 'pmaNfKeep-' + t.geoid;
+      var label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.style.cssText = 'display:inline-flex;gap:.45rem;align-items:center;cursor:pointer;min-height:44px;min-width:44px';
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.id = id;
+      box.checked = t.state === 'kept: crossing';
+      box.style.cssText = 'width:20px;height:20px;margin:0';
+      label.appendChild(box);
+      label.appendChild(document.createTextNode('Keep (crossing or connection)'));
+      li.appendChild(label);
+      var reason = document.createElement('input');
+      reason.type = 'text';
+      reason.maxLength = 200;
+      reason.placeholder = 'e.g., bridge at 22 Rd';
+      reason.setAttribute('aria-label', 'Crossing that connects tract ' + t.geoid);
+      reason.value = t.keepReason || '';
+      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;min-height:44px;margin-top:.2rem;padding:.25rem .4rem;font-size:.76rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
+      li.appendChild(reason);
+      box.addEventListener('change', function () {
+        picker.setNaturalFeatureKeep(t.geoid, box.checked, reason.value);
+        if (box.checked) { var r = list.querySelector('li[data-geoid="' + t.geoid + '"] input[type="text"]'); if (r) r.focus(); }
+      });
+      reason.addEventListener('change', function () {
+        if (box.checked) picker.setNaturalFeatureKeep(t.geoid, true, reason.value);
+      });
+      list.appendChild(li);
+    });
   }
 
   function _refreshTractCurationBanner() {
@@ -1118,6 +1311,7 @@
         }
         runOptions.tractGeoids = picked;
         runOptions.tractBoundary = picker && picker.getBoundary ? picker.getBoundary() : null;
+        _lastRunTractKey = _currentTractKey();
         if (window.PMAEngine && typeof window.PMAEngine.runAnalysis === 'function') {
           window.PMAEngine.runAnalysis(lat, lon, runOptions);
         }
@@ -1416,6 +1610,8 @@
     // If we have a full scoreRun from storage, re-render the cards
     if (stored && stored.scoreRun) {
       _lastScoreRun = stored.scoreRun;
+      // A restored tract run is invalidated by later changes like a fresh one.
+      if (stored.scoreRun.pmaTractSelection) _lastRunTractKey = _tractKey(stored.scoreRun.pmaTractSelection);
       _renderJustification(stored.scoreRun);
       _renderConceptCard(stored.scoreRun);
       var explainBtn = $id('pmaExplainScoreBtn');
