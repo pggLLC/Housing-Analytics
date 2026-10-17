@@ -4015,7 +4015,12 @@
     if (reasonEl) { reasonEl.textContent = sum.reason || ''; reasonEl.hidden = !sum.reason; }
     setText('dc-op-total', sum.reason ? '—' : fmt(sum.perUnitYear) + ' (' + fmt(sum.perUnitMonth) + ' a month)');
     setText('dc-op-income-total', sum.reason ? '—' : fmt(sum.otherIncomePerUnitYear));
-    var pupa = ob.pupaExpenses(sum, document.getElementById('dc-prop-tax') && document.getElementById('dc-prop-tax').value,
+    // Taxes count net of the selected exemption, as NOI does.
+    var taxEl = document.getElementById('dc-prop-tax'), exemptEl = document.getElementById('dc-tax-exempt');
+    var grossTax = taxEl ? String(taxEl.value).trim() : '';
+    var netTax = grossTax === '' || !Number.isFinite(Number(grossTax)) ? grossTax
+      : Number(grossTax) * (1 - (exemptEl ? (Number(exemptEl.value) || 0) : 0) / 100);
+    var pupa = ob.pupaExpenses(sum, netTax,
       document.getElementById('dc-rep-reserve') && document.getElementById('dc-rep-reserve').value);
     setText('dc-op-pupa', pupa.value == null ? pupa.reason : fmt(pupa.value));
     document.querySelectorAll('[data-op-subtotal]').forEach(function (span) {

@@ -53,6 +53,11 @@ async function test(name, fn) {
     setField(p, 'dc-op-income-laundry', '120');
     const r2 = p.w.__DealCalc.getResult();
     assert.equal(r2.annualOtherIncome, 120 * units, 'the engine reads other income');
+    // The tax exemption lowers DOH's total exactly as it lowers the engine's net tax.
+    setField(p, 'dc-tax-exempt', '100');
+    const r3 = p.w.__DealCalc.getResult();
+    assert.equal(r3.netPropTax, 0);
+    assert.equal(text(p, 'dc-op-pupa'), money((r3.annualOpex + r3.annualRepReserve + r3.netPropTax) / units));
     assert.equal(text(p, 'dc-op-income-total'), money(120));
     assert.equal(p.d.querySelector('[data-op-subtotal="income"]').textContent, money(120) + ' per unit');
   });
