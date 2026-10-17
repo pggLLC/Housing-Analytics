@@ -260,6 +260,24 @@ async function render(selection, countyFips) {
     assert.strictEqual(Number(row.dataset.units), Math.round(want), `Colorado row ${row.dataset.units} ≠ county sum ${Math.round(want)}`);
   });
 
+  await test('a horizon past the projection reads replacement at the year the page actually shows', async () => {
+    const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
+    install(dom);
+    const ga = window.HNARenderers.getAssumptions;
+    window.HNARenderers.getAssumptions = () => Object.assign({}, ga(), { horizon: 30 });
+    window.HNAState.state.currentSelection = { geoType: 'county', geoid: '08077', label: 'Mesa County',
+      profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } };
+    const proj = JSON.parse(read('data/hna/projections/08077.json'));
+    assert(proj.years.at(-1) < proj.baseYear + 30, 'the projection reaches 30 years; this test has nothing to check');
+    await window.HNAController.applyAssumptions(proj, window.HNAState.state.currentSelection);
+    const rec = window.HNAState.state.needReconciliation;
+    const endYear = Number(rec.endYear);
+    assert.strictEqual(endYear, proj.years.at(-1), `the page shows ${endYear}, not the projection's last year`);
+    const row = document.querySelector('#hnaNeedReconciliation [data-recon-key="replacement"]');
+    const want = proj.housing_need.replacement.cumulative_units[proj.years.indexOf(endYear)];
+    assert.strictEqual(Number(row.dataset.units), Math.round(want), `replacement row ${row.dataset.units} at a 30-year horizon; want ${Math.round(want)} for ${endYear}`);
+  });
+
   await test('the in-commuter line equals workforce-need.json and stays out of the figure used', async () => {
     const wn = JSON.parse(read('data/hna/workforce-need.json'));
     const rec = wn.places[FRUITA];

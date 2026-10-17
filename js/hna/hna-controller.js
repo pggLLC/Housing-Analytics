@@ -3468,7 +3468,7 @@
         existingGapUnits = window.HNAUtils.safeNum(g && typeof g === 'object' ? g.value : g);
       }
       const _stateReplacement = selection && selection.geoType === 'state' ? await _loadStatewideReplacement() : null;
-      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, baseYear + horizon, _stateReplacement);
+      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, Number(endYear) || null, _stateReplacement);
       const rec = buildNeedReconciliation({
         endYear,
         usedUnits: incUnits,
