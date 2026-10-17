@@ -252,7 +252,8 @@
       var maturity = (row.querySelector('.dc-tr-maturity') || {}).value;
       var io = (row.querySelector('.dc-tr-io') || {}).value;
       var fed = (row.querySelector('.dc-tr-fed') || {}).value || '';
-      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed].join(':'));
+      var doh = (row.querySelector('.dc-tr-doh') || {}).value || '';
+      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed, doh].join(':'));
     });
     return out.join(';');
   }
@@ -305,6 +306,8 @@
         _setRowInput('.dc-tr-io', parts[10] === undefined ? '2' : parts[10]);
         // #2160: links made before the federal-money field leave it at the program default.
         if (parts[11] !== undefined) _setRowInput('.dc-tr-fed', parts[11]);
+        // DOH PR 3: links made before the DOH group keep the program's default group.
+        if (parts[12] !== undefined) _setRowInput('.dc-tr-doh', parts[12]);
       });
       if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     }, 80);

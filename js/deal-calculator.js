@@ -182,6 +182,17 @@
   function operatingBudgetModule() {
     return window.DealOperatingBudget || (typeof require === 'function' ? require('./deal-operating-budget.js') : null);
   }
+  function permanentFinancingModule() {
+    return window.DealPermanentFinancing || (typeof require === 'function' ? require('./deal-permanent-financing.js') : null);
+  }
+  // DOH's C / T / F loan types as select options.
+  function lenderTypeOptions(selected) {
+    var pf = permanentFinancingModule();
+    var types = pf ? pf.LENDER_TYPES : [{ id: 'C', label: 'Conventional' }, { id: 'T', label: 'Tax-exempt' }, { id: 'F', label: 'Federal financing' }];
+    return types.map(function (t) {
+      return '<option value="' + t.id + '"' + (t.id === selected ? ' selected' : '') + '>' + t.label + ' (' + t.id + ')</option>';
+    }).join('');
+  }
   // separateHtml holds the markup of the lines kept on their own inputs, keyed
   // by SEPARATE_LINES id; each renders before the line DOH's sheet puts it ahead of.
   function operatingBudgetHtml(separateHtml) {
@@ -2475,6 +2486,9 @@
         <label style="display:block;">Senior loan amount mode
           <select id="dc-senior-mode" style="width:100%;min-height:44px;"><option value="sized">Size from NOI and target DCR</option><option value="entered">Enter loan amount</option></select>
         </label>
+        <label style="display:block;">First mortgage loan type (DOH)
+          <select id="dc-senior-lender-type" style="width:100%;min-height:44px;">${lenderTypeOptions('C')}</select>
+        </label>
         <label style="display:block;">Entered senior amount ($)
           <input id="dc-senior-amount" type="number" min="0" step="1000" value="" style="width:100%;min-height:44px;">
         </label>
@@ -3216,6 +3230,41 @@
         </table>
       </fieldset>
 
+      <!-- DOH PR 3 — Permanent financing in the Division of Housing layout.
+           Regroups the sources above; it changes no result. -->
+      <fieldset id="dc-pf-doh" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Permanent Financing (Colorado DOH layout)</legend>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);line-height:1.45;">
+          The same sources as above, grouped as the Colorado Division of Housing (DOH) application's Permanent Financing Sources tab groups them.
+          Set each soft-funding tranche's group under "Counts in DOH's sources as".
+        </p>
+        <p id="dc-pf-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+        <div style="overflow-x:auto;"><table id="dc-pf-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <thead><tr>
+            <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Financing source</th>
+            <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Total</th>
+            <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">% of TDC</th>
+          </tr></thead>
+          <tbody id="dc-pf-rows"></tbody>
+        </table></div>
+        <details style="margin-top:var(--sp2);">
+          <summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:var(--small);font-weight:700;">Hard mortgages and coverage</summary>
+          <div id="dc-pf-mortgages" style="font-size:var(--small);"></div>
+          <dl id="dc-pf-coverage" style="display:grid;grid-template-columns:1fr auto;gap:0.2rem var(--sp2);margin:var(--sp2) 0 0;font-size:var(--small);"></dl>
+        </details>
+        <details style="margin-top:var(--sp2);">
+          <summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:var(--small);font-weight:700;">Maximum loan by value (DOH quick calculation)</summary>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Beside sizing by coverage: value at a cap rate, or an appraised value, times a loan-to-value ratio. Leave blank to skip.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);">
+            <label style="font-size:var(--small);color:var(--muted);">Cap rate (%)<input id="dc-pf-cap-rate" type="number" min="0" max="20" step="0.05" value="" style="display:block;width:100%;min-height:44px;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+            <label style="font-size:var(--small);color:var(--muted);">Loan-to-value on cap-rate value (%)<input id="dc-pf-cap-lvr" type="number" min="0" max="100" step="1" value="" style="display:block;width:100%;min-height:44px;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+            <label style="font-size:var(--small);color:var(--muted);">Appraised value ($)<input id="dc-pf-appraised" type="number" min="0" step="10000" value="" style="display:block;width:100%;min-height:44px;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+            <label style="font-size:var(--small);color:var(--muted);">Loan-to-value on appraised value (%)<input id="dc-pf-appraised-lvr" type="number" min="0" max="100" step="1" value="" style="display:block;width:100%;min-height:44px;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          </div>
+          <dl id="dc-pf-maxloan" style="display:grid;grid-template-columns:1fr auto;gap:0.2rem var(--sp2);margin:var(--sp2) 0 0;font-size:var(--small);"></dl>
+        </details>
+      </fieldset>
+
       <!-- L6 — Year-15 exit analysis. Closes the IC packet: resale value
            at hold-period end, remaining debt balances, net sale proceeds,
            deferred-fee payback timing, sponsor IRR. -->
@@ -3323,7 +3372,8 @@
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
     const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
-      'dc-senior-mode', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
+      'dc-pf-cap-rate', 'dc-pf-cap-lvr', 'dc-pf-appraised', 'dc-pf-appraised-lvr',
+      'dc-senior-mode', 'dc-senior-lender-type', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
       'dc-vacancy', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
       'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
@@ -3463,6 +3513,16 @@
     // money. Every other program is left for the user to answer.
     var FEDERAL_FUND_DEFAULTS = { home: 'federal', cdbg: 'federal', nhtf: 'federal', chfa_cmf: 'federal', prop123: 'nonfederal' };
     function defaultFundSource(program) { return FEDERAL_FUND_DEFAULTS[program] || ''; }
+    // DOH PR 3: where the tranche counts in DOH's Permanent Financing Sources.
+    function defaultDohGroup(program) { var pf = permanentFinancingModule(); return pf ? pf.defaultGroup(program) : ''; }
+    function dohGroupOptions(t) {
+      var pf = permanentFinancingModule();
+      if (!pf) return '';
+      if (t.program === pf.HISTORIC_PROGRAM) return '<option value="">Tax credit equity: federal historic credit</option>';
+      return [['', 'Not answered']].concat(pf.GROUPS.map(function (g) { return [g.id, g.label]; })).map(function (o) {
+        return '<option value="' + o[0] + '"' + ((t.doh || '') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+      }).join('');
+    }
 
     function _trancheRowHtml(t) {
       var idSuffix = t.id;
@@ -3503,6 +3563,8 @@
             return '<option value="' + o[0] + '"' + ((t.fundSource || '') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
           }).join('')
         + '    </select></label>'
+        + '  <label style="display:block;margin-top:0.5rem;">Counts in DOH\'s sources as'
+        + '    <select class="dc-tr-doh" style="' + inputCss + '">' + dohGroupOptions(t) + '</select></label>'
         + '  <label style="display:block;margin-top:0.5rem;">Repayment obligation <select class="dc-tr-type" style="' + inputCss + '">' + loanTypeOptions(dealEngine().loanTerms(t).loan.type) + '</select></label>'
         + '  <details style="margin-top:var(--sp2);">'
         + '    <summary style="cursor:pointer;min-height:44px;">Loan terms and cash-flow priority</summary>'
@@ -3530,7 +3592,10 @@
       if (provenance) host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
         previousOrigins[row.dataset.trancheId] = provenance.captureLocal(row);
       });
-      _softTranches.forEach(function (t) { if (t.fundSource === undefined) t.fundSource = defaultFundSource(t.program); });
+      _softTranches.forEach(function (t) {
+        if (t.fundSource === undefined) t.fundSource = defaultFundSource(t.program);
+        if (t.doh === undefined) t.doh = defaultDohGroup(t.program);
+      });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
       if (provenance) {
         provenance.apply(host);
@@ -3555,6 +3620,12 @@
           t.program = this.value;
           t.fundSource = defaultFundSource(t.program);
           rowEl.querySelector('.dc-tr-fed').value = t.fundSource;
+          t.doh = defaultDohGroup(t.program);
+          rowEl.querySelector('.dc-tr-doh').innerHTML = dohGroupOptions(t);
+          recalculate();
+        });
+        rowEl.querySelector('.dc-tr-doh').addEventListener('change', function () {
+          t.doh = this.value;
           recalculate();
         });
         rowEl.querySelector('.dc-tr-fed').addEventListener('change', function () {
@@ -4011,6 +4082,75 @@
   // absent figure shows its reason; nothing falls back to a typical share.
   // DOH PR 2: operating budget subtotals, per-line property totals, DOH's
   // per unit per year expenses and other income. Absent figures show a reason.
+  // DOH PR 3: the sources regrouped as DOH's Permanent Financing Sources tab.
+  function renderPermanentFinancing(result, fmt) {
+    var pf = permanentFinancingModule();
+    var rowsEl = document.getElementById('dc-pf-rows');
+    if (!pf || !rowsEl) return;
+    function val(id) { var e = document.getElementById(id); return e ? String(e.value).trim() : ''; }
+    var s = pf.summarize({ result: result, tranches: result.tranches || [], seniorLenderType: val('dc-senior-lender-type'),
+      capRatePct: val('dc-pf-cap-rate'), capLvrPct: val('dc-pf-cap-lvr'),
+      appraisedValue: val('dc-pf-appraised'), appraisedLvrPct: val('dc-pf-appraised-lvr') });
+    var t = s.totals;
+    function money(v) { return v === null || v === undefined ? '—' : fmt(v); }
+    function pct(v) { var p = s.pctOfTdc(v); return p === null ? '—' : (p * 100).toFixed(1) + '%'; }
+    var cell = 'padding:0.3rem 0.25rem;font-size:var(--small);';
+    function row(key, label, v, opts) {
+      opts = opts || {};
+      return '<tr data-pf-row="' + key + '"' + (opts.strong ? ' style="background:var(--bg2);"' : '') + '>'
+        + '<td style="' + cell + (opts.indent ? 'padding-left:1.1rem;color:var(--muted);' : '') + (opts.strong ? 'font-weight:700;' : '') + '">' + _escHtml(label) + '</td>'
+        + '<td data-pf-amount style="' + cell + 'text-align:right;font-weight:' + (opts.indent ? '400' : '700') + ';">' + money(v) + '</td>'
+        + '<td style="' + cell + 'text-align:right;color:var(--muted);">' + (opts.noPct ? '' : pct(v)) + '</td></tr>';
+    }
+    var tc = s.taxCredit;
+    var html = row('conventional', 'Conventional', t.conventional)
+      + row('tax_exempt', 'Tax-exempt', t.taxExempt)
+      + row('federal_financing', 'Federal financing', t.federalFinancing)
+      + row('tax_credits', 'Tax credit equity', t.taxCredits)
+      + row('nine', '9% LIHTC proceeds', tc.nine, { indent: true })
+      + row('four', '4% LIHTC proceeds', tc.four, { indent: true })
+      + row('historic', 'Federal historic credit', tc.historic, { indent: true })
+      + (tc.state === 0 ? '' : row('state', 'Colorado state credit (not a DOH row)', tc.state, { indent: true }))
+      + row('government', 'Government grants and soft debt', t.government)
+      + row('other_grants', 'Other grants (non-governmental)', t.otherGrants)
+      + row('owner', 'Owner equity', t.ownerEquity)
+      + row('deferred_fee', 'Deferred developer fee', s.deferredDevFee, { indent: true })
+      + (s.unclassified.length ? row('unclassified', 'Not yet grouped', t.unclassified) : '')
+      + row('total_sources', 'Total sources', t.totalSources, { strong: true })
+      + row('gap', 'Gap (surplus)', t.gap)
+      + row('tdc', 'Total development cost', t.tdc, { strong: true });
+    rowsEl.innerHTML = html;
+    var reasonEl = document.getElementById('dc-pf-reason');
+    var reasons = s.reasons.filter(function (r, i, all) { return all.indexOf(r) === i; });
+    if (reasonEl) { reasonEl.textContent = reasons.join(' '); reasonEl.hidden = !reasons.length; }
+    var typeLabel = {};
+    pf.LENDER_TYPES.forEach(function (lt) { typeLabel[lt.id] = lt.label; });
+    var mortEl = document.getElementById('dc-pf-mortgages');
+    if (mortEl) mortEl.innerHTML = s.hardMortgages.map(function (m, i) {
+      var name = m.source === 'senior' ? 'First mortgage' : m.label + ' (' + (pf.PROGRAM_LABELS[m.program] || m.program) + ')';
+      return '<p data-pf-mortgage="' + i + '" style="margin:0.3rem 0;">' + _escHtml(name) + ': '
+        + (m.lenderType ? _escHtml(typeLabel[m.lenderType]) : 'loan type not chosen') + ', '
+        + money(m.principal) + ' principal, ' + money(m.annualPayment) + ' a year, DCR '
+        + (m.cumulativeDcr === null ? '—' : m.cumulativeDcr.toFixed(2)) + '</p>';
+    }).join('');
+    function dl(pairs) { return pairs.map(function (p) { return '<dt style="color:var(--muted);">' + _escHtml(p[0]) + '</dt><dd data-pf="' + p[2] + '" style="margin:0;text-align:right;font-weight:700;">' + p[1] + '</dd>'; }).join(''); }
+    var covEl = document.getElementById('dc-pf-coverage');
+    if (covEl) covEl.innerHTML = dl([
+      ['DCR on all hard debt', s.dcr === null ? '—' : s.dcr.toFixed(2), 'dcr'],
+      ['Break-even occupancy', s.breakEven === null ? '—' : (s.breakEven * 100).toFixed(1) + '%', 'bep'],
+      ['Possible debt service at ' + pf.DOH_DCR.toFixed(2) + ' DCR', money(s.possibleDebtService), 'possible-ds']
+    ]);
+    var maxEl = document.getElementById('dc-pf-maxloan');
+    if (maxEl) {
+      var c = s.maxLoan.byCap, a = s.maxLoan.byAppraisal;
+      maxEl.innerHTML = dl([
+        ['Value at cap rate', c.reason ? _escHtml(c.reason) : money(c.value), 'cap-value'],
+        ['Maximum loan by cap-rate value', c.reason ? '—' : money(c.maxLoan), 'cap-max'],
+        ['Maximum loan by appraised value', a.reason ? _escHtml(a.reason) : money(a.maxLoan), 'appraised-max'],
+        ['Hard debt above the lower maximum', s.overMaxLoan === null ? '—' : money(s.overMaxLoan), 'over-max']
+      ]);
+    }
+  }
   function renderOperatingBudget(result, fmt) {
     var ob = operatingBudgetModule();
     var sum = result.operatingSummary;
@@ -4447,6 +4587,7 @@
     // #2160: budget totals come from the itemized cost lines.
     renderCostBasis(result, fmt);
     renderOperatingBudget(result, fmt);
+    renderPermanentFinancing(result, fmt);
 
     // F257-6 — "How to adjust" advisory. Surfaces 2-3 short levers when
     // the deal is marginal. Drives off the same equity / mortgage / NOI
