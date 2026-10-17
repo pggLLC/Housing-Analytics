@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "fc26c0fae",
+  "generated_from_commit": "401968026",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-17",
-    "total_commits": 8448,
+    "total_commits": 8450,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 851,
-        "pct_of_peak": 59.6
+        "commits": 853,
+        "pct_of_peak": 59.7
       }
     ]
   },
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 453459,
+    "hand_written_lines": 453649,
     "generated_place_page_lines": 226828,
     "top_level_pages": 71,
-    "html_nonblank_lines": 49138,
-    "html_distinct_lines": 20109,
-    "html_distinct_share": 0.409,
+    "html_nonblank_lines": 49272,
+    "html_distinct_lines": 20214,
+    "html_distinct_share": 0.41,
     "substantial_tools": 27,
     "declared_data_sources": 83,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "fc26c0fae",
+    "extracted_at_commit": "401968026",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -553,6 +553,17 @@
     "incommuter_need_counties": 64,
     "incommuter_need_25_counties": 73442,
     "incommuter_need_50_counties": 146886,
+    "gap30_priced_units_statewide": 85210,
+    "gap30_aa_homes_statewide": 45794,
+    "gap30_aa_occupied_statewide": 42707,
+    "gap30_aa_vacant_statewide": 3087,
+    "gap30_priced_vintage": "2020–2024",
+    "gap30_aa_vintage": "2018–2022",
+    "chas_place_table_places": 482,
+    "renter_burden_moe_vintage": "2018–2022",
+    "renter_burden_moe_places": 400,
+    "renter_burden_moe_median_pp": 28.1,
+    "renter_burden_moe_over_20pp": 261,
     "restricted_properties": 1854,
     "restricted_with_end_date": 110,
     "restricted_already_expired": 77,
