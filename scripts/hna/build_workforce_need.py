@@ -29,6 +29,8 @@ Inputs (cached under data/hna/source/, refreshed with --fetch):
   dola_jobs_county.csv  DOLA SDO total jobs by county, estimates and forecast
   acs_b08202.json       ACS 5-year B08202 (household size by number of workers)
                         with margins of error, via the Census Reporter API
+  lodes_aux_incommuters.json  LODES aux OD (Colorado job, home out of state),
+                        summed by workplace county and place (LEHD crosswalk)
 Already in the repo: data/hna/lehd/<county>.json (LODES OD inflow, WAC wage
 bands), data/hna/place-od-flows.json (block-level place OD),
 data/hna/summary/<geoid>.json (households, DP02_0001E).
@@ -37,6 +39,8 @@ An unmeasurable quantity is null with a reason, never 0 (AGENTS.md).
 """
 import argparse
 import csv
+import gzip
+import io
 import json
 import os
 import math
@@ -50,6 +54,13 @@ OUT = os.path.join(ROOT, 'data', 'hna', 'workforce-need.json')
 
 JOBS_URL = 'https://storage.googleapis.com/co-publicdata/jobs-county.csv'
 B08202_URL = 'https://api.censusreporter.org/1.0/data/show/latest?table_ids=B08202&geo_ids={sumlevel}|04000US08'
+# LODES "main" holds jobs whose worker also lives in Colorado; workers who
+# live out of state are only in "aux". County inflow and place-od-flows.json
+# both come from main, so aux is added here, by workplace, or border counties
+# (La Plata, Archuleta, Montezuma, Larimer, Weld, Mesa) read low.
+LODES_YEAR = 2023
+AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT00_%d.csv.gz' % LODES_YEAR
+XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
 BASE_YEAR = 2024
 HORIZON = 20
@@ -79,6 +90,43 @@ def fetch():
             out['geos'][k.split('US')[1]] = {'estimate': t['estimate'], 'moe': t['error']}
     with open(os.path.join(SRC, 'acs_b08202.json'), 'w') as f:
         json.dump(out, f, separators=(',', ':'), sort_keys=True)
+    fetch_aux()
+
+
+def fetch_aux():
+    """Out-of-state in-commuters by Colorado workplace county and place.
+
+    Sums the LODES aux OD file (workplace in Colorado, home elsewhere) by
+    work block, mapped to county by its first five digits and to place by
+    the LEHD crosswalk. SE01+SE02 are earned directly from the records, so
+    no county wage share is borrowed for them.
+    """
+    with urllib.request.urlopen(XWALK_URL, timeout=300) as r:
+        xw = gzip.open(io.BytesIO(r.read()), 'rt', encoding='latin-1', newline='')
+        block_place = {row['tabblk2020']: row['stplc'] for row in csv.DictReader(xw)
+                       if row.get('stplc') and row['stplc'] != '9999999' and len(row['stplc']) == 7}
+    with urllib.request.urlopen(AUX_URL, timeout=300) as r:
+        rows = csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline=''))
+        counties, places = {}, {}
+        for row in rows:
+            w = row['w_geocode']
+            if row['h_geocode'][:2] == '08':
+                continue  # aux is out-of-state homes by definition; guard anyway
+            vals = (int(row['S000']), int(row['SE01']) + int(row['SE02']))
+            for key, book in ((w[:5], counties), (block_place.get(w), places)):
+                if key:
+                    t = book.setdefault(key, [0, 0])
+                    t[0] += vals[0]
+                    t[1] += vals[1]
+    out = {
+        'source': AUX_URL, 'crosswalk': XWALK_URL, 'year': LODES_YEAR,
+        'fields': ['S000 all jobs', 'SE01+SE02 jobs earning $3,333 a month or less'],
+        'counties': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(counties.items())},
+        'places': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(places.items())},
+    }
+    with open(os.path.join(SRC, 'lodes_aux_incommuters.json'), 'w', encoding='utf-8') as f:
+        json.dump(out, f, indent=1, sort_keys=True)
+        f.write('\n')
 
 
 def read_json(path):
@@ -141,10 +189,12 @@ def workers_per_household(cell):
     return workers / hh, hh, round(cv, 3)
 
 
-def need_block(incommuters, wage_share, wph):
+def need_block(incommuters, wage_share, wph, aux_low_middle=0):
+    """In-state in-commuters at the county wage share, plus out-of-state
+    in-commuters' own low/middle-wage count, over workers per household."""
     if incommuters is None or wage_share is None or wph is None or wph <= 0:
         return None
-    base = incommuters * wage_share / wph
+    base = (incommuters * wage_share + aux_low_middle) / wph
     return {('move_closer_%d' % round(s * 100)): int(round(base * s)) for s in MOVE_CLOSER_SCENARIOS}
 
 
@@ -154,6 +204,7 @@ def build():
     acs = b08202.get('geos') or {}
     od = (read_json(os.path.join(ROOT, 'data', 'hna', 'place-od-flows.json')) or {}).get('places') or {}
     geo = read_json(os.path.join(ROOT, 'data', 'hna', 'geo-config.json')) or {}
+    aux = read_json(os.path.join(SRC, 'lodes_aux_incommuters.json')) or {}
 
     county_lehd = {}
     out_counties = {}
@@ -164,16 +215,19 @@ def build():
         c000, ce01, ce02 = num(lehd.get('C000')), num(lehd.get('CE01')), num(lehd.get('CE02'))
         wage_share = (ce01 + ce02) / c000 if (c000 and ce01 is not None and ce02 is not None) else None
         inflow = num(lehd.get('inflow'))
+        ax = (aux.get('counties') or {}).get(fips) or {}
         wph, whh, whh_cv = workers_per_household(acs.get(fips))
         j = jobs.get(fips) or {}
         j0, j1 = j.get(BASE_YEAR), j.get(BASE_YEAR + HORIZON)
         rec = {
             'name': c.get('label') or c.get('name'),
             'incommuters': inflow,
+            'incommuters_out_of_state': ax.get('jobs', 0),
+            'out_of_state_low_middle_wage': ax.get('low_middle_wage_jobs', 0),
             'low_middle_wage_share': round(wage_share, 4) if wage_share is not None else None,
             'workers_per_working_household': round(wph, 3) if wph is not None else None,
             'working_households_cv': whh_cv,
-            'present_incommuter_need': need_block(inflow, wage_share, wph),
+            'present_incommuter_need': need_block(inflow, wage_share, wph, ax.get('low_middle_wage_jobs', 0)),
             'jobs_base': int(j0) if j0 is not None else None,
             'jobs_horizon': int(j1) if j1 is not None else None,
             'job_growth_note': 'Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.',
@@ -189,6 +243,7 @@ def build():
             county = p.get('containingCounty') or p.get('county')
             flows = od.get(gid) or {}
             inflow = num(flows.get('inflow'))
+            ax = (aux.get('places') or {}).get(gid) or {}
             place_jobs = num(flows.get('jobs'))
             lehd = county_lehd.get(county) or {}
             c000, ce01, ce02 = num(lehd.get('C000')), num(lehd.get('CE01')), num(lehd.get('CE02'))
@@ -201,11 +256,13 @@ def build():
                 'name': p.get('label') or p.get('name'),
                 'containingCounty': county,
                 'incommuters': inflow,
+                'incommuters_out_of_state': ax.get('jobs', 0),
+                'out_of_state_low_middle_wage': ax.get('low_middle_wage_jobs', 0),
                 'low_middle_wage_share': round(wage_share, 4) if wage_share is not None else None,
                 'wage_share_basis': 'county',
                 'workers_per_working_household': round(wph, 3) if wph is not None else None,
                 'working_households_cv': whh_cv,
-                'present_incommuter_need': need_block(inflow, wage_share, wph),
+                'present_incommuter_need': need_block(inflow, wage_share, wph, ax.get('low_middle_wage_jobs', 0)),
                 'share_of_county_jobs': round(place_jobs / c000, 4) if (place_jobs is not None and c000) else None,
                 'share_of_county_households': round(hh / chh, 4) if (hh is not None and chh) else None,
             }
@@ -221,11 +278,12 @@ def build():
             'baseYear': BASE_YEAR,
             'horizonYear': BASE_YEAR + HORIZON,
             'move_closer_scenarios': list(MOVE_CLOSER_SCENARIOS),
-            'method': ('present_incommuter_need = LODES in-commuters x county CE01+CE02 share of jobs located there '
-                       '/ ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer '
+            'method': ('present_incommuter_need = (LODES main in-commuters x county CE01+CE02 share of jobs located there '
+                       '+ LODES aux out-of-state in-commuters earning SE01+SE02) / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer '
                        '(scenarios; no statewide source). A deficit today, not a 20-year projection.'),
             'sources': {
                 'lodes_od': 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz',
+                'lodes_od_aux': aux.get('source'),
                 'acs_b08202': b08202.get('source'),
                 'acs_release': b08202.get('release'),
                 'dola_jobs': JOBS_URL,
@@ -246,5 +304,11 @@ if __name__ == '__main__':
     ap.add_argument('--fetch', action='store_true', help='refresh the cached DOLA and ACS inputs first')
     a = ap.parse_args()
     if a.fetch:
-        fetch()
+        # A failed refresh keeps the cached inputs rather than failing the
+        # weekly build; meta.sources carries the ACS release and DOLA vintage
+        # actually used, so a stale input shows as its own vintage.
+        try:
+            fetch()
+        except Exception as e:  # noqa: BLE001 - any network or parse failure
+            print(f'warning: --fetch failed ({e}); using cached inputs under data/hna/source/', file=sys.stderr)
     build()

@@ -244,6 +244,22 @@ async function render(selection, countyFips) {
     assert.strictEqual(none.withReplacement, null, 'a total was formed with an unknown replacement');
   });
 
+  await test('Colorado\'s replacement row is the sum of the 64 county projections, not unavailable', async () => {
+    const co = await render({ geoType: 'state', geoid: '08', label: 'Colorado',
+      profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } }, '08');
+    const endYear = Number(co.rec.endYear);
+    const files = fs.readdirSync(path.join(ROOT, 'data/hna/projections')).filter((f) => /^08\d{3}\.json$/.test(f));
+    assert.strictEqual(files.length, 64, `${files.length} county projection files; the sum needs all 64`);
+    const want = files.reduce((s, f) => {
+      const p = JSON.parse(read('data/hna/projections/' + f));
+      return s + p.housing_need.replacement.cumulative_units[p.years.indexOf(endYear)];
+    }, 0);
+    assert(want > 0, `the counties sum to ${want} for ${endYear}; nothing to check`);
+    const row = co.row('replacement');
+    assert(row, 'Colorado has no replacement row');
+    assert.strictEqual(Number(row.dataset.units), Math.round(want), `Colorado row ${row.dataset.units} ≠ county sum ${Math.round(want)}`);
+  });
+
   await test('the in-commuter line equals workforce-need.json and stays out of the figure used', async () => {
     const wn = JSON.parse(read('data/hna/workforce-need.json'));
     const rec = wn.places[FRUITA];

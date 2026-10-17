@@ -2758,9 +2758,10 @@
    * projection the growth reading came from: the place ledger's
    * replacement_cumulative when the page used it, else the county file's
    * housing_need.replacement. A place without its own ledger gets null with a
-   * reason rather than a county figure it did not earn. Pure.
+   * reason rather than a county figure it did not earn. Colorado reads
+   * stateSeries, the sum of the county series. Pure.
    */
-  function _replacementAtHorizon(proj, placeRec, usedPlaceProjection, selection, year) {
+  function _replacementAtHorizon(proj, placeRec, usedPlaceProjection, selection, year, stateSeries) {
     const pick = (years, series) => {
       if (!Array.isArray(years) || !Array.isArray(series)) return null;
       const i = years.indexOf(year);
@@ -2771,11 +2772,50 @@
       const v = pick(placeRec.years, placeRec.replacement_cumulative);
       return { units: v, reason: v === null ? 'This community\u2019s projection carries no replacement estimate for ' + year + '.' : null };
     }
-    if (geoType === 'county' || geoType === 'state' || !geoType) {
-      const v = pick(proj && proj.years, proj && proj.housing_need && proj.housing_need.replacement && proj.housing_need.replacement.cumulative_units);
+    if (geoType === 'state') {
+      // 08.json carries no replacement block; the statewide series is the sum
+      // of the 64 county series, passed in by _loadStatewideReplacement.
+      const v = stateSeries ? pick(stateSeries.years, stateSeries.cumulative_units) : null;
+      return { units: v, reason: v === null ? ((stateSeries && stateSeries.reason) || 'No statewide replacement estimate for ' + year + '.') : null };
+    }
+    if (geoType === 'county' || !geoType) {
+      const rep = proj.housing_need && proj.housing_need.replacement;
+      const v = pick(proj.years, rep && rep.cumulative_units);
       return { units: v, reason: v === null ? 'No replacement estimate for ' + year + ' in the county projection.' : null };
     }
     return { units: null, reason: 'No place-level replacement estimate; the county figure is not scaled here.' };
+  }
+
+  /**
+   * The statewide replacement series: the sum of all 64 county projections'
+   * housing_need.replacement.cumulative_units, year by year. Null with a
+   * reason when any county is missing or its years do not line up, so a
+   * partial sum never reads as the state.
+   */
+  let _statewideReplacement;
+  async function _loadStatewideReplacement() {
+    if (_statewideReplacement !== undefined) return _statewideReplacement;
+    const fips = ['014'];
+    for (let n = 1; n <= 125; n += 2) fips.push(String(n).padStart(3, '0'));
+    const docs = await Promise.all(fips.map((f) =>
+      loadJson(window.HNAUtils.PATHS.projections('08' + f)).catch(() => null)));
+    let years = null;
+    let sum = null;
+    let missing = 0;
+    for (const d of docs) {
+      const series = d && d.housing_need && d.housing_need.replacement && d.housing_need.replacement.cumulative_units;
+      if (!d || !Array.isArray(d.years) || !Array.isArray(series) || series.length !== d.years.length) { missing += 1; continue; }
+      if (years === null) { years = d.years.slice(); sum = years.map(() => 0); }
+      if (d.years.join() !== years.join()) { missing += 1; continue; }
+      for (let i = 0; i < series.length; i += 1) {
+        const v = window.HNAUtils.safeNum(series[i]);
+        if (v === null) { sum[i] = null; } else if (sum[i] !== null) { sum[i] += v; }
+      }
+    }
+    _statewideReplacement = missing
+      ? { years: null, cumulative_units: null, reason: missing + ' of 64 county projections have no replacement estimate, so no statewide total is shown.' }
+      : { years, cumulative_units: sum, reason: null };
+    return _statewideReplacement;
   }
 
   /**
@@ -3427,7 +3467,8 @@
         const g = digest && digest.metrics && digest.metrics.housing_gap_units;
         existingGapUnits = window.HNAUtils.safeNum(g && typeof g === 'object' ? g.value : g);
       }
-      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, baseYear + horizon);
+      const _stateReplacement = selection && selection.geoType === 'state' ? await _loadStatewideReplacement() : null;
+      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, baseYear + horizon, _stateReplacement);
       const rec = buildNeedReconciliation({
         endYear,
         usedUnits: incUnits,

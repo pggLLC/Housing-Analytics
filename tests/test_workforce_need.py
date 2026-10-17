@@ -18,6 +18,7 @@ def load(rel):
 
 WN = load('data/hna/workforce-need.json')
 ACS = load('data/hna/source/acs_b08202.json')['geos']
+AUX = load('data/hna/source/lodes_aux_incommuters.json')
 
 
 def test_all_64_counties_present():
@@ -37,11 +38,25 @@ def test_county_figures_recompute_from_inputs():
         e = cell['estimate']
         hh = e['B08202003'] + e['B08202004'] + e['B08202005']
         wph = (e['B08202003'] + 2 * e['B08202004'] + 3 * e['B08202005']) / hh
-        base = lehd['inflow'] * (lehd["CE01"] + lehd["CE02"]) / lehd['C000'] / wph
+        # Out-of-state in-commuters are only in LODES aux; their own wage
+        # bands are added, not the county share.
+        aux = AUX['counties'].get(fips, {})
+        assert rec['incommuters_out_of_state'] == aux.get('jobs', 0), fips
+        base = (lehd['inflow'] * (lehd["CE01"] + lehd["CE02"]) / lehd['C000']
+                + aux.get('low_middle_wage_jobs', 0)) / wph
         assert rec['present_incommuter_need']['move_closer_25'] == round(base * 0.25), fips
         assert rec['present_incommuter_need']['move_closer_50'] == round(base * 0.50), fips
         checked += 1
     assert checked >= 60, 'only %d counties had a figure to check' % checked
+
+
+def test_out_of_state_commuters_are_counted():
+    """LODES main omits workers who live outside Colorado. The aux file must be
+    read, cover all 64 counties, and reach the border counties' figures."""
+    assert len(AUX['counties']) == 64, '%d counties in the aux summary' % len(AUX['counties'])
+    assert sum(v['jobs'] for v in AUX['counties'].values()) > 0, 'the aux summary is empty'
+    la_plata = WN['counties']['08067']
+    assert la_plata['incommuters_out_of_state'] > 0, 'La Plata (New Mexico border) shows no out-of-state commuters'
 
 
 def test_households_not_jobs():
@@ -52,7 +67,8 @@ def test_households_not_jobs():
         if n is None:
             continue
         assert rec['workers_per_working_household'] >= 1
-        assert n['move_closer_50'] <= rec['incommuters'] * rec['low_middle_wage_share']
+        assert n['move_closer_50'] <= (rec['incommuters'] * rec['low_middle_wage_share']
+                                       + rec['out_of_state_low_middle_wage'])
 
 
 def test_absent_is_null_with_reason_never_zero():

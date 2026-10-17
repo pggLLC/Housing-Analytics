@@ -1,0 +1,1721 @@
+{
+ "counties": {
+  "08001": {
+   "jobs": 3279,
+   "low_middle_wage_jobs": 1454
+  },
+  "08003": {
+   "jobs": 409,
+   "low_middle_wage_jobs": 239
+  },
+  "08005": {
+   "jobs": 3481,
+   "low_middle_wage_jobs": 1479
+  },
+  "08007": {
+   "jobs": 273,
+   "low_middle_wage_jobs": 172
+  },
+  "08009": {
+   "jobs": 100,
+   "low_middle_wage_jobs": 60
+  },
+  "08011": {
+   "jobs": 24,
+   "low_middle_wage_jobs": 7
+  },
+  "08013": {
+   "jobs": 1829,
+   "low_middle_wage_jobs": 827
+  },
+  "08014": {
+   "jobs": 597,
+   "low_middle_wage_jobs": 343
+  },
+  "08015": {
+   "jobs": 171,
+   "low_middle_wage_jobs": 108
+  },
+  "08017": {
+   "jobs": 45,
+   "low_middle_wage_jobs": 29
+  },
+  "08019": {
+   "jobs": 45,
+   "low_middle_wage_jobs": 25
+  },
+  "08021": {
+   "jobs": 76,
+   "low_middle_wage_jobs": 55
+  },
+  "08023": {
+   "jobs": 58,
+   "low_middle_wage_jobs": 33
+  },
+  "08025": {
+   "jobs": 22,
+   "low_middle_wage_jobs": 7
+  },
+  "08027": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 9
+  },
+  "08029": {
+   "jobs": 187,
+   "low_middle_wage_jobs": 93
+  },
+  "08031": {
+   "jobs": 8884,
+   "low_middle_wage_jobs": 3666
+  },
+  "08033": {
+   "jobs": 21,
+   "low_middle_wage_jobs": 13
+  },
+  "08035": {
+   "jobs": 1249,
+   "low_middle_wage_jobs": 569
+  },
+  "08037": {
+   "jobs": 2970,
+   "low_middle_wage_jobs": 2003
+  },
+  "08039": {
+   "jobs": 57,
+   "low_middle_wage_jobs": 30
+  },
+  "08041": {
+   "jobs": 3404,
+   "low_middle_wage_jobs": 1358
+  },
+  "08043": {
+   "jobs": 105,
+   "low_middle_wage_jobs": 66
+  },
+  "08045": {
+   "jobs": 817,
+   "low_middle_wage_jobs": 419
+  },
+  "08047": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 6
+  },
+  "08049": {
+   "jobs": 515,
+   "low_middle_wage_jobs": 363
+  },
+  "08051": {
+   "jobs": 403,
+   "low_middle_wage_jobs": 272
+  },
+  "08053": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 6
+  },
+  "08055": {
+   "jobs": 79,
+   "low_middle_wage_jobs": 48
+  },
+  "08057": {
+   "jobs": 21,
+   "low_middle_wage_jobs": 12
+  },
+  "08059": {
+   "jobs": 1716,
+   "low_middle_wage_jobs": 816
+  },
+  "08061": {
+   "jobs": 23,
+   "low_middle_wage_jobs": 17
+  },
+  "08063": {
+   "jobs": 245,
+   "low_middle_wage_jobs": 107
+  },
+  "08065": {
+   "jobs": 47,
+   "low_middle_wage_jobs": 27
+  },
+  "08067": {
+   "jobs": 3415,
+   "low_middle_wage_jobs": 1825
+  },
+  "08069": {
+   "jobs": 3317,
+   "low_middle_wage_jobs": 1784
+  },
+  "08071": {
+   "jobs": 413,
+   "low_middle_wage_jobs": 208
+  },
+  "08073": {
+   "jobs": 61,
+   "low_middle_wage_jobs": 32
+  },
+  "08075": {
+   "jobs": 442,
+   "low_middle_wage_jobs": 245
+  },
+  "08077": {
+   "jobs": 2222,
+   "low_middle_wage_jobs": 1249
+  },
+  "08079": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 9
+  },
+  "08081": {
+   "jobs": 205,
+   "low_middle_wage_jobs": 82
+  },
+  "08083": {
+   "jobs": 878,
+   "low_middle_wage_jobs": 572
+  },
+  "08085": {
+   "jobs": 468,
+   "low_middle_wage_jobs": 266
+  },
+  "08087": {
+   "jobs": 442,
+   "low_middle_wage_jobs": 198
+  },
+  "08089": {
+   "jobs": 178,
+   "low_middle_wage_jobs": 131
+  },
+  "08091": {
+   "jobs": 114,
+   "low_middle_wage_jobs": 74
+  },
+  "08093": {
+   "jobs": 18,
+   "low_middle_wage_jobs": 10
+  },
+  "08095": {
+   "jobs": 126,
+   "low_middle_wage_jobs": 63
+  },
+  "08097": {
+   "jobs": 1303,
+   "low_middle_wage_jobs": 875
+  },
+  "08099": {
+   "jobs": 300,
+   "low_middle_wage_jobs": 185
+  },
+  "08101": {
+   "jobs": 710,
+   "low_middle_wage_jobs": 423
+  },
+  "08103": {
+   "jobs": 241,
+   "low_middle_wage_jobs": 72
+  },
+  "08105": {
+   "jobs": 128,
+   "low_middle_wage_jobs": 91
+  },
+  "08107": {
+   "jobs": 1009,
+   "low_middle_wage_jobs": 663
+  },
+  "08109": {
+   "jobs": 45,
+   "low_middle_wage_jobs": 28
+  },
+  "08111": {
+   "jobs": 26,
+   "low_middle_wage_jobs": 16
+  },
+  "08113": {
+   "jobs": 460,
+   "low_middle_wage_jobs": 361
+  },
+  "08115": {
+   "jobs": 86,
+   "low_middle_wage_jobs": 46
+  },
+  "08117": {
+   "jobs": 2034,
+   "low_middle_wage_jobs": 1552
+  },
+  "08119": {
+   "jobs": 98,
+   "low_middle_wage_jobs": 57
+  },
+  "08121": {
+   "jobs": 35,
+   "low_middle_wage_jobs": 22
+  },
+  "08123": {
+   "jobs": 2125,
+   "low_middle_wage_jobs": 943
+  },
+  "08125": {
+   "jobs": 237,
+   "low_middle_wage_jobs": 141
+  }
+ },
+ "crosswalk": "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
+ "fields": [
+  "S000 all jobs",
+  "SE01+SE02 jobs earning $3,333 a month or less"
+ ],
+ "places": {
+  "0800320": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0800870": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 2
+  },
+  "0800925": {
+   "jobs": 25,
+   "low_middle_wage_jobs": 16
+  },
+  "0801090": {
+   "jobs": 333,
+   "low_middle_wage_jobs": 204
+  },
+  "0801145": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 3
+  },
+  "0801530": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0801740": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0801915": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0802355": {
+   "jobs": 28,
+   "low_middle_wage_jobs": 22
+  },
+  "0802575": {
+   "jobs": 26,
+   "low_middle_wage_jobs": 6
+  },
+  "0802905": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0803015": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0803455": {
+   "jobs": 197,
+   "low_middle_wage_jobs": 107
+  },
+  "0803620": {
+   "jobs": 760,
+   "low_middle_wage_jobs": 532
+  },
+  "0803730": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0803840": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 1
+  },
+  "0803950": {
+   "jobs": 34,
+   "low_middle_wage_jobs": 13
+  },
+  "0804000": {
+   "jobs": 1730,
+   "low_middle_wage_jobs": 847
+  },
+  "0804110": {
+   "jobs": 977,
+   "low_middle_wage_jobs": 765
+  },
+  "0804935": {
+   "jobs": 91,
+   "low_middle_wage_jobs": 36
+  },
+  "0805120": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 2
+  },
+  "0805265": {
+   "jobs": 90,
+   "low_middle_wage_jobs": 48
+  },
+  "0806090": {
+   "jobs": 12,
+   "low_middle_wage_jobs": 7
+  },
+  "0806172": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 5
+  },
+  "0806255": {
+   "jobs": 64,
+   "low_middle_wage_jobs": 28
+  },
+  "0806530": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0806602": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0806970": {
+   "jobs": 18,
+   "low_middle_wage_jobs": 10
+  },
+  "0807025": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 4
+  },
+  "0807190": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 6
+  },
+  "0807245": {
+   "jobs": 18,
+   "low_middle_wage_jobs": 9
+  },
+  "0807410": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0807795": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 2
+  },
+  "0807850": {
+   "jobs": 1137,
+   "low_middle_wage_jobs": 521
+  },
+  "0808070": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0808345": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 4
+  },
+  "0808400": {
+   "jobs": 916,
+   "low_middle_wage_jobs": 700
+  },
+  "0808620": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0808675": {
+   "jobs": 134,
+   "low_middle_wage_jobs": 64
+  },
+  "0809280": {
+   "jobs": 597,
+   "low_middle_wage_jobs": 343
+  },
+  "0809555": {
+   "jobs": 98,
+   "low_middle_wage_jobs": 55
+  },
+  "0810105": {
+   "jobs": 31,
+   "low_middle_wage_jobs": 22
+  },
+  "0810600": {
+   "jobs": 160,
+   "low_middle_wage_jobs": 72
+  },
+  "0810985": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 1
+  },
+  "0811260": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0811645": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0811810": {
+   "jobs": 74,
+   "low_middle_wage_jobs": 51
+  },
+  "0812045": {
+   "jobs": 157,
+   "low_middle_wage_jobs": 93
+  },
+  "0812387": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 2
+  },
+  "0812393": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 4
+  },
+  "0812415": {
+   "jobs": 206,
+   "low_middle_wage_jobs": 88
+  },
+  "0812460": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 4
+  },
+  "0812470": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 10
+  },
+  "0812635": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 3
+  },
+  "0812815": {
+   "jobs": 775,
+   "low_middle_wage_jobs": 277
+  },
+  "0812855": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 9
+  },
+  "0812945": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0813590": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 1
+  },
+  "0813845": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0814175": {
+   "jobs": 21,
+   "low_middle_wage_jobs": 14
+  },
+  "0814587": {
+   "jobs": 73,
+   "low_middle_wage_jobs": 28
+  },
+  "0814765": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 5
+  },
+  "0815165": {
+   "jobs": 65,
+   "low_middle_wage_jobs": 38
+  },
+  "0815302": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0815550": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0815605": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 0
+  },
+  "0815935": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 2
+  },
+  "0816000": {
+   "jobs": 2980,
+   "low_middle_wage_jobs": 1168
+  },
+  "0816110": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 10
+  },
+  "0816385": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0816465": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0816495": {
+   "jobs": 519,
+   "low_middle_wage_jobs": 152
+  },
+  "0817150": {
+   "jobs": 97,
+   "low_middle_wage_jobs": 74
+  },
+  "0817375": {
+   "jobs": 413,
+   "low_middle_wage_jobs": 269
+  },
+  "0817760": {
+   "jobs": 125,
+   "low_middle_wage_jobs": 58
+  },
+  "0817925": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0818310": {
+   "jobs": 134,
+   "low_middle_wage_jobs": 99
+  },
+  "0818420": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0818530": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 11
+  },
+  "0819080": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 0
+  },
+  "0819150": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 7
+  },
+  "0819355": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0819795": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 10
+  },
+  "0819850": {
+   "jobs": 103,
+   "low_middle_wage_jobs": 46
+  },
+  "0820000": {
+   "jobs": 8884,
+   "low_middle_wage_jobs": 3666
+  },
+  "0820275": {
+   "jobs": 18,
+   "low_middle_wage_jobs": 6
+  },
+  "0820440": {
+   "jobs": 113,
+   "low_middle_wage_jobs": 84
+  },
+  "0820495": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 7
+  },
+  "0820605": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0820770": {
+   "jobs": 26,
+   "low_middle_wage_jobs": 15
+  },
+  "0821155": {
+   "jobs": 30,
+   "low_middle_wage_jobs": 24
+  },
+  "0821265": {
+   "jobs": 17,
+   "low_middle_wage_jobs": 9
+  },
+  "0821330": {
+   "jobs": 84,
+   "low_middle_wage_jobs": 36
+  },
+  "0821390": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0822035": {
+   "jobs": 2315,
+   "low_middle_wage_jobs": 1358
+  },
+  "0822145": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 13
+  },
+  "0822200": {
+   "jobs": 229,
+   "low_middle_wage_jobs": 109
+  },
+  "0822575": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 0
+  },
+  "0822860": {
+   "jobs": 33,
+   "low_middle_wage_jobs": 23
+  },
+  "0823025": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0823135": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 4
+  },
+  "0823300": {
+   "jobs": 153,
+   "low_middle_wage_jobs": 65
+  },
+  "0823520": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0823740": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 9
+  },
+  "0823795": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 12
+  },
+  "0824290": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0824620": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0824785": {
+   "jobs": 297,
+   "low_middle_wage_jobs": 114
+  },
+  "0824950": {
+   "jobs": 23,
+   "low_middle_wage_jobs": 11
+  },
+  "0825115": {
+   "jobs": 141,
+   "low_middle_wage_jobs": 109
+  },
+  "0825280": {
+   "jobs": 67,
+   "low_middle_wage_jobs": 26
+  },
+  "0825390": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 10
+  },
+  "0825550": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 4
+  },
+  "0825610": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 4
+  },
+  "0826270": {
+   "jobs": 12,
+   "low_middle_wage_jobs": 8
+  },
+  "0826600": {
+   "jobs": 31,
+   "low_middle_wage_jobs": 13
+  },
+  "0826765": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 11
+  },
+  "0826875": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0827040": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 4
+  },
+  "0827095": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0827370": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 7
+  },
+  "0827425": {
+   "jobs": 1759,
+   "low_middle_wage_jobs": 990
+  },
+  "0827535": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 2
+  },
+  "0827700": {
+   "jobs": 47,
+   "low_middle_wage_jobs": 15
+  },
+  "0827810": {
+   "jobs": 208,
+   "low_middle_wage_jobs": 92
+  },
+  "0827865": {
+   "jobs": 56,
+   "low_middle_wage_jobs": 40
+  },
+  "0827950": {
+   "jobs": 26,
+   "low_middle_wage_jobs": 11
+  },
+  "0827975": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0828105": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 5
+  },
+  "0828250": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 4
+  },
+  "0828305": {
+   "jobs": 93,
+   "low_middle_wage_jobs": 73
+  },
+  "0828360": {
+   "jobs": 37,
+   "low_middle_wage_jobs": 13
+  },
+  "0828690": {
+   "jobs": 98,
+   "low_middle_wage_jobs": 71
+  },
+  "0828745": {
+   "jobs": 113,
+   "low_middle_wage_jobs": 65
+  },
+  "0828800": {
+   "jobs": 32,
+   "low_middle_wage_jobs": 17
+  },
+  "0829185": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 9
+  },
+  "0829625": {
+   "jobs": 10,
+   "low_middle_wage_jobs": 5
+  },
+  "0829680": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0829735": {
+   "jobs": 17,
+   "low_middle_wage_jobs": 12
+  },
+  "0829955": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 3
+  },
+  "0830340": {
+   "jobs": 110,
+   "low_middle_wage_jobs": 57
+  },
+  "0830420": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0830780": {
+   "jobs": 307,
+   "low_middle_wage_jobs": 156
+  },
+  "0830835": {
+   "jobs": 124,
+   "low_middle_wage_jobs": 58
+  },
+  "0830945": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0831550": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 2
+  },
+  "0831605": {
+   "jobs": 38,
+   "low_middle_wage_jobs": 23
+  },
+  "0831660": {
+   "jobs": 1797,
+   "low_middle_wage_jobs": 1027
+  },
+  "0831715": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 14
+  },
+  "0831935": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0832155": {
+   "jobs": 900,
+   "low_middle_wage_jobs": 453
+  },
+  "0833035": {
+   "jobs": 925,
+   "low_middle_wage_jobs": 355
+  },
+  "0833310": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 0
+  },
+  "0833502": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 4
+  },
+  "0833640": {
+   "jobs": 108,
+   "low_middle_wage_jobs": 73
+  },
+  "0833695": {
+   "jobs": 105,
+   "low_middle_wage_jobs": 50
+  },
+  "0834520": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 0
+  },
+  "0834630": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0834960": {
+   "jobs": 28,
+   "low_middle_wage_jobs": 16
+  },
+  "0835070": {
+   "jobs": 16,
+   "low_middle_wage_jobs": 10
+  },
+  "0835400": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0836410": {
+   "jobs": 253,
+   "low_middle_wage_jobs": 127
+  },
+  "0836610": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 4
+  },
+  "0837215": {
+   "jobs": 66,
+   "low_middle_wage_jobs": 39
+  },
+  "0837270": {
+   "jobs": 62,
+   "low_middle_wage_jobs": 32
+  },
+  "0837380": {
+   "jobs": 10,
+   "low_middle_wage_jobs": 10
+  },
+  "0837545": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0837600": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 3
+  },
+  "0837820": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 3
+  },
+  "0837875": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 3
+  },
+  "0838370": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 9
+  },
+  "0838425": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 2
+  },
+  "0838535": {
+   "jobs": 49,
+   "low_middle_wage_jobs": 19
+  },
+  "0838590": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0838910": {
+   "jobs": 270,
+   "low_middle_wage_jobs": 87
+  },
+  "0839745": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0839800": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 5
+  },
+  "0839855": {
+   "jobs": 150,
+   "low_middle_wage_jobs": 98
+  },
+  "0839965": {
+   "jobs": 50,
+   "low_middle_wage_jobs": 28
+  },
+  "0840185": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 4
+  },
+  "0840377": {
+   "jobs": 82,
+   "low_middle_wage_jobs": 34
+  },
+  "0840515": {
+   "jobs": 30,
+   "low_middle_wage_jobs": 13
+  },
+  "0840550": {
+   "jobs": 446,
+   "low_middle_wage_jobs": 389
+  },
+  "0840570": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0840790": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0840900": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0841010": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 2
+  },
+  "0841065": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0841560": {
+   "jobs": 27,
+   "low_middle_wage_jobs": 16
+  },
+  "0841835": {
+   "jobs": 118,
+   "low_middle_wage_jobs": 51
+  },
+  "0842055": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 7
+  },
+  "0842110": {
+   "jobs": 119,
+   "low_middle_wage_jobs": 94
+  },
+  "0842330": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 5
+  },
+  "0842495": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0843000": {
+   "jobs": 679,
+   "low_middle_wage_jobs": 324
+  },
+  "0843110": {
+   "jobs": 165,
+   "low_middle_wage_jobs": 115
+  },
+  "0843220": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 10
+  },
+  "0843550": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0843605": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 8
+  },
+  "0843660": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 4
+  },
+  "0844100": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 2
+  },
+  "0844265": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0844320": {
+   "jobs": 31,
+   "low_middle_wage_jobs": 17
+  },
+  "0844375": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0844595": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0844980": {
+   "jobs": 35,
+   "low_middle_wage_jobs": 22
+  },
+  "0845145": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0845255": {
+   "jobs": 222,
+   "low_middle_wage_jobs": 125
+  },
+  "0845530": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0845680": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0845695": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 4
+  },
+  "0845750": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 2
+  },
+  "0845955": {
+   "jobs": 242,
+   "low_middle_wage_jobs": 144
+  },
+  "0845970": {
+   "jobs": 294,
+   "low_middle_wage_jobs": 147
+  },
+  "0846355": {
+   "jobs": 154,
+   "low_middle_wage_jobs": 43
+  },
+  "0846410": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 2
+  },
+  "0846465": {
+   "jobs": 715,
+   "low_middle_wage_jobs": 339
+  },
+  "0847070": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 6
+  },
+  "0847235": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0848060": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0848115": {
+   "jobs": 26,
+   "low_middle_wage_jobs": 19
+  },
+  "0848445": {
+   "jobs": 10,
+   "low_middle_wage_jobs": 8
+  },
+  "0848500": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0848555": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0849600": {
+   "jobs": 42,
+   "low_middle_wage_jobs": 18
+  },
+  "0849875": {
+   "jobs": 40,
+   "low_middle_wage_jobs": 26
+  },
+  "0850012": {
+   "jobs": 149,
+   "low_middle_wage_jobs": 44
+  },
+  "0850026": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0850040": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 4
+  },
+  "0850480": {
+   "jobs": 27,
+   "low_middle_wage_jobs": 15
+  },
+  "0850920": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 10
+  },
+  "0851250": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 2
+  },
+  "0851635": {
+   "jobs": 36,
+   "low_middle_wage_jobs": 29
+  },
+  "0851745": {
+   "jobs": 350,
+   "low_middle_wage_jobs": 208
+  },
+  "0851800": {
+   "jobs": 38,
+   "low_middle_wage_jobs": 18
+  },
+  "0852075": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 2
+  },
+  "0852350": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0852550": {
+   "jobs": 213,
+   "low_middle_wage_jobs": 197
+  },
+  "0852570": {
+   "jobs": 69,
+   "low_middle_wage_jobs": 59
+  },
+  "0853120": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 2
+  },
+  "0853175": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0853395": {
+   "jobs": 24,
+   "low_middle_wage_jobs": 16
+  },
+  "0853780": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 4
+  },
+  "0854330": {
+   "jobs": 81,
+   "low_middle_wage_jobs": 46
+  },
+  "0854495": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0854750": {
+   "jobs": 509,
+   "low_middle_wage_jobs": 208
+  },
+  "0854880": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 8
+  },
+  "0854935": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 5
+  },
+  "0855045": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 2
+  },
+  "0855155": {
+   "jobs": 10,
+   "low_middle_wage_jobs": 4
+  },
+  "0855540": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 2
+  },
+  "0855870": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 0
+  },
+  "0855980": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 3
+  },
+  "0856035": {
+   "jobs": 10,
+   "low_middle_wage_jobs": 4
+  },
+  "0856145": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 3
+  },
+  "0856420": {
+   "jobs": 42,
+   "low_middle_wage_jobs": 31
+  },
+  "0856475": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 11
+  },
+  "0856860": {
+   "jobs": 197,
+   "low_middle_wage_jobs": 132
+  },
+  "0856970": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 8
+  },
+  "0857025": {
+   "jobs": 37,
+   "low_middle_wage_jobs": 7
+  },
+  "0857245": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0857300": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 6
+  },
+  "0857400": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 10
+  },
+  "0857465": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0857630": {
+   "jobs": 171,
+   "low_middle_wage_jobs": 90
+  },
+  "0858235": {
+   "jobs": 22,
+   "low_middle_wage_jobs": 8
+  },
+  "0858400": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0858675": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 1
+  },
+  "0858785": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0858960": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0859005": {
+   "jobs": 14,
+   "low_middle_wage_jobs": 6
+  },
+  "0859240": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0859885": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 3
+  },
+  "0860160": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 4
+  },
+  "0860655": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 1
+  },
+  "0860765": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 3
+  },
+  "0861315": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0862000": {
+   "jobs": 526,
+   "low_middle_wage_jobs": 341
+  },
+  "0862220": {
+   "jobs": 45,
+   "low_middle_wage_jobs": 24
+  },
+  "0862880": {
+   "jobs": 71,
+   "low_middle_wage_jobs": 31
+  },
+  "0863265": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 1
+  },
+  "0863320": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0863375": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 10
+  },
+  "0863650": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0864200": {
+   "jobs": 48,
+   "low_middle_wage_jobs": 32
+  },
+  "0864255": {
+   "jobs": 90,
+   "low_middle_wage_jobs": 55
+  },
+  "0865190": {
+   "jobs": 24,
+   "low_middle_wage_jobs": 14
+  },
+  "0865685": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0865740": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 2
+  },
+  "0866197": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0867005": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 4
+  },
+  "0867280": {
+   "jobs": 93,
+   "low_middle_wage_jobs": 50
+  },
+  "0867830": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 4
+  },
+  "0868105": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 13
+  },
+  "0868847": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 11
+  },
+  "0868875": {
+   "jobs": 12,
+   "low_middle_wage_jobs": 1
+  },
+  "0868930": {
+   "jobs": 5,
+   "low_middle_wage_jobs": 1
+  },
+  "0868985": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0869040": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 2
+  },
+  "0869110": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0869150": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 3
+  },
+  "0869480": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 0
+  },
+  "0869645": {
+   "jobs": 128,
+   "low_middle_wage_jobs": 52
+  },
+  "0869700": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0869810": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 9
+  },
+  "0870112": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0870195": {
+   "jobs": 19,
+   "low_middle_wage_jobs": 10
+  },
+  "0870250": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 2
+  },
+  "0870360": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0870525": {
+   "jobs": 115,
+   "low_middle_wage_jobs": 64
+  },
+  "0870580": {
+   "jobs": 22,
+   "low_middle_wage_jobs": 13
+  },
+  "0870635": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0871625": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0871755": {
+   "jobs": 259,
+   "low_middle_wage_jobs": 186
+  },
+  "0872395": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 2
+  },
+  "0873330": {
+   "jobs": 46,
+   "low_middle_wage_jobs": 24
+  },
+  "0873825": {
+   "jobs": 866,
+   "low_middle_wage_jobs": 591
+  },
+  "0873925": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 4
+  },
+  "0873935": {
+   "jobs": 317,
+   "low_middle_wage_jobs": 190
+  },
+  "0873943": {
+   "jobs": 2,
+   "low_middle_wage_jobs": 1
+  },
+  "0874080": {
+   "jobs": 7,
+   "low_middle_wage_jobs": 4
+  },
+  "0874375": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 2
+  },
+  "0874430": {
+   "jobs": 11,
+   "low_middle_wage_jobs": 5
+  },
+  "0874485": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 5
+  },
+  "0875640": {
+   "jobs": 13,
+   "low_middle_wage_jobs": 9
+  },
+  "0875970": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 2
+  },
+  "0876190": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 6
+  },
+  "0876795": {
+   "jobs": 179,
+   "low_middle_wage_jobs": 126
+  },
+  "0877235": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 3
+  },
+  "0877290": {
+   "jobs": 346,
+   "low_middle_wage_jobs": 168
+  },
+  "0877510": {
+   "jobs": 21,
+   "low_middle_wage_jobs": 11
+  },
+  "0877757": {
+   "jobs": 3,
+   "low_middle_wage_jobs": 0
+  },
+  "0878280": {
+   "jobs": 108,
+   "low_middle_wage_jobs": 61
+  },
+  "0878610": {
+   "jobs": 282,
+   "low_middle_wage_jobs": 162
+  },
+  "0879100": {
+   "jobs": 70,
+   "low_middle_wage_jobs": 55
+  },
+  "0879785": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0880040": {
+   "jobs": 865,
+   "low_middle_wage_jobs": 589
+  },
+  "0880095": {
+   "jobs": 39,
+   "low_middle_wage_jobs": 6
+  },
+  "0880370": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 0
+  },
+  "0880865": {
+   "jobs": 17,
+   "low_middle_wage_jobs": 3
+  },
+  "0881305": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0882130": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 5
+  },
+  "0882350": {
+   "jobs": 51,
+   "low_middle_wage_jobs": 37
+  },
+  "0882460": {
+   "jobs": 20,
+   "low_middle_wage_jobs": 13
+  },
+  "0882735": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0883120": {
+   "jobs": 96,
+   "low_middle_wage_jobs": 40
+  },
+  "0883230": {
+   "jobs": 58,
+   "low_middle_wage_jobs": 23
+  },
+  "0883450": {
+   "jobs": 4,
+   "low_middle_wage_jobs": 4
+  },
+  "0883835": {
+   "jobs": 413,
+   "low_middle_wage_jobs": 266
+  },
+  "0884042": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 6
+  },
+  "0884440": {
+   "jobs": 151,
+   "low_middle_wage_jobs": 62
+  },
+  "0884770": {
+   "jobs": 15,
+   "low_middle_wage_jobs": 6
+  },
+  "0885045": {
+   "jobs": 9,
+   "low_middle_wage_jobs": 6
+  },
+  "0885155": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0885485": {
+   "jobs": 194,
+   "low_middle_wage_jobs": 87
+  },
+  "0885705": {
+   "jobs": 248,
+   "low_middle_wage_jobs": 199
+  },
+  "0885760": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 3
+  },
+  "0886090": {
+   "jobs": 52,
+   "low_middle_wage_jobs": 32
+  },
+  "0886117": {
+   "jobs": 6,
+   "low_middle_wage_jobs": 2
+  },
+  "0886200": {
+   "jobs": 8,
+   "low_middle_wage_jobs": 7
+  },
+  "0886310": {
+   "jobs": 99,
+   "low_middle_wage_jobs": 66
+  },
+  "0886475": {
+   "jobs": 1,
+   "low_middle_wage_jobs": 1
+  },
+  "0886750": {
+   "jobs": 62,
+   "low_middle_wage_jobs": 36
+  }
+ },
+ "source": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT00_2023.csv.gz",
+ "year": 2023
+}

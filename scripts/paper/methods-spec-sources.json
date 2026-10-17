@@ -197,7 +197,7 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "_replacementAtHorizon",
-          "sha": "4983943d540d5aa7"
+          "sha": "ea632dd8e33f66b2"
         },
         {
           "file": "js/hna/hna-controller.js",
@@ -212,7 +212,7 @@
         {
           "file": "scripts/hna/build_workforce_need.py",
           "function": "need_block",
-          "sha": "c15facce72388005"
+          "sha": "71509776b383fb8a"
         },
         {
           "file": "scripts/hna/build_workforce_need.py",
