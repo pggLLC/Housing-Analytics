@@ -4095,7 +4095,7 @@
         + (cbr.dohFeeShare ? '<p data-doh-fee-share style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.dohFeeShare.value == null
           ? 'Division of Housing (DOH) developer fee share: ' + cbr.dohFeeShare.reason
           : 'Division of Housing (DOH) developer fee share: ' + (cbr.dohFeeShare.value * 100).toFixed(1) + '% of total cost less the fee, reserves and acquisition (' + fmt(cbr.dohFeeShare.fee) + ' of ' + fmt(cbr.dohFeeShare.base)
-            + '). DOH\'s spreadsheet shows this; CHFA\'s limit above is what changes basis. The administration fee counts with the developer fee in both.') + '</p>' : '')
+            + '). DOH\'s spreadsheet shows this, counting its administration fee; CHFA\'s limit above tests the developer and consultant fees and is what changes basis.') + '</p>' : '')
         + '<p style="margin:0;' + (con.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(conText) + '</p>';
     }
 

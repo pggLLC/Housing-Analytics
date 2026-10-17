@@ -816,9 +816,7 @@
     var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
       identityOfInterest: !!fields['dc-ioi'], rules: costRules });
     var feeBase = cbm.developerFeeBase(costSummary, contractorFee, !!fields['dc-special-pop']);
-    // DOH's administration fee sits in its developer fee subtotal, so CHFA's limit counts it with the developer fee.
-    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null
-        : (costSummary.byId.developer_fee == null && costSummary.byId.admin_fee == null ? undefined : (costSummary.byId.developer_fee || 0) + (costSummary.byId.admin_fee || 0)),
+    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
       consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
       baseReason: feeBase.reason, units: units, rules: costRules });
     var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);

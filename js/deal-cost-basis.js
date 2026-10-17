@@ -103,7 +103,10 @@
   // DOH's developer fee subtotal ("maximum developer fee") holds the developer,
   // consultant and administration fees; CHFA limits the developer plus consultant
   // fee, so the administration fee is counted with them.
-  var DEVELOPER_FEE_IDS = Object.freeze(['developer_fee', 'consultant_fee', 'admin_fee']);
+  // CHFA's fee limit tests the developer fee plus the consultant fee (lihtc-underwriting-rules.json);
+  // DOH's fee share also counts its administration fee.
+  var DEVELOPER_FEE_IDS = Object.freeze(['developer_fee', 'consultant_fee']);
+  var DOH_FEE_IDS = Object.freeze(['developer_fee', 'consultant_fee', 'admin_fee']);
   var RESERVE_IDS = Object.freeze(['reserves', 'debt_service_reserve', 'lease_up_reserve', 'replacement_reserve', 'reserve_other']);
   // The contractor's contract: site work, construction, general requirements, overhead and profit, contingency.
   var CONTRACT_IDS = Object.freeze(['off_site', 'site_work', 'demolition', 'structures', 'general_requirements', 'overhead_profit', 'contractor_contingency']);
@@ -119,6 +122,11 @@
   var LEGACY_LINES = Object.freeze({
     overhead: 'overhead_profit', profit: 'overhead_profit', financing: 'soft_other'
   });
+  // Every line id before the DOH layout. An old link names these and no others, so a DOH
+  // line outside this list was not in the saved budget and must not keep its example amount.
+  var PRE_DOH_IDS = Object.freeze(['land', 'building_acquisition', 'site_work', 'structures', 'general_requirements',
+    'overhead', 'profit', 'bonds', 'insurance', 'contractor_contingency', 'owner_contingency', 'escalation', 'design',
+    'permits', 'financing', 'soft_contingency', 'developer_fee', 'consultant_fee', 'reserves']);
 
   // INVENTED example budget, totalling the calculator's default $20,000,000.
   // It is a starting point to overwrite, not a typical or real project.
@@ -375,7 +383,7 @@
   function dohDeveloperFeeShare(summary) {
     if (!summary || summary.tdc === null) return { value: null, reason: (summary && summary.reason) || 'Itemize development costs.' };
     if (summary.notItemized > 0.5) return { value: null, reason: 'Itemize all of Total Development Cost, so the costs DOH leaves out are known.' };
-    var b = summary.byId, fee = sumIds(b, DEVELOPER_FEE_IDS);
+    var b = summary.byId, fee = sumIds(b, DOH_FEE_IDS);
     var base = summary.tdc - fee - sumIds(b, RESERVE_IDS) - (b.land || 0) - (b.building_acquisition || 0);
     if (!(fee > 0)) return { value: null, reason: 'Enter the developer fee.' };
     if (!(base > 0)) return { value: null, reason: 'Total cost less the fee, reserves and acquisition is not above $0.' };
@@ -417,6 +425,14 @@
         out['cost-' + target + '-eligible'] = unknownPart ? '' : String(eligible);
       }
     });
+    // An old link: DOH lines it could not name had no cost in it, whatever the example says.
+    var legacy = Object.keys(LEGACY_LINES).some(function (old) { return read('cost-' + old) !== null; })
+      && !LINE_TEMPLATE.some(function (t) { return PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) !== null; });
+    if (legacy) {
+      LINE_TEMPLATE.forEach(function (t) {
+        if (PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) === null && !out['cost-' + t.id]) out['cost-' + t.id] = '';
+      });
+    }
     return out;
   }
 
@@ -797,6 +813,6 @@
     basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit,
     payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
-    DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
+    DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
   };
 });

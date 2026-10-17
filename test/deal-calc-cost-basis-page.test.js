@@ -288,17 +288,28 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
-  await test('a link saved before the DOH layout gives the same basis as the same costs on DOH lines', async () => {
-    const old = await openPage('?cost-overhead=250000&cost-overhead-basis=eligible&cost-profit=500000&cost-profit-basis=ineligible'
-      + '&cost-financing=450000&cost-financing-basis=partial&cost-financing-eligible=300000');
-    const now = await openPage('?cost-overhead_profit=750000&cost-overhead_profit-basis=partial&cost-overhead_profit-eligible=250000'
-      + '&cost-soft_other=450000&cost-soft_other-basis=partial&cost-soft_other-eligible=300000');
-    const fresh = await openPage('');
-    for (const id of ['dc-cb-itemized', 'dc-cb-eligible-cost', 'dc-r-basis']) assert.equal(text(old, id), text(now, id), id);
-    assert.notEqual(text(old, 'dc-cb-eligible-cost'), text(fresh, 'dc-cb-eligible-cost'), 'non-vacuous: the old link changed the budget');
+  await test('a link saved before the DOH layout opens with the budget it saved', async () => {
+    // The pre-DOH example budget as that page's share link carried it, with profit taken out of basis.
+    const saved = { land: 1000000, building_acquisition: '', site_work: 1000000, structures: 10400000, general_requirements: 600000,
+      overhead: 250000, profit: 500000, bonds: 120000, insurance: 130000, contractor_contingency: 500000, owner_contingency: 400000,
+      escalation: 200000, design: 700000, permits: 400000, financing: 1200000, soft_contingency: 200000, developer_fee: 1900000,
+      consultant_fee: '', reserves: 500000 };
+    const q = new URLSearchParams({ tdc: '20000000' });
+    for (const [id, v] of Object.entries(saved)) q.set('cost-' + id, String(v));
+    q.set('cost-profit-basis', 'ineligible'); q.set('cost-financing-basis', 'partial'); q.set('cost-financing-eligible', '900000');
+    const old = await openPage('?' + q.toString());
+    const total = Object.values(saved).reduce((a, v) => a + (+v || 0), 0);
+    assert.equal(total, 20000000, 'non-vacuous: the saved budget is the whole $20M');
+    // In basis: everything but land, reserves, profit and the ineligible part of financing.
+    const eligible = total - 1000000 - 500000 - 500000 - 300000;
+    assert.equal(text(old, 'dc-cb-itemized'), money(total), 'the DOH example lines the old budget never named are empty');
+    assert.equal(text(old, 'dc-cb-eligible-cost'), money(eligible));
+    assert.equal(text(old, 'dc-r-basis'), money(eligible));
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit').value, '750000');
     assert.equal(old.d.getElementById('dc-cost-overhead_profit-basis').value, 'partial');
     assert.equal(old.d.getElementById('dc-cost-overhead_profit-eligible').value, '250000');
-    assert.equal(old.d.getElementById('dc-cost-soft_other').value, '450000');
+    assert.equal(old.d.getElementById('dc-cost-soft_other').value, '1200000');
+    assert.equal(old.d.getElementById('dc-cost-construction_interest').value, '');
     assert.deepEqual(old.errors, []);
   });
 

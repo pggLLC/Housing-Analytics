@@ -707,14 +707,16 @@ test('the DOH example keeps the earlier example\'s total, basis and fee tests', 
   assert.equal(c.base, 10400000 + 1000000 + 500000, 'construction, on-site work and the contractor contingency (QAP 3.M.3)');
 });
 
-test('the administration fee counts with the developer fee, and every reserve leaves the fee base', () => {
+test('CHFA\'s fee limit counts the developer and consultant fees; DOH\'s share adds the administration fee', () => {
   const lines = cb.exampleLines().map((l) => l.id === 'admin_fee' ? Object.assign({}, l, { amount: 100000 })
     : l.id === 'lease_up_reserve' ? Object.assign({}, l, { amount: 200000 })
     : l.id === 'structures' ? Object.assign({}, l, { amount: 10100000 }) : l);
   const s = cb.summarizeCosts(lines, 20000000);
   assert.equal(s.itemized, 20000000, 'non-vacuous: the budget still balances');
   const c = cb.contractorFeeTest({ byId: s.byId, units: 60, rules });
-  assert.equal(cb.developerFeeBase(s, c).base, 20000000 - 1000000 - (1900000 + 100000) - (500000 + 200000));
+  // lihtc-underwriting-rules.json: the limit is tested on the developer fee plus the consultant fee.
+  assert.match(rules.rules.developer_fee_limit.tested_on, /Developer fee plus consultant fee/);
+  assert.equal(cb.developerFeeBase(s, c).base, 20000000 - 1000000 - 1900000 - (500000 + 200000));
   const share = cb.dohDeveloperFeeShare(s);
   assert.equal(share.fee, 2000000);
   assert.equal(share.base, 20000000 - 2000000 - 700000 - 1000000, 'DOH: total less fee, reserves and acquisition');
@@ -755,6 +757,11 @@ test('cost lines saved before the DOH layout load into the DOH lines with the sa
   // A line saved under its new name wins, and nothing is invented for lines never saved.
   assert.deepEqual(cb.legacyCostFields((k) => ({ 'cost-overhead_profit': '1', 'cost-overhead': '250000' })[k] ?? null), {});
   assert.deepEqual(cb.legacyCostFields(() => null), {});
+  // An old link empties the DOH lines it could not name, and only those.
+  const cleared = cb.legacyCostFields((k) => ({ 'cost-financing': '1200000', 'cost-bonds': '120000' })[k] ?? null);
+  for (const id of ['construction_interest', 'perm_loan_fees', 'tax_credit_fees', 'marketing']) assert.equal(cleared['cost-' + id], '', id);
+  for (const id of cb.PRE_DOH_IDS) assert(!('cost-' + id in cleared), id + ' keeps what the link saved');
+  assert.equal(cleared['cost-soft_other'], '1200000');
   // The migrated budget gives the same basis as the old one.
   const lines = cb.exampleLines().map((l) => ({ ...l, amount: null }));
   const set = (id, amount, basis, eligibleAmount) => Object.assign(lines.find((l) => l.id === id), { amount, basis, eligibleAmount });
