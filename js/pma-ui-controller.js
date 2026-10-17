@@ -1178,7 +1178,8 @@
       var trail = just.generateAuditTrail(scoreRun);
       var info = [
         'Run ID: '       + trail.run_id,
-        'Data vintage: ' + trail.data_vintage,
+        'Data vintage: ' + (trail.data_vintage || 'ACS vintage not supplied with this run') +
+          (trail.data_vintage_note ? ' (' + trail.data_vintage_note + ')' : ''),
         'LODES vintage: ' + trail.lodes_vintage,
         'Quality: '      + trail.data_quality,
         '',
