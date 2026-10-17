@@ -30,6 +30,9 @@ assert.equal(barriers.waterBodyCount, 11, 'the scan counted the nearby water fea
 assert.equal(barriers.boundaryExcludesFeatures, boundaryChanged, 'the summary says whether the boundary actually changed');
 let text = J.generateNarrative(J.synthesizePMA({ barriers }));
 assert(/\b11 water feature/.test(text), 'the nearby features are still reported');
+// The scan covers a fixed envelope around the site, not the chosen tracts, so
+// the narrative may not say the market area contains them.
+assert(!/(analysis|market) area contains/i.test(text), 'search-envelope counts are not described as inside the market area');
 if (!boundaryChanged) {
   assert(!/\bexclud/i.test(text.split('\n\n').find((p) => /water feature/.test(p))),
     'an unchanged boundary is never said to exclude the features');

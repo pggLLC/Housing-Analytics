@@ -246,8 +246,10 @@
     // supplied) can make this paragraph claim an exclusion.
     var b = scoreRun.barriers || {};
     if (b.waterBodyCount > 0 || b.highwayCount > 0) {
-      parts.push('The analysis area contains ' + (b.waterBodyCount || 0) + ' water feature(s) and ' +
-        (b.highwayCount || 0) + ' major highway segment(s). They were noted as context; the market area was not ' +
+      // The counts come from a fixed search envelope around the site (10-15
+      // miles), not from features inside the chosen tracts or buffer.
+      parts.push('The barrier scan of the vicinity around the site found ' + (b.waterBodyCount || 0) + ' water feature(s) and ' +
+        (b.highwayCount || 0) + ' major highway segment(s); they were not checked against the market area itself. They were noted as context; the market area was not ' +
         'redrawn around them, so any natural-barrier limit must come from the tracts chosen for the boundary.');
     }
 
