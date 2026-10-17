@@ -7352,7 +7352,7 @@
       "award_size": "Construction grants up to $600,000; DEEC grants up to $50,000.",
       "rate": null,
       "term": null,
-      "ami_restriction": "The project area, or its beneficiaries, must be at least 51% low- and moderate-income. HUD defines a low- and moderate-income person as one in a family with income at or below 80% of area median income (the Section 8 low-income limit).",
+      "ami_restriction": "Under the low- and moderate-income benefit objective, the project area, or its beneficiaries, must be at least 51% low- and moderate-income; HUD defines a low- and moderate-income person as one in a family with income at or below 80% of area median income (the Section 8 low-income limit). A project can instead qualify by preventing or eliminating slums or blight, or by meeting an urgent need as HUD defines it.",
       "affordability_period": null,
       "eligible_applicants": "Cities, counties and other units of general local government in non-entitlement areas: cities under 50,000 people (except principal cities of metro areas) and counties under 200,000. They may apply on behalf of nonprofits.",
       "eligible_projects": "Acquisition, construction, reconstruction, rehabilitation or installation of public improvements or facilities. Construction applications need a completed environmental review and construction-ready plans.",
