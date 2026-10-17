@@ -202,12 +202,12 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "buildNeedReconciliation",
-          "sha": "cabe9051601949af"
+          "sha": "dfa09dfba7353e1a"
         },
         {
           "file": "js/hna/hna-controller.js",
           "function": "_loadIncommuterNeed",
-          "sha": "c404ee98a6b33bff"
+          "sha": "ecb650aae9208bb0"
         },
         {
           "file": "scripts/hna/build_workforce_need.py",
