@@ -1160,12 +1160,16 @@
     // would be computed from 0 and published as a real figure, so report
     // the whole block as unavailable instead (its reason comes from reasonFor).
     // The equity bars need known credits too (0 outside CHFA LIHTC is measured).
-    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits);
+    // Manual NOI mode never resolves opexPerUnitMonth, so the OpEx swing reads the
+    // budget (or the single old figure) directly; an unknown budget has no swing.
+    var sensitivityOpex = known(opexPerUnitMonth) ? opexPerUnitMonth
+      : operatingSummary ? (operatingSummary.reason ? NaN : operatingSummary.perUnitMonth) : safeVal('dc-opex');
+    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits) && known(sensitivityOpex);
     var tornado = !sensitivityKnown ? null : (function () {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
         var vu  = vacFrac() * 100;
-        var ou  = opexPerUnitMonth;
+        var ou  = sensitivityOpex;
         var u   = units || 60;
         var acr = annualCredits;
 

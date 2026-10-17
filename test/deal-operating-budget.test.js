@@ -109,6 +109,18 @@ test('old links: the monthly figure loads, times 12, into Other expenses, Other'
   assert.equal(mapped.noi, old.noi);
 });
 
+test('manual NOI keeps a finite OpEx sensitivity read from the budget', () => {
+  const i = withBudget('A');
+  const auto = computeDeal(i);
+  i.fields['dc-auto-noi'] = false; i.fields['dc-noi'] = String(auto.noi);
+  const r = computeDeal(i);
+  assert(r.tornado && Number.isFinite(r.tornado.noiLo) && Number.isFinite(r.tornado.noiHi), 'tornado OpEx row is finite');
+  assert.equal(r.tornado.ou, 450, 'the swing starts from the budget\'s $450 a month');
+  const blank = withBudget('A', ob.exampleLines().map(l => Object.assign(l, { amount: null })));
+  blank.fields['dc-auto-noi'] = false; blank.fields['dc-noi'] = String(auto.noi);
+  assert.equal(computeDeal(blank).tornado, null, 'no budget, no OpEx swing');
+});
+
 test('the example is labelled invented in the module', () => {
   assert.match(require('node:fs').readFileSync(require.resolve('../js/deal-operating-budget.js'), 'utf8'), /INVENTED example/);
 });
