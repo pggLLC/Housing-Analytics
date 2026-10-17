@@ -44,6 +44,7 @@ async function calculator({ hudTable = hud, lateModule = false } = {}) {
   await w.HudFmr.load();
   if (!lateModule) w.eval(read('js/chfa-rent-limits.js'));
   w.eval(read('js/deal-cost-basis.js'));
+  w.eval(read('js/deal-operating-budget.js'));
   w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   if (lateModule) w.eval(read('js/chfa-rent-limits.js'));

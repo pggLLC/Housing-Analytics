@@ -22,7 +22,6 @@
     'dc-coords-lon': 'Longitude of the project site.',
     'dc-noi': 'Annual net operating income entered for the manual NOI option.',
     'dc-vacancy': 'Share of scheduled revenue lost to vacancy, in percent.',
-    'dc-opex': 'Monthly operating expense per home.',
     'dc-rep-reserve': 'Annual replacement reserve per home.',
     'dc-prop-tax': 'Annual property tax per home before the selected exemption.',
     'dc-tax-exempt': 'Share of property taxes exempted in the scenario.',
@@ -149,7 +148,17 @@
     var m = /^dc-cost-[a-z_]+(-basis|-eligible|-used)?$/.exec(id);
     return m ? 'cost-' + (m[1] ? m[1].slice(1) : 'amount') : null;
   }
-  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || fields[costKey(id)] || null; }
+  // DOH PR 2: operating budget lines (js/deal-operating-budget.js). The prefilled
+  // amounts are an INVENTED example, so they are illustrative.
+  add('op-amount', 'Dollars per unit per year on this operating budget line.', 'illustrative',
+    'An invented example budget line; replace it with your operating budget.');
+  add('op-income', 'Other income per unit per year from this source, added to rent before vacancy.', 'illustrative',
+    'An invented example; replace it with your project\'s other income.');
+  function opKey(id) {
+    if (/^dc-op-income-[a-z_]+$/.test(id)) return 'op-income';
+    return /^dc-op-[a-z_]+$/.test(id) ? 'op-amount' : null;
+  }
+  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || fields[costKey(id)] || fields[opKey(id)] || null; }
   var api = { fields: fields, get: get };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.DealCalculatorInputRegistry = api;
