@@ -204,6 +204,7 @@ function dealCalc(extraHtml) {
   dom.window.eval(read('js/transit-zone.js'));
   dom.window.eval(read('js/deal-calculator-math.js'));
   dom.window.eval(read('js/deal-cost-basis.js'));
+  dom.window.eval(read('js/deal-operating-budget.js'));
   dom.window.eval(read('js/deal-engine.js'));
   dom.window.eval(read('js/deal-calculator.js'));
   return { w: dom.window, note: dom.window.document.getElementById('dc-tz-note') };

@@ -42,11 +42,11 @@ async function test(name, fn) {
     const badge = p.d.getElementById('dc-tdc-prov'); badge.focus();
     assert.equal(badge.getAttribute('aria-expanded'), 'true');
     assert.equal(p.d.getElementById(badge.getAttribute('aria-controls')).hidden, false);
-    setField(p, 'dc-opex', '555');
-    assert.equal(status(p, 'dc-opex'), 'yours');
-    assert.equal(rec(p, 'dc-opex').origin.value, '450');
-    setField(p, 'dc-opex', ''); assert.equal(status(p, 'dc-opex'), 'assumption');
-    assert.equal(p.d.getElementById('dc-opex').value, '', 'clearing restores label, not a number');
+    setField(p, 'dc-op-utilities', '555');
+    assert.equal(status(p, 'dc-op-utilities'), 'yours');
+    assert.equal(rec(p, 'dc-op-utilities').origin.value, '1100');
+    setField(p, 'dc-op-utilities', ''); assert.equal(status(p, 'dc-op-utilities'), 'illustrative');
+    assert.equal(p.d.getElementById('dc-op-utilities').value, '', 'clearing restores label, not a number');
   });
   await test('Fruita county AMI and FMR badges agree with HUD records and change county without stale provenance', async () => {
     const p = await openPage('', null, { jurisdiction: fruta });
@@ -127,7 +127,7 @@ async function test(name, fn) {
     const p = await openPage('', null, { jurisdiction: fruta });
     setField(p, 'dc-rent-limit-regime', 'ami_formula');
     setField(p, 'dc-rate-4', true); setField(p, 'dc-equity-price', '0.92');
-    setField(p, 'dc-opex', '510'); p.d.getElementById('dc-ami-prefill').click();
+    setField(p, 'dc-op-utilities', '510'); p.d.getElementById('dc-ami-prefill').click();
     const snapshot = plain(p.w.__DealCalcShare.buildSnapshot());
     assert(snapshot.inputProvenance && Object.keys(snapshot.inputProvenance.fields).length > 100);
     const expectedStates = Object.values(snapshot.inputProvenance.fields).map(f => f[0]);

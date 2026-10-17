@@ -383,6 +383,11 @@
       var legacy = cbm.legacyCostFields(function (key) { return params.has(key) ? params.get(key) : null; });
       Object.keys(legacy).forEach(function (key) { params.set(key, legacy[key]); });
     }
+    var obm = window.DealOperatingBudget;
+    if (obm && obm.legacyOperatingFields) {
+      var legacyOp = obm.legacyOperatingFields(function (key) { return params.has(key) ? params.get(key) : null; });
+      Object.keys(legacyOp).forEach(function (key) { params.set(key, legacyOp[key]); });
+    }
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));

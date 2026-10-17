@@ -21,8 +21,9 @@ assert.equal(typeof w.ProForma.render, 'function'); assert.equal(typeof w.ProFor
 w.ProForma.render('pf-container');
 const rows = () => d.querySelectorAll('#pf-table-wrap tbody tr');
 assert.equal(rows().length, 15);
-assert.equal(rows()[0].cells[7].textContent, '$672,360', 'year-one NOI is the invented engine golden, not rebuilt');
-assert.equal(rows()[0].cells[8].textContent, '$' + Math.round(result.annualDebtService + result.totalSoftDebtService).toLocaleString('en-US'), 'both debt services included');
+assert.equal(rows()[0].cells[2].textContent, '$0', 'no other income in the invented case');
+assert.equal(rows()[0].cells[8].textContent, '$672,360', 'year-one NOI is the invented engine golden, not rebuilt');
+assert.equal(rows()[0].cells[9].textContent, '$' + Math.round(result.annualDebtService + result.totalSoftDebtService).toLocaleString('en-US'), 'both debt services included');
 assert.equal(d.getElementById('pf-chart').getAttribute('role'), 'img');
 assert(d.getElementById('pf-chart').getAttribute('aria-label'));
 for (const [entered, expected] of [['10', 10], ['2', 5], ['99', 50]]) {

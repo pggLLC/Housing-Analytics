@@ -138,12 +138,12 @@ async function test(name,fn){try{await fn();console.log('  PASS '+name);}catch(e
     assert.throws(() => mock.assertSupported(), /jsPDF mock does not implement/);
   });
   await test('Fruita exports every provenance field and visible explanation; PDF agrees with the one captured JSON record',async()=>{
-    const p=await openPage('',subject,{jurisdiction:fruta});assert.deepEqual(p.errors,[]);setField(p,'dc-opex','555');
+    const p=await openPage('',subject,{jurisdiction:fruta});assert.deepEqual(p.errors,[]);setField(p,'dc-op-insurance','555');
     const snapshot=plain(p.w.__DealCalcShare.buildSnapshot()),seen=agreement(p,snapshot);
     for(const [status,count] of Object.entries(seen)) assert(count>0,'non-zero '+status+' scan');
     assert(snapshot.reportMeta.sources.length<seen.data,'dedup is exercised');
-    await pdfAgreement(p,snapshot,()=>setField(p,'dc-opex','666'));
-    assert.equal(p.d.getElementById('dc-opex').value,'666','the delayed screenshot exercised a changing page');
+    await pdfAgreement(p,snapshot,()=>setField(p,'dc-op-insurance','666'));
+    assert.equal(p.d.getElementById('dc-op-insurance').value,'666','the delayed screenshot exercised a changing page');
   });
   await test('a forged shared source remains unverified in JSON, PDF and print, and never enters sources',async()=>{
     const sender=await openPage('',subject,{jurisdiction:fruta});setField(sender,'dc-tdc','12345678');
