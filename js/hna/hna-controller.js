@@ -3085,6 +3085,7 @@
   }
 
 
+  let _reconSeq = 0;
   async function applyAssumptions(proj, selection){
     if (!proj) return;
     if (_isMultiJurisdictionSelection(selection)) {
@@ -3471,6 +3472,10 @@
     // Built from the values painted above and from the households chart's own
     // series (_placeScaledHouseholds, the function the chart calls), so it
     // quotes the page rather than re-deriving it. Stored for the PDF and Excel.
+    // The block awaits data (the digest, the 64 county projections); a later
+    // call for another geography may finish first, so only the latest call
+    // renders.
+    const reconSeq = ++_reconSeq;
     try {
       let chartHouseholdsDelta = null;
       const hhDola = proj?.housing_need?.households_dola;
@@ -3506,11 +3511,15 @@
         chartHouseholdsDelta,
         permits: permitsShown,
       });
-      window.HNAState.state.needReconciliation = rec;
-      renderNeedReconciliation(rec);
+      if (reconSeq === _reconSeq) {
+        window.HNAState.state.needReconciliation = rec;
+        renderNeedReconciliation(rec);
+      }
     } catch (recErr) {
-      window.HNAState.state.needReconciliation = null;
-      renderNeedReconciliation(null);
+      if (reconSeq === _reconSeq) {
+        window.HNAState.state.needReconciliation = null;
+        renderNeedReconciliation(null);
+      }
       console.error('[HNA] need reconciliation failed:', recErr);
     }
 

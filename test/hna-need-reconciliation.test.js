@@ -276,6 +276,26 @@ async function render(selection, countyFips) {
     assert(row.textContent.includes(Math.round(homes * 0.5).toLocaleString('en-US')), 'the 50% scenario is not stated');
   });
 
+  await test('a Colorado load that finishes after a later county selection does not overwrite it', async () => {
+    const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
+    install(dom);
+    const f = window.fetch;
+    // Hold the 64 county projection reads the Colorado call waits on.
+    let release;
+    const held = new Promise((res) => { release = res; });
+    window.fetch = async (u) => (/projections\/08\d{3}\.json/.test(String(u)) ? held.then(() => f(u)) : f(u));
+    global.fetch = window.fetch;
+    const co = { geoType: 'state', geoid: '08', label: 'Colorado', profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } };
+    const mesa = { geoType: 'county', geoid: '08077', label: 'Mesa County', profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } };
+    const first = window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08.json')), co);
+    await window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08077.json')), mesa);
+    const mesaRec = window.HNAState.state.needReconciliation;
+    assert(mesaRec, 'Mesa built no reconciliation');
+    release();
+    await first;
+    assert.strictEqual(window.HNAState.state.needReconciliation, mesaRec, 'the earlier Colorado call overwrote the Mesa reconciliation');
+  });
+
   await test('a horizon past the projection reads replacement at the year the page actually shows', async () => {
     const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
     install(dom);
