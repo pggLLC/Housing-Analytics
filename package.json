@@ -267,7 +267,7 @@
     "test:pma-confidence": "node test/pma-confidence.test.js",
     "test:pma-opportunities": "node test/unit/pma-opportunities.test.js",
     "test:pma-competitive-set": "node test/pma-competitive-set.test.js",
-    "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js && node test/test_lihtc_deal_predictor.js",
+    "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js && node test/test_lihtc_deal_predictor.js && node test/lihtc-deal-predictor-backtest.test.js",
     "test:lihtc-opportunity-finder-zori": "node test/lihtc-opportunity-finder-zori-capture.test.js",
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:epa-sld-local": "node test/epa-sld-local-lookup.test.js",

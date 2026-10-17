@@ -87,7 +87,9 @@
     creditRate4Pct:           _coho.creditRate4Pct  || 0.04,
     equityPrice9Pct:          _coho.equityPrice9Pct || 0.82,
     equityPrice4Pct:          _coho.equityPrice4Pct || 0.83,
-    hardCostPerUnit:          350000,
+    // Same figure as data/policy/lihtc-assumptions.json hardCostPerUnit.family,
+    // so a failed fetch does not swing the cost 27% with nothing on screen.
+    hardCostPerUnit:          275000,
     softCostPct:              0.22,
     devFeePct:                0.15,
     eligibleBasisPct:         _coho.eligibleBasisPct || 0.85,
@@ -96,7 +98,17 @@
     saturationHighThreshold:  5,
     pmaStrongThreshold:       70,
     pmaModerateThreshold:     50,
-    fourPctMinUnits:          100,
+    // Calibrated on CHFA's own allocations, 2019-2025 (data/chfa-lihtc.json,
+    // 275 deals with a 4% or 9% credit): "70+ homes -> 4%" names the credit
+    // CHFA allocated for 218 of 275; the earlier 100 cut-off got 181. Half of
+    // Colorado's 4% deals are under 100 homes, most paired with state credit.
+    // test/lihtc-deal-predictor-backtest.test.js re-runs that comparison.
+    fourPctMinUnits:          70,
+    // CHFA's per-project limit on annual federal 9% credit. The adopted value
+    // lives in data/policy/lihtc-underwriting-rules.json (credit_cap_federal_9pct,
+    // QAP Section 3.L) and replaces this one when it loads; a test pins the two
+    // together.
+    nineCreditAnnualCap:      1800000,
     deepAffordabilityPct:     0.25
   };
 
@@ -124,6 +136,14 @@
     if (!nine || !four) return false;
     DEFAULT_ASSUMPTIONS.equityPrice9Pct = nine;
     DEFAULT_ASSUMPTIONS.equityPrice4Pct = four;
+    return true;
+  }
+
+  function _applyUnderwritingRules(doc) {
+    var rule = doc && doc.rules && doc.rules.credit_cap_federal_9pct;
+    var cap = rule && rule.status === 'adopted' ? _numOrNull(rule.annual_cap) : null;
+    if (!cap) return false;
+    DEFAULT_ASSUMPTIONS.nineCreditAnnualCap = cap;
     return true;
   }
 
@@ -167,10 +187,15 @@
       _fetchJson('data/market/novogradac-equity-pricing.json').catch(function (err) {
         console.warn('[LIHTCDealPredictor] Could not load Novogradac equity pricing benchmark, using constants:', err);
         return null;
+      }),
+      _fetchJson('data/policy/lihtc-underwriting-rules.json').catch(function (err) {
+        console.warn('[LIHTCDealPredictor] Could not load CHFA underwriting rules, using the 9% cap constant:', err);
+        return null;
       })
     ]).then(function (results) {
       var data = results[0] || {};
       var benchmark = results[1] || null;
+      _applyUnderwritingRules(results[2]);
       if (data.hardCostPerUnit && typeof data.hardCostPerUnit === 'object') {
         _hardCostByConcept = {
           family:      data.hardCostPerUnit.family      || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
@@ -216,6 +241,15 @@
     '08109': 1.15,  // Saguache
     '08113': 1.25,  // San Miguel (Telluride)
     '08117': 1.25,  // Summit
+    // Added 2026-10-17: mountain-resort counties (the Opportunity Finder's
+    // RESORT_COUNTIES list) that fell through to the Front Range 1.0. Gunnison's
+    // 44-home deal model ran $520K a home; at 1.0 the predictor said $386K.
+    // Screening values on the same scale as the rows above, not published factors.
+    '08051': 1.25,  // Gunnison (Crested Butte)
+    '08045': 1.20,  // Garfield (Glenwood Springs)
+    '08015': 1.15,  // Chaffee (Salida/Buena Vista)
+    '08019': 1.15,  // Clear Creek (Georgetown)
+    '08007': 1.15,  // Archuleta (Pagosa Springs)
     // Front Range metro (base, multiplier ~1.0)
     '08001': 1.00, '08005': 1.00, '08013': 1.00, '08014': 1.00, '08031': 1.00,
     '08035': 1.00, '08041': 1.00, '08059': 1.00, '08069': 1.00, '08123': 1.00,
@@ -327,13 +361,22 @@
     var softFunding     = _optionalNumber(inputs.softFundingAvailable);
     var pmaScore        = _optionalNumber(inputs.pmaScore);
 
-    var deepAffordabilityPct = (proposedUnits > 0)
+    // ami30UnitsNeeded can be the project's own 30% AMI count or an area's
+    // whole shortfall (the Deal Calculator passes the county's). An area
+    // shortfall larger than the building says nothing about the building's
+    // mix: dividing 1,415 La Plata households by 59 homes made every project
+    // in every county "deep affordability", so the 4% branch never ran.
+    var isAreaShortfall = proposedUnits > 0 && ami30Units > proposedUnits;
+    var deepAffordabilityPct = (proposedUnits > 0 && !isAreaShortfall)
       ? (ami30Units / proposedUnits)
       : 0;
     var isDeepAffordability = deepAffordabilityPct > DEFAULT_ASSUMPTIONS.deepAffordabilityPct;
     var isLargeScale        = proposedUnits >= DEFAULT_ASSUMPTIONS.fourPctMinUnits;
     var isMarketSaturated   = competitiveSet >= DEFAULT_ASSUMPTIONS.saturationHighThreshold;
     var hasSoftFunding      = softFunding > 0;
+    // Unknown is not zero: the Deal Calculator never knows a project's soft
+    // funding, and requiring a positive amount made 4% unreachable there.
+    var softFundingKnownZero = softFunding === 0;
     var pmaIsStrong         = pmaScore >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold;
 
     // Flag both paths when soft funding unavailable or market oversaturated
@@ -361,15 +404,20 @@
     // Prefer 9% when deep affordability need, weak debt capacity, low saturation
     if (isDeepAffordability && !isLargeScale && competitiveSet < DEFAULT_ASSUMPTIONS.saturationMedThreshold) {
       rationale.push('Deep affordability need (>25% of units at 30% AMI) favors 9% competitive credit');
-      rationale.push('Smaller project scale (<100 units) is well-suited for 9% competitive application');
+      rationale.push('Smaller project scale (<' + DEFAULT_ASSUMPTIONS.fourPctMinUnits + ' units) is well-suited for 9% competitive application');
       if (pmaIsStrong) rationale.push('Strong PMA score (' + Math.round(pmaScore) + ') supports competitive application');
       return '9%';
     }
 
-    // Prefer 4% when large scale and partial debt support available
-    if (isLargeScale && hasSoftFunding) {
-      rationale.push('Larger scale (' + proposedUnits + ' units) can support 4% bond-financed execution');
-      rationale.push('Soft funding availability (' + _formatDollars(softFunding) + ') supports 4% capital stack');
+    // Prefer 4% at scale unless soft funding is known to be absent
+    if (isLargeScale && !softFundingKnownZero) {
+      rationale.push('Larger scale (' + proposedUnits + ' units) can support 4% bond-financed execution; ' +
+        'CHFA allocated 4% credit to most Colorado deals of ' + DEFAULT_ASSUMPTIONS.fourPctMinUnits + '+ homes in 2019-2025');
+      if (hasSoftFunding) {
+        rationale.push('Soft funding availability (' + _formatDollars(softFunding) + ') supports 4% capital stack');
+      } else {
+        risks.push('Soft funding not confirmed: Colorado 4% deals usually close their gap with state credit or local soft funds');
+      }
       if (inputs.isQct || inputs.isDda) {
         rationale.push('QCT/DDA designation provides up to 30% basis boost, improving 4% execution');
       }
@@ -387,11 +435,14 @@
       if (totalUndersupply > 0) {
         rationale.push('Housing needs gap of ' + totalUndersupply + ' units supports competitive application narrative');
       }
+      if (isAreaShortfall) {
+        rationale.push('Area shortfall of ' + ami30Units + ' households at or below 30% AMI supports a deep-affordability narrative');
+      }
       return '9%';
     }
 
     // Large scale without strong soft funding — flag both
-    rationale.push('Large scale project could use either 4% or 9% depending on bond cap availability');
+    rationale.push('Large scale project without soft funding could use either 4% or 9% depending on bond cap availability');
     risks.push('4% execution requires Private Activity Bond volume cap allocation — coordinate with CHFA');
     return 'Either';
   }
@@ -659,6 +710,10 @@
     var annualCredit = (execution === '9%')
       ? eligibleBasis * DEFAULT_ASSUMPTIONS.creditRate9Pct * basisBoost
       : eligibleBasis * DEFAULT_ASSUMPTIONS.creditRate4Pct * basisBoost;
+    // CHFA will not accept a 9% application above its per-project limit, so
+    // credit the basis would support beyond it is equity that cannot exist.
+    var creditCapApplied = execution === '9%' && annualCredit > DEFAULT_ASSUMPTIONS.nineCreditAnnualCap;
+    if (creditCapApplied) annualCredit = DEFAULT_ASSUMPTIONS.nineCreditAnnualCap;
     var equity       = annualCredit * 10 * equityPrice;
 
     var localSoft    = _optionalNumber(inputs.softFundingAvailable);
@@ -671,6 +726,9 @@
 
     return {
       totalDevelopmentCost: Math.round(totalCost),
+      annualCredit:         Math.round(annualCredit),
+      creditCapApplied:     creditCapApplied,
+      creditCap:            execution === '9%' ? DEFAULT_ASSUMPTIONS.nineCreditAnnualCap : null,
       equity:               Math.round(equity),
       firstMortgage:        firstMortgage === null ? null : Math.round(firstMortgage),
       localSoft:            localSoft === null ? null : Math.round(localSoft),
@@ -838,7 +896,7 @@
         'but requires bond cap and stronger debt capacity.';
     }
     if (execution === '4%') {
-      return 'Consider 9% competitive application if scale is reduced to under 100 units or if deep ' +
+      return 'Consider 9% competitive application if scale is reduced to under ' + DEFAULT_ASSUMPTIONS.fourPctMinUnits + ' units or if deep ' +
         'affordability (30% AMI) need is the primary driver. 9% credits are more competitive but do not ' +
         'require bond cap.';
     }
@@ -956,6 +1014,8 @@
     _applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     _getEquityPricingDefaults:   _getEquityPricingDefaults,
     _resetPricingDefaultsForTest: _resetPricingDefaultsForTest,
+    _applyUnderwritingRules:     _applyUnderwritingRules,
+    _assumptions:                DEFAULT_ASSUMPTIONS,
     _computeScenarioSensitivity: _computeScenarioSensitivity,
     _computeChfaAwardContext:    _computeChfaAwardContext
   };
