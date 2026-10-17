@@ -423,6 +423,14 @@
     `;
 
     // Footer
+    // The feedback form is a Google Form owned by the site's maintainer
+    // account; entry.440415848 is its "Which page?" field, prefilled so a
+    // question arrives with the page it was asked from.
+    const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform';
+    function feedbackFormHref() {
+      return FEEDBACK_FORM_URL + '?usp=pp_url&entry.440415848=' +
+        encodeURIComponent(window.location.pathname || '/');
+    }
     const footer = document.createElement('footer');
     footer.className = 'site-footer';
     footer.setAttribute('role', 'contentinfo');
@@ -446,6 +454,7 @@
           <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
           <a href="${normalizeHref('about.html')}">About this site</a>
+          <a href="${feedbackFormHref()}" target="_blank" rel="noopener">Questions or feedback</a>
           <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
         <div class="footer-disclaimer">
