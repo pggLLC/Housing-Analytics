@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T05:17:25Z",
+    "generated_at": "2026-10-17T11:06:05Z",
     "source_tract_chas": "data/market/chas_tract_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_pop": "data/hna/place-lehd.json (place_pop)",
