@@ -7352,7 +7352,7 @@
       "award_size": "Construction grants up to $600,000; DEEC grants up to $50,000.",
       "rate": null,
       "term": null,
-      "ami_restriction": "The project area, or its beneficiaries, must be at least 51% low income. No AMI percentage is stated.",
+      "ami_restriction": "The project area, or its beneficiaries, must be at least 51% low- and moderate-income. HUD defines a low- and moderate-income person as one in a family with income at or below 80% of area median income (the Section 8 low-income limit).",
       "affordability_period": null,
       "eligible_applicants": "Cities, counties and other units of general local government in non-entitlement areas: cities under 50,000 people (except principal cities of metro areas) and counties under 200,000. They may apply on behalf of nonprofits.",
       "eligible_projects": "Acquisition, construction, reconstruction, rehabilitation or installation of public improvements or facilities. Construction applications need a completed environmental review and construction-ready plans.",
@@ -7381,6 +7381,10 @@
         {
           "label": "dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria",
           "url": "https://dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria"
+        },
+        {
+          "label": "HUD CDBG Guidebook for Conducting Local Income Surveys",
+          "url": "https://files.hudexchange.info/resources/documents/CDBG-Guidebook-for-Conducting-Local-Income-Surveys.pdf"
         }
       ],
       "evidence": [
@@ -7418,6 +7422,11 @@
           "field": "ami_restriction",
           "quote": "Have a project located in at least a 51% low income community OR the project beneficiaries must be at least 51% low income based on local data",
           "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "The Section 8 low-income limit is defined as less than or equal to 80 percent area median income (AMI). Thus, when conducting an income survey, an LMI person is defined as having an income less than or equal to 80 percent AMI.",
+          "url": "https://files.hudexchange.info/resources/documents/CDBG-Guidebook-for-Conducting-Local-Income-Surveys.pdf"
         },
         {
           "field": "eligible_applicants",
@@ -7494,7 +7503,7 @@
       "status": "rolling",
       "what_it_funds": "Low-interest loans, planning grants and some principal forgiveness for the design and construction of drinking water systems.",
       "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community or BIL status): up to $10 million for lead service lines and up to $30 million for emerging contaminants such as PFAS, for disadvantaged communities and BIL-eligible borrowers; for other projects, up to $2.5 million for BIL-eligible Category 2 disadvantaged communities, $2 million for Category 1, and $1 million for BIL-eligible borrowers that are not disadvantaged communities. Design and engineering grants up to $300,000 for disadvantaged communities, currently limited. Planning grants up to $10,000.",
-      "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
+      "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Private nonprofit water systems pay more: 3.75% for 20 years or 4.00% for 30 years (3.25% and 3.50% for Category 1 disadvantaged communities, 2.50% and 2.75% for Category 2). Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
       "affordability_period": null,
@@ -7545,6 +7554,10 @@
         {
           "label": "www.cwrpda.com/principal-forgiveness-pf-grant-calculator",
           "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "label": "cwrpda.com/current-interest-rates",
+          "url": "https://www.cwrpda.com/current-interest-rates"
         }
       ],
       "evidence": [
@@ -7647,6 +7660,11 @@
           "field": "rate",
           "quote": "*The authority board typically determines interest rates on or before December 31 each year for the upcoming calendar year; however, rates are subject to change throughout the year.",
           "url": "https://drive.google.com/uc?export=download&id=1MyS_mb-fqJxC0kp6K76UhN2taTnReiIb"
+        },
+        {
+          "field": "rate",
+          "quote": "Standard Private-Non-Profits (PNPs) : 3.75% (20yr) 4.00% (30yr) DAC 1 PNPs : 3.25% (20yr) 3.50% (30yr) DAC 2 PNPs : 2.50% (20yr) 2.75% (30yr)",
+          "url": "https://www.cwrpda.com/current-interest-rates"
         },
         {
           "field": "term",
