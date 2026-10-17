@@ -38,6 +38,8 @@ test('every program has a DOH group or is left for the user, and historic credit
   assert.equal(pf.defaultGroup('other'), '', 'Other / custom is not guessed');
   assert.equal(pf.trancheGroup({ program: 'historic_tc', doh: 'government', mode: 'grant' }).group, 'historic');
   assert.match(pf.trancheGroup({ program: 'other', doh: '', mode: 'loan' }).reason, /Choose where/);
+  assert.match(pf.trancheGroup({ program: 'historic_tc', mode: 'loan' }).reason, /Choose where/, 'historic credit entered as a loan is a loan');
+  assert.equal(pf.trancheGroup({ program: 'historic_tc', doh: 'hard_C', mode: 'loan' }).group, 'hard_C');
   assert.match(pf.trancheGroup({ program: 'other', doh: 'hard_T', mode: 'grant' }).reason, /not a hard mortgage/);
   assert.deepEqual(pf.LENDER_TYPES.map(t => t.id), ['C', 'T', 'F']);
 });

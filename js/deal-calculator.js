@@ -3518,7 +3518,7 @@
     function dohGroupOptions(t) {
       var pf = permanentFinancingModule();
       if (!pf) return '';
-      if (t.program === pf.HISTORIC_PROGRAM) return '<option value="">Tax credit equity: federal historic credit</option>';
+      if (t.program === pf.HISTORIC_PROGRAM && t.mode !== 'loan') return '<option value="">Tax credit equity: federal historic credit</option>';
       return [['', 'Not answered']].concat(pf.GROUPS.map(function (g) { return [g.id, g.label]; })).map(function (o) {
         return '<option value="' + o[0] + '"' + ((t.doh || '') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
       }).join('');
@@ -3646,7 +3646,12 @@
         });
         rowEl.querySelectorAll('.dc-tr-mode').forEach(function (modeRadio) {
           modeRadio.addEventListener('change', function () {
-            if (this.checked) { t.mode = this.value; recalculate(); }
+            if (this.checked) {
+              t.mode = this.value;
+              // A historic credit row's DOH choices depend on loan or grant.
+              rowEl.querySelector('.dc-tr-doh').innerHTML = dohGroupOptions(t);
+              recalculate();
+            }
           });
         });
         rowEl.querySelector('.dc-tr-remove').addEventListener('click', function () {

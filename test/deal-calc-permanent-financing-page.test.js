@@ -75,6 +75,15 @@ async function test(name, fn) {
     setField(p, 'dc-senior-lender-type', 'F');
     assert.equal(amount(p, 'federal_financing'), money(p.w.__DealCalc.getResult().mortgage));
     assert.equal(amount(p, 'conventional'), money(0));
+    const mode = (v) => { const r = p.d.querySelectorAll('[data-tranche-id]')[0].querySelector('.dc-tr-mode[value="' + v + '"]'); r.checked = true; r.dispatchEvent(new p.w.Event('change', { bubbles: true })); };
+    mode('grant');
+    setRow(p, 0, '.dc-tr-prog', 'historic_tc');
+    assert.equal(amount(p, 'historic'), money(400000), 'a historic credit grant counts as historic credit equity');
+    assert.deepEqual([...doh(p, 0).options].map(o => o.textContent), ['Tax credit equity: federal historic credit'], 'a historic credit grant is tax credit equity');
+    mode('loan');
+    assert(doh(p, 0).options.length > 1, 'entered as a loan, it takes a DOH group like any loan');
+    setRow(p, 0, '.dc-tr-doh', 'hard_C');
+    assert.equal(amount(p, 'historic'), money(0), 'and is no longer counted as historic credit equity');
     setRow(p, 0, '.dc-tr-prog', 'other');
     assert.equal(doh(p, 0).value, '', 'Other / custom is not guessed');
     assert(amount(p, 'unclassified'), 'an ungrouped source gets its own row');

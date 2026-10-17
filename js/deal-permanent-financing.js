@@ -63,7 +63,9 @@
 
   /** The DOH group a tranche counts in, with the reason when it has none. */
   function trancheGroup(t) {
-    if (t.program === HISTORIC_PROGRAM) return { group: 'historic', reason: null };
+    // Historic credit proceeds are equity; entered as a loan, the row is a loan
+    // like any other and takes the group the user chooses.
+    if (t.program === HISTORIC_PROGRAM && t.mode !== 'loan') return { group: 'historic', reason: null };
     var g = t.doh === undefined || t.doh === null ? defaultGroup(t.program) : t.doh;
     if (!g) return { group: null, reason: 'Choose where this source counts in DOH\'s layout.' };
     if (!isGroup(g)) return { group: null, reason: 'Unknown DOH source group.' };
