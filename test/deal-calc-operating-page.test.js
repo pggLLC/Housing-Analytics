@@ -82,6 +82,30 @@ async function test(name, fn) {
     assert.deepEqual(old.errors, []);
   });
 
+  await test('an old link keeps who entered its monthly figure on the lines that now hold it', async () => {
+    const sender = await openPage('');
+    const snap = JSON.parse(JSON.stringify(sender.w.__DealCalcShare.buildSnapshot()));
+    const oldLink = (status) => {
+      const url = new URL(snap.url);
+      [...url.searchParams.keys()].filter(k => /^op-/.test(k)).forEach(k => url.searchParams.delete(k));
+      url.searchParams.set('opex', '500');
+      const map = JSON.parse(JSON.stringify(snap.inputProvenance));
+      Object.keys(map.fields).filter(id => /^dc-op-/.test(id)).forEach(id => delete map.fields[id]);
+      map.fields['dc-opex'] = [status, '450', 0, null];
+      url.searchParams.set('inputProvenance', JSON.stringify(map));
+      return url.search;
+    };
+    const statusOf = (p, id) => p.w.InputProvenance.get(p.d.getElementById(id)).status;
+    const entered = await openPage(oldLink('yours'));
+    assert.equal(entered.d.getElementById('dc-op-other_other').value, '6000');
+    assert.equal(statusOf(entered, 'dc-op-other_other'), 'yours', 'the sender\'s figure stays the sender\'s');
+    assert.equal(statusOf(entered, 'dc-op-utilities'), 'yours', 'the line the sender\'s figure emptied is the sender\'s too');
+    assert.equal(entered.w.__DealCalcShare.buildSnapshot().inputProvenance.fields['dc-op-other_other'][0], 'yours', 'and travels onward');
+    const example = await openPage(oldLink('illustrative'));
+    assert.equal(statusOf(example, 'dc-op-insurance'), 'illustrative', 'an untouched old default is not promoted to the sender\'s');
+    assert.deepEqual(entered.errors, []);
+  });
+
   close();
   console.log(passed + ' passed, ' + failed + ' failed');
   process.exit(failed ? 1 : 0);

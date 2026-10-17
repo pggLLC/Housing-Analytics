@@ -109,6 +109,22 @@ test('old links: the monthly figure loads, times 12, into Other expenses, Other'
   assert.equal(mapped.noi, old.noi);
 });
 
+test('old links: the dc-opex provenance record moves to the lines its figure fills', () => {
+  const read = obj => key => (Object.prototype.hasOwnProperty.call(obj, key) ? obj[key] : null);
+  const fields = ob.legacyOperatingFields(read({ opex: '500' }));
+  const map = { version: 1, sources: [{}], fields: { 'dc-opex': ['yours', '450', 0, null], 'dc-units': ['yours', '60', 0, null] } };
+  const out = ob.legacyOperatingProvenance(map, fields);
+  assert.equal(out.fields['dc-opex'], undefined, 'the removed field is dropped');
+  assert.deepEqual(out.fields['dc-op-other_other'], ['yours', '5400', 0, null]);
+  assert.equal(out.fields['dc-op-utilities'][0], 'yours');
+  assert.equal(out.fields['dc-op-income-parking'][0], 'yours');
+  assert.deepEqual(out.fields['dc-units'], map.fields['dc-units'], 'other fields untouched');
+  assert(map.fields['dc-opex'], 'the input map is not mutated');
+  const untouched = ob.legacyOperatingProvenance({ version: 1, sources: [{}], fields: { 'dc-opex': ['illustrative', '450', 0, null] } }, fields);
+  assert.deepEqual(untouched.fields, {}, 'an old default is not promoted');
+  assert.equal(ob.legacyOperatingProvenance(null, fields), null);
+});
+
 test('manual NOI keeps a finite OpEx sensitivity read from the budget', () => {
   const i = withBudget('A');
   const auto = computeDeal(i);

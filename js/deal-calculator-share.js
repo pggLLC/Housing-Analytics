@@ -387,6 +387,7 @@
     if (obm && obm.legacyOperatingFields) {
       var legacyOp = obm.legacyOperatingFields(function (key) { return params.has(key) ? params.get(key) : null; });
       Object.keys(legacyOp).forEach(function (key) { params.set(key, legacyOp[key]); });
+      if (obm.legacyOperatingProvenance) _sharedProvenance = obm.legacyOperatingProvenance(_sharedProvenance, legacyOp);
     }
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');

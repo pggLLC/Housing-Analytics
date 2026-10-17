@@ -146,11 +146,31 @@
     return out;
   }
 
+  /** The provenance record an old link carried for dc-opex moves with its value.
+   * A figure the sender entered stays the sender's on every line the old figure
+   * now fills or empties; an untouched old default is left to the lines' own
+   * labels, because it was the old invented figure. Returns a new map. */
+  function legacyOperatingProvenance(map, legacyFields) {
+    if (!map || typeof map !== 'object' || !map.fields || !Array.isArray(map.fields['dc-opex'])) return map;
+    var out = JSON.parse(JSON.stringify(map));
+    var entry = out.fields['dc-opex'];
+    delete out.fields['dc-opex'];
+    var keys = Object.keys(legacyFields || {});
+    if (!keys.length || entry[0] !== 'yours') return out;
+    var monthly = num(entry[1]);
+    keys.forEach(function (key) {
+      if (out.fields['dc-' + key]) return;
+      var original = key === 'op-other_other' && monthly !== null && Number.isFinite(monthly) ? String(monthly * 12) : '';
+      out.fields['dc-' + key] = [entry[0], original, entry[2], null];
+    });
+    return out;
+  }
+
   return {
     GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, INCOME_TEMPLATE: INCOME_TEMPLATE, SEPARATE_LINES: SEPARATE_LINES,
     EXAMPLE_BUDGET: EXAMPLE_BUDGET, EXAMPLE_INCOME: EXAMPLE_INCOME,
     exampleLines: exampleLines, exampleIncome: exampleIncome,
     summarizeOperating: summarizeOperating, pupaExpenses: pupaExpenses,
-    legacyOperatingFields: legacyOperatingFields
+    legacyOperatingFields: legacyOperatingFields, legacyOperatingProvenance: legacyOperatingProvenance
   };
 });
