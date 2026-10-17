@@ -377,6 +377,12 @@
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
     if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
     try { _sharedProvenance = JSON.parse(params.get('inputProvenance')); } catch (_) { _sharedProvenance = null; }
+    // Cost lines saved before the DOH layout load into the DOH lines that hold them.
+    var cbm = window.DealCostBasis;
+    if (cbm && cbm.legacyCostFields) {
+      var legacy = cbm.legacyCostFields(function (key) { return params.has(key) ? params.get(key) : null; });
+      Object.keys(legacy).forEach(function (key) { params.set(key, legacy[key]); });
+    }
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
