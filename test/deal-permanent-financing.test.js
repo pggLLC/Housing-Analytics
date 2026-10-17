@@ -94,6 +94,23 @@ test('the first mortgage payment follows its repayment type, not the amortizing 
   else { assert.equal(ds.hardMortgages[0].annualPayment, d.annualDebtService); assert.equal(ds.hardMortgages[0].cumulativeDcr, d.annualDebtService > 0 ? d.noi / d.annualDebtService : null); }
 });
 
+test('a cash-flow or deferred loan cannot be a hard mortgage: it is held apart with a reason', () => {
+  for (const loanType of ['cash_flow', 'accrue_defer', 'forgivable']) {
+    const list = STACK.slice(); list[0] = Object.assign({}, list[0], { doh: 'hard_C', loanType, cashflowPayPct: 50 });
+    const r = computeDeal(withTranches('A', list));
+    const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C' });
+    assert.equal(s.hardMortgages.length, 1, loanType + ': only the first mortgage is hard');
+    assert.equal(s.unclassified.length, 1, loanType);
+    assert.match(s.unclassified[0].reason, /not a hard mortgage/);
+    close(s.totals.totalSources + s.totals.gap, r.tdc, loanType + ': still counted in total sources');
+  }
+  const io = STACK.slice(); io[0] = Object.assign({}, io[0], { doh: 'hard_C', loanType: 'interest_only' });
+  const r = computeDeal(withTranches('A', io));
+  const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C' });
+  assert.equal(s.hardMortgages.length, 2, 'an interest-only loan is must-pay');
+  close(s.hardMortgages[1].annualPayment, 1000000 * 0.03, 'interest only at 3%');
+});
+
 test('an ungrouped or untyped source is unknown with a reason, and still counts in total sources', () => {
   const list = STACK.concat([{ program: 'other', amount: 50000, mode: 'grant' }]);
   const r = computeDeal(withTranches('A', list));
@@ -127,6 +144,10 @@ test('maximum loan by value: NOI over a cap rate, or an appraised value, times L
   assert.equal(none.byAppraisal.maxLoan, null); assert.match(none.byAppraisal.reason, /Enter an appraised value/);
   assert.match(pf.maxLoanChecks({ noi: 650000, capRatePct: '0', capLvrPct: '80' }).byCap.reason, /above 0%/);
   assert.match(pf.maxLoanChecks({ noi: null, capRatePct: '6', capLvrPct: '80' }).byCap.reason, /NOI is not available/);
+  const negative = pf.maxLoanChecks({ noi: -5000, capRatePct: '6', capLvrPct: '80' }).byCap;
+  assert.equal(negative.maxLoan, null); assert.match(negative.reason, /\$0 or less/);
+  assert.equal(pf.summarize({ result: { mortgage: 0, mc: 0.07, annualDebtService: 0, noi: -5000, gap: 0, tdc: 1 }, tranches: [], seniorLenderType: 'C', capRatePct: '6', capLvrPct: '80' }).overMaxLoan, null,
+    'no limit from a negative NOI, so nothing is reported above it');
   const r = computeDeal(withTranches('A', STACK));
   const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C', capRatePct: '6.5', capLvrPct: '50', appraisedValue: '', appraisedLvrPct: '' });
   close(s.overMaxLoan, Math.max(0, r.mortgage - (r.noi / 0.065) * 0.5), 'hard debt above the lower maximum');

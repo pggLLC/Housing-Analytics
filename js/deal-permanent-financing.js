@@ -49,6 +49,8 @@
   });
   // DOH's sheet shows possible debt service at this coverage ratio.
   var DOH_DCR = 1.15;
+  // Repayment types with a payment due whatever the cash flow.
+  var MUST_PAY = ['amortizing', 'interest_only', 'io_then_amortizing'];
 
   function defaultGroup(program) { return PROGRAM_GROUP[program] || ''; }
   function known(v) { return typeof v === 'number' && Number.isFinite(v); }
@@ -85,6 +87,7 @@
     if (cap === null || capLvr === null) byCap.reason = 'Enter a cap rate and a loan-to-value ratio.';
     else if (!(cap > 0) || !(capLvr > 0) || capLvr > 100) byCap.reason = 'Enter a cap rate above 0% and a loan-to-value ratio from 1% to 100%.';
     else if (!known(noi)) byCap.reason = 'NOI is not available.';
+    else if (!(noi > 0)) byCap.reason = 'NOI is $0 or less, so there is no income value to lend against.';
     else { byCap.value = noi / (cap / 100); byCap.maxLoan = byCap.value * capLvr / 100; }
     var byAppraisal = { value: null, maxLoan: null, reason: null };
     if (appraised === null || appLvr === null) byAppraisal.reason = 'Enter an appraised value and a loan-to-value ratio.';
@@ -118,6 +121,11 @@
       var b = breakdown[t.id];
       item.annualPayment = t.mode === 'grant' ? 0 : b && known(b.debtService) ? b.debtService : null;
       var g = trancheGroup(t);
+      // DOH's hard mortgages are paid whatever the cash flow; a contingent,
+      // deferred or forgivable loan has no fixed payment to cover.
+      if (g.group && /^hard_/.test(g.group) && b && b.loanType && MUST_PAY.indexOf(b.loanType) < 0) {
+        g = { group: null, reason: 'A cash-flow, deferred or forgivable loan is not a hard mortgage; choose another DOH group.' };
+      }
       if (!g.group) { item.reason = g.reason; out.unclassified.push(item); out.reasons.push(g.reason); return; }
       if (/^hard_/.test(g.group)) {
         item.label = ['Second', 'Third'][out.hardMortgages.length - 1] ? ['Second', 'Third'][out.hardMortgages.length - 1] + ' mortgage' : 'Additional hard mortgage';
