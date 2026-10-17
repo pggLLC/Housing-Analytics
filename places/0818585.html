@@ -32,15 +32,15 @@
   "source": "population-apportionment",
   "summary": {
     "total_renter_hh": 9.0,
-    "total_owner_hh": 85.9,
+    "total_owner_hh": 104.0,
     "renter_cb30_count": 6.5,
     "renter_cb30_share": 0.7222,
     "renter_cb50_count": 4.0,
     "renter_cb50_share": 0.4444,
-    "owner_cb30_count": 23.4,
-    "owner_cb30_share": 0.2724,
-    "owner_cb50_count": 12.7,
-    "owner_cb50_share": 0.1478
+    "owner_cb30_count": 28.3,
+    "owner_cb30_share": 0.2721,
+    "owner_cb50_count": 15.4,
+    "owner_cb50_share": 0.1481
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -81,56 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 9.0,
-      "cost_burdened_30pct": 6.0,
-      "cost_burdened_50pct": 4.2,
+      "total": 10.9,
+      "cost_burdened_30pct": 7.3,
+      "cost_burdened_50pct": 5.1,
       "pct_cost_burdened_30": 0.673,
       "pct_cost_burdened_50": 0.4671
     },
     "31to50": {
-      "total": 7.3,
-      "cost_burdened_30pct": 6.6,
-      "cost_burdened_50pct": 4.5,
+      "total": 8.8,
+      "cost_burdened_30pct": 8.0,
+      "cost_burdened_50pct": 5.5,
       "pct_cost_burdened_30": 0.894,
       "pct_cost_burdened_50": 0.6192
     },
     "51to80": {
-      "total": 8.2,
-      "cost_burdened_30pct": 4.8,
-      "cost_burdened_50pct": 3.2,
+      "total": 10.0,
+      "cost_burdened_30pct": 5.8,
+      "cost_burdened_50pct": 3.8,
       "pct_cost_burdened_30": 0.577,
       "pct_cost_burdened_50": 0.3803
     },
     "81to100": {
-      "total": 6.3,
-      "cost_burdened_30pct": 3.1,
-      "cost_burdened_50pct": 0.4,
+      "total": 7.6,
+      "cost_burdened_30pct": 3.7,
+      "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.4942,
       "pct_cost_burdened_50": 0.0676
     },
     "100plus": {
-      "total": 55.1,
-      "cost_burdened_30pct": 2.9,
-      "cost_burdened_50pct": 0.4,
+      "total": 66.7,
+      "cost_burdened_30pct": 3.5,
+      "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.0539,
       "pct_cost_burdened_50": 0.0075
     }
   },
-  "tenure_anchor": {
-    "applied": false,
-    "status": "unavailable",
-    "reason": "missing_dp04_tenure",
-    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-    "acs_renter_hh": null,
-    "acs_owner_hh": 95.0,
-    "base_renter_hh": 11.4,
-    "base_owner_hh": 108.5
-  },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 113,
+    "base_hh": 119.9,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.7923,
-    "acs_occupied_hh": 95,
-    "base_hh_before": 119.9
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7895,
+    "owner_scale": 0.9585,
+    "acs_renter_hh": 9.0,
+    "acs_owner_hh": 104.0,
+    "base_renter_hh_before": 11.4,
+    "base_owner_hh_before": 108.5,
+    "renter_share_before": 0.0951,
+    "renter_share_after": 0.0796,
+    "rates_preserved": true
   },
   "chas_meta": {
     "vintage_chas": "2018-2022",
@@ -146,12 +149,12 @@
     "type": "cdp",
     "recommendation": "Rental + ownership mix",
     "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-    "data_quality": "Medium",
+    "data_quality": "High",
     "renter_cost_burdened": 6.5,
-    "owner_cost_burdened": 23.4,
+    "owner_cost_burdened": 28.3,
     "severe_renter_cost_burdened": 4,
     "moderate_income_renter_households": 1.7,
-    "moderate_income_owner_cost_burdened": 7.9,
+    "moderate_income_owner_cost_burdened": 9.5,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Very High",
@@ -160,8 +163,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -205,7 +207,7 @@
           Colorado · Boulder County
         </div>
         <h1>Crisman</h1>
-        <p class="place-sub">~95 households · renter cost-burden 72.2%</p>
+        <p class="place-sub">~113 households · renter cost-burden 72.2%</p>
       </div>
     </div>
 
