@@ -1,0 +1,121 @@
+name: Fetch Census Monthly Building Permits
+
+# Twice a month: homes permitted so far this year by Colorado county and town,
+# against the same months last year, from the Census Building Permits Survey's
+# monthly year-to-date files (data/market/bps_monthly_ytd.json). It sits beside
+# each call in market-direction.json as context. Census posts a month's files
+# several weeks after it ends; a run with nothing new writes the same bytes and
+# commits nothing.
+#
+# Schedule: the 1st and 16th at 06:22 UTC. GitHub starts crons ~3 hours late
+# (AGENTS.md), so it lands near 09:00 UTC = 02:00-03:00 Mountain, inside the
+# 00:00-05:00 window. Minute 22 is used by no other workflow.
+on:
+  schedule:
+    - cron: '22 6 1,16 * *'   # 1st and 16th, 06:22 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write   # dispatch deploy.yml after the data push
+  contents: write
+  issues: write    # failure issue
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
+
+jobs:
+  fetch-permits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Exits 1 without writing when a Census file cannot be read or lacks any
+      # of the 64 counties, so a failure leaves the committed file as it was.
+      - name: Fetch monthly building permits
+        run: python3 scripts/market/fetch_bps_monthly.py
+
+      - name: Validate output
+        run: node scripts/validate-schemas.js
+
+      # The file feeds data/market/market-direction.json, an output of the
+      # derived chain, so the commit goes through
+      # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
+      # with it, or nothing is committed (AGENTS.md).
+      - name: Rebuild derived data and commit
+        id: commit
+        # a dispatch on a branch commits to that branch, never to main
+        env:
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
+        run: |
+          scripts/commit-with-derived-chain.sh "chore: update monthly building permits [$(date -u '+%Y-%m-%d')]" -- \
+            data/market/bps_monthly_ytd.json
+
+      - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
+
+  notify-failure:
+    name: Notify on refresh failure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [fetch-permits]
+    if: failure()
+
+    steps:
+      - name: Open GitHub issue on refresh failure
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const label = 'bps-monthly-refresh-failure';
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+            if (existing.data.length > 0) {
+              console.log('Refresh failure issue already open — skipping duplicate creation.');
+              return;
+            }
+            const body = [
+              `The **Fetch Census Monthly Building Permits** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              'The committed file was kept: the script writes nothing on failure.',
+              '',
+              '### Common causes',
+              '- www2.census.gov is down, or its firewall answered with an HTML page',
+              '- a year-to-date file for the latest month or the same month last year is missing',
+              '- the county file lacks one of the 64 Colorado counties',
+              '- `validate-schemas.js` rejected the output',
+              '',
+              '### Recovery steps',
+              '1. Read the failing step log',
+              '2. Re-run once census.gov recovers, or fix the file names if Census changed them',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[BPS Monthly] Refresh failed — run #${context.runId}`,
+              body,
+              labels: [label],
+            });
