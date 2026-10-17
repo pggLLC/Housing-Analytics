@@ -725,6 +725,8 @@
 
     var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
     var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
+    // A buffer or hybrid run replaces the tract results; a tract run sets the key below.
+    _lastRunTractKey = null;
 
     // Tract-picker mode: pass explicit GEOID list + boundary polygon to the runner.
     // The run-button handler (_initRunButton) already gated empty selection +
@@ -743,6 +745,7 @@
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
       _lastRunTractKey = _currentTractKey();
+      _lastRunTractSite = _getLastCoords();
       // The justification narrative and the concept-card recommendation are
       // conclusions about this PMA too. PMAEngine.runAnalysis has already
       // said on the score card why it is not bound; nothing is drawn here
@@ -933,9 +936,13 @@
     var picker = window.PMATractPicker;
     var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
     if (!picker || !mapRef || typeof picker.init !== 'function') return false;
-    // A new site is not a change to the last run's tracts: placing it has its
-    // own pending state, and the previous run's key no longer applies.
-    _lastRunTractKey = null;
+    // Reopening the tract tab at the run's own site keeps the key, so a later
+    // tract change still takes the results down. Any other site has its own
+    // pending state, and the previous run's key no longer applies.
+    if (!_lastRunTractSite || Math.abs(_lastRunTractSite.lat - lat) > 1e-7 ||
+        Math.abs(_lastRunTractSite.lon - lon) > 1e-7) {
+      _lastRunTractKey = null;
+    }
     picker.init(mapRef, lat, lon, _onTractSelectionChange)
       .then(function (r) {
         // picker.init resets rationale to ''; mirror that in the textarea
@@ -1000,6 +1007,8 @@
      takes those results down, so the counts, narrative and exports never
      describe a boundary other than the one on the map. */
   var _lastRunTractKey = null;
+  // The site that run was for. Opening the picker anywhere else is a new site.
+  var _lastRunTractSite = null;
   // What a tract run's results depend on: the GEOIDs, and the natural-feature
   // record the narrative and exports carry once it is used (applied, or
   // reported as unavailable / none nearby). A proposal not yet applied
@@ -1297,6 +1306,7 @@
 
       var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
       var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
+      _lastRunTractKey = null;
       if (_method === 'tract') {
         var picker = window.PMATractPicker;
         var picked = picker && picker.getSelectedGeoids ? picker.getSelectedGeoids() : [];
@@ -1318,6 +1328,7 @@
         runOptions.tractGeoids = picked;
         runOptions.tractBoundary = picker && picker.getBoundary ? picker.getBoundary() : null;
         _lastRunTractKey = _currentTractKey();
+        _lastRunTractSite = _getLastCoords();
         if (window.PMAEngine && typeof window.PMAEngine.runAnalysis === 'function') {
           window.PMAEngine.runAnalysis(lat, lon, runOptions);
         }
@@ -1617,7 +1628,10 @@
     if (stored && stored.scoreRun) {
       _lastScoreRun = stored.scoreRun;
       // A restored tract run is invalidated by later changes like a fresh one.
-      if (stored.scoreRun.pmaTractSelection) _lastRunTractKey = _tractKey(stored.scoreRun.pmaTractSelection);
+      if (stored.scoreRun.pmaTractSelection) {
+        _lastRunTractKey = _tractKey(stored.scoreRun.pmaTractSelection);
+        _lastRunTractSite = { lat: parseFloat(source.lat), lon: parseFloat(source.lon) };
+      }
       _renderJustification(stored.scoreRun);
       _renderConceptCard(stored.scoreRun);
       var explainBtn = $id('pmaExplainScoreBtn');
