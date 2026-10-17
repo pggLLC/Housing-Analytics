@@ -2975,15 +2975,19 @@
       rows,
       households: hh === null ? null : {
         delta: hh,
-        basis: input.householdsBasis === 'hold' || input.householdsBasis === 'trend' ? input.householdsBasis : 'stored',
+        basis: ['hold', 'trend', 'forecast-filled'].includes(input.householdsBasis) ? input.householdsBasis : 'stored',
         text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
           + '. That chart counts households, not homes, from '
           + (input.householdsBasis === 'hold'
             ? 'projected population \u00d7 the base-year headship rate, held as selected'
             : input.householdsBasis === 'trend'
               ? 'projected population \u00d7 a headship rate moved by the ACS trend, as selected'
-              : 'DOLA\u2019s household series'
-                + (input.subCounty ? ', scaled to this place by its share of county population' : ''))
+              : input.householdsBasis === 'forecast-filled'
+                ? 'DOLA\u2019s household series, with projected population \u00d7 the base-year headship rate for the '
+                  + (num(input.householdsFilledYears) === 1 ? 'year' : (num(input.householdsFilledYears) || 0) + ' years')
+                  + ' that series does not value'
+                : 'DOLA\u2019s household series'
+                  + (input.subCounty ? ', scaled to this place by its share of county population' : ''))
           + '. The ' + growthNameLc + ' reading counts homes: '
           + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
             : 'the growth in projected households, at the target vacancy')
@@ -3271,27 +3275,57 @@
     // whose calculator reads the control; a place's headline comes from its own
     // stored projection, so its charts keep the county-scaled series under
     // every option. A year with no population or rate stays null, never 0.
+    // Under Forecast, a year whose stored value is missing or non-positive is
+    // the calculator's fallback year (population × the base-year rate, as the
+    // horizon arithmetic above does), so the charts and the reconciliation get
+    // the same filled series rather than a gap beside a headline that has a
+    // value; a complete stored series is handed over untouched, as before.
     let householdSeriesForMode = null;
-    if (headshipMode !== 'forecast' && !isPlaceSelection && Array.isArray(popSel)) {
-      const held = headshipMode !== 'trend';
-      const optionValue = held ? 'hold' : 'trend';
-      householdSeriesForMode = {
-        mode: optionValue,
-        series: popSel.map((p, step) => {
-          const pop = window.HNAUtils.safeNum(p);
-          const rate = headshipAt(step);
-          return (pop !== null && pop > 0 && rate !== null) ? pop * rate : null;
-        }),
-        // Short enough for the legend at phone width; the note below the
-        // chart carries the arithmetic.
-        label: held
-          ? 'Households (held headship)'
-          : 'Households (trended headship)',
-        note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: projected population \u00d7 '
-          + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend')
-          + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
-          + ' to see the stored SDO household series.',
-      };
+    if (!isPlaceSelection && Array.isArray(popSel)) {
+      const rateSeries = popSel.map((p, step) => {
+        const pop = window.HNAUtils.safeNum(p);
+        const rate = headshipAt(step);
+        return (pop !== null && pop > 0 && rate !== null) ? pop * rate : null;
+      });
+      const storedSeries = Array.isArray(proj?.housing_need?.households_dola) ? proj.housing_need.households_dola : null;
+      if (headshipMode === 'forecast' && storedSeries) {
+        let filledYears = 0;
+        const series = popSel.map((_, step) => {
+          const stored = window.HNAUtils.safeNum(storedSeries[step]);
+          if (stored !== null && stored > 0) return stored;
+          if (rateSeries[step] !== null) filledYears += 1;
+          return rateSeries[step];
+        });
+        if (filledYears > 0) {
+          householdSeriesForMode = {
+            mode: 'forecast-filled',
+            scope: 'forecast-filled',
+            filledYears,
+            series,
+            label: 'Households (DOLA forecast, gaps filled)',
+            note: 'The stored SDO household series has no value for ' + filledYears + ' of ' + popSel.length
+              + (filledYears === 1 ? ' years; that year shows' : ' years; those years show')
+              + ' projected population \u00d7 the base-year headship rate, the value the calculator above uses for it.',
+          };
+        }
+      } else if (headshipMode !== 'forecast') {
+        const held = headshipMode !== 'trend';
+        const optionValue = held ? 'hold' : 'trend';
+        householdSeriesForMode = {
+          mode: optionValue,
+          scope: 'selected-headship',
+          series: rateSeries,
+          // Short enough for the legend at phone width; the note below the
+          // chart carries the arithmetic.
+          label: held
+            ? 'Households (held headship)'
+            : 'Households (trended headship)',
+          note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: projected population \u00d7 '
+            + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend')
+            + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
+            + ' to see the stored SDO household series.',
+        };
+      }
     }
     // The larger of the resident-growth reading and the workforce reading; see
     // _productionNeed. Subtracting the TOTAL stock from demand computed at the
@@ -3635,6 +3669,7 @@
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,
         householdsBasis: householdSeriesForMode ? householdSeriesForMode.mode : 'stored',
+        householdsFilledYears: householdSeriesForMode ? (householdSeriesForMode.filledYears || 0) : 0,
         permits: permitsShown,
       });
       if (reconSeq === _reconSeq) {

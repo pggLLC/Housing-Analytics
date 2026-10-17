@@ -277,7 +277,7 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
  * under the default option the chart still draws the stored series.
  */
 async function assertHouseholdChartsFollowHeadshipOption() {
-  const render = async (headshipMode) => {
+  const render = async (headshipMode, storedSeries = [65000, 80000]) => {
     const html = makeHtml().replace('</body>', `
         <div><div class="chart-box"><canvas id="chartProjectedHH"></canvas></div></div>
         <div><div class="chart-box"><canvas id="chartHouseholdDemand"></canvas></div></div>
@@ -296,7 +296,7 @@ async function assertHouseholdChartsFollowHeadshipOption() {
     // A county headship trend, so Trend differs from Hold.
     window.HNAState.state.derived = { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } };
     const proj = projectionFixture();
-    proj.housing_need.households_dola = [65000, 80000];
+    proj.housing_need.households_dola = storedSeries;
     proj.housing_need.household_method = ['sdo_household_forecast', 'sdo_household_forecast'];
     await window.HNAController.applyAssumptions(proj, selection);
     const charts = window.HNAState.charts || {};
@@ -345,6 +345,25 @@ async function assertHouseholdChartsFollowHeadshipOption() {
   assert(r.rec.households.text.includes(STORED_WORDS), `the default option's reconciliation attributes the chart to the stored series (${r.rec.households.text})`);
   assert.strictEqual(r.rec.households.basis, 'stored');
   assert.strictEqual(r.formationNote, '', `the default county chart carries no option note (note: ${r.formationNote})`);
+  const defaultLabel = r.formation.data.datasets[0].label;
+
+  // Forecast with a year the stored series does not value (null, or a
+  // non-positive value, which means unknown): the headline falls back to
+  // population × the base-year rate for that year, so the charts and the
+  // reconciliation must show the same filled value rather than a gap or 0.
+  for (const gap of [null, 0]) {
+    const what = `Forecast with ${gap === null ? 'a null' : 'a zero'} horizon year`;
+    r = await render(null, [65000, gap]);
+    check(r, [65000, 190000 * 0.40625], what);
+    assert.notStrictEqual(r.formation.data.datasets[0].label, defaultLabel,
+      `${what}: a filled series is not labelled as the plain stored series (label: ${r.formation.data.datasets[0].label})`);
+    assert(/population × the base-year headship/.test(r.formationNote) && /1 of 2/.test(r.formationNote),
+      `${what}: the chart's note names the fallback arithmetic and how many years it filled (note: ${r.formationNote})`);
+    assert.strictEqual(r.rec.households.basis, 'forecast-filled', `${what}: reconciliation basis`);
+    assert(r.rec.households.text.includes(STORED_WORDS) && /base-year headship/.test(r.rec.households.text),
+      `${what}: the reconciliation names the stored series and the fallback (${r.rec.households.text})`);
+    assert.strictEqual(r.demandScope, 'forecast-filled', `${what}: demand chart scope`);
+  }
 
   // Hold: population × the base-year rate (65,000 / 160,000 = 40.625%).
   r = await render('hold');

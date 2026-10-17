@@ -4265,7 +4265,7 @@
       // What these households describe, as state rather than prose, so the
       // note's wording can change without anything else having to.
       dmdCanvas.dataset.householdScope = hhOverride
-        ? 'selected-headship'
+        ? (hhOverride.scope || 'selected-headship')
         : demandScaled
           ? 'place-scaled'
           : (isSubCountySelection ? 'county-unscaled' : 'county');
