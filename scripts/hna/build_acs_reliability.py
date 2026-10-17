@@ -191,38 +191,51 @@ def level_of(geoid: str) -> str:
     return {2: "state", 5: "county", 7: "place"}.get(len(geoid), "")
 
 
-def match_series(stored, var, published_by_series, geoid, prefer=None):
-    """Pick the series whose published estimate equals the stored one.
+def fallback_years(start):
+    """The years build_hna_data.py tries, newest first: ACS_START_YEAR and
+    ACS_FALLBACK_YEARS - 1 years before it (same env defaults as that file).
+    Its profile fetch does not stamp the year it settled on, so any of these
+    can be the true vintage of a stored figure."""
+    n = int(os.environ.get("ACS_FALLBACK_YEARS", "3"))
+    return [start - i for i in range(max(n, 1))]
 
-    When both series publish the stored value (common for a rounded share),
-    take the one population matched, since it came from the same fetch; when
-    that does not decide it, take the wider margin, so a tie can only make a
-    figure look less reliable, never more.
+
+def match_source(stored, var, cands, geoid, prefer=None, stamped=None):
+    """Pick the (year, series) whose published estimate equals the stored one.
+
+    cands = {(year, series): {geoid: rec}}. On a tie (common for a rounded
+    share, or a value unchanged between vintages) take the source population
+    matched, since one fetch carries both; then the stamped year; then the
+    wider margin, so a tie can only make a figure look less reliable.
     """
     hits = []
-    for series in SERIES:
-        rec = published_by_series.get(series, {}).get(geoid)
+    for src, by_geo in cands.items():
+        rec = by_geo.get(geoid)
         if not rec:
             continue
         pub = to_number(rec.get(var))
         if pub is not None and abs(pub - stored) <= tolerance(var):
-            hits.append(series)
+            hits.append(src)
     if not hits:
         return None
     if len(hits) == 1:
         return hits[0]
     if prefer in hits:
         return prefer
+    at_stamp = [h for h in hits if h[0] == stamped]
+    if len(at_stamp) == 1:
+        return at_stamp[0]
+    pool = at_stamp or hits
 
-    def width(series):
-        m = to_number(published_by_series[series][geoid].get(moe_name(var)))
+    def width(src):
+        m = to_number(cands[src][geoid].get(moe_name(var)))
         return -1 if m is None else m
-    return max(hits, key=width)
+    return max(pool, key=width)
 
 
 def stored_year(block):
-    """The block's own ACS year, or None. Each block can come from a different
-    fallback year: a 2024 profile can sit beside a 2022 S0801."""
+    """The block's own _acsYear stamp, or None. It says which year to try
+    first, not which year the figure came from: that is what matching finds."""
     y = (block or {}).get("_acsYear")
     if y is not None and str(y).isdigit() and len(str(y)) == 4:
         return int(y)
@@ -230,19 +243,19 @@ def stored_year(block):
 
 
 def build_record(geoid, summary, published, year):
-    """One geography's figures. published[(table, year)][series] = {geoid: rec};
-    the profile is at the summaries' single year, S0801 at its stored year."""
+    """One geography's figures. published[table] = {(year, series): {geoid: rec}}."""
     rec = {}
     blocks = {"profile": summary.get("acsProfile") or {},
               "subject": summary.get("acsS0801") or {}}
-    years = {"profile": year, "subject": stored_year(blocks["subject"])}
-    pub = {t: published.get((t, years[t]), {}) for t in blocks}
-    # The series population matched is the tie-break for the profile figures:
+    stamps = {"profile": stored_year(blocks["profile"]) or year,
+              "subject": stored_year(blocks["subject"])}
+    # The source population matched is the tie-break for the profile figures:
     # one fetch batch carries population with the headline values.
     pop_stored = to_number(blocks["profile"].get("DP05_0001E"))
     prefer = None
     if pop_stored is not None:
-        prefer = match_series(pop_stored, "DP05_0001E", pub["profile"], geoid)
+        prefer = match_source(pop_stored, "DP05_0001E", published["profile"], geoid,
+                              stamped=stamps["profile"])
 
     for table, variables in (("profile", PROFILE_VARS), ("subject", SUBJECT_VARS)):
         for var in variables:
@@ -251,26 +264,23 @@ def build_record(geoid, summary, published, year):
                 rec[var] = {"e": None, "m": None, "s": None, "cv": None, "t": None,
                             "why": "no estimate stored for this geography"}
                 continue
-            if years[table] is None:
+            src = match_source(stored, var, published[table], geoid,
+                               prefer if table == "profile" else None, stamps[table])
+            if src is None:
+                tried = sorted({y for y, _ in published[table]}, reverse=True)
                 rec[var] = {"e": stored, "m": None, "s": None, "cv": None, "t": None,
-                            "why": "no ACS year recorded for this estimate"}
+                            "why": ("stored value matches no published ACS 1-year or "
+                                    f"5-year estimate for {', '.join(map(str, tried))}")}
                 continue
-            series = match_series(stored, var, pub[table], geoid,
-                                  prefer if table == "profile" else None)
-            if series is None:
-                rec[var] = {"e": stored, "m": None, "s": None, "cv": None, "t": None,
-                            "why": (f"stored value matches neither the ACS {years[table]} 1-year "
-                                    f"nor 5-year published estimate")}
-                continue
-            raw_m = pub[table][series][geoid].get(moe_name(var))
+            y, series = src
+            raw_m = published[table][src][geoid].get(moe_name(var))
             try:
                 controlled = raw_m is not None and int(float(raw_m)) == CONTROLLED
             except (TypeError, ValueError):
                 controlled = False
             moe = 0.0 if controlled else to_number(raw_m)
             cv, tier, why = tier_for(stored, moe)
-            entry = {"e": stored, "m": moe, "s": series, "y": years[table],
-                     "cv": cv, "t": tier}
+            entry = {"e": stored, "m": moe, "s": series, "y": y, "cv": cv, "t": tier}
             if controlled:
                 entry["why"] = "controlled to an independent total; no sampling error"
             elif why:
@@ -284,7 +294,7 @@ def build_record(geoid, summary, published, year):
                          "why": "a component has no estimate"}
             continue
         est = round(sum(p["e"] for p in parts), 1)
-        series = {p.get("s") for p in parts}
+        series = {(p.get("y"), p.get("s")) for p in parts}
         if any(p.get("m") is None for p in parts):
             rec[name] = {"e": est, "m": None, "s": None, "cv": None, "t": None,
                          "why": "a component has no margin"}
@@ -293,11 +303,12 @@ def build_record(geoid, summary, published, year):
             # A 1-year and a 5-year margin describe different samples, so
             # their root sum of squares is not the margin of anything.
             rec[name] = {"e": est, "m": None, "s": None, "cv": None, "t": None,
-                         "why": "components come from different ACS series"}
+                         "why": "components come from different ACS series or years"}
             continue
         moe = round(math.sqrt(sum(p["m"] ** 2 for p in parts)), 1)
         cv, tier, why = tier_for(est, moe)
-        entry = {"e": est, "m": moe, "s": series.pop(), "cv": cv, "t": tier}
+        y, ser = series.pop()
+        entry = {"e": est, "m": moe, "s": ser, "y": y, "cv": cv, "t": tier}
         if why:
             entry["why"] = why
         rec[name] = entry
@@ -326,29 +337,33 @@ def vintage_of(all_summaries):
 
 
 def build(all_summaries, year, key, getter=census_get):
-    # Which geographies need each (table, year): the profile is at one year;
-    # S0801 is fetched at every year a summary stores it from.
-    need = {("profile", year): set(all_summaries)}
-    for gid, s in all_summaries.items():
+    # Each table is fetched at every year build_hna_data.py could have settled
+    # on, for the geographies that need it; matching then finds the source.
+    tables = {"profile": PROFILE_VARS, "subject": SUBJECT_VARS}
+    years = {"profile": set(fallback_years(year)), "subject": set()}
+    for s in all_summaries.values():
         y = stored_year(s.get("acsS0801"))
         if y is not None:
-            need.setdefault(("subject", y), set()).add(gid)
-    variables_of = {"profile": PROFILE_VARS, "subject": SUBJECT_VARS}
-    published = {}
-    for (table, y), gids in sorted(need.items()):
-        published[(table, y)] = {s: {} for s in SERIES}
-        for series in SERIES:
-            for level in sorted({level_of(g) for g in gids}):
-                got = fetch_level(y, series, table, list(variables_of[table]), level,
-                                  key, getter)
-                print(f"  {table} {y} {series} {level}: {len(got)} geographies")
-                published[(table, y)][series].update(got)
-        # The 5-year tables publish every geography, so a short response
-        # means a truncated or wrong request, not geographies without data.
-        missing = sorted(gids - set(published[(table, y)]["acs5"]))
-        if missing:
-            raise SystemExit(f"ACS {y} 5-year {table} lacks {len(missing)} geographies "
-                             f"(first: {missing[:5]}); writing nothing")
+            years["subject"].update(fallback_years(y))
+    levels = sorted({level_of(g) for g in all_summaries})
+    published = {t: {} for t in tables}
+    for table, variables in tables.items():
+        for y in sorted(years[table], reverse=True):
+            for series in SERIES:
+                got = {}
+                for level in levels:
+                    lv = fetch_level(y, series, table, list(variables), level, key, getter)
+                    print(f"  {table} {y} {series} {level}: {len(lv)} geographies")
+                    got.update(lv)
+                published[table][(y, series)] = got
+    # The 5-year tables publish every geography, so a short response at the
+    # stamped year means a truncated or wrong request, not missing data.
+    for table in tables:
+        for gid, s in all_summaries.items():
+            block = s.get("acsProfile" if table == "profile" else "acsS0801")
+            y = stored_year(block) or (year if table == "profile" else None)
+            if y is not None and gid not in published[table].get((y, "acs5"), {}):
+                raise SystemExit(f"ACS {y} 5-year {table} lacks {gid}; writing nothing")
 
     geos = {gid: build_record(gid, s, published, year) for gid, s in all_summaries.items()}
     counts = {}
@@ -364,9 +379,9 @@ def build(all_summaries, year, key, getter=census_get):
             "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "acs_year": year,
             "source": f"U.S. Census Bureau, American Community Survey 1-year and "
-                      f"5-year data profiles (DP02-DP05, {year}) and subject table S0801 "
+                      f"5-year data profiles (DP02-DP05, {', '.join(str(y) for y in sorted(years['profile']))}) and subject table S0801 "
                       f"(at each summary's stored year: "
-                      f"{', '.join(str(y) for t, y in sorted(need) if t == 'subject')}), "
+                      f"{', '.join(str(y) for y in sorted(years['subject']))}), "
                       f"via api.census.gov",
             "margin": "90% margin of error as published",
             "cv_formula": "CV = (MOE / 1.645) / estimate",

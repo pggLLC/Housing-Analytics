@@ -85,7 +85,7 @@ def test_no_match_means_no_margin_not_a_guess():
     doc = mod.build({gid: summary(DP05_0001E=900, DP03_0062E=61234)}, 2024, key="",
                     getter=fake_getter(tables))
     e = doc["geos"][gid]["DP03_0062E"]
-    assert e["e"] == 61234 and e["m"] is None and e["t"] is None and "neither" in e["why"]
+    assert e["e"] == 61234 and e["m"] is None and e["t"] is None and "matches no published" in e["why"]
     missing = doc["geos"][gid]["DP04_0089E"]
     assert missing["e"] is None and missing["m"] is None and missing["why"]
 
@@ -177,6 +177,27 @@ def test_s0801_is_matched_at_its_own_stored_year():
     e = doc["geos"][gid]["S0801_C01_046E"]
     assert (e["y"], e["m"]) == (2022, 6.1)
     assert doc["geos"][gid]["DP05_0001E"]["y"] == 2024
+
+
+def test_profile_vintage_is_found_by_matching_not_by_the_stamp():
+    # The profile fetch falls back to older years without stamping the one it
+    # used, so a 2024 stamp can sit on 2023 values.
+    gid = "0800011"
+    tables = {
+        ("acs5", "profile", "place", 2024): {gid: {"DP05_0001E": 800, "DP05_0001M": 90,
+                                                   "DP04_0134E": 1300, "DP04_0134M": 500}},
+        ("acs5", "profile", "place", 2023): {gid: {"DP05_0001E": 780, "DP05_0001M": 85,
+                                                   "DP04_0134E": 1250, "DP04_0134M": 310}},
+    }
+    doc = mod.build({gid: summary(DP05_0001E=780, DP04_0134E=1250)}, 2024, key="",
+                    getter=fake_getter(tables))
+    e = doc["geos"][gid]["DP04_0134E"]
+    assert (e["y"], e["s"], e["m"]) == (2023, "acs5", 310.0)
+    # The same value in two vintages resolves to population's source.
+    tables[("acs5", "profile", "place", 2024)][gid]["DP04_0134E"] = 1250
+    doc = mod.build({gid: summary(DP05_0001E=780, DP04_0134E=1250)}, 2024, key="",
+                    getter=fake_getter(tables))
+    assert doc["geos"][gid]["DP04_0134E"]["y"] == 2023
 
 
 def test_committed_file_covers_every_summary_when_present():
