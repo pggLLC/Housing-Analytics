@@ -39,12 +39,20 @@ for (const f of pages) {
   const m = html.match(/<strong>Step (\d+) complete\?<\/strong>/);
   if (!m) continue;
   footers++;
-  const own = html.match(/data-step="(\d+)"/);
-  assert(own, `${f} declares its step (data-step) next to a "Step ${m[1]} complete?" footer`);
-  assert.equal(Number(m[1]), Number(own[1]), `${f}: footer says Step ${m[1]}, page is step ${own[1]}`);
+  // What the visitor sees: the rail item marked as the current step (its
+  // data-step and its printed number), plus the analytics step tag.
+  const doc = new JSDOM(html).window.document;
+  const active = doc.querySelector('.wf-step--active, .wf-step[aria-current="step"]');
+  assert(active, `${f} has a "Step ${m[1]} complete?" footer but no active rail step`);
+  const shown = active.querySelector('.wf-step__num');
+  const own = [active.getAttribute('data-step'), shown && shown.textContent.trim(),
+    (doc.querySelector('script[data-step]') || active).getAttribute('data-step')];
+  for (const n of own) {
+    assert.equal(Number(m[1]), Number(n), `${f}: footer says Step ${m[1]}, the page's rail/step tags say ${own.join('/')}`);
+  }
   const canonical = railStepFor(f);
   assert(canonical, `${f} has a step footer but resolves to no rail step`);
-  assert.equal(Number(own[1]), canonical.num, `${f}: data-step ${own[1]} disagrees with the rail's step ${canonical.num}`);
+  assert.equal(Number(m[1]), canonical.num, `${f}: shows step ${m[1]} but the canonical rail (workflow-progress.js) makes it step ${canonical.num}`);
 }
 assert(footers >= 3, `the scan found step footers to check (${footers})`);
 
