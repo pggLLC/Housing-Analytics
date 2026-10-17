@@ -327,14 +327,16 @@
       return (props.route_sign === 'I' ? 'I-' : 'US ') + n;
     }
     return String(props.name || '').trim()
-      .replace(/\bRiv$/, 'River').replace(/\bLks$/, 'Lakes').replace(/\bLk$/, 'Lake');
+      .replace(/\bRiv\b/g, 'River').replace(/\bLks\b/g, 'Lakes').replace(/\bLk\b/g, 'Lake');
   }
 
   /* 'river' | 'lake' for a qualifying water feature, else null. */
   function _waterKind(props) {
     var name = String(props.name || '').trim();
-    if (/\bRiv(er)?$/.test(name)) return 'river';
-    if (/\b(Lks?|Lakes?|Reservoir)$/.test(name) || /^Lake\s/.test(name)) return 'lake';
+    // The file abbreviates and numbers its names ("Lk Hope", "Cottonwood
+    // Lake Number 5", "Road Canyon Reservoir No 1"), so match the word anywhere.
+    if (props.sub_type === 'river' || /\bRiv(er)?\b/.test(name)) return 'river';
+    if (/\b(Lks?|Lakes?|Reservoirs?)\b/.test(name)) return 'lake';
     return null;
   }
 

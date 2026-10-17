@@ -78,6 +78,7 @@
   var _siteCenter       = null;       // { lat, lon }
   var _barriersCache    = null;       // { features, generated }, or false when the file failed
   var _nf               = _nfOff();   // natural-feature option state (see getNaturalFeatures)
+  var _nfGen            = 0;          // bumped on off/clear, so a late proposal is dropped
 
   function _nfOff() {
     return { status: 'off', reason: null, supported: null, vintage: null,
@@ -185,6 +186,9 @@
         if (e && window.L && window.L.DomEvent) window.L.DomEvent.stopPropagation(e);
         if (_selected.has(gid)) {
           _selected.delete(gid);
+          // Removing a kept tract by hand undoes the keep, so no record
+          // says "kept" for a tract the boundary leaves out.
+          delete _nf.kept[gid];
         } else {
           _selected.add(gid);
         }
@@ -494,6 +498,7 @@
     _rationale    = '';
     _siteCenter   = null;
     _nf           = _nfOff();
+    _nfGen++;
   }
 
   function _setsEqual(a, b) {
@@ -657,7 +662,10 @@
    */
   function proposeNaturalFeatures() {
     if (!_siteCenter) return Promise.resolve(getNaturalFeatures());
+    var gen = ++_nfGen;
     return _loadBarriers().then(function (barriers) {
+      // Turned off, or a new site, while the file was loading.
+      if (gen !== _nfGen) return getNaturalFeatures();
       var r = _computeProposal(barriers);
       _nf = Object.assign(_nfOff(), {
         status:    r.status,
@@ -716,6 +724,7 @@
       _selected = new Set(_nf.preApply);
     }
     _nf = _nfOff();
+    _nfGen++;
     _restyleAll();
     _changed();
     return getNaturalFeatures();
@@ -739,11 +748,11 @@
       var kept = Object.prototype.hasOwnProperty.call(_nf.kept, p.geoid);
       var inSet = _selected.has(p.geoid);
       var state;
-      if (kept) state = 'kept: crossing';
+      if (kept && (inSet || _nf.status === 'proposed')) state = 'kept: crossing';
       else if (_nf.status === 'proposed') state = 'proposed out';
       else state = inSet ? 're-added by analyst' : 'excluded by feature';
       var t = { geoid: p.geoid, feature: p.feature, featureType: p.featureType, state: state };
-      if (kept) t.keepReason = _nf.kept[p.geoid];
+      if (state === 'kept: crossing') t.keepReason = _nf.kept[p.geoid];
       return t;
     });
     return out;

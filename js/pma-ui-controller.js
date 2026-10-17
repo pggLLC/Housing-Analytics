@@ -934,8 +934,10 @@
     picker.init(mapRef, lat, lon, _onTractSelectionChange)
       .then(function (r) {
         // picker.init resets rationale to ''; mirror that in the textarea
+        // A returning site restores its saved rationale; show it, so the
+        // box and the narrative say the same thing.
         var ta = $id('pmaTractRationale');
-        if (ta) ta.value = '';
+        if (ta) ta.value = picker.getRationale ? picker.getRationale() : '';
         _wireTractRationaleInput();
         _wireNaturalFeatures();
         // A saved proposal is drawn again from the feature file, so Apply
@@ -1106,11 +1108,12 @@
       var id = 'pmaNfKeep-' + t.geoid;
       var label = document.createElement('label');
       label.setAttribute('for', id);
-      label.style.cssText = 'display:inline-flex;gap:.35rem;align-items:center;margin-top:.2rem;cursor:pointer;min-height:24px';
+      label.style.cssText = 'display:inline-flex;gap:.45rem;align-items:center;cursor:pointer;min-height:44px;min-width:44px';
       var box = document.createElement('input');
       box.type = 'checkbox';
       box.id = id;
       box.checked = t.state === 'kept: crossing';
+      box.style.cssText = 'width:20px;height:20px;margin:0';
       label.appendChild(box);
       label.appendChild(document.createTextNode('Keep (crossing or connection)'));
       li.appendChild(label);
@@ -1120,7 +1123,7 @@
       reason.placeholder = 'e.g., bridge at 22 Rd';
       reason.setAttribute('aria-label', 'Crossing that connects tract ' + t.geoid);
       reason.value = t.keepReason || '';
-      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;margin-top:.2rem;padding:.25rem .4rem;font-size:.76rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
+      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;min-height:44px;margin-top:.2rem;padding:.25rem .4rem;font-size:.76rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
       li.appendChild(reason);
       box.addEventListener('change', function () {
         picker.setNaturalFeatureKeep(t.geoid, box.checked, reason.value);

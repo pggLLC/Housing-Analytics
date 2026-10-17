@@ -101,6 +101,15 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   text = narrativeFor();
   assert(new RegExp('\\b' + stillOut + ' tract\\(s\\) were excluded').test(text), `narrative excluded count follows the map (${stillOut})`);
 
+  // Removing a kept tract by hand undoes the keep: no surface may say "kept"
+  // for a tract the boundary leaves out (Codex review of #2300).
+  layers.find((l) => l.feature.properties.GEOID === keep).handlers.click({});
+  assert(!P.getSelectedGeoids().includes(keep), 'the kept tract was removed by hand');
+  const keptRec = P.getNaturalFeatures().tracts.find((t) => t.geoid === keep);
+  assert.notEqual(keptRec.state, 'kept: crossing', 'its record no longer says kept');
+  assert(!narrativeFor().includes('Bridge at 5th St'), 'nor does the narrative');
+  layers.find((l) => l.feature.properties.GEOID === keep).handlers.click({});
+
   // ── (d) turning it off restores the pre-Apply selection ──────────────────
   nf = P.turnOffNaturalFeatures();
   assert.equal(nf.status, 'off');
@@ -122,6 +131,28 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   assert.deepEqual(sorted(P2.getSelectedGeoids()), plain, 'counts stay those of the plain selection');
   const t2 = J.generateNarrative(Object.assign(J.synthesizePMA({}), { pmaTractSelection: P2.getCurationMetadata() }));
   assert(/data was unavailable/i.test(t2) && !/were excluded/i.test(t2), 'the narrative says the data was unavailable');
+
+  // ── turned off while the file loads: the late proposal is dropped ───────
+  blockBarriers = false;
+  delete require.cache[require.resolve(path.join(ROOT, 'js/pma-tract-picker.js'))];
+  require(path.join(ROOT, 'js/pma-tract-picker.js'));
+  const P3 = global.PMATractPicker;
+  await P3.init(map, SITE.lat, SITE.lon);
+  const pending = P3.proposeNaturalFeatures();
+  P3.turnOffNaturalFeatures();
+  assert.equal((await pending).status, 'off', 'switching off during the load is not undone by the load');
+  assert.equal(P3.getNaturalFeatures().status, 'off');
+
+  // ── the file's abbreviated and numbered lake names are checked ────────────
+  const square = (x, y, d) => [[[x - d, y - d], [x + d, y - d], [x + d, y + d], [x - d, y + d], [x - d, y - d]]];
+  ['Lk Hope', 'Cottonwood Lake Number 5', 'Road Canyon Reservoir No 1'].forEach((name) => {
+    const lake = { type: 'Feature', properties: { name, barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
+    const r = B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [lake]);
+    assert.equal(r.exclusions.length, 1, `"${name}" is a named lake the option checks`);
+    assert(!/\bLk\b/.test(r.exclusions[0].feature), 'and its label is spelled out');
+  });
+  const pond = { type: 'Feature', properties: { name: 'Unnamed water body', barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
+  assert.equal(B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [pond]).status, 'no_features', 'an unnamed pond is not checked');
 
   // ── the site's own tract is never proposed (Carbondale: one tract, across the Crystal River) ──
   const cent = read('data/market/tract_centroids_co.json').tracts;
