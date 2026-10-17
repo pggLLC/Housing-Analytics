@@ -754,10 +754,18 @@ function lossAccounting() {
       .filter((a) => a && Number.isFinite(a.moe) && Number.isFinite(a.rate))
       .map((a) => a.moe * 100)
       .sort((a, b) => a - b);
-    const mid = moes.length ? (moes.length % 2 ? moes[(moes.length - 1) / 2] : (moes[moes.length / 2 - 1] + moes[moes.length / 2]) / 2) : null;
-    out.renter_burden_moe_places = moes.length;
-    out.renter_burden_moe_median_pp = mid == null ? null : Number(mid.toFixed(1));
-    out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
+    if (!moes.length) {
+      const why = 'rent_burden_crosscheck.json has no place with an ACS 5-year rate and margin';
+      out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', why);
+      out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', why);
+      out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', why);
+    } else {
+      const n = moes.length;
+      const mid = n % 2 ? moes[(n - 1) / 2] : (moes[n / 2 - 1] + moes[n / 2]) / 2;
+      out.renter_burden_moe_places = n;
+      out.renter_burden_moe_median_pp = Number(mid.toFixed(1));
+      out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
+    }
   }
   // Income-restricted properties and how many carry an end date.
   const props = readJson('data/affordable-housing/properties.json');
