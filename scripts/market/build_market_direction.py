@@ -73,6 +73,7 @@ FMR = os.path.join(ROOT, 'data', 'market', 'fmr_co.json')
 ACTIVITY = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
 DOLA_TOWNS = os.path.join(ROOT, 'data', 'market', 'dola_muni_household_population.json')
 SECOND_HOMES = os.path.join(ROOT, 'data', 'hna', 'second-homes-str.json')
+BPS_MONTHLY = os.path.join(ROOT, 'data', 'market', 'bps_monthly_ytd.json')
 OUT = os.path.join(ROOT, 'data', 'market', 'market-direction.json')
 
 PERMIT_FLOOR = 50       # units in EACH five-year period before the change is read
@@ -341,6 +342,18 @@ def town_population_signal(rec: dict | None, is_cdp: bool) -> dict:
     return out
 
 
+def permits_ytd(rec: dict | None) -> dict:
+    """This year's permits to date beside the call, from the monthly BPS
+    file; a place Census only estimates is null with the file's reason."""
+    if not rec:
+        return {'ytd': None, 'prior_ytd': None, 'change_pct': None,
+                'unavailable_reason': 'not in the Census monthly permit files'}
+    out = {k: rec.get(k) for k in ('ytd', 'prior_ytd', 'change_pct')}
+    if rec.get('unavailable_reason'):
+        out['unavailable_reason'] = rec['unavailable_reason']
+    return out
+
+
 def place_call(sig: dict, seasonal: dict | None = None) -> tuple[str, str]:
     """seasonal is the place's ACS seasonal-homes record; a share graded
     unreliable is not used."""
@@ -420,6 +433,10 @@ def build() -> dict:
     permits = read(PERMITS)
     fhfa = read(FHFA)
     zori = read(ZORI)
+    try:
+        monthly = read(BPS_MONTHLY)
+    except OSError:
+        monthly = {'meta': {}, 'counties': {}, 'places': {}}
     limits_doc = read(RENT_LIMITS)
     limits = {c['fips']: c for c in limits_doc['counties']}
     fmr_doc = read(FMR)
@@ -448,6 +465,7 @@ def build() -> dict:
             'name': c['label'], 'call': call, 'call_basis': why, 'signals': sig,
             'recent_demand': recent_demand(f, prof),
             'rent_edge': rent_edge(f, limits, fmr),
+            'permits_ytd': permits_ytd(monthly['counties'].get(f)),
             'affordable_activity': {'since': activity['meta'].get('summary_since'),
                                     'projects': act['projects'], 'homes': act['homes'],
                                     # homes leaves out projects that print no count, and a
@@ -496,9 +514,10 @@ def build() -> dict:
             {'share_of_housing_units': None,
              'unavailable_reason': sh.get('seasonal_homes_unavailable_reason') or 'no ACS seasonal-homes record'},
             'county_call': counties.get(county, {}).get('call'),
+            'permits_ytd': permits_ytd(monthly['places'].get(g)),
             'affordable_activity': activity_by_place.get(g),
         }
-    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc, towns, second_homes)]
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc, towns, second_homes, monthly)]
     stamps.append(stamp(geo))
     stamps.append(prof_stamp)
     for f in counties:  # the per-county jobs files
@@ -555,6 +574,11 @@ def build() -> dict:
                                 'effective': limits_doc['meta'].get('effective_date'),
                                 'url': limits_doc['meta'].get('source_url')},
                 'affordable_activity': {'file': 'data/market/development-activity.json'},
+                'permits_ytd': {'file': 'data/market/bps_monthly_ytd.json', 'source': monthly['meta'].get('source'),
+                                'url': monthly['meta'].get('source_url'), 'through': monthly['meta'].get('through'),
+                                'note': ('context only: no call reads it. Homes permitted this year to date '
+                                         'against the same months last year; '
+                                         + (monthly['meta'].get('change_rule') or ''))},
             },
             'call_counts': dict(sorted(tally.items())),
             'rent_edge_counts': dict(sorted(edge_tally.items())),

@@ -1,0 +1,4072 @@
+{
+ "meta": {
+  "source": "U.S. Census Bureau, Building Permits Survey, monthly year-to-date files",
+  "source_url": "https://www2.census.gov/econ/bps/County/",
+  "place_source_url": "https://www2.census.gov/econ/bps/Place/West%20Region/",
+  "source_files": [
+   "co2608y.txt",
+   "co2508y.txt",
+   "we2608y.txt",
+   "we2508y.txt"
+  ],
+  "through": "2026-08",
+  "months": 8,
+  "year": 2026,
+  "generated_at": "2026-08-01T00:00:00Z",
+  "generated_at_note": "the month the figures run through, not the time this ran, so a refetch of the same month writes the same bytes",
+  "measure": "housing units permitted January–August 2026 against the same months of 2025; total includes Census estimates for offices that did not report, reported is the reported-only part; multifamily is 2 or more units",
+  "place_rule": "a town is shown only when its permit office reported every month this year and all but at most 1 last year (a month filed late shows as missing in the file Census published then); otherwise its figure is a Census estimate and is null",
+  "change_floor": 50,
+  "change_rule": "change_pct is read only when each period has at least 50 homes",
+  "state": {
+   "ytd": 21795,
+   "prior_ytd": 21665,
+   "change_pct": 0.6
+  },
+  "county_count": 64,
+  "place_count": 214,
+  "places_with_counts": 65
+ },
+ "counties": {
+  "08001": {
+   "name": "Adams County",
+   "ytd": {
+    "total": 1571,
+    "single_family": 1351,
+    "multifamily": 220,
+    "reported": 1458
+   },
+   "prior_ytd": {
+    "total": 1673,
+    "single_family": 1361,
+    "multifamily": 312,
+    "reported": 1583
+   },
+   "change_pct": -6.1
+  },
+  "08003": {
+   "name": "Alamosa County",
+   "ytd": {
+    "total": 85,
+    "single_family": 33,
+    "multifamily": 52,
+    "reported": 52
+   },
+   "prior_ytd": {
+    "total": 40,
+    "single_family": 30,
+    "multifamily": 10,
+    "reported": 20
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08005": {
+   "name": "Arapahoe County",
+   "ytd": {
+    "total": 2260,
+    "single_family": 1169,
+    "multifamily": 1091,
+    "reported": 2230
+   },
+   "prior_ytd": {
+    "total": 2938,
+    "single_family": 1305,
+    "multifamily": 1633,
+    "reported": 2821
+   },
+   "change_pct": -23.1
+  },
+  "08007": {
+   "name": "Archuleta County",
+   "ytd": {
+    "total": 92,
+    "single_family": 80,
+    "multifamily": 12,
+    "reported": 18
+   },
+   "prior_ytd": {
+    "total": 76,
+    "single_family": 76,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": 21.1
+  },
+  "08009": {
+   "name": "Baca County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08011": {
+   "name": "Bent County",
+   "ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08013": {
+   "name": "Boulder County",
+   "ytd": {
+    "total": 1130,
+    "single_family": 325,
+    "multifamily": 805,
+    "reported": 1125
+   },
+   "prior_ytd": {
+    "total": 1239,
+    "single_family": 321,
+    "multifamily": 918,
+    "reported": 1114
+   },
+   "change_pct": -8.8
+  },
+  "08014": {
+   "name": "Broomfield County",
+   "ytd": {
+    "total": 113,
+    "single_family": 60,
+    "multifamily": 53,
+    "reported": 113
+   },
+   "prior_ytd": {
+    "total": 597,
+    "single_family": 56,
+    "multifamily": 541,
+    "reported": 597
+   },
+   "change_pct": -81.1
+  },
+  "08015": {
+   "name": "Chaffee County",
+   "ytd": {
+    "total": 117,
+    "single_family": 115,
+    "multifamily": 2,
+    "reported": 117
+   },
+   "prior_ytd": {
+    "total": 126,
+    "single_family": 118,
+    "multifamily": 8,
+    "reported": 126
+   },
+   "change_pct": -7.1
+  },
+  "08017": {
+   "name": "Cheyenne County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08019": {
+   "name": "Clear Creek County",
+   "ytd": {
+    "total": 13,
+    "single_family": 13,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 13,
+    "single_family": 11,
+    "multifamily": 2,
+    "reported": 3
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08021": {
+   "name": "Conejos County",
+   "ytd": {
+    "total": 16,
+    "single_family": 16,
+    "multifamily": 0,
+    "reported": 14
+   },
+   "prior_ytd": {
+    "total": 14,
+    "single_family": 14,
+    "multifamily": 0,
+    "reported": 14
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08023": {
+   "name": "Costilla County",
+   "ytd": {
+    "total": 71,
+    "single_family": 71,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "prior_ytd": {
+    "total": 54,
+    "single_family": 54,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": 31.5
+  },
+  "08025": {
+   "name": "Crowley County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08027": {
+   "name": "Custer County",
+   "ytd": {
+    "total": 53,
+    "single_family": 53,
+    "multifamily": 0,
+    "reported": 53
+   },
+   "prior_ytd": {
+    "total": 57,
+    "single_family": 57,
+    "multifamily": 0,
+    "reported": 57
+   },
+   "change_pct": -7.0
+  },
+  "08029": {
+   "name": "Delta County",
+   "ytd": {
+    "total": 37,
+    "single_family": 37,
+    "multifamily": 0,
+    "reported": 12
+   },
+   "prior_ytd": {
+    "total": 48,
+    "single_family": 46,
+    "multifamily": 2,
+    "reported": 22
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08031": {
+   "name": "Denver County",
+   "ytd": {
+    "total": 3995,
+    "single_family": 554,
+    "multifamily": 3441,
+    "reported": 3995
+   },
+   "prior_ytd": {
+    "total": 2503,
+    "single_family": 671,
+    "multifamily": 1832,
+    "reported": 2503
+   },
+   "change_pct": 59.6
+  },
+  "08033": {
+   "name": "Dolores County",
+   "ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08035": {
+   "name": "Douglas County",
+   "ytd": {
+    "total": 1619,
+    "single_family": 1120,
+    "multifamily": 499,
+    "reported": 1619
+   },
+   "prior_ytd": {
+    "total": 1830,
+    "single_family": 1092,
+    "multifamily": 738,
+    "reported": 1830
+   },
+   "change_pct": -11.5
+  },
+  "08037": {
+   "name": "Eagle County",
+   "ytd": {
+    "total": 307,
+    "single_family": 104,
+    "multifamily": 203,
+    "reported": 273
+   },
+   "prior_ytd": {
+    "total": 110,
+    "single_family": 89,
+    "multifamily": 21,
+    "reported": 80
+   },
+   "change_pct": 179.1
+  },
+  "08039": {
+   "name": "Elbert County",
+   "ytd": {
+    "total": 220,
+    "single_family": 220,
+    "multifamily": 0,
+    "reported": 220
+   },
+   "prior_ytd": {
+    "total": 241,
+    "single_family": 217,
+    "multifamily": 24,
+    "reported": 240
+   },
+   "change_pct": -8.7
+  },
+  "08041": {
+   "name": "El Paso County",
+   "ytd": {
+    "total": 3013,
+    "single_family": 1977,
+    "multifamily": 1036,
+    "reported": 3012
+   },
+   "prior_ytd": {
+    "total": 2974,
+    "single_family": 1950,
+    "multifamily": 1024,
+    "reported": 2974
+   },
+   "change_pct": 1.3
+  },
+  "08043": {
+   "name": "Fremont County",
+   "ytd": {
+    "total": 87,
+    "single_family": 83,
+    "multifamily": 4,
+    "reported": 82
+   },
+   "prior_ytd": {
+    "total": 75,
+    "single_family": 73,
+    "multifamily": 2,
+    "reported": 72
+   },
+   "change_pct": 16.0
+  },
+  "08045": {
+   "name": "Garfield County",
+   "ytd": {
+    "total": 112,
+    "single_family": 73,
+    "multifamily": 39,
+    "reported": 75
+   },
+   "prior_ytd": {
+    "total": 106,
+    "single_family": 102,
+    "multifamily": 4,
+    "reported": 98
+   },
+   "change_pct": 5.7
+  },
+  "08047": {
+   "name": "Gilpin County",
+   "ytd": {
+    "total": 14,
+    "single_family": 14,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 20,
+    "single_family": 20,
+    "multifamily": 0,
+    "reported": 16
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08049": {
+   "name": "Grand County",
+   "ytd": {
+    "total": 163,
+    "single_family": 146,
+    "multifamily": 17,
+    "reported": 92
+   },
+   "prior_ytd": {
+    "total": 217,
+    "single_family": 152,
+    "multifamily": 65,
+    "reported": 146
+   },
+   "change_pct": -24.9
+  },
+  "08051": {
+   "name": "Gunnison County",
+   "ytd": {
+    "total": 52,
+    "single_family": 52,
+    "multifamily": 0,
+    "reported": 51
+   },
+   "prior_ytd": {
+    "total": 117,
+    "single_family": 115,
+    "multifamily": 2,
+    "reported": 116
+   },
+   "change_pct": -55.6
+  },
+  "08053": {
+   "name": "Hinsdale County",
+   "ytd": {
+    "total": 8,
+    "single_family": 8,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 11,
+    "single_family": 11,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08055": {
+   "name": "Huerfano County",
+   "ytd": {
+    "total": 39,
+    "single_family": 34,
+    "multifamily": 5,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 43,
+    "single_family": 33,
+    "multifamily": 10,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08057": {
+   "name": "Jackson County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08059": {
+   "name": "Jefferson County",
+   "ytd": {
+    "total": 754,
+    "single_family": 621,
+    "multifamily": 133,
+    "reported": 639
+   },
+   "prior_ytd": {
+    "total": 821,
+    "single_family": 572,
+    "multifamily": 249,
+    "reported": 725
+   },
+   "change_pct": -8.2
+  },
+  "08061": {
+   "name": "Kiowa County",
+   "ytd": {
+    "total": 9,
+    "single_family": 1,
+    "multifamily": 8,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08063": {
+   "name": "Kit Carson County",
+   "ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08065": {
+   "name": "Lake County",
+   "ytd": {
+    "total": 30,
+    "single_family": 30,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 33,
+    "single_family": 33,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08067": {
+   "name": "La Plata County",
+   "ytd": {
+    "total": 137,
+    "single_family": 124,
+    "multifamily": 13,
+    "reported": 131
+   },
+   "prior_ytd": {
+    "total": 299,
+    "single_family": 127,
+    "multifamily": 172,
+    "reported": 281
+   },
+   "change_pct": -54.2
+  },
+  "08069": {
+   "name": "Larimer County",
+   "ytd": {
+    "total": 1551,
+    "single_family": 722,
+    "multifamily": 829,
+    "reported": 1494
+   },
+   "prior_ytd": {
+    "total": 1519,
+    "single_family": 694,
+    "multifamily": 825,
+    "reported": 1519
+   },
+   "change_pct": 2.1
+  },
+  "08071": {
+   "name": "Las Animas County",
+   "ytd": {
+    "total": 22,
+    "single_family": 22,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 17,
+    "single_family": 17,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08073": {
+   "name": "Lincoln County",
+   "ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08075": {
+   "name": "Logan County",
+   "ytd": {
+    "total": 11,
+    "single_family": 9,
+    "multifamily": 2,
+    "reported": 10
+   },
+   "prior_ytd": {
+    "total": 5,
+    "single_family": 5,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08077": {
+   "name": "Mesa County",
+   "ytd": {
+    "total": 557,
+    "single_family": 426,
+    "multifamily": 131,
+    "reported": 557
+   },
+   "prior_ytd": {
+    "total": 502,
+    "single_family": 437,
+    "multifamily": 65,
+    "reported": 502
+   },
+   "change_pct": 11.0
+  },
+  "08079": {
+   "name": "Mineral County",
+   "ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 7,
+    "single_family": 7,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08081": {
+   "name": "Moffat County",
+   "ytd": {
+    "total": 15,
+    "single_family": 15,
+    "multifamily": 0,
+    "reported": 9
+   },
+   "prior_ytd": {
+    "total": 12,
+    "single_family": 12,
+    "multifamily": 0,
+    "reported": 11
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08083": {
+   "name": "Montezuma County",
+   "ytd": {
+    "total": 17,
+    "single_family": 17,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 12,
+    "single_family": 12,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08085": {
+   "name": "Montrose County",
+   "ytd": {
+    "total": 173,
+    "single_family": 157,
+    "multifamily": 16,
+    "reported": 172
+   },
+   "prior_ytd": {
+    "total": 159,
+    "single_family": 147,
+    "multifamily": 12,
+    "reported": 158
+   },
+   "change_pct": 8.8
+  },
+  "08087": {
+   "name": "Morgan County",
+   "ytd": {
+    "total": 16,
+    "single_family": 16,
+    "multifamily": 0,
+    "reported": 13
+   },
+   "prior_ytd": {
+    "total": 52,
+    "single_family": 37,
+    "multifamily": 15,
+    "reported": 33
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08089": {
+   "name": "Otero County",
+   "ytd": {
+    "total": 16,
+    "single_family": 6,
+    "multifamily": 10,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 35,
+    "single_family": 8,
+    "multifamily": 27,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08091": {
+   "name": "Ouray County",
+   "ytd": {
+    "total": 48,
+    "single_family": 48,
+    "multifamily": 0,
+    "reported": 33
+   },
+   "prior_ytd": {
+    "total": 49,
+    "single_family": 49,
+    "multifamily": 0,
+    "reported": 36
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08093": {
+   "name": "Park County",
+   "ytd": {
+    "total": 135,
+    "single_family": 135,
+    "multifamily": 0,
+    "reported": 135
+   },
+   "prior_ytd": {
+    "total": 96,
+    "single_family": 96,
+    "multifamily": 0,
+    "reported": 95
+   },
+   "change_pct": 40.6
+  },
+  "08095": {
+   "name": "Phillips County",
+   "ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08097": {
+   "name": "Pitkin County",
+   "ytd": {
+    "total": 28,
+    "single_family": 28,
+    "multifamily": 0,
+    "reported": 28
+   },
+   "prior_ytd": {
+    "total": 24,
+    "single_family": 24,
+    "multifamily": 0,
+    "reported": 24
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08099": {
+   "name": "Prowers County",
+   "ytd": {
+    "total": 7,
+    "single_family": 7,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "prior_ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08101": {
+   "name": "Pueblo County",
+   "ytd": {
+    "total": 46,
+    "single_family": 46,
+    "multifamily": 0,
+    "reported": 46
+   },
+   "prior_ytd": {
+    "total": 174,
+    "single_family": 174,
+    "multifamily": 0,
+    "reported": 174
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08103": {
+   "name": "Rio Blanco County",
+   "ytd": {
+    "total": 11,
+    "single_family": 11,
+    "multifamily": 0,
+    "reported": 8
+   },
+   "prior_ytd": {
+    "total": 7,
+    "single_family": 7,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08105": {
+   "name": "Rio Grande County",
+   "ytd": {
+    "total": 25,
+    "single_family": 21,
+    "multifamily": 4,
+    "reported": 25
+   },
+   "prior_ytd": {
+    "total": 23,
+    "single_family": 15,
+    "multifamily": 8,
+    "reported": 23
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08107": {
+   "name": "Routt County",
+   "ytd": {
+    "total": 184,
+    "single_family": 112,
+    "multifamily": 72,
+    "reported": 184
+   },
+   "prior_ytd": {
+    "total": 147,
+    "single_family": 147,
+    "multifamily": 0,
+    "reported": 147
+   },
+   "change_pct": 25.2
+  },
+  "08109": {
+   "name": "Saguache County",
+   "ytd": {
+    "total": 51,
+    "single_family": 46,
+    "multifamily": 5,
+    "reported": 46
+   },
+   "prior_ytd": {
+    "total": 61,
+    "single_family": 46,
+    "multifamily": 15,
+    "reported": 45
+   },
+   "change_pct": -16.4
+  },
+  "08111": {
+   "name": "San Juan County",
+   "ytd": {
+    "total": 11,
+    "single_family": 9,
+    "multifamily": 2,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 11,
+    "single_family": 7,
+    "multifamily": 4,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08113": {
+   "name": "San Miguel County",
+   "ytd": {
+    "total": 25,
+    "single_family": 25,
+    "multifamily": 0,
+    "reported": 10
+   },
+   "prior_ytd": {
+    "total": 36,
+    "single_family": 36,
+    "multifamily": 0,
+    "reported": 22
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08115": {
+   "name": "Sedgwick County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08117": {
+   "name": "Summit County",
+   "ytd": {
+    "total": 244,
+    "single_family": 88,
+    "multifamily": 156,
+    "reported": 175
+   },
+   "prior_ytd": {
+    "total": 192,
+    "single_family": 101,
+    "multifamily": 91,
+    "reported": 119
+   },
+   "change_pct": 27.1
+  },
+  "08119": {
+   "name": "Teller County",
+   "ytd": {
+    "total": 66,
+    "single_family": 66,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "prior_ytd": {
+    "total": 75,
+    "single_family": 75,
+    "multifamily": 0,
+    "reported": 10
+   },
+   "change_pct": -12.0
+  },
+  "08121": {
+   "name": "Washington County",
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "08123": {
+   "name": "Weld County",
+   "ytd": {
+    "total": 2395,
+    "single_family": 1614,
+    "multifamily": 781,
+    "reported": 2132
+   },
+   "prior_ytd": {
+    "total": 2131,
+    "single_family": 1806,
+    "multifamily": 325,
+    "reported": 1324
+   },
+   "change_pct": 12.4
+  },
+  "08125": {
+   "name": "Yuma County",
+   "ytd": {
+    "total": 5,
+    "single_family": 3,
+    "multifamily": 2,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 7,
+    "single_family": 7,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  }
+ },
+ "places": {
+  "0800760": {
+   "name": "Aguilar town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0800925": {
+   "name": "Akron town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0801090": {
+   "name": "Alamosa",
+   "months_reported": {
+    "this_year": 3,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0801530": {
+   "name": "Alma town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0802355": {
+   "name": "Antonito town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0803455": {
+   "name": "Arvada",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 261,
+    "single_family": 188,
+    "multifamily": 73,
+    "reported": 261
+   },
+   "prior_ytd": {
+    "total": 134,
+    "single_family": 134,
+    "multifamily": 0,
+    "reported": 134
+   },
+   "change_pct": 94.8
+  },
+  "0803620": {
+   "name": "Aspen",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 8,
+    "single_family": 8,
+    "multifamily": 0,
+    "reported": 8
+   },
+   "prior_ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0803950": {
+   "name": "Ault town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 40,
+    "single_family": 40,
+    "multifamily": 0,
+    "reported": 40
+   },
+   "prior_ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0804000": {
+   "name": "Aurora",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 1145,
+    "single_family": 859,
+    "multifamily": 286,
+    "reported": 1145
+   },
+   "prior_ytd": {
+    "total": 1269,
+    "single_family": 864,
+    "multifamily": 405,
+    "reported": 1269
+   },
+   "change_pct": -9.8
+  },
+  "0804110": {
+   "name": "Avon town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 125,
+    "single_family": 3,
+    "multifamily": 122,
+    "reported": 125
+   },
+   "prior_ytd": {
+    "total": 11,
+    "single_family": 11,
+    "multifamily": 0,
+    "reported": 11
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0804935": {
+   "name": "Basalt town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0805265": {
+   "name": "Bayfield town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0806090": {
+   "name": "Bennett town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 116,
+    "single_family": 116,
+    "multifamily": 0,
+    "reported": 116
+   },
+   "prior_ytd": {
+    "total": 74,
+    "single_family": 70,
+    "multifamily": 4,
+    "reported": 74
+   },
+   "change_pct": 56.8
+  },
+  "0806255": {
+   "name": "Berthoud town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 80,
+    "single_family": 80,
+    "multifamily": 0,
+    "reported": 80
+   },
+   "prior_ytd": {
+    "total": 103,
+    "single_family": 103,
+    "multifamily": 0,
+    "reported": 103
+   },
+   "change_pct": -22.3
+  },
+  "0806530": {
+   "name": "Bethune town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0807025": {
+   "name": "Black Hawk",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0807190": {
+   "name": "Blanca town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0807410": {
+   "name": "Blue River town",
+   "months_reported": {
+    "this_year": 3,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0807850": {
+   "name": "Boulder",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 6
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0808070": {
+   "name": "Bow Mar town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0808400": {
+   "name": "Breckenridge town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 68,
+    "single_family": 28,
+    "multifamily": 40,
+    "reported": 68
+   },
+   "prior_ytd": {
+    "total": 43,
+    "single_family": 43,
+    "multifamily": 0,
+    "reported": 43
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0808675": {
+   "name": "Brighton",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 116,
+    "single_family": 116,
+    "multifamily": 0,
+    "reported": 116
+   },
+   "prior_ytd": {
+    "total": 314,
+    "single_family": 314,
+    "multifamily": 0,
+    "reported": 314
+   },
+   "change_pct": -63.1
+  },
+  "0809115": {
+   "name": "Brookside town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0809280": {
+   "name": "Broomfield",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 113,
+    "single_family": 60,
+    "multifamily": 53,
+    "reported": 113
+   },
+   "prior_ytd": {
+    "total": 597,
+    "single_family": 56,
+    "multifamily": 541,
+    "reported": 597
+   },
+   "change_pct": -81.1
+  },
+  "0809555": {
+   "name": "Brush",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0810600": {
+   "name": "Burlington",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0811260": {
+   "name": "Calhan town",
+   "months_reported": {
+    "this_year": 5,
+    "last_year": 6
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0811810": {
+   "name": "Canon City",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 10,
+    "single_family": 10,
+    "multifamily": 0,
+    "reported": 10
+   },
+   "prior_ytd": {
+    "total": 15,
+    "single_family": 13,
+    "multifamily": 2,
+    "reported": 15
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0812045": {
+   "name": "Carbondale town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 15,
+    "single_family": 5,
+    "multifamily": 10,
+    "reported": 15
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0812387": {
+   "name": "Castle Pines",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 309,
+    "single_family": 88,
+    "multifamily": 221,
+    "reported": 309
+   },
+   "prior_ytd": {
+    "total": 59,
+    "single_family": 59,
+    "multifamily": 0,
+    "reported": 59
+   },
+   "change_pct": 423.7
+  },
+  "0812415": {
+   "name": "Castle Rock town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 119,
+    "single_family": 119,
+    "multifamily": 0,
+    "reported": 119
+   },
+   "prior_ytd": {
+    "total": 201,
+    "single_family": 201,
+    "multifamily": 0,
+    "reported": 201
+   },
+   "change_pct": -40.8
+  },
+  "0812635": {
+   "name": "Cedaredge town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0812815": {
+   "name": "Centennial",
+   "months_reported": {
+    "this_year": 5,
+    "last_year": 6
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0812855": {
+   "name": "Center town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0812900": {
+   "name": "Central",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0813460": {
+   "name": "Cheraw town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": null
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0813845": {
+   "name": "Cherry Hills Village",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0814175": {
+   "name": "Cheyenne Wells town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0814765": {
+   "name": "City of Creede town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0815330": {
+   "name": "Coal Creek town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0816385": {
+   "name": "Columbine Valley town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 5
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0816495": {
+   "name": "Commerce City",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 462,
+    "single_family": 459,
+    "multifamily": 3,
+    "reported": 462
+   },
+   "prior_ytd": {
+    "total": 462,
+    "single_family": 343,
+    "multifamily": 119,
+    "reported": 462
+   },
+   "change_pct": 0.0
+  },
+  "0817375": {
+   "name": "Cortez",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0817760": {
+   "name": "Craig",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0817925": {
+   "name": "Crawford town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0818310": {
+   "name": "Crested Butte town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 5,
+    "single_family": 5,
+    "multifamily": 0,
+    "reported": 5
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0818420": {
+   "name": "Crestone town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0818530": {
+   "name": "Cripple Creek",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0818640": {
+   "name": "Crook town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0818750": {
+   "name": "Crowley town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0819080": {
+   "name": "Dacono",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 37,
+    "single_family": 37,
+    "multifamily": 0,
+    "reported": 37
+   },
+   "prior_ytd": {
+    "total": 8,
+    "single_family": 8,
+    "multifamily": 0,
+    "reported": 8
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0819630": {
+   "name": "Deer Trail town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 1
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0819850": {
+   "name": "Delta",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 12,
+    "single_family": 12,
+    "multifamily": 0,
+    "reported": 12
+   },
+   "prior_ytd": {
+    "total": 22,
+    "single_family": 20,
+    "multifamily": 2,
+    "reported": 22
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0820000": {
+   "name": "Denver",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 3995,
+    "single_family": 554,
+    "multifamily": 3441,
+    "reported": 3995
+   },
+   "prior_ytd": {
+    "total": 2503,
+    "single_family": 671,
+    "multifamily": 1832,
+    "reported": 2503
+   },
+   "change_pct": 59.6
+  },
+  "0820495": {
+   "name": "Dinosaur town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0820770": {
+   "name": "Dolores town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0822035": {
+   "name": "Durango",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 29,
+    "single_family": 25,
+    "multifamily": 4,
+    "reported": 29
+   },
+   "prior_ytd": {
+    "total": 190,
+    "single_family": 18,
+    "multifamily": 172,
+    "reported": 190
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0822145": {
+   "name": "Eads town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0822200": {
+   "name": "Eagle town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "prior_ytd": {
+    "total": 14,
+    "single_family": 11,
+    "multifamily": 3,
+    "reported": 14
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0822860": {
+   "name": "Eaton town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0823025": {
+   "name": "Eckley town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0823135": {
+   "name": "Edgewater",
+   "months_reported": {
+    "this_year": 3,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0823740": {
+   "name": "Elizabeth town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 26,
+    "single_family": 2,
+    "multifamily": 24,
+    "reported": 26
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0824785": {
+   "name": "Englewood",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 16,
+    "single_family": 13,
+    "multifamily": 3,
+    "reported": 16
+   },
+   "prior_ytd": {
+    "total": 12,
+    "single_family": 12,
+    "multifamily": 0,
+    "reported": 11
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0824950": {
+   "name": "Erie town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0825115": {
+   "name": "Estes Park town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0825280": {
+   "name": "Evans",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0825610": {
+   "name": "Fairplay town",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0826270": {
+   "name": "Federal Heights",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0826600": {
+   "name": "Firestone town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 150,
+    "single_family": 108,
+    "multifamily": 42,
+    "reported": 150
+   },
+   "prior_ytd": {
+    "total": 73,
+    "single_family": 73,
+    "multifamily": 0,
+    "reported": 73
+   },
+   "change_pct": 105.5
+  },
+  "0826765": {
+   "name": "Flagler town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0826875": {
+   "name": "Fleming town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0827040": {
+   "name": "Florence",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 18,
+    "single_family": 14,
+    "multifamily": 4,
+    "reported": 18
+   },
+   "prior_ytd": {
+    "total": 9,
+    "single_family": 9,
+    "multifamily": 0,
+    "reported": 9
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0827425": {
+   "name": "Fort Collins",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 1130,
+    "single_family": 336,
+    "multifamily": 794,
+    "reported": 1130
+   },
+   "prior_ytd": {
+    "total": 741,
+    "single_family": 225,
+    "multifamily": 516,
+    "reported": 741
+   },
+   "change_pct": 52.5
+  },
+  "0827700": {
+   "name": "Fort Lupton",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 163,
+    "single_family": 163,
+    "multifamily": 0,
+    "reported": 163
+   },
+   "prior_ytd": {
+    "total": 157,
+    "single_family": 157,
+    "multifamily": 0,
+    "reported": 157
+   },
+   "change_pct": 3.8
+  },
+  "0827810": {
+   "name": "Fort Morgan",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "prior_ytd": {
+    "total": 25,
+    "single_family": 10,
+    "multifamily": 15,
+    "reported": 9
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0827975": {
+   "name": "Fowler town",
+   "months_reported": {
+    "this_year": null,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0828105": {
+   "name": "Foxfield town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "prior_ytd": {
+    "total": 0,
+    "single_family": 0,
+    "multifamily": 0,
+    "reported": 0
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0828360": {
+   "name": "Frederick town",
+   "months_reported": {
+    "this_year": 6,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0828690": {
+   "name": "Frisco town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 53,
+    "single_family": 1,
+    "multifamily": 52,
+    "reported": 53
+   },
+   "prior_ytd": {
+    "total": 65,
+    "single_family": 11,
+    "multifamily": 54,
+    "reported": 64
+   },
+   "change_pct": -18.5
+  },
+  "0828745": {
+   "name": "Fruita",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 52,
+    "single_family": 52,
+    "multifamily": 0,
+    "reported": 52
+   },
+   "prior_ytd": {
+    "total": 59,
+    "single_family": 45,
+    "multifamily": 14,
+    "reported": 59
+   },
+   "change_pct": -11.9
+  },
+  "0829185": {
+   "name": "Garden City town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0829735": {
+   "name": "Georgetown town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 3
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0829955": {
+   "name": "Gilcrest town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0830340": {
+   "name": "Glendale",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0830780": {
+   "name": "Glenwood Springs",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 3,
+    "single_family": 1,
+    "multifamily": 2,
+    "reported": 3
+   },
+   "prior_ytd": {
+    "total": 8,
+    "single_family": 4,
+    "multifamily": 4,
+    "reported": 8
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0830835": {
+   "name": "Golden",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 8,
+    "single_family": 8,
+    "multifamily": 0,
+    "reported": 8
+   },
+   "prior_ytd": {
+    "total": 35,
+    "single_family": 35,
+    "multifamily": 0,
+    "reported": 35
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0831550": {
+   "name": "Granada town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0832155": {
+   "name": "Greeley",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 742,
+    "single_family": 162,
+    "multifamily": 580,
+    "reported": 742
+   },
+   "prior_ytd": {
+    "total": 236,
+    "single_family": 110,
+    "multifamily": 126,
+    "reported": 220
+   },
+   "change_pct": 214.4
+  },
+  "0833035": {
+   "name": "Greenwood Village",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0833310": {
+   "name": "Grover town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0833640": {
+   "name": "Gunnison",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "prior_ytd": {
+    "total": 7,
+    "single_family": 5,
+    "multifamily": 2,
+    "reported": 7
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0833695": {
+   "name": "Gypsum town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 127,
+    "single_family": 67,
+    "multifamily": 60,
+    "reported": 127
+   },
+   "prior_ytd": {
+    "total": 33,
+    "single_family": 33,
+    "multifamily": 0,
+    "reported": 33
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0834960": {
+   "name": "Haxtun town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0836610": {
+   "name": "Hillrose town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837215": {
+   "name": "Holly town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837270": {
+   "name": "Holyoke",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837380": {
+   "name": "Hooper town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837545": {
+   "name": "Hotchkiss town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837820": {
+   "name": "Hudson town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0837875": {
+   "name": "Hugo town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0838370": {
+   "name": "Idaho Springs",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0838535": {
+   "name": "Ignacio town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0838590": {
+   "name": "Iliff town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0839855": {
+   "name": "Johnstown town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 342,
+    "single_family": 340,
+    "multifamily": 2,
+    "reported": 342
+   },
+   "prior_ytd": {
+    "total": 378,
+    "single_family": 378,
+    "multifamily": 0,
+    "reported": 378
+   },
+   "change_pct": -9.5
+  },
+  "0839965": {
+   "name": "Julesburg town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0840185": {
+   "name": "Keenesburg town",
+   "months_reported": {
+    "this_year": 5,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0840515": {
+   "name": "Kersey town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0840550": {
+   "name": "Keystone town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0840790": {
+   "name": "Kiowa town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0841010": {
+   "name": "Kit Carson town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0841835": {
+   "name": "Lafayette",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "prior_ytd": {
+    "total": 8,
+    "single_family": 8,
+    "multifamily": 0,
+    "reported": 8
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0842055": {
+   "name": "La Jara town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0842110": {
+   "name": "La Junta",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0843000": {
+   "name": "Lakewood",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 12,
+    "single_family": 12,
+    "multifamily": 0,
+    "reported": 12
+   },
+   "prior_ytd": {
+    "total": 44,
+    "single_family": 44,
+    "multifamily": 0,
+    "reported": 44
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0843110": {
+   "name": "Lamar",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0843605": {
+   "name": "La Salle town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0843660": {
+   "name": "Las Animas",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0844100": {
+   "name": "La Veta town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0844980": {
+   "name": "Limon town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0845255": {
+   "name": "Littleton",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 460,
+    "single_family": 38,
+    "multifamily": 422,
+    "reported": 460
+   },
+   "prior_ytd": {
+    "total": 882,
+    "single_family": 48,
+    "multifamily": 834,
+    "reported": 882
+   },
+   "change_pct": -47.8
+  },
+  "0845530": {
+   "name": "Lochbuie town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 94,
+    "single_family": 94,
+    "multifamily": 0,
+    "reported": 94
+   },
+   "prior_ytd": {
+    "total": 48,
+    "single_family": 48,
+    "multifamily": 0,
+    "reported": 48
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0845695": {
+   "name": "Log Lane Village town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0845955": {
+   "name": "Lone Tree",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 158,
+    "single_family": 120,
+    "multifamily": 38,
+    "reported": 158
+   },
+   "prior_ytd": {
+    "total": 171,
+    "single_family": 141,
+    "multifamily": 30,
+    "reported": 171
+   },
+   "change_pct": -7.6
+  },
+  "0845970": {
+   "name": "Longmont",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 635,
+    "single_family": 87,
+    "multifamily": 548,
+    "reported": 635
+   },
+   "prior_ytd": {
+    "total": 441,
+    "single_family": 151,
+    "multifamily": 290,
+    "reported": 394
+   },
+   "change_pct": 44.0
+  },
+  "0846355": {
+   "name": "Louisville",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 15,
+    "single_family": 15,
+    "multifamily": 0,
+    "reported": 15
+   },
+   "prior_ytd": {
+    "total": 28,
+    "single_family": 28,
+    "multifamily": 0,
+    "reported": 28
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0846465": {
+   "name": "Loveland",
+   "months_reported": {
+    "this_year": 6,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0847070": {
+   "name": "Lyons town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0848115": {
+   "name": "Mancos town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0848500": {
+   "name": "Manzanola town",
+   "months_reported": {
+    "this_year": null,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0848555": {
+   "name": "Marble town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0849600": {
+   "name": "Mead town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 53,
+    "single_family": 53,
+    "multifamily": 0,
+    "reported": 53
+   },
+   "prior_ytd": {
+    "total": 61,
+    "single_family": 61,
+    "multifamily": 0,
+    "reported": 61
+   },
+   "change_pct": -13.1
+  },
+  "0849875": {
+   "name": "Meeker town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0850040": {
+   "name": "Merino town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0850480": {
+   "name": "Milliken town",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0850920": {
+   "name": "Minturn town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0851250": {
+   "name": "Moffat town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0851745": {
+   "name": "Montrose",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 90,
+    "single_family": 74,
+    "multifamily": 16,
+    "reported": 90
+   },
+   "prior_ytd": {
+    "total": 78,
+    "single_family": 66,
+    "multifamily": 12,
+    "reported": 78
+   },
+   "change_pct": 15.4
+  },
+  "0852075": {
+   "name": "Morrison town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0852350": {
+   "name": "Mountain View town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0852550": {
+   "name": "Mountain Village town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 7,
+    "single_family": 7,
+    "multifamily": 0,
+    "reported": 7
+   },
+   "prior_ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0852570": {
+   "name": "Mount Crested Butte town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 5,
+    "single_family": 5,
+    "multifamily": 0,
+    "reported": 5
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0853120": {
+   "name": "Naturita town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0853175": {
+   "name": "Nederland town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0853395": {
+   "name": "New Castle town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0854330": {
+   "name": "Northglenn",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 5
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0854935": {
+   "name": "Nucla town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0855045": {
+   "name": "Nunn town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0855540": {
+   "name": "Olathe town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0855705": {
+   "name": "Olney Springs town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0855870": {
+   "name": "Ophir town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0855980": {
+   "name": "Orchard City town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0856145": {
+   "name": "Ordway town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0856365": {
+   "name": "Otis town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0856420": {
+   "name": "Ouray",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 1
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0856475": {
+   "name": "Ovid town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0856860": {
+   "name": "Pagosa Springs town",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 6
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0857245": {
+   "name": "Paoli town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0857300": {
+   "name": "Paonia town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0857400": {
+   "name": "Parachute town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0857630": {
+   "name": "Parker town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 379,
+    "single_family": 379,
+    "multifamily": 0,
+    "reported": 379
+   },
+   "prior_ytd": {
+    "total": 878,
+    "single_family": 217,
+    "multifamily": 661,
+    "reported": 878
+   },
+   "change_pct": -56.8
+  },
+  "0858235": {
+   "name": "Peetz town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0859005": {
+   "name": "Pierce town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0859830": {
+   "name": "Pitkin town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0860160": {
+   "name": "Platteville town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0862660": {
+   "name": "Ramah town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0862880": {
+   "name": "Rangely town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0863265": {
+   "name": "Red Cliff town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0864090": {
+   "name": "Rico town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0864200": {
+   "name": "Ridgway town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 6,
+    "single_family": 6,
+    "multifamily": 0,
+    "reported": 6
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0864255": {
+   "name": "Rifle",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 6
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0864970": {
+   "name": "Rockvale town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0865190": {
+   "name": "Rocky Ford",
+   "months_reported": {
+    "this_year": null,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0867005": {
+   "name": "Saguache town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0868105": {
+   "name": "San Luis town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0868655": {
+   "name": "Sawpit town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0868930": {
+   "name": "Sedgwick town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0869040": {
+   "name": "Seibert town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0869150": {
+   "name": "Severance town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 36,
+    "single_family": 36,
+    "multifamily": 0,
+    "reported": 36
+   },
+   "prior_ytd": {
+    "total": 54,
+    "single_family": 54,
+    "multifamily": 0,
+    "reported": 54
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0869645": {
+   "name": "Sheridan",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0870195": {
+   "name": "Silt town",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0870250": {
+   "name": "Silver Cliff town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0870360": {
+   "name": "Silver Plume town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0870525": {
+   "name": "Silverthorne town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 52,
+    "single_family": 23,
+    "multifamily": 29,
+    "reported": 52
+   },
+   "prior_ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0870580": {
+   "name": "Silverton town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0870635": {
+   "name": "Simla town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0871755": {
+   "name": "Snowmass Village town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "prior_ytd": {
+    "total": 2,
+    "single_family": 2,
+    "multifamily": 0,
+    "reported": 2
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0873330": {
+   "name": "Springfield town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0873935": {
+   "name": "Sterling",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0874485": {
+   "name": "Stratton town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0874815": {
+   "name": "Sugar City town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0875640": {
+   "name": "Superior town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 298,
+    "single_family": 47,
+    "multifamily": 251,
+    "reported": 298
+   },
+   "prior_ytd": {
+    "total": 314,
+    "single_family": 58,
+    "multifamily": 256,
+    "reported": 314
+   },
+   "change_pct": -5.1
+  },
+  "0875970": {
+   "name": "Swink town",
+   "months_reported": {
+    "this_year": null,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0876795": {
+   "name": "Telluride town",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0877290": {
+   "name": "Thornton",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 7
+   },
+   "ytd": {
+    "total": 290,
+    "single_family": 286,
+    "multifamily": 4,
+    "reported": 290
+   },
+   "prior_ytd": {
+    "total": 301,
+    "single_family": 287,
+    "multifamily": 14,
+    "reported": 280
+   },
+   "change_pct": -3.7
+  },
+  "0877510": {
+   "name": "Timnath town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 86,
+    "single_family": 86,
+    "multifamily": 0,
+    "reported": 86
+   },
+   "prior_ytd": {
+    "total": 390,
+    "single_family": 142,
+    "multifamily": 248,
+    "reported": 390
+   },
+   "change_pct": -77.9
+  },
+  "0878610": {
+   "name": "Trinidad",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0880040": {
+   "name": "Vail town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 1
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0880865": {
+   "name": "Victor",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0882130": {
+   "name": "Walden town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0882350": {
+   "name": "Walsenburg",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0882460": {
+   "name": "Walsh town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0882735": {
+   "name": "Ward town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0883230": {
+   "name": "Wellington town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 31,
+    "single_family": 11,
+    "multifamily": 20,
+    "reported": 31
+   },
+   "prior_ytd": {
+    "total": 18,
+    "single_family": 18,
+    "multifamily": 0,
+    "reported": 18
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0883450": {
+   "name": "Westcliffe town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "prior_ytd": {
+    "total": 3,
+    "single_family": 3,
+    "multifamily": 0,
+    "reported": 3
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0883835": {
+   "name": "Westminster",
+   "months_reported": {
+    "this_year": 7,
+    "last_year": 8
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0884440": {
+   "name": "Wheat Ridge",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0884770": {
+   "name": "Wiggins town",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "prior_ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0885155": {
+   "name": "Williamsburg town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0885485": {
+   "name": "Windsor town",
+   "months_reported": {
+    "this_year": 4,
+    "last_year": 3
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0885705": {
+   "name": "Winter Park town",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0886090": {
+   "name": "Woodland Park",
+   "months_reported": {
+    "this_year": 8,
+    "last_year": 8
+   },
+   "ytd": {
+    "total": 1,
+    "single_family": 1,
+    "multifamily": 0,
+    "reported": 1
+   },
+   "prior_ytd": {
+    "total": 10,
+    "single_family": 10,
+    "multifamily": 0,
+    "reported": 10
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0886310": {
+   "name": "Wray",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  },
+  "0886750": {
+   "name": "Yuma",
+   "months_reported": {
+    "this_year": 0,
+    "last_year": 0
+   },
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+  }
+ }
+}
