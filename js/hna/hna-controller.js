@@ -2625,13 +2625,11 @@
    */
   let _workforceNeedDoc;
   async function _loadIncommuterNeed(geoid) {
-    if (_workforceNeedDoc === undefined) {
-      // loadJson: cache:'no-store', so a weekly rebuild is not hidden behind
-      // a stale browser copy.
-      try { _workforceNeedDoc = await loadJson('data/hna/workforce-need.json'); }
-      catch (e) { _workforceNeedDoc = null; }
-    }
-    const doc = _workforceNeedDoc;
+    // loadJson: cache:'no-store', so a weekly rebuild is not hidden behind a
+    // stale browser copy. The pending promise is memoized so slider moves
+    // during the first load share one request.
+    if (!_workforceNeedDoc) _workforceNeedDoc = loadJson('data/hna/workforce-need.json').catch(() => null);
+    const doc = await _workforceNeedDoc;
     if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
     if (geoid === '08') {
       // Colorado: only the in-commuters who live in another state. A worker

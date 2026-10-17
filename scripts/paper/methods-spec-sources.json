@@ -207,7 +207,7 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "_loadIncommuterNeed",
-          "sha": "a0d552408283f5b3"
+          "sha": "4e896df5e450435d"
         },
         {
           "file": "scripts/hna/build_workforce_need.py",
