@@ -142,7 +142,7 @@
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "need-inputs",
-          "sha": "69b6bd10a2ee2598"
+          "sha": "53aee4cd6dadef3e"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
@@ -155,7 +155,7 @@
           "sha": "8e2aa94c65522627"
         }
       ],
-      "reviewed": "2026-10-10"
+      "reviewed": "2026-10-17"
     },
     {
       "section": "m-absence",
