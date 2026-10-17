@@ -56,6 +56,7 @@ async function render(browser, script) {
       counties: rows('mdCountyBody'),
       townHeads: [...document.querySelectorAll('#mdTownHead th')].map((th) => th.textContent.trim()),
       towns: rows('mdTownBody').length,
+      defs: [...document.querySelectorAll('#mdCalls li')].map((li) => { const c = li.cloneNode(true); c.querySelectorAll('.gl-tooltip-popup').forEach((x) => x.remove()); return { call: li.getAttribute('data-md-call'), text: c.textContent }; }),
     };
     const cdp = document.getElementById('mdCdps');
     if (cdp) { cdp.checked = true; cdp.dispatchEvent(new Event('change')); }
@@ -117,6 +118,12 @@ function checks({ view, errors }) {
   }
   if (!absent) fail('no county lacks a price reading: the absent-value check scanned nothing');
 
+  // each call's definitions are the file's own, county and town
+  for (const [k, def] of [...Object.entries(MD.meta.calls).map(([k, d]) => [k, d]), ...Object.entries(MD.meta.places.calls)]) {
+    const li = view.defs.find((d) => d.call === k);
+    if (!li || !li.text.includes(def)) fail(`"How a call is made" lacks the definition of ${k}: ${def.slice(0, 60)}…`);
+  }
+
   // towns
   const places = Object.values(MD.places);
   const towns = places.filter((p) => p.type === 'town').length;
@@ -156,6 +163,7 @@ try {
     ['the county call shown as Steady', "return { text: callLabel(c.call), sort: COUNTY_ORDER.indexOf(c.call) };", "return { text: 'Steady', sort: 0 };", /table says Steady/],
     ['a missing reading shown as zero', "if (!s || !isNum(s.value)) return", "if (!s) return", /missing price shows/],
     ['last year’s permits dropped', "' vs ' + fmtInt(p.prior_ytd && p.prior_ytd.total)", "' vs 0'", /permits shown/],
+    ['town definitions replaced by county ones', "town = m.places.calls[k]", "town = m.calls[k]", /lacks the definition/],
     ['CDPs shown by default', "return (cdps || p.type === 'town')", "return (true || p.type === 'town')", /town table shows/],
     ['multi-county projects left out', " || (Array.isArray(p.county_fips_all) && p.county_fips_all.indexOf(fips) >= 0)", '', /lists \d+ projects/],
   ];

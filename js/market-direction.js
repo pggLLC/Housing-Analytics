@@ -366,10 +366,17 @@
     }
     var list = el('mdCalls');
     if (list) {
-      list.innerHTML = ['falling_demand', 'softening', 'emerging', 'steady', 'not_enough_data'].map(function (k) {
-        return '<li><strong>' + escapeHtml(callLabel(k)) + '.</strong> ' + escapeHtml(m.calls[k]) + '</li>';
-      }).join('') + ['second_home_shift'].map(function (k) {
-        return '<li><strong>' + escapeHtml(callLabel(k)) + ' (towns only).</strong> ' + escapeHtml(m.places.calls[k]) + '</li>';
+      // Counties and towns have different rules (towns have no jobs trend), so
+      // each call shows both definitions, each read from its own meta.
+      list.innerHTML = ['falling_demand', 'softening', 'emerging', 'steady', 'second_home_shift', 'not_enough_data'].map(function (k) {
+        var county = m.calls[k], town = m.places.calls[k];
+        var parts = [];
+        if (county && county === town) parts.push(escapeHtml(county));
+        else {
+          if (county) parts.push('<em>Counties:</em> <span data-md-def="county">' + escapeHtml(county) + '</span>');
+          if (town) parts.push('<em>Towns:</em> <span data-md-def="town">' + escapeHtml(town) + '</span>');
+        }
+        return '<li data-md-call="' + k + '"><strong>' + escapeHtml(callLabel(k)) + '.</strong> ' + parts.join(' ') + '</li>';
       }).join('');
     }
     setText('mdOrder', 'Counties: ' + m.rule_order + '. Towns: ' + m.places.rule_order + '.');
