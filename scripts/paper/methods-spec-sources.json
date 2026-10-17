@@ -189,6 +189,38 @@
       "title": "Reproducibility and known defects",
       "no_sources": "Summarises the other sections and the build; its claims are covered by theirs.",
       "sources": []
+    },
+    {
+      "section": "m-loss",
+      "title": "What future need counts, and what it leaves out",
+      "sources": [
+        {
+          "file": "js/hna/hna-controller.js",
+          "function": "_replacementAtHorizon",
+          "sha": "ea632dd8e33f66b2"
+        },
+        {
+          "file": "js/hna/hna-controller.js",
+          "function": "buildNeedReconciliation",
+          "sha": "378f7179aae383c8"
+        },
+        {
+          "file": "js/hna/hna-controller.js",
+          "function": "_loadIncommuterNeed",
+          "sha": "4e896df5e450435d"
+        },
+        {
+          "file": "scripts/hna/build_workforce_need.py",
+          "function": "need_block",
+          "sha": "71509776b383fb8a"
+        },
+        {
+          "file": "scripts/hna/build_workforce_need.py",
+          "function": "workers_per_household",
+          "sha": "fbac3f3616e061af"
+        }
+      ],
+      "reviewed": "2026-10-17"
     }
   ]
 }

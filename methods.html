@@ -194,6 +194,7 @@
           <li><a href="#m-score">The scoring chain</a></li>
           <li><a href="#m-absence">Absence propagation</a></li>
           <li><a href="#m-repro">Reproducibility and known defects</a></li>
+          <li><a href="#m-loss">What future need counts, and what it leaves out</a></li>
         </ol>
       </nav>
 
@@ -885,6 +886,121 @@ weighted_avg(F)  =  ───────────────       F* = { f
             disagreeing with any of them has found a real defect, and the extraction script named at
             the top is where to look first.
           </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-loss">
+        <h2 id="m-loss"><span class="num">09</span> What future need counts, and what it leaves out</h2>
+        <div class="col">
+          <p>
+            The 20-year &ldquo;homes needed&rdquo; figure answers one question: how many homes
+            must be added for the households and jobs projected here. It does not answer how many
+            homes this place will lose. Professional needs assessments usually add that second
+            number. The Pueblo Housing Assessment and Strategy (Gruen Gruen + Associates, September
+            2021) builds its ten-year county need of 9,561 homes from workforce demand of 4,325, senior
+            demand of 3,649 and replacement of 1,587 homes lost from the existing stock. This section
+            states which of those parts the figure here contains.
+          </p>
+
+          <h3>Two readings, and which one is published</h3>
+          <p>
+            The figure is the larger of two readings (§06). The resident reading for a county or the
+            state is the homes the projected households need at the target vacancy minus the homes
+            standing today, so it holds any current shortfall of stock as well as growth; the HNA page
+            names it &ldquo;resident need net of today&rsquo;s stock&rdquo;. For a place with its own
+            projection it counts only the homes added for household growth. The workforce
+            reading counts the lower-wage jobs located in the place against rental homes affordable
+            at &le;60% AMI, one job to one home. That is a shortfall that exists today, not growth.
+            It is the published figure for <span data-figure="methods_data.future_units_workforce_reading">365</span> of
+            <span data-figure="methods_data.ranked_geographies">546</span> geographies. Where it is used, the 20-year figure is
+            mostly a present deficit placed in a 20-year slot. The HNA page shows both readings
+            side by side and marks the one used.
+          </p>
+          <p>
+            The workforce reading counts jobs, not households, and it includes jobs held by residents
+            who already have a home. The HNA page therefore also shows a third line, the in-commuter
+            need: the lower- and middle-wage people who commute in (LEHD LODES origin&ndash;destination,
+            2023) multiplied by the low- and middle-wage share of jobs located there, counting each
+            worker's primary job only so that a person with two jobs is one person, divided by
+            workers per working household (ACS B08202, counting three or more workers as three), and
+            multiplied by the share who would move closer if they could. People who work in Colorado
+            but live in another state are only in the LODES auxiliary file, so they are added from it
+            with their own wage bands; without them the counties on the New Mexico, Utah and Wyoming
+            lines read low. No statewide source measures
+            that share. Local employer surveys do, so the line is shown at two stated scenarios,
+            a quarter and a half. Summed over the <span data-figure="methods_data.incommuter_need_counties">64</span> counties it is
+            <span data-figure="methods_data.incommuter_need_25_counties" data-figure-format="comma">73,442</span> to
+            <span data-figure="methods_data.incommuter_need_50_counties" data-figure-format="comma">146,886</span> homes, against
+            <span data-figure="methods_data.workforce_reading_counties_sum" data-figure-format="comma">549,684</span> from the workforce reading.
+            For Colorado as a whole the HNA page counts only the in-commuters who live in another
+            state, because a worker who moves between Colorado counties leaves a Colorado home behind.
+            It is a deficit today, shown beside the existing shortfall. It is not part of the published
+            figure, and it does not change the ranking until the owner decides it should.
+          </p>
+          <p>
+            No line converts forecast job growth into homes. The State Demography Office&rsquo;s county
+            forecasts combine a labour-supply model with its own jobs forecast to set migration
+            (<a href="https://pagosaspringscdc.org/wp-content/uploads/2018/05/Demographers-Presentation-Archuleta-Pagosa-05.07.18-1.pdf">State
+            Demography Office, 2018</a>), so the resident-growth reading already houses the workers that
+            forecast expects. Adding the jobs forecast on top would count the same workers twice.
+          </p>
+
+          <h3>Homes lost to age: computed, shown, not yet in the figure</h3>
+          <div class="mx-eq">
+            <span class="lbl">Replacement need by year y</span>
+            <code>R(y)  =  (y − base) · Σ_k  r_k · S_k</code>
+            <div class="mx-where"><dl>
+              <dt>S_k</dt><dd>ACS homes in year-built band k (DP04_0017E to DP04_0026E)</dd>
+              <dt>r_k</dt><dd>annual permanent-loss rate for band k, from <span data-figure="methods_data.replacement_rate_min_pct">0.02</span>% a year for homes built since 2010 to <span data-figure="methods_data.replacement_rate_max_pct">0.6</span>% for homes built before 1940</dd>
+            </dl></div>
+            <span class="mx-src">scripts/hna/build_hna_data.py &middot; REPLACEMENT_LOSS_RATES</span>
+          </div>
+          <p>
+            The rates follow the pattern in HUD&rsquo;s
+            <a href="https://www.huduser.gov/portal/datasets/cinch.html">Components of Inventory Change</a>
+            reports, where older homes leave the stock faster. They are set so that Pueblo County lands
+            inside the Pueblo assessment&rsquo;s range. They are a calibration, not an estimate measured
+            for each county. Over 20 years the
+            <span data-figure="methods_data.replacement_counties">64</span> county files lose
+            <span data-figure="methods_data.replacement_20yr_statewide" data-figure-format="comma">83,970</span> homes against
+            <span data-figure="methods_data.growth_20yr_statewide" data-figure-format="comma">426,888</span> of resident growth: replacement is
+            <span data-figure="methods_data.replacement_share_pct">16.4</span>% of the two together.
+          </p>
+          <p>
+            The HNA page now shows this figure as its own line under the need figure, with the need
+            figure plus replacement beside it, in the Excel and PDF exports as well. It is not added to
+            the headline tile or to the ranking&rsquo;s future-pressure factor. Adding it would raise
+            need most where housing is oldest. Because scores are percentiles, it would also move
+            places with newer stock down. That choice belongs to the owner and has not been made.
+            A place without its own projection ledger shows no replacement figure. The county total is
+            not scaled down to it.
+          </p>
+
+          <h3>Not counted</h3>
+          <ul>
+            <li><strong>Homes that stay standing but rise out of reach.</strong> Naturally occurring
+              affordable housing, the private rentals cheap enough for lower-income households without a
+              subsidy, can be lost to rent increases, renovation or sale. Nothing in the projection
+              measures this. The ACS files the site stores hold only the current rent distribution,
+              so no change over time can be computed from them. The loss can be large: the La Plata
+              County Housing Needs Assessment (Root Policy Research, 24 October 2025, Section II, p. 11)
+              reports that rental homes priced below $1,250 fell by more than a third from 2012 to 2022.</li>
+            <li><strong>Income-restricted homes whose restrictions end.</strong> The HNA page lists
+              each restricted property with its years to expiration, but no expiring home is added to
+              need. The list is also incomplete: only <span data-figure="methods_data.restricted_with_end_date">110</span> of
+              <span data-figure="methods_data.restricted_properties" data-figure-format="comma">1,854</span> properties carry an end date. Of those,
+              <span data-figure="methods_data.restricted_already_expired">77</span> have already passed it, and
+              <span data-figure="methods_data.restricted_units_expiring_10yr" data-figure-format="comma">431</span> homes reach theirs within ten years.</li>
+          </ul>
+          <div class="mx-warn">
+            <span class="tag">Read the figure as a floor</span>
+            <p>
+              For every geography, the 20-year figure assumes that every home standing today, priced
+              or restricted for lower-income households, is still standing and still affordable 20
+              years from now. Where housing is old, rents are rising or restrictions are ending, the
+              need is larger than the figure says.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -668,6 +668,75 @@ function methodsData() {
       && m(r).resident_gap_pressure_score != null
       && m(r).workforce_gap_pressure_score > m(r).resident_gap_pressure_score).length;
     out.future_units_workforce_reading = rows.filter((r) => m(r).future_units_reading === 'workforce').length;
+    // The same reading summed over counties, beside the in-commuter need (§09).
+    out.workforce_reading_counties_sum = rows.filter((r) => r.type === 'county')
+      .reduce((a, r) => a + (Number.isFinite(m(r).workforce_gap_units) && m(r).workforce_gap_units > 0 ? m(r).workforce_gap_units : 0), 0);
+  }
+  Object.assign(out, lossAccounting());
+  return out;
+}
+
+/**
+ * What the 20-year need figure leaves out (methods §08 "m-loss"). Each count is
+ * read from the file the site publishes, so the section cannot describe a
+ * replacement total, a loss rate or an expiry count the data no longer has.
+ */
+function lossAccounting() {
+  const out = {};
+  // Loss rates, read out of the builder that applies them.
+  let rates = null;
+  try {
+    const src = readFileSync(R('scripts/hna/build_hna_data.py'), 'utf8');
+    const block = src.match(/REPLACEMENT_LOSS_RATES = \[([\s\S]*?)\]/);
+    if (block) rates = [...block[1].matchAll(/\('DP04_\d+E',\s*([0-9.]+)\)/g)].map((x) => Number(x[1]));
+  } catch (e) { rates = null; }
+  if (rates && rates.length) {
+    out.replacement_rate_min_pct = Number((Math.min(...rates) * 100).toFixed(2));
+    out.replacement_rate_max_pct = Number((Math.max(...rates) * 100).toFixed(2));
+  } else {
+    out.replacement_rate_min_pct = absent('methods_data.replacement_rate_min_pct', 'REPLACEMENT_LOSS_RATES not found in build_hna_data.py');
+  }
+  // Statewide 20-year sums over the county projection files.
+  let dir = null;
+  try { dir = readdirSync(R('data/hna/projections')).filter((f) => /^08\d{3}\.json$/.test(f)); } catch (e) { dir = null; }
+  if (!dir || !dir.length) {
+    out.replacement_20yr_statewide = absent('methods_data.replacement_20yr_statewide', 'no county projection files');
+  } else {
+    let growth = 0, repl = 0, n = 0;
+    for (const f of dir) {
+      const r = readJson('data/hna/projections/' + f);
+      const h = r.ok && r.data.housing_need;
+      const g = h && h.incremental_units_needed_dola && h.incremental_units_needed_dola.at(-1);
+      const c = h && h.replacement && h.replacement.cumulative_units && h.replacement.cumulative_units.at(-1);
+      if (Number.isFinite(g) && Number.isFinite(c)) { growth += g; repl += c; n += 1; }
+    }
+    out.replacement_counties = n;
+    out.growth_20yr_statewide = Math.round(growth);
+    out.replacement_20yr_statewide = Math.round(repl);
+    out.replacement_share_pct = growth + repl > 0 ? Number((repl / (growth + repl) * 100).toFixed(1)) : null;
+  }
+  // In-commuter need (scripts/hna/build_workforce_need.py), county sums.
+  const wn = readJson('data/hna/workforce-need.json');
+  if (!wn.ok) {
+    out.incommuter_need_25_counties = absent('methods_data.incommuter_need_25_counties', wn.reason);
+  } else {
+    const recs = Object.values(wn.data.counties || {}).map((c) => c.present_incommuter_need).filter(Boolean);
+    out.incommuter_need_counties = recs.length;
+    out.incommuter_need_25_counties = recs.reduce((a, n) => a + n.move_closer_25, 0);
+    out.incommuter_need_50_counties = recs.reduce((a, n) => a + n.move_closer_50, 0);
+  }
+  // Income-restricted properties and how many carry an end date.
+  const props = readJson('data/affordable-housing/properties.json');
+  const list = props.ok ? (props.data.properties || []) : null;
+  if (!Array.isArray(list)) {
+    out.restricted_properties = absent('methods_data.restricted_properties', props.ok ? 'properties.json has no properties array' : props.reason);
+  } else {
+    const dated = list.filter((p) => Number.isFinite(p.years_to_expiration));
+    out.restricted_properties = list.length;
+    out.restricted_with_end_date = dated.length;
+    out.restricted_already_expired = dated.filter((p) => p.years_to_expiration < 0).length;
+    out.restricted_units_expiring_10yr = dated.filter((p) => p.years_to_expiration >= 0 && p.years_to_expiration <= 10)
+      .reduce((a, p) => a + (Number.isFinite(p.total_units) ? p.total_units : 0), 0);
   }
   return out;
 }

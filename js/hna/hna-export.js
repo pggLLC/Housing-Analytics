@@ -1393,6 +1393,7 @@
         recon.rows.forEach(function (r) {
           drawNarrative(_pdfPlain(r.label + ': ' + (r.unavailable || r.counts)));
         });
+        if (recon.withReplacement) drawNarrative(_pdfPlain(recon.withReplacement.text));
         drawNarrative(_pdfPlain(recon.permits.text));
         if (recon.households) drawNarrative(_pdfPlain(recon.households.text));
       }
@@ -1663,6 +1664,9 @@
         });
         rs.addRow({});
         rs.addRow({ m: 'Figure used' + (recon.endYear ? ' (' + recon.endYear + ')' : ''), h: numOrNull(recon.used.units), c: recon.used.why });
+        if (recon.withReplacement) {
+          rs.addRow({ m: 'Figure used plus homes lost to age' + (recon.endYear ? ' (' + recon.endYear + ')' : ''), h: numOrNull(recon.withReplacement.units), c: recon.withReplacement.text });
+        }
         rs.addRow({ m: 'Permit pace, homes per year', h: recon.permits.perYear == null ? null : Math.round(recon.permits.perYear * 10) / 10, c: recon.permits.text });
         rs.addRow({ m: 'Homes per year to reach figure used', h: recon.permits.neededPerYear == null ? null : Math.round(recon.permits.neededPerYear * 10) / 10 });
         rs.addRow({ m: 'Permit pace / needed per year', h: recon.permits.ratio == null ? null : Math.round(recon.permits.ratio * 100) / 100 });
