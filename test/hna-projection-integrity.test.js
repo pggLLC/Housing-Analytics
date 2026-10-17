@@ -22,7 +22,7 @@ function closeEnough(actual, expected, label) {
 function assertProjectionData() {
   assert(HNA_HTML.includes('id="projectionCalculationTrace"'), 'HNA includes expandable projection trace');
   assert(HNA_HTML.includes('id="projectionCalculationTraceBody"'), 'HNA includes projection trace output region');
-  assert(HNA_HTML.includes('County housing units needed over the 20-year horizon: the stored SDO county household series (the SDO household forecast where it is published, otherwise the components-of-change population forecast × constant base-year headship rate), divided by (1 − target vacancy); the trend headship option recomputes households as population × a trended headship rate instead.'), 'HNA quotes the documented projection method');
+  assert(HNA_HTML.includes('County housing units needed over the 20-year horizon: the stored SDO county household series (the SDO household forecast where it is published, otherwise the components-of-change population forecast × constant base-year headship rate), divided by (1 − target vacancy); Hold recomputes households as population × the base-year headship rate, and Trend as population × a trended rate.'), 'HNA quotes the documented projection method');
   assert(HNA_HTML.includes('County source series: SDO components-change-county.csv (population) and, where published, household-county.csv (households). Place source series: data/hna/projections/places.json'), 'HNA quotes the documented county and place sources');
   assert(HNA_HTML.includes('Cross-county municipalities use combined-county denominators before applying the blended share.'), 'HNA quotes cross-county place provenance');
   const data = JSON.parse(fs.readFileSync(PLACES_PATH, 'utf8'));
@@ -43,13 +43,25 @@ function assertProjectionData() {
   assert.equal(exactZeroPermitCount, 0, 'No place projection row should retain shares.permit === 0');
 }
 
-// The headship radio group as the shipped page names it, so the fixtures
-// exercise the control getAssumptions() reads rather than an invented one.
-const HEADSHIP_RADIO_NAME = (() => {
-  const m = HNA_HTML.match(/<input type="radio" name="([^"]+)" value="trend">/);
-  assert(m, 'HNA page has a trend headship radio (the calculator fixtures use its real name)');
-  return m[1];
-})();
+// The headship radio group exactly as the shipped page names and defaults
+// it, so the fixtures exercise the control getAssumptions() reads rather
+// than an invented one, and the calculator's default is the page's default.
+const HEADSHIP_RADIO_RE = /<input type="radio" name="([^"]+)" value="(forecast|hold|trend)"( checked)?>\s*<span>([^<]+)<\/span>/g;
+const readHeadshipRadios = (html) => [...html.matchAll(HEADSHIP_RADIO_RE)]
+  .map((m) => ({ name: m[1], value: m[2], checked: !!m[3], label: m[4].trim() }));
+const HEADSHIP_RADIOS = readHeadshipRadios(HNA_HTML);
+assert(HEADSHIP_RADIOS.length === 3, `HNA page ships forecast, hold and trend headship radios (found ${HEADSHIP_RADIOS.length})`);
+assert(new Set(HEADSHIP_RADIOS.map((r) => r.name)).size === 1, 'the three headship radios share one group name');
+const HEADSHIP_RADIO_NAME = HEADSHIP_RADIOS[0].name;
+const HEADSHIP_DEFAULT = (HEADSHIP_RADIOS.find((r) => r.checked) || {}).value;
+const HEADSHIP_LABELS = Object.fromEntries(HEADSHIP_RADIOS.map((r) => [r.value, r.label]));
+// hna-what-to-do.html renders the same calculator from the same controller, so
+// its control must offer the same options with the same default.
+assert.deepEqual(
+  readHeadshipRadios(fs.readFileSync(path.join(ROOT, 'hna-what-to-do.html'), 'utf8')),
+  HEADSHIP_RADIOS,
+  'hna-what-to-do.html ships the same headship control (options, labels, default) as the HNA page'
+);
 
 function makeHtml() {
   return `<!doctype html>
@@ -59,7 +71,7 @@ function makeHtml() {
         <select id="geoSelect"><option value="08077" selected>Mesa County</option></select>
         <input id="assumpHorizon" value="20">
         <input id="assumpVacancy" value="5">
-        <input type="radio" name="${HEADSHIP_RADIO_NAME}" value="hold" checked>
+        ${HEADSHIP_RADIOS.map((r) => `<input type="radio" name="${r.name}" value="${r.value}"${r.checked ? ' checked' : ''}>`).join('\n        ')}
         <div id="projectionScopeBadge" hidden></div>
         <nav id="hnaDecisionStrip" hidden>
           <a data-decision-key="need"><span id="decisionNeedValue"></span><span id="decisionNeedRead"></span></a>
@@ -161,7 +173,7 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   const render = async (proj, selection, headshipMode) => {
     const dom = new JSDOM(makeHtml(), { url: 'about:blank' });
     installBrowserStubs(dom, { places: {} });
-    if (headshipMode) document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"]`).value = headshipMode;
+    if (headshipMode) document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="${headshipMode}"]`).checked = true;
     loadHnaModules();
     window.HNAState.state.currentSelection = selection;
     await window.HNAController.applyAssumptions(proj, selection);
@@ -177,7 +189,22 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
     return p;
   };
 
-  // Forecast-labelled series: the stored households drive the figure, not population × headship.
+  // The control's labels must agree with what the calculation does under each
+  // option: the default option reads the stored series, which carries the SDO
+  // household forecast, so its label has to name the forecast; the option that
+  // holds the base-year rate has to say so.
+  assert.equal(HEADSHIP_DEFAULT, 'forecast', 'the page defaults the headship control to the stored-series mode');
+  assert(/forecast/i.test(HEADSHIP_LABELS[HEADSHIP_DEFAULT] || ''), `the default headship option is labelled as the forecast it reads (label: ${HEADSHIP_LABELS[HEADSHIP_DEFAULT]})`);
+  assert(/hold/i.test(HEADSHIP_LABELS.hold || ''), `the constant base-year-rate option is labelled as holding the rate (label: ${HEADSHIP_LABELS.hold})`);
+  // The math sentence under the control describes the options by name, so it
+  // has to use the labels the control shows, on both pages.
+  for (const [name, html] of [['housing-needs-assessment.html', HNA_HTML], ['hna-what-to-do.html', fs.readFileSync(path.join(ROOT, 'hna-what-to-do.html'), 'utf8')]]) {
+    const sentence = html.match(/Transparent HNA math:[^<]*/);
+    assert(sentence, `${name} carries the math sentence under the headship control`);
+    for (const r of HEADSHIP_RADIOS) assert(sentence[0].includes(r.label), `${name}: the math sentence names the "${r.label}" option it describes: ${sentence[0].trim()}`);
+  }
+
+  // Forecast-labelled series under the page's default: the stored households drive the figure, not population × headship.
   let r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa);
   assert(r.trace.includes('90,000.0'), `trace shows the stored households (90,000.0): ${r.trace}`);
   assert(!r.trace.includes('77,187.5'), 'trace no longer shows population × base-year headship (77,187.5)');
@@ -200,6 +227,11 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   r = await render(withSeries([65000, null], ['sdo_household_forecast', null]), mesa);
   assert(r.trace.includes('77,187.5') && !r.trace.includes(FORECAST_WORDS), 'null at the horizon falls back to population × headship without claiming the forecast');
   assert.equal(r.headline, '11,250', 'fallback headline is population × headship ÷ 0.95 − existing units');
+
+  // Hold: the control's name is a promise that the base-year rate is held, whatever the stored series says.
+  r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'hold');
+  assert(r.trace.includes('77,187.5') && r.trace.includes('40.625%') && !r.trace.includes(FORECAST_WORDS), `Hold keeps population × the base-year rate and does not claim the forecast: ${r.trace}`);
+  assert.equal(r.headline, '11,250', 'Hold headline is the base-year-rate figure');
 
   // Trend headship: the user asked for population × a trended headship rate; the stored series is not used.
   r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'trend');

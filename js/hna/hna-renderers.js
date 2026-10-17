@@ -3844,7 +3844,7 @@
 
   /**
    * getAssumptions — read the current values of the projection assumption controls.
-   * @returns {{ horizon: number, targetVac: number, headshipMode: string }}
+   * @returns {{ horizon: number, targetVac: number, headshipMode: 'forecast'|'current'|'trend' }}
    */
   function getAssumptions() {
     const els = S().els;
@@ -3859,7 +3859,11 @@
       // constant base-year rate. Querying only the old name returned
       // 'current' whatever the user picked, so Trend never took effect.
       const checked = document.querySelector('input[name="assumpHeadship"]:checked, input[name="headship"]:checked');
-      return checked && String(checked.value) === 'trend' ? 'trend' : 'current';
+      const v = checked ? String(checked.value) : '';
+      // forecast: the stored county household series (SDO household forecast
+      // where published); current (the page's "Hold"): the base-year rate
+      // held; trend: the base-year rate moved by the ACS trend.
+      return v === 'trend' ? 'trend' : v === 'forecast' ? 'forecast' : 'current';
     })();
     return { horizon, targetVac, headshipMode };
   }

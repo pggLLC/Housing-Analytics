@@ -3046,15 +3046,16 @@
     // year by housing_need.household_method. Where that series is the SDO
     // county household forecast, recomputing population x the base-year
     // headship rate here understated growth (La Plata: 2,149 beside the
-    // note's 4,982; #2260). Under the default "current" headship assumption
-    // the calculator therefore reads the stored series; "trend" is the
-    // user's own request for population x a trended headship rate and keeps
-    // that model. A missing or non-positive stored value falls back to the
-    // population x headship arithmetic, never to 0.
+    // note's 4,982; #2260). Under the page's default "Forecast" headship
+    // option the calculator therefore reads the stored series; "Hold" keeps
+    // the base-year rate and "Trend" moves it by the ACS trend, both as
+    // population x rate, so each control does what its name says. A missing
+    // or non-positive stored value falls back to the population x headship
+    // arithmetic, never to 0.
     const isPlaceSelection = !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection));
     let storedHouseholds = null;
     let storedHouseholdMethod = null;
-    if (i >= 0 && headshipMode !== 'trend' && !isPlaceSelection) {
+    if (i >= 0 && headshipMode === 'forecast' && !isPlaceSelection) {
       const storedSeries = proj?.housing_need?.households_dola;
       const storedAt = Array.isArray(storedSeries) ? window.HNAUtils.safeNum(storedSeries[i]) : null;
       if (storedAt !== null && storedAt > 0) {
@@ -3205,9 +3206,11 @@
         const storedCarriesForecast = storedIsForecast || (storedHouseholds !== null && storedHouseholdMethod === 'mixed');
         const headshipModeLabel = headshipMode === 'trend'
           ? 'Trend headship assumption used by the calculation; the stored household series is not used in this mode.'
-          : storedHouseholds === null
-            ? 'Constant base-year headship rate used by the calculation.'
-            : storedIsForecast
+          : headshipMode !== 'forecast'
+            ? 'Constant base-year headship rate held, as selected; the stored household series is not used in this mode.'
+            : storedHouseholds === null
+              ? 'Constant base-year headship rate used by the calculation; the stored household series has no value for this year.'
+              : storedIsForecast
               ? `Implied by the SDO ${geoWord} household forecast: stored households ÷ projected population.`
               : storedHouseholdMethod === 'mixed'
                 ? `Implied by the stored ${geoWord} household series: the SDO household forecast where published, a constant headship rate elsewhere.`
@@ -3236,6 +3239,7 @@
           householdsNote: storedHouseholds !== null
             ? `Read from the stored ${geoWord} household series for ${endYear} (housing_need.households_dola), the series the stored DOLA need figure is computed from.`
             : 'Projected population × headship rate.',
+          headshipMode,
           projectedHouseholds: hhH,
           targetVacancy: targetVac,
           totalUnitsRequired: needUnits,
