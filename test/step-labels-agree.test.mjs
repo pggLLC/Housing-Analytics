@@ -26,7 +26,12 @@ const steps = [...progressSrc.matchAll(/\{\s*num:\s*(\d+),\s*key:\s*'(\w+)'[^}]*
   .map((m) => ({ num: Number(m[1]), key: m[2], href: m[3] }));
 assert(steps.length >= 7, `read the canonical steps (${steps.length})`);
 
-// 1. footers
+// 1. footers. The HNA chapter pages are views generated from the canonical
+//    HNA page, so they resolve to the same rail step as it does.
+const hnaViews = JSON.parse(read('data/hna/hna-views.json')).views.map((v) => v.slug);
+const isHnaFamily = (f) => f === 'housing-needs-assessment.html' || hnaViews.includes(f);
+const railStepFor = (f) => steps.find((s) => s.href === f) ||
+  (isHnaFamily(f) ? steps.find((s) => isHnaFamily(s.href)) : undefined);
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 let footers = 0;
 for (const f of pages) {
@@ -37,8 +42,9 @@ for (const f of pages) {
   const own = html.match(/data-step="(\d+)"/);
   assert(own, `${f} declares its step (data-step) next to a "Step ${m[1]} complete?" footer`);
   assert.equal(Number(m[1]), Number(own[1]), `${f}: footer says Step ${m[1]}, page is step ${own[1]}`);
-  const canonical = steps.find((s) => s.href === f);
-  if (canonical) assert.equal(Number(own[1]), canonical.num, `${f}: data-step ${own[1]} disagrees with the rail's step ${canonical.num}`);
+  const canonical = railStepFor(f);
+  assert(canonical, `${f} has a step footer but resolves to no rail step`);
+  assert.equal(Number(own[1]), canonical.num, `${f}: data-step ${own[1]} disagrees with the rail's step ${canonical.num}`);
 }
 assert(footers >= 3, `the scan found step footers to check (${footers})`);
 
@@ -49,11 +55,17 @@ const page = new JSDOM(read(scenarioStep.href)).window.document;
 const controls = [...page.querySelectorAll('.sb-slider-label span:first-child, input[type=range][aria-label]')]
   .map((e) => (e.getAttribute('aria-label') || e.textContent).toLowerCase()).join(' | ');
 assert(controls.length > 0, 'the scan found the Scenario Builder controls');
-const INPUTS = ['rent', 'unit mix', 'mix', 'cost', 'financing', 'birth', 'death', 'moving in', 'migration'];
-const named = INPUTS.filter((t) => new RegExp('\\b' + t).test(question));
+// Every word of the question that is not framing (what the page answers:
+// how ... change the homes needed) must name a control on the page, so any
+// added input such as "zoning" or "rents" fails unless the page offers it.
+const FRAMING = new Set(['how', 'could', 'would', 'might', 'does', 'do', 'will', 'can', 'change', 'changes',
+  'affect', 'the', 'a', 'an', 'and', 'or', 'of', 'in', 'to', 'people', 'homes', 'housing', 'needed', 'need']);
+const stem = (word) => word.replace(/(es|s)$/, '').slice(0, 5);
+const controlStems = new Set(controls.split(/[^a-z]+/).filter(Boolean).map(stem));
+const named = question.split(/[^a-z]+/).filter((t) => t && !FRAMING.has(t));
 assert(named.length > 0, `the scenario question names at least one input ("${question}")`);
 for (const t of named) {
-  assert(new RegExp('\\b' + t).test(controls),
+  assert(controlStems.has(stem(t)),
     `the scenario question names "${t}" but the Scenario Builder has no such control (${controls})`);
 }
 
