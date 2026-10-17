@@ -2626,10 +2626,10 @@
   let _workforceNeedDoc;
   async function _loadIncommuterNeed(geoid) {
     if (_workforceNeedDoc === undefined) {
-      try {
-        const r = await fetch('data/hna/workforce-need.json');
-        _workforceNeedDoc = r && r.ok ? await r.json() : null;
-      } catch (e) { _workforceNeedDoc = null; }
+      // loadJson: cache:'no-store', so a weekly rebuild is not hidden behind
+      // a stale browser copy.
+      try { _workforceNeedDoc = await loadJson('data/hna/workforce-need.json'); }
+      catch (e) { _workforceNeedDoc = null; }
     }
     const doc = _workforceNeedDoc;
     if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };

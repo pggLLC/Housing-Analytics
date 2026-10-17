@@ -111,6 +111,12 @@ def fetch():
     n_cty = sum(1 for k in out['geos'] if len(k) == 5)
     if n_cty != 64:
         raise ValueError('ACS B08202 has %d counties, not 64' % n_cty)
+    # A partial place response must not replace a fuller cached one.
+    cached = (read_json(os.path.join(SRC, 'acs_b08202.json')) or {}).get('geos') or {}
+    n_plc = sum(1 for k in out['geos'] if len(k) == 7)
+    n_plc_cached = sum(1 for k in cached if len(k) == 7)
+    if n_plc < n_plc_cached:
+        raise ValueError('ACS B08202 has %d places, fewer than the %d cached' % (n_plc, n_plc_cached))
     aux = fetch_aux()
     if len(aux['counties']) != 64 or len(aux['wac_primary_counties']) != 64:
         raise ValueError('LODES primary-job summary does not cover all 64 counties')
