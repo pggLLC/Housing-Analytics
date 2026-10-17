@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "e5146e31c",
+  "generated_from_commit": "76cb5ffca",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-17",
-    "total_commits": 8440,
+    "total_commits": 8442,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 843,
-        "pct_of_peak": 59
+        "commits": 845,
+        "pct_of_peak": 59.1
       }
     ]
   },
@@ -59,17 +59,17 @@
     "html_pages_toplevel": 71,
     "html_pages_total": 565,
     "workflows": 81,
-    "scripts": 325,
+    "scripts": 326,
     "docs": 505,
-    "data_files": 1780,
+    "data_files": 1784,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 67,
-    "test_files": 564,
-    "absence_test_cases": 272,
+    "test_files": 565,
+    "absence_test_cases": 273,
     "absence_tests": 106,
     "lihtc_features": 926
   },
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 450227,
+    "hand_written_lines": 451274,
     "generated_place_page_lines": 226828,
     "top_level_pages": 71,
-    "html_nonblank_lines": 49008,
-    "html_distinct_lines": 20008,
-    "html_distinct_share": 0.408,
+    "html_nonblank_lines": 49120,
+    "html_distinct_lines": 20097,
+    "html_distinct_share": 0.409,
     "substantial_tools": 27,
     "declared_data_sources": 83,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "e5146e31c",
+    "extracted_at_commit": "76cb5ffca",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -542,7 +542,21 @@
     "anchor_overcount_share": 0.367,
     "ranked_geographies": 546,
     "workforce_gap_wins": 265,
-    "future_units_workforce_reading": 365
+    "future_units_workforce_reading": 365,
+    "workforce_reading_counties_sum": 549684,
+    "replacement_rate_min_pct": 0.02,
+    "replacement_rate_max_pct": 0.6,
+    "replacement_counties": 64,
+    "growth_20yr_statewide": 426888,
+    "replacement_20yr_statewide": 83970,
+    "replacement_share_pct": 16.4,
+    "incommuter_need_counties": 64,
+    "incommuter_need_25_counties": 73442,
+    "incommuter_need_50_counties": 146886,
+    "restricted_properties": 1854,
+    "restricted_with_end_date": 110,
+    "restricted_already_expired": 77,
+    "restricted_units_expiring_10yr": 431
   },
   "footprint": {
     "measured_at": "2026-09-15",

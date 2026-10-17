@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T16:39:31.751Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T19:34:51.890Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 149.2 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 56.6 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 65.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
@@ -86,7 +86,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1700 JSON files found.
+1703 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -998,6 +998,8 @@
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/second-homes-str.json` | 253.4 KB | ✅ | — |
+| `data/hna/source/acs_b08202.json` | 423.0 KB | ✅ | — |
+| `data/hna/source/lodes_primary_jobs.json` | 79.2 KB | ✅ | — |
 | `data/hna/summary/08.json` | 2.8 KB | ✅ | — |
 | `data/hna/summary/08001.json` | 4.2 KB | ✅ | — |
 | `data/hna/summary/08003.json` | 3.9 KB | ✅ | — |
@@ -1547,6 +1549,7 @@
 | `data/hna/summary/0886750.json` | 4.0 KB | ✅ | — |
 | `data/hna/transit-zone-by-geography.json` | 390.0 KB | ✅ | — |
 | `data/hna/vacancy-status.json` | 458.0 KB | ✅ | — |
+| `data/hna/workforce-need.json` | 265.1 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 46.1 KB | ✅ | — |
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
@@ -1795,7 +1798,7 @@
 
 ## Test Files
 
-636 test files found.
+637 test files found.
 
 | File | Size |
 |------|------|
@@ -2030,7 +2033,7 @@
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
-| `test/hna-need-reconciliation.test.js` | 13.9 KB |
+| `test/hna-need-reconciliation.test.js` | 24.6 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 23.2 KB |
 | `test/hna-ownership-strategy.test.js` | 13.9 KB |
@@ -2435,6 +2438,7 @@
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 21.9 KB |
 | `tests/test_upstream_schema_check.py` | 7.7 KB |
+| `tests/test_workforce_need.py` | 5.8 KB |
 
 ---
 
@@ -2453,7 +2457,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.2 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 33.5 KB |
+| `.github/workflows/build-hna-data.yml` | 34.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.1 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.7 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
