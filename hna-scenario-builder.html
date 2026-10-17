@@ -472,6 +472,23 @@
         }
       }
 
+      // Each load gets a sequence number; changing the selection or starting
+      // another load supersedes it, so a late reply (success or failure)
+      // cannot replace the projection for what is selected now.
+      var loadSeq = 0;
+      var loading = false;
+      select.addEventListener('change', function () {
+        var loaded = window.ScenarioBuilder && window.ScenarioBuilder.loadedGeography();
+        if (!loading && (!loaded || loaded.geoid === select.value)) return;
+        loadSeq += 1;
+        loading = false;
+        var entry = geoIndex[select.value];
+        var reason = 'Selection changed to ' + (entry ? entry.name : 'a new geography') +
+          '. Press Load Geography Data to project it; the earlier projection was cleared.';
+        statusEl.textContent = reason;
+        if (window.ScenarioBuilder) window.ScenarioBuilder.init({ unavailableReason: reason });
+      });
+
       loadBtn.addEventListener('click', function () {
         var geoid = select.value;
         if (!geoid) {
@@ -517,8 +534,12 @@
           }
         }
 
+        var seq = ++loadSeq;
+        loading = true;
         fetchJSON('data/hna/dola_sya/' + countyFips + '.json')
           .then(function (dolaData) {
+            if (seq !== loadSeq) return;
+            loading = false;
             // Apply downscaling factor to the male/female cohorts so the
             // projection model treats this as a place-scale jurisdiction.
             // Pass through unmodified for counties (scaleFactor = 1).
@@ -538,6 +559,8 @@
             }
           })
           .catch(function () {
+            if (seq !== loadSeq) return;
+            loading = false;
             var reason = 'Population data could not be loaded for ' + displayName + ', so no projection is shown. Try Load Geography Data again.';
             statusEl.textContent = reason;
             if (window.ScenarioBuilder) {

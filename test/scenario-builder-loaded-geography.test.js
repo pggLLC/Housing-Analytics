@@ -82,4 +82,59 @@ assert(html.includes("'scenario-builder:state'"), 'the page listens for the load
 assert(!/setTimeout\([^)]*sbSaveBtn/.test(html.replace(/\s+/g, ' ')), 'save is not enabled on a timer');
 assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim statewide defaults');
 
-console.log(`scenario-builder-loaded-geography: PASS (Mesa base ${expectedBase.toLocaleString()})`);
+// 6. The page's loader: changing the selection clears a loaded projection,
+//    and a reply for a superseded load (success or failure, in any order)
+//    never replaces what belongs to the current selection.
+(async () => {
+  const loader = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1])
+    .find((src) => src.includes("data/hna/ranking-index.json") && src.includes('sbLoadCounty'));
+  assert(loader, 'found the page geography loader script');
+  const pg = new JSDOM(`<!doctype html><body>
+    <select id="sbGeoSelect"></select><button id="sbLoadCounty"></button><div id="sbGeoStatus"></div>
+    <table><tbody id="sbResultsBody"></tbody></table>
+  </body>`, { runScripts: 'outside-only', url: 'http://localhost/hna-scenario-builder.html' });
+  const pw = pg.window;
+  for (const f of ['js/projections/cohort-component-model.js', 'js/projections/scenario-presets.js',
+    'js/projections/scenario-storage.js', 'js/projections/scenario-builder.js']) pw.eval(read(f));
+  const index = JSON.parse(read('data/hna/ranking-index.json'));
+  const rows = Array.isArray(index.rankings) ? index.rankings : Object.values(index.rankings);
+  const counties = rows.filter((r) => r.type === 'county').slice(0, 2);
+  assert.equal(counties.length, 2, 'two counties to switch between');
+  const pending = {};
+  pw.safeFetchJSON = (url) => {
+    if (url.includes('ranking-index')) return Promise.resolve(index);
+    return new Promise((resolve, reject) => { pending[url] = { resolve, reject }; });
+  };
+  pw.eval(loader);
+  pw.document.dispatchEvent(new pw.Event('DOMContentLoaded'));
+  await new Promise((r) => setTimeout(r, 0));
+  const sel = pw.document.getElementById('sbGeoSelect');
+  const load = (geoid) => {
+    sel.value = geoid; sel.dispatchEvent(new pw.Event('change'));
+    pw.document.getElementById('sbLoadCounty').click();
+    return `data/hna/dola_sya/${geoid}.json`;
+  };
+  const tick = () => new Promise((r) => setTimeout(r, 0));
+  const fileFor = (g) => JSON.parse(read(`data/hna/dola_sya/${g}.json`));
+  const [a, b] = counties.map((c) => c.geoid);
+
+  // A loads, then the selection changes to B: A's projection is cleared.
+  const urlA = load(a); pending[urlA].resolve(fileFor(a)); await tick();
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, a, 'A loaded');
+  sel.value = b; sel.dispatchEvent(new pw.Event('change'));
+  assert.equal(pw.ScenarioBuilder.loadedGeography(), null, 'changing the selection clears the earlier projection');
+  assert.equal(pw.ScenarioBuilder.hasProjection(), false, 'no projection shown for an unloaded selection');
+
+  // Out of order: start A, then B; B succeeds, then the stale A fails or succeeds.
+  const urlA2 = load(a); const urlB = load(b);
+  pending[urlB].resolve(fileFor(b)); await tick();
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'B loaded');
+  pending[urlA2].reject(new Error('late failure')); await tick();
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late failure for A does not clear B');
+  const urlA3 = load(a); const urlB2 = load(b);
+  pending[urlB2].resolve(fileFor(b)); await tick();
+  pending[urlA3].resolve(fileFor(a)); await tick();
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late success for A does not replace B');
+
+  console.log(`scenario-builder-loaded-geography: PASS (Mesa base ${expectedBase.toLocaleString()})`);
+})().catch((e) => { console.error(e); process.exit(1); });
