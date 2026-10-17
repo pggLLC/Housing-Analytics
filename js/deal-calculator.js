@@ -182,7 +182,9 @@
   function operatingBudgetModule() {
     return window.DealOperatingBudget || (typeof require === 'function' ? require('./deal-operating-budget.js') : null);
   }
-  function operatingBudgetHtml(otherExtraHtml) {
+  // separateHtml holds the markup of the lines kept on their own inputs, keyed
+  // by SEPARATE_LINES id; each renders before the line DOH's sheet puts it ahead of.
+  function operatingBudgetHtml(separateHtml) {
     var ob = operatingBudgetModule();
     if (!ob) return '<p>The operating budget is unavailable: js/deal-operating-budget.js did not load.</p>';
     var field = 'width:100%;min-height:44px;padding:0.3rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);';
@@ -195,8 +197,11 @@
     var lines = ob.exampleLines();
     var groups = ob.GROUPS.map(function (g) {
       var rows = lines.filter(function (l) { return l.group === g.id; }).map(function (l) {
-        return lineHtml('dc-op-' + l.id, l.label, l.amount, 'data-op-per="' + l.id + '"');
-      }).join('') + (g.id === 'other' ? otherExtraHtml : '');
+        var ahead = ob.SEPARATE_LINES.filter(function (sl) { return sl.before === l.id; }).map(function (sl) {
+          return (separateHtml && separateHtml[sl.id]) || '';
+        }).join('');
+        return ahead + lineHtml('dc-op-' + l.id, l.label, l.amount, 'data-op-per="' + l.id + '"');
+      }).join('');
       return '<details class="dc-op-group" data-op-group="' + g.id + '" style="margin-top:var(--sp2);border-top:1px solid var(--border);padding-top:.3rem;">'
         + '<summary style="display:flex;justify-content:space-between;gap:.5rem;min-height:44px;align-items:center;cursor:pointer;font-size:var(--small);font-weight:700;">'
         + '<span>' + _escHtml(g.label) + '</span><span data-op-subtotal="' + g.id + '" style="font-variant-numeric:tabular-nums;"></span></summary>' + rows + '</details>';
@@ -2365,7 +2370,7 @@
           </dl>
           <p id="dc-op-reason" role="status" hidden style="margin:0 0 var(--sp1);font-size:var(--small);color:var(--warn,#b45309);"></p>
           <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
-          <div id="dc-op-lines">${operatingBudgetHtml(`
+          <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Real estate taxes ($ per unit per year)</span>
             <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
@@ -2382,13 +2387,14 @@
             </select>
             <span style="font-size:var(--tiny);color:var(--muted);">Housing authority ownership or nonprofit partnerships may qualify for property tax exemption</span>
           </label>
+          `, replacement_reserve: `
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Replacement reserve ($ per unit per year)</span>
             <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
             <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
           </label>
-          `)}</div>
+          ` })}</div>
           <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
             Computed Annual NOI: <span id="dc-noi-computed">—</span>
           </div>

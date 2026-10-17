@@ -21,10 +21,12 @@
     ['other', 'Other expenses']
   ].map(function (g) { return Object.freeze({ id: g[0], label: g[1] }); }));
 
-  // Lines held on separate inputs but shown in DOH's "Other expenses" group.
+  // Lines held on separate inputs but shown in DOH's "Other expenses" group,
+  // each placed before the line it precedes on DOH's sheet: Real Estate Taxes,
+  // Property Insurance, Replacement Reserve, Other.
   var SEPARATE_LINES = Object.freeze([
-    Object.freeze({ id: 'real_estate_taxes', label: 'Real estate taxes', group: 'other', input: 'dc-prop-tax' }),
-    Object.freeze({ id: 'replacement_reserve', label: 'Replacement reserve', group: 'other', input: 'dc-rep-reserve' })
+    Object.freeze({ id: 'real_estate_taxes', label: 'Real estate taxes', group: 'other', input: 'dc-prop-tax', before: 'insurance' }),
+    Object.freeze({ id: 'replacement_reserve', label: 'Replacement reserve', group: 'other', input: 'dc-rep-reserve', before: 'other_other' })
   ]);
 
   var LINE_TEMPLATE = Object.freeze([

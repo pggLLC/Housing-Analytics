@@ -37,6 +37,11 @@ async function test(name, fn) {
     // Taxes and the reserve sit inside DOH's Other expenses group.
     const other = p.d.querySelector('[data-op-group="other"]');
     assert(other.querySelector('#dc-prop-tax') && other.querySelector('#dc-rep-reserve') && other.querySelector('#dc-tax-exempt'));
+    // In DOH's row order, so a sheet can be copied line by line: taxes, insurance, reserve, other.
+    const order = ['dc-prop-tax', 'dc-op-insurance', 'dc-rep-reserve', 'dc-op-other_other'];
+    const inOther = [...other.querySelectorAll('input')].map(e => e.id).filter(id => order.includes(id));
+    assert.deepEqual(inOther, order);
+    assert.deepEqual(ob.SEPARATE_LINES.map(l => [l.input, l.before]), [['dc-prop-tax', 'insurance'], ['dc-rep-reserve', 'other_other']]);
     assert.equal(p.w.__DealCalc.getResult().annualOpex, s.perUnitYear * units, 'the engine reads the lines');
     assert.match(text(p, 'dc-op-example-note'), /invented example/i);
     assert.match(text(p, 'dc-op-utilities-note'), /Market Analysis/);
