@@ -106,13 +106,24 @@
     var out = { hardMortgages: [], government: [], other: [], owner: [], historic: [], unclassified: [], reasons: [] };
 
     var seniorPrincipal = known(r.mortgage) ? r.mortgage : null;
-    out.hardMortgages.push({ label: 'First mortgage', source: 'senior', lenderType: seniorType,
-      principal: seniorPrincipal,
-      // The engine's first-year senior payment for the chosen repayment type:
-      // interest only pays interest, and deferred or cash-flow loans owe nothing fixed.
-      annualPayment: seniorPrincipal !== null && known(r.annualDebtService) ? r.annualDebtService : null,
-      reason: seniorType ? null : 'Choose the first mortgage\'s DOH loan type.' });
-    if (!seniorType) out.reasons.push('Choose the first mortgage\'s DOH loan type.');
+    var seniorHeld = false;
+    var seniorLoan = r.obligations && r.obligations.loans ? r.obligations.loans.filter(function (l) { return l.senior; })[0] : null;
+    if (seniorLoan && MUST_PAY.indexOf(seniorLoan.type) < 0) {
+      // Same rule as a tranche: a deferred, cash-flow or forgivable senior loan
+      // has no fixed payment, so it is not one of DOH's hard mortgages.
+      var seniorReason = 'The senior loan is cash-flow, deferred or forgivable, so it is not a hard mortgage; it is held apart.';
+      out.unclassified.push({ id: 'senior', source: 'senior', program: 'senior', mode: 'loan', amount: seniorPrincipal, annualPayment: null, reason: seniorReason });
+      out.reasons.push(seniorReason);
+      seniorHeld = true;
+    } else {
+      out.hardMortgages.push({ label: 'First mortgage', source: 'senior', lenderType: seniorType,
+        principal: seniorPrincipal,
+        // The engine's first-year senior payment for the chosen repayment type:
+        // interest only pays interest.
+        annualPayment: seniorPrincipal !== null && known(r.annualDebtService) ? r.annualDebtService : null,
+        reason: seniorType ? null : 'Choose the first mortgage\'s DOH loan type.' });
+      if (!seniorType) out.reasons.push('Choose the first mortgage\'s DOH loan type.');
+    }
 
     tranches.forEach(function (t) {
       var amount = num(t.amount);
@@ -128,7 +139,8 @@
       }
       if (!g.group) { item.reason = g.reason; out.unclassified.push(item); out.reasons.push(g.reason); return; }
       if (/^hard_/.test(g.group)) {
-        item.label = ['Second', 'Third'][out.hardMortgages.length - 1] ? ['Second', 'Third'][out.hardMortgages.length - 1] + ' mortgage' : 'Additional hard mortgage';
+        var ordinal = ['First', 'Second', 'Third'][out.hardMortgages.length];
+        item.label = ordinal ? ordinal + ' mortgage' : 'Additional hard mortgage';
         item.lenderType = g.group.slice(5);
         item.principal = item.amount;
         out.hardMortgages.push(item);
@@ -165,7 +177,8 @@
       unclassified: amounts(out.unclassified)
     };
     // A senior loan without a DOH type still counts in total sources.
-    var untypedSenior = seniorType ? 0 : seniorPrincipal;
+    // A senior loan held apart is already in the unclassified total.
+    var untypedSenior = seniorHeld || seniorType ? 0 : seniorPrincipal;
     t.totalSources = sum([t.conventional, t.taxExempt, t.federalFinancing, t.taxCredits, t.government,
       t.otherGrants, t.ownerEquity, t.unclassified, untypedSenior]);
     t.gap = known(r.gap) ? r.gap : null;

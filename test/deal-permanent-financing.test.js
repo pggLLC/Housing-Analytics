@@ -111,6 +111,30 @@ test('a cash-flow or deferred loan cannot be a hard mortgage: it is held apart w
   close(s.hardMortgages[1].annualPayment, 1000000 * 0.03, 'interest only at 3%');
 });
 
+test('a cash-flow, deferred or forgivable senior loan is held apart too, and still counted', () => {
+  for (const type of ['cash_flow', 'accrue_defer', 'forgivable']) {
+    const i = withTranches('A', STACK);
+    Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': '3000000', 'dc-senior-type': type, 'dc-senior-cfpay': '50', 'dc-senior-maturity': '30' });
+    const r = computeDeal(i);
+    assert(r.obligations && r.obligations.loans, type + ': the engine built a schedule');
+    const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C' });
+    assert.equal(s.hardMortgages.length, 0, type + ': no hard mortgage');
+    assert.equal(s.totals.conventional, 0, type + ': not in the conventional row');
+    const held = s.unclassified.find(u => u.source === 'senior');
+    assert(held && /not a hard mortgage/.test(held.reason), type);
+    close(held.amount, r.mortgage, type + ': its principal is held apart');
+    assert(Number.isFinite(s.totals.gap), type + ': a finite result');
+    close(s.totals.totalSources + s.totals.gap, r.tdc, type + ': and still counted once');
+    assert.equal(s.hardDebt, 0, type + ': no hard debt to compare with a maximum loan');
+  }
+  const list = STACK.slice(); list[0] = Object.assign({}, list[0], { doh: 'hard_T' });
+  const i = withTranches('A', list);
+  Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': '3000000', 'dc-senior-type': 'accrue_defer', 'dc-senior-maturity': '30' });
+  const r = computeDeal(i);
+  const s = pf.summarize({ result: r, tranches: r.tranches, seniorLenderType: 'C' });
+  assert.equal(s.hardMortgages[0].label, 'First mortgage', 'a must-pay tranche becomes the first hard mortgage');
+});
+
 test('an ungrouped or untyped source is unknown with a reason, and still counts in total sources', () => {
   const list = STACK.concat([{ program: 'other', amount: 50000, mode: 'grant' }]);
   const r = computeDeal(withTranches('A', list));
