@@ -25,7 +25,6 @@
   ].map(function (g) { return Object.freeze({ id: g[0], label: g[1] }); }));
   var CONTINGENCY_KINDS = Object.freeze({
     contractor_contingency: 'Contractor contingency',
-    escalation: 'Escalation allowance',
     owner_contingency: 'Owner hard-cost contingency',
     soft_contingency: 'Soft-cost contingency'
   });
@@ -52,9 +51,8 @@
     ['overhead_profit', 'Contractor overhead & profit', 'construction', 'eligible'],
     ['contractor_contingency', 'Contractor construction contingency', 'construction', 'eligible'],
     ['owner_contingency', 'Owner hard-cost contingency', 'construction', 'eligible'],
-    ['escalation', 'Other: escalation allowance', 'construction', 'eligible'],
     ['ffe', 'Furniture, fixtures and equipment (FFE)', 'construction', 'eligible'],
-    ['construction_other', 'Other construction costs', 'construction', 'partial'],
+    ['construction_other', 'Other construction costs, such as escalation', 'construction', 'partial'],
     ['design', 'Architect fees', 'professional', 'eligible'],
     ['engineering', 'Engineering fees', 'professional', 'eligible'],
     ['re_attorney', 'Real estate attorney fees', 'professional', 'partial'],
@@ -110,7 +108,7 @@
   var RESERVE_IDS = Object.freeze(['reserves', 'debt_service_reserve', 'lease_up_reserve', 'replacement_reserve', 'reserve_other']);
   // The contractor's contract: site work, construction, general requirements, overhead and profit, contingency.
   var CONTRACT_IDS = Object.freeze(['off_site', 'site_work', 'demolition', 'structures', 'general_requirements', 'overhead_profit', 'contractor_contingency']);
-  // DOH stars these lines as "costs included in hard cost evaluation". Its unstarred "Other" lines, escalation among them, are not.
+  // DOH stars these lines as "costs included in hard cost evaluation". Its unstarred "Other" lines are not.
   var HARD_COST_IDS = Object.freeze(['building_acquisition', 'off_site', 'site_work', 'demolition', 'permits', 'tap_fees', 'structures',
     'general_requirements', 'overhead_profit', 'contractor_contingency', 'owner_contingency']);
   function sumIds(byId, ids) {
@@ -120,7 +118,9 @@
   // Lines before the DOH layout, so saved links and exports still load. Each old
   // line goes to the DOH line that holds the same cost; two old lines may share one.
   var LEGACY_LINES = Object.freeze({
-    overhead: 'overhead_profit', profit: 'overhead_profit', financing: 'soft_other'
+    overhead: 'overhead_profit', profit: 'overhead_profit', financing: 'soft_other',
+    // DOH has no escalation row; an escalation allowance is one of its "Other (Devo specify)" construction costs.
+    escalation: 'construction_other'
   });
   // Every line id before the DOH layout. An old link names these and no others, so a DOH
   // line outside this list was not in the saved budget and must not keep its example amount.
@@ -133,14 +133,14 @@
   var EXAMPLE_BUDGET = Object.freeze({
     land: 1000000, site_work: 1000000, structures: 10400000,
     general_requirements: 600000, overhead_profit: 750000, contractor_contingency: 500000,
-    owner_contingency: 400000, escalation: 200000, permits: 400000,
+    owner_contingency: 400000, construction_other: 200000, permits: 400000,
     design: 700000, insurance: 130000, bonds: 120000,
     construction_loan_fee: 150000, construction_interest: 450000, construction_taxes: 100000, inspection_fees: 50000,
     perm_loan_fees: 100000, appraisal_market: 50000, environmental: 50000, geotechnical: 50000, tax_credit_fees: 100000, marketing: 50000,
     soft_contingency: 200000, cost_certification: 50000,
     developer_fee: 1900000, reserves: 500000
   });
-  var EXAMPLE_PARTIAL = Object.freeze({ construction_interest: 400000 });
+  var EXAMPLE_PARTIAL = Object.freeze({ construction_interest: 400000, construction_other: 200000 });
 
   function exampleLines() {
     return LINE_TEMPLATE.map(function (t) {

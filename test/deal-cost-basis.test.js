@@ -270,12 +270,12 @@ test('contract lines are a subset of uses, never added twice; unitemized cost is
 
 test('each contingency keeps its original amount, proposed use and remaining', () => {
   const lines = cb.exampleLines();
-  lines.find((l) => l.id === 'escalation').used = 50000;
+  lines.find((l) => l.id === 'owner_contingency').used = 50000;
   lines.find((l) => l.id === 'soft_contingency').used = '';
   const s = cb.summarizeCosts(lines, 20000000);
-  assert.deepEqual(s.contingencies.map((c) => c.id).sort(), ['contractor_contingency', 'escalation', 'owner_contingency', 'soft_contingency']);
-  const esc = s.contingencies.find((c) => c.id === 'escalation');
-  assert.deepEqual([esc.original, esc.used, esc.remaining], [200000, 50000, 150000]);
+  assert.deepEqual(s.contingencies.map((c) => c.id).sort(), ['contractor_contingency', 'owner_contingency', 'soft_contingency']);
+  const own = s.contingencies.find((c) => c.id === 'owner_contingency');
+  assert.deepEqual([own.original, own.used, own.remaining], [400000, 50000, 350000]);
   const soft = s.contingencies.find((c) => c.id === 'soft_contingency');
   assert.equal(soft.remaining, null);
   assert.match(soft.reason, /proposed for use/);
@@ -695,8 +695,12 @@ test('the cost lines are DOH\'s nine categories, in its order, and every line si
     for (const id of cb[list]) assert(lineIds.has(id), list + ': ' + id + ' is a line');
   }
   for (const id of cb.RESERVE_IDS) assert(cb.NEVER_IN_BASIS[id], id + ' is never in basis');
-  // DOH stars the lines in its hard-cost evaluation; its "Other" lines, where escalation sits, are not starred.
-  for (const id of ['escalation', 'construction_other', 'ffe']) assert(!cb.HARD_COST_IDS.includes(id), id + ' is not a DOH hard cost');
+  // DOH's Development Costs tab has 52 lines (2/3/9/6/9/4/11/3/5) and no escalation row.
+  assert.deepEqual(cb.GROUPS.map((g) => cb.LINE_TEMPLATE.filter((l) => l.group === g.id).length), [2, 3, 9, 6, 9, 4, 11, 3, 5]);
+  assert.equal(cb.LINE_TEMPLATE.length, 52);
+  assert(!cb.LINE_TEMPLATE.some((l) => /escalation/.test(l.id)), 'no escalation row of its own');
+  // DOH stars the lines in its hard-cost evaluation; its "Other" lines are not starred.
+  for (const id of ['construction_other', 'ffe']) assert(!cb.HARD_COST_IDS.includes(id), id + ' is not a DOH hard cost');
   assert.equal(cb.HARD_COST_IDS.length, 11, 'DOH stars 11 hard-cost lines (Tap Fees / Impact Fees is one line)');
   for (const target of Object.values(cb.LEGACY_LINES)) assert(lineIds.has(target), 'old lines load into a real line: ' + target);
 });
@@ -773,6 +777,10 @@ test('cost lines saved before the DOH layout load into the DOH lines with the sa
   for (const id of ['construction_interest', 'perm_loan_fees', 'tax_credit_fees', 'marketing']) assert.equal(cleared['cost-' + id], '', id);
   for (const id of cb.PRE_DOH_IDS) assert(!('cost-' + id in cleared), id + ' keeps what the link saved');
   assert.equal(cleared['cost-soft_other'], '1200000');
+  // Escalation dollars saved before the DOH layout land in Construction, Other, with their basis.
+  const esc = cb.legacyCostFields((k) => ({ 'cost-escalation': '200000', 'cost-escalation-basis': 'eligible' })[k] ?? null);
+  assert.equal(esc['cost-construction_other'], '200000');
+  assert.equal(esc['cost-construction_other-basis'], 'eligible');
   // The migrated budget gives the same basis as the old one.
   const lines = cb.exampleLines().map((l) => ({ ...l, amount: null }));
   const set = (id, amount, basis, eligibleAmount) => Object.assign(lines.find((l) => l.id === id), { amount, basis, eligibleAmount });

@@ -3978,7 +3978,7 @@
     document.querySelectorAll('[data-cost-per]').forEach(function (span) {
       var v = sum.byId && sum.byId[span.getAttribute('data-cost-per')];
       if (lineError || !(v > 0)) { span.textContent = ''; return; }
-      span.textContent = [perUnits ? fmt(v / perUnits) + ' per unit' : null, perSf ? '$' + (v / perSf).toFixed(2) + ' per SF' : null].filter(Boolean).join(' · ');
+      span.textContent = [perUnits ? fmt(v / perUnits) + ' per unit' : null, perSf ? '$' + (v / perSf).toFixed(2) + ' per residential SF' : null].filter(Boolean).join(' · ');
     });
     document.querySelectorAll('[data-cost-remaining]').forEach(function (span) {
       if (!(sum.contingencies || []).some(function (c) { return c.id === span.getAttribute('data-cost-remaining'); })) span.textContent = '';

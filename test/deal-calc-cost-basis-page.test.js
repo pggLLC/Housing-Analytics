@@ -315,6 +315,8 @@ async function test(name, fn) {
     assert.equal(old.d.getElementById('dc-cost-overhead_profit-eligible').value, '250000');
     assert.equal(old.d.getElementById('dc-cost-soft_other').value, '1200000');
     assert.equal(old.d.getElementById('dc-cost-construction_interest').value, '');
+    assert.equal(old.d.getElementById('dc-cost-construction_other').value, '200000', 'the saved escalation allowance is Construction, Other');
+    assert.equal(old.d.getElementById('dc-cost-construction_other-basis').value, 'eligible');
     assert.deepEqual(old.errors, []);
   });
 
