@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T01:36:05.539Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T03:02:08.562Z. Do not edit by hand.
 
 ---
 
@@ -88,7 +88,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 832.7 KB | ✅ | — |
+| `data/_manifest.json` | 833.1 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1594,7 +1594,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 215.2 KB | ✅ | — |
+| `data/manifest.json` | 215.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1722,7 +1722,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 357.0 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 420.2 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
@@ -1733,7 +1733,7 @@
 | `data/policy/funding-awards/dola-awards.json` | 323.6 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
-| `data/policy/funding-watch-sources.json` | 7.4 KB | ✅ | — |
+| `data/policy/funding-watch-sources.json` | 10.2 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
 | `data/policy/housing-events.json` | 14.7 KB | ✅ | — |
@@ -1975,7 +1975,7 @@
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
-| `test/funding-fit.test.js` | 12.3 KB |
+| `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
 | `test/funding-vs-need.test.mjs` | 13.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
@@ -2386,7 +2386,7 @@
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 8.9 KB |
 | `tests/test_funding_awards_parser.py` | 5.8 KB |
-| `tests/test_funding_watch.py` | 55.7 KB |
+| `tests/test_funding_watch.py` | 56.4 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
