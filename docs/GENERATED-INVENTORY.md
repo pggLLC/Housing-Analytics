@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T05:47:15.915Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T10:12:40.117Z. Do not edit by hand.
 
 ---
 
@@ -84,11 +84,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1699 JSON files found.
+1700 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 833.1 KB | ✅ | — |
+| `data/_manifest.json` | 833.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -106,7 +106,7 @@
 | `data/alerts/brief-news-queue.json` | 68.9 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 526.0 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 609.7 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1594,12 +1594,13 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 215.4 KB | ✅ | — |
+| `data/manifest.json` | 215.5 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.29 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
+| `data/market/bps_monthly_ytd.json` | 93.4 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
 | `data/market/census2020-place-tract-housing-co.json` | 350.3 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
@@ -1628,7 +1629,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 640.6 KB | ✅ | — |
+| `data/market/market-direction.json` | 756.5 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -1644,7 +1645,7 @@
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
-| `data/market/zillow_co_metros.json` | 106.6 KB | ✅ | — |
+| `data/market/zillow_co_metros.json` | 107.1 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 25.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
@@ -1792,7 +1793,7 @@
 
 ## Test Files
 
-625 test files found.
+626 test files found.
 
 | File | Size |
 |------|------|
@@ -2369,6 +2370,7 @@
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_award_rows.py` | 3.3 KB |
+| `tests/test_bps_monthly.py` | 6.4 KB |
 | `tests/test_brief_news_queue.py` | 4.6 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
@@ -2426,7 +2428,7 @@
 
 ## GitHub Actions Workflows
 
-80 workflow files found.
+81 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2466,6 +2468,7 @@
 | `.github/workflows/docs-sync.yml` | 4.0 KB |
 | `.github/workflows/equity-pricing-watch.yml` | 2.0 KB |
 | `.github/workflows/external-references-check.yml` | 6.1 KB |
+| `.github/workflows/fetch-bps-monthly.yml` | 4.6 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.9 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.8 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.6 KB |
