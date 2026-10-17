@@ -176,11 +176,12 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
 
   // ── the file's abbreviated and numbered lake names are checked ────────────
   const square = (x, y, d) => [[[x - d, y - d], [x + d, y - d], [x + d, y + d], [x - d, y + d], [x - d, y - d]]];
-  ['Lk Hope', 'Cottonwood Lake Number 5', 'Road Canyon Reservoir No 1'].forEach((name) => {
+  ['Lk Hope', 'Cottonwood Lake Number 5', 'Road Canyon Reservoir No 1',
+    'Bowles Res 1', 'Lefthand Villy Resv', 'Mason Rsvr Number 4'].forEach((name) => {
     const lake = { type: 'Feature', properties: { name, barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
     const r = B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [lake]);
     assert.equal(r.exclusions.length, 1, `"${name}" is a named lake the option checks`);
-    assert(!/\bLk\b/.test(r.exclusions[0].feature), 'and its label is spelled out');
+    assert(!/\b(Lk|Res|Resv|Rsvr)\b/.test(r.exclusions[0].feature), `and its label is spelled out (${r.exclusions[0].feature})`);
   });
   const pond = { type: 'Feature', properties: { name: 'Unnamed water body', barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
   assert.equal(B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [pond]).status, 'no_features', 'an unnamed pond is not checked');
