@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T21:10:20.482Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T22:27:20.710Z. Do not edit by hand.
 
 ---
 
@@ -47,11 +47,11 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.2 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.8 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 136.7 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 163.3 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 163.9 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.8 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.1 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 240.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 240.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
@@ -1656,7 +1656,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
-| `data/paper/figures.json` | 15.3 KB | ✅ | — |
+| `data/paper/figures.json` | 15.7 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 43.1 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
@@ -1798,7 +1798,7 @@
 
 ## Test Files
 
-641 test files found.
+642 test files found.
 
 | File | Size |
 |------|------|
@@ -2041,7 +2041,7 @@
 | `test/hna-ownership-strategy.test.js` | 13.9 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
-| `test/hna-projection-integrity.test.js` | 22.2 KB |
+| `test/hna-projection-integrity.test.js` | 57.3 KB |
 | `test/hna-prop123-relationship.test.js` | 7.9 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
@@ -2386,6 +2386,7 @@
 | `tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
+| `tests/test_acs_reliability.py` | 10.2 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_award_rows.py` | 3.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
@@ -2448,7 +2449,7 @@
 
 ## GitHub Actions Workflows
 
-81 workflow files found.
+82 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2461,6 +2462,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.2 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
+| `.github/workflows/build-acs-reliability.yml` | 3.4 KB |
 | `.github/workflows/build-hna-data.yml` | 34.2 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.7 KB |
