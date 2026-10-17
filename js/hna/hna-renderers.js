@@ -6364,28 +6364,39 @@
           // Fall back to state aggregate
           rec = {
             county_name: 'Colorado (state aggregate)',
-            two_br_housing_wage: state.two_br_housing_wage_2025,
-            one_br_housing_wage: null,
-            renter_median_wage: state.renter_median_hourly_wage_2025,
+            two_br_housing_wage: state.two_br_housing_wage,
+            one_br_housing_wage: state.one_br_housing_wage,
+            renter_mean_wage: state.renter_mean_hourly_wage,
             gap_2br: state.affordability_gap_per_hour,
-            notes: 'No county-specific value cached — using state aggregate.'
+            notes: 'No county row in the file, so the state figures are shown.'
           };
         }
+        // Absent is not zero: a missing NLIHC value prints as unavailable.
+        function wage(v) {
+          return (typeof v === 'number' && isFinite(v) && v > 0) ? '$' + v.toFixed(2) + '/hr' : 'Not published';
+        }
+        var gapKnown = typeof rec.gap_2br === 'number' && isFinite(rec.gap_2br);
+        var gapText = gapKnown
+          ? (rec.gap_2br > 0 ? '$' + rec.gap_2br.toFixed(2) + '/hr short' : '$' + Math.abs(rec.gap_2br).toFixed(2) + '/hr above')
+          : 'Not available';
+        var areaNote = rec.nlihc_area && rec.nlihc_area !== rec.county_name + ' County'
+          ? 'Rent and housing wage are for HUD\'s ' + rec.nlihc_area + ' rent area; the renter wage is this county\'s own. '
+          : '';
         var addendum = document.createElement('div');
         addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.5;';
         addendum.innerHTML =
           '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
           '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(140px, 100%), 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
-            '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
-            '<div><span style="color:var(--muted);font-size:1rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            '<div><span style="color:var(--muted);font-size:1rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>' + wage(rec.two_br_housing_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>' + wage(rec.one_br_housing_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">Average renter wage:</span><br><strong>' + wage(rec.renter_mean_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">Renter wage vs 2-BR housing wage:</span><br><strong style="color:' + (!gapKnown ? 'var(--muted)' : rec.gap_2br > 12 ? 'var(--bad)' : rec.gap_2br > 0 ? 'var(--warn)' : 'var(--good)') + ';">' + gapText + '</strong></div>' +
           '</div>' +
-          '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + (rec.notes || '') + '</p>' +
+          '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + areaNote + (rec.renter_wage_unavailable_reason || rec.notes || '') + '</p>' +
           '<p style="margin:.2rem 0 0;font-size:1rem;color:var(--muted);">' +
-            'Source: <a href="https://nlihc.org/oor" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC Out of Reach ' + ((j.meta && j.meta.vintage) || '2025') + '</a> · ' +
-            'The "housing wage" = (HUD 2-BR FMR × 12) ÷ (0.30 × 2,080 work hours/year). Hourly wage a full-time renter needs to afford 2-BR FMR without rent burden. ' +
-            'Pulls a hard one-line answer to "why does this jurisdiction need affordable housing?" for IC memos.' +
+            'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://nlihc.org/oor') + '" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC ' + ((j.meta && j.meta.report_name) || 'Out of Reach') + '</a>' +
+            (j.meta && j.meta.released ? ', released ' + j.meta.released : '') + ' · ' +
+            'The housing wage is what a full-time worker needs per hour to pay HUD\'s 2-BR Fair Market Rent at 30% of income. The renter wage is NLIHC\'s estimated average for renters in the county.' +
           '</p>';
         panel.appendChild(addendum);
       }).catch(function () { /* silent */ });
