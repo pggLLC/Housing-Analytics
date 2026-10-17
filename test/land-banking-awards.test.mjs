@@ -317,6 +317,10 @@ ledgerAgreement(DATA);
   // Every tappable control on the public page is at least 44px tall, including the "Row as printed" toggles.
   const quoteRule = (PAGE.match(/details\.lb-quote > summary \{([^}]*)\}/) || [])[1] || '';
   ok(/min-height:\s*44px/.test(quoteRule), 'the "Row as printed" toggle is at least 44px tall');
+  for (const sel of ['a[data-lb-csv]', 'button[data-lb-more]']) {
+    const rule = (PAGE.match(new RegExp(sel.replace(/[[\]]/g, '\\$&') + ' \\{([^}]*)\\}')) || [])[1] || '';
+    ok(/min-height:\s*44px/.test(rule) && PAGE.includes(sel.replace(/^(a|button)\[(.*)\]$/, '$2')), `${sel} is at least 44px tall`);
+  }
   ok(LBA.rowHtml(DATA.awards[0], DATA).includes('lb-quote'), 'the table rows use that toggle');
 
   // The table and its download carry every award, and the headline is the file's totals.

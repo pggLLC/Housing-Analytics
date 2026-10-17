@@ -24,6 +24,9 @@
     .lb-table details.lb-quote { border: 0; background: none; padding: 0; margin: 4px 0 0; box-shadow: none; }
     .lb-table details.lb-quote > summary { cursor: pointer; font-size: var(--small); display: block; box-sizing: border-box; min-height: 44px; padding: 12px 0; color: var(--link, var(--accent)); list-style: revert; }
     .lb-table details.lb-quote > summary::after { content: none; }
+    /* Touch targets: every control below the map is at least 44px tall. */
+    a[data-lb-csv] { display: inline-flex; align-items: center; min-height: 44px; }
+    button[data-lb-more] { min-height: 44px; }
     .lb-quote blockquote { margin: var(--sp1) 0; padding-left: var(--sp2); border-left: 3px solid var(--border); font-size: var(--small); overflow-wrap: anywhere; }
     .lb-note { font-size: var(--small); color: var(--muted); }
     .lb-means { max-width: 760px; line-height: 1.6; }
