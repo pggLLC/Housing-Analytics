@@ -443,7 +443,7 @@
     "test:sale-price": "node test/sale-price-evidence-is-named.test.mjs",
     "test:pmi-gate": "node test/pmi-gate-is-one-rule.test.mjs",
     "test:basemap-contract": "node test/basemap-honours-tilelayer-contract.test.js",
-    "test:a11y-audit-guard": "node test/a11y-audit-never-silently-skips.test.mjs",
+    "test:a11y-audit-guard": "node test/a11y-audit-never-silently-skips.test.mjs && node test/aria-list-ownership.test.js",
     "test:audit-budgets": "node test/audit-budgets.test.mjs",
     "test:console-audit-interactions": "node test/console-audit-exercises-controls.test.js",
     "test:cost-per-sf": "node test/cost-per-sf-absence.test.js",

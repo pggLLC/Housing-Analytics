@@ -1102,6 +1102,10 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 
 .hna-rail__link {
   display: block;
+  /* WCAG 2.2 target size: each rail link is at least 24px tall (axe
+     target-size flagged 51 rail links on the four HNA chapter pages). */
+  min-height: 24px;
+  box-sizing: border-box;
   padding: .25rem .45rem .25rem .55rem;
   border-left: 2px solid transparent;
   border-radius: 0 4px 4px 0;
