@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-17T03:02:36.575373Z",
+  "generated": "2026-10-17T05:47:49.866464Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 853100
+      "bytes": 853495
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7696,6 +7696,11 @@
       "placeholder": false,
       "bytes": 24844
     },
+    "data/market/dola_muni_household_population.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 76375
+    },
     "data/market/dola_rent_survey_co.json": {
       "featureCount": 0,
       "placeholder": true,
@@ -7809,7 +7814,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 116038
+      "bytes": 656005
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -7964,7 +7969,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15107
+      "bytes": 15109
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
