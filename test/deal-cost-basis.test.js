@@ -695,6 +695,9 @@ test('the cost lines are DOH\'s nine categories, in its order, and every line si
     for (const id of cb[list]) assert(lineIds.has(id), list + ': ' + id + ' is a line');
   }
   for (const id of cb.RESERVE_IDS) assert(cb.NEVER_IN_BASIS[id], id + ' is never in basis');
+  // DOH stars the lines in its hard-cost evaluation; its "Other" lines, where escalation sits, are not starred.
+  for (const id of ['escalation', 'construction_other', 'ffe']) assert(!cb.HARD_COST_IDS.includes(id), id + ' is not a DOH hard cost');
+  assert.equal(cb.HARD_COST_IDS.length, 11, 'DOH stars 11 hard-cost lines (Tap Fees / Impact Fees is one line)');
   for (const target of Object.values(cb.LEGACY_LINES)) assert(lineIds.has(target), 'old lines load into a real line: ' + target);
 });
 

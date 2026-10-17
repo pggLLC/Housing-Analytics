@@ -52,7 +52,7 @@
     ['overhead_profit', 'Contractor overhead & profit', 'construction', 'eligible'],
     ['contractor_contingency', 'Contractor construction contingency', 'construction', 'eligible'],
     ['owner_contingency', 'Owner hard-cost contingency', 'construction', 'eligible'],
-    ['escalation', 'Escalation allowance', 'construction', 'eligible'],
+    ['escalation', 'Other: escalation allowance', 'construction', 'eligible'],
     ['ffe', 'Furniture, fixtures and equipment (FFE)', 'construction', 'eligible'],
     ['construction_other', 'Other construction costs', 'construction', 'partial'],
     ['design', 'Architect fees', 'professional', 'eligible'],
@@ -110,9 +110,9 @@
   var RESERVE_IDS = Object.freeze(['reserves', 'debt_service_reserve', 'lease_up_reserve', 'replacement_reserve', 'reserve_other']);
   // The contractor's contract: site work, construction, general requirements, overhead and profit, contingency.
   var CONTRACT_IDS = Object.freeze(['off_site', 'site_work', 'demolition', 'structures', 'general_requirements', 'overhead_profit', 'contractor_contingency']);
-  // DOH stars these lines as "costs included in hard cost evaluation"; escalation sits with them as an owner hard-cost allowance.
+  // DOH stars these lines as "costs included in hard cost evaluation". Its unstarred "Other" lines, escalation among them, are not.
   var HARD_COST_IDS = Object.freeze(['building_acquisition', 'off_site', 'site_work', 'demolition', 'permits', 'tap_fees', 'structures',
-    'general_requirements', 'overhead_profit', 'contractor_contingency', 'owner_contingency', 'escalation']);
+    'general_requirements', 'overhead_profit', 'contractor_contingency', 'owner_contingency']);
   function sumIds(byId, ids) {
     return ids.reduce(function (total, id) { return total + ((byId && byId[id]) || 0); }, 0);
   }
