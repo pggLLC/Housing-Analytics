@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T19:40:15.011Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T20:28:02.690Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 59.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 149.2 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 150.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 65.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -90,7 +90,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 835.5 KB | ✅ | — |
+| `data/_manifest.json` | 836.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1798,7 +1798,7 @@
 
 ## Test Files
 
-638 test files found.
+639 test files found.
 
 | File | Size |
 |------|------|
@@ -2200,6 +2200,7 @@
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-narrative-claims.test.js` | 7.7 KB |
+| `test/pma-natural-features.test.js` | 16.9 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |
 | `test/pma-primary-score.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
