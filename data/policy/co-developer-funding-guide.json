@@ -3532,6 +3532,10 @@
       "category": "prop123",
       "administrator": "OEDIT, with CHFA as contract administrator",
       "official_url": "https://coloradoaffordablehousingfinancingfund.com/land-banking/",
+      "past_awards_page": {
+        "href": "land-banking-awards.html",
+        "label": "Every past award, on a map"
+      },
       "funding_type": [
         "grant",
         "forgivable_loan"
