@@ -71,7 +71,7 @@ function makeHtml() {
         <select id="geoSelect"><option value="08077" selected>Mesa County</option></select>
         <input id="assumpHorizon" value="20">
         <input id="assumpVacancy" value="5">
-        ${HEADSHIP_RADIOS.map((r) => `<input type="radio" name="${r.name}" value="${r.value}"${r.checked ? ' checked' : ''}>`).join('\n        ')}
+        ${HEADSHIP_RADIOS.map((r) => `<label class="headship-label"><input type="radio" name="${r.name}" value="${r.value}"${r.checked ? ' checked' : ''}><span>${r.label}</span></label>`).join('\n        ')}
         <div id="projectionScopeBadge" hidden></div>
         <nav id="hnaDecisionStrip" hidden>
           <a data-decision-key="need"><span id="decisionNeedValue"></span><span id="decisionNeedRead"></span></a>
@@ -263,6 +263,109 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   } else {
     assert(r.trace.includes(CONSTANT_WORDS) && !r.trace.includes(FORECAST_WORDS), `La Plata trace names the constant-headship series its file carries: ${r.trace}`);
   }
+}
+
+/**
+ * The household formation chart, the AMI-tier demand chart and the
+ * reconciliation's households line quote the series the calculator reads, so
+ * the headship option moves them with the headline rather than leaving them on
+ * the stored series. Pinned as agreement: under each option the chart's horizon
+ * value is the households the trace shows, the demand tiers sum to the chart,
+ * and the reconciliation's delta is the chart's own change; under Hold and
+ * Trend the chart's label and the reconciliation sentence describe the rate
+ * arithmetic and the chart's note names the option as the page labels it;
+ * under the default option the chart still draws the stored series.
+ */
+async function assertHouseholdChartsFollowHeadshipOption() {
+  const render = async (headshipMode) => {
+    const html = makeHtml().replace('</body>', `
+        <div><div class="chart-box"><canvas id="chartProjectedHH"></canvas></div></div>
+        <div><div class="chart-box"><canvas id="chartHouseholdDemand"></canvas></div></div>
+        <p id="householdDemandScopeCaption" hidden></p>
+      </body>`);
+    const dom = new JSDOM(html, { url: 'about:blank' });
+    installBrowserStubs(dom, { places: {} });
+    // Keep each chart's config, so the charts can be read back.
+    global.Chart = class { constructor(ctx, config) { this.config = config; this.data = config && config.data; } destroy() {} };
+    window.Chart = global.Chart;
+    dom.window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
+    if (headshipMode) document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="${headshipMode}"]`).checked = true;
+    loadHnaModules();
+    const selection = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+    window.HNAState.state.currentSelection = selection;
+    // A county headship trend, so Trend differs from Hold.
+    window.HNAState.state.derived = { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } };
+    const proj = projectionFixture();
+    proj.housing_need.households_dola = [65000, 80000];
+    proj.housing_need.household_method = ['sdo_household_forecast', 'sdo_household_forecast'];
+    await window.HNAController.applyAssumptions(proj, selection);
+    const charts = window.HNAState.charts || {};
+    const note = (id) => {
+      const box = document.getElementById(id).closest('.chart-box');
+      const el = box.parentElement.querySelector(`[data-hna-chart-scope-note="${id}"]`);
+      return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+    };
+    return {
+      formation: charts.chartProjectedHH,
+      demand: charts.chartHouseholdDemand,
+      formationNote: note('chartProjectedHH'),
+      demandNote: note('chartHouseholdDemand'),
+      demandScope: document.getElementById('chartHouseholdDemand').dataset.householdScope,
+      rec: window.HNAState.state.needReconciliation,
+      trace: document.getElementById('projectionCalculationTraceBody').textContent,
+    };
+  };
+  const oneDecimal = (v) => v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const tenths = (v) => Math.round(v * 10) / 10;
+  const check = (r, expected, what) => {
+    assert(r.formation && r.formation.data, `${what}: the households chart was not drawn`);
+    assert(r.demand && r.demand.data, `${what}: the household demand chart was not drawn`);
+    const drawn = r.formation.data.datasets[0].data;
+    assert.deepStrictEqual(drawn.map(tenths), expected.map(tenths),
+      `${what}: the households chart draws ${JSON.stringify(drawn)}; the option implies ${JSON.stringify(expected)}`);
+    assert(r.trace.includes(oneDecimal(drawn[1])),
+      `${what}: the trace's projected households are not the chart's horizon value ${oneDecimal(drawn[1])}`);
+    const tiers = r.demand.data.datasets.length;
+    assert(tiers > 1, `${what}: the demand chart has no AMI tiers to sum`);
+    r.demand.data.labels.forEach((year, k) => {
+      const sum = r.demand.data.datasets.reduce((acc, ds) => acc + ds.data[k], 0);
+      assert(Math.abs(sum - drawn[k]) <= tiers, `${what}: demand tiers sum to ${sum} in ${year}; the households chart shows ${drawn[k]}`);
+    });
+    assert(r.rec && r.rec.households, `${what}: the reconciliation has no households line`);
+    assert(Math.abs(r.rec.households.delta - (drawn[1] - drawn[0])) < 0.000001,
+      `${what}: the reconciliation says ${r.rec.households.delta} households; the chart moves ${drawn[1] - drawn[0]}`);
+  };
+  const STORED_WORDS = 'DOLA\u2019s household series';
+
+  // The default option: the stored series, as before, with no option note.
+  let r = await render(null);
+  check(r, [65000, 80000], 'default option');
+  assert(!/held|trend/i.test(r.formation.data.datasets[0].label),
+    `the default option's chart is not labelled as a rate assumption (label: ${r.formation.data.datasets[0].label})`);
+  assert(r.rec.households.text.includes(STORED_WORDS), `the default option's reconciliation attributes the chart to the stored series (${r.rec.households.text})`);
+  assert.strictEqual(r.rec.households.basis, 'stored');
+  assert.strictEqual(r.formationNote, '', `the default county chart carries no option note (note: ${r.formationNote})`);
+
+  // Hold: population × the base-year rate (65,000 / 160,000 = 40.625%).
+  r = await render('hold');
+  check(r, [160000 * 0.40625, 190000 * 0.40625], 'Hold');
+  assert(/held/i.test(r.formation.data.datasets[0].label), `Hold's chart label says the rate is held (label: ${r.formation.data.datasets[0].label})`);
+  assert(/held/i.test(r.rec.households.text) && !r.rec.households.text.includes(STORED_WORDS),
+    `Hold's reconciliation describes the held rate, not the stored series (${r.rec.households.text})`);
+  assert.strictEqual(r.rec.households.basis, 'hold');
+  assert(r.formationNote.includes(HEADSHIP_LABELS.hold) && r.formationNote.includes(HEADSHIP_LABELS[HEADSHIP_DEFAULT]),
+    `Hold's chart note names the option as the page labels it and the option that shows the stored series (note: ${r.formationNote})`);
+  assert(r.demandNote.includes(HEADSHIP_LABELS.hold), `Hold's demand chart note names the option (note: ${r.demandNote})`);
+  assert.strictEqual(r.demandScope, 'selected-headship', `Hold's demand chart declares its households as the selected option's`);
+
+  // Trend: the rate moves by the county slope per step (40.625% + 0.1 point).
+  r = await render('trend');
+  check(r, [160000 * 0.40625, 190000 * (0.40625 + 0.001)], 'Trend');
+  assert(/trend/i.test(r.formation.data.datasets[0].label), `Trend's chart label says the rate is trended (label: ${r.formation.data.datasets[0].label})`);
+  assert(/trend/i.test(r.rec.households.text) && !r.rec.households.text.includes(STORED_WORDS),
+    `Trend's reconciliation describes the trended rate, not the stored series (${r.rec.households.text})`);
+  assert.strictEqual(r.rec.households.basis, 'trend');
+  assert(r.formationNote.includes(HEADSHIP_LABELS.trend), `Trend's chart note names the option as the page labels it (note: ${r.formationNote})`);
 }
 
 async function assertCountyReconciliationNote() {
@@ -533,6 +636,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
   await assertBlendedPlaceTrace();
   const reconciled = await assertRealDataReconciliation();
   await assertCountyCalculatorReadsStoredHouseholds();
+  await assertHouseholdChartsFollowHeadshipOption();
   console.log(`HNA projection integrity tests passed (Mesa County ${reconciled.countyHeadline}; Milliken ${reconciled.placeHeadline})`);
 })().catch((err) => {
   console.error(err);

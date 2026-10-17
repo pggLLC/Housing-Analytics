@@ -4075,6 +4075,11 @@
     const customScenarioLabel = 'Custom (Scenario Builder) · 20-yr cohort model';
     const selectedGeoType = S().els && S().els.geoType ? S().els.geoType.value : 'county';
     const isSubCountySelection = selectedGeoType === 'place' || selectedGeoType === 'cdp';
+    // The controller hands over the household series the calculator reads when
+    // the headship option is not the stored forecast ({series, label, note});
+    // both household charts then draw that series, so the option moves the
+    // charts with the figure instead of leaving them on the stored series.
+    const hhOverride = opts && opts.households && Array.isArray(opts.households.series) ? opts.households : null;
 
     // ── Chart 1: chartScenarioComparison — multi-scenario population trends ──
     // ID drift fix: HTML canvas is "chartScenarioComparison"; this code
@@ -4197,15 +4202,17 @@
     // DOLA HH series from projection.housing_need.households_dola. Drives
     // the unit-need calculation per DLG methodology.
     const hhCanvas = document.getElementById('chartProjectedHH');
-    if (hhCanvas && proj && proj.housing_need && Array.isArray(proj.housing_need.households_dola)) {
+    if (hhCanvas && proj && (hhOverride || (proj.housing_need && Array.isArray(proj.housing_need.households_dola)))) {
       // For places/CDPs, scale by the same share that drove popSel
-      const hhSeries = _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola).series;
+      const hhSeries = hhOverride
+        ? hhOverride.series
+        : _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola).series;
       makeChart(hhCanvas.getContext('2d'), {
         type: 'line',
         data: {
           labels: years,
           datasets: [{
-            label: 'Households (DOLA forecast)',
+            label: hhOverride ? hhOverride.label : 'Households (DOLA forecast)',
             data: hhSeries,
             borderColor: t.c2,
             backgroundColor: t.c2 + '22',
@@ -4229,9 +4236,11 @@
         },
       });
     }
-    setChartScopeNote('chartProjectedHH', isSubCountySelection
-      ? 'County data shown for this place: DOLA household projections are county-level and are scaled to the selected place/CDP using local shares.'
-      : '');
+    setChartScopeNote('chartProjectedHH', hhOverride
+      ? (hhOverride.note || '')
+      : (isSubCountySelection
+        ? 'County data shown for this place: DOLA household projections are county-level and are scaled to the selected place/CDP using local shares.'
+        : ''));
 
     // ── Chart 4: chartHouseholdDemand — projected demand by AMI tier ─────────
     // Apportions household growth across CHAS-derived AMI tier shares so
@@ -4244,16 +4253,22 @@
     // CHAS, then to statewide as a last resort.
     const dmdCanvas = document.getElementById('chartHouseholdDemand');
     let demandScaled = false;
-    if (dmdCanvas && proj && proj.housing_need && proj.housing_need.households_dola) {
-      // Same place scaling as chart 3 — see _placeScaledHouseholds.
-      const scaledHh = _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola);
+    if (dmdCanvas && proj && (hhOverride || (proj.housing_need && proj.housing_need.households_dola))) {
+      // The same series as chart 3: the selected headship option's where the
+      // controller supplied one, else the stored series with the same place
+      // scaling — see _placeScaledHouseholds.
+      const scaledHh = hhOverride
+        ? { series: hhOverride.series, scaled: false }
+        : _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola);
       const hhSeries = scaledHh.series;
       demandScaled = scaledHh.scaled;
       // What these households describe, as state rather than prose, so the
       // note's wording can change without anything else having to.
-      dmdCanvas.dataset.householdScope = demandScaled
-        ? 'place-scaled'
-        : (isSubCountySelection ? 'county-unscaled' : 'county');
+      dmdCanvas.dataset.householdScope = hhOverride
+        ? 'selected-headship'
+        : demandScaled
+          ? 'place-scaled'
+          : (isSubCountySelection ? 'county-unscaled' : 'county');
       const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
@@ -4265,7 +4280,9 @@
             { label: '>100% AMI', share: 0.33 } ] });
       const datasets = tierMeta.tiers.map((tier, idx) => ({
         label: tier.label,
-        data: hhSeries.map(h => Math.round(h * tier.share)),
+        // A year with no household value stays null: null × share is 0 to
+        // JavaScript, and a 0 would draw as a real count of households.
+        data: hhSeries.map(h => (h === null || h === undefined || !Number.isFinite(Number(h))) ? null : Math.round(h * tier.share)),
         backgroundColor: tierColors[idx % tierColors.length],
       }));
       makeChart(dmdCanvas.getContext('2d'), {
@@ -4305,11 +4322,13 @@
         caption.hidden = false;
       }
     }
-    setChartScopeNote('chartHouseholdDemand', isSubCountySelection
-      ? (demandScaled
-        ? 'Scaled to this place: DOLA household projections are county-level and are scaled to the selected place/CDP by its share of county population; AMI tier shares use place CHAS where available, otherwise county context.'
-        : 'County data shown for this place: DOLA household projections are county-level and could not be scaled to this place; AMI tier shares use place CHAS where available, otherwise county context.')
-      : '');
+    setChartScopeNote('chartHouseholdDemand', hhOverride
+      ? (hhOverride.note || '')
+      : (isSubCountySelection
+        ? (demandScaled
+          ? 'Scaled to this place: DOLA household projections are county-level and are scaled to the selected place/CDP by its share of county population; AMI tier shares use place CHAS where available, otherwise county context.'
+          : 'County data shown for this place: DOLA household projections are county-level and could not be scaled to this place; AMI tier shares use place CHAS where available, otherwise county context.')
+        : ''));
 
     // Render data quality badge for current geography
     const geoType = selectedGeoType;

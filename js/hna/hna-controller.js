@@ -2975,9 +2975,15 @@
       rows,
       households: hh === null ? null : {
         delta: hh,
+        basis: input.householdsBasis === 'hold' || input.householdsBasis === 'trend' ? input.householdsBasis : 'stored',
         text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
-          + '. That chart counts households, not homes, from DOLA\u2019s household series'
-          + (input.subCounty ? ', scaled to this place by its share of county population' : '')
+          + '. That chart counts households, not homes, from '
+          + (input.householdsBasis === 'hold'
+            ? 'projected population \u00d7 the base-year headship rate, held as selected'
+            : input.householdsBasis === 'trend'
+              ? 'projected population \u00d7 a headship rate moved by the ACS trend, as selected'
+              : 'DOLA\u2019s household series'
+                + (input.subCounty ? ', scaled to this place by its share of county population' : ''))
           + '. The ' + growthNameLc + ' reading counts homes: '
           + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
             : 'the growth in projected households, at the target vacancy')
@@ -3086,6 +3092,21 @@
 
 
   let _reconSeq = 0;
+  // The on-page label of a headship option, read from the control the page
+  // ships so a chart note names the option the way the user sees it. The
+  // option's own name is the fallback where a page renders no label text.
+  function _headshipOptionLabel(value){
+    const fallback = { forecast: 'Forecast', hold: 'Hold', trend: 'Trend' };
+    try {
+      const input = document.querySelector(`input[name="assumpHeadship"][value="${value}"], input[name="headship"][value="${value}"]`);
+      const label = input ? input.closest('label') : null;
+      const span = label ? label.querySelector('span') : null;
+      const text = String((span || label) ? (span || label).textContent : '').replace(/\s+/g, ' ').trim();
+      if (text) return text;
+    } catch (_) { /* fall through to the option's name */ }
+    return fallback[value] || String(value);
+  }
+
   async function applyAssumptions(proj, selection){
     // The need reconciliation awaits data (the digest, the 64 county
     // projections); a later call for another geography may finish first.
@@ -3241,6 +3262,35 @@
       : ((i>=0) ? headshipAt(i) : null);
     const hhH = storedHouseholds !== null ? storedHouseholds : ((popH!==null && hsH!==null) ? (popH * hsH) : null);
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
+    // The household charts and the reconciliation's households line quote the
+    // series the calculator reads, so the headship option moves every
+    // household figure on the page together. Under Forecast that is the
+    // stored series, and those consumers keep reading it (scaled to a place by
+    // its population share, as before). Under Hold and Trend it is projected
+    // population × the selected rate, for the county and statewide selections
+    // whose calculator reads the control; a place's headline comes from its own
+    // stored projection, so its charts keep the county-scaled series under
+    // every option. A year with no population or rate stays null, never 0.
+    let householdSeriesForMode = null;
+    if (headshipMode !== 'forecast' && !isPlaceSelection && Array.isArray(popSel)) {
+      const held = headshipMode !== 'trend';
+      const optionValue = held ? 'hold' : 'trend';
+      householdSeriesForMode = {
+        mode: optionValue,
+        series: popSel.map((p, step) => {
+          const pop = window.HNAUtils.safeNum(p);
+          const rate = headshipAt(step);
+          return (pop !== null && pop > 0 && rate !== null) ? pop * rate : null;
+        }),
+        label: held
+          ? 'Households (population \u00d7 base-year headship, held)'
+          : 'Households (population \u00d7 trended headship)',
+        note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: projected population \u00d7 '
+          + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend')
+          + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
+          + ' to see the stored SDO household series.',
+      };
+    }
     // The larger of the resident-growth reading and the workforce reading; see
     // _productionNeed. Subtracting the TOTAL stock from demand computed at the
     // active-market vacancy is what published "surplus of 4,937 units" for a
@@ -3545,11 +3595,19 @@
       let chartHouseholdsDelta = null;
       const hhDola = proj?.housing_need?.households_dola;
       const R = window.HNARenderers;
-      if (Array.isArray(hhDola) && R && typeof R._placeScaledHouseholds === 'function' && i >= 0) {
-        const series = R._placeScaledHouseholds(hhDola, popSel, proj.population_dola).series;
+      // The series the households chart draws: the selected headship option's
+      // where the control moved it off the stored forecast, otherwise the
+      // stored series with the chart's own place scaling.
+      let chartHouseholdSeries = null;
+      if (householdSeriesForMode) {
+        chartHouseholdSeries = householdSeriesForMode.series;
+      } else if (Array.isArray(hhDola) && R && typeof R._placeScaledHouseholds === 'function') {
+        chartHouseholdSeries = R._placeScaledHouseholds(hhDola, popSel, proj.population_dola).series;
+      }
+      if (Array.isArray(chartHouseholdSeries) && i >= 0) {
         const baseIdx = years.indexOf(baseYear);
-        const h0 = window.HNAUtils.safeNum(series[baseIdx >= 0 ? baseIdx : 0]);
-        const h1 = window.HNAUtils.safeNum(series[i]);
+        const h0 = window.HNAUtils.safeNum(chartHouseholdSeries[baseIdx >= 0 ? baseIdx : 0]);
+        const h1 = window.HNAUtils.safeNum(chartHouseholdSeries[i]);
         if (h0 !== null && h1 !== null) chartHouseholdsDelta = h1 - h0;
       }
       let existingGapUnits = null;
@@ -3574,6 +3632,7 @@
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,
+        householdsBasis: householdSeriesForMode ? householdSeriesForMode.mode : 'stored',
         permits: permitsShown,
       });
       if (reconSeq === _reconSeq) {
@@ -3605,6 +3664,7 @@
       );
       window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, {
         customScenario: customScenario,
+        households: householdSeriesForMode,
       });
       const builtInSeries = {};
       const scenarios = window.HNAUtils.PROJECTION_SCENARIOS || {};
