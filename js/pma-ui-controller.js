@@ -933,6 +933,9 @@
     var picker = window.PMATractPicker;
     var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
     if (!picker || !mapRef || typeof picker.init !== 'function') return false;
+    // A new site is not a change to the last run's tracts: placing it has its
+    // own pending state, and the previous run's key no longer applies.
+    _lastRunTractKey = null;
     picker.init(mapRef, lat, lon, _onTractSelectionChange)
       .then(function (r) {
         // picker.init resets rationale to ''; mirror that in the textarea
@@ -1071,6 +1074,9 @@
     function settled() {
       if (token !== _nfLoadToken) return;   // superseded by a later toggle
       _nfLoading = false;
+      // A proposal that settles as unavailable or none-nearby changes the
+      // record a completed run carries, without a selection change.
+      _invalidateIfTractsChanged();
       _renderNaturalFeatures();
     }
     picker.proposeNaturalFeatures().then(settled, settled);
