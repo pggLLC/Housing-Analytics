@@ -212,7 +212,7 @@ function parseCsv(text) {
 
 async function modelChecks() {
   const dom = new JSDOM(`<!doctype html><body>
-    <select id="pick"><option>Alpha County</option></select>
+    <select id="pick"><option>Alpha County</option></select><input type="checkbox" id="opt" checked>
     <select id="vintage"><option value="new" selected>New</option><option value="old">Old</option></select>
     <div><table data-export="fixture-table">
       <thead><tr>
@@ -231,7 +231,7 @@ async function modelChecks() {
   const w = dom.window;
   w.TextEncoder = TextEncoder;
   w.Blob = Blob;
-  w.TableExportRegistry = { tables: { 'fixture-table': { title: 'Fixture table', description: 'One row per fixture place.', sources: ['fred-data', 'not-a-source'], selection: { County: '#pick' }, notes: 'Fixture note.' } } };
+  w.TableExportRegistry = { tables: { 'fixture-table': { title: 'Fixture table', description: 'One row per fixture place.', sources: ['fred-data', 'not-a-source'], selection: { County: '#pick', 'Fixture option': '#opt' }, notes: 'Fixture note.' } } };
   const fredName = inventoryById['fred-data'].name;
   w.eval(read('js/data-source-inventory.js'));
   w.eval(read('js/components/table-export.js'));
@@ -298,7 +298,10 @@ async function modelChecks() {
   assert.match(m.rows[0].notes, /Rent: Upper estimate\./, 'a cell caveat moves to the notes column');
   assert.equal(m.columns[2].unit, 'US dollars per month');
   assert.equal(m.columns[3].unit, 'Text');
-  assert.deepEqual(m.selection, [['County', 'Alpha County']]);
+  assert.deepEqual(m.selection, [['County', 'Alpha County'], ['Fixture option', 'Yes']], 'a ticked box is recorded as Yes, not its form value');
+  w.document.getElementById('opt').checked = false;
+  assert.deepEqual(plain(TX.collect(table)).selection, [['County', 'Alpha County'], ['Fixture option', 'No']], 'an unticked box is recorded as No');
+  w.document.getElementById('opt').checked = true;
   assert.equal(m.sources[0].name, fredName, 'sources resolve from the inventory');
   assert.equal(m.sources[1].missing, true, 'an unknown source id is reported, not dropped');
 

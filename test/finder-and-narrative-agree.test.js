@@ -113,4 +113,50 @@ for (const [n, type, want] of [[482, 'municipality', '482 municipalities availab
   assert(burdenSignals > 0, 'the scan found renter-burden signals to check');
 }
 
-console.log(`finder-and-narrative-agree: PASS (${withPop} finder populations, Glenwood narrative burden, selector plurals)`);
+// ── 6: the finder's need percentile ranks places on the counties' own scale ─
+// County CHAS shares are 0-1; the place side was converted to percent and the
+// county side was not, so all 482 places outranked all 64 counties and every
+// place read "100p". Recompute each percentile here from the two source files
+// (independently of the finder's code) and require the finder to agree.
+{
+  const counties = readJson('data/hna/chas_affordability_gap.json').counties;
+  const places = readJson('data/hna/place-chas.json').places;
+  const composite = (renter, owner, rcb30, ocb30, rcb50) =>
+    ((rcb30 * renter + ocb30 * owner) / (renter + owner)) * 100 * 0.7 + rcb50 * 100 * 0.3;
+  const dist = Object.values(counties).map((c) => c.summary)
+    .filter((s) => s && s.total_renter_hh + s.total_owner_hh > 0 && s.pct_renter_cb30 != null && s.pct_owner_cb30 != null && s.pct_renter_cb50 != null)
+    .map((s) => composite(s.total_renter_hh, s.total_owner_hh, s.pct_renter_cb30, s.pct_owner_cb30, s.pct_renter_cb50));
+  assert.equal(dist.length, 64, 'all 64 counties form the reference distribution');
+  const pctl = (v) => Math.round(dist.reduce((n, d) => n + (d < v ? 1 : d === v ? 0.5 : 0), 0) / dist.length * 100);
+
+  lof.setChasForTest(counties, places);
+  const finderDist = lof.buildNeedDistribution();
+  let checked = 0;
+  const seen = new Set();
+  for (const [geoid, rec] of Object.entries(places)) {
+    const s = rec.summary;
+    if (!s || rec.low_confidence || !(s.total_renter_hh + s.total_owner_hh > 0)) continue;
+    const want = pctl(composite(s.total_renter_hh, s.total_owner_hh, s.renter_cb30_share, s.owner_cb30_share, s.renter_cb50_share));
+    const got = lof.needScoreFor(null, finderDist, geoid);
+    assert.equal(got.source, 'place', `${geoid} need comes from place CHAS`);
+    assert(Math.abs(got.score - want) <= 1, `${geoid} (${rec.name}) need percentile ${got.score} must equal the source-derived ${want}`);
+    seen.add(got.score);
+    checked++;
+  }
+  assert(checked >= 400, `the scan checked the place records (${checked})`);
+  assert(seen.size > 20, `place need percentiles spread across the range (${seen.size} distinct values)`);
+
+  // A county's own composite lands inside the county distribution, not above it.
+  const denver = lof.needScoreFor('08031', finderDist, null);
+  assert(denver.score > 0 && denver.score < 100, `a county ranks inside its own distribution (Denver p${denver.score})`);
+
+  // No CHAS for the place or its county: no need score, and the composite is
+  // built from the remaining components rather than an invented need value.
+  lof.setChasForTest({}, {});
+  const none = lof.needScoreFor('08077', [], '0828745');
+  assert.equal(none.score, null, 'absent CHAS gives no need score (not a default)');
+  const withoutNeed = lof.compositeScore(50, null, 60, 40, 30, '9pct', 'town');
+  assert(Number.isFinite(withoutNeed) && withoutNeed >= 0 && withoutNeed <= 100, `composite without need stays on the 0-100 scale (${withoutNeed})`);
+}
+
+console.log(`finder-and-narrative-agree: PASS (${withPop} finder populations, Glenwood narrative burden, selector plurals, need percentiles)`);
