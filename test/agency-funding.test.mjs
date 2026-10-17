@@ -150,25 +150,41 @@ ok(owners.length > 0 && owners.every((a) => /owner/i.test((rows.rows.find((r) =>
 ok(/developerRole === 'owner'[\s\S]{0,80}owner as printed/.test(read('js/agency-funding.js')), 'the table tags an owner as printed');
 
 // ── the page that holds the view ────────────────────────────────────────────
-// Colorado Deep Dive's Funding vs Need tab, until the reorg gives it a page.
-const html = read('colorado-deep-dive.html');
+const PAGE = 'where-housing-money-goes.html';
+const html = read(PAGE);
 const js = read('js/agency-funding.js');
 ok(/<script[^>]+src="js\/vendor\/d3\.v7\.min\.js"/.test(html) && /<script[^>]+src="js\/agency-funding-model\.js"/.test(html) && /<script[^>]+src="js\/agency-funding\.js"/.test(html),
   'the page loads d3, the model and the view');
 ok(/<link[^>]+css\/agency-funding\.css/.test(html), 'the page loads the view stylesheet');
-const holder = (html.match(/<section[^>]*data-agency-funding[\s\S]*?<\/section>/) || [''])[0];
+const holder = (html.match(/<article[^>]*data-agency-funding[\s\S]*?<\/article>/) || [''])[0];
 ok(/data-agency-funding-view/.test(holder), 'the page holds the view');
-const panel = html.slice(html.lastIndexOf('<div role="tabpanel"', html.indexOf(holder)), html.indexOf(holder));
-const tabId = (panel.match(/id="([^"]+)"/) || [])[1];
-ok(tabId && new RegExp(`data-agency-funding-hash="${tabId}"`).test(holder), `the view keeps its tab (${tabId}) first in the URL`);
-ok(/data-agency-funding-defer/.test(holder) && new RegExp(`targetId === '${tabId}' && window\\.AgencyFunding\\)[\\s\\S]{0,80}AgencyFunding\\.start\\(\\)`).test(html),
-  'the view loads when its tab opens, not with the page');
-const level = Number((holder.match(/data-agency-funding-level="(\d)"/) || [])[1]);
-const outer = Number((holder.match(/<h(\d)/) || [])[1]);
-ok(level === outer + 1, `the view's headings (h${level}) sit under the section heading (h${outer})`);
+ok(!/data-agency-funding-(defer|hash)/.test(holder), 'the page starts the view on load and owns its whole hash');
 ok(/if \(perOk\) return g\.population \?[^;]*: NO_POP;/.test(js) && /perOk \? \(g\.population \?[^;]*: null\)/.test(js),
   'per resident without a population is shown as unavailable, never as the total');
-ok(/\.split\('&'\)\[0\]/.test(html), 'the tab switcher reads only the tab name from #tab&county=…');
+
+// One name everywhere: every link to the page uses the page's own <h1>.
+const h1 = ((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').trim();
+ok(h1.length > 10, 'found the page <h1>');
+ok(new RegExp(`<title>${h1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\|`).test(html), 'the <title> starts with the <h1>');
+const nav = read('js/navigation.js');
+const navLabel = (nav.match(/\{\s*label:\s*"([^"]+)",\s*href:\s*"where-housing-money-goes\.html"/) || [])[1];
+ok(navLabel === h1, `the menu label (${navLabel}) is the page <h1> (${h1})`);
+const unq = (s) => s.replace(/\\'/g, "'");
+const linkers = ['colorado-deep-dive.html', 'sitemap.html', 'js/whitepaper/jurisdiction-whitepaper.js'];
+linkers.forEach((f) => {
+  const src = unq(read(f));
+  // Plain links, sitemap cards (named by their site-card-name) and the report's built link.
+  const anchors = [...src.matchAll(/<a\s[^>]*href="where-housing-money-goes\.html[^"]*"[^>]*>([\s\S]*?)<\/a>/g)].map((m) => m[1]);
+  const built = [...src.matchAll(/esc\(F\.awardsHref\) \+ '">([^<]+)<\/a>/g)].map((m) => m[1]);
+  const names = anchors.map((a) => ((a.match(/site-card-name">([^<]+)</) || [])[1] || a.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim())
+    .concat(built.map((t) => t.trim()));
+  ok(names.length >= 1 && names.every((t) => t === h1), `${f} links to the page by its name (${names.join(' | ') || 'no link'})`);
+});
+const report = read('js/whitepaper/jurisdiction-whitepaper.js');
+ok(/'where-housing-money-goes\.html#county=' \+ county/.test(report) && /k === 'county'/.test(js),
+  'the Jurisdiction Report opens the page on its county, a key the view reads');
+const deep = read('colorado-deep-dive.html');
+ok(!/data-agency-funding/.test(deep) && !/agency-funding\.js/.test(deep), 'Colorado Deep Dive links to the page instead of holding a second copy');
 const files = [...js.matchAll(/'(data\/[^']+\.(?:json|geojson))'/g)].map((m) => m[1]);
 ok(files.length >= 5, 'found the data files the view reads');
 const about = (js.match(/<details class=\\"hm-about\\"[\s\S]*?<\/details>/) || [''])[0];
@@ -177,7 +193,7 @@ files.filter((f) => !/boundaries|documents|award-rows|developer-aliases/.test(f)
 files.forEach((f) => ok(fs.existsSync(path.join(ROOT, f)), `${f} exists`));
 ok(about.includes('scripts/funding/build_funding_awards.py'), '"About this data" names the parser behind the ledger');
 ok(about.length > 500, 'found "About this data" in the view');
-const beforeAnswer = holder.slice(0, holder.indexOf('data-agency-funding-view')) + js.slice(js.indexOf('var MARKUP'), js.indexOf('data-hm-answer'));
+const beforeAnswer = html.slice(html.indexOf('<main'), html.indexOf('data-agency-funding-view')) + js.slice(js.indexOf('var MARKUP'), js.indexOf('data-hm-answer'));
 ok(!/Screening tool only|disclaimer|informational only/i.test(beforeAnswer), 'no warning sits above the answer');
 
 if (failures) {

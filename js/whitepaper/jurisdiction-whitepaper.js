@@ -513,8 +513,10 @@
   }
 
   function fundingSection(row, src, FundingFit) {
-    if (!FundingFit || !src.fundingGuide) return { programs: null, source: sourcePath('fundingGuide') };
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
+    // Every state award in this county, by agency and developer, on its own page.
+    var awardsHref = /^08\d{3}$/.test(county || '') ? 'where-housing-money-goes.html#county=' + county : null;
+    if (!FundingFit || !src.fundingGuide) return { programs: null, awardsHref: awardsHref, source: sourcePath('fundingGuide') };
     var out = {};
     ['9%', '4%'].forEach(function (ex) {
       var q = { execution: ex, projectType: 'new-construction', county: county, place: row.type === 'county' ? undefined : row.geoid, openOnly: true };
@@ -523,7 +525,7 @@
         return { name: p.name, administrator: p.administrator, url: safeHref(p.official_url), availability: r.availability, notes: r.notes || [] };
       });
     });
-    return { programs: out, asOf: (src.fundingGuide.meta || {}).last_checked || null, source: sourcePath('fundingGuide') + ' via js/funding-fit.js (the Funding Sources finder)' };
+    return { programs: out, awardsHref: awardsHref, asOf: (src.fundingGuide.meta || {}).last_checked || null, source: sourcePath('fundingGuide') + ' via js/funding-fit.js (the Funding Sources finder)' };
   }
 
   function dealShape(need, rents, lihtc) {
@@ -1086,14 +1088,15 @@
 
   function renderFunding(m) {
     var F = m.funding;
-    if (!F.programs) return '<h2 id="funding">Funding that fits</h2><p>The funding guide was not available.</p>' + srcLine(F.source);
+    var awards = F.awardsHref ? '<p>What CHFA, OEDIT and DOLA have already awarded in this county, and to which developers: <a href="' + esc(F.awardsHref) + '">Where Colorado\'s Housing Money Goes</a>.</p>' : '';
+    if (!F.programs) return '<h2 id="funding">Funding that fits</h2><p>The funding guide was not available.</p>' + awards + srcLine(F.source);
     function list(ex) {
       var ps = F.programs[ex] || [];
       return '<h3>' + esc(ex) + ' new construction: ' + ps.length + ' program' + (ps.length === 1 ? '' : 's') + ' taking applications or with a published round</h3><ul>' +
         ps.map(function (p) { return '<li>' + link(p.name, p.url) + ' <span class="wp-meta">(' + esc(p.administrator) + (p.availability === 'scheduled' ? '; next round published' : '') + ')</span>' + (p.notes.length ? ' <span class="wp-meta">' + esc(p.notes.join(' ')) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
     }
     return '<h2 id="funding">Funding that fits</h2><p>Screened for eligibility from each program\'s own terms; not ranked and not an award prediction.</p>' +
-      list('9%') + list('4%') + srcLine(F.source + (F.asOf ? ', checked ' + F.asOf : ''));
+      list('9%') + list('4%') + awards + srcLine(F.source + (F.asOf ? ', checked ' + F.asOf : ''));
   }
 
   function renderDeal(m) {

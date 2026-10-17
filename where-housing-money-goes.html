@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Where Colorado's Housing Money Goes | Colorado Public Data Reference</title>
+  <meta name="description" content="Every affordable-housing award from CHFA, OEDIT's Prop 123 fund and DOLA's Division of Housing, by county, town and developer, with the money per resident and the award list each one comes from.">
+  <meta property="og:title" content="Where Colorado's Housing Money Goes | Colorado Public Data Reference">
+  <meta property="og:description" content="Search a Colorado county or town to see which state housing agencies funded what there, how much per resident, and which developers received it.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/agency-funding.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/vendor/d3.v7.min.js"></script>
+  <script defer src="js/agency-funding-model.js"></script>
+  <script defer src="js/agency-funding.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <article class="article-wrap" data-agency-funding>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Where Colorado's Housing Money Goes</span>
+        </nav>
+        <h1 style="margin:var(--sp3) 0 var(--sp2);">Where Colorado's Housing Money Goes</h1>
+        <p style="max-width:760px;line-height:1.6;margin:0 0 var(--sp3);">Every affordable housing award from CHFA, OEDIT and DOLA's Division of Housing, by county, town and developer. Search a place or a developer to see what it received.</p>
+      </header>
+
+      <div data-agency-funding-view><p>Loading every state housing award…</p></div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

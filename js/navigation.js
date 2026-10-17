@@ -66,6 +66,7 @@
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
+        { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },
         { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
