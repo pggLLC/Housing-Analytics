@@ -2618,6 +2618,34 @@
   }
 
   /**
+   * Present in-commuter need from data/hna/workforce-need.json: the homes the
+   * lower- and middle-wage people who commute in would take if a stated share
+   * of them moved closer (25% and 50%; no statewide source measures the share).
+   * Null with a reason when the file or the geography has no figure.
+   */
+  let _workforceNeedDoc;
+  async function _loadIncommuterNeed(geoid) {
+    if (_workforceNeedDoc === undefined) {
+      try {
+        const r = await fetch('data/hna/workforce-need.json');
+        _workforceNeedDoc = r && r.ok ? await r.json() : null;
+      } catch (e) { _workforceNeedDoc = null; }
+    }
+    const doc = _workforceNeedDoc;
+    if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
+    const rec = (doc.counties && doc.counties[geoid]) || (doc.places && doc.places[geoid]) || null;
+    const n = rec && rec.present_incommuter_need;
+    if (!n) return { low: null, high: null, reason: (rec && rec.unavailableReason) || 'No in-commuter record for this geography.' };
+    return {
+      low: window.HNAUtils.safeNum(n.move_closer_25),
+      high: window.HNAUtils.safeNum(n.move_closer_50),
+      wph: window.HNAUtils.safeNum(rec.workers_per_working_household),
+      countyWage: rec.wage_share_basis === 'county',
+      reason: null,
+    };
+  }
+
+  /**
    * Whether the digest's rent-burden rate is usable — the same reading the
    * Recommendation page makes (js/workflow/recommendation-contract.js): a
    * rate whose confidence is low or missing, or whose denominator sits under
@@ -2776,6 +2804,9 @@
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
     const replacement = num(input.replacementUnits);
+    const inc = input.incommuter || {};
+    const incLow = num(inc.low);
+    const incHigh = num(inc.high);
     const rows = [
       {
         key: 'existing',
@@ -2805,6 +2836,24 @@
         counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts).',
         inFigure: basis === 'workforce',
         unavailable: workforce === null ? 'No workforce-gap reading for this geography.' : null,
+      },
+      {
+        // The workforce reading above counts one low-wage job as one home and
+        // sets jobs held by housed residents against the stock too. This line
+        // counts households: only people who commute in, divided by workers
+        // per working household, at a stated share who would move closer. A
+        // deficit today, like the existing shortfall, so never in the figure.
+        key: 'incommuter',
+        label: 'In-commuters who would move closer, today',
+        units: incLow,
+        unitsHigh: incHigh,
+        counts: 'Lower- and middle-wage workers who commute in (LEHD LODES 2023), divided by workers per working household'
+          + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
+          + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
+          + '. No statewide source measures that share, so both are shown. A deficit today, not a projection, and not part of the figure used'
+          + (inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+        inFigure: false,
+        unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
       },
       {
         // Homes lost from today's stock over the same years. Neither reading
@@ -3389,6 +3438,7 @@
         existingGapUnits,
         replacementUnits: _replacement.units,
         replacementUnavailable: _replacement.reason,
+        incommuter: await _loadIncommuterNeed(selection && selection.geoType !== 'state' ? (selection.geoid || countyFips5) : null),
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,

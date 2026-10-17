@@ -202,7 +202,22 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "buildNeedReconciliation",
-          "sha": "00ea2076b55210bd"
+          "sha": "cabe9051601949af"
+        },
+        {
+          "file": "js/hna/hna-controller.js",
+          "function": "_loadIncommuterNeed",
+          "sha": "4935643f1e0f4e4d"
+        },
+        {
+          "file": "scripts/hna/build_workforce_need.py",
+          "function": "need_block",
+          "sha": "c15facce72388005"
+        },
+        {
+          "file": "scripts/hna/build_workforce_need.py",
+          "function": "workers_per_household",
+          "sha": "fbac3f3616e061af"
         }
       ],
       "reviewed": "2026-10-17"

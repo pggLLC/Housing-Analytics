@@ -668,6 +668,9 @@ function methodsData() {
       && m(r).resident_gap_pressure_score != null
       && m(r).workforce_gap_pressure_score > m(r).resident_gap_pressure_score).length;
     out.future_units_workforce_reading = rows.filter((r) => m(r).future_units_reading === 'workforce').length;
+    // The same reading summed over counties, beside the in-commuter need (§09).
+    out.workforce_reading_counties_sum = rows.filter((r) => r.type === 'county')
+      .reduce((a, r) => a + (Number.isFinite(m(r).workforce_gap_units) && m(r).workforce_gap_units > 0 ? m(r).workforce_gap_units : 0), 0);
   }
   Object.assign(out, lossAccounting());
   return out;
@@ -711,6 +714,16 @@ function lossAccounting() {
     out.growth_20yr_statewide = Math.round(growth);
     out.replacement_20yr_statewide = Math.round(repl);
     out.replacement_share_pct = growth + repl > 0 ? Number((repl / (growth + repl) * 100).toFixed(1)) : null;
+  }
+  // In-commuter need (scripts/hna/build_workforce_need.py), county sums.
+  const wn = readJson('data/hna/workforce-need.json');
+  if (!wn.ok) {
+    out.incommuter_need_25_counties = absent('methods_data.incommuter_need_25_counties', wn.reason);
+  } else {
+    const recs = Object.values(wn.data.counties || {}).map((c) => c.present_incommuter_need).filter(Boolean);
+    out.incommuter_need_counties = recs.length;
+    out.incommuter_need_25_counties = recs.reduce((a, n) => a + n.move_closer_25, 0);
+    out.incommuter_need_50_counties = recs.reduce((a, n) => a + n.move_closer_50, 0);
   }
   // Income-restricted properties and how many carry an end date.
   const props = readJson('data/affordable-housing/properties.json');

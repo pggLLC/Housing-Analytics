@@ -195,7 +195,7 @@ async function render(selection, countyFips) {
     const ws = sheets['Need reconciliation'];
     assert(ws, 'the workbook has no Need reconciliation sheet');
     const onScreen = [...r.host.querySelectorAll('[data-recon-key]')];
-    assert.strictEqual(onScreen.length, 4, `expected 4 measures on screen, found ${onScreen.length}`);
+    assert.strictEqual(onScreen.length, 5, `expected 5 measures on screen, found ${onScreen.length}`);
     for (const tr of onScreen) {
       const label = tr.querySelector('.hna-recon-label').textContent;
       const x = ws.rows.find((o) => o.m === label);
@@ -242,6 +242,25 @@ async function render(selection, countyFips) {
     assert.strictEqual(row.units, null, `an absent replacement became ${row.units}`);
     assert.strictEqual(row.unavailable, 'why', 'the absent replacement does not carry its reason');
     assert.strictEqual(none.withReplacement, null, 'a total was formed with an unknown replacement');
+  });
+
+  await test('the in-commuter line equals workforce-need.json and stays out of the figure used', async () => {
+    const wn = JSON.parse(read('data/hna/workforce-need.json'));
+    const rec = wn.places[FRUITA];
+    assert(rec && rec.present_incommuter_need, 'Fruita has no in-commuter record; nothing to check');
+    const row = r.row('incommuter');
+    assert(row, 'the block has no in-commuter row');
+    assert.strictEqual(Number(row.dataset.units), rec.present_incommuter_need.move_closer_25, 'row ≠ the 25% scenario');
+    assert(row.textContent.includes(rec.present_incommuter_need.move_closer_50.toLocaleString('en-US')), 'the 50% scenario is not stated');
+    assert.notStrictEqual(row.dataset.inFigure, 'true', 'in-commuter need is marked as part of the figure used');
+    // Households, not jobs: the line must be smaller than in-commuters x wage share.
+    const per = rec.incommuters * rec.low_middle_wage_share;
+    assert(rec.present_incommuter_need.move_closer_50 < per, 'the 50% line is not below the in-commuting low/middle-wage workers it divides');
+    const none = window.HNAController.buildNeedReconciliation({ endYear: 2044, usedUnits: 5, basis: 'resident_growth', growthUnits: 5,
+      incommuter: { low: null, high: null, reason: 'why' } });
+    const nr = none.rows.find((x) => x.key === 'incommuter');
+    assert.strictEqual(nr.units, null, 'an absent in-commuter need became a number');
+    assert.strictEqual(nr.unavailable, 'why', 'the absent in-commuter need does not carry its reason');
   });
 
   await test('an absent input reads as unavailable, never 0', async () => {
