@@ -970,3 +970,15 @@ def test_a_run_that_could_not_look_resets_the_missing_clock():
     # After the cap, an answered run without it starts a fresh clock, not the old one.
     again = go(site(gg_hits=[]), previous=capped, now="2028-01-01T05:34:00Z")
     assert {n["key"]: n for n in again["federal_notices"]}["grants.gov:1"]["missing_since"] == "2028-01-01T05:34:00Z"
+
+
+def test_a_new_yearly_allocation_link_is_a_change():
+    """DOH's bond index adds "Direct Allocations - 2027" as a plain page link, with no
+    date, amount or round word; the line alone must register (Codex, 2026-10-17)."""
+    page = ("<title>Private Activity Bonds</title>\n<ul>{}</ul>")
+    old = "".join(f"<li><a href='/pab-{y}'>Direct Allocations - {y}</a></li>" for y in (2026, 2025))
+    new = "<li><a href='/pab-2027'>Direct Allocations - 2027</a></li>" + old
+    base = run(site(eiaf=page.format(old)))
+    r = run(site(eiaf=page.format(new)), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert ch["key_lines"]["added"] == ["Direct Allocations - 2027"]

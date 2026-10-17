@@ -106,6 +106,8 @@ ok('the finder screens by deal type, project type, county, place, open rounds an
   assert.deepEqual(ids({}).sort(), ['a', 'b', 'c', 'e'], 'support is hidden unless asked for');
   assert.deepEqual(ids({ includeSupport: true }).sort(), ['a', 'b', 'c', 'd', 'e']);
   assert.deepEqual(ids({ execution: '9%' }), ['a', 'e', 'b'], 'open or scheduled first, then unknown, then closed');
+  assert.deepEqual(ids({ execution: '4%', includeSupport: true }).sort(), ['b', 'c', 'd', 'e'],
+    'support asked for survives a deal-type filter, since it carries no deal types');
   assert.deepEqual(ids({ execution: '4%', openOnly: true }), ['c'], 'closed and watch drop out of open-only');
   // "Either credit" is the union of 9% and 4%, never "no deal-type filter".
   const f = { id: 'f', status: 'open', fit: { role: 'capital', execution: ['rental', 'for-sale'], project_types: [], geography: { scope: 'statewide' } } };
