@@ -7,16 +7,17 @@
 (function (root, factory) {
   'use strict';
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory(require('./deal-calculator-math.js'), require('./chfa-rent-limits.js'));
+    module.exports = factory(require('./deal-calculator-math.js'), require('./chfa-rent-limits.js'),
+      function () { return require('./deal-cost-basis.js'); });
   } else {
     // Late binding preserves the PMA page's existing script order.
     root.DealEngine = factory(root.DealCalculatorMath, {
       maxContractRent: function (input) { return root.ChfaRentLimits.maxContractRent(input); },
       unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); },
       prop123ProjectAverage: function (input) { return root.ChfaRentLimits.prop123ProjectAverage(input); }
-    });
+    }, function () { return root.DealCostBasis; });
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits, costBasisModule) {
   'use strict';
   var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
@@ -519,12 +520,14 @@
       baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
   }
   function capitalWaterfall(result, fields) {
+    // The investor buys both credits, so the automatic LP amount is federal plus state equity.
+    var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
-        result.equity, result.deferredDevFee].every(known)) return null;
+        autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
       hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
     var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
-    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : result.equity;
+    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
     var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
     var gpResidualPct = fieldNumber(fields, 'dc-wf-gp-residual', 30) / 100;
     if (![lpEquityOverride, prefRate, gpResidualPct].every(known)) return null;
@@ -600,7 +603,7 @@
       lpEquity: lpEquity, lpTotal: lpTotal, gpTotal: gpTotal,
       lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
       prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
-      autoLpEquity: result.equity, annualCredits: result.annualCredits,
+      autoLpEquity: autoLpEquity, annualCredits: result.annualCredits,
       inputs: exit
     };
   }
@@ -623,7 +626,6 @@
     }
     var tdc = safeVal('dc-tdc') || 0;
     var units = scheduleMode ? _resolvedDealMix.totalUnits : safeVal('dc-units') || 0;
-    var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = inputs.equityPriceDefault;
     // G — Multi-tranche soft debt. Aggregate across the tranche list:
@@ -800,16 +802,50 @@
     // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
     // We don't track floor area separately, so use the unit fraction.
     // For pure-LIHTC deals (no market units), this is 1.0.
-    var applicableFraction = lihtcUnits > 0
-      ? math.computeApplicableFraction(lihtcUnits, units) : 0;
-
-    // LIHTC credit calculations — grants reduce eligible basis per
-    // §42(d)(5)(A); applicable fraction prorates basis when market-rate
-    // units are present.
-    var eligibleBasisRaw = Math.max(0, (tdc * basisPct) - impactGrant);
-    var eligibleBasis    = eligibleBasisRaw * applicableFraction;
-    var annualCredits    = eligibleBasis * _creditRate;
+    // #2160: itemized costs set eligible basis. Federally funded grants reduce
+    // it (§42(d)(5)(A)), the 30% boost needs a designation and its evidence,
+    // the applicable fraction is the lower of the unit and floor-space
+    // fractions, and CHFA's per-project limit caps the credit capacity.
+    var cbm = costBasisModule();
+    var costRules = inputs.costRules || null;
+    var creditType = _creditRate < 0.05 ? '4' : '9';
+    var costSummary = cbm.summarizeCosts(inputs.costLines || [], tdc);
+    var grantTreatment = cbm.grantBasisReduction(tranches, costRules);
+    // CHFA's fee limits apply in calculating credit: the part of an over-limit
+    // fee that sits in basis comes out of eligible basis (QAP 3.M.3).
+    var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
+      identityOfInterest: !!fields['dc-ioi'], rules: costRules });
+    var feeBase = cbm.developerFeeBase(costSummary, contractorFee, !!fields['dc-special-pop']);
+    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
+      consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
+      baseReason: feeBase.reason, units: units, rules: costRules });
+    var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);
+    var basisArgs = { eligibleCost: costSummary.eligible, costReason: costSummary.reason,
+      acquisitionEligible: costSummary.acquisitionEligible, acquisitionQualifies: !!fields['dc-acq-42d2'], grantReduction: grantTreatment.reduction,
+      grantOnAcquisition: fields['dc-grant-acq'], grantOutsideBasis: fields['dc-grant-outside'], ineligibleCost: costSummary.ineligible,
+      grantReason: grantTreatment.reason, designation: fields['dc-boost-designation'], evidence: fields['dc-boost-evidence'],
+      awardedBoostPct: fields['dc-boost-pct'],
+      creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
+      residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
+      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules };
+    var basis = cbm.basisAndCredit(basisArgs);
+    var basisUnknownReason = null;
+    // Outside CHFA LIHTC there is no basis or credit, so nothing about them is unknown.
+    if (chfaRegime) ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {
+      if (!basisUnknownReason && basis.reasons[key] && (key !== 'requested' && key !== 'awarded' || basis.creditForEquity === null)) basisUnknownReason = basis.reasons[key];
+    });
+    var applicableFraction = basis.applicableFraction === null ? NaN : basis.applicableFraction;
+    var eligibleBasisRaw = basis.boostedBasis === null ? NaN : basis.boostedBasis;
+    var eligibleBasis    = basis.qualifiedBasis === null ? NaN : basis.qualifiedBasis;
+    var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
+    var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
+      price: fields['dc-state-price'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
+    // No state credit entered is no source; an incomplete one is unknown.
+    // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
+    var stateCreditApplies = chfaRegime && stateCredit.entered;
+    var stateEquity = !stateCreditApplies ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;
+    if (stateCreditApplies && stateCredit.equity === null && !basisUnknownReason) basisUnknownReason = stateCredit.reason;
 
     // The applicable-fraction note was rendered before the legacy block.
     // Retain that value separately so even the invalid-mix display is unchanged.
@@ -826,9 +862,9 @@
       annualRents = NaN;
     }
 
-    // Developer fee
-    var devfeePct = (safeVal('dc-devfee-pct') || 15) / 100;
-    var devFeeTotal = tdc * devfeePct;
+    // Developer fee comes from the itemized developer-fee line (#2160).
+    var devFeeTotal = costSummary.reason ? NaN : (costSummary.byId.developer_fee || 0);
+    var devfeePct = tdc > 0 ? devFeeTotal / tdc : NaN;
     var deferredPctSlider = (safeVal('dc-deferred-pct') || 40) / 100;
 
     // H — Auto-balance deferred developer fee. When the user toggles
@@ -997,7 +1033,29 @@
     //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
     //           (legacy behavior — manual deferral)
     var deferredCap = devFeeTotal * deferredPctSlider;
-    var gapBeforeDeferred = tdc - equity - mortgage - impactGrant - totalLoanPrincipal;
+    // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
+    // left after every source but equity from the sale of Housing Tax Credits,
+    // which the QAP uses for federal and state credit alike, so state credit
+    // equity is left out here too. A deferred fee is a source however its
+    // amount is set. Auto-balance counts the full deferral it may use, so the
+    // credit is the least that closes the gap (26 U.S.C. 42(m)(2)(A)); when
+    // that binds, the gap left for deferral is exactly that amount.
+    var otherSources = mortgage + impactGrant + totalLoanPrincipal + deferredCap;
+    var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
+      otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
+    // An invalid unit mix leaves no basis figure to show, only its reason.
+    basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
+      invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
+    // An entered award is known even while the unit mix is invalid.
+    if (chfaRegime && (!unitMixError || basis.creditForEquityBasis === 'awarded')) {
+      annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
+      equity = annualCredits * CREDIT_YEARS * equityPrice;
+      // Without the gap calculation the capacity is unknown (QAP 3.M.1), and so is the credit.
+      if (basis.creditForEquity === null && !basisUnknownReason) basisUnknownReason = basis.reasons.capacity || null;
+    }
+    var gapBeforeDeferred = tdc - equity - stateEquity - mortgage - impactGrant - totalLoanPrincipal;
+    // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
+    if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -1083,14 +1141,15 @@
     // Sensitivity needs known NOI and rents. Without them every swing below
     // would be computed from 0 and published as a real figure, so report
     // the whole block as unavailable instead (its reason comes from reasonFor).
-    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0;
+    // The equity bars need known credits too (0 outside CHFA LIHTC is measured).
+    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits);
     var tornado = !sensitivityKnown ? null : (function () {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
         var vu  = vacFrac() * 100;
         var ou  = safeVal('dc-opex') || 450;
         var u   = units || 60;
-        var acr = annualCredits || 0;
+        var acr = annualCredits;
 
         // Equity pricing: ±$0.03
         var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
@@ -1119,7 +1178,8 @@
           mortLo: mortLo, mortHi: mortHi, noiLo: noiLo, noiHi: noiHi,
           vacLoEgi: vacLoEgi, vacHiEgi: vacHiEgi };
     })();
-    var budget = { acq: tdc * 0.10, hard: tdc * 0.62, soft: tdc * 0.14, cont: tdc * 0.05, fee: tdc * 0.09 };
+    var budget = { groups: costSummary.reason ? null : costSummary.groups, itemized: costSummary.reason ? null : costSummary.itemized,
+      notItemized: costSummary.notItemized, contract: costSummary.reason ? null : costSummary.contract, reason: costSummary.reason };
     var fundingGap = Math.max(0, gap);
     var gapPct = tdc > 0 ? fundingGap / tdc : 0;
     var hasWorkforceUnits = false;
@@ -1138,7 +1198,9 @@
       forSale: forSale,
       tdc: tdc,
       units: units,
-      basisPct: basisPct,
+      creditType: creditType,
+      basisUnknownReason: basisUnknownReason,
+      stateEquity: stateEquity,
       equityPrice: equityPrice,
       totalGrant: totalGrant,
       totalLoanPrincipal: totalLoanPrincipal,
@@ -1235,6 +1297,27 @@
       result.coverage.weakestSenior = weakestCoverage(result.coverage.years, 'seniorCoverage');
       result.coverage.weakestAllMustPay = weakestCoverage(result.coverage.years, 'allMustPayCoverage');
     }
+    var ruleKeys = ['grant_basis_treatment', 'applicable_fraction', 'basis_boost', 'contractor_fee_limit', 'developer_fee_limit',
+      'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard',
+        'credit_cap_state_with_4pct', 'acquisition_credit_rate', 'credit_reservation_methods', 'min_debt_coverage', 'high_coverage_credit_reduction'];
+    var federalEquity = basis.creditForEquity === null ? null : equity;
+    result.costBasis = {
+      summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
+      feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit,
+      underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
+      payIn: {
+        federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
+        state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null
+      },
+      costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
+        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'] }),
+      rules: ruleKeys.map(function (key) {
+        var st = cbm.ruleStatus(costRules, key);
+        return { key: key, applied: st.applied, reason: costRules ? st.reason : 'Rules file not loaded.', citation: st.citation || null,
+          draft: st.draft };
+      }),
+      rulesVersion: costRules ? costRules.version : null
+    };
     result.sliderImpacts = sliderImpacts(result, fields);
     result.waterfall = capitalWaterfall(result, fields);
     if (result.waterfall) {
@@ -1262,9 +1345,16 @@
       return copy;
     }
     function reasonFor(path) {
+      if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
+      // #2160: basis and credit depend on the itemized costs; figures that also
+      // depend on NOI name the operating reason first.
+      if (basisUnknownReason && /^(applicableFraction|eligibleBasis|annualCredits|equity|stateEquity|simpleGap)/.test(path)) return basisUnknownReason;
+      if (costSummary.reason && /^(devFeeTotal|devfeePct|budget)/.test(path)) return costSummary.reason;
+      var costReason = basisUnknownReason || costSummary.reason;
+      if (costReason && /^(gap|deferred|devFeeAtClosing|fundingGap|exit\.(dfYr|irr)|waterfall|tornado|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || costReason;
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
       if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;

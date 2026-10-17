@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-16T12:43:27.891440Z",
+  "generated": "2026-10-17T01:36:26.949410Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 851618
+      "bytes": 853099
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1523383
+      "bytes": 1522524
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -4164,7 +4164,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183499
+      "bytes": 183559
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7686,6 +7686,11 @@
       "placeholder": false,
       "bytes": 1434048
     },
+    "data/market/development-activity.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1154270
+    },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
       "placeholder": false,
@@ -7800,6 +7805,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14776234
+    },
+    "data/market/market-direction.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 116038
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -8359,7 +8369,7 @@
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331297
+      "bytes": 331326
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,
@@ -8431,6 +8441,11 @@
       "placeholder": false,
       "bytes": 4301
     },
+    "data/policy/lihtc-underwriting-rules.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13025
+    },
     "data/policy/local-housing-funds.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8449,7 +8464,7 @@
     "data/policy/pab-allocations.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17710
+      "bytes": 17856
     },
     "data/policy/policy-timeline.json": {
       "featureCount": 0,
@@ -8634,7 +8649,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 622101
+      "bytes": 594055
     }
   }
 }

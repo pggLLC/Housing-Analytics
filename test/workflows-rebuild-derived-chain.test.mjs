@@ -176,3 +176,32 @@ for (const file of Object.keys(KNOWN_GAPS)) {
 assert.deepEqual(failures, [], failures.join('\n'));
 console.log(`workflows-rebuild-derived-chain: PASS (${inputs.length} chain inputs; ${checked.length} workflows commit one)`);
 for (const c of checked) console.log('  ' + c);
+
+// ── 3. hand-kept copies of the output contract ─────────────────────────────
+// Some workflows keep their own list of what the chain writes and abort when
+// the chain writes outside it (rebuild-bps-permits.yml, the parcel/zoning
+// fetch). A new CHAIN output added to the contract but not to such a list
+// stops that workflow's next run before it commits (#2261). A hand-kept list
+// is recognised by naming a chain output and data/paper together; each must
+// cover every output in the contract.
+const covers = (list, p) => list.some((x) => {
+  const d = x.replace(/\/$/, '');
+  return p === d || p.startsWith(d + '/');
+});
+const handLists = [];
+for (const file of fs.readdirSync(dir).filter((f) => /\.ya?ml$/.test(f)).sort()) {
+  const text = fs.readFileSync(path.join(dir, file), 'utf8');
+  const lists = [
+    ...[...text.matchAll(/^\s*[A-Za-z_]+="([^"\n]*\bdata\/paper\b[^"\n]*)"\s*$/gm)].map((m) => m[1].split(/\s+/)),
+    ...[...text.matchAll(/^\s*PATHS = \[([\s\S]*?)\]/gm)].map((m) => [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1])),
+  ].filter((l) => l.includes('data/paper') && l.includes('data/hna/ranking-index.json'));
+  for (const list of lists) {
+    handLists.push(file);
+    const missing = OUTPUTS.filter((o) => !/manifest\.json$/.test(o) && !covers(list, o));
+    assert.deepEqual(missing, [], `${file} keeps a chain output list that is missing ${missing.join(', ')}`);
+  }
+}
+assert(handLists.filter((f) => f === 'rebuild-bps-permits.yml').length === 2,
+  'the scan must find both of rebuild-bps-permits.yml\'s output lists');
+assert(handLists.includes('fetch-parcel-zoning-data.yml'), 'the scan must find the parcel/zoning output list');
+console.log(`hand-kept output lists: ${handLists.length} checked (${[...new Set(handLists)].join(', ')})`);
