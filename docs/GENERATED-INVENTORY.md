@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T13:12:06.720Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T14:34:33.363Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-69 pages found.
+70 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -36,7 +36,7 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.7 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 45.9 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 27.6 KB |
-| `developer-where.html` | Where Should I Build? — COHO Analytics | 25.5 KB |
+| `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 18.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
@@ -56,6 +56,7 @@
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.2 KB |
+| `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 15.9 KB |
@@ -76,7 +77,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.6 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.0 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 12.3 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.0 KB |
 
@@ -1724,7 +1725,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 420.2 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 420.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
@@ -2096,7 +2097,7 @@
 | `test/jurisdiction-whitepaper.test.mjs` | 30.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 6.4 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
-| `test/land-banking-awards.test.mjs` | 18.5 KB |
+| `test/land-banking-awards.test.mjs` | 25.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
