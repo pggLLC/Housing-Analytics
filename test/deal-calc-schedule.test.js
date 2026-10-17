@@ -57,6 +57,7 @@ async function calculator(saved = subject(), options = {}) {
   }
   await w.HudFmr.load();
   w.eval(read('js/deal-cost-basis.js'));
+  w.eval(read('js/deal-operating-budget.js'));
   w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
@@ -75,7 +76,7 @@ function assertRevenue(w, s) {
   assert.equal(text(w, 'dc-r-rents'), money(expectedRevenue(s)));
   assert.equal(+w.document.getElementById('dc-units').value, s.total_units);
   assert.equal(+w.document.getElementById('dc-vacancy').value, s.vacancy_rate * 100);
-  const expenses = s.total_units * (+w.document.getElementById('dc-opex').value * 12 + +w.document.getElementById('dc-rep-reserve').value
+  const expenses = s.total_units * ([...w.document.querySelectorAll('#dc-op-lines input[id^="dc-op-"]:not([id^="dc-op-income-"])')].reduce((a, e) => a + +e.value, 0) + +w.document.getElementById('dc-rep-reserve').value
     + +w.document.getElementById('dc-prop-tax').value * (1 - +w.document.getElementById('dc-tax-exempt').value / 100));
   assert.equal(text(w, 'dc-noi-computed'), money(expectedRevenue(s) * (1 - s.vacancy_rate) - expenses));
 }

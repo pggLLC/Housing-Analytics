@@ -165,7 +165,7 @@
     if (!wrap) return;
 
     var cols = [
-      'Year', 'Gross Rents', 'Vacancy Loss', 'EGI',
+      'Year', 'Gross Rents', 'Other Income', 'Vacancy Loss', 'EGI',
       'Operating Exp', 'Rep Reserve', 'Prop Tax', 'NOI',
       'All Must-pay Service', 'Cash Flow', 'All Must-pay DSCR', 'Cumulative CF'
     ];
@@ -191,6 +191,7 @@
       html += '<tr style="' + bgStyle + '">';
       html += '<td style="text-align:center;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + r.year + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.grossRents) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.otherIncome || 0) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.vacancyLoss) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.egi) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.opex) + '</td>';

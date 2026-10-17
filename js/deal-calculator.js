@@ -177,6 +177,53 @@
     });
   }
 
+  // DOH PR 2: the operating budget in DOH's four expense groups and its other
+  // income lines (js/deal-operating-budget.js). The example amounts are INVENTED.
+  function operatingBudgetModule() {
+    return window.DealOperatingBudget || (typeof require === 'function' ? require('./deal-operating-budget.js') : null);
+  }
+  // separateHtml holds the markup of the lines kept on their own inputs, keyed
+  // by SEPARATE_LINES id; each renders before the line DOH's sheet puts it ahead of.
+  function operatingBudgetHtml(separateHtml) {
+    var ob = operatingBudgetModule();
+    if (!ob) return '<p>The operating budget is unavailable: js/deal-operating-budget.js did not load.</p>';
+    var field = 'width:100%;min-height:44px;padding:0.3rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);';
+    function lineHtml(id, label, amount, perAttr) {
+      return '<div class="dc-op-line" style="padding:.4rem 0;border-top:1px solid var(--border);">'
+        + '<label for="' + id + '" style="display:block;font-size:var(--small);font-weight:600;">' + _escHtml(label) + ' ($ per unit per year)</label>'
+        + '<input id="' + id + '" type="number" min="0" step="25" value="' + (amount == null ? '' : amount) + '" placeholder="none" style="' + field + '">'
+        + '<span ' + perAttr + ' style="display:block;font-size:var(--tiny);color:var(--muted);"></span></div>';
+    }
+    var lines = ob.exampleLines();
+    var groups = ob.GROUPS.map(function (g) {
+      var rows = lines.filter(function (l) { return l.group === g.id; }).map(function (l) {
+        var ahead = ob.SEPARATE_LINES.filter(function (sl) { return sl.before === l.id; }).map(function (sl) {
+          return (separateHtml && separateHtml[sl.id]) || '';
+        }).join('');
+        return ahead + lineHtml('dc-op-' + l.id, l.label, l.amount, 'data-op-per="' + l.id + '"');
+      }).join('');
+      return '<details class="dc-op-group" data-op-group="' + g.id + '" style="margin-top:var(--sp2);border-top:1px solid var(--border);padding-top:.3rem;">'
+        + '<summary style="display:flex;justify-content:space-between;gap:.5rem;min-height:44px;align-items:center;cursor:pointer;font-size:var(--small);font-weight:700;">'
+        + '<span>' + _escHtml(g.label) + '</span><span data-op-subtotal="' + g.id + '" style="font-variant-numeric:tabular-nums;"></span></summary>' + rows + '</details>';
+    }).join('');
+    var income = ob.exampleIncome().map(function (l) {
+      return lineHtml('dc-op-income-' + l.id, l.label, l.amount, 'data-op-income-per="' + l.id + '"');
+    }).join('');
+    return groups + '<details class="dc-op-group" data-op-group="income" style="margin-top:var(--sp2);border-top:1px solid var(--border);padding-top:.3rem;">'
+      + '<summary style="display:flex;justify-content:space-between;gap:.5rem;min-height:44px;align-items:center;cursor:pointer;font-size:var(--small);font-weight:700;">'
+      + '<span>Other income</span><span data-op-subtotal="income" style="font-variant-numeric:tabular-nums;"></span></summary>'
+      + '<p style="font-size:var(--tiny);color:var(--muted);margin:.3rem 0;">Added to rent before vacancy, as in DOH\'s sheet, and grown at the rent growth rate.</p>' + income + '</details>';
+  }
+  function readOperatingLines() {
+    var ob = operatingBudgetModule();
+    if (!ob) return null;
+    function v(id) { var el = document.getElementById(id); return el ? String(el.value).trim() : ''; }
+    return {
+      lines: ob.LINE_TEMPLATE.map(function (t) { var raw = v('dc-op-' + t.id); return { id: t.id, label: t.label, group: t.group, amount: raw === '' ? null : raw }; }),
+      income: ob.INCOME_TEMPLATE.map(function (t) { var raw = v('dc-op-income-' + t.id); return { id: t.id, label: t.label, amount: raw === '' ? null : raw }; })
+    };
+  }
+
   function _getCreditPricingDefault(is4Pct) {
     return is4Pct ? _equityPricingDefaults.credit_4pct : _equityPricingDefaults.credit_9pct;
   }
@@ -2293,7 +2340,7 @@
             <span style="font-size:var(--small);font-weight:600;">Auto-compute NOI from rent &amp; expense inputs</span>
           </label>
           <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
-            When checked, NOI = Gross Rents × (1 − Vacancy) − Operating Expenses − Replacement Reserve − Net Property Tax
+            When checked, NOI = (Gross Rents + Other Income) × (1 − Vacancy) − Operating Expenses − Replacement Reserve − Net Property Tax
           </p>
         </div>
 
@@ -2313,20 +2360,19 @@
             <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="7"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           </label>
+          <p id="dc-op-example-note" role="note" style="margin:0 0 var(--sp2);padding:0.4rem 0.6rem;font-size:var(--tiny);background:rgba(217,119,6,.08);border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;line-height:1.45;">
+            The operating budget below is an <strong>invented example</strong> ($5,400 per unit per year before taxes and the reserve). Open each group to replace it with your project's figures. The groups and lines follow the Colorado Division of Housing (DOH) Housing Development Analysis spreadsheet.
+          </p>
+          <dl id="dc-op-totals" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.3rem .75rem;font-size:var(--small);margin:0 0 var(--sp1);">
+            <dt>Operating expenses, per unit per year</dt><dd id="dc-op-total" style="margin:0;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+            <dt>With taxes and replacement reserve (DOH's per unit per year expenses)</dt><dd id="dc-op-pupa" style="margin:0;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+            <dt>Other income, per unit per year</dt><dd id="dc-op-income-total" style="margin:0;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+          </dl>
+          <p id="dc-op-reason" role="status" hidden style="margin:0 0 var(--sp1);font-size:var(--small);color:var(--warn,#b45309);"></p>
+          <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
+          <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
-            <input id="dc-opex" type="number" min="0" step="10" value="450"
-              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Initial default $450 reflects Denver-MSA LIHTC operating costs. <strong>Rural CO counties often run $250–$350</strong> — verify with your property manager or peer comparables.</span>
-          </label>
-          <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
-            <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
-              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
-          </label>
-          <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Property Tax ($/unit/year)</span>
+            <span style="font-size:var(--small);color:var(--muted);">Real estate taxes ($ per unit per year)</span>
             <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
             <span style="font-size:var(--tiny);color:var(--muted);">Initial default $900 is a Front-Range ballpark. <strong>Mill levies vary 3–5× across CO</strong> — check your county assessor before committing to a pro forma.</span>
@@ -2341,6 +2387,14 @@
             </select>
             <span style="font-size:var(--tiny);color:var(--muted);">Housing authority ownership or nonprofit partnerships may qualify for property tax exemption</span>
           </label>
+          `, replacement_reserve: `
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Replacement reserve ($ per unit per year)</span>
+            <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
+          </label>
+          ` })}</div>
           <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
             Computed Annual NOI: <span id="dc-noi-computed">—</span>
           </div>
@@ -3270,7 +3324,7 @@
     const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-senior-mode', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
-      'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
+      'dc-vacancy', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
       'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
       // (Per-tranche fields wired below via renderSoftTranches.)
@@ -3322,6 +3376,9 @@
       costHost.addEventListener('input', onCost);
       costHost.addEventListener('change', onCost);
     }
+    // DOH PR 2: operating budget and other income lines.
+    var opHost = document.getElementById('dc-op-lines');
+    if (opHost) { opHost.addEventListener('input', recalculate); opHost.addEventListener('change', recalculate); }
     var useTotal = document.getElementById('dc-cost-use-total');
     if (useTotal) useTotal.addEventListener('click', function () {
       var r = _lastResult && _lastResult.costBasis && _lastResult.costBasis.summary;
@@ -3919,6 +3976,7 @@
       resaleMarketAppreciation: parseFloat(fields['dc-own-resale-appreciation']) || 0,
       resaleSubsidyType: _resaleSelection.subsidyType, resaleConventionId: _resaleSelection.selectedConventionId
     });
+    var operating = readOperatingLines();
     return { fields: fields, ownership: ownership, resolvedDealMix: _resolvedDealMix, amiLimits: _amiLimits,
       amiLimitsByBr: _amiLimitsByBr, countyFips: _countyFips, creditRate: _creditRate,
       constants: _constants, utilityAllowance: _utilityAllowance,
@@ -3930,6 +3988,7 @@
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
       costLines: readCostLines(), costRules: _costRules,
+      operatingLines: operating ? operating.lines : null, otherIncomeLines: operating ? operating.income : null,
       fmrData: window.HudFmr && _countyFips ? window.HudFmr.getFmrByFips(_countyFips) : null };
   }
 
@@ -3950,6 +4009,47 @@
 
   // #2160: itemized costs, basis, credit figures and the CHFA tests. Every
   // absent figure shows its reason; nothing falls back to a typical share.
+  // DOH PR 2: operating budget subtotals, per-line property totals, DOH's
+  // per unit per year expenses and other income. Absent figures show a reason.
+  function renderOperatingBudget(result, fmt) {
+    var ob = operatingBudgetModule();
+    var sum = result.operatingSummary;
+    if (!ob || !sum) return;
+    function setText(id, text) { var e = document.getElementById(id); if (e) e.textContent = text; }
+    var units = result.units > 0 ? result.units : null;
+    var reasonEl = document.getElementById('dc-op-reason');
+    if (reasonEl) { reasonEl.textContent = sum.reason || ''; reasonEl.hidden = !sum.reason; }
+    setText('dc-op-total', sum.reason ? '—' : fmt(sum.perUnitYear) + ' (' + fmt(sum.perUnitMonth) + ' a month)');
+    setText('dc-op-income-total', sum.reason ? '—' : fmt(sum.otherIncomePerUnitYear));
+    // Taxes count net of the selected exemption, as NOI does.
+    var taxEl = document.getElementById('dc-prop-tax'), exemptEl = document.getElementById('dc-tax-exempt');
+    var grossTax = taxEl ? String(taxEl.value).trim() : '';
+    var netTax = grossTax === '' || !Number.isFinite(Number(grossTax)) ? grossTax
+      : Number(grossTax) * (1 - (exemptEl ? (Number(exemptEl.value) || 0) : 0) / 100);
+    var pupa = ob.pupaExpenses(sum, netTax,
+      document.getElementById('dc-rep-reserve') && document.getElementById('dc-rep-reserve').value);
+    setText('dc-op-pupa', pupa.value == null ? pupa.reason : fmt(pupa.value));
+    document.querySelectorAll('[data-op-subtotal]').forEach(function (span) {
+      var g = span.getAttribute('data-op-subtotal');
+      var v = g === 'income' ? sum.otherIncomePerUnitYear : sum.groups && sum.groups[g];
+      // DOH's Total Other includes real estate taxes and the replacement reserve.
+      if (g === 'other') v = pupa.value == null ? null : v + (pupa.value - sum.perUnitYear);
+      span.textContent = sum.reason || v == null ? '—' : fmt(v) + ' per unit';
+    });
+    function perText(v) {
+      if (sum.reason || !(v > 0)) return '';
+      return units ? fmt(v * units) + ' a year for ' + units + ' units' : 'Enter Total Units for the property total.';
+    }
+    document.querySelectorAll('[data-op-per]').forEach(function (span) { span.textContent = perText(sum.byId && sum.byId[span.getAttribute('data-op-per')]); });
+    document.querySelectorAll('[data-op-income-per]').forEach(function (span) { span.textContent = perText(sum.incomeById && sum.incomeById[span.getAttribute('data-op-income-per')]); });
+    // DOH asks whether utilities are included in rent. The calculator takes that
+    // from the utility allowance set in Market Analysis, which already sets rent.
+    var ua = _utilityAllowance || {};
+    setText('dc-op-utilities-note', ua.applied
+      ? 'Utilities in rent: the utility allowance follows ' + ((ua.basis && ua.basis.reference) || 'your Market Analysis setting') + '. Budget the utilities the owner pays on the Utilities line.'
+      : 'Utilities in rent: not set. Set who pays which utilities in Market Analysis → Subject project, then budget the owner-paid ones on the Utilities line.');
+  }
+
   function renderCostBasis(result, fmt) {
     var cbr = result.costBasis;
     if (!cbr) return;
@@ -4346,6 +4446,7 @@
 
     // #2160: budget totals come from the itemized cost lines.
     renderCostBasis(result, fmt);
+    renderOperatingBudget(result, fmt);
 
     // F257-6 — "How to adjust" advisory. Surfaces 2-3 short levers when
     // the deal is marginal. Drives off the same equity / mortgage / NOI

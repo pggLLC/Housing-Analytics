@@ -35,7 +35,8 @@ async function run() {
         await page.locator('.dc-tr-cfpay').fill('0');
         await page.locator('.dc-tr-type').selectOption('accrue_defer');
       }
-      if (scenario === 'C') await page.locator('#dc-opex').fill('');
+      // A blank operating budget is unknown, never $0 of expenses.
+      if (scenario === 'C') await page.evaluate(() => document.querySelectorAll('#dc-op-lines input[id^="dc-op-"]').forEach(i => { i.value = ''; }));
       // Recalculate after asynchronous county hydration has settled.
       await page.evaluate(() => window.__DealCalc.recalculate());
       await page.waitForTimeout(100);
@@ -58,7 +59,7 @@ async function run() {
       if (!record) {
         const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
         if (scenario !== 'C') assert.deepEqual(captured.figures, require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures)), `scenario ${scenario}: every displayed figure is unchanged`);
-        else for (const id of ['dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-gap', 'dc-exit-noi', 'dc-exit-resale']) assert(captured.figures[id].includes('Enter operating cost'), id + ': C has the missing-cost reason');
+        else for (const id of ['dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-gap', 'dc-exit-noi', 'dc-exit-resale']) assert(captured.figures[id].includes('Enter the operating budget'), id + ': C has the missing-cost reason');
         const contract = await page.evaluate(() => {
           const expected = window.__DealCalc.getResult();
           const copy = window.__DealCalc.getResult();
