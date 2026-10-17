@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T16:40:03.027Z",
+    "generated_at": "2026-10-17T19:35:22.298Z",
     "root": "data/",
-    "file_count": 1742,
-    "total_size_bytes": 187267816,
+    "file_count": 1746,
+    "total_size_bytes": 188185581,
     "kinds": {
-      "json": 1699,
+      "json": 1702,
       "geojson": 33,
-      "csv": 10
+      "csv": 11
     }
   },
   "files": [
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T16:39:58.864Z",
+      "mtime": "2026-10-17T19:35:18.322Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -19038,6 +19038,23 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/source/acs_b08202.json",
+      "kind": "json",
+      "size_bytes": 433173,
+      "mtime": "2026-10-17T19:34:30.664Z",
+      "shape": "object",
+      "keys": [
+        "geos",
+        "release",
+        "sources",
+        "table"
+      ],
+      "key_count": 4,
+      "primary_array_key": "sources",
+      "primary_array_length": 2,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "hna/source/chas/2018thru2022/county-050-Table14B.csv",
       "kind": "csv",
       "size_bytes": 11734,
@@ -19221,6 +19238,23 @@
       "column_count": 10
     },
     {
+      "path": "hna/source/dola_jobs_county.csv",
+      "kind": "csv",
+      "size_bytes": 131482,
+      "mtime": "2026-10-17T19:34:30.671Z",
+      "shape": "csv",
+      "row_count": 4386,
+      "columns": [
+        "\"Vintage 2024",
+        "Created January 2026\"",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "column_count": 6
+    },
+    {
       "path": "hna/source/dola_profiles_county.csv",
       "kind": "csv",
       "size_bytes": 223591,
@@ -19266,6 +19300,29 @@
         ""
       ],
       "column_count": 9
+    },
+    {
+      "path": "hna/source/lodes_primary_jobs.json",
+      "kind": "json",
+      "size_bytes": 81108,
+      "mtime": "2026-10-17T19:34:30.724Z",
+      "shape": "object",
+      "keys": [
+        "counties",
+        "crosswalk",
+        "fields",
+        "places",
+        "source",
+        "wac_all_source",
+        "wac_primary_counties",
+        "wac_primary_places",
+        "wac_source",
+        "year"
+      ],
+      "key_count": 10,
+      "primary_array_key": "fields",
+      "primary_array_length": 2,
+      "primary_array_first_keys": null
     },
     {
       "path": "hna/summary/08.json",
@@ -29690,6 +29747,22 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/workforce-need.json",
+      "kind": "json",
+      "size_bytes": 271460,
+      "mtime": "2026-10-17T19:34:30.756Z",
+      "shape": "object",
+      "keys": [
+        "counties",
+        "meta",
+        "places"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "hna/zhvi-place-crosswalk.json",
       "kind": "json",
       "size_bytes": 47255,
@@ -32511,8 +32584,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15107,
-      "mtime": "2026-10-17T16:40:00.796Z",
+      "size_bytes": 15649,
+      "mtime": "2026-10-17T19:35:20.241Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32536,7 +32609,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T16:40:00.338Z",
+      "mtime": "2026-10-17T19:35:19.739Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
