@@ -125,6 +125,16 @@
     var permits = t && have === n ? ' Statewide, ' + fmtInt(now) + ' homes were permitted ' + t.range + ' ' + t.year + ', against ' +
       fmtInt(before) + ' in the same months of ' + (t.year - 1) + '.' : '';
     setText('mdSummary', lead + townLine + permits);
+    // Which demand readings each rule uses, from the thresholds the file publishes:
+    // towns have no jobs series, so their rule reads household population alone.
+    var demand = function (t) {
+      var d = [t.population ? 'household population' : null, t.jobs ? 'jobs' : null].filter(Boolean);
+      return d.length ? d.join(' and ') : 'no demand reading';
+    };
+    setText('mdIntro', 'A county call reads ' + demand(data.meta.thresholds) + ' (demand) against permits, home prices and rents (the market). ' +
+      'A town call reads ' + demand(data.meta.places.thresholds) + ' against the same market signals' +
+      (data.meta.places.thresholds.jobs ? '.' : ', because no jobs series exists for towns.') +
+      ' The data come from DOLA, the Census Bureau, FHFA and Zillow; the rule and its thresholds are under "How a call is made" below.');
     var gen = data.meta.generated_at ? 'Newest input dated ' + data.meta.generated_at.slice(0, 10) + '.' : '';
     setText('mdGenerated', gen);
 
@@ -244,7 +254,10 @@
     return '<tr>' + cols.map(function (c, i) {
       var v = c.get(r);
       var tag = i === 0 ? 'th scope="row"' : 'td';
-      return '<' + tag + (v.title ? ' title="' + escapeHtml(v.title) + '"' : '') + '>' + escapeHtml(v.text) + '</' + tag.split(' ')[0] + '>';
+      // A missing reading carries its reason as visible text, which the
+      // table download moves to the row's notes column (data-export-note).
+      var note = v.text === NONE && v.title ? '<span class="md-none-why" data-export-note>' + escapeHtml(v.title) + '</span>' : '';
+      return '<' + tag + (v.title && !note ? ' title="' + escapeHtml(v.title) + '"' : '') + '>' + escapeHtml(v.text) + note + '</' + tag.split(' ')[0] + '>';
     }).join('') + '</tr>';
   }
 
@@ -301,7 +314,7 @@
     if (last && last.source_url) record = '<a href="' + escapeHtml(last.source_url) + '" target="_blank" rel="noopener">' + record + '</a>';
     return '<tr><th scope="row">' + escapeHtml(p.name) + '</th><td>' + escapeHtml(p.city || '') + '</td>' +
       '<td title="' + escapeHtml((projects.meta.stages || {})[p.stage] || '') + '">' + escapeHtml(STAGES[p.stage] || p.stage) + '</td>' +
-      '<td' + (isNum(p.total_units) ? '' : ' title="' + escapeHtml(p.total_units_unavailable_reason || 'The source prints no unit count') + '"') + '>' + homes + '</td>' +
+      '<td>' + homes + (isNum(p.total_units) ? '' : '<span class="md-none-why" data-export-note>' + escapeHtml(p.total_units_unavailable_reason || 'The source prints no unit count') + '</span>') + '</td>' +
       '<td>' + escapeHtml(p.latest_year) + '</td><td>' + record + '</td></tr>';
   }
 

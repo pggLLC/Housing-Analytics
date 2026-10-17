@@ -47,10 +47,16 @@ async function render(browser, script) {
   await tab.goto(`${ORIGIN}/colorado-deep-dive.html#tab-direction`, { waitUntil: 'load', timeout: 90000 });
   await tab.waitForFunction(() => document.querySelectorAll('#mdCountyBody tr').length > 1, null, { timeout: 30000 }).catch(() => {});
   const view = await tab.evaluate(async (pick) => {
-    const rows = (id) => [...document.querySelectorAll(`#${id} tr`)].map((tr) => [...tr.cells].map((c) => ({ text: c.textContent.trim(), title: c.getAttribute('title') || '' })));
+    const rows = (id) => [...document.querySelectorAll(`#${id} tr`)].map((tr) => [...tr.cells].map((c) => {
+      const k = c.cloneNode(true);
+      k.querySelectorAll('.gl-tooltip-popup').forEach((x) => x.remove());
+      const notes = [...k.querySelectorAll('[data-export-note]')].map((n) => { n.remove(); return n.textContent.trim(); });
+      return { text: k.textContent.trim(), note: notes.join(' ') };
+    }));
     const heads = [...document.querySelectorAll('#mdCountyHead th')].map((th) => th.textContent.trim());
     const out = {
       summary: (document.getElementById('mdSummary') || {}).textContent || '',
+      intro: (document.getElementById('mdIntro') || {}).textContent || '',
       kpis: [...document.querySelectorAll('#mdKpis .mi-kpi')].map((k) => ({ value: k.querySelector('.mi-kpi-value').textContent.trim(), label: k.querySelector('.mi-kpi-label').textContent.trim() })),
       heads,
       counties: rows('mdCountyBody'),
@@ -113,10 +119,18 @@ function checks({ view, errors }) {
     const p = c.signals.price;
     if (p.value == null) {
       absent++;
-      if (!r[iPrice] || r[iPrice].text !== 'No reading' || r[iPrice].title !== p.unavailable_reason) fail(`${c.name}: missing price shows "${r[iPrice] && r[iPrice].text}" (${r[iPrice] && r[iPrice].title})`);
+      if (!r[iPrice] || r[iPrice].text !== 'No reading' || r[iPrice].note !== p.unavailable_reason) fail(`${c.name}: missing price shows "${r[iPrice] && r[iPrice].text}" (${r[iPrice] && r[iPrice].note})`);
     } else if (r[iPrice] && /No reading/.test(r[iPrice].text)) fail(`${c.name}: price ${p.value} shown as no reading`);
   }
   if (!absent) fail('no county lacks a price reading: the absent-value check scanned nothing');
+
+  // the introduction names the demand readings each rule uses: jobs only where the file has a jobs threshold
+  const [countyLine, townLine] = view.intro.split(/(?=A town call)/);
+  if (!countyLine || !townLine) fail(`the introduction does not describe county and town calls separately: ${view.intro}`);
+  else {
+    if (/\bjobs\b/.test(countyLine) !== !!MD.meta.thresholds.jobs) fail(`the county introduction ${MD.meta.thresholds.jobs ? 'omits' : 'claims'} jobs`);
+    if (/reads[^.]*\bjobs\b[^.]*against/.test(townLine) !== !!MD.meta.places.thresholds.jobs) fail(`the town introduction ${MD.meta.places.thresholds.jobs ? 'omits' : 'claims'} jobs`);
+  }
 
   // each call's definitions are the file's own, county and town
   for (const [k, def] of [...Object.entries(MD.meta.calls).map(([k, d]) => [k, d]), ...Object.entries(MD.meta.places.calls)]) {
@@ -166,8 +180,10 @@ try {
     ['a tile count off by one', "fmtInt(cc[k] || 0)", "fmtInt((cc[k] || 0) + 1)", /tile shows/],
     ['the county call shown as Steady', "return { text: callLabel(c.call), sort: COUNTY_ORDER.indexOf(c.call) };", "return { text: 'Steady', sort: 0 };", /table says Steady/],
     ['a missing reading shown as zero', "if (!s || !isNum(s.value)) return", "if (!s) return", /missing price shows/],
+    ['the reason for a missing reading dropped', "var note = v.text === NONE && v.title ?", "var note = false ?", /missing price shows/],
     ['last year’s permits dropped', "' vs ' + fmtInt(p.prior_ytd && p.prior_ytd.total)", "' vs 0'", /permits shown/],
     ['town definitions replaced by county ones', "town = m.places.calls[k]", "town = m.calls[k]", /lacks the definition/],
+    ['town introduction given the county rule', "'A town call reads ' + demand(data.meta.places.thresholds)", "'A town call reads ' + demand(data.meta.thresholds)", /town introduction claims jobs/],
     ['CDPs shown by default', "return (cdps || p.type === 'town')", "return (true || p.type === 'town')", /town table shows/],
     ['multi-county projects left out', " || (Array.isArray(p.county_fips_all) && p.county_fips_all.indexOf(fips) >= 0)", '', /lists \d+ projects/],
   ];

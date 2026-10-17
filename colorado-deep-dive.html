@@ -620,6 +620,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .md-check { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; }
 .md-check input { width: 1.1rem; height: 1.1rem; }
 .cc-table.md-projects td:last-child { text-align: left; white-space: normal; }
+.md-none-why { display: block; max-width: 16rem; margin-left: auto; white-space: normal; font-size: .75rem; color: var(--muted); text-align: right; }
 @media (max-width: 640px) { .md-map { height: 260px; } .md-legend { flex-direction: row; flex-wrap: wrap; } }
 /* The source line the chart-source component appends sits below the canvas box. */
 .mi-chart-container.cc-chart { margin-bottom: 3rem; }
@@ -2701,7 +2702,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <section class="mi-section" aria-labelledby="md-heading" style="margin-top:0;">
     <h2 id="md-heading">Which Colorado housing markets are growing, and which are weakening</h2>
     <p id="mdSummary" class="cc-summary" aria-live="polite">Loading the market calls…</p>
-    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">Each call reads household population and jobs (demand) against permits, home prices and rents (the market), from DOLA, the Census Bureau, FHFA and Zillow. The rule and its thresholds are under "How a call is made" below. <span id="mdGenerated"></span></p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;"><span id="mdIntro"></span> <span id="mdGenerated"></span></p>
     <div class="mi-kpi-grid" id="mdKpis" aria-live="polite"></div>
     <div class="md-map-wrap">
       <div id="mdMap" class="md-map" aria-hidden="true"></div>
