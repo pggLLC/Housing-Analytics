@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-16T15:31:57.517Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T00:06:12.650Z. Do not edit by hand.
 
 ---
 
@@ -84,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1695 JSON files found.
+1697 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1613,6 +1613,7 @@
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
+| `data/market/development-activity.json` | 1.10 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 1.09 MB | ✅ | — |
@@ -1626,6 +1627,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
+| `data/market/market-direction.json` | 113.3 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -1788,7 +1790,7 @@
 
 ## Test Files
 
-619 test files found.
+621 test files found.
 
 | File | Size |
 |------|------|
@@ -1994,7 +1996,7 @@
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 7.3 KB |
+| `test/hna-build-rebase-recovery.test.js` | 7.7 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
@@ -2339,7 +2341,7 @@
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-rail-truthful.test.js` | 3.3 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
-| `test/workflows-rebuild-derived-chain.test.mjs` | 9.9 KB |
+| `test/workflows-rebuild-derived-chain.test.mjs` | 11.7 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/workforce-housing-brief.test.mjs` | 7.9 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
@@ -2372,6 +2374,7 @@
 | `tests/test_chfa_qap_watch.py` | 23.0 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
+| `tests/test_development_activity.py` | 43.6 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
@@ -2390,6 +2393,7 @@
 | `tests/test_local_support.py` | 5.1 KB |
 | `tests/test_market_construction.py` | 10.9 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
+| `tests/test_market_direction.py` | 11.6 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
 | `tests/test_news_stories.py` | 7.8 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
@@ -2429,7 +2433,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.2 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 33.0 KB |
+| `.github/workflows/build-hna-data.yml` | 33.5 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.1 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.7 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
@@ -2462,11 +2466,11 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.1 KB |
 | `.github/workflows/fetch-co-construction-labor-cost.yml` | 5.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.5 KB |
-| `.github/workflows/fetch-fmr-data.yml` | 8.4 KB |
+| `.github/workflows/fetch-fmr-data.yml` | 8.5 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.6 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
-| `.github/workflows/fetch-market-rents.yml` | 8.3 KB |
+| `.github/workflows/fetch-market-rents.yml` | 8.0 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.6 KB |
 | `.github/workflows/funding-awards.yml` | 5.9 KB |
@@ -2477,7 +2481,7 @@
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/policy-review-reminders.yml` | 2.1 KB |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 11.2 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 11.4 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.6 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
