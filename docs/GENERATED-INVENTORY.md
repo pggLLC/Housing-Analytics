@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T03:02:08.562Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T05:47:15.915Z. Do not edit by hand.
 
 ---
 
@@ -84,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1698 JSON files found.
+1699 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1615,6 +1615,7 @@
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/development-activity.json` | 1.10 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
+| `data/market/dola_muni_household_population.json` | 74.6 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 1.09 MB | ✅ | — |
 | `data/market/fhfa_hpi_subcounty_co.json` | 565.6 KB | ✅ | — |
@@ -1627,7 +1628,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 113.3 KB | ✅ | — |
+| `data/market/market-direction.json` | 640.6 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -2398,7 +2399,7 @@
 | `tests/test_local_support.py` | 5.1 KB |
 | `tests/test_market_construction.py` | 10.9 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
-| `tests/test_market_direction.py` | 11.6 KB |
+| `tests/test_market_direction.py` | 18.9 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
 | `tests/test_news_stories.py` | 7.8 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
@@ -2425,7 +2426,7 @@
 
 ## GitHub Actions Workflows
 
-79 workflow files found.
+80 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2471,6 +2472,7 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.1 KB |
 | `.github/workflows/fetch-co-construction-labor-cost.yml` | 5.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.5 KB |
+| `.github/workflows/fetch-dola-muni-households.yml` | 4.5 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 8.5 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.6 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |

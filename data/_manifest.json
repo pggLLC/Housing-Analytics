@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T03:02:33.462Z",
+    "generated_at": "2026-10-17T05:47:46.027Z",
     "root": "data/",
-    "file_count": 1740,
-    "total_size_bytes": 186297228,
+    "file_count": 1741,
+    "total_size_bytes": 186913573,
     "kinds": {
-      "json": 1697,
+      "json": 1698,
       "geojson": 33,
       "csv": 10
     }
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T03:02:30.493Z",
+      "mtime": "2026-10-17T05:47:42.167Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30971,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 220527,
-      "mtime": "2026-10-17T03:02:08.525Z",
+      "size_bytes": 220528,
+      "mtime": "2026-10-17T05:46:54.700Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31440,6 +31440,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/dola_muni_household_population.json",
+      "kind": "json",
+      "size_bytes": 76375,
+      "mtime": "2026-10-17T05:46:54.725Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "towns"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/dola_rent_survey_co.json",
       "kind": "json",
       "size_bytes": 730,
@@ -31867,14 +31882,15 @@
     {
       "path": "market/market-direction.json",
       "kind": "json",
-      "size_bytes": 116038,
-      "mtime": "2026-10-17T00:05:56.930Z",
+      "size_bytes": 656005,
+      "mtime": "2026-10-17T05:46:54.812Z",
       "shape": "object",
       "keys": [
         "meta",
-        "counties"
+        "counties",
+        "places"
       ],
-      "key_count": 2,
+      "key_count": 3,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -32479,8 +32495,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15107,
-      "mtime": "2026-10-17T03:02:32.005Z",
+      "size_bytes": 15109,
+      "mtime": "2026-10-17T05:47:44.037Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32504,7 +32520,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T03:02:31.654Z",
+      "mtime": "2026-10-17T05:47:43.607Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
