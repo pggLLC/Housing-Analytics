@@ -725,6 +725,34 @@ function lossAccounting() {
     out.incommuter_need_25_counties = recs.reduce((a, n) => a + n.move_closer_25, 0);
     out.incommuter_need_50_counties = recs.reduce((a, n) => a + n.move_closer_50, 0);
   }
+  // §10: the ranking's priced count against HUD's affordable-and-available count, statewide at <=30% AMI.
+  const priced = readJson('data/co_ami_gap_by_county.json');
+  const pricedUnits = priced.ok && priced.data.statewide && priced.data.statewide.units_priced_affordable_le_ami_pct
+    ? priced.data.statewide.units_priced_affordable_le_ami_pct['30'] : null;
+  out.gap30_priced_units_statewide = Number.isFinite(pricedUnits) ? pricedUnits
+    : absent('methods_data.gap30_priced_units_statewide', priced.ok ? 'co_ami_gap_by_county.json has no statewide 30% priced count' : priced.reason);
+  const aa = readJson('data/hna/chas_affordable_available.json');
+  const aa30 = aa.ok && aa.data.statewide && aa.data.statewide.tiers && aa.data.statewide.tiers['30'];
+  out.gap30_aa_homes_statewide = aa30 && Number.isFinite(aa30.affordable_available_homes) ? aa30.affordable_available_homes
+    : absent('methods_data.gap30_aa_homes_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  out.chas_place_table_places = aa.ok && aa.data.places ? Object.keys(aa.data.places).length
+    : absent('methods_data.chas_place_table_places', aa.ok ? 'chas_affordable_available.json has no places' : aa.reason);
+  // §10: sampling error of the place renter cost-burden rate (ACS 5-year, 90% margin, percentage points).
+  const rb = readJson('data/processed/rent_burden_crosscheck.json');
+  if (!rb.ok) {
+    out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', rb.reason);
+  } else {
+    const moes = Object.values(rb.data.geos || {})
+      .filter((g) => g.geoType === 'place')
+      .map((g) => g.renter_cb30 && g.renter_cb30.acs5)
+      .filter((a) => a && Number.isFinite(a.moe) && Number.isFinite(a.rate))
+      .map((a) => a.moe * 100)
+      .sort((a, b) => a - b);
+    const mid = moes.length ? (moes.length % 2 ? moes[(moes.length - 1) / 2] : (moes[moes.length / 2 - 1] + moes[moes.length / 2]) / 2) : null;
+    out.renter_burden_moe_places = moes.length;
+    out.renter_burden_moe_median_pp = mid == null ? null : Number(mid.toFixed(1));
+    out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
+  }
   // Income-restricted properties and how many carry an end date.
   const props = readJson('data/affordable-housing/properties.json');
   const list = props.ok ? (props.data.properties || []) : null;
