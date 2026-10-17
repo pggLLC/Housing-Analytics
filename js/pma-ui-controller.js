@@ -742,7 +742,7 @@
       }
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
-      _lastRunTractKey = _tractKey(pickedER);
+      _lastRunTractKey = _currentTractKey();
       // The justification narrative and the concept-card recommendation are
       // conclusions about this PMA too. PMAEngine.runAnalysis has already
       // said on the score card why it is not bound; nothing is drawn here
@@ -997,15 +997,36 @@
      takes those results down, so the counts, narrative and exports never
      describe a boundary other than the one on the map. */
   var _lastRunTractKey = null;
-  function _tractKey(geoids) { return (geoids || []).slice().sort().join(','); }
+  // What a tract run's results depend on: the GEOIDs, and the natural-feature
+  // record the narrative and exports carry once it is used (applied, or
+  // reported as unavailable / none nearby). A proposal not yet applied
+  // changes neither, so it does not count.
+  function _tractKey(selection) {
+    if (!selection) return '';
+    var key = (selection.selected || []).slice().sort().join(',');
+    var nf = selection.naturalFeatures;
+    if (nf && nf.status && nf.status !== 'off' && nf.status !== 'proposed') {
+      key += '|' + nf.status + ':' + (nf.tracts || []).map(function (t) {
+        return t.geoid + '=' + t.state + (t.keepReason ? '(' + t.keepReason + ')' : '');
+      }).sort().join(';');
+    }
+    return key;
+  }
+  function _currentTractKey() {
+    var picker = window.PMATractPicker;
+    return picker && typeof picker.getCurationMetadata === 'function'
+      ? _tractKey(picker.getCurationMetadata()) : null;
+  }
 
-  function _invalidateIfTractsChanged(geoids) {
+  function _invalidateIfTractsChanged() {
     if (_lastRunTractKey === null || _method !== 'tract') return;
-    if (_tractKey(geoids) === _lastRunTractKey) return;
+    if (_currentTractKey() === _lastRunTractKey) return;
     // A run still in flight was started on the old set too. Taking its
     // results down also bumps the conclusion revision (clearConclusions), so
     // its completion cannot republish them for a boundary no longer on the map.
-    if (!_running && document.body.getAttribute('data-pma-result-state') !== 'current') return;
+    // A restored run leaves the attribute unset, so only 'pending' (results
+    // already down) is skipped.
+    if (!_running && document.body.getAttribute('data-pma-result-state') === 'pending') return;
     _lastRunTractKey = null;
     var eng = window.PMAEngine;
     if (eng && typeof eng.blockCustomPma === 'function') {
@@ -1016,7 +1037,7 @@
   }
 
   function _onTractSelectionChange(geoids) {
-    _invalidateIfTractsChanged(geoids);
+    _invalidateIfTractsChanged();
     var summary = $id('pmaTractPickerSummary');
     var countEl = $id('pmaSelectedTractCount');
     var listEl  = $id('pmaTractGeoidList');
@@ -1290,7 +1311,7 @@
         }
         runOptions.tractGeoids = picked;
         runOptions.tractBoundary = picker && picker.getBoundary ? picker.getBoundary() : null;
-        _lastRunTractKey = _tractKey(picked);
+        _lastRunTractKey = _currentTractKey();
         if (window.PMAEngine && typeof window.PMAEngine.runAnalysis === 'function') {
           window.PMAEngine.runAnalysis(lat, lon, runOptions);
         }
@@ -1589,6 +1610,8 @@
     // If we have a full scoreRun from storage, re-render the cards
     if (stored && stored.scoreRun) {
       _lastScoreRun = stored.scoreRun;
+      // A restored tract run is invalidated by later changes like a fresh one.
+      if (stored.scoreRun.pmaTractSelection) _lastRunTractKey = _tractKey(stored.scoreRun.pmaTractSelection);
       _renderJustification(stored.scoreRun);
       _renderConceptCard(stored.scoreRun);
       var explainBtn = $id('pmaExplainScoreBtn');
