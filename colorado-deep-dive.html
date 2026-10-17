@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/pages/colorado-deep-dive.css">
   <link rel="stylesheet" href="css/colorado-regional-predictions.css">
-  <link rel="stylesheet" href="css/agency-funding.css">
     <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -2199,7 +2198,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <p class="tab-intro">Every Colorado program that pays for affordable housing. Tell the finder below what you are building and where, and it lists the ones your project can use.</p>
   <section class="mi-section" aria-labelledby="df-heading" style="margin-top:0;">
     <h2 id="df-heading">Funding sources for Colorado affordable housing</h2>
-    <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page. Use them alongside the <a href="deal-calculator.html">Deal Calculator</a>.</p>
+    <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page. Use them alongside the <a href="deal-calculator.html">Deal Calculator</a>. To see who these programs have already funded, and where, open <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a>.</p>
     <p id="dfMeta" class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;" aria-live="polite">Loading the developer funding guide…</p>
   </section>
 
@@ -2631,13 +2630,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <p id="fvnReview" class="data-note" hidden></p>
   </section>
 
-  <!-- Every award from CHFA, OEDIT and DOLA's Division of Housing, by county, town
-       and developer: js/agency-funding.js, which loads its data when this tab
-       first opens. -->
-  <section class="mi-section" aria-labelledby="af-heading" data-agency-funding data-agency-funding-defer data-agency-funding-hash="tab-need" data-agency-funding-level="3">
-    <h2 id="af-heading">Who got the money, by place and developer</h2>
-    <div data-agency-funding-view><p>Loading every state housing award…</p></div>
-  </section>
+  <!-- Every award by county, town and developer has its own page. -->
+  <p class="data-note">Every CHFA, OEDIT and DOLA award by county, town and developer, with the developers that received them: <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a>.</p>
 
   <section class="mi-section" aria-labelledby="fvn-scatter-heading">
     <h2 id="fvn-scatter-heading">Need against funding received, by county</h2>
@@ -2689,7 +2683,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       <li><strong>Correlation, not cause.</strong> A soft market today can come from a wave of market-rate supply, not from subsidy.</li>
       <li><strong>An award is not a finished home.</strong> Projects take two to four years to deliver, and some awards are returned.</li>
       <li><strong>Tax credits are annual.</strong> CHFA prints the annual credit; the federal credit is claimed for ten years. Prop 123 amounts are dollars awarded, or requested where a preliminary list prints only the request.</li>
-      <li><strong>Coverage.</strong> CHFA award reports from 2016 and Prop 123 lists from FY23-24. Division of Housing grants and loans are not in this comparison; the award view above lists the ones the Division has announced. ACS figures cover 2020 to 2024, and small-county vacancy has wide margins of error.</li>
+      <li><strong>Coverage.</strong> CHFA award reports from 2016 and Prop 123 lists from FY23-24. Division of Housing grants and loans are not in this comparison; <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a> lists the ones the Division has announced. ACS figures cover 2020 to 2024, and small-county vacancy has wide margins of error.</li>
       <li><strong>Mixed-income Prop 123 dollars</strong> are shown as a catalyst signal: money aimed at middle-income or workforce housing rather than the deepest-need gap. That can be a deliberate policy choice.</li>
     </ul>
   </section>
@@ -3283,9 +3277,6 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <script defer src="js/co-developer-funding.js"></script>
 <script defer src="js/funding-vs-need.js"></script>
 <script defer src="js/market-direction.js"></script>
-<script defer src="js/vendor/d3.v7.min.js"></script>
-<script defer src="js/agency-funding-model.js"></script>
-<script defer src="js/agency-funding.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
 <!-- ── Outer tab toggle: one panel per .page-tabs button ── -->
@@ -3330,9 +3321,6 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       if (targetId === 'tab-need' && window.FundingVsNeed) {
         window.FundingVsNeed.init();
       }
-      if (targetId === 'tab-need' && window.AgencyFunding) {
-        window.AgencyFunding.start();
-      }
       if (targetId === 'tab-direction' && window.MarketDirection) {
         window.MarketDirection.init();
       }
@@ -3376,8 +3364,14 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     });
 
     /* A hash naming an outer panel opens it: market-intelligence.html redirects to #tab-signals, historical-trends.html to #tab-history. */
-    /* The funding award view keeps its search after the tab: #tab-need&county=08049. */
-    var hash = window.location.hash.replace('#', '').split('&')[0];
+    /* Links shared while the award view lived in this tab carry its search after the tab name
+       (#tab-need&county=08049): send them to the award view's own page with that search. */
+    var parts = window.location.hash.replace('#', '').split('&');
+    if (parts[0] === 'tab-need' && parts.length > 1) {
+      window.location.replace('where-housing-money-goes.html#' + parts.slice(1).join('&'));
+      return;
+    }
+    var hash = parts[0];
     if (hash && hash !== 'tab-deepdive' && document.querySelector('.page-tabs [aria-controls="' + hash + '"]')) {
       select(hash);
       var bar = document.querySelector('.page-tabs');
