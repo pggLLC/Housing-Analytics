@@ -103,12 +103,14 @@ CAPPED_NOTICE_MEMORY_DAYS = 3 * 365
 # was last seen (missing_since), never while the query that found it is failing.
 NOTICE_MEMORY_DAYS = 365
 
+# `allocations?` catches a yearly link such as DOH's "Direct Allocations - 2027", which
+# names no date, amount or round (Codex, 2026-10-17).
 ROUND_LINE_RE = re.compile(
     r'\$\s?\d|\b\d{1,2}/\d{1,2}/\d{2,4}\b|\b20\d\d-\d{1,2}-\d{1,2}\b|\b\d{1,2}-\d{1,2}-(20)?\d\d\b|'
     r'\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t(ember)?)?|'
     r'oct(ober)?|nov(ember)?|dec(ember)?)\.?\s+(\d{1,2}|20\d\d)\b|'
     r'\b(rounds?|cycles?|nofas?|nofos?|notice of funding|deadlines?|due|open(s|ed)?|clos(e|ed|es|ing)|'
-    r'letters? of intent|accepting|awards?|awarded|funding available|application (period|window))\b',
+    r'letters? of intent|accepting|awards?|awarded|allocations?|funding available|application (period|window))\b',
     re.I,
 )
 # Documents a funding page links. Wider than the QAP watcher's (PDFs only): rounds

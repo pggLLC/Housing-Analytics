@@ -86,7 +86,9 @@
     if (!f) return { fits: false, notes: [] };
     var notes = [];
     if (f.role === 'support' && !q.includeSupport) return { fits: false, notes: notes };
-    if (q.execution) {
+    // Support carries no deal types (it is not project capital), so a deal-type
+    // filter never hides it once support is asked for.
+    if (q.execution && f.role !== 'support') {
       var wanted = Array.isArray(q.execution) ? q.execution : [q.execution];
       var offered = f.execution || [];
       if (!wanted.some(function (e) { return offered.indexOf(e) !== -1; })) return { fits: false, notes: notes };
