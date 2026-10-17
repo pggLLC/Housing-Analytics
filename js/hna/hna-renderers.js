@@ -3844,7 +3844,7 @@
 
   /**
    * getAssumptions — read the current values of the projection assumption controls.
-   * @returns {{ horizon: number, targetVac: number, headshipMode: string }}
+   * @returns {{ horizon: number, targetVac: number, headshipMode: 'forecast'|'current'|'trend' }}
    */
   function getAssumptions() {
     const els = S().els;
@@ -3852,9 +3852,18 @@
     const vacRaw   = els && els.assumpVacancy  ? parseFloat(els.assumpVacancy.value)        : NaN;
     const targetVac = Number.isFinite(vacRaw) ? vacRaw / 100 : 0.05;
     const headshipMode = (() => {
-      const radios = document.querySelectorAll('input[name="headship"]');
-      for (const r of radios) { if (r.checked) return r.value; }
-      return 'current';
+      // The shipped HNA pages name the group assumpHeadship (values hold |
+      // trend); the controller's change listener and the fixtures in older
+      // tests use that name or the earlier headship (current | trend). Read
+      // whichever radio is checked, and normalise: anything but trend is the
+      // constant base-year rate. Querying only the old name returned
+      // 'current' whatever the user picked, so Trend never took effect.
+      const checked = document.querySelector('input[name="assumpHeadship"]:checked, input[name="headship"]:checked');
+      const v = checked ? String(checked.value) : '';
+      // forecast: the stored county household series (SDO household forecast
+      // where published); current (the page's "Hold"): the base-year rate
+      // held; trend: the base-year rate moved by the ACS trend.
+      return v === 'trend' ? 'trend' : v === 'forecast' ? 'forecast' : 'current';
     })();
     return { horizon, targetVac, headshipMode };
   }
@@ -3908,7 +3917,7 @@
         'DOLA/SDO components-of-change forecast for ' + trace.endYear + '.');
       rows += row('Headship rate', pct(trace.headshipRate, 3), trace.headshipModeLabel);
       rows += row('Projected households', num(trace.projectedHouseholds, 1),
-        'Projected population × headship rate.');
+        trace.householdsNote || 'Projected population × headship rate.');
       rows += row('Target vacancy', pct(trace.targetVacancy, 3), 'Screening assumption selected above.');
       rows += row('Total housing units required', num(trace.totalUnitsRequired, 1),
         'Projected households ÷ (1 − target vacancy).');
