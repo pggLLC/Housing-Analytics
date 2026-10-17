@@ -11,12 +11,13 @@ mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 
 
-def fake_getter(tables, fail=()):
+def fake_getter(tables, fail=(), missing=()):
     """tables[(series, table, level)] = {geoid: {var: value}} -> Census rows.
 
     A table not given answers with no geographies, except that the 5-year
     tables, which publish every geography, answer for each geoid any table
-    mentions, with no values. A key in `fail` answers as a failed request."""
+    mentions, with no values. A key in `fail` answers as a failed request; a
+    (year, series) in `missing` answers as a dataset the API does not have."""
     known = {g for data in tables.values() for g in data}
 
     def get(url, key=""):
@@ -27,6 +28,8 @@ def fake_getter(tables, fail=()):
                  "county" if "for=county:" in url else "place")
         if (series, table, level) in fail:
             return None
+        if (year, series) in missing:
+            return mod.NOT_PUBLISHED
         data = tables.get((series, table, level, year), tables.get((series, table, level))
                           if year == 2024 else None)
         if data is None and series == "acs5":
@@ -198,6 +201,40 @@ def test_profile_vintage_is_found_by_matching_not_by_the_stamp():
     doc = mod.build({gid: summary(DP05_0001E=780, DP04_0134E=1250)}, 2024, key="",
                     getter=fake_getter(tables))
     assert doc["geos"][gid]["DP04_0134E"]["y"] == 2023
+
+
+def test_an_unpublished_dataset_is_skipped_but_never_at_the_stamped_year():
+    # The 2020 ACS 1-year was never released, and the API answers 404 for it.
+    # An S0801 stored at 2022 makes the build try 2020 as a fallback year.
+    gid = "0800012"
+    tables = {
+        ("acs5", "profile", "place"): {gid: {"DP05_0001E": 500, "DP05_0001M": 80}},
+        ("acs5", "subject", "place", 2022): {gid: {"S0801_C01_046E": 24.3, "S0801_C01_046M": 6.1}},
+    }
+    s = summary(DP05_0001E=500)
+    s["acsS0801"] = {"_acsYear": 2022, "S0801_C01_046E": 24.3}
+    doc = mod.build({gid: s}, 2024, key="",
+                    getter=fake_getter(tables, missing={(2020, "acs1")}))
+    assert doc["geos"][gid]["S0801_C01_046E"]["m"] == 6.1
+    assert doc["meta"]["not_published"] == ["2020 acs1 subject"]
+    # The 5-year at the stamped year must exist; its absence still stops the build.
+    import pytest
+    with pytest.raises(SystemExit):
+        mod.build({gid: s}, 2024, key="", getter=fake_getter(tables, missing={(2024, "acs5")}))
+
+
+def test_census_get_reads_404_as_not_published(monkeypatch):
+    import io
+    import urllib.error
+
+    def raise_code(code):
+        def opener(req, timeout=0):
+            raise urllib.error.HTTPError(req.full_url, code, "x", {}, io.BytesIO(b""))
+        return opener
+    monkeypatch.setattr(mod.urllib.request, "urlopen", raise_code(404))
+    assert mod.census_get("https://api.census.gov/data/2020/acs/acs1/subject?get=X") == mod.NOT_PUBLISHED
+    monkeypatch.setattr(mod.urllib.request, "urlopen", raise_code(500))
+    assert mod.census_get("https://api.census.gov/data/2024/acs/acs5/profile?get=X") is None
 
 
 def test_committed_file_covers_every_summary_when_present():
