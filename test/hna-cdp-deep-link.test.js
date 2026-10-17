@@ -67,9 +67,11 @@ async function run(page, target, priorType) {
   };
   rebuild();
   gt.addEventListener('change', rebuild);
+  // The routine retries on timers (at most 12 times). Run each retry at once
+  // instead of waiting real time, so 48 cases cost milliseconds, not a minute.
+  w.setTimeout = (fn) => { fn(); return 0; };
   w.eval(extractFn(html, '_tryAutoSelect') + ';window._tryAutoSelect=_tryAutoSelect;');
   w._tryAutoSelect(target);
-  await new Promise((r) => setTimeout(r, 1300));
   const opt = gs.options[gs.selectedIndex];
   return { types, geoType: gt.value, geoid: gs.value, subtype: opt && opt.getAttribute('data-subtype') };
 }
