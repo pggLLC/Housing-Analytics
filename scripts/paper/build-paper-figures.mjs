@@ -725,6 +725,64 @@ function lossAccounting() {
     out.incommuter_need_25_counties = recs.reduce((a, n) => a + n.move_closer_25, 0);
     out.incommuter_need_50_counties = recs.reduce((a, n) => a + n.move_closer_50, 0);
   }
+  // §10: the ranking's priced count against HUD's affordable-and-available count, statewide at <=30% AMI.
+  const priced = readJson('data/co_ami_gap_by_county.json');
+  // Sum the county records, each priced against its own county AMI, so the comparison with HUD's
+  // county-summed count differs by method and not also by which AMI sets the threshold.
+  const pricedCounties = priced.ok && Array.isArray(priced.data.counties) ? priced.data.counties : [];
+  const countyUnits = pricedCounties.map((c) => c && c.units_priced_affordable_le_ami_pct && c.units_priced_affordable_le_ami_pct['30']);
+  const pricedUnits = countyUnits.length === 64 && countyUnits.every(Number.isFinite)
+    ? countyUnits.reduce((a, n) => a + n, 0) : null;
+  out.gap30_priced_units_statewide = Number.isFinite(pricedUnits) ? pricedUnits
+    : absent('methods_data.gap30_priced_units_statewide', priced.ok ? 'co_ami_gap_by_county.json does not carry a 30% priced count for all 64 counties' : priced.reason);
+  const aa = readJson('data/hna/chas_affordable_available.json');
+  const aa30 = aa.ok && aa.data.statewide && aa.data.statewide.tiers && aa.data.statewide.tiers['30'];
+  out.gap30_aa_homes_statewide = aa30 && Number.isFinite(aa30.affordable_available_homes) ? aa30.affordable_available_homes
+    : absent('methods_data.gap30_aa_homes_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  out.gap30_aa_occupied_statewide = aa30 && Number.isFinite(aa30.occupied_by_group) ? aa30.occupied_by_group
+    : absent('methods_data.gap30_aa_occupied_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  out.gap30_aa_vacant_statewide = aa30 && Number.isFinite(aa30.vacant_for_rent) ? aa30.vacant_for_rent
+    : absent('methods_data.gap30_aa_vacant_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
+  // Vintages travel with the figures, so a refresh cannot leave a new count under an old label.
+  const span = (v) => (typeof v === 'string' && /^\d{4}-\d{4}$/.test(v) ? v.replace('-', '\u2013') : null);
+  // Read the raw value before converting: Number(null) is 0, which would print as a year.
+  const rawYear = priced.ok && priced.data.meta ? priced.data.meta.acs_year : null;
+  const acsYear = /^\d{4}$/.test(String(rawYear ?? '')) ? Number(rawYear) : null;
+  out.gap30_priced_vintage = acsYear !== null ? `${acsYear - 4}\u2013${acsYear}`
+    : absent('methods_data.gap30_priced_vintage', priced.ok ? 'co_ami_gap_by_county.json meta has no acs_year' : priced.reason);
+  out.gap30_aa_vintage = (aa.ok && aa.data.meta && span(aa.data.meta.vintage))
+    || absent('methods_data.gap30_aa_vintage', aa.ok ? 'chas_affordable_available.json meta has no vintage' : aa.reason);
+  out.chas_place_table_places = aa.ok && aa.data.places ? Object.keys(aa.data.places).length
+    : absent('methods_data.chas_place_table_places', aa.ok ? 'chas_affordable_available.json has no places' : aa.reason);
+  // §10: sampling error of the place renter cost-burden rate (ACS 5-year, 90% margin, percentage points).
+  const rb = readJson('data/processed/rent_burden_crosscheck.json');
+  if (!rb.ok) {
+    out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', rb.reason);
+    out.renter_burden_moe_vintage = absent('methods_data.renter_burden_moe_vintage', rb.reason);
+    out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', rb.reason);
+    out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', rb.reason);
+  } else {
+    const moes = Object.values(rb.data.geos || {})
+      .filter((g) => g.geoType === 'place')
+      .map((g) => g.renter_cb30 && g.renter_cb30.acs5)
+      .filter((a) => a && Number.isFinite(a.moe) && Number.isFinite(a.rate))
+      .map((a) => a.moe * 100)
+      .sort((a, b) => a - b);
+    out.renter_burden_moe_vintage = (rb.data.meta && span(rb.data.meta.acs5_vintage))
+      || absent('methods_data.renter_burden_moe_vintage', 'rent_burden_crosscheck.json meta has no acs5_vintage');
+    if (!moes.length) {
+      const why = 'rent_burden_crosscheck.json has no place with an ACS 5-year rate and margin';
+      out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', why);
+      out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', why);
+      out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', why);
+    } else {
+      const n = moes.length;
+      const mid = n % 2 ? moes[(n - 1) / 2] : (moes[n / 2 - 1] + moes[n / 2]) / 2;
+      out.renter_burden_moe_places = n;
+      out.renter_burden_moe_median_pp = Number(mid.toFixed(1));
+      out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
+    }
+  }
   // Income-restricted properties and how many carry an end date.
   const props = readJson('data/affordable-housing/properties.json');
   const list = props.ok ? (props.data.properties || []) : null;
