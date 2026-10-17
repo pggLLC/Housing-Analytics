@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T00:06:33.060Z",
+    "generated_at": "2026-10-17T01:36:24.562Z",
     "root": "data/",
-    "file_count": 1739,
-    "total_size_bytes": 186216257,
+    "file_count": 1740,
+    "total_size_bytes": 186229538,
     "kinds": {
-      "json": 1696,
+      "json": 1697,
       "geojson": 33,
       "csv": 10
     }
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T00:06:30.608Z",
+      "mtime": "2026-10-17T01:36:22.335Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30971,8 +30971,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 220139,
-      "mtime": "2026-10-16T14:06:05.016Z",
+      "size_bytes": 220395,
+      "mtime": "2026-10-17T01:36:05.421Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32480,7 +32480,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-17T00:06:31.801Z",
+      "mtime": "2026-10-17T01:36:23.491Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32504,7 +32504,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T00:06:31.509Z",
+      "mtime": "2026-10-17T01:36:23.201Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34917,6 +34917,25 @@
         "competitiveSaturation"
       ],
       "key_count": 18,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/lihtc-underwriting-rules.json",
+      "kind": "json",
+      "size_bytes": 13025,
+      "mtime": "2026-10-17T01:35:22.064Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "version",
+        "meta",
+        "sources",
+        "rules",
+        "drafts"
+      ],
+      "key_count": 6,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null

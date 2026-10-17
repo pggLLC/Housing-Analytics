@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-17T00:06:35.775972Z",
+  "generated": "2026-10-17T01:36:26.949410Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 852654
+      "bytes": 853099
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8440,6 +8440,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4301
+    },
+    "data/policy/lihtc-underwriting-rules.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13025
     },
     "data/policy/local-housing-funds.json": {
       "featureCount": 0,
