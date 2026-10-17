@@ -18,7 +18,7 @@ def load(rel):
 
 WN = load('data/hna/workforce-need.json')
 ACS = load('data/hna/source/acs_b08202.json')['geos']
-AUX = load('data/hna/source/lodes_aux_incommuters.json')
+AUX = load('data/hna/source/lodes_primary_jobs.json')
 
 
 def test_all_64_counties_present():
@@ -42,7 +42,12 @@ def test_county_figures_recompute_from_inputs():
         # bands are added, not the county share.
         aux = AUX['counties'].get(fips, {})
         assert rec['incommuters_out_of_state'] == aux.get('jobs', 0), fips
-        base = (lehd['inflow'] * (lehd["CE01"] + lehd["CE02"]) / lehd['C000']
+        # Both terms count people, not jobs: primary jobs (JT01) only. The
+        # in-state inflow is JT00, so it is scaled by primary low/middle-wage
+        # jobs per job of any kind located in the county.
+        primary_lm = AUX['wac_primary_counties'][fips]['primary_low_middle_wage_jobs']
+        assert primary_lm < lehd['CE01'] + lehd['CE02'], fips + ': primary jobs should be fewer than all jobs'
+        base = (lehd['inflow'] * primary_lm / lehd['C000']
                 + aux.get('low_middle_wage_jobs', 0)) / wph
         assert rec['present_incommuter_need']['move_closer_25'] == round(base * 0.25), fips
         assert rec['present_incommuter_need']['move_closer_50'] == round(base * 0.50), fips
@@ -54,6 +59,8 @@ def test_out_of_state_commuters_are_counted():
     """LODES main omits workers who live outside Colorado. The aux file must be
     read, cover all 64 counties, and reach the border counties' figures."""
     assert len(AUX['counties']) == 64, '%d counties in the aux summary' % len(AUX['counties'])
+    assert 'JT01' in AUX['source'] and 'JT01' in AUX['wac_source'], 'the inputs are not the primary-job (JT01) files'
+    assert len(AUX['wac_primary_counties']) == 64, 'primary-job WAC does not cover all 64 counties'
     assert sum(v['jobs'] for v in AUX['counties'].values()) > 0, 'the aux summary is empty'
     la_plata = WN['counties']['08067']
     assert la_plata['incommuters_out_of_state'] > 0, 'La Plata (New Mexico border) shows no out-of-state commuters'

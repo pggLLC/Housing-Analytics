@@ -29,8 +29,10 @@ Inputs (cached under data/hna/source/, refreshed with --fetch):
   dola_jobs_county.csv  DOLA SDO total jobs by county, estimates and forecast
   acs_b08202.json       ACS 5-year B08202 (household size by number of workers)
                         with margins of error, via the Census Reporter API
-  lodes_aux_incommuters.json  LODES aux OD (Colorado job, home out of state),
-                        summed by workplace county and place (LEHD crosswalk)
+  lodes_primary_jobs.json  LODES primary jobs (JT01): the aux OD file (Colorado
+                        job, home out of state) summed by workplace county and
+                        place (LEHD crosswalk), and WAC primary low/middle-wage
+                        jobs by county
 Already in the repo: data/hna/lehd/<county>.json (LODES OD inflow, WAC wage
 bands), data/hna/place-od-flows.json (block-level place OD),
 data/hna/summary/<geoid>.json (households, DP02_0001E).
@@ -59,7 +61,8 @@ B08202_URL = 'https://api.censusreporter.org/1.0/data/show/latest?table_ids=B082
 # both come from main, so aux is added here, by workplace, or border counties
 # (La Plata, Archuleta, Montezuma, Larimer, Weld, Mesa) read low.
 LODES_YEAR = 2023
-AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT00_%d.csv.gz' % LODES_YEAR
+AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_%d.csv.gz' % LODES_YEAR
+WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_%d.csv.gz' % LODES_YEAR
 XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
 BASE_YEAR = 2024
@@ -94,12 +97,13 @@ def fetch():
 
 
 def fetch_aux():
-    """Out-of-state in-commuters by Colorado workplace county and place.
+    """Primary-job inputs: out-of-state in-commuters by Colorado workplace
+    county and place, and primary low/middle-wage jobs by county.
 
-    Sums the LODES aux OD file (workplace in Colorado, home elsewhere) by
-    work block, mapped to county by its first five digits and to place by
-    the LEHD crosswalk. SE01+SE02 are earned directly from the records, so
-    no county wage share is borrowed for them.
+    Sums the LODES JT01 aux OD file (workplace in Colorado, home elsewhere)
+    by work block, mapped to county by its first five digits and to place by
+    the LEHD crosswalk; SE01+SE02 come from the records themselves. Sums the
+    JT01 WAC file's C000 and CE01+CE02 by county.
     """
     with urllib.request.urlopen(XWALK_URL, timeout=300) as r:
         xw = gzip.open(io.BytesIO(r.read()), 'rt', encoding='latin-1', newline='')
@@ -118,13 +122,21 @@ def fetch_aux():
                     t = book.setdefault(key, [0, 0])
                     t[0] += vals[0]
                     t[1] += vals[1]
+    wac = {}
+    with urllib.request.urlopen(WAC_PRIMARY_URL, timeout=300) as r:
+        for row in csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline='')):
+            t = wac.setdefault(row['w_geocode'][:5], [0, 0])
+            t[0] += int(row['C000'])
+            t[1] += int(row['CE01']) + int(row['CE02'])
     out = {
-        'source': AUX_URL, 'crosswalk': XWALK_URL, 'year': LODES_YEAR,
-        'fields': ['S000 all jobs', 'SE01+SE02 jobs earning $3,333 a month or less'],
+        'source': AUX_URL, 'crosswalk': XWALK_URL, 'wac_source': WAC_PRIMARY_URL, 'year': LODES_YEAR,
+        'wac_primary_counties': {k: {'primary_jobs': v[0], 'primary_low_middle_wage_jobs': v[1]}
+                                 for k, v in sorted(wac.items())},
+        'fields': ['S000 primary jobs', 'SE01+SE02 primary jobs earning $3,333 a month or less'],
         'counties': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(counties.items())},
         'places': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(places.items())},
     }
-    with open(os.path.join(SRC, 'lodes_aux_incommuters.json'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(SRC, 'lodes_primary_jobs.json'), 'w', encoding='utf-8') as f:
         json.dump(out, f, indent=1, sort_keys=True)
         f.write('\n')
 
@@ -189,6 +201,15 @@ def workers_per_household(cell):
     return workers / hh, hh, round(cv, 3)
 
 
+def primary_low_middle_per_job(aux, county, c000):
+    """Primary low/middle-wage jobs (JT01 CE01+CE02) per job of any kind
+    (JT00 C000) located in the county: turns a JT00 job count into the people
+    in primary low- and middle-wage jobs it represents."""
+    w = (aux.get('wac_primary_counties') or {}).get(county) or {}
+    lm = num(w.get('primary_low_middle_wage_jobs'))
+    return lm / c000 if (lm is not None and c000) else None
+
+
 def need_block(incommuters, wage_share, wph, aux_low_middle=0):
     """In-state in-commuters at the county wage share, plus out-of-state
     in-commuters' own low/middle-wage count, over workers per household."""
@@ -204,7 +225,7 @@ def build():
     acs = b08202.get('geos') or {}
     od = (read_json(os.path.join(ROOT, 'data', 'hna', 'place-od-flows.json')) or {}).get('places') or {}
     geo = read_json(os.path.join(ROOT, 'data', 'hna', 'geo-config.json')) or {}
-    aux = read_json(os.path.join(SRC, 'lodes_aux_incommuters.json')) or {}
+    aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
 
     county_lehd = {}
     out_counties = {}
@@ -212,8 +233,8 @@ def build():
         fips = c.get('geoid')
         lehd = read_json(os.path.join(ROOT, 'data', 'hna', 'lehd', '%s.json' % fips)) or {}
         county_lehd[fips] = lehd
-        c000, ce01, ce02 = num(lehd.get('C000')), num(lehd.get('CE01')), num(lehd.get('CE02'))
-        wage_share = (ce01 + ce02) / c000 if (c000 and ce01 is not None and ce02 is not None) else None
+        c000 = num(lehd.get('C000'))
+        wage_share = primary_low_middle_per_job(aux, fips, c000)
         inflow = num(lehd.get('inflow'))
         ax = (aux.get('counties') or {}).get(fips) or {}
         wph, whh, whh_cv = workers_per_household(acs.get(fips))
@@ -246,8 +267,8 @@ def build():
             ax = (aux.get('places') or {}).get(gid) or {}
             place_jobs = num(flows.get('jobs'))
             lehd = county_lehd.get(county) or {}
-            c000, ce01, ce02 = num(lehd.get('C000')), num(lehd.get('CE01')), num(lehd.get('CE02'))
-            wage_share = (ce01 + ce02) / c000 if (c000 and ce01 is not None and ce02 is not None) else None
+            c000 = num(lehd.get('C000'))
+            wage_share = primary_low_middle_per_job(aux, county, c000)
             wph, whh, whh_cv = workers_per_household(acs.get(gid))
             summ = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % gid)) or {}).get('acsProfile') or {}
             csum = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % county)) or {}).get('acsProfile') or {}
@@ -278,8 +299,8 @@ def build():
             'baseYear': BASE_YEAR,
             'horizonYear': BASE_YEAR + HORIZON,
             'move_closer_scenarios': list(MOVE_CLOSER_SCENARIOS),
-            'method': ('present_incommuter_need = (LODES main in-commuters x county CE01+CE02 share of jobs located there '
-                       '+ LODES aux out-of-state in-commuters earning SE01+SE02) / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer '
+            'method': ('present_incommuter_need = (LODES main in-commuters (all jobs, JT00) x county primary CE01+CE02 jobs '
+                       '(JT01) per job located there + LODES aux JT01 out-of-state in-commuters earning SE01+SE02) / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer '
                        '(scenarios; no statewide source). A deficit today, not a 20-year projection.'),
             'sources': {
                 'lodes_od': 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz',
