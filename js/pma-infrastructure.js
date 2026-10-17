@@ -74,7 +74,10 @@
           floodZones: [], hazardPercent: null, _stub: true, unavailableReason: 'FEMA flood data is unavailable; no flood hazard percentage was calculated.'
         });
       }
-      return Promise.resolve({ floodZones: [], hazardPercent: (100 - result.score) / 100 });
+      return Promise.resolve({
+        floodZones: [], hazardPercent: (100 - result.score) / 100,
+        hazardMeasure: { kind: 'point-index', description: 'flood risk index at the site point (100 minus the connector\'s safety score), not a share of any area' }
+      });
     }
     return Promise.resolve({
       floodZones: [], hazardPercent: null, _stub: true,
@@ -168,6 +171,7 @@
       floodScore = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
       _realSources.push('flood');
     }
+    var floodMeasure = floodIsStub ? null : (floodData.hazardMeasure || null);
     var floodUnavailableReason = floodIsStub
       ? (floodData.unavailableReason || 'FEMA flood data is unavailable; no flood hazard percentage was calculated.')
       : null;
@@ -236,6 +240,9 @@
     lastScorecard = {
       floodRiskPercent:       lastFloodRiskPct != null ? Math.round(lastFloodRiskPct * 100) / 100 : null,
       floodScore:             floodScore,
+      // What floodRiskPercent measures (tract share or point index). Never a
+      // share of the project site's area: no site polygon is intersected.
+      floodMeasure:           floodMeasure,
       floodUnavailableReason: floodUnavailableReason,
       climateResilienceScore: lastClimateScore,
       climateUnavailableReason: climateIsStub
