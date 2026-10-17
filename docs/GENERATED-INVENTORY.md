@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T14:34:33.363Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T14:59:58.474Z. Do not edit by hand.
 
 ---
 
@@ -44,16 +44,16 @@
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.7 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.2 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 136.1 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.7 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.2 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.5 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.2 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.8 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 136.7 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 163.3 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.8 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.1 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 239.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 240.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 41.6 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.3 KB |
@@ -1794,7 +1794,7 @@
 
 ## Test Files
 
-627 test files found.
+633 test files found.
 
 | File | Size |
 |------|------|
@@ -1815,6 +1815,7 @@
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
+| `test/aria-list-ownership.test.js` | 2.9 KB |
 | `test/attribute-escaping.test.js` | 4.9 KB |
 | `test/audit-budgets.test.mjs` | 9.1 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
@@ -1916,7 +1917,7 @@
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 54.5 KB |
 | `test/deal-engine-golden.test.js` | 7.7 KB |
-| `test/deal-engine-surfaces.test.js` | 11.5 KB |
+| `test/deal-engine-surfaces.test.js` | 12.2 KB |
 | `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
@@ -2006,6 +2007,7 @@
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-build-rebase-recovery.test.js` | 7.7 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
+| `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
@@ -2044,7 +2046,7 @@
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-scorecard-small-place.test.js` | 4.8 KB |
-| `test/hna-section-rail.test.js` | 7.9 KB |
+| `test/hna-section-rail.test.js` | 8.8 KB |
 | `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.1 KB |
@@ -2059,7 +2061,7 @@
 | `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
-| `test/homepage-claims.test.js` | 14.5 KB |
+| `test/homepage-claims.test.js` | 15.9 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
 | `test/homepage-snapshot.test.js` | 12.3 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
@@ -2190,6 +2192,7 @@
 | `test/pma-full-metadata-schedule.test.js` | 3.6 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
+| `test/pma-narrative-claims.test.js` | 7.7 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |
 | `test/pma-primary-score.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
@@ -2256,6 +2259,7 @@
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
+| `test/scenario-builder-loaded-geography.test.js` | 8.5 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/second-homes-str.test.mjs` | 7.6 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
@@ -2285,6 +2289,7 @@
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 1.8 KB |
 | `test/step-count-agreement.test.mjs` | 7.5 KB |
+| `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 25.1 KB |
@@ -2325,7 +2330,7 @@
 | `test/unit/pma-competitive-set.test.js` | 10.0 KB |
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 5.8 KB |
-| `test/unit/pma-justification.test.js` | 8.5 KB |
+| `test/unit/pma-justification.test.js` | 8.6 KB |
 | `test/unit/pma-opportunities.test.js` | 17.4 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
 | `test/unit/pma-transit.test.js` | 5.0 KB |
@@ -2338,6 +2343,7 @@
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
+| `test/vintage-badge-fresh-on-return.test.js` | 3.1 KB |
 | `test/walkthrough-record.test.mjs` | 12.1 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
