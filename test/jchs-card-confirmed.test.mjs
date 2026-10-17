@@ -18,25 +18,38 @@ const DATA = JSON.parse(read('data/policy/jchs-state-of-nations-housing.json'));
 const HTML = read('insights.html');
 const card = HTML.slice(HTML.indexOf('id="jchsContextCard"'), HTML.indexOf('</section>', HTML.indexOf('id="jchsContextCard"')));
 
-test('every field the card shows as CONFIRMED is quoted from the PDF with its number', () => {
-  const reads = [...card.matchAll(/nb\.(\w+)/g)].map((m) => m[1]);
-  assert.ok(reads.length >= 4, 'scan found the fields the card reads');
-  const confirmedTags = (card.match(/>CONFIRMED</g) || []).length;
-  const quoted = DATA.meta.confirmed_fields;
-  let checked = 0;
-  reads.forEach((field) => {
+// Whole numeric tokens in a quote ("22.7", "771,480", "2024"), so 4 never
+// matches inside 49 or 2024.
+const tokens = (q) => new Set([...q.matchAll(/\d[\d,]*(?:\.\d+)?/g)].map((m) => m[0]));
+const fmt = (n) => (Number.isInteger(n) ? n.toLocaleString('en-US') : String(n));
+
+test('each CONFIRMED tile renders a quoted field whose number the quote carries', () => {
+  const tiles = card.split('<div class="stat-card"').slice(1);
+  const confirmed = tiles.filter((t) => />CONFIRMED</.test(t));
+  assert.ok(confirmed.length >= 3, `scan found ${confirmed.length} CONFIRMED tiles`);
+  confirmed.forEach((tile) => {
+    const id = (tile.match(/class="stat-value" id="(\w+)"/) || [])[1];
+    assert.ok(id, 'CONFIRMED tile has a value element');
+    // The value element is filled from exactly one field, with nothing typed.
+    const set = card.match(new RegExp(`setText\\('${id}',\\s*([^;]+)\\);`));
+    assert.ok(set, `${id} is filled by the card script`);
+    const fields = [...set[1].matchAll(/\bnb\.(\w+)/g)].map((m) => m[1]);
+    assert.equal(new Set(fields).size, 1, `${id} reads one field`);
+    assert.doesNotMatch(set[1].replace(/\bnb\.\w+/g, ''), /['"][^'"]*\d[^'"]*['"]/, `${id} prints no typed number`);
+    const field = fields[0];
+    const quote = DATA.meta.confirmed_fields[field];
+    assert.ok(quote, `${field} (shown in ${id}) has a quote from the PDF`);
     const v = DATA.national_benchmarks[field];
-    const quote = quoted[field];
-    if (!quote) return;
-    const nums = Array.isArray(v) ? v : [v];
-    nums.forEach((n) => {
-      const shown = Number.isInteger(n) ? n.toLocaleString('en-US') : String(n);
-      assert.ok(quote.includes(shown), `${field}: the quoted sentence carries ${shown}`);
-    });
-    checked += 1;
+    assert.ok(typeof v === 'number', `${field} is a number`);
+    assert.ok(tokens(quote).has(fmt(v)), `${field}: the quote carries ${fmt(v)} as a whole number`);
   });
-  // Each CONFIRMED tag on the card is backed by a quoted field.
-  assert.ok(checked >= confirmedTags && confirmedTags >= 3, `${checked} quoted fields for ${confirmedTags} CONFIRMED tags`);
+});
+
+test('every quoted field carries its own number', () => {
+  Object.entries(DATA.meta.confirmed_fields).forEach(([field, quote]) => {
+    const v = DATA.national_benchmarks[field];
+    (Array.isArray(v) ? v : [v]).forEach((n) => assert.ok(tokens(quote).has(fmt(n)), `${field}: quote carries ${fmt(n)}`));
+  });
 });
 
 test('the card links the PDF the quotes come from', () => {
