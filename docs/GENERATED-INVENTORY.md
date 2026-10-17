@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T00:06:12.650Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T01:36:05.539Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.7 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 45.9 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 27.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 25.5 KB |
@@ -84,11 +84,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1697 JSON files found.
+1698 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 831.7 KB | ✅ | — |
+| `data/_manifest.json` | 832.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1594,7 +1594,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 215.0 KB | ✅ | — |
+| `data/manifest.json` | 215.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1745,6 +1745,7 @@
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.2 KB | ✅ | — |
+| `data/policy/lihtc-underwriting-rules.json` | 12.7 KB | ✅ | — |
 | `data/policy/local-housing-funds.json` | 137.1 KB | ✅ | — |
 | `data/policy/local-support.json` | 146.6 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
@@ -1790,7 +1791,7 @@
 
 ## Test Files
 
-621 test files found.
+625 test files found.
 
 | File | Size |
 |------|------|
@@ -1886,32 +1887,34 @@
 | `test/dc-peer-deals.test.js` | 9.3 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-absence-semantics.test.js` | 13.6 KB |
-| `test/deal-calc-ami-bands.test.js` | 6.8 KB |
-| `test/deal-calc-correctness.test.js` | 4.0 KB |
+| `test/deal-calc-ami-bands.test.js` | 7.0 KB |
+| `test/deal-calc-correctness.test.js` | 4.7 KB |
+| `test/deal-calc-cost-basis-page.test.js` | 17.1 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
-| `test/deal-calc-manual-market-rent.test.js` | 17.0 KB |
-| `test/deal-calc-minimum-set-aside.test.js` | 6.6 KB |
+| `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
+| `test/deal-calc-minimum-set-aside.test.js` | 7.2 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 24.9 KB |
+| `test/deal-calc-net-rent.test.js` | 25.1 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.7 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
-| `test/deal-calc-schedule.test.js` | 23.1 KB |
+| `test/deal-calc-schedule.test.js` | 23.7 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 22.8 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 22.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
-| `test/deal-engine-golden.test.js` | 7.6 KB |
+| `test/deal-cost-basis.test.js` | 44.8 KB |
+| `test/deal-engine-golden.test.js` | 7.7 KB |
 | `test/deal-engine-surfaces.test.js` | 11.5 KB |
-| `test/deal-engine.test.js` | 6.7 KB |
+| `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
@@ -1946,15 +1949,16 @@
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
-| `test/figure-explanations.test.js` | 20.7 KB |
+| `test/figure-explanations.test.js` | 21.1 KB |
 | `test/file-manifest.test.js` | 9.5 KB |
 | `test/financial-copy-agreement.test.js` | 10.9 KB |
 | `test/finder-and-narrative-agree.test.js` | 6.9 KB |
 | `test/finish-line-holds.test.mjs` | 15.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/fixtures/deal-cost-basis/invented-cases.json` | 1.7 KB |
 | `test/fixtures/deal-engine/golden.json` | 36.1 KB |
-| `test/fixtures/deal-engine/invented-sources.cjs` | 2.1 KB |
+| `test/fixtures/deal-engine/invented-sources.cjs` | 2.3 KB |
 | `test/fixtures/equity-pricing-drivers.json` | 7.8 KB |
 | `test/fixtures/loan-obligations/invented.json` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
@@ -1987,7 +1991,8 @@
 | `test/guided-path-product-routes.test.js` | 15.4 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
-| `test/helpers/deal-engine-inputs.cjs` | 1.1 KB |
+| `test/helpers/deal-engine-b1-expected.cjs` | 3.1 KB |
+| `test/helpers/deal-engine-inputs.cjs` | 1.4 KB |
 | `test/helpers/deal-engine-l1-expected.cjs` | 1.2 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
@@ -2261,7 +2266,7 @@
 | `test/site-name-agreement.test.js` | 2.6 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
-| `test/site-transit-evidence.test.js` | 14.6 KB |
+| `test/site-transit-evidence.test.js` | 14.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
@@ -2303,7 +2308,7 @@
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.4 KB |
-| `test/transit-zone-funding-line.test.js` | 26.4 KB |
+| `test/transit-zone-funding-line.test.js` | 26.5 KB |
 | `test/transit-zone.test.js` | 39.7 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
