@@ -1831,7 +1831,7 @@
              showing a figure nobody supplied. -->
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Gross building area (SF)
-            <span style="opacity:.7">&mdash; optional</span></span>
+            <span style="color:var(--muted)">&mdash; optional</span></span>
           <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="not entered" aria-describedby="dc-gross-sf-help"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
           <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
@@ -4918,7 +4918,13 @@
     if (result.noi == null && reason) {
       ['dc-dscr-manual-note', 'dc-adjust-guidance-list'].forEach(function (id) {
         var el = document.getElementById(id);
-        if (el) { el.dataset.unavailableReason = reason; el.textContent = 'Unavailable — ' + reason; }
+        if (!el) return;
+        el.dataset.unavailableReason = reason;
+        // A <ul> may hold only <li> children (screen readers announce the
+        // list from them), so the reason goes in a list item there.
+        var target = el;
+        if (el.tagName === 'UL') { el.textContent = ''; target = document.createElement('li'); el.appendChild(target); }
+        target.textContent = 'Unavailable — ' + reason;
       });
       document.getElementById('dc-adjust-guidance').hidden = currentDealMode() === 'ownership';
     }
