@@ -33,6 +33,8 @@
     'co-construction-labor-cost': 'monthly',
     'chfa-income-rent-limits': 'counties',
     'funding-vs-need': 'counties',
+    'market-direction': ['counties', 'places'],
+    'development-activity': 'projects',
     'lihtc-state-allocations': 'states',
     'novogradac-equity-pricing': 'pricing.by_state'
   };
