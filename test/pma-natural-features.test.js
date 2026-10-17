@@ -66,6 +66,21 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
     assert(statesInterstates && /^I-\d+$/.test(t.feature), `${t.geoid}: ${t.feature} is not a feature the option says it checks`);
   });
   const proposed = nf.tracts.map((t) => t.geoid);
+  // A tract added after the proposal is drawn joins it before Apply, so
+  // Apply never removes a tract that was not shown as proposed (Codex review).
+  const visible = layers.map((l) => l.feature.properties.GEOID);
+  const cent0 = {};
+  read('data/market/tract_centroids_co.json').tracts.forEach((t) => { cent0[t.GEOID || t.geoid] = t; });
+  const across = B.proposeTractExclusions(SITE.lat, SITE.lon,
+    visible.filter((g) => !before.includes(g) && cent0[g]).map((g) => ({ geoid: g, lat: cent0[g].lat, lon: cent0[g].lon })),
+    read('data/market/natural_barriers_co.geojson').features).exclusions.map((e) => e.geoid);
+  assert(across.length >= 1, 'non-vacuity: an unselected visible tract is across a feature');
+  const clickTract = (g) => layers.find((l) => l.feature.properties.GEOID === g).handlers.click({});
+  clickTract(across[0]);
+  assert(P.getNaturalFeatures().tracts.some((t) => t.geoid === across[0] && t.state === 'proposed out'),
+    'a tract added across a feature is shown as proposed before Apply');
+  clickTract(across[0]);
+  assert(!P.getNaturalFeatures().tracts.some((t) => t.geoid === across[0]), 'and leaves the proposal when removed');
   nf = P.applyNaturalFeatures();
   const after = sorted(P.getSelectedGeoids());
   assert.deepEqual(after, sorted(before.filter((g) => !proposed.includes(g))), 'Apply removes exactly the proposed tracts');
@@ -163,6 +178,31 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   assert(without.length >= 1, 'non-vacuity: a tract is across a feature from the Carbondale point');
   const withSite = B.proposeTractExclusions(crb.lat, crb.lon, near, fc, without[0]).exclusions.map((e) => e.geoid);
   assert(!withSite.includes(without[0]), 'the tract containing the site is never proposed');
+
+  // ── the generated rationale sentence follows the record, across a reload ──
+  blockBarriers = false;
+  const fresh = () => {
+    delete require.cache[require.resolve(path.join(ROOT, 'js/pma-tract-picker.js'))];
+    require(path.join(ROOT, 'js/pma-tract-picker.js'));
+    return global.PMATractPicker;
+  };
+  let P4 = fresh();
+  await P4.init(map, SITE.lat, SITE.lon);
+  P4.setRationale('Followed the river.');
+  await P4.proposeNaturalFeatures();
+  const n4 = P4.getNaturalFeatures().tracts.length;
+  P4.applyNaturalFeatures();
+  assert(P4.getRationale().startsWith('Followed the river.'), 'the analyst\'s text is kept');
+  assert(P4.getRationale().includes('Excluded ' + n4 + ' tract'), 'Apply adds the generated sentence');
+  P4 = fresh();                                   // a reload at the same site
+  await P4.init(map, SITE.lat, SITE.lon);
+  assert.equal(P4.getNaturalFeatures().status, 'applied', 'the applied state is restored');
+  const k4 = P4.getNaturalFeatures().tracts[0].geoid;
+  P4.setNaturalFeatureKeep(k4, true, 'Bridge');
+  assert(P4.getRationale().includes('Excluded ' + (n4 - 1) + ' tract') && P4.getRationale().includes('Kept 1'),
+    `after a reload the sentence still follows a keep: "${P4.getRationale()}"`);
+  P4.turnOffNaturalFeatures();
+  assert.equal(P4.getRationale(), 'Followed the river.', 'turning off takes the sentence out and leaves the analyst\'s text');
 
   console.log(`pma-natural-features: PASS (${proposed.length} proposed at the river site; keep, re-add, off, unavailable, site tract)`);
 })().catch((e) => { console.error(e); process.exit(1); });

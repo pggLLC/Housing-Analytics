@@ -82,7 +82,7 @@
 
   function _nfOff() {
     return { status: 'off', reason: null, supported: null, vintage: null,
-             proposed: [], kept: {}, preApply: null };
+             proposed: [], kept: {}, preApply: null, rationaleSummary: null };
   }
 
   /* ── Persistence ──────────────────────────────────────────────────── */
@@ -227,6 +227,14 @@
 
   /* Every selection change ends here: save, redraw the outline, tell the page. */
   function _changed() {
+    // Before Apply the proposal follows the selection, so a tract added
+    // across a feature is drawn and offered Keep before Apply can remove it.
+    if (_nf.status === 'proposed' && _barriersCache) {
+      var r = _computeProposal(_barriersCache);
+      if (r.status === 'proposed') _nf.proposed = r.exclusions;
+      _restyleAll();
+    }
+    _syncRationaleSummary();
     _persist();
     _drawUnionOutline();
     if (typeof _onChange === 'function') _onChange(Array.from(_selected));
@@ -673,7 +681,8 @@
         supported: r.supported,
         vintage:   barriers ? barriers.generated : null,
         proposed:  r.exclusions,
-        kept:      _nf.kept || {}
+        kept:      _nf.kept || {},
+        rationaleSummary: _nf.rationaleSummary || null
       });
       _restyleAll();
       _persist();
@@ -688,18 +697,36 @@
    * @returns {object} getNaturalFeatures()
    */
   function applyNaturalFeatures() {
-    if (_nf.status !== 'proposed' || !_barriersCache) return getNaturalFeatures();
-    var r = _computeProposal(_barriersCache);
-    if (r.status !== 'proposed') return getNaturalFeatures();
+    if (_nf.status !== 'proposed') return getNaturalFeatures();
+    // Exactly the proposal on screen (kept current by _changed), no other.
     _nf.preApply = Array.from(_selected).sort();
-    _nf.proposed = r.exclusions;
     _nf.status   = 'applied';
-    r.exclusions.forEach(function (p) {
+    _nf.proposed.forEach(function (p) {
       if (!Object.prototype.hasOwnProperty.call(_nf.kept, p.geoid)) _selected.delete(p.geoid);
     });
+    // Pre-fill the rationale with what was done; the analyst can edit it.
+    var summary = naturalFeatureSummary();
+    if (summary && _rationale.indexOf(summary) < 0) {
+      _rationale = (_rationale.trim() ? _rationale.trim() + '\n' : '') + summary;
+      _nf.rationaleSummary = summary;
+    }
     _restyleAll();
     _changed();
     return getNaturalFeatures();
+  }
+
+  /* The sentence Apply wrote into the rationale follows later keeps and
+     re-adds, and leaves when the option is turned off, so the rationale
+     never disagrees with the narrative's own count. The marker is saved
+     with the state, so this holds after a reload too. Text the analyst
+     edited no longer contains the marker and is left alone. */
+  function _syncRationaleSummary() {
+    var marker = _nf.rationaleSummary;
+    if (!marker || _rationale.indexOf(marker) < 0) return;
+    var next = naturalFeatureSummary();
+    if (next === marker) return;
+    _rationale = _rationale.replace(marker, next).replace(/\n{2,}/g, '\n').trim();
+    _nf.rationaleSummary = next || null;
   }
 
   /**
@@ -723,7 +750,9 @@
     if (_nf.status === 'applied' && Array.isArray(_nf.preApply)) {
       _selected = new Set(_nf.preApply);
     }
+    var marker = _nf.rationaleSummary;
     _nf = _nfOff();
+    _nf.rationaleSummary = marker;   // so _changed() takes the sentence out
     _nfGen++;
     _restyleAll();
     _changed();

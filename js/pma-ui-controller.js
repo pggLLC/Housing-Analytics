@@ -1038,14 +1038,6 @@
         var picker = window.PMATractPicker;
         if (!picker) return;
         picker.applyNaturalFeatures();
-        // Pre-fill the rationale with what was done; the analyst can edit it.
-        var summary = picker.naturalFeatureSummary();
-        var ta = $id('pmaTractRationale');
-        if (ta && summary && ta.value.indexOf(summary) < 0) {
-          ta.value = ta.value.trim() ? ta.value.trim() + '\n' + summary : summary;
-          ta._nfSummary = summary;
-          picker.setRationale(ta.value);
-        }
         _refreshTractCurationBanner();
         _renderNaturalFeatures();
       });
@@ -1061,18 +1053,12 @@
     if (!picker || typeof picker.getNaturalFeatures !== 'function' || !status || !list) return;
     var nf = picker.getNaturalFeatures();
     if (toggle) toggle.checked = nf.status !== 'off';
-    // The sentence Apply wrote into the rationale follows later keeps and
-    // re-adds (and leaves when the option is turned off), so the rationale
-    // never disagrees with the narrative's own count. Text the analyst
-    // edited is theirs and is left alone.
+    // The picker keeps its generated rationale sentence current; mirror it
+    // unless the analyst is typing in the box.
     var ta = $id('pmaTractRationale');
-    if (ta && ta._nfSummary && ta.value.indexOf(ta._nfSummary) >= 0) {
-      var nextSummary = picker.naturalFeatureSummary();
-      if (nextSummary !== ta._nfSummary) {
-        ta.value = ta.value.replace(ta._nfSummary, nextSummary).replace(/\n{2,}/g, '\n').trim();
-        ta._nfSummary = nextSummary || null;
-        picker.setRationale(ta.value);
-      }
+    if (ta && document.activeElement !== ta && typeof picker.getRationale === 'function'
+        && ta.value !== picker.getRationale()) {
+      ta.value = picker.getRationale();
     }
     var tracts = nf.tracts || [];
     var excluded = tracts.filter(function (t) { return t.state === 'excluded by feature'; }).length;
