@@ -195,7 +195,7 @@ async function render(selection, countyFips) {
     const ws = sheets['Need reconciliation'];
     assert(ws, 'the workbook has no Need reconciliation sheet');
     const onScreen = [...r.host.querySelectorAll('[data-recon-key]')];
-    assert.strictEqual(onScreen.length, 3, `expected 3 measures on screen, found ${onScreen.length}`);
+    assert.strictEqual(onScreen.length, 4, `expected 4 measures on screen, found ${onScreen.length}`);
     for (const tr of onScreen) {
       const label = tr.querySelector('.hna-recon-label').textContent;
       const x = ws.rows.find((o) => o.m === label);
@@ -204,8 +204,44 @@ async function render(selection, countyFips) {
       assert.strictEqual(x.h, want, `"${label}": sheet ${JSON.stringify(x.h)}, screen ${want}`);
       assert.strictEqual(x.u, tr.dataset.inFigure === 'true' ? 'Yes' : 'No', `"${label}": figure-used flag differs`);
     }
-    const used = ws.rows.find((o) => /^Figure used/.test(o.m || ''));
+    const wr = ws.rows.find((o) => /^Figure used plus homes lost/.test(o.m || ''));
+    assert(wr && wr.h === Math.round(r.rec.withReplacement.units), 'the sheet\'s figure-plus-replacement differs from the screen');
+    const used = ws.rows.find((o) => /^Figure used( \(|$)/.test(o.m || ''));
     assert(used && used.h === r.rec.used.units, 'the sheet\'s figure used differs from the screen');
+  });
+
+  await test('homes lost to age equal the projection the growth reading came from, and are kept out of the figure used', async () => {
+    const places = JSON.parse(read('data/hna/projections/places.json'));
+    const ledger = (places.places || places)[FRUITA];
+    const endYear = Number(r.rec.endYear);
+    const fromLedger = r.rec.rows.find((x) => x.key === 'growth').counts.includes('place projection');
+    const src = fromLedger
+      ? ledger.replacement_cumulative[ledger.years.indexOf(endYear)]
+      : r.proj.housing_need.replacement.cumulative_units[r.proj.years.indexOf(endYear)];
+    assert(Number.isFinite(src) && src > 0, `the source has no positive replacement figure for ${endYear}; nothing to check`);
+    const row = r.row('replacement');
+    assert(row, 'the block has no replacement row');
+    assert.strictEqual(Number(row.dataset.units), Math.round(src), `row ${row.dataset.units} ≠ source ${src}`);
+    assert.notStrictEqual(row.dataset.inFigure, 'true', 'replacement is marked as part of the figure used');
+    const tile = intOf(document.getElementById('statUnitsNeed').textContent);
+    assert.strictEqual(tile, Math.round(r.rec.used.units), 'adding the replacement row moved the headline tile');
+    const wr = r.host.querySelector('.hna-recon-with-replacement');
+    assert(wr, 'no line adds replacement to the figure used');
+    assert.strictEqual(Number(wr.dataset.units), Math.round(r.rec.used.units + src), 'figure used + replacement does not add up');
+  });
+
+  await test('a county reads its own projection file; a place without a ledger gets a reason, not a scaled county figure', async () => {
+    const county = await render({ geoType: 'county', geoid: '08077', label: 'Mesa County',
+      profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } }, '08077');
+    const endYear = Number(county.rec.endYear);
+    const want = county.proj.housing_need.replacement.cumulative_units[county.proj.years.indexOf(endYear)];
+    assert.strictEqual(Number(county.row('replacement').dataset.units), Math.round(want), 'county replacement row ≠ its projection file');
+    const build = window.HNAController.buildNeedReconciliation;
+    const none = build({ endYear: 2044, usedUnits: 500, basis: 'resident_growth', growthUnits: 500, replacementUnits: null, replacementUnavailable: 'why' });
+    const row = none.rows.find((x) => x.key === 'replacement');
+    assert.strictEqual(row.units, null, `an absent replacement became ${row.units}`);
+    assert.strictEqual(row.unavailable, 'why', 'the absent replacement does not carry its reason');
+    assert.strictEqual(none.withReplacement, null, 'a total was formed with an unknown replacement');
   });
 
   await test('an absent input reads as unavailable, never 0', async () => {

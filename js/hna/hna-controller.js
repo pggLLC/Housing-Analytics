@@ -2726,6 +2726,31 @@
   }
 
   /**
+   * Homes lost from today's stock by the horizon year, from the same
+   * projection the growth reading came from: the place ledger's
+   * replacement_cumulative when the page used it, else the county file's
+   * housing_need.replacement. A place without its own ledger gets null with a
+   * reason rather than a county figure it did not earn. Pure.
+   */
+  function _replacementAtHorizon(proj, placeRec, usedPlaceProjection, selection, year) {
+    const pick = (years, series) => {
+      if (!Array.isArray(years) || !Array.isArray(series)) return null;
+      const i = years.indexOf(year);
+      return i >= 0 ? window.HNAUtils.safeNum(series[i]) : null;
+    };
+    const geoType = selection && selection.geoType;
+    if (usedPlaceProjection && placeRec) {
+      const v = pick(placeRec.years, placeRec.replacement_cumulative);
+      return { units: v, reason: v === null ? 'This community\u2019s projection carries no replacement estimate for ' + year + '.' : null };
+    }
+    if (geoType === 'county' || geoType === 'state' || !geoType) {
+      const v = pick(proj && proj.years, proj && proj.housing_need && proj.housing_need.replacement && proj.housing_need.replacement.cumulative_units);
+      return { units: v, reason: v === null ? 'No replacement estimate for ' + year + ' in the county projection.' : null };
+    }
+    return { units: null, reason: 'No place-level replacement estimate; the county figure is not scaled here.' };
+  }
+
+  /**
    * How the need figures on this page fit together (audit F4).
    *
    * Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
@@ -2750,6 +2775,7 @@
     const growthNameLc = growthName.charAt(0).toLowerCase() + growthName.slice(1);
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
+    const replacement = num(input.replacementUnits);
     const rows = [
       {
         key: 'existing',
@@ -2779,6 +2805,22 @@
         counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts).',
         inFigure: basis === 'workforce',
         unavailable: workforce === null ? 'No workforce-gap reading for this geography.' : null,
+      },
+      {
+        // Homes lost from today's stock over the same years. Neither reading
+        // above counts them: both set demand against the homes standing now,
+        // as though none will be demolished, burn or be converted. Shown on
+        // its own line and added to the figure used only in withReplacement,
+        // so the headline (and the ranking, which reads growth only) is
+        // unchanged until the owner decides otherwise.
+        key: 'replacement',
+        label: 'Homes lost to age and demolition' + (endYear ? ' by ' + endYear : ''),
+        units: replacement,
+        counts: 'Existing homes expected to be permanently lost, by age of the building: annual loss rates from 0.02% for homes built since 2010 to 0.6% for homes built before 1940, '
+          + 'applied to the ACS year-built count (DP04). Not counted in either reading above, which both assume today\u2019s homes all remain'
+          + (input.usedPlaceProjection ? '; scaled to this place by the same share as its projection.' : '.'),
+        inFigure: false,
+        unavailable: replacement === null ? (input.replacementUnavailable || 'No replacement estimate for this geography.') : null,
       },
     ];
     let why = 'No need figure could be computed for this geography.';
@@ -2810,9 +2852,16 @@
           + ' a year, so the current pace is ' + (ratio > 99 ? 'more than 99' : ratio.toFixed(2)) + '\u00d7 that.';
       }
     }
+    const withReplacement = (used !== null && replacement !== null) ? {
+      units: used + replacement,
+      text: 'Figure used plus homes lost to age' + by + ': ' + fmt(used + replacement) + ' homes. '
+        + 'The figure used assumes every home standing today will still be standing; this adds the homes that must be replaced to stand still. '
+        + 'Homes that stay standing but rise out of reach, and income-restricted homes whose restrictions end, are not yet counted.',
+    } : null;
     return {
       endYear,
       used: { units: used, basis, why },
+      withReplacement,
       rows,
       households: hh === null ? null : {
         delta: hh,
@@ -2874,6 +2923,12 @@
     used.appendChild(el('strong', 'Figure used' + (rec.endYear ? ' for ' + rec.endYear : '') + ': ' + homes(rec.used.units) + '. '));
     used.appendChild(document.createTextNode(rec.used.why));
     host.appendChild(used);
+
+    if (rec.withReplacement) {
+      const wr = el('p', rec.withReplacement.text, 'hna-recon-with-replacement');
+      wr.dataset.units = String(Math.round(rec.withReplacement.units));
+      host.appendChild(wr);
+    }
 
     const pace = el('p', rec.permits.text, 'hna-recon-permits');
     pace.dataset.perYear = rec.permits.perYear === null ? '' : String(Math.round(rec.permits.perYear));
@@ -3323,6 +3378,7 @@
         const g = digest && digest.metrics && digest.metrics.housing_gap_units;
         existingGapUnits = window.HNAUtils.safeNum(g && typeof g === 'object' ? g.value : g);
       }
+      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, baseYear + horizon);
       const rec = buildNeedReconciliation({
         endYear,
         usedUnits: incUnits,
@@ -3331,6 +3387,8 @@
         growthNetOfStock,
         workforceUnits: _workforceGapUnits,
         existingGapUnits,
+        replacementUnits: _replacement.units,
+        replacementUnavailable: _replacement.reason,
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,
