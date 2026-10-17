@@ -44,7 +44,17 @@
       "summary": "The Fair Housing Act was not repealed and disparate-impact claims still exist under Inclusive Communities. What has been dismantled is the administrative machinery, and HUD's Title VI proposal closed for public comment on 9 October 2026 and is not yet final.",
       "sources": ["Federal Register", "U.S. Supreme Court", "Congress.gov", "NLIHC"],
       "maintenance": "dated",
-      "published": "2026-09-14"
+      "published": "2026-09-14",
+      "rule_status": {
+        "rule": "HUD Title VI disparate-impact proposal",
+        "federal_register_doc": "2026-16228",
+        "published": "2026-08-10",
+        "comments_closed": "2026-10-09",
+        "final_rule": null,
+        "checked": "2026-10-17",
+        "checked_against": "Federal Register API: HUD documents matching \"disparate impact\", newest first",
+        "source_url": "https://www.federalregister.gov/documents/2026/08/10/2026-16228/huds-implementation-of-the-fair-housing-acts-disparate-impact-standard-amendments-to-huds-title-vi"
+      }
     },
     {
       "id": "co-housing-costs",

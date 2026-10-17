@@ -92,15 +92,32 @@ test('housing-costs article: snapshot and statewide rent agree with the data fil
   assert.ok(!/figures are flagged as unreliable/.test(html), 'no claim of CV flagging that the page does not do');
 });
 
-test('fair-housing article: no surface still calls the closed comment period open', () => {
+test('fair-housing article: comment-period status agrees with the rule record', () => {
   const html = read('article-fair-housing-rollback.html');
-  // The comment deadline the page names must be in the past tense once it has
-  // passed; the og/meta descriptions and lede are what link previews show.
-  const m = html.match(/comment period[^.]{0,40}?(\d{1,2}) October (\d{4})/);
-  assert.ok(m, 'page names the Title VI comment deadline');
-  const deadline = new Date(`${m[2]}-10-${m[1].padStart(2, '0')}T23:59:59Z`);
-  if (Date.now() > deadline.getTime()) {
-    assert.ok(!/still open for comment|comments close \d|Comment before \d/.test(html),
-      'after the deadline no surface invites comments or calls the period open');
+  const entry = json('data/insights/catalog.json').entries.find((e) => e.id === 'fair-housing-rollback');
+  const rs = entry && entry.rule_status;
+  assert.ok(rs && rs.comments_closed && rs.checked, 'catalog carries a dated rule_status for the Title VI proposal');
+  const [y, m, d] = rs.comments_closed.split('-').map(Number);
+  const long = `${d} ${MONTHS[m - 1]} ${y}`;
+  const short = `${d} ${MONTHS[m - 1].slice(0, 3)} ${y}`;
+  // The page must name the record's deadline and no other October deadline.
+  const named = new Set([...html.matchAll(/\b(\d{1,2}) October (\d{4})\b/g)].map((x) => `${x[1]} October ${x[2]}`));
+  assert.ok(named.has(long), `page names the recorded deadline (${long})`);
+  const closed = rs.checked >= rs.comments_closed;
+  // Every sentence that mentions the deadline must agree with whether it has
+  // passed on the record's check date: closed language once it has, open
+  // language before it.
+  // Link previews read the meta descriptions, so check their text too.
+  const metaText = [...html.matchAll(/<meta[^>]+content="([^"]*)"/g)].map((x) => x[1]).join(' ');
+  const sentences = (html.replace(/<[^>]+>/g, ' ') + ' ' + metaText).replace(/\s+/g, ' ')
+    .split(/(?<=[.!?"])\s/).filter((t) => t.includes(long) || t.includes(short));
+  assert.ok(sentences.length > 0, 'found sentences naming the deadline to check');
+  for (const t of sentences) {
+    if (closed) assert.match(t, /closed|ended/i, `after the deadline this must say closed: "${t.trim().slice(0, 140)}"`);
+    else assert.doesNotMatch(t, /closed|ended/i, `before the deadline this must not say closed: "${t.trim().slice(0, 140)}"`);
+  }
+  if (rs.final_rule == null) {
+    assert.match(html, /no final rule|not yet final|still pending/i, 'page says the rule is not final, as the record does');
+    assert.match(entry.summary, /not yet final/, 'catalog summary agrees the rule is not final');
   }
 });

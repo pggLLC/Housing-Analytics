@@ -70,3 +70,28 @@ if (statePricing.price_low == null) {
 }
 
 console.log(`lihtc-guide-accuracy: PASS (${expected2026Authority} 2026 Colorado AHTC authority)`);
+
+// The 10-year Treasury in the market table must come from data/fred-data.json
+// and, when the feed fails, read "not published" rather than leave the static
+// rate on screen as if it were current.
+(async () => {
+  const { JSDOM } = require('jsdom');
+  const start = guide.indexOf('/* The 10-year Treasury');
+  assert(start > 0, 'guide has the Treasury binder');
+  const code = guide.slice(guide.lastIndexOf('<script>', start) + 8, guide.indexOf('</script>', start));
+  async function run(fetchImpl) {
+    const dom = new JSDOM('<span id="lihtcGuideDgs10">5.10%</span><span id="lihtcGuideDgs10Date">2026-10-15</span>', { runScripts: 'outside-only' });
+    dom.window.fetch = fetchImpl;
+    dom.window.eval(code);
+    await new Promise((r) => setTimeout(r, 20));
+    return dom.window.document.getElementById('lihtcGuideDgs10').textContent;
+  }
+  const fred = readJson('data/fred-data.json');
+  const obs = fred.series.DGS10.observations.filter((o) => Number(o.value) > 0);
+  const latest = Number(obs[obs.length - 1].value).toFixed(2) + '%';
+  assert.equal(await run(() => Promise.resolve({ ok: true, json: () => Promise.resolve(fred) })), latest, 'shows the latest DGS10 value');
+  assert.equal(await run(() => Promise.resolve({ ok: false, json: () => Promise.resolve(null) })), 'not published', 'HTTP failure clears the rate');
+  assert.equal(await run(() => Promise.reject(new Error('offline'))), 'not published', 'network failure clears the rate');
+  assert.equal(await run(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ series: {} }) })), 'not published', 'missing series clears the rate');
+  console.log('lihtc-guide-accuracy: Treasury binder PASS');
+})().catch((e) => { console.error(e); process.exit(1); });

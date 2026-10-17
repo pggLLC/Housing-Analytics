@@ -230,7 +230,7 @@
 <li><strong>Tenant Certification:</strong> Verify income, household size annually</li>
 <li><strong>Rent Restrictions:</strong> Cannot exceed HUD/state limits by bedroom size, AMI level</li>
 <li><strong>Physical Inspections:</strong> Annual state inspections, REAC every 3 years</li>
-<li><strong>Compliance Period:</strong> 15-year compliance period plus at least 15 years of extended use, so a 30-year minimum in every state (IRC §42(i)(1), §42(h)(6))</li>
+<li><strong>Compliance Period:</strong> 15-year compliance period plus at least 15 years of extended use, so normally a 30-year commitment in every state (IRC §42(i)(1), §42(h)(6)); federal law lets extended use end early after foreclosure or an unanswered qualified-contract request (§42(h)(6)(E)) unless the agreement or state rules are stricter</li>
 </ul>
 <div class="data-source">Noncompliance = Recapture: Investors may demand repayment if credits are lost. Maintain impeccable records.</div>
 </div>
@@ -887,7 +887,7 @@
 </tr>
 <tr>
 <td><strong>CRA Pressure</strong></td>
-<td>No final CRA rule; rescission proposed July 2025, OCC/FDIC proposal published 2026-08-12</td>
+<td>No final CRA rule; the OCC and FDIC dropped their July 2025 rescission proposal for a new proposal published 2026-08-12</td>
 <td>If credit unions/insurance cos added, demand ↑, pricing ↑</td>
 </tr>
 </tbody>
@@ -899,22 +899,30 @@
    "not published", never 0%. */
 (function () {
   'use strict';
+  // Any failure clears the static rate so an old figure never reads as current.
+  function unavailable() {
+    var rate = document.getElementById('lihtcGuideDgs10');
+    var date = document.getElementById('lihtcGuideDgs10Date');
+    if (rate) rate.textContent = 'not published';
+    if (date) date.textContent = 'feed unavailable';
+  }
   fetch('data/fred-data.json', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (j) {
       var obs = j && j.series && j.series.DGS10 && j.series.DGS10.observations;
-      if (!Array.isArray(obs)) return;
+      if (!Array.isArray(obs)) { unavailable(); return; }
       var last = null;
       for (var i = obs.length - 1; i >= 0; i--) {
         var v = obs[i] && obs[i].value !== '.' && obs[i].value !== null && obs[i].value !== '' ? parseFloat(obs[i].value) : NaN;
         if (isFinite(v) && v > 0) { last = { v: v, d: obs[i].date }; break; }
       }
+      if (!last) { unavailable(); return; }
       var rate = document.getElementById('lihtcGuideDgs10');
       var date = document.getElementById('lihtcGuideDgs10Date');
-      if (rate) rate.textContent = last ? last.v.toFixed(2) + '%' : 'not published';
-      if (date && last) date.textContent = last.d;
+      if (rate) rate.textContent = last.v.toFixed(2) + '%';
+      if (date) date.textContent = last.d;
     })
-    .catch(function () { /* static text remains visible */ });
+    .catch(unavailable);
 })();
 </script>
 </div>
