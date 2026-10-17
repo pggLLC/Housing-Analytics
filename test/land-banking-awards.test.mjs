@@ -289,11 +289,13 @@ ledgerAgreement(DATA);
   // Booted in a page, the public map requests the awards file and never the contacts file.
   const dom = new JSDOM(PAGE, { runScripts: 'outside-only', url: 'https://cohoanalytics.com/land-banking-awards.html' });
   const requested = [];
-  dom.window.fetch = (u) => { requested.push(String(u)); return Promise.resolve({ ok: true, json: () => Promise.resolve(clone(DATA)) }); };
+  const caches = [];
+  dom.window.fetch = (u, o) => { requested.push(String(u)); caches.push(o && o.cache); return Promise.resolve({ ok: true, json: () => Promise.resolve(clone(DATA)) }); };
   dom.window.LandBankingMapNoAutoStart = true;
   dom.window.eval(read('js/land-banking-map.js'));
   await dom.window.LandBankingMap.start();
   ok(requested.length === 1 && requested[0] === LBM.AWARDS, `the public page requests only the awards file (${requested.join(', ')})`);
+  ok(caches[0] === 'no-store', 'the awards file is fetched with no-store, so a data update reaches a returning browser');
   ok(dom.window.document.querySelector('[data-lbm-towns]').querySelectorAll('button').length === towns.length, 'the public town list has every town');
   // The table and the map share one request, so they always show the same snapshot.
   dom.window.eval(read('js/land-banking-awards.js'));

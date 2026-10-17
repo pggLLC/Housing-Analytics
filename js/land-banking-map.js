@@ -327,8 +327,9 @@
     return state;
   }
 
+  // no-store, like DataService.getJSON: a weekly data update must reach a returning browser.
   function getJSON(path, optional) {
-    return global.fetch(path).then(function (r) {
+    return global.fetch(path, { cache: 'no-store' }).then(function (r) {
       if (!r.ok) { if (optional) return null; throw new Error('HTTP ' + r.status); }
       return r.json();
     }).catch(function (e) { if (optional) return null; throw e; });
