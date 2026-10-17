@@ -40,6 +40,8 @@ const DERIVED = [
   'places',                         // scripts/hna/build_place_pages.py (whole directory)
   'data/market/acs_median_rent_co.json', // scripts/build_acs_rent_co.py (copies the summaries' DP04_0134E)
   'data/derived/funding-vs-need.json', // scripts/funding/build_funding_vs_need.mjs (reads the ranking index)
+  'data/market/development-activity.json', // scripts/market/build_development_activity.py (reads geo-config)
+  'data/market/market-direction.json', // scripts/market/build_market_direction.py (reads permits, projections, LEHD)
   'data/paper/figures.json',        // npm run paper:build
   'data/paper/model-parameters.json',
   'working-paper.html',
@@ -101,6 +103,8 @@ run('recovery regenerates rather than picking a side', () => {
   assert.match(b, /python3? scripts\/hna\/build_place_pages\.py/, 'place pages are rebuilt');
   assert.match(b, /python3? scripts\/build_acs_rent_co\.py/, 'ACS median rent is rebuilt');
   assert.match(b, /node scripts\/funding\/build_funding_vs_need\.mjs/, 'Funding vs Need is rebuilt');
+  assert.match(b, /python3? scripts\/market\/build_development_activity\.py/, 'the development ledger is rebuilt');
+  assert.match(b, /python3? scripts\/market\/build_market_direction\.py/, 'market direction is rebuilt');
   assert.match(b, /npm run paper:build/, 'paper figures are rebuilt');
   assert.match(b, /node scripts\/compute-inventory\.mjs --write/, 'inventory line is rebuilt');
   assert.match(b, /npm run audit:file-manifest/, '_manifest is rebuilt');
