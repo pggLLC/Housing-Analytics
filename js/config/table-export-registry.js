@@ -128,9 +128,9 @@
     },
     'dd-market-direction-towns': {
       title: 'Housing market direction by town',
-      description: 'One row per town for the county and call selected on the page: its market call and the readings behind it.',
+      description: 'One row per incorporated town, plus each census-designated place when the page’s box is ticked, for the county and call selected on the page: its market call and the readings behind it. The Type column says which each row is.',
       sources: ['market-direction'],
-      selection: { County: '#mdCounty', Call: '#mdTownCall' }
+      selection: { County: '#mdCounty', Call: '#mdTownCall', 'Census-designated places included': '#mdCdps' }
     },
     'dd-market-projects': {
       title: 'Affordable projects in a county',

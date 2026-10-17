@@ -71,6 +71,8 @@ async function render(browser, script, md = null) {
     const cdp = document.getElementById('mdCdps');
     if (cdp) { cdp.checked = true; cdp.dispatchEvent(new Event('change')); }
     out.withCdps = rows('mdTownBody').length;
+    const iType = [...document.querySelectorAll('#mdTownHead th')].map((th) => th.textContent.trim()).indexOf('Type');
+    out.cdpRows = iType < 0 ? -1 : rows('mdTownBody').filter((r) => r[iType] && r[iType].text === 'CDP').length;
     if (cdp) { cdp.checked = false; cdp.dispatchEvent(new Event('change')); }
     const sel = document.getElementById('mdCounty');
     if (sel) { sel.value = pick; sel.dispatchEvent(new Event('change')); }
@@ -84,8 +86,20 @@ async function render(browser, script, md = null) {
 }
 
 const LABEL = { emerging: 'Emerging', steady: 'Steady', softening: 'Softening', falling_demand: 'Falling demand', not_enough_data: 'Not enough data' };
-// How the headline names each county call; falling demand is measured in household population, not households.
-const HEADLINE = { falling_demand: 'losing household population and jobs', not_enough_data: 'without enough data to call' };
+// The headline's clause for a count: the words after it, up to the next comma, "and <number>" or full stop.
+const clauses = (sentence, n) => [...sentence.matchAll(new RegExp(`\\b${n} ((?:are |is )?[^,.]*?)(?=, | and \\d|\\.)`, 'g'))].map((m) => m[1]);
+// A falling-demand clause agrees with its rule when it names a decline in exactly the demand
+// measures the rule's thresholds read (household population, jobs where there is a jobs
+// threshold) and never calls household population "households". Other calls name their label.
+function agrees(clause, k, thresholds) {
+  if (k === 'falling_demand') {
+    return /\b(losing|los[st]|declin\w*|fall\w*|shrink\w*|drop\w*)\b/.test(clause) &&
+      (!thresholds.population || /household population/.test(clause)) &&
+      /\bjobs\b/.test(clause) === !!thresholds.jobs && !/\bhouseholds\b/.test(clause);
+  }
+  if (k === 'not_enough_data') return /\bdata\b/.test(clause);
+  return clause.toLowerCase().includes((LABEL[k] || k).toLowerCase());
+}
 const int = (s) => Number(String(s).replace(/[^\d]/g, ''));
 
 function checks({ view, errors }, MD = BASE) {
@@ -100,16 +114,22 @@ function checks({ view, errors }, MD = BASE) {
   const calls = [...new Set([...Object.keys(MD.meta.calls), ...Object.keys(cc)])].filter((k) => cc[k] || k !== 'not_enough_data');
   if (view.kpis.length !== calls.length) fail(`${view.kpis.length} county tiles, the file has ${calls.length} calls`);
   if (Object.values(cc).reduce((a, b) => a + b, 0) !== counties.length) fail('meta.call_counts does not total the counties');
+  const sentences = view.summary.split(/(?<=\.)\s+/);
+  const countySentence = sentences.find((t) => t.includes(`${counties.length} counties`)) || '';
+  const townSentence = sentences.find((t) => /\btowns,/.test(t)) || '';
   for (const k of calls) {
     const label = LABEL[k] || k;
     if (!view.legend.includes(label)) fail(`the map legend lacks ${label}`);
     const tile = view.kpis.find((t) => t.label.toLowerCase().startsWith(label.toLowerCase()));
     if (!tile) fail(`no tile for ${label}`);
     else if (int(tile.value) !== cc[k]) fail(`${label} tile shows ${tile.value}, the file counts ${cc[k]}`);
-    if (cc[k] && !new RegExp(`\\b${cc[k]} (are |is )?${HEADLINE[k] || label.toLowerCase()}\\b`).test(view.summary)) fail(`headline does not give ${cc[k]} ${label}`);
+    if (cc[k] && !clauses(countySentence, cc[k]).some((c) => agrees(c, k, MD.meta.thresholds))) fail(`headline does not give ${cc[k]} ${label} in terms of its rule: ${countySentence}`);
+  }
+  const tc = (MD.meta.places.call_counts || {}).town || {};
+  for (const k of ['emerging', 'softening', 'falling_demand']) {
+    if (tc[k] && !clauses(townSentence, tc[k]).some((c) => agrees(c, k, MD.meta.places.thresholds))) fail(`headline does not give ${tc[k]} ${LABEL[k]} towns in terms of the town rule: ${townSentence}`);
   }
   for (const [, c] of counties) if (!view.mapText.includes(c.name.replace(/ County$/, ''))) fail(`the map's text alternative omits ${c.name}`);
-  if (/losing households\b/.test(view.summary)) fail('the headline says households are falling; the rule measures household population');
   if (!view.summary.includes(`${counties.length} counties`)) fail(`headline does not say ${counties.length} counties`);
   const now = counties.reduce((s, [, c]) => s + c.permits_ytd.ytd.total, 0);
   const before = counties.reduce((s, [, c]) => s + c.permits_ytd.prior_ytd.total, 0);
@@ -156,6 +176,8 @@ function checks({ view, errors }, MD = BASE) {
   const towns = places.filter((p) => p.type === 'town').length;
   if (view.towns !== towns) fail(`town table shows ${view.towns} rows, the file has ${towns} towns`);
   if (view.withCdps !== places.length) fail(`with CDPs the table shows ${view.withCdps}, the file has ${places.length} places`);
+  const cdps = places.length - towns;
+  if (view.cdpRows !== cdps) fail(`with CDPs the Type column marks ${view.cdpRows} rows CDP, the file has ${cdps}`);
   const pickedName = MD.counties[PICK].name;
   const pickedTowns = places.filter((p) => p.type === 'town' && p.county_fips === PICK).length;
   if (view.pickedTowns.length !== pickedTowns || view.pickedTowns.some((n) => n !== pickedName)) fail(`picking ${pickedName} shows ${view.pickedTowns.length} towns, the file has ${pickedTowns}`);
@@ -216,9 +238,23 @@ try {
     ['town definitions replaced by county ones', "town = m.places.calls[k]", "town = m.calls[k]", /lacks the definition/],
     ['town introduction given the county rule', "'A town call reads ' + demand(data.meta.places.thresholds)", "'A town call reads ' + demand(data.meta.thresholds)", /town introduction claims jobs/],
     ['CDPs shown by default', "return (cdps || p.type === 'town')", "return (true || p.type === 'town')", /town table shows/],
-    ['falling demand called a loss of households', "'losing household population and jobs'", "'losing households and jobs'", /headline (does not give|says households)/],
+    ['falling demand called a loss of households', "'losing household population and jobs'", "'losing households and jobs'", /headline does not give \d+ Falling demand in/],
+    ['the town line given the county jobs rule', "' losing household population with a market signal that agrees.'", "' losing household population and jobs with a market signal that agrees.'", /Falling demand towns/],
+    ['CDPs labelled as towns', "var t = p.type === 'cdp' ? 'CDP' : 'Town';", "var t = 'Town';", /Type column marks/],
     ['multi-county projects left out', " || (Array.isArray(p.county_fips_all) && p.county_fips_all.indexOf(fips) >= 0)", '', /lists \d+ projects/],
   ];
+  const REWORD = [
+    ['falling demand reworded', "'losing household population and jobs'", "'with declining household population and jobs'"],
+    ['the town falling-demand line reworded', "' losing household population with a market signal that agrees.'", "' with shrinking household population and a market signal that agrees.'"],
+  ];
+  for (const [name, from, to] of REWORD) {
+    assert.ok(src.includes(from), `reword "${name}": the target text is in the script`);
+    const ok = src.replace(from, to);
+    assert.notEqual(ok, src, `reword "${name}" changed the script`);
+    const f = checks(await render(browser, ok));
+    assert.deepEqual(f, [], `reword "${name}" kept the meaning but failed: ${f.join(' / ')}`);
+    console.log(`  reword stays green: ${name}`);
+  }
   for (const [name, from, to, expect] of SABOTAGE) {
     assert.ok(src.includes(from), `sabotage "${name}": the target text is in the script`);
     const bad = src.replace(from, to);

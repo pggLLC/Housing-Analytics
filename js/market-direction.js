@@ -233,6 +233,7 @@
   var TOWN_COLS = [
     { key: 'name', label: 'Town', title: 'Incorporated town or census-designated place (CDP)', get: function (p) { return { text: p.name, sort: p.name }; } },
     { key: 'county', label: 'County', title: 'The county the town sits in', get: function (p) { var c = data.counties[p.county_fips]; var n = c ? c.name : ''; return { text: n, sort: n }; } },
+    { key: 'type', label: 'Type', title: 'Town: an incorporated municipality. CDP: a census-designated place, an unincorporated community the Census Bureau names; shown only when the box above is ticked', get: function (p) { var t = p.type === 'cdp' ? 'CDP' : 'Town'; return { text: t, sort: t }; } },
     { key: 'call', label: 'Call', title: 'The town call, on the town rule under "How a call is made"', get: function (p) { return { text: callLabel(p.call), sort: callLabel(p.call) }; } },
     { key: 'why', label: 'Why', title: 'The signals that decided the call', get: function (p) { return { text: why(p.call_basis), sort: why(p.call_basis) }; } },
     { key: 'pop', label: 'Household population, per year', title: 'Change in household population, % a year, DOLA municipal estimates; towns only', get: function (p) { return signal(p.signals.population, 2); } },
