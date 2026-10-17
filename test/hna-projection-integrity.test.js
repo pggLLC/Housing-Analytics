@@ -491,6 +491,21 @@ async function assertHouseholdChartsFollowHeadshipOption() {
   assert.strictEqual(r.demandScope, 'selected-headship');
   assert(r.formationNote.includes(HEADSHIP_LABELS.hold) && r.formationNote.includes('scaled to this place'),
     `${geo.label}'s Hold chart note names the option and where Forecast's series comes from (note: ${r.formationNote})`);
+
+  // The same geography with no ACS population on file (Hartsel CDP live): the
+  // page falls back to county-level figures, the chart draws the county
+  // series unscaled and says so, and the calculator keeps population × rate.
+  // The reconciliation must then say the series is at county level, not
+  // claim a scaling that did not happen.
+  const unscaledGeo = { ...placeGeo, selection: { ...placeGeo.selection, profile: {} } };
+  r = await render(null, undefined, false, unscaledGeo);
+  assert.deepStrictEqual(r.formation.data.datasets[0].data.map(tenths), countyHh.map(tenths),
+    `${geo.label} with no population share: the chart draws the county series unscaled`);
+  assert.strictEqual(r.demandScope, 'county-unscaled');
+  assert(r.trace.includes('could not be scaled to this place'), `${geo.label} with no population share: the trace says why the stored series is not read`);
+  assert.strictEqual(r.rec.households.basis, 'stored');
+  assert(r.rec.households.text.includes('at county level') && !r.rec.households.text.includes('scaled to this place by its share'),
+    `${geo.label} with no population share: the reconciliation says the series is at county level (${r.rec.households.text})`);
 }
 
 async function assertCountyReconciliationNote() {

@@ -2989,7 +2989,12 @@
                   + (num(input.householdsFilledYears) === 1 ? 'year' : (num(input.householdsFilledYears) || 0) + ' years')
                   + ' that series does not value'
                 : 'DOLA\u2019s household series'
-                  + (input.subCounty ? ', scaled to this place by its share of county population' : ''))
+                  // Say what the chart did, not what the selection is: a
+                  // place with no usable population share is drawn at county
+                  // level, and the chart's own note says so.
+                  + (input.householdsScaled
+                    ? ', scaled to this place by its share of county population'
+                    : (input.subCounty ? ', at county level because the series could not be scaled to this place' : '')))
           + '. The ' + growthNameLc + ' reading counts homes: '
           + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
             : 'the growth in projected households, at the target vacancy')
@@ -3733,10 +3738,13 @@
       // where the control moved it off the stored forecast, otherwise the
       // stored series with the chart's own place scaling.
       let chartHouseholdSeries = null;
+      let chartHouseholdsScaled = false;
       if (householdSeriesForMode) {
         chartHouseholdSeries = householdSeriesForMode.series;
       } else if (Array.isArray(hhDola) && R && typeof R._placeScaledHouseholds === 'function') {
-        chartHouseholdSeries = R._placeScaledHouseholds(hhDola, popSel, proj.population_dola).series;
+        const scaledInfo = R._placeScaledHouseholds(hhDola, popSel, proj.population_dola);
+        chartHouseholdSeries = scaledInfo.series;
+        chartHouseholdsScaled = scaledInfo.scaled === true;
       }
       if (Array.isArray(chartHouseholdSeries) && i >= 0) {
         const baseIdx = years.indexOf(baseYear);
@@ -3767,6 +3775,7 @@
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,
         householdsBasis: householdSeriesForMode ? householdSeriesForMode.mode : 'stored',
+        householdsScaled: chartHouseholdsScaled,
         householdsFilledYears: householdSeriesForMode ? (householdSeriesForMode.filledYears || 0) : 0,
         permits: permitsShown,
       });
