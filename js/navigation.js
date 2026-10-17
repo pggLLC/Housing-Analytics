@@ -425,11 +425,12 @@
     // Footer
     // The feedback form is a Google Form owned by the site's maintainer
     // account; entry.440415848 is its "Which page?" field, prefilled so a
-    // question arrives with the page it was asked from.
+    // question arrives with the page it was asked from. The query string is
+    // kept because it carries the jurisdiction an HNA view is showing.
     const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform';
     function feedbackFormHref() {
       return FEEDBACK_FORM_URL + '?usp=pp_url&entry.440415848=' +
-        encodeURIComponent(window.location.pathname || '/');
+        encodeURIComponent((window.location.pathname || '/') + (window.location.search || ''));
     }
     const footer = document.createElement('footer');
     footer.className = 'site-footer';
