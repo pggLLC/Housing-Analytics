@@ -775,7 +775,18 @@ test('cost lines saved before the DOH layout load into the DOH lines with the sa
   // An old link empties the DOH lines it could not name, and only those.
   const cleared = cb.legacyCostFields((k) => ({ 'cost-financing': '1200000', 'cost-bonds': '120000' })[k] ?? null);
   for (const id of ['construction_interest', 'perm_loan_fees', 'tax_credit_fees', 'marketing']) assert.equal(cleared['cost-' + id], '', id);
-  for (const id of cb.PRE_DOH_IDS) assert(!('cost-' + id in cleared), id + ' keeps what the link saved');
+  for (const id of cb.PRE_DOH_IDS.filter((x) => !(x in cb.LEGACY_COMBINED_LINES))) assert(!('cost-' + id in cleared), id + ' keeps what the link saved');
+  // ...and leaves no example eligible part behind on a line it emptied.
+  assert.equal(cleared['cost-construction_interest-eligible'], '');
+  // Old combined lines move to their category's Other line; the reused id is emptied.
+  const combined = cb.legacyCostFields((k) => ({ 'cost-overhead': '250000', 'cost-design': '700000', 'cost-reserves': '500000', 'cost-reserves-basis': 'ineligible', 'cost-permits': '400000' })[k] ?? null);
+  assert.equal(combined['cost-professional_other'], '700000');
+  assert.equal(combined['cost-reserve_other'], '500000');
+  assert.equal(combined['cost-design'], '');
+  assert.equal(combined['cost-reserves'], '');
+  assert(!('cost-permits' in combined), 'permits stay on Building permit fees');
+  // A link from the DOH layout itself is left alone.
+  assert.deepEqual(cb.legacyCostFields((k) => ({ 'cost-design': '700000', 'cost-engineering': '100000', 'cost-overhead_profit': '750000' })[k] ?? null), {});
   assert.equal(cleared['cost-soft_other'], '1200000');
   // Escalation dollars saved before the DOH layout land in Construction, Other, with their basis.
   const esc = cb.legacyCostFields((k) => ({ 'cost-escalation': '200000', 'cost-escalation-basis': 'eligible' })[k] ?? null);

@@ -122,6 +122,10 @@
     // DOH has no escalation row; an escalation allowance is one of its "Other (Devo specify)" construction costs.
     escalation: 'construction_other'
   });
+  // Old lines that held more than the DOH line now using their id: "Architecture and engineering"
+  // and "Operating and replacement reserves". (Old "Permits and impact fees" stays on Building
+  // permit fees: DOH's two lines for it are both starred hard costs with the same basis.)
+  var LEGACY_COMBINED_LINES = Object.freeze({ design: 'professional_other', reserves: 'reserve_other' });
   // Every line id before the DOH layout. An old link names these and no others, so a DOH
   // line outside this list was not in the saved budget and must not keep its example amount.
   var PRE_DOH_IDS = Object.freeze(['land', 'building_acquisition', 'site_work', 'structures', 'general_requirements',
@@ -397,8 +401,16 @@
    * A line already saved under its new name wins. */
   function legacyCostFields(read) {
     var out = {};
+    var templateIds = LINE_TEMPLATE.map(function (t) { return t.id; });
+    // An old link names lines the DOH layout no longer has, and none of the lines it added.
+    var legacy = PRE_DOH_IDS.some(function (id) { return templateIds.indexOf(id) === -1 && read('cost-' + id) !== null; })
+      && !LINE_TEMPLATE.some(function (t) { return PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) !== null; });
+    var sources = {};
+    Object.keys(LEGACY_LINES).forEach(function (old) { sources[old] = LEGACY_LINES[old]; });
+    // Old combined lines whose id DOH reuses for a narrower item move to that category's Other line.
+    if (legacy) Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) { sources[old] = LEGACY_COMBINED_LINES[old]; });
     var targets = {};
-    Object.keys(LEGACY_LINES).forEach(function (old) { (targets[LEGACY_LINES[old]] = targets[LEGACY_LINES[old]] || []).push(old); });
+    Object.keys(sources).forEach(function (old) { (targets[sources[old]] = targets[sources[old]] || []).push(old); });
     Object.keys(targets).forEach(function (target) {
       if (read('cost-' + target) !== null) return;
       var amount = 0, eligible = 0, any = false, bases = {}, unknownPart = false;
@@ -425,12 +437,15 @@
         out['cost-' + target + '-eligible'] = unknownPart ? '' : String(eligible);
       }
     });
-    // An old link: DOH lines it could not name had no cost in it, whatever the example says.
-    var legacy = Object.keys(LEGACY_LINES).some(function (old) { return read('cost-' + old) !== null; })
-      && !LINE_TEMPLATE.some(function (t) { return PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) !== null; });
     if (legacy) {
+      // A moved combined line leaves its old id, which now means the narrower DOH item, empty.
+      Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) { out['cost-' + old] = ''; out['cost-' + old + '-eligible'] = ''; });
+      // DOH lines the old link could not name had no cost in it, whatever the example says,
+      // and no eligible part either.
       LINE_TEMPLATE.forEach(function (t) {
-        if (PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) === null && !out['cost-' + t.id]) out['cost-' + t.id] = '';
+        if (PRE_DOH_IDS.indexOf(t.id) !== -1 || read('cost-' + t.id) !== null || out['cost-' + t.id]) return;
+        out['cost-' + t.id] = '';
+        if (!out['cost-' + t.id + '-eligible']) out['cost-' + t.id + '-eligible'] = '';
       });
     }
     return out;
@@ -815,6 +830,6 @@
     basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit,
     payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
-    DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
+    DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, LEGACY_COMBINED_LINES: LEGACY_COMBINED_LINES, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
   };
 });

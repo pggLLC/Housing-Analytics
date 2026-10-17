@@ -317,6 +317,11 @@ async function test(name, fn) {
     assert.equal(old.d.getElementById('dc-cost-construction_interest').value, '');
     assert.equal(old.d.getElementById('dc-cost-construction_other').value, '200000', 'the saved escalation allowance is Construction, Other');
     assert.equal(old.d.getElementById('dc-cost-construction_other-basis').value, 'eligible');
+    assert.equal(old.d.getElementById('dc-cost-construction_interest-eligible').value, '', 'no example eligible part on an emptied line');
+    assert.equal(old.d.getElementById('dc-cost-professional_other').value, '700000', 'architecture and engineering is Professional fees, Other');
+    assert.equal(old.d.getElementById('dc-cost-design').value, '');
+    assert.equal(old.d.getElementById('dc-cost-reserve_other').value, '500000', 'operating and replacement reserves are Reserves, Other');
+    assert.equal(old.d.getElementById('dc-cost-reserves').value, '');
     assert.deepEqual(old.errors, []);
   });
 
