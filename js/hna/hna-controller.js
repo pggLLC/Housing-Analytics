@@ -3165,7 +3165,7 @@
     } catch (_) { /* a page without the control */ }
   }
 
-  async function applyAssumptions(proj, selection){
+  async function applyAssumptions(proj, selection, opts){
     // The need reconciliation awaits data (the digest, the 64 county
     // projections); a later call for another geography may finish first.
     // Taken at entry so every call, early returns included, invalidates
@@ -3831,6 +3831,19 @@
       window.HNAState.state.lastScenarioSeries = builtInSeries;
     } catch(scErr) {
       console.error('[HNA] _renderScenarioSection failed:', scErr);
+    }
+
+    // A control change caused this render: tell screen-reader users what
+    // moved and under which assumptions, naming the option as the page
+    // labels it (Rule 11). A programmatic render stays silent because the
+    // page load announces itself.
+    if (opts && opts.announce && typeof window.__announceUpdate === 'function') {
+      const optionLabel = _headshipOptionLabel(headshipMode === 'trend' ? 'trend' : (headshipMode === 'forecast' ? 'forecast' : 'hold'));
+      window.__announceUpdate('Need figures, calculation trace and household charts updated: '
+        + horizon + '-year horizon, ' + (Number(targetVac) * 100).toFixed(1) + '% target vacancy, '
+        + optionLabel + ' headship'
+        + (headshipMode === 'trend' && trendUnavailable ? ' (no ACS headship trend on file, so the base-year rate is held)' : '')
+        + '.');
     }
   }
 
@@ -4924,6 +4937,26 @@
   }
 
 
+  // The projection assumption controls (horizon, target vacancy, headship).
+  // A change re-runs the calculator and, because the need figures, the
+  // calculation trace and both household charts move with it, announces the
+  // completed update to screen readers (Rule 11). The page load has its own
+  // announcement, so a programmatic render does not announce.
+  function _wireAssumptionControls(){
+    const els = window.HNAState.els || {};
+    const horizonEl = els.assumpHorizon || document.getElementById('assumpHorizon');
+    const vacancyEl = els.assumpVacancy || document.getElementById('assumpVacancy');
+    const vacancyValEl = els.assumpVacancyVal || document.getElementById('assumpVacancyVal');
+    const onAssumpChange = async ()=>{
+      if (window.HNAState.state.lastProj && window.HNAState.state.current){
+        await applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current, { announce: true });
+      }
+    };
+    horizonEl?.addEventListener('change', onAssumpChange);
+    vacancyEl?.addEventListener('input', ()=>{ if (vacancyValEl) vacancyValEl.textContent = `${Number(vacancyEl.value).toFixed(1)}%`; onAssumpChange(); });
+    document.querySelectorAll('input[name="assumpHeadship"]').forEach(r=>r.addEventListener('change', onAssumpChange));
+  }
+
   async function init(){
     // Load geo config + resources if present
     try{ window.__HNA_GEO_CONFIG = await loadJson(window.HNAUtils.PATHS.geoConfig); }catch(_){ window.__HNA_GEO_CONFIG = { featured: window.HNAUtils.FEATURED }; }
@@ -5240,11 +5273,7 @@
       if (window.__HNA_exportExcel){ window.__HNA_exportExcel(); }
     });
 
-    // Projection assumptions controls
-    const onAssumpChange = ()=>{ if(window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); } };
-    window.HNAState.els.assumpHorizon?.addEventListener('change', onAssumpChange);
-    window.HNAState.els.assumpVacancy?.addEventListener('input', ()=>{ window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy.value).toFixed(1)}%`; onAssumpChange(); });
-    document.querySelectorAll('input[name="assumpHeadship"]').forEach(r=>r.addEventListener('change', onAssumpChange));
+    _wireAssumptionControls();
 
     // Re-render charts on theme toggle
     document.addEventListener('theme:changed', ()=>{ update(); });
@@ -5336,6 +5365,7 @@
     ensureMap,
     buildSelectForTest: buildSelect,
     syncJurisdictionToUrlForTest: _syncJurisdictionToUrl,
+    wireAssumptionControlsForTest: _wireAssumptionControls,
   };
 
   window.__HNA_renderFastTrack = window.HNARenderers.renderFastTrackCalculatorSection;

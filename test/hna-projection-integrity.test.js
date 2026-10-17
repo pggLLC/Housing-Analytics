@@ -15,6 +15,14 @@ function freshRequire(relPath) {
   return require(abs);
 }
 
+function loadMethodologyRegistry() {
+  const dom = new JSDOM('<main></main>', { url: 'http://127.0.0.1/', runScripts: 'outside-only' });
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'js/methodology-explainer.js'), 'utf8'));
+  const explainer = dom.window.MethodologyExplainer;
+  if (explainer && typeof explainer.attach === 'function') { try { explainer.attach(); } catch (_) { /* registry only */ } }
+  return explainer ? explainer.REGISTRY : null;
+}
+
 function closeEnough(actual, expected, label) {
   assert(Math.abs(actual - expected) < 0.000001, `${label}: got ${actual}, expected ${expected}`);
 }
@@ -22,11 +30,51 @@ function closeEnough(actual, expected, label) {
 function assertProjectionData() {
   assert(HNA_HTML.includes('id="projectionCalculationTrace"'), 'HNA includes expandable projection trace');
   assert(HNA_HTML.includes('id="projectionCalculationTraceBody"'), 'HNA includes projection trace output region');
-  assert(HNA_HTML.includes('County housing units needed over the 20-year horizon: the stored SDO county household series (the SDO household forecast where it is published, otherwise the components-of-change population forecast × constant base-year headship rate), divided by (1 − target vacancy); Hold recomputes households as population × the base-year headship rate, and Trend as population × a trended rate.'), 'HNA quotes the documented projection method');
-  assert(HNA_HTML.includes('County source series: SDO components-change-county.csv (population) and, where published, household-county.csv (households). Place source series: data/hna/projections/places.json'), 'HNA quotes the documented county and place sources');
-  assert(HNA_HTML.includes('Cross-county municipalities use combined-county denominators before applying the blended share.'), 'HNA quotes cross-county place provenance');
   const data = JSON.parse(fs.readFileSync(PLACES_PATH, 'utf8'));
   const places = data.places || {};
+
+  // The method line and the sources line under the calculator are copy, so
+  // they are not pinned to a phrasing. They are held to what they must agree
+  // with: the same two lines on hna-what-to-do.html, the methodology
+  // registry's 'dola-projection' entry (the explainer every page opens for
+  // them), the options the control ships, the source files the controller
+  // names, and the cross-county records the place file carries. Reword all
+  // the surfaces together and this stays green; reword one and it fails.
+  const lineText = (html, id) => {
+    const found = html.match(new RegExp(`id="${id}"[^>]*>([^<]*)<`));
+    return found ? found[1].replace(/\s+/g, ' ').trim() : '';
+  };
+  const WTD_HTML = fs.readFileSync(path.join(ROOT, 'hna-what-to-do.html'), 'utf8');
+  const method = lineText(HNA_HTML, 'projectionCalculationMethod');
+  const sources = lineText(HNA_HTML, 'projectionCalculationSources');
+  assert(method.length > 40 && sources.length > 40, 'the HNA page carries a method line and a sources line under the calculator');
+  assert.strictEqual(lineText(WTD_HTML, 'projectionCalculationMethod'), method, 'hna-what-to-do.html states the same method as the HNA page');
+  assert.strictEqual(lineText(WTD_HTML, 'projectionCalculationSources'), sources, 'hna-what-to-do.html states the same sources as the HNA page');
+  const registry = loadMethodologyRegistry();
+  const entry = registry && registry['dola-projection'];
+  assert(entry && entry.what && entry.how, "the methodology registry explains the DOLA projection ('dola-projection')");
+  assert.strictEqual(entry.what.replace(/\s+/g, ' ').trim(), method, "the methodology registry's 'what' is the page's method line");
+  assert.strictEqual(entry.how.replace(/\s+/g, ' ').trim(), sources, "the methodology registry's 'how' is the page's sources line");
+  // The method line names every headship option by the label the control
+  // ships, and both household methods the stored series can carry.
+  for (const r of HEADSHIP_RADIOS) assert(method.includes(r.label), `the method line names the ${r.label} option as the control labels it`);
+  assert(/household forecast/i.test(method) && /headship rate/i.test(method), 'the method line names the household forecast and the headship-rate fallback the per-year method labels distinguish');
+  // The sources line and the calculator's code (controller, utils, renderers)
+  // agree on which source files are read.
+  const calculatorSrc = ['js/hna/hna-controller.js', 'js/hna/hna-utils.js', 'js/hna/hna-renderers.js']
+    .map((f) => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');
+  for (const file of ['components-change-county.csv', 'household-county.csv', 'projections/places.json']) {
+    assert(calculatorSrc.includes(file), `${file} is a source the calculator names, so the check is not vacuous`);
+    assert.strictEqual(sources.includes(file), calculatorSrc.includes(file), `${file}: the sources line and the calculator agree on whether it is a source`);
+  }
+  // The cross-county sentence exists because the place file carries
+  // cross-county records and the trace discloses their combined-county
+  // denominators.
+  const crossCounty = Object.values(places).filter((p) => p.cross_county === true).length;
+  assert(crossCounty > 0, 'places.json carries cross-county records, so the disclosure has something to disclose');
+  assert(calculatorSrc.includes('Combined-county denominators'), 'the trace discloses combined-county denominators for cross-county places');
+  assert(/cross-county/i.test(sources) && /combined-county/i.test(sources), `the sources line discloses the combined-county denominators the trace reports (${sources})`);
+
   const leadville = places['0844320'];
   assert(leadville, 'Leadville projection row should exist');
   assert.equal(leadville.shares.permit, null, 'Leadville zero-permit row should use household-only allocation');
@@ -277,6 +325,50 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
  * arithmetic and the chart's note names the option as the page labels it;
  * under the default option the chart still draws the stored series.
  */
+/**
+ * A headship change moves the need figures, the trace and both household
+ * charts, so the completed update is announced to screen readers through the
+ * page's live region (Rule 11), naming the option as the control labels it. A
+ * programmatic render does not announce: the page load has its own.
+ */
+async function assertHeadshipChangeIsAnnounced() {
+  const dom = new JSDOM(makeHtml(), { url: 'about:blank' });
+  installBrowserStubs(dom, { places: {} });
+  loadHnaModules();
+  const announcements = [];
+  window.__announceUpdate = (m) => announcements.push(String(m));
+  const selection = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+  window.HNAState.state.currentSelection = selection;
+  window.HNAState.state.derived = { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } };
+  const proj = projectionFixture();
+  await window.HNAController.applyAssumptions(proj, selection);
+  assert.strictEqual(announcements.length, 0, 'a programmatic render does not announce; the page load announces itself');
+  window.HNAState.state.lastProj = proj;
+  window.HNAState.state.current = selection;
+  window.HNAController.wireAssumptionControlsForTest();
+  const change = async (value) => {
+    const before = announcements.length;
+    const radio = document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="${value}"]`);
+    radio.checked = true;
+    radio.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    const started = Date.now();
+    while (announcements.length === before && Date.now() - started < 5000) await new Promise((r) => setTimeout(r, 10));
+    assert.strictEqual(announcements.length, before + 1, `choosing ${value} announces the update once`);
+    return announcements[announcements.length - 1];
+  };
+  let said = await change('hold');
+  assert(said.includes(HEADSHIP_LABELS.hold) && /household charts/i.test(said) && /20-year/.test(said) && /5\.0%/.test(said),
+    `the announcement names the option as labelled, the charts, the horizon and the vacancy (${said})`);
+  said = await change('trend');
+  assert(said.includes(HEADSHIP_LABELS.trend) && !/held/i.test(said), `with a slope on file the announcement names Trend without a held-rate caveat (${said})`);
+  window.HNAState.state.derived = { geos: {} };
+  said = await change('trend');
+  assert(said.includes(HEADSHIP_LABELS.trend) && /no ACS headship trend/.test(said) && /held/.test(said),
+    `without a slope the announcement says the rate is held (${said})`);
+  said = await change(HEADSHIP_DEFAULT);
+  assert(said.includes(HEADSHIP_LABELS[HEADSHIP_DEFAULT]), `returning to the default names it as labelled (${said})`);
+}
+
 async function assertHouseholdChartsFollowHeadshipOption() {
   const render = async (headshipMode, storedSeries = [65000, 80000], withSlope = true, geo = null) => {
     const html = makeHtml().replace('</body>', `
@@ -777,6 +869,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
   const reconciled = await assertRealDataReconciliation();
   await assertCountyCalculatorReadsStoredHouseholds();
   await assertHouseholdChartsFollowHeadshipOption();
+  await assertHeadshipChangeIsAnnounced();
   console.log(`HNA projection integrity tests passed (Mesa County ${reconciled.countyHeadline}; Milliken ${reconciled.placeHeadline})`);
 })().catch((err) => {
   console.error(err);
