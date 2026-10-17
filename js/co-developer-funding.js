@@ -340,6 +340,14 @@
     renderCompare(g);
   }
 
+  // A program whose past awards have their own page on this site links to it.
+  // Only a relative .html page on this site is linked.
+  function pastAwardsLink(p) {
+    var pa = p.past_awards_page;
+    if (!pa || !/^[a-z0-9-]+\.html(#[\w-]+)?$/.test(String(pa.href || ''))) return '';
+    return '<p class="df-official"><a href="' + escapeHtml(pa.href) + '">' + escapeHtml(pa.label || 'Past awards') + '</a></p>';
+  }
+
   function programCard(p, catLabel) {
     var status = STATUS_LABELS[p.status] || null;
     var types = [].concat(p.funding_type || []).map(function (t) { return TYPE_LABELS[t]; }).filter(Boolean);
@@ -362,6 +370,7 @@
         fitBlock(p) +
         compareButton(p) +
         '<p class="df-official">Official page: ' + extLink(p.official_url, p.official_url_label || p.official_url) + '</p>' +
+        pastAwardsLink(p) +
         '<dl class="df-fields">' + FIELDS.map(function (f) { return fieldRow(p, f[0], f[1]); }).join('') + '</dl>' +
         (considerations ? '<h4>What to know</h4><ul class="df-list">' + considerations + '</ul>' : '') +
         (sources ? '<h4>Sources</h4><ul class="df-list">' + sources + '</ul>' : '') +

@@ -332,7 +332,9 @@
 
     const card = el('div', {
       class: 'hp-binary-card',
-      role: 'article',
+      // listitem, not article: the cards sit in a role=list grid, which may
+      // only own listitems (axe aria-required-children, critical).
+      role: 'listitem',
       'aria-label': pred.label,
       style: `--hp-cat-color: ${categoryColors[pred.category] || '#546e7a'}`,
     });

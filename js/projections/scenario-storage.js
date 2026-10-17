@@ -79,6 +79,8 @@
         },
         createdAt:       opts.createdAt || now,
         baselineSource:  opts.baselineSource || 'DOLA 2024',
+        // The place whose population was loaded when this was saved, or null.
+        geography:       opts.geography || null,
       };
 
       const scenarios = this.list().filter(s => s.id !== id);

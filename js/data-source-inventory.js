@@ -280,7 +280,7 @@
       provider: 'CHFA, OEDIT, DOLA Division of Housing, HUD, USDA, IRS, FHLBank Topeka, city housing offices (curated)',
       url: 'https://www.chfainfo.com/rental-housing/housing-credit',
       localFile: 'data/policy/co-developer-funding-guide.json',
-      lastUpdated: '2026-10-16',
+      lastUpdated: '2026-10-17',
       updateFrequency: 'Quarterly review',
       maxAgeDays: 120,
       geoUnit: 'State / City',

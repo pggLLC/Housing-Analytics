@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T13:12:30.694386Z",
+  "generated": "2026-10-17T14:35:07.974733Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8339,7 +8339,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 430304
+      "bytes": 430431
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
