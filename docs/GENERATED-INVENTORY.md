@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T19:40:15.011Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T21:07:46.231Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 59.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 149.2 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 150.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 65.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -90,7 +90,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 835.5 KB | ✅ | — |
+| `data/_manifest.json` | 836.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1798,7 +1798,7 @@
 
 ## Test Files
 
-638 test files found.
+641 test files found.
 
 | File | Size |
 |------|------|
@@ -1903,14 +1903,15 @@
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.2 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 25.1 KB |
+| `test/deal-calc-net-rent.test.js` | 25.2 KB |
+| `test/deal-calc-operating-page.test.js` | 7.6 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
-| `test/deal-calc-provenance.test.js` | 16.7 KB |
+| `test/deal-calc-provenance.test.js` | 16.8 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
-| `test/deal-calc-schedule.test.js` | 23.7 KB |
+| `test/deal-calc-schedule.test.js` | 23.8 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 22.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
@@ -1920,9 +1921,10 @@
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 54.5 KB |
-| `test/deal-engine-golden.test.js` | 7.7 KB |
-| `test/deal-engine-surfaces.test.js` | 12.2 KB |
+| `test/deal-engine-golden.test.js` | 7.9 KB |
+| `test/deal-engine-surfaces.test.js` | 12.4 KB |
 | `test/deal-engine.test.js` | 7.9 KB |
+| `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
@@ -2200,6 +2202,7 @@
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-narrative-claims.test.js` | 7.7 KB |
+| `test/pma-natural-features.test.js` | 16.9 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |
 | `test/pma-primary-score.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
@@ -2221,7 +2224,7 @@
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
 | `test/private-workspace.test.mjs` | 9.6 KB |
-| `test/pro-forma.test.js` | 2.8 KB |
+| `test/pro-forma.test.js` | 2.9 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
@@ -2253,7 +2256,7 @@
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
-| `test/rent-ceiling-regime.test.js` | 17.9 KB |
+| `test/rent-ceiling-regime.test.js` | 18.0 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
 | `test/rent-limit-programs.test.js` | 11.1 KB |
 | `test/rent-schedule.test.js` | 24.5 KB |

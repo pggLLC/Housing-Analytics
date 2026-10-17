@@ -72,10 +72,10 @@ async function run() {
         assert.deepEqual(view.snapshot.reportMeta.outputs[name], view.snapshot.outputs[name], name + ': report captured result');
         comparisons += 5;
       }
-      for (const [column, key] of [[1,'annualRents'],[4,'annualOpex'],[5,'annualRepReserve'],[6,'netPropTax'],[7,'noi']]) {
+      for (const [column, key] of [[1,'annualRents'],[2,'annualOtherIncome'],[5,'annualOpex'],[6,'annualRepReserve'],[7,'netPropTax'],[8,'noi']]) {
         assert.equal(view.projection[column], money(r[key]), 'projection year 1 ' + key); comparisons++;
       }
-      assert.equal(view.projection[8], money(r.annualDebtService + r.totalSoftDebtService), 'projection includes the engine soft debt service');
+      assert.equal(view.projection[9], money(r.annualDebtService + r.totalSoftDebtService), 'projection includes the engine soft debt service');
       assert.equal(view.text['dc-stress-base-noi'], money(r.noi));
       assert.equal(view.text['dc-stress-base-dscr'], r.allMustPayDSCR.toFixed(2) + 'x');
       assert.equal(view.text['dc-stress-base-margin'], (r.stressBase.margin >= 0 ? '+' : '') + r.stressBase.margin.toFixed(2));
@@ -103,7 +103,7 @@ async function run() {
       }
       // Explicit manual deferred fee must not revive exit results when costs go missing.
       await page.uncheck('#dc-deferred-auto-balance');
-      await page.locator('#dc-opex').fill('');
+      await page.evaluate(() => document.querySelectorAll('#dc-op-lines input[id^="dc-op-"]').forEach(i => { i.value = ''; }));
       await page.evaluate(() => window.__DealCalc.recalculate());
       view = await capture(page); r = view.result;
       const reason = r.unavailable.noi;
@@ -129,10 +129,10 @@ async function run() {
       assert(explanation && explanation.withYourNumbers.result === null, 'report explanation also stays absent');
       assert.equal(explanation.withYourNumbers.unavailableReason, reason);
       assert.equal(view.snapshot.outputs.annualRents.value, r.annualRents, 'independent known rents survive');
-      await page.locator('#dc-opex').fill('450');
+      await page.evaluate(() => { const ob = window.DealOperatingBudget; ob.LINE_TEMPLATE.forEach(t => { document.getElementById('dc-op-' + t.id).value = ob.EXAMPLE_BUDGET[t.id]; }); });
       await page.evaluate(() => window.__DealCalc.recalculate());
       view = await capture(page);
-      assert(view.result.noi > 0 && view.projection.length === 12, 'restoring costs restores projection');
+      assert(view.result.noi > 0 && view.projection.length === 13, 'restoring costs restores projection');
       assert.equal(view.reasons['dcWaterfallTable'], undefined, 'old unavailable state cleared');
       await page.locator('#pf-rent-growth').fill('');
       await page.evaluate(() => window.__DealCalc.recalculate());

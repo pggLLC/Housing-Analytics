@@ -49,6 +49,7 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   }
   if (!lateModule) loadSubject();
   w.eval(read('js/deal-cost-basis.js'));
+  w.eval(read('js/deal-operating-budget.js'));
   w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
@@ -133,7 +134,7 @@ async function test(name, fn) {
         assert.equal(w.__DealCalc.getAmiLimitsByBr()[60]['2br'], ceiling(regime, 60, '2br'));
         const vacancy = +w.document.getElementById('dc-vacancy').value / 100;
         const n = rows.reduce((s, r) => s + r.units, 0);
-        const expenses = n * (+w.document.getElementById('dc-opex').value * 12 + +w.document.getElementById('dc-rep-reserve').value + +w.document.getElementById('dc-prop-tax').value * (1 - +w.document.getElementById('dc-tax-exempt').value / 100));
+        const expenses = n * ([...w.document.querySelectorAll('#dc-op-lines input[id^="dc-op-"]:not([id^="dc-op-income-"])')].reduce((a, e) => a + +e.value, 0) + +w.document.getElementById('dc-rep-reserve').value + +w.document.getElementById('dc-prop-tax').value * (1 - +w.document.getElementById('dc-tax-exempt').value / 100));
         assert.equal(text(w, 'dc-noi-computed'), money(expected(regime, rows, saved) * (1 - vacancy) - expenses));
       }
       // Tier dropdown path (no split counts) must use the same deduction.
