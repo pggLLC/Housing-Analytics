@@ -1356,9 +1356,11 @@
         return _tractsInBbox(bbox).then(function (tractIds) {
           var floodZones = [];
           var sfhaCount = 0;
+          var recordCount = 0;
           for (var i = 0; i < tractIds.length; i++) {
             var td = localData.tracts[tractIds[i]];
             if (!td) continue;
+            recordCount++;
             if (td.hasSFHA) sfhaCount++;
             // `floodRiskScore || 95` previously fabricated a near-perfect
             // "safe" score (95/100) when the tract lacked the field.
@@ -1383,10 +1385,19 @@
           // Zero tracts in the bbox means the local dataset did not answer.
           // Returning 0.05 with _dataSource 'local-flood-zones-co' asserted
           // that it had.
-          var noTracts = tractIds.length === 0;
+          var noTracts = tractIds.length === 0 || recordCount === 0;
           return {
             floodZones: floodZones,
-            hazardPercent: noTracts ? null : Math.min(1, sfhaCount / tractIds.length),
+            // A share of census TRACTS around the site that contain any FEMA
+            // Special Flood Hazard Area — not a share of the site's area. The
+            // measure travels with the number so no reader can relabel it.
+            hazardPercent: noTracts ? null : Math.min(1, sfhaCount / recordCount),
+            hazardMeasure: noTracts ? null : {
+              kind: 'tract-share',
+              tractCount: recordCount,
+              sfhaTractCount: sfhaCount,
+              description: 'share of census tracts near the site that contain a FEMA Special Flood Hazard Area'
+            },
             _stub: noTracts || undefined,
             _dataSource: noTracts ? 'local-flood-zones-co-no-coverage' : 'local-flood-zones-co',
             unavailableReason: noTracts
@@ -1408,7 +1419,14 @@
         .then(function (r) { if (!r.ok) throw new Error('FEMA NFHL HTTP ' + r.status); return r.json(); })
         .then(function (data) {
           var features = (data && data.features) ? data.features : [];
-          return { floodZones: features, hazardPercent: Math.min(1, features.length * 0.02), _dataSource: 'fema-live' };
+          // A count of flood-zone polygons in the search box measures no
+          // share of anything; feature count × 0.02 was presented as a
+          // hazard percentage. Keep the features for the map, report none.
+          return {
+            floodZones: features, hazardPercent: null, hazardMeasure: null, _stub: true,
+            _dataSource: 'fema-live',
+            unavailableReason: 'FEMA returned ' + features.length + ' flood-zone area(s) near the site, but no flood share was measured; the site\'s own flood status needs a site boundary and a flood determination.'
+          };
         })
         .catch(function () {
           return {
