@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T15:32:27.036Z",
+    "generated_at": "2026-10-17T00:06:33.060Z",
     "root": "data/",
-    "file_count": 1737,
-    "total_size_bytes": 184945949,
+    "file_count": 1739,
+    "total_size_bytes": 186216257,
     "kinds": {
-      "json": 1694,
+      "json": 1696,
       "geojson": 33,
       "csv": 10
     }
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-16T15:32:23.295Z",
+      "mtime": "2026-10-17T00:06:30.608Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31396,6 +31396,35 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/development-activity.json",
+      "kind": "json",
+      "size_bytes": 1154270,
+      "mtime": "2026-10-17T00:05:56.864Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "county_summary",
+        "projects"
+      ],
+      "key_count": 3,
+      "primary_array_key": "projects",
+      "primary_array_length": 716,
+      "primary_array_first_keys": [
+        "id",
+        "name",
+        "city",
+        "county_fips",
+        "county_fips_all",
+        "county",
+        "place_geoid",
+        "stage",
+        "first_year",
+        "latest_year",
+        "total_units",
+        "total_units_unavailable_reason"
+      ]
+    },
+    {
       "path": "market/dola_demographics_co.json",
       "kind": "json",
       "size_bytes": 24844,
@@ -31834,6 +31863,21 @@
         "1",
         "2"
       ]
+    },
+    {
+      "path": "market/market-direction.json",
+      "kind": "json",
+      "size_bytes": 116038,
+      "mtime": "2026-10-17T00:05:56.930Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "counties"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "market/natural_barriers_co.geojson",
@@ -32436,7 +32480,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-16T15:32:25.135Z",
+      "mtime": "2026-10-17T00:06:31.801Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32460,7 +32504,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-16T15:32:24.708Z",
+      "mtime": "2026-10-17T00:06:31.509Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
