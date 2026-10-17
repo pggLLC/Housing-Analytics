@@ -2975,13 +2975,15 @@
       rows,
       households: hh === null ? null : {
         delta: hh,
-        basis: ['hold', 'trend', 'forecast-filled'].includes(input.householdsBasis) ? input.householdsBasis : 'stored',
+        basis: ['hold', 'trend', 'trend-unavailable', 'forecast-filled'].includes(input.householdsBasis) ? input.householdsBasis : 'stored',
         text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
           + '. That chart counts households, not homes, from '
           + (input.householdsBasis === 'hold'
             ? 'projected population \u00d7 the base-year headship rate, held as selected'
             : input.householdsBasis === 'trend'
               ? 'projected population \u00d7 a headship rate moved by the ACS trend, as selected'
+              : input.householdsBasis === 'trend-unavailable'
+                ? 'projected population \u00d7 the base-year headship rate, held because no ACS headship trend is available for this geography'
               : input.householdsBasis === 'forecast-filled'
                 ? 'DOLA\u2019s household series, with projected population \u00d7 the base-year headship rate for the '
                   + (num(input.householdsFilledYears) === 1 ? 'year' : (num(input.householdsFilledYears) || 0) + ' years')
@@ -3111,6 +3113,29 @@
     return fallback[value] || String(value);
   }
 
+  // Trend is offered only where an ACS headship trend exists for the selected
+  // geography. Elsewhere the option is disabled, with the reason on its label,
+  // so a user is not handed a held-rate result under a name that promises a
+  // trend; if it is already checked the calculation holds the rate and every
+  // figure says why.
+  function _setTrendOptionAvailability(available){
+    try {
+      document.querySelectorAll('input[name="assumpHeadship"][value="trend"], input[name="headship"][value="trend"]').forEach((input) => {
+        input.disabled = !available;
+        input.setAttribute('aria-disabled', available ? 'false' : 'true');
+        const label = input.closest('label');
+        if (!label) return;
+        if (available) {
+          label.removeAttribute('title');
+          delete label.dataset.unavailable;
+        } else {
+          label.title = 'No ACS headship trend is available for this geography; the base-year rate is held.';
+          label.dataset.unavailable = 'true';
+        }
+      });
+    } catch (_) { /* a page without the control */ }
+  }
+
   async function applyAssumptions(proj, selection){
     // The need reconciliation awaits data (the digest, the 64 county
     // projections); a later call for another geography may finish first.
@@ -3151,7 +3176,7 @@
     let basePop = baseCountyPop;
 
     let headship0 = (baseHouseholds && basePop) ? (baseHouseholds/basePop) : null;
-    let headshipSlope = 0; // annual delta, used in "trend"
+    let headshipSlope = null; // annual delta used under Trend; null = no ACS headship trend for this geography
 
     // If selection is a place/CDP, scale projections from containing county.
     // State-level: projections are loaded directly for '08', no scaling needed.
@@ -3180,7 +3205,7 @@
         }
         headshipSlope = (d && typeof d.headship_slope_per_year === 'number' && Number.isFinite(d.headship_slope_per_year))
           ? d.headship_slope_per_year
-          : 0;
+          : null;
 
         popSel = popCounty.map((p,i)=>{
           if (p===null) return null;
@@ -3209,10 +3234,15 @@
         if (d && typeof d.headship_slope_per_year === 'number' && Number.isFinite(d.headship_slope_per_year)){
           headshipSlope = d.headship_slope_per_year;
         } else {
-          headshipSlope = 0;
+          headshipSlope = null;
         }
-      }catch(_){ headshipSlope = 0; }
+      }catch(_){ headshipSlope = null; }
     }
+    // A missing slope is unavailable, never 0: the Trend option is disabled
+    // for this geography and, if already checked, the rate is held and the
+    // trace, the charts and the reconciliation say so.
+    const trendUnavailable = headshipSlope === null;
+    _setTrendOptionAvailability(!trendUnavailable);
 
     // Compute need at horizon
     const idx = years.findIndex(y => y === baseYear + horizon);
@@ -3220,7 +3250,7 @@
 
     function headshipAt(step){
       if (headship0 === null) return null;
-      if (headshipMode === 'trend'){
+      if (headshipMode === 'trend' && headshipSlope !== null){
         const hs = headship0 + headshipSlope * step;
         return Math.max(0.05, Math.min(0.95, hs));
       }
@@ -3311,17 +3341,20 @@
       } else if (headshipMode !== 'forecast') {
         const held = headshipMode !== 'trend';
         const optionValue = held ? 'hold' : 'trend';
+        const trendMissing = !held && trendUnavailable;
         householdSeriesForMode = {
-          mode: optionValue,
+          mode: held ? 'hold' : (trendMissing ? 'trend-unavailable' : 'trend'),
           scope: 'selected-headship',
           series: rateSeries,
           // Short enough for the legend at phone width; the note below the
           // chart carries the arithmetic.
           label: held
             ? 'Households (held headship)'
-            : 'Households (trended headship)',
-          note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: projected population \u00d7 '
-            + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend')
+            : (trendMissing ? 'Households (rate held; no trend data)' : 'Households (trended headship)'),
+          note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: '
+            + (trendMissing
+              ? 'no ACS headship trend is available for this geography, so projected population \u00d7 the base-year headship rate, held constant, is shown'
+              : 'projected population \u00d7 ' + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend'))
             + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
             + ' to see the stored SDO household series.',
         };
@@ -3462,7 +3495,9 @@
         // counties, so its households also come from household-county.csv.
         const storedCarriesForecast = storedIsForecast || (storedHouseholds !== null && storedHouseholdMethod === 'mixed');
         const headshipModeLabel = headshipMode === 'trend'
-          ? 'Trend headship assumption used by the calculation; the stored household series is not used in this mode.'
+          ? (trendUnavailable
+            ? 'Trend headship option selected, but no ACS headship trend is available for this geography, so the base-year rate is held; the stored household series is not used in this mode.'
+            : 'Trend headship assumption used by the calculation; the stored household series is not used in this mode.')
           : headshipMode !== 'forecast'
             ? 'Constant base-year headship rate held, as selected; the stored household series is not used in this mode.'
             : storedHouseholds === null

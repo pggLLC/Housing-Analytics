@@ -299,6 +299,16 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   position: relative;
   z-index: 1;
 }
+/* An option the selected geography cannot honour (Trend without an ACS
+   headship trend) is disabled by the controller; it stays visible so the
+   control keeps its shape, and its label carries the reason as a title. */
+.headship-label input[type="radio"]:disabled + span {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.headship-label[data-unavailable="true"]:hover span {
+  background: transparent;
+}
 
 /* ----------------------------------------------------------------
    Labor Market section

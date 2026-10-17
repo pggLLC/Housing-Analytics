@@ -235,7 +235,8 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
 
   // Trend headship: the user asked for population × a trended headship rate; the stored series is not used.
   r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'trend');
-  assert(r.trace.includes('77,187.5') && r.trace.includes('Trend headship') && !r.trace.includes(FORECAST_WORDS), 'trend mode keeps population × trended headship and does not claim the forecast');
+  assert(r.trace.includes('77,187.5') && r.trace.includes('no ACS headship trend is available') && !r.trace.includes(FORECAST_WORDS),
+    'trend mode without a slope on file holds the rate, says the trend is unavailable and does not claim the forecast');
 
   // Statewide: a 'mixed' or forecast year draws households from household-county.csv too, so the trace names both sources.
   const colorado = { geoType: 'state', geoid: '08', label: 'Colorado (statewide)' };
@@ -277,7 +278,7 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
  * under the default option the chart still draws the stored series.
  */
 async function assertHouseholdChartsFollowHeadshipOption() {
-  const render = async (headshipMode, storedSeries = [65000, 80000]) => {
+  const render = async (headshipMode, storedSeries = [65000, 80000], withSlope = true) => {
     const html = makeHtml().replace('</body>', `
         <div><div class="chart-box"><canvas id="chartProjectedHH"></canvas></div></div>
         <div><div class="chart-box"><canvas id="chartHouseholdDemand"></canvas></div></div>
@@ -293,8 +294,9 @@ async function assertHouseholdChartsFollowHeadshipOption() {
     loadHnaModules();
     const selection = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
     window.HNAState.state.currentSelection = selection;
-    // A county headship trend, so Trend differs from Hold.
-    window.HNAState.state.derived = { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } };
+    // A county headship trend, so Trend differs from Hold; without it the
+    // geography has no trend to offer.
+    window.HNAState.state.derived = withSlope ? { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } } : { geos: {} };
     const proj = projectionFixture();
     proj.housing_need.households_dola = storedSeries;
     proj.housing_need.household_method = ['sdo_household_forecast', 'sdo_household_forecast'];
@@ -313,6 +315,7 @@ async function assertHouseholdChartsFollowHeadshipOption() {
       demandScope: document.getElementById('chartHouseholdDemand').dataset.householdScope,
       rec: window.HNAState.state.needReconciliation,
       trace: document.getElementById('projectionCalculationTraceBody').textContent,
+      trendRadio: (() => { const el = document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="trend"]`); return { disabled: el.disabled, title: el.closest('label').getAttribute('title') || '' }; })(),
     };
   };
   const oneDecimal = (v) => v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -385,6 +388,30 @@ async function assertHouseholdChartsFollowHeadshipOption() {
     `Trend's reconciliation describes the trended rate, not the stored series (${r.rec.households.text})`);
   assert.strictEqual(r.rec.households.basis, 'trend');
   assert(r.formationNote.includes(HEADSHIP_LABELS.trend), `Trend's chart note names the option as the page labels it (note: ${r.formationNote})`);
+  assert.strictEqual(r.trendRadio.disabled, false, 'with a slope on file the Trend option is offered');
+  assert(r.trace.includes('Trend headship assumption used'), 'with a slope on file the trace says the trend was used');
+
+  // Trend where the geography has no ACS headship trend on file (63 of 64
+  // counties and the state today): a missing slope is unavailable, never 0, so
+  // the option is disabled with the reason, the rate is held, and the chart,
+  // its note, the trace and the reconciliation all say so instead of
+  // presenting Hold's number as a trend.
+  r = await render('trend', [65000, 80000], false);
+  check(r, [160000 * 0.40625, 190000 * 0.40625], 'Trend without a slope');
+  assert.strictEqual(r.trendRadio.disabled, true, 'without a slope the Trend option is disabled');
+  assert(/no ACS headship trend/i.test(r.trendRadio.title), `the disabled option carries the reason (title: ${r.trendRadio.title})`);
+  assert(/held/i.test(r.formation.data.datasets[0].label) && /no trend/i.test(r.formation.data.datasets[0].label),
+    `the chart label says the rate is held and no trend exists (label: ${r.formation.data.datasets[0].label})`);
+  assert(/no ACS headship trend is available/.test(r.formationNote) && r.formationNote.includes(HEADSHIP_LABELS.trend),
+    `the chart note says no trend is available and names the option (note: ${r.formationNote})`);
+  assert(r.trace.includes('no ACS headship trend is available') && !r.trace.includes('Trend headship assumption used'),
+    'the trace says the trend is unavailable rather than claiming one was used');
+  assert.strictEqual(r.rec.households.basis, 'trend-unavailable');
+  assert(/no ACS headship trend/.test(r.rec.households.text) && !r.rec.households.text.includes(STORED_WORDS),
+    `the reconciliation says why the rate is held (${r.rec.households.text})`);
+  // Switching back to a geography with a slope re-enables the option.
+  r = await render('hold');
+  assert.strictEqual(r.trendRadio.disabled, false, 'a geography with a slope offers Trend again');
 }
 
 async function assertCountyReconciliationNote() {
