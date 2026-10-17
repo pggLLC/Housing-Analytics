@@ -166,6 +166,7 @@ jobs:
             data/hna/source/dola_components_county.csv
             data/hna/source/dola_profiles_county.csv
             data/hna/source/dola_sya_county.csv
+            data/hna/source/dola_household_county.csv
           key: hna-build-${{ github.run_id }}-dola-v1
 
       - name: Build cached HNA datasets — DOLA
@@ -191,6 +192,7 @@ jobs:
             data/hna/source/dola_components_county.csv
             data/hna/source/dola_profiles_county.csv
             data/hna/source/dola_sya_county.csv
+            data/hna/source/dola_household_county.csv
           key: hna-build-${{ github.run_id }}-dola-v1
 
       - name: Finalize cached HNA datasets

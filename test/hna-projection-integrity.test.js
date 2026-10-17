@@ -158,6 +158,51 @@ async function assertCountyReconciliationNote() {
   assert(trace.includes('Screening-grade estimate'), 'County trace carries screening-grade framing');
 }
 
+/**
+ * The reconciliation note names the series its figure comes from, read from
+ * the projection file's own per-year label (housing_need.household_method),
+ * so the wording and the data cannot drift apart (#2260). Held as agreement
+ * on the committed La Plata file and on fixtures for each label.
+ */
+async function assertCountyNoteNamesTheStoredSeries() {
+  const FORECAST_WORDS = "State Demography Office's county household forecast";
+  const HEADSHIP_WORDS = 'constant base-year headship rate';
+  const renderNote = async (proj, selection) => {
+    const dom = new JSDOM(makeHtml(), { url: 'about:blank' });
+    installBrowserStubs(dom, { places: {} });
+    loadHnaModules();
+    window.HNAState.state.currentSelection = selection;
+    await window.HNAController.applyAssumptions(proj, selection);
+    return document.getElementById('needNote').textContent;
+  };
+
+  // Committed data: La Plata, the county the method change was measured on.
+  const laPlata = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/projections/08067.json'), 'utf8'));
+  const methods = laPlata.housing_need.household_method;
+  assert(Array.isArray(methods) && methods.length === laPlata.years.length, 'La Plata projection labels every year with household_method (the check below is not vacuous)');
+  const endIdx = laPlata.years.indexOf(2044);
+  const realNote = await renderNote(laPlata, { geoType: 'county', geoid: '08067', label: 'La Plata County' });
+  const realFigure = window.HNAUtils.fmtNum(Math.round(laPlata.housing_need.incremental_units_needed_dola[endIdx]));
+  assert(realNote.includes(`DOLA's county forecast projects about ${realFigure} additional units by 2044`), `County note quotes the stored 2044 figure ${realFigure}`);
+  if (methods[endIdx] === 'sdo_household_forecast') {
+    assert(realNote.includes(FORECAST_WORDS) && !realNote.includes(HEADSHIP_WORDS), `County note names the household forecast when the file says so: "${realNote}"`);
+  } else if (methods[endIdx] === 'constant_headship') {
+    assert(realNote.includes(HEADSHIP_WORDS) && !realNote.includes(FORECAST_WORDS), `County note names the headship fallback when the file says so: "${realNote}"`);
+  } else {
+    assert.fail(`La Plata 2044 household_method is ${methods[endIdx]}; expected the forecast or the headship fallback`);
+  }
+
+  // Fixtures: each label gets its own words, and a file without the label gets neither claim.
+  const withMethod = (m) => Object.assign(projectionFixture(), { housing_need: { incremental_units_needed_dola: [0, 12727.456473387749], household_method: m } });
+  const mesa = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+  const headshipNote = await renderNote(withMethod(['constant_headship', 'constant_headship']), mesa);
+  assert(headshipNote.includes(HEADSHIP_WORDS) && !headshipNote.includes(FORECAST_WORDS), 'constant_headship file: note names the headship rate, not the household forecast');
+  const forecastNote = await renderNote(withMethod(['sdo_household_forecast', 'sdo_household_forecast']), mesa);
+  assert(forecastNote.includes(FORECAST_WORDS) && !forecastNote.includes(HEADSHIP_WORDS), 'sdo_household_forecast file: note names the household forecast, not the headship rate');
+  const unlabelledNote = await renderNote(projectionFixture(), mesa);
+  assert(!unlabelledNote.includes(FORECAST_WORDS) && !unlabelledNote.includes(HEADSHIP_WORDS) && unlabelledNote.includes('published county series'), 'unlabelled file: note claims neither method');
+}
+
 async function assertHouseholdOnlyPlaceNote() {
   const placeDoc = {
     places: {
@@ -340,6 +385,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
   assertProjectionData();
   assertRankingUsesTheSameLedgerAsThePage();
   await assertCountyReconciliationNote();
+  await assertCountyNoteNamesTheStoredSeries();
   await assertHouseholdOnlyPlaceNote();
   await assertBlendedPlaceTrace();
   const reconciled = await assertRealDataReconciliation();

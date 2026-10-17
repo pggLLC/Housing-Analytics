@@ -204,7 +204,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Salida at #147 with an overall housing-need score of 60.3. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Salida at #151 with an overall housing-need score of 60.0. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -463,7 +463,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -472,7 +472,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -607,7 +607,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -616,7 +616,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -625,7 +625,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

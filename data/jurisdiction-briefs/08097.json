@@ -230,7 +230,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Pitkin County at #101 with an overall housing-need score of 67.0. It identifies 466 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 42.9% of <=30% AMI households. 53.3% of renter households are cost burdened, and 1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Pitkin County at #100 with an overall housing-need score of 67.0. It identifies 466 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 42.9% of <=30% AMI households. 53.3% of renter households are cost burdened, and 1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -576,7 +576,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08097.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -585,7 +585,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08097.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -720,7 +720,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08097.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -729,7 +729,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08097.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -738,7 +738,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08097.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

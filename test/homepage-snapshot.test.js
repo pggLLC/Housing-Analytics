@@ -197,6 +197,47 @@ async function runBadgeFixture(snapshot, sourceResult) {
   return { calls, badge: document.querySelector('.data-vintage-badge') };
 }
 
+async function testStatewideNullYearStaysAbsent() {
+  // The statewide projection writes null for a year any county cannot value
+  // (#2260). Number(null) is 0 (#1480), so both consumers of that file must
+  // treat the null as absent: the generator refuses to derive a growth from
+  // it, and the homepage leaves the 20-year need at "—". The control case,
+  // the committed file, must still produce the positive figure.
+  const generator = await import(pathToFileURL(path.join(ROOT, 'scripts/build-home-snapshot.mjs')).href);
+  const projections = require('../data/hna/projections/08.json');
+  const amiGap = require('../data/co_ami_gap_by_county.json');
+  const summary = require('../data/hna/summary/08.json');
+  const lastIdx = projections.years.length - 1;
+  assert(typeof projections.housing_need.households_dola[lastIdx] === 'number', 'committed statewide series has a horizon value (the control is not vacuous)');
+  const control = generator.deriveLe60HouseholdGrowth({ projections, amiGap, summary });
+  assert(control.annual_le60_renter_household_growth > 0, 'committed file still derives a positive growth');
+  const nullYear = JSON.parse(JSON.stringify(projections));
+  nullYear.housing_need.households_dola[lastIdx] = null;
+  nullYear.housing_need.incremental_units_needed_dola[lastIdx] = null;
+  assert.throws(
+    () => generator.deriveLe60HouseholdGrowth({ projections: nullYear, amiGap, summary }),
+    /no value at the base or horizon year/,
+    'a null horizon household value stops the snapshot build instead of deriving a negative growth from 0'
+  );
+
+  const render = async (proj) => {
+    const dom = new JSDOM('<!doctype html><body><span id="snapUnits20">—</span></body>', { url: 'http://127.0.0.1/index.html' });
+    installDom(dom);
+    window.DataService = {
+      baseData: (name) => 'data/' + name,
+      getJSON: (url) => (url === 'data/hna/projections/08.json' ? Promise.resolve(proj) : Promise.reject(new Error('not used in fixture'))),
+    };
+    freshRequire('js/index.js');
+    document.dispatchEvent(new window.Event('DOMContentLoaded'));
+    await flushPromises();
+    await flushPromises();
+    return document.getElementById('snapUnits20').textContent;
+  };
+  const expected = Math.round(projections.housing_need.incremental_units_needed_dola[lastIdx]).toLocaleString();
+  assert.equal(await render(projections), expected, 'homepage renders the committed 20-year need');
+  assert.equal(await render(nullYear), '—', 'a null 20-year need stays "—", not 0');
+}
+
 async function testVintageSidecarAndFallback() {
   const committed = require('../data/home-snapshot.json');
   const sidecar = await runBadgeFixture(committed, null);
@@ -215,6 +256,7 @@ async function testVintageSidecarAndFallback() {
   await testHomepageRendering();
   await testNoLiteralFallback();
   await testNullIsNotZero();
+  await testStatewideNullYearStaysAbsent();
   await testVintageSidecarAndFallback();
   console.log('homepage snapshot delivery: PASS');
 })().catch((error) => {

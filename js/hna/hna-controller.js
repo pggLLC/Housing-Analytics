@@ -3224,7 +3224,19 @@
         const dolaIdx = idx >= 0 ? idx : dolaSeries.length - 1;
         const dolaInc = window.HNAUtils.safeNum(dolaSeries[dolaIdx]);
         if (dolaInc !== null) {
-          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units by ${endYear} using its components-of-change model; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
+          // Name the series the stored figure comes from, read from the file's
+          // own per-year label (housing_need.household_method) so the sentence
+          // cannot outlive the method that produced the number (#2260).
+          const methodSeries = proj?.housing_need?.household_method;
+          const methodAt = Array.isArray(methodSeries) ? methodSeries[dolaIdx] : null;
+          const basis = methodAt === 'sdo_household_forecast'
+            ? "from the State Demography Office's county household forecast"
+            : methodAt === 'constant_headship'
+              ? 'from its components-of-change population forecast at a constant base-year headship rate'
+              : methodAt === 'mixed'
+                ? 'from its household forecast where published and a constant headship rate elsewhere'
+                : 'from its published county series';
+          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units by ${endYear} ${basis}; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
         }
       }
     }

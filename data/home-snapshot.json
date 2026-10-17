@@ -1,16 +1,16 @@
 {
-  "generated": "2026-10-17T12:28:46.882Z",
+  "generated": "2026-10-17T15:48:10.377Z",
   "values": {
     "renter_cost_burden_pct": 50.5,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
     "average_lihtc_new_construction_units_per_year": 2935,
     "average_lihtc_preservation_units_per_year": 800,
-    "annual_le60_renter_household_growth": 3870,
-    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.758
+    "annual_le60_renter_household_growth": 5549,
+    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.529
   },
   "deficit_growth_basis": {
-    "dola_household_growth_per_year": 20222,
+    "dola_household_growth_per_year": 28994,
     "projection_years": [
       2024,
       2044
@@ -22,7 +22,7 @@
     "assumption": "new households are assumed to carry the current CHAS income and tenure mix; DOLA projects households by age, not income",
     "all_tenure_comparison": {
       "le60_households_all_tenure": 956369,
-      "annual_growth_if_all_tenure": 7799,
+      "annual_growth_if_all_tenure": 11182,
       "not_used_because": "rental supply cannot be netted against owner households; see build_place_ami_gap.py v2 rationale"
     }
   },
@@ -35,7 +35,7 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-10-17T12:26:14Z",
+      "updated": "2026-10-17T14:47:19Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
@@ -47,7 +47,7 @@
       "source": "fetchedAt"
     },
     "data/hna/projections/08.json": {
-      "updated": "2026-10-17T12:04:46Z",
+      "updated": "2026-10-17T15:26:42Z",
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {

@@ -7,8 +7,9 @@ This site’s *planning* projections are meant to be auditable. The page surface
 ### County baseline & forecast (primary)
 - **County population & net migration (forecast)**: Colorado State Demography Office (DOLA/SDO) county **components-of-change**.
 - **County households, housing units, vacancy (base year)**: DOLA/SDO county **profiles**.
+- **County households (forecast)**: DOLA/SDO county **household projections** (`household-county.csv`). The stored series `housing_need.households_dola` starts at the profile's base-year households and moves each later year by the forecast's change from its own base-year value, so it carries the forecast's changing household size and age structure. `housing_need.household_method` records the method per year: `sdo_household_forecast`, or `constant_headship` (population × the base-year headship rate) where the forecast has no value (#2260; La Plata County's 2024–2034 household growth was 61% low under the constant rate).
 
-These are cached by the ETL into `data/hna/projections/{countyFips}.json`.
+These are cached by the ETL into `data/hna/projections/{countyFips}.json`. The stored county series feeds `places.json`, the ranking index, the jurisdiction briefs and the homepage snapshot.
 
 ### Municipal / CDP projection inputs
 Covered places/CDPs use `data/hna/projections/places.json`, which downscales
@@ -37,7 +38,7 @@ For a selected place/CDP:
 
 ## Converting population to housing need
 
-The page computes a planning estimate:
+The HNA page's interactive calculator (horizon, target vacancy and headship controls) computes a planning estimate from population and headship, and shows the stored county forecast beside it in its reconciliation note:
 
 1) **Households**
 - `households(t) = population(t) × headship(t)`

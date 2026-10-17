@@ -141,7 +141,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Rifle at #332 with an overall housing-need score of 38.8. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Rifle at #330 with an overall housing-need score of 38.8. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -161,7 +161,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 10,570. LEHD-based commuting signals show 2,545 in-commuters and a commute ratio of 71.6%. The digest's county-context projection shows 969 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 10,570. LEHD-based commuting signals show 2,545 in-commuters and a commute ratio of 71.6%. The digest's county-context projection shows 1,458 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -346,7 +346,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -355,7 +355,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -490,7 +490,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -499,7 +499,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -508,7 +508,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T12:26:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-17T14:47:19Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

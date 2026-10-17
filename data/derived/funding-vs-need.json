@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-17T12:26:14Z",
+  "generatedAt": "2026-10-17T14:47:19Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -66,14 +66,10 @@
    "not-computable": 3
   },
   "counties_soft_and_funded": [
-   "Eagle County",
    "Summit County",
    "Routt County",
-   "Denver County",
    "Ouray County",
    "Grand County",
-   "Morgan County",
-   "Archuleta County",
    "Gunnison County"
   ],
   "by_year": [
@@ -176,8 +172,8 @@
     "seasonal_share_of_vacant_pct": 24.8,
     "median_gross_rent_acs": 1966,
     "permits_avg_annual_5yr": 1640.4,
-    "projected_need_annual_10yr": 514.7,
-    "production_to_need_ratio": 3.19,
+    "projected_need_annual_10yr": 1407.8,
+    "production_to_need_ratio": 1.17,
     "chfa_60ami_max_rent_1br": 1687,
     "chfa_60ami_max_rent_2br": 2025
    },
@@ -199,12 +195,7 @@
     "federal_9pct_credit_per_unit_annual": 24449,
     "share_of_state_lihtc_units": 4.88
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.2× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "underserved"
   },
   {
@@ -226,8 +217,8 @@
     "seasonal_share_of_vacant_pct": 80.6,
     "median_gross_rent_acs": 2019,
     "permits_avg_annual_5yr": 354.4,
-    "projected_need_annual_10yr": 146.2,
-    "production_to_need_ratio": 2.42,
+    "projected_need_annual_10yr": 252.4,
+    "production_to_need_ratio": 1.4,
     "chfa_60ami_max_rent_1br": 1560,
     "chfa_60ami_max_rent_2br": 1873
    },
@@ -254,10 +245,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 4.6%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
     }
    ],
    "quadrant": "underserved"
@@ -281,8 +268,8 @@
     "seasonal_share_of_vacant_pct": 80,
     "median_gross_rent_acs": 1928,
     "permits_avg_annual_5yr": 385.6,
-    "projected_need_annual_10yr": 59.5,
-    "production_to_need_ratio": 6.48,
+    "projected_need_annual_10yr": 127.6,
+    "production_to_need_ratio": 3.02,
     "chfa_60ami_max_rent_1br": 1641,
     "chfa_60ami_max_rent_2br": 1969
    },
@@ -311,7 +298,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.5× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 3× DOLA's projected household growth"
     }
    ],
    "quadrant": "funded-above-need"
@@ -335,8 +322,8 @@
     "seasonal_share_of_vacant_pct": 7.9,
     "median_gross_rent_acs": 1977,
     "permits_avg_annual_5yr": 4555.6,
-    "projected_need_annual_10yr": 2260,
-    "production_to_need_ratio": 2.02,
+    "projected_need_annual_10yr": 3736.1,
+    "production_to_need_ratio": 1.22,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -358,12 +345,7 @@
     "federal_9pct_credit_per_unit_annual": 26023,
     "share_of_state_lihtc_units": 10.5
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -385,8 +367,8 @@
     "seasonal_share_of_vacant_pct": 17.9,
     "median_gross_rent_acs": 1899,
     "permits_avg_annual_5yr": 1639.8,
-    "projected_need_annual_10yr": 739.3,
-    "production_to_need_ratio": 2.22,
+    "projected_need_annual_10yr": 1556.1,
+    "production_to_need_ratio": 1.05,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -408,12 +390,7 @@
     "federal_9pct_credit_per_unit_annual": 24421,
     "share_of_state_lihtc_units": 7.65
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -435,8 +412,8 @@
     "seasonal_share_of_vacant_pct": 73.9,
     "median_gross_rent_acs": 1917,
     "permits_avg_annual_5yr": 359.4,
-    "projected_need_annual_10yr": 73.6,
-    "production_to_need_ratio": 4.88,
+    "projected_need_annual_10yr": 162.2,
+    "production_to_need_ratio": 2.22,
     "chfa_60ami_max_rent_1br": 1560,
     "chfa_60ami_max_rent_2br": 1873
    },
@@ -465,7 +442,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4.9× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -489,8 +466,8 @@
     "seasonal_share_of_vacant_pct": 53.4,
     "median_gross_rent_acs": 1751,
     "permits_avg_annual_5yr": 2540.2,
-    "projected_need_annual_10yr": 1175.6,
-    "production_to_need_ratio": 2.16,
+    "projected_need_annual_10yr": 2465.1,
+    "production_to_need_ratio": 1.03,
     "chfa_60ami_max_rent_1br": 1467,
     "chfa_60ami_max_rent_2br": 1761
    },
@@ -512,12 +489,7 @@
     "federal_9pct_credit_per_unit_annual": 24613,
     "share_of_state_lihtc_units": 6.47
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -539,8 +511,8 @@
     "seasonal_share_of_vacant_pct": 11,
     "median_gross_rent_acs": 1940,
     "permits_avg_annual_5yr": 3058.8,
-    "projected_need_annual_10yr": 2512.9,
-    "production_to_need_ratio": 1.22,
+    "projected_need_annual_10yr": 3990.2,
+    "production_to_need_ratio": 0.77,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -584,8 +556,8 @@
     "seasonal_share_of_vacant_pct": 11.4,
     "median_gross_rent_acs": 1870,
     "permits_avg_annual_5yr": 6548.4,
-    "projected_need_annual_10yr": 2895.2,
-    "production_to_need_ratio": 2.26,
+    "projected_need_annual_10yr": 4639.9,
+    "production_to_need_ratio": 1.41,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -611,10 +583,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 3.2%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -638,8 +606,8 @@
     "seasonal_share_of_vacant_pct": 16.1,
     "median_gross_rent_acs": 2309,
     "permits_avg_annual_5yr": 3891.2,
-    "projected_need_annual_10yr": 2750.8,
-    "production_to_need_ratio": 1.41,
+    "projected_need_annual_10yr": 2551.2,
+    "production_to_need_ratio": 1.53,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -665,6 +633,51 @@
    "quadrant": "funded-above-need"
   },
   {
+   "fips": "08119",
+   "name": "Teller County",
+   "region": "Mountains",
+   "population": 24825,
+   "need": {
+    "gap_units_30ami": 322,
+    "gap_units_50ami": 316,
+    "overall_need_score": 69.8,
+    "pct_renter_severe_burdened": 24.5,
+    "gap_per_1000_residents": 13,
+    "share_of_state_gap": 0.2
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.3,
+    "raw_rental_vacancy_pct": 3.2,
+    "seasonal_share_of_vacant_pct": 78.7,
+    "median_gross_rent_acs": 1880,
+    "permits_avg_annual_5yr": 153,
+    "projected_need_annual_10yr": 94.3,
+    "production_to_need_ratio": 1.62,
+    "chfa_60ami_max_rent_1br": 1267,
+    "chfa_60ami_max_rent_2br": 1521
+   },
+   "funding": {
+    "tax_credit_awards": 1,
+    "lihtc_units": 36,
+    "lihtc_9pct_units": 36,
+    "federal_9pct_credit_annual": 1800000,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 500000,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 2,
+    "prop123_dollars": 2656000,
+    "prop123_units": 140,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 756000,
+    "lihtc_units_per_100_gap": 11.2,
+    "federal_9pct_credit_per_unit_annual": 50000,
+    "share_of_state_lihtc_units": 0.17
+   },
+   "flags": [],
+   "quadrant": "funded-above-need"
+  },
+  {
    "fips": "08041",
    "name": "El Paso County",
    "region": "Front Range",
@@ -683,8 +696,8 @@
     "seasonal_share_of_vacant_pct": 14.6,
     "median_gross_rent_acs": 1755,
     "permits_avg_annual_5yr": 6502,
-    "projected_need_annual_10yr": 3464.8,
-    "production_to_need_ratio": 1.88,
+    "projected_need_annual_10yr": 4801.6,
+    "production_to_need_ratio": 1.35,
     "chfa_60ami_max_rent_1br": 1310,
     "chfa_60ami_max_rent_2br": 1572
    },
@@ -710,56 +723,6 @@
    "quadrant": "aligned"
   },
   {
-   "fips": "08119",
-   "name": "Teller County",
-   "region": "Mountains",
-   "population": 24825,
-   "need": {
-    "gap_units_30ami": 322,
-    "gap_units_50ami": 316,
-    "overall_need_score": 69,
-    "pct_renter_severe_burdened": 24.5,
-    "gap_per_1000_residents": 13,
-    "share_of_state_gap": 0.2
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.3,
-    "raw_rental_vacancy_pct": 3.2,
-    "seasonal_share_of_vacant_pct": 78.7,
-    "median_gross_rent_acs": 1880,
-    "permits_avg_annual_5yr": 153,
-    "projected_need_annual_10yr": 13.2,
-    "production_to_need_ratio": 11.59,
-    "chfa_60ami_max_rent_1br": 1267,
-    "chfa_60ami_max_rent_2br": 1521
-   },
-   "funding": {
-    "tax_credit_awards": 1,
-    "lihtc_units": 36,
-    "lihtc_9pct_units": 36,
-    "federal_9pct_credit_annual": 1800000,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 500000,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 2,
-    "prop123_dollars": 2656000,
-    "prop123_units": 140,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 756000,
-    "lihtc_units_per_100_gap": 11.2,
-    "federal_9pct_credit_per_unit_annual": 50000,
-    "share_of_state_lihtc_units": 0.17
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 11.6× DOLA's projected household growth"
-    }
-   ],
-   "quadrant": "funded-above-need"
-  },
-  {
    "fips": "08067",
    "name": "La Plata County",
    "region": "Southwest",
@@ -778,8 +741,8 @@
     "seasonal_share_of_vacant_pct": 58.9,
     "median_gross_rent_acs": 1504,
     "permits_avg_annual_5yr": 349,
-    "projected_need_annual_10yr": 119.4,
-    "production_to_need_ratio": 2.92,
+    "projected_need_annual_10yr": 304.8,
+    "production_to_need_ratio": 1.15,
     "chfa_60ami_max_rent_1br": 1290,
     "chfa_60ami_max_rent_2br": 1549
    },
@@ -801,12 +764,7 @@
     "federal_9pct_credit_per_unit_annual": 24302,
     "share_of_state_lihtc_units": 1.17
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -828,8 +786,8 @@
     "seasonal_share_of_vacant_pct": 78.1,
     "median_gross_rent_acs": 2004,
     "permits_avg_annual_5yr": 83,
-    "projected_need_annual_10yr": -4.3,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 19.5,
+    "production_to_need_ratio": 4.26,
     "chfa_60ami_max_rent_1br": 1599,
     "chfa_60ami_max_rent_2br": 1918
    },
@@ -851,53 +809,13 @@
     "federal_9pct_credit_per_unit_annual": 24369,
     "share_of_state_lihtc_units": 0.32
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 4.3× DOLA's projected household growth"
+    }
+   ],
    "quadrant": "aligned"
-  },
-  {
-   "fips": "08123",
-   "name": "Weld County",
-   "region": "Front Range",
-   "population": 369745,
-   "need": {
-    "gap_units_30ami": 5952,
-    "gap_units_50ami": 1857,
-    "overall_need_score": 66,
-    "pct_renter_severe_burdened": 23.6,
-    "gap_per_1000_residents": 16.1,
-    "share_of_state_gap": 3.77
-   },
-   "market": {
-    "active_market_vacancy_pct": 2,
-    "raw_rental_vacancy_pct": 5.8,
-    "seasonal_share_of_vacant_pct": 7.3,
-    "median_gross_rent_acs": 1579,
-    "permits_avg_annual_5yr": 4304.4,
-    "projected_need_annual_10yr": 2637.1,
-    "production_to_need_ratio": 1.63,
-    "chfa_60ami_max_rent_1br": 1405,
-    "chfa_60ami_max_rent_2br": 1687
-   },
-   "funding": {
-    "tax_credit_awards": 7,
-    "lihtc_units": 454,
-    "lihtc_9pct_units": 359,
-    "federal_9pct_credit_annual": 8650000,
-    "federal_4pct_credit_annual": 635718,
-    "state_credit_annual": 1487140,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 2,
-    "prop123_dollars": 9839671,
-    "prop123_units": 412,
-    "prop123_mixed_income_dollars": 8049671,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 7.6,
-    "federal_9pct_credit_per_unit_annual": 24095,
-    "share_of_state_lihtc_units": 2.12
-   },
-   "flags": [],
-   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08014",
@@ -907,7 +825,7 @@
    "need": {
     "gap_units_30ami": 1888,
     "gap_units_50ami": 933,
-    "overall_need_score": 65.9,
+    "overall_need_score": 66.7,
     "pct_renter_severe_burdened": 18.6,
     "gap_per_1000_residents": 24.1,
     "share_of_state_gap": 1.2
@@ -918,8 +836,8 @@
     "seasonal_share_of_vacant_pct": 21.1,
     "median_gross_rent_acs": 2141,
     "permits_avg_annual_5yr": 738.2,
-    "projected_need_annual_10yr": 534.2,
-    "production_to_need_ratio": 1.38,
+    "projected_need_annual_10yr": 1087.2,
+    "production_to_need_ratio": 0.68,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -945,6 +863,51 @@
    "quadrant": "aligned"
   },
   {
+   "fips": "08123",
+   "name": "Weld County",
+   "region": "Front Range",
+   "population": 369745,
+   "need": {
+    "gap_units_30ami": 5952,
+    "gap_units_50ami": 1857,
+    "overall_need_score": 66,
+    "pct_renter_severe_burdened": 23.6,
+    "gap_per_1000_residents": 16.1,
+    "share_of_state_gap": 3.77
+   },
+   "market": {
+    "active_market_vacancy_pct": 2,
+    "raw_rental_vacancy_pct": 5.8,
+    "seasonal_share_of_vacant_pct": 7.3,
+    "median_gross_rent_acs": 1579,
+    "permits_avg_annual_5yr": 4304.4,
+    "projected_need_annual_10yr": 3843.4,
+    "production_to_need_ratio": 1.12,
+    "chfa_60ami_max_rent_1br": 1405,
+    "chfa_60ami_max_rent_2br": 1687
+   },
+   "funding": {
+    "tax_credit_awards": 7,
+    "lihtc_units": 454,
+    "lihtc_9pct_units": 359,
+    "federal_9pct_credit_annual": 8650000,
+    "federal_4pct_credit_annual": 635718,
+    "state_credit_annual": 1487140,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 2,
+    "prop123_dollars": 9839671,
+    "prop123_units": 412,
+    "prop123_mixed_income_dollars": 8049671,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 7.6,
+    "federal_9pct_credit_per_unit_annual": 24095,
+    "share_of_state_lihtc_units": 2.12
+   },
+   "flags": [],
+   "quadrant": "low-need-low-funding"
+  },
+  {
    "fips": "08077",
    "name": "Mesa County",
    "region": "Western Slope",
@@ -963,8 +926,8 @@
     "seasonal_share_of_vacant_pct": 40.2,
     "median_gross_rent_acs": 1259,
     "permits_avg_annual_5yr": 1054,
-    "projected_need_annual_10yr": 632,
-    "production_to_need_ratio": 1.67,
+    "projected_need_annual_10yr": 1421.3,
+    "production_to_need_ratio": 0.74,
     "chfa_60ami_max_rent_1br": 1132,
     "chfa_60ami_max_rent_2br": 1359
    },
@@ -1008,8 +971,8 @@
     "seasonal_share_of_vacant_pct": 75.2,
     "median_gross_rent_acs": 1786,
     "permits_avg_annual_5yr": 93.8,
-    "projected_need_annual_10yr": 4.9,
-    "production_to_need_ratio": 19.14,
+    "projected_need_annual_10yr": 9.8,
+    "production_to_need_ratio": 9.57,
     "chfa_60ami_max_rent_1br": 1265,
     "chfa_60ami_max_rent_2br": 1518
    },
@@ -1038,7 +1001,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 19.1× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 9.6× DOLA's projected household growth"
     }
    ],
    "quadrant": "funded-above-need"
@@ -1062,8 +1025,8 @@
     "seasonal_share_of_vacant_pct": 86.6,
     "median_gross_rent_acs": 1149,
     "permits_avg_annual_5yr": 66.4,
-    "projected_need_annual_10yr": 35.3,
-    "production_to_need_ratio": 1.88,
+    "projected_need_annual_10yr": 62,
+    "production_to_need_ratio": 1.07,
     "chfa_60ami_max_rent_1br": 1475,
     "chfa_60ami_max_rent_2br": 1770
    },
@@ -1097,7 +1060,7 @@
    "need": {
     "gap_units_30ami": 4633,
     "gap_units_50ami": 1756,
-    "overall_need_score": 59.8,
+    "overall_need_score": 58.9,
     "pct_renter_severe_burdened": 25.2,
     "gap_per_1000_residents": 27.3,
     "share_of_state_gap": 2.94
@@ -1108,8 +1071,8 @@
     "seasonal_share_of_vacant_pct": 25.2,
     "median_gross_rent_acs": 1128,
     "permits_avg_annual_5yr": 406.2,
-    "projected_need_annual_10yr": 169.1,
-    "production_to_need_ratio": 2.4,
+    "projected_need_annual_10yr": 790,
+    "production_to_need_ratio": 0.51,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1131,63 +1094,8 @@
     "federal_9pct_credit_per_unit_annual": 23083,
     "share_of_state_lihtc_units": 1.87
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "underserved"
-  },
-  {
-   "fips": "08015",
-   "name": "Chaffee County",
-   "region": "Mountains",
-   "population": 20178,
-   "need": {
-    "gap_units_30ami": 401,
-    "gap_units_50ami": 239,
-    "overall_need_score": 57.7,
-    "pct_renter_severe_burdened": 24.1,
-    "gap_per_1000_residents": 19.9,
-    "share_of_state_gap": 0.25
-   },
-   "market": {
-    "active_market_vacancy_pct": 0.6,
-    "raw_rental_vacancy_pct": 2.5,
-    "seasonal_share_of_vacant_pct": 86.5,
-    "median_gross_rent_acs": 1611,
-    "permits_avg_annual_5yr": 275,
-    "projected_need_annual_10yr": 63.1,
-    "production_to_need_ratio": 4.36,
-    "chfa_60ami_max_rent_1br": 1250,
-    "chfa_60ami_max_rent_2br": 1500
-   },
-   "funding": {
-    "tax_credit_awards": 3,
-    "lihtc_units": 131,
-    "lihtc_9pct_units": 96,
-    "federal_9pct_credit_annual": 2172365,
-    "federal_4pct_credit_annual": 242430,
-    "state_credit_annual": 372969,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 4,
-    "prop123_dollars": 8349087,
-    "prop123_units": 170,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 32.7,
-    "federal_9pct_credit_per_unit_annual": 22629,
-    "share_of_state_lihtc_units": 0.61
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4.4× DOLA's projected household growth"
-    }
-   ],
-   "quadrant": "aligned"
   },
   {
    "fips": "08029",
@@ -1208,8 +1116,8 @@
     "seasonal_share_of_vacant_pct": 35.6,
     "median_gross_rent_acs": 1121,
     "permits_avg_annual_5yr": 101.8,
-    "projected_need_annual_10yr": 98.4,
-    "production_to_need_ratio": 1.03,
+    "projected_need_annual_10yr": 187.6,
+    "production_to_need_ratio": 0.54,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1235,6 +1143,56 @@
    "quadrant": "funded-above-need"
   },
   {
+   "fips": "08015",
+   "name": "Chaffee County",
+   "region": "Mountains",
+   "population": 20178,
+   "need": {
+    "gap_units_30ami": 401,
+    "gap_units_50ami": 239,
+    "overall_need_score": 56.9,
+    "pct_renter_severe_burdened": 24.1,
+    "gap_per_1000_residents": 19.9,
+    "share_of_state_gap": 0.25
+   },
+   "market": {
+    "active_market_vacancy_pct": 0.6,
+    "raw_rental_vacancy_pct": 2.5,
+    "seasonal_share_of_vacant_pct": 86.5,
+    "median_gross_rent_acs": 1611,
+    "permits_avg_annual_5yr": 275,
+    "projected_need_annual_10yr": 93.9,
+    "production_to_need_ratio": 2.93,
+    "chfa_60ami_max_rent_1br": 1250,
+    "chfa_60ami_max_rent_2br": 1500
+   },
+   "funding": {
+    "tax_credit_awards": 3,
+    "lihtc_units": 131,
+    "lihtc_9pct_units": 96,
+    "federal_9pct_credit_annual": 2172365,
+    "federal_4pct_credit_annual": 242430,
+    "state_credit_annual": 372969,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 4,
+    "prop123_dollars": 8349087,
+    "prop123_units": 170,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 32.7,
+    "federal_9pct_credit_per_unit_annual": 22629,
+    "share_of_state_lihtc_units": 0.61
+   },
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth"
+    }
+   ],
+   "quadrant": "aligned"
+  },
+  {
    "fips": "08045",
    "name": "Garfield County",
    "region": "Western Slope",
@@ -1253,8 +1211,8 @@
     "seasonal_share_of_vacant_pct": 62,
     "median_gross_rent_acs": 1637,
     "permits_avg_annual_5yr": 298.8,
-    "projected_need_annual_10yr": 254.8,
-    "production_to_need_ratio": 1.17,
+    "projected_need_annual_10yr": 477.4,
+    "production_to_need_ratio": 0.63,
     "chfa_60ami_max_rent_1br": 1284,
     "chfa_60ami_max_rent_2br": 1540
    },
@@ -1298,8 +1256,8 @@
     "seasonal_share_of_vacant_pct": 22.9,
     "median_gross_rent_acs": 1188,
     "permits_avg_annual_5yr": 345.2,
-    "projected_need_annual_10yr": 141.2,
-    "production_to_need_ratio": 2.44,
+    "projected_need_annual_10yr": 285.5,
+    "production_to_need_ratio": 1.21,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1321,12 +1279,7 @@
     "federal_9pct_credit_per_unit_annual": 29688,
     "share_of_state_lihtc_units": 0.9
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": "funded-above-need"
   },
   {
@@ -1348,8 +1301,8 @@
     "seasonal_share_of_vacant_pct": 87.6,
     "median_gross_rent_acs": 1493,
     "permits_avg_annual_5yr": 338.2,
-    "projected_need_annual_10yr": 61.2,
-    "production_to_need_ratio": 5.53,
+    "projected_need_annual_10yr": 54,
+    "production_to_need_ratio": 6.26,
     "chfa_60ami_max_rent_1br": 1385,
     "chfa_60ami_max_rent_2br": 1662
    },
@@ -1378,7 +1331,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 5.5× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 6.3× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -1402,8 +1355,8 @@
     "seasonal_share_of_vacant_pct": 18.6,
     "median_gross_rent_acs": 1013,
     "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": 1.2,
-    "production_to_need_ratio": 10.33,
+    "projected_need_annual_10yr": 2.1,
+    "production_to_need_ratio": 5.9,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1428,7 +1381,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 10.3× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -1452,8 +1405,8 @@
     "seasonal_share_of_vacant_pct": 78.3,
     "median_gross_rent_acs": 1467,
     "permits_avg_annual_5yr": 36.4,
-    "projected_need_annual_10yr": 15,
-    "production_to_need_ratio": 2.43,
+    "projected_need_annual_10yr": 9.2,
+    "production_to_need_ratio": 3.96,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1478,10 +1431,55 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth"
     }
    ],
    "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08083",
+   "name": "Montezuma County",
+   "region": "Southwest",
+   "population": 26412,
+   "need": {
+    "gap_units_30ami": 532,
+    "gap_units_50ami": 54,
+    "overall_need_score": 48.4,
+    "pct_renter_severe_burdened": 13.9,
+    "gap_per_1000_residents": 20.1,
+    "share_of_state_gap": 0.34
+   },
+   "market": {
+    "active_market_vacancy_pct": 0.7,
+    "raw_rental_vacancy_pct": 2.8,
+    "seasonal_share_of_vacant_pct": 38.8,
+    "median_gross_rent_acs": 942,
+    "permits_avg_annual_5yr": 23.4,
+    "projected_need_annual_10yr": 84.9,
+    "production_to_need_ratio": 0.28,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 4,
+    "lihtc_units": 149,
+    "lihtc_9pct_units": 149,
+    "federal_9pct_credit_annual": 4270749,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 28,
+    "federal_9pct_credit_per_unit_annual": 28663,
+    "share_of_state_lihtc_units": 0.7
+   },
+   "flags": [],
+   "quadrant": "aligned"
   },
   {
    "fips": "08087",
@@ -1502,8 +1500,8 @@
     "seasonal_share_of_vacant_pct": 31.6,
     "median_gross_rent_acs": 1025,
     "permits_avg_annual_5yr": 132.6,
-    "projected_need_annual_10yr": 56.4,
-    "production_to_need_ratio": 2.35,
+    "projected_need_annual_10yr": 98.8,
+    "production_to_need_ratio": 1.34,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1529,60 +1527,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 2.9%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
-    }
-   ],
-   "quadrant": "aligned"
-  },
-  {
-   "fips": "08083",
-   "name": "Montezuma County",
-   "region": "Southwest",
-   "population": 26412,
-   "need": {
-    "gap_units_30ami": 532,
-    "gap_units_50ami": 54,
-    "overall_need_score": 47.6,
-    "pct_renter_severe_burdened": 13.9,
-    "gap_per_1000_residents": 20.1,
-    "share_of_state_gap": 0.34
-   },
-   "market": {
-    "active_market_vacancy_pct": 0.7,
-    "raw_rental_vacancy_pct": 2.8,
-    "seasonal_share_of_vacant_pct": 38.8,
-    "median_gross_rent_acs": 942,
-    "permits_avg_annual_5yr": 23.4,
-    "projected_need_annual_10yr": 9.8,
-    "production_to_need_ratio": 2.39,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 4,
-    "lihtc_units": 149,
-    "lihtc_9pct_units": 149,
-    "federal_9pct_credit_annual": 4270749,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 28,
-    "federal_9pct_credit_per_unit_annual": 28663,
-    "share_of_state_lihtc_units": 0.7
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -1606,8 +1550,8 @@
     "seasonal_share_of_vacant_pct": 81.6,
     "median_gross_rent_acs": 1432,
     "permits_avg_annual_5yr": 150,
-    "projected_need_annual_10yr": 39.1,
-    "production_to_need_ratio": 3.84,
+    "projected_need_annual_10yr": 98.1,
+    "production_to_need_ratio": 1.53,
     "chfa_60ami_max_rent_1br": 1107,
     "chfa_60ami_max_rent_2br": 1327
    },
@@ -1633,10 +1577,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 3.2%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.8× DOLA's projected household growth"
     }
    ],
    "quadrant": "funded-above-need"
@@ -1649,7 +1589,7 @@
    "need": {
     "gap_units_30ami": 94,
     "gap_units_50ami": 0,
-    "overall_need_score": 46.1,
+    "overall_need_score": 45.2,
     "pct_renter_severe_burdened": 14.9,
     "gap_per_1000_residents": 7.9,
     "share_of_state_gap": 0.06
@@ -1660,7 +1600,7 @@
     "seasonal_share_of_vacant_pct": 2.8,
     "median_gross_rent_acs": 808,
     "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": -2.5,
+    "projected_need_annual_10yr": -10.4,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -1688,57 +1628,6 @@
    "quadrant": "low-need-low-funding"
   },
   {
-   "fips": "08093",
-   "name": "Park County",
-   "region": "Mountains",
-   "population": 17907,
-   "need": {
-    "gap_units_30ami": 310,
-    "gap_units_50ami": 327,
-    "overall_need_score": 45.2,
-    "pct_renter_severe_burdened": 26.3,
-    "gap_per_1000_residents": 17.3,
-    "share_of_state_gap": 0.2
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.8,
-    "raw_rental_vacancy_pct": 8.3,
-    "seasonal_share_of_vacant_pct": 91.2,
-    "median_gross_rent_acs": 2161,
-    "permits_avg_annual_5yr": 173.8,
-    "projected_need_annual_10yr": 62.8,
-    "production_to_need_ratio": 2.77,
-    "chfa_60ami_max_rent_1br": 1620,
-    "chfa_60ami_max_rent_2br": 1944
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth"
-    }
-   ],
-   "quadrant": "underserved"
-  },
-  {
    "fips": "08051",
    "name": "Gunnison County",
    "region": "Western Slope",
@@ -1757,8 +1646,8 @@
     "seasonal_share_of_vacant_pct": 82.9,
     "median_gross_rent_acs": 1252,
     "permits_avg_annual_5yr": 147.4,
-    "projected_need_annual_10yr": 33.2,
-    "production_to_need_ratio": 4.44,
+    "projected_need_annual_10yr": 60.4,
+    "production_to_need_ratio": 2.44,
     "chfa_60ami_max_rent_1br": 1391,
     "chfa_60ami_max_rent_2br": 1669
    },
@@ -1787,7 +1676,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4.4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -1811,7 +1700,7 @@
     "seasonal_share_of_vacant_pct": 71.3,
     "median_gross_rent_acs": 1701,
     "permits_avg_annual_5yr": 2.8,
-    "projected_need_annual_10yr": -7.2,
+    "projected_need_annual_10yr": -4.5,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -1844,6 +1733,57 @@
    "quadrant": "underserved"
   },
   {
+   "fips": "08093",
+   "name": "Park County",
+   "region": "Mountains",
+   "population": 17907,
+   "need": {
+    "gap_units_30ami": 310,
+    "gap_units_50ami": 327,
+    "overall_need_score": 44.3,
+    "pct_renter_severe_burdened": 26.3,
+    "gap_per_1000_residents": 17.3,
+    "share_of_state_gap": 0.2
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.8,
+    "raw_rental_vacancy_pct": 8.3,
+    "seasonal_share_of_vacant_pct": 91.2,
+    "median_gross_rent_acs": 2161,
+    "permits_avg_annual_5yr": 173.8,
+    "projected_need_annual_10yr": 25.9,
+    "production_to_need_ratio": 6.71,
+    "chfa_60ami_max_rent_1br": 1620,
+    "chfa_60ami_max_rent_2br": 1944
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth"
+    }
+   ],
+   "quadrant": "underserved"
+  },
+  {
    "fips": "08003",
    "name": "Alamosa County",
    "region": "San Luis Valley",
@@ -1862,8 +1802,8 @@
     "seasonal_share_of_vacant_pct": 20.9,
     "median_gross_rent_acs": 907,
     "permits_avg_annual_5yr": 77,
-    "projected_need_annual_10yr": 11.7,
-    "production_to_need_ratio": 6.58,
+    "projected_need_annual_10yr": 29.6,
+    "production_to_need_ratio": 2.6,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1888,7 +1828,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.6× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.6× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -1912,8 +1852,8 @@
     "seasonal_share_of_vacant_pct": 51.4,
     "median_gross_rent_acs": 1658,
     "permits_avg_annual_5yr": 27,
-    "projected_need_annual_10yr": 17.2,
-    "production_to_need_ratio": 1.57,
+    "projected_need_annual_10yr": 7.8,
+    "production_to_need_ratio": 3.46,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1940,6 +1880,10 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 3.7%, in the loosest quarter of Colorado counties (≥ 2.4%)"
+    },
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth"
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -1963,8 +1907,8 @@
     "seasonal_share_of_vacant_pct": 38.8,
     "median_gross_rent_acs": 828,
     "permits_avg_annual_5yr": 82,
-    "projected_need_annual_10yr": 5.4,
-    "production_to_need_ratio": 15.19,
+    "projected_need_annual_10yr": 1.9,
+    "production_to_need_ratio": 43.16,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -1989,7 +1933,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 15.2× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 43.2× DOLA's projected household growth"
     }
    ],
    "quadrant": "aligned"
@@ -2013,7 +1957,7 @@
     "seasonal_share_of_vacant_pct": 90.7,
     "median_gross_rent_acs": 928,
     "permits_avg_annual_5yr": 8.2,
-    "projected_need_annual_10yr": 0.4,
+    "projected_need_annual_10yr": -1.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2059,7 +2003,7 @@
     "seasonal_share_of_vacant_pct": 0.5,
     "median_gross_rent_acs": 839,
     "permits_avg_annual_5yr": 22.6,
-    "projected_need_annual_10yr": -43.5,
+    "projected_need_annual_10yr": -42,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2109,7 +2053,7 @@
     "seasonal_share_of_vacant_pct": 8.4,
     "median_gross_rent_acs": 1162,
     "permits_avg_annual_5yr": 8.2,
-    "projected_need_annual_10yr": -2,
+    "projected_need_annual_10yr": -11.4,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2155,8 +2099,8 @@
     "seasonal_share_of_vacant_pct": 69,
     "median_gross_rent_acs": 1070,
     "permits_avg_annual_5yr": 145.8,
-    "projected_need_annual_10yr": -20.8,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 51.3,
+    "production_to_need_ratio": 2.84,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2178,7 +2122,12 @@
     "federal_9pct_credit_per_unit_annual": 34767,
     "share_of_state_lihtc_units": 0.34
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth"
+    }
+   ],
    "quadrant": "funded-above-need"
   },
   {
@@ -2200,8 +2149,8 @@
     "seasonal_share_of_vacant_pct": 44.6,
     "median_gross_rent_acs": 942,
     "permits_avg_annual_5yr": 10.2,
-    "projected_need_annual_10yr": -7.9,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 6.2,
+    "production_to_need_ratio": 1.65,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2246,7 +2195,7 @@
     "seasonal_share_of_vacant_pct": 50.7,
     "median_gross_rent_acs": 891,
     "permits_avg_annual_5yr": 38,
-    "projected_need_annual_10yr": -25.3,
+    "projected_need_annual_10yr": -39.4,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2280,7 +2229,7 @@
    "need": {
     "gap_units_30ami": 97,
     "gap_units_50ami": 49,
-    "overall_need_score": 33.4,
+    "overall_need_score": 34.3,
     "pct_renter_severe_burdened": 14.2,
     "gap_per_1000_residents": 3.5,
     "share_of_state_gap": 0.06
@@ -2291,8 +2240,8 @@
     "seasonal_share_of_vacant_pct": 4.9,
     "median_gross_rent_acs": 1311,
     "permits_avg_annual_5yr": 367.4,
-    "projected_need_annual_10yr": 154.9,
-    "production_to_need_ratio": 2.37,
+    "projected_need_annual_10yr": 176,
+    "production_to_need_ratio": 2.09,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -2318,7 +2267,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.1× DOLA's projected household growth"
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -2342,8 +2291,8 @@
     "seasonal_share_of_vacant_pct": 86.4,
     "median_gross_rent_acs": 1397,
     "permits_avg_annual_5yr": 56.2,
-    "projected_need_annual_10yr": 28.4,
-    "production_to_need_ratio": 1.98,
+    "projected_need_annual_10yr": 36.2,
+    "production_to_need_ratio": 1.55,
     "chfa_60ami_max_rent_1br": 1292,
     "chfa_60ami_max_rent_2br": 1551
    },
@@ -2388,7 +2337,7 @@
     "seasonal_share_of_vacant_pct": 65,
     "median_gross_rent_acs": 927,
     "permits_avg_annual_5yr": 51.8,
-    "projected_need_annual_10yr": -7.3,
+    "projected_need_annual_10yr": -7.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2434,7 +2383,7 @@
     "seasonal_share_of_vacant_pct": 59.4,
     "median_gross_rent_acs": 774,
     "permits_avg_annual_5yr": 2,
-    "projected_need_annual_10yr": -5.5,
+    "projected_need_annual_10yr": -5.3,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2485,7 +2434,7 @@
     "seasonal_share_of_vacant_pct": 47.4,
     "median_gross_rent_acs": 919,
     "permits_avg_annual_5yr": 15.4,
-    "projected_need_annual_10yr": -12.6,
+    "projected_need_annual_10yr": 0.5,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2533,8 +2482,8 @@
     "seasonal_share_of_vacant_pct": 67.1,
     "median_gross_rent_acs": 748,
     "permits_avg_annual_5yr": 32.2,
-    "projected_need_annual_10yr": 6,
-    "production_to_need_ratio": 5.37,
+    "projected_need_annual_10yr": 2,
+    "production_to_need_ratio": 16.1,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2560,7 +2509,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 5.4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 16.1× DOLA's projected household growth"
     }
    ],
    "quadrant": "underserved"
@@ -2584,8 +2533,8 @@
     "seasonal_share_of_vacant_pct": 6.4,
     "median_gross_rent_acs": 973,
     "permits_avg_annual_5yr": 4.8,
-    "projected_need_annual_10yr": 1.6,
-    "production_to_need_ratio": 3,
+    "projected_need_annual_10yr": 4.2,
+    "production_to_need_ratio": 1.14,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2612,10 +2561,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 2.4%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3× DOLA's projected household growth"
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -2639,7 +2584,7 @@
     "seasonal_share_of_vacant_pct": 82.2,
     "median_gross_rent_acs": 838,
     "permits_avg_annual_5yr": 55.2,
-    "projected_need_annual_10yr": -28.6,
+    "projected_need_annual_10yr": -31.7,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2685,7 +2630,7 @@
     "seasonal_share_of_vacant_pct": 26.7,
     "median_gross_rent_acs": 1039,
     "permits_avg_annual_5yr": 17.8,
-    "projected_need_annual_10yr": -7.4,
+    "projected_need_annual_10yr": -5.9,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2736,8 +2681,8 @@
     "seasonal_share_of_vacant_pct": 4.1,
     "median_gross_rent_acs": 984,
     "permits_avg_annual_5yr": 12.8,
-    "projected_need_annual_10yr": 2.1,
-    "production_to_need_ratio": 6.1,
+    "projected_need_annual_10yr": 5.7,
+    "production_to_need_ratio": 2.25,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2763,7 +2708,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.1× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth"
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -2787,7 +2732,7 @@
     "seasonal_share_of_vacant_pct": 6.5,
     "median_gross_rent_acs": 800,
     "permits_avg_annual_5yr": 4.8,
-    "projected_need_annual_10yr": -1.9,
+    "projected_need_annual_10yr": -3.5,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2835,8 +2780,8 @@
     "seasonal_share_of_vacant_pct": 83.8,
     "median_gross_rent_acs": 992,
     "permits_avg_annual_5yr": 14.6,
-    "projected_need_annual_10yr": 1.8,
-    "production_to_need_ratio": 8.11,
+    "projected_need_annual_10yr": -2.2,
+    "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2863,10 +2808,6 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 2.6%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    },
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 8.1× DOLA's projected household growth"
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -2890,8 +2831,8 @@
     "seasonal_share_of_vacant_pct": 10.7,
     "median_gross_rent_acs": 868,
     "permits_avg_annual_5yr": 9.6,
-    "projected_need_annual_10yr": 3,
-    "production_to_need_ratio": 3.2,
+    "projected_need_annual_10yr": 11.7,
+    "production_to_need_ratio": 0.82,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2915,12 +2856,7 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.2× DOLA's projected household growth"
-    }
-   ],
+   "flags": [],
    "quadrant": null,
    "quadrant_unavailable_reason": "the measured ≤30% AMI gap is zero"
   },
@@ -2943,7 +2879,7 @@
     "seasonal_share_of_vacant_pct": 74,
     "median_gross_rent_acs": 945,
     "permits_avg_annual_5yr": 45.8,
-    "projected_need_annual_10yr": -19.4,
+    "projected_need_annual_10yr": -10.9,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2989,7 +2925,7 @@
     "seasonal_share_of_vacant_pct": 21.2,
     "median_gross_rent_acs": 999,
     "permits_avg_annual_5yr": 6.6,
-    "projected_need_annual_10yr": 0,
+    "projected_need_annual_10yr": -1.9,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1160,
     "chfa_60ami_max_rent_2br": 1392
@@ -3040,7 +2976,7 @@
     "seasonal_share_of_vacant_pct": 8.9,
     "median_gross_rent_acs": 592,
     "permits_avg_annual_5yr": 6.8,
-    "projected_need_annual_10yr": -2.1,
+    "projected_need_annual_10yr": -11.1,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3086,7 +3022,7 @@
     "seasonal_share_of_vacant_pct": 67,
     "median_gross_rent_acs": 986,
     "permits_avg_annual_5yr": 6,
-    "projected_need_annual_10yr": -5.3,
+    "projected_need_annual_10yr": -3.5,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1098,
     "chfa_60ami_max_rent_2br": 1318
@@ -3132,7 +3068,7 @@
     "seasonal_share_of_vacant_pct": 11.9,
     "median_gross_rent_acs": 926,
     "permits_avg_annual_5yr": 6.8,
-    "projected_need_annual_10yr": -3.5,
+    "projected_need_annual_10yr": -0.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3183,7 +3119,7 @@
     "seasonal_share_of_vacant_pct": 10.1,
     "median_gross_rent_acs": 947,
     "permits_avg_annual_5yr": 3.4,
-    "projected_need_annual_10yr": -10.2,
+    "projected_need_annual_10yr": -0.7,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3229,8 +3165,8 @@
     "seasonal_share_of_vacant_pct": 92.2,
     "median_gross_rent_acs": 1069,
     "permits_avg_annual_5yr": 115.4,
-    "projected_need_annual_10yr": 16.9,
-    "production_to_need_ratio": 6.83,
+    "projected_need_annual_10yr": 32.6,
+    "production_to_need_ratio": 3.54,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3256,7 +3192,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.8× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth"
     }
    ],
    "quadrant": "underserved"
@@ -3280,7 +3216,7 @@
     "seasonal_share_of_vacant_pct": 93,
     "median_gross_rent_acs": 1171,
     "permits_avg_annual_5yr": 13.2,
-    "projected_need_annual_10yr": -1.3,
+    "projected_need_annual_10yr": 0.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
