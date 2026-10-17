@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T15:35:23.871Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T15:52:34.569Z. Do not edit by hand.
 
 ---
 
@@ -76,7 +76,7 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 22.8 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.6 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.7 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 12.5 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 2.8 KB |
@@ -1795,7 +1795,7 @@
 
 ## Test Files
 
-634 test files found.
+635 test files found.
 
 | File | Size |
 |------|------|
@@ -1991,6 +1991,7 @@
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/glossary-skips-svg-text.test.js` | 4.2 KB |
 | `test/growth-figure-agrees.test.js` | 13.1 KB |
+| `test/guided-path-a11y.test.js` | 3.4 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 15.4 KB |
