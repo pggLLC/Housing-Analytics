@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T15:52:56.617Z",
+    "generated_at": "2026-10-17T16:40:03.027Z",
     "root": "data/",
     "file_count": 1742,
-    "total_size_bytes": 187267153,
+    "total_size_bytes": 187267816,
     "kinds": {
       "json": 1699,
       "geojson": 33,
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T15:52:53.112Z",
+      "mtime": "2026-10-17T16:39:58.864Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29780,8 +29780,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 10053,
-      "mtime": "2026-10-11T11:05:03.342Z",
+      "size_bytes": 10646,
+      "mtime": "2026-10-17T16:26:38.909Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32511,8 +32511,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15109,
-      "mtime": "2026-10-17T15:52:54.563Z",
+      "size_bytes": 15107,
+      "mtime": "2026-10-17T16:40:00.796Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32536,7 +32536,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T15:52:54.204Z",
+      "mtime": "2026-10-17T16:40:00.338Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35337,8 +35337,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 40851,
-      "mtime": "2026-10-11T12:35:29.371Z",
+      "size_bytes": 40888,
+      "mtime": "2026-10-17T16:26:39.119Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35475,8 +35475,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 184859,
-      "mtime": "2026-10-14T17:56:03.255Z",
+      "size_bytes": 184894,
+      "mtime": "2026-10-17T16:26:39.122Z",
       "shape": "object",
       "keys": [
         "meta",

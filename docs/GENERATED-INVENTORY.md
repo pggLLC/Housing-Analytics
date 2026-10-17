@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T15:52:34.569Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T16:39:31.751Z. Do not edit by hand.
 
 ---
 
@@ -14,8 +14,8 @@
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 17.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.7 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 43.9 KB |
-| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 17.9 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
+| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 18.4 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
@@ -25,7 +25,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.4 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 22.7 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 23.3 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
@@ -59,8 +59,8 @@
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
-| `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 15.9 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 56.2 KB |
+| `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.0 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 59.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 149.2 KB |
@@ -1552,7 +1552,7 @@
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 9.8 KB | ✅ | — |
+| `data/insights/catalog.json` | 10.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 34.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 31.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 34.4 KB | ✅ | — |
@@ -1769,7 +1769,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 431.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 180.5 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 180.6 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 161.7 KB | ✅ | — |
@@ -1795,7 +1795,7 @@
 
 ## Test Files
 
-635 test files found.
+636 test files found.
 
 | File | Size |
 |------|------|
@@ -1810,7 +1810,7 @@
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
 | `test/agency-funding.test.mjs` | 14.0 KB |
-| `test/ahcia-status.test.mjs` | 5.9 KB |
+| `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
@@ -2108,10 +2108,10 @@
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
 | `test/lihtc-deal-predictor-backtest.test.js` | 6.1 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.9 KB |
-| `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
+| `test/lihtc-guide-accuracy.test.js` | 5.9 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
-| `test/livability-brief.test.mjs` | 10.4 KB |
+| `test/livability-brief.test.mjs` | 10.6 KB |
 | `test/loan-obligations-page.test.js` | 5.8 KB |
 | `test/loan-obligations.test.js` | 8.1 KB |
 | `test/local-incentives.test.mjs` | 11.4 KB |
@@ -2163,6 +2163,7 @@
 | `test/pages-deploy-watchdog.test.js` | 8.3 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
 | `test/paper-names-its-author.test.mjs` | 4.8 KB |
+| `test/paper-typed-facts.test.mjs` | 7.4 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
