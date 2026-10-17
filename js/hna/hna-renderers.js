@@ -6373,9 +6373,9 @@
         }
         // Absent is not zero: a missing NLIHC value prints as unavailable.
         function wage(v) {
-          return (typeof v === 'number' && isFinite(v) && v > 0) ? '$' + v.toFixed(2) + '/hr' : 'Not published';
+          return (typeof v === 'number' && Number.isFinite(v) && v > 0) ? '$' + v.toFixed(2) + '/hr' : 'Not published';
         }
-        var gapKnown = typeof rec.gap_2br === 'number' && isFinite(rec.gap_2br);
+        var gapKnown = typeof rec.gap_2br === 'number' && Number.isFinite(rec.gap_2br);
         var gapText = gapKnown
           ? (rec.gap_2br > 0 ? '$' + rec.gap_2br.toFixed(2) + '/hr short' : '$' + Math.abs(rec.gap_2br).toFixed(2) + '/hr above')
           : 'Not available';
