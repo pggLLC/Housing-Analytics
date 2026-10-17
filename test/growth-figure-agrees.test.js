@@ -113,14 +113,29 @@ async function hnaGrowthRow(selection, countyFips) {
 const RecommendationContract = freshRequire('js/workflow/recommendation-contract.js');
 
 // The name the Recommendation gives the growth-only figure, and its number.
-const REC_GROWTH = /(resident growth) alone would need about ([\d,]+)/i;
+// recommendation-contract.js writes it two ways, by the digest's
+// future_units_reading: under the workforce reading the growth figure is the
+// parenthetical ("resident growth alone would need about N"); under the
+// resident-growth reading it is the headline itself ("Roughly N additional
+// homes over 20 years, from projected household growth"), because there the
+// 20-year figure IS the growth figure. Mesa moved from the first form to the
+// second when the county household series switched to the SDO household
+// forecast (#2260), so both forms are read.
+const REC_GROWTH_WORKFORCE = /(resident growth) alone would need about ([\d,]+)/i;
+const REC_GROWTH_RESIDENT = /Roughly ([\d,]+) additional homes over 20 years, from projected (household growth)/i;
 
 function recGrowth(geoid) {
   const out = RecommendationContract.build({ digest: digest(geoid), project: null, generatedAt: 'test' });
   const production = out.conclusions.find((c) => c.id === 'production');
   assert(production, `${geoid}: the Recommendation has no production conclusion`);
-  const m = String(production.plain || '').match(REC_GROWTH);
-  return { out, production, name: m ? m[1].toLowerCase() : null, units: m ? Number(m[2].replace(/,/g, '')) : null };
+  const plain = String(production.plain || '');
+  let name = null;
+  let units = null;
+  const w = plain.match(REC_GROWTH_WORKFORCE);
+  const r = w ? null : plain.match(REC_GROWTH_RESIDENT);
+  if (w) { name = w[1].toLowerCase(); units = Number(w[2].replace(/,/g, '')); }
+  else if (r) { name = r[2].toLowerCase(); units = Number(r[1].replace(/,/g, '')); }
+  return { out, production, name, units };
 }
 
 const nameOf = (label) => label.replace(/\s+by\s+\d{4}$/, '').trim().toLowerCase();

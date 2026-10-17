@@ -49,7 +49,15 @@ export function deriveLe60HouseholdGrowth({ projections, amiGap, summary }) {
     throw new Error('Cannot build homepage snapshot: DOLA household projection series (housing_need.households_dola) is missing');
   }
   const span = Number(years[years.length - 1]) - Number(years[0]);
-  const growthPerYear = (Number(households[households.length - 1]) - Number(households[0])) / span;
+  // A year any county cannot value is null in the statewide series, never
+  // 0. Number(null) is 0, which here would be a strongly negative growth
+  // that passes Number.isFinite; stop before that coercion.
+  const hhFirst = households[0];
+  const hhLast = households[households.length - 1];
+  if (typeof hhFirst !== 'number' || typeof hhLast !== 'number' || !Number.isFinite(hhFirst) || !Number.isFinite(hhLast)) {
+    throw new Error('Cannot build homepage snapshot: the statewide household series has no value at the base or horizon year (a year any county cannot value is null, never 0)');
+  }
+  const growthPerYear = (hhLast - hhFirst) / span;
   const totalHouseholds = Number(summary && summary.acsProfile && summary.acsProfile.DP02_0001E);
   const statewide = amiGap && amiGap.statewide;
   // RENTER basis (#1822). The supply this growth is compared against is
