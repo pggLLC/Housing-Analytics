@@ -779,7 +779,10 @@ test('cost lines saved before the DOH layout load into the DOH lines with the sa
   // ...and leaves no example eligible part behind on a line it emptied.
   assert.equal(cleared['cost-construction_interest-eligible'], '');
   // Old combined lines move to their category's Other line; the reused id is emptied.
-  const combined = cb.legacyCostFields((k) => ({ 'cost-overhead': '250000', 'cost-design': '700000', 'cost-reserves': '500000', 'cost-reserves-basis': 'ineligible', 'cost-permits': '400000' })[k] ?? null);
+  const combined = cb.legacyCostFields((k) => ({ 'cost-overhead': '250000', 'cost-design': '700000', 'cost-design-basis': 'partial', 'cost-design-eligible': '500000', 'cost-reserves': '500000', 'cost-reserves-basis': 'ineligible', 'cost-permits': '400000' })[k] ?? null);
+  assert.equal(combined['cost-professional_other-basis'], 'partial');
+  assert.equal(combined['cost-professional_other-eligible'], '500000');
+  assert.equal(combined['cost-design-basis'], cb.LINE_TEMPLATE.find((l) => l.id === 'design').basis, 'Architect fees go back to their default basis');
   assert.equal(combined['cost-professional_other'], '700000');
   assert.equal(combined['cost-reserve_other'], '500000');
   assert.equal(combined['cost-design'], '');

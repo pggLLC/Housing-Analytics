@@ -439,7 +439,11 @@
     });
     if (legacy) {
       // A moved combined line leaves its old id, which now means the narrower DOH item, empty.
-      Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) { out['cost-' + old] = ''; out['cost-' + old + '-eligible'] = ''; });
+      // Its basis goes back to the DOH line's default, so a later entry is not judged by the old line's choice.
+      Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) {
+        var t = LINE_TEMPLATE.filter(function (l) { return l.id === old; })[0];
+        out['cost-' + old] = ''; out['cost-' + old + '-eligible'] = ''; out['cost-' + old + '-basis'] = t.basis;
+      });
       // DOH lines the old link could not name had no cost in it, whatever the example says,
       // and no eligible part either.
       LINE_TEMPLATE.forEach(function (t) {
