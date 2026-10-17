@@ -408,11 +408,11 @@
       return Object.assign(base, { status: 'unavailable',
         reason: 'the natural-feature file did not load' });
     }
-    if (!isFinite(siteLat) || !isFinite(siteLon)) {
+    if (!Number.isFinite(siteLat) || !Number.isFinite(siteLon)) {
       return Object.assign(base, { status: 'unavailable', reason: 'no site location' });
     }
     var pts = (tracts || []).filter(function (t) {
-      return t && t.geoid && isFinite(t.lat) && isFinite(t.lon);
+      return t && t.geoid && Number.isFinite(t.lat) && Number.isFinite(t.lon);
     });
     // Only features near the site-to-tract lines can cross them.
     var minX = siteLon, maxX = siteLon, minY = siteLat, maxY = siteLat;
