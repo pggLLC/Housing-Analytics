@@ -241,6 +241,28 @@ async function assertRenderedGapFigures() {
   }
 }
 
+// The homepage's opening names the audience AGENTS.md's persona pass
+// defines (owner decision 2026-10-15): practitioners in finance, planning,
+// development and local government come first, learners are welcomed after.
+// Agreement, not wording: the persona's own fields are read from AGENTS.md.
+{
+  const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8').replace(/\s+/g, ' ');
+  const persona = agents.match(/someone who works in housing (.+?) and knows the field/);
+  assert(persona, 'AGENTS.md defines the practitioner persona');
+  const fields = persona[1].replace(/,? or /, ', ').split(/,\s*/).map((f) => f.trim().split(' ')[0]).filter(Boolean);
+  assert(fields.length >= 4, `persona fields read from AGENTS.md (${fields.join(', ')})`);
+  const stems = { finance: /financ/i, planning: /plan/i, development: /develop/i, local: /govern/i };
+  const lead = new JSDOM(index).window.document.querySelector('.home-opening__lead').textContent.replace(/\s+/g, ' ');
+  const learnerAt = lead.search(/learn|new to (the field|housing)|student/i);
+  assert(learnerAt > 0, 'the opening welcomes people learning the field');
+  for (const f of fields) {
+    const re = stems[f] || new RegExp(f.slice(0, 5), 'i');
+    const at = lead.search(re);
+    assert(at >= 0 && at < learnerAt, `the opening names "${f}" before it welcomes learners`);
+  }
+  assert(!/anyone can read/i.test(lead) || lead.search(/anyone can read/i) > learnerAt, 'the opening does not lead with a general-public audience');
+}
+
 assertRenderedGapFigures()
   .then(() => console.log('homepage-claims: PASS'))
   .catch((error) => {
