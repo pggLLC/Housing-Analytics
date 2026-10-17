@@ -295,6 +295,11 @@ ledgerAgreement(DATA);
   await dom.window.LandBankingMap.start();
   ok(requested.length === 1 && requested[0] === LBM.AWARDS, `the public page requests only the awards file (${requested.join(', ')})`);
   ok(dom.window.document.querySelector('[data-lbm-towns]').querySelectorAll('button').length === towns.length, 'the public town list has every town');
+  // The table and the map share one request, so they always show the same snapshot.
+  dom.window.eval(read('js/land-banking-awards.js'));
+  await new Promise((r) => setTimeout(r, 0));
+  ok(requested.length === 1, `the table reuses the map's request (${requested.length} requests)`);
+  ok(dom.window.document.querySelector('[data-lb-rows]').querySelectorAll('tr').length > 1, 'the table rendered from the shared request');
   ok(!PAGE.includes('_land-banking-contacts') && !read('js/land-banking-awards.js').includes('_land-banking-contacts'), 'nothing on the public page names the contacts file');
   // Sabotage: marked gated, the same page asks for the contacts file.
   const CPATH = 'data/jurisdiction-briefs/_land-banking-contacts.json';
@@ -306,6 +311,11 @@ ledgerAgreement(DATA);
   gated.window.eval(read('js/land-banking-map.js'));
   await gated.window.LandBankingMap.start();
   ok(asked.includes(CPATH), 'sabotage: a page naming a contacts file does request it');
+
+  // Every tappable control on the public page is at least 44px tall, including the "Row as printed" toggles.
+  const quoteRule = (PAGE.match(/details\.lb-quote > summary \{([^}]*)\}/) || [])[1] || '';
+  ok(/min-height:\s*44px/.test(quoteRule), 'the "Row as printed" toggle is at least 44px tall');
+  ok(LBA.rowHtml(DATA.awards[0], DATA).includes('lb-quote'), 'the table rows use that toggle');
 
   // The table and its download carry every award, and the headline is the file's totals.
   const lead = LBA.leadHtml(DATA);

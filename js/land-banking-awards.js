@@ -209,8 +209,9 @@
   function start() {
     var doc = global.document;
     if (!doc || !doc.querySelector('[data-land-banking]')) return;
-    var load = global.DataService && global.DataService.getJSON
-      ? global.DataService.getJSON(DATA)
+    // Share the map's request so the headline, table and download match its pins.
+    var map = global.LandBankingMap;
+    var load = map && map.loadAwards ? map.loadAwards()
       : global.fetch(DATA).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
     Promise.resolve(load).then(boot).catch(function (e) {
       doc.querySelector('[data-lb-lead]').textContent = 'The award list could not be loaded (' + (e && e.message) + '). Try reloading the page.';

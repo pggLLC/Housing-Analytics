@@ -334,12 +334,20 @@
     }).catch(function (e) { if (optional) return null; throw e; });
   }
 
+  // One request per page load, so a page that also renders the awards elsewhere
+  // (the public table) shows the same snapshot as the map.
+  var awardsLoad = null;
+  function loadAwards() {
+    if (!awardsLoad) awardsLoad = getJSON(AWARDS, false);
+    return awardsLoad;
+  }
+
   function start() {
     var doc = global.document;
     if (!doc || !doc.querySelector('[data-land-banking-map]')) return null;
     var cfg = pageConfig(doc);
     // Only the gated page names a contacts file; the public page never requests one.
-    return Promise.all([getJSON(AWARDS, false), cfg.contactsPath ? getJSON(cfg.contactsPath, true) : null])
+    return Promise.all([loadAwards(), cfg.contactsPath ? getJSON(cfg.contactsPath, true) : null])
       .then(function (r) { boot(r[0], r[1], cfg); }).catch(function (e) {
       doc.querySelector('[data-lbm-count]').textContent = 'The award list could not be loaded (' + (e && e.message) + '). Try reloading the page.';
     });
@@ -351,5 +359,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
 }));

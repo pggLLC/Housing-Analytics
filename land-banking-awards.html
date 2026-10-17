@@ -22,7 +22,7 @@
     .lb-table td, .lb-table th { vertical-align: top; }
     .lb-table td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
     .lb-table details.lb-quote { border: 0; background: none; padding: 0; margin: 4px 0 0; box-shadow: none; }
-    .lb-table details.lb-quote > summary { cursor: pointer; font-size: var(--small); padding: 0; color: var(--link, var(--accent)); list-style: revert; }
+    .lb-table details.lb-quote > summary { cursor: pointer; font-size: var(--small); display: block; box-sizing: border-box; min-height: 44px; padding: 12px 0; color: var(--link, var(--accent)); list-style: revert; }
     .lb-table details.lb-quote > summary::after { content: none; }
     .lb-quote blockquote { margin: var(--sp1) 0; padding-left: var(--sp2); border-left: 3px solid var(--border); font-size: var(--small); overflow-wrap: anywhere; }
     .lb-note { font-size: var(--small); color: var(--muted); }
@@ -55,6 +55,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/land-banking-map.js"></script>
   <script defer src="js/land-banking-awards.js"></script>
 </head>
