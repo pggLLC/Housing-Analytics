@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-17T10:51:27.753Z",
+    "generated_at": "2026-10-17T11:27:19.590Z",
     "root": "data/",
     "file_count": 1742,
-    "total_size_bytes": 187214655,
+    "total_size_bytes": 187266235,
     "kinds": {
       "json": 1699,
       "geojson": 33,
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 306045,
-      "mtime": "2026-10-16T11:43:53.150Z",
+      "size_bytes": 326026,
+      "mtime": "2026-10-17T11:09:55.748Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 446,
+      "primary_array_length": 476,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -299,8 +299,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 70531,
-      "mtime": "2026-10-16T11:44:16.742Z",
+      "size_bytes": 73742,
+      "mtime": "2026-10-17T11:10:20.844Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -540,7 +540,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-17T10:40:22.782Z",
+      "mtime": "2026-10-17T11:27:15.972Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1056,8 +1056,8 @@
     {
       "path": "co-county-demographics.json",
       "kind": "json",
-      "size_bytes": 40183,
-      "mtime": "2026-10-17T10:51:19.810Z",
+      "size_bytes": 41678,
+      "mtime": "2026-10-17T11:26:30.450Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1077,7 +1077,7 @@
       "path": "co-county-economic-indicators.json",
       "kind": "json",
       "size_bytes": 15327,
-      "mtime": "2026-10-11T07:50:12.176Z",
+      "mtime": "2026-10-17T11:26:30.450Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30972,7 +30972,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 220790,
-      "mtime": "2026-10-17T10:51:25.759Z",
+      "mtime": "2026-10-17T11:26:30.675Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32511,8 +32511,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15109,
-      "mtime": "2026-10-17T10:40:24.666Z",
+      "size_bytes": 15107,
+      "mtime": "2026-10-17T11:27:17.780Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32536,7 +32536,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-17T10:40:24.236Z",
+      "mtime": "2026-10-17T11:27:17.359Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34760,8 +34760,8 @@
     {
       "path": "policy/housing-events.json",
       "kind": "json",
-      "size_bytes": 15087,
-      "mtime": "2026-10-16T11:44:16.647Z",
+      "size_bytes": 14640,
+      "mtime": "2026-10-17T11:10:20.715Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34770,7 +34770,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "events",
-      "primary_array_length": 31,
+      "primary_array_length": 30,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -35448,8 +35448,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 414118,
-      "mtime": "2026-10-16T11:44:13.581Z",
+      "size_bytes": 441460,
+      "mtime": "2026-10-17T11:10:15.163Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35459,7 +35459,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 232,
+      "primary_array_length": 249,
       "primary_array_first_keys": [
         "title",
         "source",

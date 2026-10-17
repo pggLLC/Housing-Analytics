@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-16T11:44:16Z",
-    "as_of": "2026-10-16",
+    "generated": "2026-10-17T11:10:20Z",
+    "as_of": "2026-10-17",
     "stale_days": 30,
-    "events_as_of": "2026-10-16",
+    "events_as_of": "2026-10-17",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
+        {
+          "title": "As Denver apartments see vacancies, developers warn demand will rise",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQdlZwaHpXeElDYThuWk85N25QWVE5X1d0cDRHWm1HdDN4OEhhTkJjZ1RkSWFSVFdrMVc0YjNBUUNFZjZXUWZpQ3hXZ0NOYklxMzVVN0tDdmVBWk5UMkJfUGY4azZ0ZnAzRnhtTDFDazdLa1FLQVJZcWhwNlNHdExPSEp2QXVoTUpRYllqeWFTYjlHakhZa0g0a1c1UklDVGlzUXlJeENSajV4ZWYyQ1lOOQ?oc=5",
+          "date": "2026-10-16",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Real Estate Report: Colorado home sales fall 15.1% as buyers pull back in Denver metro",
           "source": "ColoradoBiz",
@@ -45,6 +53,14 @@
           "source": "The Denver Post",
           "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9sVnpIcHVhMUVjVlFMeW8zSWE5Y1pNWTQ5MGh0U2hvWmtXMi1YSEVuakhLV2hETTFrcmNrQnM3ZGVta1ZXVWVpNG9zQTlPOGlHMjJXdHZ3eERwRVliVVVJSlI5dUVpQkJ5M2FXYzE5SC04MUJw?oc=5",
           "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver earned national praise for its response to homelessness. How do locals feel?",
+          "source": "Westword",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOUTlieXBKcDdLaTFsdkxYNWEzVGEwQlFmem5ycFRfTWxOQTB6TnZzUzdHMlJBYUxLUVFiaEFTcVlkcGdlMmtTS21xUE5OVmpBWEZkQkJMWGZ2M0NyU2F3M3NyamFZZUZMazJhU0RYSlhkbDMtUVE2OXpxeXdTLTgtVURUcEh4YXI2amFXQU1qRHQ0YXQ0?oc=5",
+          "date": "2026-10-13",
           "match": "place",
           "also": []
         },
@@ -294,8 +310,8 @@
         }
       ],
       "reasons": [
-        "30 new stories naming it",
-        "not reviewed in 119 days"
+        "32 new stories naming it",
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -305,8 +321,16 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
+        {
+          "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
+          "source": "Colorado Public Radio",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZkZwMFMzcGU0eHpfZ3R2VnRGZmEzTnZwcUxnbXZNajQ3c0dBa1IyT0FCZFQ3QkRXbU5ZQzAzTnM0TjlwMUltZFdwaHpfX0NZMWJVNHh2QzFkeGphTk1XSXBhNGJjVW5xMEpnSHl4VjJ0VnZ5Mlp4ZVNRSENESXJYdFFubWNVMDQ?oc=5",
+          "date": "2026-10-17",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Colorado Springs housing snapshot shows rising costs",
           "source": "Axios",
@@ -348,6 +372,14 @@
           "also": [
             "KOAA News 5"
           ]
+        },
+        {
+          "title": "Thompson Thrift Hosts Ribbon Cutting for 276-Unit Multifamily Community Switch Luxury Apartments in Colorado Springs",
+          "source": "Yield PRO",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBSZ21wMU83dGFyR2pCLVdvWTltX014X2hibEFOdjBQUmZlTGRUMS1fbnZVNW1jekpzb05yUGo3ZFVIbkFZRVVsWUZJTm9yQkpLeUF5YkliQURBTWpyRjVkWEpUSzU?oc=5",
+          "date": "2026-09-19",
+          "match": "place",
+          "also": []
         },
         {
           "title": "Five months after opening, Living Proof Recovery is helping people rebuild their lives in Colorado Springs",
@@ -515,8 +547,8 @@
         }
       ],
       "reasons": [
-        "24 new stories naming it",
-        "not reviewed in 119 days"
+        "26 new stories naming it",
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -526,7 +558,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "The allure and struggle of making Fort Collins home",
@@ -597,7 +629,7 @@
       ],
       "reasons": [
         "7 new stories naming it",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -607,7 +639,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Nearly 100 homes proposed west of Glenwood Springs",
@@ -662,7 +694,7 @@
       "reasons": [
         "4 new stories naming it",
         "2 new stories about its county",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -672,7 +704,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions",
@@ -719,7 +751,7 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -729,7 +761,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
@@ -776,7 +808,48 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
+      ]
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "scope": "place",
+      "county_fips": "08051",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 79,
+      "stories": [
+        {
+          "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
+          "source": "Affordable Housing Finance",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
+          "date": "2026-10-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
+          "source": "coloradobiz.com",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
+          "date": "2026-09-29",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "34-Unit Affordable Housing Community Opens in Crested Butte",
+          "source": "Mile High CRE",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQLUpBODBzWUFmb0llRjFBWHdOQ0pobFREN1hQQVVKdjMwYmhPNm9VTURkdEt5MHVua2FDYU1UN1hhbm5hZTEyUjltb1BQcVVydTRDYkNmcmYwSkdqU3ZwTGNtT0x1NlhXamZ2RUtJOEpuclRDWDlIc0NlakxvbHRGZlJqM0dKQktlaWFEcQ?oc=5",
+          "date": "2026-09-28",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "3 new stories naming it",
+        "not reviewed in 79 days",
+        "draft, not shown on the site"
       ]
     },
     {
@@ -786,7 +859,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
@@ -829,17 +902,19 @@
           "also": []
         },
         {
+          "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
+          "source": "Morningstar",
+          "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQYzVoVmF3ZENpRWFub2FlaHlLNzV1MlFSejlHaWx6R2o3Z0M1ZW5HNzJCRWVrZ3gwUTZoTVBVQzBxMUJqazdJcGNLbllfRmlqVXV4Q0h6dVFoSzBBbWdTc3FSOC1EdXhBcVpmUURYVUVydDkxQ092Ym4ySDlrSExDaTFsajJVNDctNl9vSXBhcnRTT0t6T2hXV0NCRmd3Tm5rT1dubE5FV3g2ZV85ckZtUjAxdEhoUUY4VHR5WGpVdEJ0QWdtR2c?oc=5",
+          "date": "2026-07-22",
+          "match": "in_county",
+          "also": [
+            "Yahoo Finance Singapore"
+          ]
+        },
+        {
           "title": "Glenwood Springs opens lottery for deed-restricted townhome",
           "source": "Post Independent",
           "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZROG1PM2JRMDN6SGRCMkpvRVk0YUJUT1JWVXBTbFZhTWYzUS1UbmxwTngzeUdVTGpmejNmNW9HQ1NDcFZEYXpyZlZKeTFGOXdKSnlvSzYtQ0JGYnBlck5tTllTeVhyQ29xTXE0MHVmVVlaR09ranN3a3FYSkZ4VFRJRUE0b3dZLTlVdmx5OWFIRjJlWVVRaEk0RXdnQQ?oc=5",
-          "date": "2026-07-22",
-          "match": "in_county",
-          "also": []
-        },
-        {
-          "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
-          "source": "Yahoo Finance Singapore",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZ2RzbXlZN3FYbHJrQ1BkRHVvLXZoWDg3cHBzY2dQTXd3cjhMSVRtWWRyOF9qX1Q4LV9iSzRSRnIyeXl3S3h6Vkg2TnV5Wjh6dTI3cUlycWp5X3liUFd0SVJWVVp3czc2bkFmVjZnZDFra3hoOVJlVkRvVnUtZTBJQXdUMy04Sm04Q3BaWmlWejBLNzJ1cHc?oc=5",
           "date": "2026-07-22",
           "match": "in_county",
           "also": []
@@ -849,7 +924,7 @@
       "reasons": [
         "2 new stories naming it",
         "5 new stories about its towns",
-        "not reviewed in 119 days",
+        "not reviewed in 120 days",
         "draft, not shown on the site"
       ]
     },
@@ -860,7 +935,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 78,
+      "days_since_review": 79,
       "stories": [
         {
           "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
@@ -891,7 +966,7 @@
       "reasons": [
         "2 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 78 days",
+        "not reviewed in 79 days",
         "draft, not shown on the site"
       ]
     },
@@ -902,7 +977,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 78,
+      "days_since_review": 79,
       "stories": [
         {
           "title": "Development-fee debate reveals no easy answer to Steamboat Springs’ housing challenge",
@@ -924,32 +999,32 @@
       "events": [],
       "reasons": [
         "2 new stories naming it",
-        "not reviewed in 78 days",
+        "not reviewed in 79 days",
         "draft, not shown on the site"
       ]
     },
     {
-      "geoid": "0818310",
-      "jurisdiction": "Town of Crested Butte",
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
       "scope": "place",
-      "county_fips": "08051",
+      "county_fips": "08113",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 78,
+      "days_since_review": 79,
       "stories": [
         {
-          "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
-          "source": "Affordable Housing Finance",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
-          "date": "2026-10-06",
+          "title": "Telluride School District talks housing developments",
+          "source": "The Telluride Times",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX1V2M2REZ2JhQVFiRldUb3I0TTVKeHRNVXhyb0VpZXUtYnVxTFppYTZQcHhkYUwwOUpvRWx5X0ozbS1HNFpmak5RZHVONnVncEdhOW50SGEtV0hXT29fSjZnX3FxNjA0aVRsOVh6ZWU2Zk5SWnMzT2Z4d2dXR1lhXy1xTGVoTUVaMFplWg?oc=5",
+          "date": "2026-10-17",
           "match": "place",
           "also": []
         },
         {
-          "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
-          "source": "coloradobiz.com",
-          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
-          "date": "2026-09-29",
+          "title": "Council discusses hiring consultants to review Telluride housing policies",
+          "source": "The Telluride Times",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPbkFyUnYzdEhCcjJER3huQTVnZmkxVy1WVENNWDR2OGxsX3JKSEVDbjNScXdvbWZIZUMycmNFX0FSR2N0NnVQZTNYenVadkFWdEZRNFJuYWVBR0otWmFlWHNCbEtlbWpTZkZPbGxmUFJBQVFQemwzWHJjSGIwOENsdzB5Q3hWSVFLV0pNWg?oc=5",
+          "date": "2026-09-06",
           "match": "place",
           "also": []
         }
@@ -957,7 +1032,7 @@
       "events": [],
       "reasons": [
         "2 new stories naming it",
-        "not reviewed in 78 days",
+        "not reviewed in 79 days",
         "draft, not shown on the site"
       ]
     },
@@ -968,7 +1043,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -1015,7 +1090,7 @@
       "reasons": [
         "1 new story naming it",
         "4 new stories about its towns",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -1025,15 +1100,17 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
-          "source": "Yahoo Finance Singapore",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZ2RzbXlZN3FYbHJrQ1BkRHVvLXZoWDg3cHBzY2dQTXd3cjhMSVRtWWRyOF9qX1Q4LV9iSzRSRnIyeXl3S3h6Vkg2TnV5Wjh6dTI3cUlycWp5X3liUFd0SVJWVVp3czc2bkFmVjZnZDFra3hoOVJlVkRvVnUtZTBJQXdUMy04Sm04Q3BaWmlWejBLNzJ1cHc?oc=5",
+          "source": "Morningstar",
+          "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQYzVoVmF3ZENpRWFub2FlaHlLNzV1MlFSejlHaWx6R2o3Z0M1ZW5HNzJCRWVrZ3gwUTZoTVBVQzBxMUJqazdJcGNLbllfRmlqVXV4Q0h6dVFoSzBBbWdTc3FSOC1EdXhBcVpmUURYVUVydDkxQ092Ym4ySDlrSExDaTFsajJVNDctNl9vSXBhcnRTT0t6T2hXV0NCRmd3Tm5rT1dubE5FV3g2ZV85ckZtUjAxdEhoUUY4VHR5WGpVdEJ0QWdtR2c?oc=5",
           "date": "2026-07-22",
           "match": "place",
-          "also": []
+          "also": [
+            "Yahoo Finance Singapore"
+          ]
         },
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
@@ -1056,7 +1133,7 @@
       "reasons": [
         "1 new story naming it",
         "2 new stories about its county",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -1066,7 +1143,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 78,
+      "days_since_review": 79,
       "stories": [
         {
           "title": "Durango School District expands workforce housing",
@@ -1080,32 +1157,7 @@
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "not reviewed in 78 days",
-        "draft, not shown on the site"
-      ]
-    },
-    {
-      "geoid": "0876795",
-      "jurisdiction": "Town of Telluride",
-      "scope": "place",
-      "county_fips": "08113",
-      "published": false,
-      "last_curated": "2026-07-30",
-      "days_since_review": 78,
-      "stories": [
-        {
-          "title": "Council discusses hiring consultants to review Telluride housing policies",
-          "source": "The Telluride Times",
-          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPbkFyUnYzdEhCcjJER3huQTVnZmkxVy1WVENNWDR2OGxsX3JKSEVDbjNScXdvbWZIZUMycmNFX0FSR2N0NnVQZTNYenVadkFWdEZRNFJuYWVBR0otWmFlWHNCbEtlbWpTZkZPbGxmUFJBQVFQemwzWHJjSGIwOENsdzB5Q3hWSVFLV0pNWg?oc=5",
-          "date": "2026-09-06",
-          "match": "place",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 new story naming it",
-        "not reviewed in 78 days",
+        "not reviewed in 79 days",
         "draft, not shown on the site"
       ]
     },
@@ -1116,7 +1168,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-20",
-      "days_since_review": 118,
+      "days_since_review": 119,
       "stories": [
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
@@ -1138,7 +1190,7 @@
       "events": [],
       "reasons": [
         "2 new stories about its county",
-        "not reviewed in 118 days"
+        "not reviewed in 119 days"
       ]
     },
     {
@@ -1148,7 +1200,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -1162,7 +1214,7 @@
       "events": [],
       "reasons": [
         "1 new story about its county",
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -1172,11 +1224,11 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 119,
+      "days_since_review": 120,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 119 days"
+        "not reviewed in 120 days"
       ]
     },
     {
@@ -1186,11 +1238,11 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-07-06",
-      "days_since_review": 102,
+      "days_since_review": 103,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 102 days"
+        "not reviewed in 103 days"
       ]
     }
   ],
