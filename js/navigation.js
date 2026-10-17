@@ -16,7 +16,7 @@
  *
  * EXPLORE (comparative & context):
  *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
- *   CHFA Portfolio, Economic Dashboard, LIHTC Allocations, Preservation
+ *   CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, LIHTC Allocations, Preservation
  *   Tracking
  *
  * DATA (transparency & quality):
@@ -66,6 +66,7 @@
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
+        { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, on a map and in a table", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },
         { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
