@@ -3120,18 +3120,42 @@
   // figure says why.
   function _setTrendOptionAvailability(available){
     try {
-      document.querySelectorAll('input[name="assumpHeadship"][value="trend"], input[name="headship"][value="trend"]').forEach((input) => {
+      document.querySelectorAll('input[name="assumpHeadship"][value="trend"], input[name="headship"][value="trend"]').forEach((input, k) => {
         input.disabled = !available;
         input.setAttribute('aria-disabled', available ? 'false' : 'true');
         const label = input.closest('label');
-        if (!label) return;
-        if (available) {
-          label.removeAttribute('title');
-          delete label.dataset.unavailable;
-        } else {
-          label.title = 'No ACS headship trend is available for this geography; the base-year rate is held.';
-          label.dataset.unavailable = 'true';
+        if (label) {
+          if (available) {
+            label.removeAttribute('title');
+            delete label.dataset.unavailable;
+          } else {
+            label.title = 'No ACS headship trend is available for this geography; the base-year rate is held.';
+            label.dataset.unavailable = 'true';
+          }
         }
+        // The reason also stands as visible text under the assumptions row,
+        // tied to the control by aria-describedby: a disabled radio takes no
+        // focus and a phone has no hover, so a title alone reaches neither.
+        const group = input.closest('.headship-buttons') || (label && label.parentElement) || null;
+        if (!group) return;
+        const noteId = 'headshipTrendNote' + (k ? String(k + 1) : '');
+        const cell = group.closest('.span-4');
+        const host = (cell && cell.parentElement) || group; // after the assumptions row, full width
+        let note = document.getElementById(noteId);
+        const ids = (group.getAttribute('aria-describedby') || '').split(/\s+/).filter((id) => id && id !== noteId);
+        if (available) {
+          if (note) note.remove();
+          if (ids.length) group.setAttribute('aria-describedby', ids.join(' ')); else group.removeAttribute('aria-describedby');
+          return;
+        }
+        if (!note) {
+          note = document.createElement('p');
+          note.id = noteId;
+          note.className = 'headship-unavailable-note';
+          host.insertAdjacentElement('afterend', note);
+        }
+        note.textContent = _headshipOptionLabel('trend') + ' is not offered for this geography: no ACS headship trend is on file, so the base-year rate would be held.';
+        group.setAttribute('aria-describedby', ids.concat(noteId).join(' '));
       });
     } catch (_) { /* a page without the control */ }
   }
@@ -3279,11 +3303,41 @@
     // or non-positive stored value falls back to the population x headship
     // arithmetic, never to 0.
     const isPlaceSelection = !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection));
+    // A place or CDP whose stored place projection carries the selected
+    // horizon takes its headline from that projection below, so the control
+    // does not move it. One without (Carbonate and nine CDPs in the committed
+    // places.json) is calculated here like a county, so the control must move
+    // it too: under Forecast it reads the county's stored household series
+    // scaled by the place's share of county population, the series the
+    // households chart draws (_placeScaledHouseholds), so the headline and
+    // the chart agree instead of the headline quietly showing Hold's
+    // population x base-rate under the Forecast option.
+    const placeProjectionApplies = !!(placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)
+      && placeProjectionRec.years.indexOf(baseYear + horizon) >= 0
+      && window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeProjectionRec.years.indexOf(baseYear + horizon)]) !== null);
+    const followsControl = !isPlaceSelection || !placeProjectionApplies;
+    let forecastSeries = null;        // the stored household series as read for this geography
+    let forecastSeriesScaled = false; // true when it is the county series scaled to the place
+    if (followsControl && Array.isArray(proj?.housing_need?.households_dola)) {
+      const countySeries = proj.housing_need.households_dola;
+      if (!isPlaceSelection) {
+        forecastSeries = countySeries;
+      } else {
+        const R = window.HNARenderers;
+        const scaled = (R && typeof R._placeScaledHouseholds === 'function') ? R._placeScaledHouseholds(countySeries, popSel, proj.population_dola) : null;
+        // scaled === false means the series is still county-level, which is
+        // not this place's households: the calculator then keeps population
+        // x rate and the trace says why.
+        if (scaled && scaled.scaled === true && Array.isArray(scaled.series)) {
+          forecastSeries = scaled.series;
+          forecastSeriesScaled = true;
+        }
+      }
+    }
     let storedHouseholds = null;
     let storedHouseholdMethod = null;
-    if (i >= 0 && headshipMode === 'forecast' && !isPlaceSelection) {
-      const storedSeries = proj?.housing_need?.households_dola;
-      const storedAt = Array.isArray(storedSeries) ? window.HNAUtils.safeNum(storedSeries[i]) : null;
+    if (i >= 0 && headshipMode === 'forecast' && forecastSeries) {
+      const storedAt = window.HNAUtils.safeNum(forecastSeries[i]);
       if (storedAt !== null && storedAt > 0) {
         storedHouseholds = storedAt;
         const methodSeries = proj?.housing_need?.household_method;
@@ -3311,13 +3365,13 @@
     // the same filled series rather than a gap beside a headline that has a
     // value; a complete stored series is handed over untouched, as before.
     let householdSeriesForMode = null;
-    if (!isPlaceSelection && Array.isArray(popSel)) {
+    if (followsControl && Array.isArray(popSel)) {
       const rateSeries = popSel.map((p, step) => {
         const pop = window.HNAUtils.safeNum(p);
         const rate = headshipAt(step);
         return (pop !== null && pop > 0 && rate !== null) ? pop * rate : null;
       });
-      const storedSeries = Array.isArray(proj?.housing_need?.households_dola) ? proj.housing_need.households_dola : null;
+      const storedSeries = forecastSeries;
       if (headshipMode === 'forecast' && storedSeries) {
         let filledYears = 0;
         const series = popSel.map((_, step) => {
@@ -3355,8 +3409,11 @@
             + (trendMissing
               ? 'no ACS headship trend is available for this geography, so projected population \u00d7 the base-year headship rate, held constant, is shown'
               : 'projected population \u00d7 ' + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend'))
-            + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
-            + ' to see the stored SDO household series.',
+            + ', the series the calculator above uses.'
+            + (forecastSeries
+              ? ' Choose ' + _headshipOptionLabel('forecast') + ' to see the stored SDO household series'
+                + (forecastSeriesScaled ? ', scaled to this place by its share of county population.' : '.')
+              : ''),
         };
       }
     }
@@ -3494,6 +3551,9 @@
         // A 'mixed' statewide year sums forecast counties with headship-fallback
         // counties, so its households also come from household-county.csv.
         const storedCarriesForecast = storedIsForecast || (storedHouseholds !== null && storedHouseholdMethod === 'mixed');
+        // An uncovered place reads the county series scaled by its share of
+        // county population, so the trace names the scaling with the series.
+        const scaledWords = forecastSeriesScaled ? ', scaled to this place by its share of county population' : '';
         const headshipModeLabel = headshipMode === 'trend'
           ? (trendUnavailable
             ? 'Trend headship option selected, but no ACS headship trend is available for this geography, so the base-year rate is held; the stored household series is not used in this mode.'
@@ -3501,12 +3561,14 @@
           : headshipMode !== 'forecast'
             ? 'Constant base-year headship rate held, as selected; the stored household series is not used in this mode.'
             : storedHouseholds === null
-              ? 'Constant base-year headship rate used by the calculation; the stored household series has no value for this year.'
+              ? (isPlaceSelection && !forecastSeries
+                ? 'Constant base-year headship rate used by the calculation; the county household series could not be scaled to this place.'
+                : 'Constant base-year headship rate used by the calculation; the stored household series has no value for this year.')
               : storedIsForecast
-              ? `Implied by the SDO ${geoWord} household forecast: stored households ÷ projected population.`
+              ? `Implied by the SDO ${geoWord} household forecast${scaledWords}: stored households ÷ projected population.`
               : storedHouseholdMethod === 'mixed'
-                ? `Implied by the stored ${geoWord} household series: the SDO household forecast where published, a constant headship rate elsewhere.`
-                : `Constant base-year headship rate, as carried by the stored ${geoWord} household series.`;
+                ? `Implied by the stored ${geoWord} household series${scaledWords}: the SDO household forecast where published, a constant headship rate elsewhere.`
+                : `Constant base-year headship rate, as carried by the stored ${geoWord} household series${scaledWords}.`;
         window.HNARenderers.renderProjectionCalculationTrace({
           available: incUnits !== null,
           mode: 'direct',
@@ -3529,7 +3591,8 @@
           headshipRate: hsH,
           headshipModeLabel,
           householdsNote: storedHouseholds !== null
-            ? `Read from the stored ${geoWord} household series for ${endYear} (housing_need.households_dola), the series the stored DOLA need figure is computed from.`
+            ? `Read from the stored ${geoWord} household series for ${endYear} (housing_need.households_dola), the series the stored DOLA need figure is computed from`
+              + (forecastSeriesScaled ? ', scaled to this place by its share of county population because no stored place projection covers this geography and horizon.' : '.')
             : 'Projected population × headship rate.',
           headshipMode,
           projectedHouseholds: hhH,

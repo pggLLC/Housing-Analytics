@@ -309,6 +309,15 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .headship-label[data-unavailable="true"]:hover span {
   background: transparent;
 }
+/* The reason the option is disabled, written under the assumptions row by
+   the controller and tied to the control with aria-describedby, because a
+   disabled radio takes no focus and a phone has no hover for a title. */
+.headship-unavailable-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
 
 /* ----------------------------------------------------------------
    Labor Market section

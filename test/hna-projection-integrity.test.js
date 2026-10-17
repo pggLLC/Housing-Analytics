@@ -71,7 +71,7 @@ function makeHtml() {
         <select id="geoSelect"><option value="08077" selected>Mesa County</option></select>
         <input id="assumpHorizon" value="20">
         <input id="assumpVacancy" value="5">
-        ${HEADSHIP_RADIOS.map((r) => `<label class="headship-label"><input type="radio" name="${r.name}" value="${r.value}"${r.checked ? ' checked' : ''}><span>${r.label}</span></label>`).join('\n        ')}
+        <div class="headship-buttons" role="radiogroup" aria-label="Headship assumption">${HEADSHIP_RADIOS.map((r) => `<label class="headship-label"><input type="radio" name="${r.name}" value="${r.value}"${r.checked ? ' checked' : ''}><span>${r.label}</span></label>`).join('\n        ')}</div>
         <div id="projectionScopeBadge" hidden></div>
         <nav id="hnaDecisionStrip" hidden>
           <a data-decision-key="need"><span id="decisionNeedValue"></span><span id="decisionNeedRead"></span></a>
@@ -278,28 +278,36 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
  * under the default option the chart still draws the stored series.
  */
 async function assertHouseholdChartsFollowHeadshipOption() {
-  const render = async (headshipMode, storedSeries = [65000, 80000], withSlope = true) => {
+  const render = async (headshipMode, storedSeries = [65000, 80000], withSlope = true, geo = null) => {
     const html = makeHtml().replace('</body>', `
         <div><div class="chart-box"><canvas id="chartProjectedHH"></canvas></div></div>
         <div><div class="chart-box"><canvas id="chartHouseholdDemand"></canvas></div></div>
         <p id="householdDemandScopeCaption" hidden></p>
       </body>`);
     const dom = new JSDOM(html, { url: 'about:blank' });
-    installBrowserStubs(dom, { places: {} });
+    installBrowserStubs(dom, geo ? geo.placeDoc : { places: {} });
     // Keep each chart's config, so the charts can be read back.
     global.Chart = class { constructor(ctx, config) { this.config = config; this.data = config && config.data; } destroy() {} };
     window.Chart = global.Chart;
     dom.window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
     if (headshipMode) document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="${headshipMode}"]`).checked = true;
     loadHnaModules();
-    const selection = { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+    const selection = geo ? geo.selection : { geoType: 'county', geoid: '08077', label: 'Mesa County' };
+    if (geo) {
+      const geoTypeEl = document.getElementById('geoType');
+      geoTypeEl.innerHTML = '<option value="county">County</option><option value="place">Place</option><option value="cdp">CDP</option>';
+      geoTypeEl.value = selection.geoType;
+      document.getElementById('geoSelect').innerHTML = `<option value="${selection.geoid}" selected>${selection.label}</option>`;
+    }
     window.HNAState.state.currentSelection = selection;
     // A county headship trend, so Trend differs from Hold; without it the
     // geography has no trend to offer.
     window.HNAState.state.derived = withSlope ? { geos: { '08077': { derived: { headship_slope_per_year: 0.001 } } } } : { geos: {} };
-    const proj = projectionFixture();
-    proj.housing_need.households_dola = storedSeries;
-    proj.housing_need.household_method = ['sdo_household_forecast', 'sdo_household_forecast'];
+    const proj = geo ? geo.proj : projectionFixture();
+    if (!geo) {
+      proj.housing_need.households_dola = storedSeries;
+      proj.housing_need.household_method = ['sdo_household_forecast', 'sdo_household_forecast'];
+    }
     await window.HNAController.applyAssumptions(proj, selection);
     const charts = window.HNAState.charts || {};
     const note = (id) => {
@@ -315,7 +323,18 @@ async function assertHouseholdChartsFollowHeadshipOption() {
       demandScope: document.getElementById('chartHouseholdDemand').dataset.householdScope,
       rec: window.HNAState.state.needReconciliation,
       trace: document.getElementById('projectionCalculationTraceBody').textContent,
-      trendRadio: (() => { const el = document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="trend"]`); return { disabled: el.disabled, title: el.closest('label').getAttribute('title') || '' }; })(),
+      trendRadio: (() => {
+        const el = document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"][value="trend"]`);
+        const group = el.closest('.headship-buttons');
+        const note = document.getElementById('headshipTrendNote');
+        return {
+          disabled: el.disabled,
+          title: el.closest('label').getAttribute('title') || '',
+          note: note ? note.textContent.replace(/\s+/g, ' ').trim() : null,
+          noteVisible: !!(note && !note.hidden && note.closest('body')),
+          describedBy: (group.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean),
+        };
+      })(),
     };
   };
   const oneDecimal = (v) => v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -324,10 +343,11 @@ async function assertHouseholdChartsFollowHeadshipOption() {
     assert(r.formation && r.formation.data, `${what}: the households chart was not drawn`);
     assert(r.demand && r.demand.data, `${what}: the household demand chart was not drawn`);
     const drawn = r.formation.data.datasets[0].data;
+    const last = drawn.length - 1;
     assert.deepStrictEqual(drawn.map(tenths), expected.map(tenths),
       `${what}: the households chart draws ${JSON.stringify(drawn)}; the option implies ${JSON.stringify(expected)}`);
-    assert(r.trace.includes(oneDecimal(drawn[1])),
-      `${what}: the trace's projected households are not the chart's horizon value ${oneDecimal(drawn[1])}`);
+    assert(r.trace.includes(oneDecimal(drawn[last])),
+      `${what}: the trace's projected households are not the chart's horizon value ${oneDecimal(drawn[last])}`);
     const tiers = r.demand.data.datasets.length;
     assert(tiers > 1, `${what}: the demand chart has no AMI tiers to sum`);
     r.demand.data.labels.forEach((year, k) => {
@@ -335,8 +355,8 @@ async function assertHouseholdChartsFollowHeadshipOption() {
       assert(Math.abs(sum - drawn[k]) <= tiers, `${what}: demand tiers sum to ${sum} in ${year}; the households chart shows ${drawn[k]}`);
     });
     assert(r.rec && r.rec.households, `${what}: the reconciliation has no households line`);
-    assert(Math.abs(r.rec.households.delta - (drawn[1] - drawn[0])) < 0.000001,
-      `${what}: the reconciliation says ${r.rec.households.delta} households; the chart moves ${drawn[1] - drawn[0]}`);
+    assert(Math.abs(r.rec.households.delta - (drawn[last] - drawn[0])) < 0.000001,
+      `${what}: the reconciliation says ${r.rec.households.delta} households; the chart moves ${drawn[last] - drawn[0]}`);
   };
   const STORED_WORDS = 'DOLA\u2019s household series';
 
@@ -390,6 +410,8 @@ async function assertHouseholdChartsFollowHeadshipOption() {
   assert(r.formationNote.includes(HEADSHIP_LABELS.trend), `Trend's chart note names the option as the page labels it (note: ${r.formationNote})`);
   assert.strictEqual(r.trendRadio.disabled, false, 'with a slope on file the Trend option is offered');
   assert(r.trace.includes('Trend headship assumption used'), 'with a slope on file the trace says the trend was used');
+  assert.strictEqual(r.trendRadio.note, null, 'with a slope on file no unavailable-Trend note is shown');
+  assert(!r.trendRadio.describedBy.includes('headshipTrendNote'), 'with a slope on file the control is not described by a removed note');
 
   // Trend where the geography has no ACS headship trend on file (63 of 64
   // counties and the state today): a missing slope is unavailable, never 0, so
@@ -400,6 +422,12 @@ async function assertHouseholdChartsFollowHeadshipOption() {
   check(r, [160000 * 0.40625, 190000 * 0.40625], 'Trend without a slope');
   assert.strictEqual(r.trendRadio.disabled, true, 'without a slope the Trend option is disabled');
   assert(/no ACS headship trend/i.test(r.trendRadio.title), `the disabled option carries the reason (title: ${r.trendRadio.title})`);
+  // A disabled radio takes no focus and a phone has no hover, so the reason
+  // must also stand as visible text tied to the control, naming the option
+  // as the page labels it.
+  assert(r.trendRadio.noteVisible && /no ACS headship trend/.test(r.trendRadio.note) && r.trendRadio.note.includes(HEADSHIP_LABELS.trend),
+    `the reason is visible text under the control (note: ${r.trendRadio.note})`);
+  assert(r.trendRadio.describedBy.includes('headshipTrendNote'), `the radiogroup is described by that note (aria-describedby: ${r.trendRadio.describedBy.join(' ')})`);
   assert(/held/i.test(r.formation.data.datasets[0].label) && /no trend/i.test(r.formation.data.datasets[0].label),
     `the chart label says the rate is held and no trend exists (label: ${r.formation.data.datasets[0].label})`);
   assert(/no ACS headship trend is available/.test(r.formationNote) && r.formationNote.includes(HEADSHIP_LABELS.trend),
@@ -412,6 +440,57 @@ async function assertHouseholdChartsFollowHeadshipOption() {
   // Switching back to a geography with a slope re-enables the option.
   r = await render('hold');
   assert.strictEqual(r.trendRadio.disabled, false, 'a geography with a slope offers Trend again');
+  assert.strictEqual(r.trendRadio.note, null, 'and the unavailable-Trend note is removed');
+
+  // A place or CDP with no stored place projection (Carbonate and nine CDPs
+  // in the committed places.json) is calculated like a county, so the control
+  // must move it too: under Forecast the headline reads the county's stored
+  // series scaled by the place's share of county population, the series the
+  // households chart draws; under Hold both are population × the base-year
+  // rate. Before, Forecast quietly gave Hold's headline beside a chart of the
+  // stored series. The case uses a geography the page offers and the file
+  // does not cover; if every one is covered some day, the branch still
+  // exists, so it falls back to a geoid the file does not carry.
+  const geoConfig = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/geo-config.json'), 'utf8'));
+  const realPlaceDoc = JSON.parse(fs.readFileSync(PLACES_PATH, 'utf8'));
+  const uncovered = [
+    ...(geoConfig.places || []).map((g) => ({ ...g, geoType: 'place' })),
+    ...(geoConfig.cdps || []).map((g) => ({ ...g, geoType: 'cdp' })),
+  ].find((g) => g.geoid && g.containingCounty && !realPlaceDoc.places[g.geoid]);
+  const geo = uncovered || { geoid: '0899999', label: 'Uncovered (CDP)', containingCounty: '08045', geoType: 'cdp' };
+  assert(!realPlaceDoc.places[geo.geoid], `${geo.label} has no stored place projection, so the case is the uncovered path`);
+  const countyProj = JSON.parse(fs.readFileSync(path.join(ROOT, `data/hna/projections/${geo.containingCounty}.json`), 'utf8'));
+  const countyHh = countyProj.housing_need.households_dola;
+  const countyPop = countyProj.population_dola;
+  assert(Array.isArray(countyHh) && countyHh.length === countyProj.years.length && countyHh.every((h) => typeof h === 'number' && h > 0),
+    `${geo.containingCounty}'s stored household series is complete, so this is not a gap-fill case`);
+  const profile = { DP05_0001E: 2000, DP02_0001E: 800, DP04_0001E: 1000 };
+  const share0 = Math.min(0.98, Math.max(0.02, profile.DP05_0001E / countyProj.base.population));
+  assert(share0 > 0.02 && share0 < 0.98, 'the place share is inside the clamp, so the expected series is the plain share');
+  const placeGeo = {
+    selection: { geoType: geo.geoType, geoid: geo.geoid, label: geo.label, contextCounty: geo.containingCounty, profile },
+    proj: countyProj,
+    placeDoc: realPlaceDoc,
+  };
+  const expectedForecast = countyHh.map((h) => h * share0);
+  const expectedHold = countyPop.map((p) => p * share0 * (profile.DP02_0001E / profile.DP05_0001E));
+  const horizonIdx = expectedForecast.length - 1;
+  assert(Math.abs(expectedForecast[horizonIdx] - expectedHold[horizonIdx]) > 1,
+    `${geo.containingCounty}'s forecast and the held rate differ at the horizon, so the two options are distinguishable`);
+  r = await render(null, undefined, false, placeGeo);
+  check(r, expectedForecast, `${geo.label} under the default option`);
+  assert(/scaled to this place by its share of county population/.test(r.trace) && !/Constant base-year headship rate/.test(r.trace),
+    `${geo.label}'s trace reads the county series scaled to the place, not a held rate`);
+  assert.strictEqual(r.rec.households.basis, 'stored');
+  assert(r.rec.households.text.includes('scaled to this place'), `${geo.label}'s reconciliation names the scaling (${r.rec.households.text})`);
+  assert.strictEqual(r.demandScope, 'place-scaled');
+  r = await render('hold', undefined, false, placeGeo);
+  check(r, expectedHold, `${geo.label} under Hold`);
+  assert(/held, as selected/.test(r.trace), `${geo.label}'s Hold trace says the rate is held`);
+  assert.strictEqual(r.rec.households.basis, 'hold');
+  assert.strictEqual(r.demandScope, 'selected-headship');
+  assert(r.formationNote.includes(HEADSHIP_LABELS.hold) && r.formationNote.includes('scaled to this place'),
+    `${geo.label}'s Hold chart note names the option and where Forecast's series comes from (note: ${r.formationNote})`);
 }
 
 async function assertCountyReconciliationNote() {
