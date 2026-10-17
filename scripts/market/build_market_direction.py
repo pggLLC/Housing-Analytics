@@ -29,6 +29,16 @@ percentile of recent movers) with CHFA's 60% AMI two-bedroom maximum gross
 rent. Where the FMR is at or below the 60% rent, a tax-credit deal cannot
 charge its 60% rent and competes with market units on price.
 
+Towns and CDPs get the same rule on what each has (the `places` block):
+permits from the same BPS file; price from FHFA's tract index modelled to
+the place, one year's change against the price thresholds scaled to a year;
+rent where Zillow publishes the city; and DOLA household population for
+incorporated towns (data/market/dola_muni_household_population.json). No
+town-level jobs trend exists, so a town's demand reading is its household
+population alone, and falling demand means it is shrinking; the county's
+call is shown beside each place for context. CDPs have no DOLA series, so
+their demand is null with that reason.
+
 A missing signal is null with the reason, never zero. Writes
 data/market/market-direction.json. No network.
 
@@ -44,6 +54,7 @@ import json
 import re
 import os
 import sys
+import unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -57,6 +68,7 @@ LEHD_DIR = os.path.join(ROOT, 'data', 'hna', 'lehd')
 RENT_LIMITS = os.path.join(ROOT, 'data', 'chfa-income-rent-limits-2026.json')
 FMR = os.path.join(ROOT, 'data', 'market', 'fmr_co.json')
 ACTIVITY = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
+DOLA_TOWNS = os.path.join(ROOT, 'data', 'market', 'dola_muni_household_population.json')
 OUT = os.path.join(ROOT, 'data', 'market', 'market-direction.json')
 
 PERMIT_FLOOR = 50       # units in EACH five-year period before the change is read
@@ -79,6 +91,17 @@ CALLS = {
     'falling_demand': 'Household population and jobs are both shrinking.',
     'not_enough_data': 'Fewer than two market signals and no reading of both population and jobs.',
 }
+# a place's price is FHFA's latest one-year change, so the county's
+# three-year price thresholds are read a year at a time
+# and a town's one demand signal has to fall by about 2.5% over the decade
+# before it reads as shrinking, since no jobs trend corroborates it
+PLACE_THRESHOLDS = dict(THRESHOLDS, price=(4.0, 1.3), population=(0.5, -0.25))
+PLACE_CALLS = dict(CALLS,
+                   emerging=('Household population is growing, at least two of permits, prices and rents are '
+                             'rising, and none is falling.'),
+                   falling_demand=('Household population is shrinking by 0.25% a year or more (towns only; '
+                                   'CDPs have no DOLA series).'),
+                   not_enough_data='Fewer than two market signals and no household population reading.')
 EDGES = {
     'no_edge': "The FMR is at or below the 60% AMI rent: a 60% unit can't charge its 60% rent.",
     'thin': f'The 60% AMI rent is below the FMR by less than {RENT_EDGE_THIN:.0f}% of the FMR.',
@@ -273,6 +296,100 @@ def rent_edge(fips: str, limits: dict, fmr: dict) -> dict:
     return out
 
 
+def place_reading(name: str, value: float | None) -> str | None:
+    if value is None:
+        return None
+    up, down = PLACE_THRESHOLDS[name]
+    return 'up' if value >= up else 'down' if value <= down else 'flat'
+
+
+def place_price_signal(rec: dict | None, year: int | None) -> dict:
+    v = (rec or {}).get('annual_change_latest')
+    out = {'value': round(v * 100, 1) if isinstance(v, (int, float)) else None, 'to_year': year,
+           'measure': '% change over the latest year, modelled from FHFA tract indexes'}
+    if out['value'] is None:
+        out['unavailable_reason'] = 'FHFA publishes no tract index that covers this place' if not rec else \
+            'FHFA tract indexes for this place are suppressed for the latest year'
+    return out
+
+
+def town_population_signal(rec: dict | None, is_cdp: bool) -> dict:
+    if is_cdp:
+        return {'value': None, 'unavailable_reason': 'DOLA estimates cover incorporated towns only, not CDPs'}
+    series = (rec or {}).get('household_population') or {}
+    years = sorted(int(y) for y in series)
+    if not years:
+        return {'value': None, 'unavailable_reason': 'no DOLA estimates for this town'}
+    a, b = years[-1] - 10, years[-1]
+    out = {'value': cagr(series.get(str(b)), series.get(str(a)), 10), 'measure': 'household population, % a year',
+           'from_year': a, 'to_year': b, 'households_from': series.get(str(a)), 'households_to': series.get(str(b))}
+    if out['value'] is None:
+        out['unavailable_reason'] = f'DOLA reports no household population for {a} or {b}'
+    return out
+
+
+def place_call(sig: dict) -> tuple[str, str]:
+    r = {k: place_reading(k, sig[k]['value']) for k in ('permits', 'price', 'rent', 'population')}
+    market = [k for k in ('permits', 'price', 'rent') if r[k] is not None]
+    falling = [k for k in market if r[k] == 'down']
+    rising = [k for k in market if r[k] == 'up']
+    pop = sig['population']['value']
+    if len(market) < 2 and pop is None:
+        return 'not_enough_data', 'fewer than two market signals and no household population reading'
+    if r['population'] == 'down':
+        return 'falling_demand', f'household population {pop:+.2f}%/yr'
+    if len(falling) >= 2:
+        return 'softening', 'falling: ' + ', '.join(falling)
+    if r['population'] == 'up' and len(rising) >= 2 and not falling:
+        return 'emerging', 'rising: ' + ', '.join(rising) + '; growing: population'
+    return 'steady', ('rising: ' + (', '.join(rising) or 'none') + '; falling: ' + (', '.join(falling) or 'none'))
+
+
+def bare_name(label: str) -> str:
+    """"Fort Collins (city)" and "Fort Collins", "Cañon City" and "Canon City", read alike."""
+    label = unicodedata.normalize('NFKD', label).encode('ascii', 'ignore').decode()
+    return re.sub(r'\s*\((?:city|town|CDP|city and county)\)$', '', label, flags=re.I).strip().lower()
+
+
+def zori_places(zori_cities: dict, places: list[dict]) -> tuple[dict, list[str]]:
+    """Zillow names a city, not a place code: join each to the one place of
+    that name, preferring a town over a CDP; a name two towns share joins
+    neither. Returns {geoid: record} and the city names left unmatched."""
+    by_name: dict[str, list[dict]] = {}
+    for p in places:
+        by_name.setdefault(bare_name(p['label']), []).append(p)
+    out, unmatched = {}, []
+    for key, rec in sorted(zori_cities.items()):
+        cands = by_name.get(bare_name(rec.get('name') or key), [])
+        towns = [p for p in cands if p.get('type') != 'cdp']
+        pick = towns if towns else cands
+        if len(pick) == 1:
+            out[pick[0]['geoid']] = rec
+        else:
+            unmatched.append(rec.get('name') or key)
+    return out, unmatched
+
+
+def place_activity(projects: list[dict], since: int | None) -> dict:
+    """Recent affordable projects by place, as the county summary counts them:
+    a project with no unit count adds to projects_without_homes, never 0."""
+    out: dict[str, dict] = {}
+    for p in projects:
+        g = p.get('place_geoid')
+        if not g or since is None or (p.get('latest_year') or 0) < since:
+            continue
+        b = out.setdefault(g, {'since': since, 'projects': 0, 'homes': 0, 'projects_without_homes': 0})
+        b['projects'] += 1
+        if p.get('total_units'):
+            b['homes'] += p['total_units']
+        else:
+            b['projects_without_homes'] += 1
+    for b in out.values():
+        if b['projects'] == b['projects_without_homes']:
+            b['homes'] = None
+    return out
+
+
 def build() -> dict:
     geo = read(GEO_CONFIG)
     permits = read(PERMITS)
@@ -315,7 +432,38 @@ def build() -> dict:
                                     'by_stage': {k: v for k, v in act['by_stage'].items() if v['projects']}}
             if act else None,
         }
-    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc)] + [stamp(geo)]
+    try:
+        towns = read(DOLA_TOWNS)
+    except OSError:
+        towns = {'meta': {}, 'towns': {}}
+    zori_by_place, zori_unmatched = zori_places(zori['cities'], geo['places'] + [dict(p, type='cdp') for p in geo['cdps']])
+    activity_by_place = place_activity(activity.get('projects') or [], activity['meta'].get('summary_since'))
+    places = {}
+    cdps = {p['geoid'] for p in geo['cdps']}  # not every CDP row carries type: cdp
+    for pl in sorted(geo['places'] + geo['cdps'], key=lambda p: p['geoid']):
+        g, is_cdp = pl['geoid'], pl['geoid'] in cdps
+        prec = permits['places'].get(g)
+        sig = {
+            'permits': permits_signal(prec, years) if prec else
+            {'value': None, 'unavailable_reason': 'Census BPS reports no permits for this place'},
+            'price': place_price_signal(fhfa['places'].get(g), fhfa['meta'].get('latest_year')),
+            'rent': rent_signal(zori_by_place.get(g)),
+            'population': town_population_signal(towns['towns'].get(g), is_cdp),
+        }
+        if sig['rent']['value'] is None:
+            sig['rent']['unavailable_reason'] = 'Zillow publishes no rent index for this place' \
+                if g not in zori_by_place else 'Zillow publishes no year-over-year change for this place'
+        for k in sig:
+            sig[k]['reading'] = place_reading(k, sig[k]['value'])
+        call, why = place_call(sig)
+        county = pl.get('containingCounty')
+        places[g] = {
+            'name': pl['label'], 'type': 'cdp' if is_cdp else 'town', 'county_fips': county,
+            'call': call, 'call_basis': why, 'signals': sig,
+            'county_call': counties.get(county, {}).get('call'),
+            'affordable_activity': activity_by_place.get(g),
+        }
+    stamps = [stamp(d['meta']) for d in (permits, fhfa, zori, fmr_doc, activity, limits_doc, towns)] + [stamp(geo)]
     stamps.append(prof_stamp)
     for f in counties:  # the per-county jobs files
         try:
@@ -334,7 +482,7 @@ def build() -> dict:
             'generated_at_note': "the newest of the input files' own stamps, not the time this ran",
             'generator': 'scripts/market/build_market_direction.py',
             'title': 'Colorado county housing market direction and tax-credit rent edge',
-            'geography': 'all 64 Colorado counties; places follow once the county rule is reviewed',
+            'geography': 'all 64 Colorado counties, and every town and CDP in geo-config (places)',
             'calls': CALLS,
             'rule_order': ('not_enough_data, then falling_demand, then softening, then emerging, else steady: '
                            'the first that applies is the call'),
@@ -374,8 +522,27 @@ def build() -> dict:
             },
             'call_counts': dict(sorted(tally.items())),
             'rent_edge_counts': dict(sorted(edge_tally.items())),
+            'places': {
+                'calls': PLACE_CALLS,
+                'thresholds': {k: {'up_at_or_above': v[0], 'down_at_or_below': v[1]}
+                               for k, v in PLACE_THRESHOLDS.items() if k != 'jobs'},
+                'rule_note': ('The county rule on what a place has. Price is one year of FHFA tract indexes '
+                              'modelled to the place, read against the county thresholds scaled to a year. '
+                              'No town-level jobs trend exists, so demand is household population alone; '
+                              'county_call is the county\'s call, for context. A town of a few hundred homes '
+                              'often has fewer than two market signals: that is not_enough_data, not a guess.'),
+                'population_source': {'file': 'data/market/dola_muni_household_population.json',
+                                      'source': towns['meta'].get('source'), 'url': towns['meta'].get('source_url'),
+                                      'years': towns['meta'].get('years')},
+                'zori_cities_unmatched': zori_unmatched,
+                'call_counts': {t_: dict(sorted(
+                    {c: sum(1 for r in places.values() if r['type'] == t_ and r['call'] == c)
+                     for c in {r['call'] for r in places.values() if r['type'] == t_}}.items()))
+                    for t_ in ('town', 'cdp')},
+            },
         },
         'counties': counties,
+        'places': places,
     }
 
 
@@ -397,7 +564,8 @@ def main() -> int:
         json.dump(out, fh, indent=1, ensure_ascii=False)
         fh.write('\n')
     m = out['meta']
-    print(f"64 counties: {m['call_counts']}; rent edge {m['rent_edge_counts']}; wrote {os.path.relpath(OUT, ROOT)}")
+    print(f"64 counties: {m['call_counts']}; rent edge {m['rent_edge_counts']}; "
+          f"places {m['places']['call_counts']}; wrote {os.path.relpath(OUT, ROOT)}")
     return 0
 
 

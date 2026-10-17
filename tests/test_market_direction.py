@@ -245,3 +245,121 @@ def test_a_zero_lehd_endpoint_is_a_missing_figure_with_its_reason(tmp_path, monk
     sig = md.jobs_signal('08001')
     assert sig['value'] is None and 'zero' in sig['unavailable_reason']
     assert md.jobs_signal('08005')['value'] is not None
+
+
+# ---- places (towns and CDPs) ----
+
+PLACES = DOC['places']
+TOWNS = read('data/market/dola_muni_household_population.json')
+
+
+def test_every_geo_config_place_has_a_row():
+    geo = read('data/hna/geo-config.json')
+    want = {p['geoid'] for p in geo['places'] + geo['cdps']}
+    assert set(PLACES) == want
+    assert all(len(g) == 7 and g.startswith('08') for g in PLACES)
+
+
+def test_each_place_call_is_what_the_place_rule_gives_for_its_printed_signals():
+    checked = 0
+    for g, r in PLACES.items():
+        assert (r['call'], r['call_basis']) == md.place_call(r['signals']), g
+        for k, s in r['signals'].items():
+            assert s['reading'] == md.place_reading(k, s['value']), (g, k)
+        checked += 1
+    assert checked > 400
+    assert {r['call'] for r in PLACES.values()} >= {'steady', 'falling_demand', 'not_enough_data'}
+
+
+def test_a_towns_population_signal_agrees_with_the_dola_file():
+    n = 0
+    for g, r in PLACES.items():
+        s = r['signals']['population']
+        if r['type'] == 'cdp':
+            assert s['value'] is None and 'CDP' in s['unavailable_reason']
+            continue
+        series = TOWNS['towns'][g]['household_population']
+        a, b = series.get(str(s['from_year'])), series.get(str(s['to_year']))
+        assert (s['households_from'], s['households_to']) == (a, b), g
+        if s['value'] is None:
+            assert s['unavailable_reason'] and not (a and b), g
+        else:
+            assert abs(s['value'] - ((b / a) ** 0.1 - 1) * 100) < 0.006, g
+            n += 1
+    assert n > 250
+
+
+def test_place_permits_price_and_rent_agree_with_their_sources():
+    permits = read('data/hna/permits.json')
+    fhfa = read('data/market/fhfa_hpi_subcounty_co.json')['places']
+    priced = permitted = 0
+    for g, r in PLACES.items():
+        s = r['signals']['price']
+        if g in fhfa and isinstance(fhfa[g].get('annual_change_latest'), (int, float)):
+            assert s['value'] == round(fhfa[g]['annual_change_latest'] * 100, 1), g
+            priced += 1
+        else:
+            assert s['value'] is None and s['unavailable_reason'], g
+        p = r['signals']['permits']
+        if p['value'] is not None:
+            u = permits['places'][g]['units_total']
+            assert (p['units_a'], p['units_b']) == (sum(u[-10:-5]), sum(u[-5:])), g
+            permitted += 1
+        else:
+            assert p['unavailable_reason'], g
+    assert priced > 200 and permitted > 80
+    denver = PLACES['0820000']['signals']['rent']
+    assert denver['value'] == read('data/market/zori_rents_co.json')['cities']['denver']['yoy_change_pct']
+
+
+def test_a_zillow_city_joins_one_place_and_a_shared_name_joins_none():
+    places = [{'geoid': '0800001', 'label': 'Cañon City (city)'}, {'geoid': '0800002', 'label': 'Twin (town)'},
+              {'geoid': '0800003', 'label': 'Twin (town)'}, {'geoid': '0800004', 'label': 'Lone (CDP)', 'type': 'cdp'},
+              {'geoid': '0800005', 'label': 'Lone (town)'}]
+    joined, unmatched = md.zori_places({'canon city': {'name': 'Canon City'}, 'twin': {'name': 'Twin'},
+                                        'lone': {'name': 'Lone'}}, places)
+    assert set(joined) == {'0800001', '0800005'} and unmatched == ['Twin']
+
+
+def test_a_place_null_is_never_zero_and_always_says_why():
+    for g, r in PLACES.items():
+        for k, s in r['signals'].items():
+            if s['value'] is None:
+                assert s.get('unavailable_reason'), (g, k)
+
+
+def test_a_town_shrinking_less_than_the_floor_is_not_falling_demand():
+    sig = {'permits': {'value': None}, 'price': {'value': 2.0}, 'rent': {'value': None},
+           'population': {'value': -0.04}}
+    assert md.place_call(sig)[0] == 'steady'
+    sig['population']['value'] = -0.3
+    assert md.place_call(sig)[0] == 'falling_demand'
+    sig['population']['value'] = None
+    assert md.place_call(sig)[0] == 'not_enough_data'
+
+
+def test_place_activity_agrees_with_the_ledger():
+    ledger = read('data/market/development-activity.json')
+    since = ledger['meta']['summary_since']
+    want: dict = {}
+    for p in ledger['projects']:
+        if p.get('place_geoid') and (p.get('latest_year') or 0) >= since:
+            want[p['place_geoid']] = want.get(p['place_geoid'], 0) + 1
+    got = {g: r['affordable_activity']['projects'] for g, r in PLACES.items() if r['affordable_activity']}
+    assert got == want and sum(want.values()) > 100
+
+
+def test_dola_town_rows_take_the_total_row_and_a_zero_is_null():
+    spec = importlib.util.spec_from_file_location(
+        'fetch_dola', os.path.join(ROOT, 'scripts', 'market', 'fetch_dola_muni_households.py'))
+    f = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(f)
+    rows = [{'placefips': 4000, 'countyfips': 1, 'year': 2024, 'householdpopulation': '54730'},
+            {'placefips': 4000, 'countyfips': 5, 'year': 2024, 'householdpopulation': '338968'},
+            {'placefips': 4000, 'countyfips': 999, 'year': 2024, 'householdpopulation': '397985'},
+            {'placefips': 12030, 'countyfips': 45, 'year': 2024, 'householdpopulation': '0'},
+            {'placefips': 20000, 'countyfips': 31, 'year': 2024, 'householdpopulation': '712470'}]
+    out = f.towns_from_rows(rows, {}, [2024])
+    assert out['0804000']['household_population'] == {'2024': 397985}
+    assert out['0812030']['household_population'] == {'2024': None} and out['0812030']['unavailable_reason']
+    assert out['0820000']['household_population'] == {'2024': 712470}
