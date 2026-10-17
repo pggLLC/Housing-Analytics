@@ -5,7 +5,7 @@
 // route map asked how "rents, mix and growth" change need on a page that has
 // no rent or unit-mix control.
 //
-// 1. Every "Step N complete?" equals the page's own data-step, which must
+// 1. Every step number a continue-panel footer names equals the page's own data-step, which must
 //    equal workflow-progress.js STEPS for that page.
 // 2. The route map's question for the scenario step may name only inputs the
 //    Scenario Builder actually offers as controls.
@@ -36,23 +36,29 @@ const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 let footers = 0;
 for (const f of pages) {
   const html = read(f);
-  const m = html.match(/<strong>Step (\d+) complete\?<\/strong>/);
-  if (!m) continue;
-  footers++;
-  // What the visitor sees: the rail item marked as the current step (its
-  // data-step and its printed number), plus the analytics step tag.
+  if (!html.includes('hna-continue-panel')) continue;
   const doc = new JSDOM(html).window.document;
-  const active = doc.querySelector('.wf-step--active, .wf-step[aria-current="step"]');
-  assert(active, `${f} has a "Step ${m[1]} complete?" footer but no active rail step`);
-  const shown = active.querySelector('.wf-step__num');
-  const own = [active.getAttribute('data-step'), shown && shown.textContent.trim(),
-    (doc.querySelector('script[data-step]') || active).getAttribute('data-step')];
-  for (const n of own) {
-    assert.equal(Number(m[1]), Number(n), `${f}: footer says Step ${m[1]}, the page's rail/step tags say ${own.join('/')}`);
+  // Find the footer by its structure, not its sentence: any step number the
+  // continue panel prints is a claim about which step this page is, however
+  // it is worded or marked up.
+  for (const panel of doc.querySelectorAll('.hna-continue-panel')) {
+    const said = panel.textContent.match(/\bstep\s+(\d+)\b/i);
+    if (!said) continue;
+    footers++;
+    // What the visitor sees: the rail item marked as the current step (its
+    // data-step and its printed number), plus the analytics step tag.
+    const active = doc.querySelector('.wf-step--active, .wf-step[aria-current="step"]');
+    assert(active, `${f} has a footer naming step ${said[1]} but no active rail step`);
+    const shown = active.querySelector('.wf-step__num');
+    const own = [active.getAttribute('data-step'), shown && shown.textContent.trim(),
+      (doc.querySelector('script[data-step]') || active).getAttribute('data-step')];
+    for (const n of own) {
+      assert.equal(Number(said[1]), Number(n), `${f}: footer says step ${said[1]}, the page's rail/step tags say ${own.join('/')}`);
+    }
+    const canonical = railStepFor(f);
+    assert(canonical, `${f} has a step footer but resolves to no rail step`);
+    assert.equal(Number(said[1]), canonical.num, `${f}: shows step ${said[1]} but the canonical rail (workflow-progress.js) makes it step ${canonical.num}`);
   }
-  const canonical = railStepFor(f);
-  assert(canonical, `${f} has a step footer but resolves to no rail step`);
-  assert.equal(Number(m[1]), canonical.num, `${f}: shows step ${m[1]} but the canonical rail (workflow-progress.js) makes it step ${canonical.num}`);
 }
 assert(footers >= 3, `the scan found step footers to check (${footers})`);
 
