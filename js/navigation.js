@@ -433,6 +433,15 @@
         encodeURIComponent((window.location.pathname || '/') + (window.location.search || ''));
     }
     const footer = document.createElement('footer');
+    // HNA views rewrite the query string as the jurisdiction changes, so the
+    // href is refreshed just before the link is followed, not only at render.
+    footer.addEventListener('pointerdown', refreshFeedbackHref, true);
+    footer.addEventListener('focusin', refreshFeedbackHref, true);
+    footer.addEventListener('keydown', refreshFeedbackHref, true);
+    function refreshFeedbackHref(e) {
+      const link = e.target && e.target.closest && e.target.closest('a[data-feedback-link]');
+      if (link) link.href = feedbackFormHref();
+    }
     footer.className = 'site-footer';
     footer.setAttribute('role', 'contentinfo');
     footer.innerHTML = `
@@ -455,7 +464,7 @@
           <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
           <a href="${normalizeHref('about.html')}">About this site</a>
-          <a href="${feedbackFormHref()}" target="_blank" rel="noopener">Questions or feedback</a>
+          <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
           <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
         <div class="footer-disclaimer">
