@@ -76,7 +76,7 @@
     "test:cry-wolf": "node test/signals-that-cry-wolf.test.mjs",
     "test:jurisdiction-return": "node test/jurisdiction-return-trip.test.mjs",
     "test:jurisdiction-saved-on-pick": "node test/jurisdiction-saved-on-pick.test.mjs",
-    "test:step-sequence": "node test/one-canonical-step-sequence.test.mjs",
+    "test:step-sequence": "node test/one-canonical-step-sequence.test.mjs && node test/step-labels-agree.test.mjs",
     "test:ci-tools-declared": "node test/ci-tools-are-declared.test.mjs",
     "test:unwired-suite": "node test/unwired-suite.test.js",
     "test:test-reachability": "node test/test-reachability.test.js",
