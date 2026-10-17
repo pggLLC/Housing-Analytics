@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T22:29:51.224Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T23:34:45.723Z. Do not edit by hand.
 
 ---
 
@@ -12,7 +12,7 @@
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
-| `about.html` | About | COHO Analytics | 17.7 KB |
+| `about.html` | About | COHO Analytics | 18.5 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 18.4 KB |
@@ -70,7 +70,7 @@
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
-| `privacy-policy.html` | Privacy Policy | COHO Analytics | 6.0 KB |
+| `privacy-policy.html` | Privacy Policy | COHO Analytics | 6.6 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.0 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 22.8 KB |
@@ -2386,7 +2386,7 @@
 | `tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
-| `tests/test_acs_reliability.py` | 10.2 KB |
+| `tests/test_acs_reliability.py` | 12.0 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_award_rows.py` | 3.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
