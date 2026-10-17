@@ -195,6 +195,18 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   const withSite = B.proposeTractExclusions(crb.lat, crb.lon, near, fc, without[0]).exclusions.map((e) => e.geoid);
   assert(!withSite.includes(without[0]), 'the tract containing the site is never proposed');
 
+  // ── a site inside a hole in one tract belongs to the tract filling the hole ──
+  // Denver 08031006701 has an interior ring that Arapahoe 08005006712 fills,
+  // and it comes first in the boundary file (Codex review).
+  const holeSite = { lat: 39.62417, lon: -104.90397 };
+  const bfc = read('data/market/tract_boundaries_co.geojson').features;
+  const gidOf = (f) => f.properties.GEOID || f.properties.geoid;
+  const denver = bfc.find((f) => gidOf(f) === '08031006701');
+  assert(denver.geometry.coordinates.length >= 2, 'non-vacuity: the Denver tract has a hole');
+  assert(bfc.indexOf(denver) < bfc.findIndex((f) => gidOf(f) === '08005006712'), 'non-vacuity: the holed tract is tested first');
+  await P.init(map, holeSite.lat, holeSite.lon);
+  assert.equal(P.siteGeoid(), '08005006712', 'the site tract is the one filling the hole');
+
   // ── the generated rationale sentence follows the record, across a reload ──
   blockBarriers = false;
   const fresh = () => {

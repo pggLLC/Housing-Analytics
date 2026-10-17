@@ -646,7 +646,8 @@
   }
 
   /* The tract the site sits in. It is never proposed for exclusion: a
-     market area without the site's own tract is not a market area. */
+     market area without the site's own tract is not a market area. A point
+     inside a hole belongs to the tract that fills the hole, not this one. */
   function _siteGeoid() {
     if (!_siteCenter || !_boundariesCache) return null;
     var x = _siteCenter.lon, y = _siteCenter.lat;
@@ -656,7 +657,13 @@
       if (!g) continue;
       var polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
       for (var k = 0; k < polys.length; k++) {
-        if (polys[k][0] && _ringContains(polys[k][0], x, y)) return _featureGeoid(features[i]);
+        var rings = polys[k];
+        if (!rings[0] || !_ringContains(rings[0], x, y)) continue;
+        var inHole = false;
+        for (var h = 1; h < rings.length; h++) {
+          if (rings[h] && _ringContains(rings[h], x, y)) { inHole = true; break; }
+        }
+        if (!inHole) return _featureGeoid(features[i]);
       }
     }
     return null;
@@ -832,6 +839,7 @@
     setNaturalFeatureKeep:  setNaturalFeatureKeep,
     turnOffNaturalFeatures: turnOffNaturalFeatures,
     getNaturalFeatures:     getNaturalFeatures,
-    naturalFeatureSummary:  naturalFeatureSummary
+    naturalFeatureSummary:  naturalFeatureSummary,
+    siteGeoid:              _siteGeoid
   };
 })();

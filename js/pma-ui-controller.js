@@ -1001,8 +1001,11 @@
 
   function _invalidateIfTractsChanged(geoids) {
     if (_lastRunTractKey === null || _method !== 'tract') return;
-    if (document.body.getAttribute('data-pma-result-state') !== 'current') return;
     if (_tractKey(geoids) === _lastRunTractKey) return;
+    // A run still in flight was started on the old set too. Taking its
+    // results down also bumps the conclusion revision (clearConclusions), so
+    // its completion cannot republish them for a boundary no longer on the map.
+    if (!_running && document.body.getAttribute('data-pma-result-state') !== 'current') return;
     _lastRunTractKey = null;
     var eng = window.PMAEngine;
     if (eng && typeof eng.blockCustomPma === 'function') {
@@ -1032,12 +1035,24 @@
   // The picker holds the state (PMATractPicker.getNaturalFeatures); this
   // draws it and passes the analyst's choices back.
 
+  // True while the first proposal waits on the barrier file; the toggle stays
+  // checked meanwhile so the analyst can uncheck it to cancel.
+  var _nfLoading = false;
+  var _nfLoadToken = 0;
+
   function _proposeNaturalFeatures() {
     var picker = window.PMATractPicker;
     if (!picker || typeof picker.proposeNaturalFeatures !== 'function') return;
     var status = $id('pmaNfStatus');
+    var token = ++_nfLoadToken;
+    _nfLoading = true;
     if (status) { status.hidden = false; status.textContent = 'Checking natural features\u2026'; }
-    picker.proposeNaturalFeatures().then(_renderNaturalFeatures);
+    function settled() {
+      if (token !== _nfLoadToken) return;   // superseded by a later toggle
+      _nfLoading = false;
+      _renderNaturalFeatures();
+    }
+    picker.proposeNaturalFeatures().then(settled, settled);
   }
 
   function _wireNaturalFeatures() {
@@ -1051,8 +1066,14 @@
     toggle.addEventListener('change', function () {
       var picker = window.PMATractPicker;
       if (!picker) return;
-      if (toggle.checked) _proposeNaturalFeatures();
-      else picker.turnOffNaturalFeatures();
+      if (toggle.checked) {
+        _proposeNaturalFeatures();
+        if (_nfLoading) return;
+      } else {
+        _nfLoading = false;
+        _nfLoadToken++;
+        picker.turnOffNaturalFeatures();
+      }
       _renderNaturalFeatures();
     });
     var apply = $id('pmaNfApply');
@@ -1075,6 +1096,10 @@
     var apply  = $id('pmaNfApply');
     if (!picker || typeof picker.getNaturalFeatures !== 'function' || !status || !list) return;
     var nf = picker.getNaturalFeatures();
+    if (_nfLoading && nf.status === 'off') {
+      if (toggle) toggle.checked = true;
+      return;
+    }
     if (toggle) toggle.checked = nf.status !== 'off';
     // The picker keeps its generated rationale sentence current; mirror it
     // unless the analyst is typing in the box.
