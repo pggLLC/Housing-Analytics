@@ -227,11 +227,20 @@
 
   /* Every selection change ends here: save, redraw the outline, tell the page. */
   function _changed() {
-    // Before Apply the proposal follows the selection, so a tract added
-    // across a feature is drawn and offered Keep before Apply can remove it.
-    if (_nf.status === 'proposed' && _barriersCache) {
+    // A keep belongs to a tract in the market area: a kept tract removed by
+    // hand or by Clear all loses it, and adding it back needs a new choice.
+    Object.keys(_nf.kept).forEach(function (gid) {
+      if (!_selected.has(gid)) delete _nf.kept[gid];
+    });
+    // Before Apply the whole proposal (status, reason, tracts) follows the
+    // selection, so a tract added across a feature is drawn and offered
+    // Keep before Apply can remove it, and a selection that no longer
+    // reaches a feature says so.
+    if ((_nf.status === 'proposed' || _nf.status === 'no_features') && _barriersCache) {
       var r = _computeProposal(_barriersCache);
-      if (r.status === 'proposed') _nf.proposed = r.exclusions;
+      _nf.status   = r.status;
+      _nf.reason   = r.reason;
+      _nf.proposed = r.exclusions;
       _restyleAll();
     }
     _syncRationaleSummary();

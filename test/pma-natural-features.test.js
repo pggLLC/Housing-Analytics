@@ -81,6 +81,17 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
     'a tract added across a feature is shown as proposed before Apply');
   clickTract(across[0]);
   assert(!P.getNaturalFeatures().tracts.some((t) => t.geoid === across[0]), 'and leaves the proposal when removed');
+  // The whole proposal follows the selection, across a status change: Clear
+  // all leaves no tract to test, and re-adding the tracts brings the proposal back.
+  const keptBefore = proposed[0];
+  P.setNaturalFeatureKeep(keptBefore, true, 'Old reason');
+  P.clearSelection();
+  assert.equal(P.getNaturalFeatures().tracts.length, 0, 'an empty selection proposes nothing');
+  before.forEach(clickTract);
+  assert.deepEqual(sorted(P.getNaturalFeatures().tracts.map((t) => t.geoid)), sorted(proposed),
+    'the proposal returns with the tracts, whatever status the empty selection had');
+  assert.equal(P.getNaturalFeatures().tracts.find((t) => t.geoid === keptBefore).state, 'proposed out',
+    'Clear all dropped the keep; adding the tract back needs a new choice');
   nf = P.applyNaturalFeatures();
   const after = sorted(P.getSelectedGeoids());
   assert.deepEqual(after, sorted(before.filter((g) => !proposed.includes(g))), 'Apply removes exactly the proposed tracts');
