@@ -306,10 +306,11 @@
     var compact = !!opts.compact;
     var combined = reliability && reliability.combined ? reliability.combined : 'insufficient';
     var palette = {
-      high:         { label: 'High confidence',         color: '#16a34a', bg: '#16a34a18' },
-      medium:       { label: 'Medium confidence',       color: '#f59e0b', bg: '#f59e0b18' },
-      low:          { label: 'Low confidence',          color: '#dc2626', bg: '#dc262618' },
-      insufficient: { label: 'CHAS baseline only',      color: '#64748b', bg: '#64748b18' },
+      // Site tokens, which the contrast gate checks in light and dark mode.
+      high:         { label: 'High confidence',         color: 'var(--good)',  bg: 'var(--good-dim)' },
+      medium:       { label: 'Medium confidence',       color: 'var(--warn)',  bg: 'var(--warn-dim)' },
+      low:          { label: 'Low confidence',          color: 'var(--bad)',   bg: 'var(--bad-dim)' },
+      insufficient: { label: 'CHAS baseline only',      color: 'var(--muted)', bg: 'transparent' },
     };
     var p = palette[combined] || palette.insufficient;
     var tip = _tooltipText(reliability);
@@ -317,7 +318,7 @@
     var style = 'display:inline-flex;align-items:center;gap:4px;padding:1px 7px;' +
                 'border-radius:9px;font-size:' + (compact ? '9.5px' : '10.5px') +
                 ';font-weight:600;cursor:help;background:' + p.bg +
-                ';color:' + p.color + ';border:1px solid ' + p.color + '40;white-space:nowrap';
+                ';color:' + p.color + ';border:1px solid currentColor;white-space:nowrap';
     var dot = '<span style="width:6px;height:6px;border-radius:50%;background:' + p.color + '" aria-hidden="true"></span>';
     return '<span class="rbr-confidence-badge" title="' + safeTip + '" style="' + style + '" tabindex="0" role="note">' +
              dot + (compact ? combined : p.label) +

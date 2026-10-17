@@ -30,7 +30,7 @@ test('PMAJustification exposed on window', function () {
   assert(typeof J.generateAuditTrail === 'function',     'generateAuditTrail exported');
   assert(typeof J.exportToJSON       === 'function',     'exportToJSON exported');
   assert(typeof J.getLayerOrder      === 'function',     'getLayerOrder exported');
-  assert(typeof J.DATA_VINTAGE       === 'string',       'DATA_VINTAGE exported');
+  assert(typeof J.resolveDataVintage === 'function',     'resolveDataVintage exported');
   assert(typeof J.SCHEMA_VERSION     === 'string',       'SCHEMA_VERSION exported');
 });
 
@@ -48,7 +48,7 @@ test('synthesizePMA — basic shape', function () {
   assert(typeof run.run_id === 'string',       'run_id is a string');
   assert(run.run_id.startsWith('pma-run-'),    'run_id has expected prefix');
   assert(typeof run.created_at === 'string',   'created_at is a string');
-  assert(run.data_vintage === J.DATA_VINTAGE,  'data_vintage matches constant');
+  assert(run.data_vintage === J.resolveDataVintage({}), 'data_vintage comes from the tract metadata (none supplied here)');
   assert(run.schema_version === J.SCHEMA_VERSION, 'schema_version matches constant');
 });
 
@@ -101,7 +101,7 @@ test('generateAuditTrail — shape', function () {
   const run   = J.synthesizePMA({});
   const trail = J.generateAuditTrail(run);
   assert(typeof trail.run_id          === 'string',  'trail.run_id is string');
-  assert(typeof trail.data_vintage    === 'string',  'trail.data_vintage is string');
+  assert(trail.data_vintage === null || /^ACS_\d{4}_5YR$/.test(trail.data_vintage), 'trail.data_vintage is an ACS label, or null when no tract metadata was supplied');
   assert(typeof trail.data_quality    === 'string',  'trail.data_quality is string');
   assert(Array.isArray(trail.layers),                'trail.layers is Array');
   assert(trail.layers.length === 8,                  'trail.layers has 8 entries');

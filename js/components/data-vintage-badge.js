@@ -172,9 +172,15 @@
       if (!isFinite(sla) || sla <= 0) sla = DEFAULT_SLA_DAYS;
       var label = el.getAttribute('data-vintage-label') || 'Data as of';
 
+      // A freshness badge must read the file as it is now. safeFetchJSON's
+      // localStorage layer answers from a copy up to 24 h old (or older,
+      // refreshing only in the background, after this badge has rendered),
+      // so a returning visitor saw last visit's date and a false stale
+      // warning that corrected itself on the next visit. 'no-store' skips
+      // that layer and the browser HTTP cache.
       var fetcher = (typeof window.safeFetchJSON === 'function')
-        ? window.safeFetchJSON
-        : function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); };
+        ? function (u) { return window.safeFetchJSON(u, { cache: 'no-store' }); }
+        : function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); };
 
       loadTimestamp(src, fetcher).then(function (ts) {
         if (!ts) {

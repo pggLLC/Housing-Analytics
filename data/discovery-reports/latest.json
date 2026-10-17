@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-16T12:22:10.092Z",
-  "totalScanned": 1742,
-  "newSourceCount": 1711,
+  "scanTimestamp": "2026-10-17T11:34:18.166Z",
+  "totalScanned": 1747,
+  "newSourceCount": 1716,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 851618,
+      "sizeBytes": 853878,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7705,
+      "sizeBytes": 7699,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -74,7 +74,7 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1523383,
+      "sizeBytes": 1522524,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,13 +92,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 306045,
+      "sizeBytes": 326026,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 70531,
+      "sizeBytes": 73742,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 538582,
+      "sizeBytes": 624344,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -302,7 +302,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 263815,
+      "sizeBytes": 264608,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4886,7 +4886,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 183499,
+      "sizeBytes": 183559,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9055,6 +9055,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/bps_monthly_ytd.json",
+      "sizeBytes": 95643,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/bridge_co_market_summary.json",
       "sizeBytes": 575,
       "inDataManifest": false,
@@ -9151,8 +9157,20 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/development-activity.json",
+      "sizeBytes": 1154270,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/dola_demographics_co.json",
       "sizeBytes": 24844,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/dola_muni_household_population.json",
+      "sizeBytes": 76375,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9279,6 +9297,12 @@
     {
       "path": "data/market/lodes_tract_od_co.json",
       "sizeBytes": 14776234,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/market-direction.json",
+      "sizeBytes": 774632,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9434,7 @@
     },
     {
       "path": "data/market/zillow_co_metros.json",
-      "sizeBytes": 109134,
+      "sizeBytes": 109627,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9446,7 +9470,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 15109,
+      "sizeBytes": 15107,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9884,7 +9908,7 @@
     },
     {
       "path": "data/policy/co-developer-funding-guide.json",
-      "sizeBytes": 365611,
+      "sizeBytes": 430304,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9932,7 +9956,7 @@
     },
     {
       "path": "data/policy/funding-awards/dola-awards.json",
-      "sizeBytes": 331297,
+      "sizeBytes": 331326,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9950,7 +9974,7 @@
     },
     {
       "path": "data/policy/funding-watch-sources.json",
-      "sizeBytes": 7550,
+      "sizeBytes": 10417,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9968,7 +9992,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 15087,
+      "sizeBytes": 14640,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10021,6 +10045,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/lihtc-underwriting-rules.json",
+      "sizeBytes": 13025,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/local-housing-funds.json",
       "sizeBytes": 140369,
       "inDataManifest": false,
@@ -10040,7 +10070,7 @@
     },
     {
       "path": "data/policy/pab-allocations.json",
-      "sizeBytes": 17710,
+      "sizeBytes": 17856,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10124,7 +10154,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 414118,
+      "sizeBytes": 441460,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10244,25 +10274,25 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 622101,
+      "sizeBytes": 594055,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/zillow/median_list_price_metro.csv",
-      "sizeBytes": 867065,
+      "sizeBytes": 875435,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zhvi_metro.csv",
-      "sizeBytes": 4477489,
+      "sizeBytes": 4491441,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zori_metro.csv",
-      "sizeBytes": 1066873,
+      "sizeBytes": 1075563,
       "inDataManifest": false,
       "inFilesManifest": false
     },

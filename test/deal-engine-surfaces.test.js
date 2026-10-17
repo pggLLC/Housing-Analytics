@@ -113,6 +113,13 @@ async function run() {
         assert(view.text[id].includes(reason), id + ': same unavailable reason');
         assert(!view.text[id].includes('$0'), id + ': absence is not a dollar zero'); comparisons++;
       }
+      // A list may own only list items (axe "list"); the unavailable reason used
+      // to be written straight into the guidance <ul> as bare text.
+      const badLists = await page.evaluate(() => [...document.querySelectorAll('ul, ol, [role="list"]')]
+        .filter(l => [...l.childNodes].some(n => (n.nodeType === 3 && n.textContent.trim()) ||
+          (n.nodeType === 1 && !['LI', 'SCRIPT', 'TEMPLATE'].includes(n.tagName) && n.getAttribute('role') !== 'listitem')))
+        .map(l => l.id || l.className || l.tagName));
+      assert.deepEqual(badLists, [], 'every list owns only list items in the unavailable state');
       for (const name of ['stabilizedNoi','firstMortgage','annualDebtService','fundingGap','exitNoi','resaleValue','netExitProceeds']) {
         assert.equal(view.snapshot.outputs[name].value, null, name + ': JSON absence');
         assert.equal(view.snapshot.outputs[name].unavailableReason, reason);

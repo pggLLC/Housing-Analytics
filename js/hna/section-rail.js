@@ -29,7 +29,7 @@
   'use strict';
 
   var MIN_SECTIONS = 6;          // below this a rail is noise, not navigation
-  var LABEL_MAX = 42;            // keeps entries to one line at the rail width
+  var LABEL_MAX = 72;            // two wrapped lines at the rail width; longer runs are elided
   var ID_PREFIX = 'hna-rail-';
 
   /** Strip the methodology/tooltip furniture that lives inside some headings. */

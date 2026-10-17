@@ -26,7 +26,9 @@
     opportunity:    'Where in Colorado does a tax-credit project score well?',
     hsa:            'Who lives here, and which households are short of housing?',
     market:         'Can a site here fill its units?',
-    scenario:       'How do rents, mix and growth change the need?',
+    // Step 5 projects population (births, deaths, people moving in); it has
+    // no rent or unit-mix inputs, which belong to the Deal Calculator.
+    scenario:       'How could births, deaths and people moving in change the homes needed?',
     deal:           'Does the project pencil, and how big is the gap?',
     recommendation: 'What does it all add up to?'
   };

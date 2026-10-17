@@ -67,9 +67,12 @@ const EXPECTED = [
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartIndustry',     note: 'industries (apportioned)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartEmploymentTrend', note: 'employment trend (apportioned)' },
 
-  // ── Scenario Builder (Step 4): renders a default scenario on load ──
-  { fixture: 'scenario-builder', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
-    note: 'default scenario projection line' },
+  // ── Scenario Builder (Step 5): projects only a loaded geography ──
+  // Until 2026-10-17 the page drew a 36,000-person placeholder before any
+  // geography loaded, and this entry audited that placeholder. It now loads
+  // Mesa County the way a deep link does.
+  { fixture: 'scenario-builder', url: '/hna-scenario-builder.html?geoType=county&geoid=08077&auto=1', chart: 'sbProjectionChart',
+    note: 'Mesa County projection line' },
 
   // ── Colorado Deep Dive: charts that paint on initial page load ──
   // (The remaining ~9 canvases on this page only render after the user
