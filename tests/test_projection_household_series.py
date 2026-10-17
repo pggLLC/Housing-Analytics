@@ -174,3 +174,52 @@ def test_parse_sdo_household_forecast_keeps_only_county_totals():
     out = hna.parse_sdo_household_forecast(text)
     assert out == {'08067': {2024: 24356.0, 2034: 27227.0}, '08001': {2024: 189607.0}}
     assert hna.parse_sdo_household_forecast('x,y\n1,2\n') == {}
+
+
+def test_county_fips_from_sdo_area_accepts_county_codes_and_full_fips():
+    # area_code style (67) and countyfips style ('08067', read as 8067) both land on '08067'.
+    assert hna.county_fips_from_sdo_area(67) == '08067'
+    assert hna.county_fips_from_sdo_area('67') == '08067'
+    assert hna.county_fips_from_sdo_area('08067') == '08067'
+    assert hna.county_fips_from_sdo_area(8067) == '08067'
+    assert hna.county_fips_from_sdo_area('1') == '08001'
+    assert hna.county_fips_from_sdo_area('08001') == '08001'
+    # the statewide row, another state's county and junk are not Colorado counties
+    assert hna.county_fips_from_sdo_area(0) is None
+    assert hna.county_fips_from_sdo_area('48001') is None
+    assert hna.county_fips_from_sdo_area('bad') is None
+    assert hna.county_fips_from_sdo_area(None) is None
+
+
+def test_parse_sdo_household_forecast_reads_a_full_fips_column_without_double_prefixing():
+    text = '\n'.join([
+        'countyfips,year,household_type_id,age_group_id,total_households',
+        '08067,2024,0,0,24356',
+        '08067,2034,0,0,27227',
+        '08001,2024,0,0,189607',
+        '48001,2024,0,0,5',
+        '0,2024,0,0,2367212',
+    ])
+    assert hna.parse_sdo_household_forecast(text) == {
+        '08067': {2024: 24356.0, 2034: 27227.0}, '08001': {2024: 189607.0},
+    }
+
+
+def test_label_household_method_marks_an_incomplete_year_as_none():
+    F, H = hna.HOUSEHOLD_METHOD_FORECAST, hna.HOUSEHOLD_METHOD_HEADSHIP
+    assert hna.label_household_method([[F, F], [F, F]], 2) == [F, F]
+    assert hna.label_household_method([[F, F], [H, F]], 2) == ['mixed', F]
+    # a county with no value for a year makes that year's statewide label None, not the others'
+    assert hna.label_household_method([[F, F, F], [F, None, F]], 3) == [F, None, F]
+    # a county whose list is short, or missing, is unavailable for the years it lacks
+    assert hna.label_household_method([[F, F], [F]], 2) == [F, None]
+    assert hna.label_household_method([[F, F], None], 2) == [None, None]
+    assert hna.label_household_method([], 2) == [None, None]
+
+
+def test_statewide_label_is_what_the_committed_county_files_produce(county_files):
+    methods = [_load(p)['housing_need'].get('household_method') for p in county_files]
+    state = _load(os.path.join(PROJ_DIR, '08.json'))
+    labels = hna.label_household_method(methods, len(state['years']))
+    assert labels == state['housing_need']['household_method']
+    assert None not in labels, 'every county-year must have a household value'

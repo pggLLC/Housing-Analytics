@@ -2133,6 +2133,27 @@ HOUSEHOLD_METHOD_FORECAST = 'sdo_household_forecast'
 HOUSEHOLD_METHOD_HEADSHIP = 'constant_headship'
 
 
+def county_fips_from_sdo_area(value) -> str | None:
+    """Five-digit Colorado county FIPS from an SDO area value, or None.
+
+    household-county.csv's area_code is the one-to-three-digit county code
+    (67 -> '08067'). A countyfips-style column carries the full five digits
+    ('08067', read by the CSV reader as 8067); prefixing that again would give
+    '088067' and silently match no county. 0 is the statewide row and a full
+    FIPS outside Colorado is not ours: both return None.
+    """
+    try:
+        raw = int(float(value))
+    except (TypeError, ValueError):
+        return None
+    if raw <= 0:
+        return None
+    if raw < 1000:
+        return STATE_FIPS_CO + str(raw).zfill(3)
+    full = str(raw).zfill(5)
+    return full if len(full) == 5 and full.startswith(STATE_FIPS_CO) else None
+
+
 def parse_sdo_household_forecast(text: str) -> dict[str, dict[int, float]]:
     """Read the SDO county household forecast into {countyFips5: {year: households}}.
 
@@ -2157,13 +2178,40 @@ def parse_sdo_household_forecast(text: str) -> dict[str, dict[int, float]]:
         try:
             if int(float(r[f_type])) != 0 or int(float(r[f_age])) != 0:
                 continue
-            raw_cf = int(float(r[f_area]))
-            if raw_cf <= 0:
+            cf = county_fips_from_sdo_area(r[f_area])
+            if cf is None:
                 continue
-            cf = STATE_FIPS_CO + str(raw_cf).zfill(3)
             out.setdefault(cf, {})[int(float(r[f_year]))] = float(r[f_hh])
         except (KeyError, TypeError, ValueError):
             continue
+    return out
+
+
+def label_household_method(methods_by_county: list, n_years: int) -> list:
+    """One household_method label per year for the statewide file.
+
+    Every county used the same method -> that method. The forecast covered
+    some counties and the headship fallback the others -> 'mixed'. Any county
+    whose year is None (neither forecast nor fallback, so project_households
+    emitted None) -> None: the statewide sum for that year is missing that
+    county and must not be labelled as if it were complete.
+    """
+    out = []
+    for i in range(n_years):
+        used = set()
+        incomplete = not methods_by_county
+        for methods in methods_by_county:
+            m = methods[i] if isinstance(methods, list) and i < len(methods) else None
+            if m is None:
+                incomplete = True
+                break
+            used.add(m)
+        if incomplete:
+            out.append(None)
+        elif len(used) == 1:
+            out.append(next(iter(used)))
+        else:
+            out.append('mixed')
     return out
 
 
@@ -2704,18 +2752,12 @@ def _build_state_projection_aggregate():
 
     households_dola = _sum_housing_series('households_dola')
     units_needed_dola = _sum_housing_series('units_needed_dola')
-    # One label per year: the method every county used, or 'mixed' when the
-    # forecast covered some counties and the headship fallback the others.
-    household_method = []
-    for i in range(len(years)):
-        used = {
-            d['housing_need']['household_method'][i]
-            for d in county_data
-            if isinstance((d.get('housing_need') or {}).get('household_method'), list)
-            and i < len(d['housing_need']['household_method'])
-            and d['housing_need']['household_method'][i] is not None
-        }
-        household_method.append(next(iter(used)) if len(used) == 1 else ('mixed' if used else None))
+    # One label per year: the method every county used, 'mixed' when the
+    # forecast covered some counties and the headship fallback the others,
+    # None when any county has no value for the year (the sum is incomplete).
+    household_method = label_household_method(
+        [(d.get('housing_need') or {}).get('household_method') for d in county_data], len(years)
+    )
     if HNA_BASE_YEAR not in years:
         raise ValueError(f'State projection years missing base year {HNA_BASE_YEAR}')
     base_year_idx = years.index(HNA_BASE_YEAR)
@@ -2772,7 +2814,9 @@ def _build_state_projection_aggregate():
                 'base-year households/units/vacancy from county profiles; '
                 'households after the base year follow the SDO county household '
                 'forecast (household_method "sdo_household_forecast"), with population x '
-                'the constant base-year headship rate as the fallback ("constant_headship").'
+                'the constant base-year headship rate as the fallback ("constant_headship"); '
+                '"mixed" where counties differ within a year, null where any county has no '
+                'value for the year and the statewide sum is therefore incomplete.'
             ),
         },
     }
