@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Prop 123 Land Banking Awards | COHO Analytics</title>
+  <meta name="description" content="Every Proposition 123 Land Banking award Colorado has made, on a map: who received it, where, how much, and how many homes the land is meant for, each quoted from CHFA's award lists.">
+  <meta property="og:title" content="Prop 123 Land Banking Awards | COHO Analytics">
+  <meta property="og:description" content="Where Colorado's Prop 123 money has bought land for future affordable homes, award by award, with the source for each.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/land-banking-map.css">
+  <style>
+    .lb-lead { font-size: 1.05rem; line-height: 1.65; max-width: 760px; }
+    .lb-table-wrap { overflow-x: auto; margin-top: var(--sp3); }
+    .lb-table td, .lb-table th { vertical-align: top; }
+    .lb-table td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .lb-table details.lb-quote { border: 0; background: none; padding: 0; margin: 4px 0 0; box-shadow: none; }
+    .lb-table details.lb-quote > summary { cursor: pointer; font-size: var(--small); padding: 0; color: var(--link, var(--accent)); list-style: revert; }
+    .lb-table details.lb-quote > summary::after { content: none; }
+    .lb-quote blockquote { margin: var(--sp1) 0; padding-left: var(--sp2); border-left: 3px solid var(--border); font-size: var(--small); overflow-wrap: anywhere; }
+    .lb-note { font-size: var(--small); color: var(--muted); }
+    .lb-means { max-width: 760px; line-height: 1.6; }
+    .lb-about { margin: var(--sp6) 0 var(--sp4); border-top: 1px solid var(--border); padding-top: var(--sp3); }
+    .lb-about summary { cursor: pointer; }
+    .lb-about summary h2 { display: inline; font-size: 1.15rem; }
+    .lb-about p { max-width: 820px; line-height: 1.6; }
+    .lb-section { margin: var(--sp6) 0 var(--sp5); }
+    .lb-section > p, .lb-section > ul { max-width: 820px; line-height: 1.65; }
+    @media (max-width: 640px) {
+      .lb-table, .lb-table tbody, .lb-table tr, .lb-table td { display: block; width: auto; }
+      .lb-table thead { display: none; }
+      .lb-table tr { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
+      .lb-table td { border: 0; padding: 2px 0; text-align: left !important; white-space: normal !important; }
+      .lb-table td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: var(--small); }
+      .lb-table td.lb-c-round { font-size: var(--small); color: var(--muted); }
+      .lb-table td.lb-c-project { font-size: 1.05rem; }
+    }
+  </style>
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/config/basemaps.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/land-banking-map.js"></script>
+  <script defer src="js/land-banking-awards.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <article class="article-wrap" data-land-banking>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="colorado-deep-dive.html#tab-funding">Funding Sources</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Land Banking Awards</span>
+        </nav>
+        <h1 style="margin:var(--sp3) 0;">Prop 123 Land Banking Awards</h1>
+      </header>
+
+      <div class="article-body">
+        <p class="lb-lead" data-lb-lead>Colorado's voter-approved housing fund (Proposition 123) pays towns, counties and nonprofits to buy land that will later become affordable homes. This map shows every award so far.</p>
+
+        <section class="lbm" data-land-banking-map aria-labelledby="lbm-heading">
+          <h2 id="lbm-heading">Where the awards are</h2>
+          <p>Each award buys a site now so homes can be built there later, at rents or prices that households with low or moderate incomes can afford. Tap a town, or search for one, to see who received the money and what they plan.</p>
+          <label for="lbmSearch">Find a town, county or grantee</label>
+          <input id="lbmSearch" type="search" placeholder="e.g. Leadville" autocomplete="off">
+          <p class="lbm-count" data-lbm-count aria-live="polite">Loading awards…</p>
+          <div id="lbmMap" role="region" aria-label="Map of Prop 123 land banking awards by town"></div>
+          <div class="lbm-detail" data-lbm-detail aria-live="polite" tabindex="-1" hidden></div>
+          <details class="lbm-list">
+            <summary><span>List the <span data-lbm-towns-count></span> towns instead</span></summary>
+            <ul data-lbm-towns></ul>
+          </details>
+          <p class="lbm-foot"><span data-lbm-note></span> Program: <span data-lbm-program></span>.</p>
+        </section>
+
+        <section class="lb-section" aria-labelledby="lb-list-heading">
+          <h2 id="lb-list-heading">Every award</h2>
+          <p>The same awards as the map, newest round first, following the search above. Questions about an award go to the organization that received it; questions about the program go to the Colorado Housing and Finance Authority (CHFA), which runs it.</p>
+          <p><a href="#" data-lb-csv download="prop123-land-banking-awards.csv">Download these awards (CSV)</a></p>
+          <div class="lb-table-wrap">
+            <table class="data-table lb-table">
+              <thead><tr><th>Round</th><th>Project</th><th>Received by</th><th>Town</th><th>Homes planned</th><th>Awarded</th><th>Est. homes</th><th>Source</th></tr></thead>
+              <tbody data-lb-rows><tr><td colspan="8">Loading…</td></tr></tbody>
+            </table>
+          </div>
+          <p><button type="button" class="btn btn-outline" data-lb-more hidden>Show all awards</button></p>
+        </section>
+
+        <section class="lb-section" aria-labelledby="lb-open-heading">
+          <h2 id="lb-open-heading">Applying now</h2>
+          <div data-lb-open></div>
+        </section>
+
+        <section class="lb-section" aria-labelledby="lb-how-heading">
+          <h2 id="lb-how-heading">How land banking works</h2>
+          <ul>
+            <li><strong>Who can get it.</strong> Towns, counties and tribal governments receive grants. Nonprofits with a record of providing affordable housing receive loans that are forgiven if they build. Private developers cannot receive it directly.</li>
+            <li><strong>It buys land, not buildings.</strong> The land must be zoned, with a development plan, within five years, and the homes permitted and funded within ten. Otherwise the money is repaid.</li>
+            <li><strong>Only places that made a Prop 123 promise qualify.</strong> A town or county must first file a commitment to grow its affordable housing with the state Division of Housing. The Division lists who has filed on its <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">commitment filings page</a>.</li>
+          </ul>
+        </section>
+
+        <details class="lb-about">
+          <summary><h2 id="lb-about-heading">About this data</h2></summary>
+          <div data-lb-program></div>
+          <p>Home counts are each grantee's estimate in its award list. Land banking buys land, and the homes come later, so these are plans, not homes built.</p>
+          <p>Each row on this page is copied from CHFA's award list for its round; open "Row as printed" in the table to see the original. Where a name in a list wraps onto two lines, the page joins it back together. The program is part of the Prop 123 Affordable Housing Financing Fund, which CHFA runs for the Colorado Office of Economic Development and International Trade (OEDIT).</p>
+          <p class="lb-note" data-lb-sources></p>
+          <p class="lb-note">This site is a public-data reference. Confirm current terms and contacts with CHFA before relying on them.</p>
+        </details>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

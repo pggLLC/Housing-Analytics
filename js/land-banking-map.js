@@ -1,10 +1,15 @@
 /**
- * js/whitepaper/land-banking-map.js
- * The Prop 123 land banking map on developer-where.html (developer-gated).
+ * js/land-banking-map.js
+ * The Prop 123 land banking map, on two pages:
+ *   - land-banking-awards.html (public): grantee organisations and CHFA's program
+ *     contact only, and each town links to its public needs assessment.
+ *   - the developer-gated Where to build page, whose section names its own contacts
+ *     file (data-lbm-contacts) and report link (data-lbm-report). This file names no
+ *     gated path, so the public build can ship it; only a page that names a contacts
+ *     file ever requests one.
  *
  * Reads data/policy/prop123-land-banking-awards.json (built by
- * scripts/funding/build_land_banking_awards.py from CHFA's award lists) and the
- * gated contacts file data/jurisdiction-briefs/_land-banking-contacts.json. One pin
+ * scripts/funding/build_land_banking_awards.py from CHFA's award lists). One pin
  * per town; an award listing several towns has a pin in each. Pins sit at the town's
  * Census centre because CHFA lists towns, not addresses.
  *
@@ -20,7 +25,6 @@
   'use strict';
 
   var AWARDS = 'data/policy/prop123-land-banking-awards.json';
-  var CONTACTS = 'data/jurisdiction-briefs/_land-banking-contacts.json';
   var PURPOSE_TEXT = { 'Rental': 'rental', 'Homeownership': 'for-sale', 'Rental and Homeownership': 'rental and for-sale' };
 
   function esc(v) {
@@ -99,14 +103,33 @@
     return parts.join(', ') + ' <span class="lbm-note">(' + (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + where + '</a>' : where) + ')</span>' + tag;
   }
 
-  function popupHtml(town, data, contacts, contactsMissing) {
+  // Public pages name no person: the grantee organisation, then CHFA's program contact.
+  function publicContactHtml(a, data) {
+    var programEmail = safeEmail((data.meta || {}).program_email);
+    return 'ask ' + esc(a.sponsor) + (programEmail
+      ? ', or CHFA\'s land banking team at <a href="mailto:' + esc(programEmail) + '">' + esc(programEmail) + '</a>.'
+      : '.');
+  }
+
+  function reportLink(town, opts) {
+    var base = opts.reportBase && /^[a-z0-9-]+\.html\?geoid=$/.test(opts.reportBase) ? opts.reportBase : null;
+    return opts.mode === 'gated' && base
+      ? '<a href="' + esc(base) + esc(town.geoid) + '">Open the ' + esc(town.name) + ' report</a>'
+      : '<a href="housing-needs-assessment.html?geoid=' + esc(town.geoid) + '&amp;geoType=place&amp;auto=1">Open the ' +
+        esc(town.name) + ' housing needs assessment</a>';
+  }
+
+  // opts: { mode: 'public' | 'gated', reportBase: 'page.html?geoid=' (gated only) }.
+  function popupHtml(town, data, contacts, contactsMissing, opts) {
+    opts = opts || { mode: 'public' };
+    var mode = opts.mode;
     return '<div class="lbm-popup"><h4>' + esc(town.name) + (town.county ? ' <span class="lbm-note">(' + esc(town.county) + ')</span>' : '') + '</h4><ul>' +
       town.awards.map(function (a) {
         return '<li><strong>' + esc(a.project) + '</strong>: ' + esc(a.sponsor) + ', ' + money(a.amount_awarded) + ', about ' +
           int(a.estimated_units) + ' ' + esc(PURPOSE_TEXT[a.purpose] || String(a.purpose || '').toLowerCase()) + ' homes (' + esc(roundLabel(data, a.round)) + ').' +
-          '<br>Contact: ' + contactHtml(contacts[a.id], data, contactsMissing) + '</li>';
-      }).join('') + '</ul>' +
-      '<a href="developer-brief.html?geoid=' + esc(town.geoid) + '">Open the ' + esc(town.name) + ' report</a></div>';
+          (mode === 'gated' ? '<br>Contact: ' + contactHtml((contacts || {})[a.id], data, contactsMissing)
+            : '<br>Questions: ' + publicContactHtml(a, data)) + '</li>';
+      }).join('') + '</ul>' + reportLink(town, opts) + '</div>';
   }
 
   function countText(shown, all) {
@@ -199,7 +222,7 @@
   function showTown(state, town) {
     var el = global.document.querySelector('[data-lbm-detail]');
     if (!el) return;
-    el.innerHTML = town ? popupHtml(town, state.data, state.contacts, state.contactsMissing) : '';
+    el.innerHTML = town ? popupHtml(town, state.data, state.contacts, state.contactsMissing, { mode: state.mode, reportBase: state.reportBase }) : '';
     el.hidden = !town;
   }
 
@@ -237,8 +260,11 @@
     var doc = global.document;
     var q = doc.getElementById('lbmSearch').value;
     var shown = filterAwards(state.data.awards, q);
+    // The public page's headline already gives the totals, so its unfiltered line is short.
+    var all = summarize(state.data.awards);
     doc.querySelector('[data-lbm-count]').textContent = shown.length
-      ? countText(summarize(shown), summarize(state.data.awards))
+      ? (state.mode !== 'gated' && shown.length === all.awards ? 'Showing all ' + int(all.awards) + ' awards in ' + int(all.towns) + ' towns.'
+        : countText(summarize(shown), all))
       : 'No award matches that search. Try a town, county or grantee name.';
     drawPins(state, shown);
     state.towns = groupByTown(shown);
@@ -250,16 +276,28 @@
     showTown(state, townForSearch(state.towns, q));
   }
 
-  function boot(data, contacts) {
+  // A section that names a contacts file is the gated version; anything else is public.
+  function pageConfig(doc) {
+    var el = doc.querySelector('[data-land-banking-map]');
+    var contacts = el && el.getAttribute('data-lbm-contacts');
+    return contacts
+      ? { mode: 'gated', contactsPath: contacts, reportBase: el.getAttribute('data-lbm-report') || null }
+      : { mode: 'public', contactsPath: null, reportBase: null };
+  }
+
+  function boot(data, contacts, cfg) {
     var doc = global.document;
     var m = data.meta || {};
-    var state = { data: data, contacts: contactIndex(contacts), contactsMissing: !contacts };
+    cfg = cfg || pageConfig(doc);
+    var state = { data: data, mode: cfg.mode, reportBase: cfg.reportBase, contacts: contactIndex(contacts), contactsMissing: !contacts };
     var url = safeUrl(m.program_url);
     var email = safeEmail(m.program_email);
-    doc.querySelector('[data-lbm-program]').innerHTML =
+    var program = doc.querySelector('[data-lbm-program]');
+    if (program) program.innerHTML =
       (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">CHFA\'s program page</a>' : 'CHFA') +
       (email ? ' · <a href="mailto:' + esc(email) + '">' + esc(email) + '</a>' : '');
-    doc.querySelector('[data-lbm-note]').textContent = m.location_note || '';
+    var note = doc.querySelector('[data-lbm-note]');
+    if (note) note.textContent = m.location_note || '';
     state.mapState = initMap(doc.getElementById('lbmMap'));
     if (state.mapState) {
       var map = state.mapState.map;
@@ -298,17 +336,20 @@
 
   function start() {
     var doc = global.document;
-    if (!doc || !doc.querySelector('[data-land-banking-map]')) return;
-    Promise.all([getJSON(AWARDS, false), getJSON(CONTACTS, true)]).then(function (r) { boot(r[0], r[1]); }).catch(function (e) {
+    if (!doc || !doc.querySelector('[data-land-banking-map]')) return null;
+    var cfg = pageConfig(doc);
+    // Only the gated page names a contacts file; the public page never requests one.
+    return Promise.all([getJSON(AWARDS, false), cfg.contactsPath ? getJSON(cfg.contactsPath, true) : null])
+      .then(function (r) { boot(r[0], r[1], cfg); }).catch(function (e) {
       doc.querySelector('[data-lbm-count]').textContent = 'The award list could not be loaded (' + (e && e.message) + '). Try reloading the page.';
     });
   }
 
-  if (global.document) {
+  if (global.document && !global.LandBankingMapNoAutoStart) {
     if (global.document.readyState === 'loading') global.document.addEventListener('DOMContentLoaded', start);
     else start();
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
 }));
