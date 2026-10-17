@@ -65,6 +65,8 @@ const JSON_COUNT_PATHS = {
   'aamd-denver-vacancy': 'counties',
   'chfa-income-rent-limits': 'counties',
   'funding-vs-need': 'counties',
+  'market-direction': ['counties', 'places'],
+  'development-activity': 'projects',
   'lihtc-state-allocations': 'states',
   'co-ami-gap-county': 'counties',
   'hmda-co': 'counties',

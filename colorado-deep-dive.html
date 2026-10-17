@@ -610,6 +610,17 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 @media (max-width: 640px) { .mi-chart-container.fvn-chart { height: 380px; margin-bottom: 5rem; } }
 .fvn-limits { margin: 0; padding-left: 1.2rem; line-height: 1.6; max-width: 80ch; }
 .fvn-limits li { margin-bottom: .5rem; }
+/* Market Direction tab */
+.md-map-wrap { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+.md-map { flex: 1 1 320px; height: 340px; background: transparent; }
+.md-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; font-size: .85rem; }
+.md-swatch { display: inline-block; width: .9rem; height: .9rem; border-radius: 2px; margin-right: .4rem; vertical-align: -1px; border: 1px solid var(--border); }
+.md-filters { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; margin-bottom: .75rem; }
+.md-filters select { min-height: 44px; margin-left: .35rem; }
+.md-check { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; }
+.md-check input { width: 1.1rem; height: 1.1rem; }
+.cc-table.md-projects td:last-child { text-align: left; white-space: normal; }
+@media (max-width: 640px) { .md-map { height: 260px; } .md-legend { flex-direction: row; flex-wrap: wrap; } }
 /* The source line the chart-source component appends sits below the canvas box. */
 .mi-chart-container.cc-chart { margin-bottom: 3rem; }
 @media (max-width: 640px) {
@@ -739,6 +750,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <button role="tab" id="btn-funding" aria-selected="false" aria-controls="tab-funding" class="page-tab-btn">Funding Sources</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
   <button role="tab" id="btn-need" aria-selected="false" aria-controls="tab-need" class="page-tab-btn">Funding vs Need</button>
+  <button role="tab" id="btn-direction" aria-selected="false" aria-controls="tab-direction" class="page-tab-btn">Market Direction</button>
 </div>
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
@@ -2682,6 +2694,96 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 </div><!-- /tab-need -->
 
+<!-- Market Direction: which county and town markets are growing or weakening,
+     and the affordable projects in each county. js/market-direction.js reads
+     data/market/market-direction.json when the tab first opens. -->
+<div role="tabpanel" id="tab-direction" aria-labelledby="btn-direction" hidden>
+  <section class="mi-section" aria-labelledby="md-heading" style="margin-top:0;">
+    <h2 id="md-heading">Which Colorado housing markets are growing, and which are weakening</h2>
+    <p id="mdSummary" class="cc-summary" aria-live="polite">Loading the market calls…</p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">Each call reads household population and jobs (demand) against permits, home prices and rents (the market), from DOLA, the Census Bureau, FHFA and Zillow. The rule and its thresholds are under "How a call is made" below. <span id="mdGenerated"></span></p>
+    <div class="mi-kpi-grid" id="mdKpis" aria-live="polite"></div>
+    <div class="md-map-wrap">
+      <div id="mdMap" class="md-map" aria-hidden="true"></div>
+      <ul id="mdLegend" class="md-legend" aria-label="Map key"></ul>
+    </div>
+    <p class="sr-only" id="mdMapText"></p>
+    <p class="data-note">Select a county on the map, or pick it below, to list its towns and its affordable projects.</p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="md-county-heading">
+    <h2 id="md-county-heading">Every county</h2>
+    <div class="cc-table-wrap" role="region" aria-label="County table, scrolls sideways" tabindex="0">
+      <table class="cc-table" id="mdCountyTable" data-export="dd-market-direction-counties">
+        <caption class="sr-only">The market call for each Colorado county and the readings behind it. Select a column heading to sort.</caption>
+        <thead><tr id="mdCountyHead"></tr></thead>
+        <tbody id="mdCountyBody"><tr><td>Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="md-town-heading">
+    <h2 id="md-town-heading">Towns</h2>
+    <div class="md-filters">
+      <label for="mdCounty">County <select id="mdCounty"><option value="">All counties</option></select></label>
+      <label for="mdTownCall">Call <select id="mdTownCall"><option value="">Every call</option></select></label>
+      <label class="md-check" for="mdCdps"><input type="checkbox" id="mdCdps"> Include census-designated places (unincorporated; most have too little data for a call)</label>
+      <span id="mdTownCount" class="data-note" role="status"></span>
+    </div>
+    <div class="cc-table-wrap" role="region" aria-label="Town table, scrolls sideways" tabindex="0">
+      <table class="cc-table" id="mdTownTable" data-export="dd-market-direction-towns">
+        <caption class="sr-only">The market call for each Colorado town, filtered by the county and call picked above. Select a column heading to sort.</caption>
+        <thead><tr id="mdTownHead"></tr></thead>
+        <tbody id="mdTownBody"><tr><td>Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="md-projects-heading">
+    <h2 id="md-projects-heading">Affordable projects in the county</h2>
+    <p id="mdProjectSummary" class="cc-summary" aria-live="polite"></p>
+    <div class="cc-table-wrap" role="region" aria-label="Project table, scrolls sideways" tabindex="0">
+      <table class="cc-table md-projects" id="mdProjectTable" data-export="dd-market-projects">
+        <caption class="sr-only">Affordable-housing projects a state agency recorded in the county picked above, newest first.</caption>
+        <thead><tr>
+          <th scope="col" title="Project name as the agency record prints it">Project</th>
+          <th scope="col" title="Town the agency record gives">Town</th>
+          <th scope="col" title="The furthest stage any agency record shows; nothing here says a project is built or open">Stage</th>
+          <th scope="col" title="Total homes as the source prints them">Homes</th>
+          <th scope="col" title="The latest year any agency record lists the project">Latest year</th>
+          <th scope="col" title="The agency, program and round of the latest record, linked to the published report it comes from">Latest record</th>
+        </tr></thead>
+        <tbody id="mdProjectBody"><tr><td colspan="6">Pick a county above, or select one on the map, to list its projects.</td></tr></tbody>
+      </table>
+    </div>
+    <p class="data-note">From CHFA tax-credit applications, awards and property list, OEDIT Prop 123 awards and DOLA Division of Housing awards, 2016 on. Market-rate projects are not listed: no public source lists them project by project.</p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="md-method-heading">
+    <h2 id="md-method-heading">How a call is made</h2>
+    <ul class="fvn-limits" id="mdCalls"></ul>
+    <p class="data-note" id="mdOrder"></p>
+    <p class="data-note" id="mdWindows"></p>
+    <div class="cc-table-wrap" role="region" aria-label="Threshold table, scrolls sideways" tabindex="0">
+      <table class="cc-table">
+        <caption class="sr-only">The thresholds at which each reading counts as rising or falling, for counties and for towns</caption>
+        <thead><tr><th scope="col" title="The reading a call is made from">Reading</th><th scope="col" title="A county reading at or above this counts as rising">County: rising at</th><th scope="col" title="A county reading at or below this counts as falling">County: falling at</th><th scope="col" title="The town thresholds: rising at or above the first, falling at or below the second">Town: rising / falling</th></tr></thead>
+        <tbody id="mdThresholdBody"></tbody>
+      </table>
+    </div>
+    <p class="data-note" id="mdThresholdNote"></p>
+    <h3>What this does not show</h3>
+    <ul class="fvn-limits">
+      <li><strong>A call is a reading of public data, not a forecast.</strong> It says which way the latest published figures point, and every figure lags: the calls use annual permits through last year.</li>
+      <li><strong>This year's permits are context.</strong> The monthly figure sits beside each call, and no call reads it.</li>
+      <li><strong>Gaps are shown, not filled.</strong> Zillow publishes no rent index for many rural counties and towns, and FHFA no price index for some; a call made on fewer signals says so in "Why".</li>
+      <li><strong>A second-home shift is not a failing market.</strong> Where seasonal homes are a fifth or more of the stock, a falling year-round population usually means homes changing use.</li>
+    </ul>
+    <p class="data-note">Sources:</p>
+    <ul class="fvn-limits" id="mdSources"></ul>
+  </section>
+</div><!-- /tab-direction -->
+
   <section class="chart-card" aria-labelledby="policyTimelineHeading">
     <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
     <p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
@@ -3179,6 +3281,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <script defer src="js/funding-fit.js"></script>
 <script defer src="js/co-developer-funding.js"></script>
 <script defer src="js/funding-vs-need.js"></script>
+<script defer src="js/market-direction.js"></script>
 <script defer src="js/vendor/d3.v7.min.js"></script>
 <script defer src="js/agency-funding-model.js"></script>
 <script defer src="js/agency-funding.js"></script>
@@ -3228,6 +3331,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       }
       if (targetId === 'tab-need' && window.AgencyFunding) {
         window.AgencyFunding.start();
+      }
+      if (targetId === 'tab-direction' && window.MarketDirection) {
+        window.MarketDirection.init();
       }
       /* Historical Trends fetches and draws once, on first reveal. */
       if (targetId === 'tab-history' && window.HistoricalTrends && !window.__htRendered) {
