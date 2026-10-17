@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 import { isSensitive } from './lib/public-sensitive-patterns.mjs';
-import { briefRecords, countyRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
+import { briefRecords, countyRecords, fundingProgramRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.COHO_PUBLIC_DIST
@@ -20,6 +20,7 @@ const PRIVATE_ROOT_HTML = new Set([
   'developer-where.html',
   'developer-pipeline.html',
   'developer-brief.html',
+  'developer-whitepaper.html',
   'indibuild.html',
   'indibuild-where.html',
   'indibuild-pipeline.html',
@@ -122,7 +123,9 @@ const BLOCKED_PATHS = [
   'js/developer-gate.js',
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
-  'js/components/pipeline-store.js'
+  'js/components/pipeline-store.js',
+  'js/components/private-workspace.js',
+  'js/whitepaper'
 ];
 
 function toPosix(relPath) {
@@ -403,6 +406,9 @@ async function stampPageDates() {
       const filePath = path.join(DIST, childRel);
       const html = await readFile(filePath, 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
       const iso = lastChanged.get(toPosix(childRel));
       if (!iso) { undated.push(toPosix(childRel)); continue; }
       const next = stampPage(html, iso, { article: isArticle(childRel) });
@@ -439,6 +445,9 @@ async function generateSitemap() {
       if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
       const html = await readFile(path.join(DIST, childRel), 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
       // A reader URL needs a curated id; its bare path is a not-found state.
       if (childRel === 'research-brief.html') {
         const curated = JSON.parse(await readFile(path.join(DIST, 'data/policy_briefs_curated.json'), 'utf8'));
@@ -501,7 +510,10 @@ async function generateSearchIndex() {
         const redirect = redirectAlias(relPath, html);
         // A retired name the public guard forbids (e.g. an old brand) is not offered as an alias.
         if (redirect) { if (!isSensitive(redirect.alias)) aliases.push(redirect); continue; }
-        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue; // off-site redirect
+        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue; // off-site redirect
         // The place profiles share one template, so their body words would match every topic
         // query 480 times over; their names and headings are what tell them apart.
         records.push(...pageRecords(relPath, html, { body: !/^places\/\d+\.html$/.test(relPath) }));
@@ -516,6 +528,8 @@ async function generateSearchIndex() {
     } catch (err) {
       console.warn(`search-index: curated briefs skipped: ${err.message}`);
     }
+    const fundingGuide = JSON.parse(await readFile(path.join(DIST, 'data/policy/co-developer-funding-guide.json'), 'utf8'));
+    records.push(...fundingProgramRecords(fundingGuide));
     // An old page name finds the page (or tab) it now redirects to.
     const byUrl = new Map(records.map((r) => [r.u, r]));
     for (const { alias, target } of aliases) {

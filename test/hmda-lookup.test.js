@@ -142,6 +142,22 @@ const arapDelta = (arapahoe.denial_rate - stateLatest.denial_rate) * 100;
 assert(Number.isFinite(arapDelta),
   'Arapahoe vs state denial-rate delta is finite (' + arapDelta.toFixed(2) + 'pp)');
 
+console.log('\n[test] the Market Analysis HMDA note names the years the data file holds');
+{
+  const vm = require('vm');
+  const ctx = { window: {}, document: { readyState: 'complete', querySelectorAll: () => [] }, fetch: () => Promise.reject() };
+  vm.runInNewContext(helperSrc, ctx);
+  const stateFile = JSON.parse(readRel('data/hmda/co-state-trends.json'));
+  const years = stateFile.meta.years;
+  const expected = Math.min(...years) + '–' + Math.max(...years);
+  assert(ctx.window.HmdaLookup.vintageRange(stateFile) === expected,
+    'vintageRange reads the file\'s year list (' + expected + ')');
+  assert(ctx.window.HmdaLookup.vintageRange({ meta: {} }) === null, 'no year list gives no range, not a guess');
+  const ma = readRel('market-analysis.html');
+  assert(ma.includes('data-hmda-vintage'), 'market-analysis.html fills the HMDA vintage from data');
+  assert(!/Vintages 20\d\d-20\d\d/.test(ma), 'market-analysis.html types no HMDA year range');
+}
+
 console.log('\n=========================================');
 console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed === 0 ? 0 : 1);

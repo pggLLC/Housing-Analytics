@@ -159,10 +159,10 @@ test('a mode-hidden element stays hidden even with an inline display', () => {
 require('../js/deal-calculator-share.js');
 
 // PC-2's own list, stated independently of how the exporter decides: tax
-// credits (credit rate, set-aside, equity pricing), eligible basis (basis %,
-// QCT/DDA), NOI, and LIHTC debt (DCR). Plus the LIHTC-only stress and
+// credits (credit rate, set-aside, equity pricing), eligible basis (the boost
+// designation and its evidence, #2160), NOI, and LIHTC debt (DCR). Plus the LIHTC-only stress and
 // waterfall inputs that live outside the calculator.
-const PC2_KEYS = ['rate-9', 'minimum-set-aside', 'equity-price', 'basis-pct', 'qct-dda',
+const PC2_KEYS = ['rate-9', 'minimum-set-aside', 'equity-price', 'boost-designation', 'boost-evidence',
   'noi', 'auto-noi', 'dcr', 'stress-equity-price', 'wf-lp-equity'];
 
 test('the JSON export and share URL carry no LIHTC input in ownership mode', () => {

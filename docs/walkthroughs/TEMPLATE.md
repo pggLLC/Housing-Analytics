@@ -11,6 +11,7 @@ far more use than nobody having checked. Do not smooth it over.
 - **Walker:** <who did this>
 - **Unfamiliar with the tool:** <yes or no — yes is required; a walkthrough by someone who knows it answers a different question>
 - **Jurisdiction:** <the place they chose>
+- **Jurisdiction type:** <city, rural county or small town — G3 needs one walkthrough of each>
 - **Date:** <YYYY-MM-DD>
 - **Verdict:** <would-act or would-not-act — would you take this to your board?>
 
@@ -39,7 +40,7 @@ and any word you did not know.
 
 <what you expected, what you did, where you hesitated>
 
-### 6. Deal — `deal-calculator.html`
+### 6. Deal Calculator — `deal-calculator.html`
 
 <what you expected, what you did, where you hesitated>
 

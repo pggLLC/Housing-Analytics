@@ -119,6 +119,15 @@
 
   /* ── Program matching ────────────────────────────────────────────── */
 
+  // Only a program whose terms were confirmed on its official page counts as
+  // an eligible source. VERIFY entries are legacy labels the official pages do
+  // not establish, and closed or watch entries are not taking applications;
+  // none of them may be presented as eligible (test/funding-eligibility-claims.test.js).
+  var CONFIRMED_STATUSES = ['active'];
+  function isConfirmed(prog) {
+    return !!prog && CONFIRMED_STATUSES.indexOf(prog.status) !== -1;
+  }
+
   /**
    * Find programs available for a given county FIPS.
    * "All" county programs are always included.
@@ -128,7 +137,7 @@
     var results = [];
     Object.keys(_programs).forEach(function (key) {
       var prog = _programs[key];
-      if (prog.status === 'closed') return;
+      if (!isConfirmed(prog)) return;
       if (prog.county === 'All' || prog.county === fips) {
         results.push({ key: key, program: prog });
       }
@@ -278,8 +287,8 @@
     Object.keys(_programs).forEach(function (key) {
       var prog = _programs[key];
 
-      // Closed rounds are catalog history, not currently eligible sources.
-      if (prog.status === 'closed') return;
+      // Unconfirmed, closed and watch entries are not currently eligible sources.
+      if (!isConfirmed(prog)) return;
 
       // County match
       if (prog.county !== 'All' && prog.county !== 'Selected' && prog.county !== fips) return;
@@ -373,6 +382,8 @@
     getEligiblePrograms:  getEligiblePrograms,
     getPabStatus:         getPabStatus,
     sumEligible:          sumEligible,
+    isConfirmed:          isConfirmed,
+    CONFIRMED_STATUSES:   CONFIRMED_STATUSES.slice(),
     /* Exposed for testing */
     _daysToDeadline:      _daysToDeadline,
     _computeConfidence:   _computeConfidence,

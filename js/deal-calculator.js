@@ -1,5 +1,11 @@
 (function () {
   'use strict';
+  function loanTypeOptions(selected) {
+    return Object.keys(dealEngine().LOAN_TYPES).map(function (key) {
+      return '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + dealEngine().LOAN_TYPES[key] + '</option>';
+    }).join('');
+  }
+
   var provenanceLabel = window.ProvenanceLabel || (typeof require === 'function' ? require('./provenance-label.js') : null);
   var MoneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('./utils/format-money.js') : null);
 
@@ -14,6 +20,9 @@
   var _amiLimits = null;       // legacy flat: { 30: $$, 40: $$, ... } (= 2BR ceiling per tier)
   var _amiLimitsByBr = null;   // P7: { 30: { studio, 1br, 2br, 3br, 4br }, ... }
   var _chfaRentTable = null;
+  var _homeRentTable = null;    // data/hud-home-rent-limits-co-2026.json
+  var _prop123Rules = null;     // data/policy/prop123-rental-rules.json
+  var _costRules = null;        // data/policy/lihtc-underwriting-rules.json (#2160)
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
@@ -23,6 +32,7 @@
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
+  var _chasAaData = null;       // cached hna/chas_affordable_available.json
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
@@ -79,7 +89,7 @@
   // _gapResolver / inline-IIFE pattern can read it without re-importing.
   if (!window.__cohoPlaceAcsCache) window.__cohoPlaceAcsCache = {};
   (function _warmPlaceAcs() {
-    function _go() {
+      function _go() {
       try {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
                    window.WorkflowState.getActiveProject();
@@ -112,6 +122,55 @@
   function _escHtml(value) {
     return String(value).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // #2160: itemized development costs. The lines come from js/deal-cost-basis.js;
+  // the example budget it prefills is INVENTED and the page says so.
+  function costBasisModule() {
+    return window.DealCostBasis || (typeof require === 'function' ? require('./deal-cost-basis.js') : null);
+  }
+  var COST_BASIS_CHOICES = [['eligible', 'In basis'], ['partial', 'Partly in basis'], ['ineligible', 'Not in basis']];
+  function costTableHtml() {
+    var cb = costBasisModule();
+    if (!cb) return '<p>Cost lines are unavailable: js/deal-cost-basis.js did not load.</p>';
+    var lines = cb.exampleLines();
+    var field = 'width:100%;min-height:44px;padding:0.3rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);';
+    return cb.GROUPS.map(function (g) {
+      var rows = lines.filter(function (l) { return l.group === g.id; }).map(function (l) {
+        var id = 'dc-cost-' + l.id;
+        var fixed = cb.NEVER_IN_BASIS && cb.NEVER_IN_BASIS[l.id];
+        var opts = fixed ? '<option value="ineligible" selected>Not in basis</option>' : COST_BASIS_CHOICES.map(function (c) {
+          return '<option value="' + c[0] + '"' + (c[0] === l.basis ? ' selected' : '') + '>' + c[1] + '</option>';
+        }).join('');
+        var extra = '<label data-cost-partial="' + l.id + '"' + (l.basis === 'partial' ? '' : ' hidden') + ' style="grid-column:1/-1;font-size:var(--tiny);color:var(--muted);' + (l.basis === 'partial' ? '' : 'display:none;') + '">Part in basis ($)'
+          + '<input id="' + id + '-eligible" type="number" min="0" step="10000" value="' + (l.eligibleAmount == null ? '' : l.eligibleAmount) + '" placeholder="not entered" style="' + field + '"></label>';
+        if (cb.CONTINGENCY_KINDS[l.id]) {
+          extra += '<label style="grid-column:1/-1;font-size:var(--tiny);color:var(--muted);">Proposed use so far ($)'
+            + '<input id="' + id + '-used" type="number" min="0" step="10000" value="' + (l.used == null ? '' : l.used) + '" placeholder="not entered" style="' + field + '">'
+            + '<span data-cost-remaining="' + l.id + '" style="display:block;margin-top:.15rem;"></span></label>';
+        }
+        // Label on its own row so it never shrinks to a sliver at phone width;
+        // each control gets its own cell for the provenance badge beside it.
+        return '<div class="dc-cost-line" data-cost-line="' + l.id + '" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem .5rem;align-items:start;padding:.4rem 0;border-top:1px solid var(--border);">'
+          + '<label for="' + id + '" style="grid-column:1/-1;display:block;justify-self:start;font-size:var(--small);font-weight:600;text-align:left;">' + _escHtml(l.label) + '</label>'
+          + '<div style="min-width:0;"><input id="' + id + '" type="number" min="0" step="10000" value="' + (l.amount == null ? '' : l.amount) + '" placeholder="none" aria-label="' + _escHtml(l.label) + ' ($)" style="' + field + '"></div>'
+          + '<div style="min-width:0;"><select id="' + id + '-basis" aria-label="' + _escHtml(l.label) + ': in eligible basis?"' + (fixed ? ' disabled title="' + _escHtml(fixed) + '"' : '') + ' style="' + field + '">' + opts + '</select></div>'
+          + extra + '</div>';
+      }).join('');
+      return '<div class="dc-cost-group" style="margin-top:var(--sp2);"><h4 style="margin:0 0 .2rem;font-size:var(--small);">' + g.label
+        + (g.id === 'contract' ? ' <span style="font-weight:400;color:var(--muted);font-size:var(--tiny);">(part of the uses, counted once)</span>' : '') + '</h4>' + rows + '</div>';
+    }).join('');
+  }
+  function readCostLines() {
+    var cb = costBasisModule();
+    if (!cb) return [];
+    return cb.LINE_TEMPLATE.map(function (t) {
+      function v(suffix) { var el = document.getElementById('dc-cost-' + t.id + suffix); return el ? String(el.value).trim() : ''; }
+      var basisEl = document.getElementById('dc-cost-' + t.id + '-basis');
+      return { id: t.id, label: t.label, group: t.group, basis: basisEl ? basisEl.value : t.basis,
+        amount: v('') === '' ? null : v(''), eligibleAmount: v('-eligible') === '' ? null : v('-eligible'),
+        used: cb.CONTINGENCY_KINDS[t.id] ? (v('-used') === '' ? null : v('-used')) : undefined };
     });
   }
 
@@ -1102,9 +1161,62 @@
     if (!limits) return { grossRent: null, regime: rentLimitRegime(), unavailableReason: 'rent_module_unavailable' };
     return limits.rentCeiling({ regime: rentLimitRegime(), chfaTable: _chfaRentTable,
       hudTable: hud && hud.isLoaded() ? { meta: hud.getMeta(), counties: hud.getAllCounties() } : null,
+      homeTable: _homeRentTable, prop123Rules: _prop123Rules,
+      program: selectValue('dc-prop123-program'), petitionJurisdiction: selectValue('dc-prop123-petition'),
       fips: _countyFips, tier: tier,
       bedrooms: RENT_BEDROOMS[br],
       rentBurden: _constants.rentBurdenPct, useHera: false });
+  }
+
+  function selectValue(id) {
+    var el = document.getElementById(id);
+    return el && el.value ? el.value : null;
+  }
+
+  // Prop 123 programs whose units this calculator can price on their own.
+  // Tax-credit-paired programs follow the CHFA LIHTC setting; modular
+  // financing restricts no units; supportive housing has no confirmed limit.
+  function prop123PricedPrograms(rules) {
+    return (rules && Array.isArray(rules.programs) ? rules.programs : []).filter(function (p) {
+      var income = p.income_rule || {};
+      return income.type !== 'none' && income.max_ami_pct != null && p.id.indexOf('lihtc') === -1;
+    });
+  }
+
+  function populateProp123Choices() {
+    var program = document.getElementById('dc-prop123-program');
+    var petition = document.getElementById('dc-prop123-petition');
+    if (!program || !petition) return;
+    var keepProgram = program.value;
+    var keepPetition = petition.value;
+    var programs = prop123PricedPrograms(_prop123Rules);
+    program.innerHTML = '<option value="">Choose a program</option>';
+    programs.forEach(function (p) {
+      var opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      program.appendChild(opt);
+    });
+    var list = _prop123Rules && _prop123Rules.rural_resort_petitions && _prop123Rules.rural_resort_petitions.petitions || [];
+    petition.innerHTML = '<option value="">None</option>';
+    // A petition applies only inside its own jurisdiction: offer those filed
+    // from the selected county, and none until a county is chosen.
+    list.filter(function (x) {
+      return x.status === 'approved' && Array.isArray(x.county_fips) && x.county_fips.indexOf(_countyFips) !== -1;
+    }).forEach(function (x) {
+      var opt = document.createElement('option');
+      opt.value = x.jurisdiction;
+      opt.textContent = x.jurisdiction + ' (' + x.ami_pct_rental + '% AMI rental)';
+      petition.appendChild(opt);
+    });
+    if (programs.some(function (p) { return p.id === keepProgram; })) program.value = keepProgram;
+    if (Array.prototype.some.call(petition.options, function (o) { return o.value === keepPetition; })) petition.value = keepPetition;
+  }
+
+  function setProgramRentTables(home, prop123) {
+    if (home !== undefined) _homeRentTable = home;
+    if (prop123 !== undefined) { _prop123Rules = prop123; populateProp123Choices(); }
+    updateAmiLimitsFromFmr(_countyFips);
   }
 
   function observeSubjectProject() {
@@ -1488,7 +1600,9 @@
   function renderRentLimitContext() {
     var result = rentCeilingFor(60, '2br');
     var regime = result.regime;
-    var labels = { chfa_lihtc: 'CHFA LIHTC', ami_formula: 'Other AMI-restricted rental', market: 'Market-rate' };
+    var labels = { chfa_lihtc: 'CHFA LIHTC', ami_formula: 'Other AMI-restricted rental', market: 'Market-rate',
+      home_high: 'HOME (High HOME rents)', home_low: 'HOME (Low HOME rents)',
+      prop123: 'Prop 123' + (result.program && result.program.name ? ' · ' + result.program.name : '') };
     var caption = document.getElementById('dc-rent-limit-caption');
     if (caption) caption.textContent = (labels[regime] || regime) + ' · ' + (result.source || 'Source unavailable') +
       (result.tableYear == null ? '' : ' · ' + result.tableYear);
@@ -1498,13 +1612,31 @@
     if (explanation) explanation.textContent = regime === 'ami_formula'
       ? 'Applies only to the non-CHFA income-based formula.'
       : regime === 'market' ? 'Market-rate rents have no income-based ceiling.'
+      : regime === 'home_high' || regime === 'home_low' ? 'Published HUD HOME rents are fixed; rent burden does not change them.'
+      : regime === 'prop123' ? 'Prop 123 sets rent at 30% of the unit\u2019s income limit; rent burden does not change it.'
       : 'Published CHFA rents are fixed; rent burden does not change them.';
+    var prop123Box = document.getElementById('dc-prop123-choices');
+    if (prop123Box) prop123Box.hidden = regime !== 'prop123';
+    var caveats = document.getElementById('dc-rent-limit-caveats');
+    if (caveats) {
+      var notes = regime === 'prop123' && result.caveats ? result.caveats.slice() : [];
+      if (regime === 'home_high' || regime === 'home_low') {
+        notes.push(regime === 'home_high' ? 'High HOME units serve households at or below 80% AMI.' : 'Low HOME units serve households at or below 50% AMI.');
+        notes.push('For a LIHTC project with HOME units, the lower of the two limits applies; this setting prices the whole project as HOME.');
+      }
+      caveats.textContent = notes.join(' ');
+      caveats.hidden = !notes.length;
+    }
     var hera = document.getElementById('dc-rent-limit-hera-note');
     if (hera) hera.hidden = regime !== 'chfa_lihtc';
     var formula = document.getElementById('dc-rent-limit-formula');
     if (formula) formula.textContent = regime === 'ami_formula'
       ? 'Non-CHFA formula: household income limit × (AMI tier ÷ 50) × rent burden ÷ 12.'
-      : regime === 'market' ? 'No restricted limit (market-rate)' : 'Published CHFA maximum gross rent by county, tier and bedroom size.';
+      : regime === 'market' ? 'No restricted limit (market-rate)'
+      : regime === 'home_high' ? 'HUD High HOME rent by county and bedroom size: the lesser of the FMR and 30% of income at 65% AMI.'
+      : regime === 'home_low' ? 'HUD Low HOME rent by county and bedroom size: 30% of income at 50% AMI, capped by the High HOME rent.'
+      : regime === 'prop123' ? 'Prop 123: gross rent at 30% of the unit\u2019s income limit, the lower of CHFA\u2019s published cell and that rule.'
+      : 'Published CHFA maximum gross rent by county, tier and bedroom size.';
     var example = '@ 60% AMI (2BR): ' + rentLimitText(result);
     ['dc-formula-ceiling-eg', 'dc-rent-limit-example'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -1538,6 +1670,7 @@
       window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
     }
     _countyFips = fips || null;
+    populateProp123Choices();
     _amiLimits = null;
     _amiLimitsByBr = null;
     if (_countyFips || rentLimitRegime() === 'market') {
@@ -1596,8 +1729,9 @@
     <div>
       <strong style="color:var(--text);">Model class: screening-level</strong> —
       outputs are planning estimates only. Credit pricing, interest rates, equity, and lender terms
-      vary significantly by market, investor, and deal structure. This tool does not model qualified
-      basis, applicable fraction, or carryover allocation. Not a substitute for lender underwriting,
+      vary significantly by market, investor, and deal structure. It calculates qualified basis, the applicable fraction
+      and CHFA's credit limits from your cost lines and a sourced rules file; carryover allocation
+      and CHFA's cost basis limits are not modeled. Not a substitute for lender underwriting,
       CHFA review, or legal/tax counsel.
       <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">Methodology →</a>
     </div>
@@ -1703,6 +1837,14 @@
           <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
             Total constructed area including circulation and common space &mdash; not the sum of unit sizes. Enter it to see cost per square foot.</span>
         </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Residential floor area (SF)
+            <span style="color:var(--muted)">&mdash; optional</span></span>
+          <input id="dc-res-sf" type="number" min="0" step="1000" placeholder="not entered" aria-describedby="dc-res-sf-help"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
+          <span id="dc-res-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
+            Floor space of all rental units, without corridors and common space. Used for cost per residential square foot and the floor-space fraction.</span>
+        </label>
         <!-- #1814: estimate gross area from the unit mix. Colorado's CHFA QAP
              sets no minimum unit size by bedroom count, so the references are
              other jurisdictions' standards and say so. Nothing fills in until
@@ -1750,10 +1892,27 @@
           <label for="dc-rent-limit-regime" style="display:block;margin-bottom:var(--sp2);">Rent limits
             <select id="dc-rent-limit-regime" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
               <option value="chfa_lihtc" selected>CHFA LIHTC</option>
+              <option value="home_high">HOME, High HOME rents (HUD)</option>
+              <option value="home_low">HOME, Low HOME rents (HUD)</option>
+              <option value="prop123">Prop 123 (Colorado affordable housing fund)</option>
               <option value="ami_formula">Other AMI-restricted rental (non-CHFA formula)</option>
               <option value="market">Market-rate (unrestricted)</option>
             </select>
           </label>
+          <div id="dc-prop123-choices" hidden>
+            <label for="dc-prop123-program" style="display:block;margin-bottom:var(--sp2);">Prop 123 program
+              <select id="dc-prop123-program" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
+                <option value="">Choose a program</option>
+              </select>
+            </label>
+            <label for="dc-prop123-petition" style="display:block;margin-bottom:var(--sp2);">Approved rural resort petition
+              <select id="dc-prop123-petition" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
+                <option value="">None</option>
+              </select>
+            </label>
+            <p style="font-size:var(--tiny);color:var(--muted);">Only petitions filed from the selected county are listed; pick one only if the project is inside that jurisdiction. Prop 123 LIHTC gap and predevelopment loans follow the CHFA LIHTC setting, because those projects carry tax credits.</p>
+          </div>
+          <p id="dc-rent-limit-caveats" hidden style="font-size:var(--tiny);color:var(--muted);" aria-live="polite"></p>
           <p id="dc-rent-limit-hera-note" style="font-size:var(--tiny);color:var(--muted);">Regular CHFA limits — HERA applies only to projects placed in service by 12/31/2008.</p>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Federal minimum set-aside election</span>
@@ -1906,30 +2065,42 @@
           </div>
         </div>
 
-        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">
-            Eligible Basis %: <strong id="dc-basis-pct-label">80</strong>%
-          </span>
-          <input id="dc-basis-pct" type="range" min="50" max="130" step="1" value="80"
-            aria-label="Eligible basis percentage"
-            style="display:block;width:100%;margin-top:0.25rem;">
-        </label>
-
-        <div data-dc-mode="rental" style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
-          <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
-            <input id="dc-qct-dda" type="checkbox"
-              style="width:16px;height:16px;flex-shrink:0;">
-            <span style="font-size:var(--small);font-weight:600;">QCT/DDA site (may increase eligible basis)</span>
+        <!-- #2160: eligible basis comes from the itemized costs. The 30% boost
+             needs a designation AND its evidence, applies once, and never to
+             acquisition basis. -->
+        <div id="dc-boost-wrap" data-dc-mode="rental" style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);font-weight:600;">30% basis boost</span>
+            <select id="dc-boost-designation" aria-describedby="dc-boost-help"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+              <option value="none" selected>No boost</option>
+              <option value="qct">Qualified Census Tract (QCT)</option>
+              <option value="dda">Difficult Development Area (DDA)</option>
+              <option value="sadda">Small Area DDA (SADDA)</option>
+              <option value="chfa">CHFA basis boost (9% only)</option>
+            </select>
           </label>
-          <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
-            QCT and DDA sites may qualify for up to <strong>130% eligible basis</strong>
-            under IRC&nbsp;§42(d)(5)(B). Adjust the Eligible Basis&nbsp;% slider above
-            to reflect the boost — this checkbox is for reference only.
+          <label style="display:block;">
+            <span style="font-size:var(--small);color:var(--muted);">Evidence for the boost</span>
+            <input id="dc-boost-evidence" type="text" maxlength="200" placeholder="HUD map or list for the tract, or CHFA letter and date"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+          </label>
+          <label style="display:block;margin-top:0.35rem;">
+            <span style="font-size:var(--small);color:var(--muted);">CHFA basis boost only: percentage in CHFA's letter (up to 30)</span>
+            <input id="dc-boost-pct" type="number" min="0" max="30" step="1" placeholder="not entered"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+          </label>
+          <p id="dc-boost-help" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
+            A QCT, DDA or SADDA boost raises eligible basis by 30% once; a CHFA boost raises it once by the percentage in CHFA's letter, up to 30%. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
           </p>
-          <p id="dc-qct-dda-note" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0 1.6rem;font-weight:600;">
-            ✓ Site marked as QCT/DDA — consider setting Eligible Basis to 100%+ to model the boost.
-          </p>
+          <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Floor area of the units counted as LIHTC units (SF)
+            <span style="color:var(--muted)">&mdash; needed only when some units are unrestricted</span></span>
+          <input id="dc-restricted-sf" type="number" min="0" step="100" placeholder="not entered"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
+        </label>
 
         <!-- Applicable-fraction note: shown when both LIHTC and market units present -->
         <div id="dc-applicable-fraction-note" hidden
@@ -2033,6 +2204,81 @@
         </div>
       </fieldset>
 
+      <!-- #2160: itemized development costs set eligible basis, the developer
+           fee and the contractor contract. -->
+      <fieldset id="dc-costs" data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Development Costs</legend>
+        <p id="dc-cost-example-note" role="note" style="margin:0 0 var(--sp2);padding:0.4rem 0.6rem;font-size:var(--tiny);background:rgba(217,119,6,.08);border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;line-height:1.45;">
+          An <strong>invented example budget</strong> is loaded so the figures work. Replace each line with your project's budget.
+        </p>
+        <dl id="dc-cost-totals" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.3rem .75rem;font-size:var(--small);margin:0 0 var(--sp2);">
+          <dt style="color:var(--muted);">Itemized costs</dt><dd id="dc-cb-itemized" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Not itemized (counted as not in basis)</dt><dd id="dc-cb-not-itemized" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Cost in eligible basis</dt><dd id="dc-cb-eligible-cost" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Contractor contract (part of the costs above)</dt><dd id="dc-cb-contract" style="margin:0;text-align:right;font-weight:700;">—</dd>
+        </dl>
+        <p id="dc-cb-cost-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--bad,#b91c1c);"></p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:var(--sp2);">
+          <button type="button" id="dc-cost-use-total" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Make Total Development Cost match the cost lines</button>
+          <button type="button" id="dc-cost-clear" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Clear the example budget</button>
+        </div>
+        <details id="dc-cost-lines-wrap">
+          <summary style="cursor:pointer;min-height:44px;font-weight:600;font-size:var(--small);">Edit the cost lines</summary>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">Each line is in eligible basis, partly in it, or not in it. A blank line has no cost. Contingencies keep their original amount, the use proposed so far, and what remains.</p>
+          <div id="dc-cost-lines">${costTableHtml()}</div>
+        </details>
+      </fieldset>
+
+      <fieldset id="dc-credit-figures" data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Tax Credits Requested and Awarded</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:var(--sp2);">
+          <label style="display:block;font-size:var(--small);color:var(--muted);">Annual federal credit requested ($)
+            <input id="dc-credit-requested" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+          <label style="display:block;font-size:var(--small);color:var(--muted);">Annual federal credit awarded ($)
+            <input id="dc-credit-awarded" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+        </div>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0 0;line-height:1.45;">Equity uses the award when you enter one, otherwise the request (up to capacity), otherwise the capacity.</p>
+        <details id="dc-state-credit-wrap" style="margin-top:var(--sp2);">
+          <summary style="cursor:pointer;min-height:44px;font-weight:600;font-size:var(--small);">State credits and equity pay-in</summary>
+          <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">CHFA state credit application (each has its own limit)
+            <select id="dc-state-path" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+              <option value="">Not answered (a 9% deal uses the 9% pairing)</option>
+              <option value="with_9pct">Paired with a 9% application: a fixed $500,000 a year</option>
+              <option value="round_two">Round Two with 4%: accelerated up to $1,300,000 plus paired standard up to $600,000 a year</option>
+              <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000 a year</option>
+            </select></label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
+            <label style="display:block;font-size:var(--small);color:var(--muted);">Annual state credit ($)
+              <input id="dc-state-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            <label style="display:block;font-size:var(--small);color:var(--muted);">Round Two only: paired standard state credit, annual ($)
+              <input id="dc-state-standard-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            <label style="display:block;font-size:var(--small);color:var(--muted);">Price per $1 of state credit
+              <input id="dc-state-price" type="number" min="0" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:0.55rem;margin-top:.35rem;font-size:var(--small);cursor:pointer;min-height:44px;">
+            <input id="dc-state-awarded" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+            <span>CHFA has awarded this state credit (a proposed amount does not count: CHFA sizes it with a three-test calculation this calculator does not model)</span>
+          </label>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation. CHFA's limits apply per project and per applicant, with its affiliates, so other active applications leave less; these figures assume there are none.</p>
+          <div role="group" aria-labelledby="dc-fed-payin-h" style="margin-top:var(--sp2);">
+            <p id="dc-fed-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Federal equity pay-in (% of federal equity)</p>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
+              <label style="font-size:var(--tiny);color:var(--muted);">At closing<input id="dc-fed-payin-closing" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="font-size:var(--tiny);color:var(--muted);">At completion<input id="dc-fed-payin-completion" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="font-size:var(--tiny);color:var(--muted);">At stabilization<input id="dc-fed-payin-stabilization" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+          </div>
+          <div role="group" aria-labelledby="dc-state-payin-h" style="margin-top:var(--sp2);">
+            <p id="dc-state-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">State equity pay-in (% of state equity)</p>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
+              <label style="font-size:var(--tiny);color:var(--muted);">At closing<input id="dc-state-payin-closing" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="font-size:var(--tiny);color:var(--muted);">At completion<input id="dc-state-payin-completion" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="font-size:var(--tiny);color:var(--muted);">At stabilization<input id="dc-state-payin-stabilization" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+          </div>
+        </details>
+      </fieldset>
+
       <!-- Debt / Mortgage Inputs -->
       <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Operating Income &amp; NOI</legend>
@@ -2101,16 +2347,31 @@
       <!-- Developer Fee -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Developer Fee</legend>
-        <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">
-            Developer Fee Rate: <strong id="dc-devfee-pct-label">15</strong>% of TDC
-          </span>
-          <input id="dc-devfee-pct" type="range" min="0" max="25" step="0.5" value="15"
-            aria-label="Developer fee rate percentage"
-            style="display:block;width:100%;margin-top:0.25rem;">
-          <span style="font-size:var(--tiny);color:var(--muted);">
-            Typical CHFA range: 12–18% of TDC.<span data-dc-mode="rental"> Only a portion is includable in eligible basis.</span>
-          </span>
+        <p style="font-size:var(--small);color:var(--muted);margin:0 0 var(--sp2);line-height:1.45;">
+          The developer fee is the Developer fee line in Development Costs. CHFA tests the developer fee plus any consultant fee, before deferral, against its limit.
+        </p>
+        <div id="dc-cb-fee-tests" data-dc-mode="rental" role="status" style="font-size:var(--small);line-height:1.45;margin-bottom:var(--sp2);"></div>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
+          <input id="dc-ioi" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+          <span>The builder has an identity of interest with the developer or owner (lowers CHFA's contractor fee limit)</span>
+        </label>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
+          <input id="dc-special-pop" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+          <span>The project serves people experiencing homelessness or special populations (CHFA then keeps all of an acquisition in the developer fee base)</span>
+        </label>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
+          <input id="dc-acq-42d2" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+          <span>Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, not placed in service during the ten years before you bought it, and rehabilitated enough to earn its own credit under 42(e) (needed before a purchase counts in basis)</span>
+        </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for the building purchase ($; needed when a grant covers both a purchase and other basis on a 9% deal, where the purchase earns 4% and the rest 9%, or under a basis boost, which skips the purchase)</span>
+          <input id="dc-grant-acq" type="number" min="0" step="1000" placeholder="not entered"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+        </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Federal grant money that paid for costs outside eligible basis, such as land, reserves or fees above CHFA's limits ($; enter 0 if none; a federal grant reduces basis only by what it paid for in basis)</span>
+          <input id="dc-grant-outside" type="number" min="0" step="1000" placeholder="not entered"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
@@ -2154,6 +2415,28 @@
 
       <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing</legend>
+        <label style="display:block;">Senior loan amount mode
+          <select id="dc-senior-mode" style="width:100%;min-height:44px;"><option value="sized">Size from NOI and target DCR</option><option value="entered">Enter loan amount</option></select>
+        </label>
+        <label style="display:block;">Entered senior amount ($)
+          <input id="dc-senior-amount" type="number" min="0" step="1000" value="" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Senior repayment type
+          <select id="dc-senior-type" style="width:100%;min-height:44px;">${loanTypeOptions('amortizing')}</select>
+        </label>
+        <label style="display:block;">Maturity (years)
+          <input id="dc-senior-maturity" type="number" min="1" max="50" step="1" value="35" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Interest-only years (before amortization)
+          <input id="dc-senior-io-years" type="number" min="0" max="49" step="1" value="2" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Priority (1 paid first)
+          <input id="dc-senior-priority" type="number" min="1" max="12" step="1" value="1" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Residual cash-flow share (%) — contingent loans only
+          <input id="dc-senior-cfpay" type="number" min="0" max="100" step="1" value="100" style="width:100%;min-height:44px;">
+        </label>
+
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
@@ -2172,7 +2455,7 @@
         <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
 
         <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
+          <span style="font-size:var(--small);color:var(--muted);">Amortization (years)</span>
           <input id="dc-term" type="number" min="1" max="50" step="1" value="35"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
@@ -2189,7 +2472,7 @@
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Stack</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
           Stack up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, sponsor loan, impact fees, etc.).
-          Loans amortize from cash flow; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
+          Choose the repayment obligation for each loan; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
         </p>
         <!-- #1937: HB26-1065 Transit Zone credit. Informational only: it adds
              nothing to the stack, and shows only for an exact site with
@@ -2297,17 +2580,17 @@
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">4. Supportable first mortgage</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              mortgage = (NOI ÷ DCR_target) ÷ mortgage_constant
+              sized_mortgage = max(0, NOI ÷ DCR_target − must_pay_soft_service) ÷ senior_payment_constant
             </code>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
-              DCR target is an input above (default 1.20×; conservative lenders use 1.25×, aggressive 1.15×). Mortgage constant is derived from the rate and term inputs (annualised debt-service-per-dollar).
+              DCR target is an input above (default 1.20×; conservative lenders use 1.25×, aggressive 1.15×). The senior payment constant uses the stated repayment type (including payments after any interest-only period). Entered-amount mode retains your principal instead of sizing it.
             </p>
           </div>
 
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">5. DSCR + stress scenarios</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;margin-bottom:0.35rem;">
-              DSCR = NOI ÷ annual_debt_service
+              senior_DSCR = NOI ÷ senior_service; all_must_pay_DSCR = NOI ÷ total_required_service
             </code>
             <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
               stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
@@ -2416,14 +2699,23 @@
              framing right next to the headline outputs so it stays in view. -->
         <p role="note" style="margin:0 0 var(--sp2);padding:0.4rem 0.6rem;font-size:var(--tiny);background:rgba(217,119,6,.08);border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;color:var(--text);line-height:1.45;">
           <strong style="color:var(--warn,#d97706);">⚠ Screening estimate, not underwriting.</strong>
-          The equity figure below uses public assumptions for hard costs, equity pricing, and applicable fraction. Real syndicator pricing varies ±3-8¢/credit by deal characteristics — confirm with your investor before relying on this number for site control or capital-stack decisions.
+          The equity figure below uses your itemized costs (or the invented example budget) and public assumptions for equity pricing. Real syndicator pricing varies ±3-8¢/credit by deal characteristics — confirm with your investor before relying on this number for site control or capital-stack decisions.
         </p>
 
         <dl id="dc-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
-          <dt style="color:var(--muted);">Eligible Basis</dt>
+          <dt style="color:var(--muted);">Qualified Basis</dt>
           <dd id="dc-r-basis" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">Annual Tax Credits</dt>
+          <dt style="color:var(--muted);">Credit capacity (annual)</dt>
+          <dd id="dc-cb-capacity" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Credit requested (annual)</dt>
+          <dd id="dc-cb-requested" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Credit awarded (annual)</dt>
+          <dd id="dc-cb-awarded" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Annual Tax Credits used for equity</dt>
           <dd id="dc-r-credits" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
 
           <dt style="color:var(--muted);">10-Year Credit Equity</dt>
@@ -2432,6 +2724,11 @@
           <dt style="color:var(--muted);">Est. Annual Rent Revenue</dt>
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
+        <p id="dc-cb-credit-note" role="status" style="font-size:var(--tiny);line-height:1.45;margin:.35rem 0 0;"></p>
+        <details id="dc-cb-panel" data-dc-mode="rental" style="margin-top:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem .75rem;background:var(--bg2);">
+          <summary style="cursor:pointer;min-height:44px;font-weight:700;font-size:var(--small);">How basis and credit were calculated</summary>
+          <div id="dc-cb-detail" style="font-size:var(--small);line-height:1.45;"></div>
+        </details>
         <p id="dc-rent-allowance-status" role="status" aria-live="polite" style="font-size:var(--tiny);line-height:1.45;"></p>
         <p id="dc-allowance-local-notice" role="status" hidden style="font-size:var(--tiny);"></p>
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
@@ -2508,35 +2805,11 @@
              a new-construction 9% deal in Colorado; vary by site
              conditions and project type. -->
         <details id="dc-budget-breakdown-wrap" data-dc-mode="rental" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
-          <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Development Budget — typical breakdown</summary>
+          <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Development Budget — from your cost lines</summary>
           <p style="margin:.45rem 0 .35rem;font-size:var(--tiny);color:var(--muted);line-height:1.5;">
-            These are <em>typical Colorado shares</em> for a new-construction LIHTC project, applied to your Total Development Cost. They are not your project's actual numbers — see your sponsor's draft budget for those. Use this to sanity-check that no major line item is missing from the screening estimate.
+            Totals of the cost lines entered in Development Costs. The contractor contract is one of these groups, counted once.
           </p>
-          <dl id="dc-budget-breakdown" style="display:grid;grid-template-columns:1fr auto auto;gap:.4rem 1rem;font-size:var(--small);margin:.35rem 0 .35rem;">
-            <dt style="color:var(--muted);">Acquisition / land</dt>
-            <dd id="dc-bud-acq-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">10%</dd>
-            <dd id="dc-bud-acq" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-
-            <dt style="color:var(--muted);">Hard costs (construction)</dt>
-            <dd id="dc-bud-hard-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">62%</dd>
-            <dd id="dc-bud-hard" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-
-            <dt style="color:var(--muted);">Soft costs (A&amp;E, legal, financing)</dt>
-            <dd id="dc-bud-soft-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">14%</dd>
-            <dd id="dc-bud-soft" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-
-            <dt style="color:var(--muted);">Contingency</dt>
-            <dd id="dc-bud-cont-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">5%</dd>
-            <dd id="dc-bud-cont" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-
-            <dt style="color:var(--muted);">Developer fee</dt>
-            <dd id="dc-bud-fee-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">9%</dd>
-            <dd id="dc-bud-fee" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-
-            <dt style="border-top:1px solid var(--border);padding-top:.35rem;font-weight:700;">Total Development Cost</dt>
-            <dd style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">100%</dd>
-            <dd id="dc-bud-tdc" style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
-          </dl>
+          <dl id="dc-budget-breakdown" style="display:grid;grid-template-columns:1fr auto auto;gap:.4rem 1rem;font-size:var(--small);margin:.35rem 0 .35rem;"></dl>
         </details>
 
         <!-- F257-6 — "How to adjust" advisory. Surfaces 2-3 levers the
@@ -2599,7 +2872,7 @@
           <dt style="color:var(--muted);">Mortgage Constant (annual)</dt>
           <dd id="dc-r-mc" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">Supportable First Mortgage</dt>
+          <dt id="dc-mortgage-label" style="color:var(--muted);">Supportable First Mortgage</dt>
           <dd id="dc-r-mortgage" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
 
           <dt style="color:var(--muted);">Cap Rate (NOI / TDC)</dt>
@@ -2638,6 +2911,9 @@
           <dd id="dc-r-dscr-base" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-dscr-target-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);margin-bottom:var(--sp2);">—</p>
+        <p>All must-pay coverage: <strong id="dc-all-must-pay-dscr">Unavailable</strong></p>
+        <p id="dc-loan-coverage" role="status" aria-live="polite" aria-atomic="true" style="font-size:var(--small);"></p>
+
         <table id="dc-dscr-stress-table" style="width:100%;border-collapse:collapse;font-size:var(--small);margin-top:var(--sp2);">
           <thead>
             <tr>
@@ -2831,9 +3107,14 @@
               <td colspan="3" style="padding:0.3rem 0.25rem;font-weight:700;color:var(--muted);font-size:var(--tiny);text-transform:uppercase;letter-spacing:0.04em;">SOURCES</td>
             </tr>
             <tr>
-              <td style="padding:0.3rem 0.25rem;">LIHTC Equity</td>
+              <td style="padding:0.3rem 0.25rem;">Federal credit equity</td>
               <td id="dc-su-equity" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-equity-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr id="dc-su-state-row" hidden>
+              <td style="padding:0.3rem 0.25rem;">State credit equity</td>
+              <td id="dc-su-state" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-state-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
             <tr>
               <td style="padding:0.3rem 0.25rem;">Supportable First Mortgage</td>
@@ -2953,7 +3234,7 @@
         </div>
       </div>
       <div id="dc-assump-qct" style="margin-top:var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);background:var(--bg2);font-size:var(--tiny);color:var(--muted);">
-        QCT/DDA basis boost: <strong id="dc-assump-qct-status">not indicated</strong>
+        QCT/DDA basis boost: <strong id="dc-assump-qct-status">not selected</strong>
       </div>
       <p style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);">
         All values are planning-level and not a substitute for lender or investor underwriting.
@@ -2983,8 +3264,9 @@
 
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
-    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
+    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
+      'dc-senior-mode', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
       'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
@@ -3010,24 +3292,68 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path']
+      .concat(['fed', 'state'].reduce(function (acc, src) {
+        return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
+      }, [])).forEach(function (id) { ids.push(id); });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
+    });
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', recalculate);
+    });
+    // #2160: cost lines. A partly eligible line shows its eligible-part field.
+    var costHost = document.getElementById('dc-cost-lines');
+    if (costHost) {
+      var onCost = function (event) {
+        var t = event.target;
+        if (t && /-basis$/.test(t.id)) {
+          var lineId = t.id.replace(/^dc-cost-/, '').replace(/-basis$/, '');
+          var wrap = costHost.querySelector('[data-cost-partial="' + lineId + '"]');
+          if (wrap) { wrap.hidden = t.value !== 'partial'; wrap.style.display = wrap.hidden ? 'none' : ''; }
+        }
+        recalculate();
+      };
+      costHost.addEventListener('input', onCost);
+      costHost.addEventListener('change', onCost);
+    }
+    var useTotal = document.getElementById('dc-cost-use-total');
+    if (useTotal) useTotal.addEventListener('click', function () {
+      var r = _lastResult && _lastResult.costBasis && _lastResult.costBasis.summary;
+      var cb = costBasisModule();
+      var sumAll = cb ? cb.summarizeCosts(readCostLines(), Infinity) : null;
+      var itemized = sumAll && !(sumAll.reason && !/Total Development Cost/.test(sumAll.reason)) ? sumAll.itemized : (r && r.itemized);
+      if (!(itemized > 0)) return;
+      var tdcEl = document.getElementById('dc-tdc');
+      tdcEl.value = String(Math.round(itemized));
+      tdcEl.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    var clearCosts = document.getElementById('dc-cost-clear');
+    if (clearCosts) clearCosts.addEventListener('click', function () {
+      if (costHost) costHost.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+      var note = document.getElementById('dc-cost-example-note');
+      if (note) note.textContent = 'Example budget cleared. Enter your project\'s cost lines.';
+      var wrap = document.getElementById('dc-cost-lines-wrap');
+      if (wrap) wrap.open = true;
+      recalculate();
     });
     // Select elements also need 'change' listener for reliable cross-browser support
     var taxExemptSel = document.getElementById('dc-tax-exempt');
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
     var saleTargetSel = document.getElementById('dc-sale-target-ami');
     if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
-    var rentRegime = document.getElementById('dc-rent-limit-regime');
-    if (rentRegime) {
+    ['dc-rent-limit-regime', 'dc-prop123-program', 'dc-prop123-petition'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
       ['input', 'change'].forEach(function (event) {
-        rentRegime.addEventListener(event, function () {
+        el.addEventListener(event, function () {
           updateAmiLimitsFromFmr(_countyFips);
           if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Rent limits updated.');
         });
       });
-    }
+    });
     var minimumSetAsideSel = document.getElementById('dc-minimum-set-aside');
     if (minimumSetAsideSel) minimumSetAsideSel.addEventListener('change', recalculate);
     ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
@@ -3072,13 +3398,18 @@
     ];
     var _softTranches = [];
     var _trancheCounter = 0;
+    // #2160: whether a grant contains federal money decides whether it reduces
+    // basis. These programs are federal funds by statute; Prop 123 is state
+    // money. Every other program is left for the user to answer.
+    var FEDERAL_FUND_DEFAULTS = { home: 'federal', cdbg: 'federal', nhtf: 'federal', chfa_cmf: 'federal', prop123: 'nonfederal' };
+    function defaultFundSource(program) { return FEDERAL_FUND_DEFAULTS[program] || ''; }
 
     function _trancheRowHtml(t) {
       var idSuffix = t.id;
       var opts = SOFT_PROGRAMS.map(function (p) {
         return '<option value="' + p.v + '"' + (p.v === t.program ? ' selected' : '') + '>' + p.l + '</option>';
       }).join('');
-      var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;';
+      var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;min-height:44px;';
       var labelCss = 'font-size:var(--tiny);color:var(--muted);display:block;margin-bottom:0.15rem;';
       return ''
         + '<div data-tranche-id="' + idSuffix + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">'
@@ -3087,44 +3418,41 @@
         + '    <button type="button" class="dc-tr-remove" aria-label="Remove this tranche" '
         + '      style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:var(--radius);padding:0.2rem 0.5rem;cursor:pointer;font-size:var(--small);">✕</button>'
         + '  </div>'
-        + '  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);align-items:end;">'
-        + '    <label><span style="' + labelCss + '">Amount ($)</span>'
-        + '      <input class="dc-tr-amount" type="number" min="0" step="10000" value="' + (t.amount || 0) + '" style="' + inputCss + '">'
+        + '  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);align-items:end;">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Amount ($)</span>'
+        + '      <input class="dc-tr-amount" type="number" min="0" step="10000" value="' + (t.amount == null ? '' : t.amount) + '" style="' + inputCss + '">'
         + '    </label>'
-        + '    <label><span style="' + labelCss + '">Rate (%)</span>'
-        + '      <input class="dc-tr-rate" type="number" min="0" max="20" step="0.1" value="' + (t.rate != null ? t.rate : 3.0) + '" style="' + inputCss + '">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Rate (%)</span>'
+        + '      <input class="dc-tr-rate" type="number" min="0" max="20" step="0.1" value="' + (t.rate == null ? '' : t.rate) + '" style="' + inputCss + '">'
         + '    </label>'
-        + '    <label><span style="' + labelCss + '">Term (yrs)</span>'
-        + '      <input class="dc-tr-term" type="number" min="1" max="50" step="1" value="' + (t.term || 30) + '" style="' + inputCss + '">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Amortization (yrs)</span>'
+        + '      <input class="dc-tr-term" type="number" min="1" max="50" step="1" value="' + (t.term == null ? '' : t.term) + '" style="' + inputCss + '">'
         + '    </label>'
         + '  </div>'
         + '  <fieldset style="border:none;padding:0;margin:var(--sp2) 0 0;">'
         + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);margin-right:var(--sp3);">'
-        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="loan"' + (t.mode === 'loan' ? ' checked' : '') + '> Loan — amortized'
+        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="loan"' + (t.mode === 'loan' ? ' checked' : '') + '> Loan'
         + '    </label>'
         + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);">'
-        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="grant"' + (t.mode === 'grant' ? ' checked' : '') + '> Grant — reduces basis (§42(d)(5)(A))'
+        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="grant"' + (t.mode === 'grant' ? ' checked' : '') + '> Grant'
         + '    </label>'
         + '  </fieldset>'
-        // F194 — Tier 2: cash-flow-pay %, accrue mode, priority order. Mirrors
-        // the Anthracite professional model's per-tranche controls. Default-
-        // collapsed; loan-mode only (grants have no debt service).
+        + '  <label style="display:block;margin-top:0.5rem;">Federal money in this source?'
+        + '    <select class="dc-tr-fed" style="' + inputCss + '">'
+        + [['', 'Not answered'], ['federal', 'Yes: a grant with federal money reduces eligible basis'], ['nonfederal', 'No federal money']].map(function (o) {
+            return '<option value="' + o[0] + '"' + ((t.fundSource || '') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+          }).join('')
+        + '    </select></label>'
+        + '  <label style="display:block;margin-top:0.5rem;">Repayment obligation <select class="dc-tr-type" style="' + inputCss + '">' + loanTypeOptions(dealEngine().loanTerms(t).loan.type) + '</select></label>'
         + '  <details style="margin-top:var(--sp2);">'
-        + '    <summary style="cursor:pointer;font-size:var(--tiny);font-weight:600;color:var(--muted);padding:0.2rem 0;">▸ Cash-flow waterfall position (advanced)</summary>'
-        + '    <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);margin-top:var(--sp2);padding:var(--sp2);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">'
-        + '      <label><span style="' + labelCss + '">% Cash-flow-pay <span title="What % of mandatory debt service is paid from operating cash flow each year. Remainder comes from surplus cash only (residual). Soft debt is often 50-100% surplus-only.">ⓘ</span></span>'
-        + '        <input class="dc-tr-cfpay" type="number" min="0" max="100" step="5" value="' + (t.cashflowPayPct != null ? t.cashflowPayPct : 100) + '" style="' + inputCss + '">'
-        + '      </label>'
-        + '      <label><span style="' + labelCss + '">Interest <span title="Current pay = interest accrues + is paid each year. Accrue = interest accrues but is added to principal balance, paid at maturity or refi.">ⓘ</span></span>'
-        + '        <select class="dc-tr-accrue" style="' + inputCss + '">'
-        + '          <option value="current"' + ((t.accrueMode || 'current') === 'current' ? ' selected' : '') + '>Current pay</option>'
-        + '          <option value="accrued"' + (t.accrueMode === 'accrued' ? ' selected' : '') + '>Accrue (pay at exit)</option>'
-        + '        </select>'
-        + '      </label>'
-        + '      <label><span style="' + labelCss + '">Priority <span title="Cash flow waterfall priority. 1 = paid first; 12 = paid last. Hard mortgage is typically 1; soft debt 4-10; deferred dev fee 6-9.">ⓘ</span></span>'
-        + '        <input class="dc-tr-priority" type="number" min="1" max="12" step="1" value="' + (t.priority != null ? t.priority : 5) + '" style="' + inputCss + '">'
-        + '      </label>'
+        + '    <summary style="cursor:pointer;min-height:44px;">Loan terms and cash-flow priority</summary>'
+        + '    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);">'
+        + '      <label style="display:block;">Maturity (years)<input class="dc-tr-maturity" type="number" min="1" max="50" value="' + (t.maturity === undefined ? t.term : t.maturity == null ? '' : t.maturity) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Interest-only years<input class="dc-tr-io" type="number" min="0" max="49" value="' + (t.ioYears === undefined ? 2 : t.ioYears == null ? '' : t.ioYears) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Residual cash-flow share (%)<input class="dc-tr-cfpay" type="number" min="0" max="100" value="' + (t.cashflowPayPct === undefined ? 100 : t.cashflowPayPct == null ? '' : t.cashflowPayPct) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Priority (1 first)<input class="dc-tr-priority" type="number" min="1" max="12" value="' + (t.priority === undefined ? 5 : t.priority == null ? '' : t.priority) + '" style="' + inputCss + '"></label>'
         + '    </div>'
+        + '    <p style="font-size:var(--tiny);">Screening assumptions: cash-flow loans receive their share of remaining positive cash after must-pay debt, in priority order. Unpaid interest compounds annually. Forgivable loans assume all principal and accrued interest are forgiven at maturity only if the agreement’s conditions are met. Confirm these terms with the lender; public funding is not automatically forgivable.</p>'
         + '  </details>'
         + '</div>';
     }
@@ -3135,13 +3463,14 @@
       if (_softTranches.length === 0) {
         // Seed with a default empty tranche so the UI isn't empty on first load.
         // F194: also seed cashflowPayPct, accrueMode, priority defaults
-        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
       }
       var provenance = window.InputProvenance;
       var previousOrigins = {};
       if (provenance) host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
         previousOrigins[row.dataset.trancheId] = provenance.captureLocal(row);
       });
+      _softTranches.forEach(function (t) { if (t.fundSource === undefined) t.fundSource = defaultFundSource(t.program); });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
       if (provenance) {
         provenance.apply(host);
@@ -3164,52 +3493,31 @@
 
         rowEl.querySelector('.dc-tr-prog').addEventListener('change', function () {
           t.program = this.value;
+          t.fundSource = defaultFundSource(t.program);
+          rowEl.querySelector('.dc-tr-fed').value = t.fundSource;
           recalculate();
         });
-        rowEl.querySelector('.dc-tr-amount').addEventListener('input', function () {
-          t.amount = parseFloat(this.value) || 0;
+        rowEl.querySelector('.dc-tr-fed').addEventListener('change', function () {
+          t.fundSource = this.value;
           recalculate();
         });
-        rowEl.querySelector('.dc-tr-rate').addEventListener('input', function () {
-          t.rate = parseFloat(this.value) || 0;
-          recalculate();
+        [['amount', 'amount'], ['rate', 'rate'], ['term', 'term'], ['maturity', 'maturity'],
+          ['io', 'ioYears'], ['cfpay', 'cashflowPayPct'], ['priority', 'priority']].forEach(function (pair) {
+          rowEl.querySelector('.dc-tr-' + pair[0]).addEventListener('input', function () {
+            t[pair[1]] = this.value.trim() === '' ? null : Number(this.value);
+            recalculate();
+          });
         });
-        rowEl.querySelector('.dc-tr-term').addEventListener('input', function () {
-          t.term = Math.max(1, parseInt(this.value, 10) || 30);
+        rowEl.querySelector('.dc-tr-type').addEventListener('change', function () {
+          t.loanType = this.value;
+          if (t.ioYears === undefined) t.ioYears = 2;
           recalculate();
         });
         rowEl.querySelectorAll('.dc-tr-mode').forEach(function (modeRadio) {
           modeRadio.addEventListener('change', function () {
-            if (this.checked) {
-              t.mode = this.value;
-              recalculate();
-            }
+            if (this.checked) { t.mode = this.value; recalculate(); }
           });
         });
-        // F194 — Tier 2 per-tranche knobs (cash-flow-pay %, accrue, priority).
-        // Optional chaining because the controls live in a <details> that
-        // may not be in the DOM if a future renderer simplifies the row.
-        var cfPayEl = rowEl.querySelector('.dc-tr-cfpay');
-        if (cfPayEl) {
-          cfPayEl.addEventListener('input', function () {
-            t.cashflowPayPct = Math.max(0, Math.min(100, parseFloat(this.value) || 0));
-            recalculate();
-          });
-        }
-        var accrueEl = rowEl.querySelector('.dc-tr-accrue');
-        if (accrueEl) {
-          accrueEl.addEventListener('change', function () {
-            t.accrueMode = this.value;
-            recalculate();
-          });
-        }
-        var priorityEl = rowEl.querySelector('.dc-tr-priority');
-        if (priorityEl) {
-          priorityEl.addEventListener('input', function () {
-            t.priority = Math.max(1, Math.min(12, parseInt(this.value, 10) || 5));
-            recalculate();
-          });
-        }
         rowEl.querySelector('.dc-tr-remove').addEventListener('click', function () {
           _softTranches = _softTranches.filter(function (x) { return x.id !== trId; });
           renderSoftTranches();
@@ -3224,7 +3532,7 @@
         if (_softTranches.length >= 5) return;  // hard cap — keep UI scannable
         // F194: new tranches default to surplus-only (0% CF-pay), accrue mode,
         // priority 8 (mid-stack) — typical for new soft debt added late in capital stack.
-        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30, cashflowPayPct: 0, accrueMode: 'accrued', priority: 8 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30, maturity: 30, ioYears: 2, loanType: 'accrue_defer', cashflowPayPct: 0, priority: 8 });
         renderSoftTranches();
         recalculate();
       });
@@ -3248,8 +3556,8 @@
     }
 
     // Developer fee slider label sync
-    var devfeePctSlider = document.getElementById('dc-devfee-pct');
-    var devfeePctLabel  = document.getElementById('dc-devfee-pct-label');
+    var devfeePctSlider = null;
+    var devfeePctLabel  = null;
     if (devfeePctSlider && devfeePctLabel) {
       devfeePctSlider.addEventListener('input', function () {
         devfeePctLabel.textContent = parseFloat(devfeePctSlider.value).toFixed(1);
@@ -3295,26 +3603,13 @@
       }
     });
 
-    // Toggle the QCT/DDA note when the checkbox changes
-    var qctDdaChk = document.getElementById('dc-qct-dda');
-    var qctDdaNote = document.getElementById('dc-qct-dda-note');
-    if (qctDdaChk && qctDdaNote) {
-      qctDdaChk.addEventListener('change', function () {
-        qctDdaNote.style.display = qctDdaChk.checked ? 'block' : 'none';
-        var qctStatus = document.getElementById('dc-assump-qct-status');
-        if (qctStatus) qctStatus.textContent = qctDdaChk.checked ? 'indicated ✓' : 'not indicated';
-        recalculate();
-      });
-    }
-
-    // Sync slider label
-    var basisSlider = document.getElementById('dc-basis-pct');
-    var basisLabel = document.getElementById('dc-basis-pct-label');
-    if (basisSlider && basisLabel) {
-      basisSlider.addEventListener('input', function () {
-        basisLabel.textContent = basisSlider.value;
-      });
-    }
+    // #2160: the boost designation and its evidence drive the basis.
+    var boostSelect = document.getElementById('dc-boost-designation');
+    if (boostSelect) boostSelect.addEventListener('change', function () {
+      var qctStatus = document.getElementById('dc-assump-qct-status');
+      if (qctStatus) qctStatus.textContent = boostSelect.value !== 'none' ? 'selected: ' + boostSelect.options[boostSelect.selectedIndex].text : 'not selected';
+      recalculate();
+    });
 
     // Sync assumptions display when debt inputs change
     ['dc-dcr', 'dc-rate', 'dc-term'].forEach(function (id) {
@@ -3576,9 +3871,11 @@
       totalOwnershipGap: ['forSale.totalSubsidyGap']
     } : {
       eligibleBasis: ['eligibleBasis'], annualCredits: ['annualCredits'], creditEquity: ['equity'],
+      stateCreditEquity: ['stateEquity'],
       annualRents: ['annualRents'], developerFee: ['devFeeTotal'], deferredDeveloperFee: ['deferredDevFee'],
       stabilizedNoi: ['noi'], mortgageConstant: ['mc', 'percent4'], firstMortgage: ['mortgage'],
       annualDebtService: ['annualDebtService'], dscr: ['baseDSCR', 'ratio'],
+      allMustPayDebtService: ['allMustPayDebtService'], allMustPayDscr: ['allMustPayDSCR', 'ratio'],
       breakEvenOccupancy: ['breakEvenOcc', 'percent1'], totalDevelopmentCost: ['tdc'], fundingGap: ['gap'],
       annualOperatingExpenses: ['annualOpex'], annualReserves: ['annualRepReserve'], annualPropertyTax: ['netPropTax'],
       annualSoftDebtService: ['impactDebtService'], exitNoi: ['exit.nNoi'], resaleValue: ['exit.resale'],
@@ -3596,7 +3893,7 @@
         : style === 'percent4' ? (value * 100).toFixed(4) + '%'
         : style === 'percent1' ? (value * 100).toFixed(1) + '%' : '$' + Math.round(value).toLocaleString('en-US');
       if (value != null && key === 'stabilizedNoi' && !result.dscrAutoMode && value > 0) display += ' (manual)';
-      if (result && !result.chfaRegime && ['eligibleBasis', 'annualCredits', 'creditEquity'].indexOf(key) !== -1) {
+      if (result && !result.chfaRegime && ['eligibleBasis', 'annualCredits', 'creditEquity', 'stateCreditEquity'].indexOf(key) !== -1) {
         display = key === 'eligibleBasis' ? 'Not applicable' : NO_LIHTC_CREDITS;
       }
       records[key] = { value: value, display: display, unavailableReason: reason || null };
@@ -3624,9 +3921,12 @@
       constants: _constants, utilityAllowance: _utilityAllowance,
       equityPriceDefault: EQUITY_PRICE_DEFAULT, minimumSetAsideElection: currentMinimumSetAsideElection(),
       regime: rentLimitRegime(), perBrMarket: _countyFips ? getZoriPerBrRent(_countyFips) : null,
+      prop123: { prop123Rules: _prop123Rules, program: selectValue('dc-prop123-program'),
+        petitionJurisdiction: selectValue('dc-prop123-petition') },
       manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
+      costLines: readCostLines(), costRules: _costRules,
       fmrData: window.HudFmr && _countyFips ? window.HudFmr.getFmrByFips(_countyFips) : null };
   }
 
@@ -3645,6 +3945,153 @@
     try { document.dispatchEvent(new CustomEvent('deal-calc:updated', { detail: { result: getResult() } })); } catch(_) {}
   }
 
+  // #2160: itemized costs, basis, credit figures and the CHFA tests. Every
+  // absent figure shows its reason; nothing falls back to a typical share.
+  function renderCostBasis(result, fmt) {
+    var cbr = result.costBasis;
+    if (!cbr) return;
+    function el(id) { return document.getElementById(id); }
+    function setText(id, text) { var e = el(id); if (e) e.textContent = text; }
+    function money(v, reason) { return v == null ? (reason || 'Not available') : fmt(v); }
+    function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+    var sum = cbr.summary, basis = cbr.basis;
+    setText('dc-cb-itemized', sum.reason ? '—' : fmt(sum.itemized));
+    setText('dc-cb-not-itemized', money(sum.notItemized, '—'));
+    setText('dc-cb-eligible-cost', money(sum.eligible, '—'));
+    setText('dc-cb-contract', sum.reason ? '—' : fmt(sum.contract));
+    var reasonEl = el('dc-cb-cost-reason');
+    if (reasonEl) { reasonEl.textContent = sum.reason || ''; reasonEl.hidden = !sum.reason; }
+    (sum.contingencies || []).forEach(function (c) {
+      var span = document.querySelector('[data-cost-remaining="' + c.id + '"]');
+      if (span) span.textContent = c.remaining == null ? c.reason : 'Remaining: ' + fmt(c.remaining) + (c.reason ? ' (' + c.reason + ')' : '');
+    });
+    document.querySelectorAll('[data-cost-remaining]').forEach(function (span) {
+      if (!(sum.contingencies || []).some(function (c) { return c.id === span.getAttribute('data-cost-remaining'); })) span.textContent = '';
+    });
+    var chfa = !!result.chfaRegime;
+    setText('dc-cb-capacity', !chfa ? 'Not applicable' : money(basis.capacity, 'Unavailable'));
+    setText('dc-cb-requested', !chfa ? 'Not applicable' : basis.requested == null ? 'Not entered' : fmt(basis.requested));
+    setText('dc-cb-awarded', !chfa ? 'Not applicable' : basis.awarded == null ? 'Not entered' : fmt(basis.awarded));
+    var notes = [];
+    if (chfa) {
+      if (result.basisUnknownReason) notes.push(result.basisUnknownReason);
+      if (basis.gapMethod.binding) notes.push(basis.gapMethod.reason);
+      else if (basis.cap.binding) notes.push(basis.cap.reason);
+      notes = notes.concat(basis.flags || []);
+      if (basis.creditForEquityBasis) notes.push('Equity uses the ' + basis.creditForEquityBasis + ' figure.');
+    }
+    setText('dc-cb-credit-note', notes.join(' '));
+
+    var rows = [];
+    function row(label, value, note) {
+      rows.push('<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:.2rem .75rem;padding:.3rem 0;border-top:1px solid var(--border);">'
+        + '<span>' + _escHtml(label) + (note ? '<span style="display:block;font-size:var(--tiny);color:var(--muted);">' + _escHtml(note) + '</span>' : '') + '</span>'
+        + '<strong style="text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;">' + _escHtml(value) + '</strong></div>');
+    }
+    function heading(text) { rows.push('<h4 style="margin:var(--sp2) 0 .2rem;font-size:var(--small);">' + _escHtml(text) + '</h4>'); }
+    heading('Basis and credit');
+    // Outside CHFA LIHTC there is no credit, so no basis or credit figures to show.
+    if (!chfa) row('Basis and credit calculation', 'Not applicable', NO_LIHTC_CREDITS);
+    else {
+      row('Cost in eligible basis', money(basis.eligibleBasis, basis.reasons.eligibleBasis));
+      if (basis.feeReduction > 0) row('Less fees above CHFA\'s limits', fmt(basis.feeReduction), 'CHFA limits the fees in calculating credit; a reduction in fees reduces eligible basis (QAP 3.M.3).');
+      row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).'
+        + (basis.grantOutsideBasis > 0 ? ' ' + fmt(basis.grantOutsideBasis) + ' of federal grant money paid for costs outside basis and does not reduce it.' : '')
+        + (basis.grantOnAcquisition > 0 ? (basis.grantSplitEntered ? ' As entered: ' : ' Spread over acquisition and other basis in proportion (the credit rates match and no boost applies): ') + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
+      row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
+      row('Basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation + ', ' + Math.round((basis.boost.multiplier - 1) * 100) + '%' : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
+      row('Basis after boost', money(basis.boostedBasis, basis.reasons.afterGrant));
+      row('Applicable fraction', basis.applicableFraction == null ? (basis.reasons.applicableFraction || 'Not available') : pct(basis.applicableFraction),
+        basis.applicableFraction == null ? null : 'Lower of the unit fraction (' + pct(basis.unitFraction) + ') and the floor-space fraction (' + pct(basis.floorFraction) + ').');
+      row('Qualified basis', money(basis.qualifiedBasis, basis.reasons.applicableFraction));
+      if (basis.acquisitionQualified > 0) row('Acquisition credit rate', basis.acquisitionRate == null ? basis.reasons.acquisitionRate : (basis.acquisitionRate * 100).toFixed(2) + '%',
+        basis.acquisitionCitation ? 'Acquisition basis earns CHFA\'s 4% acquisition floor, not 9% (' + basis.acquisitionCitation + '). The calculator has no input for a higher applicable percentage.' : 'Acquisition basis earns the same rate on a 4% deal.');
+      if (basis.acquisitionQualified > 0) row('CHFA minimum rehabilitation', 'Not checked', costBasisModule().REHAB_MINIMUM_NOTE);
+      row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'),
+        String(result.creditType) === '4' ? costBasisModule().BOND_TEST_NOTE : null);
+      row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
+      row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
+        basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
+      row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
+      row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity : 'The smaller of Method One and Method Two. Method Three is not checked.');
+    }
+
+    heading('Cost per square foot');
+    var psf = cbr.costPerSf;
+    [['Contractor contract per gross SF', psf.contractPerGrossSf], ['Contractor contract per residential SF', psf.contractPerResidentialSf],
+      ['Total development cost per gross SF', psf.totalPerGrossSf], ['Total development cost per residential SF', psf.totalPerResidentialSf]].forEach(function (p) {
+      row(p[0], p[1].value == null ? p[1].reason : '$' + p[1].value.toFixed(2));
+    });
+
+    if ((sum.contingencies || []).length) {
+      heading('Contingencies');
+      sum.contingencies.forEach(function (c) {
+        row(c.label, c.remaining == null ? c.reason : fmt(c.remaining) + ' remaining', 'Original ' + fmt(c.original) + (c.used == null ? '' : ' · proposed use ' + fmt(c.used)));
+      });
+    }
+
+    heading('Debt coverage (CHFA underwriting)');
+    var uw = cbr.underwriting;
+    row('Lowest coverage, years 1-' + (uw.minimum.status.rule ? uw.minimum.status.rule.forecast_years : 15),
+      uw.minimum.lowest == null ? uw.minimum.reason : uw.minimum.lowest.toFixed(2) + 'x · ' + (uw.minimum.passes ? 'meets' : 'below') + ' the 1.15x minimum',
+      uw.minimum.status.citation || null);
+    row('Coverage in year 1', uw.high.firstYear == null ? uw.high.reason : uw.high.firstYear.toFixed(2) + 'x' + (uw.high.exceeds ? ' · above 1.30x, CHFA may award less credit' : ''),
+      uw.high.status.citation || null);
+
+    var pay = cbr.payIn;
+    // Credit equity is $0 outside CHFA LIHTC, so there is nothing to pay in.
+    if (chfa) {
+      heading('Equity pay-in');
+      [['Federal credit equity', pay.federal], ['State credit equity', pay.state]].forEach(function (p) {
+        if (!p[1]) return;
+        row(p[0], p[1].installments ? p[1].installments.map(function (i) { return fmt(i.amount); }).join(' / ') : p[1].reason,
+          p[1].installments ? 'Closing / completion / stabilization' : null);
+      });
+      if (cbr.stateCredit.entered) row('State credit allowed (annual)', money(cbr.stateCredit.allowedAnnual, cbr.stateCredit.reason),
+        [cbr.stateCredit.capReason, cbr.stateCredit.years ? 'Claimed over the ' + cbr.stateCredit.years + '-year allocation (' + cbr.stateCredit.termCitation + ').' : null].filter(Boolean).join(' ') || null);
+    }
+
+    heading('Rules');
+    (cbr.rules || []).forEach(function (r) {
+      row(r.key.replace(/_/g, ' '), r.applied ? 'Applied' : r.reason, r.applied ? r.citation : null);
+      if (r.draft) row(r.key.replace(/_/g, ' ') + ' (draft)', 'Shown, not applied', r.draft.location || null);
+    });
+    if (cbr.rulesVersion) rows.push('<p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0 0;">Rules file version ' + _escHtml(cbr.rulesVersion) + ': data/policy/lihtc-underwriting-rules.json. No draft rules are recorded unless listed above.</p>');
+    var detail = el('dc-cb-detail');
+    if (detail) detail.innerHTML = rows.join('');
+
+    var fees = el('dc-cb-fee-tests');
+    if (fees) {
+      var dev = cbr.developerFee, con = cbr.contractorFee;
+      var devText = dev.passes == null ? 'Developer fee test: ' + dev.reason
+        : 'Developer plus consultant fee ' + fmt(dev.fee) + (dev.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (dev.limitPct * 100).toFixed(0) + '% limit of ' + fmt(dev.limit)
+          + ' (base ' + fmt(dev.base) + ', tested before deferral).' + (dev.passes ? '' : ' The ' + fmt(dev.excess) + ' excess' + (cbr.feeExcess && cbr.feeExcess.developer < dev.excess - 0.5 ? ' (' + fmt(cbr.feeExcess.developer) + ' of it in basis)' : '') + ' comes out of eligible basis.');
+      var conText = con.passes == null ? 'Contractor fee test: ' + con.reason
+        : 'Contractor overhead and profit ' + fmt(con.fee) + (con.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (con.limitPct * 100).toFixed(0) + '% limit of ' + fmt(con.limit) + '.'
+          + (con.passes ? '' : ' The ' + fmt(cbr.feeExcess && cbr.feeExcess.contractor !== null ? cbr.feeExcess.contractor : con.excess) + ' in basis above the limit comes out of eligible basis.');
+      fees.innerHTML = '<p style="margin:0 0 .3rem;' + (dev.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(devText) + '</p>'
+        + (cbr.feeBase && cbr.feeBase.note ? '<p style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.feeBase.note) + '</p>' : '')
+        + '<p style="margin:0;' + (con.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(conText) + '</p>';
+    }
+
+    var bud = el('dc-budget-breakdown');
+    if (bud) {
+      var cb = costBasisModule();
+      var b = result.budget || {};
+      if (!b.groups) bud.innerHTML = '<dt>' + _escHtml(b.reason || 'Itemize development costs.') + '</dt><dd></dd><dd></dd>';
+      else {
+        var total = result.tdc;
+        var cells = cb.GROUPS.map(function (g) {
+          var v = b.groups[g.id];
+          return '<dt style="color:var(--muted);">' + _escHtml(g.label) + '</dt><dd style="text-align:right;color:var(--muted);">' + (total > 0 ? (100 * v / total).toFixed(0) + '%' : '—') + '</dd><dd style="text-align:right;font-weight:700;">' + fmt(v) + '</dd>';
+        });
+        cells.push('<dt style="color:var(--muted);">Not itemized</dt><dd style="text-align:right;color:var(--muted);">' + (total > 0 ? (100 * b.notItemized / total).toFixed(0) + '%' : '—') + '</dd><dd style="text-align:right;font-weight:700;">' + fmt(b.notItemized) + '</dd>');
+        cells.push('<dt style="border-top:1px solid var(--border);padding-top:.35rem;font-weight:700;">Total Development Cost</dt><dd style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;">100%</dd><dd style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;font-weight:700;">' + fmt(total) + '</dd>');
+        bud.innerHTML = cells.join('');
+      }
+    }
+  }
+
   function renderDealResult(result, inputs) {
     var scheduleMode = result.scheduleMode;
     function fmt(n) {
@@ -3656,7 +4103,8 @@
       return (n * 100).toFixed(1) + '%';
     }
     function vacFrac() { return result.vacancyRate; }
-    function numeric(value) { return value == null ? NaN : value; }
+    // Numbers only: several of these are written into the page as HTML.
+    function numeric(value) { return value == null ? NaN : Number(value); }
     var tdc = numeric(result.tdc);
     var units = numeric(result.units);
     var totalGrant = numeric(result.totalGrant);
@@ -3736,11 +4184,14 @@
     var afNoteEl = document.getElementById('dc-applicable-fraction-note');
     if (afNoteEl) {
       if (lihtcUnits < units && lihtcUnits > 0) {
+        var floorFraction = result.costBasis && result.costBasis.basis ? result.costBasis.basis.floorFraction : null;
         afNoteEl.innerHTML =
           '<strong style="color:var(--accent,#096e65);">Mixed-income deal:</strong> ' +
           lihtcUnits + ' LIHTC units / ' + units +
-          ' total residential = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
-          'Eligible basis prorated to ' + fmt(result.basisForApplicableFractionNote) +
+          ' total residential = unit fraction ' + (100 * lihtcUnits / units).toFixed(1) + '%; floor-space fraction ' +
+          (floorFraction == null ? '<strong>not entered</strong> (enter both floor areas)' : (floorFraction * 100).toFixed(1) + '%') +
+          '. Applicable fraction (the lower) <strong>' + (isFinite(applicableFraction) ? (applicableFraction * 100).toFixed(1) + '%' : 'unavailable') + '</strong>. ' +
+          'Qualified basis ' + fmt(result.basisForApplicableFractionNote) +
           ' (vs ' + fmt(eligibleBasisRaw) + ' if 100% LIHTC). ' +
           'Market-rate and unrestricted units generate rent but no federal LIHTC credits per IRC §42(c)(1)(B).';
         afNoteEl.hidden = false;
@@ -3847,11 +4298,15 @@
     }
 
     // Update LIHTC results
-    document.getElementById('dc-r-basis').textContent = chfaRegime ? (tdc > 0 ? fmt(eligibleBasis) : '—') : 'Not applicable';
+    // #2160: an unknown basis, credit or equity names its reason.
+    function basisText(value, key) {
+      return tdc > 0 ? (isFinite(value) ? fmt(value) : 'Unavailable — ' + (result.unavailable[key] || 'Not available for these inputs.')) : '—';
+    }
+    document.getElementById('dc-r-basis').textContent = chfaRegime ? basisText(eligibleBasis, 'eligibleBasis') : 'Not applicable';
     document.getElementById('dc-results').style.gridTemplateColumns = chfaRegime ? '1fr auto' : 'minmax(0, 1fr) minmax(0, 1.5fr)';
     [['dc-r-credits', annualCredits], ['dc-r-equity', equity]].forEach(function (entry) {
       var el = document.getElementById(entry[0]);
-      el.textContent = chfaRegime ? (tdc > 0 ? fmt(entry[1]) : '—') : NO_LIHTC_CREDITS;
+      el.textContent = chfaRegime ? basisText(entry[1], entry[0] === 'dc-r-credits' ? 'annualCredits' : 'equity') : NO_LIHTC_CREDITS;
       el.dataset.lihtcApplicable = String(chfaRegime);
       el.style.fontSize = chfaRegime ? '' : 'var(--tiny)';
       el.style.marginLeft = chfaRegime ? '' : '0';
@@ -3864,21 +4319,8 @@
         ' · market-rent sources: ' + _resolvedDealMix.marketRows.map(function (r) { return r.source; }).join('; ') :
         ' · unrestricted market rents: ' + (manualMarket.source || 'no unrestricted units')) });
 
-    // F257-6 — Development budget breakdown. Typical CHFA Colorado
-    // share for new-construction 9% LIHTC. Sums to 100% by construction.
-    // Wrap in a try so a rare null DOM lookup never breaks recalc.
-    try {
-      var _set = function (id, v) {
-        var el = document.getElementById(id);
-        if (el) el.textContent = tdc > 0 ? fmt(v) : '—';
-      };
-      _set('dc-bud-acq',  budget.acq);
-      _set('dc-bud-hard', budget.hard);
-      _set('dc-bud-soft', budget.soft);
-      _set('dc-bud-cont', budget.cont);
-      _set('dc-bud-fee',  budget.fee);
-      _set('dc-bud-tdc',  tdc);
-    } catch (_) {}
+    // #2160: budget totals come from the itemized cost lines.
+    renderCostBasis(result, fmt);
 
     // F257-6 — "How to adjust" advisory. Surfaces 2-3 short levers when
     // the deal is marginal. Drives off the same equity / mortgage / NOI
@@ -3976,16 +4418,32 @@
     if (adsEl) adsEl.textContent = annualDebtService > 0 ? fmt(annualDebtService) : '—';
 
     _setDscr('dc-r-dscr-base', baseDSCR);
+    _setDscr('dc-all-must-pay-dscr', result.allMustPayDSCR);
+    var debtSummary = document.getElementById('dc-loan-coverage');
+    if (debtSummary) {
+      var coverage = result.coverage;
+      var weakest = function (record) { return record ? 'year ' + record.year + ' (' + record.ratio.toFixed(2) + 'x)' : 'unavailable — needs known NOI and positive scheduled debt service'; };
+      debtSummary.textContent = coverage ? coverage.measuredYears + ' of ' + coverage.years.length + ' forecast years have known NOI and loan terms. Weakest measured senior coverage: ' + weakest(coverage.weakestSenior) +
+        ' · Weakest measured all must-pay coverage: ' + weakest(coverage.weakestAllMustPay) +
+        '. Regular operating payments only; maturity balloons below require repayment or refinancing.'
+        : 'Unavailable — ' + (result.unavailable.coverage || 'Enter loan terms and NOI.');
+    }
+    var mortgageLabel = document.getElementById('dc-mortgage-label');
+    if (mortgageLabel) mortgageLabel.textContent = result.seniorMode === 'entered' ? 'Entered senior mortgage' : 'Supportable First Mortgage';
+    var enteredSenior = document.getElementById('dc-senior-amount');
+    if (enteredSenior) enteredSenior.disabled = result.seniorMode !== 'entered';
 
     var targetNote = document.getElementById('dc-dscr-target-note');
     if (targetNote) {
       if (baseDSCR != null && isFinite(baseDSCR)) {
-        targetNote.textContent = 'Sized to target DCR ' + dcr.toFixed(2) + 'x · reflects senior mortgage coverage only; all-in coverage including soft debt is shown in the pro forma. The stress table below shows how DSCR moves if rents, vacancy, or operating costs shift.';
+        targetNote.textContent = (result.seniorMode === 'entered' ? 'Entered senior amount; coverage is measured.' : 'Sized from NOI and target DCR ' + dcr.toFixed(2) + 'x after must-pay soft debt.') + ' Stress tests use all must-pay operating debt; balloons are shown separately.';
       } else {
         targetNote.textContent = 'Enter NOI (or enable auto-compute) and mortgage terms to see DSCR.';
       }
     }
 
+    var allCoverageEl = document.getElementById('dc-all-must-pay-dscr');
+    if (allCoverageEl && result.allMustPayDSCR === null) allCoverageEl.textContent = 'Unavailable — ' + result.unavailable.allMustPayDSCR;
     var manualNote = document.getElementById('dc-dscr-manual-note');
     var stressTableEl = document.getElementById('dc-dscr-stress-table');
     if (manualNote && stressTableEl) {
@@ -4227,24 +4685,28 @@
     }
     if (impactNoteEl) {
       var parts = [];
-      if (totalGrant > 0) parts.push(fmt(totalGrant) + ' grants reduce basis');
+      var basisGrant = numeric(result.costBasis && result.costBasis.grants && result.costBasis.grants.reduction);
+      if (totalGrant > 0) parts.push(fmt(totalGrant) + ' grants' + (isFinite(basisGrant) ? ' (' + fmt(basisGrant) + ' federally funded, which reduces basis)' : ''));
       if (totalLoanPrincipal > 0) parts.push(fmt(totalLoanPrincipal) + ' loans @ ' + fmt(totalSoftDebtService) + '/yr debt service');
       impactNoteEl.textContent = parts.length ? parts.join(' · ') : 'Add tranches to model CHFA / Prop 123 / local PHA stack.';
     }
 
-    // Update Sources & Uses table
-    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity, mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
+    // Update Sources & Uses table. Its equity is federal plus state credit equity, as in the gap.
+    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity + numeric(result.stateEquity), mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
       unavailableReason: !isFinite(gap) ? (noiUnknownReason || rentsUnknownReason || 'financing sources are unavailable') : tdc > 0 ? null : 'total development cost is missing',
       sources: explanationSourceContext() });
     var su = {
       equity:   { amt: equity,             id: 'dc-su-equity' },
+      state:    { amt: numeric(result.stateEquity), id: 'dc-su-state' },
       mortgage: { amt: mortgage,           id: 'dc-su-mortgage' },
       deferred: { amt: deferredDevFee,     id: 'dc-su-deferred' },
       impactds: { amt: totalSoftSourceAmt, id: 'dc-su-impact-ds' },
       gap:      { amt: gap,                id: 'dc-su-gap' },
       tdc:      { amt: tdc,                id: 'dc-su-tdc' }
     };
-    ['equity', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
+    var stateRow = document.getElementById('dc-su-state-row');
+    if (stateRow) stateRow.hidden = !(result.costBasis && result.costBasis.stateCredit && result.costBasis.stateCredit.entered);
+    ['equity', 'state', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
       var amtEl = document.getElementById(row.id);
       var pctEl = document.getElementById(row.id + '-pct');
@@ -4267,10 +4729,10 @@
         trDetailEl.innerHTML = '';
       } else {
         trDetailEl.innerHTML = trancheBreakdown.map(function (t) {
-          var label = (progLabels[t.program] || t.program) +
+          var label = _escHtml(progLabels[t.program] || t.program) +
             ' — ' + (t.mode === 'grant'
               ? '<span style="color:var(--accent)">grant</span>'
-              : (t.rate > 0 ? t.rate + '% · ' + t.term + 'y' : '0% · ' + t.term + 'y straight-line'));
+              : _escHtml(dealEngine().LOAN_TYPES[t.loanType] || 'Repayment type unavailable') + ' · ' + (t.rate == null ? 'rate unavailable' : t.rate + '%') + ' · maturity ' + (t.maturity == null ? 'unavailable' : 'year ' + t.maturity));
           var amtText = fmt(t.amount) + (t.mode === 'loan' && t.debtService > 0
             ? ' <span style="font-size:var(--tiny);color:var(--muted)">(' + fmt(t.debtService) + '/yr)</span>'
             : '');
@@ -4358,9 +4820,11 @@
     // why instead of a chart.
     var tornadoMount = document.getElementById('tornadoChartMount');
     if (tornadoMount && tdc > 0 && !sensitivityKnown) {
+      var rollKnown = isFinite(noi) && !rentsUnknownReason;
       tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
-        'Sensitivity needs a known NOI and rent roll. ' +
-        ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '') + '</p>';
+        (rollKnown && result.basisUnknownReason
+          ? 'Sensitivity needs a known credit amount. ' + _escHtml(result.basisUnknownReason)
+          : 'Sensitivity needs a known NOI and rent roll. ' + ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '')) + '</p>';
     }
     if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {
@@ -4428,7 +4892,7 @@
       'dc-r-deferred': 'deferredDevFee', 'dc-su-deferred': 'deferredDevFee',
       'dc-r-devfee-closing': 'devFeeAtClosing', 'dc-r-cap-rate': 'capRate',
       'dc-r-beo': 'breakEvenOcc', 'dc-r-dscr-base': 'baseDSCR',
-      'dc-stress-base-noi': 'noi', 'dc-stress-base-dscr': 'baseDSCR'
+      'dc-stress-base-noi': 'noi', 'dc-stress-base-dscr': 'allMustPayDSCR', 'dc-all-must-pay-dscr': 'allMustPayDSCR'
     };
     Object.keys(dependent).forEach(function (id) {
       var el = document.getElementById(id), key = dependent[id];
@@ -4440,6 +4904,13 @@
     });
     delete document.getElementById('dc-adjust-guidance-list').dataset.unavailableReason;
     var exitReason = result.exit.nNoi == null ? result.unavailable['exit.nNoi'] : null;
+    if (result.exit.loanUnavailableReason) {
+      ['dc-exit-mortbal', 'dc-exit-softbal', 'dc-exit-net', 'dc-exit-defyr', 'dc-exit-irr'].forEach(function (id) {
+        var el = document.getElementById(id);
+        el.dataset.unavailableReason = result.exit.loanUnavailableReason;
+        el.textContent = 'Unavailable — ' + result.exit.loanUnavailableReason;
+      });
+    }
     if (exitReason) exitOutputs.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) { el.dataset.unavailableReason = manualMarket.unavailableReason || exitReason; el.textContent = 'Unavailable — ' + exitReason; }
@@ -4571,6 +5042,38 @@
     return out;
   }
 
+  // The homes-short figures shown to a reader: renter homes affordable AND
+  // available to each income group (HUD CHAS Tables 15C and 14B), the same
+  // file the homepage cards render. A cheap home rented by a higher-income
+  // household does not count. Place record first (F45), county otherwise.
+  // The line shows homes_short_nested: never fewer homes short in a wider
+  // band (this site's rule, stated on the line; HUD's own tier figure is
+  // homes_short).
+  function _findChasRecord(fips, placeGeoid) {
+    if (!_chasAaData) return null;
+    var place = placeGeoid && _chasAaData.places && _chasAaData.places[placeGeoid];
+    if (place) return { rec: place, kind: 'place' };
+    var county = fips && _chasAaData.counties && _chasAaData.counties[String(fips).padStart(5, '0')];
+    return county ? { rec: county, kind: 'county' } : null;
+  }
+
+  // A tier the file does not carry, or a value that is not a count, is null,
+  // never 0.
+  function _homesShortFromRecord(rec) {
+    var tiers = (rec && rec.tiers) || {};
+    var out = {};
+    ['30', '50', '80'].forEach(function (b) {
+      var t = tiers[b] || {};
+      var v = t.homes_short_nested;
+      var p = t.homes_per_100_households;
+      out[b] = {
+        short: (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null,
+        per100: (typeof p === 'number' && isFinite(p) && p >= 0) ? p : null
+      };
+    });
+    return out;
+  }
+
   // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
   // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
   // for the selected jurisdiction. Prefers place-level gap when available,
@@ -4685,22 +5188,45 @@
       fmrNote.parentNode.insertBefore(container, fmrNote.nextSibling);
     }
     // F45: prefer the place record when the user has a place selection — a
-    // 5k-pop town's gap is dramatically smaller than its county's (e.g. New
-    // Castle ≈ 190 households at ≤30% AMI vs Garfield County ≈ 7,800).
-    var place = placeGeoid ? _findAmiGapPlace(placeGeoid) : null;
-    var rec   = place || _findAmiGapCounty(fips);
-    if (!rec) { container.hidden = true; return; }
-    var kind  = place ? 'place' : 'county';
-    var gaps  = _gapTrioFromRecord(rec, kind);
-    var label = place ? (rec.place_name || 'this jurisdiction')
-                      : (rec.county_name || '');
-    container.innerHTML =
-      '<strong style="color:var(--accent);">Affordability Gap — ' + label +
-      (kind === 'place' ? '<span style="color:var(--muted);font-weight:400"> · place-level</span>' : '') +
-      '</strong><br>' +
-      '30% AMI: ' + Math.round(gaps['30']).toLocaleString() + ' units needed' +
-      ' &bull; 50% AMI: ' + Math.round(gaps['50']).toLocaleString() + ' units needed' +
-      ' &bull; 60% AMI: ' + Math.round(gaps['60']).toLocaleString() + ' units needed';
+    // 5k-pop town's gap is dramatically smaller than its county's.
+    var found = _findChasRecord(fips, placeGeoid);
+    if (!found) { container.hidden = true; return; }
+    var rec   = found.rec;
+    var kind  = found.kind;
+    var short = _homesShortFromRecord(rec);
+    var label = rec.name || 'this jurisdiction';
+    var vintage = (_chasAaData && _chasAaData.meta && _chasAaData.meta.vintage) || '';
+    function shown(b) {
+      var t = short[b];
+      if (t.short == null) return '—';
+      return Math.round(t.short).toLocaleString() +
+        (t.per100 == null ? '' : ' (' + Math.round(t.per100) + ' per 100)');
+    }
+    // Built from text nodes: the place and county names come from a data file.
+    container.textContent = '';
+    var head = document.createElement('strong');
+    head.style.color = 'var(--accent)';
+    head.textContent = 'Affordability Gap — ' + label;
+    if (kind === 'place') {
+      var lvl = document.createElement('span');
+      lvl.style.color = 'var(--muted)';
+      lvl.style.fontWeight = '400';
+      lvl.textContent = ' · place-level';
+      head.appendChild(lvl);
+    }
+    container.appendChild(head);
+    container.appendChild(document.createElement('br'));
+    container.appendChild(document.createTextNode('Rental homes short: ≤30% AMI: ' + shown('30') +
+      ' • ≤50% AMI: ' + shown('50') + ' • ≤80% AMI: ' + shown('80')));
+    container.appendChild(document.createElement('br'));
+    var note = document.createElement('span');
+    note.style.fontSize = '0.95em';
+    note.textContent = 'HUD CHAS' + (vintage ? ' ' + vintage : '') + '. Each band includes the ones below it. ' +
+      'This site, not HUD, never shows a band fewer homes short than a band inside it, because homes renting above what ' +
+      'the lower incomes can pay do not close their shortfall. ' +
+      'A home counts only if its rent is affordable to the group and it is vacant or rented by someone in the group; ' +
+      'per 100 is affordable, available homes for every 100 renter households. HUD\'s tables have no 60% tier.';
+    container.appendChild(note);
     container.hidden = false;
   }
 
@@ -4815,7 +5341,7 @@
       geoid: fips || undefined,
       countyFips: fips || null,    // drives hard-cost geographic multiplier in predictor
       proposedUnits: units,
-      isQct: !!(document.getElementById('dc-qct-dda') || {}).checked
+      isQct: ['qct', 'dda', 'sadda'].indexOf((document.getElementById('dc-boost-designation') || {}).value) !== -1
     };
 
     // AMI gap data
@@ -4899,6 +5425,12 @@
       return r.ok ? r.json() : null;
     });
     chfaLoad.then(setChfaRentTable).catch(function () { setChfaRentTable(null); });
+    function loadJson(url) {
+      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    }
+    loadJson('data/hud-home-rent-limits-co-2026.json').then(function (t) { setProgramRentTables(t, undefined); });
+    loadJson('data/policy/prop123-rental-rules.json').then(function (t) { setProgramRentTables(undefined, t); });
+    loadJson('data/policy/lihtc-underwriting-rules.json').then(function (t) { _costRules = t; recalculate(); });
 
     // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
     // output panel HTML has been injected. The inline-glossary boot fires on
@@ -5045,6 +5577,16 @@
       console.warn('[deal-calculator] AMI gap data unavailable');
       if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
     });
+    // Homes short shown on the gap line. Soft-fail: the line stays hidden.
+    fetch(_gapResolver('data/hna/chas_affordable_available.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.counties) {
+        _chasAaData = data;
+        var sel = document.getElementById('dc-county-select');
+        if (sel && sel.value) _renderAmiGapInfo(sel.value, _getActivePlaceGeoid());
+      }
+    }).catch(function () { /* gap line stays hidden */ });
     // F45: place-level AMI gap — soft-fail (county fallback handles missing).
     fetch(_gapResolver('data/co_ami_gap_by_place.json')).then(function (r) {
       return r.ok ? r.json() : null;
@@ -5532,19 +6074,17 @@
    * Update the QCT/DDA indicator in the deal calculator UI.
    * Called by the market-analysis controller once checkDesignation() resolves.
    *
-   * When basis_boost_eligible is true the checkbox is pre-checked and the
-   * note is shown so the user is aware of the designation.  The basis %
-   * slider is intentionally NOT auto-adjusted — the user retains full
-   * manual control per the principle that the designation does not
-   * automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
+   * When basis_boost_eligible is true a note tells the user the site appears
+   * to be designated. The boost itself is never selected automatically: it
+   * needs the user to choose the designation and record its evidence (#2160).
    *
    * @param {boolean} basisBoostEligible - True when site is in a QCT or DDA.
    */
   function setDesignationContext(basisBoostEligible) {
-    var chk  = document.getElementById('dc-qct-dda');
     var note = document.getElementById('dc-qct-dda-note');
-    if (!chk || !note) return; // calculator not yet mounted — intentional no-op
-    chk.checked        = !!basisBoostEligible;
+    if (!note) return; // calculator not yet mounted — intentional no-op
+    note.textContent = basisBoostEligible
+      ? 'HUD data place this site in a QCT or DDA. Choose the designation above and record the evidence to apply the boost.' : '';
     note.style.display = basisBoostEligible ? 'block' : 'none';
   }
 
@@ -5776,6 +6316,7 @@
   function _initCapitalEventWaterfall() {
     function _fmtMoney(n) {
       if (n == null || !isFinite(n)) return 'Unavailable';
+      n = Number(n);  // a number from here on; the tables are written as HTML
       if (n === 0) return '$0';
       var abs = Math.abs(n);
       var s = abs >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
@@ -5844,7 +6385,7 @@
         '<td style="padding:3px 6px;text-align:right;color:var(--text);">' + _fmtMoney(cumGp) + '</td>' +
         '</tr>';
       wf.annual.forEach(function (row) {
-        var y = row.year, lpY = row.lp, gpY = row.gp;
+        var y = Number(row.year), lpY = row.lp, gpY = row.gp;
         cumLp = row.cumLp; cumGp = row.cumGp;
         var isExit = (y === n);
         rows += '<tr' + (isExit ? ' style="background:var(--accent-dim);font-weight:600;"' : '') + '>' +
@@ -5881,7 +6422,10 @@
         var result = getResult();
         var wf = result && result.waterfall;
         var autoEl = document.getElementById('dc-wf-lp-equity-auto');
-        if (autoEl) autoEl.textContent = _fmtMoney(result && result.equity);
+        // Federal plus state credit equity, the same amount the waterfall uses when not overridden.
+        var autoLp = result && Number.isFinite(result.equity) && Number.isFinite(result.stateEquity)
+          ? result.equity + result.stateEquity : null;
+        if (autoEl) autoEl.textContent = _fmtMoney(autoLp);
         var reason = result && result.unavailable.waterfall || 'The deal calculation is unavailable.';
         ['dcWaterfallTable', 'dcWaterfallAnnualTable'].forEach(function (id) {
           var el = document.getElementById(id);
@@ -6559,6 +7103,8 @@
     getOutputRecords: getOutputRecords,
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
+    setCostRules: function (rules) { _costRules = rules; recalculate(); },
+    setProgramRentTables: setProgramRentTables,
     getRentLimitsMetadata: getRentLimitsMetadata,
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getRentScheduleMetadata: getRentScheduleMetadata,

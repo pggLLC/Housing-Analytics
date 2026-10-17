@@ -15,7 +15,7 @@ const tracker = require(path.resolve(__dirname, '..', 'js', 'soft-funding-tracke
 // publish live uncommitted balances. No real project/award data is used here.
 function inventedProgram(name, county, extra = {}) {
   return { name: 'INVENTED ' + name, county, available: 123000, awarded: 41000,
-    capacity: 164000, deadline: null, eligibleExecution: ['9%', '4%', 'non-LIHTC'], ...extra };
+    capacity: 164000, deadline: null, status: 'active', eligibleExecution: ['9%', '4%', 'non-LIHTC'], ...extra };
 }
 const data = {
   lastUpdated: '2026-03-24',

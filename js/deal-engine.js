@@ -1,4 +1,4 @@
-/** Pure rental calculation extracted for #2118. Legacy formulas/defaults are intentional.
+/** Pure rental calculation extracted for #2118, with explicit L1 loan obligations.
  * inputs.fields contains raw control values (including blank strings); the other
  * keys contain already-loaded source records. No fetching or mutable deal state.
  * Numeric absence is null at the result boundary, with a dotted-path reason in
@@ -7,15 +7,17 @@
 (function (root, factory) {
   'use strict';
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory(require('./deal-calculator-math.js'), require('./chfa-rent-limits.js'));
+    module.exports = factory(require('./deal-calculator-math.js'), require('./chfa-rent-limits.js'),
+      function () { return require('./deal-cost-basis.js'); });
   } else {
     // Late binding preserves the PMA page's existing script order.
     root.DealEngine = factory(root.DealCalculatorMath, {
       maxContractRent: function (input) { return root.ChfaRentLimits.maxContractRent(input); },
-      unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); }
-    });
+      unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); },
+      prop123ProjectAverage: function (input) { return root.ChfaRentLimits.prop123ProjectAverage(input); }
+    }, function () { return root.DealCostBasis; });
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits, costBasisModule) {
   'use strict';
   var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
@@ -139,17 +141,11 @@
   function computeDscrStressScenarios(inputs, constants) {
     if (!inputs) return null;
     constants = constants || DEFAULT_CONSTANTS;
-    // NOT `|| 0`: annualRents is NaN when the unit mix is broken, and `NaN || 0`
-    // is 0 — which would resurrect the exact deal this is meant to refuse.
-    var annualRents      = +inputs.annualRents;
-    var vacancyPct       = +inputs.vacancyPct  || 0;
-    var annualOpex       = +inputs.annualOpex       || 0;
-    var annualRepReserve = +inputs.annualRepReserve || 0;
-    var netPropTax       = +inputs.netPropTax       || 0;
-    var annualDebtService = +inputs.annualDebtService || 0;
-    // `NaN <= 0` is false, so a bare `<= 0` lets NaN through. Inverting the
-    // comparison catches missing, zero, negative and NaN in one test.
-    if (!(annualDebtService > 0) || !(annualRents > 0)) return null;
+    var annualRents = inputs.annualRents, vacancyPct = inputs.vacancyPct,
+      annualOpex = inputs.annualOpex, annualRepReserve = inputs.annualRepReserve,
+      netPropTax = inputs.netPropTax, annualDebtService = inputs.annualDebtService;
+    if (![annualRents, vacancyPct, annualOpex, annualRepReserve, netPropTax, annualDebtService].every(known)
+        || annualDebtService <= 0 || annualRents <= 0) return null;
 
     var rentS = +constants.rentStressPct;
     var vacS  = +constants.vacStressPp;
@@ -362,28 +358,155 @@
     var pct = fieldNumber(fields, id, initial);
     return known(pct) && pct >= 0 && pct <= GROWTH_LIMITS[id] ? pct / 100 : NaN;
   }
+  var LOAN_TYPES = Object.freeze({
+    amortizing: 'Must-pay amortizing', io_then_amortizing: 'Interest-only then amortizing',
+    interest_only: 'Interest-only to maturity', cash_flow: 'Cash-flow contingent',
+    accrue_defer: 'Accrue and defer', forgivable: 'Forgivable'
+  });
+  function loanNumber(value) {
+    return value === null || value === undefined || String(value).trim() === '' ? null : Number(value);
+  }
+  function loanTerms(input) {
+    // Old links had no loanType/maturity: retain their stated amortization,
+    // and interpret the previously ignored accrue / cash-flow controls.
+    var type = input.loanType === undefined
+      ? (input.accrueMode === 'accrued' ? 'accrue_defer'
+        : input.cashflowPayPct !== undefined && input.cashflowPayPct < 100 ? 'cash_flow' : 'amortizing')
+      : input.loanType;
+    var term = loanNumber(input.term);
+    var loan = { id: input.id, program: input.program, senior: !!input.senior, type: type,
+      amount: loanNumber(input.amount), rate: loanNumber(input.rate), amortization: term,
+      maturity: input.maturity === undefined ? term : loanNumber(input.maturity),
+      priority: input.priority === undefined ? (input.senior ? 1 : 5) : loanNumber(input.priority),
+      ioYears: type === 'io_then_amortizing' ? loanNumber(input.ioYears) : 0,
+      cashflowPayPct: type === 'cash_flow' ? loanNumber(input.cashflowPayPct) : 0 };
+    var reason = !Object.prototype.hasOwnProperty.call(LOAN_TYPES, type) ? 'Choose a loan repayment type.'
+      : !known(loan.amount) || loan.amount < 0 ? 'Enter a non-negative loan amount.'
+      : !known(loan.rate) || loan.rate < 0 || loan.rate > 20 ? 'Enter a loan rate from 0% to 20%.'
+      : !Number.isInteger(term) || term < 1 || term > 50 ? 'Enter loan amortization from 1 to 50 whole years.'
+      : !Number.isInteger(loan.maturity) || loan.maturity < 1 || loan.maturity > 50 ? 'Enter loan maturity from 1 to 50 whole years.'
+      : !Number.isInteger(loan.priority) || loan.priority < 1 || loan.priority > 12 ? 'Enter loan priority from 1 to 12.'
+      : !Number.isInteger(loan.ioYears) || loan.ioYears < 0 || loan.ioYears >= loan.maturity ? 'Enter interest-only years below maturity.'
+      : !known(loan.cashflowPayPct) || loan.cashflowPayPct < 0 || loan.cashflowPayPct > 100 ? 'Enter a residual cash-flow share from 0% to 100%.' : null;
+    return { loan: loan, unavailableReason: reason };
+  }
+  function regularLoanPayment(loan, year) {
+    if (year > loan.maturity || loan.amount === 0) return 0;
+    if (loan.type === 'interest_only' || (loan.type === 'io_then_amortizing' && year <= loan.ioYears)) return loan.amount * loan.rate / 100;
+    if (loan.type !== 'amortizing' && loan.type !== 'io_then_amortizing') return 0;
+    if (year - loan.ioYears > loan.amortization) return 0;
+    return loan.rate === 0 ? loan.amount / loan.amortization : loan.amount * mortgageConstant(loan.rate / 100, loan.amortization);
+  }
+  function coverageRatio(noi, debtService) {
+    return known(noi) && known(debtService) && debtService > 0 ? noi / debtService : null;
+  }
+  /** Annual operating payments, in priority order; balloon cash is NOT assumed.
+   * Must-pay loans use monthly interest/amortization. Deferred and contingent
+   * interest compounds annually. Forgiveness occurs at stated maturity.
+   * After an unpaid maturity, subsequent years need a refinancing assumption.
+   */
+  function loanObligations(inputs, annualNoi) {
+    var parsed = inputs.map(loanTerms);
+    var invalid = parsed.find(function (p) { return p.unavailableReason; });
+    if (invalid) return { loans: null, years: null, unavailableReason: invalid.unavailableReason };
+    var loans = parsed.map(function (p) { return Object.assign({}, p.loan, { rows: [] }); });
+    var order = loans.slice().sort(function (a, b) { return a.priority - b.priority; });
+    var balances = loans.map(function (loan) { return loan.amount; });
+    var years = [];
+    annualNoi.forEach(function (noi, index) {
+      var year = index + 1;
+      var available = known(noi) ? Math.max(0, noi) : null;
+      var seniorDue = 0, mustPayDue = 0, paid = 0, contingentPaid = 0, maturityDue = 0;
+      var reason = !known(noi) ? 'NOI is unavailable for this year.' : null;
+      // Required payments are allocated before contingent payments. Priority
+      // orders lenders within each class; it never makes a residual loan senior.
+      [false, true].forEach(function (contingent) {
+        order.forEach(function (loan) {
+          if ((loan.type === 'cash_flow') !== contingent) return;
+          var i = loans.indexOf(loan), opening = balances[i];
+          var row = { year: year, due: null, paid: null, unpaid: null, accrued: null,
+            balance: null, maturityDue: null, forgiven: null, unavailableReason: null };
+          var operatingPayment = ['amortizing', 'io_then_amortizing', 'interest_only', 'cash_flow'].indexOf(loan.type) !== -1;
+          if (!known(opening) || (!known(noi) && opening > 0 && operatingPayment) || (year > loan.maturity && opening > 0.01)) {
+            row.unavailableReason = year > loan.maturity ? 'Loan maturity requires a repayment or refinancing assumption.' : 'NOI is unavailable for loan payments.';
+            reason = row.unavailableReason; balances[i] = null; loan.rows.push(row); return;
+          }
+          var due = regularLoanPayment(loan, year), interest = 0, ending = opening;
+          var payment = opening === 0 || due === 0 ? 0 : Math.min(available, due);
+          var accrued = 0, forgiven = 0;
+          if (loan.type === 'cash_flow' || loan.type === 'accrue_defer' || loan.type === 'forgivable') {
+            interest = opening * loan.rate / 100;
+            if (contingent) {
+              due = Math.min(opening + interest, available * loan.cashflowPayPct / 100);
+              payment = due;
+            }
+            ending = Math.max(0, opening + interest - payment);
+            accrued = Math.max(0, interest - payment);
+            if (loan.type === 'forgivable' && year === loan.maturity) { forgiven = ending; ending = 0; }
+          } else {
+            // Allocate this year's operating payment equally across months.
+            for (var m = 0; m < 12; m++) {
+              var monthlyInterest = ending * loan.rate / 100 / 12;
+              interest += monthlyInterest;
+              ending = Math.max(0, ending + monthlyInterest - payment / 12);
+            }
+            accrued = Math.max(0, interest - payment);
+          }
+          if (ending < 0.00001) ending = 0;
+          var balloon = year === loan.maturity ? ending : 0;
+          row.due = due; row.paid = payment; row.unpaid = Math.max(0, due - payment);
+          row.accrued = accrued; row.balance = ending; row.maturityDue = balloon; row.forgiven = forgiven;
+          loan.rows.push(row); balances[i] = ending;
+          available = known(available) ? Math.max(0, available - payment) : null;
+          paid += payment; maturityDue += balloon;
+          if (contingent) contingentPaid += payment;
+          else { mustPayDue += due; if (loan.senior) seniorDue += due; }
+        });
+      });
+      years.push({ year: year, noi: known(noi) ? noi : null,
+        seniorDebtService: reason ? null : seniorDue, mustPayDebtService: reason ? null : mustPayDue,
+        paid: reason ? null : paid, contingentPaid: reason ? null : contingentPaid,
+        maturityDue: reason ? null : maturityDue,
+        seniorCoverage: reason ? null : coverageRatio(noi, seniorDue),
+        allMustPayCoverage: reason ? null : coverageRatio(noi, mustPayDue),
+        cashFlow: reason ? null : noi - mustPayDue - contingentPaid,
+        unavailableReason: reason });
+    });
+    return { loans: loans, years: years, unavailableReason: null };
+  }
+  function weakestCoverage(rows, key) {
+    var measured = rows.filter(function (row) { return known(row[key]); });
+    if (!measured.length) return null;
+    var weakest = measured.reduce(function (a, b) { return b[key] < a[key] ? b : a; });
+    return { year: weakest.year, ratio: weakest[key] };
+  }
+
   function operatingProjection(result, fields) {
     if (!result.dscrAutoMode || ![result.annualRents, result.noi, result.annualOpex,
         result.annualRepReserve, result.netPropTax, result.annualDebtService,
-        result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known)) return null;
+        result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known) || !result.obligations.years) return null;
     var years = fieldNumber(fields, 'pf-years', 15);
     if (!known(years)) return null;
-    var debtService = result.annualDebtService + result.totalSoftDebtService;
     var rows = [], cumCF = 0;
-    for (var y = 1; y <= 30; y++) {
+    for (var y = 1; y <= 50; y++) {
       var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
       var rents = result.annualRents * rm, vacancyLoss = rents * result.vacancyRate;
       var egi = rents - vacancyLoss, opex = result.annualOpex * em;
       var reserve = result.annualRepReserve * em, tax = result.netPropTax * em;
       var noi = y === 1 ? result.noi : egi - opex - reserve - tax;
-      var cashFlow = noi - debtService;
-      cumCF += cashFlow;
+      var obligation = result.obligations.years[y - 1];
+      var debtService = obligation.mustPayDebtService;
+      var cashFlow = obligation.cashFlow;
+      cumCF = known(cumCF) && known(cashFlow) ? cumCF + cashFlow : null;
       rows.push({ year: y, grossRents: rents, vacancyLoss: vacancyLoss, egi: egi,
         opex: opex, repReserve: reserve, propTax: tax, noi: noi, debtService: debtService,
-        cashFlow: cashFlow, dscr: debtService > 0 ? noi / debtService : null, cumCF: cumCF });
+        cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
+        seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
+        maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
+        unavailableReason: obligation.unavailableReason });
     }
-    return { years: Math.min(30, Math.max(5, Math.round(years))), rows: rows };
+    return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
   }
   function sliderImpacts(result, fields) {
     var price = fieldNumber(fields, 'dc-stress-equity-price', 0.90);
@@ -397,12 +520,14 @@
       baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
   }
   function capitalWaterfall(result, fields) {
+    // The investor buys both credits, so the automatic LP amount is federal plus state equity.
+    var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
-        result.equity, result.deferredDevFee].every(known)) return null;
+        autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
       hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
     var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
-    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : result.equity;
+    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
     var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
     var gpResidualPct = fieldNumber(fields, 'dc-wf-gp-residual', 30) / 100;
     if (![lpEquityOverride, prefRate, gpResidualPct].every(known)) return null;
@@ -478,7 +603,7 @@
       lpEquity: lpEquity, lpTotal: lpTotal, gpTotal: gpTotal,
       lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
       prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
-      autoLpEquity: result.equity, annualCredits: result.annualCredits,
+      autoLpEquity: autoLpEquity, annualCredits: result.annualCredits,
       inputs: exit
     };
   }
@@ -501,33 +626,35 @@
     }
     var tdc = safeVal('dc-tdc') || 0;
     var units = scheduleMode ? _resolvedDealMix.totalUnits : safeVal('dc-units') || 0;
-    var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = inputs.equityPriceDefault;
     // G — Multi-tranche soft debt. Aggregate across the tranche list:
     //   grants  → subtract from basis (§42(d)(5)(A)) AND fill gap at closing
-    //   loans   → contribute to gap close at closing AND amortize as annual debt service
+    //   loans   → contribute at closing; repayment follows their stated obligation
     // Tranches read from the renderSoftTranches() state (passed in by the caller).
     var tranches = inputs.tranches;
     var totalGrant = 0;
     var totalLoanPrincipal = 0;
     var totalSoftDebtService = 0;
     var trancheBreakdown = [];   // for sources/uses rendering
+    var loanInputs = [], loanInputsReason = null;
     tranches.forEach(function (t) {
-      var amt = Math.max(0, t.amount || 0);
-      if (amt <= 0) return;
+      var amt = loanNumber(t.amount);
+      if (amt === 0) return; // An explicitly empty source contributes no dollars.
+      if (!known(amt) || amt < 0) { loanInputsReason = 'Enter a non-negative soft-funding amount.'; totalLoanPrincipal = NaN; return; }
       if (t.mode === 'grant') {
         totalGrant += amt;
         trancheBreakdown.push({ id: t.id, program: t.program, mode: 'grant', amount: amt, debtService: 0 });
       } else {
         totalLoanPrincipal += amt;
-        var rPct = Math.max(0, t.rate || 0);
-        var trm = Math.max(1, t.term || 30);
-        var mcT = mortgageConstant(rPct / 100, trm);
-        // Zero-interest public loans amortize straight-line principal.
-        var ds = rPct > 0 ? (amt * mcT) : (amt / trm);
+        loanInputs.push(t);
+        var parsed = loanTerms(t);
+        if (parsed.unavailableReason) loanInputsReason = parsed.unavailableReason;
+        var ds = parsed.unavailableReason ? NaN : regularLoanPayment(parsed.loan, 1);
         totalSoftDebtService += ds;
-        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'loan', amount: amt, debtService: ds, rate: rPct, term: trm });
+        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'loan', amount: amt,
+          debtService: ds, rate: parsed.loan.rate, term: parsed.loan.amortization,
+          loanType: parsed.loan.type, maturity: parsed.loan.maturity, priority: parsed.loan.priority });
       }
     });
     // Backward-compat aliases for the rest of the calc path.
@@ -659,22 +786,66 @@
       });
     }
 
+    // Prop 123 programs that limit the project average set no per-unit cap, so
+    // every tier prices; the restricted mix as a whole must still qualify.
+    var prop123Average = null;
+    if (inputs.regime === 'prop123' && inputs.prop123) {
+      prop123Average = rentLimits.prop123ProjectAverage(Object.assign({}, inputs.prop123, { fips: _countyFips,
+        units: pricedRows.filter(function (r) { return typeof r.tier === 'number'; })
+          .map(function (r) { return { tier: r.tier, units: r.units }; }) }));
+      if (prop123Average.exceeds) { rentInputsMissing = true; annualRents = NaN; }
+    }
+
     var minimumSetAsideResult = evaluateMinimumSetAside(minimumSetAsideElection, units, designatedUnitsByPct);
     var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
     // Applicable fraction (IRC §42(c)(1)(B)): for mixed-income deals
     // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
     // We don't track floor area separately, so use the unit fraction.
     // For pure-LIHTC deals (no market units), this is 1.0.
-    var applicableFraction = lihtcUnits > 0
-      ? math.computeApplicableFraction(lihtcUnits, units) : 0;
-
-    // LIHTC credit calculations — grants reduce eligible basis per
-    // §42(d)(5)(A); applicable fraction prorates basis when market-rate
-    // units are present.
-    var eligibleBasisRaw = Math.max(0, (tdc * basisPct) - impactGrant);
-    var eligibleBasis    = eligibleBasisRaw * applicableFraction;
-    var annualCredits    = eligibleBasis * _creditRate;
+    // #2160: itemized costs set eligible basis. Federally funded grants reduce
+    // it (§42(d)(5)(A)), the 30% boost needs a designation and its evidence,
+    // the applicable fraction is the lower of the unit and floor-space
+    // fractions, and CHFA's per-project limit caps the credit capacity.
+    var cbm = costBasisModule();
+    var costRules = inputs.costRules || null;
+    var creditType = _creditRate < 0.05 ? '4' : '9';
+    var costSummary = cbm.summarizeCosts(inputs.costLines || [], tdc);
+    var grantTreatment = cbm.grantBasisReduction(tranches, costRules);
+    // CHFA's fee limits apply in calculating credit: the part of an over-limit
+    // fee that sits in basis comes out of eligible basis (QAP 3.M.3).
+    var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
+      identityOfInterest: !!fields['dc-ioi'], rules: costRules });
+    var feeBase = cbm.developerFeeBase(costSummary, contractorFee, !!fields['dc-special-pop']);
+    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
+      consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
+      baseReason: feeBase.reason, units: units, rules: costRules });
+    var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);
+    var basisArgs = { eligibleCost: costSummary.eligible, costReason: costSummary.reason,
+      acquisitionEligible: costSummary.acquisitionEligible, acquisitionQualifies: !!fields['dc-acq-42d2'], grantReduction: grantTreatment.reduction,
+      grantOnAcquisition: fields['dc-grant-acq'], grantOutsideBasis: fields['dc-grant-outside'], ineligibleCost: costSummary.ineligible,
+      grantReason: grantTreatment.reason, designation: fields['dc-boost-designation'], evidence: fields['dc-boost-evidence'],
+      awardedBoostPct: fields['dc-boost-pct'],
+      creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
+      residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
+      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules };
+    var basis = cbm.basisAndCredit(basisArgs);
+    var basisUnknownReason = null;
+    // Outside CHFA LIHTC there is no basis or credit, so nothing about them is unknown.
+    if (chfaRegime) ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {
+      if (!basisUnknownReason && basis.reasons[key] && (key !== 'requested' && key !== 'awarded' || basis.creditForEquity === null)) basisUnknownReason = basis.reasons[key];
+    });
+    var applicableFraction = basis.applicableFraction === null ? NaN : basis.applicableFraction;
+    var eligibleBasisRaw = basis.boostedBasis === null ? NaN : basis.boostedBasis;
+    var eligibleBasis    = basis.qualifiedBasis === null ? NaN : basis.qualifiedBasis;
+    var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
+    var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
+      price: fields['dc-state-price'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
+    // No state credit entered is no source; an incomplete one is unknown.
+    // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
+    var stateCreditApplies = chfaRegime && stateCredit.entered;
+    var stateEquity = !stateCreditApplies ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;
+    if (stateCreditApplies && stateCredit.equity === null && !basisUnknownReason) basisUnknownReason = stateCredit.reason;
 
     // The applicable-fraction note was rendered before the legacy block.
     // Retain that value separately so even the invalid-mix display is unchanged.
@@ -691,9 +862,9 @@
       annualRents = NaN;
     }
 
-    // Developer fee
-    var devfeePct = (safeVal('dc-devfee-pct') || 15) / 100;
-    var devFeeTotal = tdc * devfeePct;
+    // Developer fee comes from the itemized developer-fee line (#2160).
+    var devFeeTotal = costSummary.reason ? NaN : (costSummary.byId.developer_fee || 0);
+    var devfeePct = tdc > 0 ? devFeeTotal / tdc : NaN;
     var deferredPctSlider = (safeVal('dc-deferred-pct') || 40) / 100;
 
     // H — Auto-balance deferred developer fee. When the user toggles
@@ -743,26 +914,58 @@
       noi = safeVal('dc-noi');
     }
 
-    // Supportable first mortgage
-    var dcr = safeVal('dc-dcr');
-    if (!isFinite(dcr) || dcr < 1.05) dcr = 1.20;
-    if (dcr > 2.0) dcr = 2.0;
-    var interestRate = safeVal('dc-rate');
-    if (!isFinite(interestRate) || interestRate < 3.0) interestRate = 6.5;
-    if (interestRate > 12.0) interestRate = 12.0;
-    var term = safeVal('dc-term');
-    if (!isFinite(term) || term <= 0) term = 35;
-
-    var mc = mortgageConstant(interestRate / 100, term);
-    // A known NOI of zero or less supports no mortgage: that $0 is computed.
-    // An unknown NOI supports an unknown one, and must stay unknown — `NaN > 0`
-    // is false, so without the first test it fell through to the same $0.
-    var mortgage = !isFinite(noi) ? NaN
-      : (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
-
+    // Senior sizing reserves the target coverage capacity for must-pay soft debt.
+    // Entered mode keeps the entered principal and reports the resulting coverage.
+    var dcr = safeVal('dc-dcr'), interestRate = safeVal('dc-rate'), term = safeVal('dc-term');
+    var debtInputsReason = !known(dcr) || dcr < 1.05 || dcr > 2
+      ? 'DSCR target is out of range; enter 1.05 to 2.00.'
+      : !known(interestRate) || interestRate < 3 || interestRate > 12
+        ? 'Senior interest rate is out of range; enter 3% to 12%.'
+        : !Number.isInteger(term) || term < 1 || term > 50 ? 'Enter senior amortization from 1 to 50 whole years.' : loanInputsReason;
+    var seniorMode = fields['dc-senior-mode'] === undefined ? 'sized' : fields['dc-senior-mode'];
+    var seniorInput = { id: 'senior', program: 'Senior mortgage', senior: true, amount: 1,
+      rate: interestRate, term: term,
+      loanType: fields['dc-senior-type'] === undefined ? 'amortizing' : fields['dc-senior-type'],
+      maturity: fields['dc-senior-maturity'] === undefined ? term : loanNumber(fields['dc-senior-maturity']),
+      ioYears: fields['dc-senior-io-years'] === undefined ? 0 : loanNumber(fields['dc-senior-io-years']),
+      priority: fields['dc-senior-priority'] === undefined ? 1 : loanNumber(fields['dc-senior-priority']),
+      cashflowPayPct: fields['dc-senior-cfpay'] === undefined ? 100 : loanNumber(fields['dc-senior-cfpay']) };
+    var seniorTerms = loanTerms(seniorInput);
+    debtInputsReason = debtInputsReason || seniorTerms.unavailableReason;
+    var mc = debtInputsReason ? NaN : mortgageConstant(interestRate / 100, term);
+    // Annual payment per $1 of senior principal at a given rate, under the
+    // selected repayment type. Sizing and the rate stress both use it, so a
+    // stressed interest-only loan stays interest-only.
+    function seniorPaymentConstant(ratePct) {
+      var unit = Object.assign({}, seniorTerms.loan, { amount: 1, rate: ratePct });
+      return Math.max(regularLoanPayment(unit, 1), regularLoanPayment(unit, unit.ioYears + 1));
+    }
+    var sizingConstant = debtInputsReason ? NaN : seniorPaymentConstant(interestRate);
+    var enteredPrincipal = loanNumber(fields['dc-senior-amount']);
+    if (seniorMode !== 'sized' && seniorMode !== 'entered') debtInputsReason = 'Choose senior sizing or entered amount.';
+    if (seniorMode === 'entered' && (!known(enteredPrincipal) || enteredPrincipal < 0)) debtInputsReason = 'Enter a non-negative senior loan amount.';
+    if (seniorMode === 'sized' && !(sizingConstant > 0)) debtInputsReason = debtInputsReason || 'This senior repayment type requires an entered amount.';
+    var mortgage = debtInputsReason ? NaN : seniorMode === 'entered' ? enteredPrincipal
+      : !known(noi) ? NaN : Math.max(0, noi / dcr - totalSoftDebtService) / sizingConstant;
+    seniorInput.amount = mortgage;
+    var rentGrowthForLoans = growthRate(fields, 'pf-rent-growth', 2);
+    var expenseGrowthForLoans = growthRate(fields, 'pf-exp-growth', 3);
+    var loanNoi = Array.from({ length: 50 }, function (_, index) {
+      if (index === 0) return noi;
+      return autoNoi && [annualRents, annualOpex, annualRepReserve, netPropTax, rentGrowthForLoans, expenseGrowthForLoans].every(known)
+        ? annualRents * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
+          - (annualOpex + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index) : null;
+    });
+    var obligations = debtInputsReason ? { loans: null, years: null, unavailableReason: debtInputsReason }
+      : loanObligations([seniorInput].concat(loanInputs), loanNoi);
+    var firstLoanYear = obligations.years && obligations.years[0];
+    var allMustPayDebtService = firstLoanYear ? firstLoanYear.mustPayDebtService : null;
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
-    var rentDataReason = manualMarket.message || (allowanceRevenueReason ? rentLimits.unavailableMessage(allowanceRevenueReason)
+    var rentDataReason = (prop123Average && prop123Average.exceeds
+      ? 'The income-restricted units average ' + prop123Average.averageAmiPct + '% AMI; ' + prop123Average.programName +
+        ' allows a project average of at most ' + prop123Average.maxAmiPct + '% AMI. Move units to lower tiers to price this mix.'
+      : null) || manualMarket.message || (allowanceRevenueReason ? rentLimits.unavailableMessage(allowanceRevenueReason)
       : !_countyFips ? 'Select a county to load AMI rent limits.'
       : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
       : 'Rent limits are unavailable for one or more selected tiers or bedrooms.');
@@ -784,17 +987,16 @@
 
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
-    var annualDebtService = mc > 0 ? mortgage * mc : 0;
-    var breakEvenOcc = annualRents > 0
+    var annualDebtService = firstLoanYear ? firstLoanYear.seniorDebtService : null;
+    var breakEvenOcc = known(allMustPayDebtService) && annualRents > 0
       ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + annualDebtService) / annualRents, 1)
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService) / annualRents, 1)
           : null)
       : null;
 
     // ── DSCR + stress scenarios ──────────────────────────────────────
     //
-    // By construction, baseDSCR === target DCR (mortgage was sized at
-    // noi/dcr). The real value is in the stress table: recompute NOI
+    // Stress holds the resolved principal and all must-pay service fixed: recompute NOI
     // under {rent -10%, vacancy +5pts, opex +10%, combined -5/+3/+5}
     // and divide by the CURRENT debt service (loan is already sized
     // at stabilization). A banker/syndicator reads this to answer:
@@ -803,16 +1005,17 @@
     // Only computable when auto-NOI is on — manual NOI mode doesn't
     // give us rent/vac/opex components to perturb.
     var dscrAutoMode = !!(autoNoi);
-    var baseDSCR = annualDebtService > 0 ? noi / annualDebtService : null;
+    var baseDSCR = coverageRatio(noi, annualDebtService);
+    var allMustPayDSCR = coverageRatio(noi, allMustPayDebtService);
     var stress = null;
     if (dscrAutoMode) {
       stress = computeDscrStressScenarios({
         annualRents:      annualRents,
         vacancyPct:       vacFrac(),
-        annualOpex:       annualOpex       || 0,
-        annualRepReserve: annualRepReserve || 0,
-        netPropTax:       netPropTax       || 0,
-        annualDebtService: annualDebtService
+        annualOpex:       annualOpex,
+        annualRepReserve: annualRepReserve,
+        netPropTax:       netPropTax,
+        annualDebtService: allMustPayDebtService
       }, _constants);
     }
 
@@ -830,7 +1033,29 @@
     //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
     //           (legacy behavior — manual deferral)
     var deferredCap = devFeeTotal * deferredPctSlider;
-    var gapBeforeDeferred = tdc - equity - mortgage - impactGrant - totalLoanPrincipal;
+    // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
+    // left after every source but equity from the sale of Housing Tax Credits,
+    // which the QAP uses for federal and state credit alike, so state credit
+    // equity is left out here too. A deferred fee is a source however its
+    // amount is set. Auto-balance counts the full deferral it may use, so the
+    // credit is the least that closes the gap (26 U.S.C. 42(m)(2)(A)); when
+    // that binds, the gap left for deferral is exactly that amount.
+    var otherSources = mortgage + impactGrant + totalLoanPrincipal + deferredCap;
+    var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
+      otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
+    // An invalid unit mix leaves no basis figure to show, only its reason.
+    basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
+      invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
+    // An entered award is known even while the unit mix is invalid.
+    if (chfaRegime && (!unitMixError || basis.creditForEquityBasis === 'awarded')) {
+      annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
+      equity = annualCredits * CREDIT_YEARS * equityPrice;
+      // Without the gap calculation the capacity is unknown (QAP 3.M.1), and so is the credit.
+      if (basis.creditForEquity === null && !basisUnknownReason) basisUnknownReason = basis.reasons.capacity || null;
+    }
+    var gapBeforeDeferred = tdc - equity - stateEquity - mortgage - impactGrant - totalLoanPrincipal;
+    // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
+    if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -848,65 +1073,30 @@
       var rentGrowth = growthRate(fields, 'pf-rent-growth', 2);
       var expGrowth  = growthRate(fields, 'pf-exp-growth', 3);
 
-      // Year-N NOI projection. annualRents and annualOpex/repReserve/netPropTax
-      // are local closures from earlier in recalculate(). Defensive guards.
-      var nNoi = NaN;
-      if (annualRents > 0 && tdc > 0 && known(noi) && autoNoi) {
-        var rentMult = Math.pow(1 + rentGrowth, holdYears - 1);
-        var expMult  = Math.pow(1 + expGrowth,  holdYears - 1);
-        var vacPct   = vacFrac();
-        var grossN   = annualRents * rentMult;
-        var egiN     = grossN * (1 - vacPct);
-        var opexN    = (annualOpex || 0) * expMult;
-        var rrN      = (annualRepReserve || 0) * expMult;
-        var ptN      = (netPropTax || 0) * expMult;
-        nNoi = egiN - opexN - rrN - ptN;
-      }
+      // Same projected NOI used to allocate annual loan payments.
+      var nNoi = annualRents > 0 && tdc > 0 && known(noi) && autoNoi ? loanNoi[holdYears - 1] : NaN;
       var resale = (isFinite(nNoi) && nNoi > 0 && exitCap > 0) ? nNoi / exitCap : NaN;
 
-      // Remaining 1st mortgage balance at year N (level-pay annuity).
-      // bal = P * [(1+r)^n − (1+r)^k] / [(1+r)^n − 1]
-      // where r = monthly rate, n = total months, k = months elapsed.
-      function remainingBalance(principal, ratePct, termYears, elapsedYears) {
-        if (principal <= 0 || termYears <= 0) return 0;
-        if (ratePct <= 0) {
-          // Straight-line amortization
-          var paid = principal * (elapsedYears / termYears);
-          return Math.max(0, principal - paid);
-        }
-        var r = ratePct / 100 / 12;
-        var n = termYears * 12;
-        var k = Math.min(n, elapsedYears * 12);
-        var num = Math.pow(1 + r, n) - Math.pow(1 + r, k);
-        var den = Math.pow(1 + r, n) - 1;
-        return den > 0 ? principal * (num / den) : 0;
-      }
-      var firstMortBal = remainingBalance(mortgage, interestRate || 6.5, term || 35, holdYears);
-      var softBal = 0;
-      trancheBreakdown.forEach(function (t) {
-        if (t.mode !== 'loan') return;
-        softBal += remainingBalance(t.amount, t.rate || 0, t.term || 30, holdYears);
+      // Exit uses these same annual loan records, including accrued interest.
+      // Maturity balloons remain outstanding here; no refinance is presumed.
+      var firstMortBal = obligations.loans ? obligations.loans[0].rows[holdYears - 1].balance : NaN;
+      var softBal = obligations.loans ? 0 : NaN;
+      if (obligations.loans) obligations.loans.slice(1).forEach(function (loan) {
+        var balance = loan.rows[holdYears - 1].balance;
+        softBal = known(balance) ? softBal + balance : NaN;
       });
-
-      var netProceeds = (isFinite(resale)) ? resale - firstMortBal - softBal : NaN;
+      if (!known(firstMortBal)) firstMortBal = NaN;
+      var netProceeds = (known(resale) && known(firstMortBal) && known(softBal)) ? resale - firstMortBal - softBal : NaN;
 
       // Deferred fee payback timing. Walk the pro forma yearly, accumulating
       // cash flow (NOI − total debt service). Find the first year where
-      // cumCF ≥ deferredDevFee. (We use the constant year-1 debt service +
-      // growing NOI; consistent with the 30-yr projection's "fixed DS".)
+      // cumCF ≥ deferredDevFee, after the scheduled loan payments.
       var dfYr = null;
-      if (deferredDevFee > 0 && annualDebtService > 0 && annualRents > 0) {
-        var totalDS = annualDebtService + totalSoftDebtService;
+      if (deferredDevFee > 0 && obligations.years && annualRents > 0) {
         var cumCF = 0;
         for (var y = 1; y <= holdYears; y++) {
-          var rm = Math.pow(1 + rentGrowth, y - 1);
-          var em = Math.pow(1 + expGrowth,  y - 1);
-          var vp = vacFrac();
-          var noiY = annualRents * rm * (1 - vp) -
-                     (annualOpex || 0) * em -
-                     (annualRepReserve || 0) * em -
-                     (netPropTax || 0) * em;
-          cumCF += (noiY - totalDS);
+          var paymentYear = obligations.years && obligations.years[y - 1];
+          cumCF += paymentYear && known(paymentYear.cashFlow) ? paymentYear.cashFlow : NaN;
           if (cumCF >= deferredDevFee) { dfYr = y; break; }
         }
       }
@@ -933,48 +1123,44 @@
       }
       var irr = NaN;
       if (deferredDevFee > 0 && isFinite(netProceeds) && netProceeds > 0) {
-        var totalDS2 = annualDebtService + totalSoftDebtService;
         var flows = [-deferredDevFee];
         for (var yr = 1; yr <= holdYears; yr++) {
-          var rmY = Math.pow(1 + rentGrowth, yr - 1);
-          var emY = Math.pow(1 + expGrowth,  yr - 1);
-          var vpY = vacFrac();
-          var noiY2 = annualRents * rmY * (1 - vpY) -
-                      (annualOpex || 0) * emY -
-                      (annualRepReserve || 0) * emY -
-                      (netPropTax || 0) * emY;
-          var cf = noiY2 - totalDS2;
+          var cashYear = obligations.years && obligations.years[yr - 1];
+          var cf = cashYear && known(cashYear.cashFlow) ? cashYear.cashFlow : NaN;
           if (yr === holdYears) cf += netProceeds;
           flows.push(cf);
         }
         irr = computeIRR(flows);
       }
 
-      return { holdYears: holdYears, exitCap: exitCap, rentGrowth: rentGrowth, expGrowth: expGrowth,
+      var loanUnavailableReason = debtInputsReason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
+      return { loanUnavailableReason: loanUnavailableReason, holdYears: holdYears, exitCap: exitCap, rentGrowth: rentGrowth, expGrowth: expGrowth,
         nNoi: nNoi, resale: resale, firstMortBal: firstMortBal, softBal: softBal,
         netProceeds: netProceeds, dfYr: dfYr, irr: irr };
     })();
     // Sensitivity needs known NOI and rents. Without them every swing below
     // would be computed from 0 and published as a real figure, so report
     // the whole block as unavailable instead (its reason comes from reasonFor).
-    var sensitivityKnown = isFinite(noi) && annualRents > 0;
+    // The equity bars need known credits too (0 outside CHFA LIHTC is measured).
+    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits);
     var tornado = !sensitivityKnown ? null : (function () {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
         var vu  = vacFrac() * 100;
         var ou  = safeVal('dc-opex') || 450;
         var u   = units || 60;
-        var acr = annualCredits || 0;
+        var acr = annualCredits;
 
         // Equity pricing: ±$0.03
         var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
         var eqHi  = acr * CREDIT_YEARS * Math.min(1.05, eqP + 0.03);
 
         // Interest rate: ±1% (lower rate = higher mortgage, higher rate = lower)
-        var mcLo  = mortgageConstant(Math.min(0.12, (ir + 1)) / 100, term || 35);
-        var mcHi  = mortgageConstant(Math.max(0.03, (ir - 1)) / 100, term || 35);
-        var mortLo = (mcLo > 0 && noi > 0) ? (noi / dcr) / mcLo : 0;
-        var mortHi = (mcHi > 0 && noi > 0) ? (noi / dcr) / mcHi : 0;
+        // Stressed rates stay inside the 3%-12% range the rate input accepts.
+        var mcLo  = seniorPaymentConstant(Math.min(12, ir + 1));
+        var mcHi  = seniorPaymentConstant(Math.max(3, ir - 1));
+        var mortLo = seniorMode === 'entered' ? mortgage : (mcLo > 0 && noi > 0) ? Math.max(0, noi / dcr - totalSoftDebtService) / mcLo : 0;
+        var mortHi = seniorMode === 'entered' ? mortgage : (mcHi > 0 && noi > 0) ? Math.max(0, noi / dcr - totalSoftDebtService) / mcHi : 0;
 
         // Compute EGI from available scope variables
         var _egi = (annualRents || 0) * (1 - (vu / 100));
@@ -992,7 +1178,8 @@
           mortLo: mortLo, mortHi: mortHi, noiLo: noiLo, noiHi: noiHi,
           vacLoEgi: vacLoEgi, vacHiEgi: vacHiEgi };
     })();
-    var budget = { acq: tdc * 0.10, hard: tdc * 0.62, soft: tdc * 0.14, cont: tdc * 0.05, fee: tdc * 0.09 };
+    var budget = { groups: costSummary.reason ? null : costSummary.groups, itemized: costSummary.reason ? null : costSummary.itemized,
+      notItemized: costSummary.notItemized, contract: costSummary.reason ? null : costSummary.contract, reason: costSummary.reason };
     var fundingGap = Math.max(0, gap);
     var gapPct = tdc > 0 ? fundingGap / tdc : 0;
     var hasWorkforceUnits = false;
@@ -1011,7 +1198,9 @@
       forSale: forSale,
       tdc: tdc,
       units: units,
-      basisPct: basisPct,
+      creditType: creditType,
+      basisUnknownReason: basisUnknownReason,
+      stateEquity: stateEquity,
       equityPrice: equityPrice,
       totalGrant: totalGrant,
       totalLoanPrincipal: totalLoanPrincipal,
@@ -1069,11 +1258,14 @@
       rentDataReason: rentDataReason,
       noiUnknownReason: noiUnknownReason,
       rentsUnknownReason: rentsUnknownReason,
+      prop123Average: prop123Average,
       capRate: capRate,
       annualDebtService: annualDebtService,
       breakEvenOcc: breakEvenOcc,
       dscrAutoMode: dscrAutoMode,
       baseDSCR: baseDSCR,
+      allMustPayDSCR: allMustPayDSCR, allMustPayDebtService: allMustPayDebtService,
+      seniorMode: seniorMode, obligations: obligations,
       stress: stress,
       deferredCap: deferredCap,
       gapBeforeDeferred: gapBeforeDeferred,
@@ -1095,7 +1287,37 @@
       : !known(exit.expGrowth) ? 'Enter annual expense growth from 0% to ' + GROWTH_LIMITS['pf-exp-growth'] + '%.'
       : !known(fieldNumber(fields, 'pf-years', 15)) ? 'Enter the projection horizon.' : null;
     result.projection = operatingProjection(result, fields);
-    result.stressBase = known(noi) && known(baseDSCR) ? { noi: noi, dscr: baseDSCR, margin: baseDSCR - dcr } : null;
+    result.stressBase = known(noi) && known(allMustPayDSCR) ? { noi: noi, dscr: allMustPayDSCR, margin: allMustPayDSCR - dcr } : null;
+    var forecastYears = fieldNumber(fields, 'pf-years', 15);
+    result.coverage = obligations.years && known(forecastYears) ? {
+      years: obligations.years.slice(0, Math.min(50, Math.max(5, Math.round(forecastYears))))
+    } : null;
+    if (result.coverage) {
+      result.coverage.measuredYears = result.coverage.years.filter(function (row) { return !row.unavailableReason; }).length;
+      result.coverage.weakestSenior = weakestCoverage(result.coverage.years, 'seniorCoverage');
+      result.coverage.weakestAllMustPay = weakestCoverage(result.coverage.years, 'allMustPayCoverage');
+    }
+    var ruleKeys = ['grant_basis_treatment', 'applicable_fraction', 'basis_boost', 'contractor_fee_limit', 'developer_fee_limit',
+      'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard',
+        'credit_cap_state_with_4pct', 'acquisition_credit_rate', 'credit_reservation_methods', 'min_debt_coverage', 'high_coverage_credit_reduction'];
+    var federalEquity = basis.creditForEquity === null ? null : equity;
+    result.costBasis = {
+      summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
+      feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit,
+      underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
+      payIn: {
+        federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
+        state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null
+      },
+      costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
+        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'] }),
+      rules: ruleKeys.map(function (key) {
+        var st = cbm.ruleStatus(costRules, key);
+        return { key: key, applied: st.applied, reason: costRules ? st.reason : 'Rules file not loaded.', citation: st.citation || null,
+          draft: st.draft };
+      }),
+      rulesVersion: costRules ? costRules.version : null
+    };
     result.sliderImpacts = sliderImpacts(result, fields);
     result.waterfall = capitalWaterfall(result, fields);
     if (result.waterfall) {
@@ -1123,8 +1345,19 @@
       return copy;
     }
     function reasonFor(path) {
+      if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
+      if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
+      if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
+      if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
+      // #2160: basis and credit depend on the itemized costs; figures that also
+      // depend on NOI name the operating reason first.
+      if (basisUnknownReason && /^(applicableFraction|eligibleBasis|annualCredits|equity|stateEquity|simpleGap)/.test(path)) return basisUnknownReason;
+      if (costSummary.reason && /^(devFeeTotal|devfeePct|budget)/.test(path)) return costSummary.reason;
+      var costReason = basisUnknownReason || costSummary.reason;
+      if (costReason && /^(gap|deferred|devFeeAtClosing|fundingGap|exit\.(dfYr|irr)|waterfall|tornado|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || costReason;
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
+      if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
       if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
       if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';
       if (/^(projection|waterfall)/.test(path)) return noiUnknownReason || rentsUnknownReason || (!autoNoi
@@ -1153,5 +1386,5 @@
   return { computeDeal: computeDeal, costPerGrossSf: costPerGrossSf,
     computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
-    isLihtcCreditEligiblePct: isLihtcCreditEligiblePct };
+    isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };
 }));

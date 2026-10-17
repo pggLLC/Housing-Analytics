@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurisdiction Report — COHO Analytics</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- The white paper and the jurisdiction brief are one document now: the
+     Jurisdiction Report on developer-brief.html. Old links keep working. -->
+<script>
+  (function () {
+    var g = new URLSearchParams(location.search).get('geoid');
+    location.replace('developer-brief.html' + (g && /^\d{5}(\d{2})?$/.test(g) ? '?geoid=' + g : ''));
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=developer-brief.html"></noscript>
+</head>
+<body>
+<header></header>
+<main id="main-content">
+  <h1>Jurisdiction Report</h1>
+  <p><a href="developer-brief.html">The white paper is now the Jurisdiction Report.</a></p>
+</main>
+<footer></footer>
+</body>
+</html>

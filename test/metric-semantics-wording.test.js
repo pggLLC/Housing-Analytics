@@ -37,8 +37,12 @@ assertNotIncludes(hnaHtml, 'gap between affordable units needed and those availa
 assertIncludes(hnaHtml, 'Projected housing demand (20-yr) by AMI tier view', 'AMI demand view aria label carries projection horizon');
 assertNotIncludes(hnaHtml, 'aria-label="Housing demand by AMI tier view"', 'old AMI demand aria label is removed');
 
-assertIncludes(indexHtml, 'CO rental deficit ≤30% AMI', 'homepage <=30 AMI card names current rental deficit');
-assertIncludes(indexHtml, 'CO rental deficit ≤60% AMI', 'homepage <=60 AMI card names current rental deficit');
+// The homepage AMI cards' headings (homes, not people), their shortfall
+// and their basis are asserted against
+// data/hna/chas_affordable_available.json, and the 2024 minimum under each against
+// data/co_ami_gap_by_county.json, in test/homepage-claims.test.js (#1746).
+assertNotIncludes(indexHtml, 'CO rental deficit ≤30% AMI', 'homepage <=30 AMI card no longer reads as a count of renters');
+assertNotIncludes(indexHtml, 'CO rental deficit ≤60% AMI', 'homepage <=60 AMI card no longer reads as a count of renters');
 // The cards' basis (renter households against homes they can afford) is
 // asserted as a claim against data/co_ami_gap_by_county.json in
 // test/homepage-claims.test.js, not as a sentence here (#1746).

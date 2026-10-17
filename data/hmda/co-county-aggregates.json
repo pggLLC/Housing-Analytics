@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T12:23:13Z",
+    "generated_at": "2026-10-14T03:07:32Z",
     "source": "CFPB HMDA Data Browser API",
     "state": "CO",
     "years": [
@@ -10,7 +10,8 @@
       2021,
       2022,
       2023,
-      2024
+      2024,
+      2025
     ],
     "count_counties": 64
   },
@@ -151,6 +152,25 @@
             "originations": 31,
             "volume_usd": 847655000.0
           }
+        },
+        "2025": {
+          "originations": 13839,
+          "origination_volume_usd": 4980745000.0,
+          "mean_loan_amount_usd": 359906,
+          "denials": 4786,
+          "denial_rate": 0.2459,
+          "decision_total": 19462,
+          "by_purpose": {
+            "purchase": 7961,
+            "home_improvement": 911,
+            "refinance": 1818,
+            "cashout_refi": 1886,
+            "other": 1263
+          },
+          "multifamily": {
+            "originations": 24,
+            "volume_usd": 290520000.0
+          }
         }
       }
     },
@@ -284,6 +304,25 @@
             "home_improvement": 5,
             "refinance": 10,
             "cashout_refi": 36,
+            "other": 12
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 166,
+          "origination_volume_usd": 35840000.0,
+          "mean_loan_amount_usd": 215904,
+          "denials": 71,
+          "denial_rate": 0.2851,
+          "decision_total": 249,
+          "by_purpose": {
+            "purchase": 79,
+            "home_improvement": 7,
+            "refinance": 26,
+            "cashout_refi": 42,
             "other": 12
           },
           "multifamily": {
@@ -429,6 +468,25 @@
             "originations": 37,
             "volume_usd": 587725000.0
           }
+        },
+        "2025": {
+          "originations": 15678,
+          "origination_volume_usd": 6763140000.0,
+          "mean_loan_amount_usd": 431378,
+          "denials": 4491,
+          "denial_rate": 0.2129,
+          "decision_total": 21090,
+          "by_purpose": {
+            "purchase": 8245,
+            "home_improvement": 1296,
+            "refinance": 2370,
+            "cashout_refi": 2184,
+            "other": 1583
+          },
+          "multifamily": {
+            "originations": 36,
+            "volume_usd": 913150000.0
+          }
         }
       }
     },
@@ -568,6 +626,25 @@
             "originations": 1,
             "volume_usd": 3325000.0
           }
+        },
+        "2025": {
+          "originations": 513,
+          "origination_volume_usd": 213995000.0,
+          "mean_loan_amount_usd": 417144,
+          "denials": 130,
+          "denial_rate": 0.1926,
+          "decision_total": 675,
+          "by_purpose": {
+            "purchase": 284,
+            "home_improvement": 28,
+            "refinance": 77,
+            "cashout_refi": 83,
+            "other": 41
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -702,6 +779,25 @@
             "refinance": 0,
             "cashout_refi": 2,
             "other": 2
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 21,
+          "origination_volume_usd": 2775000.0,
+          "mean_loan_amount_usd": 132143,
+          "denials": 16,
+          "denial_rate": 0.4211,
+          "decision_total": 38,
+          "by_purpose": {
+            "purchase": 11,
+            "home_improvement": 1,
+            "refinance": 3,
+            "cashout_refi": 6,
+            "other": 0
           },
           "multifamily": {
             "originations": 0,
@@ -846,6 +942,25 @@
             "originations": 1,
             "volume_usd": 105000.0
           }
+        },
+        "2025": {
+          "originations": 56,
+          "origination_volume_usd": 7840000.0,
+          "mean_loan_amount_usd": 140000,
+          "denials": 11,
+          "denial_rate": 0.1507,
+          "decision_total": 73,
+          "by_purpose": {
+            "purchase": 32,
+            "home_improvement": 3,
+            "refinance": 10,
+            "cashout_refi": 9,
+            "other": 2
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -984,6 +1099,25 @@
           "multifamily": {
             "originations": 22,
             "volume_usd": 754900000.0
+          }
+        },
+        "2025": {
+          "originations": 6822,
+          "origination_volume_usd": 3961760000.0,
+          "mean_loan_amount_usd": 580733,
+          "denials": 1317,
+          "denial_rate": 0.1541,
+          "decision_total": 8546,
+          "by_purpose": {
+            "purchase": 3370,
+            "home_improvement": 459,
+            "refinance": 1264,
+            "cashout_refi": 1229,
+            "other": 500
+          },
+          "multifamily": {
+            "originations": 29,
+            "volume_usd": 622235000.0
           }
         }
       }
@@ -1124,6 +1258,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 1743,
+          "origination_volume_usd": 957035000.0,
+          "mean_loan_amount_usd": 549073,
+          "denials": 346,
+          "denial_rate": 0.159,
+          "decision_total": 2176,
+          "by_purpose": {
+            "purchase": 912,
+            "home_improvement": 141,
+            "refinance": 308,
+            "cashout_refi": 231,
+            "other": 151
+          },
+          "multifamily": {
+            "originations": 4,
+            "volume_usd": 231690000.0
+          }
         }
       }
     },
@@ -1263,6 +1416,25 @@
             "originations": 1,
             "volume_usd": 2365000.0
           }
+        },
+        "2025": {
+          "originations": 704,
+          "origination_volume_usd": 320770000.0,
+          "mean_loan_amount_usd": 455639,
+          "denials": 144,
+          "denial_rate": 0.164,
+          "decision_total": 878,
+          "by_purpose": {
+            "purchase": 372,
+            "home_improvement": 44,
+            "refinance": 141,
+            "cashout_refi": 94,
+            "other": 53
+          },
+          "multifamily": {
+            "originations": 4,
+            "volume_usd": 9040000.0
+          }
         }
       }
     },
@@ -1397,6 +1569,25 @@
             "refinance": 4,
             "cashout_refi": 5,
             "other": 3
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 28,
+          "origination_volume_usd": 3480000.0,
+          "mean_loan_amount_usd": 124286,
+          "denials": 13,
+          "denial_rate": 0.2826,
+          "decision_total": 46,
+          "by_purpose": {
+            "purchase": 13,
+            "home_improvement": 3,
+            "refinance": 3,
+            "cashout_refi": 7,
+            "other": 2
           },
           "multifamily": {
             "originations": 0,
@@ -1541,6 +1732,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 309,
+          "origination_volume_usd": 130905000.0,
+          "mean_loan_amount_usd": 423641,
+          "denials": 96,
+          "denial_rate": 0.228,
+          "decision_total": 421,
+          "by_purpose": {
+            "purchase": 159,
+            "home_improvement": 18,
+            "refinance": 56,
+            "cashout_refi": 49,
+            "other": 27
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -1675,6 +1885,25 @@
             "refinance": 8,
             "cashout_refi": 16,
             "other": 2
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 56,
+          "origination_volume_usd": 13620000.0,
+          "mean_loan_amount_usd": 243214,
+          "denials": 32,
+          "denial_rate": 0.3441,
+          "decision_total": 93,
+          "by_purpose": {
+            "purchase": 25,
+            "home_improvement": 4,
+            "refinance": 12,
+            "cashout_refi": 11,
+            "other": 4
           },
           "multifamily": {
             "originations": 0,
@@ -1819,6 +2048,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 59,
+          "origination_volume_usd": 11355000.0,
+          "mean_loan_amount_usd": 192458,
+          "denials": 53,
+          "denial_rate": 0.4309,
+          "decision_total": 123,
+          "by_purpose": {
+            "purchase": 30,
+            "home_improvement": 4,
+            "refinance": 10,
+            "cashout_refi": 12,
+            "other": 3
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -1958,6 +2206,25 @@
             "originations": 1,
             "volume_usd": 2265000.0
           }
+        },
+        "2025": {
+          "originations": 39,
+          "origination_volume_usd": 6095000.0,
+          "mean_loan_amount_usd": 156282,
+          "denials": 29,
+          "denial_rate": 0.4028,
+          "decision_total": 72,
+          "by_purpose": {
+            "purchase": 19,
+            "home_improvement": 1,
+            "refinance": 5,
+            "cashout_refi": 11,
+            "other": 3
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -2092,6 +2359,25 @@
             "refinance": 31,
             "cashout_refi": 27,
             "other": 20
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 179,
+          "origination_volume_usd": 57775000.0,
+          "mean_loan_amount_usd": 322765,
+          "denials": 60,
+          "denial_rate": 0.2372,
+          "decision_total": 253,
+          "by_purpose": {
+            "purchase": 82,
+            "home_improvement": 13,
+            "refinance": 23,
+            "cashout_refi": 43,
+            "other": 18
           },
           "multifamily": {
             "originations": 0,
@@ -2236,6 +2522,25 @@
             "originations": 1,
             "volume_usd": 495000.0
           }
+        },
+        "2025": {
+          "originations": 838,
+          "origination_volume_usd": 196340000.0,
+          "mean_loan_amount_usd": 234296,
+          "denials": 204,
+          "denial_rate": 0.1889,
+          "decision_total": 1080,
+          "by_purpose": {
+            "purchase": 422,
+            "home_improvement": 72,
+            "refinance": 113,
+            "cashout_refi": 148,
+            "other": 83
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 265000.0
+          }
         }
       }
     },
@@ -2375,6 +2680,25 @@
             "originations": 90,
             "volume_usd": 982820000.0
           }
+        },
+        "2025": {
+          "originations": 14513,
+          "origination_volume_usd": 7159735000.0,
+          "mean_loan_amount_usd": 493333,
+          "denials": 3821,
+          "denial_rate": 0.1994,
+          "decision_total": 19158,
+          "by_purpose": {
+            "purchase": 7747,
+            "home_improvement": 1119,
+            "refinance": 2565,
+            "cashout_refi": 1810,
+            "other": 1272
+          },
+          "multifamily": {
+            "originations": 83,
+            "volume_usd": 708795000.0
+          }
         }
       }
     },
@@ -2509,6 +2833,25 @@
             "refinance": 3,
             "cashout_refi": 5,
             "other": 1
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 38,
+          "origination_volume_usd": 10610000.0,
+          "mean_loan_amount_usd": 279211,
+          "denials": 15,
+          "denial_rate": 0.283,
+          "decision_total": 53,
+          "by_purpose": {
+            "purchase": 20,
+            "home_improvement": 3,
+            "refinance": 2,
+            "cashout_refi": 11,
+            "other": 2
           },
           "multifamily": {
             "originations": 0,
@@ -2653,6 +2996,25 @@
             "originations": 12,
             "volume_usd": 210120000.0
           }
+        },
+        "2025": {
+          "originations": 13022,
+          "origination_volume_usd": 6775100000.0,
+          "mean_loan_amount_usd": 520281,
+          "denials": 2789,
+          "denial_rate": 0.1684,
+          "decision_total": 16561,
+          "by_purpose": {
+            "purchase": 6607,
+            "home_improvement": 1189,
+            "refinance": 2250,
+            "cashout_refi": 1645,
+            "other": 1331
+          },
+          "multifamily": {
+            "originations": 13,
+            "volume_usd": 523015000.0
+          }
         }
       }
     },
@@ -2792,6 +3154,25 @@
             "originations": 3,
             "volume_usd": 29705000.0
           }
+        },
+        "2025": {
+          "originations": 1507,
+          "origination_volume_usd": 1359475000.0,
+          "mean_loan_amount_usd": 902107,
+          "denials": 393,
+          "denial_rate": 0.1975,
+          "decision_total": 1990,
+          "by_purpose": {
+            "purchase": 690,
+            "home_improvement": 178,
+            "refinance": 311,
+            "cashout_refi": 166,
+            "other": 162
+          },
+          "multifamily": {
+            "originations": 2,
+            "volume_usd": 24470000.0
+          }
         }
       }
     },
@@ -2926,6 +3307,25 @@
             "refinance": 133,
             "cashout_refi": 146,
             "other": 148
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 1345,
+          "origination_volume_usd": 618125000.0,
+          "mean_loan_amount_usd": 459572,
+          "denials": 401,
+          "denial_rate": 0.2206,
+          "decision_total": 1818,
+          "by_purpose": {
+            "purchase": 748,
+            "home_improvement": 111,
+            "refinance": 183,
+            "cashout_refi": 189,
+            "other": 114
           },
           "multifamily": {
             "originations": 0,
@@ -3070,6 +3470,25 @@
             "originations": 76,
             "volume_usd": 560780000.0
           }
+        },
+        "2025": {
+          "originations": 22428,
+          "origination_volume_usd": 8292330000.0,
+          "mean_loan_amount_usd": 369731,
+          "denials": 5217,
+          "denial_rate": 0.1767,
+          "decision_total": 29517,
+          "by_purpose": {
+            "purchase": 11521,
+            "home_improvement": 1754,
+            "refinance": 4564,
+            "cashout_refi": 2515,
+            "other": 2074
+          },
+          "multifamily": {
+            "originations": 74,
+            "volume_usd": 371710000.0
+          }
         }
       }
     },
@@ -3208,6 +3627,25 @@
           "multifamily": {
             "originations": 3,
             "volume_usd": 1745000.0
+          }
+        },
+        "2025": {
+          "originations": 1228,
+          "origination_volume_usd": 295580000.0,
+          "mean_loan_amount_usd": 240700,
+          "denials": 400,
+          "denial_rate": 0.2305,
+          "decision_total": 1735,
+          "by_purpose": {
+            "purchase": 597,
+            "home_improvement": 79,
+            "refinance": 198,
+            "cashout_refi": 252,
+            "other": 102
+          },
+          "multifamily": {
+            "originations": 3,
+            "volume_usd": 1655000.0
           }
         }
       }
@@ -3348,6 +3786,25 @@
             "originations": 7,
             "volume_usd": 63585000.0
           }
+        },
+        "2025": {
+          "originations": 1666,
+          "origination_volume_usd": 735050000.0,
+          "mean_loan_amount_usd": 441206,
+          "denials": 571,
+          "denial_rate": 0.2393,
+          "decision_total": 2386,
+          "by_purpose": {
+            "purchase": 792,
+            "home_improvement": 202,
+            "refinance": 338,
+            "cashout_refi": 186,
+            "other": 148
+          },
+          "multifamily": {
+            "originations": 10,
+            "volume_usd": 31360000.0
+          }
         }
       }
     },
@@ -3482,6 +3939,25 @@
             "refinance": 14,
             "cashout_refi": 29,
             "other": 31
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 227,
+          "origination_volume_usd": 84505000.0,
+          "mean_loan_amount_usd": 372269,
+          "denials": 69,
+          "denial_rate": 0.217,
+          "decision_total": 318,
+          "by_purpose": {
+            "purchase": 90,
+            "home_improvement": 21,
+            "refinance": 48,
+            "cashout_refi": 45,
+            "other": 23
           },
           "multifamily": {
             "originations": 0,
@@ -3626,6 +4102,25 @@
             "originations": 3,
             "volume_usd": 8505000.0
           }
+        },
+        "2025": {
+          "originations": 968,
+          "origination_volume_usd": 580330000.0,
+          "mean_loan_amount_usd": 599514,
+          "denials": 238,
+          "denial_rate": 0.189,
+          "decision_total": 1259,
+          "by_purpose": {
+            "purchase": 579,
+            "home_improvement": 53,
+            "refinance": 182,
+            "cashout_refi": 96,
+            "other": 58
+          },
+          "multifamily": {
+            "originations": 2,
+            "volume_usd": 10920000.0
+          }
         }
       }
     },
@@ -3765,6 +4260,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 477,
+          "origination_volume_usd": 266615000.0,
+          "mean_loan_amount_usd": 558941,
+          "denials": 136,
+          "denial_rate": 0.2112,
+          "decision_total": 644,
+          "by_purpose": {
+            "purchase": 260,
+            "home_improvement": 30,
+            "refinance": 77,
+            "cashout_refi": 68,
+            "other": 42
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -3898,6 +4412,25 @@
             "home_improvement": 2,
             "refinance": 2,
             "cashout_refi": 5,
+            "other": 1
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 23,
+          "origination_volume_usd": 9325000.0,
+          "mean_loan_amount_usd": 405435,
+          "denials": 13,
+          "denial_rate": 0.3514,
+          "decision_total": 37,
+          "by_purpose": {
+            "purchase": 13,
+            "home_improvement": 1,
+            "refinance": 2,
+            "cashout_refi": 6,
             "other": 1
           },
           "multifamily": {
@@ -4043,6 +4576,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 151,
+          "origination_volume_usd": 32255000.0,
+          "mean_loan_amount_usd": 213609,
+          "denials": 80,
+          "denial_rate": 0.3333,
+          "decision_total": 240,
+          "by_purpose": {
+            "purchase": 67,
+            "home_improvement": 8,
+            "refinance": 19,
+            "cashout_refi": 39,
+            "other": 18
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -4176,6 +4728,25 @@
             "home_improvement": 1,
             "refinance": 1,
             "cashout_refi": 1,
+            "other": 2
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 31,
+          "origination_volume_usd": 8275000.0,
+          "mean_loan_amount_usd": 266935,
+          "denials": 9,
+          "denial_rate": 0.2195,
+          "decision_total": 41,
+          "by_purpose": {
+            "purchase": 18,
+            "home_improvement": 0,
+            "refinance": 4,
+            "cashout_refi": 7,
             "other": 2
           },
           "multifamily": {
@@ -4321,6 +4892,25 @@
             "originations": 40,
             "volume_usd": 460910000.0
           }
+        },
+        "2025": {
+          "originations": 15680,
+          "origination_volume_usd": 7107890000.0,
+          "mean_loan_amount_usd": 453309,
+          "denials": 3442,
+          "denial_rate": 0.1722,
+          "decision_total": 19984,
+          "by_purpose": {
+            "purchase": 7438,
+            "home_improvement": 1493,
+            "refinance": 2861,
+            "cashout_refi": 2325,
+            "other": 1563
+          },
+          "multifamily": {
+            "originations": 63,
+            "volume_usd": 750645000.0
+          }
         }
       }
     },
@@ -4455,6 +5045,25 @@
             "refinance": 2,
             "cashout_refi": 1,
             "other": 1
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 16,
+          "origination_volume_usd": 1740000.0,
+          "mean_loan_amount_usd": 108750,
+          "denials": 7,
+          "denial_rate": 0.2917,
+          "decision_total": 24,
+          "by_purpose": {
+            "purchase": 7,
+            "home_improvement": 2,
+            "refinance": 1,
+            "cashout_refi": 4,
+            "other": 2
           },
           "multifamily": {
             "originations": 0,
@@ -4599,6 +5208,25 @@
             "originations": 1,
             "volume_usd": 4005000.0
           }
+        },
+        "2025": {
+          "originations": 114,
+          "origination_volume_usd": 19200000.0,
+          "mean_loan_amount_usd": 168421,
+          "denials": 52,
+          "denial_rate": 0.2857,
+          "decision_total": 182,
+          "by_purpose": {
+            "purchase": 59,
+            "home_improvement": 7,
+            "refinance": 15,
+            "cashout_refi": 22,
+            "other": 11
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -4733,6 +5361,25 @@
             "refinance": 20,
             "cashout_refi": 32,
             "other": 24
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 228,
+          "origination_volume_usd": 86990000.0,
+          "mean_loan_amount_usd": 381535,
+          "denials": 45,
+          "denial_rate": 0.159,
+          "decision_total": 283,
+          "by_purpose": {
+            "purchase": 122,
+            "home_improvement": 15,
+            "refinance": 46,
+            "cashout_refi": 25,
+            "other": 20
           },
           "multifamily": {
             "originations": 0,
@@ -4877,6 +5524,25 @@
             "originations": 1,
             "volume_usd": 445000.0
           }
+        },
+        "2025": {
+          "originations": 1420,
+          "origination_volume_usd": 633720000.0,
+          "mean_loan_amount_usd": 446282,
+          "denials": 308,
+          "denial_rate": 0.1697,
+          "decision_total": 1815,
+          "by_purpose": {
+            "purchase": 704,
+            "home_improvement": 112,
+            "refinance": 270,
+            "cashout_refi": 215,
+            "other": 119
+          },
+          "multifamily": {
+            "originations": 4,
+            "volume_usd": 4960000.0
+          }
         }
       }
     },
@@ -5016,6 +5682,25 @@
             "originations": 25,
             "volume_usd": 371105000.0
           }
+        },
+        "2025": {
+          "originations": 9679,
+          "origination_volume_usd": 3888885000.0,
+          "mean_loan_amount_usd": 401786,
+          "denials": 2115,
+          "denial_rate": 0.1705,
+          "decision_total": 12407,
+          "by_purpose": {
+            "purchase": 5065,
+            "home_improvement": 791,
+            "refinance": 1605,
+            "cashout_refi": 1278,
+            "other": 940
+          },
+          "multifamily": {
+            "originations": 22,
+            "volume_usd": 403590000.0
+          }
         }
       }
     },
@@ -5150,6 +5835,25 @@
             "refinance": 20,
             "cashout_refi": 43,
             "other": 19
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 206,
+          "origination_volume_usd": 42190000.0,
+          "mean_loan_amount_usd": 204806,
+          "denials": 75,
+          "denial_rate": 0.2525,
+          "decision_total": 297,
+          "by_purpose": {
+            "purchase": 100,
+            "home_improvement": 9,
+            "refinance": 25,
+            "cashout_refi": 51,
+            "other": 21
           },
           "multifamily": {
             "originations": 0,
@@ -5294,6 +5998,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 116,
+          "origination_volume_usd": 23880000.0,
+          "mean_loan_amount_usd": 205862,
+          "denials": 42,
+          "denial_rate": 0.2545,
+          "decision_total": 165,
+          "by_purpose": {
+            "purchase": 65,
+            "home_improvement": 5,
+            "refinance": 20,
+            "cashout_refi": 15,
+            "other": 11
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -5432,6 +6155,25 @@
           "multifamily": {
             "originations": 0,
             "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 393,
+          "origination_volume_usd": 82765000.0,
+          "mean_loan_amount_usd": 210598,
+          "denials": 106,
+          "denial_rate": 0.2035,
+          "decision_total": 521,
+          "by_purpose": {
+            "purchase": 213,
+            "home_improvement": 37,
+            "refinance": 54,
+            "cashout_refi": 64,
+            "other": 25
+          },
+          "multifamily": {
+            "originations": 3,
+            "volume_usd": 6515000.0
           }
         }
       }
@@ -5572,6 +6314,25 @@
             "originations": 10,
             "volume_usd": 42400000.0
           }
+        },
+        "2025": {
+          "originations": 4987,
+          "origination_volume_usd": 1395215000.0,
+          "mean_loan_amount_usd": 279770,
+          "denials": 1138,
+          "denial_rate": 0.1776,
+          "decision_total": 6407,
+          "by_purpose": {
+            "purchase": 2617,
+            "home_improvement": 367,
+            "refinance": 620,
+            "cashout_refi": 842,
+            "other": 541
+          },
+          "multifamily": {
+            "originations": 13,
+            "volume_usd": 63305000.0
+          }
         }
       }
     },
@@ -5706,6 +6467,25 @@
             "refinance": 2,
             "cashout_refi": 1,
             "other": 4
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 35,
+          "origination_volume_usd": 10595000.0,
+          "mean_loan_amount_usd": 302714,
+          "denials": 3,
+          "denial_rate": 0.0769,
+          "decision_total": 39,
+          "by_purpose": {
+            "purchase": 18,
+            "home_improvement": 0,
+            "refinance": 4,
+            "cashout_refi": 7,
+            "other": 6
           },
           "multifamily": {
             "originations": 0,
@@ -5850,6 +6630,25 @@
             "originations": 1,
             "volume_usd": 3135000.0
           }
+        },
+        "2025": {
+          "originations": 308,
+          "origination_volume_usd": 79620000.0,
+          "mean_loan_amount_usd": 258506,
+          "denials": 119,
+          "denial_rate": 0.2686,
+          "decision_total": 443,
+          "by_purpose": {
+            "purchase": 189,
+            "home_improvement": 11,
+            "refinance": 43,
+            "cashout_refi": 50,
+            "other": 15
+          },
+          "multifamily": {
+            "originations": 4,
+            "volume_usd": 4180000.0
+          }
         }
       }
     },
@@ -5984,6 +6783,25 @@
             "refinance": 43,
             "cashout_refi": 56,
             "other": 47
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 471,
+          "origination_volume_usd": 123335000.0,
+          "mean_loan_amount_usd": 261858,
+          "denials": 139,
+          "denial_rate": 0.2158,
+          "decision_total": 644,
+          "by_purpose": {
+            "purchase": 255,
+            "home_improvement": 19,
+            "refinance": 65,
+            "cashout_refi": 91,
+            "other": 41
           },
           "multifamily": {
             "originations": 0,
@@ -6128,6 +6946,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 1076,
+          "origination_volume_usd": 312660000.0,
+          "mean_loan_amount_usd": 290576,
+          "denials": 297,
+          "denial_rate": 0.2053,
+          "decision_total": 1447,
+          "by_purpose": {
+            "purchase": 602,
+            "home_improvement": 70,
+            "refinance": 127,
+            "cashout_refi": 182,
+            "other": 95
+          },
+          "multifamily": {
+            "originations": 3,
+            "volume_usd": 1825000.0
+          }
         }
       }
     },
@@ -6266,6 +7103,25 @@
           "multifamily": {
             "originations": 1,
             "volume_usd": 305000.0
+          }
+        },
+        "2025": {
+          "originations": 606,
+          "origination_volume_usd": 162200000.0,
+          "mean_loan_amount_usd": 267657,
+          "denials": 193,
+          "denial_rate": 0.2268,
+          "decision_total": 851,
+          "by_purpose": {
+            "purchase": 364,
+            "home_improvement": 29,
+            "refinance": 89,
+            "cashout_refi": 87,
+            "other": 37
+          },
+          "multifamily": {
+            "originations": 3,
+            "volume_usd": 665000.0
           }
         }
       }
@@ -6406,6 +7262,25 @@
             "originations": 1,
             "volume_usd": 505000.0
           }
+        },
+        "2025": {
+          "originations": 316,
+          "origination_volume_usd": 46260000.0,
+          "mean_loan_amount_usd": 146392,
+          "denials": 118,
+          "denial_rate": 0.2628,
+          "decision_total": 449,
+          "by_purpose": {
+            "purchase": 162,
+            "home_improvement": 13,
+            "refinance": 45,
+            "cashout_refi": 66,
+            "other": 30
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 185000.0
+          }
         }
       }
     },
@@ -6545,6 +7420,25 @@
             "originations": 1,
             "volume_usd": 175000.0
           }
+        },
+        "2025": {
+          "originations": 183,
+          "origination_volume_usd": 90705000.0,
+          "mean_loan_amount_usd": 495656,
+          "denials": 56,
+          "denial_rate": 0.2213,
+          "decision_total": 253,
+          "by_purpose": {
+            "purchase": 102,
+            "home_improvement": 19,
+            "refinance": 27,
+            "cashout_refi": 20,
+            "other": 15
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -6679,6 +7573,25 @@
             "refinance": 100,
             "cashout_refi": 104,
             "other": 98
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 931,
+          "origination_volume_usd": 365245000.0,
+          "mean_loan_amount_usd": 392315,
+          "denials": 294,
+          "denial_rate": 0.2279,
+          "decision_total": 1290,
+          "by_purpose": {
+            "purchase": 514,
+            "home_improvement": 65,
+            "refinance": 148,
+            "cashout_refi": 126,
+            "other": 78
           },
           "multifamily": {
             "originations": 0,
@@ -6823,6 +7736,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 85,
+          "origination_volume_usd": 16085000.0,
+          "mean_loan_amount_usd": 189235,
+          "denials": 26,
+          "denial_rate": 0.2222,
+          "decision_total": 117,
+          "by_purpose": {
+            "purchase": 58,
+            "home_improvement": 1,
+            "refinance": 8,
+            "cashout_refi": 12,
+            "other": 6
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -6962,6 +7894,25 @@
             "originations": 1,
             "volume_usd": 2325000.0
           }
+        },
+        "2025": {
+          "originations": 474,
+          "origination_volume_usd": 1193660000.0,
+          "mean_loan_amount_usd": 2518270,
+          "denials": 104,
+          "denial_rate": 0.1699,
+          "decision_total": 612,
+          "by_purpose": {
+            "purchase": 209,
+            "home_improvement": 51,
+            "refinance": 113,
+            "cashout_refi": 39,
+            "other": 62
+          },
+          "multifamily": {
+            "originations": 2,
+            "volume_usd": 15010000.0
+          }
         }
       }
     },
@@ -7096,6 +8047,25 @@
             "refinance": 7,
             "cashout_refi": 16,
             "other": 12
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 134,
+          "origination_volume_usd": 21450000.0,
+          "mean_loan_amount_usd": 160075,
+          "denials": 41,
+          "denial_rate": 0.2193,
+          "decision_total": 187,
+          "by_purpose": {
+            "purchase": 85,
+            "home_improvement": 9,
+            "refinance": 15,
+            "cashout_refi": 19,
+            "other": 6
           },
           "multifamily": {
             "originations": 0,
@@ -7240,6 +8210,25 @@
             "originations": 11,
             "volume_usd": 82485000.0
           }
+        },
+        "2025": {
+          "originations": 4405,
+          "origination_volume_usd": 1048215000.0,
+          "mean_loan_amount_usd": 237960,
+          "denials": 1338,
+          "denial_rate": 0.2183,
+          "decision_total": 6128,
+          "by_purpose": {
+            "purchase": 2142,
+            "home_improvement": 295,
+            "refinance": 779,
+            "cashout_refi": 790,
+            "other": 399
+          },
+          "multifamily": {
+            "originations": 15,
+            "volume_usd": 64745000.0
+          }
         }
       }
     },
@@ -7373,6 +8362,25 @@
             "home_improvement": 4,
             "refinance": 15,
             "cashout_refi": 19,
+            "other": 11
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 168,
+          "origination_volume_usd": 42350000.0,
+          "mean_loan_amount_usd": 252083,
+          "denials": 47,
+          "denial_rate": 0.2136,
+          "decision_total": 220,
+          "by_purpose": {
+            "purchase": 99,
+            "home_improvement": 5,
+            "refinance": 21,
+            "cashout_refi": 32,
             "other": 11
           },
           "multifamily": {
@@ -7518,6 +8526,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 191,
+          "origination_volume_usd": 53335000.0,
+          "mean_loan_amount_usd": 279241,
+          "denials": 63,
+          "denial_rate": 0.2283,
+          "decision_total": 276,
+          "by_purpose": {
+            "purchase": 95,
+            "home_improvement": 9,
+            "refinance": 36,
+            "cashout_refi": 41,
+            "other": 10
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 605000.0
+          }
         }
       }
     },
@@ -7656,6 +8683,25 @@
           "multifamily": {
             "originations": 1,
             "volume_usd": 16505000.0
+          }
+        },
+        "2025": {
+          "originations": 778,
+          "origination_volume_usd": 553100000.0,
+          "mean_loan_amount_usd": 710925,
+          "denials": 171,
+          "denial_rate": 0.1717,
+          "decision_total": 996,
+          "by_purpose": {
+            "purchase": 381,
+            "home_improvement": 54,
+            "refinance": 162,
+            "cashout_refi": 103,
+            "other": 78
+          },
+          "multifamily": {
+            "originations": 2,
+            "volume_usd": 13450000.0
           }
         }
       }
@@ -7796,6 +8842,25 @@
             "originations": 0,
             "volume_usd": 0.0
           }
+        },
+        "2025": {
+          "originations": 97,
+          "origination_volume_usd": 24035000.0,
+          "mean_loan_amount_usd": 247784,
+          "denials": 42,
+          "denial_rate": 0.2781,
+          "decision_total": 151,
+          "by_purpose": {
+            "purchase": 57,
+            "home_improvement": 6,
+            "refinance": 7,
+            "cashout_refi": 15,
+            "other": 12
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -7929,6 +8994,25 @@
             "home_improvement": 2,
             "refinance": 3,
             "cashout_refi": 2,
+            "other": 4
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 32,
+          "origination_volume_usd": 12520000.0,
+          "mean_loan_amount_usd": 391250,
+          "denials": 24,
+          "denial_rate": 0.3871,
+          "decision_total": 62,
+          "by_purpose": {
+            "purchase": 15,
+            "home_improvement": 3,
+            "refinance": 7,
+            "cashout_refi": 3,
             "other": 4
           },
           "multifamily": {
@@ -8074,6 +9158,25 @@
             "originations": 1,
             "volume_usd": 2055000.0
           }
+        },
+        "2025": {
+          "originations": 238,
+          "origination_volume_usd": 287530000.0,
+          "mean_loan_amount_usd": 1208109,
+          "denials": 76,
+          "denial_rate": 0.2269,
+          "decision_total": 335,
+          "by_purpose": {
+            "purchase": 129,
+            "home_improvement": 22,
+            "refinance": 45,
+            "cashout_refi": 16,
+            "other": 26
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 2505000.0
+          }
         }
       }
     },
@@ -8212,6 +9315,25 @@
           "multifamily": {
             "originations": 1,
             "volume_usd": 55000.0
+          }
+        },
+        "2025": {
+          "originations": 31,
+          "origination_volume_usd": 5675000.0,
+          "mean_loan_amount_usd": 183065,
+          "denials": 17,
+          "denial_rate": 0.3469,
+          "decision_total": 49,
+          "by_purpose": {
+            "purchase": 22,
+            "home_improvement": 0,
+            "refinance": 2,
+            "cashout_refi": 6,
+            "other": 1
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 85000.0
           }
         }
       }
@@ -8352,6 +9474,25 @@
             "originations": 3,
             "volume_usd": 8155000.0
           }
+        },
+        "2025": {
+          "originations": 1471,
+          "origination_volume_usd": 1080755000.0,
+          "mean_loan_amount_usd": 734708,
+          "denials": 384,
+          "denial_rate": 0.1998,
+          "decision_total": 1922,
+          "by_purpose": {
+            "purchase": 897,
+            "home_improvement": 94,
+            "refinance": 248,
+            "cashout_refi": 132,
+            "other": 100
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 9505000.0
+          }
         }
       }
     },
@@ -8491,6 +9632,25 @@
             "originations": 1,
             "volume_usd": 4995000.0
           }
+        },
+        "2025": {
+          "originations": 1103,
+          "origination_volume_usd": 365115000.0,
+          "mean_loan_amount_usd": 331020,
+          "denials": 298,
+          "denial_rate": 0.1988,
+          "decision_total": 1499,
+          "by_purpose": {
+            "purchase": 582,
+            "home_improvement": 94,
+            "refinance": 189,
+            "cashout_refi": 115,
+            "other": 123
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
         }
       }
     },
@@ -8625,6 +9785,25 @@
             "refinance": 8,
             "cashout_refi": 13,
             "other": 9
+          },
+          "multifamily": {
+            "originations": 0,
+            "volume_usd": 0.0
+          }
+        },
+        "2025": {
+          "originations": 93,
+          "origination_volume_usd": 18925000.0,
+          "mean_loan_amount_usd": 203495,
+          "denials": 37,
+          "denial_rate": 0.2701,
+          "decision_total": 137,
+          "by_purpose": {
+            "purchase": 52,
+            "home_improvement": 7,
+            "refinance": 9,
+            "cashout_refi": 17,
+            "other": 8
           },
           "multifamily": {
             "originations": 0,
@@ -8769,6 +9948,25 @@
             "originations": 20,
             "volume_usd": 203190000.0
           }
+        },
+        "2025": {
+          "originations": 11307,
+          "origination_volume_usd": 4434915000.0,
+          "mean_loan_amount_usd": 392227,
+          "denials": 3241,
+          "denial_rate": 0.2129,
+          "decision_total": 15220,
+          "by_purpose": {
+            "purchase": 6270,
+            "home_improvement": 744,
+            "refinance": 1603,
+            "cashout_refi": 1623,
+            "other": 1067
+          },
+          "multifamily": {
+            "originations": 21,
+            "volume_usd": 664725000.0
+          }
         }
       }
     },
@@ -8907,6 +10105,25 @@
           "multifamily": {
             "originations": 1,
             "volume_usd": 115000.0
+          }
+        },
+        "2025": {
+          "originations": 113,
+          "origination_volume_usd": 19775000.0,
+          "mean_loan_amount_usd": 175000,
+          "denials": 28,
+          "denial_rate": 0.1931,
+          "decision_total": 145,
+          "by_purpose": {
+            "purchase": 58,
+            "home_improvement": 13,
+            "refinance": 17,
+            "cashout_refi": 19,
+            "other": 6
+          },
+          "multifamily": {
+            "originations": 1,
+            "volume_usd": 35000.0
           }
         }
       }

@@ -14,6 +14,8 @@
     'dc-units': 'Total homes in the project.',
     'dc-sale-target-ami': 'Income target for the ownership affordability screen, as a percent of AMI.',
     'dc-rent-limit-regime': 'The rent-limit source used for this scenario.',
+    'dc-prop123-program': 'The Prop 123 program whose income and rent rules apply.',
+    'dc-prop123-petition': 'An approved rural resort petition that replaces the program\u2019s AMI limit.',
     'dc-minimum-set-aside': 'The selected federal LIHTC minimum set-aside test.',
     'dc-county-select': 'County whose income limits and rent benchmarks apply to the site.',
     'dc-coords-lat': 'Latitude of the project site.',
@@ -24,6 +26,13 @@
     'dc-rep-reserve': 'Annual replacement reserve per home.',
     'dc-prop-tax': 'Annual property tax per home before the selected exemption.',
     'dc-tax-exempt': 'Share of property taxes exempted in the scenario.',
+    'dc-senior-mode': 'Size the senior loan from NOI or keep an entered principal amount.',
+    'dc-senior-amount': 'Entered senior loan principal; coverage is measured, not assumed.',
+    'dc-senior-type': 'Selected senior repayment obligation; verify the loan agreement.',
+    'dc-senior-maturity': 'Year principal becomes due, separately from amortization.',
+    'dc-senior-io-years': 'Years of interest-only payments before amortization starts.',
+    'dc-senior-priority': 'Payment priority within must-pay or contingent loans.',
+    'dc-senior-cfpay': 'Percentage of remaining positive cash paid to a contingent senior loan.',
     'dc-dcr': 'Required net operating income divided by annual debt service.',
     'dc-rate': 'Annual interest rate assumed for the permanent mortgage.',
     'dc-term': 'Permanent mortgage amortization period, in years.',
@@ -58,7 +67,24 @@
     'dc-fmr-note': 'Gross monthly rent ceilings by income tier for two-bedroom homes.',
     'dc-rent-ach-fmr-grid': 'HUD fair market rents by bedroom size.',
     'dc-rent-allowance-status': 'Utility allowance and fees used to convert gross rent to contract rent.',
-    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.'
+    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.',
+    'dc-res-sf': 'Floor area of all residential rental units, excluding common areas.',
+    'dc-restricted-sf': 'Floor area of the units counted as LIHTC units, for the floor-space fraction. Leave out restricted units that are not LIHTC units.',
+    'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the basis boost (30% for QCT, DDA or SADDA; up to 30% for CHFA).',
+    'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
+    'dc-boost-pct': 'Basis boost percentage in CHFA\'s letter (CHFA state designation only, up to 30%).',
+    'dc-credit-requested': 'Annual federal credit requested in the application.',
+    'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',
+    'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',
+    'dc-state-awarded': 'Whether CHFA has awarded the state credit entered; only an award counts as a source.',
+    'dc-grant-acq': 'Federal grant dollars that paid for the building purchase; needed when a grant covers both acquisition and other basis on a 9% deal, where the two earn different credit rates, or under a basis boost, which skips acquisition basis.',
+    'dc-grant-outside': 'Federal grant dollars that paid for costs outside eligible basis, such as land, reserves or fees above CHFA\'s limits; a federal grant reduces basis only by what it paid for in basis.',
+    'dc-acq-42d2': 'Whether an existing building purchase meets 26 U.S.C. 42(d)(2), including a rehabilitation that earns its own credit under 42(e), so its price can count in eligible basis.',
+    'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
+    'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
+    'dc-state-annual': 'Annual state housing tax credit for the project.',
+    'dc-state-standard-annual': 'Annual standard state credit paired with a Round Two accelerated credit.',
+    'dc-state-price': 'Dollars of investor equity per dollar of state credit.'
   };
   Object.keys(definitions).forEach(function (id) { add(id, definitions[id]); });
   ['dc-tdc', 'dc-units', 'dc-noi'].forEach(function (id) {
@@ -96,11 +122,34 @@
   var tranche = {
     prog: 'Soft-funding program selected for this tranche.', amount: 'Dollars assigned to this soft-funding tranche.',
     rate: 'Annual interest rate for this tranche.', term: 'Amortization period for this tranche.',
-    cfpay: 'Share of tranche debt service paid from annual operating cash flow.',
+    cfpay: 'Share of remaining positive cash after must-pay debt, for a contingent loan.',
+    type: 'Repayment obligation; forgiveness assumes the agreement conditions are met.',
+    maturity: 'Year principal is due or conditionally forgiven.', io: 'Interest-only years before amortization starts.',
     accrue: 'Whether tranche interest is paid currently or accrued until exit.', priority: 'Payment order in the cash-flow waterfall.'
   };
+  tranche.fed = 'Whether this source contains federal money; a federally funded grant reduces eligible basis.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
-  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || null; }
+  ['fed', 'state'].forEach(function (src) {
+    ['closing', 'completion', 'stabilization'].forEach(function (stage) {
+      add('dc-' + src + '-payin-' + stage, 'Share of ' + (src === 'fed' ? 'federal' : 'state') + ' credit equity paid in at ' + stage + ', in percent.');
+    });
+  });
+  ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence'].forEach(function (id) {
+    fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
+  });
+  // #2160: itemized cost lines (js/deal-cost-basis.js). The prefilled amounts
+  // are an INVENTED example budget, so they are illustrative.
+  add('cost-amount', 'Dollars on this development budget line.', 'illustrative',
+    'An invented example budget line; replace it with your project budget.');
+  add('cost-basis', 'Whether this cost line is in eligible basis, partly in it, or not in it.');
+  add('cost-eligible', 'The part of this cost line that is in eligible basis.', 'illustrative',
+    'An invented example; replace it with your cost certification or budget.');
+  add('cost-used', 'Contingency proposed for use so far.', 'illustrative', 'An invented example; replace it with your draw records.');
+  function costKey(id) {
+    var m = /^dc-cost-[a-z_]+(-basis|-eligible|-used)?$/.exec(id);
+    return m ? 'cost-' + (m[1] ? m[1].slice(1) : 'amount') : null;
+  }
+  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || fields[costKey(id)] || null; }
   var api = { fields: fields, get: get };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.DealCalculatorInputRegistry = api;

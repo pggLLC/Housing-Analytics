@@ -836,26 +836,41 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
    Used for stat cards where a one-line label can't fully describe the
    methodology, data scope, or limitations. Built on native <details>
    so it's keyboard-accessible and needs no framework. */
-.info-tooltip { display: inline-block; margin-left: 0.35rem; vertical-align: middle; }
+/* Reset the page-level `details` card styles (border, padding, background) so
+   the closed control is only its glyph. */
+.info-tooltip { display: inline-block; margin: 0 0 0 0.3em; padding: 0; vertical-align: baseline; border: 0; border-radius: 0; background: none; overflow: visible; }
+.info-tooltip > summary::after { content: none; }
+/* Same glyph as the table-header definitions: a text-sized circled "i" on
+   the heading's baseline. The 44 x 44 touch target (Rule 14) is drawn by
+   ::before, outside layout, instead of by the summary's own box. */
 .info-tooltip > summary {
   list-style: none;            /* hide default disclosure triangle */
   cursor: pointer;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.05rem; height: 1.05rem;
+  min-width: 0; min-height: 0;
+  width: 0.95em; height: 0.95em;
+  padding: 0; gap: 0;
+  box-sizing: border-box;
   border-radius: 50%;
-  background: var(--bg2, #f1f5f9);
-  color: var(--muted, #64748b);
-  font-size: 0.75rem;
+  background: none;
+  /* !important: the generic `details > summary` rule below forces --text. */
+  color: var(--muted, #64748b) !important;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.85em;
   font-weight: 700;
-  border: 1px solid var(--border, #cbd5e1);
-  transition: background .15s, color .15s;
+  line-height: 1;
+  border: 0.1em solid currentColor;
+  vertical-align: -0.1em;
+  transition: color .15s;
 }
+.info-tooltip > summary::before { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
 .info-tooltip > summary::-webkit-details-marker { display: none; }
 .info-tooltip > summary:hover,
-.info-tooltip > summary:focus-visible { background: var(--accent, #1e40af); color: var(--on-accent, #fff); outline: none; }
-.info-tooltip[open] > summary { background: var(--accent, #1e40af); color: var(--on-accent, #fff); }
+.info-tooltip[open] > summary { color: var(--accent, #1e40af) !important; background: none; border-bottom: 0.1em solid currentColor; }
+.info-tooltip > summary:focus-visible { color: var(--accent, #1e40af) !important; outline: 2px solid var(--accent, #1e40af); outline-offset: 2px; }
 .info-tooltip-body {
   display: block;
   margin-top: 0.5rem;
@@ -929,6 +944,8 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
 .methodology-popover {
   display: inline-block;
   margin-left: .4rem;
+  /* Reset page-level `details` card styles so the closed control is the pill alone. */
+  margin-top: 0; padding: 0; border: 0; border-radius: 0; background: none; overflow: visible;
   vertical-align: middle;
   font-weight: 400;
   font-size: .72rem;
@@ -943,8 +960,14 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
   border: 1px solid var(--border);
   user-select: none;
   white-space: nowrap;
+  /* A text-sized pill rather than a 44px block; the 44 x 44 touch target
+     (Rule 14) is drawn by ::before, outside layout. */
+  display: inline-flex; align-items: center; position: relative;
+  min-width: 0; min-height: 0;
 }
+.methodology-popover__summary::before { content: ''; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: 44px; transform: translate(-50%, -50%); }
 .methodology-popover__summary::-webkit-details-marker { display: none; }
+.methodology-popover > .methodology-popover__summary::after { content: none; }
 .methodology-popover__summary:hover {
   background: var(--card);
   color: var(--text);
@@ -1179,14 +1202,30 @@ table tr:hover td { background: var(--accent-dim); }
    definition, shown on hover, keyboard focus, or tap. The header itself is
    uppercase/letterspaced by the rule above, so the popover resets both. */
 th.th-tip { position: relative; }
+/* Headers in one row share a bottom edge, so a two-line label and a
+   one-line label end on the same baseline at every window width. */
+table th { vertical-align: bottom; }
+/* The label's last word and the glyph wrap as one unit. */
+.th-tip__tail { white-space: nowrap; }
+/* The glyph is text-sized and sits on the label's baseline. Its touch
+   target is still 44 x 44 (copilot-instructions Rule 14), but drawn by
+   ::before, which takes no layout space, rather than by the button's own
+   box: the global 44px minimum in css/responsive.css is moved onto the
+   pseudo-element so it stops pushing the label around. A tip header is
+   at least 44px tall so that target sits inside its own cell. */
+th.th-tip { height: 44px; }
 .th-tip__btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 1.05rem; height: 1.05rem; margin-left: .35rem; padding: 0;
-  font-family: inherit; font-weight: 700; font-size: .68rem; line-height: 1; text-transform: none; letter-spacing: 0;
-  color: var(--accent); background: transparent; border: 1px solid var(--accent);
-  border-radius: 50%; cursor: help; vertical-align: middle; opacity: .8;
+  position: relative; display: inline-block;
+  min-width: 0; min-height: 0; width: auto; height: auto;
+  margin: 0 0 0 .3em; padding: 0;
+  font: inherit; font-size: .95em; line-height: 1; text-transform: none; letter-spacing: 0;
+  color: var(--muted); background: none; border: 0; border-radius: 50%;
+  cursor: help; vertical-align: -.12em;
 }
-.th-tip__btn:hover, .th-tip__btn:focus-visible { opacity: 1; background: var(--accent); color: var(--on-accent, #fff); outline: none; }
+.th-tip__btn svg { display: block; }
+.th-tip__btn::before { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.th-tip__btn:hover, th.th-tip.is-open .th-tip__btn { color: var(--accent); }
+.th-tip__btn:focus-visible { color: var(--accent); outline: 2px solid var(--accent); outline-offset: 2px; }
 .th-tip__pop {
   display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 60;
   min-width: 14rem; max-width: 22rem; padding: .55rem .7rem;
@@ -1196,6 +1235,9 @@ th.th-tip { position: relative; }
   border-radius: 6px; box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
 }
 th.th-tip:hover .th-tip__pop, th.th-tip:focus-within .th-tip__pop, th.th-tip.is-open .th-tip__pop { display: block; }
+/* Once the script has measured the header, the popover is placed in
+   viewport coordinates so a scrolling table container cannot clip it. */
+.th-tip__pop--placed { position: fixed; right: auto !important; }
 /* Right-aligned numeric headers near the table edge: open the popover leftward. */
 th.th-tip.cc-num .th-tip__pop, th.th-tip.right .th-tip__pop, th.th-tip:last-child .th-tip__pop { left: auto; right: 0; }
 @media print { .th-tip__btn, .th-tip__pop { display: none !important; } }
@@ -1996,6 +2038,17 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .wf-step--done .wf-step__label,
 .workflow-progress__step--done .workflow-progress__step__label {
   color: var(--good, #047857) !important;
+}
+/* Step 2 (statewide Opportunity Finder) is a detour for someone who already
+   knows their town; say so on the rail, where a first-time reader decides
+   whether to open it. Lives here because several pages inject their own rail
+   styles under the same id, which stops workflow-progress.js adding its own. */
+.wf-step[data-step="2"] .wf-step__label::after {
+  content: "optional";
+  display: block;
+  font-weight: 400;
+  font-style: italic;
+  opacity: .85;
 }
 
 /* The width at which the full-size workflow rail stops fitting.

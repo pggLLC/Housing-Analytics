@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>LIHTC Opportunity Finder | Colorado Public Data Reference</title>
+  <title>LIHTC Opportunity Finder | COHO Analytics</title>
   <meta name="description" content="Compare Colorado jurisdictions with QCT or DDA designations for 4% bond and 9% competitive LIHTC contexts using public indicators: recent CHFA investment, housing need, basis-boost eligibility, and population scale.">
-  <meta property="og:title" content="LIHTC Opportunity Finder | Colorado Public Data Reference">
+  <meta property="og:title" content="LIHTC Opportunity Finder | COHO Analytics">
   <meta property="og:description" content="Compare Colorado jurisdictions by public LIHTC planning indicators, with source context for each measure.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
@@ -588,8 +588,8 @@
       box-shadow: inset 0 -1px 0 var(--border);
     }
     .lof-table thead th:hover { color: var(--accent); }
-    .lof-table thead th[aria-sort="ascending"]::after { content: ' ▲'; color: var(--accent); }
-    .lof-table thead th[aria-sort="descending"]::after { content: ' ▼'; color: var(--accent); }
+    .lof-table thead th[aria-sort="ascending"]::after { content: '\00a0▲'; color: var(--accent); }
+    .lof-table thead th[aria-sort="descending"]::after { content: '\00a0▼'; color: var(--accent); }
     .lof-table tbody tr { cursor: pointer; }
     .lof-table tbody tr:hover {
       background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
@@ -1431,7 +1431,7 @@
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="deal-calculator.html" data-step="6">
         <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="recommendation.html" data-step="7">
@@ -1523,7 +1523,7 @@
          OF readers see how this ranking fits into the larger pipeline. -->
     <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:.5rem 18px;max-width:1400px;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
       <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
-        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how Opportunity Finder fits into the 8-step public methodology for affordable housing development.
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how Opportunity Finder fits into the eight-stage public methodology for affordable housing development.
       </span>
       <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
     </aside>
@@ -2514,6 +2514,7 @@
   <script src="js/chfa-rent-limits.js" defer></script>
   <script src="js/local-incentives-data.js" defer></script>
   <script src="js/local-support-data.js" defer></script>
+  <script src="js/funding-fit.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
 </body>
 </html>

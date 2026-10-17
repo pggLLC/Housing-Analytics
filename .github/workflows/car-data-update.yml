@@ -12,6 +12,9 @@ permissions:
 concurrency:
   group: data-commits
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 jobs:
   update:
@@ -51,12 +54,43 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
+      - name: Download Zillow city ZHVI
+        # build:home-values rebuilds place rows only when this CSV is on disk
+        # (it is gitignored). No workflow downloaded it, so from May 2026 every
+        # rebuild kept the committed place rows and their ZHVI month froze at
+        # 2026-05 while Zillow published June, July and August. A failed
+        # download leaves the committed rows in place, as before.
+        #
+        # The builder treats the file's existence as authoritative, so a
+        # truncated transfer must never reach that path: download to a temp
+        # file, check it is a whole ZHVI table with Colorado rows, then move it.
+        run: |
+          mkdir -p data/zillow
+          dest=data/zillow/city_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv
+          tmp="$(mktemp)"
+          if curl -fsSL --retry 3 --max-time 300 -o "$tmp" \
+               "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv" \
+             && head -1 "$tmp" | grep -q '^RegionID,SizeRank,RegionName,RegionType,StateName,State,' \
+             && [ "$(wc -l < "$tmp")" -ge 15000 ] \
+             && [ "$(grep -c ',CO,' "$tmp")" -ge 200 ]; then
+            mv "$tmp" "$dest"
+          else
+            rm -f "$tmp" "$dest"
+            echo "::warning::Zillow city ZHVI download failed or was incomplete; place rows keep their committed month."
+          fi
+
       - name: Rebuild the home-value cascade
         # Its CAR review flags are computed from the latest county report. On
         # 2026-10-11 this workflow added county prices to the 2026-09 report and
         # committed it alone; the cascade kept a flag from the 2026-08 report and
         # main failed test/home-value-integrity.test.mjs until it was rebuilt.
-        run: npm run build:home-values
+        # build:home-values writes the new values into data/hna/summary but not
+        # the income-to-own suppression rule, and it reformats every summary.
+        # The stamp applies the rule and restores the compact format the HNA
+        # build writes; without it test:hna-home-values fails on the commit.
+        run: |
+          npm run build:home-values
+          node scripts/hna/stamp_home_value_cascade.mjs
 
       - name: Re-check the Redfin tracker's review flags
         # The place tracker flags modeled prices above the latest CAR county

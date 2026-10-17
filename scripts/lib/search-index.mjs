@@ -124,7 +124,10 @@ export function briefRenderedText(brief) {
   const sections = (Array.isArray(brief.sections) ? brief.sections : []).flatMap((s) => [
     s && s.heading, ...((s && s.paragraphs) || []), s && s.items_heading, ...((s && s.items) || []),
     s && s.table && s.table.caption, ...((s && s.table && s.table.columns) || []),
-    ...((s && s.table && s.table.rows) || []).flat(), s && s.note
+    ...((s && s.table && s.table.rows) || []).flat(), s && s.note,
+    s && s.steps && s.steps.caption,
+    ...((s && s.steps && s.steps.items) || []).flatMap((step) => [step && step.level, step && step.label, step && step.text]),
+    s && s.see_also && s.see_also.text
   ]);
   return [brief.takeaway, brief.summary, brief.implications, ...sections, ...(brief.articles || []).map((a) => a && a.title)]
     .flat().filter((v) => typeof v === 'string');
@@ -143,6 +146,28 @@ export function briefRecords(curated) {
       };
       const text = briefRenderedText(brief).map(clean).join(' ');
       const b = wordBag(text, `${rec.t} ${rec.k}`);
+      if (b) rec.b = b;
+      return rec;
+    });
+}
+
+// Each program in the developer funding guide opens its own card on the Funding Sources tab
+// (colorado-deep-dive.html?program=<id>#tab-funding). The cards are drawn from JSON, so the
+// tab's static HTML never carries a program's name; without these a search for "Section 811"
+// or "CAPABLE" found nothing. URL form matches js/funding-fit.js guideUrl().
+export function fundingProgramRecords(guide) {
+  return ((guide && guide.programs) || [])
+    .filter((p) => p && p.id && p.name)
+    .map((p) => {
+      const rec = {
+        t: `${clean(p.name)} | COHO Funding Sources`,
+        u: `colorado-deep-dive.html?program=${encodeURIComponent(p.id)}#tab-funding`,
+        d: clean(p.what_it_funds || '').slice(0, 300),
+        k: clean([p.administrator, 'Funding Sources'].filter(Boolean).join(' · '))
+      };
+      const text = [p.eligible_projects, p.eligible_applicants, p.ami_restriction, p.award_size, p.application_cycle,
+        ...(p.key_considerations || [])].filter((v) => typeof v === 'string').map(clean).join(' ');
+      const b = wordBag(text, `${rec.t} ${rec.d} ${rec.k}`);
       if (b) rec.b = b;
       return rec;
     });

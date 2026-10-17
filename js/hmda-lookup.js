@@ -185,7 +185,32 @@
     );
   }
 
+  /** "2018–2025" from the state file's own year list, or null. */
+  function vintageRange(state) {
+    var years = ((state && state.meta && state.meta.years) || []).filter(function (y) { return Number.isInteger(y); });
+    if (!years.length) return null;
+    var lo = Math.min.apply(null, years), hi = Math.max.apply(null, years);
+    return lo === hi ? String(lo) : lo + '–' + hi;
+  }
+
+  // The methodology note names the years the data file holds, so the
+  // automatic yearly fetch never leaves a stale range on the page.
+  function labelVintage() {
+    var els = document.querySelectorAll('[data-hmda-vintage]');
+    if (!els.length) return;
+    _fetchJson(_resolveDataUrl(STATE_PATH)).then(function (state) {
+      var range = vintageRange(state);
+      if (!range) return;
+      for (var i = 0; i < els.length; i++) els[i].textContent = range;
+    }).catch(function () {});
+  }
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', labelVintage);
+    else labelVintage();
+  }
+
   window.HmdaLookup = {
+    vintageRange: vintageRange,
     init: init,
     getCounty: getCounty,
     getCountyTrend: getCountyTrend,

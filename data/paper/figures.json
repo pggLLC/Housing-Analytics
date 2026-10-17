@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "808c17c46",
+  "generated_from_commit": "a7a6d961b",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
-    "last_commit": "2026-10-14",
-    "total_commits": 8274,
+    "last_commit": "2026-10-16",
+    "total_commits": 8399,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,28 +49,28 @@
       },
       {
         "month": "2026-10",
-        "commits": 677,
-        "pct_of_peak": 47.4
+        "commits": 802,
+        "pct_of_peak": 56.1
       }
     ]
   },
   "inventory": {
     "places_with_chas": 482,
-    "html_pages_toplevel": 68,
-    "html_pages_total": 562,
+    "html_pages_toplevel": 69,
+    "html_pages_total": 563,
     "workflows": 80,
-    "scripts": 303,
+    "scripts": 324,
     "docs": 505,
-    "data_files": 1751,
+    "data_files": 1779,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
-    "scheduled_workflows": 67,
-    "test_files": 515,
-    "absence_test_cases": 257,
-    "absence_tests": 98,
+    "scheduled_workflows": 66,
+    "test_files": 553,
+    "absence_test_cases": 272,
+    "absence_tests": 106,
     "lihtc_features": 926
   },
   "case": {
@@ -87,7 +87,7 @@
         "key": "lte30",
         "label": "≤30% AMI",
         "renters": 51,
-        "renters_cb30": 29,
+        "renters_cb30": 28,
         "renters_cb50": 17,
         "owners": 113,
         "owners_cb30": 87,
@@ -131,12 +131,12 @@
         "renters_cb50": 0,
         "owners": 464,
         "owners_cb30": 23,
-        "owners_cb50": 8
+        "owners_cb50": 9
       }
     ],
     "subtotal_lte80": {
       "renters": 290,
-      "renters_cb30": 228,
+      "renters_cb30": 227,
       "renters_cb50": 22,
       "owners": 335,
       "owners_cb30": 191,
@@ -156,7 +156,7 @@
       {
         "geoid": "0800870",
         "name": "Air Force Academy",
-        "households": 657,
+        "households": 658,
         "burdened_lte80": 266,
         "share_pct": 40.5,
         "renters_burdened": 266,
@@ -167,10 +167,10 @@
         "geoid": "0865190",
         "name": "Rocky Ford",
         "households": 1369,
-        "burdened_lte80": 532,
-        "share_pct": 38.8,
-        "renters_burdened": 249,
-        "owners_burdened": 283,
+        "burdened_lte80": 530,
+        "share_pct": 38.7,
+        "renters_burdened": 248,
+        "owners_burdened": 281,
         "tenure_profile": "even split"
       },
       {
@@ -208,7 +208,7 @@
         "name": "Georgetown",
         "households": 596,
         "burdened_lte80": 199,
-        "share_pct": 33.3,
+        "share_pct": 33.4,
         "renters_burdened": 99,
         "owners_burdened": 100,
         "tenure_profile": "even split"
@@ -219,7 +219,7 @@
         "households": 1562,
         "burdened_lte80": 520,
         "share_pct": 33.3,
-        "renters_burdened": 455,
+        "renters_burdened": 454,
         "owners_burdened": 66,
         "tenure_profile": "renter-dominant"
       },
@@ -227,9 +227,9 @@
         "geoid": "0856860",
         "name": "Pagosa Springs",
         "households": 775,
-        "burdened_lte80": 250,
-        "share_pct": 32.3,
-        "renters_burdened": 171,
+        "burdened_lte80": 252,
+        "share_pct": 32.5,
+        "renters_burdened": 173,
         "owners_burdened": 79,
         "tenure_profile": "renter-dominant"
       },
@@ -246,11 +246,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 424685,
-    "generated_place_page_lines": 226822,
-    "top_level_pages": 68,
-    "html_nonblank_lines": 48872,
-    "html_distinct_lines": 19958,
+    "hand_written_lines": 446364,
+    "generated_place_page_lines": 226824,
+    "top_level_pages": 69,
+    "html_nonblank_lines": 48625,
+    "html_distinct_lines": 19831,
     "html_distinct_share": 0.408,
     "substantial_tools": 27,
     "declared_data_sources": 81,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "808c17c46",
+    "extracted_at_commit": "a7a6d961b",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -538,8 +538,8 @@
     "anchor_places_total": 482,
     "anchor_places_applied": 404,
     "anchor_places_unmeasured": 78,
-    "anchor_overcount_places": 143,
-    "anchor_overcount_share": 0.354,
+    "anchor_overcount_places": 148,
+    "anchor_overcount_share": 0.366,
     "ranked_geographies": 546,
     "workforce_gap_wins": 265,
     "future_units_workforce_reading": 365

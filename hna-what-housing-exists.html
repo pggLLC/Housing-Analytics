@@ -140,6 +140,7 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
+  <script src="js/components/second-homes-panel.js"></script>
   <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
   <script src="js/components/agenda-search-links.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -275,13 +276,13 @@
   <!-- Workflow progress bar (Step 3 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="hnaWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
@@ -302,7 +303,7 @@
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="deal-calculator.html" data-step="6">
         <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="recommendation.html" data-step="7">
@@ -434,7 +435,7 @@
          Defined inline (no extra CSS file) to keep the integration minimal. -->
     <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
       <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
-        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our 8-step public methodology for turning housing data into housing built.
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our eight-stage public methodology for turning housing data into housing built.
       </span>
       <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
     </aside>
@@ -790,6 +791,14 @@
       
 <!-- [hna-view:stock] not on this view: Owner/renter shares -->
 
+
+      <section class="chart-card span-12" id="hnaSecondHomesSection" aria-labelledby="hnaH2SecondHomes">
+        <!-- Second homes + short-term rentals, read with the lodging taxes and
+             workforce housing programs that answer them (js/components/second-homes-panel.js,
+             data/hna/second-homes-str.json). -->
+        <h2 id="hnaH2SecondHomes">Second homes, short-term rentals &amp; lodging taxes</h2>
+        <div id="hnaSecondHomesMount" aria-live="polite"></div>
+      </section>
 
       <!-- F160 — Owner-occupied home value distribution by price bracket.
            ACS DP04_0081E - DP04_0088E. The median alone hides a lot of

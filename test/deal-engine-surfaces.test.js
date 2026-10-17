@@ -77,16 +77,16 @@ async function run() {
       }
       assert.equal(view.projection[8], money(r.annualDebtService + r.totalSoftDebtService), 'projection includes the engine soft debt service');
       assert.equal(view.text['dc-stress-base-noi'], money(r.noi));
-      assert.equal(view.text['dc-stress-base-dscr'], r.baseDSCR.toFixed(2) + 'x');
+      assert.equal(view.text['dc-stress-base-dscr'], r.allMustPayDSCR.toFixed(2) + 'x');
       assert.equal(view.text['dc-stress-base-margin'], (r.stressBase.margin >= 0 ? '+' : '') + r.stressBase.margin.toFixed(2));
       assert.equal(r.waterfall.grossProceeds, r.exit.resale);
       assert.equal(r.waterfall.inputs.mortBal, r.exit.firstMortBal);
       assert.equal(r.waterfall.inputs.softBal, r.exit.softBal);
-      assert.equal(r.waterfall.autoLpEquity, r.equity);
-      assert.equal(r.waterfall.lpEquity, r.equity, 'LP contribution uses the actual 4% equity');
+      assert.equal(r.waterfall.autoLpEquity, r.equity + r.stateEquity);
+      assert.equal(r.waterfall.lpEquity, r.equity + r.stateEquity, 'LP contribution uses the actual 4% equity plus any state credit equity');
       assert(r.deferredDevFee > 0 && r.exit.dfYr === null, 'unpaid deferred fee is a non-zero test');
       assert.equal(r.waterfall.inputs.defFeeRemaining, r.deferredDevFee, 'unpaid fee reaches the waterfall');
-      assert.equal(view.text['dc-wf-lp-equity-auto'], compact(r.equity));
+      assert.equal(view.text['dc-wf-lp-equity-auto'], compact(r.equity + r.stateEquity));
       for (let i = 0; i < r.waterfall.tiers.length; i++) assert.equal(view.waterfall[i], compact(r.waterfall.tiers[i].amount), 'waterfall tier ' + i);
       assert.equal(r.fundingGap, Math.max(0, r.gap), 'guidance includes all Sources & Uses');
       assert(r.gap > 0 && view.text['dc-adjust-guidance-list'].includes(money(r.fundingGap)), 'guidance names the same remaining gap');

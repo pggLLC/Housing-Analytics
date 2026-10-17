@@ -52,7 +52,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Telluride. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 45 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Telluride. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 40 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -61,7 +61,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 73 renter households and 283 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 73 renter households and 281 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -109,7 +109,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Telluride at #33 with an overall housing-need score of 77.6. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Telluride at #33 with an overall housing-need score of 77.8. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -119,7 +119,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a ZHVI market estimate of $2,245,437 and median gross rent of $3,056. 15% of households rent, and 43.5% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $2,210,488 and median gross rent of $3,056. 15% of households rent, and 43.5% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -137,14 +137,14 @@
           ]
         },
         {
-          "text": "Opportunity context: the digest gives an opportunity score of 66.5 and a walkability score of 36.5. These are current digest levels, not trends.",
+          "text": "Opportunity context: the digest gives an opportunity score of 65.7 and a walkability score of 35.2. These are current digest levels, not trends.",
           "cites": [
             "d15",
             "d16"
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.8. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $519,932 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 113.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.8. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $511,412 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 113.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -295,7 +295,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -304,7 +304,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -340,7 +340,7 @@
     },
     {
       "id": "d7",
-      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-08-31)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -430,7 +430,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -439,7 +439,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -448,7 +448,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

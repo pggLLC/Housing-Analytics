@@ -568,6 +568,15 @@ def aggregate_place(
                 cb50_owner   = sum(owner_final[t]['cost_burdened_50pct']  for t in AMI_TIERS)
                 source = 'rate-only-fallback'
 
+    # Shares come from the PUBLISHED (rounded) counts, for the reasons given
+    # in recompute_summary(): dividing the raw accumulators made 0839250 ship
+    # 4.2 / 32.0 with a share of 0.1312, and flip with the Python version.
+    tr_pub = round(total_renter, 1)
+    to_pub = round(total_owner, 1)
+    cr30_pub = round(cb30_renter, 1)
+    cr50_pub = round(cb50_renter, 1)
+    co30_pub = round(cb30_owner, 1)
+    co50_pub = round(cb50_owner, 1)
     return {
         'name': place_record.get('name'),
         'tract_count': n_tracts_used,
@@ -576,16 +585,16 @@ def aggregate_place(
         'low_confidence': coverage < COVERAGE_WARN_THRESHOLD,
         'source': source,
         'summary': {
-            'total_renter_hh':    round(total_renter, 1),
-            'total_owner_hh':     round(total_owner,  1),
-            'renter_cb30_count':  round(cb30_renter,  1),
-            'renter_cb30_share':  round(cb30_renter / total_renter, 4) if total_renter else 0.0,
-            'renter_cb50_count':  round(cb50_renter,  1),
-            'renter_cb50_share':  round(cb50_renter / total_renter, 4) if total_renter else 0.0,
-            'owner_cb30_count':   round(cb30_owner,   1),
-            'owner_cb30_share':   round(cb30_owner / total_owner,   4) if total_owner else 0.0,
-            'owner_cb50_count':   round(cb50_owner,   1),
-            'owner_cb50_share':   round(cb50_owner / total_owner,   4) if total_owner else 0.0,
+            'total_renter_hh':    tr_pub,
+            'total_owner_hh':     to_pub,
+            'renter_cb30_count':  cr30_pub,
+            'renter_cb30_share':  round(cr30_pub / tr_pub, 4) if tr_pub else 0.0,
+            'renter_cb50_count':  cr50_pub,
+            'renter_cb50_share':  round(cr50_pub / tr_pub, 4) if tr_pub else 0.0,
+            'owner_cb30_count':   co30_pub,
+            'owner_cb30_share':   round(co30_pub / to_pub, 4) if to_pub else 0.0,
+            'owner_cb50_count':   co50_pub,
+            'owner_cb50_share':   round(co50_pub / to_pub, 4) if to_pub else 0.0,
         },
         'renter_hh_by_ami': renter_final,
         'owner_hh_by_ami':  owner_final,

@@ -35,6 +35,7 @@ const FORBIDDEN_PATHS = [
   'developer-where.html',
   'developer-pipeline.html',
   'developer-brief.html',
+  'developer-whitepaper.html',
   'js/indibuild-gate.js',
   'js/developer-gate.js',
   'docs/indibuild-pipeline-prototype',
@@ -60,7 +61,9 @@ const FORBIDDEN_PATHS = [
   'data/co-housing-costs/README.md',
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
-  'js/components/pipeline-store.js'
+  'js/components/pipeline-store.js',
+  'js/components/private-workspace.js',
+  'js/whitepaper'
 ];
 
 const FORBIDDEN_REFERENCES = [
@@ -72,6 +75,7 @@ const FORBIDDEN_REFERENCES = [
   'developer-where.html',
   'developer-pipeline.html',
   'developer-brief.html',
+  'developer-whitepaper.html',
   'js/indibuild-gate.js',
   'js/developer-gate.js',
   'docs/indibuild-pipeline-prototype/',

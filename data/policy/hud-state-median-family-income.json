@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "source": "HUD FY 2026 Median Family Incomes for States, Metropolitan and Nonmetropolitan Portions of States (attachment to the FY2026 median family income notice)",
+    "source_url": "https://www.huduser.gov/portal/datasets/il/il26/FY26-Median-Attachment-State-Medians.pdf",
+    "fiscal_year": 2026,
+    "retrieved": "2026-10-14",
+    "note": "Read by hand from HUD's PDF; huduser.gov answers scripted requests from non-browser clients with an empty 202. Replaces the statewide 4-person AMI of 107,200 that build_place_ami_gap.py carried as 'FY2025': HUD's FY2025 attachment gives Colorado 124,600, so 107,200 matched no HUD state median."
+  },
+  "state": "CO",
+  "state_fips": "08",
+  "median_family_income": {
+    "total": 127800,
+    "metro": 133500,
+    "nonmetro": 97400
+  },
+  "prior_year": {
+    "fiscal_year": 2025,
+    "source_url": "https://www.huduser.gov/portal/datasets/il/il25/FY25-Median-Attachment-State-Medians.pdf",
+    "median_family_income": { "total": 124600, "metro": 129100, "nonmetro": 102000 }
+  }
+}

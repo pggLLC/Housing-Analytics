@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "description": "Headlines a reviewer has handled for a brief. scripts/news/build_brief_news_queue.py leaves these out of the brief's news queue (data/alerts/brief-news-queue.json), so a story drops off once it has been dealt with. status 'used': the brief was updated from the article, with its quote in _verified/. status 'dismissed': not relevant to the brief, with the reason. Match is by link, or by headline when the link changed.",
+    "entry_fields": ["geoid", "title", "link", "status", "reason", "decided"]
+  },
+  "entries": []
+}

@@ -352,7 +352,8 @@ async function roundTrip(sender, label, savedSubject) {
     const warn = p.d.getElementById('dc-units-sync-warn');
     assert(!warn.hidden && /exceed Total Units/.test(warn.textContent), 'the hard error did not show');
     ['dc-r-basis', 'dc-r-credits', 'dc-r-equity', 'dc-r-rents'].forEach((id) =>
-      assert.strictEqual(p.d.getElementById(id).textContent.trim(), '—', id + ' still renders ' + p.d.getElementById(id).textContent));
+      // No figure: a bare dash, or "Unavailable — <reason>" where the basis panel names the reason (#2160).
+      assert.match(p.d.getElementById(id).textContent.trim(), /^(—|Unavailable — \D+)$/, id + ' still renders ' + p.d.getElementById(id).textContent));
     assert(p.d.getElementById('dc-su-gap').textContent.includes(p.w.__DealCalc.getResult().unavailable.gap), 'invalid mix gap carries the engine reason');
     const msa = p.d.getElementById('dc-minimum-set-aside-status').textContent;
     assert(!/Qualifies/.test(msa) && !/60 of 20/.test(msa), 'set-aside still evaluated: ' + msa);
@@ -360,6 +361,21 @@ async function roundTrip(sender, label, savedSubject) {
     assert.strictEqual(snap.outputs.creditEquity.value, null, 'JSON export creditEquity is ' + snap.outputs.creditEquity);
     setField(p, 'dc-units', 60);
     assert(isValue(p.d.getElementById('dc-r-equity').textContent), 'equity did not return once the mix was fixed');
+  });
+
+  await test('a Prop 123 program and rural resort petition round-trip and price the same rents', async () => {
+    const s = await openPage('');
+    setSelector(s, '#dc-county-select', '08117');
+    setSelector(s, '#dc-rent-limit-regime', 'prop123');
+    await waitFor(() => s.d.getElementById('dc-prop123-program').options.length > 1, 'the Prop 123 programs to load', 10000, s.errors);
+    setSelector(s, '#dc-prop123-program', 'land_banking');
+    setSelector(s, '#dc-prop123-petition', 'Summit County');
+    await sleep(300);
+    const sent = visibleOutputs(s);
+    assert(isValue(sent['dc-r-rents']), 'sender shows no rent roll (' + sent['dc-r-rents'] + ')');
+    const { recipient } = await roundTrip(s, 'Prop 123');
+    assert.strictEqual(recipient.d.getElementById('dc-prop123-program').value, 'land_banking');
+    assert.strictEqual(recipient.d.getElementById('dc-prop123-petition').value, 'Summit County');
   });
 
   if (failures) {

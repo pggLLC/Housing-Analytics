@@ -39,7 +39,7 @@
         '</h2>' +
         '<p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">' +
           'Projects the deal-calculator\u2019s year-1 income and expense figures over a multi-year horizon ' +
-          'using constant annual growth rates and fixed debt service.' +
+          'using constant annual growth rates and the stated loan payment schedules.' +
         '</p>' +
 
         // F133 — was hardcoded #fef3c7 (light yellow) bg + #92400e dark amber
@@ -49,7 +49,7 @@
         // gets --text-strong so it doesn't inherit dark-mode --text.
         '<div style="margin-bottom:var(--sp3);padding:0.65rem 0.85rem;border-radius:var(--radius);' +
           'background:var(--warn-dim, rgba(168,70,8,0.1));border:1px solid var(--warn);color:var(--text-strong);font-size:var(--small);line-height:1.55;">' +
-          '<strong style="color:var(--text-strong);">Disclaimer:</strong> Assumes constant growth rates and fixed debt service. ' +
+          '<strong style="color:var(--text-strong);">Disclaimer:</strong> Assumes constant growth rates and the stated loan payment schedules. ' +
           'Not a substitute for project-level underwriting or investor pro forma.' +
         '</div>' +
 
@@ -72,12 +72,14 @@
             '</label>' +
             '<label style="display:block;min-width:160px;">' +
               '<span style="font-size:var(--small);color:var(--muted);">Projection Years</span>' +
-              '<input id="pf-years" type="number" min="5" max="30" step="1" value="15"' +
+              '<input id="pf-years" type="number" min="5" max="50" step="1" value="15"' +
                 ' style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);' +
                 'border-radius:var(--radius);background:var(--bg2);color:var(--text);">' +
             '</label>' +
           '</div>' +
         '</fieldset>' +
+
+        '<div id="pf-loans"></div>' +
 
         // Table container
         '<div id="pf-table-wrap" style="overflow-x:auto;margin-bottom:var(--sp3);"></div>' +
@@ -107,6 +109,7 @@
     var result = event && event.detail && event.detail.result ||
       (window.__DealCalc && window.__DealCalc.getResult());
     var wrap = $('pf-table-wrap');
+    renderLoans(result);
     if (!result || !result.projection) {
       var reason = result && result.unavailable.projection || 'The deal calculation is unavailable.';
       if (wrap) { wrap.dataset.unavailableReason = reason; wrap.textContent = 'Unavailable — ' + reason; }
@@ -119,6 +122,43 @@
     renderChart(rows);
   }
 
+  function escapeLabel(value) {
+    return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function renderLoans(result) {
+    var host = $('pf-loans');
+    if (!host) return;
+    if (!result || !result.obligations || !result.obligations.loans) {
+      host.textContent = 'Unavailable — ' + (result && result.obligations && result.obligations.unavailableReason || 'Loan inputs are unavailable.');
+      return;
+    }
+    var years = result.coverage && result.coverage.years || [];
+    var html = '<details><summary style="min-height:44px;cursor:pointer;">Annual loan obligations and coverage</summary>' +
+      '<p>Screening schedule: paid amounts use available NOI, with required payments before contingent loans. Maturity amounts are separate from regular coverage and are not assumed refinanced or paid from operations. Years after an unpaid maturity are unavailable. Forgiveness assumes all agreement conditions are met.</p>' +
+      '<div style="overflow-x:auto;"><table data-loan-coverage><caption>Coverage of regular must-pay payments</caption><thead><tr><th>Year</th><th>Senior only</th><th>All must-pay</th><th>Maturity due</th></tr></thead><tbody>';
+    years.forEach(function (row) {
+      html += '<tr><td>' + escapeLabel(row.year) + '</td><td>' + (row.seniorCoverage == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason || 'No positive senior debt service.') : fmtPct(row.seniorCoverage)) + '</td><td>' +
+        (row.allMustPayCoverage == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason || 'No positive must-pay debt service.') : fmtPct(row.allMustPayCoverage)) + '</td><td>' +
+        (row.maturityDue == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason || 'Unknown loan obligation') : fmt(row.maturityDue)) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+    result.obligations.loans.forEach(function (loan) {
+      html += '<div style="overflow-x:auto;margin-top:1rem;"><table data-loan-id="' + escapeLabel(loan.id) + '" style="white-space:nowrap;width:100%;font-size:var(--small);"><caption>' +
+        escapeLabel(loan.program || loan.id) + ' · ' + escapeLabel(window.DealEngine.LOAN_TYPES[loan.type]) +
+        ' · maturity year ' + escapeLabel(loan.maturity) + ' · priority ' + escapeLabel(loan.priority) + '</caption>' +
+        '<thead><tr><th>Year</th><th>Regular due</th><th>Paid</th><th>Unpaid</th><th>Interest accrued</th><th>Balance</th><th>Maturity due</th><th>Forgiven</th></tr></thead><tbody>';
+      loan.rows.slice(0, loan.maturity).forEach(function (row) {
+        html += '<tr><td>' + escapeLabel(row.year) + '</td>';
+        ['due', 'paid', 'unpaid', 'accrued', 'balance', 'maturityDue', 'forgiven'].forEach(function (key) {
+          html += '<td style="text-align:right;">' + (row[key] == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason) : fmt(row[key])) + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+    host.innerHTML = html + '</details>';
+  }
+
   // ── table ─────────────────────────────────────────────────────────
   function renderTable(rows, unavailable) {
     var wrap = $('pf-table-wrap');
@@ -127,7 +167,7 @@
     var cols = [
       'Year', 'Gross Rents', 'Vacancy Loss', 'EGI',
       'Operating Exp', 'Rep Reserve', 'Prop Tax', 'NOI',
-      'Debt Service', 'Cash Flow', 'DSCR', 'Cumulative CF'
+      'All Must-pay Service', 'Cash Flow', 'All Must-pay DSCR', 'Cumulative CF'
     ];
 
     var html = '<table style="width:100%;border-collapse:collapse;font-size:var(--small);white-space:nowrap;">';
@@ -141,6 +181,8 @@
 
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
+      var rowReason = r.unavailableReason || 'Debt service is unavailable for this year.';
+      var rowMoney = function (value) { return value == null ? 'Unavailable — ' + escapeLabel(rowReason) : fmt(value); };
       var bgStyle = i % 2 === 0 ? '' : 'background:var(--bg2);';
       var cfColor = r.cashFlow >= 0 ? 'color:var(--accent);' : 'color:var(--chart-7);';
       var dscrColor = r.dscr >= 1.20 ? 'color:var(--accent);' : (r.dscr >= 1.0 ? 'color:var(--warn,#d97706);' : 'color:var(--chart-7);');
@@ -155,10 +197,10 @@
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.repReserve) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.propTax) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + fmt(r.noi) + '</td>';
-      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.debtService) + '</td>';
-      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + cfColor + '">' + fmt(r.cashFlow) + '</td>';
-      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + dscrColor + '">' + (r.dscr == null ? 'Unavailable — ' + unavailable['projection.rows.' + i + '.dscr'] : fmtPct(r.dscr)) + '</td>';
-      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);' + cumColor + '">' + fmt(r.cumCF) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + rowMoney(r.debtService) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + cfColor + '">' + rowMoney(r.cashFlow) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + dscrColor + '">' + (r.dscr == null ? 'Unavailable — ' + escapeLabel(r.unavailableReason || unavailable['projection.rows.' + i + '.dscr']) : fmtPct(r.dscr)) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);' + cumColor + '">' + rowMoney(r.cumCF) + '</td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -190,8 +232,8 @@
     for (var i = 0; i < rows.length; i++) {
       labels.push('Yr ' + rows[i].year);
       noiData.push(Math.round(rows[i].noi));
-      dsData.push(Math.round(rows[i].debtService));
-      cfData.push(Math.round(rows[i].cashFlow));
+      dsData.push((rows[i].debtService == null ? null : Math.round(rows[i].debtService)));
+      cfData.push((rows[i].cashFlow == null ? null : Math.round(rows[i].cashFlow)));
     }
 
     if (_chart) {

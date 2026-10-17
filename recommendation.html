@@ -79,6 +79,7 @@
     .rec-actions button { min-height: 44px; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; cursor: pointer; }
     .rec-actions button[disabled] { opacity: .55; cursor: not-allowed; }
     .rec-footer-note { margin-top: 26px; border-top: 1px solid var(--border); padding-top: 16px; color: var(--muted); line-height: 1.55; }
+    .rec-funding-next { margin: 20px 0 0; line-height: 1.55; max-width: 80ch; }
     @media (max-width: 700px) { .rec-shell { padding-inline: 12px; } .rec-headline__verdict { font-size: 1.3rem; } }
   </style>
 </head>
@@ -88,34 +89,34 @@
 
   <div class="wf-progress-wrap" id="recWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="4">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
         <span class="wf-step__label">Market Analysis</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="5">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="deal-calculator.html" data-step="6">
-        <span class="wf-step__num">&#10003;</span>
-        <span class="wf-step__label">Deal</span>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <div class="wf-step wf-step--active" data-step="7" aria-current="step">
@@ -143,6 +144,11 @@
     <div class="rec-actions">
       <button id="recExportPdf" type="button">Download as PDF</button>
     </div>
+
+    <p class="rec-funding-next"><strong>Which programs could fund it?</strong>
+       The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive narrows every
+       Colorado tax credit, loan, grant and rental assistance program to the ones that fit
+       the deal type, project type and county, and shows their terms side by side.</p>
 
     <footer class="rec-footer-note">
       <strong>Standing disclosure:</strong> this is a screening synthesis assembled from

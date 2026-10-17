@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Peyton — COHO Place Profile</title>
+  <title>Peyton Housing Profile — COHO Analytics</title>
   <meta name="description" content="Housing data profile for Peyton, El Paso County, Colorado: cost-burden by AMI tier, mortgage credit access, cross-county disclosure, and HUD AMI rent limits.">
   <meta property="og:title" content="Peyton Housing Profile — COHO Analytics">
   <meta property="og:description" content="LIHTC underwriting data for Peyton, El Paso County, Colorado.">
@@ -31,22 +31,22 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 5.6,
-    "total_owner_hh": 39.4,
-    "renter_cb30_count": 1.9,
-    "renter_cb30_share": 0.3393,
-    "renter_cb50_count": 0.9,
-    "renter_cb50_share": 0.1607,
-    "owner_cb30_count": 10.4,
-    "owner_cb30_share": 0.264,
-    "owner_cb50_count": 3.6,
-    "owner_cb50_share": 0.0914
+    "total_renter_hh": 5.8,
+    "total_owner_hh": 40.3,
+    "renter_cb30_count": 2.0,
+    "renter_cb30_share": 0.3448,
+    "renter_cb50_count": 1.0,
+    "renter_cb50_share": 0.1724,
+    "owner_cb30_count": 10.7,
+    "owner_cb30_share": 0.2655,
+    "owner_cb50_count": 3.7,
+    "owner_cb50_share": 0.0918
   },
   "renter_hh_by_ami": {
     "lte30": {
       "total": 1.3,
       "cost_burdened_30pct": 0.9,
-      "cost_burdened_50pct": 0.7,
+      "cost_burdened_50pct": 0.8,
       "pct_cost_burdened_30": 0.675,
       "pct_cost_burdened_50": 0.575
     },
@@ -58,14 +58,14 @@
       "pct_cost_burdened_50": 0.2667
     },
     "51to80": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.6,
+      "total": 0.8,
+      "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.1,
-      "pct_cost_burdened_30": 0.9151,
-      "pct_cost_burdened_50": 0.184
+      "pct_cost_burdened_30": 0.9146,
+      "pct_cost_burdened_50": 0.1838
     },
     "81to100": {
-      "total": 0.3,
+      "total": 0.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,21 +81,21 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 2.1,
+      "total": 2.2,
       "cost_burdened_30pct": 1.5,
-      "cost_burdened_50pct": 1.4,
-      "pct_cost_burdened_30": 0.6808,
-      "pct_cost_burdened_50": 0.6736
+      "cost_burdened_50pct": 1.5,
+      "pct_cost_burdened_30": 0.6809,
+      "pct_cost_burdened_50": 0.6735
     },
     "31to50": {
-      "total": 2.5,
-      "cost_burdened_30pct": 0.8,
+      "total": 2.6,
+      "cost_burdened_30pct": 0.9,
       "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.3244,
-      "pct_cost_burdened_50": 0.1666
+      "pct_cost_burdened_50": 0.1667
     },
     "51to80": {
-      "total": 6.1,
+      "total": 6.2,
       "cost_burdened_30pct": 3.3,
       "cost_burdened_50pct": 1.8,
       "pct_cost_burdened_30": 0.5404,
@@ -103,14 +103,14 @@
     },
     "81to100": {
       "total": 1.2,
-      "cost_burdened_30pct": 0.6,
+      "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
-      "pct_cost_burdened_30": 0.5331,
+      "pct_cost_burdened_30": 0.5329,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 27.5,
-      "cost_burdened_30pct": 4.2,
+      "total": 28.1,
+      "cost_burdened_30pct": 4.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1534,
       "pct_cost_burdened_50": 0.0
@@ -123,13 +123,14 @@
     "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
     "acs_renter_hh": 46.0,
     "acs_owner_hh": null,
-    "base_renter_hh": 5.6,
-    "base_owner_hh": 39.4
+    "base_renter_hh": 6.1,
+    "base_owner_hh": 42.4
   },
   "acs_anchor": {
-    "applied": false,
+    "applied": true,
+    "factor": 0.9485,
     "acs_occupied_hh": 46,
-    "base_hh": 45.0
+    "base_hh_before": 48.5
   },
   "chas_meta": {
     "vintage_chas": "2018-2022",
@@ -145,12 +146,12 @@
     "type": "cdp",
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-    "data_quality": "High",
-    "renter_cost_burdened": 1.9,
-    "owner_cost_burdened": 10.4,
-    "severe_renter_cost_burdened": 0.9,
-    "moderate_income_renter_households": 1,
-    "moderate_income_owner_cost_burdened": 3.9,
+    "data_quality": "Medium",
+    "renter_cost_burdened": 2,
+    "owner_cost_burdened": 10.7,
+    "severe_renter_cost_burdened": 1,
+    "moderate_income_renter_households": 1.2,
+    "moderate_income_owner_cost_burdened": 4,
     "existing_rental_gap_lte80": 33,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -159,7 +160,8 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
+      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
     ]
   }
 }
@@ -203,7 +205,7 @@
           Colorado · El Paso County
         </div>
         <h1>Peyton</h1>
-        <p class="place-sub">~45 households · renter cost-burden 33.9%</p>
+        <p class="place-sub">~46 households · renter cost-burden 34.5%</p>
       </div>
     </div>
 

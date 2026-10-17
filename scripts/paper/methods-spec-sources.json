@@ -14,7 +14,7 @@
         {
           "file": "scripts/hna/build_place_chas.py",
           "function": "aggregate_place",
-          "sha": "da45a257923e7f2c"
+          "sha": "26f9dea55efacbc0"
         },
         {
           "file": "scripts/hna/build_place_chas.py",
@@ -22,7 +22,7 @@
           "sha": "9bfd2c8c74b71722"
         }
       ],
-      "reviewed": "2026-10-10"
+      "reviewed": "2026-10-14"
     },
     {
       "section": "m-anchor",

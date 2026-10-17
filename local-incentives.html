@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Local Housing Incentives | Colorado Public Data Reference</title>
+  <title>Local Housing Incentives | COHO Analytics</title>
   <meta name="description" content="Which affordable-housing tools each Colorado county, city and town has adopted: fee relief, land-use incentives, dedicated funds and ownership programs, each with its source and check date.">
-  <meta property="og:title" content="Local Housing Incentives | Colorado Public Data Reference">
+  <meta property="og:title" content="Local Housing Incentives | COHO Analytics">
   <meta property="og:description" content="Verified local affordable-housing incentives by Colorado jurisdiction, with sources, check dates and tools to consider.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
@@ -86,6 +86,7 @@
           <h3>How to read this page</h3>
           <p>Each record was read from the jurisdiction's own code, ordinance, fee schedule, ballot result or program page, and the wording it rests on is quoted under it. A figure the source does not publish is left blank rather than estimated.</p>
           <p>A jurisdiction with no record has <strong>not</strong> been shown to have no program. Every jurisdiction is marked <strong>verified records</strong>, <strong>checked, none found</strong>, <strong>source could not be read</strong>, or <strong>not yet checked</strong>.</p>
+          <p id="liWorkforceBrief">Resort towns pay for workforce housing mostly with lodging and short-term rental taxes: <a href="research-brief.html?id=workforce-housing-without-tax-credits-2026">read the brief on local workforce housing without tax credits</a>.</p>
         </div>
 
         <section aria-labelledby="li-coverage-h" class="chart-card" style="margin:var(--sp5) 0;padding:var(--sp3);">
@@ -121,7 +122,7 @@
             <li>Fee relief and land-use incentives: <code>data/policy/fee-reductions.json</code>. Local funds, taxes, linkage fees and ownership tools: <code>data/policy/local-housing-funds.json</code>. Who was checked and found nothing: <code>data/policy/incentive-coverage.json</code>. Tool catalog: <code>data/policy/incentive-alternatives.json</code>.</li>
             <li>Prop 123 status: <code>data/policy/prop123_jurisdictions.json</code>, built from DOLA's commitment filings, verified fast-track policies and fully compliant list by <code>scripts/policy/build_prop123_jurisdictions.py</code>; its date is shown beside every status.</li>
             <li>Every record carries a re-check date. A daily job opens an issue before a record falls due, and the record shows a warning here once it is overdue. A monthly job opens an issue naming the next jurisdictions to research.</li>
-            <li>State and federal programs are on the <a href="colorado-deep-dive.html">Colorado Deep Dive</a>; property-tax abatements are in the tax-abatement inventory.</li>
+            <li>State and federal programs are in <a href="colorado-deep-dive.html#tab-funding">the Deep Dive's Funding Sources tab</a>; property-tax abatements are in the tax-abatement inventory.</li>
           </ul>
           <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">
             <strong>Disclaimer:</strong> Informational only. Local codes change; the jurisdiction's current adopted text controls.

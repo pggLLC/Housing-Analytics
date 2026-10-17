@@ -58,6 +58,8 @@ PATHS=(
   places
   data/market/acs_median_rent_co.json
   data/derived/funding-vs-need.json
+  data/market/development-activity.json
+  data/market/market-direction.json
   data/paper
   working-paper.html
   methods.html

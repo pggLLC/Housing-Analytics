@@ -50,13 +50,17 @@ for (let i = 0; i < STEPS.length; i++) {
   assert.match(r.cls, expectCls, step.href + ' renders the expected state; got ' + r.cls);
   if (i < STEPS.length - 1) {
     assert.ok(r.cta, step.href + ' (step ' + step.num + ') offers a forward link');
-    assert.equal(r.cta.getAttribute('href'), STEPS[i + 1].href, step.href + ' forward link goes to the NEXT step, not back');
+    // The next step, skipping the optional Opportunity Finder: a reader who
+    // has chosen a place is sent on to step 3, as the picker's own button
+    // does (the picker offers step 2 beside it; see F4).
+    const next = STEPS.slice(i + 1).find((s) => s.key !== 'opportunity');
+    assert.equal(r.cta.getAttribute('href'), next.href, step.href + ' forward link goes to the NEXT step, not back');
     assert.match(r.cta.textContent, /Go on to |Continue to /, 'forward link is worded as an offer');
   } else {
     assert.equal(r.cta, null, 'the last step offers no forward link');
   }
 }
-console.log('  ✓ every step 1-6 banner links forward to the next step; step 7 does not');
+console.log('  ✓ every step 1-6 banner links forward to the next required step; step 7 does not');
 
 // F4 — the picker names step 3 and offers step 2.
 const picker = read('select-jurisdiction.html');

@@ -976,7 +976,21 @@
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
     // D — Prefer CHAS LIHTC-eligible renter HH (≤80% AMI) as the denominator;
     // fall back to ACS renter_hh when CHAS unavailable.
-    return PMAScoring.scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible);
+    var res = PMAScoring.scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible);
+    // With neither CHAS eligible renters nor an ACS renter count, the shared
+    // helper divides by 1, so any existing unit reads as capture far above
+    // 100% and scores 0. That is an unknown, not a finding: withhold the
+    // score and capture (the overall score drops the dimension and says
+    // so). The helper is hash-pinned by test/pma-scoring.test.js, so the
+    // guard lives here, as it does for rent pressure.
+    if (res && res.denominatorSource === 'fallback_1') {
+      res.score = null;
+      res.capture = null;
+      res.qualRenters = null;
+      res.unavailable = true;
+      res.unavailableReason = 'no count of income-qualified renter households is available for this market area';
+    }
+    return res;
   }
 
   /**
@@ -1358,7 +1372,7 @@
       captureRiskCoverage = 'full';
     } else if (!acs || acs.renter_hh == null) {
       captureRiskCoverage = 'fallback';
-      fallbackReasons.capture_risk = 'CHAS + ACS renter_hh both missing; capture denominator defaulted to 1';
+      fallbackReasons.capture_risk = 'CHAS + ACS renter_hh both missing; capture score withheld (dimension excluded from overall, weight redistributed)';
     } else {
       captureRiskCoverage = 'partial';
       fallbackReasons.capture_risk =
@@ -5080,7 +5094,7 @@
       vintages: {
         acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
-        lehd: 'LEHD WAC 2021',
+        lehd: 'LEHD WAC 2023',
         fmr:  'HUD FMR FY2027',
         lihtc:'HUD LIHTC Database (most recent quarterly)'
       },
@@ -5782,7 +5796,8 @@
             : generatedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
           tsEl.textContent = 'Data as of ' + generatedLabel;
         } else {
-          tsEl.textContent = 'Data as of ' + new Date().toLocaleDateString();
+          // No stamp in the file is an unknown date, never today's.
+          tsEl.textContent = 'Data date unavailable';
         }
       }
     });

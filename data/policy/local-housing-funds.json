@@ -2,8 +2,8 @@
   "schema": "local-housing-funds/v1",
   "meta": {
     "title": "Colorado local housing funds, dedicated taxes, linkage fees, land and ownership tools",
-    "as_of": "2026-10-10",
-    "last_verified": "2026-10-10",
+    "as_of": "2026-10-14",
+    "last_verified": "2026-10-14",
     "review_by": "2027-01-10",
     "method": "Curated, not a feed. Each record was read from the jurisdiction's own code, ordinance, ballot question or election result, budget or program page, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means read from that official document; \"reported\" means taken from a named outlet without the primary document, and verification.by names it. Every dollar figure and percentage a record states appears in its own evidence quotes (tests/test_local_incentives.py). A figure the source does not publish is null, never 0. Fee relief and land-use incentives are in data/policy/fee-reductions.json, not here.",
     "review_rule": "review_by is about 90 days out for records that change yearly (fund balances, program pages) and about six months for code- or ballot-backed records. policy-review-reminders.yml opens an issue a week before a record is due; the page shows a warning once it is overdue.",
@@ -1474,7 +1474,7 @@
       "annual_revenue": null,
       "revenue_year": null,
       "uses": "childcare programs and affordable housing for local workers (90%); tourism marketing (10%)",
-      "summary": "Eagle County Ballot Issue 1A (2022) created a 2% lodging excise tax on stays under 30 days in unincorporated Eagle County and Gypsum, with 90% for local-workforce childcare and affordable housing and 10% for tourism marketing; voters added another 2% in 2025, for 4% total.",
+      "summary": "Eagle County Ballot Issue 1A (2022) created a 2% lodging excise tax on stays under 30 days in unincorporated Eagle County and Gypsum, with 90% for local-workforce childcare and affordable housing and 10% for tourism marketing. Voters added another 2% in 2025, for 4% total; the county describes the support that increase funds as childcare and public safety, so it is not counted as housing money.",
       "authorizing_code": "Eagle County Ballot Issue 1A (Nov 2022); 2025 lodging tax ballot question",
       "source": {
         "label": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
@@ -1483,7 +1483,7 @@
       "verification": {
         "level": "primary",
         "against": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
-        "checked": "2026-10-10"
+        "checked": "2026-10-14"
       },
       "review_by": "2027-04-10",
       "evidence": [
@@ -1504,10 +1504,15 @@
           "section": "Local Ballot Measures - Eagle County",
           "quote": "Eagle County Ballot Issue 1A: Lodging Tax to Support Local Workforce - Passed",
           "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        },
+        {
+          "section": "Sales Tax",
+          "quote": "Support initiatives include additional childcare for our local workforce and public safety enhancements.",
+          "source_url": "https://www.eaglecounty.us/departments___services/finance/sales_tax.php"
         }
       ],
-      "notes": "Ballot title estimated $3,000,000 annually from 2023 (projection, not stored). Split between housing and childcare not fixed in ballot text. Search results describe the 2025 increment as for childcare and public safety; not read from the 2025 resolution, so the 2025 2% is not treated as housing money.",
-      "last_verified": "2026-10-10"
+      "notes": "Ballot title estimated $3,000,000 annually from 2023 (projection, not stored). Split between housing and childcare not fixed in ballot text. The county's Sales Tax page (checked 2026-10-14) describes the 2025 increment as supporting childcare and public safety, so the 2025 2% is not treated as housing money.",
+      "last_verified": "2026-10-14"
     },
     {
       "id": "f-eagle-county-good-deeds",

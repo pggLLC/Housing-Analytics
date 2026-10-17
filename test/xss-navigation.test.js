@@ -43,7 +43,7 @@ const normalDom = renderNavigation({
 });
 assert.strictEqual(
   normalDom.window.document.querySelector('.jurisdiction-pill__name').textContent,
-  'Mesa County · Grand Junction',
+  'Grand Junction · Mesa County',
   'normal jurisdiction text renders unchanged'
 );
 const normalDropdown = openProjectSwitcher(normalDom);

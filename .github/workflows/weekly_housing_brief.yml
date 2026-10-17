@@ -1,4 +1,4 @@
-name: Weekly Policy Briefs Update
+name: Daily Housing News Update
 
 # F161 — Renamed from "Weekly Housing Intelligence Brief" to reflect what
 # this cron actually does now. The internal "weekly brief" feature was
@@ -19,19 +19,38 @@ name: Weekly Policy Briefs Update
 #
 # Step (3) IS the public-facing brief; the retired private weekly-brief
 # system was a separate internal payload that no longer ships.
+#
+# 2026-10-14 — daily, with events and the brief news queue. The file keeps its
+# name because the outcome monitor and its fixtures know it by that name.
+#   - Runs every day instead of Thursdays. configure-alerts-feeds.yml, which
+#     ran the same two scripts on Saturdays, is retired: one workflow, one
+#     schedule.
+#   - Adds one news search per jurisdiction brief
+#     (scripts/news/brief_news_feeds.py), so small brief towns surface.
+#   - Fetches upcoming events (scripts/news/fetch_housing_events.py →
+#     data/policy/housing-events.json) for the News page's events panel.
+#   - Builds the brief news queue (scripts/news/build_brief_news_queue.py →
+#     data/alerts/brief-news-queue.json) shown on each brief, and rewrites the
+#     one "Jurisdiction briefs to review" issue from it.
+#   - Rebuilds data/_manifest.json before data/manifest.json, the order
+#     AGENTS.md requires (it rebuilt only the second).
 
 on:
   schedule:
-    - cron: '29 6 * * 4'   # Thursdays 06:29 UTC (lands ~03:00 MT)
+    - cron: '29 6 * * *'   # daily 06:29 UTC (GitHub starts ~3h late, so lands ~03:00 MT)
   workflow_dispatch:
 
 permissions:
   contents: write
   actions: write
+  issues: write          # the "Jurisdiction briefs to review" issue
 
 concurrency:
   group: data-commits
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 jobs:
   refresh-policy-briefs:
@@ -57,6 +76,7 @@ jobs:
           cat > scripts/alert_feeds.txt << 'FEEDS'
           # RSS feed URLs for housing news alerts (one per line)
           # Auto-populated by weekly_housing_brief.yml — do not edit manually
+          # The per-brief searches are appended by scripts/news/brief_news_feeds.py.
 
           # ── Google News: Colorado affordable housing topics ──
           https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
@@ -64,6 +84,16 @@ jobs:
           https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
           https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
           https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
+
+          # ── Google News: funding rounds and the infrastructure housing needs ──
+          # Added 2026-10-15: none of the searches above found infrastructure
+          # money (water, sewer, tap fees, DOLA grants). The agency pages
+          # themselves are watched by chfa-qap-watch.yml (funding-watch job).
+          https://news.google.com/rss/search?q=colorado+housing+infrastructure+grant&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=%22Energy+and+Mineral+Impact%22+OR+EIAF+colorado&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+%22tap+fees%22+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+water+sewer+housing+grant&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=DOLA+grant+housing+colorado&hl=en-US&gl=US&ceid=US:en
 
           # ── NCSHA: National Council of State Housing Agencies ──
           https://www.ncsha.org/feed/
@@ -73,6 +103,8 @@ jobs:
           # 404. The Google News queries above cover the same topical
           # surface.
           FEEDS
+          python3 scripts/news/brief_news_feeds.py >> scripts/alert_feeds.txt
+          echo "Feeds: $(grep -c '^https' scripts/alert_feeds.txt)"
 
       - name: Fetch RSS alerts
         env:
@@ -112,6 +144,12 @@ jobs:
           print(f"  Mode           : {mode}")
           PY
 
+      - name: Fetch upcoming housing events
+        run: python3 scripts/news/fetch_housing_events.py
+
+      - name: Build the brief news queue
+        run: python3 scripts/news/build_brief_news_queue.py
+
       # F161 — Removed the "Build weekly brief" step entirely. It was calling
       # private/weekly-brief/scripts/build_weekly_brief.py, which was deleted
       # from the index in commit 0dbcd0d4 (security hardening, see header).
@@ -132,32 +170,46 @@ jobs:
           # private/ has been .gitignore'd since the Apr 19 security commit,
           # so the add was a no-op anyway, but leaving it implied this
           # workflow still ships a private brief. It doesn't.
-          python3 scripts/rebuild_manifest.py
+          node scripts/validate-schemas.js
           git add scripts/alert_feeds.txt
           git add data/alerts/alerts_archive.json
           git add data/policy_briefs.json
-          git add data/manifest.json
+          git add data/policy/housing-events.json
+          git add data/alerts/brief-news-queue.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
             echo "PUSHED=false" >> "$GITHUB_ENV"
           else
-            git commit -m "chore: weekly policy briefs refresh $(date -u '+%Y-%m-%d')"
-            # F161 — Rebase onto whatever's currently at origin/main before
-            # pushing. The job runs for ~40s between checkout and push, and
-            # other workflows (data-refresh cron, sync-data-mtimes, etc.)
-            # frequently land on main in that window — without --rebase the
-            # push fails with "remote contains work that you do not have".
-            # --autostash handles the case where the working tree picked up
-            # any unstaged transients from the network fetches.
-            git pull --rebase --autostash origin main
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
+            git commit -m "chore: daily housing news refresh $(date -u '+%Y-%m-%d')"
+            # The two manifests are not in that commit while it is rebased.
+            # They record every data file's bytes, so nearly every commit to
+            # main changes them (the post-merge archive job always does), and a
+            # news commit carrying them conflicts on rebase: the first run after
+            # #2215 failed that way. So the news-only commit is rebased (F161:
+            # other workflows land on main while this job runs), the manifests
+            # are rebuilt and validated on the rebased tree and amended into
+            # it, and the one commit is pushed. If main moved again, the commit
+            # goes back to news-only and round again.
+            pushed=false
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main
+              news_only=$(git rev-parse HEAD)
+              npm run -s audit:file-manifest
+              python3 scripts/rebuild_manifest.py
+              node scripts/validate-schemas.js
+              git add data/_manifest.json data/manifest.json
               git commit --amend --no-edit
+              if git push; then pushed=true; break; fi
+              echo "Push rejected on attempt $attempt: main moved. Retrying."
+              git reset --hard "$news_only"
+              sleep $((attempt * 10))
+            done
+            if [ "$pushed" != true ]; then
+              echo "::error::main kept moving; the news refresh was not pushed after 3 attempts." >&2
+              exit 1
             fi
-            git push
             echo "PUSHED=true" >> "$GITHUB_ENV"
           fi
 
@@ -177,3 +229,10 @@ jobs:
               ref: 'main'
             });
             core.notice('Dispatched deploy.yml for latest main commit.');
+
+      # After the data push, so a failure here never holds back the news. Main only.
+      - name: Rewrite the "Jurisdiction briefs to review" issue
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/news/update-brief-review-issue.mjs data/alerts/brief-news-queue.json

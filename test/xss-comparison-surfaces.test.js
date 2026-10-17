@@ -168,16 +168,18 @@ async function testCompareController() {
         { place_geoid: '7654321', signal: 'high' }
       ]
     },
-    'data/policy/soft-funding-status.json': {
-      programs: {
-        hostile: { name: 'Hostile Program', competitiveness: HOSTILE },
-        normal: { name: 'Normal Program', competitiveness: 'moderate' }
-      }, meta: {}
+    // INVENTED guide programs; the compare panel lists them through js/funding-fit.js.
+    'data/policy/co-developer-funding-guide.json': {
+      programs: [
+        { id: 'hostile', name: HOSTILE, status: 'open', fit: { role: 'capital', execution: ['9%'], project_types: [], geography: { scope: 'statewide' } } },
+        { id: 'normal', name: 'Normal Program', status: 'open', fit: { role: 'capital', execution: ['9%'], project_types: [], geography: { scope: 'statewide' } } }
+      ], meta: {}
     }
   };
   dom.window.DataService = {
     getJSON: function (url) { return Promise.resolve(responses[url]); }
   };
+  dom.window.eval(read('js/funding-fit.js'));
   dom.window.eval(read('js/compare.js'));
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   await wait(20);
@@ -186,9 +188,9 @@ async function testCompareController() {
   const tableBody = dom.window.document.getElementById('cmpBody');
   assert.strictEqual(soft.querySelector('tag'), null, 'hostile funding status does not become markup');
   assert.strictEqual(tableBody.querySelector('tag'), null, 'hostile watchlist signal does not become markup');
-  assert(soft.innerHTML.includes(ESCAPED), 'funding competitiveness is escaped');
+  assert(soft.innerHTML.includes(ESCAPED), 'funding program name is escaped');
   assert(tableBody.innerHTML.includes(ESCAPED), 'watchlist signal is escaped');
-  assert(soft.innerHTML.includes('>moderate</span>'), 'normal funding status renders byte-identically');
+  assert(soft.innerHTML.includes('>Normal Program</a>'), 'normal funding program renders byte-identically');
   assert(tableBody.innerHTML.includes('>high</span>'), 'normal watchlist status renders byte-identically');
 
   const infoCell = tableBody.querySelector('.cmp-dim-label--clickable');
@@ -301,8 +303,9 @@ function assertEscapeCallGuards() {
     ],
     'js/compare.js': [
       { needle: 'escHtml(v)', count: 2 },
-      'escHtml(r.competitiveness)',
-      'escHtml(info)'
+      'escHtml(p.name)',
+      'escHtml(info)',
+      'escHtml(rowInfo)'
     ],
     'js/hna/hna-comparison.js': [
       '_esc(fips)',

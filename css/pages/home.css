@@ -74,6 +74,157 @@
   border-bottom-color: currentColor;
 }
 
+/* Front door: why you came, your town, a short answer. */
+.home-doors {
+  margin-bottom: var(--sp5);
+  max-width: 640px;
+}
+
+.home-doors__question {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0 0 var(--sp2);
+}
+
+.home-doors__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp2);
+  margin-bottom: var(--sp3);
+}
+
+.home-door {
+  min-height: 48px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--text-strong);
+  background: var(--card2, var(--bg2));
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.home-door[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent, #fff);
+}
+
+.home-door:focus-visible,
+.home-doors__input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.home-doors__search {
+  position: relative;
+}
+
+.home-doors__label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+
+.home-doors__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.home-doors__results {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.home-answer {
+  margin-top: var(--sp3);
+  padding: var(--sp3) var(--sp4);
+  border: 1.5px solid var(--accent);
+  border-radius: 10px;
+  background: var(--card2, var(--bg2));
+}
+
+.home-answer__title {
+  font-size: 1.3rem;
+  margin: 0 0 var(--sp2);
+  color: var(--text-strong);
+}
+
+.home-answer__facts {
+  margin: 0;
+  display: grid;
+  gap: var(--sp2);
+}
+
+.home-answer__fact dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.home-answer__fact dd {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.home-answer__fact strong {
+  font-size: 1.2rem;
+  color: var(--text-strong);
+}
+
+.home-answer__source,
+.home-answer__empty {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: var(--sp2) 0 0;
+}
+
+.home-answer__next {
+  font-weight: 700;
+  margin: var(--sp3) 0 var(--sp1, 4px);
+  color: var(--text-strong);
+}
+
+.home-answer__links {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 6px;
+}
+
+.home-answer__links a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* Text + map, side by side. Deliberately plain — no card border, no shadow,
    no hover motion — to stay consistent with this page's "no hero cards or
    hover animations" rule above; the map earns its place as a data view, not
@@ -611,6 +762,14 @@
   display: block;
   font-size: 0.7rem;
   color: var(--faint);
+}
+
+/* A second note on one card (the homepage shortfall cards show HUD's
+   affordable-and-available count under the ACS figure). */
+.home-snapshot__note + .home-snapshot__note {
+  margin-top: var(--sp2);
+  padding-top: var(--sp2);
+  border-top: 1px dashed var(--border);
 }
 
 

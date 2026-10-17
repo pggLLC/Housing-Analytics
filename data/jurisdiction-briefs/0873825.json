@@ -61,7 +61,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 1,042 renter households and 1,296 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 1,046 renter households and 1,293 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -110,7 +110,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Steamboat Springs at #5 with an overall housing-need score of 87.4. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Steamboat Springs at #5 with an overall housing-need score of 87.2. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -121,7 +121,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a ZHVI market estimate of $1,322,059 and median gross rent of $2,017. 32.8% of households rent, and 36.8% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $1,313,950 and median gross rent of $2,017. 32.8% of households rent, and 36.8% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -139,14 +139,14 @@
           ]
         },
         {
-          "text": "Opportunity context: the digest gives an opportunity score of 79.9 and a walkability score of 36.5. These are current digest levels, not trends.",
+          "text": "Opportunity context: the digest gives an opportunity score of 79.9 and a walkability score of 36.4. These are current digest levels, not trends.",
           "cites": [
             "d15",
             "d16"
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 77.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $294,815 and a rent affordability gap of $53,180. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 112.6% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 77.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $292,838 and a rent affordability gap of $53,180. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 112.6% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -324,7 +324,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -333,7 +333,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -378,7 +378,7 @@
     },
     {
       "id": "d7",
-      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-08-31)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -468,7 +468,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -477,7 +477,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -486,7 +486,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

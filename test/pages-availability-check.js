@@ -269,6 +269,17 @@ test('sitemap.xml: public sitemap includes generated place pages and excludes pr
     assert(!sitemap.includes('404.html'), 'sitemap excludes 404 page');
     assert(!sitemap.includes('developer-brief'), 'sitemap excludes private developer pages');
     assert(!urls.some((u) => u.includes('state-allocation-map.html')), 'sitemap excludes state-allocation-map redirect stub');
+    assert(sitemap.includes('<loc>https://cohoanalytics.com/methods.html</loc>'), 'sitemap includes the methods page');
+    assert(sitemap.includes('<loc>https://cohoanalytics.com/working-paper.html</loc>'), 'sitemap includes the working paper');
+    // A page that tells crawlers noindex must not be offered to them here.
+    const noindexPages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')
+        && /<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(fs.readFileSync(path.join(ROOT, f), 'utf8')));
+    assert(noindexPages.includes('census-dashboard.html'), 'the deprecated census dashboard asks not to be indexed');
+    for (const f of noindexPages) {
+        assert(!sitemap.includes(`<loc>https://cohoanalytics.com/${f}</loc>`), `sitemap excludes noindex page ${f}`);
+    }
+    const generator = fs.readFileSync(path.join(ROOT, 'scripts', 'build-public-site.mjs'), 'utf8');
+    assert(/noindex/.test(generator), 'the deployed sitemap generator skips noindex pages');
 });
 
 // ---------------------------------------------------------------------------
@@ -280,7 +291,20 @@ test('Run-all-workflows: run-all-workflows.yml exists and is properly configured
 
     const content = fs.readFileSync(path.join(ROOT, ymlPath), 'utf8');
     assert(content.includes('workflow_dispatch'),         'workflow_dispatch trigger present');
-    assert(content.includes('schedule'),                  'schedule trigger present');
+    // Manual-only since 2026-10-16: a Sunday schedule re-ran every listed workflow
+    // a second time and crowded the data-commits queue. That is only safe while
+    // every workflow it dispatches still runs on its own schedule, so assert that
+    // agreement rather than the presence or absence of a trigger.
+    const listBlock = (content.match(/DATA_WORKFLOWS=\(([\s\S]*?)\)/) || [])[1] || '';
+    const dispatched = [...listBlock.matchAll(/"([\w.-]+\.yml)"/g)].map(m => m[1]);
+    assert(dispatched.length >= 5, `DATA_WORKFLOWS lists the data workflows (found ${dispatched.length})`);
+    for (const wf of dispatched) {
+        const childPath = path.join(ROOT, '.github/workflows', wf);
+        assert(fs.existsSync(childPath), `${wf} (dispatched by run-all) exists`);
+        const child = fs.readFileSync(childPath, 'utf8');
+        assert(/^\s*schedule:\s*\n(?:\s*#.*\n)*\s*-\s*cron:/m.test(child),
+            `${wf} has its own schedule, so run-all being manual-only drops none of its runs`);
+    }
     assert(content.includes('actions: write'),            'actions: write permission present');
     assert(content.includes('actions/checkout'),          'actions/checkout step present');
 

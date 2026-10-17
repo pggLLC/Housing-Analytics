@@ -91,6 +91,7 @@
       .catch(function () { return null; });
   </script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
+  <script defer src="js/deal-cost-basis.js"></script>
   <script defer src="js/deal-engine.js"></script>
   <script defer src="js/deal-calculator.js"></script>
   <!-- F202 — Share / PDF / JSON export. html2canvas + jsPDF are loaded from CDN
@@ -141,28 +142,28 @@
   <!-- ── Workflow progress bar (Step 6 of 7 active) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="dcWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="4">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
         <span class="wf-step__label">Market Analysis</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="5">
-        <span class="wf-step__num">&#10003;</span>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </a>
       <div class="wf-step-connector"></div>
@@ -205,89 +206,8 @@
       <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
+      <p data-dc-mode="rental" style="font-size:.82rem;margin-top:.25rem;"><a href="#dcAboutAndContext">What this calculator does not model, rent context and data sources &darr;</a></p>
     </div>
-
-    <div data-dc-mode="rental" id="pageContext"></div>
-
-    <!-- Rent context compares voucher, existing and asking rents. Published
-         CHFA limits are resolved separately by js/chfa-rent-limits.js. -->
-    <div data-dc-mode="rental" id="dcRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
-      <h2 style="margin:0 0 .35rem;">Rent context — voucher vs. existing vs. asking</h2>
-      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
-        Three rent measurements for the active county. HUD FMR is a voucher benchmark, not a LIHTC rent limit.
-        LIHTC gross rent limits come from HUD multifamily income limits (MTSP), as published by CHFA,
-        using 1.5 persons per bedroom (one person for an efficiency). Contract rent deducts the utility allowance
-        and required fees. Compare that net limit with supported market rents to assess achievable rent.
-      </p>
-      <div id="dcRentTriangulationMount" aria-live="polite"></div>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      function _hydrateDcRent() {
-        if (!window.RentTriangulation) return;
-        var mount = document.getElementById('dcRentTriangulationMount');
-        if (!mount) return;
-        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
-        try {
-          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                     window.WorkflowState.getActiveProject();
-          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-          if (jx) {
-            if (jx.type === 'city' && jx.placeGeoid) {
-              placeGeoid = jx.placeGeoid;
-              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
-            }
-            if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
-            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
-          }
-        } catch (_) {}
-        if (!countyFips) {
-          try {
-            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
-            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
-            if (sc && sc.name && !countyName) countyName = sc.name;
-          } catch (_) {}
-        }
-        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
-      }
-      _hydrateDcRent();
-      document.addEventListener('workflow:step-updated', _hydrateDcRent);
-      document.addEventListener('sitestate:county-changed', _hydrateDcRent);
-      document.addEventListener('jurisdiction-changed', _hydrateDcRent);
-    });
-    </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.PageContext) PageContext.render('pageContext', {
-        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county.',
-        why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
-        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), or investor-specific underwriting requirements. It models the applicable fraction using the LIHTC unit share; it does not separately measure the floor-area fraction. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
-        nextSteps: [
-          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
-          { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
-        ]
-      });
-    });
-    </script>
-
-    <div id="dealDataQuality" data-dc-mode="rental"></div>
-    <div id="dealApiHealth" data-api-health="auto"></div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.DataQualitySummary) {
-        window.DataQualitySummary.render('dealDataQuality', {
-          sources: [
-            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
-            { name: 'AMI Gap by County', status: 'primary', vintage: '2024', coverage: '64 counties' },
-            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q1 2026', coverage: 'Colorado', note: 'Hard costs, equity pricing, soft funding — point-in-time estimates' },
-            { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015-2025', coverage: '110 awards', note: 'Pattern matching, not forward prediction' }
-          ],
-          limitations: 'Concept-stage estimates only. Does not model construction financing, applicable fraction, or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
-        });
-      }
-    });
-    </script>
 
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
@@ -329,6 +249,118 @@
       <p data-dc-mode="ownership" hidden><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a> &middot; <a id="dc-shared-equity-brief" href="research-brief.html?id=shared-equity-for-sale-rental-2026">Shared equity brief</a></p>
       <div id="dealCalcMount"></div>
     </div>
+
+    <!-- About the calculator, rent context and data sources. Moved below the
+         calculator on 2026-10-15 so the first input is near the top of a
+         phone screen; the short screening note stays in the header above.
+         Nothing removed. -->
+    <section id="dcAboutAndContext" aria-label="About this calculator, rent context and data sources" style="max-width:1400px;margin:0 auto;padding:0 18px;">
+    <div data-dc-mode="rental" id="pageContext"></div>
+
+    <!-- Rent context compares voucher, existing and asking rents. Published
+         CHFA limits are resolved separately by js/chfa-rent-limits.js. -->
+    <div data-dc-mode="rental" id="dcRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
+      <h2 style="margin:0 0 .35rem;">Rent context — voucher vs. existing vs. asking</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
+        Three rent measurements for the active county. HUD FMR is a voucher benchmark, not a LIHTC rent limit.
+        LIHTC gross rent limits come from HUD multifamily income limits (MTSP), as published by CHFA,
+        using 1.5 persons per bedroom (one person for an efficiency). Contract rent deducts the utility allowance
+        and required fees. Compare that net limit with supported market rents to assess achievable rent.
+      </p>
+      <div id="dcRentTriangulationMount" aria-live="polite"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _hydrateDcRent() {
+        if (!window.RentTriangulation) return;
+        var mount = document.getElementById('dcRentTriangulationMount');
+        if (!mount) return;
+        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
+        // A shared link (?geoid=) names the place being analysed without
+        // writing it into the visitor's project, so it outranks the saved
+        // project: mixing a saved place's rents with the linked county's FMR
+        // would be a silent mixed-geography card. A linked place takes its
+        // name and county from its own ACS record inside the component.
+        var linked = new URLSearchParams(window.location.search).get('geoid') || '';
+        var linkedPlace = /^08\d{5}$/.test(linked);
+        var linkedCounty = /^08\d{3}$/.test(linked);
+        if (linkedPlace) placeGeoid = linked;
+        else if (linkedCounty) countyFips = linked.slice(-3);
+        if (!linkedPlace && !linkedCounty) {
+          try {
+            var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                       window.WorkflowState.getActiveProject();
+            var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+            if (jx) {
+              if (jx.type === 'city' && jx.placeGeoid) {
+                placeGeoid = jx.placeGeoid;
+                placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+              }
+              if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+              if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
+            }
+          } catch (_) {}
+        }
+        // Without a link or a project, the calculator's own county selector
+        // holds the county it is pricing; it outranks the site-wide county.
+        var sel = document.getElementById('dc-county-select');
+        if (!countyFips && !linkedPlace && sel && /^08\d{3}$/.test(sel.value)) {
+          countyFips = sel.value.slice(-3);
+          var opt = sel.options[sel.selectedIndex];
+          if (opt && !countyName) countyName = opt.textContent.split(' — ')[0].trim();
+        }
+        if (!countyFips && !linkedPlace) {
+          try {
+            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
+            if (sc && sc.name && !countyName) countyName = sc.name;
+          } catch (_) {}
+        }
+        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
+      }
+      _hydrateDcRent();
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'dc-county-select') _hydrateDcRent();
+      });
+      document.addEventListener('workflow:step-updated', _hydrateDcRent);
+      document.addEventListener('sitestate:county-changed', _hydrateDcRent);
+      document.addEventListener('jurisdiction-changed', _hydrateDcRent);
+    });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county.',
+        why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
+        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), or investor-specific underwriting requirements. It models the applicable fraction using the LIHTC unit share; it does not separately measure the floor-area fraction. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
+        nextSteps: [
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
+          { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
+        ]
+      });
+    });
+    </script>
+
+    <div id="dealDataQuality" data-dc-mode="rental"></div>
+    <div id="dealApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('dealDataQuality', {
+          sources: [
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
+            { name: 'AMI Gap by County', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q1 2026', coverage: 'Colorado', note: 'Hard costs, equity pricing, soft funding — point-in-time estimates' },
+            { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015-2025', coverage: '110 awards', note: 'Pattern matching, not forward prediction' }
+          ],
+          limitations: 'Concept-stage estimates only. Does not model construction financing, applicable fraction, or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
+        });
+      }
+    });
+    </script>
+
+    </section><!-- /#dcAboutAndContext -->
 
     <!-- ── Rent vs Buy Breakeven (Phase 3 / C2) ────────────────────────
          Mini-calculator that complements the LIHTC pro forma by
@@ -597,6 +629,7 @@
             <li>Shade trees and water-wise planting instead of turf, with outdoor space residents can reach and use.</li>
             <li>Small homes that work: storage inside where it is used, a defined entry, rooms checked against real furniture, and a porch deep enough to sit on.</li>
             <li>Shared rooms on the routes residents already walk, bedrooms that fit the households, and quiet between units.</li>
+            <li>Noisy rooms kept away from bedrooms and routes that are easy to follow, and in supportive housing, a design shaped around residents' safety and choice.</li>
           </ul>
           <p><a href="research-brief.html?id=livability-universal-design-2026">Read the livability brief</a> for the evidence and for what CHFA requires, scores and rewards.</p>
         </div>
@@ -627,25 +660,7 @@
     <!-- ── Soft Funding Program Reference ───────────────────────────── -->
     <section data-dc-mode="rental" class="dc-edu-section" aria-labelledby="dcSoftFundingHeading">
       <h2 id="dcSoftFundingHeading">Soft-Funding Program Reference (Colorado)</h2>
-      <p class="dc-edu-intro">Common gap-filling sources used alongside LIHTC equity and first mortgage proceeds. <strong>For eligibility specific to your county and 9%/4% election, see the live breakdown below the Sources &amp; Uses table above</strong> — it reads current availability, deadlines, and competitiveness from <a href="data/policy/soft-funding-status.json" target="_blank" rel="noopener"><code>data/policy/soft-funding-status.json</code></a>.</p>
-      <ul style="margin:.25rem 0 0 1.15rem;line-height:1.7;">
-        <li>CHFA Housing Trust Fund (CHFA HTF)</li>
-        <li>CHFA Capital Magnet Fund (CHFA CMF) — federal CDFI Fund award re-granted by CHFA</li>
-        <li>CHFA Construction/Permanent Loan Advantage (CCLA)</li>
-        <li>DOLA Housing Trust Fund (DOLA HTF)</li>
-        <li>HOME Investment Partnerships Program</li>
-        <li>Community Development Block Grant (CDBG)</li>
-        <li>Local housing trust fund (e.g., Denver AHTF, Boulder County HTF)</li>
-        <li>National Housing Trust Fund (NHTF)</li>
-        <li>Proposition 123 Affordable Housing Fund (AHTF &amp; Land Banking)</li>
-        <li>Private Activity Bonds (PAB volume cap)</li>
-        <li>Impact fee loan</li>
-        <li>Historic Tax Credit (HTC)</li>
-        <li>New Markets Tax Credit (NMTC)</li>
-        <li>Opportunity Zone equity investment</li>
-        <li>Tax Increment Financing (local TIF)</li>
-        <li>Seller-carry note</li>
-      </ul>
+      <p class="dc-edu-intro">Gap sources sit alongside LIHTC equity and the first mortgage: CHFA's gap and preservation loans, Proposition 123 funds, Division of Housing grants and loans (including HOME, the National Housing Trust Fund and CDBG), city housing funds, historic and new markets tax credits, and seller notes. The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive lists every Colorado program with its award size, rate, term, AMI restriction and next round quoted from the official source, and its finder narrows them to your deal type and county. The breakdown below the Sources &amp; Uses table above lists only programs whose current terms were confirmed on the program's own page.</p>
     </section>
 
     <!-- ── CRA Lender Partnership Guide ───────────────────────────────── -->
@@ -1149,8 +1164,7 @@
         units:        safeVal('dc-units'),
         minimumSetAsideElection: safeVal('dc-minimum-set-aside'),
         rentLimits: window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null,
-        basisPct:     safeVal('dc-basis-pct'),
-        qctDda:       safeChecked('dc-qct-dda'),
+        boostDesignation: (document.getElementById('dc-boost-designation') || {}).value || null,
         equityPrice:  safeVal('dc-equity-price'),
         noi:          safeVal('dc-noi'),
         dcr:          safeVal('dc-dcr'),
@@ -1169,6 +1183,8 @@
           eligibleBasis:   (document.getElementById('dc-r-basis')    || {}).textContent || null,
           annualCredits:   (document.getElementById('dc-r-credits')  || {}).textContent || null,
           creditEquity:    (document.getElementById('dc-r-equity')   || {}).textContent || null,
+          // State credit equity is its own source in Sources & Uses (#2160).
+          stateCreditEquity: outText('dc-su-state'),
           annualRents:     (document.getElementById('dc-r-rents')    || {}).textContent || null,
           mortgageConst:   (document.getElementById('dc-r-mc')       || {}).textContent || null,
           firstMortgage:   (document.getElementById('dc-r-mortgage') || {}).textContent || null,

@@ -26,11 +26,13 @@
   // ── Comparator constants ─────────────────────────────────────────
   // CO/US renter burden anchors. CO from HUD CHAS 2018–2022 state row
   // (verified at data/hna/chas_affordability_gap.json.state.summary).
-  // US from ACS 2023 5-year B25070 published estimate. These shift
-  // slowly enough that a quarterly refresh is sufficient.
+  // US from ACS 2020-2024 5-year B25070 (rows 007-010 over all renter
+  // households, 001, so "not computed" stays in the denominator as it does
+  // in CHAS). Checked 2026-10-14 via Census Reporter acs2024_5yr. These shift
+  // slowly enough that a yearly refresh with the ACS release is sufficient.
   var CO_RENTER_CB30 = 47.2;  // %
   var CO_RENTER_CB50 = 23.4;  // %
-  var US_RENTER_CB30 = 46.9;  // %
+  var US_RENTER_CB30 = 47.6;  // %
 
   // ── Light HTML escape ─────────────────────────────────────────────
   function _esc(s) {
@@ -191,6 +193,17 @@
         if (entry.metrics.population_projection_20yr != null) ctx.pop20yr = +entry.metrics.population_projection_20yr;
         if (entry.metrics.fhfa_hpi_change_10y != null)        ctx.hpiChange10y = +entry.metrics.fhfa_hpi_change_10y;
         if (entry.containingCounty)                            ctx.containingCountyFips = entry.containingCounty;
+        // The overall renter burden is the figure the page's score cards and
+        // county table show (ranking index: ACS gross rent as a share of
+        // income, the same source and vintage as the Colorado and U.S.
+        // comparators). Place CHAS is apportioned from 2018-2022 tracts and
+        // gave Glenwood Springs 42.1% here against 47.6% on the same page.
+        // CHAS still supplies severe burden and the income tiers.
+        var pcb = entry.metrics.pct_cost_burdened;
+        if (typeof pcb === 'number' && Number.isFinite(pcb) && pcb >= 0 && pcb <= 100) {
+          ctx.renterCb30 = pcb;
+          ctx.renterCb30FromRanking = true;
+        }
       }
       if (ctx.containingCountyFips) {
         var countyEntry = _rankingEntryFor(ctx.containingCountyFips);
@@ -502,8 +515,11 @@
       county = 'the parent county';
     }
     return '<p class="hna-narrative-disclosure" style="font-size:1em;color:var(--muted);font-style:italic;margin:.25rem 0 .75rem">' +
-      '<strong>Note:</strong> Place-level cost-burden data is unavailable for ' +
-      _esc(_stripSuffix(ctx.label)) + '; burden figures below reference ' + county +
+      '<strong>Note:</strong> Place-level ' + (ctx.renterCb30FromRanking ? 'HUD CHAS ' : '') +
+      'cost-burden data is unavailable for ' +
+      _esc(_stripSuffix(ctx.label)) + '; ' +
+      (ctx.renterCb30FromRanking ? 'severe-burden and income-tier figures' : 'burden figures') +
+      ' below reference ' + county +
       ' (HUD CHAS does not publish for sub-county geographies under reliability thresholds).' +
       '</p>';
   }

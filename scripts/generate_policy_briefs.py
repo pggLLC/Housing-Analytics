@@ -48,6 +48,7 @@ TOPIC_LABELS: dict[str, str] = {
     'market': 'Housing Market',
     'policy': 'Housing Policy',
     'construction': 'Construction & Permitting',
+    'infrastructure': 'Infrastructure & Funding',
     'tool_watch': 'Tool Evaluations',
     'general': 'General',
 }
@@ -60,6 +61,7 @@ RELATED_DATA_MAP: dict[str, str] = {
     'zoning': 'data/policy/prop123_jurisdictions.json',
     'policy': 'data/policy/prop123_jurisdictions.json',
     'construction': 'data/market/hud_lihtc_co.geojson',
+    'infrastructure': 'data/policy/funding-watch-sources.json',
     'tool_watch': 'data/policy/tool-watch.json',
     'homelessness': 'data/market/acs_tract_metrics_co.json',
     'general': 'data/market/acs_tract_metrics_co.json',
@@ -438,6 +440,15 @@ COLORADO_SOURCE_RE = re.compile(
     r'Douglas County|Jefferson County|Adams County|El Paso County|Weld County)\b')
 
 
+# Property listings, not news. The per-jurisdiction searches added on
+# 2026-10-14 (scripts/news/brief_news_feeds.py) return them for small towns:
+# "124 Deer Trail Ave, Carbondale, CO 81623 - Realtor.com".
+LISTING_SOURCE_RE = re.compile(
+    r'^(Realtor\.com|Zillow|Redfin|Trulia|Homes\.com|Apartments\.com|Rent\.com|LoopNet|Crexi|'
+    r'RE/MAX|Coldwell Banker|Compass|Movoto|Rocket Homes|ApartmentFinder|Apartment Guide)\b', re.I)
+LISTING_TITLE_RE = re.compile(r'^\d+\s+\S.*,\s*CO\s+8\d{4}\b')
+
+
 def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[dict], dict]:
     """Every in-scope alert as a story, newest first, same headlines merged.
 
@@ -456,6 +467,8 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
             continue
         places, distinct = find_places(title, geos, source)
         scope = story_scope(title, source, distinct)
+        if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
+            scope = None
         if scope is None:
             counts['out_of_scope'] += 1
             continue

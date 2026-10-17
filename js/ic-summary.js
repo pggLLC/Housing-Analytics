@@ -250,15 +250,14 @@
     var mount   = $('icResortWfh');
     var section = $('icResortWfhSection');
     if (!mount || !window.ResortWfh) return;
-    window.ResortWfh.attach(mount, {
+    Promise.resolve(window.ResortWfh.attach(mount, {
       placeGeoid: isPlace ? geoid : null,
       countyFips: countyFips ? String(countyFips).slice(-3) : null,
       jurisName:  $('icTitle').textContent
-    });
-    // Reveal section once renderer has injected content
-    setTimeout(function () {
+    })).then(function () {
+      // Reveal section once renderer has injected content
       if (section && mount.innerHTML.trim().length > 0) section.hidden = false;
-    }, 50);
+    });
   }
 
   /* ── F141: Tax abatement / PILOT / fee inventory ────────────── */
@@ -593,9 +592,11 @@
         var fact = p.pbv_contract_sunset
           ? 'PBV sunsets ' + escHtml(p.pbv_contract_sunset)
           : (Number.isFinite(p.years_to_expiration)
-              ? (p.years_to_expiration <= 5
-                  ? '⚠ expires in ' + p.years_to_expiration + 'y'
-                  : p.years_to_expiration + 'y to expiration')
+              ? (p.years_to_expiration < 0
+                  ? '⚠ restriction expired ' + (-p.years_to_expiration) + 'y ago'
+                  : (p.years_to_expiration <= 5
+                      ? '⚠ expires in ' + p.years_to_expiration + 'y'
+                      : p.years_to_expiration + 'y to expiration'))
               : (p.subsidy_type && p.subsidy_type !== 'unknown' ? escHtml(p.subsidy_type) : ''));
         return '<tr>' +
                  '<td><strong>' + s.miles.toFixed(1) + ' mi</strong></td>' +

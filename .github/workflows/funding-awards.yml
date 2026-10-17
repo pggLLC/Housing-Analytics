@@ -8,6 +8,22 @@ name: Funding award ledger
 # for any list page it cannot reach. Neither agency publishes these awards as
 # data, so the PDFs are the source.
 #
+# The same run reads CHFA's Housing Tax Credit applicant reports with
+# scripts/funding/build_lihtc_applications.py into
+# data/jurisdiction-briefs/_lihtc-applications.json: every application of the
+# last four years of rounds, funded or not, with its outcome matched against
+# the ledger. The developer brief shows it per jurisdiction.
+#
+# Then scripts/funding/build_land_banking_awards.py turns the ledger's Prop 123
+# Land Banking rows into data/policy/prop123-land-banking-awards.json (the map on
+# land-banking-awards.html) and the contacts CHFA prints into the gated
+# data/jurisdiction-briefs/_land-banking-contacts.json.
+#
+# scripts/funding/build_award_rows.py then reads the same PDFs as tables
+# into data/policy/funding-awards/award-rows.json: each award's name, sponsor
+# and town as printed, and the printed row as its source quote, for the
+# award view on the Funding vs Need tab of colorado-deep-dive.html.
+#
 # The ledger feeds data/derived/funding-vs-need.json, a step of
 # scripts/rebuild-derived.mjs, so the commit goes through
 # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
@@ -25,6 +41,7 @@ on:
       - '.github/workflows/funding-awards.yml'
       - 'scripts/funding/**'
       - 'data/policy/funding-awards/reviewed-documents.json'
+      - 'data/policy/funding-awards/land-banking-corrections.json'
 
 permissions:
   actions: write   # dispatch deploy.yml after the data push
@@ -34,6 +51,9 @@ permissions:
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('funding-awards-{0}', github.ref) || 'data-commits' }}
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 jobs:
   ledger:
@@ -52,8 +72,10 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
-      - name: Install pdftotext
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Install pdftotext and pdfplumber
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          pip install pdfplumber==0.11.10
 
       - name: Parse the award PDFs (branch and PR runs are always dry)
         id: parse
@@ -61,10 +83,38 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
         run: |
-          args=(--open-issues)
+          args=(--open-issues --cache "$RUNNER_TEMP/award-pdfs")
           if [ "$DRY_RUN" = "true" ]; then args+=(--check --dry-run); fi
           python3 scripts/funding/build_funding_awards.py "${args[@]}"
           echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+
+      - name: Read the applicant reports and match them to the ledger
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_lihtc_applications.py "${args[@]}"
+
+      - name: Place the land banking awards on the map
+        # Fails on a new land banking list until it is labelled in ROUND_LABELS, so the
+        # ledger never lands without the map file that has to agree with it.
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_land_banking_awards.py "${args[@]}"
+
+      - name: Read each award as its PDF prints it (names, sponsor, town, quote)
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        # Keyed to the ledger, so it runs after the ledger and the applicant
+        # reports (it fills 4% sponsors from them). Reuses the PDFs above.
+        run: |
+          args=(--cache "$RUNNER_TEMP/award-pdfs")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_award_rows.py "${args[@]}"
 
       - name: Install dependencies
         if: steps.parse.outputs.dry_run != 'true'
@@ -74,7 +124,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json data/jurisdiction-briefs/_land-banking-contacts.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'

@@ -3,25 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Developer Home — COHO</title>
+<title>Developer Home — COHO Analytics</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
 <style>
-  .ib-section-nav {
     display: flex; gap: 1rem; align-items: center;
     padding: 0.6rem 0; margin-bottom: var(--sp3);
     border-bottom: 1px solid var(--border);
     font-size: var(--small);
   }
-  .ib-section-nav a {
     color: var(--muted); text-decoration: none; font-weight: 600;
     padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
   }
-  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
-  .ib-section-nav a:hover { color: var(--accent); }
-  .ib-section-nav .spacer { flex: 1; }
-  .ib-section-nav .badge {
     background: var(--warn); color: var(--card);
     font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
     font-weight: 700; letter-spacing: .03em;
@@ -56,6 +50,7 @@
     font-size: 1.8rem; font-weight: 800; color: var(--text); line-height: 1.1;
   }
   .ib-stat-sub { font-size: .82rem; color: var(--muted); margin-top: .3rem; }
+  @media (max-width: 640px) { #wsStats { grid-template-columns: 1fr 1fr; gap: var(--sp2); } #wsStats .ib-stat-value { font-size: 1.4rem; } }
 
   .ib-section-card {
     background: var(--card); border: 1px solid var(--border);
@@ -140,6 +135,11 @@
 
   .ib-loading { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
   .ib-empty { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+  .ib-find { margin-top: var(--sp3); }
+  .ib-find label { display:block; font-weight:700; margin-bottom:.35rem; }
+  .ib-find-row { display:flex; gap:.5rem; flex-wrap:wrap; }
+  .ib-find-row input { flex:1 1 220px; min-width:0; padding:.6rem .8rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font-size:1rem; }
+  .ib-find-row button { padding:.6rem 1rem; border-radius:var(--radius-sm); border:1px solid var(--accent); background:var(--accent); color:var(--on-accent, #fff); font-weight:700; font-size:1rem; cursor:pointer; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
@@ -149,20 +149,20 @@
 <main class="page-container js-glossary-auto" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
 
   <!-- Sub-section nav -->
-  <nav class="ib-section-nav">
-    <a href="developer.html" class="active">Home</a>
-    <a href="developer-pipeline.html">Pipeline</a>
-    <a href="developer-brief.html">Jurisdiction Briefs</a>
-    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
-    <span class="spacer"></span>
-    <span class="badge">INTERNAL</span>
-  </nav>
+  <nav id="devNav" class="ib-section-nav"></nav>
 
   <div class="ib-hero">
-    <h1>Affordable Housing Partnership Pipeline</h1>
+    <h1>Developer home</h1>
     <p>
-      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where a developer can be a thoughtful, place-based partner.
+      Start with a place: the jurisdiction report covers who lives there, the housing that exists, need, rents, tax-credit history, who is already working on housing and how a deal comes together. The pipeline below tracks partnership conversations with Colorado communities.
     </p>
+    <form action="developer-brief.html" method="get" class="ib-find" role="search">
+      <label for="findPlace">Find a town or county</label>
+      <div class="ib-find-row">
+        <input id="findPlace" name="q" required autocomplete="off" placeholder="e.g. Gunnison">
+        <button type="submit">Open report</button>
+      </div>
+    </form>
   </div>
 
   <details class="ib-section-card" style="margin-bottom:var(--sp4);">
@@ -175,8 +175,27 @@
       <li><strong>Active</strong> — working together on a defined project.</li>
       <li><strong>On Pause</strong> — moved to the anti-targets list; explicitly set aside to revisit later.</li>
     </ul>
-    <p style="margin:.6rem 0 0; color:var(--muted); font-size:.85rem;">The live pipeline data (kanban, signal log, anti-targets, network) is maintained in a private workspace and is no longer published on this site. The full methodology is documented on the <a href="developer-pipeline.html">Pipeline</a> page.</p>
+    <p style="margin:.6rem 0 0; color:var(--muted); font-size:.85rem;">The pipeline, signal log, anti-targets and network live in your private files; the gated site reads them. The full methodology is on the <a href="developer-pipeline.html#how">Pipeline</a> page.</p>
   </details>
+
+  <!-- Read from the private files on the gated site (js/components/private-workspace.js). -->
+  <div class="ib-stat-row" id="wsStats" aria-live="polite">
+    <div class="ib-stat"><div class="ib-stat-label">In the pipeline</div><div class="ib-stat-value" id="stat-pipeline">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html">Open the pipeline</a></div></div>
+    <div class="ib-stat"><div class="ib-stat-label">In conversation</div><div class="ib-stat-value" id="stat-outreach">…</div><div class="ib-stat-sub">Outreach, review or active</div></div>
+    <div class="ib-stat"><div class="ib-stat-label">Strong signals, 30 days</div><div class="ib-stat-value" id="stat-strong">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html#signals">Signal log</a></div></div>
+    <div class="ib-stat"><div class="ib-stat-label">Network contacts</div><div class="ib-stat-value" id="stat-contacts">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html#network">Find a contact</a></div></div>
+  </div>
+  <p id="wsHomeStatus" class="ib-stat-sub" role="status" style="margin:-.8rem 0 var(--sp3);"></p>
+
+  <div class="ib-section-card">
+    <h2>Coming up <span class="meta">next 30 days and anything late</span></h2>
+    <ol class="ib-priority-list" id="upcoming-list"><li class="ib-empty">Loading…</li></ol>
+  </div>
+
+  <div class="ib-section-card">
+    <h2>Recent strong signals <span class="meta">last 30 days</span></h2>
+    <div id="signals-list"><div class="ib-empty">Loading…</div></div>
+  </div>
 
   <!-- This week's priorities — MANUAL: you control these (saved in this browser) -->
   <div class="ib-section-card">
@@ -235,7 +254,7 @@
   <div class="ib-section-card">
     <h2>Open in another tool</h2>
     <p style="color:var(--muted);font-size:.85rem;margin-bottom:var(--sp2);">
-      Live pipeline data is maintained in a private workspace; the analytics live on COHO.
+      Your pipeline is read from your private files; the analytics live on COHO.
     </p>
     <div class="ib-quick-links">
       <a class="ib-quick-link" href="lihtc-opportunity-finder.html">
@@ -243,8 +262,8 @@
         <span>Statewide rank with IOI lens for any product type</span>
       </a>
       <a class="ib-quick-link" href="developer-pipeline.html">
-        <strong>Pipeline Methodology →</strong>
-        <span>Stages, IOI score, classifications, and signal calibration</span>
+        <strong>Pipeline →</strong>
+        <span>Kanban, signal log, network contacts, set-aside places and templates</span>
       </a>
       <a class="ib-quick-link" href="housing-needs-assessment.html">
         <strong>HNA Workup →</strong>
@@ -262,11 +281,47 @@
   </div>
 
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted);">
-    Live pipeline data (signal log, kanban, anti-targets, network) is maintained in a private workspace and is not published in this repository.
+    Pipeline data (signal log, kanban, anti-targets, network) lives in your private files and is never published in this repository.
     <a href="docs/CLOUDFLARE-SETUP.md" target="_blank">Cloudflare auth setup →</a>
   </footer>
 </main>
 
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/private-workspace.js"></script>
+<script>
+(function () {
+  'use strict';
+  var PW = window.PrivateWorkspace, store = window.PipelineStore;
+  if (!PW) return;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function report(geoid, name) { return '<a href="developer-brief.html?geoid=' + encodeURIComponent(geoid) + '">' + esc(name || geoid) + '</a>'; }
+  Promise.all([PW.load(PW.browserFetchText), (store && store.ready) || Promise.resolve()]).then(function (v) {
+    var ws = v[0], today = new Date();
+    var pipeline = PW.mergedPipeline(ws, store);
+    var st = PW.stats(ws, pipeline, today);
+    // An unreadable file shows a dash, never a zero.
+    function show(id, n) { $(id).textContent = n === null ? '—' : String(n); }
+    show('stat-pipeline', st.pipeline); show('stat-outreach', st.inConversation); show('stat-strong', st.strong30); show('stat-contacts', st.contacts);
+    if (!ws.reachable) $('wsHomeStatus').textContent = 'Your private files did not load here; they load only on the gated developer site.';
+
+    var due = PW.dueWithin(ws, pipeline, today, 30).slice(0, 8);
+    $('upcoming-list').innerHTML = due.length ? due.map(function (d, i) {
+      var when = d.days < 0 ? (-d.days) + 'd late' : d.days === 0 ? 'today' : 'in ' + d.days + 'd';
+      return '<li class="ib-priority-item"><div class="ib-priority-rank">' + (i + 1) + '</div><div class="ib-priority-body">' +
+        '<div class="ib-priority-jurisdiction">' + report(d.geoid, d.jurisdiction) + ' <span style="color:var(--muted);font-weight:400;">· ' + esc(d.kind) + (d.stage ? ' · ' + esc(d.stage) : '') + '</span></div>' +
+        '<div class="ib-priority-action">' + esc(d.what) + '</div></div><div class="ib-priority-due' + (d.days <= 0 ? ' overdue' : d.days > 7 ? ' future' : '') + '">' + esc(when) + '</div></li>';
+    }).join('') : '<li class="ib-empty">' + (ws.reachable || pipeline.length ? 'Nothing due or late in the next 30 days.' : 'No pipeline to read here.') + '</li>';
+
+    var strong = PW.strongSignals(ws, today, 30).slice(0, 6);
+    $('signals-list').innerHTML = ws.files.signals === null ? '<div class="ib-empty">The signal log did not load here.</div>' : strong.length ? strong.map(function (s) {
+      return '<div class="ib-signal-item">' + report(s.geoid, s.jurisdiction) + ' <span class="ib-chip ib-chip-strong">' + esc(s.signal_type) + '</span><span class="ib-signal-date">' + esc(s.date) + '</span>' +
+        '<div class="ib-signal-summary">' + esc(s.summary) + (s.follow_up_action ? ' Next: ' + esc(s.follow_up_action) : '') + '</div></div>';
+    }).join('') : '<div class="ib-empty">No strong signals in the last 30 days.</div>';
+  });
+})();
+</script>
 <script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
 </body>
 </html>

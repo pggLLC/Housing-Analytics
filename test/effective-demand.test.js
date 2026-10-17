@@ -55,21 +55,24 @@ function sum(tab) { return Object.values(tab).reduce((n, row) => n + row.value, 
 
 const scenario = scenarios[0];
 const observed = realObserved(scenario);
-assert.strictEqual(observed.total, 343);
+// The observed pool is read from the data file, not typed: Fruita's CHAS
+// renters at 51-80% plus 81-100% AMI (244.4 + 98.7 = 343.1 households after
+// the 2020-2024 tract rebuild).
+const fruitaRenters = require('../data/hna/place-chas.json').places['0828745'].renter_hh_by_ami;
+const POOL = Number((fruitaRenters['51to80'].total + fruitaRenters['81to100'].total).toFixed(1));
+assert.ok(POOL > 0, 'Fruita has an observed renter pool');
+assert.strictEqual(observed.total, POOL);
 assert.strictEqual(observed.label, EffectiveDemand.PROTECTED_LABEL);
 
-// Hand derivation from the real HNA call:
-// observed = CHAS 51-80 renters 244.4 + 81-100 renters 98.6 = 343.0.
-// The optional outside-area multiplier gives 343 * 1.20 = 411.6.
+// Hand derivation: the optional outside-area multiplier gives pool * 1.20.
 // Reductions then multiply successively by
-// .80, .75, .90, .80, .90, .85, .80, .90, .75, .80, .95:
-// 411.6, 329.28, 246.96, 222.264, 177.8112, 160.03008,
-// 136.025568, 108.8204544, 97.93840896, 73.45380672,
-// 58.763045376, 55.8248931072 households.
+// .80, .75, .90, .80, .90, .85, .80, .90, .75, .80, .95.
+// With the pool at 343 that was 411.6, 329.28, ... 55.8248931072 households.
 const result = EffectiveDemand.run(scenario, observed, illustrative());
-const pinned = [343, 411.6, 329.28, 246.96, 222.264, 177.8112, 160.03008, 136.025568, 108.8204544, 97.93840896, 73.45380672, 58.763045376, 55.8248931072];
+const pinned = [POOL, POOL * 1.2];
+SHARES.forEach((share) => pinned.push(pinned[pinned.length - 1] * share));
 result.stages.forEach((stage, i) => close(stage.outputCount, pinned[i], stage.id));
-close(result.effectiveDemand, 55.8248931072, 'effective demand');
+close(result.effectiveDemand, pinned[pinned.length - 1], 'effective demand');
 
 assert.deepStrictEqual(result.stages.map((stage) => stage.id), ['observed_base', 'in_migration'].concat(EffectiveDemand.STAGE_IDS));
 assert.ok(result.stages.slice(2).every((stage) => stage.classification === 'modeled'));

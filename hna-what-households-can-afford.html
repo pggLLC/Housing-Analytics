@@ -256,7 +256,7 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
-<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/transit-zone.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
+<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/components/second-homes-panel.js, js/prop123-map.js, js/transit-zone.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
 <script>window.HNA_VIEW={"id": "afford", "nav": "What households can afford", "question": "What can households here actually afford, and where is the gap?", "slug": "hna-what-households-can-afford.html"};window.HNA_VIEW_ANCHORS={"affordable-ownership-need-section": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-update-key="hna"
@@ -270,13 +270,13 @@
   <!-- Workflow progress bar (Step 3 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="hnaWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
@@ -297,7 +297,7 @@
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="deal-calculator.html" data-step="6">
         <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="recommendation.html" data-step="7">
@@ -429,7 +429,7 @@
          Defined inline (no extra CSS file) to keep the integration minimal. -->
     <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
       <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
-        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our 8-step public methodology for turning housing data into housing built.
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our eight-stage public methodology for turning housing data into housing built.
       </span>
       <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
     </aside>
@@ -696,6 +696,10 @@
 
       
 <!-- [hna-view:afford] not on this view: Owner/renter shares -->
+
+
+      
+<!-- [hna-view:afford] not on this view: Second homes, short-term rentals & lodging taxes -->
 
 
       <!-- F160 — Owner-occupied home value distribution by price bracket.

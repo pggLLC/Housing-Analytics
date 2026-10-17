@@ -1,0 +1,1340 @@
+{
+  "meta": {
+    "generated": "2026-10-16T11:44:16Z",
+    "as_of": "2026-10-16",
+    "stale_days": 30,
+    "events_as_of": "2026-10-16",
+    "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
+  },
+  "briefs": [
+    {
+      "geoid": "0820000",
+      "jurisdiction": "City of Denver",
+      "scope": "place",
+      "county_fips": "08031",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Real Estate Report: Colorado home sales fall 15.1% as buyers pull back in Denver metro",
+          "source": "ColoradoBiz",
+          "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOMV9GREdiVTNMWC1UWEc1TGdlMjRqZkQwNGs5MVJUY0VsY3FWX3B6OW1aamVTQ1FCc19SdG5VQk1VOFl6cXpQVDg3UzVNRmt0bXJFMW15ckdTU0xyMHpZRmM2V1FhVUFIU01hcHpMdUROSmVqQU16UGZ5UG5NUEVmaU5QWmpyUQ?oc=5",
+          "date": "2026-10-16",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "This Denver house inspired a famous horror film",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOUktUeXRWanpGVnB4cUNUeDdneWdKcUUyMURoTk5keWthVy1lUjBTLXcxUThMbVpDbi0tMUx5SDViTFZ4T3BoT2FJRW16TFJ0aWxNdUdrRks0TENhVTFJcmNzWTNSVDZxX3k2MUVGVzJ5b21iZzNiT2RlNWVMZEIyTUNqN0F3WDdCQnptRk9NYzFaZENQVXpXVm1nalEwYVh1cUVsT3pZZkQzQjRP?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver is solving homelessness. Why aren't the rest of us?",
+          "source": "Planetizen",
+          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNdUNCZkxiZ0NQbF9kc0dROFFyMExjOHFER1NnNTFDc1lXeFItWmttS3pkNHFZXzdhbDRFQXF5UWk5Vm1DZDYyZGxVbXpNS1l6LUE5aGU5eW4yWDV2SW5XX1YtZXl6ZXRJMEYyQjBTaWRUUG1CT1NMZnAzOGw1OTB4R1h2X1FWWVRQS1pVc1UzaURkUDhkZ0xn?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Home sales dropping the most in Douglas, Larimer, Denver and Adams counties",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9sVnpIcHVhMUVjVlFMeW8zSWE5Y1pNWTQ5MGh0U2hvWmtXMi1YSEVuakhLV2hETTFrcmNrQnM3ZGVta1ZXVWVpNG9zQTlPOGlHMjJXdHZ3eERwRVliVVVJSlI5dUVpQkJ5M2FXYzE5SC04MUJw?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver's Javier Mabrey eyes Colorado House leadership",
+          "source": "State Affairs Pro",
+          "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQUENSaHBwXzcxTzNzMktiTG8xQmRsLXRSQURFUDQ3aU9NcjhqN3REQ1gtcUtoWDN3MGFCbUpaLVYxM1FKMEZWQ2FFR21DTFlEWVBPQWNNMVJQRm1oQktmZlpKUllCZHd4S2tLU0xLU01pZl9RUmZRU3FLc1Qta3pyZWJKSXZKU0NUMUNsdF9JZTNyYlZkUGw0YUUzTWcyRldwN29qX05IUnpjOFhiWFRaVHhMOENuNnMxRzNnZU9yZm9iZ2h4S09qQWtEY3VRWTdDeE1FZFNRRkFjNmFCcHhMaQ?oc=5",
+          "date": "2026-10-09",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "State money will help build 82 condos near Denver Health",
+          "source": "Denverite",
+          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBGc1hBNm4tdWlfRVFUMlBtUGdvNkEweHRVeU0xUk9XUmxIMnB1ZllZRFFkdzVXY0VvZ3RqSlVTSGNpeC1uLVZjVjI2azBET1JSUDhwX3NHZlhiT2pYZjlpRGY1cXNyb0Y1LUxmRmltbGxYZk9Qenc?oc=5",
+          "date": "2026-10-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver realtor says housing market shifting in buyers' favor, but interest rates won't go down",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPY0xLbWQyYXRCOG1qX3Rld1ZKVi1GTlMxczlIbnNjN1U5bEJreTBnNWEzR2JTcjhNSXVCWHN2MHM3UEI3VFZwS0duemRhTmM5YlZPQ0pJT0llbG8tRjVoNDl3aGZ5cFhyMGFUWEFQZ2JnVDV5SlJLT3JrOU1rWnh4cVlkTTRzdmdrLWtrajFvZkEtVkN1M3ExQWJiYjdZLUswQjBCeko4VnRFYUFLV3c?oc=5",
+          "date": "2026-10-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Habitat for Humanity homes give future homeowners in Denver metro area a path to affordable housing",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOdm0xNlNWTC1renI4enFfSzlKY0h6b0lFU01UaW53V2pkNGE3My1BeFNnQ2hsOEFDYmM5M2ltY3dOVkJvLVhZSU9BNmtpbkR0MmxxOGFzcUZubTFNbW9LbXhBTnNpNHE2aExFNjdGVWRXWTJlM0gwYUd3V2VDQXJybklKYm9qS1cxdVJ1Wmd5eENIWl9YX1JFZjE3S3VtNmFnc1ViZlJSVGE3SkpfbFZR?oc=5",
+          "date": "2026-09-30",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "News | Archway Communities looks to expand affordable housing efforts beyond Denver",
+          "source": "CoStar",
+          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVy1Bb2VybDBFQmN0UkRTa2VlRWpuT0lmcklzTkRnazRwNFNJVk4xeXNNdWhtMWlLRDlfNDBIMS1UZ3dudU03QkIxUk5PNkJXSFFqZUtIWmxNdnVyVnFyRHp4b3hQYVZKU3Ziakl4RjFxTFZnWDJzLWdPSnVILVJsYzhtTmc5bkZ3aE53N2tqSHJIZG5ndGNkczUyY0pHUmdHaDRRMGIzMjRlYmtoTTByYXFZUVRLVWdG?oc=5",
+          "date": "2026-09-25",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver reports mixed results on five-year housing goals",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPSzJKc2RvQVNRR1pjQjJYdzY0ak9FNlEzcFhQWU9DOE5LanJLcGoyRmRpcWhWV1NTUDJ5U3JraGJZOVdGV1VjeW9vaFN2Y3htTl9ZZmF1MGItaC16LUxtVVUzTkdRa09CRU5LSVBUNzVaSE41QkpRdlgxaVlTbGp3UTlLZkQxR2FIdS02eEdrS1ZocDgyYU9GU1QwdlYtUQ?oc=5",
+          "date": "2026-09-25",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "15 Denver college students facing homelessness will now have a place to live",
+          "source": "Chalkbeat",
+          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOaTNWRC1NbnZXZDd3OXUySVEtdUlqY1JSdDMxdWJXZnpvRzlSWmdWemJqV1VPOUltejNzbGF0aFEtVHNtLTlXSTNTUlo1N1ZhSWJZLXNIQWF1SHVSRWplTWlRYlV1dzZWVE9DZ014bXVRMGk3bjM0b0tSd2Y2NzVaeXljd1VuZGg3bENDR3VzYlJkVlFBWWx4WnBpZTFYNm9weTRoT1lB?oc=5",
+          "date": "2026-09-24",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "How the Federal Reserve rate hike could impact Denver housing market",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOMHVtMHJ0WWgtVlhVZ3BiQ1hxdG14OUVaemdELVNrSFIyY0g1bHVOb3VHRWxpbGdqMTBGMVhLT29RVGtFQm81cmNtNVQySXkyNEVGN3BuSFl6d0NkQ3g5eHhZVlZ2YWtUUXpOMFlhZ2I3NlM3dXlCY2J5aF9HX1Zud0F2RW9QZmtSYkFQYWhwYUtjU2Y5NmFWaw?oc=5",
+          "date": "2026-09-17",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Separate housing plans proposed for Highland site in Denver",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMzRuVGpwSU5MRGlRV0Zqak1QWjFZQl9zVG54RXRsMVFSUjBtb011M1BSMU83MHpGNElCT21SS0ZhdGFlemdhRG00UUZiQW1NcDVncENOdHJpanVTMjZuWnR5eDdWYmhqQ3dGZHQzLVNjVFd1TG5OYWFEUEp5Y3ctaEtQeW0?oc=5",
+          "date": "2026-09-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "The poorest in the US, including metro Denver, can't find housing even as low-income units sit empty",
+          "source": "Sentinel Colorado",
+          "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQcm8wRlhNSTROVFd3NDVxdGx3amNoVFExUzFNakRGMmI3MVNkbk9EVlFxTUdnQkNGSU9DYzNpaERVT3czN0hkZnc5aFlrOEk4VURQa3c0c1FKdS1JalQ4QnF4SjlQRjhfZDdEX0FZcWNhSFNMT3RvSkJ3NlNzYVZpSC1oZUJoNE1qb3EwLVdxOUNRNGFITWhhNGlISVZvYVhmSVc3Vm0yUG5LSTVrUGZPeVFXalp1R3FmS0JLUGIwcTByWE1wRDA1bkx4cDhvQQ?oc=5",
+          "date": "2026-09-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver homebuyers find deals as nearly 1 in 3 homes see price cuts",
+          "source": "9News",
+          "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNcVlCbzNVdEhBUHV0QjE3MjI3N2Q4U1JHZFRSRXZIX0tYMFhzNWM3bF9qb0hILUtUN05OLVlFQzkxejFiMHkxU0lRcnFFdEl0Ym1wX1piZHM5dnBfWEY2ZHJvczdFSTIzdmFYLWNDOEl5dGVGRmE4RDBnem8xb3p6Vjc0aGktLVlYQWgwMlZwanhZM0s2TW5YRnVwT2RxdHoxdUtPZDVXX3dCNFliYW9QMWEtUnNicUhTZTlFQTAxdWlYQWdyRjd0WVJSdWhidWM?oc=5",
+          "date": "2026-09-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Is that a groaning sound coming from Denver’s housing market?",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1iTWRTSlk0NnppbDhGckZRd3NEMnBpZUljRm12cjF0VTJEbTJDYlUtSmtEMEdCc0VPb0dTaXVNRTN3YURtZkxVbnZCZmRER3F4WGtLQlV0R2x3M3BnYjFtN0Vza0tMbDZRMVEySjAtNzRLUXNJWG5sM2RMU1k?oc=5",
+          "date": "2026-09-04",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "To spur more housing construction, Denver changed its parking rules",
+          "source": "marketplace.org",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZmQtcnQzS2dpN0h6WTNBcmFHVms0TUo5dmhHS0RVRi1SMkJfSGJjSHk5cVN2LUtIbVlrYWRiVXBNLXV2MldJZGhvQUthU0Q5THA0MVFiSVMxSWRYdnB6OHRHZzBCaFMzQy1XcjRqc1FzVUV1TXZsTXk4NXR1UDNnT0ZUY2M0MnR4WDRVajd3N19GS3RVRTRrNg?oc=5",
+          "date": "2026-09-02",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver Housing Authority – Lottery Opening",
+          "source": "La Voz Colorado",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNb0lmcm5FRXFseldWZXAzeHBSV0otYXlSdWlTOWRhZE9rYXNDRXl1bUdwYk11U0x3R1EyYkJVbHpCbG5qMGFBV18tUVdEdDVfeHFBN3NtMUJBSHVCdVltNVpxX1V6VXVOR1ZPUkg5eUlmTEFPTHN4ZHpUZU4zOXRsUk54WTE?oc=5",
+          "date": "2026-09-01",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Real estate affordabilty in Colorado: Where people are looking outside of Denver",
+          "source": "9News",
+          "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNejJzNkpMUVlQXy01c2x6OFozMHJxN3R5NW1qV1dyZkhZRHlqc1VTb1ZROFVMSXBwcjNXOXFMRmpMSS1qckI3Z2VXUUw2T1dPczctemdnZ1h4bl9PR2JoV0tTalJiVXBXd3phblJRMmk0RWI5cWE1bjJvM01FTTJoSTkyenJvcFRVMHFTcE1LUWM5aUdmZ1dPTS00ZGthVmc2UVNaT1B0VzdPV3JSWlFSNXhoa2lHNlRIVWNiVDhDTVVGeHJJdWx6eEFELTE1QlN3?oc=5",
+          "date": "2026-08-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Zoned in, funded out: Denver’s ADU dream faces budget wall",
+          "source": "Westword",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVlFQQzE3S09rU3RZZkRCX29LQjUzS3Z2eWZ3UDZrTjBlRVp0VENzbkVXWlVvUjhiM3FqYkJGOEZpWW5fSUdFY0FhanJjX3BHU0xReE1HUmhYMi1oT1VGQnBzY3NLUWNHZkt0VUcydzhHaklROTgySllqSk00OG1KT3NPZnlJWUZTc004ag?oc=5",
+          "date": "2026-08-25",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver City Council committee looks to ease affordable housing metrics",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNY19UUUFjR3RtTTBiZzI1UnZLWndxam1zQXZBbjhhYUhBS1BmdkpDMFJkNThRRTVBQk5NNDNpcENhUkpmbDFYcmhoVmdNZ00tLWFxY0pGc2U1bWRLTTQ2aE9TX1N3TVBKeTJnSzkwWlZ1T3dvYVdiQ0taazBLQmE3X3JLR1FGTGhWcVRqci16YmthWWlKWl92YS0tWEFuaURUWFJCbGZUc0E1Wk45dGg3VUZiNDdZdw?oc=5",
+          "date": "2026-08-11",
+          "match": "place",
+          "also": [
+            "Denver Gazette"
+          ]
+        },
+        {
+          "title": "More negotiating room in Denver's housing market, but what's next?",
+          "source": "9News",
+          "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxOU2ZQN2c3SDlValVhbFBuS2lHUzV1Ym1YTUQ4QVJpb2FtZ3NETEdaLUZYYTZFbi12TnF5enkxRmE0YnU3VUt5UHFKbnRPWDlrbllTcjJfZkNBdU9xTmZGVFM3UzNvblgtaHVqVURaTmVqbHRLQkVOd2thVEpEMnhiNFc3N0NFeWVwMEEtRXV0MjZTTlM2cFRqc2FrX3U3bDlialdMVXhnOVRDMENTY21nSGNwZFVEY1FlTTBUZk9fLVFCZ3hrcWdZT1JHelM1UWVLX3hrWlNWTDQ1NkdMNWZLcERHZmx2V2lvQ1FVSA?oc=5",
+          "date": "2026-08-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Fifteen photos of Denver 150 years ago",
+          "source": "Westword",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMEFGajJXVFp4RnNoNG1GRmhVaDZQSHpSWlo2eUFvVG5rWEVFRF9OTTFocmVmenBuaWhjU1JhcXRiX2RaWVV1YU5IZ0RVNThueTFnUUZ6UFlnSUpfTjRXOVhLVHRVczJZeThKNVdxT2ZmNnJaUUtSb21FWXN0UDVtcC1Cdng?oc=5",
+          "date": "2026-08-01",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "CU Denver on Ninth | University of Colorado Denver",
+          "source": "University of Colorado Denver",
+          "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBhV1pTN3lIdEFIZ1dlMVVOWEVnYnllSjFQbzV2WmpTMElvWlJtdnhfa0hhbkVsSnJRcVhZSkdRQzhzZldtUllhNDF4aUpJcEc4c0F2dkIxSUdRLTdTNlBwalFSQTR3ZllaVGQyR3E4VE9RQ2ZDOVM4Q2FB?oc=5",
+          "date": "2026-07-28",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Local Leaders Break Ground on Park Avenue Apartments - City and County of Denver",
+          "source": "City and County of Denver",
+          "link": "https://news.google.com/rss/articles/CBMinwJBVV95cUxQVkZGTXBLdElxaWFoMmJfUWNodW9MNTRlM2lONV9QSF9ZSGtHTDNZNEFQTkY4N2I3MER2dU1xYXAwY0NtZFdNYnBZUjJkbmFoSWJZVjdwQ21tVVJZak52eTUzVkRkQzhfcEpGSjM1d3NCbFk4YVpHQkFrdjVsZ0tXWThTZHlRd2g1S3F3QlVZOE0xNWFzMWdoTUdpY1B6Sk8yMjZQRUF6SFVEWFVqYmlfTGRQSVBBQWtIWGxuWnlfaDlya3RkZnVsZnRMTWFzTEQzN1A5NzRJXzNkdVBXU3dLQlpaNVl3YzRiejZ5b3d2LXpiMk5FY3R5RTJpcEdmM09TT2V2bzJHWlMxZ2dXR0tDWmRfd0tXQjh6dzgwN3Yxaw?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver residents react to Mayor Johnston's 'Mile High Line' housing plan",
+          "source": "Denver7",
+          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPMF9jUm5ZUUVuY2h4NGhpUmhhTExDXzhnMk1yMkFMS0RyaGFlM3NoMk9iUU5vTVMwRWhVbEJseTNHQ1FHdnFrUkJsaTVqeXh3dkZQcDBsRDU5eGh1ZTJJbU5pZmZIUVNBbHNWM2o1c3BYVXVsVnVRdXN4M28ycnFlYzFrcXlwQ3l4N29falM0Y2IzN0VvVTZBQzJvdHg4ZVFZN2dNQ1pwTk9DUk1JQW81OS1ITk1Kendq?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver Mayor Mike Johnston unveils Mile High Line project at State of the City",
+          "source": "Rocky Mountain PBS",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQRGdpUmwwU01yX0dZMkgyeEhlbXpYaGwtTXhldDFIZFRxdkNrMVN4TlBMUW1NeUloZXJSMFYyR0hBTjVPZ2V4MFZWaEdqUEF3Ni1yY2Zxem1aVXdCSlNWeGtpd2ZVVC1HR2RfRHU5VVg3Uy1rdXF0T0x3OXlLM2Z1SVRLaHU0QU01N2pDU1lEX3MxMEpVdld1RkVubw?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "5 new state-funded housing projects are coming to Denver",
+          "source": "Denverite",
+          "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNY25JZzU0Y2taM2NFbUswTVl4NE1tSWx2N3FjWG5QTlhoR0hzR053Q3RWOGRYcXo2cmp4eTAwSnVILTNLZ2k4Znk5bVRmQ2xCYkdxQl9MOGk5M0piUmFNSWpUb054Sjg5VDZubHF5THV5c3d3QWFkRDU3RzJGVjI0RQ?oc=5",
+          "date": "2026-07-21",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver mayor promises universal childcare, housing expansion in city address",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNdEc4QTV3MjQ5eFkwcFBHNTUwd0pZaEladzZkb3hvQWpDdnhick9ONV9PZWs5ZmhQdlVpTUpDLWh1NXpJWkdhN2tsc095bUFsazZWMG1TSmplek0yel95ZkExSEJyc2Y5bTBqOXJXNExQQXFndHdya1RVYTZCQmNfc3dpTG5EUzNzNjFnYkZYY2N2c2ktTnJwQV9Gbm1MZVlONk1XT0tsMUhfZ3FHVko5Nm50a0M2c3pw?oc=5",
+          "date": "2026-07-21",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Apartment conversions are expensive and tricky. This old Denver Tech Center building pulled it off.",
+          "source": "Colorado Public Radio",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOck9aZklkX0k5djZXLTFZMnVPdUI1TXJNbUMtUlZuanQ1WURqbnMzQVloRXRIQmxNQ3E4a1NXRDA3NGxRNmFTb2RxSnc1VlJIeHZsZFhqU0p1QmtGVjFycG1UNEwzejRTNWF4dTYxWjdYb3VyRmNobG1kWVBXMWlVZHI5RDVUc0hFN1NjR2cwS0NGVGFOQlE?oc=5",
+          "date": "2026-07-20",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [
+        {
+          "title": "NAHRO 2026 National Conference & Exhibition",
+          "start": "2026-10-15",
+          "end": "2026-10-17",
+          "location": "Colorado Convention Center, Denver",
+          "organizer": "NAHRO",
+          "url": "https://www.nahro.org/national-conference/"
+        },
+        {
+          "title": "chfareach: CHFA NSPIRE Inspections, Denver",
+          "start": "2026-11-05",
+          "end": null,
+          "location": "In-person, Denver",
+          "organizer": "CHFA",
+          "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-denver-11052026"
+        },
+        {
+          "title": "chfareach: What's Your AI Strategy? A Session for Housing Leaders, Denver",
+          "start": "2026-12-08",
+          "end": null,
+          "location": "In-person, Denver",
+          "organizer": "CHFA",
+          "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-what-s-your-ai-strategy-a-session-for-housing-leaders-denver-12-08-2026"
+        },
+        {
+          "title": "hpi: HPI End of Year Celebration, Online and Denver",
+          "start": "2026-12-18",
+          "end": null,
+          "location": "Online and In-person, Denver",
+          "organizer": "CHFA",
+          "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-hpi-end-of-year-celebration-online-and-denver-12-18-2026-dec-18-2026"
+        }
+      ],
+      "reasons": [
+        "30 new stories naming it",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0816000",
+      "jurisdiction": "City of Colorado Springs",
+      "scope": "place",
+      "county_fips": "08041",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Colorado Springs housing snapshot shows rising costs",
+          "source": "Axios",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNY0FIV3V3MWxiVnktLXJnZm9LcFZ2ejlkazJGUkZSZjhpUU1zM2RnaXJNT3FDTlI3RVlaaENxcGQxOGViVERFb21TaXpwZTYtcFd4YWlDcUZnRDlSUGVGUC0yc19xMVl5MHNubDljdXY2M1dpdVFqV1duR0dYMzhnRFpnYmdwaFpVTG54MjltS0xISXZmbUlCMg?oc=5",
+          "date": "2026-10-13",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Apartment vacancies decrease, rents rise slightly in Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOODlMOFgtQ3FRRFE4WkNiWFJnLWxjX0JHYVFwOE1oRU00ZTFYdy1Rc29RbHd5N1R3OWd6ZmpXc1dEVlJfcFlBb01qaHRYbXc3YTVOVV9nR0pCMTlMMXRpdVFaWlB4VGdNZDE4ckJqanozblEwXzZHRFpTT1NPTkNSR3kzMld5c2FPc2xOb3FnRXF0MjZzbzk2U20wSDJlc0NYN0VoTQ?oc=5",
+          "date": "2026-10-04",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs housing market shifts toward buyers",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOZDZKU013cTNiY0g2UFZlYlA3bFd3cGZKN2JXd1Z0dlVESkZOUDR6R2VZRWNaN3daNHFOUlpzSGY2RGNCVUZ3RVlVYmFWdTVDN0JzVzViTWpKVGt6WXd1emkxY1dFRjBZNF9GUnc0TGFBRWF5ZEZHM3BoU2FycUxoc2ctQl82OFotZnJlZU1udw?oc=5",
+          "date": "2026-10-04",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs sisters may seek citizenship ruling, judge says",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVXlNQVAzcmtyYk1ZekZteTQ3SUltQ05rV083Tm12dllqVlJrN19pblNqUW1jUWNVN0RoMTZhQkFwaVQ5NUZTd3hRN2d6OG5naHZVMUdOa2lNdzZObmFrVTBTTGpjVHhTbmpEVmFEQ2dPcmxfMjM3aWtqNzNEbDRNdU5VR1FDdHBxdy1IaEM1U0c5SEdCTXg3ZTJMVmRjLUZFZmJBdmpIY2JTeFZWWlZR?oc=5",
+          "date": "2026-09-30",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "New affordable housing coming to southeast Colorado Springs",
+          "source": "Yahoo",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
+          "date": "2026-09-22",
+          "match": "place",
+          "also": [
+            "KOAA News 5"
+          ]
+        },
+        {
+          "title": "Five months after opening, Living Proof Recovery is helping people rebuild their lives in Colorado Springs",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMihgJBVV95cUxPbFNYTk52anJSQVdySXBxRzBQTU1IYUIwMEx1eXRIWEVwX3hzeE16UFE1Zm4tVzM2ZXF0NWJIUG9URnZCTzI0OUpSWUVTXzJ1aFFnUFNhamJseXl4X2xjVU1SaGdVaVVjY0tocGh4MHY2alNlbldBUXFmelZ3NXdtNkVXZkhqNXRaNDY3WTRCR2VjN21USlp6OUk1Y195bnpXd2FLWkpSc0hHNzFSWHVPT3FQS2VWbnM4VlB4R3RJa2ZkTGg2b3E0Ull6eTFaMlNydmF5c1VRRjIwdXp1UElHS2NTTWFOZDlZckpsU1hLTWN4OGpZT3ltc3RZWU5lc004ZWI0MGx3?oc=5",
+          "date": "2026-09-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Parade of Homes showcases more than 30 homes around Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNYmEwM2lzcUdxMFAzWG5jNHFwMGNVQ0stWVVMWWVqaUVwdTNvNWhwV2JsRm1LSUFDQUZuS0txNW1jSnhaa013UkZDRTgxeHhFUWhVWU0wUWh1amNWV295X3NrRTdzRzhfNk9USkVfekFrQmgtR00tWWV1amdXcW9jc003clVZRkZmVzdBLTVCV19qZDdDaXBzRW42UTNWM1RnOXc?oc=5",
+          "date": "2026-09-05",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Tenants Union members allege retaliation at southeast Colorado Springs apartments",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPZ2hwaVlXSzIwU005VjY3Zy1RUFdCWmgxM2dkenpPYlF0ZDZkQjVXRVVVNUVaUjRYNkY0RXJrQTVYRVNaZWwzZzhWUURRLWZrVkxFVTlwcmtvLW9zX0d0NjhtRWhZNjV1NXZ4VTRvMEtCbU9ZY0l1ZmE3V0VJekQyclctd0RuZ2FQWGhTbmtkNmJBSHNkZ3Z0N3FNUmh0dmFwMkYzZEV2WnRoUE1rb05xMTM1RQ?oc=5",
+          "date": "2026-09-02",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Second affordable housing project on church land opens in Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNTlg5R01ad3VCWld4QmlNaXZxM2s2a0tUNEhSZlVlOGdYRGpWQUhoQ3NSdWlVcWdXMmJfbDVfelFiYjVJUndGMnQ1UENLWGhzd2h6Y3lsdUZ3dGtsbVZnOUtJcjFWdkwzT2drdFVSY1REUmNVSVctamRDY2pyZVg4NnVWS3BJZlB1YkMxRnFoUjlUTkt5dVpoZzAxQkpkSHQ5ZDVIeWdTSHlidw?oc=5",
+          "date": "2026-08-17",
+          "match": "place",
+          "also": [
+            "Colorado Politics"
+          ]
+        },
+        {
+          "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team",
+          "source": "Axios",
+          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
+          "date": "2026-08-12",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs unveils new homeless response team",
+          "source": "FOX21 News Colorado",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSTBOcXZaNk5GRkt1UmJDLWR0aTJ4Mk9iVndIRVFPLURnT1lIV0NlZmxWV2xnZzhKSUQwQjRzUnIyLU5KbWQzWU1FX2lndTRGcFJZZE01YWEwR3Ewb1BvTFZRUjduMm5oRWhfc2dxREg4T2gtUGNNUVRTdXNfTll3akw3VFBkdkdwaVlv0gGQAUFVX3lxTE5RRU5qUlFiVjNHSFI5MFZrNkdMR3dxai02T3gtV25UbHZ2a3FYSTZ5S3FYMjdMbEU3S3k1eE1wMW1GS210QW1waHF1Z1VobW9OemFCQVFHNjAzdXR5Y1Q0S3pieXVwSjdSdUVRTFVRaUZ0azJPcmYtR0NTTGw1U3U5ZDlHUkM5d2FBNWN1WWZTeA?oc=5",
+          "date": "2026-08-12",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Emerald ash borer confirmed in Colorado Springs, ‘pest is here to stay’",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQdVY3WjYzelh4VU1PQTRJclJtRHNld0FzRmZURWs4eERfbWd2WFBkWGxKVm43WjFIUklJZHlUY0NsUEFmVzFxMXhSNTdsSWZRTXhXb1VYbnlUMUtEN3VWcUVreU8ydWxhdk1VVWM1SXZBY1IyOUozYWZCdG5JalRJN2d0emdiZDR2NExiRnk2NnEwVHBRMzhYLTBHSk0zbHczZHBuZTNDRlFzZDU4RS1uRFVjcw?oc=5",
+          "date": "2026-08-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs buyers have more options as home sales cool in July",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOUVFtb1djM241SW1JSmdwSUx1bkllUkVBNFQ5M3Nic0FEa0UyN0xqdXRTWHdDemdwQ25vd05jOW1ncXY1U1hVVzEwelAtM1BVSE81SHg5a3FPeE56SkY3UVU1MnJhQU5KaGtlVXhtMHVtdU85S3A0dmpGOWRLdU0wV05kendEU09Ra05TSTNlalN5TkNfS1dYOWE0NURlZnkzWjhnQ2Y4eHI?oc=5",
+          "date": "2026-08-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs mid-year housing market review",
+          "source": "KRDO",
+          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNd2VNYUNYM3ZWbXA0anlmZk9tRGZaQ3ZLVEduR2RrdTRkSjQ1SldibkFoYWpTb2p1WjdVWGZfTWI0VnlPZHVUWGNucWpaNUFFd3daa29iakxfbmJmMlc1UW9xcHl1bjE5Zk52bXZYbm9wazdZTFlIZU82d2FRTV9zbmFELTE5OENBTHJ3aUpuVnZtQ2tqV0hKWlJ5cUpEemJKbjhn?oc=5",
+          "date": "2026-08-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "KRDO13 Investigates: Colorado Springs Realtor sold homes while on parole after prison sentence",
+          "source": "KRDO",
+          "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPOG9fZzZnUzZlY0RoYUtVcGc4blVXRWswdE9WVW02WWl1Qjh0WERkSXBPSjBJZk82REpfOVcwYk5tRFFRbW4wRDIzRmZEbHpXYVgtd0d5MC1vb2J1aEwxcGttNE5TdDNlSmpEb2oyeUxDRFN6YnJSdTBCZmw3NUN0SzVhejN1RC05MzVFd0g1bDhQZGs1eTN6ZlJRb1V6U2Y0WE9pVVBFRFEtVkhkZ20yNEVjalZGc3hfeXBlYUVwMUFqcnQwb3lfRUFhV0dLZUFMWGQ3T2NYS3ZhUGJRZEE?oc=5",
+          "date": "2026-07-29",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs has ‘moderate shortage’ of homes for middle-income earners",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNbW9LMTRfWXBvOWtMYTVtVW9fWkZhS3BCSER2ZEtHUWhkdUVIQ0ZEeXh6cE05dFJIUHdXZ19CYjNqaWRkRGdIRnRwaTU1T2IyOXpyZUhjSDVUOE9aanprcl9rUFAzenJrcFBYWndYdmRlN09CZ0N0LWo0MTFWRVg3MGJIcXBlUU42c1QxT3VUQXhtZjVHM09SUWFUZm81cmtVYnlIREc5UTg?oc=5",
+          "date": "2026-07-26",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs sees rising need for rental housing | Jill Gaebler",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOWlh2LXY1ZWlWN0dqRjNrcEJqbk1wTGdEMkxST280WU5TbG5OeWVCS0Fjb0I2WmUxdGJEbmFBSi13VkVMNkZ4UUFUbHc5WjRyTlFoWVZWblMzTDNqNllBMk5UOFBPNEc2NWdGdndYcFpIcnNOSHVOTHBFeGZFbDhTWUd4b0F4aHpWQV9RUlY2NWtKNVFjaERCUW1PMm1PQQ?oc=5",
+          "date": "2026-07-25",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "County commissioners deny controversial rezoning request north of Colorado Springs",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNc2E1dXVMTndlaXRqRThNWlIyU2pOT21tempOU0JyUXFZMG1ucW9HSDlEWXphTUF6ODRseUNUSmo5b2stSk5IXzRiR2s5UTh4WHBheVZvSE00dU5xSDZRbHlDcEc1YkkxTm1QVWdER1ZlU2Z5ZFJ6dE1zbWk1X0tWODhaRlJ6UGdsTHhxdDlzc0Q2Zk1RMlNTcEMyS1hscmstYS0xd3Q5Tlp1b3h0Q3RuT1JwRnU2OEtRenc?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Off the Street Breakfast in Colorado Springs raises money for youth experiencing homelessness",
+          "source": "KKTV",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTnlBTUlERHlsWlF0bEVoV2pybXY0dnhkUFpIQU1HWWJkMHBkOTVHaXp2UDNkZ0VrUXpsTVJBNW5Td2JBMklhempCdk4zMVltOGR4V2QzQndwd1Myc05Wdl9VRnREaEVOclFDclh5ZWRGNjZWUWtlN2QtNnBBaGc0ZUFYeUhOdkpxZ25xVVNLSVJxeUppWDBTejlzVXp3ZmZCb0lLeEIwMWhDSjdUNFJzeXZhODh3QdIBygFBVV95cUxNbndqN2hDRjFrN0dHdTl4TDRudzlaYnpvankxN2RxV2U0YjZxbHhZdXhlTWpVR1RpWk8taXIyVWpuU0liVWZaNTQzaUlyYTVlVS02bTVjVTFDX29WWWQ2RVdpalh5WVFkTjY3U0pQeHIwenVCd0lReGRjNW9ZTkZNcEFtQTdzX3FTcEVEUHQtUzBmczRlNnpuQnVVREIzenlmSGdGSjVzS1Q2bC1seHRvbGpycVZVbzdVcHJSX090S0htVGVCZlZzb0t3?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs suspect charged with burglary, assault after breaking through apartment walls, ceilings",
+          "source": "KKTV",
+          "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNdDV3U3FURDFCbE9DU0dHcnFtYnowUzFsUmNieThrNUsyd3ZmRWZGc2lHOTBya1RwUlRkdXNkczFxbENCd3FPcnNaRnlwV3RqSUJXWEZFNGtJODBqbEROUFVqalE4a2JxY1pMMTFfZDBZZ3JvY0trQ1I4TExRVGxRLUxPUVJDYzMteGoyV2pOaVUwV0txS3d3a3hSbnpOOXBMOEYwVGRGam45SG0wNk9zUU5jUEFJM0M3WFUzNU93X2lIYUhRNG9fQTRlOWR0ZTh60gHkAUFVX3lxTE54VEdUbmlQMTBibWhZQ0U4LTh3NTMxWEFhOXk1UDJzTDlob1JWQXd0cmt4SzFVZ2w1SGRSRENYdHMtX3ZVUE9qbFd6OHpEUDFUNzFPR1FwVHJ0SG04LVRQeFJTRFhBVE00V0drOXJOSVFLc01EYnZaVm5Yd3VjLTVBZjlSUHlMYWt5RTRLVXhYNlZaZlNHS2Q3aF81c2xMY3dZZVpxYVN2d2hYX2tGam9UY2RLam1XSUwyVmRRVlQ5THVxMkpXZlZkNmNWOWxpbGRWTG90d3VkVzNkLTlmblR4eTFqQg?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Crunch Fitness is packing up and bulking up at new Colorado Springs location",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOVXdfLXdrQ0VXRDlTOE1XVUdOSXRTeFZGMGVYSmNLVHV3dFBncFFJNzh3RG5xaThPY05XVVlxWmtJXzlPUnpGR2ZLdHB4enUzYnlfNy12Vk0zUXgwWWhEbU8wYmFDb3FuajRlQS1RVXJTM2lzWXRQWUMwNm4tdEl5eTRRNzgxRW9yd1YyT1ViTHlsXzJmUGtkVFZ1UHlvTW1wRnZMaDRQZUs1RWJQ?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Prop 123 funds new affordable housing development in Colorado Springs",
+          "source": "KRDO",
+          "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTFB4bWVWWjYweTR3YzBmcjd5bW03VmVFblpIOGVYUjdfOFRtZW95WGUtTy0zekxMSXRKNTBGNHVzUEx1bHVNczVXVk4yWDIwbFF1cU81UGVUejBoaWdGTm5nZG51dUFqTTBzY3V1ajJtcVh4M1lJdmNPNg?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Prop 123 funds to support 11 new affordable housing developments across Colorado, including one in Colorado Springs",
+          "source": "KKTV",
+          "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNSFNKcldCQ2Jvb1VMaXJGR19oQW5KSGNNZTdHTGUxM0hOMjI3eDRYbmpqVlFENnBzV0FncUoxNnZKaTdxanJMRTMwVHNUbUtoMm15SHo0Z0prd2YwOEx1R0NxbUZrdkx2OEdKX0wyN05weU8zSnh5VVlMZzhQWjQ4Z1RZLVU1UTBqcHQ0VFBHbndqX2ItQXVSV0thVkxHdzA0dUg4bmNPT3BPT2NYd0lfdHhVanRMLWdDOS1iYjNybG1yekhzaUpCZG13ZnRMWWVnam14S0J6OG3SAewBQVVfeXFMTUFQcjdzaGx6SmVLbXVSaUQxWEtkZmVKWVhNRlpqTXdEeWRDU1FUR2ZPd2UyWGV3SWlmU2xwUVVUSVRsd3BaeXp6SE5jVGlqV1V1SzFPR1pLMnp6dndaQkFjRGg5RnNtX3k3RXc3X3lDZDczdUVZRndDLWxwa3d6T3YyQmFUb1pKeF84MUJKNldTbjY1cUdOeWQzaHg1UDRlcmZacXU3YWZpNGxMeVI5MDEzMDNFRFR2RGRYSnp2Ym96eUNVNlV4Nm5nSkUtNWVKc0ZjT1phQWpHck9QX1VDS3RONFdvMTMxV3p6V3E?oc=5",
+          "date": "2026-07-21",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Banning Lewis Ranch development plan could reshape Colorado Springs' eastern growth corridor",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQOWZIczdZZTBnd1JBVEU0clgyY1RPbVowUWFwNFRDMzBqcFBJcy1IZzZnd0pVN1BMYklGalhNeE91OUZzVDhaOWlGUFEzVzB0bnE0dWRIdENqazF6RW9Da2lHUkZYak1CS1dlU1ZyRWdxUDVLTWs5dzhHb0RkLTdGTzZHaUNDb200dTFTNEx5eDFwU0o3Qmt6SWlyWWRxeXcxLTRRTTFqeGFCVzhVQmhpOXV3ODl4VWcxYTQ5Z2VEQVZsX25iWElnSUNzemZlR21Od3FUcC1HYTVYbmZweTVfekVuaWJ4ZDY0VVFySQ?oc=5",
+          "date": "2026-07-20",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [
+        {
+          "title": "In Person: Own Your Tomorrow: Homebuyer Event",
+          "start": "2026-10-17",
+          "end": null,
+          "location": "In-person, Colorado Springs",
+          "organizer": "CHFA",
+          "url": "https://lp.constantcontactpages.com/ev/reg/8ab7cut"
+        }
+      ],
+      "reasons": [
+        "24 new stories naming it",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "scope": "place",
+      "county_fips": "08069",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "The allure and struggle of making Fort Collins home",
+          "source": "The Coloradoan",
+          "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNcG5JU0otb09KOXdYb3RMcDN5WWZURWNCSHJnZ1ROODF4SjZjOU1tWTIzMzAtMzBwNDBhWkdoUGZkWlduOGlfUlh4U3JVN1FzZWVMVVpsZ1MtRFdTOU5SeDRZMGFIdXhSQU4tTm5zckViM3BmY2xHQUhiWWJsU2pRcEQ1MGRVVHpYUGF3QTdHNWJIZnhBeHpLT1Q0NGJ5dlBTczFhNFlhWHN3Sk5HSUgzV0dOaU1oVzM2ZE5CVXJWalhQamxRQlBwN2RDQllBanQ5WEs2ZXZVX19YZEZMZll4YmZKZXk?oc=5",
+          "date": "2026-08-18",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Understanding the Ballot: The Facts About Fort Collins’ Biggest Issues",
+          "source": "Common Sense Institute",
+          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPRzFkNjBrV1FSdWs4UjZJZk82dmdUMm1UV081eXQ3SXZ6RXFfSVUtRUlLNUtneXU2bmtvWXFMc0VSbFFNREJXTHl0UThGY0gtbDRxSG15QXBtOWU0YVFUc1d3bUg1dC1rS3JoM3k1SlNDRlktRzRveDR5Nm8zeTZFT3Y1ZzJKQ1ZFalhJaXJmU0ZhbnBRRzNlQk9KWExsOFRqOHBEaVVYQ19STXBOdGJ6ZEZWXzlNWUw5bzZncDBHUnhGckRVbk9wWHhQci04Y1dhZUE?oc=5",
+          "date": "2026-08-11",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Landmark Properties and Partners Complete The Mark Fort Collins",
+          "source": "Global Student Living",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPbHZNbzFjWnFVNWtTRjBZYU5HTWZNUGFJV0lPVkNjSXphNUx2R0NOVTRzWER4S01vcnF5UkpSNnVyS2U1VUV5SkR4cU5aUUtVUEJLd1lDSW9nUi0tNEhCZkZjejZQOF9GSXNqMzlXcGU1WWZfU3BpN05EQW1OZEhCOTVDcDBabUxCam9xZFhzS1MwMGd1LUpCWGJmOU1rZw?oc=5",
+          "date": "2026-08-11",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Landmark Properties & Partners Deliver The Mark Fort Collins",
+          "source": "Landmark Properties",
+          "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQNzZrM09TcHhMTUxRR0VGSXNfSnM1SWhpUTgtS0dCTGtnWF9EcHJLNUJnQzRiRlo1bnRkWE9INi1RZXZ6dFlzM0dtWm5Da09EVTI5dldySXZKZDlGZl9hREN0d1NjT3N1RDRzNE56WEhQRGVkSWY2UXk2SVhIa2pWNHVuTjFWX000aUZvRFFYNHRMWjFOUThHRmlpOHBiVktNMlBrWERWYnhCNGNCa2VaV2lRejZTZGNsNFZnTDRqVDNPSmxDWWd6OHlERzRqMXFKZUdOYjV3X3lxNlllU2JlQlB1SUE4R3ozUzd4Yk5aQk91TzdLN1ZZbVRBWjI4a1BNOC1oYw?oc=5",
+          "date": "2026-08-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "The Mark Fort Collins Debuts Near Colorado State University",
+          "source": "Mile High CRE",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQa2d1aFhXSlc2RTRaU0xYYk9VaVcyZkZkU2ZiTkhqd01nNmZBblFfUVY0VUxWVzFXSWZNbnItXzFDUVFYX3FFak9FSzZpWDE5TjZaTmp1VWxXUTBOeXdDU2R1NWplT3dOZUE3aXhHWmxnR0FSRzFKYUJsb21FN2RLaktZejctRWRNbFpZbw?oc=5",
+          "date": "2026-08-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Fort Collins mid-year housing market review",
+          "source": "The Grand Junction Daily Sentinel",
+          "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQNG5IRVByeXJqbkJLMmNlTUZSczlFZFhQOVdPYm1YRnRUR1ZwUWZjMFRwNklZQTVDaUVXWTc1MHBlQmU3OE5XNjF4UEdYd19zT0lrcFBwVUUtWS1UbGN3RTk0Sm9NSmtuelduNTctZHRheHdBaHhnbHNYWGxXb1RyS0R0dkg0Mlc5emtNQk84Uks2bFpjcExSa2hKdHNWS3ZMOVNxUVdHT0VxMmRGa1pOVExDOUt0ZWxkUWpxZzkxbVVMdlpPaFdlNlFoUl80d2PSAdQBQVVfeXFMTml5eGRxQlR5cEhrdGs1WmRmaEhicWM0d29weXhpQ1l6R0lFRHJzc01qY3dwRjhFZ2dYS0JBOGVGUEYyMFBPNzJpMzhwenc0dTkxSVJ0Sy1pVkR3Q0F1a3Bpb2JWaW8xMVJfNmZPaHNGMFprdEs5dFM2ZVJTQkZuWmJrT2ptM3RqbUhhM1BSYjBtNFNyNkRraDlKdWg3OFJ0QXd3SUtaX3ZlNVRFS1piNEN2YmVFU3ppUXBPWGhkQkZESnUxV2NNdDJaWUJiYnVqaTl1SEY?oc=5",
+          "date": "2026-08-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "A Fort Collins Thrift Store Closing as Property Makes Way for Housing Catalyst Development",
+          "source": "WhatNow",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOQl92QXhMTEN4anYtWTNMSzQxa2I2V3VXSjNqQkhKeWQ0RDQ2VkJNc2pkS2hFRTNFR1ZVMTZESXBTQVJPVDFQM0ZUQ2ZxZGFmRkNVZkxvZW8yd3ZTVVJ2Y2FGMF9tRUxldVNCN3BDR0ZEbHdVR1c0N1UzSkVFLWlwWlZ0WWNCU0lVbTk1akJLRkxUNkNhME9OY3Q2NFQ4RkVrSmk5ZXF5VUw5Zm54UU1ZUnEycmN1UUEtWU9mWlJXVUhjbzA?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [
+        {
+          "title": "chfareach: CHFA NSPIRE Inspections, Fort Collins",
+          "start": "2026-10-22",
+          "end": null,
+          "location": "In-person, Fort Collins",
+          "organizer": "CHFA",
+          "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-fort-collins-10222026"
+        }
+      ],
+      "reasons": [
+        "7 new stories naming it",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Nearly 100 homes proposed west of Glenwood Springs",
+          "source": "PostIndependent.com",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOSVlLQUZEUkhWTjFHeWhMZDBkc09xamdhQ3FxZzRKZkZxRTdxV1d3MFhPX21fQnNnQ1ZWZTZJY1ZsNHQ0TzUyUVVxU19Bc3RxUmFGRkJvR1hIdmxZSHlRU25MLU43NERuS3NqM2Fpb3BKRWdUdk1YbkJYOHBmLWRUSEU4MDVpay1IZnVsWTZuMHRYQQ?oc=5",
+          "date": "2026-08-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action against ICE facility landlord",
+          "source": "Rocky Mountain PBS",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOFFScU5jQkFCUEF1NWJWUVJqX0FnaFI1YjRPRU9OekVsUEthc3hPU3FnUjkxMERucVRocjNfeDEwdDRjUlB3VlRHYzJXRElCTTRwYmwxNGhObnFGaXp0eVQtN0RZNFJOdW94ZVlxNms4VEZYRkN2X0FRUXVweDdteGNxakM2dWlxTEM1VEJWbi1icDQ?oc=5",
+          "date": "2026-08-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action over ICE facility",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMlh5QWJ1T0xLMXVWMS1hNVhBU0x1RFF6bExoMzUybzFPclpKNjVvVGN2eHR6dnJidUhVRmExeFdiWXExQkV5czc3U2Vrd2tLNnRrMTFBZ3pKRVNINE9fZXFnTlB3ZWdyTXRWWjNSc3FuUlppYkVXVVhKMnVXUXItWkd3cGdBQnI1RWFoWWdhTUhrSUo1MlpZdmVrZVJpenpPcGxKckM0M3NzMGVTRWJDQzluNGk?oc=5",
+          "date": "2026-08-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs opens lottery for deed-restricted townhome",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZROG1PM2JRMDN6SGRCMkpvRVk0YUJUT1JWVXBTbFZhTWYzUS1UbmxwTngzeUdVTGpmejNmNW9HQ1NDcFZEYXpyZlZKeTFGOXdKSnlvSzYtQ0JGYnBlck5tTllTeVhyQ29xTXE0MHVmVVlaR09ranN3a3FYSkZ4VFRJRUE0b3dZLTlVdmx5OWFIRjJlWVVRaEk0RXdnQQ?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "county",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "4 new stories naming it",
+        "2 new stories about its county",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "scope": "place",
+      "county_fips": "08097",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions",
+          "source": "freebeacon.com",
+          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPVTlxQ1c5TmhieFduM3d2S2NfTE9IM25Mdnl6MV8wSDJ4S09JSnhaMHFENUx3T3BjbUhLWjZpSDNoMHo0LVBmTDViSU0tWnM4ZlFDaUt3ZGp5cTdTQ2dMNVRlYVFRQk5jUmJYOUJiTU9jQ1BSY3E1NGp3OEdkWWNNNWRmQUZmek5xRHJxU292TjJkTmF3Q0ZFSktBWF9DenRVbGFSbF9BQ2RaYlBNT1ROS25sWmRRdF9Cc0JXalNSdGZpQzFGN25NbVI1bmF4ZE9KRUpBMg?oc=5",
+          "date": "2026-08-27",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Aspen’s Lumberyard project receives $2.89 million in tax credits",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUFORjNKMXF0MXdsMi1hOUFMcVROa2VkXzQtbEhVZ2FjTjM0VnQza3U3Y3ZORHV4ZjR6WURfdlBSRzFQelhNMmtpeTdvaUpXenV0R2Q2enpQZ3FrZktjYXA5NktDWnNldU9XLVg1NWlaS0czdGc5TXBkdWxYVVVraGRPZTBKMHBnZTN1UGk2OUVodEtVaHNpTkEzbw?oc=5",
+          "date": "2026-08-17",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Aspen One’s creative solution to housing goes live for upcoming season",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPSDV6cnloa3BSS0FwVTJSa25yWnQ3elJZMi1NU252RHY4Yk1nc2V2dkhJdHdJbDQtYmd5ZzdzSmpieFNDMDBybFdZMjR6U1c4YkdLcUh2OENETUI2OEx1T2hTWFQyQ0JkcEhuM1pmS3NrWTh0TzBpbnZlaGJfcVB5a1BoZTNxWHhjQTc5V2Z6RTVvcGlwdDFvd192T0l4cXgxTmctTg?oc=5",
+          "date": "2026-08-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Affordable Housing Forum in Aspen to address valley’s housing crisis",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNa1cwNEkwV2dJMmVxSUdyVFpwNERuclJaaFIwSmZsQ1NKMWNkT1JEajUtWDNBVlZiSGtIMHFSb2lBaFlPZWhuZl9fMWxhdmFBNVFjWkZHcXo4TVczNzlEYWNib2Z5WE5mV3dEaFVra1l3RFZoaG1zeS01Z3dQMEhuVmtKYU5XcExuZHVFWWtPa2o1WFZleWNvWG1vUUJtaVhDeFE?oc=5",
+          "date": "2026-07-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Pitkin County short-term rental regulations could see a change",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTkNIVk9VclBYNUMyNkV1Y2xBS25aZlgzM3htTjRfd2xnV1hBUEQwa0djY2ZMa056M0dfd09nWVhHaEloZGh2emNtTjRGLTltV3JfRHpyRzhfZzVyRkhyZGlmaFl4UnllODRpNi1IT1VpVldrSUhUR1NZZTIyWmNQcFRjRUhTRl8ySndiNGczRkVDUDlnZzlBWjd1OA?oc=5",
+          "date": "2026-08-20",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "4 new stories naming it",
+        "1 new story about its county",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0867280",
+      "jurisdiction": "City of Salida",
+      "scope": "place",
+      "county_fips": "08015",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQLWtLdjdjVk0xZ19Xd0ZoeUxIMWNjYktCNnJ2VjhIUE5uTk5xcjNrMDNiLXVLX0VpZy1BbTFPX2o1QklNUUljUUxPemNLRXkwQjVTUGJmcldHZktqV2dobC1HWGVhZWN0REtqZmNtWThtbE9waHU1bEI3NHcyOHhjb0MwdTBzek8zcDlnQk00dlRheEQzUVhqMU1XUjZyQzlwaTFGNEplcXpYaWR1WURzcnVuRGxIa050dkl5MHFRbmFmN3c?oc=5",
+          "date": "2026-10-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "After Artspace Exits, Salida Seeks New Path For 1st and D Affordable Housing Project - by Mushfique Wadud",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQOXR5N2lCZGRveEZyM1g0a05taXNLXzE3LUVnZ1R1WE1NejdwZVhsdTUzZURVVE4zd0JxRWhQcUN2alVfMHlWQ3JfTExrejJxUjVUUWROLThBdVFvdFBDTjJKUTAyVWZERXFvbUczcGNCbDh5ZlpHUFhoQU9IZlBhc2x0WFc1Zy16RG5UcTdaMG5ieHo5cTNrSE5sckZESGJVSkwtNGNNcnhMdW1KMVJSQw?oc=5",
+          "date": "2026-09-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Salida City Council Hears Housing Needs Assessment Presentation, Salida Data",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNdHNiY215aHF5NHNSMS1PZ1l3cFBpVnNuUkZQYWdPVHVhTTlibTZyeU1uNTlvSVZaXzNLWWg5WFllNVlETDdCb2x4UlpVOWU0TTBYQjRRUnlqYzYtR1B3a2NYelRRSmphWkNDcC1JZzAwaUk2TTdwajBLa3ZMaVVFSGNOZ3J6WUk5OXlTQ0ctWmdveHpqQ0xjMThFVFREelZ1ZFdsMVZn?oc=5",
+          "date": "2026-08-19",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Salida City Council to Consider Stricter Short-Term Rental Rules, Financial Policy, Pool Liner Contract",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOMmJmTE5WZ3BPNHZDYnRmSm4xalBwZXp2RFY2bm9KVlJTaGhfLUo2aXM3MVhZMkV6WndwazVkTHNMVzlkZ3RtcFE1cVQtWUdRVFoxYkdGZXFFRWlLdllWaDByTWdLVnFCV3ZpVENPcDdaY2NrcnVWUXpXcnZqX0YxTDg4UXdiaThESzdtUGtRMURvaGlraGZtRFV6ZEI3NURaUWdyWTN0ZWZoUTFyS2dJSmFObmJZRUFVdGYwZ2JGN09NRndaQlBicnBn?oc=5",
+          "date": "2026-08-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa0VpbmpuaFBKUlh6S3dNTkNqLTZoWHI1YXBSUDItTlAtTUdIQTJwRnVuZzBWVXpaTjJXWWMxOUxpY1diTjFQS0VxR2t1TF9lQ1F6TTZrVXRyODV0YW9SUEhqUEY1bXZKOG0xS3RMUXN6OUprNFJkcG53d2o0MFZiYTgtN3lfSnhxRk9LVE1BZnVIY3hLUm1FQ2pZeE0zSGlYbDRsT2w0SlYzVzdPN1ZNQ0pwTUk?oc=5",
+          "date": "2026-08-14",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "4 new stories naming it",
+        "1 new story about its county",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "scope": "county",
+      "county_fips": "08045",
+      "published": false,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Nearly 100 homes proposed west of Glenwood Springs",
+          "source": "PostIndependent.com",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOSVlLQUZEUkhWTjFHeWhMZDBkc09xamdhQ3FxZzRKZkZxRTdxV1d3MFhPX21fQnNnQ1ZWZTZJY1ZsNHQ0TzUyUVVxU19Bc3RxUmFGRkJvR1hIdmxZSHlRU25MLU43NERuS3NqM2Fpb3BKRWdUdk1YbkJYOHBmLWRUSEU4MDVpay1IZnVsWTZuMHRYQQ?oc=5",
+          "date": "2026-08-31",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action against ICE facility landlord",
+          "source": "Rocky Mountain PBS",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOFFScU5jQkFCUEF1NWJWUVJqX0FnaFI1YjRPRU9OekVsUEthc3hPU3FnUjkxMERucVRocjNfeDEwdDRjUlB3VlRHYzJXRElCTTRwYmwxNGhObnFGaXp0eVQtN0RZNFJOdW94ZVlxNms4VEZYRkN2X0FRUXVweDdteGNxakM2dWlxTEM1VEJWbi1icDQ?oc=5",
+          "date": "2026-08-07",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs City Council votes to pursue legal action over ICE facility",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMlh5QWJ1T0xLMXVWMS1hNVhBU0x1RFF6bExoMzUybzFPclpKNjVvVGN2eHR6dnJidUhVRmExeFdiWXExQkV5czc3U2Vrd2tLNnRrMTFBZ3pKRVNINE9fZXFnTlB3ZWdyTXRWWjNSc3FuUlppYkVXVVhKMnVXUXItWkd3cGdBQnI1RWFoWWdhTUhrSUo1MlpZdmVrZVJpenpPcGxKckM0M3NzMGVTRWJDQzluNGk?oc=5",
+          "date": "2026-08-07",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Glenwood Springs opens lottery for deed-restricted townhome",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZROG1PM2JRMDN6SGRCMkpvRVk0YUJUT1JWVXBTbFZhTWYzUS1UbmxwTngzeUdVTGpmejNmNW9HQ1NDcFZEYXpyZlZKeTFGOXdKSnlvSzYtQ0JGYnBlck5tTllTeVhyQ29xTXE0MHVmVVlaR09ranN3a3FYSkZ4VFRJRUE0b3dZLTlVdmx5OWFIRjJlWVVRaEk0RXdnQQ?oc=5",
+          "date": "2026-07-22",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
+          "source": "Yahoo Finance Singapore",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZ2RzbXlZN3FYbHJrQ1BkRHVvLXZoWDg3cHBzY2dQTXd3cjhMSVRtWWRyOF9qX1Q4LV9iSzRSRnIyeXl3S3h6Vkg2TnV5Wjh6dTI3cUlycWp5X3liUFd0SVJWVVp3czc2bkFmVjZnZDFra3hoOVJlVkRvVnUtZTBJQXdUMy04Sm04Q3BaWmlWejBLNzJ1cHc?oc=5",
+          "date": "2026-07-22",
+          "match": "in_county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "5 new stories about its towns",
+        "not reviewed in 119 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0810105",
+      "jurisdiction": "Town of Buena Vista",
+      "scope": "place",
+      "county_fips": "08015",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQLWtLdjdjVk0xZ19Xd0ZoeUxIMWNjYktCNnJ2VjhIUE5uTk5xcjNrMDNiLXVLX0VpZy1BbTFPX2o1QklNUUljUUxPemNLRXkwQjVTUGJmcldHZktqV2dobC1HWGVhZWN0REtqZmNtWThtbE9waHU1bEI3NHcyOHhjb0MwdTBzek8zcDlnQk00dlRheEQzUVhqMU1XUjZyQzlwaTFGNEplcXpYaWR1WURzcnVuRGxIa050dkl5MHFRbmFmN3c?oc=5",
+          "date": "2026-10-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Housing Needs Assessment Preliminary Results Highlight Struggle to Afford Life in Buena Vista - by Carly Winchell",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUktOQ0hqSFNPeVJtWFlnV090VXBab2VTQ2ppUS1HOWppaVJubkhKbnpXdUdmdW5SQUc4NnQ3RGNtdDBYRk5wQzJxejNDd1lVYkx3ZzRBMHdHbUxSVGY0UmV6Um03YkFwblpCb2hXMzFidDJibVdiZ016YjZaRlJ3YmRXc1RWY2t3bnY1UmxmZW5keWJBZGFfSkhtd0tMNEo3dEtJcERIR01iRDN1MkVlZWhxRlFGU05fQTVvY2x3?oc=5",
+          "date": "2026-08-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds",
+          "source": "Ark Valley Voice",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa0VpbmpuaFBKUlh6S3dNTkNqLTZoWHI1YXBSUDItTlAtTUdIQTJwRnVuZzBWVXpaTjJXWWMxOUxpY1diTjFQS0VxR2t1TF9lQ1F6TTZrVXRyODV0YW9SUEhqUEY1bXZKOG0xS3RMUXN6OUprNFJkcG53d2o0MFZiYTgtN3lfSnhxRk9LVE1BZnVIY3hLUm1FQ2pZeE0zSGlYbDRsT2w0SlYzVzdPN1ZNQ0pwTUk?oc=5",
+          "date": "2026-08-14",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "1 new story about its county",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "scope": "place",
+      "county_fips": "08107",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Development-fee debate reveals no easy answer to Steamboat Springs’ housing challenge",
+          "source": "SteamboatToday.com",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOY3VsX05uTWVSSThvQW5sNXVqNVFpZHpiazBqX1JKU3U2MDlzT3VIN3dZc3NJcVc1cXNPVS01UnhiS2VNaG1vbmVlaEZSc0o1dUZCaV8yNm50SVJXNXQ1SnhqSWU5cFpVZ3JCRDlmd0xQZXIzLTRSV0Z5ZkpnRUoyeW5TXzdwLWNjWmpsUHFsN1g1amM3SnhFdFhZb0xTbnl6Q2s2bk0zQ3ktdExZdlZvVlM3Si16UDROR3o3UXdR?oc=5",
+          "date": "2026-09-24",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
+          "source": "Mansion Global",
+          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
+          "date": "2026-08-08",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "scope": "place",
+      "county_fips": "08051",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
+          "source": "Affordable Housing Finance",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
+          "date": "2026-10-06",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
+          "source": "coloradobiz.com",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
+          "date": "2026-09-29",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "scope": "county",
+      "county_fips": "08097",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Pitkin County short-term rental regulations could see a change",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTkNIVk9VclBYNUMyNkV1Y2xBS25aZlgzM3htTjRfd2xnV1hBUEQwa0djY2ZMa056M0dfd09nWVhHaEloZGh2emNtTjRGLTltV3JfRHpyRzhfZzVyRkhyZGlmaFl4UnllODRpNi1IT1VpVldrSUhUR1NZZTIyWmNQcFRjRUhTRl8ySndiNGczRkVDUDlnZzlBWjd1OA?oc=5",
+          "date": "2026-08-20",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions",
+          "source": "freebeacon.com",
+          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPVTlxQ1c5TmhieFduM3d2S2NfTE9IM25Mdnl6MV8wSDJ4S09JSnhaMHFENUx3T3BjbUhLWjZpSDNoMHo0LVBmTDViSU0tWnM4ZlFDaUt3ZGp5cTdTQ2dMNVRlYVFRQk5jUmJYOUJiTU9jQ1BSY3E1NGp3OEdkWWNNNWRmQUZmek5xRHJxU292TjJkTmF3Q0ZFSktBWF9DenRVbGFSbF9BQ2RaYlBNT1ROS25sWmRRdF9Cc0JXalNSdGZpQzFGN25NbVI1bmF4ZE9KRUpBMg?oc=5",
+          "date": "2026-08-27",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Aspen’s Lumberyard project receives $2.89 million in tax credits",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUFORjNKMXF0MXdsMi1hOUFMcVROa2VkXzQtbEhVZ2FjTjM0VnQza3U3Y3ZORHV4ZjR6WURfdlBSRzFQelhNMmtpeTdvaUpXenV0R2Q2enpQZ3FrZktjYXA5NktDWnNldU9XLVg1NWlaS0czdGc5TXBkdWxYVVVraGRPZTBKMHBnZTN1UGk2OUVodEtVaHNpTkEzbw?oc=5",
+          "date": "2026-08-17",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Aspen One’s creative solution to housing goes live for upcoming season",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPSDV6cnloa3BSS0FwVTJSa25yWnQ3elJZMi1NU252RHY4Yk1nc2V2dkhJdHdJbDQtYmd5ZzdzSmpieFNDMDBybFdZMjR6U1c4YkdLcUh2OENETUI2OEx1T2hTWFQyQ0JkcEhuM1pmS3NrWTh0TzBpbnZlaGJfcVB5a1BoZTNxWHhjQTc5V2Z6RTVvcGlwdDFvd192T0l4cXgxTmctTg?oc=5",
+          "date": "2026-08-03",
+          "match": "in_county",
+          "also": []
+        },
+        {
+          "title": "Affordable Housing Forum in Aspen to address valley’s housing crisis",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNa1cwNEkwV2dJMmVxSUdyVFpwNERuclJaaFIwSmZsQ1NKMWNkT1JEajUtWDNBVlZiSGtIMHFSb2lBaFlPZWhuZl9fMWxhdmFBNVFjWkZHcXo4TVczNzlEYWNib2Z5WE5mV3dEaFVra1l3RFZoaG1zeS01Z3dQMEhuVmtKYU5XcExuZHVFWWtPa2o1WFZleWNvWG1vUUJtaVhDeFE?oc=5",
+          "date": "2026-07-23",
+          "match": "in_county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "4 new stories about its towns",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0864255",
+      "jurisdiction": "City of Rifle",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
+          "source": "Yahoo Finance Singapore",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZ2RzbXlZN3FYbHJrQ1BkRHVvLXZoWDg3cHBzY2dQTXd3cjhMSVRtWWRyOF9qX1Q4LV9iSzRSRnIyeXl3S3h6Vkg2TnV5Wjh6dTI3cUlycWp5X3liUFd0SVJWVVp3czc2bkFmVjZnZDFra3hoOVJlVkRvVnUtZTBJQXdUMy04Sm04Q3BaWmlWejBLNzJ1cHc?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "county",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "2 new stories about its county",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "scope": "place",
+      "county_fips": "08067",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Durango School District expands workforce housing",
+          "source": "Durango Herald",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQWmxTZnBmWVJYd2h0djBvd2o2TC1ZNk5wWEFmVWZEUkJTOXlicXZ0SnpMcm95WlhRTklIVEpScEEwNUp3bUppMlBza3lzZmVtQzUySGZGWWI2RlYyZ213cFpqSWgxb00tejRPWGlJQzZLVnluUDFEc3U2OTdjV3EyT1FVQ01TTEFyX294RU5NeDNsOHJnanZTaGh3?oc=5",
+          "date": "2026-10-09",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "scope": "place",
+      "county_fips": "08113",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 78,
+      "stories": [
+        {
+          "title": "Council discusses hiring consultants to review Telluride housing policies",
+          "source": "The Telluride Times",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPbkFyUnYzdEhCcjJER3huQTVnZmkxVy1WVENNWDR2OGxsX3JKSEVDbjNScXdvbWZIZUMycmNFX0FSR2N0NnVQZTNYenVadkFWdEZRNFJuYWVBR0otWmFlWHNCbEtlbWpTZkZPbGxmUFJBQVFQemwzWHJjSGIwOENsdzB5Q3hWSVFLV0pNWg?oc=5",
+          "date": "2026-09-06",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "not reviewed in 78 days",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0870195",
+      "jurisdiction": "Town of Silt",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-06-20",
+      "days_since_review": 118,
+      "stories": [
+        {
+          "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWDVDblVQRDFrZzZMampFU3VpbFlreGhFTWpVckZlRHc1NlgxaW90ekhCMHFtZ3lKWG5nbDBfc283UFFYMTBwQjRId2I4XzNIM2ppN1Rad0lBekdxMzFGdFBaMXRFdjhrUGdqM3diWEFuUzY2bU53TldSUUZVZTJZbVJBa3BiTm81M2FHVVJvRUx6dTRyTEVxaFZ2eUUzdjlWV3d0Q3hoQkFheGVIY2dKQS1uWmszVjBBVVg1SHl6Qk12Zw?oc=5",
+          "date": "2026-09-29",
+          "match": "county",
+          "also": []
+        },
+        {
+          "title": "Garfield County Housing Summit discusses rising costs, barriers to building",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWjJ5ZEZNdFZXdDUyY2RwYzhOWDRSTFM2U2ZWOUh3TkpjMDFIRkNya1VpR25FbWVXTS1jek5ubWF3OHR2QzVLNXk5Nk50X0NCREotME1ZZERtN0RCeWRaZDFGT0x1QlJybnhabUJVOURfTzl0ckZTd25EUDJDNFZ5SVpsR0l1a0FzdTVTYnBzTGplR2pmLVBBZm41LUlmUC1BVTd0ZlVsRTM4T2tZcTVyUGhn?oc=5",
+          "date": "2026-09-07",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories about its county",
+        "not reviewed in 118 days"
+      ]
+    },
+    {
+      "geoid": "0812045",
+      "jurisdiction": "Town of Carbondale",
+      "scope": "place",
+      "county_fips": "08097",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [
+        {
+          "title": "Pitkin County short-term rental regulations could see a change",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTkNIVk9VclBYNUMyNkV1Y2xBS25aZlgzM3htTjRfd2xnV1hBUEQwa0djY2ZMa056M0dfd09nWVhHaEloZGh2emNtTjRGLTltV3JfRHpyRzhfZzVyRkhyZGlmaFl4UnllODRpNi1IT1VpVldrSUhUR1NZZTIyWmNQcFRjRUhTRl8ySndiNGczRkVDUDlnZzlBWjd1OA?oc=5",
+          "date": "2026-08-20",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story about its county",
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0817375",
+      "jurisdiction": "City of Cortez",
+      "scope": "place",
+      "county_fips": "08083",
+      "published": true,
+      "last_curated": "2026-06-19",
+      "days_since_review": 119,
+      "stories": [],
+      "events": [],
+      "reasons": [
+        "not reviewed in 119 days"
+      ]
+    },
+    {
+      "geoid": "0828745",
+      "jurisdiction": "City of Fruita",
+      "scope": "place",
+      "county_fips": "08077",
+      "published": true,
+      "last_curated": "2026-07-06",
+      "days_since_review": 102,
+      "stories": [],
+      "events": [],
+      "reasons": [
+        "not reviewed in 102 days"
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "geoid": "08041",
+      "name": "El Paso County",
+      "type": "county",
+      "population": 752772,
+      "priority": 752772
+    },
+    {
+      "geoid": "08031",
+      "name": "Denver County",
+      "type": "county",
+      "population": 729019,
+      "priority": 729019
+    },
+    {
+      "geoid": "08005",
+      "name": "Arapahoe County",
+      "type": "county",
+      "population": 666918,
+      "priority": 666918
+    },
+    {
+      "geoid": "08059",
+      "name": "Jefferson County",
+      "type": "county",
+      "population": 578533,
+      "priority": 578533
+    },
+    {
+      "geoid": "08001",
+      "name": "Adams County",
+      "type": "county",
+      "population": 542973,
+      "priority": 542973
+    },
+    {
+      "geoid": "0804000",
+      "name": "Aurora (city)",
+      "type": "place",
+      "population": 402452,
+      "priority": 402452
+    },
+    {
+      "geoid": "08035",
+      "name": "Douglas County",
+      "type": "county",
+      "population": 393995,
+      "priority": 393995
+    },
+    {
+      "geoid": "08069",
+      "name": "Larimer County",
+      "type": "county",
+      "population": 374574,
+      "priority": 374574
+    },
+    {
+      "geoid": "08123",
+      "name": "Weld County",
+      "type": "county",
+      "population": 369745,
+      "priority": 369745
+    },
+    {
+      "geoid": "08013",
+      "name": "Boulder County",
+      "type": "county",
+      "population": 330262,
+      "priority": 330262
+    },
+    {
+      "geoid": "08101",
+      "name": "Pueblo County",
+      "type": "county",
+      "population": 169866,
+      "priority": 169866
+    },
+    {
+      "geoid": "08077",
+      "name": "Mesa County",
+      "type": "county",
+      "population": 161260,
+      "priority": 161260
+    },
+    {
+      "geoid": "0843000",
+      "name": "Lakewood (city)",
+      "type": "place",
+      "population": 156865,
+      "priority": 156865
+    },
+    {
+      "geoid": "0877290",
+      "name": "Thornton (city)",
+      "type": "place",
+      "population": 146689,
+      "priority": 146689
+    },
+    {
+      "geoid": "0803455",
+      "name": "Arvada (city)",
+      "type": "place",
+      "population": 122529,
+      "priority": 122529
+    },
+    {
+      "geoid": "0883835",
+      "name": "Westminster (city)",
+      "type": "place",
+      "population": 115301,
+      "priority": 115301
+    },
+    {
+      "geoid": "0832155",
+      "name": "Greeley (city)",
+      "type": "place",
+      "population": 114366,
+      "priority": 114366
+    },
+    {
+      "geoid": "0862000",
+      "name": "Pueblo (city)",
+      "type": "place",
+      "population": 111156,
+      "priority": 111156
+    },
+    {
+      "geoid": "0812815",
+      "name": "Centennial (city)",
+      "type": "place",
+      "population": 108860,
+      "priority": 108860
+    },
+    {
+      "geoid": "0807850",
+      "name": "Boulder (city)",
+      "type": "place",
+      "population": 106802,
+      "priority": 106802
+    }
+  ],
+  "candidate_count": 167
+}

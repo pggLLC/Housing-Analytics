@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Red Cliff — COHO Place Profile</title>
+  <title>Red Cliff Housing Profile — COHO Analytics</title>
   <meta name="description" content="Housing data profile for Red Cliff, Eagle County, Colorado: cost-burden by AMI tier, mortgage credit access, cross-county disclosure, and HUD AMI rent limits.">
   <meta property="og:title" content="Red Cliff Housing Profile — COHO Analytics">
   <meta property="og:description" content="LIHTC underwriting data for Red Cliff, Eagle County, Colorado.">
@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 21.2,
+    "total_renter_hh": 21.0,
     "total_owner_hh": 110.0,
     "renter_cb30_count": 8.3,
-    "renter_cb30_share": 0.3915,
+    "renter_cb30_share": 0.3952,
     "renter_cb50_count": 2.5,
-    "renter_cb50_share": 0.1179,
-    "owner_cb30_count": 36.0,
-    "owner_cb30_share": 0.3273,
-    "owner_cb50_count": 20.3,
-    "owner_cb50_share": 0.1845
+    "renter_cb50_share": 0.119,
+    "owner_cb30_count": 36.2,
+    "owner_cb30_share": 0.3291,
+    "owner_cb50_count": 20.6,
+    "owner_cb50_share": 0.1873
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -58,7 +58,7 @@
       "pct_cost_burdened_50": 1.0
     },
     "51to80": {
-      "total": 4.0,
+      "total": 3.9,
       "cost_burdened_30pct": 3.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.9667,
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 11.2,
+      "total": 11.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,7 +81,7 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 16.4,
+      "total": 16.3,
       "cost_burdened_30pct": 8.9,
       "cost_burdened_50pct": 8.9,
       "pct_cost_burdened_30": 0.5455,
@@ -89,27 +89,27 @@
     },
     "31to50": {
       "total": 8.9,
-      "cost_burdened_30pct": 1.1,
-      "cost_burdened_50pct": 1.1,
+      "cost_burdened_30pct": 1.2,
+      "cost_burdened_50pct": 1.2,
       "pct_cost_burdened_30": 0.1333,
       "pct_cost_burdened_50": 0.1333
     },
     "51to80": {
       "total": 22.3,
       "cost_burdened_30pct": 12.7,
-      "cost_burdened_50pct": 10.3,
+      "cost_burdened_50pct": 10.5,
       "pct_cost_burdened_30": 0.5733,
       "pct_cost_burdened_50": 0.4667
     },
     "81to100": {
       "total": 13.4,
-      "cost_burdened_30pct": 5.9,
+      "cost_burdened_30pct": 6.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4444,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 49.0,
+      "total": 49.1,
       "cost_burdened_30pct": 7.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1515,
@@ -119,20 +119,20 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 131,
-    "base_hh": 124.9,
+    "base_hh": 118.9,
     "superseded_by": "tenure_anchor"
   },
   "tenure_anchor": {
     "applied": true,
     "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-    "renter_scale": 0.5585,
-    "owner_scale": 1.26,
+    "renter_scale": 0.5833,
+    "owner_scale": 1.3269,
     "acs_renter_hh": 21.0,
     "acs_owner_hh": 110.0,
-    "base_renter_hh_before": 37.6,
-    "base_owner_hh_before": 87.3,
-    "renter_share_before": 0.301,
-    "renter_share_after": 0.1616,
+    "base_renter_hh_before": 36.0,
+    "base_owner_hh_before": 82.9,
+    "renter_share_before": 0.3028,
+    "renter_share_after": 0.1603,
     "rates_preserved": true
   },
   "chas_meta": {
@@ -235,10 +235,10 @@
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
     "renter_cost_burdened": 8.3,
-    "owner_cost_burdened": 36,
+    "owner_cost_burdened": 36.2,
     "severe_renter_cost_burdened": 2.5,
-    "moderate_income_renter_households": 6,
-    "moderate_income_owner_cost_burdened": 18.6,
+    "moderate_income_renter_households": 5.9,
+    "moderate_income_owner_cost_burdened": 18.7,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -291,7 +291,7 @@
           Colorado · Eagle County
         </div>
         <h1>Red Cliff</h1>
-        <p class="place-sub">~131 households · renter cost-burden 39.1%</p>
+        <p class="place-sub">~131 households · renter cost-burden 39.5%</p>
       </div>
     </div>
 

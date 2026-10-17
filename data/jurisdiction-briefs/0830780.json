@@ -171,7 +171,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Glenwood Springs. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 675 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Glenwood Springs. It classifies rental pressure as High, ownership pressure as Very High, and identifies 671 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -180,7 +180,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 735 renter households and 580 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 741 renter households and 584 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -240,7 +240,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a ZHVI market estimate of $877,139 and median gross rent of $1,867. 45.3% of households rent, and 25.9% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $863,805 and median gross rent of $1,867. 45.3% of households rent, and 25.9% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -258,14 +258,14 @@
           ]
         },
         {
-          "text": "Opportunity context: the digest gives an opportunity score of 77.4 and a walkability score of 53.4. These are current digest levels, not trends.",
+          "text": "Opportunity context: the digest gives an opportunity score of 77.8 and a walkability score of 52.8. These are current digest levels, not trends.",
           "cites": [
             "d15",
             "d16"
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 79.9. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $158,844 and a rent affordability gap of $19,680. The county-context service-sector employment share is 36.4%, and county-context ACS cohorts show median gross rent changed 84.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 79.3. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $155,594 and a rent affordability gap of $19,680. The county-context service-sector employment share is 36.4%, and county-context ACS cohorts show median gross rent changed 84.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -600,7 +600,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -609,7 +609,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -654,7 +654,7 @@
     },
     {
       "id": "d7",
-      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-08-31)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -744,7 +744,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -753,7 +753,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -762,7 +762,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-15T09:42:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

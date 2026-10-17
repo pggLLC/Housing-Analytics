@@ -40,7 +40,9 @@ assert(!sitemap.includes('compliance-dashboard.html'),
   'retired compliance dashboard is absent from sitemap');
 
 assert(!developerBrief.includes('HOUSING-POLICY-SCORECARD.md'), 'developer brief no longer links to missing scorecard methodology doc');
-assert(developerBrief.includes('href="developer-where.html"'), 'private developer-where page is reachable from developer brief nav');
+// The gated pages draw one shared menu (js/whitepaper/developer-nav.js).
+const developerNav = read('js/whitepaper/developer-nav.js');
+assert(developerBrief.includes('js/whitepaper/developer-nav.js') && developerNav.includes("href: 'developer-where.html'"), 'private developer-where page is reachable from the developer menu on the report page');
 
 const requiredSitemapPages = [
   'compare.html',

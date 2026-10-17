@@ -62,18 +62,8 @@ def _existing_brief_geoids():
     return {p.stem for p in BRIEFS.glob("*.json") if not p.name.startswith("_")}
 
 
-def main():
-    args = sys.argv[1:]
-    write = "--write" in args
-    top_n = None
-    if "--top" in args:
-        idx = args.index("--top")
-        try:
-            top_n = int(args[idx + 1])
-        except (IndexError, ValueError):
-            print("--top requires an integer argument", file=sys.stderr)
-            return 2
-
+def find_candidates():
+    """Every in-scope jurisdiction without a brief, largest first."""
     registry = json.loads(REGISTRY.read_text())
     have     = _existing_brief_geoids()
     out      = []
@@ -102,6 +92,22 @@ def main():
             })
 
     out.sort(key=lambda x: x["priority"], reverse=True)
+    return out
+
+
+def main():
+    args = sys.argv[1:]
+    write = "--write" in args
+    top_n = None
+    if "--top" in args:
+        idx = args.index("--top")
+        try:
+            top_n = int(args[idx + 1])
+        except (IndexError, ValueError):
+            print("--top requires an integer argument", file=sys.stderr)
+            return 2
+
+    out = find_candidates()
     if top_n is not None:
         out = out[:top_n]
 

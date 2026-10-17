@@ -18,6 +18,9 @@ module.exports = {
   'data/market/acs_renter_bedrooms_co.json': { meta: { vintage: '2086-2090' }, counties: { '08001': { county_fips: '08001', name: 'Adams County', bedrooms: { studio: 10, '1br': 20, '2br': 30, '3br': 20, '4br': 10, '5plus': 10 } } }, places: {} },
   'data/market/acs_median_rent_co.json': { meta: { vintage: '2086-2090' }, counties: { '08001': { median_gross_rent: 1800 } }, places: {} },
   'data/policy/soft-funding-status.json': { programs: {}, lastUpdated: '2090-01-01' },
+  // #2160: the real rules file (policy, not project data), so the page applies
+  // the same CHFA limits as the engine tests.
+  'data/policy/lihtc-underwriting-rules.json': require('../../../data/policy/lihtc-underwriting-rules.json'),
   'data/hud_lihtc_co.geojson': { type: 'FeatureCollection', features: [] },
   'data/chfa-lihtc.json': { type: 'FeatureCollection', features: [] },
   'data/market/novogradac-equity-pricing.json': { pricing: { national_avg: { credit_9pct: 0.82, credit_4pct: 0.83 } } }

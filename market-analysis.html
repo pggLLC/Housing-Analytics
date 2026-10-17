@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Market Analysis | Colorado Affordable Housing Data Reference</title>
+  <title>Market Analysis | COHO Analytics</title>
   <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
-  <meta property="og:title" content="Market Analysis | Colorado Affordable Housing Data Reference">
+  <meta property="og:title" content="Market Analysis | COHO Analytics">
   <meta property="og:description" content="Primary Market Area analysis and LIHTC development feasibility tool.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
@@ -76,7 +76,7 @@
   <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
        developer session; mount stays empty for the public visitor. -->
 </head>
-<body data-page-update-key="manifest" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
+<body data-page-update-key="manifest" data-page-source="Census ACS · HUD LIHTC · HUD FMR &amp; Income Limits · FRED">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
@@ -86,18 +86,18 @@
   <!-- Workflow progress bar (Step 4 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="maWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
@@ -113,7 +113,7 @@
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="deal-calculator.html" data-step="6">
         <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="recommendation.html" data-step="7">
@@ -141,15 +141,6 @@
       </div>
     </div>
 
-    <!-- F63: Jurisdiction-level labor market & commute context.
-         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
-         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
-         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
-         data is found. Complementary to the PMA buffer-scope workforce score —
-         this card tells you the labor-market character of the JURISDICTION
-         (bedroom community vs self-contained), which the buffer-scope analysis
-         doesn't capture. -->
-    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
 
     <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -157,6 +148,7 @@
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p class="pma-intro-text">Pick a spot on the map and this scores how well affordable housing would work there. It looks at how tight the rental market is, how many nearby households would qualify, what already exists, and how easily people could get to work, transit and schools. The area it scores is called the Primary Market Area, or PMA &mdash; the neighbourhood a project would actually draw its renters from.</p>
+      <p class="ma-primary-action" style="margin:.5rem 0 .25rem"><a class="btn btn-primary" href="#maPmaTool">Place your site on the map &darr;</a></p>
       <!-- F256 — CHFA-rule disclosure. The CHFA Market Study Guide
            (Appendix A of the 2025-26 QAP) is explicit: "Radius
            boundaries are not allowed. The market boundary must
@@ -220,54 +212,6 @@
 
     <div id="pageContext"></div>
 
-    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
-         Hydrated from WorkflowState/SiteState; updates on jurisdiction
-         change. Same shared component used on HNA. -->
-    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
-      <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
-      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
-        Three rent measurements for the active jurisdiction so you can see which figure applies to which question
-        (underwriting, cost-burden math, or what a new tenant pays).
-      </p>
-      <div id="pmaRentTriangulationMount" aria-live="polite"></div>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      function _hydratePmaRent() {
-        if (!window.RentTriangulation) return;
-        var mount = document.getElementById('pmaRentTriangulationMount');
-        if (!mount) return;
-        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
-        try {
-          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                     window.WorkflowState.getActiveProject();
-          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-          if (jx) {
-            if (jx.type === 'city' && jx.placeGeoid) {
-              placeGeoid = jx.placeGeoid;
-              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
-            }
-            if (jx.fips || jx.containingCounty) {
-              countyFips = String(jx.fips || jx.containingCounty).slice(-3);
-            }
-            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
-          }
-        } catch (_) {}
-        if (!countyFips) {
-          try {
-            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
-            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
-            if (sc && sc.name && !countyName) countyName = sc.name;
-          } catch (_) {}
-        }
-        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
-      }
-      _hydratePmaRent();
-      document.addEventListener('workflow:step-updated', _hydratePmaRent);
-      document.addEventListener('sitestate:county-changed', _hydratePmaRent);
-      document.addEventListener('jurisdiction-changed', _hydratePmaRent);
-    });
-    </script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
@@ -291,7 +235,7 @@
       if (window.DataQualitySummary) {
         window.DataQualitySummary.render('pmaDataQualitySummary', {
           sources: [
-            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2023', coverage: '~1,500 CO tracts' },
+            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
             { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2025', coverage: '926 projects statewide (1987–2025)', note: 'Live from CHFA HousingTaxCreditProperties_view; refreshed weekly via CI' },
             { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
@@ -316,6 +260,7 @@
     <nav class="ma-section-nav" aria-label="Report sections">
       <ul class="ma-section-nav-list">
         <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Delineation</a></li>
+        <li><a href="#maJurisdictionContext" class="ma-section-nav-link">Commuting &amp; Rents</a></li>
         <li><a href="#maChfaRequirements" class="ma-section-nav-link">CHFA Requirements</a></li>
         <li><a href="#maSubjectProject" class="ma-section-nav-link">Subject Project</a></li>
         <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
@@ -689,7 +634,7 @@
         </div>
 
         <!-- Vacancy Context — ACS B25004 buffer-weighted + source landscape -->
-        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2019-2023" data-source-type="primary" style="display:none">
+        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020-2024" data-source-type="primary" style="display:none">
           <div id="pmaVacancyContextMount" aria-live="polite"></div>
         </div>
 
@@ -740,7 +685,7 @@
 
         <!-- Existing affordable supply (LIHTC + other assisted) -->
         <div class="pma-card">
-          <h2 style="display:inline-block;margin:0;">Existing affordable supply in buffer</h2>
+          <h2 style="display:inline;margin:0;">Existing affordable supply in buffer</h2>
           <details class="info-tooltip">
             <summary title="What's counted in 'supply'?" aria-label="Show existing affordable supply methodology">i</summary>
             <div class="info-tooltip-body">
@@ -782,7 +727,7 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
               <div class="pma-stat-label">Renter households (all incomes)</div>
-              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
+              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">ACS 2020–2024</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
@@ -942,7 +887,7 @@
 
         <!-- Mortgage Credit Access (HMDA + cross-county disclosure) -->
         <div class="pma-card">
-          <h2 style="display:inline-block;margin:0;">Mortgage Credit Access</h2>
+          <h2 style="display:inline;margin:0;">Mortgage Credit Access</h2>
           <details class="info-tooltip">
             <summary title="What does this show?" aria-label="Show HMDA methodology">i</summary>
             <div class="info-tooltip-body">
@@ -952,7 +897,7 @@
                 <dt>State benchmark</dt><dd>delta vs CO statewide (pp for rates, % for amounts)</dd>
                 <dt>Cross-county disclosure</dt><dd>when the buffer spans multiple counties, both counties' rates are summarized so you can see which side the parcel sits on matters for HUD AMI tier rents</dd>
               </dl>
-              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages 2018-2024.</p>
+              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages <span data-hmda-vintage>as listed in the data file</span>.</p>
             </div>
           </details>
           <div id="pmaHmdaResult" style="margin-top:0.5rem;">
@@ -962,7 +907,7 @@
 
         <!-- Peer Benchmarking -->
         <div class="pma-card">
-          <h2 style="display:inline-block;margin:0;">Peer Benchmarking</h2>
+          <h2 style="display:inline;margin:0;">Peer Benchmarking</h2>
           <details class="info-tooltip">
             <summary title="How are peers selected?" aria-label="Show peer benchmarking methodology">i</summary>
             <div class="info-tooltip-body">
@@ -1067,6 +1012,70 @@
       </div><!-- /.pma-panel -->
     </div><!-- /.pma-layout -->
     </section><!-- /#maPmaTool -->
+
+    <!-- Context for the chosen jurisdiction, moved below the site tool on
+         2026-10-15 so the page opens on its purpose and main action. The
+         labor card used to sit above the page heading. Nothing removed. -->
+    <section class="ma-report-section" id="maJurisdictionContext">
+      <h2>Jurisdiction context: commuting and rents</h2>
+    <!-- F63: Jurisdiction-level labor market & commute context.
+         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
+         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
+         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
+         data is found. Complementary to the PMA buffer-scope workforce score —
+         this card tells you the labor-market character of the JURISDICTION
+         (bedroom community vs self-contained), which the buffer-scope analysis
+         doesn't capture. -->
+    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
+         Hydrated from WorkflowState/SiteState; updates on jurisdiction
+         change. Same shared component used on HNA. -->
+    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
+      <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
+        Three rent measurements for the active jurisdiction so you can see which figure applies to which question
+        (underwriting, cost-burden math, or what a new tenant pays).
+      </p>
+      <div id="pmaRentTriangulationMount" aria-live="polite"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _hydratePmaRent() {
+        if (!window.RentTriangulation) return;
+        var mount = document.getElementById('pmaRentTriangulationMount');
+        if (!mount) return;
+        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
+        try {
+          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                     window.WorkflowState.getActiveProject();
+          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+          if (jx) {
+            if (jx.type === 'city' && jx.placeGeoid) {
+              placeGeoid = jx.placeGeoid;
+              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+            }
+            if (jx.fips || jx.containingCounty) {
+              countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+            }
+            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
+          }
+        } catch (_) {}
+        if (!countyFips) {
+          try {
+            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
+            if (sc && sc.name && !countyName) countyName = sc.name;
+          } catch (_) {}
+        }
+        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
+      }
+      _hydratePmaRent();
+      document.addEventListener('workflow:step-updated', _hydratePmaRent);
+      document.addEventListener('sitestate:county-changed', _hydratePmaRent);
+      document.addEventListener('jurisdiction-changed', _hydratePmaRent);
+    });
+    </script>
+    </section><!-- /#maJurisdictionContext -->
 
     <!-- ── CHFA PMA Requirements & Checklist ── -->
     <section class="ma-report-section" id="maChfaRequirements">
@@ -1243,13 +1252,13 @@
       <div class="pma-card" data-source="CHFA — 2026 Income Limit and Maximum Rent Tables for All Colorado Counties" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 · HUD effective 2026-05-01 · cutoff 2026-06-15" data-source-type="primary">
         <div id="subjectProjectMount" aria-live="polite"></div>
       </div>
-      <div class="pma-card" data-source="CHFA 2026 LIHTC max rents + HUD FMR (FY2027)" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 · HUD FMR FY2026" data-source-type="primary">
+      <div class="pma-card" data-source="CHFA 2026 LIHTC max rents + HUD FMR (FY2027)" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 · HUD FMR FY2027" data-source-type="primary">
         <div id="subjectRentComparisonMount" aria-live="polite"></div>
       </div>
       <div class="pma-card" data-source="CHFA 2026 income limits + CHFA 40% rent-burden floor" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 income limits" data-source-type="primary">
         <div id="subjectIncomeEligibilityMount" aria-live="polite"></div>
       </div>
-      <div class="pma-card" data-source="ACS 5-Year (B25118 renter HH × HUD limits, 2024 vintage) · CHFA capture method" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020–2024 · HUD 2025 limits" data-source-type="modeled">
+      <div class="pma-card" data-source="ACS 5-Year (B25118 renter HH × HUD limits, 2024 vintage) · CHFA capture method" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020–2024 · HUD FY2026 limits" data-source-type="modeled">
         <div id="subjectCaptureStackMount" aria-live="polite"></div>
       </div>
     </section><!-- /#maSubjectProject -->
@@ -1476,6 +1485,7 @@
   <script defer src="js/deal-calculator-math.js"></script>
   <!-- HB26-1065 zone screen used by the PMA gate (#1937). -->
   <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/deal-cost-basis.js"></script>
   <script defer src="js/deal-engine.js"></script>
   <script defer src="js/deal-calculator.js"></script>
   <!-- Enhanced PMA delineation modules -->

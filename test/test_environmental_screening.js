@@ -152,6 +152,33 @@ test('assess() resolves sfha from lowercase boolean schema', function () {
   module_.load(floodGeoJSON, epaData);
 });
 
+/* ── load(null): the flood layer never arrived ───────────────────── */
+test('load(null) keeps the flood screen unknown, never "Zone X / low"', function () {
+  // market-analysis.js calls load(null, epaData) when both the statewide
+  // NFHL file and the stub fail to fetch. A layer that never arrived is
+  // not evidence that a site is outside the flood hazard area, so the
+  // screen must say "not assessed" rather than a confident Zone X.
+  module_.load(null, epaData);
+  assert(module_.isLoaded() === true, 'module is loaded (the hazmat screen can still run)');
+  var r = module_.assess(37.41995, -108.6345, 1.0);   // real Zone-A point
+  assert(r.floodZone.riskLevel === 'unknown',
+    'flood riskLevel is "unknown" with no layer (got "' + r.floodZone.riskLevel + '")');
+  assert(r.floodZone.zone === 'Unknown', 'flood zone is "Unknown", not "X"');
+  assert(/not assessed/i.test(r.floodZone.narrative), 'narrative says the flood screen was not assessed');
+  assert(r.overallRisk !== 'low', 'overall risk is not "low" when the flood screen is missing (got "' + r.overallRisk + '")');
+
+  // An empty FeatureCollection is the same absence.
+  module_.load({ type: 'FeatureCollection', features: [] }, epaData);
+  var e = module_.assess(37.41995, -108.6345, 1.0);
+  assert(e.floodZone.riskLevel === 'unknown', 'empty layer: flood riskLevel is "unknown"');
+  assert(e.floodZone.zone === 'Unknown', 'empty layer: flood zone is "Unknown"');
+
+  // Restore the standard fixtures so downstream tests are unaffected.
+  module_.load(floodGeoJSON, epaData);
+  var back = module_.assess(37.41995, -108.6345, 1.0);
+  assert(!/could not be loaded/i.test(back.floodZone.narrative), 'reloading a layer clears the missing-layer state');
+});
+
 /* ── load() ─────────────────────────────────────────────────────── */
 test('load() with flood + EPA data', function () {
   return module_.load(floodGeoJSON, epaData).then(function () {

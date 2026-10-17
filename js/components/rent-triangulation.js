@@ -172,6 +172,12 @@
 
       // Pull each source — place-level when available, otherwise county
       var acsPlace = _matchAcsPlace(data.acs, placeGeoid);
+      // A caller that knows only the place GEOID (a shared link) gets the
+      // place's own name and county from the ACS place record.
+      if (acsPlace && !placeName && acsPlace.name) {
+        placeName = String(acsPlace.name).replace(/\s*\((town|city|CDP)\)\s*$/i, '').trim();
+      }
+      if (acsPlace && !countyFips5 && /^08\d{3}$/.test(acsPlace.county_fips || '')) countyFips5 = acsPlace.county_fips;
       var acsCty   = _matchAcsCounty(data.acs, countyFips5);
       var zoriCity = _matchZoriCity(data.zori, placeGeoid, placeName);
       var zoriCty  = _matchZoriCounty(data.zori, countyFips5);
@@ -183,6 +189,14 @@
       var zoriRow = zoriCity || zoriCty;
       var zoriScope = zoriCity ? 'place' : (zoriCty ? 'county' : null);
 
+      if (!placeGeoid && !countyFips5) {
+        // No geography chosen is not the same as no data for one.
+        container.innerHTML = '<p class="rt-empty">Choose a county to compare local rents.</p>';
+        return;
+      }
+      // A county known only by FIPS (a shared county link) is named from
+      // its own FMR or ACS record.
+      if (!countyName) countyName = (fmr && fmr.county_name) || (acsCty && acsCty.name) || null;
       var jurisLabel = placeName || countyName || 'this jurisdiction';
       var hasAny = acsRow || zoriRow || fmr;
       if (!hasAny) {

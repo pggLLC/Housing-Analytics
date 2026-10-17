@@ -124,6 +124,16 @@
       rent_burden_invalid: 'Enter a valid rent burden',
       regime_unknown: 'Choose a rent-limit setting',
       unrestricted_market: 'No restricted limit (market-rate)',
+      home_table_missing: 'HOME rent limits unavailable',
+      tier_above_program: 'AMI tier is above this program\u2019s income limit',
+      tier_above_program_without_petition: 'AMI tier is above this program\u2019s limit unless the jurisdiction has an approved rural resort petition',
+      prop123_petition_unknown: 'Rural resort petition not found for this jurisdiction',
+      prop123_petition_other_county: 'That rural resort petition is for a jurisdiction outside the selected county',
+      prop123_rules_missing: 'Prop 123 rent rules unavailable',
+      prop123_program_missing: 'Choose a Prop 123 program',
+      prop123_no_unit_limits: 'This Prop 123 program restricts no units',
+      prop123_limit_unconfirmed: 'No Prop 123 rent limit is confirmed for this program',
+      prop123_hera_not_allowed: 'HERA Special limits do not apply to Prop 123',
       hera_pis_missing: 'Enter a valid placed-in-service date for HERA',
       hera_pis_after_2008: 'HERA requires a placed-in-service date on or before 2008-12-31',
       hera_county_unavailable: 'HERA Special limits are unavailable for this county'
@@ -267,6 +277,8 @@
       result.unavailableReason = published.unavailableReason || null;
       return result;
     }
+    if (HOME_REGIMES[regime]) return _homeCeiling(result, args, blocked);
+    if (regime === 'prop123') return _prop123Ceiling(result, args, blocked);
     if (regime !== 'ami_formula') return blocked('regime_unknown');
     result.method = FORMULA_METHOD;
     result.source = 'HUD Income Limits';
@@ -292,6 +304,158 @@
     if (tier == null || tier <= 0) return blocked('tier_missing');
     if (burden == null || burden <= 0 || burden > 1) return blocked('rent_burden_invalid');
     result.grossRent = limit * (tier / 50) * burden / 12;
+    return result;
+  }
+
+  // HOME rents are fixed ceilings by county and bedroom size (24 CFR 92.252):
+  // High HOME units serve households at or below 80% AMI, Low HOME units at or
+  // below 50%. The tier never lowers the HOME rent; it only has to qualify.
+  var HOME_BR_KEY = { efficiency: '0', '1BR': '1', '2BR': '2', '3BR': '3', '4BR': '4' };
+  var HOME_REGIMES = {
+    home_high: { key: 'high_home', maxTier: 80, method: 'HUD High HOME rent (lesser of FMR and 30% of 65% AMI)' },
+    home_low: { key: 'low_home', maxTier: 50, method: 'HUD Low HOME rent (30% of 50% AMI, capped by High HOME)' }
+  };
+
+  function _homeCeiling(result, args, blocked) {
+    var spec = HOME_REGIMES[result.regime];
+    var table = args.homeTable;
+    var meta = table && table.meta || {};
+    result.method = spec.method;
+    result.source = meta.source || 'HUD HOME Program Rent Limits';
+    result.tableYear = meta.fiscal_year == null ? null : meta.fiscal_year;
+    result.effectiveDate = meta.effective_date || null;
+    result.sourceUrl = meta.source_page || null;
+    if (!table || !table.counties) return blocked('home_table_missing');
+    var county = args.fips ? table.counties[String(args.fips).padStart(5, '0')] : null;
+    if (!county) return blocked('county_missing');
+    var tier = args.tier == null ? null : _allowance(args.tier);
+    if (args.tier != null && (tier == null || tier <= 0)) return blocked('tier_missing');
+    if (tier != null && tier > spec.maxTier) return blocked('tier_above_program');
+    var key = HOME_BR_KEY[args.bedrooms];
+    var rent = key && county[spec.key] ? _allowance(county[spec.key][key]) : null;
+    if (rent == null || rent <= 0) return blocked('bedroom_size_missing');
+    result.grossRent = rent;
+    return result;
+  }
+
+  // Prop 123 (C.R.S. 29-32-104): gross rent may not exceed 30% of the unit's
+  // imputed income limit. CHFA's table carries the Prop 123 tiers; where a
+  // published cell is above that rule, the rule is the cap.
+  var RULE_PERSONS = { efficiency: [1], '1BR': [1, 2], '2BR': [3], '3BR': [4, 5], '4BR': [6] };
+
+  function _ruleRent(countyRow, tier, bedrooms) {
+    var row = countyRow && countyRow.regular_tiers ? countyRow.regular_tiers[String(tier)] : null;
+    var persons = RULE_PERSONS[bedrooms];
+    if (!row || !row.income_limits || !persons) return null;
+    var values = persons.map(function (n) { return _allowance(row.income_limits[n + 'p']); });
+    if (values.some(function (v) { return v == null || v <= 0; })) return null;
+    return Math.floor(values.reduce(function (sum, v) { return sum + v; }, 0) / values.length * 0.3 / 12);
+  }
+
+  function _usd(n) { return '$' + n.toLocaleString('en-US'); }
+
+  // A petition applies only inside the jurisdiction that filed it, so one
+  // filed elsewhere in Colorado cannot change the selected county's limits.
+  function _prop123Petition(rules, program, jurisdiction, fips) {
+    if (jurisdiction == null) return { petition: null, unavailableReason: null };
+    var list = rules.rural_resort_petitions && rules.rural_resort_petitions.petitions || [];
+    var petition = list.find(function (x) { return x.jurisdiction === jurisdiction; }) || null;
+    if (!petition) return { petition: null, unavailableReason: 'prop123_petition_unknown' };
+    if (!Array.isArray(petition.county_fips) || petition.county_fips.indexOf(String(fips)) === -1) {
+      return { petition: null, unavailableReason: 'prop123_petition_other_county' };
+    }
+    var income = program.income_rule || {};
+    var covers = income.rural_resort_petition && petition.status === 'approved' &&
+      (petition.programs || []).some(function (id) { return program.id === id || program.id.indexOf(id + '_') === 0; });
+    return { petition: covers && _allowance(petition.ami_pct_rental) > 0 ? petition : null, unavailableReason: null };
+  }
+
+  // Programs that limit the project average (Equity, Concessionary Debt) set no
+  // per-unit cap, so each cell prices; the mix as a whole must still qualify.
+  // units: [{ tier, units }] for the income-restricted units.
+  function prop123ProjectAverage(args) {
+    args = args || {};
+    var rules = args.prop123Rules;
+    var program = rules && Array.isArray(rules.programs)
+      ? rules.programs.find(function (p) { return p.id === args.program; }) : null;
+    var income = program && program.income_rule || {};
+    var out = { applies: false, programName: program && program.name || null, maxAmiPct: null,
+      averageAmiPct: null, exceeds: false, unavailableReason: null };
+    if (!program || income.type !== 'project_average' || income.max_ami_pct == null) return out;
+    var found = _prop123Petition(rules, program, args.petitionJurisdiction, args.fips);
+    if (found.unavailableReason) { out.unavailableReason = found.unavailableReason; return out; }
+    out.applies = true;
+    out.maxAmiPct = found.petition ? found.petition.ami_pct_rental : income.max_ami_pct;
+    var count = 0, weighted = 0;
+    (args.units || []).forEach(function (row) {
+      var n = _allowance(row && row.units);
+      var tier = _allowance(row && row.tier);
+      if (n == null || n <= 0 || tier == null || tier <= 0) return;
+      count += n;
+      weighted += n * tier;
+    });
+    if (!count) return out;
+    // Compare before rounding: 90.04% exceeds a 90% limit even though it displays as 90.0.
+    out.exceeds = weighted / count > out.maxAmiPct;
+    out.averageAmiPct = Math.round(weighted / count * 10) / 10;
+    return out;
+  }
+
+  function _prop123Ceiling(result, args, blocked) {
+    var rules = args.prop123Rules;
+    var table = args.chfaTable;
+    var meta = table && table.meta || {};
+    result.method = 'Prop 123: gross rent at 30% of the unit\u2019s income limit (CHFA table)';
+    result.source = meta.source || 'CHFA';
+    result.tableYear = meta.fiscal_year == null ? null : meta.fiscal_year;
+    result.effectiveDate = meta.effective_date || null;
+    result.sourceUrl = meta.source_url || null;
+    result.program = null;
+    result.publishedRent = null;
+    result.ruleRent = null;
+    result.caveats = [];
+    result.petition = null;
+    if (!rules || !Array.isArray(rules.programs)) return blocked('prop123_rules_missing');
+    var program = rules.programs.find(function (p) { return p.id === args.program; });
+    if (!program) return blocked('prop123_program_missing');
+    result.program = { id: program.id, name: program.name || null };
+    var income = program.income_rule || {};
+    if (income.type === 'none') return blocked('prop123_no_unit_limits');
+    if (income.max_ami_pct == null) return blocked('prop123_limit_unconfirmed');
+    if (args.useHera) return blocked('prop123_hera_not_allowed');
+    var tier = _allowance(args.tier);
+    if (tier == null || tier <= 0) return blocked('tier_missing');
+    // An approved rural resort petition (C.R.S. 29-32-105.5(3)) replaces the
+    // program's AMI limit for that jurisdiction. Petitions name jurisdictions,
+    // not counties, so the caller must say which one applies.
+    var found = _prop123Petition(rules, program, args.petitionJurisdiction, args.fips);
+    if (found.unavailableReason) return blocked(found.unavailableReason);
+    var petition = found.petition;
+    var perUnitMax = petition && income.per_unit_max_ami_pct != null ? petition.ami_pct_rental : income.per_unit_max_ami_pct;
+    var averageMax = petition ? petition.ami_pct_rental : income.max_ami_pct;
+    if (perUnitMax != null && tier > perUnitMax) {
+      return blocked(income.rural_resort_petition && !petition ? 'tier_above_program_without_petition' : 'tier_above_program');
+    }
+    result.petition = petition ? { jurisdiction: petition.jurisdiction, amiPctRental: petition.ami_pct_rental } : null;
+    var published = maxGrossRent(table, args.fips, tier, args.bedrooms, { useHera: false });
+    if (published.unavailableReason) return blocked(published.unavailableReason);
+    var rule = _ruleRent(_countyRow(table, args.fips), tier, args.bedrooms);
+    if (rule == null) return blocked('income_limit_missing');
+    result.publishedRent = published.grossRent;
+    result.ruleRent = rule;
+    result.grossRent = Math.min(published.grossRent, rule);
+    if (published.grossRent > rule) {
+      result.caveats.push('CHFA publishes ' + _usd(published.grossRent) + ' for this cell; the 30% rule gives ' + _usd(rule) + ', which is the Prop 123 cap.');
+    } else if (published.grossRent < rule) {
+      result.caveats.push('CHFA publishes ' + _usd(published.grossRent) + ' for this cell, below the 30% rule (' + _usd(rule) + '); the published rent is used.');
+    }
+    result.caveats.push('No Prop 123 guideline names CHFA\u2019s table outright; it is used because it carries the Prop 123 tiers.');
+    if (petition) {
+      result.caveats.push(petition.jurisdiction + '\u2019s approved rural resort petition sets the limit at ' + petition.ami_pct_rental + '% AMI.');
+    }
+    if (income.type === 'project_average') {
+      result.caveats.push('The program limits the project average to ' + averageMax + '% AMI, not each unit.');
+    }
     return result;
   }
 
@@ -461,6 +625,7 @@
     allowanceBasisCaption: allowanceBasisCaption,
     unavailableMessage: unavailableMessage,
     rentCeiling: rentCeiling,
+    prop123ProjectAverage: prop123ProjectAverage,
     heraStatus: heraStatus,
     maxGrossRent: maxGrossRent,
     incomeLimit: incomeLimit,

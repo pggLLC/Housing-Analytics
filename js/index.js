@@ -26,17 +26,27 @@
     if (!strip) return;
 
     if (jurEl) jurEl.textContent = jur.name;
-    // F57 follow-up: WorkflowState's nextStepNum is 1..totalCount for
-    // trackable steps (jurisdiction…deal). The canonical user-facing
-    // counter adds 1 for the Opportunity Finder, which the progress bar
-    // shows as step 1 but WorkflowState doesn't track (it's a discovery
-    // step). Derive the denominator from progress.totalCount so this
-    // strip stays in sync with STEP_META if the tracked-step list ever
-    // changes — F57 originally hardcoded 6 here, which we missed in the
-    // same sweep that fixed workflow-next-action.js.
-    var totalSteps = (progress.totalCount || 5) + 1;
-    if (stepEl) stepEl.textContent = 'Step ' + (progress.nextStepNum + 1) + ' of ' + totalSteps + ' — ' + progress.nextStepLabel;
-    if (ctaEl) ctaEl.href = progress.nextStepUrl;
+    // The step rail (js/components/workflow-progress.js) is the only place a
+    // step number is written down. WorkflowState tracks five of its seven
+    // steps under its own numbering, and this strip used to add 1 to that and
+    // say "Step 4 of 6" beside a seven-step rail. Map the next unfinished
+    // step's key onto the rail instead; with every tracked step done, the
+    // next step is the rail's last one (the Recommendation).
+    var WP = window.WorkflowProgress;
+    var rail = (WP && (WP.routeSteps ? WP.routeSteps() : WP.STEPS)) || null;
+    var nextKey = progress.nextIncomplete || 'recommendation';
+    var next = null;
+    if (rail) {
+      for (var i = 0; i < rail.length; i++) { if (rail[i].key === nextKey) next = rail[i]; }
+    }
+    if (next) {
+      if (stepEl) stepEl.textContent = 'Step ' + next.num + ' of ' + rail.length + ' — ' + next.label;
+      if (ctaEl) ctaEl.href = next.href;
+    } else {
+      // No rail to read: name the step without inventing a count.
+      if (stepEl) stepEl.textContent = progress.nextStepLabel || '';
+      if (ctaEl && progress.nextStepUrl) ctaEl.href = progress.nextStepUrl;
+    }
     strip.hidden = false;
 
     var newBtn = document.getElementById('homeResumeNewBtn');
@@ -52,22 +62,48 @@
     var DS = window.DataService;
     if (!DS) return;
 
+    // Renter homes that are affordable AND available to each income group,
+    // from HUD CHAS Tables 15C, 14B and 7 (scripts/hna/build_chas_affordable_available.py).
+    // A cheap home rented by a higher-income household is not available to
+    // anyone in the group, so it does not count. Tiers are cumulative
+    // (≤50% includes ≤30%). A missing value stays '—', never a 0.
+    DS.getJSON(DS.baseData('hna/chas_affordable_available.json'))
+      .then(function (data) {
+        var tiers = data && data.statewide && data.statewide.tiers;
+        if (!tiers) return;
+        var count = function (v) {
+          return (typeof v === 'number' && isFinite(v) && v >= 0) ? fmtInt(v) : '—';
+        };
+        var vintage = (data.meta && data.meta.vintage) || '—';
+        ['30', '50'].forEach(function (tier) {
+          var t = tiers[tier];
+          if (!t) return;
+          var per100 = t.homes_per_100_households;
+          setText('snapGap' + tier, count(t.homes_short));
+          setText('snapGap' + tier + 'Households', count(t.renter_households));
+          setText('snapGap' + tier + 'Homes', count(t.affordable_available_homes));
+          setText('snapGap' + tier + 'Per100', (typeof per100 === 'number' && isFinite(per100)) ? String(Math.round(per100)) : '—');
+          setText('snapGapVintage' + tier, vintage);
+        });
+        if (data.meta && data.meta.vintage) setText('snapVintage', 'Shortfall: HUD CHAS ' + data.meta.vintage);
+      })
+      .catch(function () {});
+
+    // The ACS 2024 minimum, shown under HUD's count on each card. A home
+    // counts only for households who can afford its rent, so the ≤60%
+    // figure cannot hide the ≤30% shortfall behind homes those households
+    // cannot pay for. A missing tier stays '—', never a 0 shortfall.
     DS.getJSON(DS.baseData('co_ami_gap_by_county.json'))
       .then(function (data) {
-        var statewide = data && data.statewide;
-        var gaps = statewide && statewide.gap_units_minus_households_le_ami_pct;
-        if (!gaps) return;
-        // We display magnitude of statewide deficit for readability on
-        // homepage cards. County-file convention: units − households,
-        // negative = deficit; clamp surpluses to 0 instead of abs().
-        setText('snapGap30', fmtInt(Math.max(0, -(gaps['30'] || 0))));
-        setText('snapGap60', fmtInt(Math.max(0, -(gaps['60'] || 0))));
-
-        var vintage = data && data.meta && (data.meta.generated || data.meta.generated_at || data.meta.updated || '');
-        if (vintage) {
-          var date = String(vintage).slice(0, 10);
-          setText('snapVintage', 'AMI gap data: ' + date);
-        }
+        var short = data && data.statewide && data.statewide.min_shortfall_matched_le_ami_pct;
+        if (!short) return;
+        var shortfall = function (v) {
+          return (typeof v === 'number' && isFinite(v) && v >= 0) ? fmtInt(v) : '—';
+        };
+        setText('snapMin30', shortfall(short['30']));
+        setText('snapMin60', shortfall(short['60']));
+        var year = data.meta && data.meta.acs_year;
+        if (year) { setText('snapMinYear30', String(year)); setText('snapMinYear60', String(year)); }
       })
       .catch(function () {});
 
@@ -96,14 +132,17 @@
     DS.getJSON(DS.baseData('home-snapshot.json'))
       .then(function (data) {
         var values = data && data.values || {};
-        var burdenPct = Number(values.renter_cost_burden_pct);
+        // Number(null) is 0 and finite, so a missing value would render as
+        // "0.0%" or "0" (#1480). An absent field stays NaN and leaves "—".
+        function measured(v) { return v == null || v === '' ? NaN : Number(v); }
+        var burdenPct = measured(values.renter_cost_burden_pct);
         var propertyCount = Number(values.lihtc_property_count);
         var avgPerYr = Number(values.average_lihtc_units_per_year);
-        if (Number.isFinite(burdenPct)) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
+        if (Number.isFinite(burdenPct) && burdenPct > 0) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
         if (Number.isFinite(propertyCount) && propertyCount > 0) setText('snapLihtcCount', fmtInt(propertyCount));
         var renterGrowth = Number(values.annual_le60_renter_household_growth);
         var newConst = Number(values.average_lihtc_new_construction_units_per_year);
-        var preservation = Number(values.average_lihtc_preservation_units_per_year);
+        var preservation = measured(values.average_lihtc_preservation_units_per_year);
         var coverage = Number(values.lihtc_new_construction_coverage_of_le60_renter_growth);
         if (Number.isFinite(avgPerYr) && avgPerYr > 0) setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
 

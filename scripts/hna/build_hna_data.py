@@ -1714,7 +1714,8 @@ _WAC_SNAPSHOT_YEARS = [2019, 2020, 2021, 2022, 2023]
 
 # Synthetic WAC fallback constants — used when LEHD downloads are unavailable
 # (e.g., offline / CI environments without external network access).
-# Employment growth factors relative to the 2022 LODES OD `within` baseline.
+# Employment growth factors, indexed to 2022 = 1.00. The fallback divides by the
+# factor for the county file's own OD `year`, so a 2023 `within` is not read as 2022.
 _SYNTHETIC_GROWTH_FACTORS: dict[int, float] = {
     2019: 1.03,   # pre-COVID baseline
     2020: 0.92,   # COVID-year contraction
@@ -1805,7 +1806,7 @@ def _build_synthetic_wac_data(lehd_dir: str) -> dict[int, dict[str, dict[str, in
 
     Used as a fallback when LEHD WAC downloads are unavailable (e.g., in CI or
     offline environments).  The synthetic data is derived from each county's
-    existing ``within`` field (2022 LODES OD employment) using typical Colorado
+    existing ``within`` field (LODES OD employment for the file's ``year``) using typical Colorado
     growth trajectories and industry / wage-band distributions defined in the
     ``_SYNTHETIC_*`` constants above.
 
@@ -1830,9 +1831,10 @@ def _build_synthetic_wac_data(lehd_dir: str) -> dict[int, dict[str, dict[str, in
         base_emp = existing.get('within', 0) or 0
         if base_emp == 0:
             continue
+        base_factor = _SYNTHETIC_GROWTH_FACTORS.get(existing.get('year'), 1.00)
 
         for yr, factor in _SYNTHETIC_GROWTH_FACTORS.items():
-            total = max(1, round(base_emp * factor))
+            total = max(1, round(base_emp * factor / base_factor))
             agg: dict[str, int] = {'C000': total}
             for col, share in _SYNTHETIC_WAGE_BANDS.items():
                 agg[col] = max(0, round(total * share))
