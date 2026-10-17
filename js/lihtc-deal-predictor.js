@@ -28,6 +28,7 @@
  * @property {string}   [pmaConfidence]        — 'high'|'medium'|'low'
  * @property {number}   [proposedUnits]        — total proposed units
  * @property {number}   [ami30UnitsNeeded]     — units needed at 30% AMI (HNA gap)
+ * @property {string}   [ami30Scope]           — 'area' (a county or HNA shortfall) | 'project' (the building's own 30% AMI units)
  * @property {number}   [ami50UnitsNeeded]     — units needed at 50% AMI
  * @property {number}   [ami60UnitsNeeded]     — units needed at 60% AMI
  * @property {number}   [totalUndersupply]     — total affordable unit gap
@@ -100,7 +101,7 @@
     pmaModerateThreshold:     50,
     // Calibrated on CHFA's own allocations, 2019-2025 (data/chfa-lihtc.json,
     // 275 deals with a 4% or 9% credit): "70+ homes -> 4%" names the credit
-    // CHFA allocated for 218 of 275; the earlier 100 cut-off got 181. Half of
+    // CHFA allocated for 217 of 275; the earlier 100 cut-off got 182 counting "Either" as 4%. Half of
     // Colorado's 4% deals are under 100 homes, most paired with state credit.
     // test/lihtc-deal-predictor-backtest.test.js re-runs that comparison.
     fourPctMinUnits:          70,
@@ -363,10 +364,14 @@
 
     // ami30UnitsNeeded can be the project's own 30% AMI count or an area's
     // whole shortfall (the Deal Calculator passes the county's). An area
-    // shortfall larger than the building says nothing about the building's
-    // mix: dividing 1,415 La Plata households by 59 homes made every project
-    // in every county "deep affordability", so the 4% branch never ran.
-    var isAreaShortfall = proposedUnits > 0 && ami30Units > proposedUnits;
+    // shortfall says nothing about the building's mix: dividing 1,415 La
+    // Plata households by 59 homes made every project in every county "deep
+    // affordability", so the 4% branch never ran. Callers that pass an area
+    // figure say so with ami30Scope: 'area', because a small county's
+    // shortfall (Baca: 37) can sit below a project's unit count. Without a
+    // scope, a count above the unit count can only be an area figure.
+    var isAreaShortfall = inputs.ami30Scope === 'area' ||
+      (inputs.ami30Scope !== 'project' && proposedUnits > 0 && ami30Units > proposedUnits);
     var deepAffordabilityPct = (proposedUnits > 0 && !isAreaShortfall)
       ? (ami30Units / proposedUnits)
       : 0;

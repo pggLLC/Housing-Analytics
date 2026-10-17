@@ -5376,6 +5376,7 @@
       // surpluses to 0 rather than abs()-ing them into phantom need).
       var gaps = county.gap_units_minus_households_le_ami_pct || {};
       dealInputs.ami30UnitsNeeded = Math.max(0, -(gaps['30'] || 0));
+      dealInputs.ami30Scope = 'area';
       dealInputs.ami50UnitsNeeded = Math.max(0, -(gaps['50'] || 0));
       dealInputs.ami60UnitsNeeded = Math.max(0, -(gaps['60'] || 0));
     }

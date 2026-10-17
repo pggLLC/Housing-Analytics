@@ -10,7 +10,7 @@
  *
  * Before 2026-10-17 it named the right credit for 86 of 275 and never named
  * 4% (69% of those deals were 4%). The floor below is set under the measured
- * 218 of 275 so a new award round cannot fail it by itself; the 4% check is
+ * 217 of 275 so a new award round cannot fail it by itself; the 4% check is
  * the one that caught the original defect.
  *
  * Also pins the predictor's fallback constants to the data files that hold
@@ -43,6 +43,7 @@ function pageInputs(p) {
     countyFips: p.CNTY_FIPS,
     proposedUnits: p.N_UNITS,
     isQct: !!(p.QCT || p.DDA),
+    ami30Scope: 'area',
     ami30UnitsNeeded: Math.max(0, -(g['30'] || 0)),
     ami50UnitsNeeded: Math.max(0, -(g['50'] || 0)),
     ami60UnitsNeeded: Math.max(0, -(g['60'] || 0))
@@ -56,9 +57,13 @@ function test(name, fn) {
   catch (err) { console.log('  ❌ ' + name + '\n     ' + err.message); failed++; }
 }
 
-const deals = chfa.filter((p) => p.AwardYear >= 2019 && p.N_UNITS > 0 && /4%|9%/.test(p.TypeOfCredits || ''));
+// Classify by the primary federal credit, the prefix of TypeOfCredits, so a
+// record such as "9% and State, 4% and Noncompetitive State, and TOC" counts
+// as the 9% execution it is.
+const primaryCredit = (t) => (/^\s*4%/.test(t || '') ? '4%' : /^\s*9%/.test(t || '') ? '9%' : null);
+const deals = chfa.filter((p) => p.AwardYear >= 2019 && p.N_UNITS > 0 && primaryCredit(p.TypeOfCredits));
 const results = deals.map((p) => ({
-  actual: /4%/.test(p.TypeOfCredits) ? '4%' : '9%',
+  actual: primaryCredit(p.TypeOfCredits),
   predicted: Predictor.predictConcept(pageInputs(p)).recommendedExecution
 }));
 const right = results.filter((r) => r.actual === r.predicted).length;
@@ -79,6 +84,11 @@ test('names the credit CHFA allocated for at least 75% of deals', () => {
 
 test('names 4% for at least two thirds of the deals CHFA funded with 4%', () => {
   assert.ok(right4 / actual4.length >= 2 / 3, right4 + ' of ' + actual4.length);
+});
+
+test('an area-scoped shortfall below the unit count is still not the building\'s mix (Baca, 37)', () => {
+  const rec = Predictor.predictConcept({ proposedUnits: 60, countyFips: '08009', ami30UnitsNeeded: 37, ami30Scope: 'area' });
+  assert.ok(!rec.keyRationale.some((r) => /^Deep affordability need/.test(r)), rec.keyRationale.join(' | '));
 });
 
 test('a county-wide 30% AMI shortfall does not make a project "deep affordability"', () => {
