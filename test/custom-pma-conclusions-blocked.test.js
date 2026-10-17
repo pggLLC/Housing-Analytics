@@ -378,6 +378,47 @@ for (const [geoType, geoid] of [['county', '08077'], ['place', '0828745'], ['cdp
   });
 }
 
+// Every run writes '#pma=lat,lon,method,…' to the URL, so a reload carries a
+// permalink. It must not hide the saved run for that same site and method.
+function permalinkFor(lat, lon, method) {
+  return '#pma=' + [lat.toFixed(6), lon.toFixed(6), method, 3, 60].join(',');
+}
+test('a reload whose permalink names the saved site restores the saved run', () => {
+  const w = page();
+  const saved = savedRun();
+  store(w, saved);
+  w.history.replaceState(null, '', permalinkFor(SITE.lat, SITE.lon, 'tract'));
+  assert.ok(w.location.hash.startsWith('#pma='), 'fixture permalink was not applied');
+  w.PMAUIController.restoreLastRun();
+  assertRestored(w, saved);
+});
+test('a permalink to another site or method restores only its inputs, not the saved run', () => {
+  [permalinkFor(SITE.lat + 0.01, SITE.lon, 'tract'), permalinkFor(SITE.lat, SITE.lon, 'buffer')].forEach((hash) => {
+    const w = page();
+    store(w, savedRun());
+    w.history.replaceState(null, '', hash);
+    assert.strictEqual(w.location.hash, hash, 'fixture permalink was not applied');
+    w.PMAUIController.restoreLastRun();
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null, 'restored a run for ' + hash);
+  });
+});
+
+// The data cache ('_fh_' keys) once filled browser storage, so the save was
+// refused silently and there was nothing to reopen. The cache gives way.
+test('a full data cache gives way to the saved run', () => {
+  const w = page();
+  const chunk = 'x'.repeat(256 * 1024);
+  let filled = 0;
+  try { for (;;) { w.localStorage.setItem('_fh_fixture/' + filled, chunk); filled++; } } catch (_) { /* full */ }
+  assert.ok(filled > 0, 'fixture could not fill storage');
+  assert.throws(() => w.localStorage.setItem('probe', chunk), 'fixture storage is not full');
+  const scoreRun = { run_id: 'full-storage', pma: { score: 1 }, padding: 'y'.repeat(40 * 1024) };
+  const ok = w.PMADataCache.saveLastResult(SITE.lat, SITE.lon, { method: 'tract' }, scoreRun);
+  assert.strictEqual(ok, true, 'saveLastResult reported failure');
+  const loaded = w.PMADataCache.loadLastResult();
+  assert.ok(loaded && loaded.scoreRun && loaded.scoreRun.run_id === 'full-storage', 'the run was not saved');
+});
+
 test('buffer polygon output does not claim measured commuting capture', async () => {
   const w = page();
   const polygon = await w.PMAEngine.generatePmaPolygon(SITE.lat, SITE.lon, 'buffer', 3);
@@ -432,6 +473,28 @@ test('startup waits for current ACS bindings before restoring a valid saved sess
   await w.PMAEngine.whenDataReady();
   await tick();
   assertRestored(w, saved);
+});
+
+// The UI controller's deferred script asks before the engine's
+// DOMContentLoaded handler has started the load. It must get a promise that
+// waits for that load, not one that is already resolved.
+test('data readiness asked before the load starts still waits for the load', async () => {
+  let release;
+  const acs = new Promise(resolve => { release = resolve; });
+  const w = page({ cold: true, dataService: { baseData: p => p, getJSON(p) {
+    if (p.includes('acs_tract_metrics')) return acs;
+    if (p.includes('tract_centroids')) return Promise.resolve(CENTROIDS);
+    return Promise.resolve({ features: [] });
+  } } });
+  assert.notStrictEqual(w.document.readyState, 'complete', 'fixture asked after the page finished loading');
+  let ready = false;
+  w.PMAEngine.whenDataReady().then(() => { ready = true; });
+  await tick(); await tick();
+  assert.strictEqual(ready, false, 'readiness resolved before the ACS file arrived');
+  release(ACS);
+  await w.PMAEngine.whenDataReady();
+  await tick();
+  assert.strictEqual(ready, true, 'readiness never resolved after the load');
 });
 
 [
