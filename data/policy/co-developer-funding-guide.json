@@ -7502,14 +7502,14 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans, planning grants and some principal forgiveness for the design and construction of drinking water systems.",
-      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community or BIL status): up to $10 million for lead service lines and up to $30 million for emerging contaminants such as PFAS, for disadvantaged communities and BIL-eligible borrowers; for other projects, up to $2.5 million for BIL-eligible Category 2 disadvantaged communities, $2 million for Category 1, and $1 million for BIL-eligible borrowers that are not disadvantaged communities. Design and engineering grants up to $300,000 for disadvantaged communities, currently limited. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $30 million per entity. Base program upfront principal forgiveness up to $1 million if eligible (loan-caps page, December 1, 2023). Upfront principal forgiveness (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community or BIL status): up to $10 million for lead service lines and up to $30 million for emerging contaminants such as PFAS, for disadvantaged communities and BIL-eligible borrowers; for other projects, up to $2.5 million for BIL-eligible Category 2 disadvantaged communities, $2 million for Category 1, and $1 million for BIL-eligible borrowers that are not disadvantaged communities. Design and engineering grants up to $300,000 for disadvantaged communities, currently limited. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Private nonprofit water systems pay more: 3.75% for 20 years or 4.00% for 30 years (3.25% and 3.50% for Category 1 disadvantaged communities, 2.50% and 2.75% for Category 2). Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
       "affordability_period": null,
       "eligible_applicants": "Government agencies and private nonprofit public water systems.",
       "eligible_projects": "Drinking water projects on the eligibility list built from the annual survey of Colorado systems' 20-year capital needs. Sewer and stormwater projects go to the Water Pollution Control Revolving Fund.",
-      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
+      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at a deadline. January 5, February 5, April 5 and June 5 are open to all projects; August 5, October 5 and November 5 take priority projects only (the Authority's 2026 schedule). Projects above $3 million have two deadlines, January 5 and June 5.",
       "key_considerations": [
         "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
         "The utility or district applies, not the developer. It matters to housing where a new site needs drinking water capacity the system has to finance; sewer capacity is financed through the Water Pollution Control Revolving Fund.",
@@ -7558,6 +7558,10 @@
         {
           "label": "cwrpda.com/current-interest-rates",
           "url": "https://www.cwrpda.com/current-interest-rates"
+        },
+        {
+          "label": "CWRPDA Board notebook, April 24, 2026 (loan application schedule)",
+          "url": "https://www.cwrpda.com/files/1e2b7c71a/Board%2BNotebook%2B04242026.pdf"
         }
       ],
       "evidence": [
@@ -7647,6 +7651,11 @@
           "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
+          "field": "award_size",
+          "quote": "DWRF BASE Program Loan Limit Loan limit of $30 million per entity Upfront PF of up to $1 million if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
           "field": "rate",
           "quote": "For 2025, the Authority Board of Directors is offering loans of less than $3,000,000 as direct loans, at an interest rate of 3.25% for 20 years and 3.50% for up to 30 years, or less if your community qualifies as disadvantaged.",
           "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
@@ -7710,6 +7719,11 @@
           "field": "application_cycle",
           "quote": "Projects above $3 million currently have two loan application deadlines, January 5th and June 5th",
           "url": "https://www.cwrpda.com/loan-application-deadlines"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Loan Application Schedule Jan. 5th* Feb. 5th Apr. 5th June 5th* Aug. 5th Oct. 5th Nov. 5th Open to all Projects Open to all Projects Open to all Projects Open to all Projects Priority Projects Only Priority Projects Only Priority Projects Only",
+          "url": "https://www.cwrpda.com/files/1e2b7c71a/Board%2BNotebook%2B04242026.pdf"
         }
       ],
       "unverified": [
@@ -7736,14 +7750,14 @@
       ],
       "status": "rolling",
       "what_it_funds": "Low-interest loans and planning grants for wastewater, stormwater, nonpoint-source and source water projects.",
-      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness up to $1.5 million, for disadvantaged communities only (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community status). Design and engineering grants up to $300,000 for disadvantaged communities. Planning grants up to $10,000.",
+      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Base program upfront principal forgiveness up to $500,000 if eligible (loan-caps page, December 1, 2023). Upfront principal forgiveness up to $1.5 million, for disadvantaged communities only (the Authority's June 5, 2026 limits, subject to availability and approval of disadvantaged community status). Design and engineering grants up to $300,000 for disadvantaged communities. Planning grants up to $10,000.",
       "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year. Reduced green project rates apply only to the first $3 million of a green project loan.",
       "term": "Up to 30 years or the project's useful life, whichever is less.",
       "ami_restriction": null,
       "affordability_period": null,
       "eligible_applicants": "Governmental agencies only; private nonprofit systems cannot receive WPCRF funding.",
       "eligible_projects": "Wastewater, stormwater, nonpoint-source and source water projects on the eligibility list built from the annual survey of Colorado systems' 20-year capital needs. Drinking water projects go to the Drinking Water Revolving Fund.",
-      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
+      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at a deadline. January 5, February 5, April 5 and June 5 are open to all projects; August 5, October 5 and November 5 take priority projects only (the Authority's 2026 schedule). Projects above $3 million have two deadlines, January 5 and June 5.",
       "key_considerations": [
         "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
         "The utility or district applies, not the developer. It matters to housing where a new site needs sewer or stormwater capacity the system has to finance; drinking water is financed through the Drinking Water Revolving Fund.",
@@ -7789,6 +7803,10 @@
         {
           "label": "www.cwrpda.com/principal-forgiveness-pf-grant-calculator",
           "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
+        },
+        {
+          "label": "CWRPDA Board notebook, April 24, 2026 (loan application schedule)",
+          "url": "https://www.cwrpda.com/files/1e2b7c71a/Board%2BNotebook%2B04242026.pdf"
         }
       ],
       "evidence": [
@@ -7853,6 +7871,11 @@
           "url": "https://www.cwrpda.com/principal-forgiveness-pf-grant-calculator"
         },
         {
+          "field": "award_size",
+          "quote": "WPCRF BASE Program Loan Limit Loan limit of $25 million per entity Upfront PF of up to $500,000 if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
           "field": "rate",
           "quote": "For 2025, the Authority Board of Directors is offering loans of less than $3,000,000 as direct loans, at an interest rate of 3.25% for 20 years and 3.50% for up to 30 years, or less if your community qualifies as disadvantaged.",
           "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
@@ -7906,6 +7929,11 @@
           "field": "application_cycle",
           "quote": "Projects above $3 million currently have two loan application deadlines, January 5th and June 5th",
           "url": "https://www.cwrpda.com/loan-application-deadlines"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Loan Application Schedule Jan. 5th* Feb. 5th Apr. 5th June 5th* Aug. 5th Oct. 5th Nov. 5th Open to all Projects Open to all Projects Open to all Projects Open to all Projects Priority Projects Only Priority Projects Only Priority Projects Only",
+          "url": "https://www.cwrpda.com/files/1e2b7c71a/Board%2BNotebook%2B04242026.pdf"
         }
       ],
       "unverified": [
