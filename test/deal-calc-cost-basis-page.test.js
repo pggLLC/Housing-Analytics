@@ -282,6 +282,11 @@ async function test(name, fn) {
     assert(share.value > 0, 'non-vacuous: the example has a DOH fee share');
     const shareText = p.d.querySelector('[data-doh-fee-share]').textContent;
     assert(shareText.includes((share.value * 100).toFixed(1) + '%') && shareText.includes(money(share.base)), shareText);
+    // Cost left unitemized could be hard, land or soft, so the split waits for it.
+    setField(p, 'dc-cost-structures', 9400000);
+    assert.equal(p.w.__DealCalc.getResult().costBasis.costPerSf.hardPerUnit.value, null);
+    assert.match(text(p, 'dc-cb-detail'), /Itemize all of Total Development Cost/);
+    setField(p, 'dc-cost-structures', 10400000);
     // A line error blanks the subtotals rather than showing a partial sum.
     setField(p, 'dc-cost-construction_interest-eligible', '');
     assert.equal(p.d.querySelector('[data-cost-subtotal="construction"]').textContent.trim(), '—');

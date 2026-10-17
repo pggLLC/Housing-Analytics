@@ -780,13 +780,15 @@
     }
     // DOH's hard, land and soft cost per unit and per square foot of the units.
     var units = num(args.units), byId = args.byId || null, total = num(args.total);
-    var parts = null;
-    if (byId && total !== null && Number.isFinite(total) && total > 0) {
+    var parts = null, notItemized = num(args.notItemized), partsReason = args.costReason || 'Itemize development costs.';
+    // Cost nobody itemized could be hard, land or soft, so no split is shown until it is all itemized.
+    if (notItemized !== null && notItemized > 0.5) partsReason = 'Itemize all of Total Development Cost to split it into hard, land and soft cost.';
+    else if (byId && total !== null && Number.isFinite(total) && total > 0) {
       var hard = sumIds(byId, HARD_COST_IDS), land = byId.land || 0;
       parts = { hard: hard, land: land, soft: total - hard - land };
     }
     function share(kind, divisor, label) {
-      if (!parts) return { value: null, reason: args.costReason || 'Itemize development costs.' };
+      if (!parts) return { value: null, reason: partsReason };
       if (divisor === null || !Number.isFinite(divisor) || divisor <= 0) return { value: null, reason: 'Enter ' + label + '.' };
       return { value: parts[kind] / divisor, reason: null };
     }

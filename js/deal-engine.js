@@ -1311,7 +1311,7 @@
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
         grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'], units: units,
-        byId: costSummary.reason ? null : costSummary.byId, costReason: costSummary.reason }),
+        byId: costSummary.reason ? null : costSummary.byId, notItemized: costSummary.notItemized, costReason: costSummary.reason }),
       dohFeeShare: cbm.dohDeveloperFeeShare(costSummary),
       rules: ruleKeys.map(function (key) {
         var st = cbm.ruleStatus(costRules, key);

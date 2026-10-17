@@ -739,6 +739,14 @@ test('DOH\'s hard, land and soft cost per unit and per square foot add up to the
   assert.equal(none.hardPerUnit.value, null);
   assert.match(none.hardPerUnit.reason, /number of units/);
   assert.equal(cb.costPerSf({ units: 80, byId: null, total: 20000000, costReason: 'Costs do not reconcile.' }).hardPerUnit.reason, 'Costs do not reconcile.');
+  // A budget itemized below the total cannot be split: the rest could be hard, land or soft.
+  const short = cb.summarizeCosts(cb.exampleLines().map((l) => l.id === 'structures' ? Object.assign({}, l, { amount: 9400000 }) : l), 20000000);
+  assert.equal(short.notItemized, 1000000, 'non-vacuous: $1M is not itemized');
+  const split = cb.costPerSf({ units: 80, residentialSf: 64000, byId: short.byId, total: 20000000, notItemized: short.notItemized });
+  for (const k of ['hardPerUnit', 'landPerUnit', 'softPerUnit', 'hardPerSf', 'landPerSf', 'softPerSf']) {
+    assert.equal(split[k].value, null, k);
+    assert.match(split[k].reason, /Itemize all of Total Development Cost/);
+  }
 });
 
 test('cost lines saved before the DOH layout load into the DOH lines with the same basis', () => {
