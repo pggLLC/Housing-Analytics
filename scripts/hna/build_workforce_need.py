@@ -121,6 +121,13 @@ def fetch():
     aux = fetch_aux()
     if len(aux['counties']) != 64 or len(aux['wac_primary_counties']) != 64:
         raise ValueError('LODES primary-job summary does not cover all 64 counties')
+    # The county maps come straight from workplace FIPS, so a partial
+    # crosswalk or WAC file still covers 64 counties; check the places too.
+    cached_aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
+    for key in ('places', 'wac_primary_places'):
+        if len(aux.get(key) or {}) < len(cached_aux.get(key) or {}):
+            raise ValueError('LODES %s has %d places, fewer than the %d cached'
+                             % (key, len(aux.get(key) or {}), len(cached_aux.get(key) or {})))
     _write_atomic('dola_jobs_county.csv', jobs_csv)
     _write_atomic('acs_b08202.json', json.dumps(out, separators=(',', ':'), sort_keys=True).encode('utf-8'))
     _write_atomic('lodes_primary_jobs.json', (json.dumps(aux, indent=1, sort_keys=True) + '\n').encode('utf-8'))
