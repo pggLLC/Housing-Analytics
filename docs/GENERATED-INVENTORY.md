@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T15:05:06.840Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T15:35:23.871Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-70 pages found.
+71 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 215.3 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 215.2 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -77,8 +77,9 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.6 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.3 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 12.5 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
+| `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 2.8 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.0 KB |
 
 ---
@@ -1794,7 +1795,7 @@
 
 ## Test Files
 
-633 test files found.
+634 test files found.
 
 | File | Size |
 |------|------|
@@ -1808,7 +1809,7 @@
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
-| `test/agency-funding.test.mjs` | 12.7 KB |
+| `test/agency-funding.test.mjs` | 14.0 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2104,6 +2105,7 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
+| `test/lihtc-deal-predictor-backtest.test.js` | 6.1 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.9 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
