@@ -188,7 +188,7 @@ test('acceptance 4: aggregate developer plus consultant fee fails a 15% limit, d
 
 test('an in-basis fee whose limit rule is unsourced leaves the basis reduction unknown, not $0', () => {
   const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
-  assert(summary.eligibleById.developer_fee > 0 && summary.eligibleById.overhead + summary.eligibleById.profit > 0, 'non-vacuous: both fees sit in basis');
+  assert(summary.eligibleById.developer_fee > 0 && summary.eligibleById.overhead_profit > 0, 'non-vacuous: both fees sit in basis');
   const contractor = cb.contractorFeeTest({ byId: summary.byId, units: 60, rules });
   const base = cb.developerFeeBase(summary, contractor);
   const developer = cb.developerFeeTest({ developerFee: summary.byId.developer_fee, base: base.base, units: 60, rules });
@@ -205,8 +205,9 @@ test('an in-basis fee whose limit rule is unsourced leaves the basis reduction u
 });
 
 test('an over-limit fee split across basis treatments reduces basis only when the split settles it', () => {
-  const run = (profitBasis) => {
-    const lines = cb.exampleLines().map(l => l.id === 'profit' ? Object.assign({}, l, { basis: profitBasis }) : l);
+  // DOH carries overhead and profit on one line; part of it in basis is the mixed case.
+  const run = (basis, eligibleAmount) => {
+    const lines = cb.exampleLines().map(l => l.id === 'overhead_profit' ? Object.assign({}, l, { basis, eligibleAmount }) : l);
     const summary = cb.summarizeCosts(lines, 20000000);
     // Identity of interest at 80 units: a 6% limit on $11,900,000, so $36,000 of the $750,000 fee is over.
     const c = cb.contractorFeeTest({ byId: summary.byId, units: 80, identityOfInterest: true, rules });
@@ -214,8 +215,8 @@ test('an over-limit fee split across basis treatments reduces basis only when th
     return cb.feeExcessInBasis(summary, c, null);
   };
   assert.equal(Math.round(run('eligible').contractor), 36000, 'all in basis: the whole excess comes off');
-  // $250,000 overhead in basis, $500,000 profit outside: the $36,000 could fall on either.
-  const mixed = run('ineligible');
+  // $250,000 of the $750,000 in basis, $500,000 outside: the $36,000 could fall on either.
+  const mixed = run('partial', 250000);
   assert.equal(mixed.total, null);
   assert.match(mixed.reason, /somewhere from \$0 to \$36,000/);
 });
@@ -254,7 +255,7 @@ test('contract lines are a subset of uses, never added twice; unitemized cost is
   const s = cb.summarizeCosts(lines, 21000000);
   const sum = lines.reduce((a, l) => a + (l.amount || 0), 0);
   assert.equal(s.itemized, sum);
-  assert.equal(s.contract, s.groups.contract);
+  assert.equal(s.contract, cb.sumIds(s.byId, cb.CONTRACT_IDS), 'the contract is its lines, counted once inside the uses');
   assert(s.contract < s.itemized);
   assert.equal(Object.values(s.groups).reduce((a, b) => a + b, 0), s.itemized, 'groups partition the uses');
   assert.equal(s.notItemized, 1000000);
@@ -263,8 +264,8 @@ test('contract lines are a subset of uses, never added twice; unitemized cost is
   assert.equal(over.eligible, null);
   assert.match(over.reason, /more than Total Development Cost/);
   assert.match(cb.summarizeCosts([], 20000000).reason, /Itemize/);
-  const partial = clone(lines); partial.find((l) => l.id === 'financing').eligibleAmount = null;
-  assert.match(cb.summarizeCosts(partial, 20000000).reason, /eligible part of Financing/);
+  const partial = clone(lines); partial.find((l) => l.id === 'construction_interest').eligibleAmount = null;
+  assert.match(cb.summarizeCosts(partial, 20000000).reason, /eligible part of Construction interest/);
 });
 
 test('each contingency keeps its original amount, proposed use and remaining', () => {
@@ -520,7 +521,7 @@ test('a fee above CHFA’s limit comes out of eligible basis, but only the part 
   const r = base9({ feeExcess: ex.total });
   assert.equal(r.afterGrant, 2000000 - 250000);
   const contractor = cb.feeExcessInBasis(summary, { excess: 5000000 }, null);
-  assert.equal(contractor.contractor, summary.eligibleById.overhead + summary.eligibleById.profit, 'never more than the fee lines in basis');
+  assert.equal(contractor.contractor, summary.eligibleById.overhead_profit, 'never more than the fee lines in basis');
   const lines = cb.exampleLines().map((l) => l.id === 'developer_fee' ? Object.assign({}, l, { basis: 'ineligible' }) : l);
   assert.equal(cb.feeExcessInBasis(cb.summarizeCosts(lines, 20000000), null, dev).developer, 0, 'a fee kept out of basis reduces nothing');
 });
@@ -678,6 +679,89 @@ test('the invented example budget totals the calculator\'s default Total Develop
   const total = cb.exampleLines().reduce((a, l) => a + (l.amount || 0), 0);
   assert.equal(total, Number(m[1]));
   assert.match(fs.readFileSync(path.join(ROOT, 'js', 'deal-cost-basis.js'), 'utf8'), /INVENTED example budget/);
+});
+
+
+// DOH layout (Housing Development Analysis spreadsheet, Development Costs tab).
+test('the cost lines are DOH\'s nine categories, in its order, and every line sits in one of them', () => {
+  assert.deepEqual(cb.GROUPS.map((g) => g.label), ['Acquisition', 'Site improvements', 'Construction', 'Professional fees',
+    'Construction finance', 'Permanent finance and syndication', 'Soft costs', 'Developer fee', 'Reserves']);
+  const ids = new Set(cb.GROUPS.map((g) => g.id));
+  for (const l of cb.LINE_TEMPLATE) assert(ids.has(l.group), l.id + ' sits in a DOH category');
+  assert.equal(new Set(cb.LINE_TEMPLATE.map((l) => l.id)).size, cb.LINE_TEMPLATE.length, 'no line id repeats');
+  // The lists the CHFA rules read name only lines that exist.
+  const lineIds = new Set(cb.LINE_TEMPLATE.map((l) => l.id));
+  for (const list of ['CONTRACTOR_FEE_IDS', 'CONTRACTOR_BASE_IDS', 'DEVELOPER_FEE_IDS', 'RESERVE_IDS', 'CONTRACT_IDS', 'HARD_COST_IDS']) {
+    for (const id of cb[list]) assert(lineIds.has(id), list + ': ' + id + ' is a line');
+  }
+  for (const id of cb.RESERVE_IDS) assert(cb.NEVER_IN_BASIS[id], id + ' is never in basis');
+  for (const target of Object.values(cb.LEGACY_LINES)) assert(lineIds.has(target), 'old lines load into a real line: ' + target);
+});
+
+test('the DOH example keeps the earlier example\'s total, basis and fee tests', () => {
+  const s = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  assert.equal(s.itemized, 20000000);
+  assert.equal(s.eligible, 18200000);
+  const c = cb.contractorFeeTest({ byId: s.byId, units: 60, rules });
+  assert.equal(c.fee, 750000);
+  assert.equal(c.base, 10400000 + 1000000 + 500000, 'construction, on-site work and the contractor contingency (QAP 3.M.3)');
+});
+
+test('the administration fee counts with the developer fee, and every reserve leaves the fee base', () => {
+  const lines = cb.exampleLines().map((l) => l.id === 'admin_fee' ? Object.assign({}, l, { amount: 100000 })
+    : l.id === 'lease_up_reserve' ? Object.assign({}, l, { amount: 200000 })
+    : l.id === 'structures' ? Object.assign({}, l, { amount: 10100000 }) : l);
+  const s = cb.summarizeCosts(lines, 20000000);
+  assert.equal(s.itemized, 20000000, 'non-vacuous: the budget still balances');
+  const c = cb.contractorFeeTest({ byId: s.byId, units: 60, rules });
+  assert.equal(cb.developerFeeBase(s, c).base, 20000000 - 1000000 - (1900000 + 100000) - (500000 + 200000));
+  const share = cb.dohDeveloperFeeShare(s);
+  assert.equal(share.fee, 2000000);
+  assert.equal(share.base, 20000000 - 2000000 - 700000 - 1000000, 'DOH: total less fee, reserves and acquisition');
+  // Existing structures are acquisition too.
+  const bought = cb.summarizeCosts(lines.map((l) => l.id === 'building_acquisition' ? Object.assign({}, l, { amount: 300000 })
+    : l.id === 'structures' ? Object.assign({}, l, { amount: 9800000 }) : l), 20000000);
+  assert.equal(bought.itemized, 20000000, 'non-vacuous: the budget still balances');
+  assert.equal(cb.dohDeveloperFeeShare(bought).base, 20000000 - 2000000 - 700000 - 1000000 - 300000);
+});
+
+test('DOH\'s hard, land and soft cost per unit and per square foot add up to the total', () => {
+  const s = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  const p = cb.costPerSf({ units: 80, residentialSf: 64000, byId: s.byId, total: 20000000, contract: s.contract });
+  const hard = cb.sumIds(s.byId, cb.HARD_COST_IDS);
+  assert.equal(p.hardPerUnit.value, hard / 80);
+  assert.equal(p.landPerUnit.value, 1000000 / 80);
+  assert(Math.abs((p.hardPerUnit.value + p.landPerUnit.value + p.softPerUnit.value) * 80 - 20000000) < 0.01, 'the three parts are the whole');
+  assert.equal(p.softPerSf.value, (20000000 - hard - 1000000) / 64000);
+  const none = cb.costPerSf({ byId: s.byId, total: 20000000 });
+  assert.equal(none.hardPerUnit.value, null);
+  assert.match(none.hardPerUnit.reason, /number of units/);
+  assert.equal(cb.costPerSf({ units: 80, byId: null, total: 20000000, costReason: 'Costs do not reconcile.' }).hardPerUnit.reason, 'Costs do not reconcile.');
+});
+
+test('cost lines saved before the DOH layout load into the DOH lines with the same basis', () => {
+  const saved = { 'cost-overhead': '250000', 'cost-overhead-basis': 'eligible', 'cost-profit': '500000', 'cost-profit-basis': 'eligible',
+    'cost-financing': '1200000', 'cost-financing-basis': 'partial', 'cost-financing-eligible': '900000' };
+  const read = (k) => (k in saved ? saved[k] : null);
+  const m = cb.legacyCostFields(read);
+  assert.equal(m['cost-overhead_profit'], '750000');
+  assert.equal(m['cost-overhead_profit-basis'], 'eligible', 'the same choice on both stays that choice');
+  assert.equal(m['cost-soft_other'], '1200000');
+  assert.equal(m['cost-soft_other-eligible'], '900000');
+  // Different choices: partly in basis, with the sum of the in-basis parts.
+  const mixed = cb.legacyCostFields((k) => ({ 'cost-overhead': '250000', 'cost-overhead-basis': 'eligible', 'cost-profit': '500000', 'cost-profit-basis': 'ineligible' })[k] ?? null);
+  assert.equal(mixed['cost-overhead_profit-basis'], 'partial');
+  assert.equal(mixed['cost-overhead_profit-eligible'], '250000');
+  // A line saved under its new name wins, and nothing is invented for lines never saved.
+  assert.deepEqual(cb.legacyCostFields((k) => ({ 'cost-overhead_profit': '1', 'cost-overhead': '250000' })[k] ?? null), {});
+  assert.deepEqual(cb.legacyCostFields(() => null), {});
+  // The migrated budget gives the same basis as the old one.
+  const lines = cb.exampleLines().map((l) => ({ ...l, amount: null }));
+  const set = (id, amount, basis, eligibleAmount) => Object.assign(lines.find((l) => l.id === id), { amount, basis, eligibleAmount });
+  set('overhead_profit', +m['cost-overhead_profit'], m['cost-overhead_profit-basis']);
+  set('soft_other', +m['cost-soft_other'], m['cost-soft_other-basis'], +m['cost-soft_other-eligible']);
+  const s = cb.summarizeCosts(lines, 1950000);
+  assert.equal(s.eligible, 750000 + 900000);
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

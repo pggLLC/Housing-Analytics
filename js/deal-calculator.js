@@ -156,10 +156,13 @@
           + '<label for="' + id + '" style="grid-column:1/-1;display:block;justify-self:start;font-size:var(--small);font-weight:600;text-align:left;">' + _escHtml(l.label) + '</label>'
           + '<div style="min-width:0;"><input id="' + id + '" type="number" min="0" step="10000" value="' + (l.amount == null ? '' : l.amount) + '" placeholder="none" aria-label="' + _escHtml(l.label) + ' ($)" style="' + field + '"></div>'
           + '<div style="min-width:0;"><select id="' + id + '-basis" aria-label="' + _escHtml(l.label) + ': in eligible basis?"' + (fixed ? ' disabled title="' + _escHtml(fixed) + '"' : '') + ' style="' + field + '">' + opts + '</select></div>'
+          + '<span data-cost-per="' + l.id + '" style="grid-column:1/-1;font-size:var(--tiny);color:var(--muted);"></span>'
           + extra + '</div>';
       }).join('');
-      return '<div class="dc-cost-group" style="margin-top:var(--sp2);"><h4 style="margin:0 0 .2rem;font-size:var(--small);">' + g.label
-        + (g.id === 'contract' ? ' <span style="font-weight:400;color:var(--muted);font-size:var(--tiny);">(part of the uses, counted once)</span>' : '') + '</h4>' + rows + '</div>';
+      // DOH's categories, each closed to its subtotal until opened.
+      return '<details class="dc-cost-group" data-cost-group="' + g.id + '" style="margin-top:var(--sp2);border-top:1px solid var(--border);padding-top:.3rem;">'
+        + '<summary style="display:flex;justify-content:space-between;gap:.5rem;min-height:44px;align-items:center;cursor:pointer;font-size:var(--small);font-weight:700;">'
+        + '<span>' + _escHtml(g.label) + '</span><span data-cost-subtotal="' + g.id + '" style="font-variant-numeric:tabular-nums;"></span></summary>' + rows + '</details>';
     }).join('');
   }
   function readCostLines() {
@@ -3965,6 +3968,18 @@
       var span = document.querySelector('[data-cost-remaining="' + c.id + '"]');
       if (span) span.textContent = c.remaining == null ? c.reason : 'Remaining: ' + fmt(c.remaining) + (c.reason ? ' (' + c.reason + ')' : '');
     });
+    // Category subtotals and each line's cost per unit and per square foot.
+    var perUnits = cbr.costPerSf && cbr.costPerSf.units, perSf = cbr.costPerSf && cbr.costPerSf.residentialSf;
+    var lineError = sum.reason && !/Total Development Cost/.test(sum.reason) && !/Itemize development costs/.test(sum.reason);
+    document.querySelectorAll('[data-cost-subtotal]').forEach(function (span) {
+      var v = sum.groups && sum.groups[span.getAttribute('data-cost-subtotal')];
+      span.textContent = lineError || v == null ? '—' : fmt(v);
+    });
+    document.querySelectorAll('[data-cost-per]').forEach(function (span) {
+      var v = sum.byId && sum.byId[span.getAttribute('data-cost-per')];
+      if (lineError || !(v > 0)) { span.textContent = ''; return; }
+      span.textContent = [perUnits ? fmt(v / perUnits) + ' per unit' : null, perSf ? '$' + (v / perSf).toFixed(2) + ' per SF' : null].filter(Boolean).join(' · ');
+    });
     document.querySelectorAll('[data-cost-remaining]').forEach(function (span) {
       if (!(sum.contingencies || []).some(function (c) { return c.id === span.getAttribute('data-cost-remaining'); })) span.textContent = '';
     });
@@ -4016,8 +4031,14 @@
       row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity : 'The smaller of Method One and Method Two. Method Three is not checked.');
     }
 
-    heading('Cost per square foot');
+    heading('Cost per unit and per square foot');
     var psf = cbr.costPerSf;
+    // DOH's hard, land and soft cost per unit and per square foot of the units.
+    [['Hard cost per unit', psf.hardPerUnit, 0], ['Land cost per unit', psf.landPerUnit, 0], ['Soft cost per unit', psf.softPerUnit, 0],
+      ['Hard cost per residential SF', psf.hardPerSf, 2], ['Land cost per residential SF', psf.landPerSf, 2], ['Soft cost per residential SF', psf.softPerSf, 2]].forEach(function (p) {
+      row(p[0], p[1].value == null ? p[1].reason : p[2] ? '$' + p[1].value.toFixed(2) : fmt(p[1].value),
+        p[0] === 'Hard cost per unit' ? 'Hard cost is the lines DOH counts in its hard-cost evaluation: existing structures, site improvements, permit and tap fees, construction, general requirements, contractor overhead and profit, and the contingencies.' : null);
+    });
     [['Contractor contract per gross SF', psf.contractPerGrossSf], ['Contractor contract per residential SF', psf.contractPerResidentialSf],
       ['Total development cost per gross SF', psf.totalPerGrossSf], ['Total development cost per residential SF', psf.totalPerResidentialSf]].forEach(function (p) {
       row(p[0], p[1].value == null ? p[1].reason : '$' + p[1].value.toFixed(2));
@@ -4071,6 +4092,10 @@
           + (con.passes ? '' : ' The ' + fmt(cbr.feeExcess && cbr.feeExcess.contractor !== null ? cbr.feeExcess.contractor : con.excess) + ' in basis above the limit comes out of eligible basis.');
       fees.innerHTML = '<p style="margin:0 0 .3rem;' + (dev.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(devText) + '</p>'
         + (cbr.feeBase && cbr.feeBase.note ? '<p style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.feeBase.note) + '</p>' : '')
+        + (cbr.dohFeeShare ? '<p data-doh-fee-share style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.dohFeeShare.value == null
+          ? 'Division of Housing (DOH) developer fee share: ' + cbr.dohFeeShare.reason
+          : 'Division of Housing (DOH) developer fee share: ' + (cbr.dohFeeShare.value * 100).toFixed(1) + '% of total cost less the fee, reserves and acquisition (' + fmt(cbr.dohFeeShare.fee) + ' of ' + fmt(cbr.dohFeeShare.base)
+            + '). DOH\'s spreadsheet shows this; CHFA\'s limit above is what changes basis. The administration fee counts with the developer fee in both.') + '</p>' : '')
         + '<p style="margin:0;' + (con.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(conText) + '</p>';
     }
 

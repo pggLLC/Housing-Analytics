@@ -816,7 +816,9 @@
     var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
       identityOfInterest: !!fields['dc-ioi'], rules: costRules });
     var feeBase = cbm.developerFeeBase(costSummary, contractorFee, !!fields['dc-special-pop']);
-    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
+    // DOH's administration fee sits in its developer fee subtotal, so CHFA's limit counts it with the developer fee.
+    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null
+        : (costSummary.byId.developer_fee == null && costSummary.byId.admin_fee == null ? undefined : (costSummary.byId.developer_fee || 0) + (costSummary.byId.admin_fee || 0)),
       consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
       baseReason: feeBase.reason, units: units, rules: costRules });
     var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);
@@ -1310,7 +1312,9 @@
         state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
-        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'] }),
+        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'], units: units,
+        byId: costSummary.reason ? null : costSummary.byId, costReason: costSummary.reason }),
+      dohFeeShare: cbm.dohDeveloperFeeShare(costSummary),
       rules: ruleKeys.map(function (key) {
         var st = cbm.ruleStatus(costRules, key);
         return { key: key, applied: st.applied, reason: costRules ? st.reason : 'Rules file not loaded.', citation: st.citation || null,

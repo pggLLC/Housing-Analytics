@@ -263,6 +263,45 @@ async function test(name, fn) {
     assert.equal(maxPct, Math.round((rules.rules.basis_boost.designations.chfa.max_multiplier - 1) * 100), 'the input limit is the rule\'s CHFA maximum');
   });
 
+  await test('costs sit in DOH\'s categories with subtotals, cost per unit and per SF, and DOH\'s fee share', async () => {
+    const p = await openPage('');
+    const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
+    const per = p.w.__DealCalc.getResult().costBasis.costPerSf;
+    assert(per.units > 0, 'non-vacuous: the default deal has units');
+    const groups = Array.from(p.d.querySelectorAll('[data-cost-group]'));
+    assert.deepEqual(groups.map((g) => g.getAttribute('data-cost-group')), cb.GROUPS.map((g) => g.id));
+    for (const g of cb.GROUPS) {
+      const shown = p.d.querySelector('[data-cost-subtotal="' + g.id + '"]').textContent.trim();
+      assert.equal(shown, money(summary.groups[g.id] || 0), g.label + ' subtotal');
+    }
+    const line = p.d.querySelector('[data-cost-per="structures"]').textContent;
+    assert(line.includes(money(summary.byId.structures / per.units) + ' per unit'), line);
+    const detail = text(p, 'dc-cb-detail');
+    assert(detail.includes(money(cb.sumIds(summary.byId, cb.HARD_COST_IDS) / per.units)), 'hard cost per unit is shown');
+    const share = cb.dohDeveloperFeeShare(summary);
+    assert(share.value > 0, 'non-vacuous: the example has a DOH fee share');
+    const shareText = p.d.querySelector('[data-doh-fee-share]').textContent;
+    assert(shareText.includes((share.value * 100).toFixed(1) + '%') && shareText.includes(money(share.base)), shareText);
+    // A line error blanks the subtotals rather than showing a partial sum.
+    setField(p, 'dc-cost-construction_interest-eligible', '');
+    assert.equal(p.d.querySelector('[data-cost-subtotal="construction"]').textContent.trim(), '—');
+    assert.deepEqual(p.errors, []);
+  });
+
+  await test('a link saved before the DOH layout gives the same basis as the same costs on DOH lines', async () => {
+    const old = await openPage('?cost-overhead=250000&cost-overhead-basis=eligible&cost-profit=500000&cost-profit-basis=ineligible'
+      + '&cost-financing=450000&cost-financing-basis=partial&cost-financing-eligible=300000');
+    const now = await openPage('?cost-overhead_profit=750000&cost-overhead_profit-basis=partial&cost-overhead_profit-eligible=250000'
+      + '&cost-soft_other=450000&cost-soft_other-basis=partial&cost-soft_other-eligible=300000');
+    const fresh = await openPage('');
+    for (const id of ['dc-cb-itemized', 'dc-cb-eligible-cost', 'dc-r-basis']) assert.equal(text(old, id), text(now, id), id);
+    assert.notEqual(text(old, 'dc-cb-eligible-cost'), text(fresh, 'dc-cb-eligible-cost'), 'non-vacuous: the old link changed the budget');
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit-basis').value, 'partial');
+    assert.equal(old.d.getElementById('dc-cost-overhead_profit-eligible').value, '250000');
+    assert.equal(old.d.getElementById('dc-cost-soft_other').value, '450000');
+    assert.deepEqual(old.errors, []);
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
