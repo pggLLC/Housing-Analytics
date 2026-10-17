@@ -898,12 +898,15 @@
     if (inputs.operatingLines) {
       var obm = operatingBudgetModule();
       operatingSummary = obm.summarizeOperating(inputs.operatingLines, inputs.otherIncomeLines || []);
+      // Other income is resolved in both NOI modes, so the sensitivity and the
+      // export carry it even when NOI itself is entered by hand.
+      if (!operatingSummary.reason) otherIncomePerUnitYear = operatingSummary.otherIncomePerUnitYear;
     }
+    annualOtherIncome = otherIncomePerUnitYear * (units || 60);
     if (autoNoi) {
       var vacancyPct = vacFrac();
       // Entered zero is valid; a cleared operating line is unmeasured.
       var opexPerUnitMonth = operatingSummary ? (operatingSummary.reason ? NaN : operatingSummary.perUnitMonth) : safeVal('dc-opex');
-      if (operatingSummary && !operatingSummary.reason) otherIncomePerUnitYear = operatingSummary.otherIncomePerUnitYear;
       var repReservePerUnit = safeVal('dc-rep-reserve');
       var propTaxPerUnit = safeVal('dc-prop-tax');
       if (!known(opexPerUnitMonth) || opexPerUnitMonth < 0) {
@@ -917,7 +920,6 @@
         operatingInputsReason = 'Enter the annual property tax per unit.';
       }
       // DOH applies vacancy to rent plus other income.
-      annualOtherIncome = otherIncomePerUnitYear * (units || 60);
       var effectiveGrossIncome = (annualRents + annualOtherIncome) * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);

@@ -119,6 +119,13 @@ test('manual NOI keeps a finite OpEx sensitivity read from the budget', () => {
   const blank = withBudget('A', ob.exampleLines().map(l => Object.assign(l, { amount: null })));
   blank.fields['dc-auto-noi'] = false; blank.fields['dc-noi'] = String(auto.noi);
   assert.equal(computeDeal(blank).tornado, null, 'no budget, no OpEx swing');
+  // Other income entered on the budget still reaches the swing and the result in manual mode.
+  const income = ob.exampleIncome(); income[1].amount = 120;
+  const withIncome = withBudget('A', null, income);
+  withIncome.fields['dc-auto-noi'] = false; withIncome.fields['dc-noi'] = String(auto.noi);
+  const m = computeDeal(withIncome);
+  assert.equal(m.annualOtherIncome, 120 * +withIncome.fields['dc-units']);
+  close(m.tornado.vacHiEgi - r.tornado.vacHiEgi, m.annualOtherIncome * (1 - Math.max(0.01, (r.tornado.vu - 2) / 100)), 'vacancy swing counts other income');
 });
 
 test('the example is labelled invented in the module', () => {
