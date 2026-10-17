@@ -528,6 +528,9 @@
     if (snapshot.dealMode === 'rental') {
       snapshot.loanObligations = result ? result.obligations : null;
       snapshot.debtCoverage = result ? result.coverage : null;
+      // DOH's Permanent Financing Sources view, as displayed.
+      snapshot.permanentFinancing = window.__DealCalc && window.__DealCalc.getPermanentFinancing
+        ? window.__DealCalc.getPermanentFinancing() : null;
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
       snapshot.rentSchedule = window.__DealCalc && window.__DealCalc.getRentScheduleMetadata ? window.__DealCalc.getRentScheduleMetadata() : null;
       snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata

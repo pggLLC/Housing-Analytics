@@ -106,6 +106,11 @@ async function test(name, fn) {
     assert.equal(params.get('senior-lender-type'), 'T');
     const snap = sender.w.__DealCalcShare.buildSnapshot();
     assert.equal(snap.tranches[0].doh, 'owner', 'the JSON export carries the DOH group too');
+    const shown = moduleView(sender).s;
+    assert.equal(snap.permanentFinancing.totals.totalSources, shown.totals.totalSources, 'the export carries the displayed totals');
+    assert.equal(snap.permanentFinancing.totals.ownerEquity, shown.totals.ownerEquity);
+    assert.equal(snap.permanentFinancing.hardMortgages[0].lenderType, 'T');
+    assert.equal(money(snap.permanentFinancing.totals.ownerEquity), amount(sender, 'owner'), 'and they match the table');
     const recipient = await openPage('?' + params.toString(), null, { jurisdiction: fruta });
     assert.equal(doh(recipient, 0).value, 'owner');
     assert.equal(val(recipient, 'dc-senior-lender-type'), 'T');

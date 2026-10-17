@@ -144,6 +144,11 @@ test('maximum loan by value: NOI over a cap rate, or an appraised value, times L
   assert.equal(none.byAppraisal.maxLoan, null); assert.match(none.byAppraisal.reason, /Enter an appraised value/);
   assert.match(pf.maxLoanChecks({ noi: 650000, capRatePct: '0', capLvrPct: '80' }).byCap.reason, /above 0%/);
   assert.match(pf.maxLoanChecks({ noi: null, capRatePct: '6', capLvrPct: '80' }).byCap.reason, /NOI is not available/);
+  const lossMaking = pf.summarize({ result: { mortgage: 0, mc: 0.07, annualDebtService: 0, noi: -5000, gap: 0, tdc: 1 }, tranches: [], seniorLenderType: 'C' });
+  assert.equal(lossMaking.possibleDebtService, null, 'negative NOI supports no debt service');
+  assert(lossMaking.reasons.some(x => /supports no debt service/.test(x)));
+  const view = pf.exportView(lossMaking);
+  assert.equal(JSON.parse(JSON.stringify(view)).possibleDebtService, null, 'the export view is JSON-safe');
   const negative = pf.maxLoanChecks({ noi: -5000, capRatePct: '6', capLvrPct: '80' }).byCap;
   assert.equal(negative.maxLoan, null); assert.match(negative.reason, /\$0 or less/);
   assert.equal(pf.summarize({ result: { mortgage: 0, mc: 0.07, annualDebtService: 0, noi: -5000, gap: 0, tdc: 1 }, tranches: [], seniorLenderType: 'C', capRatePct: '6', capLvrPct: '80' }).overMaxLoan, null,

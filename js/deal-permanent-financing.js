@@ -175,7 +175,9 @@
 
     var hardPayments = sum(out.hardMortgages.map(function (m) { return m.annualPayment; }));
     out.dcr = noi !== null && known(hardPayments) && hardPayments > 0 ? noi / hardPayments : null;
-    out.possibleDebtService = noi !== null ? noi / DOH_DCR : null;
+    // A negative NOI supports no borrowing; it is not a negative debt service.
+    out.possibleDebtService = noi !== null && noi > 0 ? noi / DOH_DCR : null;
+    if (noi !== null && !(noi > 0)) out.reasons.push('NOI is $0 or less, so it supports no debt service.');
     out.breakEven = known(r.breakEvenOcc) ? r.breakEvenOcc : null;
     out.maxLoan = maxLoanChecks({ noi: noi, capRatePct: opts.capRatePct, capLvrPct: opts.capLvrPct,
       appraisedValue: opts.appraisedValue, appraisedLvrPct: opts.appraisedLvrPct });
@@ -186,7 +188,20 @@
     return out;
   }
 
+  /** The summary without its helper function, for the JSON export. */
+  function exportView(s) {
+    if (!s) return null;
+    var t = s.totals;
+    return { totals: t, taxCredit: s.taxCredit, deferredDevFee: s.deferredDevFee,
+      shareOfTdc: Object.keys(t).reduce(function (o, k) { o[k] = s.pctOfTdc(t[k]); return o; }, {}),
+      hardMortgages: s.hardMortgages, government: s.government, other: s.other, owner: s.owner,
+      historic: s.historic, unclassified: s.unclassified, dcr: s.dcr, possibleDebtService: s.possibleDebtService,
+      dohDcr: DOH_DCR, breakEven: s.breakEven, maxLoan: s.maxLoan, hardDebt: s.hardDebt, overMaxLoan: s.overMaxLoan,
+      reasons: s.reasons.filter(function (r, i, all) { return all.indexOf(r) === i; }) };
+  }
+
   return {
+    exportView: exportView,
     LENDER_TYPES: LENDER_TYPES, GROUPS: GROUPS, PROGRAM_LABELS: PROGRAM_LABELS, PROGRAM_GROUP: PROGRAM_GROUP, HISTORIC_PROGRAM: HISTORIC_PROGRAM, DOH_DCR: DOH_DCR,
     defaultGroup: defaultGroup, trancheGroup: trancheGroup, maxLoanChecks: maxLoanChecks, summarize: summarize
   };

@@ -4083,6 +4083,7 @@
   // DOH PR 2: operating budget subtotals, per-line property totals, DOH's
   // per unit per year expenses and other income. Absent figures show a reason.
   // DOH PR 3: the sources regrouped as DOH's Permanent Financing Sources tab.
+  var _lastPermanentFinancing = null;
   function renderPermanentFinancing(result, fmt) {
     var pf = permanentFinancingModule();
     var rowsEl = document.getElementById('dc-pf-rows');
@@ -4091,6 +4092,7 @@
     var s = pf.summarize({ result: result, tranches: result.tranches || [], seniorLenderType: val('dc-senior-lender-type'),
       capRatePct: val('dc-pf-cap-rate'), capLvrPct: val('dc-pf-cap-lvr'),
       appraisedValue: val('dc-pf-appraised'), appraisedLvrPct: val('dc-pf-appraised-lvr') });
+    _lastPermanentFinancing = pf.exportView(s);
     var t = s.totals;
     function money(v) { return v === null || v === undefined ? '—' : fmt(v); }
     function pct(v) { var p = s.pctOfTdc(v); return p === null ? '—' : (p * 100).toFixed(1) + '%'; }
@@ -7375,6 +7377,7 @@
     recalculate: recalculate,
     getResult: getResult,
     getOutputRecords: getOutputRecords,
+    getPermanentFinancing: function () { return _lastPermanentFinancing == null ? null : JSON.parse(JSON.stringify(_lastPermanentFinancing)); },
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
     setCostRules: function (rules) { _costRules = rules; recalculate(); },
