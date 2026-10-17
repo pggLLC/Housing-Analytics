@@ -67,7 +67,24 @@
     'dc-fmr-note': 'Gross monthly rent ceilings by income tier for two-bedroom homes.',
     'dc-rent-ach-fmr-grid': 'HUD fair market rents by bedroom size.',
     'dc-rent-allowance-status': 'Utility allowance and fees used to convert gross rent to contract rent.',
-    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.'
+    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.',
+    'dc-res-sf': 'Floor area of all residential rental units, excluding common areas.',
+    'dc-restricted-sf': 'Floor area of the units counted as LIHTC units, for the floor-space fraction. Leave out restricted units that are not LIHTC units.',
+    'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the basis boost (30% for QCT, DDA or SADDA; up to 30% for CHFA).',
+    'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
+    'dc-boost-pct': 'Basis boost percentage in CHFA\'s letter (CHFA state designation only, up to 30%).',
+    'dc-credit-requested': 'Annual federal credit requested in the application.',
+    'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',
+    'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',
+    'dc-state-awarded': 'Whether CHFA has awarded the state credit entered; only an award counts as a source.',
+    'dc-grant-acq': 'Federal grant dollars that paid for the building purchase; needed when a grant covers both acquisition and other basis on a 9% deal, where the two earn different credit rates, or under a basis boost, which skips acquisition basis.',
+    'dc-grant-outside': 'Federal grant dollars that paid for costs outside eligible basis, such as land, reserves or fees above CHFA\'s limits; a federal grant reduces basis only by what it paid for in basis.',
+    'dc-acq-42d2': 'Whether an existing building purchase meets 26 U.S.C. 42(d)(2), including a rehabilitation that earns its own credit under 42(e), so its price can count in eligible basis.',
+    'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
+    'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
+    'dc-state-annual': 'Annual state housing tax credit for the project.',
+    'dc-state-standard-annual': 'Annual standard state credit paired with a Round Two accelerated credit.',
+    'dc-state-price': 'Dollars of investor equity per dollar of state credit.'
   };
   Object.keys(definitions).forEach(function (id) { add(id, definitions[id]); });
   ['dc-tdc', 'dc-units', 'dc-noi'].forEach(function (id) {
@@ -110,8 +127,29 @@
     maturity: 'Year principal is due or conditionally forgiven.', io: 'Interest-only years before amortization starts.',
     accrue: 'Whether tranche interest is paid currently or accrued until exit.', priority: 'Payment order in the cash-flow waterfall.'
   };
+  tranche.fed = 'Whether this source contains federal money; a federally funded grant reduces eligible basis.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
-  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || null; }
+  ['fed', 'state'].forEach(function (src) {
+    ['closing', 'completion', 'stabilization'].forEach(function (stage) {
+      add('dc-' + src + '-payin-' + stage, 'Share of ' + (src === 'fed' ? 'federal' : 'state') + ' credit equity paid in at ' + stage + ', in percent.');
+    });
+  });
+  ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence'].forEach(function (id) {
+    fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
+  });
+  // #2160: itemized cost lines (js/deal-cost-basis.js). The prefilled amounts
+  // are an INVENTED example budget, so they are illustrative.
+  add('cost-amount', 'Dollars on this development budget line.', 'illustrative',
+    'An invented example budget line; replace it with your project budget.');
+  add('cost-basis', 'Whether this cost line is in eligible basis, partly in it, or not in it.');
+  add('cost-eligible', 'The part of this cost line that is in eligible basis.', 'illustrative',
+    'An invented example; replace it with your cost certification or budget.');
+  add('cost-used', 'Contingency proposed for use so far.', 'illustrative', 'An invented example; replace it with your draw records.');
+  function costKey(id) {
+    var m = /^dc-cost-[a-z_]+(-basis|-eligible|-used)?$/.exec(id);
+    return m ? 'cost-' + (m[1] ? m[1].slice(1) : 'amount') : null;
+  }
+  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || fields[costKey(id)] || null; }
   var api = { fields: fields, get: get };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.DealCalculatorInputRegistry = api;

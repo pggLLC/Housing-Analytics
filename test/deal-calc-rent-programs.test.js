@@ -44,7 +44,7 @@ async function calculator() {
     return Promise.resolve({ ok: !!hit, json: () => Promise.resolve(hit ? JSON.parse(JSON.stringify(hit[1])) : null) });
   };
   for (const file of ['js/components/zori-rent-utils.js', 'js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js',
-    'js/chfa-rent-limits.js', 'js/deal-engine.js', 'js/deal-calculator.js', 'js/deal-calculator-report-meta.js', 'js/deal-calculator-share.js']) {
+    'js/chfa-rent-limits.js', 'js/deal-cost-basis.js', 'js/deal-engine.js', 'js/deal-calculator.js', 'js/deal-calculator-report-meta.js', 'js/deal-calculator-share.js']) {
     if (file === 'js/chfa-rent-limits.js') await w.HudFmr.load();
     w.eval(read(file));
   }

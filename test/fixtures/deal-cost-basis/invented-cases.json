@@ -1,0 +1,28 @@
+{
+  "invented": true,
+  "note": "INVENTED test data for #2160. No real project's figures, names or documents. Expected values were computed by hand from the issue's acceptance criteria.",
+  "basisCase": {
+    "tdc": 20600000,
+    "lines": [
+      { "id": "land", "label": "Land", "group": "acquisition", "basis": "ineligible", "amount": 1500000 },
+      { "id": "structures", "label": "Hard costs", "group": "contract", "basis": "eligible", "amount": 14000000 },
+      { "id": "financing", "label": "Soft costs", "group": "soft", "basis": "partial", "amount": 2500000, "eligibleAmount": 2200000 },
+      { "id": "reserves", "label": "Reserves", "group": "reserves", "basis": "ineligible", "amount": 600000 },
+      { "id": "developer_fee", "label": "Developer fee", "group": "fees", "basis": "eligible", "amount": 2000000 }
+    ],
+    "tranches": [ { "id": 1, "program": "home", "mode": "grant", "amount": 500000, "fundSource": "federal" } ],
+    "designation": "qct",
+    "evidence": "Invented: tract shown on the HUD QCT map",
+    "units": 60,
+    "lowIncomeUnits": 54,
+    "residentialSf": 50000,
+    "lowIncomeSf": 44000,
+    "creditType": "9",
+    "creditRate": 0.09,
+    "expected": { "eligibleBasis": 18200000, "afterGrant": 17700000, "boostedBasis": 23010000, "qualifiedBasis": 20248800, "calculatedCredit": 1822392 }
+  },
+  "feeCase": { "developerFee": 2000000, "consultantFee": 200000, "base": 13000000, "units": 40, "deferred": 500000,
+    "expected": { "fee": 2200000, "limit": 1950000, "passes": false } },
+  "sfCase": { "contract": 10000000, "total": 16000000, "grossSf": 40000, "residentialSf": 36000,
+    "expected": { "contractPerGrossSf": "250.00", "contractPerResidentialSf": "277.78", "totalPerGrossSf": "400.00", "totalPerResidentialSf": "444.44" } }
+}
