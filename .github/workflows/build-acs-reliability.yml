@@ -1,0 +1,99 @@
+name: Build ACS Reliability
+
+# Margins of error for the ACS headline figures on the HNA pages.
+# scripts/hna/build_acs_reliability.py reads data/hna/summary/, fetches the
+# matching ACS 1-year and 5-year margins from api.census.gov (which refuses
+# keyless requests, so this runs here with the repo's CENSUS_API_KEY), and
+# writes data/hna/acs-reliability.json: estimate, margin, CV and tier for each
+# figure, with a stated reason wherever a margin is unknown.
+#
+# It runs on Sundays, the day after the Saturday Build HNA Data Cache run, so
+# the margins describe the estimates the summaries now hold. A schedule rather
+# than a workflow_run trigger, so the outcome monitor sees its failures: it
+# watches scheduled and dispatched runs only.
+
+on:
+  schedule:
+    - cron: '53 5 * * 0'   # Sundays 05:53 UTC (lands ~02:50 MT, after Saturday's HNA build)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run only (no writes)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  actions: write   # dispatch deploy.yml after the data push
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # The derived chain's paper:build step measures repo history.
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Sanity-check secret
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          if [ -z "${CENSUS_API_KEY}" ]; then
+            echo "::error::CENSUS_API_KEY not set in repo secrets — cannot run."
+            exit 1
+          fi
+
+      - name: Build margins (dry-run)
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python3 scripts/hna/build_acs_reliability.py --dry
+
+      - name: Build margins
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python3 scripts/hna/build_acs_reliability.py
+
+      - name: Check the file before committing it
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          pip install pytest
+          pytest tests/test_acs_reliability.py -v --tb=short
+
+      - name: Commit the margins
+        id: commit
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        # The chain does not read this file, but the commit helper also
+        # regenerates both manifests in order, validates schemas and rebases
+        # without swallowing a conflict, which every data commit needs.
+        env:
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
+        run: |
+          scripts/commit-with-derived-chain.sh "data: refresh ACS margins of error" -- \
+            data/hna/acs-reliability.json
+
+      - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
