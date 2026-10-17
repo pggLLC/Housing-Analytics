@@ -538,9 +538,10 @@
             }
           })
           .catch(function () {
-            statusEl.textContent = 'DOLA data not available for ' + displayName + ' — using statewide defaults.';
+            var reason = 'Population data could not be loaded for ' + displayName + ', so no projection is shown. Try Load Geography Data again.';
+            statusEl.textContent = reason;
             if (window.ScenarioBuilder) {
-              window.ScenarioBuilder.init({});
+              window.ScenarioBuilder.init({ unavailableReason: reason });
             }
           });
       });
@@ -665,16 +666,16 @@
     // #10 Export panel
     if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');
 
-    // #14 Enable save button after county data loads
-    var sbLoadBtn = document.getElementById('sbLoadCounty');
-    if (sbLoadBtn) {
-      sbLoadBtn.addEventListener('click', function () {
-        setTimeout(function () {
-          var sb = document.getElementById('sbSaveBtn');
-          if (sb) { sb.disabled = false; sb.removeAttribute('title'); }
-        }, 1200);
-      });
-    }
+    // #14 Enable save only while a geography's own data is loaded. Until
+    // 2026-10-17 a timer enabled it 1.2 s after any click, loaded or not.
+    document.addEventListener('scenario-builder:state', function (e) {
+      var sb = document.getElementById('sbSaveBtn');
+      if (!sb) return;
+      var geo = e.detail && e.detail.geography;
+      sb.disabled = !geo;
+      if (geo) sb.removeAttribute('title');
+      else sb.setAttribute('title', 'Load a geography above to enable saving');
+    });
 
     var saveBtn = document.getElementById('sbSaveBtn');
     var confirm = document.getElementById('sbSaveConfirm');
@@ -682,10 +683,14 @@
       saveBtn.addEventListener('click', function () {
         if (!window.WorkflowState) return;
         try {
-          var sel = document.getElementById('sbGeoSelect');
+          // Record the geography whose data was projected, not whatever the
+          // selector shows now (it can change without a reload).
+          var geo = window.ScenarioBuilder && window.ScenarioBuilder.loadedGeography();
+          if (!geo) return;
           var snapshot = {
             completedAt: new Date().toISOString(),
-            county: sel ? (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].text) : null
+            county: geo.displayName,
+            geoid: geo.geoid
           };
           WorkflowState.setStep('scenario', snapshot);
           if (confirm) { confirm.removeAttribute('hidden'); saveBtn.textContent = 'Saved ✓'; saveBtn.disabled = true; setTimeout(function(){ confirm.setAttribute('hidden',''); }, 3000); }

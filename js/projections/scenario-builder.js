@@ -88,6 +88,9 @@
   let _chart = null;
   let _dolaData = null;
   let _baseUnits = 0;
+  let _geography = null;          // { geoid, displayName } of the loaded base population
+  let _unavailableReason = null;  // why no projection is shown, when one is not
+  let _bound = false;
   let _activeResults = {}; // scenarioId → results[]
 
   // ---------------------------------------------------------------------------
@@ -97,21 +100,44 @@
   function init(opts) {
     opts = opts || {};
 
-    _bindSliders();
-    _bindScenarioButtons();
-    _bindSaveLoad();
+    // init() runs again on every geography load; bind controls only once so
+    // one click does not fire once per earlier load.
+    if (!_bound) {
+      _bindSliders();
+      _bindScenarioButtons();
+      _bindSaveLoad();
+      _listenI18n();
+      _bound = true;
+    }
     _renderSavedList();
-    _listenI18n();
 
-    // Run baseline projection immediately if DOLA data is available
-    if (opts.dolaData) {
-      _dolaData = opts.dolaData;
-    }
-    if (opts.baseUnits) {
-      _baseUnits = opts.baseUnits;
-    }
+    // Each call replaces the base population outright. A call without DOLA
+    // data (first arrival, or a failed load) clears the previous geography's
+    // data instead of leaving it in place under a new name. There is no
+    // placeholder population: until a geography's own data loads, no
+    // projection is shown.
+    _dolaData = opts.dolaData || null;
+    _baseUnits = opts.dolaData && opts.baseUnits ? opts.baseUnits : 0;
+    _geography = opts.dolaData
+      ? { geoid: opts.geoid || null, displayName: opts.displayName || null }
+      : null;
+    _unavailableReason = opts.dolaData ? null : (opts.unavailableReason || null);
+    _activeResults = {};
 
     _runAllBuiltIn();
+    _dispatchState();
+  }
+
+  function _dispatchState() {
+    try {
+      document.dispatchEvent(new CustomEvent('scenario-builder:state', {
+        detail: { geography: _geography, unavailableReason: _unavailableReason }
+      }));
+    } catch (_) { /* old browsers: the page still renders the unavailable state */ }
+  }
+
+  function _hasBase() {
+    return !!(_dolaData && window.CohortComponentModel);
   }
 
   // ---------------------------------------------------------------------------
@@ -187,9 +213,8 @@
   // ---------------------------------------------------------------------------
 
   function _runProjection(scenarioId, params) {
-    const basePop = _dolaData
-      ? window.CohortComponentModel.buildBasePopFromDola(_dolaData)
-      : { male: new Array(18).fill(1000), female: new Array(18).fill(1000) };
+    if (!_hasBase()) return null;
+    const basePop = window.CohortComponentModel.buildBasePopFromDola(_dolaData);
 
     const model = new window.CohortComponentModel({
       basePopulation: basePop,
@@ -205,14 +230,18 @@
   }
 
   function _runAllBuiltIn() {
-    BUILT_IN_SCENARIOS.forEach(sc => {
-      _activeResults[sc.id] = _runProjection(sc.id, sc.params);
-    });
+    _activeResults = {};
+    if (_hasBase()) {
+      BUILT_IN_SCENARIOS.forEach(sc => {
+        _activeResults[sc.id] = _runProjection(sc.id, sc.params);
+      });
+    }
     _updateChart();
     _updateResultsTable();
   }
 
   function _runCustom() {
+    if (!_hasBase()) return;
     const params = _getSliderParams();
     _activeResults['custom'] = _runProjection('custom', params);
     _updateChart();
@@ -337,6 +366,24 @@
     const baseline = _activeResults['baseline'] || [];
     tbody.innerHTML = '';
 
+    if (!baseline.length) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 7;
+      td.className = 'sb-unavailable';
+      td.style.cssText = 'color:var(--muted);padding:var(--sp3);';
+      // Sticky and width-capped so the whole message stays readable inside
+      // the horizontally scrolling 7-column table on a phone.
+      const msg = document.createElement('div');
+      msg.style.cssText = 'position:sticky;left:0;max-width:min(560px, calc(100vw - 72px));white-space:normal;';
+      msg.textContent = _unavailableReason ||
+        'No projection yet. Choose a geography above and select Load Geography Data; the table and chart fill in from that place\'s own population.';
+      td.appendChild(msg);
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+
     baseline.forEach(row => {
       const tr = document.createElement('tr');
 
@@ -397,6 +444,9 @@
         mortality: `${(params.mortality_multiplier * 100).toFixed(0)}% of baseline`,
       },
       baselineSource: 'DOLA 2024',
+      // Parameters are not tied to a place; record the loaded geography (or
+      // none) so a saved scenario is never read as another place's result.
+      geography: _geography ? { geoid: _geography.geoid, name: _geography.displayName } : null,
     });
 
     _announce(`Scenario "${saved.name}" saved.`);
@@ -497,6 +547,8 @@
 
   window.ScenarioBuilder = {
     init,
+    loadedGeography: function () { return _geography ? Object.assign({}, _geography) : null; },
+    hasProjection: function () { return !!(_activeResults.baseline && _activeResults.baseline.length); },
     runProjection: _runProjection,
     getResults: () => ({ ..._activeResults }),
     BUILT_IN_SCENARIOS,
