@@ -336,10 +336,14 @@
     var name = String(props.name || '').trim();
     // The file abbreviates and numbers its names ("Lk Hope", "Cottonwood
     // Lake Number 5", "Bowles Res 1", "Lefthand Villy Resv", "Mason Rsvr
-    // Number 4"), so match the word and its abbreviations anywhere. Ponds and
-    // unnamed water bodies stay out.
+    // Number 4"), so match the word and its abbreviations anywhere. Ponds,
+    // creeks and unnamed water bodies stay out.
     if (props.sub_type === 'river' || /\bRiv(er)?\b/.test(name)) return 'river';
     if (/\b(Lks?|Lakes?|Reservoirs?|Res|Resv|Rsvr)\b/.test(name)) return 'lake';
+    // Other named lake polygons ("Goose Pasture Tarn", "Great Western"),
+    // except the creek, ditch and pond reaches the file also tags as lakes.
+    if (props.sub_type === 'lake' && name && !/\bUnnamed\b/i.test(name) &&
+        !/\b(Crk|Creek|Frk|Fork|Wash|Slough|Cnl|Canal|Ditch|Draw|Ponds?)\b/.test(name)) return 'lake';
     return null;
   }
 

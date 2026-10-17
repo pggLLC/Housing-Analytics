@@ -326,6 +326,19 @@
         _rationale = persisted.rationale || '';
         if (persisted.naturalFeatures && persisted.naturalFeatures.status) {
           _nf = Object.assign(_nfOff(), persisted.naturalFeatures);
+          // Crossings and the protected site tract were computed from the
+          // saved point. A moved site gets back its selection from before
+          // Apply, without the generated sentence, and the option starts off.
+          var moved = Math.abs(persisted.siteCenter.lat - lat) > 1e-7 ||
+            Math.abs(persisted.siteCenter.lon - lon) > 1e-7;
+          if (moved && _nf.status === 'applied') {
+            if (Array.isArray(_nf.preApply)) _selected = new Set(_nf.preApply);
+            var marker = _nf.rationaleSummary;
+            if (marker && _rationale.indexOf(marker) >= 0) {
+              _rationale = _rationale.replace(marker, '').replace(/\n{2,}/g, '\n').trim();
+            }
+            _nf = _nfOff();
+          }
         }
         console.log('[PMATractPicker] restored ' + _selected.size + ' tracts from localStorage');
       } else {

@@ -233,5 +233,27 @@ const narrativeFor = () => J.generateNarrative(Object.assign(J.synthesizePMA({})
   P4.turnOffNaturalFeatures();
   assert.equal(P4.getRationale(), 'Followed the river.', 'turning off takes the sentence out and leaves the analyst\'s text');
 
+  // ── a moved site does not keep an Apply computed from the old point ──
+  P4 = fresh();
+  await P4.init(map, SITE.lat, SITE.lon);
+  P4.setRationale('Followed the river.');
+  await P4.proposeNaturalFeatures();
+  const pre5 = sorted(P4.getSelectedGeoids());
+  P4.applyNaturalFeatures();
+  assert.notDeepEqual(sorted(P4.getSelectedGeoids()), pre5, 'non-vacuity: Apply removed tracts');
+  P4 = fresh();
+  await P4.init(map, SITE.lat + 0.0006, SITE.lon);   // ~200 ft away, same saved selection
+  assert.equal(P4.getNaturalFeatures().status, 'off', 'a moved site starts with the option off');
+  assert.deepEqual(sorted(P4.getSelectedGeoids()), pre5, 'and gets back its selection from before Apply');
+  assert.equal(P4.getRationale(), 'Followed the river.', 'without the generated sentence');
+
+  // ── named lakes without a lake word are checked; creek reaches are not ──
+  ['Goose Pasture Tarn', 'Great Western'].forEach((name) => {
+    const lake = { type: 'Feature', properties: { name, barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
+    assert.equal(B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [lake]).exclusions.length, 1, `"${name}" is a named lake the option checks`);
+  });
+  const creek = { type: 'Feature', properties: { name: 'Fish Crk', barrier_type: 'water', sub_type: 'lake' }, geometry: { type: 'Polygon', coordinates: square(-105.5, 39.5, 0.01) } };
+  assert.equal(B.proposeTractExclusions(39.5, -105.6, [{ geoid: '08000000001', lat: 39.5, lon: -105.4 }], [creek]).status, 'no_features', 'a creek reach tagged as a lake is not checked');
+
   console.log(`pma-natural-features: PASS (${proposed.length} proposed at the river site; keep, re-add, off, unavailable, site tract)`);
 })().catch((e) => { console.error(e); process.exit(1); });
