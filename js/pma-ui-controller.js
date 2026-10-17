@@ -1470,14 +1470,16 @@
     } catch (_) { return null; }
   }
 
-  /* A saved run and a permalink describe the same run when they name the
-     same site and method. */
+  /* A saved run and a permalink describe the same run when every input the
+     permalink carries matches, read with _writePermalink's defaults. */
   function _permalinkMatchesStored(permalink, stored) {
     var opts = stored.options || {};
     // The permalink rounds to six decimals.
     return Math.abs(Number(stored.lat) - permalink.lat) <= 1e-6 &&
       Math.abs(Number(stored.lon) - permalink.lon) <= 1e-6 &&
-      (opts.method || 'buffer') === permalink.method;
+      (opts.method || 'buffer') === permalink.method &&
+      (parseInt(opts.bufferMiles, 10) || 5) === permalink.bufferMiles &&
+      (parseInt(opts.proposedUnits, 10) || 100) === permalink.proposedUnits;
   }
 
   /**

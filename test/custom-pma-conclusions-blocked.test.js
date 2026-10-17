@@ -233,7 +233,7 @@ function savedRun() {
   scoreRun.pma = result;
   scoreRun.pmaTractSelection = { selected: PICKED.slice(), curated: true };
   w.PMADataCache.saveLastResult(SITE.lat, SITE.lon,
-    { method: 'tract', tractGeoids: PICKED, tractBoundary: boundaryFor(PICKED), proposedUnits: 60 }, scoreRun);
+    { method: 'tract', tractGeoids: PICKED, tractBoundary: boundaryFor(PICKED), bufferMiles: 3, proposedUnits: 60 }, scoreRun);
   return JSON.parse(w.localStorage.getItem('pma_last_result_v1'));
 }
 function store(w, saved) { w.localStorage.setItem('pma_last_result_v1', JSON.stringify(saved)); }
@@ -380,8 +380,8 @@ for (const [geoType, geoid] of [['county', '08077'], ['place', '0828745'], ['cdp
 
 // Every run writes '#pma=lat,lon,method,…' to the URL, so a reload carries a
 // permalink. It must not hide the saved run for that same site and method.
-function permalinkFor(lat, lon, method) {
-  return '#pma=' + [lat.toFixed(6), lon.toFixed(6), method, 3, 60].join(',');
+function permalinkFor(lat, lon, method, bufferMiles = 3, units = 60) {
+  return '#pma=' + [lat.toFixed(6), lon.toFixed(6), method, bufferMiles, units].join(',');
 }
 test('a reload whose permalink names the saved site restores the saved run', () => {
   const w = page();
@@ -392,8 +392,9 @@ test('a reload whose permalink names the saved site restores the saved run', () 
   w.PMAUIController.restoreLastRun();
   assertRestored(w, saved);
 });
-test('a permalink to another site or method restores only its inputs, not the saved run', () => {
-  [permalinkFor(SITE.lat + 0.01, SITE.lon, 'tract'), permalinkFor(SITE.lat, SITE.lon, 'buffer')].forEach((hash) => {
+test('a permalink with any other input restores only its inputs, not the saved run', () => {
+  [permalinkFor(SITE.lat + 0.01, SITE.lon, 'tract'), permalinkFor(SITE.lat, SITE.lon, 'buffer'),
+    permalinkFor(SITE.lat, SITE.lon, 'tract', 5), permalinkFor(SITE.lat, SITE.lon, 'tract', 3, 80)].forEach((hash) => {
     const w = page();
     store(w, savedRun());
     w.history.replaceState(null, '', hash);
