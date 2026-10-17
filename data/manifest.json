@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-17T23:38:01.731907Z",
+  "generated": "2026-10-17T23:52:48.746256Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 856041
+      "bytes": 856400
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -385,6 +385,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4196
+    },
+    "data/hna/acs-reliability.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 645991
     },
     "data/hna/benchmarks.json": {
       "featureCount": 0,
