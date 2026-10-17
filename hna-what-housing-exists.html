@@ -1977,9 +1977,17 @@
       return;
     }
 
-    // Ensure we're showing the right geoType view
-    if (geoTypeEl.value !== target.geoType) {
-      geoTypeEl.value = target.geoType;
+    // Ensure we're showing the right geoType view. The selector offers only
+    // state / county / place: CDPs live in the combined place list (each
+    // option keeps data-subtype="cdp"), the same normalization the HNA
+    // controller applies. Until 2026-10-17 this wrote 'cdp' straight into
+    // the selector, which blanked both selects and left a CDP deep link
+    // (?fips=0815165&geoType=cdp) half-loaded with "data for  is shown".
+    var selectorType = target.geoType === 'cdp' ? 'place' : target.geoType;
+    var supported = Array.prototype.some.call(geoTypeEl.options, function (o) { return o.value === selectorType; });
+    if (!supported) return;
+    if (geoTypeEl.value !== selectorType) {
+      geoTypeEl.value = selectorType;
       geoTypeEl.dispatchEvent(new Event('change', { bubbles: true }));
       setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 500);
       return;
