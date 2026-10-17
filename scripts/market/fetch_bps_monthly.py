@@ -18,7 +18,8 @@ so its figures are null with that reason, never 0. A town in several counties
 is summed across its county parts.
 
 Writes data/market/bps_monthly_ytd.json. Exits 1 without writing when a file
-cannot be read or the county file lacks any of the 64 counties.
+cannot be read, the county file lacks any of the 64 counties, or a place file
+lists fewer than 200 towns.
 
 Usage:
   python3 scripts/market/fetch_bps_monthly.py
@@ -44,6 +45,10 @@ COUNTY_FILE = 'co{yymm}y.txt'
 PLACE_FILE = 'we{yymm}y.txt'
 COLORADO = '08'
 COUNTIES = 64
+# every place file from 2022 to 2026 lists 210-213 Colorado towns; fewer than
+# this means a truncated or partly published file, which must not overwrite
+# the committed one
+MIN_PLACES = 200
 LOOKBACK = 4  # months to look back for the newest published file
 # the market calls read a permit change only when each period has this many
 # homes (build_market_direction.PERMIT_FLOOR); below it one building swings it
@@ -174,7 +179,13 @@ def main() -> int:
     if len(counties) != COUNTIES:
         print(f'BPS county file has {len(counties)} of {COUNTIES} counties; nothing written', file=sys.stderr)
         return 1
-    places = combine(places_from(place_now), places_from(place_before), m, True)
+    parsed = {tag: places_from(place_now), prior: places_from(place_before)}
+    short = {t: len(p) for t, p in parsed.items() if len(p) < MIN_PLACES}
+    if short:
+        print(f'BPS place files list too few Colorado towns {short} (expected at least {MIN_PLACES}); '
+              'nothing written', file=sys.stderr)
+        return 1
+    places = combine(parsed[tag], parsed[prior], m, True)
     state = {k: sum(c[k]['total'] for c in counties.values()) for k in ('ytd', 'prior_ytd')}
     doc = {
         'meta': {

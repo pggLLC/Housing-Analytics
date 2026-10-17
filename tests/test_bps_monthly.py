@@ -131,3 +131,19 @@ def test_market_direction_shows_what_this_file_holds():
             shown += got['ytd'] is not None
     assert shown > 100
     assert MD['meta']['sources']['permits_ytd']['through'] == DOC['meta']['through']
+
+
+def test_a_short_place_file_writes_nothing(monkeypatch, tmp_path):
+    full = lines([place_row(f'{i:05d}', 8, f'T{i}', (60, 0, 0, 0)) for i in range(1, fb.MIN_PLACES + 1)])
+    short = lines([place_row('00001', 8, 'T1', (60, 0, 0, 0))])
+    county = lines([[ '202608', '08', f'{i:03d}', '4', '8', f'C{i}'] + block(60, 0, 0, 0) for i in range(1, 65)])
+    out = tmp_path / 'out.json'
+    monkeypatch.setattr(fb, 'OUT', str(out))
+    monkeypatch.setattr(fb, 'latest', lambda today: (2026, 8, county))
+
+    def fake(url):
+        return county if 'County' in url else (short if '2508' in url else full)
+    monkeypatch.setattr(fb, 'get', fake)
+    assert fb.main() == 1 and not out.exists()
+    monkeypatch.setattr(fb, 'get', lambda url: county if 'County' in url else full)
+    assert fb.main() == 0 and out.exists()
