@@ -547,9 +547,12 @@
       var renterHH = +s.total_renter_hh || 0;
       var ownerHH  = +s.total_owner_hh  || 0;
       var total = renterHH + ownerHH;
-      if (!total || s.pct_renter_cb30 == null || s.pct_owner_cb30 == null) return;
-      var blended = (s.pct_renter_cb30 * renterHH + s.pct_owner_cb30 * ownerHH) / total;
-      var severe = +s.pct_renter_cb50 || 0;
+      if (!total || s.pct_renter_cb30 == null || s.pct_owner_cb30 == null || s.pct_renter_cb50 == null) return;
+      // County pct_* fields are shares (0-1); the composite is in percent,
+      // the same unit needCompositeFor returns, so places and counties rank
+      // on one scale.
+      var blended = (s.pct_renter_cb30 * 100 * renterHH + s.pct_owner_cb30 * 100 * ownerHH) / total;
+      var severe = s.pct_renter_cb50 * 100;
       dist.push(blended * 0.7 + severe * 0.3);
     });
     dist.sort(function (a, b) { return a - b; });
@@ -575,12 +578,14 @@
         var pRenter = +ps.total_renter_hh || 0;
         var pOwner  = +ps.total_owner_hh  || 0;
         var pTot = pRenter + pOwner;
-        if (pTot > 0) {
-          // place-chas exposes shares (0-1), not %. Convert to % to match
-          // the county schema (pct_renter_cb30 is a % in chas_affordability_gap).
-          var pRcb30 = (+ps.renter_cb30_share || 0) * 100;
-          var pOcb30 = (+ps.owner_cb30_share  || 0) * 100;
-          var pRcb50 = (+ps.renter_cb50_share || 0) * 100;
+        if (pTot > 0 && ps.renter_cb30_share != null && ps.owner_cb30_share != null && ps.renter_cb50_share != null) {
+          // place-chas and the county file both carry shares (0-1); both are
+          // converted to percent here and in buildNeedDistribution. Until
+          // 2026-10-17 only the place side was converted, which put every
+          // place above every county and scored all 482 places p100.
+          var pRcb30 = ps.renter_cb30_share * 100;
+          var pOcb30 = ps.owner_cb30_share  * 100;
+          var pRcb50 = ps.renter_cb50_share * 100;
           var pBlended = (pRcb30 * pRenter + pOcb30 * pOwner) / pTot;
           var pComp = pBlended * 0.7 + pRcb50 * 0.3;
           return { composite: pComp, source: 'place' };
@@ -594,15 +599,19 @@
     var renterHH = +s.total_renter_hh || 0;
     var ownerHH  = +s.total_owner_hh  || 0;
     var total = renterHH + ownerHH;
-    if (!total) return { composite: null, source: null };
-    var blended = (s.pct_renter_cb30 * renterHH + s.pct_owner_cb30 * ownerHH) / total;
-    var severe = +s.pct_renter_cb50 || 0;
+    if (!total || s.pct_renter_cb30 == null || s.pct_owner_cb30 == null || s.pct_renter_cb50 == null) {
+      return { composite: null, source: null };
+    }
+    var blended = (s.pct_renter_cb30 * 100 * renterHH + s.pct_owner_cb30 * 100 * ownerHH) / total;
+    var severe = s.pct_renter_cb50 * 100;
     return { composite: blended * 0.7 + severe * 0.3, source: 'county' };
   }
   function needScoreFor(countyFips, needDist, placeGeoid) {
     var res = needCompositeFor(countyFips, placeGeoid);
     var composite = res && res.composite;
-    if (composite == null) return { score: 30, source: null };
+    // No composite means no need score: a default of 30 ranked an unknown
+    // place as low-need. compositeScore leaves the component out instead.
+    if (composite == null || !needDist.length) return { score: null, source: null };
     var below = 0;
     for (var i = 0; i < needDist.length; i++) {
       if (needDist[i] < composite) below++;
@@ -671,8 +680,15 @@
     var w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
     // civic may be null when no scorecard record exists — treat as 0
     var civicVal = Number.isFinite(civic) ? civic : 0;
-    var raw = rec * w.recency + need * w.need + basis * w.basis +
-              pop * w.pop + civicVal * w.civic;
+    var raw = rec * w.recency + basis * w.basis + pop * w.pop + civicVal * w.civic;
+    if (Number.isFinite(need)) {
+      raw += need * w.need;
+    } else {
+      // Need unavailable: score on the remaining components, rescaled to
+      // their own weight, rather than inventing a need value.
+      var rest = w.recency + w.basis + w.pop + w.civic;
+      raw = rest > 0 ? raw / rest : 0;
+    }
     if (jurisdictionType === 'cdp' && CDP_PENALTY_TARGETS[target]) {
       raw += CDP_PENALTY;
     }
@@ -1781,9 +1797,15 @@
     var w = scenario.weights;
     var rec = _scenarioRecency(op, scenario.target, scenario.recencySource);
     var civicVal = Number.isFinite(op.civicScore) ? op.civicScore : 0;
-    var raw = rec * (w.recency / 100) + op.needScore * (w.need / 100) +
+    var raw = rec * (w.recency / 100) +
               op.basisBoostScore * (w.basis / 100) + op.populationScore * (w.pop / 100) +
               civicVal * (w.civic / 100);
+    if (Number.isFinite(op.needScore)) {
+      raw += op.needScore * (w.need / 100);
+    } else {
+      var rest = (w.recency + w.basis + w.pop + w.civic) / 100;
+      raw = rest > 0 ? raw / rest : 0;
+    }
     // Same CDP penalty as compositeScore so the override stays comparable
     if (op.type === 'cdp' && CDP_PENALTY_TARGETS[scenario.target]) raw += CDP_PENALTY;
     var score = Math.max(0, Math.round(raw));
@@ -3696,11 +3718,11 @@
       '</dd>' +
       '<dt>9% Competitive score</dt><dd>' + op.score9 + '/100  ' +
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
-        ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
+        ' · need ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ')</span></dd>' +
       '<dt>4% Bond score</dt><dd>' + op.score4 + '/100  ' +
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
-        ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
+        ' · need ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ', re-weighted 25/25/15/35)</span></dd>' +
       '<dt>4% bond cap (PAB)</dt><dd>' + pabHtml + '</dd>' +
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
@@ -3782,7 +3804,7 @@
           : '<span style="color:var(--muted)">None on file</span>') +
       '</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
-        '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
+        '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ')</span>' +
         // F223 follow-up — the list row discloses county-sourced need with a
         // "scaled" pill; mirror it here so the detail panel doesn't present
         // the county CHAS composite as place data. Fires for places whose
@@ -5136,6 +5158,13 @@
       qctMapStatus: _qctMapStatus,
       populationFromRanking: _populationFromRanking,
       basisMoveUp: _basisMoveUp,
+      buildNeedDistribution: buildNeedDistribution,
+      needScoreFor: needScoreFor,
+      compositeScore: compositeScore,
+      setChasForTest: function (counties, places) {
+        state.chasByFips = counties || {};
+        state.placeChas = places || {};
+      },
       setZoriForTest: function (byCounty, meta, byCity) {
         state.zoriByCounty = byCounty || {};
         state.zoriByCity = byCity || {};
