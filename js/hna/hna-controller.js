@@ -3087,6 +3087,11 @@
 
   let _reconSeq = 0;
   async function applyAssumptions(proj, selection){
+    // The need reconciliation awaits data (the digest, the 64 county
+    // projections); a later call for another geography may finish first.
+    // Taken at entry so every call, early returns included, invalidates
+    // pending work.
+    const reconSeq = ++_reconSeq;
     if (!proj) return;
     if (_isMultiJurisdictionSelection(selection)) {
       var unavailable = 'Not available for combined areas — view members individually.';
@@ -3472,10 +3477,7 @@
     // Built from the values painted above and from the households chart's own
     // series (_placeScaledHouseholds, the function the chart calls), so it
     // quotes the page rather than re-deriving it. Stored for the PDF and Excel.
-    // The block awaits data (the digest, the 64 county projections); a later
-    // call for another geography may finish first, so only the latest call
-    // renders.
-    const reconSeq = ++_reconSeq;
+    // reconSeq (taken at entry): only the latest call renders.
     try {
       let chartHouseholdsDelta = null;
       const hhDola = proj?.housing_need?.households_dola;
