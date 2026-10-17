@@ -1310,7 +1310,9 @@
         state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
-        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'] }),
+        grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'], units: units,
+        byId: costSummary.reason ? null : costSummary.byId, notItemized: costSummary.notItemized, costReason: costSummary.reason }),
+      dohFeeShare: cbm.dohDeveloperFeeShare(costSummary),
       rules: ruleKeys.map(function (key) {
         var st = cbm.ruleStatus(costRules, key);
         return { key: key, applied: st.applied, reason: costRules ? st.reason : 'Rules file not loaded.', citation: st.citation || null,

@@ -219,7 +219,8 @@
       var el = document.querySelector(sel[label]);
       if (!el) return;
       var v = '';
-      if (el.tagName === 'SELECT') v = el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
+      if (el.type === 'checkbox') v = el.checked ? 'Yes' : 'No';
+      else if (el.tagName === 'SELECT') v = el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
       else if ('value' in el && el.tagName !== 'BUTTON') v = el.value;
       else v = visibleText(el);
       v = String(v || '').replace(/\s+/g, ' ').trim();
