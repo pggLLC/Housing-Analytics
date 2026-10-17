@@ -151,7 +151,11 @@ const src = fs.readFileSync(path.join(ROOT, JS), 'utf8');
 assert.ok(src.includes("'market/market-direction.json'") && src.includes("'market/development-activity.json'"), 'the script reads the two files the test checks against');
 
 const bundled = chromium.executablePath();
-const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled : '/opt/pw-browsers/chromium');
+// The same lookup as test/table-export-rendered.test.js, which CI runs: playwright's
+// own browser, else the one puppeteer installs, else a preinstalled Chromium.
+const fromPuppeteer = fs.existsSync(bundled) ? null : await (await import('puppeteer')).default.executablePath();
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled
+  : fs.existsSync(fromPuppeteer) ? fromPuppeteer : '/opt/pw-browsers/chromium');
 const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
 try {
   const fails = checks(await render(browser, null));
