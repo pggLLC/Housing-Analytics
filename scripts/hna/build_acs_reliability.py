@@ -125,12 +125,15 @@ def tolerance(var: str) -> float:
 
 
 def census_get(url: str, key: str = ""):
-    """Rows from the Census API. url never carries the key, so it is safe to
-    log; the key is added only to the request itself."""
+    """Rows from the Census API, [] when it has no geography to report (HTTP
+    204, as ACS 1-year does for a level with none over 65,000 people), or None
+    when the request failed. url never carries the key, so it is safe to log;
+    the key is added only to the request itself."""
     full = url + ("&key=" + urllib.parse.quote(key) if key else "")
     req = urllib.request.Request(full, headers={"User-Agent": "coho-acs-reliability"})
     try:
         with urllib.request.urlopen(req, timeout=120) as r:
+            status = r.status
             body = r.read().decode("utf-8")
     except urllib.error.HTTPError as e:
         print(f"  HTTP {e.code} for {url}", file=sys.stderr)
@@ -138,12 +141,14 @@ def census_get(url: str, key: str = ""):
     except (urllib.error.URLError, TimeoutError) as e:
         print(f"  network error ({type(e).__name__}) for {url}", file=sys.stderr)
         return None
+    if status == 204 or not body.strip():
+        return []
     try:
         rows = json.loads(body)
     except json.JSONDecodeError:
         print(f"  non-JSON response for {url}", file=sys.stderr)
         return None
-    if not isinstance(rows, list) or len(rows) < 2:
+    if not isinstance(rows, list):
         return None
     return rows
 
@@ -162,7 +167,11 @@ def fetch_level(year, series, table, variables, level, key, getter=census_get):
            "place": "for=place:*&in=state:08"}[level]
     url = f"{base}?get={','.join(gets)}&{geo}"
     rows = getter(url, key)
-    if not rows:
+    if rows is None:
+        # One failed request would leave every figure at that level without a
+        # margin, and the commit would replace good margins with nulls.
+        raise SystemExit(f"{table} {series} {level} request failed; writing nothing")
+    if len(rows) < 2:
         return {}
     head = rows[0]
     out = {}
@@ -253,15 +262,25 @@ def build_record(geoid, summary, published, year):
 
     for name, spec in DERIVED.items():
         parts = [rec.get(v) or {} for v in spec["sum_of"]]
-        if any(p.get("e") is None or p.get("m") is None for p in parts):
+        if any(p.get("e") is None for p in parts):
             rec[name] = {"e": None, "m": None, "s": None, "cv": None, "t": None,
-                         "why": "a component has no estimate or no margin"}
+                         "why": "a component has no estimate"}
             continue
         est = round(sum(p["e"] for p in parts), 1)
+        series = {p.get("s") for p in parts}
+        if any(p.get("m") is None for p in parts):
+            rec[name] = {"e": est, "m": None, "s": None, "cv": None, "t": None,
+                         "why": "a component has no margin"}
+            continue
+        if len(series) != 1:
+            # A 1-year and a 5-year margin describe different samples, so
+            # their root sum of squares is not the margin of anything.
+            rec[name] = {"e": est, "m": None, "s": None, "cv": None, "t": None,
+                         "why": "components come from different ACS series"}
+            continue
         moe = round(math.sqrt(sum(p["m"] ** 2 for p in parts)), 1)
         cv, tier, why = tier_for(est, moe)
-        series = sorted({p["s"] for p in parts})
-        entry = {"e": est, "m": moe, "s": "+".join(series), "cv": cv, "t": tier}
+        entry = {"e": est, "m": moe, "s": series.pop(), "cv": cv, "t": tier}
         if why:
             entry["why"] = why
         rec[name] = entry
@@ -297,8 +316,14 @@ def build(all_summaries, year, key, getter=census_get):
                 got = fetch_level(year, series, table, list(variables), level, key, getter)
                 print(f"  {table} {series} {level}: {len(got)} geographies")
                 published[table][series].update(got)
-    if not published["profile"]["acs5"]:
-        raise SystemExit("ACS 5-year profile returned nothing; refusing to write margins")
+    # Every geography the site has must be in the 5-year tables, which
+    # publish all of them; a short response means a truncated or wrong
+    # request, not geographies without data.
+    for table in ("profile", "subject"):
+        missing = sorted(set(all_summaries) - set(published[table]["acs5"]))
+        if missing:
+            raise SystemExit(f"ACS 5-year {table} lacks {len(missing)} geographies "
+                             f"(first: {missing[:5]}); writing nothing")
 
     geos = {gid: build_record(gid, s, published, year) for gid, s in all_summaries.items()}
     counts = {}
