@@ -3282,9 +3282,11 @@
           const rate = headshipAt(step);
           return (pop !== null && pop > 0 && rate !== null) ? pop * rate : null;
         }),
+        // Short enough for the legend at phone width; the note below the
+        // chart carries the arithmetic.
         label: held
-          ? 'Households (population \u00d7 base-year headship, held)'
-          : 'Households (population \u00d7 trended headship)',
+          ? 'Households (held headship)'
+          : 'Households (trended headship)',
         note: 'Shown under the ' + _headshipOptionLabel(optionValue) + ' headship option: projected population \u00d7 '
           + (held ? 'the base-year headship rate, held constant' : 'a headship rate moved by the ACS trend')
           + ', the series the calculator above uses. Choose ' + _headshipOptionLabel('forecast')
