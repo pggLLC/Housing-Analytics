@@ -86,7 +86,8 @@ assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim s
 //    and a reply for a superseded load (success or failure, in any order)
 //    never replaces what belongs to the current selection.
 (async () => {
-  const loader = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1])
+  // Read inline scripts through the DOM parser, not a regex over the markup.
+  const loader = [...new JSDOM(html).window.document.querySelectorAll('script:not([src])')].map((s) => s.textContent)
     .find((src) => src.includes("data/hna/ranking-index.json") && src.includes('sbLoadCounty'));
   assert(loader, 'found the page geography loader script');
   const pg = new JSDOM(`<!doctype html><body>
