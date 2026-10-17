@@ -124,21 +124,24 @@ def tolerance(var: str) -> float:
     return 0.051 if var.endswith("PE") or var.startswith("S0801") else 0.51
 
 
-def census_get(url: str):
-    req = urllib.request.Request(url, headers={"User-Agent": "coho-acs-reliability"})
+def census_get(url: str, key: str = ""):
+    """Rows from the Census API. url never carries the key, so it is safe to
+    log; the key is added only to the request itself."""
+    full = url + ("&key=" + urllib.parse.quote(key) if key else "")
+    req = urllib.request.Request(full, headers={"User-Agent": "coho-acs-reliability"})
     try:
         with urllib.request.urlopen(req, timeout=120) as r:
             body = r.read().decode("utf-8")
     except urllib.error.HTTPError as e:
-        print(f"  HTTP {e.code} for {url.split('&key=')[0]}", file=sys.stderr)
+        print(f"  HTTP {e.code} for {url}", file=sys.stderr)
         return None
     except (urllib.error.URLError, TimeoutError) as e:
-        print(f"  network error for {url.split('&key=')[0]}: {e}", file=sys.stderr)
+        print(f"  network error ({type(e).__name__}) for {url}", file=sys.stderr)
         return None
     try:
         rows = json.loads(body)
     except json.JSONDecodeError:
-        print(f"  non-JSON response for {url.split('&key=')[0]}", file=sys.stderr)
+        print(f"  non-JSON response for {url}", file=sys.stderr)
         return None
     if not isinstance(rows, list) or len(rows) < 2:
         return None
@@ -158,9 +161,7 @@ def fetch_level(year, series, table, variables, level, key, getter=census_get):
     geo = {"state": "for=state:08", "county": "for=county:*&in=state:08",
            "place": "for=place:*&in=state:08"}[level]
     url = f"{base}?get={','.join(gets)}&{geo}"
-    if key:
-        url += "&key=" + urllib.parse.quote(key)
-    rows = getter(url)
+    rows = getter(url, key)
     if not rows:
         return {}
     head = rows[0]

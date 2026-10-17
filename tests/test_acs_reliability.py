@@ -13,7 +13,7 @@ spec.loader.exec_module(mod)
 
 def fake_getter(tables):
     """tables[(series, table, level)] = {geoid: {var: value}} -> Census rows."""
-    def get(url):
+    def get(url, key=""):
         series = "acs1" if "/acs/acs1" in url else "acs5"
         table = "subject" if "/subject?" in url else "profile"
         level = ("state" if "for=state:08" in url else
@@ -121,7 +121,7 @@ def test_tie_takes_the_wider_margin_unless_population_decides():
 def test_refuses_to_write_when_the_five_year_profile_is_empty():
     import pytest
     with pytest.raises(SystemExit):
-        mod.build({"0800007": summary(DP05_0001E=1)}, 2024, key="", getter=lambda url: None)
+        mod.build({"0800007": summary(DP05_0001E=1)}, 2024, key="", getter=lambda url, key="": None)
 
 
 def test_committed_file_covers_every_summary_when_present():
