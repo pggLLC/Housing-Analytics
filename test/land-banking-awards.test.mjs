@@ -22,10 +22,11 @@
  * Every scan asserts it found something; sabotage cases mutate copies.
  */
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -189,7 +190,8 @@ ledgerAgreement(DATA);
 
 // ---- 7. The Where to build map agrees with the awards file and keeps contacts honest.
 {
-  const LBM = require(join(ROOT, 'js/whitepaper/land-banking-map.js'));
+  const LBM = require(join(ROOT, 'js/land-banking-map.js'));
+  const GATED = { mode: 'gated', reportBase: 'developer-brief.html?geoid=' };
   const all = LBM.summarize(DATA.awards);
   ok(all.awards === DATA.meta.award_count && all.amount === DATA.meta.total_awarded && all.units === DATA.meta.total_estimated_units,
     'the map summary is the file\'s totals');
@@ -202,7 +204,7 @@ ledgerAgreement(DATA);
   const C = LBM.contactIndex(CONTACTS);
   for (const a of DATA.awards) ok(C[a.id], `${a.id} has a contact entry on the map`);
   for (const t of towns) {
-    const html = LBM.popupHtml(t, DATA, C, false);
+    const html = LBM.popupHtml(t, DATA, C, false, GATED);
     ok(html.includes(`developer-brief.html?geoid=${t.geoid}`), `${t.name} links to its report`);
     for (const a of t.awards) ok(html.includes(a.project.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name} lists ${a.project}`);
   }
@@ -252,14 +254,97 @@ ledgerAgreement(DATA);
   ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
 
   const page = read('developer-where.html');
-  ok(page.includes('data-land-banking-map') && page.includes('js/whitepaper/land-banking-map.js') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
+  ok(page.includes('data-land-banking-map') && page.includes('js/land-banking-map.js') && page.includes('data-lbm-contacts="data/jurisdiction-briefs/_land-banking-contacts.json"') && page.includes('data-lbm-report="developer-brief.html?geoid="') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
     'Where to build carries the map section');
-  ok(/#lbmMap \.leaflet-control-zoom a \{[^}]*width:44px;[^}]*height:44px/.test(page), 'the zoom buttons are 44px');
+  ok(page.includes('css/land-banking-map.css') && /#lbmMap \.leaflet-control-zoom a \{[^}]*width:44px;[^}]*height:44px/.test(read('css/land-banking-map.css')), 'the zoom buttons are 44px');
   ok(page.includes('data-lbm-towns') && /data-lbm-detail[^>]*tabindex="-1"/.test(page), 'the page carries the town list and a focusable details panel');
   ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
-  // The contacts are gated: the module ships only inside js/whitepaper, which the public build leaves out.
+  // The contacts are gated: the public build leaves out the contacts file and the gated page.
   const pub = read('scripts/build-public-site.mjs');
-  ok(pub.includes("'js/whitepaper'") && pub.includes("'data/jurisdiction-briefs'") && pub.includes("'developer-where.html'"), 'the public build leaves out the map, its page and the contacts');
+  ok(pub.includes("'data/jurisdiction-briefs'") && pub.includes("'developer-where.html'"), 'the public build leaves out the gated page and the contacts');
+}
+
+// ---- 8. The public page: same awards, no named person, and it never asks for the contacts file.
+{
+  const PAGE = read('land-banking-awards.html');
+  const LBM = require(join(ROOT, 'js/land-banking-map.js'));
+  const LBA = require(join(ROOT, 'js/land-banking-awards.js'));
+  const towns = LBM.groupByTown(DATA.awards);
+  // Every value a person could be reached by, from both halves of the contacts file.
+  const personal = [...CONTACTS.from_award_lists, ...CONTACTS.researched]
+    .flatMap((c) => [c.name, c.email, c.phone]).filter((v) => v && String(v).length > 3 && v !== DATA.meta.program_email);
+  ok(personal.length > 20, `scan found contact values to look for (${personal.length})`);
+  const C = LBM.contactIndex(CONTACTS);
+  const leaks = (html) => personal.filter((v) => html.includes(String(v).replace(/&/g, '&amp;').replace(/'/g, '&#39;')));
+  for (const t of towns) {
+    const html = LBM.popupHtml(t, DATA, C, false, { mode: 'public' });
+    ok(leaks(html).length === 0, `${t.name}: the public panel names no person`);
+    ok(html.includes(`housing-needs-assessment.html?geoid=${t.geoid}&amp;geoType=place&amp;auto=1`) && !html.includes('developer-brief.html'), `${t.name}: links to its public needs assessment`);
+    ok(html.includes(DATA.meta.program_email), `${t.name}: points to CHFA's program contact`);
+    for (const a of t.awards) ok(html.includes(a.sponsor.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name}: names the grantee of ${a.project}`);
+  }
+  // Sabotage: the same panel in gated mode does name people, so the leak scan can see them.
+  ok(towns.some((t) => leaks(LBM.popupHtml(t, DATA, C, false, { mode: 'gated', reportBase: 'developer-brief.html?geoid=' })).length > 0), 'sabotage: the gated panel names people and the scan sees it');
+
+  // Booted in a page, the public map requests the awards file and never the contacts file.
+  const dom = new JSDOM(PAGE, { runScripts: 'outside-only', url: 'https://cohoanalytics.com/land-banking-awards.html' });
+  const requested = [];
+  const caches = [];
+  dom.window.fetch = (u, o) => { requested.push(String(u)); caches.push(o && o.cache); return Promise.resolve({ ok: true, json: () => Promise.resolve(clone(DATA)) }); };
+  dom.window.LandBankingMapNoAutoStart = true;
+  dom.window.eval(read('js/land-banking-map.js'));
+  await dom.window.LandBankingMap.start();
+  ok(requested.length === 1 && requested[0] === LBM.AWARDS, `the public page requests only the awards file (${requested.join(', ')})`);
+  ok(caches[0] === 'no-store', 'the awards file is fetched with no-store, so a data update reaches a returning browser');
+  ok(dom.window.document.querySelector('[data-lbm-towns]').querySelectorAll('button').length === towns.length, 'the public town list has every town');
+  // The table and the map share one request, so they always show the same snapshot.
+  dom.window.eval(read('js/land-banking-awards.js'));
+  await new Promise((r) => setTimeout(r, 0));
+  ok(requested.length === 1, `the table reuses the map's request (${requested.length} requests)`);
+  ok(dom.window.document.querySelector('[data-lb-rows]').querySelectorAll('tr').length > 1, 'the table rendered from the shared request');
+  ok(!PAGE.includes('_land-banking-contacts') && !read('js/land-banking-awards.js').includes('_land-banking-contacts'), 'nothing on the public page names the contacts file');
+  // Sabotage: marked gated, the same page asks for the contacts file.
+  const CPATH = 'data/jurisdiction-briefs/_land-banking-contacts.json';
+  const gated = new JSDOM(PAGE.replace('data-land-banking-map ', `data-land-banking-map data-lbm-contacts="${CPATH}" `), { runScripts: 'outside-only' });
+  ok(gated.window.document.querySelector('[data-lbm-contacts]'), 'sabotage mutation applied');
+  const asked = [];
+  gated.window.fetch = (u) => { asked.push(String(u)); return Promise.resolve({ ok: true, json: () => Promise.resolve(u.includes('contacts') ? clone(CONTACTS) : clone(DATA)) }); };
+  gated.window.LandBankingMapNoAutoStart = true;
+  gated.window.eval(read('js/land-banking-map.js'));
+  await gated.window.LandBankingMap.start();
+  ok(asked.includes(CPATH), 'sabotage: a page naming a contacts file does request it');
+
+  // Every tappable control on the public page is at least 44px tall, including the "Row as printed" toggles.
+  const quoteRule = (PAGE.match(/details\.lb-quote > summary \{([^}]*)\}/) || [])[1] || '';
+  ok(/min-height:\s*44px/.test(quoteRule), 'the "Row as printed" toggle is at least 44px tall');
+  for (const sel of ['a[data-lb-csv]', 'button[data-lb-more]']) {
+    const at = PAGE.indexOf(sel + ' {');
+    const rule = at < 0 ? '' : PAGE.slice(at, PAGE.indexOf('}', at));
+    ok(/min-height:\s*44px/.test(rule) && PAGE.includes(sel.replace(/^(a|button)\[(.*)\]$/, '$2')), `${sel} is at least 44px tall`);
+  }
+  ok(LBA.rowHtml(DATA.awards[0], DATA).includes('lb-quote'), 'the table rows use that toggle');
+
+  // The table and its download carry every award, and the headline is the file's totals.
+  const lead = LBA.leadHtml(DATA);
+  ok(lead.includes(`$${(DATA.meta.total_awarded / 1e6).toFixed(1)} million`) && lead.includes(String(DATA.meta.award_count)) &&
+    lead.includes(DATA.meta.total_estimated_units.toLocaleString('en-US')), 'the headline is the file\'s totals');
+  const csv = LBA.csvText(DATA.awards, DATA).trim().split('\n');
+  ok(csv.length === DATA.meta.award_count + 1, `the download has every award (${csv.length - 1})`);
+  ok(leaks(csv.join('\n')).length === 0 && leaks(DATA.awards.map((a) => LBA.rowHtml(a, DATA)).join('')).length === 0, 'the table and download name no person');
+
+  // Names agree: page title, heading and menu label; the page is in the sitemap and the Funding Sources card links to it.
+  const h1 = (PAGE.match(/<h1[^>]*>([^<]+)<\/h1>/) || [])[1];
+  const title = ((PAGE.match(/<title>([^|<]+)/) || [])[1] || '').trim();
+  const nav = read('js/navigation.js').match(/label: "([^"]+)",\s*href: "land-banking-awards\.html"/);
+  ok(h1 && nav && h1 === title && h1 === nav[1], `title, heading and menu label agree ("${title}" / "${h1}" / "${nav && nav[1]}")`);
+  ok(read('sitemap.xml').includes('https://cohoanalytics.com/land-banking-awards.html'), 'the page is in the sitemap');
+  const guide = json('data/policy/co-developer-funding-guide.json');
+  const lb = guide.programs.find((p) => p.id === 'prop123-ahff-land-banking');
+  ok(lb && lb.past_awards_page && existsSync(join(ROOT, lb.past_awards_page.href.split('#')[0])), 'the Funding Sources card links to a page that exists');
+  ok(read('js/co-developer-funding.js').includes('pastAwardsLink(p)'), 'the card renders that link');
+  const pub = read('scripts/build-public-site.mjs');
+  ok(!pub.includes("'land-banking-awards.html'") && !pub.includes("'js/land-banking-map.js'"), 'the public build keeps the public page and its map');
+  ok(!/developer-|jurisdiction-briefs/.test(read('js/land-banking-map.js').replace(/\/\*[\s\S]*?\*\//g, '')), 'the shared map code names no gated path');
 }
 
 console.log(`land-banking-awards: ${checks} checks passed`);
