@@ -741,8 +741,10 @@ function lossAccounting() {
     : absent('methods_data.gap30_aa_vacant_statewide', aa.ok ? 'chas_affordable_available.json has no statewide 30% tier' : aa.reason);
   // Vintages travel with the figures, so a refresh cannot leave a new count under an old label.
   const span = (v) => (typeof v === 'string' && /^\d{4}-\d{4}$/.test(v) ? v.replace('-', '\u2013') : null);
-  const acsYear = priced.ok && priced.data.meta ? Number(priced.data.meta.acs_year) : NaN;
-  out.gap30_priced_vintage = Number.isInteger(acsYear) ? `${acsYear - 4}\u2013${acsYear}`
+  // Read the raw value before converting: Number(null) is 0, which would print as a year.
+  const rawYear = priced.ok && priced.data.meta ? priced.data.meta.acs_year : null;
+  const acsYear = /^\d{4}$/.test(String(rawYear ?? '')) ? Number(rawYear) : null;
+  out.gap30_priced_vintage = acsYear !== null ? `${acsYear - 4}\u2013${acsYear}`
     : absent('methods_data.gap30_priced_vintage', priced.ok ? 'co_ami_gap_by_county.json meta has no acs_year' : priced.reason);
   out.gap30_aa_vintage = (aa.ok && aa.data.meta && span(aa.data.meta.vintage))
     || absent('methods_data.gap30_aa_vintage', aa.ok ? 'chas_affordable_available.json meta has no vintage' : aa.reason);
