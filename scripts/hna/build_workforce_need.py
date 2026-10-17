@@ -67,6 +67,7 @@ B08202_URLS = {
 LODES_YEAR = 2023
 AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2023.csv.gz'
 WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_2023.csv.gz'
+WAC_ALL_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_2023.csv.gz'
 XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
 BASE_YEAR = 2024
@@ -151,16 +152,30 @@ def fetch_aux():
                     t = book.setdefault(key, [0, 0])
                     t[0] += vals[0]
                     t[1] += vals[1]
-    wac = {}
-    with urllib.request.urlopen(WAC_PRIMARY_URL, timeout=300) as r:
-        for row in csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline='')):
-            t = wac.setdefault(row['w_geocode'][:5], [0, 0])
-            t[0] += int(row['C000'])
-            t[1] += int(row['CE01']) + int(row['CE02'])
+    # Primary low/middle-wage jobs and all jobs by workplace, for counties
+    # and (through the crosswalk) places, so a place that spans counties
+    # gets the wage mix of the jobs inside its own boundary.
+    wac_cty, wac_plc = {}, {}
+    for idx, url in ((0, WAC_PRIMARY_URL), (1, WAC_ALL_URL)):
+        with urllib.request.urlopen(url, timeout=300) as r:
+            for row in csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline='')):
+                w = row['w_geocode']
+                for key, book in ((w[:5], wac_cty), (block_place.get(w), wac_plc)):
+                    if not key:
+                        continue
+                    t = book.setdefault(key, [0, 0, 0])
+                    if idx == 0:
+                        t[0] += int(row['C000'])
+                        t[1] += int(row['CE01']) + int(row['CE02'])
+                    else:
+                        t[2] += int(row['C000'])
     out = {
-        'source': AUX_URL, 'crosswalk': XWALK_URL, 'wac_source': WAC_PRIMARY_URL, 'year': LODES_YEAR,
-        'wac_primary_counties': {k: {'primary_jobs': v[0], 'primary_low_middle_wage_jobs': v[1]}
-                                 for k, v in sorted(wac.items())},
+        'source': AUX_URL, 'crosswalk': XWALK_URL, 'wac_source': WAC_PRIMARY_URL,
+        'wac_all_source': WAC_ALL_URL, 'year': LODES_YEAR,
+        'wac_primary_counties': {k: {'primary_jobs': v[0], 'primary_low_middle_wage_jobs': v[1], 'all_jobs': v[2]}
+                                 for k, v in sorted(wac_cty.items())},
+        'wac_primary_places': {k: {'primary_jobs': v[0], 'primary_low_middle_wage_jobs': v[1], 'all_jobs': v[2]}
+                               for k, v in sorted(wac_plc.items())},
         'fields': ['S000 primary jobs', 'SE01+SE02 primary jobs earning $3,333 a month or less'],
         'counties': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(counties.items())},
         'places': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(places.items())},
@@ -300,7 +315,12 @@ def build():
             place_jobs = num(flows.get('jobs'))
             lehd = county_lehd.get(county) or {}
             c000 = num(lehd.get('C000'))
-            wage_share = primary_low_middle_per_job(aux, county, c000)
+            pw = (aux.get('wac_primary_places') or {}).get(gid) or {}
+            p_lm, p_all = num(pw.get('primary_low_middle_wage_jobs')), num(pw.get('all_jobs'))
+            if p_lm is not None and p_all:
+                wage_share, basis = p_lm / p_all, 'place'
+            else:
+                wage_share, basis = primary_low_middle_per_job(aux, county, c000), 'county'
             wph, whh, whh_cv = workers_per_household(acs.get(gid))
             summ = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % gid)) or {}).get('acsProfile') or {}
             csum = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % county)) or {}).get('acsProfile') or {}
@@ -312,7 +332,7 @@ def build():
                 'incommuters_out_of_state': ax.get('jobs', 0),
                 'out_of_state_low_middle_wage': ax.get('low_middle_wage_jobs', 0),
                 'low_middle_wage_share': round(wage_share, 4) if wage_share is not None else None,
-                'wage_share_basis': 'county',
+                'wage_share_basis': basis,
                 'workers_per_working_household': round(wph, 3) if wph is not None else None,
                 'working_households_cv': whh_cv,
                 'present_incommuter_need': need_block(inflow, wage_share, wph, ax.get('low_middle_wage_jobs', 0)),

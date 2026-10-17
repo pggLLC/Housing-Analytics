@@ -89,3 +89,26 @@ def test_absent_is_null_with_reason_never_zero():
 def test_scenarios_are_stated():
     assert WN['meta']['move_closer_scenarios'] == [0.25, 0.5]
     assert 'deficit today' in WN['meta']['method']
+
+
+def test_place_wage_share_is_the_places_own_jobs():
+    """A place spanning counties (Aurora: Adams, Arapahoe, Douglas) takes the
+    wage mix of the jobs inside its own boundary, from the block crosswalk,
+    not its configured county's. The county fallback is only for places
+    the crosswalk does not cover."""
+    places = AUX['wac_primary_places']
+    checked = 0
+    for gid, rec in WN['places'].items():
+        w = places.get(gid)
+        if rec['present_incommuter_need'] is None:
+            continue
+        if w and w['all_jobs']:
+            assert rec['wage_share_basis'] == 'place', gid
+            assert rec['low_middle_wage_share'] == round(w['primary_low_middle_wage_jobs'] / w['all_jobs'], 4), gid
+            checked += 1
+        else:
+            assert rec['wage_share_basis'] == 'county', gid
+    assert checked >= 400, 'only %d places had their own wage mix to check' % checked
+    assert WN['places']['0804000']['wage_share_basis'] == 'place', 'Aurora is not using its own jobs'
+    for fips, w in AUX['wac_primary_counties'].items():
+        assert w['all_jobs'] == load('data/hna/lehd/%s.json' % fips)['C000'], fips + ': WAC JT00 total differs from the county LEHD file'
