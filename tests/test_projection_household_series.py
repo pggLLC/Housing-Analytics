@@ -223,3 +223,40 @@ def test_statewide_label_is_what_the_committed_county_files_produce(county_files
     labels = hna.label_household_method(methods, len(state['years']))
     assert labels == state['housing_need']['household_method']
     assert None not in labels, 'every county-year must have a household value'
+
+
+def test_statewide_series_is_null_for_a_year_any_county_cannot_value(tmp_path, monkeypatch, county_files):
+    """A statewide sum over fewer than all counties is not Colorado's total.
+
+    Copy three real county files, blank one county's last year (no forecast,
+    no headship fallback: value and label None), and rebuild the statewide
+    aggregate from that directory. The last year must be None in the
+    households, units and incremental series and in the label; every other
+    year must still be the full sum. The reconciliation note and the
+    calculator on the HNA page treat a None year as absent (#2260).
+    """
+    assert len(county_files) >= 3, 'need three committed county files to build a small aggregate'
+    for path in county_files[:3]:
+        data = _load(path)
+        if os.path.basename(path) == os.path.basename(county_files[0]):
+            hn = data['housing_need']
+            hn['households_dola'][-1] = None
+            hn['units_needed_dola'][-1] = None
+            hn['incremental_units_needed_dola'][-1] = None
+            hn['household_method'][-1] = None
+        with open(tmp_path / os.path.basename(path), 'w', encoding='utf-8') as f:
+            json.dump(data, f)
+    monkeypatch.setitem(hna.OUT, 'proj_dir', str(tmp_path))
+    hna._build_state_projection_aggregate()
+    state = _load(str(tmp_path / f'{hna.STATE_FIPS_CO}.json'))
+    hn = state['housing_need']
+    last = len(state['years']) - 1
+    for key in ('households_dola', 'units_needed_dola', 'incremental_units_needed_dola', 'household_method'):
+        assert hn[key][last] is None, f'{key}: a year one county cannot value must be null statewide, got {hn[key][last]!r}'
+    counties = [_load(str(tmp_path / os.path.basename(p))) for p in county_files[:3]]
+    for i in range(last):
+        expected = round(sum(c['housing_need']['households_dola'][i] for c in counties), 2)
+        assert hn['households_dola'][i] == pytest.approx(expected), f'year index {i} still sums every county'
+        assert hn['household_method'][i] is not None
+    base_idx = state['years'].index(hna.HNA_BASE_YEAR)
+    assert hn['incremental_units_needed_dola'][base_idx] == 0.0

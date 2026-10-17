@@ -2684,16 +2684,21 @@ def _build_state_projection_aggregate():
         return result
 
     def _sum_housing_series(key):
+        # A statewide total exists only for a year every county has a value
+        # for. A sum that skipped a county would present fewer than 64
+        # counties as Colorado, and nothing downstream could tell; such a
+        # year is None, never a partial number (AGENTS.md, absence rule).
         result = []
         for i in range(n):
-            total = sum(
-                d['housing_need'][key][i]
-                for d in county_data
-                if d.get('housing_need') and d['housing_need'].get(key)
-                and len(d['housing_need'][key]) > i
-                and d['housing_need'][key][i] is not None
-            )
-            result.append(round(total, 2))
+            values = []
+            for d in county_data:
+                series = (d.get('housing_need') or {}).get(key)
+                v = series[i] if isinstance(series, list) and len(series) > i else None
+                if v is None:
+                    values = None
+                    break
+                values.append(v)
+            result.append(round(sum(values), 2) if values is not None else None)
         return result
 
     def _sum_base_field(key):
@@ -2761,15 +2766,20 @@ def _build_state_projection_aggregate():
     if HNA_BASE_YEAR not in years:
         raise ValueError(f'State projection years missing base year {HNA_BASE_YEAR}')
     base_year_idx = years.index(HNA_BASE_YEAR)
-    base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
-    incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
+    base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else None
+    # A year with no statewide total has no statewide increment either.
+    incremental_units_needed_dola = [
+        round(v - base_units_needed, 2) if (v is not None and base_units_needed is not None) else None
+        for v in units_needed_dola
+    ]
     if base_year_idx >= len(incremental_units_needed_dola):
         raise ValueError(
             'State projection incremental_units_needed_dola array length mismatch '
             '(derived from units_needed_dola): '
             f'expected at least {base_year_idx + 1} elements, got {len(incremental_units_needed_dola)}'
         )
-    incremental_units_needed_dola[base_year_idx] = 0.0
+    if base_units_needed is not None:
+        incremental_units_needed_dola[base_year_idx] = 0.0
 
     payload = {
         'updated': utc_now_z(),
@@ -2815,8 +2825,9 @@ def _build_state_projection_aggregate():
                 'households after the base year follow the SDO county household '
                 'forecast (household_method "sdo_household_forecast"), with population x '
                 'the constant base-year headship rate as the fallback ("constant_headship"); '
-                '"mixed" where counties differ within a year, null where any county has no '
-                'value for the year and the statewide sum is therefore incomplete.'
+                '"mixed" where counties differ within a year. A year any county has no '
+                'value for is null in household_method and in the statewide households_dola, '
+                'units_needed_dola and incremental_units_needed_dola, never a partial sum.'
             ),
         },
     }
