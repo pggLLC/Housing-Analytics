@@ -715,9 +715,12 @@
         'Max net rent subtracts the resident-paid utility allowance and required nonoptional fees. Blank fees default to $0.'
       ]));
 
-      var tableWrap = $h('div', { style: { overflowX: 'auto', border: '1px solid var(--border)',
+      // The wrapper is the scroll box (the table opts out of the mobile table
+      // scroll in responsive.css) and is focusable so a keyboard user can scroll it.
+      var tableWrap = $h('div', { tabindex: '0', role: 'region', 'aria-label': 'Rent limits by unit type (scrolls sideways)',
+        style: { overflowX: 'auto', border: '1px solid var(--border)',
         borderRadius: '4px', marginBottom: '.5rem' } });
-      var table = $h('table', { style: { width: '100%', borderCollapse: 'collapse',
+      var table = $h('table', { 'class': 'no-mobile-scroll', style: { width: '100%', borderCollapse: 'collapse',
         fontSize: '.78rem' } });
       var thead = $h('thead', { style: { background: 'var(--card2,#1a1a1a)',
         textTransform: 'uppercase', fontSize: '.66rem', letterSpacing: '.03em',
