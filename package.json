@@ -223,7 +223,7 @@
     "test:deal-calc-equity-pricing": "node test/deal-calc-equity-pricing.test.js",
     "test:deal-calc-perm-rate-hint": "node test/deal-calc-perm-rate-hint.test.js",
     "test:deal-calc-correctness": "node test/deal-calc-correctness.test.js",
-    "test:cross-surface-vintage-labels": "node test/cross-surface-vintage-labels.test.js",
+    "test:cross-surface-vintage-labels": "node test/cross-surface-vintage-labels.test.js && node test/vintage-badge-fresh-on-return.test.js",
     "test:denver-income-limits": "node test/denver-income-limits.test.js",
     "test:workflow-rail-truthful": "node test/workflow-rail-truthful.test.js",
     "test:hud-vintage-labels": "node --test test/hud-vintage-labels-sync.test.mjs",
