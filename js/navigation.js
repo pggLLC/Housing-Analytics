@@ -428,7 +428,7 @@
     // question arrives with the page it was asked from. Only the parameters
     // that name a jurisdiction are kept: a shared Deal Calculator URL carries
     // a whole project's costs and rents, which must not be sent to Google.
-    const FEEDBACK_CONTEXT_PARAMS = ['geoid', 'geoType', 'fips', 'place', 'region', 'geos', 'town'];
+    const FEEDBACK_CONTEXT_PARAMS = ['geoid', 'geoType', 'fips', 'place', 'region', 'geos', 'combinedMode', 'town'];
     const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform';
     function feedbackFormHref() {
       return FEEDBACK_FORM_URL + '?usp=pp_url&entry.440415848=' +
