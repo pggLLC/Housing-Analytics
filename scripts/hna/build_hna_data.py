@@ -2128,6 +2128,78 @@ def build_dola_sya_by_county():
     print(f"✓ DOLA SYA county files written: {len(by_county)}")
 
 
+SDO_HOUSEHOLD_FORECAST_URL = 'https://storage.googleapis.com/co-publicdata/household-county.csv'
+HOUSEHOLD_METHOD_FORECAST = 'sdo_household_forecast'
+HOUSEHOLD_METHOD_HEADSHIP = 'constant_headship'
+
+
+def parse_sdo_household_forecast(text: str) -> dict[str, dict[int, float]]:
+    """Read the SDO county household forecast into {countyFips5: {year: households}}.
+
+    household-county.csv carries one row per county x year x household type x
+    householder age group. Only the all-households / all-ages total rows are
+    kept (both ids 0); area_code 0 is the statewide total and is skipped, the
+    statewide file is a sum of the county files.
+    """
+    fields, reader = detect_header_and_reader(text)
+    if reader is None:
+        return {}
+    f_area = pick_substr(fields, 'area_code', 'countyfips', 'county_fips', 'fips')
+    f_year = pick_substr(fields, 'year')
+    f_type = pick_substr(fields, 'household_type_id')
+    f_age = pick_substr(fields, 'age_group_id')
+    f_hh = pick_substr(fields, 'total_households', 'households')
+    if not all([f_area, f_year, f_type, f_age, f_hh]):
+        print(f"⚠ Unexpected household-county schema; fields: {fields}", file=sys.stderr)
+        return {}
+    out: dict[str, dict[int, float]] = {}
+    for r in reader:
+        try:
+            if int(float(r[f_type])) != 0 or int(float(r[f_age])) != 0:
+                continue
+            raw_cf = int(float(r[f_area]))
+            if raw_cf <= 0:
+                continue
+            cf = STATE_FIPS_CO + str(raw_cf).zfill(3)
+            out.setdefault(cf, {})[int(float(r[f_year]))] = float(r[f_hh])
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out
+
+
+def project_households(out_years: list[int], base_year: int, base_households: float | None,
+                       pop_dola: list, headship: float | None,
+                       forecast_by_year: dict[int, float] | None) -> tuple[list, list]:
+    """Household series for one county, and the method that produced each year.
+
+    Preferred: the SDO household forecast's change from the base year, added
+    to the profile's base-year households. The profile count stays the base
+    (it is what housing_units and vacancy_rate describe), and every later
+    year moves by exactly what the SDO forecast moves, which already carries
+    changing household size and age structure. Fallback, for a year or county
+    the forecast does not cover: population x the constant base-year headship
+    rate, the method every county used before 2026-10 (#2260). A year with
+    neither is None, never 0.
+    """
+    f = forecast_by_year or {}
+    f_base = f.get(base_year)
+    hh: list = []
+    method: list = []
+    for i, y in enumerate(out_years):
+        f_y = f.get(y)
+        p = pop_dola[i] if i < len(pop_dola) else None
+        if base_households is not None and f_base is not None and f_y is not None:
+            hh.append(base_households + (f_y - f_base))
+            method.append(HOUSEHOLD_METHOD_FORECAST)
+        elif p is not None and headship is not None:
+            hh.append(p * headship)
+            method.append(HOUSEHOLD_METHOD_HEADSHIP)
+        else:
+            hh.append(None)
+            method.append(None)
+    return hh, method
+
+
 def build_dola_projections_by_county():
     """Create 20-year population + housing-need projections by county.
 
@@ -2135,11 +2207,14 @@ def build_dola_projections_by_county():
     - County Components of Change (estimates + forecast): births/deaths/net migration + population.
       Listed on SDO Data Download page.
     - County Population Profiles (estimates): households + housing units + vacancy rate.
+    - County Household Projections (forecast): households by year; drives the
+      household series from the base year forward (#2260).
     """
     url_components = 'https://storage.googleapis.com/co-publicdata/components-change-county.csv'
     url_profiles = 'https://storage.googleapis.com/co-publicdata/profiles-county.csv'
     comp_cache = os.path.join(OUT['cache_dir'], 'dola_components_county.csv')
     prof_cache = os.path.join(OUT['cache_dir'], 'dola_profiles_county.csv')
+    hh_cache = os.path.join(OUT['cache_dir'], 'dola_household_county.csv')
 
     print('Downloading DOLA/SDO county components-of-change...')
     comp_text = fetch_csv_with_cache(url_components, comp_cache, 'county components-of-change')
@@ -2213,6 +2288,12 @@ def build_dola_projections_by_county():
                     max_profile_year = max(max_profile_year, yr)
                 except Exception:
                     continue
+
+    print('Downloading DOLA/SDO county household projections...')
+    hh_text = fetch_csv_with_cache(SDO_HOUSEHOLD_FORECAST_URL, hh_cache, 'county household projections')
+    household_forecast: dict[str, dict[int, float]] = parse_sdo_household_forecast(hh_text) if hh_text else {}
+    if not household_forecast:
+        print("⚠ County household projections unavailable; the household series falls back to the constant base-year headship rate", file=sys.stderr)
 
     counties = fetch_counties()
     if not counties:
@@ -2331,19 +2412,17 @@ def build_dola_projections_by_county():
         else:
             target_vac = HUD_HEALTHY_TARGET
 
-        hh_dola = []
+        hh_dola, hh_method = project_households(
+            out_years, base_year, base_households, pop_dola, headship, household_forecast.get(cf))
         units_needed = []
         inc_units = []
         base_units_needed = None
 
-        for i, p in enumerate(pop_dola):
-            if p is None or headship is None:
-                hh_dola.append(None)
+        for i, hh in enumerate(hh_dola):
+            if hh is None:
                 units_needed.append(None)
                 inc_units.append(None)
                 continue
-            hh = p * headship
-            hh_dola.append(hh)
             need = hh / (1.0 - target_vac)
             units_needed.append(need)
             if out_years[i] == base_year and base_units_needed is None:
@@ -2470,6 +2549,7 @@ def build_dola_projections_by_county():
                     else 'hud_default_5pct'
                 ),
                 'households_dola': hh_dola,
+                'household_method': hh_method,
                 'units_needed_dola': units_needed,
                 'incremental_units_needed_dola': inc_units,
                 'replacement': {
@@ -2499,7 +2579,13 @@ def build_dola_projections_by_county():
             'source': {
                 'components_change_url': url_components,
                 'profiles_url': url_profiles,
-                'notes': 'Population and net migration from county components-of-change; households/units/vacancy from county profiles; housing need uses a constant base-year headship rate.'
+                'households_url': SDO_HOUSEHOLD_FORECAST_URL,
+                'notes': ('Population and net migration from county components-of-change; '
+                          'base-year households/units/vacancy from county profiles; '
+                          'households after the base year move by the SDO county household '
+                          'forecast\'s change from its base-year value (household_method '
+                          '"sdo_household_forecast"), falling back to population x the constant '
+                          'base-year headship rate ("constant_headship") where the forecast has no value.')
             }
         }
 
@@ -2618,6 +2704,18 @@ def _build_state_projection_aggregate():
 
     households_dola = _sum_housing_series('households_dola')
     units_needed_dola = _sum_housing_series('units_needed_dola')
+    # One label per year: the method every county used, or 'mixed' when the
+    # forecast covered some counties and the headship fallback the others.
+    household_method = []
+    for i in range(len(years)):
+        used = {
+            d['housing_need']['household_method'][i]
+            for d in county_data
+            if isinstance((d.get('housing_need') or {}).get('household_method'), list)
+            and i < len(d['housing_need']['household_method'])
+            and d['housing_need']['household_method'][i] is not None
+        }
+        household_method.append(next(iter(used)) if len(used) == 1 else ('mixed' if used else None))
     if HNA_BASE_YEAR not in years:
         raise ValueError(f'State projection years missing base year {HNA_BASE_YEAR}')
     base_year_idx = years.index(HNA_BASE_YEAR)
@@ -2660,17 +2758,21 @@ def _build_state_projection_aggregate():
                 else 'hud_default_5pct'
             ),
             'households_dola': households_dola,
+            'household_method': household_method,
             'units_needed_dola': units_needed_dola,
             'incremental_units_needed_dola': incremental_units_needed_dola,
         },
         'source': {
             'components_change_url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
             'profiles_url': 'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
+            'households_url': SDO_HOUSEHOLD_FORECAST_URL,
             'notes': (
                 'Colorado statewide aggregate: sum of all 64 county projections. '
                 'Population and net migration from county components-of-change; '
-                'households/units/vacancy from county profiles; '
-                'housing need uses a constant base-year headship rate.'
+                'base-year households/units/vacancy from county profiles; '
+                'households after the base year follow the SDO county household '
+                'forecast (household_method "sdo_household_forecast"), with population x '
+                'the constant base-year headship rate as the fallback ("constant_headship").'
             ),
         },
     }
