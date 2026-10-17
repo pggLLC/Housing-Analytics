@@ -174,6 +174,7 @@
         // it into phantom need.
         var gaps = c.gap_units_minus_households_le_ami_pct;
         if (gaps) {
+          if (!dealInputs.ami30UnitsNeeded) dealInputs.ami30Scope = 'area';
           dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.max(0, -(gaps['30'] || 0));
           dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.max(0, -(gaps['50'] || 0));
           dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.max(0, -(gaps['60'] || 0));
