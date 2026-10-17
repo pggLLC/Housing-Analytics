@@ -7,15 +7,14 @@ name: Build ACS Reliability
 # writes data/hna/acs-reliability.json: estimate, margin, CV and tier for each
 # figure, with a stated reason wherever a margin is unknown.
 #
-# It runs after each successful Build HNA Data Cache run, because the margins
-# must describe the estimates the summaries now hold; a refresh of one without
-# the other would pair a new estimate with an old margin.
+# It runs on Sundays, the day after the Saturday Build HNA Data Cache run, so
+# the margins describe the estimates the summaries now hold. A schedule rather
+# than a workflow_run trigger, so the outcome monitor sees its failures: it
+# watches scheduled and dispatched runs only.
 
 on:
-  workflow_run:
-    workflows: ['Build HNA Data Cache']
-    types: [completed]
-    branches: [main]
+  schedule:
+    - cron: '53 5 * * 0'   # Sundays 05:53 UTC (lands ~02:50 MT, after Saturday's HNA build)
   workflow_dispatch:
     inputs:
       dry_run:
@@ -38,7 +37,6 @@ concurrency:
 
 jobs:
   build:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -90,7 +88,7 @@ jobs:
         # regenerates both manifests in order, validates schemas and rebases
         # without swallowing a conflict, which every data commit needs.
         env:
-          DERIVED_COMMIT_BRANCH: ${{ github.event_name == 'workflow_run' && 'main' || github.ref_name }}
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
           scripts/commit-with-derived-chain.sh "data: refresh ACS margins of error" -- \
             data/hna/acs-reliability.json
