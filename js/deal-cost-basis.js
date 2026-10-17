@@ -10,64 +10,145 @@
   'use strict';
 
   var RULE_NOT_SOURCED = 'rule not sourced';
+  // The Colorado Division of Housing's Housing Development Analysis spreadsheet,
+  // Development Costs tab: its nine categories and line names, in its order.
   var GROUPS = Object.freeze([
     ['acquisition', 'Acquisition'],
-    ['contract', 'Contractor contract'],
-    ['owner_hard', 'Owner hard-cost allowances'],
+    ['site', 'Site improvements'],
+    ['construction', 'Construction'],
+    ['professional', 'Professional fees'],
+    ['construction_finance', 'Construction finance'],
+    ['permanent_finance', 'Permanent finance and syndication'],
     ['soft', 'Soft costs'],
-    ['fees', 'Developer and consultant fees'],
+    ['fees', 'Developer fee'],
     ['reserves', 'Reserves']
   ].map(function (g) { return Object.freeze({ id: g[0], label: g[1] }); }));
   var CONTINGENCY_KINDS = Object.freeze({
     contractor_contingency: 'Contractor contingency',
-    escalation: 'Escalation allowance',
     owner_contingency: 'Owner hard-cost contingency',
     soft_contingency: 'Soft-cost contingency'
   });
-  // One row per line a practitioner's budget usually carries. "group" places a
-  // line in exactly one subtotal, so the contractor contract is a subset of the
-  // uses, never added on top of them.
   // Lines that can never be in eligible basis, so the page offers no choice.
+  var RESERVES_NOTE = 'Reserves are cash held for operations, not depreciable building property, so they are never in eligible basis.';
   var NEVER_IN_BASIS = Object.freeze({
     land: 'Land is never in eligible basis: eligible basis is the building\'s adjusted basis (26 U.S.C. 42(d)(1)).',
-    reserves: 'Reserves are cash held for operations, not depreciable building property, so they are never in eligible basis.'
+    reserves: RESERVES_NOTE, debt_service_reserve: RESERVES_NOTE, lease_up_reserve: RESERVES_NOTE,
+    replacement_reserve: RESERVES_NOTE, reserve_other: RESERVES_NOTE
   });
+  // One row per DOH line. "group" places a line in exactly one category. The basis
+  // column is only the starting choice, which the user can change; "partial" lines
+  // ask for the part in basis, because what they hold differs from deal to deal.
   var LINE_TEMPLATE = Object.freeze([
     ['land', 'Land', 'acquisition', 'ineligible'],
-    ['building_acquisition', 'Existing building purchase', 'acquisition', 'eligible'],
-    ['site_work', 'Site work', 'contract', 'eligible'],
-    ['structures', 'Building construction', 'contract', 'eligible'],
-    ['general_requirements', 'General requirements', 'contract', 'eligible'],
-    ['overhead', 'Contractor overhead', 'contract', 'eligible'],
-    ['profit', 'Contractor profit', 'contract', 'eligible'],
-    ['bonds', 'Payment and performance bonds', 'contract', 'eligible'],
-    ['insurance', "Builder's risk insurance", 'contract', 'eligible'],
-    ['contractor_contingency', 'Contractor contingency', 'contract', 'eligible'],
-    ['owner_contingency', 'Owner hard-cost contingency', 'owner_hard', 'eligible'],
-    ['escalation', 'Escalation allowance', 'owner_hard', 'eligible'],
-    ['design', 'Architecture and engineering', 'soft', 'eligible'],
-    ['permits', 'Permits and impact fees', 'soft', 'eligible'],
-    ['financing', 'Financing, legal and other soft costs', 'soft', 'partial'],
+    ['building_acquisition', 'Existing structures', 'acquisition', 'eligible'],
+    ['off_site', 'Off-site infrastructure', 'site', 'ineligible'],
+    ['site_work', 'On-site infrastructure', 'site', 'eligible'],
+    ['demolition', 'Demolition', 'site', 'ineligible'],
+    ['permits', 'Building permit fees', 'construction', 'eligible'],
+    ['tap_fees', 'Tap fees and impact fees', 'construction', 'eligible'],
+    ['structures', 'Construction / rehabilitation', 'construction', 'eligible'],
+    ['general_requirements', 'General requirements', 'construction', 'eligible'],
+    ['overhead_profit', 'Contractor overhead & profit', 'construction', 'eligible'],
+    ['contractor_contingency', 'Contractor construction contingency', 'construction', 'eligible'],
+    ['owner_contingency', 'Owner hard-cost contingency', 'construction', 'eligible'],
+    ['ffe', 'Furniture, fixtures and equipment (FFE)', 'construction', 'eligible'],
+    ['construction_other', 'Other construction costs, such as escalation', 'construction', 'partial'],
+    ['design', 'Architect fees', 'professional', 'eligible'],
+    ['engineering', 'Engineering fees', 'professional', 'eligible'],
+    ['re_attorney', 'Real estate attorney fees', 'professional', 'partial'],
+    ['surveys', 'Surveys', 'professional', 'eligible'],
+    ['green_design', 'Green planning and design fees', 'professional', 'eligible'],
+    ['professional_other', 'Other professional fees', 'professional', 'partial'],
+    ['insurance', 'Construction insurance', 'construction_finance', 'eligible'],
+    ['bonds', 'Construction performance and payment bonds', 'construction_finance', 'eligible'],
+    ['construction_loan_fee', 'Construction loan origination fee', 'construction_finance', 'eligible'],
+    ['construction_interest', 'Construction interest', 'construction_finance', 'partial'],
+    ['construction_attorney', 'Construction loan attorney fees', 'construction_finance', 'eligible'],
+    ['construction_title', 'Construction title and recording', 'construction_finance', 'partial'],
+    ['construction_taxes', 'Taxes during construction', 'construction_finance', 'eligible'],
+    ['inspection_fees', 'Inspection fees and power/telecom fees', 'construction_finance', 'eligible'],
+    ['construction_finance_other', 'Other construction finance costs', 'construction_finance', 'partial'],
+    ['perm_loan_fees', 'Permanent loan fees and expenses', 'permanent_finance', 'ineligible'],
+    ['perm_attorney', 'Permanent loan attorney fees', 'permanent_finance', 'ineligible'],
+    ['perm_title', 'Permanent loan title and recording', 'permanent_finance', 'ineligible'],
+    ['perm_other', 'Other permanent finance and syndication costs', 'permanent_finance', 'ineligible'],
+    ['appraisal_market', 'Appraisals and market study', 'soft', 'eligible'],
+    ['environmental', 'Environmental reports', 'soft', 'eligible'],
+    ['geotechnical', 'Geotechnical and soils tests', 'soft', 'eligible'],
+    ['capital_needs', 'Capital needs assessment', 'soft', 'eligible'],
+    ['temp_relocation', 'Temporary relocation', 'soft', 'ineligible'],
+    ['perm_relocation', 'Permanent relocation', 'soft', 'ineligible'],
+    ['tax_credit_fees', 'Tax credit fees', 'soft', 'ineligible'],
+    ['marketing', 'Marketing', 'soft', 'ineligible'],
     ['soft_contingency', 'Soft-cost contingency', 'soft', 'eligible'],
+    ['cost_certification', 'Cost certification', 'soft', 'eligible'],
+    ['soft_other', 'Other soft costs', 'soft', 'partial'],
     ['developer_fee', 'Developer fee', 'fees', 'eligible'],
     ['consultant_fee', 'Development consultant fee', 'fees', 'eligible'],
-    ['reserves', 'Operating and replacement reserves', 'reserves', 'ineligible']
+    ['admin_fee', 'Administration fee', 'fees', 'eligible'],
+    ['reserves', 'Operating reserve', 'reserves', 'ineligible'],
+    ['debt_service_reserve', 'Debt service reserve', 'reserves', 'ineligible'],
+    ['lease_up_reserve', 'Lease-up reserve', 'reserves', 'ineligible'],
+    ['replacement_reserve', 'Replacement reserve', 'reserves', 'ineligible'],
+    ['reserve_other', 'Other reserves', 'reserves', 'ineligible']
   ].map(function (l) { return Object.freeze({ id: l[0], label: l[1], group: l[2], basis: l[3] }); }));
+
+  // Lines the CHFA rules and DOH's per-unit figures read.
+  // CHFA's builder's profit and overhead base: "new structures or rehabilitation,
+  // onsite work, contingency and accessory structures" (QAP 3.M.3).
+  var CONTRACTOR_FEE_IDS = Object.freeze(['overhead_profit']);
+  var CONTRACTOR_BASE_IDS = Object.freeze(['structures', 'site_work', 'contractor_contingency']);
+  // DOH's developer fee subtotal ("maximum developer fee") holds the developer,
+  // consultant and administration fees; CHFA limits the developer plus consultant
+  // fee, so the administration fee is counted with them.
+  // CHFA's fee limit tests the developer fee plus the consultant fee (lihtc-underwriting-rules.json);
+  // DOH's fee share also counts its administration fee.
+  var DEVELOPER_FEE_IDS = Object.freeze(['developer_fee', 'consultant_fee']);
+  var DOH_FEE_IDS = Object.freeze(['developer_fee', 'consultant_fee', 'admin_fee']);
+  var RESERVE_IDS = Object.freeze(['reserves', 'debt_service_reserve', 'lease_up_reserve', 'replacement_reserve', 'reserve_other']);
+  // The contractor's contract: site work, construction, general requirements, overhead and profit, contingency.
+  var CONTRACT_IDS = Object.freeze(['off_site', 'site_work', 'demolition', 'structures', 'general_requirements', 'overhead_profit', 'contractor_contingency']);
+  // DOH stars these lines as "costs included in hard cost evaluation". Its unstarred "Other" lines are not.
+  var HARD_COST_IDS = Object.freeze(['building_acquisition', 'off_site', 'site_work', 'demolition', 'permits', 'tap_fees', 'structures',
+    'general_requirements', 'overhead_profit', 'contractor_contingency', 'owner_contingency']);
+  function sumIds(byId, ids) {
+    return ids.reduce(function (total, id) { return total + ((byId && byId[id]) || 0); }, 0);
+  }
+
+  // Lines before the DOH layout, so saved links and exports still load. Each old
+  // line goes to the DOH line that holds the same cost; two old lines may share one.
+  var LEGACY_LINES = Object.freeze({
+    overhead: 'overhead_profit', profit: 'overhead_profit', financing: 'soft_other',
+    // DOH has no escalation row; an escalation allowance is one of its "Other (Devo specify)" construction costs.
+    escalation: 'construction_other'
+  });
+  // Old lines that held more than the DOH line now using their id: "Architecture and engineering"
+  // and "Operating and replacement reserves". (Old "Permits and impact fees" stays on Building
+  // permit fees: DOH's two lines for it are both starred hard costs with the same basis.)
+  var LEGACY_COMBINED_LINES = Object.freeze({ design: 'professional_other', reserves: 'reserve_other' });
+  // Every line id before the DOH layout. An old link names these and no others, so a DOH
+  // line outside this list was not in the saved budget and must not keep its example amount.
+  var PRE_DOH_IDS = Object.freeze(['land', 'building_acquisition', 'site_work', 'structures', 'general_requirements',
+    'overhead', 'profit', 'bonds', 'insurance', 'contractor_contingency', 'owner_contingency', 'escalation', 'design',
+    'permits', 'financing', 'soft_contingency', 'developer_fee', 'consultant_fee', 'reserves']);
 
   // INVENTED example budget, totalling the calculator's default $20,000,000.
   // It is a starting point to overwrite, not a typical or real project.
   var EXAMPLE_BUDGET = Object.freeze({
-    land: 1000000, building_acquisition: null, site_work: 1000000, structures: 10400000,
-    general_requirements: 600000, overhead: 250000, profit: 500000, bonds: 120000, insurance: 130000,
-    contractor_contingency: 500000, owner_contingency: 400000, escalation: 200000,
-    design: 700000, permits: 400000, financing: 1200000, soft_contingency: 200000,
-    developer_fee: 1900000, consultant_fee: null, reserves: 500000
+    land: 1000000, site_work: 1000000, structures: 10400000,
+    general_requirements: 600000, overhead_profit: 750000, contractor_contingency: 500000,
+    owner_contingency: 400000, construction_other: 200000, permits: 400000,
+    design: 700000, insurance: 130000, bonds: 120000,
+    construction_loan_fee: 150000, construction_interest: 450000, construction_taxes: 100000, inspection_fees: 50000,
+    perm_loan_fees: 100000, appraisal_market: 50000, environmental: 50000, geotechnical: 50000, tax_credit_fees: 100000, marketing: 50000,
+    soft_contingency: 200000, cost_certification: 50000,
+    developer_fee: 1900000, reserves: 500000
   });
-  var EXAMPLE_PARTIAL = Object.freeze({ financing: 900000 });
+  var EXAMPLE_PARTIAL = Object.freeze({ construction_interest: 400000, construction_other: 200000 });
 
   function exampleLines() {
     return LINE_TEMPLATE.map(function (t) {
-      var line = { id: t.id, label: t.label, group: t.group, basis: t.basis, amount: EXAMPLE_BUDGET[t.id] };
+      var line = { id: t.id, label: t.label, group: t.group, basis: t.basis, amount: EXAMPLE_BUDGET[t.id] == null ? null : EXAMPLE_BUDGET[t.id] };
       if (t.basis === 'partial') line.eligibleAmount = EXAMPLE_PARTIAL[t.id];
       if (CONTINGENCY_KINDS[t.id]) line.used = line.amount == null ? null : 0;
       return line;
@@ -132,7 +213,7 @@
       if (line.id === 'building_acquisition') out.acquisitionEligible += eligiblePart;
       if (out.groups[line.group] === undefined) { out.reason = 'Unknown cost group for ' + line.label + '.'; return; }
       out.groups[line.group] += amount;
-      if (line.group === 'contract') out.contract += amount;
+      if (CONTRACT_IDS.indexOf(line.id) !== -1) out.contract += amount;
       out.byId[line.id] = (out.byId[line.id] || 0) + amount;
       out.eligibleById[line.id] = (out.eligibleById[line.id] || 0) + eligiblePart;
       if (CONTINGENCY_KINDS[line.id]) {
@@ -191,12 +272,12 @@
   function contractorFeeTest(args) {
     var status = ruleStatus(args.rules, 'contractor_fee_limit');
     var byId = args.byId || {};
-    var fee = (byId.overhead || 0) + (byId.profit || 0);
-    var base = (byId.structures || 0) + (byId.site_work || 0) + (byId.contractor_contingency || 0);
+    var fee = sumIds(byId, CONTRACTOR_FEE_IDS);
+    var base = sumIds(byId, CONTRACTOR_BASE_IDS);
     var out = { status: status, fee: fee, base: base, limitPct: null, limit: null, excess: null, passes: null, reason: null };
     if (!status.applied) { out.reason = status.reason; return out; }
-    if (!(byId.overhead > 0 || byId.profit > 0)) { out.reason = 'Contractor overhead and profit are not itemized.'; return out; }
-    if (!(base > 0)) { out.reason = 'Itemize building construction, site work and contractor contingency.'; return out; }
+    if (!(fee > 0)) { out.reason = 'Contractor overhead and profit are not itemized.'; return out; }
+    if (!(base > 0)) { out.reason = 'Itemize construction or rehabilitation, on-site infrastructure and the contractor contingency.'; return out; }
     var tier = tierFor(status.rule.tiers, args.units);
     if (!tier) { out.reason = 'Enter the number of units.'; return out; }
     out.limitPct = args.identityOfInterest ? tier.with_identity_of_interest : tier.without_identity_of_interest;
@@ -233,7 +314,7 @@
     // experiencing homelessness or special populations (QAP 3.M.3).
     var acquisitionOff = specialPopulations ? 0 : 0.5 * (byId.building_acquisition || 0);
     var base = summary.tdc - excess - (byId.land || 0) - acquisitionOff
-      - (byId.developer_fee || 0) - (byId.consultant_fee || 0) - (byId.reserves || 0);
+      - sumIds(byId, DEVELOPER_FEE_IDS) - sumIds(byId, RESERVE_IDS);
     return { base: base, reason: null, note: note, acquisitionSubtracted: acquisitionOff };
   }
 
@@ -265,11 +346,11 @@
     var out = { contractor: 0, developer: 0, total: 0, reason: null };
     // A fee the limit could not be tested on may still be over it; while any of
     // it sits in basis, the reduction is unknown, not $0.
-    if (contractorUntested(contractorTest) && (e.overhead || 0) + (e.profit || 0) > 0) {
+    if (contractorUntested(contractorTest) && sumIds(e, CONTRACTOR_FEE_IDS) > 0) {
       return { contractor: null, developer: null, total: null,
         reason: 'The contractor fee could not be tested against CHFA\'s limit (' + String(contractorTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
     }
-    var feeInBasis = (e.developer_fee || 0) + (e.consultant_fee || 0);
+    var feeInBasis = sumIds(e, DEVELOPER_FEE_IDS);
     var developerUntested = developerTest && developerTest.excess === null
       && (!developerTest.status || !developerTest.status.applied || developerTest.fee !== null);
     if (developerUntested && feeInBasis > 0) {
@@ -291,13 +372,86 @@
       return high;
     }
     if (contractorTest && contractorTest.excess > 0) {
-      out.contractor = inBasisPart(contractorTest.excess, (e.overhead || 0) + (e.profit || 0), (b.overhead || 0) + (b.profit || 0), 'contractor fee');
+      out.contractor = inBasisPart(contractorTest.excess, sumIds(e, CONTRACTOR_FEE_IDS), sumIds(b, CONTRACTOR_FEE_IDS), 'contractor fee');
     }
     if (developerTest && developerTest.excess > 0) {
-      out.developer = inBasisPart(developerTest.excess, feeInBasis, (b.developer_fee || 0) + (b.consultant_fee || 0), 'developer fee');
+      out.developer = inBasisPart(developerTest.excess, feeInBasis, sumIds(b, DEVELOPER_FEE_IDS), 'developer fee');
     }
     if (out.contractor === null || out.developer === null) { out.contractor = null; out.developer = null; out.total = null; return out; }
     out.total = out.contractor + out.developer;
+    return out;
+  }
+
+  /** DOH's developer fee measure: the fee subtotal as a share of total cost less
+   * that fee, reserves and acquisition. Shown beside CHFA's limit; it limits nothing. */
+  function dohDeveloperFeeShare(summary) {
+    if (!summary || summary.tdc === null) return { value: null, reason: (summary && summary.reason) || 'Itemize development costs.' };
+    if (summary.notItemized > 0.5) return { value: null, reason: 'Itemize all of Total Development Cost, so the costs DOH leaves out are known.' };
+    var b = summary.byId, fee = sumIds(b, DOH_FEE_IDS);
+    var base = summary.tdc - fee - sumIds(b, RESERVE_IDS) - (b.land || 0) - (b.building_acquisition || 0);
+    if (!(fee > 0)) return { value: null, reason: 'Enter the developer fee.' };
+    if (!(base > 0)) return { value: null, reason: 'Total cost less the fee, reserves and acquisition is not above $0.' };
+    return { value: fee / base, fee: fee, base: base, reason: null };
+  }
+
+  /** Saved fields from before the DOH layout, as the DOH lines they now belong to.
+   * read(key) gives a saved value ("cost-overhead", "cost-overhead-basis", ...) or
+   * null. Old lines that now share a line add together; if their basis choices
+   * differ, the shared line becomes partly in basis with the sum of their parts.
+   * A line already saved under its new name wins. */
+  function legacyCostFields(read) {
+    var out = {};
+    var templateIds = LINE_TEMPLATE.map(function (t) { return t.id; });
+    // An old link names lines the DOH layout no longer has, and none of the lines it added.
+    var legacy = PRE_DOH_IDS.some(function (id) { return templateIds.indexOf(id) === -1 && read('cost-' + id) !== null; })
+      && !LINE_TEMPLATE.some(function (t) { return PRE_DOH_IDS.indexOf(t.id) === -1 && read('cost-' + t.id) !== null; });
+    var sources = {};
+    Object.keys(LEGACY_LINES).forEach(function (old) { sources[old] = LEGACY_LINES[old]; });
+    // Old combined lines whose id DOH reuses for a narrower item move to that category's Other line.
+    if (legacy) Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) { sources[old] = LEGACY_COMBINED_LINES[old]; });
+    var targets = {};
+    Object.keys(sources).forEach(function (old) { (targets[sources[old]] = targets[sources[old]] || []).push(old); });
+    Object.keys(targets).forEach(function (target) {
+      if (read('cost-' + target) !== null) return;
+      var amount = 0, eligible = 0, any = false, bases = {}, unknownPart = false;
+      targets[target].forEach(function (old) {
+        var raw = read('cost-' + old);
+        if (raw === null || raw === '') return;
+        var a = num(raw);
+        if (a === null || !Number.isFinite(a)) { unknownPart = true; return; }
+        var basis = read('cost-' + old + '-basis') || 'eligible';
+        any = true; amount += a; bases[basis] = true;
+        if (basis === 'eligible') eligible += a;
+        else if (basis === 'partial') {
+          var e = num(read('cost-' + old + '-eligible'));
+          if (e === null || !Number.isFinite(e)) unknownPart = true; else eligible += e;
+        }
+      });
+      if (!any) return;
+      var kinds = Object.keys(bases);
+      out['cost-' + target] = String(amount);
+      if (kinds.length === 1 && kinds[0] !== 'partial') out['cost-' + target + '-basis'] = kinds[0];
+      else {
+        out['cost-' + target + '-basis'] = 'partial';
+        // An unknown part stays unknown: the line then asks for it.
+        out['cost-' + target + '-eligible'] = unknownPart ? '' : String(eligible);
+      }
+    });
+    if (legacy) {
+      // A moved combined line leaves its old id, which now means the narrower DOH item, empty.
+      // Its basis goes back to the DOH line's default, so a later entry is not judged by the old line's choice.
+      Object.keys(LEGACY_COMBINED_LINES).forEach(function (old) {
+        var t = LINE_TEMPLATE.filter(function (l) { return l.id === old; })[0];
+        out['cost-' + old] = ''; out['cost-' + old + '-eligible'] = ''; out['cost-' + old + '-basis'] = t.basis;
+      });
+      // DOH lines the old link could not name had no cost in it, whatever the example says,
+      // and no eligible part either.
+      LINE_TEMPLATE.forEach(function (t) {
+        if (PRE_DOH_IDS.indexOf(t.id) !== -1 || read('cost-' + t.id) !== null || out['cost-' + t.id]) return;
+        out['cost-' + t.id] = '';
+        if (!out['cost-' + t.id + '-eligible']) out['cost-' + t.id + '-eligible'] = '';
+      });
+    }
     return out;
   }
 
@@ -643,7 +797,27 @@
       else if (sf === null || !Number.isFinite(sf) || sf <= 0) reason = 'Enter ' + area + ' square feet.';
       return { scope: scope, area: area, value: reason ? null : amount / sf, reason: reason };
     }
+    // DOH's hard, land and soft cost per unit and per square foot of the units.
+    var units = num(args.units), byId = args.byId || null, total = num(args.total);
+    var parts = null, notItemized = num(args.notItemized), partsReason = args.costReason || 'Itemize development costs.';
+    // Cost nobody itemized could be hard, land or soft, so no split is shown until it is all itemized.
+    if (notItemized !== null && notItemized > 0.5) partsReason = 'Itemize all of Total Development Cost to split it into hard, land and soft cost.';
+    else if (byId && total !== null && Number.isFinite(total) && total > 0) {
+      var hard = sumIds(byId, HARD_COST_IDS), land = byId.land || 0;
+      parts = { hard: hard, land: land, soft: total - hard - land };
+    }
+    function share(kind, divisor, label) {
+      if (!parts) return { value: null, reason: partsReason };
+      if (divisor === null || !Number.isFinite(divisor) || divisor <= 0) return { value: null, reason: 'Enter ' + label + '.' };
+      return { value: parts[kind] / divisor, reason: null };
+    }
     return {
+      units: units !== null && Number.isFinite(units) && units > 0 ? units : null,
+      residentialSf: residential !== null && Number.isFinite(residential) && residential > 0 ? residential : null,
+      hardPerUnit: share('hard', units, 'the number of units'), landPerUnit: share('land', units, 'the number of units'),
+      softPerUnit: share('soft', units, 'the number of units'),
+      hardPerSf: share('hard', residential, 'residential square feet'), landPerSf: share('land', residential, 'residential square feet'),
+      softPerSf: share('soft', residential, 'residential square feet'),
       contractPerGrossSf: per(num(args.contract), gross, 'contract', 'gross'),
       contractPerResidentialSf: per(num(args.contract), residential, 'contract', 'residential'),
       totalPerGrossSf: per(num(args.total), gross, 'total', 'gross'),
@@ -658,6 +832,8 @@
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
     basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit,
-    payIn: payIn, costPerSf: costPerSf
+    payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
+    LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
+    DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, LEGACY_COMBINED_LINES: LEGACY_COMBINED_LINES, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
   };
 });
