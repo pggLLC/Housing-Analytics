@@ -940,10 +940,10 @@
         if (ta) ta.value = picker.getRationale ? picker.getRationale() : '';
         _wireTractRationaleInput();
         _wireNaturalFeatures();
-        // A saved proposal is drawn again from the feature file, so Apply
-        // tests the selection as it stands now.
+        // A saved state from before Apply is checked again against the
+        // feature file, so later selection changes are tested as well.
         var nfSaved = picker.getNaturalFeatures ? picker.getNaturalFeatures() : { status: 'off' };
-        if (nfSaved.status === 'proposed') _proposeNaturalFeatures();
+        if (nfSaved.status !== 'off' && nfSaved.status !== 'applied') _proposeNaturalFeatures();
         _onTractSelectionChange(r.selected);
       })
       .catch(function (err) {

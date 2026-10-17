@@ -340,8 +340,18 @@
     return null;
   }
 
-  /* One record per qualifying feature, with its line segments. */
+  /* One record per qualifying feature, with its line segments. The tract
+     picker re-runs the proposal on every click, so the result is kept for
+     the feature array it came from. */
+  var _supportedCache = { input: null, out: null };
   function _supportedFeatures(features) {
+    if (features && features === _supportedCache.input) return _supportedCache.out;
+    var out = _normalizeFeatures(features);
+    _supportedCache = { input: features, out: out };
+    return out;
+  }
+
+  function _normalizeFeatures(features) {
     var out = [];
     (features || []).forEach(function (f) {
       if (!f || !f.geometry || !f.properties) return;
