@@ -287,6 +287,15 @@ jobs:
           echo "── Rebuilding place CHAS aggregates ──"
           python3 scripts/hna/build_place_chas.py 2>&1
 
+      - name: Phase 6.45 — Rebuild in-commuter workforce need
+        if: ${{ inputs.statewide_only != true }}
+        # Reads the LEHD county files and ACS summaries refreshed above, and
+        # refreshes the DOLA jobs and ACS B08202 inputs under data/hna/source/
+        # (--fetch; a failed download keeps the cached copy, whose vintage
+        # meta.sources records). tests/test_workforce_need.py recomputes the
+        # output from those inputs, so it must be rebuilt whenever they move.
+        run: python3 scripts/hna/build_workforce_need.py --fetch 2>&1
+
       - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
         if: ${{ inputs.statewide_only != true }}
         # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json

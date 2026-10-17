@@ -195,7 +195,7 @@ async function render(selection, countyFips) {
     const ws = sheets['Need reconciliation'];
     assert(ws, 'the workbook has no Need reconciliation sheet');
     const onScreen = [...r.host.querySelectorAll('[data-recon-key]')];
-    assert.strictEqual(onScreen.length, 3, `expected 3 measures on screen, found ${onScreen.length}`);
+    assert.strictEqual(onScreen.length, 5, `expected 5 measures on screen, found ${onScreen.length}`);
     for (const tr of onScreen) {
       const label = tr.querySelector('.hna-recon-label').textContent;
       const x = ws.rows.find((o) => o.m === label);
@@ -204,8 +204,151 @@ async function render(selection, countyFips) {
       assert.strictEqual(x.h, want, `"${label}": sheet ${JSON.stringify(x.h)}, screen ${want}`);
       assert.strictEqual(x.u, tr.dataset.inFigure === 'true' ? 'Yes' : 'No', `"${label}": figure-used flag differs`);
     }
-    const used = ws.rows.find((o) => /^Figure used/.test(o.m || ''));
+    const wr = ws.rows.find((o) => /^Figure used plus homes lost/.test(o.m || ''));
+    assert(wr && wr.h === Math.round(r.rec.withReplacement.units), 'the sheet\'s figure-plus-replacement differs from the screen');
+    const used = ws.rows.find((o) => /^Figure used( \(|$)/.test(o.m || ''));
     assert(used && used.h === r.rec.used.units, 'the sheet\'s figure used differs from the screen');
+  });
+
+  await test('homes lost to age equal the projection the growth reading came from, and are kept out of the figure used', async () => {
+    const places = JSON.parse(read('data/hna/projections/places.json'));
+    const ledger = (places.places || places)[FRUITA];
+    const endYear = Number(r.rec.endYear);
+    const fromLedger = r.rec.rows.find((x) => x.key === 'growth').counts.includes('place projection');
+    const src = fromLedger
+      ? ledger.replacement_cumulative[ledger.years.indexOf(endYear)]
+      : r.proj.housing_need.replacement.cumulative_units[r.proj.years.indexOf(endYear)];
+    assert(Number.isFinite(src) && src > 0, `the source has no positive replacement figure for ${endYear}; nothing to check`);
+    const row = r.row('replacement');
+    assert(row, 'the block has no replacement row');
+    assert.strictEqual(Number(row.dataset.units), Math.round(src), `row ${row.dataset.units} ≠ source ${src}`);
+    assert.notStrictEqual(row.dataset.inFigure, 'true', 'replacement is marked as part of the figure used');
+    const tile = intOf(document.getElementById('statUnitsNeed').textContent);
+    assert.strictEqual(tile, Math.round(r.rec.used.units), 'adding the replacement row moved the headline tile');
+    const wr = r.host.querySelector('.hna-recon-with-replacement');
+    assert(wr, 'no line adds replacement to the figure used');
+    assert.strictEqual(Number(wr.dataset.units), Math.round(r.rec.used.units + src), 'figure used + replacement does not add up');
+  });
+
+  await test('a county reads its own projection file; a place without a ledger gets a reason, not a scaled county figure', async () => {
+    const county = await render({ geoType: 'county', geoid: '08077', label: 'Mesa County',
+      profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } }, '08077');
+    const endYear = Number(county.rec.endYear);
+    const want = county.proj.housing_need.replacement.cumulative_units[county.proj.years.indexOf(endYear)];
+    assert.strictEqual(Number(county.row('replacement').dataset.units), Math.round(want), 'county replacement row ≠ its projection file');
+    const build = window.HNAController.buildNeedReconciliation;
+    const none = build({ endYear: 2044, usedUnits: 500, basis: 'resident_growth', growthUnits: 500, replacementUnits: null, replacementUnavailable: 'why' });
+    const row = none.rows.find((x) => x.key === 'replacement');
+    assert.strictEqual(row.units, null, `an absent replacement became ${row.units}`);
+    assert.strictEqual(row.unavailable, 'why', 'the absent replacement does not carry its reason');
+    assert.strictEqual(none.withReplacement, null, 'a total was formed with an unknown replacement');
+  });
+
+  await test('Colorado\'s replacement row is the sum of the 64 county projections, not unavailable', async () => {
+    const co = await render({ geoType: 'state', geoid: '08', label: 'Colorado',
+      profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } }, '08');
+    const endYear = Number(co.rec.endYear);
+    const files = fs.readdirSync(path.join(ROOT, 'data/hna/projections')).filter((f) => /^08\d{3}\.json$/.test(f));
+    assert.strictEqual(files.length, 64, `${files.length} county projection files; the sum needs all 64`);
+    const want = files.reduce((s, f) => {
+      const p = JSON.parse(read('data/hna/projections/' + f));
+      return s + p.housing_need.replacement.cumulative_units[p.years.indexOf(endYear)];
+    }, 0);
+    assert(want > 0, `the counties sum to ${want} for ${endYear}; nothing to check`);
+    const row = co.row('replacement');
+    assert(row, 'Colorado has no replacement row');
+    assert.strictEqual(Number(row.dataset.units), Math.round(want), `Colorado row ${row.dataset.units} ≠ county sum ${Math.round(want)}`);
+  });
+
+  await test('Colorado\'s in-commuter row counts only out-of-state commuters, summed over the 64 counties', async () => {
+    const co = await render({ geoType: 'state', geoid: '08', label: 'Colorado',
+      profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } }, '08');
+    const wn = JSON.parse(read('data/hna/workforce-need.json'));
+    const ids = Object.keys(wn.counties).filter((k) => /^08\d{3}$/.test(k));
+    assert.strictEqual(ids.length, 64, `${ids.length} county records; the sum needs all 64`);
+    const homes = ids.reduce((s, k) => s + wn.counties[k].out_of_state_low_middle_wage / wn.counties[k].workers_per_working_household, 0);
+    const all = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_25, 0);
+    assert(homes > 0, 'no out-of-state commuters in the county records; nothing to check');
+    const row = co.row('incommuter');
+    assert(row, 'Colorado has no in-commuter row');
+    assert.strictEqual(Number(row.dataset.units), Math.round(homes * 0.25), `Colorado row ${row.dataset.units} ≠ out-of-state 25% ${Math.round(homes * 0.25)}`);
+    assert(Number(row.dataset.units) < all, 'Colorado counts commuters between its own counties as needing extra homes');
+    assert(row.textContent.includes(Math.round(homes * 0.5).toLocaleString('en-US')), 'the 50% scenario is not stated');
+  });
+
+  await test('a Colorado load that finishes after a later county selection does not overwrite it', async () => {
+    const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
+    install(dom);
+    const f = window.fetch;
+    // Hold the 64 county projection reads the Colorado call waits on.
+    let release;
+    const held = new Promise((res) => { release = res; });
+    window.fetch = async (u) => (/projections\/08\d{3}\.json/.test(String(u)) ? held.then(() => f(u)) : f(u));
+    global.fetch = window.fetch;
+    const co = { geoType: 'state', geoid: '08', label: 'Colorado', profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } };
+    const mesa = { geoType: 'county', geoid: '08077', label: 'Mesa County', profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } };
+    const first = window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08.json')), co);
+    await window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08077.json')), mesa);
+    const mesaRec = window.HNAState.state.needReconciliation;
+    assert(mesaRec, 'Mesa built no reconciliation');
+    release();
+    await first;
+    assert.strictEqual(window.HNAState.state.needReconciliation, mesaRec, 'the earlier Colorado call overwrote the Mesa reconciliation');
+  });
+
+  await test('a Colorado load that finishes after a combined-area selection leaves the block cleared', async () => {
+    const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
+    install(dom);
+    const f = window.fetch;
+    let release;
+    const held = new Promise((res) => { release = res; });
+    window.fetch = async (u) => (/projections\/08\d{3}\.json/.test(String(u)) ? held.then(() => f(u)) : f(u));
+    global.fetch = window.fetch;
+    const co = { geoType: 'state', geoid: '08', label: 'Colorado', profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } };
+    const first = window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08.json')), co);
+    await window.HNAController.applyAssumptions(JSON.parse(read('data/hna/projections/08077.json')),
+      { geoType: 'combined', geoid: 'combined', label: 'Two places', members: [] });
+    assert.strictEqual(window.HNAState.state.needReconciliation, null, 'the combined-area call did not clear the block');
+    release();
+    await first;
+    assert.strictEqual(window.HNAState.state.needReconciliation, null, 'the earlier Colorado call refilled the block for a combined area');
+  });
+
+  await test('a horizon past the projection reads replacement at the year the page actually shows', async () => {
+    const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
+    install(dom);
+    const ga = window.HNARenderers.getAssumptions;
+    window.HNARenderers.getAssumptions = () => Object.assign({}, ga(), { horizon: 30 });
+    window.HNAState.state.currentSelection = { geoType: 'county', geoid: '08077', label: 'Mesa County',
+      profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } };
+    const proj = JSON.parse(read('data/hna/projections/08077.json'));
+    assert(proj.years.at(-1) < proj.baseYear + 30, 'the projection reaches 30 years; this test has nothing to check');
+    await window.HNAController.applyAssumptions(proj, window.HNAState.state.currentSelection);
+    const rec = window.HNAState.state.needReconciliation;
+    const endYear = Number(rec.endYear);
+    assert.strictEqual(endYear, proj.years.at(-1), `the page shows ${endYear}, not the projection's last year`);
+    const row = document.querySelector('#hnaNeedReconciliation [data-recon-key="replacement"]');
+    const want = proj.housing_need.replacement.cumulative_units[proj.years.indexOf(endYear)];
+    assert.strictEqual(Number(row.dataset.units), Math.round(want), `replacement row ${row.dataset.units} at a 30-year horizon; want ${Math.round(want)} for ${endYear}`);
+  });
+
+  await test('the in-commuter line equals workforce-need.json and stays out of the figure used', async () => {
+    const wn = JSON.parse(read('data/hna/workforce-need.json'));
+    const rec = wn.places[FRUITA];
+    assert(rec && rec.present_incommuter_need, 'Fruita has no in-commuter record; nothing to check');
+    const row = r.row('incommuter');
+    assert(row, 'the block has no in-commuter row');
+    assert.strictEqual(Number(row.dataset.units), rec.present_incommuter_need.move_closer_25, 'row ≠ the 25% scenario');
+    assert(row.textContent.includes(rec.present_incommuter_need.move_closer_50.toLocaleString('en-US')), 'the 50% scenario is not stated');
+    assert.notStrictEqual(row.dataset.inFigure, 'true', 'in-commuter need is marked as part of the figure used');
+    // Households, not jobs: the line must be smaller than in-commuters x wage share.
+    const per = rec.incommuters * rec.low_middle_wage_share;
+    assert(rec.present_incommuter_need.move_closer_50 < per, 'the 50% line is not below the in-commuting low/middle-wage workers it divides');
+    const none = window.HNAController.buildNeedReconciliation({ endYear: 2044, usedUnits: 5, basis: 'resident_growth', growthUnits: 5,
+      incommuter: { low: null, high: null, reason: 'why' } });
+    const nr = none.rows.find((x) => x.key === 'incommuter');
+    assert.strictEqual(nr.units, null, 'an absent in-commuter need became a number');
+    assert.strictEqual(nr.unavailable, 'why', 'the absent in-commuter need does not carry its reason');
   });
 
   await test('an absent input reads as unavailable, never 0', async () => {

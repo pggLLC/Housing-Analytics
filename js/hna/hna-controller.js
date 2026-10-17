@@ -2618,6 +2618,50 @@
   }
 
   /**
+   * Present in-commuter need from data/hna/workforce-need.json: the homes the
+   * lower- and middle-wage people who commute in would take if a stated share
+   * of them moved closer (25% and 50%; no statewide source measures the share).
+   * Null with a reason when the file or the geography has no figure.
+   */
+  let _workforceNeedDoc;
+  async function _loadIncommuterNeed(geoid) {
+    // loadJson: cache:'no-store', so a weekly rebuild is not hidden behind a
+    // stale browser copy. The pending promise is memoized so slider moves
+    // during the first load share one request.
+    if (!_workforceNeedDoc) _workforceNeedDoc = loadJson('data/hna/workforce-need.json').catch(() => null);
+    const doc = await _workforceNeedDoc;
+    if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
+    if (geoid === '08') {
+      // Colorado: only the in-commuters who live in another state. A worker
+      // who moves closer across a Colorado county line leaves a Colorado home
+      // behind, so the state needs no extra home for them. Each county's
+      // out-of-state low/middle-wage workers over its own workers per working
+      // household, summed; any county missing → no total.
+      const recs = Object.keys(doc.counties || {}).filter((k) => /^08\d{3}$/.test(k)).map((k) => doc.counties[k]);
+      let homes = 0;
+      let have = 0;
+      for (const c of recs) {
+        const w = c ? window.HNAUtils.safeNum(c.out_of_state_low_middle_wage) : null;
+        const wph = c ? window.HNAUtils.safeNum(c.workers_per_working_household) : null;
+        if (w === null || wph === null || wph <= 0) continue;
+        homes += w / wph; have += 1;
+      }
+      if (have !== 64) return { low: null, high: null, reason: have + ' of 64 counties have an out-of-state in-commuter figure, so no statewide total is shown.' };
+      return { low: Math.round(homes * 0.25), high: Math.round(homes * 0.5), wph: null, countyWage: false, stateSum: true, reason: null };
+    }
+    const rec = (doc.counties && doc.counties[geoid]) || (doc.places && doc.places[geoid]) || null;
+    const n = rec && rec.present_incommuter_need;
+    if (!n) return { low: null, high: null, reason: (rec && rec.unavailableReason) || 'No in-commuter record for this geography.' };
+    return {
+      low: window.HNAUtils.safeNum(n.move_closer_25),
+      high: window.HNAUtils.safeNum(n.move_closer_50),
+      wph: window.HNAUtils.safeNum(rec.workers_per_working_household),
+      countyWage: rec.wage_share_basis === 'county',
+      reason: null,
+    };
+  }
+
+  /**
    * Whether the digest's rent-burden rate is usable — the same reading the
    * Recommendation page makes (js/workflow/recommendation-contract.js): a
    * rate whose confidence is low or missing, or whose denominator sits under
@@ -2726,6 +2770,76 @@
   }
 
   /**
+   * Homes lost from today's stock by the horizon year, from the same
+   * projection the growth reading came from: the place ledger's
+   * replacement_cumulative when the page used it, else the county file's
+   * housing_need.replacement. A place without its own ledger gets null with a
+   * reason rather than a county figure it did not earn. Colorado reads
+   * stateSeries, the sum of the county series. Pure.
+   */
+  function _replacementAtHorizon(proj, placeRec, usedPlaceProjection, selection, year, stateSeries) {
+    const pick = (years, series) => {
+      if (!Array.isArray(years) || !Array.isArray(series)) return null;
+      const i = years.indexOf(year);
+      return i >= 0 ? window.HNAUtils.safeNum(series[i]) : null;
+    };
+    const geoType = selection && selection.geoType;
+    if (usedPlaceProjection && placeRec) {
+      const v = pick(placeRec.years, placeRec.replacement_cumulative);
+      return { units: v, reason: v === null ? 'This community\u2019s projection carries no replacement estimate for ' + year + '.' : null };
+    }
+    if (geoType === 'state') {
+      // 08.json carries no replacement block; the statewide series is the sum
+      // of the 64 county series, passed in by _loadStatewideReplacement.
+      const v = stateSeries ? pick(stateSeries.years, stateSeries.cumulative_units) : null;
+      return { units: v, reason: v === null ? ((stateSeries && stateSeries.reason) || 'No statewide replacement estimate for ' + year + '.') : null };
+    }
+    if (geoType === 'county' || !geoType) {
+      const rep = proj.housing_need && proj.housing_need.replacement;
+      const v = pick(proj.years, rep && rep.cumulative_units);
+      return { units: v, reason: v === null ? 'No replacement estimate for ' + year + ' in the county projection.' : null };
+    }
+    return { units: null, reason: 'No place-level replacement estimate; the county figure is not scaled here.' };
+  }
+
+  /**
+   * The statewide replacement series: the sum of all 64 county projections'
+   * housing_need.replacement.cumulative_units, year by year. Null with a
+   * reason when any county is missing or its years do not line up, so a
+   * partial sum never reads as the state.
+   */
+  // The pending promise is memoized, not just the result: the vacancy slider
+  // re-runs applyAssumptions on every input, and each run must not start
+  // another 64 fetches.
+  let _statewideReplacement;
+  function _loadStatewideReplacement() {
+    if (!_statewideReplacement) _statewideReplacement = _sumStatewideReplacement();
+    return _statewideReplacement;
+  }
+  async function _sumStatewideReplacement() {
+    const fips = ['014'];
+    for (let n = 1; n <= 125; n += 2) fips.push(String(n).padStart(3, '0'));
+    const docs = await Promise.all(fips.map((f) =>
+      loadJson(window.HNAUtils.PATHS.projections('08' + f)).catch(() => null)));
+    let years = null;
+    let sum = null;
+    let missing = 0;
+    for (const d of docs) {
+      const series = d && d.housing_need && d.housing_need.replacement && d.housing_need.replacement.cumulative_units;
+      if (!d || !Array.isArray(d.years) || !Array.isArray(series) || series.length !== d.years.length) { missing += 1; continue; }
+      if (years === null) { years = d.years.slice(); sum = years.map(() => 0); }
+      if (d.years.join() !== years.join()) { missing += 1; continue; }
+      for (let i = 0; i < series.length; i += 1) {
+        const v = window.HNAUtils.safeNum(series[i]);
+        if (v === null) { sum[i] = null; } else if (sum[i] !== null) { sum[i] += v; }
+      }
+    }
+    return missing
+      ? { years: null, cumulative_units: null, reason: missing + ' of 64 county projections have no replacement estimate, so no statewide total is shown.' }
+      : { years, cumulative_units: sum, reason: null };
+  }
+
+  /**
    * How the need figures on this page fit together (audit F4).
    *
    * Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
@@ -2750,6 +2864,10 @@
     const growthNameLc = growthName.charAt(0).toLowerCase() + growthName.slice(1);
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
+    const replacement = num(input.replacementUnits);
+    const inc = input.incommuter || {};
+    const incLow = num(inc.low);
+    const incHigh = num(inc.high);
     const rows = [
       {
         key: 'existing',
@@ -2779,6 +2897,40 @@
         counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts).',
         inFigure: basis === 'workforce',
         unavailable: workforce === null ? 'No workforce-gap reading for this geography.' : null,
+      },
+      {
+        // The workforce reading above counts one low-wage job as one home and
+        // sets jobs held by housed residents against the stock too. This line
+        // counts households: only people who commute in, divided by workers
+        // per working household, at a stated share who would move closer. A
+        // deficit today, like the existing shortfall, so never in the figure.
+        key: 'incommuter',
+        label: 'In-commuters who would move closer, today',
+        units: incLow,
+        unitsHigh: incHigh,
+        counts: 'Lower- and middle-wage workers who commute in (LEHD LODES 2023), divided by workers per working household'
+          + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
+          + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
+          + '. No statewide source measures that share, so both are shown. A deficit today, not a projection, and not part of the figure used'
+          + (inc.stateSum ? '; for Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+        inFigure: false,
+        unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
+      },
+      {
+        // Homes lost from today's stock over the same years. Neither reading
+        // above counts them: both set demand against the homes standing now,
+        // as though none will be demolished, burn or be converted. Shown on
+        // its own line and added to the figure used only in withReplacement,
+        // so the headline (and the ranking, which reads growth only) is
+        // unchanged until the owner decides otherwise.
+        key: 'replacement',
+        label: 'Homes lost to age and demolition' + (endYear ? ' by ' + endYear : ''),
+        units: replacement,
+        counts: 'Existing homes expected to be permanently lost, by age of the building: annual loss rates from 0.02% for homes built since 2010 to 0.6% for homes built before 1940, '
+          + 'applied to the ACS year-built count (DP04). Not counted in either reading above, which both assume today\u2019s homes all remain'
+          + (input.usedPlaceProjection ? '; scaled to this place by the same share as its projection.' : '.'),
+        inFigure: false,
+        unavailable: replacement === null ? (input.replacementUnavailable || 'No replacement estimate for this geography.') : null,
       },
     ];
     let why = 'No need figure could be computed for this geography.';
@@ -2810,9 +2962,16 @@
           + ' a year, so the current pace is ' + (ratio > 99 ? 'more than 99' : ratio.toFixed(2)) + '\u00d7 that.';
       }
     }
+    const withReplacement = (used !== null && replacement !== null) ? {
+      units: used + replacement,
+      text: 'Figure used plus homes lost to age' + by + ': ' + fmt(used + replacement) + ' homes. '
+        + 'The figure used assumes every home standing today will still be standing; this adds the homes that must be replaced to stand still. '
+        + 'Homes that stay standing but rise out of reach, and income-restricted homes whose restrictions end, are not yet counted.',
+    } : null;
     return {
       endYear,
       used: { units: used, basis, why },
+      withReplacement,
       rows,
       households: hh === null ? null : {
         delta: hh,
@@ -2875,6 +3034,12 @@
     used.appendChild(document.createTextNode(rec.used.why));
     host.appendChild(used);
 
+    if (rec.withReplacement) {
+      const wr = el('p', rec.withReplacement.text, 'hna-recon-with-replacement');
+      wr.dataset.units = String(Math.round(rec.withReplacement.units));
+      host.appendChild(wr);
+    }
+
     const pace = el('p', rec.permits.text, 'hna-recon-permits');
     pace.dataset.perYear = rec.permits.perYear === null ? '' : String(Math.round(rec.permits.perYear));
     host.appendChild(pace);
@@ -2920,7 +3085,13 @@
   }
 
 
+  let _reconSeq = 0;
   async function applyAssumptions(proj, selection){
+    // The need reconciliation awaits data (the digest, the 64 county
+    // projections); a later call for another geography may finish first.
+    // Taken at entry so every call, early returns included, invalidates
+    // pending work.
+    const reconSeq = ++_reconSeq;
     if (!proj) return;
     if (_isMultiJurisdictionSelection(selection)) {
       var unavailable = 'Not available for combined areas — view members individually.';
@@ -3306,6 +3477,7 @@
     // Built from the values painted above and from the households chart's own
     // series (_placeScaledHouseholds, the function the chart calls), so it
     // quotes the page rather than re-deriving it. Stored for the PDF and Excel.
+    // reconSeq (taken at entry): only the latest call renders.
     try {
       let chartHouseholdsDelta = null;
       const hhDola = proj?.housing_need?.households_dola;
@@ -3323,6 +3495,8 @@
         const g = digest && digest.metrics && digest.metrics.housing_gap_units;
         existingGapUnits = window.HNAUtils.safeNum(g && typeof g === 'object' ? g.value : g);
       }
+      const _stateReplacement = selection && selection.geoType === 'state' ? await _loadStatewideReplacement() : null;
+      const _replacement = _replacementAtHorizon(proj, placeProjectionRec, usedPlaceProjection, selection, Number(endYear) || null, _stateReplacement);
       const rec = buildNeedReconciliation({
         endYear,
         usedUnits: incUnits,
@@ -3331,16 +3505,23 @@
         growthNetOfStock,
         workforceUnits: _workforceGapUnits,
         existingGapUnits,
+        replacementUnits: _replacement.units,
+        replacementUnavailable: _replacement.reason,
+        incommuter: await _loadIncommuterNeed(!selection ? null : selection.geoType === 'state' ? '08' : (selection.geoid || countyFips5)),
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,
         permits: permitsShown,
       });
-      window.HNAState.state.needReconciliation = rec;
-      renderNeedReconciliation(rec);
+      if (reconSeq === _reconSeq) {
+        window.HNAState.state.needReconciliation = rec;
+        renderNeedReconciliation(rec);
+      }
     } catch (recErr) {
-      window.HNAState.state.needReconciliation = null;
-      renderNeedReconciliation(null);
+      if (reconSeq === _reconSeq) {
+        window.HNAState.state.needReconciliation = null;
+        renderNeedReconciliation(null);
+      }
       console.error('[HNA] need reconciliation failed:', recErr);
     }
 
