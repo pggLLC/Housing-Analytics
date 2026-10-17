@@ -3852,9 +3852,14 @@
     const vacRaw   = els && els.assumpVacancy  ? parseFloat(els.assumpVacancy.value)        : NaN;
     const targetVac = Number.isFinite(vacRaw) ? vacRaw / 100 : 0.05;
     const headshipMode = (() => {
-      const radios = document.querySelectorAll('input[name="headship"]');
-      for (const r of radios) { if (r.checked) return r.value; }
-      return 'current';
+      // The shipped HNA pages name the group assumpHeadship (values hold |
+      // trend); the controller's change listener and the fixtures in older
+      // tests use that name or the earlier headship (current | trend). Read
+      // whichever radio is checked, and normalise: anything but trend is the
+      // constant base-year rate. Querying only the old name returned
+      // 'current' whatever the user picked, so Trend never took effect.
+      const checked = document.querySelector('input[name="assumpHeadship"]:checked, input[name="headship"]:checked');
+      return checked && String(checked.value) === 'trend' ? 'trend' : 'current';
     })();
     return { horizon, targetVac, headshipMode };
   }

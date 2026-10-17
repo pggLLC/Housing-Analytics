@@ -3200,6 +3200,9 @@
         // label, so the trace cannot outlive the method that produced the number.
         const geoWord = selection && selection.geoType === 'state' ? 'statewide' : 'county';
         const storedIsForecast = storedHouseholds !== null && storedHouseholdMethod === 'sdo_household_forecast';
+        // A 'mixed' statewide year sums forecast counties with headship-fallback
+        // counties, so its households also come from household-county.csv.
+        const storedCarriesForecast = storedIsForecast || (storedHouseholds !== null && storedHouseholdMethod === 'mixed');
         const headshipModeLabel = headshipMode === 'trend'
           ? 'Trend headship assumption used by the calculation; the stored household series is not used in this mode.'
           : storedHouseholds === null
@@ -3222,8 +3225,10 @@
                 : 'Direct county DOLA/SDO components-of-change projection')),
           provenanceNote: selection && selection.geoType !== 'county' && selection.geoType !== 'state'
             ? 'Fallback path uses current population share and recent relative growth; covered places use the stored place-projection path shown separately.'
-            : (storedIsForecast
-              ? 'County sources: SDO household-county.csv (households) and components-change-county.csv (population).'
+            : (storedCarriesForecast
+              ? (geoWord === 'statewide'
+                ? 'Statewide sources: SDO household-county.csv (households, where published) and components-change-county.csv (population), summed over the 64 counties.'
+                : 'County sources: SDO household-county.csv (households) and components-change-county.csv (population).')
               : 'County source: SDO components-change-county.csv.'),
           projectedPopulation: popH,
           headshipRate: hsH,

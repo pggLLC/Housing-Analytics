@@ -43,6 +43,14 @@ function assertProjectionData() {
   assert.equal(exactZeroPermitCount, 0, 'No place projection row should retain shares.permit === 0');
 }
 
+// The headship radio group as the shipped page names it, so the fixtures
+// exercise the control getAssumptions() reads rather than an invented one.
+const HEADSHIP_RADIO_NAME = (() => {
+  const m = HNA_HTML.match(/<input type="radio" name="([^"]+)" value="trend">/);
+  assert(m, 'HNA page has a trend headship radio (the calculator fixtures use its real name)');
+  return m[1];
+})();
+
 function makeHtml() {
   return `<!doctype html>
     <html>
@@ -51,7 +59,7 @@ function makeHtml() {
         <select id="geoSelect"><option value="08077" selected>Mesa County</option></select>
         <input id="assumpHorizon" value="20">
         <input id="assumpVacancy" value="5">
-        <input type="radio" name="headship" value="current" checked>
+        <input type="radio" name="${HEADSHIP_RADIO_NAME}" value="hold" checked>
         <div id="projectionScopeBadge" hidden></div>
         <nav id="hnaDecisionStrip" hidden>
           <a data-decision-key="need"><span id="decisionNeedValue"></span><span id="decisionNeedRead"></span></a>
@@ -153,7 +161,7 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   const render = async (proj, selection, headshipMode) => {
     const dom = new JSDOM(makeHtml(), { url: 'about:blank' });
     installBrowserStubs(dom, { places: {} });
-    if (headshipMode) document.querySelector('input[name="headship"]').value = headshipMode;
+    if (headshipMode) document.querySelector(`input[name="${HEADSHIP_RADIO_NAME}"]`).value = headshipMode;
     loadHnaModules();
     window.HNAState.state.currentSelection = selection;
     await window.HNAController.applyAssumptions(proj, selection);
@@ -196,6 +204,17 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   // Trend headship: the user asked for population × a trended headship rate; the stored series is not used.
   r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'trend');
   assert(r.trace.includes('77,187.5') && r.trace.includes('Trend headship') && !r.trace.includes(FORECAST_WORDS), 'trend mode keeps population × trended headship and does not claim the forecast');
+
+  // Statewide: a 'mixed' or forecast year draws households from household-county.csv too, so the trace names both sources.
+  const colorado = { geoType: 'state', geoid: '08', label: 'Colorado (statewide)' };
+  const stateWith = (method) => Object.assign(withSeries([65000, 90000], method), { countyFips: '08', stateFips: '08' });
+  r = await render(stateWith(['mixed', 'mixed']), colorado);
+  assert(r.trace.includes('90,000.0') && r.trace.includes('household-county.csv') && r.trace.includes('where published'), `mixed statewide trace names the household forecast source: ${r.trace}`);
+  assert(r.trace.includes('a constant headship rate elsewhere') && !r.trace.includes(FORECAST_WORDS), 'mixed statewide trace says which counties are which, without calling the whole series the forecast');
+  r = await render(stateWith(['sdo_household_forecast', 'sdo_household_forecast']), colorado);
+  assert(r.trace.includes('household-county.csv') && r.trace.includes('SDO statewide household forecast'), 'forecast statewide trace names the household forecast and its source');
+  r = await render(stateWith(['constant_headship', 'constant_headship']), colorado);
+  assert(!r.trace.includes('household-county.csv') && r.trace.includes(CONSTANT_WORDS), 'constant-headship statewide trace does not name the household forecast source');
 
   // Committed La Plata file: the households row is the stored 2044 value, and the words match the file's own label.
   const laPlata = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/projections/08067.json'), 'utf8'));
