@@ -39,7 +39,7 @@
     "outside_pma_demand_range": {
       "min": 0.4,
       "max": 0.56,
-      "source": "Professional market studies: Prior 2022 predicted about 40% outside-PMA demand; KVG 2026 observed 56% outside-PMA applications."
+      "source": "Professional market studies of the calibration site (two, owner-provided, not published)."
     }
   }
 }
