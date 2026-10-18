@@ -13,8 +13,8 @@
 
   var MODE_LABEL = 'Commute-shaped PMA (beta)';
   var BUFFER_LABEL = 'Circular buffer PMA';
-  var DISCLOSURE = 'Commute-shaped PMA (beta) uses LODES 2023 OD flows and a one-site Fruita calibration; it changes the PMA tract set only when explicitly enabled.';
-  var CALIBRATION_SOURCE = 'Fruita Mews II (KVG 2026 / Prior 2022)';
+  var DISCLOSURE = 'Commute-shaped PMA (beta) uses LODES 2023 OD flows and a one-site calibration against a professional market study; it changes the PMA tract set only when explicitly enabled.';
+  var CALIBRATION_SOURCE = 'One professional market study (owner-provided, not published)';
   var DEFAULT_PARAMS = {
     minimum_jobs_to_seed_work_tracts: 50,
     minimum_orientation_share: 0.028
@@ -269,7 +269,7 @@
         outside_pma_demand_range: calibration && calibration.outside_pma_demand_range || {
           min: 0.4,
           max: 0.56,
-          source: 'Fruita calibration benchmark'
+          source: 'calibration benchmark (one private market study)'
         },
         inventory_vintage: odDoc.meta && odDoc.meta.vintage,
         od_review_by: odDoc.meta && odDoc.meta.review_by,

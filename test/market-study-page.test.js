@@ -294,8 +294,10 @@ assert(regulationCap, 'APCHA source note quotes the regulation improvement cap')
 const apchaCard = text(defaultDom.mount.querySelector('[data-convention="apcha_fixed_simple"]') || interactive.mount.querySelector('[data-convention="apcha_fixed_simple"]'));
 assert(new RegExp(`up to ${regulationCap}% of the purchase price[^.]*not (?:calculated|modeled)`).test(apchaCard),
   'APCHA card states the regulation improvement cap as excluded from the calculated cap');
-assert.strictEqual(numericTokens.length, 110, 'only residual shortfalls may add rendered money or percentage tokens');
-assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '8280f49d8cf22de83be5be6666824d5f65a565d5066d396eb754d1c88008212f', 'pre-existing rendered money and percentage tokens must match current main');
+// 110 -> 108 on 2026-10-18: the capture caveat stopped quoting a private
+// market study's 44% and 9–56% figures; those two tokens are the only change.
+assert.strictEqual(numericTokens.length, 108, 'only residual shortfalls may add rendered money or percentage tokens');
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '0b897fdb0647c4f59f86d1f5e275e2a9d9ee664ddcd0bb0a2702272e1450224f', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {

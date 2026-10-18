@@ -3,7 +3,7 @@
   "context_only": true,
   "not_scoring_input": false,
   "mode_label": "Commute-shaped PMA (beta)",
-  "calibration_source": "Fruita Mews II (KVG 2026 / Prior 2022)",
+  "calibration_source": "One professional market study (owner-provided, not published)",
   "calibration_note": "One-site beta calibration. Thresholds reproduce the Fruita professional PMA acceptance gate and must not be treated as a statewide validated standard until a second professional benchmark passes unchanged.",
   "params": {
     "minimum_jobs_to_seed_work_tracts": 50,
