@@ -35,7 +35,9 @@ const html = `<!doctype html><body>
 <tr style="border-top:2px solid"><td><strong>TOTAL SOURCES</strong></td><td><strong>$25.0M</strong></td></tr></tbody></table>
 <table id="netrow"><thead><tr><th>Component</th><th>Value</th></tr></thead><tbody>
 <tr><td>Tax Credits</td><td>$10.0M</td></tr><tr><td>Purchase Price</td><td>($8.6M)</td></tr><tr><td>Depreciation</td><td>$1.5M</td></tr>
-<tr style="border-top: 2px solid var(--mcm-mustard);"><td>Net Benefit</td><td>$2.9M</td></tr></tbody></table>
+<tr class="total" style="border-top: 2px solid var(--mcm-mustard);"><td>Net Benefit</td><td>$2.9M</td></tr></tbody></table>
+<table id="ruled"><thead><tr><th>Project</th><th>Units</th></tr></thead><tbody>
+<tr style="border-top:1px solid"><td>Bravo</td><td>40</td></tr><tr style="border-top:1px solid"><td>Alpha</td><td>120</td></tr><tr style="border-top:1px solid"><td>Charlie</td><td>8</td></tr></tbody></table>
 <table id="short"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="optout" data-no-sort><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>5</td><td>6</td></tr></tbody></table>
@@ -139,9 +141,14 @@ const touchTap = (el) => {
   assert.deepEqual(col('stack', 0).slice(-1), ['TOTAL SOURCES'], 'and when sorting its label column');
   const net = document.querySelectorAll('#netrow thead th');
   mouse(net[0]);
-  assert.deepEqual(col('netrow', 0).slice(-1), ['Net Benefit'], 'a result row ruled off with a top border stays at the bottom');
+  assert.deepEqual(col('netrow', 0).slice(-1), ['Net Benefit'], 'a .total result row stays at the bottom');
   mouse(net[1]); mouse(net[1]);
   assert.deepEqual(col('netrow', 0).slice(-1), ['Net Benefit'], 'whichever column is sorted');
+  mouse(document.querySelectorAll('#ruled thead th')[1]);
+  assert.deepEqual(col('ruled', 1), ['8', '40', '120'], 'ordinary rows with a border-top separator still sort');
+  const html = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
+  assert.ok(html('lihtc-guide-for-stakeholders.html').includes('<tr class="total" style="border-top: 2px solid var(--mcm-mustard);">\n<td><strong>Net Benefit</strong>'), 'the guide marks Net Benefit as its result row');
+  assert.ok(html('js/pma-ui-controller.js').includes(`'<tr class="total" style="border-top:2px solid var(--border,#444);">' +\n          td('Column total'`), 'the PMA unit mix marks its column total');
   assert.match(fs.readFileSync(path.join(ROOT, 'js/data-explorer.js'), 'utf8'), /'data-sort-value': Number\.isFinite\(mtimeMs\)/, 'data explorer sorts Modified by timestamp');
   assert.deepEqual(key(cell('May fund rehab')), { s: 'may fund rehab' }, 'a label with a month name stays text');
   const dth = document.querySelector('#dates th');
