@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:35:34.937Z",
+  "generated_at": "2026-10-18T11:00:27Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",
@@ -243,8 +243,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 23,
-    "homes": 2321,
+    "projects": 27,
+    "homes": 2764,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -255,7 +255,7 @@
      },
      "funded": {
       "projects": 15,
-      "homes": 1238,
+      "homes": 1261,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -264,8 +264,13 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 2,
-      "homes": 300,
+      "projects": 3,
+      "homes": 431,
+      "projects_without_homes": 0
+     },
+     "not_funded": {
+      "projects": 3,
+      "homes": 289,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -441,14 +446,14 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 32,
-    "homes": 3154,
+    "projects": 29,
+    "homes": 2981,
     "projects_without_homes": 1,
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 22,
-      "homes": 2046,
+      "projects": 21,
+      "homes": 1971,
       "projects_without_homes": 1
      },
      "land_funded": {
@@ -462,8 +467,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 4,
-      "homes": 292,
+      "projects": 2,
+      "homes": 194,
       "projects_without_homes": 0
      }
     }
@@ -1723,8 +1728,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 95,
-    "homes": 9958,
+    "projects": 92,
+    "homes": 9663,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -1744,13 +1749,13 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 6,
-      "homes": 779,
+      "projects": 4,
+      "homes": 531,
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 18,
-      "homes": 1807,
+      "projects": 17,
+      "homes": 1760,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -3033,7 +3038,7 @@
    "affordable_activity": {
     "since": 2023,
     "projects": 25,
-    "homes": 1909,
+    "homes": 1769,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -3043,8 +3048,8 @@
       "projects_without_homes": 0
      },
      "funded": {
-      "projects": 15,
-      "homes": 1302,
+      "projects": 16,
+      "homes": 1354,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -3058,8 +3063,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 3,
-      "homes": 298,
+      "projects": 2,
+      "homes": 106,
       "projects_without_homes": 0
      }
     }
