@@ -15,9 +15,9 @@
  *   - Insights: each price is the file's national price, each QoQ/YoY the
  *     history's, and the as_of shown is the file's;
  *   - CRA: each scenario price is the benchmark price moved by the % range that
- *     card states, the weighted figure is those ranges weighted by the
- *     probabilities the page states, and the probabilities in the hero
- *     agree with the cards;
+ *     card states, the range panel spans the lowest to the highest of those
+ *     ranges, and the hero repeats each card's range; the page assigns no
+ *     probabilities (removed 2026-10-17: odds on rules nobody has proposed);
  *   - Deep Dive: the chart draws exactly the history's recorded quarters;
  *   - the history file ends on the benchmark's vintage, at its prices.
  * It also fails if a typed price or a dated "Q4 2027" projection comes back.
@@ -102,21 +102,20 @@ test('CRA scenario figures are the benchmark price moved by the assumptions the 
   const cards = [...doc.querySelectorAll('[data-cra-scenario]')];
   assert.equal(cards.length, 4);
   const sc = cards.map((el) => ({
-    el, p: Number(el.dataset.probability), lo: Number(el.dataset.lowPct), hi: Number(el.dataset.highPct),
+    el, name: el.dataset.craScenario, lo: Number(el.dataset.lowPct), hi: Number(el.dataset.highPct),
   }));
-  assert.equal(sc.reduce((s, x) => s + x.p, 0), 100, 'probabilities sum to 100');
+  assert.ok(sc.every((x) => !('probability' in x.el.dataset)), 'cards carry no probability');
+  assert.doesNotMatch(doc.body.textContent, /\d+% probability|probability-weighted/i, 'page assigns no odds');
 
-  // The hero's probabilities and each card's badge agree with the card's data.
-  const hero = [...doc.querySelectorAll('.hero-stats .stat-value')].map((e) => e.textContent.trim());
-  assert.deepEqual(hero, sc.map((x) => x.p + '%'));
+  // The hero repeats each card's own assumed range.
+  const signed = (n) => (n > 0 ? '+' : n < 0 ? '\u2212' : '') + Math.abs(n) + '%';
   for (const x of sc) {
-    assert.match(x.el.querySelector('.chart-header span').textContent, new RegExp('^' + x.p + '% probability'));
+    assert.equal(doc.querySelector(`[data-hero-for="${x.name}"]`).textContent, signed(x.lo) + ' to ' + signed(x.hi), `${x.name} hero`);
     assert.equal(x.el.querySelector('[data-scenario-price]').textContent,
       money(base * (1 + x.lo / 100)) + '–' + money(base * (1 + x.hi / 100)));
   }
-  const tot = sc.reduce((s, x) => s + x.p, 0);
-  const wlo = sc.reduce((s, x) => s + x.p * x.lo, 0) / tot;
-  const whi = sc.reduce((s, x) => s + x.p * x.hi, 0) / tot;
+  const wlo = Math.min(...sc.map((x) => x.lo));
+  const whi = Math.max(...sc.map((x) => x.hi));
   assert.equal(doc.getElementById('cra-weighted').textContent,
     money(base * (1 + wlo / 100)) + ' – ' + money(base * (1 + whi / 100)));
 
