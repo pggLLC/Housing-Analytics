@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * sync-manifest-mtimes.mjs — keep DATA-MANIFEST.json's `last_update`
- * fields synced to the real file mtimes on disk.
+ * fields synced to each file's own fetch/build stamp, or, when it has none,
+ * the commit that last changed it.
  *
  * Designed to run as a pre-commit / CI hook (and is also safe to run
  * by hand). Writes one ISO date per source whose on-disk file is
@@ -20,7 +21,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { contentDate, isShallow } from "./content-date.mjs";
+import { contentDate, embeddedStamp, isShallow } from "./content-date.mjs";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -63,17 +64,23 @@ for (const s of sources) {
   // F1597 — was fs.statSync(abs).mtime. Checkout rewrites every tracked file,
   // so in CI every mtime is the checkout second: all 31 manifest sources
   // carried one identical timestamp and nothing could read as stale.
-  const resolved = contentDate(REPO, s.file_path, { shallow: repoIsShallow });
-  if (!resolved.iso) { skippedNoHistory += 1; continue; }
-  const mtimeIso = resolved.iso;
+  // The file's own fetch/build stamp wins over its last commit (see
+  // embeddedStamp): a re-serialised file is not a fresh fetch.
+  const own = embeddedStamp(abs);
+  const mtimeIso = own
+    ? (own.length === 10 ? own + 'T00:00:00Z' : own)
+    : contentDate(REPO, s.file_path, { shallow: repoIsShallow }).iso;
+  if (!mtimeIso) { skippedNoHistory += 1; continue; }
   const was = s.last_update || null;
   // Compare against the date portion — manifest stores full ISO timestamps.
   const wasDate = was ? was.slice(0, 10) : "";
   const mtimeDate = mtimeIso.slice(0, 10);
   // Two-way: a stamp that is too NEW is the defect, so correct in either
   // direction rather than only ratcheting forward.
-  if (mtimeDate !== wasDate) {
-    updates.push({ file_path: s.file_path, action: mtimeDate > wasDate ? "bump" : "correct", was, mtime: mtimeIso });
+  // A file's own timestamp is exact, so compare it whole; a date-only stamp or
+  // a commit date only by day.
+  if (own && own.length > 10 ? mtimeIso !== was : mtimeDate !== wasDate) {
+    updates.push({ file_path: s.file_path, action: mtimeIso > (was || "") ? "bump" : "correct", was, mtime: mtimeIso });
     s.last_update = mtimeIso;
   }
 }

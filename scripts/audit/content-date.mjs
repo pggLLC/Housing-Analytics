@@ -138,3 +138,47 @@ export function contentDate(repo, relPath, opts) {
 }
 
 export default { contentDate, isShallow, isDirty, isTracked };
+
+// A file that carries its own fetch or build stamp is dated by that stamp.
+// A commit only says the bytes changed: a re-serialised or re-sorted file got
+// a new commit date and read as freshly fetched on the data-status pages
+// (fema-flood-co read 2026-08-01 for an extract built 2026-04-09). Checked in
+// this order, at the top level and then under meta/metadata.
+export const EMBEDDED_STAMP_KEYS = [
+  'fetchedAt', 'fetched_at', 'generatedAt', 'generated_at', 'generated',
+  'updated', 'updatedAt', 'as_of', 'asOf',
+];
+
+const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
+const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/;
+
+/** A whole, real ISO date (as given) or zoned timestamp (as UTC, whole seconds), else null. */
+function normalizeStamp(stamp) {
+  if (typeof stamp !== 'string') return null;
+  const realDay = (day) => {
+    const d = new Date(day + 'T00:00:00Z');
+    return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === day;
+  };
+  if (DATE_ONLY.test(stamp)) return realDay(stamp) ? stamp : null;
+  if (!TIMESTAMP.test(stamp) || !realDay(stamp.slice(0, 10))) return null;
+  const [hh, mm, ss] = stamp.slice(11, 19).split(':').map(Number);
+  if (hh > 23 || mm > 59 || (ss || 0) > 59) return null;
+  const d = new Date(stamp);
+  return Number.isFinite(d.getTime()) ? d.toISOString().replace(/\.\d{3}Z$/, 'Z') : null;
+}
+
+/** The JSON file's own stamp: YYYY-MM-DD or a UTC timestamp ending in Z, or null. */
+export function embeddedStamp(absPath) {
+  if (!/\.(geo)?json$/i.test(absPath)) return null;
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(absPath, 'utf8')); } catch (_) { return null; }
+  for (const holder of [doc, doc && doc.meta, doc && doc.metadata]) {
+    if (!holder || typeof holder !== 'object' || Array.isArray(holder)) continue;
+    for (const key of EMBEDDED_STAMP_KEYS) {
+      const stamp = normalizeStamp(holder[key]);
+      if (stamp) return stamp;
+    }
+  }
+  return null;
+}
+
