@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T03:08:10.124Z",
+    "generated_at": "2026-10-18T09:02:52.726Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192368853,
+    "total_size_bytes": 192366369,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -31077,8 +31077,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 221286,
-      "mtime": "2026-10-17T23:49:16.484Z",
+      "size_bytes": 221287,
+      "mtime": "2026-10-18T08:50:20.295Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31595,8 +31595,8 @@
     {
       "path": "market/employment_centers_co.geojson",
       "kind": "geojson",
-      "size_bytes": 774302,
-      "mtime": "2026-09-25T12:55:18.848Z",
+      "size_bytes": 774664,
+      "mtime": "2026-10-18T09:02:48.451Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31617,10 +31617,10 @@
     {
       "path": "market/environmental_constraints_co.geojson",
       "kind": "geojson",
-      "size_bytes": 511275,
-      "mtime": "2026-09-25T12:55:18.849Z",
+      "size_bytes": 508428,
+      "mtime": "2026-10-18T09:02:48.451Z",
       "shape": "geojson",
-      "feature_count": 1070,
+      "feature_count": 1063,
       "property_keys": [
         "geoid",
         "name",

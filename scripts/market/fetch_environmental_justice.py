@@ -227,6 +227,12 @@ def main():
         json.dump(result, fh, indent=2, ensure_ascii=False)
 
     log(f"✓ Wrote {len(features)} EJI features to {OUT_FILE}")
+
+    # tract_centroids_co.json differs from TIGER for some tracts; re-place the
+    # points at TIGER internal points so a rebuild cannot restore them.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import place_tract_points
+    place_tract_points.main()
     return 0
 
 

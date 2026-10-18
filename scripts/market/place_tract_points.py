@@ -16,6 +16,7 @@ tract_centroids_co.json, whose stored point differs from TIGER for 14 tracts
 fetch_environmental_justice.py already does: CDC EJI 2022 still uses some 2010 tract ids that have no single 2020 location.
 
 Usage: python3 scripts/market/place_tract_points.py
+(fetch_environmental_justice.py runs it after every EJI rebuild.)
 Guarded by test/tract-point-placement.test.js.
 """
 import json
@@ -36,7 +37,7 @@ LAYERS = [
 def main():
     query = urllib.parse.urlencode({
         "where": "STATE='08'", "outFields": "GEOID,INTPTLAT,INTPTLON",
-        "returnGeometry": "false", "resultRecordCount": 2000, "f": "json",
+        "returnGeometry": "false", "outSR": 4326, "resultRecordCount": 2000, "f": "json",
     })
     with urllib.request.urlopen(f"{TIGERWEB}?{query}", timeout=120) as resp:
         payload = json.load(resp)
