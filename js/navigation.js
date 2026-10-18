@@ -478,6 +478,7 @@
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
           <a href="${normalizeHref('about.html')}">About this site</a>
           <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
+          <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
           <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
         <div class="footer-disclaimer">
