@@ -289,6 +289,36 @@ def load_places() -> dict[str, str]:
     return {k: next(iter(v)) for k, v in seen.items() if len(v) == 1}
 
 
+def feed_name_cities() -> dict[str, set]:
+    """Normalized LIHTC feed project name → the cities the feed puts it in."""
+    out: dict[str, set] = {}
+    try:
+        for f in awards.read_json(awards.LIHTC_FEED)['features']:
+            pr = f.get('properties') or {}
+            for k in ('PROJECT', 'ReportedName'):
+                if pr.get(k) and pr.get('PROJ_CTY'):
+                    out.setdefault(awards.norm(pr[k]), set()).add(awards.norm(pr['PROJ_CTY']))
+    except (OSError, KeyError, ValueError):
+        pass  # no feed: no name can be confirmed, so locations place every row
+    return out
+
+
+def place_county(rec: dict, cities: list[str], ctx: dict) -> dict:
+    """County for an application. A project name in the LIHTC feed places it
+    only when the feed puts that name in one of the application's own cities:
+    names repeat across the state ("Ridge" in Colorado Springs, "Mountain Vista
+    Apartments" in Durango), and a namesake elsewhere must not move a Denver or
+    Westminster application to its county."""
+    probe = {'name': rec['name'], 'location': rec['city']}
+    awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+    if probe.get('county_method') == 'LIHTC feed project name':
+        feed_cities = ctx['name_cities'].get(awards.norm(rec['name'] or ''), set())
+        if not feed_cities & {awards.norm(c) for c in cities}:
+            probe = {'name': None, 'location': rec['city']}
+            awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+    return probe
+
+
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def similar(a: str, b: str) -> bool:
@@ -477,12 +507,11 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
         }
         for f in TEXT_FIELDS + INT_FIELDS + MONEY_FIELDS:
             app[f] = rec.get(f)
-        probe = {'name': rec['name'], 'location': rec['city']}
-        awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+        cities = [c.strip() for c in rec['city'].split(',') if c.strip()]
+        probe = place_county(rec, cities, ctx)
         app['county_fips'] = probe['county_fips']
         if probe.get('county_unavailable_reason'):
             app['county_unavailable_reason'] = probe['county_unavailable_reason']
-        cities = [c.strip() for c in rec['city'].split(',') if c.strip()]
         # every place and county the application builds in, so a scattered-site
         # application shows in each jurisdiction it touches
         app['place_geoids'] = sorted({g for g in (ctx['places'].get(awards.norm(c)) for c in cities) if g})
@@ -518,7 +547,7 @@ def context() -> dict:
     except (OSError, ValueError):
         excluded = set()
     return {'counties': counties, 'county_places': county_places, 'names': awards.lihtc_names(),
-            'places': load_places(), 'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
+            'places': load_places(), 'name_cities': feed_name_cities(), 'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
 
 
 def award_only_row(aw: dict, ctx: dict) -> dict:

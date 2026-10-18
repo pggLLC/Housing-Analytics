@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-15T09:41:33Z",
+  "generated_at": "2026-10-18T10:26:26Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
@@ -1969,13 +1969,12 @@
    "toc_credit_requested": 280000,
    "mihtc_credit_requested": null,
    "pab_requested": 26500000,
-   "county_fips": "08041",
+   "county_fips": "08031",
    "place_geoids": [
     "0820000"
    ],
    "county_fips_all": [
-    "08031",
-    "08041"
+    "08031"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Ridge; Address: 4050 N Colorado Boulevard; City: Denver; Total Units: 140; LI Units: 140; Federal 4% Credit Requested: $4,088,715; PAB Issuer: CHFA; PAB Requested: $26,500,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $599,015; TOC Credit Requested: $280,000; Sponsor: CrossPurpose",
    "source_file": "2026-HTC-Round-Two-Applicant-Report.pdf",
@@ -2992,13 +2991,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08067",
+   "county_fips": "08001",
    "place_geoids": [
     "0883835"
    ],
    "county_fips_all": [
-    "08001",
-    "08067"
+    "08001"
    ],
    "quote": "Type: N,I/F; Name: Mountain Vista Apartments; Address: 7840 W 87th Drive; City: Westminster; Total Units: 52; LI Units: 52; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; Sponsor: Grand Peaks Housing Solutions",
    "source_file": "2026-HTC-Round-One-Applicant-Report.pdf",

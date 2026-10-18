@@ -289,3 +289,50 @@ def test_committed_list_agrees_with_its_documents():
         if not r.get('award_only'):
             assert r['source_file'] in usable
     assert '@' not in json.dumps(rows)
+
+
+def test_a_namesake_elsewhere_does_not_move_an_application_to_its_county():
+    """A project name in the LIHTC feed places an application only when the
+    feed puts that name in one of the application's own cities."""
+    c = {
+        'counties': {'denver': '08031', 'el paso': '08041', 'adams': '08001', 'jefferson': '08059'},
+        'county_places': {'denver': {'08031'}, 'colorado springs': {'08041'}, 'westminster': {'08001'}},
+        'names': {'ridge': '08041', 'blossom commons': '08059'},
+        'name_cities': {'ridge': {'colorado springs'}, 'blossom commons': {'westminster'}},
+    }
+    # "Ridge" in the feed is in Colorado Springs: a Denver application stays in Denver
+    got = apps_mod.place_county({'name': 'Ridge', 'city': 'Denver'}, ['Denver'], c)
+    assert got['county_fips'] == '08031'
+    # the feed's own Westminster project keeps the feed's county, Jefferson,
+    # though the place table lists Westminster under Adams only
+    got = apps_mod.place_county({'name': 'Blossom Commons', 'city': 'Westminster'}, ['Westminster'], c)
+    assert got['county_fips'] == '08059'
+
+
+def test_every_committed_county_agrees_with_the_rows_own_city():
+    """Each county a row is filed under is one its city is in: the county the
+    place table gives the city, or one the CHFA feed puts properties of that
+    city in (Westminster spans Adams and Jefferson, Aurora Adams and Arapahoe).
+    A county from neither is a namesake's, and puts the row on the wrong
+    county's brief."""
+    awards = apps_mod.awards
+    data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
+    _, county_places = awards.load_geo()
+    feed_counties: dict = {}
+    for f in awards.read_json(awards.LIHTC_FEED)['features']:
+        pr = f.get('properties') or {}
+        if pr.get('PROJ_CTY') and pr.get('CNTY_FIPS'):
+            feed_counties.setdefault(awards.norm(pr['PROJ_CTY']), set()).add(pr['CNTY_FIPS'])
+    checked = 0
+    for r in data['applications']:
+        if r.get('award_only') or not r.get('city'):
+            continue
+        allowed = set()
+        for city in (awards.norm(c) for c in r['city'].split(',') if c.strip()):
+            allowed |= county_places.get(city, set()) | feed_counties.get(city, set())
+        if not allowed:
+            continue
+        for fips in r['county_fips_all']:
+            assert fips in allowed, (r['name'], r['city'], fips, sorted(allowed))
+        checked += 1
+    assert checked > 100
