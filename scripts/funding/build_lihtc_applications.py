@@ -397,8 +397,9 @@ def geocode_county(address: str, city: str) -> str | None:
     parts = [p.strip() for p in address.split(';') if p.strip()]
     if len(parts) > 1:
         # a scattered site lists its addresses in one cell: each is placed on
-        # its own, and the site has a county only when they agree on one
-        found = {geocode_county(p, city) for p in parts} - {None}
+        # its own, and the site has a county only when every one is placed
+        # and they agree: an address left unplaced could be over the line
+        found = {geocode_county(p, city) for p in parts}
         return next(iter(found)) if len(found) == 1 else None
     url = GEOCODER + quote(f'{address}, {city}, CO')
     for attempt in (1, 2):

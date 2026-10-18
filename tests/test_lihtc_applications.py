@@ -499,12 +499,16 @@ def test_a_refused_or_multi_address_request_is_not_an_outage(monkeypatch):
         calls.append(url)
         if '%3B' in url:
             raise HTTPError(url, 400, 'Bad Request', {}, None)
+        if 'Nowhere' in url:
+            return b'{"result": {"addressMatches": []}}'
         county = '08001' if 'Pecos' in url else '08031'
         return json.dumps({'result': {'addressMatches': [{'geographies': {'Counties': [{'GEOID': county}]}}]}}).encode()
     monkeypatch.setattr(apps_mod.awards, 'http_get', get)
     assert apps_mod.geocode_county('1738 West 33rd Avenue; 2301 Eliot Street', 'Denver') == '08031'
     assert len(calls) == 2 and not any('%3B' in u for u in calls)
     assert apps_mod.geocode_county('1738 West 33rd Avenue; 8000 Pecos Street', 'Denver') is None
+    # one address placed and one not is not agreement
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; Nowhere Lane', 'Denver') is None
 
     def refused(url, timeout=60):
         raise HTTPError(url, 400, 'Bad Request', {}, None)
