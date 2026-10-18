@@ -210,6 +210,18 @@ test('a deficit year pays no deferred fee and must be made up first, so the payb
   assert.equal(f.deferredFee.paybackYear, r.exit.dfYr);
 });
 
+test('after a deficit, distributions wait until cumulative cash is positive, and never pay the same dollars as the fee', () => {
+  const r = computeDeal(withTranches([], { 'dc-bridge-ds': '300000', 'dc-bridge-years': '2' }));
+  const rows = r.projection.rows;
+  let distributed = 0;
+  r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
+    distributed += y.lp + y.gp;
+    const paid = rows.slice(0, n + 1).reduce((a, x) => a + x.deferredFeePaid, 0);
+    close(distributed + paid, Math.max(0, rows[n].cumCF), 'year ' + y.year + ': fee plus distributions to date equal cumulative cash');
+  });
+  assert.equal(r.waterfall.annual[2].lp + r.waterfall.annual[2].gp, 0, 'year 3 cash makes up the deficit');
+});
+
 test('an invalid payment entry is unknown, not $0: the schedule and everything after it say why', () => {
   const r = computeDeal(withTranches([], { 'dc-asset-mgmt-fee': '' }));
   assert.equal(r.obligations.years, null);

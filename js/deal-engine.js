@@ -1419,10 +1419,13 @@
     result.sliderImpacts = sliderImpacts(result, fields);
     result.waterfall = capitalWaterfall(result, fields);
     if (result.waterfall) {
-      var cumLp = -result.waterfall.lpEquity, cumGp = 0;
+      var cumLp = -result.waterfall.lpEquity, cumGp = 0, deficit = 0;
       result.waterfall.annual = result.projection.rows.slice(0, exit.holdYears).map(function (row) {
-        // Cash that repays the deferred fee goes to the developer, not to distributions.
-        var surplus = Math.max(0, row.cashFlow - row.deferredFeePaid);
+        // Cash that repays the deferred fee goes to the developer, not to
+        // distributions, and a deficit from earlier years is made up first.
+        var net = row.cashFlow - row.deferredFeePaid - deficit;
+        deficit = Math.max(0, -net);
+        var surplus = Math.max(0, net);
         var lp = surplus * 0.9999, gp = surplus * 0.0001;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
