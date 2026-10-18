@@ -1189,7 +1189,7 @@
           maxAnnual: stateCredit.equity === null ? null : stateCredit.allowedAnnual,
           reason: !stateCredit.entered ? 'no state credit is entered.' : stateCredit.equity === null ? stateCredit.reason : null };
       } else if (displacedChoice === 'federal') {
-        displaced = { label: 'Federal credit', annual: fields['dc-add-displaced-annual'], years: CREDIT_YEARS, price: equityPrice,
+        displaced = { label: 'Federal credit', federal: true, annual: fields['dc-add-displaced-annual'], years: CREDIT_YEARS, price: equityPrice,
           maxAnnual: Number.isFinite(annualCredits) ? annualCredits : null,
           reason: Number.isFinite(annualCredits) ? null : (basisUnknownReason || 'the federal credit is not available.') };
       }

@@ -53,6 +53,16 @@ test('a replaced credit counts only its equity after its own investor fees (netS
   assert.equal(r.displaced, c.expected.displaced / 2);
 });
 
+test('replacing federal credit and cutting it together cannot exceed the federal award', () => {
+  const fedDisplaced = (annual) => ({ label: 'Federal credit', federal: true, annual, years: fx.federal.years, price: fx.federal.price, maxAnnual: fx.federal.annual });
+  const at = cb.addedCredit(added({ mode: 'substitute', displaced: fedDisplaced(800000), federalCut: fedCut(200000) }));
+  assert.equal(at.reason, null, 'exactly the award is allowed');
+  assert.equal(at.displaced + at.resizedFederal, fx.federal.expectedEquity);
+  const over = cb.addedCredit(added({ mode: 'substitute', displaced: fedDisplaced(800000), federalCut: fedCut(300000) }));
+  assert.equal(over.net, null);
+  assert.match(over.reason, /plus the federal credit replaced is more than/);
+});
+
 test('resized federal: a federal cut is priced at the federal years and price', () => {
   const c = fx.cases.resizedFederal;
   const r = cb.addedCredit(added({ mode: c.mode, federalCut: fedCut(c.federalCutAnnual) }));

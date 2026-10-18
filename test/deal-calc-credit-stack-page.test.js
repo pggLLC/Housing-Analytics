@@ -95,6 +95,10 @@ function enterAdded(p, over) {
     assert.equal(rowText(p, 'Eligibility'), 'Eligibility unknown');
     assert.equal(rowText(p, 'Net new equity'), 'Not available');
     assert.match(p.d.getElementById('dc-add-reason').textContent, /^Transit Zone credit eligibility unknown/);
+    // The reason sends the user to Market Analysis; that page must load both the zone check and this calculator.
+    assert.match(p.d.getElementById('dc-add-reason').textContent, /Market Analysis page/);
+    const ma = require('fs').readFileSync(require('path').join(__dirname, '../market-analysis.html'), 'utf8');
+    assert(/src="js\/transit-zone\.js"/.test(ma) && /src="js\/deal-calculator\.js"/.test(ma), 'Market Analysis checks the zone and mounts the calculator');
     setField(p, 'dc-add-evidence', 'Invented: OEDIT map printout');
     assert.equal(ac().eligibility, 'unknown', 'evidence alone is not enough without the map answer');
     // A site Market Analysis places inside an official zone polygon.

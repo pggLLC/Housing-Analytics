@@ -811,7 +811,7 @@
       out.eligibility = args.inZone === false ? 'not in a zone' : 'unknown';
       out.reason = args.inZone === false
         ? 'Market Analysis does not place this site in a Transit Zone, so the Transit Zone credit does not apply.'
-        : 'Transit Zone credit eligibility unknown: run Market Analysis for the site to check whether it is in a Transit Zone, and enter the evidence.';
+        : 'Transit Zone credit eligibility unknown: the site has not been checked against OEDIT\'s Transit Zone map. Use this calculator on the Market Analysis page, which checks the site, and enter the evidence.';
       return out;
     }
     if (out.eligibility === 'unknown') {
@@ -845,7 +845,11 @@
     if (cut > 0) {
       var fedMax = args.federalCut.maxAnnual;
       if (fedMax === null || fedMax === undefined) { out.reason = 'The federal credit is not available, so a cut to it cannot be priced.'; return out; }
-      if (cut > fedMax) { out.reason = 'The federal credit cut is more than the ' + money(fedMax) + ' a year of federal credit in this deal.'; return out; }
+      // A cut comes out of what is left after any federal credit this one replaces.
+      var replacedFed = out.mode === 'substitute' && args.displaced && args.displaced.federal ? num(args.displaced.annual) : 0;
+      if (cut + replacedFed > fedMax) {
+        out.reason = 'The federal credit cut' + (replacedFed ? ' plus the federal credit replaced' : '') + ' is more than the ' + money(fedMax) + ' a year of federal credit in this deal.'; return out;
+      }
     }
     out.resizedFederal = cut * args.federalCut.years * args.federalCut.price;
     out.netBeforeFees = out.gross - out.displaced - out.resizedFederal;
