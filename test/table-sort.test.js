@@ -33,6 +33,9 @@ const html = `<!doctype html><body>
 <table id="stack"><thead><tr><th>Source</th><th>Amount</th></tr></thead><tbody>
 <tr><td><strong>Tax Credit Equity</strong></td><td>$15.0M</td></tr><tr><td><strong>Permanent Loan</strong></td><td>$7.0M</td></tr><tr><td><strong>Gap Funds</strong></td><td>$3.0M</td></tr>
 <tr style="border-top:2px solid"><td><strong>TOTAL SOURCES</strong></td><td><strong>$25.0M</strong></td></tr></tbody></table>
+<table id="netrow"><thead><tr><th>Component</th><th>Value</th></tr></thead><tbody>
+<tr><td>Tax Credits</td><td>$10.0M</td></tr><tr><td>Purchase Price</td><td>($8.6M)</td></tr><tr><td>Depreciation</td><td>$1.5M</td></tr>
+<tr style="border-top: 2px solid var(--mcm-mustard);"><td>Net Benefit</td><td>$2.9M</td></tr></tbody></table>
 <table id="short"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="optout" data-no-sort><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>5</td><td>6</td></tr></tbody></table>
@@ -134,6 +137,11 @@ const touchTap = (el) => {
   assert.deepEqual(col('stack', 1), ['$15.0M', '$7.0M', '$3.0M', '$25.0M'], 'a row labelled TOTAL stays at the bottom without a .total class');
   mouse(stack[0]);
   assert.deepEqual(col('stack', 0).slice(-1), ['TOTAL SOURCES'], 'and when sorting its label column');
+  const net = document.querySelectorAll('#netrow thead th');
+  mouse(net[0]);
+  assert.deepEqual(col('netrow', 0).slice(-1), ['Net Benefit'], 'a result row ruled off with a top border stays at the bottom');
+  mouse(net[1]); mouse(net[1]);
+  assert.deepEqual(col('netrow', 0).slice(-1), ['Net Benefit'], 'whichever column is sorted');
   assert.match(fs.readFileSync(path.join(ROOT, 'js/data-explorer.js'), 'utf8'), /'data-sort-value': Number\.isFinite\(mtimeMs\)/, 'data explorer sorts Modified by timestamp');
   assert.deepEqual(key(cell('May fund rehab')), { s: 'may fund rehab' }, 'a label with a month name stays text');
   const dth = document.querySelector('#dates th');
@@ -200,6 +208,9 @@ const touchTap = (el) => {
   for (const id of ['dc-su-table', 'dc-pf-table', 'dc-act-table', 'dc-doh15-table', 'dc-doh15-totals']) {
     assert.ok(dc.includes(`<table id="${id}" data-no-sort`), `${id} opts out of sorting`);
   }
+  assert.ok(/Tier order is the payout order[^\n]*\n\s*return '<table data-no-sort/.test(dc), 'the capital event waterfall opts out of sorting');
+  assert.ok(/Year-by-year schedule[^\n]*\n\s*return '<table data-no-sort/.test(dc), 'the waterfall annual schedule opts out of sorting');
+  assert.ok(read('js/project-market-study/market-study-report.js').includes('funnelRows, true)'), 'the report buyer funnel opts out of sorting');
 
   console.log(`table-sort: PASS — ${pages.filter((p) => read(p).includes('js/components/table-sort.js')).length} pages load the sorter`);
 })().catch((e) => { console.error(e); process.exit(1); });

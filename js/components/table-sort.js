@@ -145,11 +145,13 @@
     return a.s.localeCompare(b.s, undefined, { numeric: true });
   }
 
-  // Total rows stay at the bottom: a .total class, or a first cell that
-  // reads "Total …" / "Grand total" (the stakeholder guide's TOTAL SOURCES,
-  // TOTAL USES and TOTAL POSSIBLE rows are marked only by their label).
+  // Total and result rows stay at the bottom: a .total class, a row ruled
+  // off with an inline top border (the stakeholder guide's Net Benefit),
+  // or a first cell that reads "Total …" / "Grand total" (its TOTAL
+  // SOURCES, TOTAL USES and TOTAL POSSIBLE are marked only by their label).
   function isTotal(r) {
     if (r.classList.contains('total')) return true;
+    if (/border-top/i.test(r.getAttribute('style') || '')) return true;
     var first = r.cells[0];
     return !!first && /^(grand\s+|sub)?total\b/i.test(first.textContent.replace(/\s+/g, ' ').trim());
   }

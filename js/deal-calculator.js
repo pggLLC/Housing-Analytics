@@ -6862,7 +6862,8 @@
           '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
-      return '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+      // Tier order is the payout order, so this table never sorts.
+      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
         '<thead><tr style="border-bottom:1px solid var(--border);">' +
         '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
         '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
@@ -6918,7 +6919,8 @@
           '<td style="padding:3px 6px;text-align:right;color:' + (cumGp >= 0 ? 'var(--good)' : 'var(--muted)') + ';">' + _fmtMoney(cumGp) + '</td>' +
           '</tr>';
       });
-      return '<table style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
+      // Year-by-year schedule: kept in year order like the other statements.
+      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +
