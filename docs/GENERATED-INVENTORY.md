@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T15:06:02.551Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T15:35:29.536Z. Do not edit by hand.
 
 ---
 
@@ -88,11 +88,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1704 JSON files found.
+1705 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 836.3 KB | ✅ | — |
+| `data/_manifest.json` | 836.7 KB | ✅ | — |
 | `data/_qa-status.json` | 9.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -144,7 +144,7 @@
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
-| `data/derived/funding-vs-need.json` | 92.2 KB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -1602,7 +1602,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 216.1 KB | ✅ | — |
+| `data/manifest.json` | 216.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1622,7 +1622,7 @@
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
-| `data/market/development-activity.json` | 1.10 MB | ✅ | — |
+| `data/market/development-activity.json` | 1.12 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_muni_household_population.json` | 74.6 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
@@ -1737,12 +1737,13 @@
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
-| `data/policy/funding-awards/award-rows.json` | 238.5 KB | ✅ | — |
+| `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
-| `data/policy/funding-awards/documents.json` | 39.9 KB | ✅ | — |
+| `data/policy/funding-awards/documents.json` | 47.8 KB | ✅ | — |
 | `data/policy/funding-awards/dola-awards.json` | 323.6 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
-| `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
+| `data/policy/funding-awards/ledger.json` | 365.6 KB | ✅ | — |
+| `data/policy/funding-awards/reviewed-documents.json` | 23.1 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
@@ -1801,7 +1802,7 @@
 
 ## Test Files
 
-659 test files found.
+660 test files found.
 
 | File | Size |
 |------|------|
@@ -1995,7 +1996,7 @@
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
-| `test/funding-vs-need.test.mjs` | 13.7 KB |
+| `test/funding-vs-need.test.mjs` | 13.9 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.9 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -2396,6 +2397,7 @@
 | `tests/conftest.py` | 4.2 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
 | `tests/economic_indicators_test.py` | 26.9 KB |
+| `tests/fixtures/funding-awards/2022-Round-2-Award-Report.txt` | 4.6 KB |
 | `tests/fixtures/funding-awards/FY23-24-LandBankingAwards.txt` | 5.1 KB |
 | `tests/fixtures/funding-awards/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.txt` | 2.1 KB |
 | `tests/fixtures/lihtc-applications/2023-HTC-Round-Two-Applicant-Report.json` | 8.9 KB |
@@ -2405,7 +2407,7 @@
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_reliability.py` | 16.5 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
-| `tests/test_award_rows.py` | 3.3 KB |
+| `tests/test_award_rows.py` | 4.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
 | `tests/test_brief_news_queue.py` | 4.6 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
@@ -2425,7 +2427,7 @@
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 8.9 KB |
-| `tests/test_funding_awards_parser.py` | 5.8 KB |
+| `tests/test_funding_awards_parser.py` | 9.4 KB |
 | `tests/test_funding_watch.py` | 63.4 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_gtfs_transit_carry_forward.py` | 11.2 KB |

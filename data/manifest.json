@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T15:06:39.037176Z",
+  "generated": "2026-10-18T15:36:05.899432Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 856828
+      "bytes": 857212
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -309,7 +309,7 @@
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 94402
+      "bytes": 93483
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
@@ -7714,7 +7714,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1153751
+      "bytes": 1173858
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -8389,7 +8389,7 @@
     "data/policy/funding-awards/award-rows.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 244242
+      "bytes": 260805
     },
     "data/policy/funding-awards/developer-aliases.json": {
       "featureCount": 0,
@@ -8399,7 +8399,7 @@
     "data/policy/funding-awards/documents.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40885
+      "bytes": 48971
     },
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
@@ -8414,7 +8414,12 @@
     "data/policy/funding-awards/ledger.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 356064
+      "bytes": 374424
+    },
+    "data/policy/funding-awards/reviewed-documents.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 23656
     },
     "data/policy/funding-watch-sources.json": {
       "featureCount": 0,
