@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T10:44:41.516Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T10:54:32.351Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 47.3 KB |
-| `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 27.6 KB |
+| `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 18.4 KB |
@@ -1801,7 +1801,7 @@
 
 ## Test Files
 
-656 test files found.
+657 test files found.
 
 | File | Size |
 |------|------|
@@ -2281,6 +2281,7 @@
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
+| `test/ripeness.test.mjs` | 9.6 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
