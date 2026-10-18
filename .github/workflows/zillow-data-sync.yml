@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '53 5 * * 6'   # Saturdays 05:53 UTC (lands ~02:00 MT)
   workflow_dispatch:        # Manual trigger
+    inputs:
+      bridge_enabled:
+        description: "Also run the Bridge requests (only once Bridge has granted access, #1611)"
+        type: boolean
+        default: false
 
 concurrency:
   group: data-commits
@@ -120,7 +125,13 @@ jobs:
   #    including rural areas across 13 regions
   #    Uses BRIDGE_SERVER_TOKEN (GitHub Secret — never exposed client-side)
   # ──────────────────────────────────────────────────────────────────────────
+  #    Off until Bridge grants access (#1611). Bridge denied CoHO's request
+  #    and a reconsideration is pending; until then every request returned
+  #    401, the curls swallowed it, and the job reported success with no
+  #    data. Turn it on with the repository variable BRIDGE_ENABLED=true, or
+  #    for one run by dispatching with bridge_enabled ticked.
   bridge-public-data:
+    if: vars.BRIDGE_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.bridge_enabled)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -336,3 +347,13 @@ jobs:
       - name: Dispatch Pages deploy for this run's commit
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy
+
+  bridge-skipped:
+    if: ${{ !(vars.BRIDGE_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.bridge_enabled)) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Say why the Bridge requests did not run
+        run: |
+          echo "::notice::Bridge requests skipped. Bridge denied API access (reconsideration requested, #1611). No request was made; data/market/bridge_co_market_summary.json is unchanged."
