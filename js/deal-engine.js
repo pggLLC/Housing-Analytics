@@ -350,6 +350,12 @@
   }
 
   function known(value) { return typeof value === 'number' && Number.isFinite(value); }
+  // Must-pay debt service NOI could not cover stays in the loan balance; it is
+  // not cash that left the project (DOH PR 4).
+  function mustPayUnpaidFor(obligation) {
+    return obligation && [obligation.mustPayDebtService, obligation.paid, obligation.contingentPaid].every(known)
+      ? Math.max(0, obligation.mustPayDebtService - (obligation.paid - obligation.contingentPaid)) : null;
+  }
   // A not-yet-mounted optional control uses its visible UI default. Clearing an
   // existing control is absence, and must not silently reapply that default.
   function fieldNumber(fields, id, initial) {
@@ -513,7 +519,7 @@
         result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known) || !result.obligations.years) return null;
     var years = fieldNumber(fields, 'pf-years', 15);
     if (!known(years)) return null;
-    var rows = [], cumCF = 0;
+    var rows = [], cumCF = 0, cumCash = 0;
     // DOH PR 4: the deferred fee is paid from cumulative cash flow. A deficit
     // year pays nothing and is made up first, so the fee is fully paid in the
     // first year cumulative cash reaches it (the exit panel's payback year).
@@ -534,14 +540,14 @@
       var debtService = obligation.mustPayDebtService;
       var cashFlow = obligation.cashFlow;
       cumCF = known(cumCF) && known(cashFlow) ? cumCF + cashFlow : null;
+      var mustPayUnpaid = mustPayUnpaidFor(obligation);
+      // The fee is paid from cash actually left after the payments made.
+      cumCash = known(cumCash) && known(cashFlow) && known(mustPayUnpaid) ? cumCash + cashFlow + mustPayUnpaid : null;
       var feeNow = fee === null ? null : feePaid !== null && feePaid >= fee ? fee
-        : known(feePaid) && known(cumCF) ? Math.min(fee, Math.max(feePaid, cumCF)) : null;
+        : known(feePaid) && known(cumCash) ? Math.min(fee, Math.max(feePaid, cumCash)) : null;
       var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
       feePaid = feeNow;
-      // Must-pay debt service NOI could not cover stays in the loan balance, so
-      // it is not a shortfall the sponsor funded.
-      var mustPayUnpaid = [obligation.mustPayDebtService, obligation.paid, obligation.contingentPaid].every(known)
-        ? Math.max(0, obligation.mustPayDebtService - (obligation.paid - obligation.contingentPaid)) : null;
+      // Unpaid must-pay debt service is not a shortfall the sponsor funded.
       var afterFee = known(cashFlow) && known(deferredFeePaid) && known(mustPayUnpaid) ? cashFlow - deferredFeePaid + mustPayUnpaid : null;
       var deficitRecovered = known(afterFee) && known(deficit) ? Math.min(deficit, Math.max(0, afterFee)) : null;
       deficit = known(afterFee) && known(deficit) ? Math.max(0, deficit - afterFee) : null;
@@ -1201,13 +1207,15 @@
 
       // Deferred fee payback timing. Walk the pro forma yearly, accumulating
       // cash flow (NOI − total debt service). Find the first year where
-      // cumCF ≥ deferredDevFee, after the scheduled loan payments.
+      // cumCF ≥ deferredDevFee, after the loan payments actually made (debt
+      // service NOI could not cover stays in the loan balance, DOH PR 4).
       var dfYr = null;
       if (deferredDevFee > 0 && obligations.years && annualRents > 0) {
         var cumCF = 0;
         for (var y = 1; y <= holdYears; y++) {
           var paymentYear = obligations.years && obligations.years[y - 1];
-          cumCF += paymentYear && known(paymentYear.cashFlow) ? paymentYear.cashFlow : NaN;
+          var unpaidNow = mustPayUnpaidFor(paymentYear);
+          cumCF += paymentYear && known(paymentYear.cashFlow) && known(unpaidNow) ? paymentYear.cashFlow + unpaidNow : NaN;
           if (cumCF >= deferredDevFee) { dfYr = y; break; }
         }
       }
@@ -1470,7 +1478,7 @@
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
-      if (cashPayments.reason && /^(coverage|obligations|allMustPay|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
+      if (cashPayments.reason && /^(coverage|obligations|allMustPay|annualDebtService|baseDSCR|stress|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       // #2160: basis and credit depend on the itemized costs; figures that also

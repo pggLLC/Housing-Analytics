@@ -109,7 +109,7 @@
       tc.four === 0 ? null : { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four },
       tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state },
       // Historic credit equity is tax credit equity too: it pays for the whole project.
-      !tc.historic ? null : { id: 'historic_credit', name: 'Historic tax credit proceeds', amount: tc.historic },
+      tc.historic === 0 || tc.historic === undefined ? null : { id: 'historic_credit', name: 'Historic tax credit proceeds', amount: tc.historic },
       fin.deferredDevFee === 0 ? null : { id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }
     ].filter(Boolean);
     whole.forEach(function (w) {
@@ -190,7 +190,7 @@
       deferredFee: { amount: fee, totals: window3(feeRows), paybackYear: paybackYear,
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
-          : fee > 0 && paybackYear === null && paidOffYear !== null ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; any remaining fee is paid from the sale proceeds if they cover it.'
+          : fee > 0 && paybackYear === null && (paidOffYear !== null || hold < YEARS) ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; any remaining fee is paid from the sale proceeds if they cover it.'
           : fee > 0 && paybackYear === null && hold > YEARS ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale.'
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },
       // An asset fee cash could not cover accrues; what is still owed after year 15 is disclosed.

@@ -89,6 +89,11 @@ test('unknown credit equity stays unknown in the whole-project row and the total
   assert.equal(su.totals.other, null);
   assert.equal(su.totals.sources, null);
   assert(!su.general.sources.some(e => e.id === 'lihtc4'), 'an explicit $0 (no 4% equity on a 9% deal) is left out');
+  assert(!su.general.sources.some(e => e.id === 'historic_credit'), 'no historic credit is left out');
+  s.taxCredit = Object.assign({}, s.taxCredit, { nine: 1000000, historic: null });
+  const blankHistoric = ds.sourcesByActivity({ costSummary: r.costBasis.summary, financing: s, tranches: r.tranches, labels: pf.PROGRAM_LABELS });
+  assert.equal(blankHistoric.general.sources.find(e => e.id === 'historic_credit').amount, null, 'a blank historic credit amount stays listed');
+  assert.equal(blankHistoric.totals.sources, null, 'and makes the total unknown');
 });
 
 test('years after an unpaid maturity keep their reason, and the notice names it while known years still show', () => {
@@ -183,6 +188,9 @@ test('a fee repaid after the modeled sale has no operating payback year, matchin
   assert.equal(f.deferredFee.paybackYear, null);
   assert.match(f.deferredFee.reason, /before the year-5 sale/);
   assert(f.rows.slice(5).some(x => x.deferredFee > 0), 'the operating rows still show DOH\'s 15 years');
+  const late = ds.fifteenYear(computeDeal(withTranches([], { 'dc-exit-hold': '10', 'dc-asset-mgmt-fee': '140000' })));
+  assert(late.deferredFee.unpaidAfter > 0, 'cash never repays it within 15 years');
+  assert.match(late.deferredFee.reason, /before the year-10 sale; any remaining fee is paid from the sale/, 'the earlier sale still pays it');
 });
 
 test('a hold past year 15 keeps the exit panel\'s payback year', () => {
@@ -206,6 +214,10 @@ test('a fee already repaid stays repaid when a later year is unknown', () => {
 test('a blank payment entry names itself on the exit panel, not a loan or refinancing assumption', () => {
   const r = computeDeal(withTranches([], { 'dc-bridge-ds': '' }));
   assert.equal(r.exit.loanUnavailableReason, 'Enter bridge-loan debt service as $0 or more a year.');
+  ['annualDebtService', 'baseDSCR', 'stress', 'stressBase', 'allMustPayDSCR', 'breakEvenOcc'].forEach(k => {
+    assert.equal(r[k], null, k + ' depends on the payment schedule');
+    assert.equal(r.unavailable[k], 'Enter bridge-loan debt service as $0 or more a year.', k + ' names the blank entry');
+  });
 });
 
 test('an operating deficit still owed at the sale is repaid to the sponsor before the developer fee and investors', () => {
@@ -227,6 +239,19 @@ test('debt service NOI cannot cover stays with the loan and is not repaid again 
   assert(r.projection.rows[0].cashFlow < 0, 'an undercovered mortgage');
   assert.equal(r.projection.rows[r.exit.holdYears - 1].deficitOwed, 0, 'the shortfall is in the loan balance, not owed to the sponsor');
   assert(!r.waterfall.tiers.some(t => /Operating deficits/.test(t.name)), 'so the sale does not repay it twice');
+});
+
+test('cash after an undercovered mortgage repays the deferred fee before investors get any', () => {
+  const r = computeDeal(withTranches([], { 'dc-senior-mode': 'entered', 'dc-senior-amount': '10000000', 'dc-senior-type': 'amortizing', 'dc-senior-maturity': '30' }));
+  const rows = r.projection.rows.slice(0, r.exit.holdYears);
+  assert(rows[0].cashFlow < 0 && rows.some(x => x.cashFlow > 0), 'undercovered early, covered later');
+  let paid = 0;
+  rows.forEach(x => {
+    paid += x.deferredFeePaid;
+    if (paid < r.deferredDevFee - 0.01) assert.equal(x.distributable, 0, 'year ' + x.year + ' distributes nothing while the fee is owed');
+  });
+  assert(rows.some(x => x.deferredFeePaid > 0), 'the covered years pay the fee');
+  assert.equal(ds.fifteenYear(r).deferredFee.paybackYear, r.exit.dfYr, 'and the payback year agrees with the exit panel');
 });
 
 test('historic tax credit equity pays for the whole project, not one category', () => {
