@@ -712,8 +712,9 @@
       { id: 'statMhiSrc', field: 'DP03_0062E', value: mhi, unit: 'money', table: 'DP03' },
       { id: 'statRentSrc', field: 'DP04_0134E', value: rent, unit: 'money', table: 'DP04' },
       { id: 'statTenureSrc', field: 'DP04_0047PE', value: renterPct, unit: 'pct', table: 'DP04' },
-      { id: 'statRentBurdenSrc', field: 'rent_burden_30plus', value: rb30, unit: 'pct', table: 'DP04' },
-      { id: 'statCommuteSrc', field: 'S0801_C01_046E', value: commute, unit: 'min', table: 'S0801' },
+      { id: 'statRentBurdenSrc', field: 'rent_burden_30plus', value: rb30, unit: 'pct', table: 'DP04',
+        inputs: ['DP04_0141PE', 'DP04_0142PE'] },
+      { id: 'statCommuteSrc', field: 'S0801_C01_046E', value: commute, unit: 'min', table: 'S0801', block: s0801 },
     ];
     if (homeIsAcs) {
       cards.push({
@@ -721,7 +722,17 @@
         value: homeVal, unit: 'money', table: 'DP04', caveat: homeCaveat,
       });
     }
-    return applySnapshotReliability(geoid, geoType, cards, token).catch(() => 0);
+    // A figure fetched live from the Census API (no cached summary, or the
+    // extended fetch replacing a stored field) is not the stored estimate an
+    // entry describes, even when the numbers agree, so it gets no margin.
+    const isLive = (c) => {
+      const block = 'block' in c ? c.block : profile;
+      if (!block) return false;
+      if (block._live === true) return true;
+      const live = Array.isArray(block._liveFields) ? block._liveFields : [];
+      return (c.inputs || c.fields || [c.field]).some((f) => live.includes(f));
+    };
+    return applySnapshotReliability(geoid, geoType, cards.filter((c) => !isLive(c)), token).catch(() => 0);
   }
 
   // ---------------------------------------------------------------------------

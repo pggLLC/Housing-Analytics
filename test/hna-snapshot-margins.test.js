@@ -62,7 +62,13 @@ global.Chart = window.Chart = class { constructor() {} destroy() {} };
 window.APP_CONFIG = { DATA_VERSION: 'test' };
 let fetches = 0;
 let reliabilityMissing = false;
+// Set by a test to answer Census API requests: url -> [header, row].
+let censusAnswer = null;
 window.fetch = async function (url) {
+  if (censusAnswer && String(url).includes('api.census.gov')) {
+    const rows = censusAnswer(String(url));
+    return { ok: true, status: 200, json: async () => rows, text: async () => JSON.stringify(rows) };
+  }
   const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '').split('?')[0];
   if (rel === 'data/hna/acs-reliability.json') {
     fetches += 1;
@@ -287,6 +293,45 @@ const line = (id) => document.getElementById(id);
       assert(!/±/.test(line('statHomeValueSrc').textContent), line('statHomeValueSrc').textContent);
     } finally {
       AR._setFile(FILE);
+    }
+  });
+
+  await test('a figure fetched live gets no margin, even when it equals the stored estimate', async () => {
+    // Only a visitor with their own Census key fetches live; the Census API
+    // here answers with the stored values, so every number agrees with the file.
+    const g = PICK.caution;
+    const summary = readJson(`data/hna/summary/${g}.json`);
+    const stored = summary.acsProfile;
+    const geoType = geoTypeOf(g, summary);
+    const others = ['statPopSrc', 'statMhiSrc', 'statRentSrc', 'statTenureSrc'];
+    censusAnswer = (url) => {
+      const vars = decodeURIComponent(url.split('get=')[1].split('&')[0]).split(',');
+      const src = url.includes('/subject') ? (summary.acsS0801 || {}) : stored;
+      return [vars, vars.map((v) => (v === 'NAME' ? 'Somewhere' : src[v] == null ? null : String(src[v])))];
+    };
+    const priorKey = window.APP_CONFIG.CENSUS_API_KEY;
+    window.APP_CONFIG.CENSUS_API_KEY = 'test-key';
+    try {
+      // The extended fetch replaced the two rent-burden inputs with live ones.
+      const ext = { DP04_0141PE: stored.DP04_0141PE, DP04_0142PE: stored.DP04_0142PE, DP03_0052E: 1 };
+      const merged = window.__HNA_mergeExtendedForTest(Object.assign({}, stored, { _geoid: g, _geoType: geoType }), ext);
+      R.clearStats();
+      await R.renderSnapshot(merged, summary.acsS0801, summary.geo.label, null);
+      assert.strictEqual(U.rentBurden30Plus(merged), FILE.geos[g].rent_burden_30plus.e, 'fixture: the live figure equals the stored one');
+      assert(!/±/.test(line('statRentBurdenSrc').textContent), `live rent burden got a margin: ${line('statRentBurdenSrc').textContent}`);
+      assert(others.some((id) => /±/.test(line(id).textContent)), 'the cached figures keep their margins');
+      // No cached summary: the profile and the commute table are fetched live.
+      const live = await window.__HNA_fetchAcsProfileForTest(geoType, g);
+      const liveS0801 = await window.__HNA_fetchAcsS0801ForTest(geoType, g);
+      assert(live && liveS0801, 'fixture: the live fetch returned nothing');
+      assert.strictEqual(U.safeNum(live.DP03_0062E), stored.DP03_0062E, 'fixture: the live figure equals the stored one');
+      Object.assign(live, { _geoid: g, _geoType: geoType });
+      R.clearStats();
+      assert.strictEqual(await R.renderSnapshot(live, liveS0801, summary.geo.label, null), 0);
+      assert(!/±/.test(document.querySelector('.stats').textContent), document.querySelector('.stats').textContent);
+    } finally {
+      censusAnswer = null;
+      window.APP_CONFIG.CENSUS_API_KEY = priorKey;
     }
   });
 
