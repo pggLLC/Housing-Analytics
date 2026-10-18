@@ -33,6 +33,7 @@ const html = `<!doctype html><body>
 <table id="short"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="optout" data-no-sort><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>5</td><td>6</td></tr></tbody></table>
+<table id="ownaria"><thead><tr><th data-sort="a" aria-sort="descending">A</th><th data-sort="b">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 <table id="own"><thead><tr><th data-col="a">A</th><th data-col="b">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 </body>`;
 
@@ -41,6 +42,11 @@ const { window } = dom;
 const { document } = window;
 window.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ tips: {} }) });
 let ownClicks = 0;
+// Like lihtc-opportunity-finder.js: the renderer writes aria-sort itself.
+document.querySelectorAll('#ownaria th').forEach((th) => th.addEventListener('click', () => {
+  document.querySelectorAll('#ownaria th').forEach((h) => h.removeAttribute('aria-sort'));
+  th.setAttribute('aria-sort', 'ascending');
+}));
 document.querySelectorAll('#own th').forEach((th) => th.addEventListener('click', () => {
   ownClicks++;
   // Like chfa-portfolio.html: direction is marked only with classes.
@@ -121,6 +127,11 @@ const touchTap = (el) => {
   await tick();
   assert.equal(own[0].getAttribute('aria-sort'), 'descending');
   assert.equal(ownClicks, 2);
+  const oa = document.querySelectorAll('#ownaria th');
+  oa[1].querySelector('.th-sort').click();
+  await tick();
+  assert.equal(oa[1].getAttribute('aria-sort'), 'ascending', 'a renderer that writes aria-sort keeps its value');
+  assert.ok(!oa[1].hasAttribute('data-aria-from-class'));
 
   // 4. Touch: tap on a header with a definition opens it and does not sort.
   touchTap(ths[1].querySelector('.th-tip__label'));

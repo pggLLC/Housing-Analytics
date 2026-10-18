@@ -146,6 +146,9 @@
   // Renderers that mark direction only with .sort-asc/.sort-desc get
   // aria-sort kept in step here, so assistive technology hears it too.
   function syncAria(t) {
+    // Only a table whose renderer has marked a direction with a class:
+    // one that sets aria-sort itself (Opportunity Finder) is never touched.
+    if (!t.querySelector('th.sort-asc, th.sort-desc')) return;
     Array.prototype.forEach.call(t.querySelectorAll('th[data-aria-from-class]'), function (th) {
       th.setAttribute('aria-sort', th.classList.contains('sort-asc') ? 'ascending' : th.classList.contains('sort-desc') ? 'descending' : 'none');
     });
@@ -153,9 +156,12 @@
 
   function wireOwn(t) {
     t.classList.add('th-own-sort');
+    // A renderer that already writes aria-sort on any header manages it
+    // for all of them; only a class-only renderer gets it mirrored here.
+    var rendererAria = !!t.querySelector('th[aria-sort]:not([data-aria-from-class])');
     Array.prototype.forEach.call(t.querySelectorAll(OWN_SORT), function (th) {
       if (th.querySelector('.th-sort, button, input, select, a[href]') || !label(th)) return;
-      if (!th.hasAttribute('aria-sort')) th.setAttribute('data-aria-from-class', '');
+      if (!rendererAria && !th.hasAttribute('aria-sort')) th.setAttribute('data-aria-from-class', '');
       addArrow(th, function () {
         // Marked so table-header-tips.js does not read it as a tap on the
         // label (which would open the definition instead of sorting).
