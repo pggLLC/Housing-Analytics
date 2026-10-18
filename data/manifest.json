@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T15:36:05.899432Z",
+  "generated": "2026-10-18T16:04:18.996546Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 857212
+      "bytes": 859968
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -79,7 +79,7 @@
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 76606
+      "bytes": 17668
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7389,57 +7389,57 @@
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35311
+      "bytes": 36919
     },
     "data/jurisdiction-briefs/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32500
+      "bytes": 35713
     },
     "data/jurisdiction-briefs/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35254
+      "bytes": 36780
     },
     "data/jurisdiction-briefs/0810105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19575
+      "bytes": 21771
     },
     "data/jurisdiction-briefs/0812045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33258
+      "bytes": 33260
     },
     "data/jurisdiction-briefs/0816000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29880
+      "bytes": 31498
     },
     "data/jurisdiction-briefs/0817375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 27267
+      "bytes": 26962
     },
     "data/jurisdiction-briefs/0818310.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20817
+      "bytes": 21633
     },
     "data/jurisdiction-briefs/0820000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 39444
+      "bytes": 44360
     },
     "data/jurisdiction-briefs/0822035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 26749
+      "bytes": 27655
     },
     "data/jurisdiction-briefs/0827425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32335
+      "bytes": 33304
     },
     "data/jurisdiction-briefs/0828745.json": {
       "featureCount": 0,
@@ -7449,17 +7449,17 @@
     "data/jurisdiction-briefs/0830780.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35746
+      "bytes": 38496
     },
     "data/jurisdiction-briefs/0864255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22578
+      "bytes": 23248
     },
     "data/jurisdiction-briefs/0867280.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 27654
+      "bytes": 31610
     },
     "data/jurisdiction-briefs/0870195.json": {
       "featureCount": 0,
@@ -7469,12 +7469,12 @@
     "data/jurisdiction-briefs/0873825.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23309
+      "bytes": 24272
     },
     "data/jurisdiction-briefs/0876795.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19534
+      "bytes": 20279
     },
     "data/jurisdiction-briefs/_contacts/0833640.json": {
       "featureCount": 0,
@@ -7509,7 +7509,7 @@
     "data/jurisdiction-briefs/_news-used.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 557
+      "bytes": 69002
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -7524,17 +7524,22 @@
     "data/jurisdiction-briefs/_verified/0803620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20809
+      "bytes": 23173
     },
     "data/jurisdiction-briefs/_verified/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13540
+      "bytes": 17552
     },
     "data/jurisdiction-briefs/_verified/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21456
+      "bytes": 23944
+    },
+    "data/jurisdiction-briefs/_verified/0810105.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3064
     },
     "data/jurisdiction-briefs/_verified/0812045.json": {
       "featureCount": 0,
@@ -7544,27 +7549,32 @@
     "data/jurisdiction-briefs/_verified/0816000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14419
+      "bytes": 16837
     },
     "data/jurisdiction-briefs/_verified/0817375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14257
+      "bytes": 15443
+    },
+    "data/jurisdiction-briefs/_verified/0818310.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1508
     },
     "data/jurisdiction-briefs/_verified/0820000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20297
+      "bytes": 26424
     },
     "data/jurisdiction-briefs/_verified/0822035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6809
+      "bytes": 8305
     },
     "data/jurisdiction-briefs/_verified/0827425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20637
+      "bytes": 21824
     },
     "data/jurisdiction-briefs/_verified/0828745.json": {
       "featureCount": 0,
@@ -7574,22 +7584,32 @@
     "data/jurisdiction-briefs/_verified/0830780.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20453
+      "bytes": 24081
     },
     "data/jurisdiction-briefs/_verified/0864255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13422
+      "bytes": 14457
     },
     "data/jurisdiction-briefs/_verified/0867280.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16942
+      "bytes": 22378
     },
     "data/jurisdiction-briefs/_verified/0870195.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18763
+    },
+    "data/jurisdiction-briefs/_verified/0873825.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1756
+    },
+    "data/jurisdiction-briefs/_verified/0876795.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1319
     },
     "data/kalshi/prediction-market.json": {
       "featureCount": 0,
