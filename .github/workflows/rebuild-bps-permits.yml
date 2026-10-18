@@ -51,14 +51,18 @@ permissions:
   actions: write
 
 concurrency:
-  group: rebuild-bps-permits
+  group: data-commits
   cancel-in-progress: false
+  # Hold every waiting run. Without this GitHub keeps one pending run per
+  # group and silently cancels the others (10 dropped data runs, Aug-Oct 2026).
+  queue: max
 
 jobs:
   rebuild:
     runs-on: ubuntu-latest
-    # ~22 census.gov fetches at 3s pacing plus WAF-backoff headroom.
-    timeout-minutes: 20
+    # ~22 census.gov fetches at 3s pacing plus WAF-backoff headroom, and the
+    # derived chain (~6 min) twice if the commit has to retry from a new tip.
+    timeout-minutes: 40
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -95,31 +99,6 @@ jobs:
         # places.json reads the permit series, never the need block.
         run: python3 scripts/hna/build_permits.py
 
-      - name: Rebuild the derived chain
-        # build_place_projections.py above rewrites
-        # data/hna/projections/places.json, which is an INPUT to the ranking
-        # index: scripts/hna/build_ranking_index.py loads it at
-        # load_place_projections() and consumes it per jurisdiction. This
-        # workflow used to rebuild place pages and stop, so every run left
-        # data/hna/ranking-index.json describing projections that no longer
-        # existed — and because a GITHUB_TOKEN push runs no workflows, nothing
-        # said so until the next human push happened to run the suite, where
-        # it presented as that PR failing on files it never touched.
-        #
-        # Measured 2026-09-20 (#1765): the 05:36Z HNA build produced a correct
-        # index with all 72 metrics; the 09:25Z run of THIS workflow rewrote
-        # places.json and left the index stale, and test:ranking-fresh failed
-        # on the next merge with a diff of purely projection-derived fields
-        # (future_units_needed_20yr, population_projection_20yr,
-        # future_units_basis).
-        #
-        # rebuild:derived, never a hand-picked subset: the index has three
-        # producers and running build_ranking_index.py alone drops the two
-        # augmenters' contribution (#1698, #1729). Step 8 of the chain is
-        # build_place_pages.py, so the place-page rebuild this replaces still
-        # happens, in its correct position.
-        run: npm run rebuild:derived
-
       - name: Validate data bounds
         run: node scripts/validate-critical-data.js
 
@@ -127,125 +106,73 @@ jobs:
         # Exits nonzero only when repo data is missing/unparseable.
         run: python3 scripts/hna/check_benchmarks.py
 
-      - name: Commit refreshed permits chain
-        id: data-commit
+      - name: Skip a run that changed only timestamps
+        id: inputs
         run: |
-          echo "pushed=false" >> "$GITHUB_OUTPUT"
-          # The permits paths, PLUS everything rebuild:derived writes. Without
-          # the second half the chain would run and its output would be thrown
-          # away unpushed, which is indistinguishable from not running it.
-          # Measured from a full chain run on 2026-09-20 (#1765).
-          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/ data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/market/market-direction.json data/paper working-paper.html methods.html AGENTS.md README.md data/_manifest.json data/manifest.json"
-          # A path the chain starts writing that is missing from the list above
-          # would be silently dropped, which is the defect this fixes. Fail loudly
-          # instead.
-          # `:!x` rather than `:(exclude)x`: the parenthesised form is a glob
-          # pattern in some shells and silently stops excluding anything.
-          excludes=""
-          for p in $paths; do excludes="$excludes :!$p"; done
-          outside="$(git status --porcelain -- . $excludes | head -20)"
-          if [ -n "$outside" ]; then
-            echo "::error::rebuild:derived wrote files outside the committed path list:" >&2
-            echo "$outside" >&2
-            echo "Add them to \$paths and to PATHS below, or stop writing them." >&2
-            exit 1
-          fi
-          if git diff --quiet -- $paths && [ -z "$(git status --porcelain -- $paths)" ]; then
-            echo "BPS permits chain unchanged — nothing to commit."
+          if [ -z "$(git status --porcelain -- data/hna/permits.json data/hna/source/bps data/hna/projections/places.json)" ]; then
+            echo "BPS permits inputs unchanged; nothing to rebuild or commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          if python3 - <<'PY'
+          if python3 - <<'CHECK'
           import json
           import subprocess
           import sys
           from pathlib import Path
 
-          TARGETS = {
-              "data/hna/permits.json",
-              "data/hna/projections/places.json",
-          }
-          PATHS = [
-              "data/hna/permits.json",
-              "data/hna/source/bps",
-              "data/hna/projections/places.json",
-              "places/",
-              "data/hna/ranking-index.json",
-              "data/hna/ranking-scenarios",
-              "data/hna/jurisdiction-metrics-digest",
-              "data/hna/ownership-need.json",
-              "data/jurisdiction-briefs",
-              "data/home-snapshot.json",
-              "data/market/acs_median_rent_co.json",
-              "data/derived/funding-vs-need.json",
-              "data/market/development-activity.json",
-              "data/market/market-direction.json",
-              "data/paper",
-              "working-paper.html",
-              "methods.html",
-              "AGENTS.md",
-              "README.md",
-              "data/_manifest.json",
-              "data/manifest.json",
-          ]
+          TARGETS = {"data/hna/permits.json", "data/hna/projections/places.json"}
+          INPUTS = ["data/hna/permits.json", "data/hna/source/bps", "data/hna/projections/places.json"]
 
           def run(args):
-              return subprocess.run(
-                  args,
-                  check=True,
-                  text=True,
-                  capture_output=True,
-              ).stdout
+              return subprocess.run(args, check=True, text=True, capture_output=True).stdout
 
           def strip_generated_at(value):
               if isinstance(value, dict):
-                  return {
-                      key: strip_generated_at(child)
-                      for key, child in value.items()
-                      if key != "generated_at"
-                  }
+                  return {k: strip_generated_at(v) for k, v in value.items() if k != "generated_at"}
               if isinstance(value, list):
-                  return [strip_generated_at(child) for child in value]
+                  return [strip_generated_at(v) for v in value]
               return value
 
-          status = run(["git", "status", "--porcelain", "--", *PATHS])
+          status = run(["git", "status", "--porcelain", "--", *INPUTS])
           changed = {line[3:] for line in status.splitlines() if line.strip()}
           if changed != TARGETS:
               sys.exit(1)
-
           for rel in TARGETS:
               current = json.loads(Path(rel).read_text())
               head = json.loads(run(["git", "show", f"HEAD:{rel}"]))
               if strip_generated_at(current) != strip_generated_at(head):
                   sys.exit(1)
-
           sys.exit(0)
-          PY
+          CHECK
           then
-            echo "Only permits/projections generated_at timestamps changed — skipping commit."
-            exit 0
+            echo "Only permits/projections generated_at timestamps changed; skipping commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add $paths
-          # Multi-line commit message via tmpfile + `git commit -F` — a
-          # quoted multi-line -m string inside a block scalar broke YAML
-          # parsing on sync-data-mtimes/place-od-flows (F157/F158).
-          msg=$(mktemp)
-          {
-            printf 'chore(data): rebuild BPS permits chain\n\n'
-            printf 'Automated by .github/workflows/rebuild-bps-permits.yml — refreshes\n'
-            printf 'permits.json from Census BPS annual files, re-syncs the DOLA-based\n'
-            printf 'production_vs_need figures, rebuilds projections/places.json, and\n'
-            printf 'regenerates the place pages that embed both.\n'
-          } > "$msg"
-          git commit -F "$msg"
-          rm -f "$msg"
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            git fetch origin main
-            git rebase --autostash origin/main
-          fi
-          git push
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Rebuild the derived chain and commit
+        id: data-commit
+        if: steps.inputs.outputs.changed == 'true'
+        env:
+          # A dispatch on a feature branch commits to that branch, as before.
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
+        # build_place_projections.py rewrites data/hna/projections/places.json,
+        # an INPUT to the ranking index (build_ranking_index.py loads it per
+        # jurisdiction), and permits.json feeds the place pages. Committing them
+        # without the chain left main describing projections that no longer
+        # existed (#1765, 2026-09-20). The shared script runs the whole chain,
+        # never a subset (#1698, #1729), commits inputs and outputs together,
+        # and on a rebase conflict retries once from the new tip and rebuilds
+        # the manifests after the rebase. This workflow used to commit the
+        # manifests and then rebase, so any commit landing on main during its
+        # six-minute chain failed it on a manifest conflict: every run from
+        # 2026-10-10 to 2026-10-17 failed that way. --validate-critical checks
+        # the data bounds (ranking-index metrics included) on each rebuilt
+        # tree before it is committed, as the old post-chain step did.
+        run: |
+          scripts/commit-with-derived-chain.sh "chore(data): rebuild BPS permits chain" --validate-critical -- \
+            data/hna/permits.json data/hna/source/bps data/hna/projections/places.json
 
       - name: Trigger Pages deploy
         if: steps.data-commit.outputs.pushed == 'true'
