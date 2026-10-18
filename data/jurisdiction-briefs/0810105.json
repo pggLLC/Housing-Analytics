@@ -3,7 +3,7 @@
   "jurisdiction": "Town of Buena Vista",
   "scope": "place",
   "containing_county_fips": "08015",
-  "last_curated": "2026-07-30",
+  "last_curated": "2026-10-18",
   "curator": "auto-draft",
   "published": false,
   "summary": "Skeleton brief for Town of Buena Vista — auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
@@ -44,6 +44,25 @@
             "s3"
           ],
           "needs_source": true
+        }
+      ]
+    },
+    {
+      "id": "regional-housing-needs-assessment",
+      "heading": "2026 housing needs assessment",
+      "paragraphs": [
+        {
+          "text": "Preliminary results of the regional Housing Needs Assessment by Root Policy Research, presented to the Board of Trustees on Aug. 25, 2026, found that Buena Vista needs 293 units, 162 of them at or below 100% of AMI, within a countywide need of 1,070 units over 10 years. Ark Valley Voice reported that 68% of Buena Vista renters are cost burdened, including 42% who are severely cost burdened, and that median rent rose 222% from 2019 to 2024.",
+          "cites": [
+            "s4",
+            "s5"
+          ]
+        },
+        {
+          "text": "A proposed regional agreement among Salida, Buena Vista, Poncha Springs, Chaffee County and the Chaffee Housing Authority lets a jurisdiction with excess Proposition 123 credits transfer them to another that would fall short; under it, Buena Vista would transfer six credits to Salida, with the housing authority coordinating reporting to DOLA.",
+          "cites": [
+            "s6"
+          ]
         }
       ]
     },
@@ -469,6 +488,27 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s4",
+      "label": "Housing Needs Assessment Preliminary Results Highlight Struggle to Afford Life in Buena Vista — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/housing-needs-assessment-preliminary-results-highlight-struggle-to-afford-life-in-buena-vista/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s5",
+      "label": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/chaffee-county-needs-more-than-1000-new-homes-over-next-decade-preliminary-study-finds/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s6",
+      "label": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-seeks-six-housing-credits-from-buena-vista-to-meet-proposition-123-commitment/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 3010

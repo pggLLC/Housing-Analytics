@@ -158,12 +158,17 @@ test('the brief panel shows this brief\'s headlines since its review, apart from
     { title: 'Carbondale approves lease', source: 'The Sopris Sun', date: '2026-10-01', match: 'place', link: 'https://news.localhost/1' },
     { title: 'Garfield County housing', source: 'Post Independent', date: '2026-09-20', match: 'county', link: 'https://news.localhost/2' },
     { title: 'Before the review', source: 'X', date: '2026-08-31', match: 'place', link: 'https://news.localhost/3' },
+    { title: 'Paywalled lead', source: 'Y', date: '2026-08-30', match: 'place', link: 'https://news.localhost/4', unread: 'blocked' },
+    { title: 'Fresh unread', source: 'Y', date: '2026-10-02', match: 'place', link: 'https://news.localhost/5', unread: 'blocked' },
   ], [{ title: 'NSPIRE, Carbondale', start: '2026-10-22', organizer: 'CHFA', url: 'https://chfa.localhost/n' },
     { title: 'Over already', start: '2026-10-01', organizer: 'CHFA' }]), NOW);
   const el = w.document.createElement('div');
   el.innerHTML = html;
   const items = [...el.querySelectorAll('li')].map((li) => li.textContent);
-  assert.match(el.textContent, /News since this brief was last reviewed \(2\)/);
+  assert.equal(items.filter((t) => /Carbondale approves|Garfield County housing|Paywalled lead|Fresh unread/.test(t)).length, 4);
+  assert.match(el.querySelector('.jbrief-news__title').textContent, /\(4\)/, 'the panel count disagrees with the headlines shown');
+  assert.ok(items.some((t) => t.includes('Paywalled lead') && t.includes('not yet read') && t.includes('older')), 'an unread lead from before the review was dropped or not marked older');
+  assert.ok(items.some((t) => t.includes('Fresh unread') && t.includes('not yet read') && !t.includes('older')), 'a post-review unread lead was called older');
   assert.match(el.textContent, /not part of this brief and not sources for it/);
   assert.ok(items.some((t) => t.includes('Carbondale approves lease')));
   assert.ok(items.some((t) => t.includes('Garfield County housing') && t.includes('names the county')));
@@ -186,7 +191,21 @@ test('a missing or stale queue is said, not shown as "no news"', () => {
 // ── The review issue ───────────────────────────────────────────────────────
 
 test('the review issue lists each brief with news, with its reasons and headlines', () => {
-  const q = JSON.parse(read('data/alerts/brief-news-queue.json'));
+  const committed = JSON.parse(read('data/alerts/brief-news-queue.json'));
+  // A fully reviewed queue is the goal state, so when the committed file has no news,
+  // give its first brief one headline to keep the section check honest.
+  const q = committed.briefs.some((b) => b.stories.length) ? committed : {
+    ...committed,
+    briefs: committed.briefs.map((b, i) => (i ? b : {
+      ...b, days_since_review: 3, reasons: ['1 new story naming it'],
+      stories: [{ title: 'Fixture headline', source: 'Fixture', link: 'https://example.org/story', date: '2026-10-14', match: 'place', also: [] }],
+    })),
+  };
+  if (q !== committed) {
+    const empty = issueBody(committed);
+    assert.match(empty, /\(0\)/);
+    assert.ok(!empty.includes('\n### '), 'an empty queue still rendered a brief section');
+  }
   const body = issueBody(q);
   assert.ok(body.startsWith(MARKER));
   assert.ok(!/\d{4}-\d{2}-\d{2}T\d{2}:/.test(body), 'a run timestamp in the body edits the issue every day');

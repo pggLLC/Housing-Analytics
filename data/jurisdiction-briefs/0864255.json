@@ -3,7 +3,7 @@
   "jurisdiction": "City of Rifle",
   "scope": "place",
   "containing_county_fips": "08045",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "sections": [
@@ -79,6 +79,12 @@
             "s4",
             "s14",
             "s15"
+          ]
+        },
+        {
+          "text": "In July 2026 Roberts Resorts & Communities, a Scottsdale, Arizona owner of manufactured-housing communities, announced it had bought King's Crown, a 200-space residential community in Rifle, and would rename it Elk Run MHC.",
+          "cites": [
+            "s16"
           ]
         }
       ]
@@ -541,6 +547,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s16",
+      "label": "Roberts Resorts & Communities Acquires King’s Crown in Rifle, Colorado — PR Newswire via Morningstar",
+      "url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

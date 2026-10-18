@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0822035",
   "brief_jurisdiction": "City of Durango",
-  "audited_at": "2026-07-30",
-  "audit_method": "direct WebFetch and direct URL fetch, 2026-07-30. Each cited narrative source URL was fetched directly and its article text read; no WebSearch snippets were used to establish verdicts. Two WAF-gated hosts (CHFA multifamily-ehub, laplatahousing.colorado.gov) return 403 to WebFetch/curl and were read by direct browser render of the same URL. All 30 kind:data sources auto-verify against data/hna/jurisdiction-metrics-digest/0822035.json.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct WebFetch and direct URL fetch, 2026-07-30. Each cited narrative source URL was fetched directly and its article text read; no WebSearch snippets were used to establish verdicts. Two WAF-gated hosts (CHFA multifamily-ehub, laplatahousing.colorado.gov) return 403 to WebFetch/curl and were read by direct browser render of the same URL. All 30 kind:data sources auto-verify against data/hna/jurisdiction-metrics-digest/0822035.json. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "espero-supportive-housing",
@@ -84,15 +84,26 @@
       "verdict": "supported",
       "supporting_quote": "Serving Archuleta, Dolores, La Plata, Montezuma, and San Juan Counties Since 1981. … Housing Solutions works to create new construction of affordable housing for seniors, families, and persons with disabilities including rental apartments and single-family homes.",
       "notes": "Direct browser render of the homepage, 2026-07-30."
+    },
+    {
+      "section_id": "school-district-housing",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://www.durangoherald.com/articles/news/durango-school-district-expands-workforce-housing/",
+      "verdict": "supported",
+      "supporting_quote": "The Durango School Board of Education approved the purchase of six new townhomes for district staff housing at the Sept. 22 board meeting. ... The Board of Education approved the $2.98 million purchase of six townhomes as part of The Homestead project at 1720 County Road 240. ... The Homestead addition to DSD’s housing supply comes after a purchase of 35 apartments at the Lightner Creek complex in 2025. Teachers and staff members began moving into units in June 2026, and the apartments are at 94% capacity, according to the district. ... The purchase will be paid for through the 2024 Investing in Our Schools Bond and will not come out of the district’s general fund. The goal of the district housing program is to keep rent at or below 30% of employees’ gross income. ... [Article date, from the page metadata: \"datePublished\":\"2026-10-09T14:00:56-06:00\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [],
   "summary": {
-    "total_rows": 9,
-    "supported": 9,
+    "total_rows": 10,
+    "supported": 10,
     "partial": 0,
     "unsupported": 0,
-    "inaccessible": 0
+    "inaccessible": 0,
+    "total": 10,
+    "dropped": 0
   },
   "strip_summary": "Brief authored 2026-07-30 with verified primary/press sources only (no kind:search placeholders). Held at published:false pending owner review."
 }

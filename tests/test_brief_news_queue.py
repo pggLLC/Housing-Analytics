@@ -71,6 +71,33 @@ def test_a_used_or_dismissed_story_leaves_the_queue():
     assert len(kept) == 2, "a story handled for one brief still counts for another"
 
 
+def test_an_unread_story_stays_queued_after_the_review_date():
+    s1 = story('Carbondale paywalled housing story', '2026-09-01', '0812045')
+    lead = {'geoid': '0812045', 'title': s1['title'], 'link': s1['link'], 'date': s1['date'],
+            'source': 'Paywalled Daily', 'status': 'unread', 'reason': 'publisher blocks automated reading'}
+    reviewed = {**CARBONDALE, 'last_curated': '2026-10-01'}
+    got = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['stories']
+    assert [(x['title'], x['match'], x['unread']) for x in got] == [
+        (s1['title'], 'place', 'publisher blocks automated reading')]
+    got_row = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']
+    assert got_row['reasons'][0] == '1 older story not read yet', 'an unread lead was counted as new'
+    got = rows(bnq.build(TODAY, [CARBONDALE], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['stories']
+    assert len(got) == 1, "a story both in the feed and unread in the ledger shows once"
+    assert got[0]['unread'] == 'publisher blocks automated reading', 'the feed copy lost the unread note'
+    assert rows(bnq.build(TODAY, [CARBONDALE], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['reasons'][0] \
+        == '1 new story naming it', 'an unread story after the review is still new'
+    done = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [{**lead, 'status': 'dismissed'}]}))
+    assert done['0812045']['stories'] == []
+
+
+def test_an_unread_entry_without_its_story_date_is_skipped():
+    lead = {'geoid': '0812045', 'title': 'Undated lead', 'link': 'https://news.localhost/u', 'status': 'unread'}
+    assert rows(bnq.build(TODAY, [CARBONDALE], [], [], COUNTIES, {'entries': [lead]}))['0812045']['stories'] == []
+    for bad in ('2026-02-30', '2026-13-01', 'Sept. 3'):
+        got = rows(bnq.build(TODAY, [CARBONDALE], [], [], COUNTIES, {'entries': [{**lead, 'date': bad}]}))
+        assert got['0812045']['stories'] == [], f'unread lead with impossible date {bad!r} was kept'
+
+
 def test_events_match_by_name_and_past_ones_drop():
     events = [
         {'title': 'chfareach: NSPIRE Inspections, Carbondale', 'start': '2026-10-22', 'location': 'In-person'},

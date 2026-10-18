@@ -1,0 +1,44 @@
+{
+  "brief_geoid": "0810105",
+  "brief_jurisdiction": "Town of Buena Vista",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
+  "rows": [
+    {
+      "section_id": "regional-housing-needs-assessment",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://arkvalleyvoice.com/housing-needs-assessment-preliminary-results-highlight-struggle-to-afford-life-in-buena-vista/",
+      "verdict": "supported",
+      "supporting_quote": "Root Policy Research Director Avilia \"Avi\" Bueno, PhD. presented preliminary results of the Housing Needs Assessment. ... to the Buena Vista (BV) Board of Trustees (BoT) on Tuesday, August 25. ... BV specifically needs 293 total units, 162 of which need to be available at or below 100 percent AMI. ... 68 percent of renters in BV are considered cost burdened, including 42 percent who are severely cost burdened ... Median rent in BV increased by 222 percent from 2019 to 2024. ... [Article date, from its byline: Aug 31, 2026]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-housing-needs-assessment",
+      "paragraph_index": 0,
+      "source_id": "s5",
+      "source_url": "https://arkvalleyvoice.com/chaffee-county-needs-more-than-1000-new-homes-over-next-decade-preliminary-study-finds/",
+      "verdict": "supported",
+      "supporting_quote": "The preliminary Housing Needs Assessment estimates the county needs 1,070 additional units over the next 10 years. ... [Article date, from its byline: Aug 14, 2026]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-housing-needs-assessment",
+      "paragraph_index": 1,
+      "source_id": "s6",
+      "source_url": "https://arkvalleyvoice.com/salida-city-council-seeks-six-housing-credits-from-buena-vista-to-meet-proposition-123-commitment/",
+      "verdict": "supported",
+      "supporting_quote": "The Salida City Council will consider an agreement at its Oct. 6 regular meeting, under which Buena Vista would transfer six Proposition 123 affordable-housing credits to Salida. ... The proposed regional agreement involves Salida, Buena Vista, Poncha Springs, Chaffee County, and the Chaffee Housing Authority. It allows jurisdictions with excess qualifying housing credits to transfer those credits to another participating jurisdiction that would otherwise fall short of its commitment. The housing authority would coordinate reporting to the Colorado Department of Local Affairs. ... [Article date, from its byline: Oct 3, 2026]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    }
+  ],
+  "dropped_rows": [],
+  "summary": {
+    "supported": 3,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0,
+    "total": 3,
+    "dropped": 0
+  }
+}

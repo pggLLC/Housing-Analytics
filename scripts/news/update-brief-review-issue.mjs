@@ -27,7 +27,7 @@ export const md = (s) => String(s == null ? '' : s).replace(/([\\[\]|*_`<>])/g, 
 
 function storyLine(s) {
   const head = s.link ? `[${md(s.title)}](${s.link})` : md(s.title);
-  return `- ${s.date} · ${head} — ${md(s.source || 'Unknown publisher')}${MATCH[s.match] || ''}`;
+  return `- ${s.date} · ${head} — ${md(s.source || 'Unknown publisher')}${MATCH[s.match] || ''}${s.unread ? ' · not read yet: open it by hand, then mark it used or dismissed' : ''}`;
 }
 
 function eventLine(e) {
@@ -51,6 +51,7 @@ export function issueBody(queue) {
     'Headlines are leads, not sources. A brief claim still needs the article itself and its quote in '
     + '`data/jurisdiction-briefs/_verified/`.', ''];
   out.push(`## News since the last review (${withNews.length})`, '');
+  if (withNews.some((b) => b.stories.some((s) => s.unread))) out.push('Stories marked "not read yet" could not be read when they were reviewed; they stay here, even after the brief is re-reviewed, until someone reads them.', '');
   if (!withNews.length) out.push('No brief has news since its last review.', '');
   for (const b of withNews) {
     out.push(`### ${briefName(b)} · ${b.reasons.join('; ')}`, '');
@@ -68,7 +69,11 @@ export function issueBody(queue) {
     + 'change with its quote in `_verified/`, and opens a PR for review. Recording the story in '
     + '`data/jurisdiction-briefs/_news-used.json` as `used` is part of that PR.',
     '- **Dismiss it.** Record it in `_news-used.json` as `dismissed`, with a one-line reason.',
-    '- **Re-review the brief.** Moving its `last_curated` date forward clears every story before that date.', '');
+    '- **Re-review the brief.** Moving its `last_curated` date forward clears every story before that date, except '
+    + 'stories marked "not read yet" (`unread` in `_news-used.json`): those stay until someone reads them and changes '
+    + 'their status to `used` or `dismissed`.',
+    '- **Mark it unread.** When a story cannot be read (the publisher blocks it), record it as `unread` with its date '
+    + 'and source so it stays here.', '');
   const cands = queue.candidates || [];
   if (cands.length) {
     out.push(`<details><summary>Places that should have a brief and do not (${queue.candidate_count}), largest first</summary>`, '');

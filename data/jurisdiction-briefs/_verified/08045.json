@@ -1,8 +1,8 @@
 {
   "brief_geoid": "08045",
   "brief_jurisdiction": "Garfield County",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair attempt, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. Stopping rule applied because more than 80% of cite-pairs were partial or inaccessible after direct fetch. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair attempt, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. Stopping rule applied because more than 80% of cite-pairs were partial or inaccessible after direct fetch. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "county-housing-role",
@@ -219,14 +219,51 @@
       "verdict": "supported",
       "supporting_quote": "The 58-unit project, planned within the Battlement Mesa Planned Unit Development (PUD), would be the area’s first affordable housing development and may receive eight project-based vouchers through the Garfield County Housing Authority. ... Located on approximately 6.38 acres of vacant land on Five Stone Quarry Road in Parachute ... The Garfield County Housing Authority, which is also serving as the project’s Special Limited Partner, is expected to allocate eight project-based vouchers to Aster Place.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "regional-recent-county-decisions",
+      "paragraph_index": 0,
+      "source_id": "s28",
+      "source_url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
+      "verdict": "supported",
+      "supporting_quote": "The Garfield County Planning and Zoning Commission unanimously recommended approval of the Mitchell Creek Community proposal Wednesday, advancing the project to the Garfield County commissioners for consideration. ... The project would bring 98 new for-sale homes to roughly 25 acres at 50235 Highway 6 and 24. ... Ten homes would be deed-restricted workforce housing units serving households earning between 70% and 110% of the area median income. ... [Article date, from the page metadata: \"datePublished\": \"2026-08-31 16:24:53\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-recent-county-decisions",
+      "paragraph_index": 1,
+      "source_id": "s29",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
+      "verdict": "supported",
+      "supporting_quote": "Garfield County commissioners unanimously backed a request Monday that could help residents of Cavern Springs Mobile Home Park reduce the cost of purchasing their community through a property tax exemption. ... If approved by the housing authority, the arrangement could extend the authority’s tax-exempt status to the mobile home park and save residents about $55,000 a year in property taxes on the land. ... Residents of the 98-unit mobile home park are under contract to purchase the property ... this would be the first arrangement of its kind in Garfield County involving residents purchasing their own mobile home park. ... [Article date, from the page metadata: \"datePublished\": \"2026-09-24 16:45:00\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-recent-county-decisions",
+      "paragraph_index": 2,
+      "source_id": "s30",
+      "source_url": "https://www.postindependent.com/news/garfield-county-housing-summit-discusses-rising-costs-barriers-to-building/",
+      "verdict": "supported",
+      "supporting_quote": "Housing developers, local government officials and nonprofit representatives gathered Wednesday at the Ute Theater and Events Center in Rifle ... with much of the discussion focusing on the cost of construction, development regulations and state-mandated building codes. ... Elliott said state mandates can be particularly difficult for smaller communities such as Parachute and Silt, which have fewer employees and resources available to interpret and implement new requirements. ... [Article date, from the page metadata: \"datePublished\": \"2026-09-07 14:49:33\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-recent-county-decisions",
+      "paragraph_index": 3,
+      "source_id": "s31",
+      "source_url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
+      "verdict": "supported",
+      "supporting_quote": "Roberts Resorts & Communities, a premier owner and operator of manufactured housing and resort communities across the United States, announced the acquisition of King's Crown, a 200-space residential community in Rifle, Colorado. The property will be rebranded as Elk Run MHC ... [Article date, from the page metadata: article:published_time\" content=\"2026-07-22T14:05:00-05:00\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "summary": {
-    "total": 22,
-    "supported": 4,
+    "total": 28,
+    "supported": 10,
     "partial": 17,
     "unsupported": 0,
-    "inaccessible": 1
+    "inaccessible": 1,
+    "dropped": 0
   },
   "strip_summary": {
     "original_cite_pairs": 22,
