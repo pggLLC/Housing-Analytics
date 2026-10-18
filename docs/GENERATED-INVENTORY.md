@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T14:18:47.610Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T15:06:02.551Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.6 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 70.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.8 KB |
@@ -65,7 +65,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 151.0 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 151.3 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 76.0 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -146,7 +146,7 @@
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
 | `data/derived/funding-vs-need.json` | 92.2 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
-| `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
+| `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 260.1 KB | ✅ | — |
@@ -1635,7 +1635,7 @@
 | `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
-| `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
+| `data/market/lodes_co.json` | 663.9 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/market-direction.json` | 756.6 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
@@ -1801,7 +1801,7 @@
 
 ## Test Files
 
-657 test files found.
+659 test files found.
 
 | File | Size |
 |------|------|
@@ -2377,6 +2377,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
+| `test/whats-near.test.js` | 5.9 KB |
 | `test/workflow-next-action-prerequisites.test.js` | 7.2 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
@@ -2436,10 +2437,11 @@
 | `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
+| `tests/test_lodes_and_health_centers.py` | 3.3 KB |
 | `tests/test_market_construction.py` | 13.3 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_market_direction.py` | 18.9 KB |
-| `tests/test_neighborhood_access_builder.py` | 3.5 KB |
+| `tests/test_neighborhood_access_builder.py` | 6.0 KB |
 | `tests/test_news_stories.py` | 10.2 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |

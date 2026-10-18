@@ -471,7 +471,7 @@
       provider: 'Census LEHD',
       url: 'https://lehd.ces.census.gov/',
       localFile: 'data/market/lodes_co.json',
-      lastUpdated: '2026-04-23',
+      lastUpdated: '2026-10-18',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'Census Tract',
@@ -1217,7 +1217,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1736,
+      features: 1737,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T14:19:24.181883Z",
+  "generated": "2026-10-18T15:06:39.037176Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 856376
+      "bytes": 856828
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -319,7 +319,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4215444
+      "bytes": 4049418
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
@@ -7781,6 +7781,11 @@
       "placeholder": false,
       "bytes": 442053
     },
+    "data/market/health_centers_co.geojson": {
+      "featureCount": 181,
+      "placeholder": false,
+      "bytes": 87729
+    },
     "data/market/hospitals_co.geojson": {
       "featureCount": 121,
       "placeholder": false,
@@ -7824,7 +7829,7 @@
     "data/market/lodes_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 678458
+      "bytes": 679804
     },
     "data/market/lodes_od_arcs_co.geojson": {
       "featureCount": 500,
