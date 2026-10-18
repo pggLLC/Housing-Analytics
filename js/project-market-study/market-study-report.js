@@ -185,8 +185,10 @@
     }).join('<br>');
   }
   function badge(value, compact) { return ProvenanceLabel.html(typeof value === 'object' ? value : { classification: value }, { compact: compact !== false }); }
-  function table(headers, rows) {
-    return '<div class="table-wrap"><table><thead><tr>' + headers.map(function (item) {
+  // ordered: the row order is the meaning (the buyer funnel's steps), so
+  // the page's table sorter leaves it alone.
+  function table(headers, rows, ordered) {
+    return '<div class="table-wrap"><table' + (ordered ? ' data-no-sort' : '') + '><thead><tr>' + headers.map(function (item) {
       return '<th>' + escape(item) + '</th>';
     }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
   }
@@ -437,7 +439,7 @@
       return '<tr><td>' + escape(stage.id === 'observed_base' ? 'Starting pool' : plainLabel('stages', stage.id)) + '</td><td>' + display(stage.share, 'rate') + '</td><td>' + formatHouseholds(stage.outputCount) + '</td><td>' + escape(stage.label || '') + '</td><td>' + escape(stage.basis) + '</td><td>' + badge(stage) + '</td></tr>';
     });
     var unresolved = model.funnel.unresolvedStages;
-    var demand = '<section><h2>6. Demand (screening)</h2>' + plain('the buyer funnel. It starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups — a potential pool, not committed buyers. Each step after it keeps only the share of households that pass that step, using a share someone has entered from local evidence. If a step is blank, every step below it stays blank, because the report will not guess.') + '<p><strong>Steps still blank:</strong> ' + escape(unresolved.length ? unresolved.map(function (id) { return plainLabel('stages', id); }).join('; ') : 'none') + '</p><p class="field-ids">Field names: ' + escape(unresolved.length ? unresolved.join(', ') : 'none') + '</p>' + table(['Step', 'Share kept', 'Households left', 'What the number means', 'Where a real share should come from', 'Where the number comes from'], funnelRows) + '<p><strong>' + BUYER_POOL + '</strong></p><p class="warning">' + G2 + ' In plain terms: HUD\'s CHAS data does not count households above the area median income, so the top income group shows no buyers here. That is a gap in the data, not a finding that nobody in that group would buy.</p></section>';
+    var demand = '<section><h2>6. Demand (screening)</h2>' + plain('the buyer funnel. It starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups — a potential pool, not committed buyers. Each step after it keeps only the share of households that pass that step, using a share someone has entered from local evidence. If a step is blank, every step below it stays blank, because the report will not guess.') + '<p><strong>Steps still blank:</strong> ' + escape(unresolved.length ? unresolved.map(function (id) { return plainLabel('stages', id); }).join('; ') : 'none') + '</p><p class="field-ids">Field names: ' + escape(unresolved.length ? unresolved.join(', ') : 'none') + '</p>' + table(['Step', 'Share kept', 'Households left', 'What the number means', 'Where a real share should come from', 'Where the number comes from'], funnelRows, true) + '<p><strong>' + BUYER_POOL + '</strong></p><p class="warning">' + G2 + ' In plain terms: HUD\'s CHAS data does not count households above the area median income, so the top income group shows no buyers here. That is a gap in the data, not a finding that nobody in that group would buy.</p></section>';
 
     var captureRows = model.capture.scenarios.map(function (item) {
       return '<tr><td>' + escape(item.scenarioLabel) + '</td><td>' + formatSchedule(item.monthlyClosings, model.scenario.program.total_units.value) + '</td><td>' + formatAnnualClosings(item.annualClosings) + '</td><td>' + formatAnnualCapture(item.annualCaptureRate) + '</td><td>' + formatDenominator(item.totalProjectPenetration, 'rate') + '</td><td>' + formatDenominator(item.grossContractsNeeded) + '</td><td>' + (typeof item.poolDepletionModeled === 'boolean' ? (item.poolDepletionModeled ? 'Yes' : 'No') : display(item.poolDepletionModeled)) + '</td></tr>';

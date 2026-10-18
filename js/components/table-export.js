@@ -77,7 +77,7 @@
   function visibleText(cell, keepNotes) {
     var clone = cell.cloneNode(true);
     // Sort buttons stay: their text is the header's label.
-    var drop = clone.querySelectorAll('[aria-hidden="true"], .th-tip__btn, .th-tip__pop, .gl-tooltip-popup, .tx-bar, script, style' + (keepNotes ? '' : ', [data-export-note]'));
+    var drop = clone.querySelectorAll('[aria-hidden="true"], .th-sort, .th-tip__pop, .gl-tooltip-popup, .tx-bar, script, style' + (keepNotes ? '' : ', [data-export-note]'));
     for (var i = 0; i < drop.length; i++) drop[i].parentNode.removeChild(drop[i]);
     // A cell whose display text is a control ("Map ↗") names the value a file
     // should carry instead (the address it opens) in data-export-text.

@@ -24,6 +24,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
   <style>
     /* Scoped to .ap (the planners' white paper) so nothing leaks into the
        rest of the site. Same reading measure and opaque-panel rule as
@@ -189,7 +190,7 @@
 <p>Source: ACS 2020–2024 five-year estimates; Zillow Home Value Index.</p>
 <h3>4.2 Need: who is cost-burdened</h3>
 <p>CHAS 2018–2022, with Fruita's counts adjusted to match its current ACS household totals, gives:</p>
-<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita cost burden by tenure"><table>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita cost burden by tenure"><table data-no-sort>
 <thead><tr><th scope="col"></th><th scope="col">Renters</th><th scope="col">Owners</th></tr></thead><tbody>
 <tr><th scope="row">Households</th><td>1,061</td><td>4,212</td></tr>
 <tr><th scope="row">Cost-burdened (&gt;30%)</th><td>384 (36%)</td><td>1,062 (25%)</td></tr>
@@ -202,7 +203,7 @@
 <p>Neither figure is wrong. They measure the same idea with different tables, periods and treatments of households with no reported income. A staff report should give one figure, name its source and period, and if both appear, explain why they differ. Quoting the higher figure in one paragraph and the lower in another invites challenge.</p>
 <h3>4.3 Affordability: the gap by income level</h3>
 <p>Mesa County's 2026 AMI for a four-person household is $100,600. At 30 percent of income, the affordable monthly rents are:</p>
-<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita rental affordability gap by income level"><table>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita rental affordability gap by income level"><table data-no-sort>
 <thead><tr><th scope="col">Income level</th><th scope="col">Affordable rent</th><th scope="col">Renter households at or below</th><th scope="col">Rental units priced at or below</th><th scope="col">Shortfall</th></tr></thead><tbody>
 <tr><th scope="row">≤30% AMI</th><td>$754</td><td>295</td><td>192</td><td>103</td></tr>
 <tr><th scope="row">≤50% AMI</th><td>$1,258</td><td>590</td><td>358</td><td>232</td></tr>
