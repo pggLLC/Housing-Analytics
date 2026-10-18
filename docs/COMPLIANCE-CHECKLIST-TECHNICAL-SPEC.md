@@ -156,7 +156,7 @@ Validate a checkbox item before saving.
 | `hna_compliance_v2_{geoType}_{geoid}`      | Full checklist state JSON object      |
 | `hna_compliance_last_change`               | Cross-tab broadcast marker            |
 
-**Example:** `hna_compliance_v2_county_08031` (v2 since 2026-10; the unversioned v1 key is read once and only `baseline`, `growth`, `fasttrack` carry over)
+**Example:** `hna_compliance_v2_county_08031` (v2 since 2026-10; every item was redefined then, so the unversioned v1 state is not read)
 
 localStorage is namespaced to avoid collisions with other tools. All JSON is stored with `JSON.stringify` and parsed with `JSON.parse`. Errors (invalid JSON, quota exceeded, private browsing) are swallowed gracefully — the page continues to work without persistence.
 

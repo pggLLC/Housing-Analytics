@@ -159,6 +159,16 @@ async function main() {
   window.HNARenderers.renderProp123Relationship(columbine, 'Columbine (CDP)', true);
   const columbineRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
   assert(columbineRendered.includes('Jefferson County') && columbineRendered.includes('Arapahoe County'), 'a two-county CDP names both counties');
+  // 2027–2029 across a county line: one answer only when the counties agree.
+  const jeffFiled = Object.assign({}, DATA, { next_cycle: Object.assign({}, DATA.next_cycle, {
+    filings: DATA.next_cycle.filings.concat([{ name: 'Jefferson County', submitted: '2026-10-15', unit_goal: 100 }]) }) });
+  const mixed = api.relationship(jeffFiled, 'cdp', 'Columbine (CDP)', ['Jefferson County', 'Arapahoe County']);
+  assert.equal(mixed.nextCycle.across, 'mixed', 'one county filed, one not: mixed');
+  window.HNARenderers.renderProp123Relationship(mixed, 'Columbine (CDP)', true);
+  const mixedValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
+  assert.equal(mixedValues[2], 'Depends on county', 'mixed next-cycle filings show Depends on county, not nothing');
+  assert(relationshipEl.textContent.includes('2027–2029 filed 2026-10-15') && relationshipEl.textContent.includes('2027–2029 not yet filed'),
+    'each county\'s 2027–2029 filing is listed');
 
   const stratton = api.relationship(DATA, 'place', 'Stratton (town)');
   window.HNARenderers.renderProp123Relationship(stratton, 'Stratton (town)', true);

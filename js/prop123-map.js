@@ -248,11 +248,20 @@
     return { cycle: cycle.cycle, deadline: cycle.filing_deadline, filing: filing };
   }
 
-  // Across a county line: "no filing yet" only if no county has filed;
-  // otherwise it depends on the side, so show no single answer.
+  // Across a county line: one answer only when every county agrees;
+  // perCounty keeps each county's filing for the renderer to list.
   function nextCycleAcross(payload, countyRecords) {
     var each = countyRecords.map(function (c) { return nextCycleFor(payload, c.record); });
-    return each.every(function (n) { return n && !n.filing; }) ? each[0] : null;
+    if (!each[0]) return null;
+    var filed = each.filter(function (n) { return n && n.filing; }).length;
+    return {
+      cycle: each[0].cycle,
+      deadline: each[0].deadline,
+      filing: null,
+      // 'all' | 'none' | 'mixed'; perCounty carries each county's filing.
+      across: filed === each.length ? 'all' : (filed === 0 ? 'none' : 'mixed'),
+      perCounty: countyRecords.map(function (c, i) { return { county: c.county, filing: each[i] && each[i].filing }; })
+    };
   }
 
   // A jurisdiction absent from the first-cycle list can still have filed

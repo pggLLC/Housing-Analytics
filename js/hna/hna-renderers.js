@@ -7445,8 +7445,10 @@
     var nextCycle = relationship && relationship.nextCycle;
     var nextValue = sourceLoaded === false || !nextCycle
       ? null
-      : (nextCycle.filing ? 'Filed ' + nextCycle.filing.submitted : 'No filing yet');
-    var nextNote = nextValue && !nextCycle.filing && nextCycle.deadline
+      : (nextCycle.across === 'all' ? 'Filed by each county'
+        : (nextCycle.across === 'mixed' ? 'Depends on county'
+          : (nextCycle.filing ? 'Filed ' + nextCycle.filing.submitted : 'No filing yet')));
+    var nextNote = nextValue && !nextCycle.filing && nextCycle.across !== 'all' && nextCycle.across !== 'mixed' && nextCycle.deadline
       ? 'Due ' + new Date(nextCycle.deadline + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : (nextCycle && nextCycle.filing && nextCycle.filing.unit_goal != null
         ? 'Goal: ' + Number(nextCycle.filing.unit_goal).toLocaleString('en-US') + ' homes'
@@ -7454,10 +7456,12 @@
     var source = countyRecords.length && sourceLoaded !== false
       ? 'An unincorporated area does not file its own commitment; the county it sits in covers it ' +
         '(C.R.S. &sect; 29-32-105(1)(b)). This area spans a county line, so it depends on which side a project is on: ' +
-        countyRecords.map(function (c) {
+        countyRecords.map(function (c, i) {
+          var next = nextCycle && nextCycle.perCounty && nextCycle.perCounty[i];
           return escHtml(c.county) + ' ' + (c.record
             ? escHtml(c.record.status) + ', fast-track ' + (c.record.fast_track === true ? 'Yes' : 'No')
-            : 'Not committed');
+            : 'Not committed') +
+            (next ? ', 2027–2029 ' + (next.filing ? 'filed ' + escHtml(next.filing.submitted) : 'not yet filed') : '');
         }).join('; ') + '.'
       : record && record.source_url
       ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'

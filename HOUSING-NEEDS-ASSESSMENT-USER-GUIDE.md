@@ -329,7 +329,7 @@ To undo a checked item, simply uncheck it. The completion timestamp is cleared a
 
 #### Data Isolation
 
-Each county or municipality has its own independent checklist stored under a namespaced localStorage key (e.g., `hna_compliance_v2_county_08031`; the version was added in October 2026 when the DOLA filing and reporting items changed meaning, so those two boxes start unchecked). Switching geographies loads that geography's saved state.
+Each county or municipality has its own independent checklist stored under a namespaced localStorage key (e.g., `hna_compliance_v2_county_08031`; the version was added in October 2026 when every item was redefined to match the law, so boxes ticked before then start unchecked). Switching geographies loads that geography's saved state.
 
 ### Viewing the Full Compliance Dashboard
 

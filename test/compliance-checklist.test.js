@@ -197,36 +197,19 @@ test('initComplianceChecklist: back-fills missing items from old state', () => {
 
 test('initComplianceChecklist: a box ticked under the old meaning does not carry over', () => {
   resetStorage();
-  // Pre-2026-10 state, unversioned key: 'dola' then meant an annual
-  // January 31 notice and 'report' an annual report.
-  const all = (v) => ({ checked: v, date: v ? '2025-02-01T00:00:00.000Z' : null, metadata: null });
+  // Pre-2026-10 state, unversioned key. Every item has since been redefined
+  // (baseline adds ownership homes; the goal is per cycle; 'dola' was an
+  // annual January 31 notice), so none may show as done.
+  const all = (v) => ({ checked: v, date: '2025-02-01T00:00:00.000Z', metadata: null });
   global.localStorage.setItem('hna_compliance_county_08077', JSON.stringify({
     geoType: 'county', geoid: '08077',
     items: { baseline: all(true), growth: all(true), fasttrack: all(true), dola: all(true), report: all(true) },
   }));
   assert(CC._storageKey('county', '08077') !== 'hna_compliance_county_08077', 'saved state is versioned');
   const state = CC.initComplianceChecklist('county', '08077');
-  assert(state.items.baseline.checked === true && state.items.growth.checked === true && state.items.fasttrack.checked === true,
-    'items whose meaning is unchanged carry over');
-  assert(state.items.dola.checked === false, 'the old annual DOLA notice does not count as the Nov 1 commitment');
-  assert(state.items.report.checked === false, 'the old annual report does not count as the end-of-cycle report');
-  CC.updateChecklistItem('report', true);
-  const saved = JSON.parse(global.localStorage.getItem(CC._storageKey('county', '08077')));
-  assert(saved.items.baseline.checked === true && saved.items.report.checked === true,
-    'the first change after migration keeps the carried items');
-});
-
-test('migration: a read without init (as the HNA page does) migrates v1 state', () => {
-  resetStorage();
-  // The HNA page calls updateChecklistItem directly; it never calls init.
-  const all = (v) => ({ checked: v, date: null, metadata: null });
-  global.localStorage.setItem('hna_compliance_county_08079', JSON.stringify({
-    geoType: 'county', geoid: '08079',
-    items: { baseline: all(true), growth: all(true), fasttrack: all(true), dola: all(true), report: all(true) },
-  }));
-  const s = CC.getChecklistState('county', '08079');
-  assert(s && s.items.baseline.checked === true && s.items.dola.checked === false,
-    'getChecklistState migrates on first read: carried items kept, changed items reset');
+  CC._ITEM_IDS.forEach((id) => assert(state.items[id].checked === false, id + ' ticked under the old meaning starts unchecked'));
+  assert(CC.getChecklistState('county', '08077') === null || CC._ITEM_IDS.every((id) => !CC.getChecklistState('county', '08077').items[id].checked),
+    'a read without init (as the HNA page does) sees no old ticks either');
 });
 
 // ── updateChecklistItem ──────────────────────────────────────────────────────

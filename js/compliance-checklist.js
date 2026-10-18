@@ -27,14 +27,13 @@
   /** LocalStorage namespace prefix — avoids collisions with other tools. */
   var STORAGE_PREFIX = 'hna_compliance_';
 
-  /** Saved-state version. v2 (2026-10): 'dola' became the November 1 cycle
-   *  commitment (was an annual January 31 notice) and 'report' the
-   *  end-of-cycle report (was annual), so a box ticked for the old task
-   *  must not carry over as done. */
+  /** Saved-state version. v2 (2026-10): every item was redefined by the
+   *  legal corrections (baseline now includes ownership homes; the goal is
+   *  cycle-specific; fast-track means the 90-day decision; 'dola' is the
+   *  November 1 cycle commitment, not an annual January 31 notice; 'report'
+   *  is end-of-cycle). A box ticked for an old task must not show the new
+   *  one as done, so v1 state is not carried over. */
   var STATE_VERSION = 'v2';
-
-  /** Items whose meaning did not change in v2; carried over from v1 state. */
-  var CARRIED_FROM_V1 = ['baseline', 'growth', 'fasttrack'];
 
   /** Prop 123 commitment deadline, November 1 before the cycle it covers
    *  (C.R.S. § 29-32-105(1)(d)). Month is 0-indexed: 10 = November. */
@@ -68,10 +67,6 @@
     return STORAGE_PREFIX + STATE_VERSION + '_' + (geoType || 'county') + '_' + (geoid || '');
   }
 
-  /** Key used before the 2026-10 legal corrections (unversioned). */
-  function legacyStorageKey(geoType, geoid) {
-    return STORAGE_PREFIX + (geoType || 'county') + '_' + (geoid || '');
-  }
 
   /**
    * Read a JSON value from localStorage; returns null on any error.
@@ -182,25 +177,9 @@
 
   // ── Public API ─────────────────────────────────────────────────────────────
 
-  /**
-   * Read saved state for a geography, migrating the unversioned v1 state
-   * on first read. Every read goes through here (the HNA page calls
-   * updateChecklistItem without initComplianceChecklist), so the carried
-   * items survive whichever call comes first.
-   * @returns {object|null}
-   */
+  /** Read saved state for a geography (v2 key only). @returns {object|null} */
   function loadState(geoType, geoid) {
-    var key   = storageKey(geoType, geoid);
-    var state = lsRead(key);
-    if (state) return state;
-    var legacy = lsRead(legacyStorageKey(geoType, geoid));
-    if (!legacy || !legacy.items) return null;
-    state = createDefaultState(geoType, geoid);
-    CARRIED_FROM_V1.forEach(function (id) {
-      if (legacy.items[id]) state.items[id] = legacy.items[id];
-    });
-    lsWrite(key, state);
-    return state;
+    return lsRead(storageKey(geoType, geoid));
   }
 
   /**
