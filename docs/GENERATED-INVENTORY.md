@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T07:41:39.936Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:07:03.977Z. Do not edit by hand.
 
 ---
 
@@ -15,7 +15,7 @@
 | `about.html` | About | COHO Analytics | 19.5 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 41.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.8 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
@@ -27,7 +27,7 @@
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.4 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 23.7 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.6 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.6 KB |
@@ -53,7 +53,7 @@
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.9 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.5 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 17.8 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.2 KB |
@@ -61,7 +61,7 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.3 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.3 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 151.0 KB |
@@ -113,7 +113,7 @@
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
-| `data/capital-partners.json` | 13.1 KB | ✅ | — |
+| `data/capital-partners.json` | 13.2 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 3.0 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 3.0 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 3.0 KB | ✅ | — |
@@ -914,7 +914,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
-| `data/hna/local-resources.json` | 179.3 KB | ✅ | — |
+| `data/hna/local-resources.json` | 179.1 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 270.3 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1614,9 +1614,9 @@
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
-| `data/market/co-adaptive-reuse-references.json` | 13.6 KB | ✅ | — |
+| `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
 | `data/market/co-construction-labor-cost.json` | 127.7 KB | ✅ | — |
-| `data/market/co-urban-renewal-authorities.json` | 11.9 KB | ✅ | — |
+| `data/market/co-urban-renewal-authorities.json` | 11.8 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
@@ -1646,7 +1646,7 @@
 | `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
-| `data/market/tax-credit-transfer-pricing.json` | 5.3 KB | ✅ | — |
+| `data/market/tax-credit-transfer-pricing.json` | 5.4 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.8 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
@@ -1769,7 +1769,7 @@
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.9 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 40.0 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
@@ -1864,7 +1864,7 @@
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
 | `test/coho-reminders.test.mjs` | 15.7 KB |
-| `test/colorado-elections.test.mjs` | 34.4 KB |
+| `test/colorado-elections.test.mjs` | 36.4 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 48.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
@@ -1984,7 +1984,7 @@
 | `test/fixtures/predictor-policy.cjs` | 1.5 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/for-sale-example-label.test.js` | 2.1 KB |
-| `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.8 KB |
+| `test/for-sale-study-follows-jurisdiction.test.mjs` | 34.1 KB |
 | `test/foreclosure-performance.test.js` | 6.8 KB |
 | `test/forsale-capture.test.js` | 11.1 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
@@ -2298,7 +2298,7 @@
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/site-transit-evidence.test.js` | 14.7 KB |
-| `test/smoke-f139.test.js` | 12.3 KB |
+| `test/smoke-f139.test.js` | 14.8 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
