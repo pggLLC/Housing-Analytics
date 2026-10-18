@@ -311,7 +311,7 @@ const MAX_SPREAD = 0.10;
  * Price of a contract's "yes" side, as a probability (0–1, two decimals).
  *
  * The midpoint of the best bid and best ask, when the two are within
- * MAX_SPREAD of each other. A wider gap (or a missing side) is a thin line:
+ * MAX_SPREAD of each other. A wider gap (or an empty side) is a thin line:
  * prob is null and thin is true. This used to take the best bid alone, which
  * on a thin September 2026 housing-starts ladder printed "above 1.15M: 71%"
  * next to "above 1.10M: 32%" — impossible, since the lower line must be at
@@ -330,9 +330,12 @@ function contractPrice(m) {
   const bid = fromDollars(m.yes_bid_dollars) ?? fromCents(m.yes_bid);
   const ask = fromDollars(m.yes_ask_dollars) ?? fromCents(m.yes_ask);
   const round = (n) => Math.round(n * 100) / 100;
-  // An empty book side reads as a 0.00 bid or a 1.00 ask, which makes the
-  // widest possible gap and lands in the thin branch.
-  if (bid != null && ask != null && ask > 0 && ask >= bid && ask - bid <= MAX_SPREAD + 1e-9) {
+  // An empty book side reads as a 0.00 bid or a 1.00 ask. That is no quote,
+  // so the line is thin even when the other side sits close to it (a 0¢ bid
+  // with a 2¢ ask has no buyer at all).
+  const realBid = bid != null && bid > 0;
+  const realAsk = ask != null && ask < 1;
+  if (realBid && realAsk && ask >= bid && ask - bid <= MAX_SPREAD + 1e-9) {
     return { prob: round((bid + ask) / 2), bid, ask, thin: false };
   }
   return { prob: null, bid, ask, thin: true };
@@ -408,6 +411,11 @@ function normalizeMarket(cfg, markets) {
   // probability. Rescaling them to sum to 1 — as this used to — is only
   // valid for mutually exclusive outcomes, and turned P(above 1.10M) = 0.95
   // into a share of a total.
+  // A series can have several events open at once (one per release date);
+  // only the chosen market's own event is one ladder.
+  if (market.event_ticker) {
+    markets = markets.filter((m) => !m.event_ticker || m.event_ticker === market.event_ticker);
+  }
   if (markets.length > 1) {
     outcomes = enforceLadder(markets, markets.map((m) => {
       const pr = contractPrice(m);

@@ -1641,16 +1641,26 @@ function getKey(){ return CONFIG_KEY || ""; }
   }
 
   // Unprices every line of a ladder whose figures fall as its threshold
-  // falls: "above 1.10M" must be at least as likely as "above 1.15M".
+  // falls: "above 1.10M" must be at least as likely as "above 1.15M". Lines
+  // are compared only with lines of the same question (same wording apart
+  // from the threshold), so two release dates are never one ladder.
   function ladderChecked(outcomes) {
     var strikes = outcomes.map(function (o) { return strikeOf(o.name); });
     if (outcomes.length < 2 || strikes.some(function (k) { return k == null; })) return outcomes;
-    var priced = outcomes.map(function (o, i) { return { k: strikes[i], p: o.prob }; })
-      .filter(function (x) { return typeof x.p === 'number' && isFinite(x.p); })
-      .sort(function (a, b) { return a.k - b.k; });
-    var ordered = priced.every(function (x, i) { return i === 0 || x.p <= priced[i - 1].p; });
-    if (ordered) return outcomes;
-    return outcomes.map(function (o) { return { name: o.name, prob: null, thin: true }; });
+    var groups = {};
+    outcomes.forEach(function (o, i) {
+      var key = String(o.name).replace(/above\s+\$?[\d.,]+/i, 'above #');
+      (groups[key] = groups[key] || []).push(i);
+    });
+    var broken = {};
+    Object.keys(groups).forEach(function (key) {
+      var priced = groups[key].map(function (i) { return { k: strikes[i], p: outcomes[i].prob }; })
+        .filter(function (x) { return typeof x.p === 'number' && isFinite(x.p); })
+        .sort(function (a, b) { return a.k - b.k; });
+      var ordered = priced.every(function (x, j) { return j === 0 || x.p <= priced[j - 1].p; });
+      if (!ordered) groups[key].forEach(function (i) { broken[i] = true; });
+    });
+    return outcomes.map(function (o, i) { return broken[i] ? { name: o.name, prob: null, thin: true } : o; });
   }
 
   function renderKalshi(payload) {

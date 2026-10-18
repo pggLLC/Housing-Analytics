@@ -151,6 +151,25 @@ run('a ladder whose figures contradict each other shows none of them', () => {
   assert.ok(out.outcomes.every((o) => o.thin === true));
 });
 
+run('an empty book side is no quote, even next to a tight other side', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.45M', yes_bid_dollars: '0.0000', yes_ask_dollars: '0.0200' },
+    { ticker: 'B', title: 'above 1.10M', yes_bid_dollars: '0.9800', yes_ask_dollars: '1.0000' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
+});
+
+run('only the chosen market\'s own event is checked as one ladder', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume: 500 },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume: 400 },
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume: 10 }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
 run('a contract with no bid and no ask is null, never 0', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [
