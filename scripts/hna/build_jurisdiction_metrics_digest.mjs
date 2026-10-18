@@ -65,7 +65,9 @@ function readVintages() {
   const amiPlace = read(AMI_GAP_PLACE_PATH)?.meta || {};
   const amiCounty = read(AMI_GAP_COUNTY_PATH)?.meta || {};
   const vintages = {
-    acsDefault: acsVintageLabel(stateAcs._acsYear, stateAcs._acsSeries),
+    // The fallback for a summary with no stamp of its own. Most geographies
+    // are 5-year; the state itself is 1-year, so its series is not the default.
+    acsDefault: acsVintageLabel(stateAcs._acsYear, 'acs5'),
     chasPlace: chasVintageLabel(placeChas.vintage_chas),
     chasCounty: chasVintageLabel(countyChas.vintage),
     // co_ami_gap_by_*.json are built from ACS 5-year tables (B25118, B19001,
@@ -84,6 +86,18 @@ const VINTAGES = readVintages();
 function acsAsOf(summary) {
   const acs = summary?.acsProfile || {};
   return acsVintageLabel(acs._acsYear, acs._acsSeries) || VINTAGES.acsDefault;
+}
+
+/**
+ * The vintage of summary fields fetched from the ACS 5-year only, whatever
+ * the profile's own series: the B-series detail tables (B25003, B25075;
+ * build_hna_data.py stamps their year as _acs5DetailYear) and overcrowding's
+ * inputs (backfill_hna_extended_acs_cache.mjs, _acs5BackfillYear). A summary
+ * written before those stamps takes the profile's year.
+ */
+function acs5AsOf(summary, yearKey = '_acs5DetailYear') {
+  const acs = summary?.acsProfile;
+  return acsVintageLabel(acs?.[yearKey] ?? acs?._acsYear, 'acs5') || VINTAGES.acsDefault;
 }
 
 function chasAsOf(chasSource) {
@@ -459,6 +473,9 @@ function sourceForMetric(metric, entry, summary) {
       as_of: 'LEHD LODES WAC vs ' + amiGapAsOf(place ? 'place' : 'county'),
     };
   }
+  if (metric === 'overcrowding_rate_pct') {
+    return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acs5AsOf(summary, '_acs5BackfillYear') };
+  }
   return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acsAsOf(summary) };
 }
 
@@ -636,7 +653,7 @@ function ownershipStockAffordabilityMetrics(entry, acs, amiGap) {
     'acs-b25075',
     'owner_occupied_housing_units',
     denominator,
-    acsVintageLabel(acs?._acsYear, acs?._acsSeries) || VINTAGES.acsDefault,
+    acs5AsOf({ acsProfile: acs }),
   );
   return {
     pct_owner_stock_affordable_80ami: metric(0.80),
@@ -698,7 +715,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-b25003',
       'occupied_housing_units',
       acs.B25003_001E,
-      acsAsOf(summary),
+      acs5AsOf(summary),
     ),
   };
 }

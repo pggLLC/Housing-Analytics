@@ -3116,7 +3116,7 @@
     return window.HNAUtils.fmtNum(rounded);
   }
 
-  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis) {
+  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis, netOfStock) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) {
       return 'Projections loaded, but could not compute housing need (missing households/headship).';
     }
@@ -3133,10 +3133,19 @@
     }
     const display = formatIncrementalUnitsDisplay(incUnits);
     const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
+    // Say what was subtracted. The county reading nets out the homes in the
+    // market today; the place ledger is the rise in homes needed from the base
+    // year and subtracts no stock (see residentReadingName), so "after
+    // subtracting the current housing stock" was false on every place page.
+    const what = netOfStock === false
+      ? (Number(incUnits) < 0
+        ? `: projected households fall, so this many fewer homes are needed than today at a ${vacancy} target vacancy.`
+        : `: the rise in homes needed from today as projected households grow, at a ${vacancy} target vacancy.`)
+      : `, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.`;
     if (Number(incUnits) < 0) {
-      return `Vacancy-based summary: ${display} by ${endYear}, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+      return `Vacancy-based summary: ${display} by ${endYear}${what}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
     }
-    return `Vacancy-based summary: ${display} net new total units by ${endYear}, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+    return `Vacancy-based summary: ${display} net new total units by ${endYear}${what}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
   }
 
 
@@ -3689,7 +3698,13 @@
         }
       }
     }
-    if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis);
+    if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(
+      incUnits, endYear,
+      // The place ledger was built at its county file's target vacancy, not the
+      // vacancy assumption chosen on this page.
+      usedPlaceProjection && window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy) !== null
+        ? window.HNAUtils.safeNum(proj.housing_need.target_vacancy) : targetVac,
+      projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis, growthNetOfStock);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
@@ -4860,8 +4875,13 @@
         }
       }
       if (dola || acsCohorts){
-        // F186 — explicit geo context (prevents stale-label bug from F183/F185)
-        window.HNARenderers.renderDolaPyramid(dola, acsCohorts, { geoType, geoid, geoLabel: label, contextCounty });
+        // F186 — explicit geo context (prevents stale-label bug from F183/F185).
+        // placeAgeReason says why a place has no age table of its own: with no
+        // Census key, fetchAcsB01001 returns null without asking.
+        const placeAgeReason = (geoType === 'place' || geoType === 'cdp') && !acsCohorts
+          ? (window.HNAUtils.censusKey() ? 'census_failed' : 'not_requested')
+          : null;
+        window.HNARenderers.renderDolaPyramid(dola, acsCohorts, { geoType, geoid, geoLabel: label, contextCounty, placeAgeReason });
       } else {
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
       }
