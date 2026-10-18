@@ -349,48 +349,51 @@ test('validateChecklistItem: all valid IDs accepted', () => {
 
 // ── DOLA deadline logic ───────────────────────────────────────────────────────
 
-test('nextDolaDeadline: returns Jan 31 of current year when before deadline', () => {
-  // Simulate March 8, 2026 (after Jan 31) → next deadline is Jan 31, 2027
-  const now = new Date('2026-03-08T00:00:00Z');
+// Prop 123 commitments are due November 1 before the cycle they cover
+// (C.R.S. § 29-32-105(1)(d)). The deadline must also agree with the
+// tracker module that renders the deadline badge on the same page.
+test('nextDolaDeadline: rolls to next Nov 1 once this year\'s has passed', () => {
+  const now = new Date(2026, 10, 8);   // Nov 8, 2026
   const dl  = CC._nextDolaDeadline(now);
-  assert(dl.getFullYear() === 2027, 'rolls to 2027 when past Jan 31 2026');
-  assert(dl.getMonth()    === 0,    'month is January (0)');
-  assert(dl.getDate()     === 31,   'day is 31');
+  assert(dl.getFullYear() === 2027, 'rolls to 2027 when past Nov 1 2026');
+  assert(dl.getMonth()    === 10,   'month is November (10)');
+  assert(dl.getDate()     === 1,    'day is 1');
 });
 
-test('nextDolaDeadline: returns Jan 31 same year when before Jan 31', () => {
-  // Simulate Jan 15, 2026 (before Jan 31) → deadline is Jan 31, 2026
-  const now = new Date('2026-01-15T00:00:00Z');
+test('nextDolaDeadline: returns Nov 1 same year before it', () => {
+  const now = new Date(2026, 2, 8);    // Mar 8, 2026
   const dl  = CC._nextDolaDeadline(now);
-  assert(dl.getFullYear() === 2026, 'same year before Jan 31');
-  assert(dl.getMonth()    === 0,    'month is January');
-  assert(dl.getDate()     === 31,   'day is 31');
+  assert(dl.getFullYear() === 2026, 'same year before Nov 1');
+  assert(dl.getMonth()    === 10,   'month is November');
+  assert(dl.getDate()     === 1,    'day is 1');
+  const onDay = CC._nextDolaDeadline(new Date(2026, 10, 1, 15));
+  assert(onDay.getFullYear() === 2026, 'does not roll over on Nov 1 itself');
 });
 
 test('isDeadlineWarning: returns true within 30 days', () => {
-  // Jan 10 → deadline Jan 31 → 21 days away → warning
-  const now = new Date('2026-01-10T00:00:00Z');
-  assert(CC._isDeadlineWarning(now) === true, 'warning when 21 days to deadline');
+  const now = new Date(2026, 9, 18);   // Oct 18 → 14 days to Nov 1
+  assert(CC._isDeadlineWarning(now) === true, 'warning when 14 days to deadline');
 });
 
 test('isDeadlineWarning: returns false more than 30 days away', () => {
-  // Nov 15 → deadline Jan 31 → 77 days away → no warning
-  const now = new Date('2025-11-15T00:00:00Z');
-  assert(CC._isDeadlineWarning(now) === false, 'no warning when 77 days away');
+  const now = new Date(2026, 7, 15);   // Aug 15 → 78 days to Nov 1
+  assert(CC._isDeadlineWarning(now) === false, 'no warning when 78 days away');
 });
 
 test('isDeadlineWarning: returns false on the day after deadline', () => {
-  // Feb 1 → deadline next Jan 31 → ~364 days → no warning
-  const now = new Date('2026-02-01T00:00:00Z');
+  // Nov 2 → deadline next Nov 1 → ~364 days → no warning
+  const now = new Date(2026, 10, 2);
   assert(CC._isDeadlineWarning(now) === false, 'no warning day after deadline');
 });
+
+const MAR_8 = new Date(2026, 2, 8);   // far from the Nov 1 deadline
 
 // ── getNextAction ─────────────────────────────────────────────────────────────
 
 test('getNextAction: returns baseline label when nothing checked', () => {
   resetStorage();
   CC.initComplianceChecklist('county', '08031');
-  const action = CC.getNextAction('county', '08031');
+  const action = CC.getNextAction('county', '08031', MAR_8);
   assert(typeof action === 'string', 'returns a string');
   assert(action.length > 0,          'returns non-empty string');
   assert(action.includes('baseline') || action.includes('Establish'), 'mentions first unchecked item');
@@ -400,16 +403,16 @@ test('getNextAction: returns second item when first is checked', () => {
   resetStorage();
   CC.initComplianceChecklist('county', '08031');
   CC.updateChecklistItem('baseline', true);
-  const action = CC.getNextAction('county', '08031');
+  const action = CC.getNextAction('county', '08031', MAR_8);
   // Should be "growth" item
-  assert(action.includes('3%') || action.includes('growth') || action.includes('Adopt'), 'mentions second item');
+  assert(action === CC._ITEM_LABELS.growth, 'mentions second item');
 });
 
 test('getNextAction: returns completion message when all checked', () => {
   resetStorage();
   CC.initComplianceChecklist('county', '08031');
   CC._ITEM_IDS.forEach(id => CC.updateChecklistItem(id, true));
-  const action = CC.getNextAction('county', '08031');
+  const action = CC.getNextAction('county', '08031', MAR_8);
   assert(action.includes('complete') || action.includes('✅'), 'returns completion message');
 });
 
@@ -418,16 +421,10 @@ test('getNextAction: warns about DOLA deadline when within 30 days and dola not 
   // Verify the deadline/warning functions work together correctly.
   // Since getNextAction() uses Date internally, we test the underlying building blocks
   // (already separately tested) and confirm their outputs combine correctly.
-  const jan20 = new Date('2026-01-20T00:00:00Z');
-  assert(CC._isDeadlineWarning(jan20) === true,  'isDeadlineWarning is true on Jan 20');
-  const dl    = CC._nextDolaDeadline(jan20);
-  const dlStr = dl.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-  assert(typeof dlStr === 'string' && dlStr.includes('31'), 'deadline string includes day 31');
-  assert(dlStr.includes('January'), 'deadline string includes January');
-  // Confirm the warning message format used by getNextAction
-  const expectedFragment = 'File with DOLA by January 31';
-  const warningMsg = 'File with DOLA by ' + dlStr + ' ⚠️';
-  assert(warningMsg.includes(expectedFragment), 'warning message contains expected DOLA text');
+  const oct20 = new Date(2026, 9, 20);
+  assert(CC._isDeadlineWarning(oct20) === true,  'isDeadlineWarning is true on Oct 20');
+  const msg = CC.getNextAction('county', '08031', oct20);
+  assert(msg === 'File with DOLA by November 1 ⚠️', 'getNextAction warns with the November 1 deadline: ' + msg);
 });
 
 // ── broadcastChecklistChange ──────────────────────────────────────────────────

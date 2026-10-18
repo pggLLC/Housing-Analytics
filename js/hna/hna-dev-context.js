@@ -314,11 +314,11 @@
       project: 'AMI mix can be cross-checked against the local job distribution over time. When job growth concentrates in lower wage bands, deeper affordability is easier to justify in local-support and market narratives.',
     },
 
-    /* ── Affordable Housing Compliance (HB 22-1093 / Prop 123) ── */
-    'HB 22-1093': {
-      why: 'HB 22-1093 + Prop 123 are Colorado\'s state-level housing-action requirements. Compliance status determines eligibility for Prop 123 fast-track funding and state-level credit allocations.',
-      demand: 'A jurisdiction without an adopted Housing Action Plan or local commitment is leaving Prop 123 dollars on the table — even when the underlying housing need is severe.',
-      project: 'Status matters BEFORE applying. Jurisdictions with adopted plans + commitments are pre-qualified for Prop 123 fast-track + Local Investment funds. Those without may need 6-12 months of catch-up work before state credit can layer in.',
+    /* ── Affordable Housing Compliance (Proposition 123, C.R.S. 29-32) ── */
+    'Proposition 123': {
+      why: 'A filed Prop 123 commitment, and from 2027 a DOLA-verified fast-track review process, decides whether a project here can receive Prop 123 money from CHFA/OEDIT or DOLA (C.R.S. § 29-32-105). It does not affect LIHTC allocations.',
+      demand: 'A jurisdiction without a commitment cannot pass Prop 123 money to projects inside it, even when the underlying housing need is severe. DOLA\'s homelessness programs are the exception.',
+      project: 'Check the commitment status before applying. Commitments are due November 1 before each cycle (Nov 1, 2026 for 2027–2029), so a jurisdiction that has not filed can join for the rest of the cycle a year later.',
     },
 
     /* ── PMA Delineation & CHFA Requirements ── */

@@ -7204,9 +7204,11 @@
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
 
-    // ── chartProp123Growth — 10-year 3% annual growth target ────────────
-    // Prop 123 requires participating jurisdictions to commit to a 3%
-    // annual increase in affordable housing units. The "baseline" is the
+    // ── chartProp123Growth — the 2024–2026 cycle's unit goal ────────────
+    // For 2024–2026, a committed jurisdiction's goal was 3% of its baseline
+    // per year in new or newly affordable homes — 9% over the cycle, simple
+    // not compound (C.R.S. § 29-32-105(1)(a)). From 2027 HB26-1313 sets the
+    // goal from building permits, so the chart stops at 2026. The "baseline" is the
     // jurisdiction's current affordable-housing inventory; we estimate
     // it from total occupied housing units × LIHTC participation share.
     // Real baselines come from CDOLA jurisdictional filings — until those
@@ -7221,17 +7223,16 @@
       const baseline = Math.round(totalUnits * 0.06);
       const years = [];
       const required = [];
-      const baseYear = 2025;
-      for (let i = 0; i <= 10; i++) {
-        years.push(String(baseYear + i));
-        required.push(Math.round(baseline * Math.pow(1.03, i)));
+      for (let y = U().PROP123_FIRST_CYCLE_START - 1; y <= U().PROP123_FIRST_CYCLE_END; y++) {
+        years.push(String(y));
+        required.push(U().calculateGrowthTarget(baseline, U().prop123CycleYears(y)));
       }
       makeChart(growthCanvas.getContext('2d'), {
         type: 'line',
         data: {
           labels: years,
           datasets: [{
-            label: '3% Annual Growth (Prop 123 commitment)',
+            label: 'Goal: baseline + 3% of baseline per year (2024–2026)',
             data: required,
             borderColor: t.c1,
             backgroundColor: t.c1 + '22',
@@ -7268,24 +7269,24 @@
     }
 
     // ── chartProp123Historical — compliance tracking placeholder ───────
-    // Prop 123 went into effect in 2023. Annual compliance reporting is
-    // due via CDOLA filings. Until those filings are aggregated into a
-    // historical timeseries, we show a 3-year sparse view with the
-    // baseline year + a forward-looking growth band.
+    // Homes are documented to DOLA by the end of each three-year cycle
+    // (Dec 31, 2026 for 2024–2026); annual reports are not required. Until
+    // those filings are aggregated, we show the baseline year and the
+    // 2024–2026 goal.
     const histCanvas = document.getElementById('chartProp123Historical');
     if (histCanvas) {
       const totalUnits  = safeNum(profile.DP04_0001E) || 0;
       const baseline = Math.round(totalUnits * 0.06);
-      const years = ['2023', '2024', '2025', '2026', '2027', '2028'];
-      // Show baseline (2023) + required-growth trajectory + an "actual"
-      // line that's null until real reporting data lands.
-      const required = years.map((_, i) => Math.round(baseline * Math.pow(1.03, i)));
+      const years = ['2023', '2024', '2025', '2026'];
+      // Show baseline (2023) + the cycle goal + an "actual" line that's
+      // null until real reporting data lands.
+      const required = years.map(y => U().calculateGrowthTarget(baseline, U().prop123CycleYears(Number(y))));
       makeChart(histCanvas.getContext('2d'), {
         type: 'line',
         data: {
           labels: years,
           datasets: [{
-            label: 'Required (3% growth)',
+            label: 'Goal (3% of baseline per year, 2024–2026)',
             data: required,
             borderColor: t.c1,
             backgroundColor: 'transparent',
@@ -7322,8 +7323,9 @@
       const statusEl = document.getElementById('prop123HistoricalStatus');
       if (statusEl) {
         statusEl.textContent = `Estimated baseline: ${fmtNum(baseline)} affordable units. ` +
-          `Required by 2028 at 3% annual growth: ${fmtNum(required[5])} units. ` +
-          `Annual CDOLA compliance filings will populate the "Actual" series once aggregated.`;
+          `Goal by the end of 2026 (3% of baseline per year, 9% in all): ${fmtNum(required[3])} units. ` +
+          `From 2027 the goal is set from building permits (HB26-1313). ` +
+          `DOLA cycle filings will populate the "Actual" series once aggregated.`;
       }
     }
   }
@@ -7333,8 +7335,8 @@
    * ships these with "Select a geography…" placeholders that never
    * cleared because no renderer touched them. With a profile in hand
    * we can derive a directional baseline (6% of housing stock) and
-   * surface the fast-track eligibility check the utility already
-   * computes (population threshold per HB 22-1093).
+   * surface who runs fast-track review here (the law sets no population
+   * threshold; a CDP is covered by its county).
    *
    * The baseline is intentionally a directional estimate — the
    * jurisdiction-specific number comes from CDOLA Prop 123
@@ -7354,7 +7356,7 @@
         // Jurisdiction-specific numbers come from CDOLA filings;
         // matches the estimator used by chartProp123Growth.
         var baseline = Math.round(totalUnits * 0.06);
-        var required3yr = Math.round(baseline * Math.pow(1.03, 3));
+        var required3yr = U().calculateGrowthTarget(baseline, 3);
         baselineEl.innerHTML =
           '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
             + fmtNum(baseline) + ' units</div>'
@@ -7362,10 +7364,11 @@
             + '<strong>Directional estimate</strong> (~6% of '
             + fmtNum(totalUnits) + ' total housing units in '
             + escHtml(geoLabel || 'this area')
-            + '). 3-yr target at 3% growth: <strong style="color:var(--text)">'
+            + '). 2024–2026 goal, 3% of baseline per year: <strong style="color:var(--text)">'
             + fmtNum(required3yr) + ' units</strong>.<br>'
             + 'Jurisdiction-specific baselines come from CDOLA Prop 123 '
-            + 'commitment filings.</p>';
+            + 'commitment filings. From 2027 the goal is set from building '
+            + 'permits instead (HB26-1313).</p>';
       } else {
         baselineEl.innerHTML =
           '<p style="margin:0;color:var(--muted);font-size:1.133rem">'
@@ -7373,29 +7376,26 @@
       }
     }
 
-    // ── Fast-track approval eligibility (HB 22-1093) ────────────────
+    // ── Fast-track review (C.R.S. § 29-32-105(2)) ───────────────────
     var fastTrackEl = document.getElementById('prop123FastTrackContent');
     if (fastTrackEl) {
-      var pop = safeNum(profile && profile.DP05_0001E);
-      var check = (U().checkFastTrackEligibility && pop != null)
-        ? U().checkFastTrackEligibility(pop, geoType)
+      var check = U().checkFastTrackEligibility
+        ? U().checkFastTrackEligibility(null, geoType)
         : null;
       if (check && check.eligible !== null) {
-        var iconColor = check.eligible ? 'var(--good,#16a34a)' : 'var(--warn,#d97706)';
-        var icon = check.eligible ? '✓' : '⚠';
-        var label = check.eligible ? 'Eligible' : 'Not Eligible';
         fastTrackEl.innerHTML =
-          '<div style="font-size:1.5rem;font-weight:800;color:' + iconColor + ';margin:0 0 .25rem">'
-            + icon + ' ' + label + '</div>'
+          '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
+            + fmtNum(U().PROP123_FAST_TRACK_DAYS) + '-day decision</div>'
           + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
             + escHtml(check.reason)
-            + '. Per HB 22-1093 fast-track (60-day) permitting requires the '
-            + 'jurisdiction to be at or above the population threshold and '
-            + 'to have filed a Prop 123 commitment.</p>';
+            + '. It applies to projects where at least half the homes are '
+            + 'affordable, which must get a final decision within '
+            + fmtNum(U().PROP123_FAST_TRACK_DAYS) + ' calendar days of a '
+            + 'complete application (C.R.S. § 29-32-105(2)(a), (3)(a)).</p>';
       } else {
         fastTrackEl.innerHTML =
           '<p style="margin:0;color:var(--muted);font-size:1.133rem">'
-          + 'Population data not available for this geography.</p>';
+          + 'Jurisdiction type not available for this geography.</p>';
       }
     }
   }
@@ -7436,44 +7436,38 @@
   }
 
   function renderFastTrackCalculatorSection() {
-    // Renders the Prop 123 / HB 22-1093 fast-track timeline calculator
-    // output. Reads the form values, computes a permitting-duration
-    // estimate, and writes the result into #ftResult. Pre-fix: this
-    // function was an empty stub and targeted a non-existent
-    // 'fastTrackSection' container. Phase 2 wires it to the real DOM.
+    // Renders the Prop 123 fast-track check into #ftResult: does the
+    // project qualify (at least half its homes affordable), and the
+    // 90-calendar-day decision deadline it then gets (C.R.S.
+    // § 29-32-105(2)(a)). The law sets no standard review time, so this
+    // shows no time-savings estimate.
     const resultEl = document.getElementById('ftResult');
     if (!resultEl) return;
-    const sizeEl  = document.getElementById('ftDealSize');
-    const typeEl  = document.getElementById('ftType');
-    const trackEl = document.getElementById('ftTrack');
-    const dealSize = sizeEl ? Number(sizeEl.value) || 50 : 50;
-    const dealType = typeEl ? (typeEl.value || 'multifamily') : 'multifamily';
-    const track    = trackEl ? (trackEl.value || 'fast') : 'fast';
-    // Heuristic timeline (months) — HB 22-1093 fast-track requires local
-    // approval within 90 days for compliant deals; standard is 6-12 mo.
-    const baseMonths = track === 'fast' ? 3 : (dealType === 'multifamily' ? 8 : 6);
-    const sizeAdjust = dealSize > 100 ? 1 : dealSize > 50 ? 0.5 : 0;
-    const estMonths = baseMonths + sizeAdjust;
-    const fmtNum = U().fmtNum;
+    const unitsEl      = document.getElementById('ftUnits');
+    const affordableEl = document.getElementById('ftAffordable');
+    const typeEl       = document.getElementById('ftGeoType');
+    const units      = unitsEl ? Number(unitsEl.value) : NaN;
+    const affordable = affordableEl ? Number(affordableEl.value) : NaN;
+    const geoType    = typeEl ? typeEl.value : 'place';
+    const r = U().calculateFastTrackTimeline(units, affordable, geoType);
     resultEl.textContent = '';
     const panel = document.createElement('div');
     panel.style.cssText = 'margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:1rem;';
     const title = document.createElement('strong');
-    title.textContent = 'Estimated approval timeline: ' + estMonths.toFixed(1) + ' months';
+    title.textContent = r.eligible === true
+      ? 'Qualifies for fast-track review: final decision within ' + r.fastTrackDays + ' calendar days of a complete application'
+      : (r.eligible === false
+        ? 'Does not qualify for fast-track review'
+        : 'Enter the project to check');
     panel.appendChild(title);
-    panel.appendChild(document.createElement('br'));
-    const detail = document.createElement('span');
-    detail.style.cssText = 'color:var(--muted);font-size:1rem;';
-    detail.textContent = 'Track: ' + (track === 'fast' ? 'Fast-track (HB 22-1093)' : 'Standard') +
-      ' · Type: ' + dealType + ' · Size: ' + fmtNum(dealSize) + ' units';
-    panel.appendChild(detail);
-    if (track === 'fast') {
-      panel.appendChild(document.createElement('br'));
-      const savings = document.createElement('span');
-      savings.style.cssText = 'color:var(--good,#16a34a);font-size:1rem;';
-      savings.textContent = '⚡ ~' + Math.round((1 - estMonths / 8) * 100) + '% time savings vs. standard process.';
-      panel.appendChild(savings);
-    }
+    const list = document.createElement('ul');
+    list.style.cssText = 'margin:6px 0 0;padding-left:1.1rem;color:var(--muted);font-size:1rem;';
+    r.conditions.forEach(function (c) {
+      const li = document.createElement('li');
+      li.textContent = c;
+      list.appendChild(li);
+    });
+    panel.appendChild(list);
     resultEl.appendChild(panel);
   }
 
@@ -7496,7 +7490,7 @@
       contentEl.innerHTML =
         '<p style="color:var(--muted);font-size:1.133rem;">' +
         'No Prop 123 commitment filing on record for this geography yet. ' +
-        'Once CDOLA receives the annual filing, the historical-compliance ' +
+        'Once DOLA\'s end-of-cycle filings are aggregated, the historical-compliance ' +
         'table will populate with year-by-year delta data.</p>';
       return;
     }

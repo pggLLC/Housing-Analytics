@@ -695,15 +695,44 @@
   }
 
   // ---------------------------------------------------------------
-  // Prop 123 / HB 22-1093 helpers
+  // Prop 123 helpers (C.R.S. §§ 29-32-101 to -106)
   // ---------------------------------------------------------------
+  //
+  // The law sets no population threshold: any city, town or county may
+  // file, and a county's commitment covers its unincorporated areas,
+  // census-designated places included (C.R.S. § 29-32-105(1)(b)).
 
-  // Population thresholds for eligibility (per HB 22-1093)
-
-  const PROP123_MUNICIPALITY_THRESHOLD = 1000;
-  const PROP123_COUNTY_THRESHOLD       = 5000;
-  // Required annual growth rate (3%)
+  // 2024–2026 cycle: 3% of the baseline per year, counted as new or newly
+  // affordable homes — 9% over three years, not compound growth
+  // (C.R.S. § 29-32-105(1)(a)).
   const PROP123_GROWTH_RATE = 0.03;
+  const PROP123_FIRST_CYCLE_START = 2024;
+  const PROP123_FIRST_CYCLE_END   = 2026;
+  // From 2027, HB26-1313 sets the goal from recent building permits
+  // (§ 29-32-105(1)(d)), so the baseline no longer sets it and nothing
+  // here projects it past 2026.
+
+  // Fast-track review: a final decision within 90 calendar days of a
+  // complete application, for projects where at least half the homes are
+  // affordable (C.R.S. § 29-32-105(2)(a)); required from 2027 (§ (3)(a)).
+  const PROP123_FAST_TRACK_DAYS           = 90;
+  const PROP123_FAST_TRACK_AFFORDABLE_MIN = 0.5;
+  const PROP123_FAST_TRACK_REQUIRED_FROM  = 2027;
+
+  // Commitments are due November 1 before the cycle they cover
+  // (C.R.S. § 29-32-105(1)(d)). Month is 0-indexed.
+  const PROP123_COMMITMENT_DEADLINE_MONTH = 10;
+  const PROP123_COMMITMENT_DEADLINE_DAY   = 1;
+
+  /**
+   * Years of the 2024–2026 cycle that have passed by the end of `year`:
+   * 0 in 2023, 1 in 2024, … capped at 3 from 2026 on.
+   */
+  function prop123CycleYears(year) {
+    const y = Number(year);
+    if (!Number.isFinite(y)) return 0;
+    return Math.max(0, Math.min(y, PROP123_FIRST_CYCLE_END) - (PROP123_FIRST_CYCLE_START - 1));
+  }
 
   /**
    * Regional AMI factors for Prop 123 baseline estimation.
@@ -869,45 +898,42 @@
   }
 
   /**
-   * Calculate the 3% annual growth target for a given baseline and year offset.
-   * @param {number} baseline - Starting 60% AMI rental count
-   * @param {number} yearsAhead - Years from baseline (0 = baseline year)
-   * @returns {number}
+   * The 2024–2026 cycle's target stock: the baseline plus 3% of the
+   * baseline for each cycle year (simple, not compound). Capped at three
+   * years, because later cycles use HB26-1313's permit formula.
+   * @param {number} baseline - Baseline affordable-home count
+   * @param {number} yearsAhead - Cycle years elapsed (0 = baseline year)
+   * @returns {number|null} null when there is no baseline
    */
   function calculateGrowthTarget(baseline, yearsAhead) {
-    if (!Number.isFinite(baseline) || baseline <= 0) return 0;
-    yearsAhead = Number.isFinite(yearsAhead) ? yearsAhead : 0;
-    return Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsAhead));
+    if (!Number.isFinite(baseline) || baseline <= 0) return null;
+    const years = Math.max(0, Math.min(Number.isFinite(yearsAhead) ? yearsAhead : 0, 3));
+    return Math.round(baseline * (1 + PROP123_GROWTH_RATE * years));
   }
 
   /**
-   * Check if a jurisdiction is eligible for Prop 123 fast-track.
-   * @param {number} population
+   * Who runs fast-track review for a geography. The law sets no
+   * population threshold; a city, town or county adopts the process, and
+   * a census-designated place is covered by its county's process for
+   * unincorporated areas (C.R.S. § 29-32-105(1)(b), (2)).
+   * @param {number} [population] - unused; kept for older callers
    * @param {string} geoType - 'county' | 'place' | 'cdp'
-   * @returns {{eligible, threshold, reason}}
+   * @returns {{eligible, threshold, reason}} threshold is always null
    */
   function checkFastTrackEligibility(population, geoType) {
-    const pop = Number(population);
-    if (!Number.isFinite(pop) || pop <= 0) {
-      return { eligible: null, threshold: null, reason: 'Population data unavailable' };
+    void population;
+    const known = geoType === 'county' || geoType === 'place' || geoType === 'cdp';
+    if (!known) {
+      return { eligible: null, threshold: null, reason: 'Jurisdiction type unavailable' };
     }
-    // CDPs are unincorporated areas and not eligible jurisdictions under HB 22-1093
-    if (geoType === 'cdp') {
-      return {
-        eligible:  false,
-        threshold: null,
-        reason:    'Census-Designated Places (unincorporated areas) are not eligible jurisdictions under HB 22-1093',
-      };
-    }
-    const isCounty  = geoType === 'county';
-    const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
-    const eligible  = pop >= threshold;
     return {
-      eligible,
-      threshold,
-      reason: eligible
-        ? `Population (${pop.toLocaleString()}) meets the ${threshold.toLocaleString()} threshold`
-        : `Population (${pop.toLocaleString()}) below the ${threshold.toLocaleString()} minimum`,
+      eligible:  true,
+      threshold: null,
+      reason: geoType === 'cdp'
+        ? 'Unincorporated area: the county adopts and runs fast-track review here'
+        : (geoType === 'county' ? 'The county' : 'The city or town')
+          + ' must have fast-track review in place by January 1, ' + PROP123_FAST_TRACK_REQUIRED_FROM
+          + ' to stay eligible for Prop 123 funding; there is no population threshold',
     };
   }
 
@@ -916,49 +942,51 @@
   // ---------------------------------------------------------------
 
 
-  function calculateFastTrackTimeline(projectUnits, ami_pct, jurisdiction_type) {
-    const units  = Number(projectUnits);
-    const ami    = Number(ami_pct);
-
-    // Standard local review cycle (per HB 22-1093 legislative findings, 180–365 days)
-    const standardDays  = 270;  // median estimate
-    // HB 22-1093 expedited timeline (45–90 days)
-    const fastTrackDays = 60;   // typical with complete application
+  /**
+   * Does a project qualify for Prop 123 fast-track review?
+   * At least half its homes must be affordable — rentals at or below 60%
+   * AMI, for-sale at or below 100% AMI — and the local government must
+   * then reach a final decision within 90 calendar days of a complete
+   * application (C.R.S. § 29-32-101(2), § 29-32-105(2)(a)).
+   *
+   * The law sets no standard review time, so there is no time-savings
+   * figure: standardDays and timelineSavings are null, never an estimate.
+   *
+   * @param {number} projectUnits    - total homes in the project
+   * @param {number} affordableUnits - homes that are affordable as above
+   * @param {string} jurisdiction_type - 'county' | 'place' | 'cdp'
+   */
+  function calculateFastTrackTimeline(projectUnits, affordableUnits, jurisdiction_type) {
+    const units      = Number(projectUnits);
+    const affordable = Number(affordableUnits);
+    const fastTrackDays = PROP123_FAST_TRACK_DAYS;
 
     const conditions = [];
     let eligible = true;
 
-    if (!Number.isFinite(ami) || ami > 60) {
-      eligible = false;
-      conditions.push('Project must serve households at 60% AMI or below');
-    } else {
-      conditions.push('✅ 60% AMI or below — meets income targeting requirement');
-    }
-
     if (!Number.isFinite(units) || units < 1) {
-      eligible = false;
-      conditions.push('At least 1 affordable unit required');
+      eligible = null;
+      conditions.push('Enter the number of homes in the project');
+    } else if (!Number.isFinite(affordable) || affordable < 0 || affordable > units) {
+      eligible = null;
+      conditions.push('Enter how many of the ' + units + ' homes are affordable');
+    } else if (affordable / units >= PROP123_FAST_TRACK_AFFORDABLE_MIN) {
+      conditions.push('✅ ' + affordable + ' of ' + units + ' homes affordable — at least half, as § 29-32-105(2)(a) requires');
     } else {
-      conditions.push(`✅ ${units} unit(s) proposed`);
+      eligible = false;
+      conditions.push('Only ' + affordable + ' of ' + units + ' homes affordable — at least half must be (rentals ≤60% AMI, for-sale ≤100% AMI), § 29-32-105(2)(a)');
     }
 
-    // Only counties/municipalities that have filed a Prop 123 commitment are eligible
-    const eligibleTypes = ['county', 'place'];
-    if (!eligibleTypes.includes(jurisdiction_type)) {
-      eligible = false;
-      conditions.push('Jurisdiction must be a county or incorporated municipality with a filed commitment');
-    } else {
-      conditions.push('✅ Eligible jurisdiction type (' + jurisdiction_type + ')');
+    if (jurisdiction_type === 'cdp') {
+      conditions.push('Unincorporated area: the county reviews the application');
+    } else if (jurisdiction_type === 'county' || jurisdiction_type === 'place') {
+      conditions.push('The ' + (jurisdiction_type === 'county' ? 'county' : 'city or town') + ' reviews the application');
     }
 
-    conditions.push('Must provide proper advance notice to DOLA (per statute)');
-    conditions.push('Must comply with DOLA expedited process guidance');
+    conditions.push('Applies to development permits, not subdivisions or rezonings');
+    conditions.push('Required from ' + PROP123_FAST_TRACK_REQUIRED_FROM + ' where the local government seeks Prop 123 funding; the developer may ask for a 90-day extension or opt out, § 29-32-105(2)(b), (d)');
 
-    const savedDays   = standardDays - fastTrackDays;
-    const savedMonths = Math.round(savedDays / 30);
-    const savings     = savedMonths + ' month' + (savedMonths !== 1 ? 's' : '');
-
-    return { standardDays, fastTrackDays, timelineSavings: savings, eligible, conditions };
+    return { standardDays: null, fastTrackDays, timelineSavings: null, eligible, conditions };
   }
 
   /**
@@ -986,8 +1014,7 @@
 
     const baseline    = baselineData.baseline60Ami;
     const currentYear = new Date().getFullYear();
-    const yearsIn     = currentYear - 2023;
-    const target      = Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn));
+    const target      = calculateGrowthTarget(baseline, prop123CycleYears(currentYear));
 
     // Check for user-supplied actuals in sessionStorage
     const storedKey = 'prop123_actual_' + geoid + '_' + currentYear;
@@ -1239,9 +1266,15 @@
     GITHUB_PAGES_BASE,
     NAICS_LABELS,
     WAGE_BAND_ANNUAL,
-    PROP123_MUNICIPALITY_THRESHOLD,
-    PROP123_COUNTY_THRESHOLD,
     PROP123_GROWTH_RATE,
+    PROP123_FIRST_CYCLE_START,
+    PROP123_FIRST_CYCLE_END,
+    PROP123_FAST_TRACK_DAYS,
+    PROP123_FAST_TRACK_AFFORDABLE_MIN,
+    PROP123_FAST_TRACK_REQUIRED_FROM,
+    PROP123_COMMITMENT_DEADLINE_MONTH,
+    PROP123_COMMITMENT_DEADLINE_DAY,
+    prop123CycleYears,
     CO_DDA,
     BOUNDARY_STYLES,
     PROJECTION_SCENARIOS,

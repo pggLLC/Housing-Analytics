@@ -99,6 +99,11 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
   "https://cdola.colorado.gov/division-of-housing",
+  // DOLA's Prop 123 law and fast-track guidance pages, cited by the HNA
+  // compliance section. Same cdola.colorado.gov CI blocking as the entries
+  // above; both returned 200 to the 2026-10-18 Prop 123 legal check.
+  "https://cdola.colorado.gov/about-proposition-123",
+  "https://cdola.colorado.gov/prop123fasttrack",
   // HNA renderer source links that are public agency/program landing pages
   // but block or reset CI fetches. Keep as visible citations in the app; the
   // weekly URL-health sweep still records them as allow-listed.

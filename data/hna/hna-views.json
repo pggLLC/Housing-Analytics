@@ -30,7 +30,13 @@
           "js/vendor/leaflet.js",
           "js/vendor/leaflet.css",
           "js/components/affordable-housing-layer.js",
-          "js/components/map-home-btn.js",
+          "js/components/map-home-btn.js"
+        ]
+      },
+      {
+        "needs_id": "prop123Relationship",
+        "why": "prop123-map.js also defines window.Prop123Jurisdictions, the loader for DOLA's commitment list that the Prop 123 section's filing card reads. It was pruned with Leaflet, so hna-what-to-do.html showed 'Source unavailable' for every jurisdiction. Its map code returns early without #layerProp123 or window.L, so it is safe on a view with no map.",
+        "files": [
           "js/prop123-map.js"
         ]
       },
@@ -367,7 +373,7 @@
         },
         {
           "n": 43,
-          "title": "Affordable Housing Compliance (HB 22-1093 / Prop 123)"
+          "title": "Affordable Housing Compliance (Proposition 123)"
         },
         {
           "n": 44,

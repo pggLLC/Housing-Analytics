@@ -140,8 +140,8 @@ test('Prop 123 section: JS functions defined', () => {
 
 test('Prop 123 section: constants defined correctly', () => {
   assert(hnaSrc.includes('PROP123_GROWTH_RATE = 0.03'),     'growth rate constant is 0.03 (3%)');
-  assert(hnaSrc.includes('PROP123_MUNICIPALITY_THRESHOLD'), 'municipality threshold constant defined');
-  assert(hnaSrc.includes('PROP123_COUNTY_THRESHOLD'),       'county threshold constant defined');
+  assert(hnaSrc.includes('PROP123_FAST_TRACK_DAYS           = 90'), 'fast-track decision window is 90 days (C.R.S. § 29-32-105(2)(a))');
+  assert(!/PROP123_(MUNICIPALITY|COUNTY)_THRESHOLD/.test(hnaSrc), 'no population threshold: the law sets none');
 });
 
 test('HTML contains Labor Market section with expected elements', () => {
@@ -161,7 +161,7 @@ test('HTML contains Prop 123 section with expected elements', () => {
   assert(hnaHtml.includes('id="prop123FastTrackContent"'),   'fast-track content area present');
   assert(hnaHtml.includes('id="prop123Checklist"'),          'compliance checklist present');
   assert(hnaHtml.includes('id="chartProp123Growth"'),        'growth chart canvas present');
-  assert(hnaHtml.includes('HB 22-1093'),                     'HB 22-1093 referenced in HTML');
+  assert(hnaHtml.includes('C.R.S. §§ 29-32-101 to -106'),   'Prop 123 cited to C.R.S. 29-32 in HTML');
 });
 
 test('CSS contains new section styles', () => {
