@@ -402,8 +402,8 @@
         label: census.configured ? 'Configured' : 'Not set',
         detail: census.configured
           ? 'Key present via ' + census.source + '. Authenticated Census ACS requests enabled.'
-          : 'Not set. Unauthenticated requests will be used (rate-limited to 500/day). ' +
-            'Free key: api.census.gov/data/key_signup.html',
+          : 'Not set. Census data still loads without a key, but the Census Bureau limits keyless use to 500 requests a day. ' +
+            'A free key is available at api.census.gov/data/key_signup.html',
       },
       {
         title: 'FRED API Key',
@@ -630,7 +630,7 @@
       key:   'BRIDGE_DATASET',
       label: 'Bridge Dataset Code',
       placeholder: 'Default: test — override when MLS access granted',
-      note:  'Leave blank for "test" sample data; enter e.g. ires_co when approved',
+      note:  'Leave blank to use Bridge sample data; once MLS access is approved, enter the dataset code Bridge assigns to that MLS',
       link:  'https://bridgedataoutput.com/docs/explorer/reso-web-api'
     }
   ];
