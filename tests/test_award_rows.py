@@ -1,4 +1,5 @@
 """scripts/funding/build_award_rows.py: reading award tables without the PDFs."""
+import json
 import os
 import sys
 
@@ -67,3 +68,22 @@ def test_the_sponsor_column_heading_is_kept_so_an_owner_is_not_shown_as_a_develo
     sponsor = ['Name', 'City', 'Sponsor', 'Credit Amount']
     r = b.table_rows([sponsor, ['Mill Apartments', 'Fraser', 'Grand Park Homes', '$500,000']])[0]
     assert r['sponsor_heading'] == 'Sponsor'
+
+
+def test_a_line_quote_stops_before_the_contact_columns():
+    for line, kept in [
+        ('AR F Main Street $1,393,960 $850,000 CHFA see below Thistle Pat Doe pat@example.org (303) 555-0100',
+         'AR F Main Street $1,393,960 $850,000 CHFA see below Thistle'),
+        ('N,F 1 Main St Grand Junction 81506 $1,349,865 60 60 Housing Authority Pat Doe 970-555-0100 pat@example.org',
+         'N,F 1 Main St Grand Junction 81506 $1,349,865 60 60 Housing Authority'),
+        ('1936 Grove Apartments Denver $3,699,545 28 Mixed-Income Investment',
+         '1936 Grove Apartments Denver $3,699,545 28 Mixed-Income Investment'),
+    ]:
+        assert b.without_contact(line) == kept
+
+
+def test_no_published_quote_carries_a_phone_or_an_email():
+    rows = json.load(open(os.path.join(b.DIR, 'award-rows.json'), encoding='utf-8'))['rows']
+    assert rows
+    for r in rows:
+        assert not b.CONTACT_TOKEN.search(r.get('quote') or ''), r['key']

@@ -1,0 +1,799 @@
+{
+ "meta": {
+  "description": "Award documents the parser could not reconcile, checked by a person against the PDF. Pinned to each file's sha256, so a re-published PDF is checked again. A document with \"rows\" uses those rows instead of the parsed ones, and only if its printed_totals are the totals the PDF prints and its rows add up to them (scripts/funding/build_funding_awards.py check_transcription)."
+ },
+ "documents": {
+  "2018-LIHTC-Round2-Award-Report.pdf": {
+   "sha256": "9efb51f7784506fee25be4fdbb2d776362886dc368be2cf8fbf742f6015d53fe",
+   "reason": "The Total Units and Total LI Units columns sit close together, and the parser read most rows' total units into the LI column (Gateway South: 92 total, 58 LI). Each row transcribed from the PDF.",
+   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_at": "2026-10-18",
+   "printed_totals": {
+    "amount_requested": 17128412,
+    "total_units": 814,
+    "restricted_units": 755
+   },
+   "rows": [
+    {
+     "name": "Alpenglow Village",
+     "location": "Steamboat Springs",
+     "total_units": 72,
+     "restricted_units": 48,
+     "sponsor": "Overland Property Group & Yampa Valley Housing Authority",
+     "amount_requested": 1350000
+    },
+    {
+     "name": "GardenWalk of Gunnison",
+     "location": "Gunnison",
+     "total_units": 36,
+     "restricted_units": 36,
+     "sponsor": "Belmont Development Group",
+     "amount_requested": 906737
+    },
+    {
+     "name": "Gateway South",
+     "location": "Denver",
+     "total_units": 92,
+     "restricted_units": 58,
+     "sponsor": "Housing Authority of the City and County of Denver",
+     "amount_requested": 1350000
+    },
+    {
+     "name": "Kappa Tower II",
+     "location": "Denver",
+     "total_units": 70,
+     "restricted_units": 70,
+     "sponsor": "Kappa Housing, Inc.",
+     "amount_requested": 1174614
+    },
+    {
+     "name": "Karis Apartments",
+     "location": "Grand Junction",
+     "total_units": 34,
+     "restricted_units": 34,
+     "sponsor": "Karis Apartments, LLLP",
+     "amount_requested": 910750
+    },
+    {
+     "name": "Libretto Apartments Phase II",
+     "location": "Brighton",
+     "total_units": 42,
+     "restricted_units": 42,
+     "sponsor": "MJT Properties, Inc./ Brighton Housing Authority",
+     "amount_requested": 939883
+    },
+    {
+     "name": "Mason Place",
+     "location": "Fort Collins",
+     "total_units": 60,
+     "restricted_units": 60,
+     "sponsor": "Housing Catalyst",
+     "amount_requested": 1323763
+    },
+    {
+     "name": "Mirasol III",
+     "location": "Loveland",
+     "total_units": 60,
+     "restricted_units": 60,
+     "sponsor": "Loveland Housing Authority",
+     "amount_requested": 1290396
+    },
+    {
+     "name": "Mission Village of Evans",
+     "location": "Evans",
+     "total_units": 68,
+     "restricted_units": 68,
+     "sponsor": "Commonwealth Development Corporation",
+     "amount_requested": 1300000
+    },
+    {
+     "name": "River Bend Residences",
+     "location": "Idaho Springs",
+     "total_units": 47,
+     "restricted_units": 47,
+     "sponsor": "Herman & Kittle Properties, Inc.",
+     "amount_requested": 1157614
+    },
+    {
+     "name": "Sage Corner fka: Indigo",
+     "location": "Lakewood",
+     "total_units": 43,
+     "restricted_units": 43,
+     "sponsor": "Metro West Housing Partners",
+     "amount_requested": 848405
+    },
+    {
+     "name": "Senior Residences at Three Springs",
+     "location": "Durango",
+     "total_units": 53,
+     "restricted_units": 53,
+     "sponsor": "Volunteers of America National Services",
+     "amount_requested": 1279250
+    },
+    {
+     "name": "Tungsten Village fka: Third Street Community",
+     "location": "Nederland",
+     "total_units": 26,
+     "restricted_units": 26,
+     "sponsor": "Boulder County Housing Authority",
+     "amount_requested": 597000
+    },
+    {
+     "name": "Uplands Townhomes Phase II",
+     "location": "Pueblo",
+     "total_units": 51,
+     "restricted_units": 51,
+     "sponsor": "Housing Authority of the City of Pueblo",
+     "amount_requested": 1350000
+    },
+    {
+     "name": "Veterans Renaissance Apartments at Fitzsimons",
+     "location": "Aurora",
+     "total_units": 60,
+     "restricted_units": 59,
+     "sponsor": "Colorado Coalition for the Homeless",
+     "amount_requested": 1350000
+    },
+    {
+     "name": "Geteway North",
+     "location": "Denver",
+     "total_units": 95,
+     "restricted_units": 95,
+     "sponsor": "Denver Housing Authority",
+     "amount_requested": 1426148,
+     "after_total": true
+    }
+   ]
+  },
+  "2019-Round-1-Award-Report.pdf": {
+   "sha256": "88e2e1c7a555a190ca2d7a238114138393151c6d611450ac8d57ff8fae08f813",
+   "reason": "Two scattered-site awards print their credits on a parent row and their units on sub-rows (\"see below\"), which the parser read as separate projects. Each award transcribed from the PDF, with its sites' units summed.",
+   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_at": "2026-10-18",
+   "printed_totals": {
+    "federal_credit": 12496478,
+    "state_credit": 10142562,
+    "total_units": 1344,
+    "restricted_units": 1343
+   },
+   "pdf_total_errors": {
+    "federal_credit": "The Traunch 1 federal credit total ($7,381,087) is $2,260,807 less than the federal credits printed above it, which is exactly the federal credit printed for Legends of Church Ranch; the Traunch 1 state credit and unit totals include that row. The PDF does not say why."
+   },
+   "rows": [
+    {
+     "name": "30Pearl Apartments",
+     "location": "Boulder",
+     "county": "Boulder",
+     "total_units": 120,
+     "restricted_units": 120,
+     "sponsor": "Boulder Housing Partners",
+     "federal_credit": 1891472,
+     "state_credit": 838020,
+     "bond_amount": 26659208
+    },
+    {
+     "name": "48th and Race",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 150,
+     "restricted_units": 150,
+     "sponsor": "Columbia Ventures, LLC",
+     "federal_credit": 1426865,
+     "state_credit": 912776,
+     "bond_amount": 18400000
+    },
+    {
+     "name": "Atruim at Austin Bluffs",
+     "location": "Colorado Springs",
+     "county": "El Paso",
+     "total_units": 54,
+     "restricted_units": 54,
+     "sponsor": "Greccio Housing",
+     "federal_credit": 550582,
+     "state_credit": 834215,
+     "bond_amount": 8000000
+    },
+    {
+     "name": "DHA 655 Broadway/Studebaker",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 143,
+     "restricted_units": 143,
+     "sponsor": "Denver Housing Authority",
+     "federal_credit": 1490047,
+     "state_credit": 815000,
+     "bond_amount": 27300000,
+     "detail": "scattered site: DHA 655 Broadway (110 units), DHA Studebaker (33 units)"
+    },
+    {
+     "name": "Legends of Church Ranch",
+     "location": "Westminster",
+     "county": "Jefferson",
+     "total_units": 205,
+     "restricted_units": 205,
+     "sponsor": "Dominium",
+     "federal_credit": 2260807,
+     "state_credit": 499999,
+     "bond_amount": 33800000
+    },
+    {
+     "name": "Park at Colorado Outdoors*",
+     "location": "Montrose",
+     "county": "Montrose",
+     "total_units": 72,
+     "restricted_units": 72,
+     "sponsor": "Colorado Outdoors LLC",
+     "federal_credit": 628161,
+     "state_credit": 738840,
+     "bond_amount": 8489906,
+     "detail": "Project did not proceed. Award returned by sponsor."
+    },
+    {
+     "name": "Thistle scattered sites",
+     "location": "Longmont, Boulder",
+     "county": "Boulder",
+     "total_units": 159,
+     "restricted_units": 159,
+     "sponsor": "Thistle",
+     "federal_credit": 1393960,
+     "state_credit": 850000,
+     "bond_amount": 2389633,
+     "detail": "scattered site: Engish Village (32), Laguna Place (8), Parkville Apartments (76), Sage Court (19), Terry Street Apartments (24)"
+    },
+    {
+     "name": "7401 Broadway",
+     "location": "Denver",
+     "county": "Adams",
+     "total_units": 116,
+     "restricted_units": 116,
+     "sponsor": "Unison Housing Partners",
+     "federal_credit": 1527916,
+     "state_credit": 927779,
+     "bond_amount": 22150000
+    },
+    {
+     "name": "Capitol Square Apartments",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 103,
+     "restricted_units": 103,
+     "sponsor": "Mile High Affordable Housing",
+     "federal_credit": 1213140,
+     "state_credit": 1000000,
+     "bond_amount": 16283406
+    },
+    {
+     "name": "Coffman Street Apartments",
+     "location": "Longmont",
+     "county": "Boulder",
+     "total_units": 73,
+     "restricted_units": 73,
+     "sponsor": "Boulder County Housing Authority",
+     "federal_credit": 779274,
+     "state_credit": 930000,
+     "bond_amount": 13000000
+    },
+    {
+     "name": "Edge Phase II",
+     "location": "Loveland",
+     "county": "Larimer",
+     "total_units": 69,
+     "restricted_units": 69,
+     "sponsor": "Loveland Housing Partners",
+     "federal_credit": 651340,
+     "state_credit": 995933,
+     "bond_amount": 10703797
+    },
+    {
+     "name": "Morrison Road",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 80,
+     "restricted_units": 79,
+     "sponsor": "Gorman & Company, LLC",
+     "federal_credit": 943721,
+     "state_credit": 800000,
+     "bond_amount": 15000000
+    }
+   ]
+  },
+  "2020-Round-2-Award-Report.pdf": {
+   "sha256": "889db79ef22a05a0afbd052b3d26ecff8a7de57fdcbe969e8c40d9e47b0d1674",
+   "reason": "Rose on Colfax's two unit counts are printed run together (\"8282\"), and Village at Solid Rock's two were read as one number. Each row transcribed from the PDF; 82 and 82 are the only values that make both unit columns add up to the printed totals.",
+   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_at": "2026-10-18",
+   "printed_totals": {
+    "federal_credit": 12061542,
+    "state_credit": 6563795,
+    "total_units": 853,
+    "restricted_units": 852
+   },
+   "rows": [
+    {
+     "name": "Allison Village",
+     "location": "Arvada",
+     "county": "Jefferson",
+     "total_units": 100,
+     "restricted_units": 100,
+     "sponsor": "Foothills Regional Housing",
+     "federal_credit": 1550817,
+     "state_credit": 700883,
+     "bond_amount": 17800000
+    },
+    {
+     "name": "Anglers Four Hundred",
+     "location": "Steamboat Springs",
+     "county": "Routt",
+     "total_units": 75,
+     "restricted_units": 75,
+     "sponsor": "Overland Property Group",
+     "federal_credit": 1054204,
+     "state_credit": 611857,
+     "bond_amount": 12600000
+    },
+    {
+     "name": "Clara Brown Commons",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 61,
+     "restricted_units": 61,
+     "sponsor": "Mile High Ministries",
+     "federal_credit": 1015658,
+     "state_credit": 600014,
+     "bond_amount": 11600000
+    },
+    {
+     "name": "Fitzsimons Veterans Independent Living",
+     "location": "Aurora",
+     "county": "Adams",
+     "total_units": 59,
+     "restricted_units": 59,
+     "sponsor": "Aurora Housing Authority",
+     "federal_credit": 841849,
+     "state_credit": 663000,
+     "bond_amount": 10200000
+    },
+    {
+     "name": "Garden Apartments *** (Scattered Site)",
+     "location": "Colorado Springs",
+     "county": "El Paso",
+     "total_units": 85,
+     "restricted_units": 85,
+     "sponsor": "Western Region Nonprofit Housing Corporation",
+     "federal_credit": 699934,
+     "state_credit": 399904,
+     "bond_amount": 8000000,
+     "detail": "Project did not proceed. Award returned by sponsor."
+    },
+    {
+     "name": "Highland Trails",
+     "location": "Littleton",
+     "county": "Jefferson",
+     "total_units": 88,
+     "restricted_units": 88,
+     "sponsor": "Four Corners Development, LLC",
+     "federal_credit": 1177920,
+     "state_credit": 471654,
+     "bond_amount": 13036000
+    },
+    {
+     "name": "Montbello FreshLo",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 97,
+     "restricted_units": 97,
+     "sponsor": "Montbello Organizing Committee",
+     "federal_credit": 1760671,
+     "state_credit": 722063,
+     "bond_amount": 17695000
+    },
+    {
+     "name": "Oak 140",
+     "location": "Fort Collins",
+     "county": "Larimer",
+     "total_units": 79,
+     "restricted_units": 79,
+     "sponsor": "Housing Catalyst",
+     "federal_credit": 1254599,
+     "state_credit": 381147,
+     "bond_amount": 13265000
+    },
+    {
+     "name": "Rhonda's Place",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 50,
+     "restricted_units": 49,
+     "sponsor": "BlueLine Development",
+     "federal_credit": 737868,
+     "state_credit": 467481,
+     "bond_amount": 7500000
+    },
+    {
+     "name": "Rose on Colfax",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 82,
+     "restricted_units": 82,
+     "sponsor": "Mercy Housing Mountain Plains",
+     "federal_credit": 972089,
+     "state_credit": 903322,
+     "bond_amount": 15425000
+    },
+    {
+     "name": "Village at Solid Rock",
+     "location": "Colorado Springs",
+     "county": "El Paso",
+     "total_units": 77,
+     "restricted_units": 77,
+     "sponsor": "Commonwealth Development Corporation",
+     "federal_credit": 995933,
+     "state_credit": 642470,
+     "bond_amount": 11500000
+    }
+   ]
+  },
+  "2021-Round-2-Award-Report.pdf": {
+   "sha256": "494719c732eea37b303591281b7f1b9653d498ad8e90f6f05d7df8b4f1964c83",
+   "reason": "The four Park Ridge Apartments properties are followed by a \"Park Ridge Apartments - Totals\" subtotal row, which the parser counted as a fifth award. Each award transcribed from the PDF, without the subtotal.",
+   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_at": "2026-10-18",
+   "printed_totals": {
+    "federal_credit": 19214459,
+    "state_credit": 12205982,
+    "bond_amount": 155370000,
+    "total_units": 1373,
+    "restricted_units": 1368
+   },
+   "pdf_total_errors": {
+    "bond_amount": "The PDF prints a bond total of $155,370,000, but the 17 bond amounts it prints add up to $237,670,000. The printed total leaves out exactly four of them (2700 Wewatta Affordable, Flo, Paloma Garden and Peoria Crossing Phase II, $82,300,000 together); the PDF does not say why."
+   },
+   "rows": [
+    {
+     "name": "2700 Wewatta Affordable",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 56,
+     "restricted_units": 56,
+     "sponsor": "Rivet Development",
+     "federal_credit": 684816,
+     "state_credit": 781055,
+     "bond_amount": 11400000
+    },
+    {
+     "name": "All Saints Apartments",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 63,
+     "restricted_units": 63,
+     "sponsor": "Archdiocesan Housing Inc.",
+     "federal_credit": 588304,
+     "state_credit": 735380,
+     "bond_amount": 8745000
+    },
+    {
+     "name": "Bluebird",
+     "location": "Boulder",
+     "county": "Boulder",
+     "total_units": 40,
+     "restricted_units": 40,
+     "sponsor": "Element Properties",
+     "federal_credit": 586486,
+     "state_credit": 733107,
+     "bond_amount": 9710000
+    },
+    {
+     "name": "Bonsai Apartments",
+     "location": "Sheridan",
+     "county": "Arapahoe",
+     "total_units": 149,
+     "restricted_units": 149,
+     "sponsor": "Medici Development LLC",
+     "federal_credit": 1729349,
+     "state_credit": 995137,
+     "bond_amount": 20250000
+    },
+    {
+     "name": "Eagle Meadow Homes",
+     "location": "Aurora",
+     "county": "Arapahoe",
+     "total_units": 93,
+     "restricted_units": 93,
+     "sponsor": "Community Housing Partners",
+     "federal_credit": 1562268,
+     "state_credit": 1000000,
+     "bond_amount": 15750000
+    },
+    {
+     "name": "Flo",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 212,
+     "restricted_units": 212,
+     "sponsor": "Housing Authority of the City and County of Denver",
+     "federal_credit": 3874164,
+     "state_credit": 900000,
+     "bond_amount": 41500000
+    },
+    {
+     "name": "Jewell Apartments",
+     "location": "Aurora",
+     "county": "Arapahoe",
+     "total_units": 81,
+     "restricted_units": 81,
+     "sponsor": "Community Housing Development Association Inc.",
+     "federal_credit": 1445384,
+     "state_credit": 799070,
+     "bond_amount": 15800000
+    },
+    {
+     "name": "Johnson and Wales Family Housing",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 154,
+     "restricted_units": 154,
+     "sponsor": "Archway Investment Corporation",
+     "federal_credit": 1907312,
+     "state_credit": 1000000,
+     "bond_amount": 29100000
+    },
+    {
+     "name": "Mount Calvary Senior",
+     "location": "Boulder",
+     "county": "Boulder",
+     "total_units": 60,
+     "restricted_units": 60,
+     "sponsor": "Boulder Housing Partners",
+     "federal_credit": 1180147,
+     "state_credit": 662227,
+     "bond_amount": 14800000
+    },
+    {
+     "name": "Paloma Garden",
+     "location": "Colorado Springs",
+     "county": "El Paso",
+     "total_units": 126,
+     "restricted_units": 125,
+     "sponsor": "Volunteers of America National Services",
+     "federal_credit": 1489395,
+     "state_credit": 1000000,
+     "bond_amount": 16400000
+    },
+    {
+     "name": "Park Ridge Apartments - Limon Apartments",
+     "location": "Limon",
+     "county": "Lincoln",
+     "total_units": 16,
+     "restricted_units": 16,
+     "sponsor": "Chrisman Development, Inc.",
+     "federal_credit": 109976,
+     "state_credit": 84878,
+     "bond_amount": 1566000
+    },
+    {
+     "name": "Park Ridge Apartments - Estes Park",
+     "location": "Estes Park",
+     "county": "Larimer",
+     "total_units": 32,
+     "restricted_units": 31,
+     "sponsor": "Chrisman Development, Inc.",
+     "federal_credit": 267936,
+     "state_credit": 206789,
+     "bond_amount": 3755000
+    },
+    {
+     "name": "Park Ridge Apartments - Platte Valley Terrace",
+     "location": "Brighton",
+     "county": "Adams",
+     "total_units": 46,
+     "restricted_units": 45,
+     "sponsor": "Chrisman Development, Inc.",
+     "federal_credit": 671882,
+     "state_credit": 518548,
+     "bond_amount": 8325000
+    },
+    {
+     "name": "Park Ridge Apartments - Trail Ridge",
+     "location": "Estes Park",
+     "county": "Larimer",
+     "total_units": 24,
+     "restricted_units": 23,
+     "sponsor": "Chrisman Development, Inc.",
+     "federal_credit": 155206,
+     "state_credit": 119786,
+     "bond_amount": 2194000
+    },
+    {
+     "name": "Peoria Crossing Phase II",
+     "location": "Aurora",
+     "county": "Adams",
+     "total_units": 72,
+     "restricted_units": 72,
+     "sponsor": "Aurora Housing Authority",
+     "federal_credit": 943092,
+     "state_credit": 970004,
+     "bond_amount": 13000000
+    },
+    {
+     "name": "Ralston Gardens",
+     "location": "Arvada",
+     "county": "Jefferson",
+     "total_units": 102,
+     "restricted_units": 102,
+     "sponsor": "Mile High Development and Brinshore Development, L.L.C.",
+     "federal_credit": 1139742,
+     "state_credit": 1000000,
+     "bond_amount": 16100000
+    },
+    {
+     "name": "Wintergreen Ridge",
+     "location": "Keystone",
+     "county": "Summit",
+     "total_units": 47,
+     "restricted_units": 46,
+     "sponsor": "Gorman & Company, LLC",
+     "federal_credit": 879000,
+     "state_credit": 700000,
+     "bond_amount": 9275000
+    }
+   ]
+  },
+  "2022-Round-2-Award-Report.pdf": {
+   "sha256": "8d0cf77bd0cb2e6c35193ca547edd24294a13c8ba0aff8dd95c0bc9dea85b643",
+   "reason": "The parser read the Total Units column as the TC Units column, and Bentley Commons's two counts as one (384). Each row transcribed from the PDF.",
+   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_at": "2026-10-18",
+   "printed_totals": {
+    "federal_credit": 26615354,
+    "state_credit": 11891413,
+    "total_units": 1463,
+    "restricted_units": 1462
+   },
+   "rows": [
+    {
+     "name": "Bentley Commons",
+     "location": "Colorado Springs",
+     "county": "El Paso",
+     "total_units": 192,
+     "restricted_units": 192,
+     "sponsor": "Greccio Housing / Partners in Housing /RMCLT",
+     "federal_credit": 2735647,
+     "state_credit": 1000000,
+     "bond_amount": 30000000
+    },
+    {
+     "name": "Elevate at Aurora",
+     "location": "Aurora",
+     "county": "Adams",
+     "total_units": 137,
+     "restricted_units": 137,
+     "sponsor": "CV Colorado, LLC",
+     "federal_credit": 2689571,
+     "state_credit": 1000000,
+     "bond_amount": 29295000
+    },
+    {
+     "name": "Heartside Hill",
+     "location": "Fort Collins",
+     "county": "Larimer",
+     "total_units": 71,
+     "restricted_units": 71,
+     "sponsor": "CARE Housing, Inc.",
+     "federal_credit": 1171431,
+     "state_credit": 989961,
+     "bond_amount": 16100000
+    },
+    {
+     "name": "Irving at Mile High Vista",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 102,
+     "restricted_units": 102,
+     "sponsor": "Urban Land Conservancy",
+     "federal_credit": 1934593,
+     "state_credit": 1000000,
+     "bond_amount": 19400000
+    },
+    {
+     "name": "Legacy Senior Residences",
+     "location": "Arvada",
+     "county": "Jefferson",
+     "total_units": 72,
+     "restricted_units": 72,
+     "sponsor": "Cornerstone Housing Group, LLC",
+     "federal_credit": 1078412,
+     "state_credit": 1000000,
+     "bond_amount": 15800000
+    },
+    {
+     "name": "Marshall Homes",
+     "location": "Arvada",
+     "county": "Jefferson",
+     "total_units": 85,
+     "restricted_units": 85,
+     "sponsor": "Family Tree, Inc.",
+     "federal_credit": 1553542,
+     "state_credit": 648429,
+     "bond_amount": 17075000
+    },
+    {
+     "name": "Rally Apartments",
+     "location": "Boulder",
+     "county": "Boulder",
+     "total_units": 100,
+     "restricted_units": 100,
+     "sponsor": "Boulder Housing Partners",
+     "federal_credit": 1778095,
+     "state_credit": 1000000,
+     "bond_amount": 29250000
+    },
+    {
+     "name": "Reserves at Eagle Point",
+     "location": "Aurora",
+     "county": "Arapahoe",
+     "total_units": 192,
+     "restricted_units": 192,
+     "sponsor": "Overland Property Group",
+     "federal_credit": 3276397,
+     "state_credit": 1000000,
+     "bond_amount": 36000000
+    },
+    {
+     "name": "Residences on Acoma",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 128,
+     "restricted_units": 128,
+     "sponsor": "Residences on Acoma, LLLP",
+     "federal_credit": 1619731,
+     "state_credit": 953024,
+     "bond_amount": 23482000
+    },
+    {
+     "name": "RidgeGate Senior",
+     "location": "Lone Tree",
+     "county": "Douglas",
+     "total_units": 101,
+     "restricted_units": 101,
+     "sponsor": "Koelbel and Company",
+     "federal_credit": 1845371,
+     "state_credit": 1000000,
+     "bond_amount": 20000000
+    },
+    {
+     "name": "Smith Ranch Apartments",
+     "location": "Silverthorne",
+     "county": "Summit",
+     "total_units": 65,
+     "restricted_units": 64,
+     "sponsor": "Gorman & Company, LLC",
+     "federal_credit": 1348613,
+     "state_credit": 300000,
+     "bond_amount": 14264000
+    },
+    {
+     "name": "Warren Village III",
+     "location": "Denver",
+     "county": "Denver",
+     "total_units": 89,
+     "restricted_units": 89,
+     "sponsor": "Warren Village Inc.",
+     "federal_credit": 2484288,
+     "state_credit": 1000000,
+     "bond_amount": 26000000
+    },
+    {
+     "name": "Willoughby Corner Phase IB Family Apartments",
+     "location": "Lafayette",
+     "county": "Boulder",
+     "total_units": 129,
+     "restricted_units": 129,
+     "sponsor": "Boulder County Housing Authority",
+     "federal_credit": 3099664,
+     "state_credit": 1000000,
+     "bond_amount": 33250000
+    }
+   ]
+  }
+ }
+}

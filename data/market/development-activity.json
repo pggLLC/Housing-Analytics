@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:35:34.937Z",
+  "generated_at": "2026-10-18T12:19:29Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_development_activity.py",
   "title": "Significant affordable-housing development activity in Colorado",
@@ -26,7 +26,7 @@
   },
   "events_read": {
    "chfa_applications": 156,
-   "award_ledger": 429,
+   "award_ledger": 458,
    "chfa_2026_round_one": 14,
    "dola_awards": 225,
    "chfa_property_list": 404
@@ -35,7 +35,7 @@
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 716,
+  "project_count": 720,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
   "statewide_recent_projects": 394
@@ -15284,8 +15284,8 @@
    ]
   },
   {
-   "id": "flo-senior-08031",
-   "name": "Flo Senior",
+   "id": "flo-08031",
+   "name": "Flo",
    "city": "Denver",
    "county_fips": "08031",
    "county_fips_all": null,
@@ -15299,6 +15299,18 @@
    "restricted_units": 212,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 3874164,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: S; Name: Flo; Address: 930 N. Bryant St.; City: Denver; County: Denver; Federal Credit: $3,874,164; State Credit: $900,000; Bond Issuer: DHA; Bond Amount: $41,500,000; Total Units: 212; Total TC Units: 212",
+     "state_credit": 900000,
+     "bond_amount": 41500000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -18026,6 +18038,18 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 879000,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Wintergreen Ridge; Address: Approx 0235 Antlers Gulch Road; City: Keystone; County: Summit; Federal Credit: $879,000; State Credit: $700,000; Bond Issuer: CHFA; Bond Amount: $9,275,000; Total Units: 47; Total TC Units: 46",
+     "state_credit": 700000,
+     "bond_amount": 9275000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
@@ -19674,6 +19698,18 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 671882,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Platte Valley Terrace; Address: 611 Miller Avenue; City: Brighton; County: Adams; Federal Credit: $671,882; State Credit: $518,548; Bond Issuer: CHFA; Bond Amount: $8,325,000; Total Units: 46; Total TC Units: 45",
+     "state_credit": 518548,
+     "bond_amount": 8325000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
@@ -19699,6 +19735,18 @@
    "restricted_units": 72,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 943092,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Peoria Crossing Phase II; Address: 3002 Peoria St.; City: Aurora; County: Adams; Federal Credit: $943,092; State Credit: $970,004; Bond Issuer: AHA; Bond Amount: $13,000,000; Total Units: 72; Total TC Units: 72",
+     "state_credit": 970004,
+     "bond_amount": 13000000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -19761,6 +19809,18 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1729349,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Bonsai Apartments; Address: 3750 S. Federal Blvd; City: Sheridan; County: Arapahoe; Federal Credit: $1,729,349; State Credit: $995,137; Bond Issuer: CHFA; Bond Amount: $20,250,000; Total Units: 149; Total TC Units: 149",
+     "state_credit": 995137,
+     "bond_amount": 20250000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
@@ -19790,12 +19850,54 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1562268,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Eagle Meadow Homes; Address: 14875 E 2nd Avenue; City: Aurora; County: Arapahoe; Federal Credit: $1,562,268; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $15,750,000; Total Units: 93; Total TC Units: 93",
+     "state_credit": 1000000,
+     "bond_amount": 15750000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Eagle Meadow Homes; PROJ_ADD: 14865 E 2nd Avenue; PROJ_CTY: Aurora; N_UNITS: 93; LI_UNITS: 93; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "jewell-08005",
+   "name": "Jewell Apartments",
+   "city": "Aurora",
+   "county_fips": "08005",
+   "county_fips_all": null,
+   "county": "Arapahoe County",
+   "place_geoid": "0804000",
+   "stage": "funded",
+   "first_year": 2021,
+   "latest_year": 2021,
+   "total_units": 81,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 81,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1445384,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Jewell Apartments; Address: 10150 E Colorado Ave; City: Aurora; County: Arapahoe; Federal Credit: $1,445,384; State Credit: $799,070; Bond Issuer: CHFA; Bond Amount: $15,800,000; Total Units: 81; Total TC Units: 81",
+     "state_credit": 799070,
+     "bond_amount": 15800000
     }
    ]
   },
@@ -19927,6 +20029,18 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 586486,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: H; Name: Bluebird; Address: 2445 30th Street; City: Boulder; County: Boulder; Federal Credit: $586,486; State Credit: $733,107; Bond Issuer: CHFA; Bond Amount: $9,710,000; Total Units: 40; Total TC Units: 40",
+     "state_credit": 733107,
+     "bond_amount": 9710000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
@@ -19937,8 +20051,8 @@
    ]
   },
   {
-   "id": "hilltop-senior-living-08013",
-   "name": "Hilltop Senior Living",
+   "id": "mount-calvary-senior-08013",
+   "name": "Mount Calvary Senior",
    "city": "Boulder",
    "county_fips": "08013",
    "county_fips_all": null,
@@ -19952,6 +20066,18 @@
    "restricted_units": 60,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1180147,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: M; Name: Mount Calvary Senior; Address: 3485 Stanford Ct.; City: Boulder; County: Boulder; Federal Credit: $1,180,147; State Credit: $662,227; Bond Issuer: CHFA; Bond Amount: $14,800,000; Total Units: 60; Total TC Units: 60",
+     "state_credit": 662227,
+     "bond_amount": 14800000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -20142,6 +20268,47 @@
    ]
   },
   {
+   "id": "2700-wewatta-affordable-08031",
+   "name": "2700 Wewatta Affordable",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "funded",
+   "first_year": 2021,
+   "latest_year": 2021,
+   "total_units": 56,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 56,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 684816,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: H; Name: 2700 Wewatta Affordable; Address: 2700 Wewatta Way; City: Denver; County: Denver; Federal Credit: $684,816; State Credit: $781,055; Bond Issuer: CHFA; Bond Amount: $11,400,000; Total Units: 56; Total TC Units: 56",
+     "state_credit": 781055,
+     "bond_amount": 11400000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Nest56 at Denargo Market; PROJ_ADD: 2700 Wewatta Way; PROJ_CTY: Denver; N_UNITS: 56; LI_UNITS: 56; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "all-saints-08031",
    "name": "All Saints Apartments",
    "city": "Denver",
@@ -20161,31 +20328,14 @@
      "stage": "funded",
      "year": 2021,
      "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: All Saints Apartments; PROJ_ADD: 2595 S Federal Blvd; PROJ_CTY: Denver; N_UNITS: 63; LI_UNITS: 63; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "archway-community-on-mosaic-community-campus-08031",
-   "name": "Archway Community on the Mosaic Community Campus",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2021,
-   "latest_year": 2021,
-   "total_units": 154,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 154,
-   "restricted_units_unavailable_reason": null,
-   "events": [
+     "program": "LIHTC 4% + state",
+     "amount": 588304,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: S; Name: All Saints Apartments; Address: 2559 S Federal Blvd; City: Denver; County: Denver; Federal Credit: $588,304; State Credit: $735,380; Bond Issuer: CHFA; Bond Amount: $8,745,000; Total Units: 63; Total TC Units: 63",
+     "state_credit": 735380,
+     "bond_amount": 8745000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -20194,7 +20344,7 @@
      "amount": null,
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Archway Community on the Mosaic Community Campus; PROJ_ADD: 7150 Montview Boulevard; PROJ_CTY: Denver; N_UNITS: 154; LI_UNITS: 154; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "quote": "PROJECT: All Saints Apartments; PROJ_ADD: 2595 S Federal Blvd; PROJ_CTY: Denver; N_UNITS: 63; LI_UNITS: 63; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -20337,6 +20487,47 @@
    ]
   },
   {
+   "id": "johnson-wales-family-housing-08031",
+   "name": "Johnson and Wales Family Housing",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "funded",
+   "first_year": 2021,
+   "latest_year": 2021,
+   "total_units": 154,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 154,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1907312,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: F; Name: Johnson and Wales Family Housing; Address: 7150 Montview Boulevard; City: Denver; County: Denver; Federal Credit: $1,907,312; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $29,100,000; Total Units: 154; Total TC Units: 154",
+     "state_credit": 1000000,
+     "bond_amount": 29100000
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Archway Community on the Mosaic Community Campus; PROJ_ADD: 7150 Montview Boulevard; PROJ_CTY: Denver; N_UNITS: 154; LI_UNITS: 154; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
    "id": "krisana-08031",
    "name": "Krisana",
    "city": "Denver",
@@ -20372,35 +20563,6 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Krisana; PROJ_ADD: 1380 &1385 S. Birch St; PROJ_CTY: Denver; N_UNITS: 150; LI_UNITS: 150; YR_ALLOC: 2021; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
-   "id": "nest56-denargo-market-08031",
-   "name": "Nest56 at Denargo Market",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2021,
-   "latest_year": 2021,
-   "total_units": 56,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 56,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Nest56 at Denargo Market; PROJ_ADD: 2700 Wewatta Way; PROJ_CTY: Denver; N_UNITS: 56; LI_UNITS: 56; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -20611,11 +20773,23 @@
    "stage": "funded",
    "first_year": 2021,
    "latest_year": 2021,
-   "total_units": 127,
+   "total_units": 126,
    "total_units_unavailable_reason": null,
    "restricted_units": 125,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1489395,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N,A R; Target **: S; Name: Paloma Garden; Address: 920 S. Chelton Road and 3140 Mallard Drive; City: Colorado Springs; County: El Paso; Federal Credit: $1,489,395; State Credit: $1,000,000; Bond Issuer: City of Colorado Springs; Bond Amount: $16,400,000; Total Units: 126; Total TC Units: 125",
+     "state_credit": 1000000,
+     "bond_amount": 16400000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -20724,6 +20898,18 @@
    "restricted_units": 102,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1139742,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Ralston Gardens; Address: 58th Avenue at Garrison Street; City: Arvada; County: Jefferson; Federal Credit: $1,139,742; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $16,100,000; Total Units: 102; Total TC Units: 102",
+     "state_credit": 1000000,
+     "bond_amount": 16100000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -20903,7 +21089,7 @@
    ]
   },
   {
-   "id": "park-ridge-park-ridge-08069",
+   "id": "park-ridge-estes-park-08069",
    "name": "Park Ridge Apartments Park Ridge",
    "city": "Estes Park",
    "county_fips": "08069",
@@ -20918,6 +21104,18 @@
    "restricted_units": 31,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 267936,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Estes Park; Address: 1250 Acacia Drive; City: Estes Park; County: Larimer; Federal Credit: $267,936; State Credit: $206,789; Bond Issuer: CHFA; Bond Amount: $3,755,000; Total Units: 32; Total TC Units: 31",
+     "state_credit": 206789,
+     "bond_amount": 3755000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -20947,6 +21145,18 @@
    "restricted_units": 23,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 155206,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: S; Name: Park Ridge Apartments - Trail Ridge; Address: 1256 Community Drive; City: Estes Park; County: Larimer; Federal Credit: $155,206; State Credit: $119,786; Bond Issuer: CHFA; Bond Amount: $2,194,000; Total Units: 24; Total TC Units: 23",
+     "state_credit": 119786,
+     "bond_amount": 2194000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -21015,6 +21225,18 @@
    "restricted_units": 16,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 109976,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+     "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Limon Apartments; Address: 440 1st Avenue; City: Limon; County: Lincoln; Federal Credit: $109,976; State Credit: $84,878; Bond Issuer: CHFA; Bond Amount: $1,566,000; Total Units: 16; Total TC Units: 16",
+     "state_credit": 84878,
+     "bond_amount": 1566000
+    },
     {
      "stage": "funded",
      "year": 2021,
@@ -22619,7 +22841,7 @@
    ]
   },
   {
-   "id": "caraway-08001",
+   "id": "7401-broadway-08001",
    "name": "Caraway",
    "city": "Denver",
    "county_fips": "08001",
@@ -22634,6 +22856,18 @@
    "restricted_units": 116,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1527916,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: 7401 Broadway; Address: 7401 Broadway St.; City: Denver; County: Adams; Federal Credit: $1,527,916; State Credit: $927,779; Bond Issuer: Unison Housing Partners; Bond Amount: $22,150,000; Total Units: 116; Total TC Units: 116",
+     "state_credit": 927779,
+     "bond_amount": 22150000
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -22731,6 +22965,18 @@
    "restricted_units": 120,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1891472,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F,SN; Name: 30Pearl Apartments; Address: 30th and Pearl St.; City: Boulder; County: Boulder; Federal Credit: $1,891,472; State Credit: $838,020; Bond Issuer: BHP; Bond Amount: $26,659,208; Total Units: 120; Total TC Units: 120",
+     "state_credit": 838020,
+     "bond_amount": 26659208
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -22977,7 +23223,7 @@
    ]
   },
   {
-   "id": "spoke-on-coffman-08013",
+   "id": "coffman-street-08013",
    "name": "Spoke on Coffman",
    "city": "Longmont",
    "county_fips": "08013",
@@ -22996,12 +23242,54 @@
      "stage": "funded",
      "year": 2019,
      "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 779274,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Coffman Street Apartments; Address: 518 Coffman St.; City: Longmont; County: Boulder; Federal Credit: $779,274; State Credit: $930,000; Bond Issuer: BCHA; Bond Amount: $13,000,000; Total Units: 73; Total TC Units: 73",
+     "state_credit": 930000,
+     "bond_amount": 13000000
+    },
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Spoke on Coffman; PROJ_ADD: 518 Coffman Street; PROJ_CTY: Longmont; N_UNITS: 73; LI_UNITS: 73; YR_ALLOC: 2019; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "thistle-scattered-sites-08013",
+   "name": "Thistle scattered sites",
+   "city": "Longmont, Boulder",
+   "county_fips": "08013",
+   "county_fips_all": null,
+   "county": "Boulder County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1393960,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Line as printed: AR F Thistle scattered sites $1,393,960 $850,000 CHFA $2,389,633 see below Thistle",
+     "state_credit": 850000,
+     "bond_amount": 2389633
     }
    ]
   },
@@ -23074,6 +23362,36 @@
    ]
   },
   {
+   "id": "48th-race-08031",
+   "name": "48th and Race",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": 150,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 150,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1426865,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: 48th and Race; Address: 4800 Race St.; City: Denver; County: Denver; Federal Credit: $1,426,865; State Credit: $912,776; Bond Issuer: CHFA; Bond Amount: $18,400,000; Total Units: 150; Total TC Units: 150",
+     "state_credit": 912776,
+     "bond_amount": 18400000
+    }
+   ]
+  },
+  {
    "id": "atlantis-2-08031",
    "name": "Atlantis Apartments II",
    "city": "Denver",
@@ -23103,35 +23421,6 @@
    ]
   },
   {
-   "id": "avenida-del-sol-08031",
-   "name": "Avenida del Sol",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "funded",
-   "first_year": 2019,
-   "latest_year": 2019,
-   "total_units": 80,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 79,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2019,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% and State)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Avenida del Sol; PROJ_ADD: 5048 Morrison Road; PROJ_CTY: Denver; N_UNITS: 80; LI_UNITS: 79; YR_ALLOC: 2019; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "capitol-square-08031",
    "name": "Capitol Square Apartments",
    "city": "Denver",
@@ -23147,6 +23436,18 @@
    "restricted_units": 103,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1213140,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Capitol Square Apartments; Address: 1275 Sherman St.; City: Denver; County: Denver; Federal Credit: $1,213,140; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $16,283,406; Total Units: 103; Total TC Units: 103",
+     "state_credit": 1000000,
+     "bond_amount": 16283406
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -23219,7 +23520,7 @@
    ]
   },
   {
-   "id": "dha-655-broadway-08031",
+   "id": "dha-655-broadway-studebaker-08031",
    "name": "DHA 655 Broadway",
    "city": "Denver",
    "county_fips": "08031",
@@ -23234,6 +23535,18 @@
    "restricted_units": 110,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1490047,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Line as printed: AR H,S,F Broadway/Studebaker $1,490,047 $815,000 DHA $27,300,000 see below Denver Housing Authority",
+     "state_credit": 815000,
+     "bond_amount": 27300000
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -23330,6 +23643,47 @@
      "amount_label": null,
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Grace Apartments; PROJ_ADD: 8888 East 13th Ave; PROJ_CTY: Denver; N_UNITS: 53; LI_UNITS: 53; YR_ALLOC: 2019; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "morrison-road-08031",
+   "name": "Morrison Road",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": 80,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 79,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 943721,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Morrison Road; Address: 5048 Morrison Rd.; City: Denver; County: Denver; Federal Credit: $943,721; State Credit: $800,000; Bond Issuer: Denver; Bond Amount: $15,000,000; Total Units: 80; Total TC Units: 79",
+     "state_credit": 800000,
+     "bond_amount": 15000000
+    },
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% and State)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Avenida del Sol; PROJ_ADD: 5048 Morrison Road; PROJ_CTY: Denver; N_UNITS: 80; LI_UNITS: 79; YR_ALLOC: 2019; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
     }
    ]
@@ -23645,7 +23999,7 @@
    ]
   },
   {
-   "id": "atrium-austin-bluffs-08041",
+   "id": "atruim-austin-bluffs-08041",
    "name": "Atrium at Austin Bluffs",
    "city": "Colorado Springs",
    "county_fips": "08041",
@@ -23660,6 +24014,18 @@
    "restricted_units": 54,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 550582,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: S; Name: Atruim at Austin Bluffs; Address: 4921 Templeton Gap Road; City: Colorado Springs; County: El Paso; Federal Credit: $550,582; State Credit: $834,215; Bond Issuer: CHFA; Bond Amount: $8,000,000; Total Units: 54; Total TC Units: 54",
+     "state_credit": 834215,
+     "bond_amount": 8000000
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -23995,8 +24361,8 @@
    ]
   },
   {
-   "id": "heritage-church-ranch-08059",
-   "name": "Heritage at Church Ranch",
+   "id": "legends-church-ranch-08059",
+   "name": "Legends of Church Ranch",
    "city": "Westminster",
    "county_fips": "08059",
    "county_fips_all": null,
@@ -24010,6 +24376,18 @@
    "restricted_units": 205,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 2260807,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: S; Name: Legends of Church Ranch; Address: 10050 Wadsworth Blvd; City: Westminster; County: Jefferson; Federal Credit: $2,260,807; State Credit: $499,999; Bond Issuer: CHFA; Bond Amount: $33,800,000; Total Units: 205; Total TC Units: 205",
+     "state_credit": 499999,
+     "bond_amount": 33800000
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -24092,7 +24470,7 @@
    ]
   },
   {
-   "id": "edge-2-08069",
+   "id": "edge-phase-2-08069",
    "name": "Edge II",
    "city": "Loveland",
    "county_fips": "08069",
@@ -24107,6 +24485,18 @@
    "restricted_units": 69,
    "restricted_units_unavailable_reason": null,
    "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 651340,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Edge Phase II; Address: 15th St at Horstman Pl; City: Loveland; County: Larimer; Federal Credit: $651,340; State Credit: $995,933; Bond Issuer: LHA; Bond Amount: $10,703,797; Total Units: 69; Total TC Units: 69",
+     "state_credit": 995933,
+     "bond_amount": 10703797
+    },
     {
      "stage": "funded",
      "year": 2019,
@@ -24144,7 +24534,7 @@
      "amount": 1349865,
      "amount_label": "annual federal credit",
      "source_url": "https://www.chfainfo.com/getattachment/52b45440-7788-4762-9a75-c9c632623a8f/2019-Round-2-Award-Report.pdf",
-     "quote": "Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 [sponsor and contact not copied]"
+     "quote": "Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 Grand Junction Housing Authority"
     },
     {
      "stage": "funded",
@@ -24195,6 +24585,36 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Calkins Commons; PROJ_ADD: 121 E. First Street; PROJ_CTY: Cortez; N_UNITS: 42; LI_UNITS: 42; YR_ALLOC: 2019; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "park-colorado-outdoors-08085",
+   "name": "Park at Colorado Outdoors*",
+   "city": "Montrose",
+   "county_fips": "08085",
+   "county_fips_all": null,
+   "county": "Montrose County",
+   "place_geoid": "0851745",
+   "stage": "funded",
+   "first_year": 2019,
+   "latest_year": 2019,
+   "total_units": 72,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 72,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2019,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 628161,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+     "quote": "Type *: N; Target **: F; Name: Park at Colorado Outdoors*; Address: SW corner N. 5th St & N. Grand Ave.; City: Montrose; County: Montrose; Federal Credit: $628,161; State Credit: $738,840; Bond Issuer: CHFA; Bond Amount: $8,489,906; Total Units: 72; Total TC Units: 72",
+     "state_credit": 738840,
+     "bond_amount": 8489906
     }
    ]
   },

@@ -123,3 +123,64 @@ def test_a_document_no_longer_listed_is_reported(tmp_path):
     assert awards.missing_documents(str(prior), [{'file': 'a.pdf'}, {'file': 'b.pdf'}, {'file': 'c.pdf'}]) == []
     assert awards.missing_documents(str(prior), [{'file': 'a.pdf'}]) == ['b.pdf']
     assert awards.missing_documents(str(tmp_path / 'none.json'), []) == []
+
+
+def _review(name):
+    import json
+    return json.loads((ROOT / 'data' / 'policy' / 'funding-awards' / 'reviewed-documents.json').read_text())['documents'][name]
+
+
+def test_a_transcription_stands_only_on_the_totals_the_pdf_prints():
+    """2022 Round 2: the parser reads Total Units as TC Units, so a person
+    transcribed the rows. They are used only while the totals they record are
+    the PDF's and the rows add up to them."""
+    import copy
+    text = (FIXTURES / '2022-Round-2-Award-Report.txt').read_text()
+    parsed = awards.parse_document(text, 'below')
+    assert awards.reconcile(parsed, awards.to_records(parsed))['status'] == 'mismatch'
+    review = _review('2022-Round-2-Award-Report.pdf')
+    assert awards.check_transcription(parsed, review)['status'] == 'ok'
+    # one transcribed unit count wrong: the rows no longer add up
+    bad = copy.deepcopy(review)
+    bad['rows'][10]['restricted_units'] = 65
+    assert awards.check_transcription(parsed, bad)['status'] == 'mismatch'
+    # a recorded total that is not the one the PDF prints, with the rows made to match it
+    bad = copy.deepcopy(review)
+    bad['printed_totals']['federal_credit'] += 1000
+    bad['rows'][0]['federal_credit'] += 1000
+    assert awards.check_transcription(parsed, bad)['status'] == 'mismatch'
+    # a declared PDF error excuses only the field it names
+    bad = copy.deepcopy(review)
+    bad['rows'][0]['federal_credit'] += 1000
+    bad['pdf_total_errors'] = {'state_credit': 'not this one'}
+    assert awards.check_transcription(parsed, bad)['status'] == 'mismatch'
+    bad['pdf_total_errors'] = {'federal_credit': 'the PDF total leaves this row out'}
+    assert awards.check_transcription(parsed, bad)['status'] == 'ok'
+
+
+def test_every_transcribed_document_is_in_the_ledger_as_transcribed():
+    """Each reviewed document with rows is usable in documents.json and its
+    ledger rows carry the transcribed unit counts and credits, row for row."""
+    import json
+    base = ROOT / 'data' / 'policy' / 'funding-awards'
+    reviews = json.loads((base / 'reviewed-documents.json').read_text())['documents']
+    docs = {d['file']: d for d in json.loads((base / 'documents.json').read_text())['documents']}
+    ledger = json.loads((base / 'ledger.json').read_text())['awards']
+    checked = 0
+    for name, review in reviews.items():
+        if not review.get('rows'):
+            continue
+        assert docs[name]['status'] == 'accepted_by_review', name
+        assert docs[name]['sha256'] == review['sha256'], name
+        rows = {a['name']: a for a in ledger if a['source_file'] == name}
+        assert len(rows) == len(review['rows']), name
+        for want in review['rows']:
+            got = rows[want['name']]
+            for f in ('total_units', 'restricted_units', 'federal_credit', 'state_credit', 'bond_amount'):
+                if f in want:
+                    assert got[f] == want[f], (name, want['name'], f)
+            if 'amount_requested' in want:
+                assert got['federal_credit'] == want['amount_requested'], (name, want['name'])
+            assert got['reconciled'] is not want.get('after_total', False), (name, want['name'])
+            checked += 1
+    assert checked >= 60
