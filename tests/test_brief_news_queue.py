@@ -90,6 +90,11 @@ def test_an_unread_story_stays_queued_after_the_review_date():
     assert done['0812045']['stories'] == []
 
 
+def test_an_unread_entry_without_its_story_date_is_skipped():
+    lead = {'geoid': '0812045', 'title': 'Undated lead', 'link': 'https://news.localhost/u', 'status': 'unread'}
+    assert rows(bnq.build(TODAY, [CARBONDALE], [], [], COUNTIES, {'entries': [lead]}))['0812045']['stories'] == []
+
+
 def test_events_match_by_name_and_past_ones_drop():
     events = [
         {'title': 'chfareach: NSPIRE Inspections, Carbondale', 'start': '2026-10-22', 'location': 'In-person'},

@@ -22,7 +22,11 @@ reviewer which brief to open and why.
 How a story leaves the queue: the brief is re-reviewed (`last_curated` moves
 past the story's date), or the story is recorded in
 data/jurisdiction-briefs/_news-used.json as `used` (it went into the brief) or
-`dismissed` (with the reason). That ledger is how the queue learns.
+`dismissed` (with the reason). That ledger is how the queue learns. A story
+recorded as `unread` (it could not be read: paywall, blocked publisher, video
+only) is the exception: it stays in the queue through any re-review, until
+someone reads it and changes its status to `used` or `dismissed`. An unread
+entry needs the story's own `date`; one without it is skipped with a warning.
 
 Matching:
   - a story naming the brief's own geography matches as `place`;
@@ -117,8 +121,12 @@ def unread_leads(ledger: dict | None) -> dict[str, list]:
     brief's last review date, until someone reads them and marks them used or dismissed."""
     out: dict[str, list] = {}
     for e in (ledger or {}).get('entries') or []:
-        if e.get('status') == 'unread' and e.get('geoid') and e.get('title'):
-            out.setdefault(e['geoid'], []).append(e)
+        if e.get('status') != 'unread' or not e.get('geoid') or not e.get('title'):
+            continue
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(e.get('date') or '')):
+            print(f"⚠ unread entry without its story date skipped: {e['geoid']} {e['title']!r}", file=sys.stderr)
+            continue
+        out.setdefault(e['geoid'], []).append(e)
     return out
 
 
@@ -175,7 +183,7 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
             if same:
                 continue
             found.append({'title': e['title'], 'source': e.get('source'), 'link': e.get('link'),
-                          'date': e.get('date') or since, 'match': e.get('match') or 'place', 'also': [],
+                          'date': e['date'], 'match': e.get('match') or 'place', 'also': [],
                           'unread': note})
         found.sort(key=lambda x: x['date'], reverse=True)
         found.sort(key=lambda x: x['match'] != 'place')

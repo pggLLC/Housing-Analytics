@@ -7,7 +7,10 @@
       "link",
       "status",
       "reason",
-      "decided"
+      "decided",
+      "date (unread only, required)",
+      "source (unread only)",
+      "match (unread only)"
     ]
   },
   "entries": [
