@@ -203,14 +203,32 @@ const touchTap = (el) => {
   // embeds whose only table is the map library's own markup.
   const walk = (dir) => fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((e) => {
     const rel = dir ? `${dir}/${e.name}` : e.name;
-    if (e.isDirectory()) return /^(\.|node_modules$|assets$|test$|tests$|vendor$|_site$)/.test(e.name) ? [] : walk(rel);
+    if (e.isDirectory()) return /^(\.|node_modules$|assets$|test$|tests$|vendor$|_site$|dist$)/.test(e.name) ? [] : walk(rel);
     return e.name.endsWith('.html') ? [rel] : [];
   });
   assert.ok(/currentScript[\s\S]*'data\/table-header-tips\.json'\)/.test(read('js/components/table-header-tips.js')), 'the definitions map resolves from the script URL, so nested pages find it');
   assert.equal(document.querySelectorAll('#running .th-sort').length, 0, 'a table with a cumulative column stays in row order');
   assert.ok(/<table data-loan-coverage data-no-sort>/.test(read('js/pro-forma.js')) && /<table data-no-sort data-loan-id=/.test(read('js/pro-forma.js')) && /Annual schedules carry[^\n]*\n\s*var html = '<table data-no-sort/.test(read('js/pro-forma.js')), 'pro-forma schedules opt out of sorting');
-  const noSorter = walk('').filter((p) => { const h = read(p); return /<table\b/i.test(h) && !h.includes('js/components/table-sort.js'); });
-  assert.deepEqual(noSorter, [], 'pages with tables that do not load table-sort.js');
+  // A page counts as having tables when its own markup has one or a local
+  // script it loads renders one (recommendation.html's evidence table).
+  const rendersTables = new Map();
+  const scriptRenders = (rel) => {
+    if (!rendersTables.has(rel)) {
+      let src = '';
+      try { src = read(rel); } catch (e) { /* missing script: nothing rendered */ }
+      rendersTables.set(rel, /<table\b|createElement\(\s*['"]table['"]\s*\)/i.test(src));
+    }
+    return rendersTables.get(rel);
+  };
+  const noSorter = walk('').filter((p) => {
+    const h = read(p);
+    if (h.includes('js/components/table-sort.js')) return false;
+    if (/<table\b/i.test(h)) return true;
+    return [...h.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1])
+      .filter((s) => !/^(https?:)?\/\//.test(s) && !/vendor\/|js\/components\/table-/.test(s))
+      .some((s) => scriptRenders(path.posix.normalize(path.posix.join(path.posix.dirname(p), s.split('?')[0]))));
+  });
+  assert.deepEqual(noSorter, [], 'pages with tables (in markup or rendered by their scripts) that do not load table-sort.js');
   const missing = pages.filter((p) => { const h = read(p); return h.includes('js/components/table-header-tips.js') && !h.includes('js/components/table-sort.js'); });
   assert.deepEqual(missing, [], 'pages that load table-header-tips.js but not table-sort.js');
   assert.ok(read('js/components/table-export.js').includes('.th-sort'), 'downloads drop the sort arrow');
