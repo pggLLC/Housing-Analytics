@@ -462,6 +462,7 @@
         <div class="footer-col">
           <strong>COHO Analytics</strong>
           <p>A public-data reference for Colorado affordable housing — HUD, Census, CHFA, and DOLA sources drawn together for reference.</p>
+          <p>Developed and maintained by <a href="https://pggllc.org" target="_blank" rel="noopener">pggLLC</a>.</p>
         </div>
         <div class="footer-col">
           <strong>Scoping a Project</strong>

@@ -72,17 +72,23 @@ for (const geoid of fixture.must_not_include_east_grand_junction_tracts) {
   assert(!modeTracts.includes(geoid), `east Grand Junction must-not-include tract ${geoid} is absent`);
 }
 
-const range = result.state.outside_pma_demand_range;
-assert(range, 'mode reports the professional outside-PMA demand benchmark range');
-assert.match(range.source, /Professional market studies/);
+// The calibration studies are unpublished, so neither the fixture nor the
+// module carries their outside-PMA range: with no benchmark supplied the mode
+// reports none, and a supplied one is passed through unchanged.
+assert.equal(result.state.outside_pma_demand_range, null, 'no built-in outside-PMA benchmark range');
+assert.equal(result.state.validation.benchmark_outside_pma_demand_range, null);
+const syntheticRange = { min: 0.1, max: 0.9, source: 'synthetic test range' };
+const withRange = mod.buildModeData(
+  seedTracts(fixture.seed_buffer_tracts), odDoc, travelDoc, paramsFixture.params,
+  { site: fixture.site, siteTract: fixture.site.site_tract, calibration: { ...fixture, outside_pma_demand_range: syntheticRange } }
+);
+assert.deepEqual(withRange.state.outside_pma_demand_range, syntheticRange, 'a supplied benchmark range is reported as given');
+assert.deepEqual(withRange.state.validation.benchmark_outside_pma_demand_range, syntheticRange);
 assert.equal(result.state.validation.professional_capture_count, captured.length);
 assert.equal(result.state.validation.must_not_include_hits.length, 0);
 const impliedOutside = result.state.validation.implied_outside_pma_share;
 assert(Number.isFinite(impliedOutside), 'validation computes implied outside-PMA demand share from OD flows');
-assert(
-  impliedOutside >= range.min && impliedOutside <= range.max,
-  `computed implied outside-PMA demand share ${(impliedOutside * 100).toFixed(1)}% is inside the professional 40-56% band`
-);
+assert(impliedOutside > 0 && impliedOutside < 1, `implied outside-PMA demand share ${impliedOutside} is a proper fraction`);
 assert(result.state.validation.implied_outside_pma_numerator_jobs > 0, 'outside-PMA numerator is non-vacuous');
 assert(result.state.validation.implied_outside_pma_denominator_jobs > result.state.validation.implied_outside_pma_numerator_jobs, 'outside-PMA denominator is larger than numerator');
 assert.match(result.state.validation.implied_outside_pma_definition, /final commute-shaped PMA work tracts/);
