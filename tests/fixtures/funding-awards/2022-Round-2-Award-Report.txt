@@ -1,0 +1,43 @@
+                                                                                                                              Colorado Housing and Finance Authority
+                                                                                                                                          2022 Round 2
+                                                                                                                                 4% Federal Credit and State Credit
+                                                                                                                                          Award Report
+
+
+
+
+     Typ                                                                                                                                                                  Total
+       e Target                                                                                                   Federal        State     Bond           Bond      Total  TC
+       *   ** Name                               Address                       City           County    Zip        Credit        Credit    Issuer        Amount     Units Units Ownership
+     N   M      Bentley Commons                  2730 Bentley Point            Colorado       El Paso   80901    $2,735,647     $1,000,000 City of      $30,000,000   192   192 Greccio Housing / Partners in
+     A/R                                                                       Springs                                                     Colorado                             Housing /RMCLT
+                                                                                                                                           Springs
+     N     F     Elevate at Aurora               1671 Altura Boulevard         Aurora         Adams     80011    $2,689,571     $1,000,000 CHFA         $29,295,000      137     137 CV Colorado, LLC
+     N     F     Heartside Hill                  6501 Brittany St.             Fort Collins   Larimer   80525    $1,171,431       $989,961 CHFA         $16,100,000       71      71 CARE Housing, Inc.
+
+     N     F     Irving at Mile High Vista       3270 W Colfax                 Denver         Denver 80204       $1,934,593     $1,000,000 CHFA         $19,400,000      102     102 Urban Land Conservancy
+     N     S     Legacy Senior Residences        5430 W 64th Ave.              Arvada         Jefferson 80003    $1,078,412     $1,000,000 CHFA         $15,800,000       72      72 Cornerstone Housing Grou
+
+     N     H     Marshall Homes                  5549 Marshall Street          Arvada         Jefferson 80002    $1,553,542       $648,429 CHFA         $17,075,000       85      85 Family Tree, Inc.
+
+     N     F     Rally Apartments                2727 29th St.                 Boulder        Boulder   80301    $1,778,095     $1,000,000 CHFA         $29,250,000      100     100 Boulder Housing Partners
+
+     N     F     Reserves at Eagle Point         E Steven D. Hogan Pkwy at S   Aurora         Arapahoe 80018     $3,276,397     $1,000,000 CHFA         $36,000,000      192     192 Overland Property Group
+                                                 Picadilly Road
+     N     M     Residences on Acoma             1501 S. Acoma Street          Denver         Denver    80223    $1,619,731      $953,024 CHFA          $23,482,000      128     128 Residences on Acoma, LLL
+     N     S     RidgeGate Senior                Approx 12500 E. Ridgegate     Lone Tree      Douglas   80134    $1,845,371     $1,000,000 CHFA         $20,000,000      101     101 Koelbel and Company
+                                                 Pkwy
+     N     F     Smith Ranch Apartments          105 Ruby Ranch Road           Silverthorne Summit      80498    $1,348,613       $300,000 CHFA         $14,264,000       65      64 Gorman & Company, LLC
+
+     N     M     Warren Village III              1394 W. Alameda Ave.          Denver         Denver    80223    $2,484,288     $1,000,000 CHFA         $26,000,000       89      89 Warren Village Inc.
+
+     N     F      Willoughby Corner Phase IB      N 120th Street and E Emma    Lafayette      Boulder   80026    $3,099,664     $1,000,000 BCHA         $33,250,000      129      129 Boulder County Housing
+                  Family Apartments               Street                                                                                                                              Authority
+     * N=New Construction, AR=Acquisition Rehabilitation                                                        $26,615,354 $11,891,413                                1,463   1,462
+     ** F=Family, H=Homeless, S=Senior, M=Mixed
+
+
+
+
+5/6/2024
+

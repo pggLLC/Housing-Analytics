@@ -191,11 +191,16 @@ sabotage('a mismatched document let into the ledger', (c) => {
   const d = c.documents.documents.find((x) => USABLE.has(x.status) && c.ledger.awards.some((a) => a.source_file === x.file));
   d.status = 'mismatch';
 }, /not marked usable/);
-sabotage('a review document dropped from the tab list', (c) => { c.out.meta.documents_needing_review.pop(); }, /review list/);
+// The review list can be empty, so this one makes its own unusable document.
+sabotage('a review document missing from the tab list', (c) => {
+  c.documents.documents.push({ file: 'sabotage-award-report.pdf', status: 'mismatch' });
+}, /review list/);
+// No document may have a withheld units column today, so this one withholds one.
 sabotage('a withheld unit count kept in the ledger', (c) => {
-  const d = c.documents.documents.find((x) => x.status === 'units_withheld');
-  const a = c.ledger.awards.find((x) => x.source_file === d.file);
-  a[d.units_withheld[0]] = 50;
+  const a = c.ledger.awards.find((x) => x.total_units != null);
+  const d = c.documents.documents.find((x) => x.file === a.source_file);
+  d.status = 'units_withheld';
+  d.units_withheld = ['total_units'];
 }, /kept from a withheld units column/);
 sabotage('an unknown unit count written as 0', (c) => { c.ledger.awards.find((a) => a.total_units == null).total_units = 0; }, /is 0, not null/);
 sabotage('the undercount note miscounted', (c) => { c.out.meta.lihtc_awards_without_units += 1; }, /awards without units/);

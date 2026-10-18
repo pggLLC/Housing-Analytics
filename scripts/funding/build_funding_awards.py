@@ -559,6 +559,59 @@ def reconcile(parsed: dict, records: list[dict]) -> dict:
             'rows_checked': covered}
 
 
+
+def check_transcription(parsed: dict, review: dict) -> dict:
+    """A person's transcription of a document the parser cannot read, checked
+    two ways before any of it is used. The totals it records must be the ones
+    the PDF prints: every dollar total the parser reads off the TOTAL line,
+    and the unit counts on that line (compared as numbers, since a units
+    heading the parser mislabels is the usual reason for a transcription).
+    Then its rows must add up to those totals. A total the PDF itself gets
+    wrong is not checked only when the transcription says so, with the reason."""
+    grand = [t for t in parsed['totals'] if re.search(r'grand\s+total', t['line'], re.I)]
+    plain = [t for t in parsed['totals'] if not re.search(r'average|grand', t['line'], re.I)]
+    use = grand or plain
+    printed = review.get('printed_totals') or {}
+    waived = review.get('pdf_total_errors') or {}
+    checks = []
+    money: dict[str, int] = {}
+    units: list[int] = []
+    for t in use:
+        for tok in t['tokens']:
+            if tok['money']:
+                ci = column_of(tok, t['cols'])
+                field = (t['money_fields'] or {}).get(ci) or label_field(t['labels'][ci] if ci < len(t['labels']) else '', True)
+                money[field] = money.get(field, 0) + (money_value(tok['text']) or 0)
+            elif INT.match(tok['text']) and (int_value(tok['text']) or 0) < 100000:
+                units.append(int_value(tok['text']))
+    if not use:
+        checks.append({'field': 'total_line', 'ok': False, 'detail': 'the PDF prints no total line to check against'})
+    for field, want in sorted(money.items()):
+        checks.append({'field': f'printed_totals.{field}', 'pdf_total': want, 'transcribed': printed.get(field),
+                       'ok': printed.get(field) == want})
+    printed_units = sorted(printed[f] for f in UNIT_FIELDS if f in printed)
+    checks.append({'field': 'printed_totals.units', 'pdf_total': sorted(units), 'transcribed': printed_units,
+                   'ok': printed_units == sorted(units)})
+    rows = [r for r in review.get('rows') or [] if not r.get('after_total')]
+    for field, want in sorted(printed.items()):
+        got = sum(r.get(field) or 0 for r in rows)
+        tol = 0 if field in UNIT_FIELDS else max(1, len(rows))
+        c = {'field': field, 'pdf_total': want, 'transcribed_total': got, 'ok': abs(got - want) <= tol}
+        if not c['ok'] and field in waived:
+            c['pdf_total_error'] = waived[field]
+        checks.append(c)
+    # The unit totals are matched as a pair, which cannot tell the two columns
+    # apart; a row with more restricted than total units has them swapped.
+    swapped = [r.get('name') for r in review.get('rows') or []
+               if r.get('total_units') is not None and r.get('restricted_units') is not None
+               and r['restricted_units'] > r['total_units']]
+    checks.append({'field': 'units_order', 'ok': not swapped,
+                   'detail': 'restricted units exceed total units: ' + ', '.join(map(str, swapped)) if swapped
+                   else 'no row has more restricted than total units'})
+    ok = bool(rows) and all(c['ok'] or c.get('pdf_total_error') for c in checks)
+    return {'status': 'ok' if ok else 'mismatch', 'checks': checks, 'rows_checked': len(rows)}
+
+
 # ── classification ───────────────────────────────────────────────────────────
 
 def doc_meta(doc: dict, title: list[str]) -> dict:
@@ -753,6 +806,7 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
             statuses.append(status)
             continue
         meta = doc_meta(doc, parsed['title'])
+        transcribed: set[int] = set()
         records = to_records(parsed)
         rec_check = reconcile(parsed, records)
         status.update(meta, title=' | '.join(parsed['title']), rows=len(records), **rec_check)
@@ -765,7 +819,25 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
         elif unnamed:
             status['status'], status['unnamed_rows'] = 'unnamed_rows', unnamed
         review = overrides.get(doc['file'])
-        if status['status'] not in USABLE and review and review.get('sha256') == status.get('sha256'):
+        if review and review.get('rows') and review.get('sha256') == status.get('sha256'):
+            # a person transcribed this exact file's rows; they stand only if
+            # they add up to the totals the PDF prints
+            check = check_transcription(parsed, review)
+            status['parser_status'] = status['status']
+            status['parser_checks'] = status.pop('checks', [])
+            status.pop('units_withheld', None)
+            status.pop('unnamed_rows', None)
+            status.update(check, rows=len(review['rows']))
+            if check['status'] == 'ok':
+                status['status'] = 'accepted_by_review'
+                status['review'] = {k: review.get(k) for k in ('reason', 'reviewed_by', 'reviewed_at')}
+                status['review']['method'] = 'rows transcribed from the PDF and checked against its printed totals'
+                records = [{k: v for k, v in r.items() if k != 'after_total'} for r in review['rows']]
+                transcribed = {i for i, r in enumerate(review['rows']) if not r.get('after_total')}
+            else:
+                status['status'] = 'mismatch'
+                status['review_rejected'] = 'the transcribed rows do not add up to the totals the PDF prints'
+        elif status['status'] not in USABLE and review and review.get('sha256') == status.get('sha256'):
             # a person checked this exact file and recorded why its rows stand
             status['parser_status'], status['status'] = status['status'], 'accepted_by_review'
             status['review'] = {k: review.get(k) for k in ('reason', 'reviewed_by', 'reviewed_at')}
@@ -791,7 +863,8 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
                 'total_units': r.get('total_units'), 'restricted_units': r.get('restricted_units'),
                 'detail': r.get('detail'),
                 'source_file': doc['file'], 'source_url': doc['url'],
-                'reconciled': status['status'] in ('ok', 'units_withheld') and idx < status.get('rows_checked', 0),
+                'reconciled': (status['status'] in ('ok', 'units_withheld') and idx < status.get('rows_checked', 0))
+                or idx in transcribed,
             }
             for f in AMOUNT_FIELDS:
                 row[f] = r.get(f)
