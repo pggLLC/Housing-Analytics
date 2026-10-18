@@ -165,7 +165,8 @@ test('the brief panel shows this brief\'s headlines since its review, apart from
   const el = w.document.createElement('div');
   el.innerHTML = html;
   const items = [...el.querySelectorAll('li')].map((li) => li.textContent);
-  assert.match(el.textContent, /News since this brief was last reviewed \(4\)/);
+  assert.equal(items.filter((t) => /Carbondale approves|Garfield County housing|Paywalled lead|Fresh unread/.test(t)).length, 4);
+  assert.match(el.querySelector('.jbrief-news__title').textContent, /\(4\)/, 'the panel count disagrees with the headlines shown');
   assert.ok(items.some((t) => t.includes('Paywalled lead') && t.includes('not yet read') && t.includes('older')), 'an unread lead from before the review was dropped or not marked older');
   assert.ok(items.some((t) => t.includes('Fresh unread') && t.includes('not yet read') && !t.includes('older')), 'a post-review unread lead was called older');
   assert.match(el.textContent, /not part of this brief and not sources for it/);
