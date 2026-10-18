@@ -265,9 +265,19 @@
           "file": "scripts/hna/build_chas_affordable_available.py",
           "function": "compute",
           "sha": "3b91ae689d1a9626"
+        },
+        {
+          "file": "scripts/hna/build_acs_reliability.py",
+          "function": "tier_for",
+          "sha": "79f0d8f5e0804672"
+        },
+        {
+          "file": "js/acs-reliability.js",
+          "function": "describe",
+          "sha": "e16719c5d9a3048a"
         }
       ],
-      "reviewed": "2026-10-17"
+      "reviewed": "2026-10-18"
     }
   ]
 }

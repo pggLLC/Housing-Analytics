@@ -203,6 +203,36 @@ def test_profile_vintage_is_found_by_matching_not_by_the_stamp():
     assert doc["geos"][gid]["DP04_0134E"]["y"] == 2023
 
 
+def test_shown_raw_home_value_is_matched_at_its_own_vintage():
+    # The cascade's raw ACS floor is a copy of DP04_0089E from when the cascade
+    # was last built, so it can be another vintage than the stored DP04_0089E.
+    gid = "0800013"
+    tables = {
+        ("acs5", "profile", "place", 2024): {gid: {"DP05_0001E": 800, "DP05_0001M": 90,
+                                                   "DP04_0089E": 846600, "DP04_0089M": 170462}},
+        ("acs5", "profile", "place", 2023): {gid: {"DP05_0001E": 780, "DP05_0001M": 85,
+                                                   "DP04_0089E": 924500, "DP04_0089M": 150000}},
+    }
+    s = summary(DP05_0001E=800, DP04_0089E=846600,
+                median_home_value={"value": 924500, "source": "acs_raw",
+                                   "as_of": "ACS 2020-2024 5-year"})
+    doc = mod.build({gid: s}, 2024, key="", getter=fake_getter(tables))
+    g = doc["geos"][gid]
+    assert (g["DP04_0089E"]["y"], g["DP04_0089E"]["m"]) == (2024, 170462.0)
+    shown = g["median_home_value"]
+    assert (shown["e"], shown["y"], shown["s"], shown["m"]) == (924500, 2023, "acs5", 150000.0)
+    assert "median_home_value" in doc["meta"]["variables"]
+    # A Zillow value is not an ACS estimate, so it gets no entry.
+    s["acsProfile"]["median_home_value"] = {"value": 924500, "source": "zhvi"}
+    doc = mod.build({gid: s}, 2024, key="", getter=fake_getter(tables))
+    assert "median_home_value" not in doc["geos"][gid]
+    # A shown value no release published gets no margin, and says why.
+    s["acsProfile"]["median_home_value"] = {"value": 700000, "source": "acs_raw"}
+    doc = mod.build({gid: s}, 2024, key="", getter=fake_getter(tables))
+    e = doc["geos"][gid]["median_home_value"]
+    assert e["m"] is None and e.get("y") is None and "matches no published" in e["why"]
+
+
 def test_an_unpublished_dataset_is_skipped_but_never_at_the_stamped_year():
     # The 2020 ACS 1-year was never released, and the API answers 404 for it.
     # An S0801 stored at 2022 makes the build try 2020 as a fallback year.

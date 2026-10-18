@@ -1713,10 +1713,14 @@
       // variable codes for the requested year.  Fall back to ACS 5-year
       // B-series which covers all geography types (county, place, CDP) and
       // uses stable variable codes.
-      return await fetchAcs5BSeries(geoType, geoid);
+      const bSeries = await fetchAcs5BSeries(geoType, geoid);
+      if (bSeries) bSeries._live = true;
+      return bSeries;
     }
     out._acsYear = usedYear;
     out._acsSeries = usedSeries;
+    // Fetched live, not the stored estimate the margins file describes.
+    out._live = true;
     return out;
   }
 
@@ -2055,6 +2059,7 @@
     header.forEach((h,i)=>{out[h]=row[i];});
     out._acsYear = usedYear;
     out._acsSeries = usedSeries;
+    out._live = true;
     return out;
   }
 
@@ -2376,6 +2381,27 @@
       fetchBatch(batchD, 'D (race+ethnicity)'),
     ]);
     return Object.assign({}, results[0], results[1], results[2], results[3]);
+  }
+
+  /**
+   * The cached profile with the extended fetch merged in. The live values win
+   * on overlap, except a null that would erase a cached value (the fetch can
+   * partly succeed). _liveFields names the fields now holding a live value:
+   * they are not the stored estimates the margins file describes, so the
+   * snapshot cards give them no margin even when the numbers agree.
+   */
+  function mergeExtended(profile, ext) {
+    const merged = Object.assign({}, profile, ext);
+    const live = [];
+    for (const k of Object.keys(ext)) {
+      if ((ext[k] === null || ext[k] === undefined) && profile[k] != null) {
+        merged[k] = profile[k];
+      } else if (ext[k] !== null && ext[k] !== undefined) {
+        live.push(k);
+      }
+    }
+    merged._liveFields = live.concat(Array.isArray(profile._liveFields) ? profile._liveFields : []);
+    return merged;
   }
 
 
@@ -4356,15 +4382,7 @@
           //      were unavailable at build time; null should not overwrite a valid live value.
           // Non-extended cached fields (median income, tenure %, total population) are not
           // in extVars so they are preserved from the cache unchanged.
-          const merged = Object.assign({}, profile, ext);
-          // Safety: if ext has a null/undefined for a key the cache had a real value for,
-          // keep the cached value (ext fetch may partially succeed for some vars).
-          for (const k of Object.keys(ext)) {
-            if ((ext[k] === null || ext[k] === undefined) && profile[k] != null) {
-              merged[k] = profile[k];
-            }
-          }
-          profile = merged;
+          profile = mergeExtended(profile, ext);
         }
       } catch(e) {
         console.warn('[HNA] Extended ACS supplement failed — extended charts may show blank:', e.message);
@@ -5382,6 +5400,8 @@
   window.__HNA_renderFmrPanel          = window.HNARenderers.renderFmrPanel;
   window.__HNA_renderChasAffordabilityGap = window.HNARenderers.renderChasAffordabilityGap;
   window.__HNA_fetchAcsProfileForTest = fetchAcsProfile;
+  window.__HNA_fetchAcsS0801ForTest = fetchAcsS0801;
+  window.__HNA_mergeExtendedForTest = mergeExtended;
   window.__HNA_buildCensusUrlForTest = _buildCensusUrl;
   window.__HNA_rentBurdenEvidenceForTest = _rentBurdenEvidence;
 

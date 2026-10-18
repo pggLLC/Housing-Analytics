@@ -212,6 +212,9 @@
       geoCode = `0500000US${geoid}`;
     } else if ((geoType === 'place' || geoType === 'cdp') && geoid) {
       geoCode = `1600000US${geoid}`;
+    } else if (geoType === 'state' && geoid) {
+      // Colorado's own table, not the nation's.
+      geoCode = `0400000US${geoid}`;
     }
     return `https://data.census.gov/table/${tableId}?g=${geoCode}`;
   }
