@@ -90,10 +90,11 @@ test('unknown credit equity stays unknown in the whole-project row and the total
   assert.equal(su.totals.sources, null);
   assert(su.reasons.some(x => /9% LIHTC proceeds is unavailable/.test(x)), 'and the reason names it');
   assert(!su.general.sources.some(e => e.id === 'lihtc4'), 'an explicit $0 (no 4% equity on a 9% deal) is left out');
-  assert(!su.general.sources.some(e => e.id === 'historic_credit'), 'no historic credit is left out');
+  assert(!su.general.sources.some(e => /^historic_/.test(e.id)), 'no historic credit is left out');
   s.taxCredit = Object.assign({}, s.taxCredit, { nine: 1000000, historic: null });
+  s.historic = [{ id: 99, program: 'historic_tc', mode: 'grant', amount: null }];
   const blankHistoric = ds.sourcesByActivity({ costSummary: r.costBasis.summary, financing: s, tranches: r.tranches, labels: pf.PROGRAM_LABELS });
-  assert.equal(blankHistoric.general.sources.find(e => e.id === 'historic_credit').amount, null, 'a blank historic credit amount stays listed');
+  assert.equal(blankHistoric.general.sources.find(e => e.id === 'historic_99').amount, null, 'a blank historic credit amount stays listed');
   assert.equal(blankHistoric.totals.sources, null, 'and makes the total unknown');
 });
 
@@ -276,8 +277,12 @@ test('cash after an undercovered mortgage repays the deferred fee before investo
 test('historic tax credit equity pays for the whole project, not one category', () => {
   const { su } = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant', activity: 'construction' }]));
   assert(!su.rows.find(x => x.id === 'construction').sources.some(x => x.amount === 300000), 'not in construction');
-  const h = su.general.sources.find(x => x.id === 'historic_credit');
+  const h = su.general.sources.find(x => /^historic_/.test(x.id));
   assert(h && h.amount === 300000, 'in the whole-project row');
+  assert.equal(h.status, 'pending');
+  const two = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant', status: 'committed' },
+    { program: 'historic_tc', amount: 200000, mode: 'grant' }])).su.general.sources.filter(x => /^historic_/.test(x.id));
+  assert.deepEqual(two.map(x => [x.amount, x.status]), [[300000, 'committed'], [200000, 'pending']], 'each historic source keeps its own status');
 });
 
 test('a deficit year pays no deferred fee and must be made up first, so the payback year still matches the engine', () => {

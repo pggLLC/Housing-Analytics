@@ -109,11 +109,15 @@
       // Only an explicit $0 is left out; unknown equity (null) stays and makes the total unknown.
       tc.nine === 0 ? null : { id: 'lihtc9', name: '9% LIHTC proceeds', amount: tc.nine },
       tc.four === 0 ? null : { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four },
-      tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state },
-      // Historic credit equity is tax credit equity too: it pays for the whole project.
-      tc.historic === 0 || tc.historic === undefined ? null : { id: 'historic_credit', name: 'Historic tax credit proceeds', amount: tc.historic },
-      fin.deferredDevFee === 0 ? null : { id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }
-    ].filter(Boolean);
+      tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state }
+    ].concat(
+      // Historic credit equity is tax credit equity too: it pays for the whole
+      // project. Each source keeps its own status; an unknown amount stays listed.
+      (fin.historic || []).map(function (h) {
+        return { id: 'historic_' + h.id, name: 'Historic tax credit proceeds', amount: h.amount, status: statusOf(byId[h.id] || {}) };
+      }),
+      fin.deferredDevFee === 0 ? [] : [{ id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }]
+    ).filter(Boolean);
     whole.forEach(function (w) {
       if (!known(w.amount)) reasons.push(w.name + ' is unavailable; the permanent financing section says why.');
       general.amount = sum([general.amount, w.amount]);
