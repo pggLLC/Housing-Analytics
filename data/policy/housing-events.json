@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-17T11:10:20Z",
-    "as_of": "2026-10-17",
+    "generated": "2026-10-18T11:35:51Z",
+    "as_of": "2026-10-18",
     "horizon_days": 120,
     "categories": {
       "conference": "Conferences",
@@ -21,7 +21,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1331,
-      "upcoming": 28
+      "upcoming": 27
     },
     {
       "id": "housing_colorado",
@@ -37,35 +37,10 @@
       "url": null,
       "status": "ok",
       "listed": 2,
-      "upcoming": 1
+      "upcoming": 0
     }
   ],
   "events": [
-    {
-      "title": "NAHRO 2026 National Conference & Exhibition",
-      "start": "2026-10-15",
-      "end": "2026-10-17",
-      "time": null,
-      "location": "Colorado Convention Center, Denver",
-      "online": false,
-      "organizer": "NAHRO",
-      "url": "https://www.nahro.org/national-conference/",
-      "source": "curated",
-      "category": "conference",
-      "checked": "2026-10-14"
-    },
-    {
-      "title": "In Person: Own Your Tomorrow: Homebuyer Event",
-      "start": "2026-10-17",
-      "end": null,
-      "time": "12:00",
-      "location": "In-person, Colorado Springs",
-      "online": false,
-      "organizer": "CHFA",
-      "url": "https://lp.constantcontactpages.com/ev/reg/8ab7cut",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
     {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-10-20",

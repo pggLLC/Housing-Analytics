@@ -331,7 +331,6 @@ jobs:
           npm run rebuild:derived
           git checkout -- data/paper working-paper.html methods.html AGENTS.md README.md
           node scripts/build-home-snapshot.mjs
-          npm run audit:file-manifest
           # This workflow changes the record count in
           # data/environmental/epa-superfund-co.json, which is the count
           # js/data-source-inventory.js declares for epa-cleanup-co. Without
@@ -344,8 +343,14 @@ jobs:
           # that should reconcile it. This run took epa-cleanup-co from 1141 to
           # 1144 and left the declaration at 1141.
           node scripts/audit/refresh-inventory-mtimes.mjs || true
-          python3 scripts/rebuild_manifest.py
-          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json data/_manifest.json data/manifest.json js/data-source-inventory.js data/hna/place-chas.json data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/derived/funding-vs-need.json places
+          # The two manifests stay out of this commit. ci-checks rebuilds them
+          # on the PR and the post-merge job commits them to main; carried here,
+          # they conflicted with main on the rebase below whenever another data
+          # commit landed during this ~28-minute run (three failed builds for
+          # #2318 on 2026-10-18). Put back the copies the chain wrote so the
+          # rebase's autostash does not carry them either.
+          git restore --source=HEAD --staged --worktree -- data/_manifest.json data/manifest.json
+          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json js/data-source-inventory.js data/hna/place-chas.json data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/derived/funding-vs-need.json places
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
