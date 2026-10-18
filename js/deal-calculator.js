@@ -4198,7 +4198,7 @@
     // #2161: an added credit's results travel with the deal only when one is entered.
     var ac = mode !== 'ownership' && result && result.costBasis && result.costBasis.addedCredit;
     if (ac) [['addedCreditGrossEquity', ac.gross], ['addedCreditNetNewEquity', ac.net], ['fundingGapWithAddedCredit', ac.gapAfter]].forEach(function (p) {
-      var v = typeof p[1] === 'number' && isFinite(p[1]) ? p[1] : null;
+      var v = Number.isFinite(p[1]) ? p[1] : null;
       var why = v === null ? (ac.reason || 'The funding gap before the added credit is unavailable.') : null;
       records[p[0]] = { value: v, display: v === null ? 'Unavailable — ' + why : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'), unavailableReason: why };
     });
