@@ -713,7 +713,7 @@
   function stateCredit(args) {
     var annual = num(args.annual), standard = num(args.standardAnnual), price = num(args.price);
     var out = { entered: annual !== null || standard !== null, annual: annual, standardAnnual: standard, allowedAnnual: null,
-      streams: [], years: null, price: price, equity: null, cap: null, capReason: null, reason: null };
+      streams: [], years: null, price: price, grossEquity: null, fees: null, equity: null, cap: null, capReason: null, reason: null };
     if (!out.entered) { out.reason = 'No state credit entered.'; return out; }
     var term = ruleStatus(args.rules, 'state_credit_term');
     if (!term.applied) { out.reason = 'State credit term: ' + term.reason + '.'; return out; }
@@ -770,7 +770,94 @@
       out.reason = 'A proposed state credit is not a source yet: CHFA sizes it with a three-test calculation (QAP 3.M.2) this calculator does not model. Tick "CHFA has awarded this state credit" once it is awarded, or clear it.';
       return out;
     }
-    out.equity = allowed * out.years * price;
+    // Investor fees on the state credit come out of its equity; a blank field is no fees.
+    var fees = num(args.fees);
+    if (fees !== null && (!Number.isFinite(fees) || fees < 0)) { out.reason = 'Enter state credit investor fees of $0 or more.'; return out; }
+    out.grossEquity = allowed * out.years * price;
+    if (fees !== null && fees > out.grossEquity) {
+      out.reason = 'State credit investor fees of ' + money(fees) + ' are more than its ' + money(out.grossEquity) + ' of equity.'; return out;
+    }
+    out.fees = fees === null ? 0 : fees;
+    out.equity = out.grossEquity - out.fees;
+    return out;
+  }
+
+  // Credits whose eligibility turns on where the site is or a designation it holds:
+  // unknown until the evidence is entered, never shown as eligible by default.
+  var ADDED_CREDIT_KINDS = Object.freeze({
+    tz: { label: 'Transit Zone credit', needsEvidence: true },
+    designation: { label: 'Location- or designation-based credit', needsEvidence: true },
+    other: { label: 'Other credit', needsEvidence: false }
+  });
+
+  /** A credit added to the stack: its gross equity, and the net new equity it brings
+   * after the credit it displaces, any cut to the federal award, and its investor fees.
+   * Substituting for a credit creates no new cash, so only the net changes the stack. */
+  function addedCredit(args) {
+    var kind = ADDED_CREDIT_KINDS[args.kind] ? args.kind : null;
+    var out = { entered: !!kind, kind: kind, label: kind ? ADDED_CREDIT_KINDS[kind].label : null, eligibility: null,
+      annual: num(args.annual), years: num(args.years), price: num(args.price), fees: num(args.fees),
+      programYear: num(args.programYear), mode: args.mode || null, displaces: null,
+      gross: null, displaced: null, resizedFederal: null, netBeforeFees: null, net: null,
+      awardReduction: null, reason: null };
+    if (!kind) { out.reason = args.kind ? 'Unknown added credit.' : 'No added credit entered.'; return out; }
+    // A possible award reduction is flagged only from a cited rule.
+    var reduction = ruleStatus(args.rules, 'added_credit_award_reduction');
+    out.awardReduction = reduction.applied
+      ? { sourced: true, text: 'Possible: ' + (reduction.rule.effect || 'the allocator may reduce another award') + '.', citation: reduction.citation }
+      : { sourced: false, text: RULE_NOT_SOURCED, citation: null };
+    var evidence = String(args.evidence || '').trim();
+    out.eligibility = !ADDED_CREDIT_KINDS[kind].needsEvidence ? 'not location-based' : evidence ? 'evidence entered' : 'unknown';
+    out.evidence = evidence || null;
+    // A Transit Zone credit also needs the site inside a zone on the Market Analysis map.
+    if (kind === 'tz' && args.inZone !== true) {
+      out.eligibility = args.inZone === false ? 'not in a zone' : 'unknown';
+      out.reason = args.inZone === false
+        ? 'Market Analysis does not place this site in a Transit Zone, so the Transit Zone credit does not apply.'
+        : 'Transit Zone credit eligibility unknown: the site has not been checked against OEDIT\'s Transit Zone map. Use this calculator on the Market Analysis page, which checks the site, and enter the evidence.';
+      return out;
+    }
+    if (out.eligibility === 'unknown') {
+      out.reason = out.label + ' eligibility unknown: enter the evidence that the site qualifies (the designation, map or letter).'; return out;
+    }
+    var a = out.annual, y = out.years, p = out.price;
+    if (a === null || !Number.isFinite(a) || a <= 0) { out.reason = 'Enter the annual ' + out.label.toLowerCase() + '.'; return out; }
+    if (y === null || !Number.isFinite(y) || y <= 0 || Math.round(y) !== y) { out.reason = 'Enter the whole number of years the ' + out.label.toLowerCase() + ' is claimed.'; return out; }
+    if (p === null || !Number.isFinite(p) || p <= 0 || p > 1.5) { out.reason = 'Enter the investor price per $1 of ' + out.label.toLowerCase() + '.'; return out; }
+    out.gross = a * y * p;
+    if (out.mode !== 'supplement' && out.mode !== 'substitute') {
+      out.reason = 'Choose whether the ' + out.label.toLowerCase() + ' adds to the other credits or replaces part of one.'; return out;
+    }
+    out.displaced = 0;
+    if (out.mode === 'substitute') {
+      var d = args.displaced || {};
+      out.displaces = d.label || null;
+      if (!d.label) { out.reason = 'Choose which credit the ' + out.label.toLowerCase() + ' replaces.'; out.displaced = null; return out; }
+      if (d.reason) { out.reason = 'Displaced ' + d.label.toLowerCase() + ': ' + d.reason; out.displaced = null; return out; }
+      var da = num(d.annual);
+      if (da === null || !Number.isFinite(da) || da <= 0) { out.reason = 'Enter the annual ' + d.label.toLowerCase() + ' it replaces.'; out.displaced = null; return out; }
+      if (d.maxAnnual !== null && d.maxAnnual !== undefined && da > d.maxAnnual) {
+        out.reason = 'It cannot replace more ' + d.label.toLowerCase() + ' than the ' + money(d.maxAnnual) + ' a year in this deal.'; out.displaced = null; return out;
+      }
+      // netShare: the part of the replaced credit's equity left after its own investor fees.
+      out.displaced = da * d.years * d.price * (typeof d.netShare === 'number' ? d.netShare : 1);
+    }
+    var cut = num(args.federalCut && args.federalCut.annual);
+    if (cut === null) cut = 0; // no cut entered: the federal award stands as entered
+    if (!Number.isFinite(cut) || cut < 0) { out.reason = 'Enter a federal credit reduction of $0 or more a year.'; return out; }
+    if (cut > 0) {
+      var fedMax = args.federalCut.maxAnnual;
+      if (fedMax === null || fedMax === undefined) { out.reason = 'The federal credit is not available, so a cut to it cannot be priced.'; return out; }
+      // A cut comes out of what is left after any federal credit this one replaces.
+      var replacedFed = out.mode === 'substitute' && args.displaced && args.displaced.federal ? num(args.displaced.annual) : 0;
+      if (cut + replacedFed > fedMax) {
+        out.reason = 'The federal credit cut' + (replacedFed ? ' plus the federal credit replaced' : '') + ' is more than the ' + money(fedMax) + ' a year of federal credit in this deal.'; return out;
+      }
+    }
+    out.resizedFederal = cut * args.federalCut.years * args.federalCut.price;
+    out.netBeforeFees = out.gross - out.displaced - out.resizedFederal;
+    if (out.fees === null || !Number.isFinite(out.fees) || out.fees < 0) { out.reason = 'Enter the investor fees on the ' + out.label.toLowerCase() + ' ($0 if none).'; return out; }
+    out.net = out.netBeforeFees - out.fees;
     return out;
   }
 
@@ -831,7 +918,7 @@
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
-    basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit,
+    basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
     payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
     DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, LEGACY_COMBINED_LINES: LEGACY_COMBINED_LINES, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
