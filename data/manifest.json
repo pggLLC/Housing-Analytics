@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T00:19:27.266539Z",
+  "generated": "2026-10-18T03:08:12.932499Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 856400
+      "bytes": 856367
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -34,7 +34,7 @@
     "data/affordable-housing/nlihc-out-of-reach-co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9042
+      "bytes": 28642
     },
     "data/affordable-housing/preservation/chfa-preservation.json": {
       "featureCount": 1688,
@@ -8454,7 +8454,7 @@
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3713
+      "bytes": 4353
     },
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,

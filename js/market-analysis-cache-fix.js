@@ -122,6 +122,18 @@
   function _lsSet(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (_) { return false; }
+  }
+
+  /* Remove the fetch helper's data cache ('_fh_' keys). It only saves a
+     re-download, so it gives way to the user's own saved run. */
+  function _evictFetchCache() {
+    try {
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf('_fh_') === 0) localStorage.removeItem(key);
+      }
     } catch (_) {}
   }
 
@@ -152,7 +164,7 @@
     if (lat == null || lon == null || !scoreRun) return;
     var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
       ? window.WorkflowState.getJurisdiction() : null;
-    _lsSet(LS_KEY, {
+    var entry = {
       jurisdiction: jurisdiction ? { geoid: jurisdiction.geoid || null,
         countyFips: jurisdiction.countyFips || null, name: jurisdiction.name || null } : null,
       ts:       Date.now(),
@@ -160,8 +172,16 @@
       lon:      lon,
       options:  options || {},
       scoreRun: scoreRun
-    });
-    console.log('[PMADataCache] lastResult persisted to localStorage');
+    };
+    // Storage full: the data cache gives way, then the save is tried again.
+    var saved = _lsSet(LS_KEY, entry);
+    if (!saved) {
+      _evictFetchCache();
+      saved = _lsSet(LS_KEY, entry);
+    }
+    if (saved) console.log('[PMADataCache] lastResult persisted to localStorage');
+    else console.warn('[PMADataCache] lastResult not saved: browser storage is full or unavailable');
+    return saved;
   }
 
   /**

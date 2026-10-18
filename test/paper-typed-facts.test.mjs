@@ -121,3 +121,17 @@ test('fair-housing article: comment-period status agrees with the rule record', 
     assert.match(entry.summary, /not yet final/, 'catalog summary agrees the rule is not final');
   }
 });
+
+test('fair-housing article: the AFFH row dates and cites the rule its source link names', () => {
+  const html = read('article-fair-housing-rollback.html');
+  const MON = MONTHS.map((x) => x.slice(0, 3));
+  const row = [...html.matchAll(/<tr>\s*<td class="fh-date">([^<]+)<\/td>\s*<td>([^<]*Affirmatively Furthering[^<]*)<\/td>/g)];
+  assert.equal(row.length, 1, 'one timeline row for the AFFH interim final rule');
+  const link = html.match(/federalregister\.gov\/documents\/(\d{4})\/(\d{2})\/(\d{2})\/[\w-]+\/affirmatively-furthering-fair-housing-revisions/);
+  assert.ok(link, 'Sources link the AFFH rule in the Federal Register');
+  const [, y, m, d] = link.map(Number);
+  assert.ok([`${d} ${MON[m - 1]} ${y}`, `${d} ${MONTHS[m - 1]} ${y}`].includes(row[0][1].trim()), 'row date is the publication date in the link');
+  assert.match(row[0][2], /90 FR 11020/, 'row cites the Federal Register page');
+  // HB22-1093 is a bingo-and-raffles bill; it has nothing to do with housing.
+  assert.doesNotMatch(html, /22-1093/);
+});

@@ -447,6 +447,7 @@
    * while a new geography loads.
    */
   function clearStats() {
+    _snapshotToken += 1;
     const els = S().els;
     if (!els) return;
     const fields = [
@@ -457,6 +458,11 @@
     ];
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
+    });
+    // A margin belongs to the figure it was shown with; it goes with it.
+    document.querySelectorAll('[data-acs-tier]').forEach((el) => {
+      el.textContent = '—';
+      delete el.dataset.acsTier;
     });
     if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     clearNeedReconciliation();
@@ -503,6 +509,50 @@
   // Executive snapshot rendering
   // ---------------------------------------------------------------------------
 
+  // Bumped by every snapshot render and every reset, so a margins file that
+  // arrives late never writes onto a newer geography's cards.
+  let _snapshotToken = 0;
+
+  /**
+   * applySnapshotReliability — put the Census margin of error and reliability
+   * in each snapshot card's source line, with the year and series the figure
+   * actually came from (data/hna/acs-reliability.json). A card is left as it
+   * is when its number is not the estimate the file describes.
+   * @param {Array<{id:string, field:string, value:?number, unit:string, table:string, caveat?:string}>} cards
+   * @returns {Promise<number>} how many cards were annotated
+   */
+  async function applySnapshotReliability(geoid, geoType, cards, token) {
+    const R = window.ACSReliability;
+    if (!R || !geoid) return 0;
+    const file = await R.load();
+    if (!file || token !== _snapshotToken) return 0;
+    let n = 0;
+    cards.forEach((c) => {
+      const el = document.getElementById(c.id);
+      // The first field whose estimate is the number shown. An entry with no
+      // year matched no published estimate, so it has no source to name.
+      const e = (c.fields || [c.field]).map((f) => R.forValue(geoid, f, c.value)).find(Boolean);
+      if (!el || !e || !e.y || !e.s) return;
+      const margin = R.describe(e, c.unit);
+      // The label is the link, from the figure's own year and series. It may
+      // break after the year on a narrow card, but never inside "5-year DP04".
+      // Links here are inline-flex 44px tap targets (css/responsive.css),
+      // which drop the space between the two parts, so the gap and the wrap
+      // are set on the link itself. A caveat (the raw ACS home value floor)
+      // follows the label.
+      const url = U().censusSourceUrl(e.y, e.s, c.table, geoType, geoid);
+      const nowrap = (t) => `<span style="white-space:nowrap">${escHtml(t)}</span>`;
+      const label = `${nowrap(`ACS ${e.y}`)} ${nowrap(`${R.seriesLabel(e)} ${c.table}`)}`;
+      const source = (url
+        ? `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;flex-wrap:wrap;column-gap:.3em" title="View the source table on data.census.gov">${label}</a>`
+        : label) + (c.caveat ? ' · ' + escHtml(c.caveat) : '');
+      el.innerHTML = (margin ? `<span class="acs-moe" style="display:block">${escHtml(margin)}</span>` : '') + source;
+      el.dataset.acsTier = e.t || (e.m == null ? 'no_margin' : '');
+      n += 1;
+    });
+    return n;
+  }
+
   /**
    * renderSnapshot — populate the executive summary stat cards.
    * @param {object} profile  - ACS DP-series profile object
@@ -511,8 +561,9 @@
    * @param {object|null} prevProfile - Prior period profile for YoY deltas
    */
   function renderSnapshot(profile, s0801, label, prevProfile) {
+    const token = ++_snapshotToken;
     const els = S().els;
-    if (!els || !profile) return;
+    if (!els || !profile) return Promise.resolve(0);
 
     const fmtNum   = U().fmtNum;
     const fmtMoney = U().fmtMoney;
@@ -562,10 +613,12 @@
     // Tenure: % renter-occupied (DP04_0047PE)
     const renterPct = safeNum(profile.DP04_0047PE);
     if (els.statTenure) els.statTenure.textContent = renterPct !== null ? fmtPct(renterPct) : '—';
+    if (els.statTenureSrc) els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
 
     // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+    if (els.statRentBurdenSrc) els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
     updateDecisionStrip({
       affordability: {
         value: rb30 !== null ? fmtPct(rb30) : '—',
@@ -606,8 +659,9 @@
     }
 
     // Commute (S0801 mean travel time C01_046E)
+    let commute = null;
     if (s0801) {
-      const commute = safeNum(s0801.S0801_C01_046E || s0801.S0801_C01_046);
+      commute = safeNum(s0801.S0801_C01_046E || s0801.S0801_C01_046);
       if (els.statCommute) els.statCommute.textContent = commute !== null ? `${Math.round(commute)} min` : '—';
       if (els.statCommuteSrc) {
         const sYear = s0801._acsYear || yr;
@@ -639,6 +693,46 @@
         }
       } catch (_) { /* narrative is optional */ }
     }
+
+    // Margins of error. Home value has one only when the card shows the raw
+    // ACS figure; a Zillow-based or county-adjusted value is not that estimate.
+    // The cascade's own "as of" is not used for the label: it says 2020-2024
+    // 5-year for figures that are 2019-2023 or 1-year. Its raw figure is a copy
+    // of DP04_0089E from when the cascade was built, so the file carries an
+    // entry for the figure shown (median_home_value) as well as for the stored
+    // DP04_0089E, and either is used only when its estimate is that figure.
+    const homeIsAcs = !homeInfo.display || homeInfo.display.source === 'acs_raw';
+    const homeCaveat = homeInfo.display
+      ? ['raw floor', homeInfo.confidence ? `${homeInfo.confidence} confidence` : null,
+        homeInfo.lowConfidence ? 'no current city index' : null,
+        homeInfo.display.review_flag ? homeInfo.display.review_flag.note : null].filter(Boolean).join(' · ')
+      : null;
+    const cards = [
+      { id: 'statPopSrc', field: 'DP05_0001E', value: pop, unit: 'count', table: 'DP05' },
+      { id: 'statMhiSrc', field: 'DP03_0062E', value: mhi, unit: 'money', table: 'DP03' },
+      { id: 'statRentSrc', field: 'DP04_0134E', value: rent, unit: 'money', table: 'DP04' },
+      { id: 'statTenureSrc', field: 'DP04_0047PE', value: renterPct, unit: 'pct', table: 'DP04' },
+      { id: 'statRentBurdenSrc', field: 'rent_burden_30plus', value: rb30, unit: 'pct', table: 'DP04',
+        inputs: ['DP04_0141PE', 'DP04_0142PE'] },
+      { id: 'statCommuteSrc', field: 'S0801_C01_046E', value: commute, unit: 'min', table: 'S0801', block: s0801 },
+    ];
+    if (homeIsAcs) {
+      cards.push({
+        id: 'statHomeValueSrc', fields: homeInfo.display ? ['median_home_value', 'DP04_0089E'] : ['DP04_0089E'],
+        value: homeVal, unit: 'money', table: 'DP04', caveat: homeCaveat,
+      });
+    }
+    // A figure fetched live from the Census API (no cached summary, or the
+    // extended fetch replacing a stored field) is not the stored estimate an
+    // entry describes, even when the numbers agree, so it gets no margin.
+    const isLive = (c) => {
+      const block = 'block' in c ? c.block : profile;
+      if (!block) return false;
+      if (block._live === true) return true;
+      const live = Array.isArray(block._liveFields) ? block._liveFields : [];
+      return (c.inputs || c.fields || [c.field]).some((f) => live.includes(f));
+    };
+    return applySnapshotReliability(geoid, geoType, cards.filter((c) => !isLive(c)), token).catch(() => 0);
   }
 
   // ---------------------------------------------------------------------------
@@ -6392,28 +6486,39 @@
           // Fall back to state aggregate
           rec = {
             county_name: 'Colorado (state aggregate)',
-            two_br_housing_wage: state.two_br_housing_wage_2025,
-            one_br_housing_wage: null,
-            renter_median_wage: state.renter_median_hourly_wage_2025,
+            two_br_housing_wage: state.two_br_housing_wage,
+            one_br_housing_wage: state.one_br_housing_wage,
+            renter_mean_wage: state.renter_mean_hourly_wage,
             gap_2br: state.affordability_gap_per_hour,
-            notes: 'No county-specific value cached — using state aggregate.'
+            notes: 'No county row in the file, so the state figures are shown.'
           };
         }
+        // Absent is not zero: a missing NLIHC value prints as unavailable.
+        function wage(v) {
+          return (typeof v === 'number' && Number.isFinite(v) && v > 0) ? '$' + v.toFixed(2) + '/hr' : 'Not published';
+        }
+        var gapKnown = typeof rec.gap_2br === 'number' && Number.isFinite(rec.gap_2br);
+        var gapText = gapKnown
+          ? (rec.gap_2br > 0 ? '$' + rec.gap_2br.toFixed(2) + '/hr short' : '$' + Math.abs(rec.gap_2br).toFixed(2) + '/hr above')
+          : 'Not available';
+        var areaNote = rec.nlihc_area && rec.nlihc_area !== rec.county_name + ' County'
+          ? 'Rent and housing wage are for HUD\'s ' + rec.nlihc_area + ' rent area; the renter wage is this county\'s own. '
+          : '';
         var addendum = document.createElement('div');
         addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.5;';
         addendum.innerHTML =
           '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
           '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(140px, 100%), 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
-            '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
-            '<div><span style="color:var(--muted);font-size:1rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            '<div><span style="color:var(--muted);font-size:1rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>' + wage(rec.two_br_housing_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>' + wage(rec.one_br_housing_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">Average renter wage:</span><br><strong>' + wage(rec.renter_mean_wage) + '</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">Renter wage vs 2-BR housing wage:</span><br><strong style="color:' + (!gapKnown ? 'var(--muted)' : rec.gap_2br > 12 ? 'var(--bad)' : rec.gap_2br > 0 ? 'var(--warn)' : 'var(--good)') + ';">' + gapText + '</strong></div>' +
           '</div>' +
-          '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + (rec.notes || '') + '</p>' +
+          '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + areaNote + (rec.renter_wage_unavailable_reason || rec.notes || '') + '</p>' +
           '<p style="margin:.2rem 0 0;font-size:1rem;color:var(--muted);">' +
-            'Source: <a href="https://nlihc.org/oor" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC Out of Reach ' + ((j.meta && j.meta.vintage) || '2025') + '</a> · ' +
-            'The "housing wage" = (HUD 2-BR FMR × 12) ÷ (0.30 × 2,080 work hours/year). Hourly wage a full-time renter needs to afford 2-BR FMR without rent burden. ' +
-            'Pulls a hard one-line answer to "why does this jurisdiction need affordable housing?" for IC memos.' +
+            'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://nlihc.org/oor') + '" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC ' + ((j.meta && j.meta.report_name) || 'Out of Reach') + '</a>' +
+            (j.meta && j.meta.released ? ', released ' + j.meta.released : '') + ' · ' +
+            'The housing wage is what a full-time worker needs per hour to pay HUD\'s 2-BR Fair Market Rent at 30% of income. The renter wage is NLIHC\'s estimated average for renters in the county.' +
           '</p>';
         panel.appendChild(addendum);
       }).catch(function () { /* silent */ });

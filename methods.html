@@ -125,7 +125,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.com">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">2d4c8925e</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">c64af3946</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -1109,7 +1109,7 @@ weighted_avg(F)  =  ───────────────       F* = { f
             system, and a reader has to choose a model.
           </p>
 
-          <h3>Sampling error: what is measured, and what is not yet shown</h3>
+          <h3 id="m-sampling-error">Sampling error: what is measured, and what is not yet shown</h3>
           <p>
             Almost every small-area figure here comes from the American Community Survey, which is a
             sample. The Census Bureau publishes a margin of error with every estimate. Its handbook,
@@ -1124,21 +1124,23 @@ weighted_avg(F)  =  ───────────────       F* = { f
           </p>
           <p>
             The errors at place level are large. For the
-            <span data-figure="methods_data.renter_burden_moe_places">400</span> places with a published
-            ACS 5-year rate (<span data-figure="methods_data.renter_burden_moe_vintage">2018–2022</span>), the median margin on the share of renters who are cost
-            burdened is &plusmn;<span data-figure="methods_data.renter_burden_moe_median_pp">28.1</span>
-            percentage points, and <span data-figure="methods_data.renter_burden_moe_over_20pp">261</span>
+            <span data-figure="methods_data.renter_burden_moe_places">378</span> places with a published
+            ACS 5-year rate (<span data-figure="methods_data.renter_burden_moe_vintage">2020–2024</span>), the median margin on the share of renters who are cost
+            burdened is &plusmn;<span data-figure="methods_data.renter_burden_moe_median_pp">34.1</span>
+            percentage points, and <span data-figure="methods_data.renter_burden_moe_over_20pp">280</span>
             places exceed &plusmn;20 points. At that size, a difference of a few points between two
             towns tells a reader nothing.
           </p>
           <div class="mx-warn">
             <span class="tag">Read small-place rates as ranges</span>
             <p>
-              Most figures on the HNA pages, briefs and place pages are shown without their margins
-              today. Only the second-homes panel shows a range and a reliability label; the cost-burden
-              cross-check badge uses the margin but does not print it. Until the others
-              do, treat any rate for a place of a few thousand people as a range, and do not rank two
-              small places against each other on a difference of a few points.
+              The HNA snapshot cards print each Census figure&rsquo;s margin beside it, marked
+              <em>fair</em> or <em>use with caution</em> when its coefficient of variation is above 15%,
+              and name the year and release (1-year or 5-year) the figure came from. The second-homes
+              panel uses the same scale; the cost-burden cross-check badge uses the margin but does not
+              print it. Place pages, briefs and exports do not show margins yet. There, treat any rate
+              for a place of a few thousand people as a range, and do not rank two small places against
+              each other on a difference of a few points.
             </p>
           </div>
         </div>

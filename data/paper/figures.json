@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "2d4c8925e",
+  "generated_from_commit": "c64af3946",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
-    "last_commit": "2026-10-17",
-    "total_commits": 8461,
+    "last_commit": "2026-10-18",
+    "total_commits": 8470,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 864,
-        "pct_of_peak": 60.5
+        "commits": 873,
+        "pct_of_peak": 61.1
       }
     ]
   },
@@ -68,9 +68,9 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 68,
-    "test_files": 570,
-    "absence_test_cases": 277,
-    "absence_tests": 108,
+    "test_files": 577,
+    "absence_test_cases": 281,
+    "absence_tests": 110,
     "lihtc_features": 926
   },
   "case": {
@@ -246,11 +246,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 455326,
+    "hand_written_lines": 457366,
     "generated_place_page_lines": 226828,
     "top_level_pages": 71,
-    "html_nonblank_lines": 49289,
-    "html_distinct_lines": 20220,
+    "html_nonblank_lines": 49333,
+    "html_distinct_lines": 20221,
     "html_distinct_share": 0.41,
     "substantial_tools": 27,
     "declared_data_sources": 83,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "2d4c8925e",
+    "extracted_at_commit": "c64af3946",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -560,10 +560,10 @@
     "gap30_priced_vintage": "2020–2024",
     "gap30_aa_vintage": "2018–2022",
     "chas_place_table_places": 482,
-    "renter_burden_moe_vintage": "2018–2022",
-    "renter_burden_moe_places": 400,
-    "renter_burden_moe_median_pp": 28.1,
-    "renter_burden_moe_over_20pp": 261,
+    "renter_burden_moe_vintage": "2020–2024",
+    "renter_burden_moe_places": 378,
+    "renter_burden_moe_median_pp": 34.1,
+    "renter_burden_moe_over_20pp": 280,
     "restricted_properties": 1854,
     "restricted_with_end_date": 110,
     "restricted_already_expired": 77,
