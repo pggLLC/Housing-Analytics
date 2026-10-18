@@ -30,7 +30,9 @@ Sources
 -------
   - Mobility Database catalog: https://bit.ly/catalogs-csv (CSV mirror;
     redirects to GitHub raw URL maintained by mobilitydata.org)
-  - Each agency's GTFS .zip from the `urls.latest` column
+  - Each agency's GTFS .zip from the `urls.latest` column (the Mobility
+    Database's hosted copy), falling back to the agency's own
+    `urls.direct_download` when that copy is gone
 
 Output
 ------
@@ -48,6 +50,7 @@ import csv
 import io
 import json
 import os
+import re
 import sys
 import time
 import hashlib
@@ -107,7 +110,9 @@ def load_co_feeds(catalog_csv: str) -> list[dict]:
             continue
         if row.get("data_type", "").strip().lower() != "gtfs":
             continue  # skip GTFS-RT / other feeds
-        url = (row.get("urls.latest") or row.get("urls.direct_download") or "").strip()
+        latest = (row.get("urls.latest") or "").strip()
+        direct = (row.get("urls.direct_download") or "").strip()
+        url = latest or direct
         if not url or url in seen_urls:
             continue
         seen_urls.add(url)
@@ -123,6 +128,11 @@ def load_co_feeds(catalog_csv: str) -> list[dict]:
             "agency_id":    agency_id,
             "municipality": muni,
             "url":          url,
+            # The Mobility Database's hosted copy can disappear while the
+            # agency's own file still works: on 2026-10-18 Transfort's hosted
+            # copy returned 404 and Fort Collins dropped off the map, while
+            # ridetransfort.com still served the feed.
+            "fallback_url": direct if direct and direct != url else "",
             "status":       row.get("status", "active"),
             "mdb_id":       row.get("mdb_source_id", ""),
         })
@@ -132,6 +142,65 @@ def load_co_feeds(catalog_csv: str) -> list[dict]:
 # Colorado's boundary is (almost exactly) a latitude/longitude rectangle, so a
 # bounding box is an exact enough state test for route vertices.
 CO_BBOX = (-109.0603, 36.9924, -102.0415, 41.0034)  # min lon, min lat, max lon, max lat
+
+
+def _norm_agency(name: str) -> str:
+    if not name:
+        return ""
+    n = re.sub(r"\([^)]*\)", "", name)        # strip parenthetical suffixes
+    n = re.sub(r"[^a-z0-9]+", "_", n.lower()).strip("_")
+    return n
+
+
+def agency_key(name: str) -> str:
+    """The key that identifies an agency across feeds and runs. RTD's
+    features are renamed "RTD Denver" below, so its provider name maps to
+    the same key."""
+    n = _norm_agency(name)
+    return "rtd_denver" if n == "regional_transportation_district" else n
+
+
+def carry_forward_failed(all_features: list, agencies_failed: list,
+                         previous: dict) -> dict:
+    """Keep the previous run's routes for an agency whose feed failed.
+
+    A failed feed is not evidence the agency stopped running buses. Without
+    this, one 404 removed every Transfort route from the committed file
+    (1,675 -> 1,622 features, 2026-10-18) and the site showed no Fort
+    Collins transit. Only agencies with no route from any feed this run are
+    carried, so a second feed for the same agency never duplicates routes.
+    Returns {agency: {"features": n, "last_fetched": date}}, recorded in meta.
+    """
+    have = {agency_key(f.get("properties", {}).get("agency", "")) for f in all_features}
+    prev_meta = previous.get("meta") or {}
+    prev_carried = prev_meta.get("carried_forward") or {}
+    prev_generated = prev_meta.get("generated") or prev_meta.get("vintage") or ""
+    carried: dict = {}
+    for failed in agencies_failed:
+        key = agency_key(failed.get("agency", ""))
+        if not key or key in have:
+            continue
+        keep = [f for f in previous.get("features") or []
+                if agency_key(f.get("properties", {}).get("agency", "")) == key]
+        if not keep:
+            continue
+        name = keep[0].get("properties", {}).get("agency", failed["agency"])
+        since = (prev_carried.get(name) or {}).get("last_fetched") or prev_generated
+        all_features.extend(keep)
+        have.add(key)
+        carried[name] = {"features": len(keep), "last_fetched": since}
+        log(f"  ↺ {name}: feed failed; kept {len(keep)} routes last fetched {since[:10]}",
+            level="WARN")
+        try:
+            age = datetime.now(timezone.utc) - datetime.fromisoformat(since.replace("Z", "+00:00"))
+            if age.days > 14:
+                # Kept routes are visible and still drawn, but a feed broken
+                # this long needs a person to find its new URL.
+                print(f"::warning::{name} feed has failed since {since[:10]} "
+                      f"({age.days} days); its routes are carried from that run")
+        except ValueError:
+            pass
+    return carried
 
 
 def route_touches_colorado(geom: dict | None) -> bool:
@@ -190,6 +259,17 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 120) -> bytes:
                 log(f"[retry {attempt+1}/{retries-1}] {exc} — waiting {wait}s", level="WARN")
                 time.sleep(wait)
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
+
+
+def fetch_feed(feed: dict, **kw) -> bytes:
+    """Fetch a catalog feed, trying the agency's own URL if the hosted copy fails."""
+    try:
+        return fetch_url(feed["url"], **kw)
+    except Exception as exc:
+        if not feed.get("fallback_url"):
+            raise
+        log(f"  ⚠ {exc}; trying the agency's own URL", level="WARN")
+        return fetch_url(feed["fallback_url"], **kw)
 
 
 def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> list:
@@ -304,7 +384,7 @@ def main() -> int:
         url = feed["url"]
         log(f"[{i}/{len(feeds)}] Fetching GTFS for {agency_name} ({feed.get('municipality') or 'CO'})…")
         try:
-            zip_bytes = fetch_url(url)
+            zip_bytes = fetch_feed(feed)
             features = parse_gtfs_shapes(zip_bytes, agency_id, agency_name)
             if features:
                 all_features.extend(features)
@@ -319,12 +399,22 @@ def main() -> int:
             log(f"  ✗ {agency_name}: {exc}", level="WARN")
         time.sleep(0.5)  # be polite to upstreams
 
+    previous: dict = {}
+    if OUT_FILE.exists():
+        try:
+            previous = json.loads(OUT_FILE.read_text())
+        except ValueError:
+            previous = {}
+    carried = carry_forward_failed(all_features, agencies_failed, previous) if all_features else {}
+
     result = {
         "type": "FeatureCollection",
         "meta": {
             "source": "Colorado Transit Agency GTFS feeds via Mobility Database catalog",
             "agencies": agencies_ok,
             "agencies_failed": agencies_failed,
+            # Agencies whose feed failed this run, kept from the previous file.
+            "carried_forward": carried,
             "state": "Colorado",
             "state_fips": STATE_FIPS,
             "vintage": generated[:10],
@@ -362,13 +452,6 @@ def main() -> int:
     # bundles, producing 7x duplicate route geometries). Dedup key is
     # (normalized_agency_name, shape_id) — same shape from same agency
     # is the same route regardless of which MDB feed it came through.
-    import re as _re
-    def _norm_agency(name: str) -> str:
-        if not name: return ""
-        n = _re.sub(r"\([^)]*\)", "", name)        # strip parenthetical suffixes
-        n = _re.sub(r"[^a-z0-9]+", "_", n.lower()).strip("_")
-        return n
-
     seen_keys: set[tuple[str, str]] = set()
     deduped: list[dict] = []
     pre_count = len(all_features)
