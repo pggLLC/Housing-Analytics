@@ -209,6 +209,16 @@
       status = agreed(countyRecords.map(function (c) { return statusOf(c.record); }));
       fastTrack = agreed(countyRecords.map(function (c) { return fastTrackOf(c.record); }));
     }
+    // DOLA also lists fast-track adoptions by jurisdictions with no
+    // 2024–2026 commitment (Town of Moffat).
+    if (!record && !countyRecords.length) {
+      var name = comparableName(geoLabel);
+      var kind = geoType === 'county' ? 'county' : 'municipality';
+      var ftOnly = ((payload && payload.fast_track_without_cycle1_commitment) || []).find(function (f) {
+        return comparableName(f.name) === name && classifyKind(f) === kind;
+      });
+      if (ftOnly) fastTrack = 'Yes';
+    }
     return {
       record: record,
       coveredBy: coveredBy,

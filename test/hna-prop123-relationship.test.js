@@ -95,6 +95,12 @@ async function main() {
     assert.equal(r.nextCycle.filing.submitted, f.submitted, `${f.name}: the filing date is DOLA's`);
   });
   assert.equal(api.relationship(DATA, 'place', 'Fruita (city)').nextCycle.filing, null, 'no 2027–2029 filing is invented');
+  (DATA.fast_track_without_cycle1_commitment || []).forEach((f) => {
+    const r = api.relationship(DATA, 'place', f.name.replace(/^(City|Town) of /, '') + ' (town)');
+    assert.equal(r.fastTrack, 'Yes', `${f.name}: a fast-track adoption without a 2024–2026 commitment still shows`);
+    assert.equal(r.status, 'Not committed', `${f.name}: its 2024–2026 status stays Not committed`);
+  });
+  assert((DATA.fast_track_without_cycle1_commitment || []).length > 0, 'the fast-track-only list is non-empty, so the check above ran');
 
   // Every DOLA filing by a Colorado county or municipality matches a geography.
   const geo = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/geo-config.json'), 'utf8'));
