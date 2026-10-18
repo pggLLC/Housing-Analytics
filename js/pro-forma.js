@@ -135,7 +135,7 @@
     var years = result.coverage && result.coverage.years || [];
     var html = '<details><summary style="min-height:44px;cursor:pointer;">Annual loan obligations and coverage</summary>' +
       '<p>Screening schedule: paid amounts use available NOI, with required payments before contingent loans. Maturity amounts are separate from regular coverage and are not assumed refinanced or paid from operations. Years after an unpaid maturity are unavailable. Forgiveness assumes all agreement conditions are met.</p>' +
-      '<div style="overflow-x:auto;"><table data-loan-coverage><caption>Coverage of regular must-pay payments</caption><thead><tr><th>Year</th><th>Senior only</th><th>All must-pay</th><th>Maturity due</th></tr></thead><tbody>';
+      '<div style="overflow-x:auto;"><table data-loan-coverage data-no-sort><caption>Coverage of regular must-pay payments</caption><thead><tr><th>Year</th><th>Senior only</th><th>All must-pay</th><th>Maturity due</th></tr></thead><tbody>';
     years.forEach(function (row) {
       html += '<tr><td>' + escapeLabel(row.year) + '</td><td>' + (row.seniorCoverage == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason || 'No positive senior debt service.') : fmtPct(row.seniorCoverage)) + '</td><td>' +
         (row.allMustPayCoverage == null ? 'Unavailable — ' + escapeLabel(row.unavailableReason || 'No positive must-pay debt service.') : fmtPct(row.allMustPayCoverage)) + '</td><td>' +
@@ -143,7 +143,7 @@
     });
     html += '</tbody></table></div>';
     result.obligations.loans.forEach(function (loan) {
-      html += '<div style="overflow-x:auto;margin-top:1rem;"><table data-loan-id="' + escapeLabel(loan.id) + '" style="white-space:nowrap;width:100%;font-size:var(--small);"><caption>' +
+      html += '<div style="overflow-x:auto;margin-top:1rem;"><table data-no-sort data-loan-id="' + escapeLabel(loan.id) + '" style="white-space:nowrap;width:100%;font-size:var(--small);"><caption>' +
         escapeLabel(loan.program || loan.id) + ' · ' + escapeLabel(window.DealEngine.LOAN_TYPES[loan.type]) +
         ' · maturity year ' + escapeLabel(loan.maturity) + ' · priority ' + escapeLabel(loan.priority) + '</caption>' +
         '<thead><tr><th>Year</th><th>Regular due</th><th>Paid</th><th>Unpaid</th><th>Interest accrued</th><th>Balance</th><th>Maturity due</th><th>Forgiven</th></tr></thead><tbody>';
@@ -170,7 +170,8 @@
       'All Must-pay Service', 'Bridge & Asset Fee', 'Cash Flow', 'All Must-pay DSCR', 'Cumulative CF'
     ];
 
-    var html = '<table style="width:100%;border-collapse:collapse;font-size:var(--small);white-space:nowrap;">';
+    // Annual schedules carry each year into the next, so they stay in year order.
+    var html = '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);white-space:nowrap;">';
     html += '<thead><tr>';
     for (var c = 0; c < cols.length; c++) {
       html += '<th style="text-align:' + (c === 0 ? 'center' : 'right') +

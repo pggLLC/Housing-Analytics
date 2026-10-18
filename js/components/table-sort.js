@@ -58,11 +58,17 @@
     return Array.prototype.filter.call(tb.rows, function (r) { return r !== head; });
   }
 
+  var RUNNING = /\b(cumulative|running total|balance)\b/i;
+
   function eligible(t) {
     if (t.hasAttribute('data-no-sort')) return false;
     var head = headerRow(t);
     if (!head || head.cells.length < 2) return false;
-    for (var i = 0; i < head.cells.length; i++) if (head.cells[i].colSpan > 1) return false;
+    for (var i = 0; i < head.cells.length; i++) {
+      if (head.cells[i].colSpan > 1) return false;
+      // A running column (cumulative, balance) only makes sense in row order.
+      if (RUNNING.test(head.cells[i].textContent)) return false;
+    }
     var rows = bodyRows(t, head);
     if (rows.length < 3) return false;
     for (var j = 0; j < rows.length; j++) {
