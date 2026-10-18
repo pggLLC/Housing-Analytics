@@ -128,7 +128,7 @@ def _zip(*members):
     return buf.getvalue()
 
 
-def _fetch_feed_with(monkeypatch, bodies, require):
+def _fetch_feed_with(monkeypatch, bodies, require, nested=False):
     mod = load_module()
     fetched = []
 
@@ -138,7 +138,7 @@ def _fetch_feed_with(monkeypatch, bodies, require):
 
     monkeypatch.setattr(mod, "fetch_url", fake_fetch)
     feed = {"url": "https://mdb/t.zip", "fallback_url": "https://agency/t.zip"}
-    return mod.fetch_feed(feed, require=require), fetched
+    return mod.fetch_feed(feed, require=require, nested=nested), fetched
 
 
 def test_agency_url_is_tried_when_the_hosted_copy_is_unusable(monkeypatch):
@@ -164,3 +164,15 @@ def test_date_only_vintage_still_carries_routes(capsys):
     assert carried == {"Transfort": {"features": 1, "last_fetched": "2026-01-02"}}
     assert len(kept) == 1
     assert "::warning::Transfort feed has failed since 2026-01-02" in capsys.readouterr().out
+
+
+def test_nested_member_counts_only_where_the_reader_resolves_it(monkeypatch):
+    # parse_gtfs_shapes reads root-level shapes.txt; the stops builder
+    # resolves a member inside a folder.
+    nested = _zip("feed/shapes.txt", "feed/stops.txt")
+    good = _zip("shapes.txt")
+    bodies = {"https://mdb/t.zip": nested, "https://agency/t.zip": good}
+    data, _ = _fetch_feed_with(monkeypatch, bodies, "shapes.txt")
+    assert data == good
+    data, fetched = _fetch_feed_with(monkeypatch, bodies, "stops.txt", nested=True)
+    assert data == nested and fetched == ["https://mdb/t.zip"]

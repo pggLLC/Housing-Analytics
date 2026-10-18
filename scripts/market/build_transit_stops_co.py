@@ -397,7 +397,7 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
     failed: list[dict] = []
     for i, feed in enumerate(feeds, 1):
         try:
-            z = zipfile.ZipFile(io.BytesIO(gtfs.fetch_feed(feed, require="stops.txt", retries=2, timeout=90)))
+            z = zipfile.ZipFile(io.BytesIO(gtfs.fetch_feed(feed, require="stops.txt", nested=True, retries=2, timeout=90)))
         except Exception as exc:  # one bad feed must not sink the rest
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue

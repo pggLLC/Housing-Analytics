@@ -265,20 +265,24 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 120) -> bytes:
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
 
 
-def _feed_problem(data: bytes, require: str | None) -> str | None:
+def _feed_problem(data: bytes, require: str | None, nested: bool) -> str | None:
     """Why a downloaded feed is unusable, or None. A 200 can still be an HTML
-    error page, a corrupt ZIP, or a GTFS archive without the file we need."""
+    error page, a corrupt ZIP, or a GTFS archive without the file we need.
+    nested accepts the member inside a folder (the stops builder resolves
+    that); otherwise it must sit at the root, as parse_gtfs_shapes reads it."""
     try:
         with zipfile.ZipFile(io.BytesIO(data)) as zf:
             names = zf.namelist()
     except zipfile.BadZipFile:
         return "not a ZIP archive"
-    if require and not any(n.rsplit("/", 1)[-1] == require for n in names):
+    found = (any(n.rsplit("/", 1)[-1] == require for n in names) if nested
+             else require in names)
+    if require and not found:
         return f"no {require}"
     return None
 
 
-def fetch_feed(feed: dict, require: str | None = None, **kw) -> bytes:
+def fetch_feed(feed: dict, require: str | None = None, nested: bool = False, **kw) -> bytes:
     """Fetch a catalog feed, trying the agency's own URL if the hosted copy
     fails or is unusable. When both are unusable the hosted copy's bytes are
     returned, so the caller reports the failure as it always has."""
@@ -290,7 +294,7 @@ def fetch_feed(feed: dict, require: str | None = None, **kw) -> bytes:
             raise
         log(f"  ⚠ {exc}; trying the agency's own URL", level="WARN")
         return fetch_url(fallback, **kw)
-    problem = _feed_problem(data, require)
+    problem = _feed_problem(data, require, nested)
     if not problem or not fallback:
         return data
     log(f"  ⚠ hosted copy unusable ({problem}); trying the agency's own URL", level="WARN")
@@ -299,7 +303,7 @@ def fetch_feed(feed: dict, require: str | None = None, **kw) -> bytes:
     except Exception as exc:
         log(f"  ⚠ agency URL failed too: {exc}", level="WARN")
         return data
-    return data if _feed_problem(direct, require) else direct
+    return data if _feed_problem(direct, require, nested) else direct
 
 
 def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> list:
