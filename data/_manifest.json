@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T08:07:29.795Z",
+    "generated_at": "2026-10-18T08:41:46.201Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192367393,
+    "total_size_bytes": 192368053,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T08:07:26.250Z",
+      "mtime": "2026-10-18T08:41:42.025Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29886,8 +29886,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 11368,
-      "mtime": "2026-10-18T07:29:24.748Z",
+      "size_bytes": 12029,
+      "mtime": "2026-10-18T08:40:52.890Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29896,7 +29896,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 15,
+      "primary_array_length": 16,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -31035,8 +31035,8 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 1451,
-      "mtime": "2026-10-11T10:04:50.379Z",
+      "size_bytes": 1450,
+      "mtime": "2026-10-18T08:40:52.896Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31078,7 +31078,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 221287,
-      "mtime": "2026-10-18T04:45:53.095Z",
+      "mtime": "2026-10-18T08:40:52.897Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T08:07:28.229Z",
+      "mtime": "2026-10-18T08:41:43.933Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T08:07:27.819Z",
+      "mtime": "2026-10-18T08:41:43.459Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
