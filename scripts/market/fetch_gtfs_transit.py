@@ -192,7 +192,10 @@ def carry_forward_failed(all_features: list, agencies_failed: list,
         log(f"  ↺ {name}: feed failed; kept {len(keep)} routes last fetched {since[:10]}",
             level="WARN")
         try:
-            age = datetime.now(timezone.utc) - datetime.fromisoformat(since.replace("Z", "+00:00"))
+            fetched = datetime.fromisoformat(since.replace("Z", "+00:00"))
+            if fetched.tzinfo is None:  # a date-only vintage such as "2026-10-11"
+                fetched = fetched.replace(tzinfo=timezone.utc)
+            age = datetime.now(timezone.utc) - fetched
             if age.days > 14:
                 # Kept routes are visible and still drawn, but a feed broken
                 # this long needs a person to find its new URL.

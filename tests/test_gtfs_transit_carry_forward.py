@@ -153,3 +153,14 @@ def test_usable_hosted_copy_is_used_without_trying_the_agency(monkeypatch):
     good = _zip("stops.txt")
     data, fetched = _fetch_feed_with(monkeypatch, {"https://mdb/t.zip": good}, "stops.txt")
     assert data == good and fetched == ["https://mdb/t.zip"]
+
+
+def test_date_only_vintage_still_carries_routes(capsys):
+    # A previous file with only meta.vintage gives a timezone-naive date.
+    mod = load_module()
+    previous = {"features": [feature("Transfort", "t1")], "meta": {"vintage": "2026-01-02"}}
+    kept = []
+    carried = mod.carry_forward_failed(kept, [{"agency": "Transfort"}], previous)
+    assert carried == {"Transfort": {"features": 1, "last_fetched": "2026-01-02"}}
+    assert len(kept) == 1
+    assert "::warning::Transfort feed has failed since 2026-01-02" in capsys.readouterr().out
