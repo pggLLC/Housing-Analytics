@@ -128,7 +128,8 @@
     if (!modelId) throw new Error('HNAOwnershipStrategy requires the model registry');
     var householdSize = Number(input.householdSize) || 4;
     // A missing or zero AMI is unknown: Number(null) is 0, which would price every tier at $0.
-    var ami = Number(input.ami4Person) > 0 ? Number(input.ami4Person) : NaN;
+    var amiValue = Number(input.ami4Person);
+    var ami = amiValue > 0 ? amiValue : NaN;
     var price = input.price ? priceRecord(input.price) : resolvePrice(geo, input.homeValueCascade);
     var priceUnavailableReason = price ? null : PRICE_UNAVAILABLE_REASON;
     var target = price && Number.isFinite(price.value) ? price.value : null;

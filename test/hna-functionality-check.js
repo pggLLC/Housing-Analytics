@@ -498,6 +498,17 @@ test('JS: every LIHTC source the fetch returns has a plain-language label', () =
     const block = js.slice(js.indexOf('const LIHTC_SOURCE_LABELS'), js.indexOf('};', js.indexOf('const LIHTC_SOURCE_LABELS')));
     sources.forEach(src => assert(new RegExp("(^|[\\s{,])'?" + src.replace(/[-]/g, '\\-') + "'?:\\s*'").test(block), 'no label for _source ' + src));
     assert(/LIHTC_SOURCE_LABELS\[src\]/.test(js), 'the map status uses the labels');
+    // The renderer's own status line and popups take the collection's source, never
+    // the HUD default, and the popup names a CHFA file the way the map status does.
+    assert(!/escHtml\(S\(\)\.lihtcDataSource\)/.test(js), 'the renderer status line does not print the raw source token');
+    assert(/const lihtcDataSource = \(data && data\._source\)/.test(js), 'popups and badge use the collection\'s own source');
+    const utils = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-utils.js'), 'utf8');
+    ['local', 'local-county'].forEach(src => {
+        const mapLabel = (block.match(new RegExp("'?" + src.replace(/[-]/g, '\\-') + "'?:\\s*'([^']+)'")) || [])[1];
+        const popup = (utils.match(new RegExp("source === '" + src + "'\\)\\s*return \\{ label: '([^']+)'")) || [])[1];
+        assert(mapLabel && popup, 'found both labels for ' + src);
+        assert(popup === mapLabel, 'popup label for ' + src + ' (' + popup + ') matches the map status (' + mapLabel + ')');
+    });
 });
 
 test('JS: HUD LIHTC WHERE clause uses quoted CNTY_FIPS to avoid HTTP 400', () => {
@@ -538,7 +549,9 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
-    assert(js.includes('lihtcDataSource') && (js.includes('Source: ${lihtcDataSource}') || js.includes('Source: ${S().lihtcDataSource}') || js.includes('Source: ${escHtml(S().lihtcDataSource)}')), 'source label is displayed in updateLihtcInfoPanel');
+    assert(js.includes('Source: ${escHtml((data && data._sourceLabel)'), 'the status line shows the resolved source label');
+    // A failed income-limits load leaves the AMI unknown; it must not stop the ownership card.
+    assert(/var limitsReady = [^;]*\.catch\(/.test(js), 'the ownership card survives a failed income-limits load');
     assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
 

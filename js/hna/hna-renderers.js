@@ -2134,9 +2134,9 @@
     // awards" signal — this was the Pagosa Springs / Archuleta County bug).
     if (curGeoid) _renderLihtcRecencyBadge(curGeoid, features.length);
 
-    // Source badge for info panel
-    const lihtcDataSource = S().lihtcDataSource || 'HUD';
-    const sourceBadge = lihtcDataSource === 'CHFA'
+    // Source badge for info panel: the source this collection came from, not a default.
+    const lihtcDataSource = (data && data._source) || S().lihtcDataSource || 'HUD';
+    const sourceBadge = lihtcDataSource !== 'HUD'
       ? '<span class="source-badge source-badge--chfa">CHFA</span>'
       : '<span class="source-badge source-badge--hud">HUD</span>';
 
@@ -2172,7 +2172,7 @@
     // Show source label in status bar
     const statusEl = S().els && S().els.lihtcMapStatus;
     if (statusEl) {
-      statusEl.innerHTML = `Source: ${escHtml(S().lihtcDataSource)} ${sourceBadge}`;
+      statusEl.innerHTML = `Source: ${escHtml((data && data._sourceLabel) || 'Source not recorded')} ${sourceBadge}`;
     }
 
     // Update info panel to reflect current viewport
@@ -5713,7 +5713,7 @@
     // The AMI comes from the HUD limits file; asked before it loads, it is
     // missing, and Number(null) used to turn that into a $0 income ladder.
     var limitsReady = window.HudFmr && typeof window.HudFmr.load === 'function'
-      ? window.HudFmr.load() : Promise.resolve();
+      ? Promise.resolve(window.HudFmr.load()).catch(function () { return null; }) : Promise.resolve();
     Promise.all([_ownershipStrategyDocs(), limitsReady]).then(function (loaded) {
       var datasets = loaded[0];
       var incomeLimits = window.HudFmr && typeof window.HudFmr.getIncomeLimitsByFips === 'function'
