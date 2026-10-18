@@ -159,7 +159,9 @@ test('no step commits the manifests and then rebases without rebuilding them', (
         const rebase = run.slice(Math.max(commit, 0)).search(/git (pull --rebase|rebase)\b/);
         if (commit < 0 || rebase < 0) continue;
         rebasing.push(`${f}: ${s.name}`);
-        const before = run.slice(0, commit);
+        // Split at the rebase, not the commit: a manifest built between the
+        // two is still built before the rebase (Copilot review).
+        const before = run.slice(0, commit + rebase);
         const after = run.slice(commit + rebase);
         // Each manifest built before the commit is built again after the
         // rebase: rebuilding only data/manifest.json leaves a committed

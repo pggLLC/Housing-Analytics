@@ -189,8 +189,8 @@ jobs:
         # Commits both data files, rebases, and only then builds the manifests.
         # Committing the manifests before the rebase failed the 2026-10-17 run
         # on a manifest conflict with a commit that landed meanwhile.
+        # The script validates schemas before it pushes.
         run: |
-          node scripts/validate-schemas.js
           scripts/push-data-commit.sh "chore: update cached Polymarket prediction market data" -- \
             data/polymarket-data.json data/polymarket-history.json
 
