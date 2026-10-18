@@ -88,6 +88,7 @@ test('unknown credit equity stays unknown in the whole-project row and the total
   assert.equal(su.general.amount, null);
   assert.equal(su.totals.other, null);
   assert.equal(su.totals.sources, null);
+  assert(su.reasons.some(x => /9% LIHTC proceeds is unavailable/.test(x)), 'and the reason names it');
   assert(!su.general.sources.some(e => e.id === 'lihtc4'), 'an explicit $0 (no 4% equity on a 9% deal) is left out');
   assert(!su.general.sources.some(e => e.id === 'historic_credit'), 'no historic credit is left out');
   s.taxCredit = Object.assign({}, s.taxCredit, { nine: 1000000, historic: null });

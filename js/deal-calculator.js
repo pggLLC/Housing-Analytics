@@ -4202,10 +4202,13 @@
     if (suReason) { suReason.textContent = su.reasons.join(' '); suReason.hidden = !su.reasons.length; }
     // Screen readers hear when an edit moves dollars on the activity table.
     var actLive = document.getElementById('dc-act-live');
+    // Every row with a source is read out, its sources and their status
+    // included; an unknown amount is read as unavailable, never $0.
+    function spoken(v) { return v === null || v === undefined ? 'unavailable' : fmt(v); }
     var actText = 'Sources by activity updated. ' + su.rows.concat(su.general ? [Object.assign({ label: 'Whole project' }, su.general)] : [])
-      .filter(function (r) { return r.state || r.other; })
-      .map(function (r) { return r.label + ': state ' + money(r.state || 0) + ', other ' + money(r.other || 0); }).join('; ')
-      + (t ? '. Gap ' + money(t.gap) + '.' : '.');
+      .filter(function (r) { return r.sources && r.sources.length; })
+      .map(function (r) { return r.label + ': state ' + spoken(r.state) + ', other ' + spoken(r.other) + ' (' + r.sources.map(function (e) { return e.name + (e.status ? ', ' + (e.status === 'committed' ? 'committed' : 'pending') : ''); }).join('; ') + ')'; }).join('; ')
+      + (t ? '. Gap ' + spoken(t.gap) + '.' : '.');
     if (actLive && actLive.dataset.last !== undefined && actLive.dataset.last !== actText) actLive.textContent = actText;
     if (actLive) actLive.dataset.last = actText;
 

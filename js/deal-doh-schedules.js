@@ -77,6 +77,8 @@
       var t = byId[item.id] || {};
       var entry = { id: item.id, name: labels[item.program] || item.program, amount: item.amount,
         status: statusOf(t), state: stateRequest(t) };
+      // An unknown amount makes its row and the totals unknown; say which one.
+      if (!known(item.amount)) reasons.push(entry.name + ' has no valid amount; enter it as $0 or more on its Soft Funding Stack row.');
       var row = isActivity(t.activity) ? rows.filter(function (r) { return r.id === t.activity; })[0] : null;
       if (!row) {
         general.sources.push(entry);
@@ -113,6 +115,7 @@
       fin.deferredDevFee === 0 ? null : { id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }
     ].filter(Boolean);
     whole.forEach(function (w) {
+      if (!known(w.amount)) reasons.push(w.name + ' is unavailable; the permanent financing section says why.');
       general.amount = sum([general.amount, w.amount]);
       general.other = sum([general.other, w.amount]);
     });

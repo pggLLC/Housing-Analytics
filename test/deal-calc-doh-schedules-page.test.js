@@ -60,7 +60,15 @@ async function test(name, fn) {
     assert.equal(cell(p, 'construction', 'sources'), 'Prop 123 (committed)');
     const live = p.d.getElementById('dc-act-live').textContent;
     assert.match(live, /^Sources by activity updated\. /, 'screen readers hear the moved dollars');
-    assert(live.includes('Construction') && live.includes('state ' + money(400000)), live);
+    assert(live.includes('Construction: state ' + money(400000)) && live.includes('Prop 123, committed'), live);
+    setRow(p, 0, '.dc-tr-status', 'pending');
+    assert(p.d.getElementById('dc-act-live').textContent.includes('Prop 123, pending'), 'a status-only change is announced');
+    setRow(p, 0, '.dc-tr-amount', '');
+    const blank = p.d.getElementById('dc-act-live').textContent;
+    assert(blank.includes('Construction: state unavailable'), 'an unknown amount is read as unavailable, not $0: ' + blank);
+    assert.match(p.d.getElementById('dc-act-reason').textContent, /Prop 123 has no valid amount/, 'and the reason says which source');
+    setRow(p, 0, '.dc-tr-amount', '400000');
+    setRow(p, 0, '.dc-tr-status', 'committed');
     assert.equal(cell(p, 'general', 'state'), '—');
     setRow(p, 0, '.dc-tr-state', 'no');
     assert.equal(cell(p, 'construction', 'state'), '—');
