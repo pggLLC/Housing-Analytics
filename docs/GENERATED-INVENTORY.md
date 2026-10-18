@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T00:18:51.749Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T00:26:44.946Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 79.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 45.9 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 27.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
@@ -63,7 +63,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 59.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 150.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 150.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 75.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -1799,7 +1799,7 @@
 
 ## Test Files
 
-642 test files found.
+644 test files found.
 
 | File | Size |
 |------|------|
@@ -1908,6 +1908,7 @@
 | `test/deal-calc-operating-page.test.js` | 7.6 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
+| `test/deal-calc-permanent-financing-page.test.js` | 8.6 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.8 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
@@ -1926,6 +1927,7 @@
 | `test/deal-engine-surfaces.test.js` | 12.4 KB |
 | `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
+| `test/deal-permanent-financing.test.js` | 14.0 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
