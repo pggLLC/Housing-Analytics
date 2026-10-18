@@ -2583,6 +2583,32 @@
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
+  // Look up nearest-amenity distances for the PMA Site Summary card, as flat
+  // numbers (the renderer's fmtMi() expects a finite number), keeping the
+  // full {name, distanceMiles, score} entries on _detail. Marked _pending until
+  // neighborhood_access.json has loaded: getAccessScore() would otherwise
+  // return blank defaults that read as "nothing nearby". The loader
+  // refreshes lastResult's amenities when the file arrives.
+  function siteAmenities(lat, lon) {
+    var OA = window.OsmAmenities;
+    if (!OA || typeof OA.getAccessScore !== 'function' ||
+        (typeof OA.isLoaded === 'function' && !OA.isLoaded())) {
+      return { _pending: true };
+    }
+    var _access = OA.getAccessScore(lat, lon);
+    if (!_access) return {};
+    return {
+      grocery:      _access.grocery     && _access.grocery.distanceMiles,
+      healthcare:   _access.healthcare  && _access.healthcare.distanceMiles,
+      schools:      _access.schools     && _access.schools.distanceMiles,
+      parks:        _access.parks       && _access.parks.distanceMiles,
+      transit:      _access.transit     && _access.transit.distanceMiles,
+      hospitals:    _access.hospitals   && _access.hospitals.distanceMiles,
+      childcare:    _access.childcare   && _access.childcare.distanceMiles,
+      _detail: _access
+    };
+  }
+
   function runAnalysis(lat, lon, options) {
     contextRevision++;
     options = options || {};
@@ -2882,31 +2908,8 @@
       }
     }
 
-    // Look up nearest-amenity distances for the PMA Site Summary card.
-    // OsmAmenities was previously loaded at page boot (3,301 lines down)
-    // but renderPmaSiteSummary read result.amenities — which was never
-    // attached. Fixed here: query each amenity type and store flat
-    // numeric distances so the existing renderer reads them directly.
-    var _siteAmenities = {};
-    if (window.OsmAmenities && typeof window.OsmAmenities.getAccessScore === 'function') {
-      var _access = window.OsmAmenities.getAccessScore(lat, lon);
-      if (_access) {
-        // getAccessScore returns { grocery: {distanceMiles, name, score}, ... }
-        // Flatten to numbers; the renderer's fmtMi() expects a finite number.
-        _siteAmenities = {
-          grocery:      _access.grocery     && _access.grocery.distanceMiles,
-          healthcare:   _access.healthcare  && _access.healthcare.distanceMiles,
-          schools:      _access.schools     && _access.schools.distanceMiles,
-          parks:        _access.parks       && _access.parks.distanceMiles,
-          transit:      _access.transit     && _access.transit.distanceMiles,
-          hospitals:    _access.hospitals   && _access.hospitals.distanceMiles,
-          childcare:    _access.childcare   && _access.childcare.distanceMiles,
-          // Keep the full metadata available for renderers that want
-          // the amenity name (e.g. "King Soopers @ 0.8 mi" tooltips).
-          _detail: _access
-        };
-      }
-    }
+    // Nearest-amenity distances for the PMA Site Summary card.
+    var _siteAmenities = siteAmenities(lat, lon);
 
     // K — Per-tract breakdown for the PMA Site Summary. Each tract's
     // _bufferShare is the tract-polygon ∩ buffer area share when the
@@ -4310,6 +4313,8 @@
       transitStr = fmtMi(transitAny) + (transitBasis === 'openstreetmap_unconfirmed'
         ? ' (mapped only in OpenStreetMap; confirm service with the agency)'
         : '');
+    } else if (a._pending) {
+      transitStr = 'Amenity data still loading';
     } else {
       transitStr = 'No transit stop found';
     }
@@ -5772,6 +5777,12 @@
             var records = data && Array.isArray(data.amenities) ? data.amenities : [];
             if (records.length > 0) {
               window.OsmAmenities.loadAmenities(records);
+              // A site analyzed before the file arrived got no distances;
+              // fill them in now rather than leave the summary blank.
+              if (lastResult && lastResult.amenities && lastResult.amenities._pending) {
+                lastResult.amenities = siteAmenities(lastResult.lat, lastResult.lon);
+                renderPmaSiteSummary(lastResult);
+              }
             }
           })
           .catch(function (e) {
