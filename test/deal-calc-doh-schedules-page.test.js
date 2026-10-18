@@ -102,6 +102,12 @@ async function test(name, fn) {
     assert(r2.exit.dfYr >= before, 'a small bridge payment repays no sooner');
     assert.equal(p.d.querySelector('[data-doh15="payback"]').textContent, 'Year ' + r2.exit.dfYr);
     assert.equal(p.d.getElementById('dc-exit-defyr').textContent, 'Year ' + r2.exit.dfYr);
+    assert.equal(p.d.querySelector('[data-doh15-row="unpaid_ds"]'), null, 'no unpaid debt service row when the mortgage is covered');
+    setField(p, 'dc-senior-mode', 'entered'); setField(p, 'dc-senior-amount', '20000000');
+    const under = ds.fifteenYear(p.w.__DealCalc.getResult());
+    assert(under.rows[0].mustPayUnpaid > 0, 'an undercovered entered mortgage');
+    assert.equal(year(p, 'unpaid_ds', 1), money(under.rows[0].mustPayUnpaid), 'the unpaid debt service is shown, so the rows add up');
+    setField(p, 'dc-senior-mode', 'sized');
     setField(p, 'dc-asset-mgmt-fee', '');
     assert.equal(p.d.getElementById('dc-doh15-reason').textContent, 'Unavailable — Enter the asset management fee as $0 or more a year.');
     assert.equal(p.d.getElementById('dc-doh15-table').textContent, '');

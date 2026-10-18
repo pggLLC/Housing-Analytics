@@ -258,6 +258,8 @@ test('cash after an undercovered mortgage repays the deferred fee before investo
   const y1 = ds.fifteenYear(r).rows[0];
   assert(rows[0].mustPayUnpaid > 0, 'year 1 leaves debt service unpaid');
   close(y1.availableAfterPayments, 0, 'and shows no cash left, not a shortfall the loan balance already carries');
+  ds.fifteenYear(r).rows.forEach(x => close(x.cashFlowAvailable + x.mustPayUnpaid - x.assetMgmtFee - x.cashFlowLoans.reduce((a, b) => a + b, 0) - x.deferredFee - x.deficitRecovered,
+    x.availableAfterPayments, 'year ' + x.year + ': the rows add up, the unpaid debt service shown'));
 });
 
 test('historic tax credit equity pays for the whole project, not one category', () => {

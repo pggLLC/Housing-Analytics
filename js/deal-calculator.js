@@ -4256,6 +4256,9 @@
       + line('bridge', 'Bridge loan debt service', col('bridge'))
       + line('cf_available', 'Cash flow available', col('cashFlowAvailable'), { strong: true })
       + line('dcr', 'Debt coverage ratio', col('dcr', function (v) { return v === null || v === undefined ? '—' : v.toFixed(2); }))
+      // Must-pay debt service NOI could not cover is added to the loan
+      // balance, not paid from cash, so it comes back here.
+      + (f.rows.some(function (x) { return x.mustPayUnpaid > 0; }) ? line('unpaid_ds', 'Debt service left unpaid (added to the loan balance)', col('mustPayUnpaid')) : '')
       + line('asset_fee', 'Asset management fees', col('assetMgmtFee'))
       + f.loans.map(function (l, n) {
         return line('cf_loan_' + (n + 1), l.label + ' (' + (pf.PROGRAM_LABELS[l.program] || l.program) + ')', f.rows.map(function (x) { return money(x.cashFlowLoans[n]); }));
