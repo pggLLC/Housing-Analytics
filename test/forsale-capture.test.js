@@ -173,7 +173,9 @@ function walkFigures(value, parentKey) {
   Object.keys(value).forEach((key) => walkFigures(value[key], key));
 }
 walkFigures(result);
-assert.ok(result.captureHumilityCaveat.includes('44%'));
+// The caveat must match the report's, and must not cite the owner's private market studies.
+assert.equal(result.captureHumilityCaveat, require('../js/project-market-study/market-study-report.js').REQUIRED_CAVEATS.find((c) => /screening arithmetic/.test(c)));
+assert.ok(!/fruita|\d+%/i.test(result.captureHumilityCaveat), 'capture caveat cites a private market study');
 assert.ok(result.captureHumilityCaveat.includes('screening arithmetic'));
 assert.ok(result.competitiveSupplyNote.includes('no supply data source exists yet'));
 assert.ok(result.scenarios.every((item) => item.scenarioLabel.endsWith('scenario, not a prediction')));
