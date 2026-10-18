@@ -83,7 +83,8 @@ def test_a_line_quote_stops_before_the_contact_columns():
 
 
 def test_no_published_quote_carries_a_phone_or_an_email():
-    rows = json.load(open(os.path.join(b.DIR, 'award-rows.json'), encoding='utf-8'))['rows']
+    with open(os.path.join(b.DIR, 'award-rows.json'), encoding='utf-8') as fh:
+        rows = json.load(fh)['rows']
     assert rows
     for r in rows:
         assert not b.CONTACT_TOKEN.search(r.get('quote') or ''), r['key']

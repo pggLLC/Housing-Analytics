@@ -338,6 +338,11 @@
      "pdf_total": 814,
      "transcribed_total": 814,
      "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
     }
    ],
    "review": {
@@ -476,6 +481,11 @@
      "pdf_total": 1344,
      "transcribed_total": 1344,
      "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
     }
    ],
    "review": {
@@ -629,6 +639,11 @@
      "pdf_total": 853,
      "transcribed_total": 853,
      "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
     }
    ],
    "review": {
@@ -773,6 +788,11 @@
      "pdf_total": 1373,
      "transcribed_total": 1373,
      "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
     }
    ],
    "review": {
@@ -898,6 +918,11 @@
      "pdf_total": 1463,
      "transcribed_total": 1463,
      "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
     }
    ],
    "review": {

@@ -156,6 +156,14 @@ def test_a_transcription_stands_only_on_the_totals_the_pdf_prints():
     assert awards.check_transcription(parsed, bad)['status'] == 'mismatch'
     bad['pdf_total_errors'] = {'federal_credit': 'the PDF total leaves this row out'}
     assert awards.check_transcription(parsed, bad)['status'] == 'ok'
+    # the two unit columns swapped everywhere still add up as a pair, so the
+    # row order of the two counts is what catches it
+    bad = copy.deepcopy(review)
+    p = bad['printed_totals']
+    p['total_units'], p['restricted_units'] = p['restricted_units'], p['total_units']
+    for r in bad['rows']:
+        r['total_units'], r['restricted_units'] = r.get('restricted_units'), r.get('total_units')
+    assert awards.check_transcription(parsed, bad)['status'] == 'mismatch'
 
 
 def test_every_transcribed_document_is_in_the_ledger_as_transcribed():

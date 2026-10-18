@@ -600,6 +600,14 @@ def check_transcription(parsed: dict, review: dict) -> dict:
         if not c['ok'] and field in waived:
             c['pdf_total_error'] = waived[field]
         checks.append(c)
+    # The unit totals are matched as a pair, which cannot tell the two columns
+    # apart; a row with more restricted than total units has them swapped.
+    swapped = [r.get('name') for r in review.get('rows') or []
+               if r.get('total_units') is not None and r.get('restricted_units') is not None
+               and r['restricted_units'] > r['total_units']]
+    checks.append({'field': 'units_order', 'ok': not swapped,
+                   'detail': 'restricted units exceed total units: ' + ', '.join(map(str, swapped)) if swapped
+                   else 'no row has more restricted than total units'})
     ok = bool(rows) and all(c['ok'] or c.get('pdf_total_error') for c in checks)
     return {'status': 'ok' if ok else 'mismatch', 'checks': checks, 'rows_checked': len(rows)}
 
