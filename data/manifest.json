@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T09:52:09.211346Z",
+  "generated": "2026-10-18T10:07:31.673376Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -117,9 +117,9 @@
       "bytes": 2398663
     },
     "data/amenities/transit_stops_statewide_co.geojson": {
-      "featureCount": 14245,
+      "featureCount": 14243,
       "placeholder": false,
-      "bytes": 3961711
+      "bytes": 3952528
     },
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
@@ -319,7 +319,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4215772
+      "bytes": 4215444
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
@@ -7927,14 +7927,14 @@
       "bytes": 353190
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 1675,
+      "featureCount": 1622,
       "placeholder": false,
-      "bytes": 4720382
+      "bytes": 4666184
     },
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 236348
+      "bytes": 236479
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
