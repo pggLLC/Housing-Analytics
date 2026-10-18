@@ -83,6 +83,9 @@ def test_an_unread_story_stays_queued_after_the_review_date():
     assert got_row['reasons'][0] == '1 older story not read yet', 'an unread lead was counted as new'
     got = rows(bnq.build(TODAY, [CARBONDALE], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['stories']
     assert len(got) == 1, "a story both in the feed and unread in the ledger shows once"
+    assert got[0]['unread'] == 'publisher blocks automated reading', 'the feed copy lost the unread note'
+    assert rows(bnq.build(TODAY, [CARBONDALE], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['reasons'][0] \
+        == '1 new story naming it', 'an unread story after the review is still new'
     done = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [{**lead, 'status': 'dismissed'}]}))
     assert done['0812045']['stories'] == []
 

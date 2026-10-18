@@ -166,13 +166,17 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
                 found.append({'title': s['title'], 'source': s.get('source'), 'link': s.get('link'),
                               'date': s['date'], 'match': m,
                               'also': [a.get('source') for a in s.get('also') or [] if a.get('source')]})
-        seen = {x['link'] for x in found if x.get('link')} | {'t:' + norm_title(x['title']) for x in found}
         for e in unread.get(b['geoid'], []):
-            if e.get('link') in seen or 't:' + norm_title(e['title']) in seen:
+            note = e.get('reason') or 'Not read yet.'
+            same = [x for x in found if (e.get('link') and x.get('link') == e['link'])
+                    or norm_title(x['title']) == norm_title(e['title'])]
+            for x in same:
+                x['unread'] = note
+            if same:
                 continue
             found.append({'title': e['title'], 'source': e.get('source'), 'link': e.get('link'),
                           'date': e.get('date') or since, 'match': e.get('match') or 'place', 'also': [],
-                          'unread': e.get('reason') or 'Not read yet.'})
+                          'unread': note})
         found.sort(key=lambda x: x['date'], reverse=True)
         found.sort(key=lambda x: x['match'] != 'place')
         evs = [{'title': e['title'], 'start': e['start'], 'end': e.get('end'), 'location': e.get('location'),
@@ -183,7 +187,7 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
         except (TypeError, ValueError):
             days = None
         reasons = []
-        fresh = [x for x in found if not x.get('unread')]
+        fresh = [x for x in found if not (x.get('unread') and x['date'] < since)]
         own = sum(1 for x in fresh if x['match'] == 'place')
         if own:
             reasons.append(f'{own} new {"story" if own == 1 else "stories"} naming it')

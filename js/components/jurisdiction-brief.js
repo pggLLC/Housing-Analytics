@@ -291,7 +291,7 @@
       '<p class="jbrief-news__note">Headlines that named ' + _esc(brief.jurisdiction) + ' on or after ' +
       _esc(_newsDate(brief.last_curated) || 'its last review') + ', matched by place name. They are leads for the ' +
       'next review, not part of this brief and not sources for it.' +
-      (stories.some(function (st) { return st.unread; }) ? ' Older headlines marked "not yet read" come from before that date and still need reading.' : '') +
+      (stories.some(function (st) { return st.unread && brief.last_curated && String(st.date || '') < brief.last_curated; }) ? ' Older headlines marked "not yet read" come from before that date and still need reading.' : '') +
       (stale ? ' <strong>The queue has not updated since ' + _esc(_newsDate(new Date(generated || 0).toISOString().slice(0, 10)) || 'an unknown date') + '.</strong>' : '') +
       '</p>';
     if (!stories.length) {
