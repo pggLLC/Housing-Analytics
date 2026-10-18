@@ -677,7 +677,9 @@
     // (ignoring tax credits — those are the LP's primary return, not modeled here)
     var lpCashIrr = lpEquity > 0 ? Math.pow(lpTotal / lpEquity, 1 / hold) - 1 : NaN;
     var lpMultiple = lpEquity > 0 ? lpTotal / lpEquity : NaN;
-    var gpMultiple = exit.defFeeRemaining > 0 ? gpTotal / exit.defFeeRemaining : NaN;
+    // A repaid operating deficit returns the sponsor's own advance; it is not
+    // return on the deferred fee, so the multiple leaves it out.
+    var gpMultiple = exit.defFeeRemaining > 0 ? (gpTotal - tierDeficit) / exit.defFeeRemaining : NaN;
 
     return {
       tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,

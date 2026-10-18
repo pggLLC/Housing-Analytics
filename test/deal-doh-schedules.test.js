@@ -233,6 +233,7 @@ test('an operating deficit still owed at the sale is repaid to the sponsor befor
   const i = r.waterfall.tiers.indexOf(tier);
   assert(i < r.waterfall.tiers.findIndex(t => /Deferred developer fee/.test(t.name)) && i < r.waterfall.tiers.findIndex(t => /LP return of capital/.test(t.name)), 'before the developer fee and the investors');
   assert(r.waterfall.gpTotal >= tier.amount, 'and it counts as sponsor cash');
+  close(r.waterfall.gpMultiple, (r.waterfall.gpTotal - tier.amount) / r.waterfall.inputs.defFeeRemaining, 'but the GP multiple leaves the repaid advance out');
 });
 
 test('debt service NOI cannot cover stays with the loan and is not repaid again as a sponsor deficit', () => {
