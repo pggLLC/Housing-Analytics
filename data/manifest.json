@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T08:07:32.934188Z",
+  "generated": "2026-10-18T08:15:25.544174Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7594,7 +7594,7 @@
     "data/kalshi/prediction-market.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1451
+      "bytes": 1450
     },
     "data/lihtc-trends-by-county.json": {
       "featureCount": 64,
