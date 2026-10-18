@@ -30,86 +30,70 @@
   var CALLOUTS = {
     // ── Census snapshot ──
     'Census snapshot': {
-      why: 'This section anchors the macro indicators below to the real-world denominator they\'re tested against: Colorado\'s population, households, income distribution, and housing stock. Every Polymarket odd, prediction-market bid, and Fed-rate scenario above is meaningful only insofar as it changes what these households can actually afford.',
-      watch: 'Compare CO median income against the implied mortgage payment in the Polymarket cards — when payment-to-income climbs above 30%, the typical Colorado household has crossed from "affordability stressed" into "affordability locked."',
+      why: 'This section anchors the macro indicators below to the households they are tested against: population, households, income and housing stock for the geography you pick. Every rate, cost or prediction-market move further down matters only insofar as it changes what these households can afford.',
+      watch: 'Compare median household income here with the rent and mortgage figures further down the page.',
     },
 
     // ── Colorado Real Estate & Affordability Impact ──
     'Colorado Real Estate': {
-      why: 'This section converts national signals (Fed rates, home values, inflation) into Colorado affordability math. The median CO home × current mortgage rate × CO household income determines whether the market is reachable for first-time buyers — or whether subsidized housing is the only path. Construction cost pressure feeds directly into LIHTC (Low-Income Housing Tax Credit) deal feasibility: when materials inflation runs above 4%, projects pencil — i.e. underwrite to a viable internal rate of return — at higher AMI (Area Median Income) bands, and fewer deep-affordability units get built.',
-      watch: 'When payment-to-income passes 30%, market-rate ownership is out of reach for the median Colorado household; LIHTC + workforce housing (the 60-120% AMI band) become the only paths to expand supply.',
+      why: 'These two readings translate national odds into the pressures a Colorado deal feels. Higher inflation raises construction costs, which makes deeper-affordability units harder to fund within a LIHTC (Low-Income Housing Tax Credit) budget. A recession slows deal flow and raises tenant payment risk on stabilized properties.',
+      watch: 'Both figures are national Polymarket odds, not Colorado forecasts.',
     },
 
     // ── Federal Reserve & Interest Rates ──
     'Federal Reserve': {
-      why: 'Fed policy sets the cost of construction lending, the cost of permanent debt on stabilized projects, and — through Treasury spreads — the yield that determines LIHTC equity pricing (what investors pay per dollar of tax credit). A 25 bp (25 basis points = quarter-point) Fed cut typically widens LIHTC pricing by 2–4 cents per dollar of credit; a 25 bp hike does the inverse. The prediction markets above give a live read on equity pricing months before it shows up in CHFA (Colorado Housing and Finance Authority — the state\'s LIHTC allocator) tax-credit awards.',
-      watch: 'When the implied rate-cut count for 2026 rises by one full cut, LIHTC syndicators (the investors who buy the tax credits) reprice their bids upward within weeks — that\'s the leading signal for stronger deal economics in the next CHFA round.',
-    },
-
-    // ── Real Estate & Home Values ──
-    'Real Estate & Home Values': {
-      why: 'Home values frame both ownership affordability AND the rent ceiling for naturally-occurring affordable housing — NOAH, the unsubsidized stock that happens to rent below market because the building is older, smaller, or in a less-hot location. Denver typically trades ~35% above the national median, so the US benchmark plus the Polymarket median-value odds give an early directional read on Colorado. When home values rise faster than incomes, the rental pool grows — pushing demand into the LIHTC + workforce housing pipeline.',
-      watch: 'Watch for LA + Chicago divergence: LA leads Denver by 6–12 months on coastal high-cost cycles; Chicago is closer to Colorado Springs / Pueblo pricing dynamics.',
+      why: 'Fed policy sets the cost of construction lending and variable-rate debt, and it moves the Treasury yields that permanent loans are priced from. LIHTC equity pricing (what investors pay per dollar of tax credit) has fallen alongside higher rates since 2021, but over that period the two mostly moved on a shared trend rather than one driving the other.',
+      watch: 'The odds for the next Fed meeting change quickly after each inflation and jobs report.',
     },
 
     // ── Recession Risk & Economic Growth ──
     'Recession Risk': {
-      why: 'A recession sharply curtails new construction starts, slows LIHTC deal flow, and elevates tenant payment risk on stabilized properties. GDP growth supports in-migration to Colorado (especially the Front Range), which sustains housing demand. Inflation feeds construction costs and erodes the LIHTC rent affordability margins that projects underwrote at closing.',
-      watch: 'A recession probability above 40% on prediction markets historically aligns with CHFA seeing 2–3 deals pulled per round; above 60% the pipeline goes quiet for 1–2 quarters.',
+      why: 'A recession usually curtails new construction starts, slows LIHTC deal flow, and raises tenant payment risk on stabilized properties. GDP growth supports in-migration to Colorado, which sustains housing demand. Inflation feeds construction costs and erodes the margins that projects underwrote at closing.',
+      watch: 'Recession odds here are national. Pair them with the labor-market charts above.',
     },
 
     // ── Employment & Labor Market ──
     'Employment': {
-      why: 'Unemployment is the leading indicator of housing-demand softness. Colorado\'s job market tracks ~0.4pp below the national rate, and the service-sector economy is more rate-sensitive than the national average. Sustained unemployment above 5% historically triggers rent collection problems for low-AMI units and forecloses the workforce-housing demand pool LIHTC was designed to serve.',
-      watch: 'A 0.5pp rise in CO unemployment over 3 months is the threshold most CHFA underwriters use to start trimming achievable rents in pro forma.',
+      why: 'Job losses soften housing demand and make rent collection harder for lower-income households. Labor-market odds are a forward read on the unemployment and payroll charts above.',
+      watch: 'Compare these odds with the latest unemployment rate in the Labor Market section.',
     },
 
     // ── Multifamily rent benchmarks (Yardi) ──
     'Multifamily rent benchmarks': {
-      why: 'Multifamily asking-rent trends are a direct read on the addressable rental pool that LIHTC + workforce housing compete with. When market-rate asking rent runs well above HUD FMR (Fair Market Rent — the HUD-published rent cap that Housing Choice Voucher payments are tied to), market-rate landlords have pricing power and LIHTC projects gain a deeper rent advantage. When asking rent compresses toward FMR, the LIHTC rent advantage shrinks and lease-up risk rises.',
-      watch: 'The asking-rent vs FMR gap is the underwriting cushion. When it shrinks below 15%, expect CHFA to ask harder questions about 4% bond deal lease-up assumptions.',
+      why: 'Multifamily asking-rent trends are a direct read on the rental market that LIHTC and workforce housing compete with. When market-rate asking rent runs well above HUD FMR (Fair Market Rent, the HUD-published rent that Housing Choice Voucher payments are tied to), LIHTC projects hold a deeper rent advantage. When asking rent falls toward FMR, that advantage shrinks and lease-up risk rises.',
+      watch: 'The gap between asking rent and FMR is the underwriting cushion.',
     },
 
     // ── Market-priced macro expectations (Kalshi) ──
-    // The Kalshi-specific complement to the Polymarket umbrella below.
-    // Kalshi is CFTC-regulated and focused on finer-grained macro
-    // outcomes — CPI ranges, Fed decisions, NFP — which gives a
-    // different lens than Polymarket's binary "by year-end" framing.
     'Market-priced macro expectations': {
-      why: 'Kalshi is a CFTC-regulated US exchange for event contracts — the only US venue where retail traders can legally trade event outcomes. Its contracts skew toward fine-grained macro events: specific CPI ranges (e.g. "Sep CPI YoY 3.0-3.2%"), FOMC decisions by meeting, and labor-market prints. For housing-finance, that granularity is what makes it a useful read on LIHTC equity pricing pressure: equity pricing keys off Treasury yields, Treasury yields key off inflation expectations, and Kalshi prices inflation expectations at the resolution that actually moves syndicator bids. Many underwriters cite Kalshi over Polymarket for CPI/Fed signals specifically because of the regulatory legitimacy.',
-      watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when Kalshi diverges from Fed guidance by more than one full cut, equity syndicators historically side with the market. On the CPI side, watch the spread between the "near-target" (2.0-2.5%) and "stuck above 3%" buckets — when the latter rises above 35%, expect LIHTC bond pricing assumptions to tighten across the board.',
+      why: 'Kalshi is a US exchange for event contracts regulated by the CFTC (Commodity Futures Trading Commission). Many of its contracts settle on the same government releases this page charts from FRED, such as monthly housing starts, so the prices show what traders expect the next figure to be before it is published.',
+      watch: 'A contract with little trading can show a stale price. Check the market on Kalshi before relying on any one line.',
     },
 
     // ── Polymarket umbrella section (the parent <details> card) ──
-    // The four sub-sections below it (Colorado Impact, Fed, Real Estate,
-    // Recession, Employment) each have their own callouts — this one
-    // explains why prediction markets matter as a CATEGORY of signal
-    // worth watching at all.
     'Prediction Markets': {
-      why: 'Prediction markets price the probability of future events with real money. For housing-finance, that gives a continuously-updated, forward-looking read on the macro variables that move LIHTC deal economics: Fed rate cuts (equity pricing), recession (deal flow + tenant payment risk), inflation (construction cost), home values (NOAH rent ceilings + ownership affordability), and unemployment (rental demand). Unlike economist surveys that publish quarterly, prediction-market odds adjust within minutes of new data — so they\'re the leading indicator that often moves before the FRED series above.',
-      watch: 'When recession probability climbs above 40% on Polymarket, CHFA typically sees 2-3 deals pulled per round; above 60% the pipeline goes quiet for 1-2 quarters. Track the recession + rate-cut odds together: rising recession odds AND rising rate-cut odds is the classic late-cycle setup before the Fed pivots.',
+      why: 'Prediction markets price the odds of future events with real money. For housing finance that gives a forward-looking read on the macro variables that move deal economics: Fed decisions (construction and permanent debt costs), recession (deal flow and tenant payment risk), inflation (construction cost) and unemployment (rental demand). The FRED charts above show what has already happened; these odds show what traders expect next.',
+      watch: 'Read the recession odds next to the Fed decision odds in the same section.',
     },
 
     // ── FRED indicator groups (collapsible <details>/<summary> cards) ──
     'Construction Costs': {
-      why: 'Producer price indices for construction inputs (steel, lumber, concrete, ready-mix, labor) flow directly into per-unit budgets. A 10% rise in WPUFD49207 (the FRED series ID for construction inputs) compresses LIHTC eligible basis — the depreciable project cost that tax credits are calculated against — on a 60-unit deal by roughly $700K. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that operating-pro-forma assumptions ride on for 15 years.',
-      watch: 'When construction-input PPI runs above 6% year-over-year, expect CHFA to revisit cost-cap assumptions and per-unit basis limits in the next QAP (Qualified Allocation Plan — the rulebook for how LIHTC is awarded) cycle.',
+      why: 'Producer price indexes for construction inputs (steel, lumber, concrete and labor) flow directly into per-unit budgets. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that budgets and operating pro forma assumptions ride on.',
+      watch: 'Compare the year-over-year change in construction inputs with the cost escalation in your budget.',
     },
     'Housing Market': {
-      why: 'Permits + starts + completions describe the supply pipeline that LIHTC competes with. Median home price + homeownership rate + rental vacancy describe the demand environment. Together these set the LIHTC project\'s rent advantage vs market and frame lease-up risk for new construction.',
-      watch: 'A multifamily permits + starts decline of 15% or more (PERMIT5 vs HOUST5F) is the leading indicator that 4% bond deals will see tighter underwriting cushions in the next 6-12 months.',
+      why: 'Permits, starts and completions describe the supply pipeline that LIHTC competes with. Median home price, homeownership rate and rental vacancy describe the demand environment. Together they set a project\'s rent advantage over the market and frame lease-up risk for new construction.',
+      watch: 'Multifamily permits (PERMIT5) and starts (HOUST5F) show how much new rental supply is coming.',
     },
     'Housing Cycle Indicators': {
-      why: 'New home sales lead total starts by 3-6 months; residential construction spending follows permits/starts by 6-12 months; construction employment is the lagging confirmation. Reading these in sequence — alongside permits, starts, and Months\' Supply — tells you whether you\'re entering a deal at the top, bottom, or middle of the cycle.',
-      watch: 'New home sales declining while construction employment is still rising = late-cycle setup; that\'s usually 6-9 months before stabilized rent assumptions need a haircut.',
+      why: 'New home sales, residential construction spending and construction employment tend to turn at different points in the housing cycle. Reading them together, alongside permits, starts and months\' supply, helps place a deal in the cycle.',
     },
     'Financial & Interest Rates': {
-      why: 'DGS10 (the FRED ticker for the 10-year Treasury yield) sets the floor for permanent debt + LIHTC equity pricing. The yield curve (T10Y2Y — the 10-year minus 2-year Treasury spread) signals recession risk; an inverted curve historically precedes Fed cuts by 6-18 months. SOFR (Secured Overnight Financing Rate, the post-LIBOR US benchmark) drives variable-rate construction loan costs. Moody\'s Baa spread (BAA10Y) shows lender risk appetite — wider spreads = harder lending environment for higher-risk affordable deals.',
-      watch: 'When the 10-year Treasury moves 50 bp (50 basis points = half a percentage point) in either direction within a month, LIHTC equity pricing typically reprices by 4-8 cents per dollar over the next two reporting cycles.',
+      why: 'DGS10 (the FRED ticker for the 10-year Treasury yield) is the base that most permanent loans are priced from. The yield curve (T10Y2Y, the 10-year minus 2-year Treasury spread) is a widely watched recession signal. SOFR (Secured Overnight Financing Rate, the benchmark that replaced LIBOR) drives variable-rate construction loan costs. Moody\'s Baa spread (BAA10Y) shows lender risk appetite: wider spreads mean a harder lending environment for higher-risk deals.',
     },
     'Labor Market': {
-      why: 'Unemployment + payrolls describe demand strength for the rental units a LIHTC project will lease up. Average hourly earnings + ECI describe wage trajectory — when wages outpace AMI growth, projects underwritten at 60% AMI rents become deeper-affordability over time. CPI Shelter is the closest measure of the rent-inflation environment a stabilized project operates in.',
-      watch: 'Sustained wage growth above 4%/yr while AMI rises only 2-3%/yr is the classic setup for LIHTC projects ending up more affordable than underwritten — good for tenants, but rent-up risk rises if local market rents soften.',
+      why: 'Unemployment and payrolls describe demand strength for the rental units a LIHTC project will lease up. Average hourly earnings and the Employment Cost Index describe wage trajectory. CPI Shelter is the closest measure of the rent-inflation environment a stabilized project operates in.',
+      watch: 'When wages grow faster than AMI (Area Median Income), rents set at a fixed AMI share become more affordable to tenants over time.',
     },
   };
 
