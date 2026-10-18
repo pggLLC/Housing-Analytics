@@ -20,6 +20,7 @@ function setRow(p, row, sel, value) {
   el.dispatchEvent(new p.w.Event('change', { bubbles: true }));
 }
 const rowField = (p, row, sel) => p.d.querySelectorAll('[data-tranche-id]')[row].querySelector(sel).value;
+const near = (a, b, msg) => assert(Math.abs(a - b) < 0.5, msg + ': ' + a + ' vs ' + b);
 let passed = 0, failed = 0;
 async function test(name, fn) {
   try { await fn(); passed++; console.log('  PASS ' + name); }
@@ -101,10 +102,16 @@ async function test(name, fn) {
     assert.equal(p.d.getElementById('dc-doh15-live').textContent, 'DOH 15-year schedule updated. Deferred developer fee not repaid: ' + f.deferredFee.reason + '.', 'screen readers hear the changed answer');
     ['dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years'].forEach(id => assert.equal(p.d.getElementById(id).style.minHeight, '44px', id + ' is a 44px touch target'));
     assert.equal(p.d.querySelector('[data-doh15="asset-unpaid"]'), null, 'a fee cash covers owes nothing after year 15');
+    assert.equal(p.d.getElementById('dc-exit-assetmgmt').hidden, true, 'and the exit panel shows no asset fee deduction');
     setField(p, 'dc-asset-mgmt-fee', '900000');
     const owed = ds.fifteenYear(p.w.__DealCalc.getResult()).assetMgmt.unpaidAfter;
     assert(owed > 0);
     assert.equal(p.d.querySelector('[data-doh15="asset-unpaid"]').textContent, money(owed), 'a fee cash cannot cover shows what is still owed');
+    const ex = p.w.__DealCalc.getResult().exit;
+    assert(ex.assetMgmtOwed > 0, 'and some is still owed at the sale');
+    assert.equal(p.d.getElementById('dc-exit-assetmgmt').hidden, false);
+    assert.equal(p.d.getElementById('dc-exit-assetmgmt').textContent, money(ex.assetMgmtOwed), 'the exit panel shows the deduction');
+    near(ex.resale - ex.firstMortBal - ex.softBal - ex.assetMgmtOwed, ex.netProceeds, 'so its figures add up to net proceeds');
     setField(p, 'dc-asset-mgmt-fee', '0'); setField(p, 'dc-bridge-ds', '5000'); setField(p, 'dc-bridge-years', '1');
     const r2 = p.w.__DealCalc.getResult();
     assert(r2.exit.dfYr >= before, 'a small bridge payment repays no sooner');

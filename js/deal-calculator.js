@@ -3338,6 +3338,8 @@
           <dd id="dc-exit-mortbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
           <dt style="color:var(--muted);">Remaining soft-loan balance</dt>
           <dd id="dc-exit-softbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt id="dc-exit-assetmgmt-label" hidden style="color:var(--muted);">Accrued asset management fee owed</dt>
+          <dd id="dc-exit-assetmgmt" hidden style="margin:0;text-align:right;font-weight:700;">—</dd>
           <dt style="color:var(--muted);font-weight:700;border-top:1px solid var(--border);padding-top:6px;">Net sale proceeds</dt>
           <dd id="dc-exit-net" style="margin:0;text-align:right;font-weight:700;color:var(--good,#047857);border-top:1px solid var(--border);padding-top:6px;">—</dd>
           <dt style="color:var(--muted);">Deferred fee payback year</dt>
@@ -5237,6 +5239,10 @@
       _setText('dc-exit-mortbal', tdc > 0 ? fmt(firstMortBal) : '—');
       _setText('dc-exit-softbal', tdc > 0 ? fmt(softBal)      : '—');
       _setText('dc-exit-net',    isFinite(netProceeds) ? fmt(netProceeds) : '—');
+      // An asset management fee still owed at the sale comes out of it (DOH PR 4).
+      var assetOwed = numeric(exit.assetMgmtOwed), showAssetOwed = isFinite(assetOwed) && assetOwed > 0;
+      ['dc-exit-assetmgmt-label', 'dc-exit-assetmgmt'].forEach(function (id) { var e = document.getElementById(id); if (e) e.hidden = !showAssetOwed; });
+      _setText('dc-exit-assetmgmt', showAssetOwed ? fmt(assetOwed) : '—');
       _setText('dc-exit-defyr',  dfYr ? 'Year ' + dfYr : (deferredDevFee > 0 ? '> ' + holdYears + 'y' : 'n/a'));
       var irrEl = document.getElementById('dc-exit-irr');
       if (irrEl) {
