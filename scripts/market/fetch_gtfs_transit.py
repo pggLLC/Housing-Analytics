@@ -199,6 +199,7 @@ def carry_forward_failed(all_features: list, agencies_failed: list,
                 print(f"::warning::{name} feed has failed since {since[:10]} "
                       f"({age.days} days); its routes are carried from that run")
         except ValueError:
+            # An unparseable date only skips the age warning; the routes stay.
             pass
     return carried
 
@@ -261,15 +262,41 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 120) -> bytes:
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
 
 
-def fetch_feed(feed: dict, **kw) -> bytes:
-    """Fetch a catalog feed, trying the agency's own URL if the hosted copy fails."""
+def _feed_problem(data: bytes, require: str | None) -> str | None:
+    """Why a downloaded feed is unusable, or None. A 200 can still be an HTML
+    error page, a corrupt ZIP, or a GTFS archive without the file we need."""
     try:
-        return fetch_url(feed["url"], **kw)
+        with zipfile.ZipFile(io.BytesIO(data)) as zf:
+            names = zf.namelist()
+    except zipfile.BadZipFile:
+        return "not a ZIP archive"
+    if require and not any(n.rsplit("/", 1)[-1] == require for n in names):
+        return f"no {require}"
+    return None
+
+
+def fetch_feed(feed: dict, require: str | None = None, **kw) -> bytes:
+    """Fetch a catalog feed, trying the agency's own URL if the hosted copy
+    fails or is unusable. When both are unusable the hosted copy's bytes are
+    returned, so the caller reports the failure as it always has."""
+    fallback = feed.get("fallback_url")
+    try:
+        data = fetch_url(feed["url"], **kw)
     except Exception as exc:
-        if not feed.get("fallback_url"):
+        if not fallback:
             raise
         log(f"  ⚠ {exc}; trying the agency's own URL", level="WARN")
-        return fetch_url(feed["fallback_url"], **kw)
+        return fetch_url(fallback, **kw)
+    problem = _feed_problem(data, require)
+    if not problem or not fallback:
+        return data
+    log(f"  ⚠ hosted copy unusable ({problem}); trying the agency's own URL", level="WARN")
+    try:
+        direct = fetch_url(fallback, **kw)
+    except Exception as exc:
+        log(f"  ⚠ agency URL failed too: {exc}", level="WARN")
+        return data
+    return data if _feed_problem(direct, require) else direct
 
 
 def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> list:
@@ -384,7 +411,7 @@ def main() -> int:
         url = feed["url"]
         log(f"[{i}/{len(feeds)}] Fetching GTFS for {agency_name} ({feed.get('municipality') or 'CO'})…")
         try:
-            zip_bytes = fetch_feed(feed)
+            zip_bytes = fetch_feed(feed, require="shapes.txt")
             features = parse_gtfs_shapes(zip_bytes, agency_id, agency_name)
             if features:
                 all_features.extend(features)

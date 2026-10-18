@@ -117,3 +117,39 @@ def test_agency_url_is_tried_when_the_hosted_copy_is_gone(tmp_path, monkeypatch)
     assert agencies(doc) == ["Transfort"]
     assert doc["meta"]["carried_forward"] == {}
     assert doc["meta"]["agencies_failed"] == []
+
+
+def _zip(*members):
+    import zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        for m in members:
+            zf.writestr(m, "x\n")
+    return buf.getvalue()
+
+
+def _fetch_feed_with(monkeypatch, bodies, require):
+    mod = load_module()
+    fetched = []
+
+    def fake_fetch(url, **kw):
+        fetched.append(url)
+        return bodies[url]
+
+    monkeypatch.setattr(mod, "fetch_url", fake_fetch)
+    feed = {"url": "https://mdb/t.zip", "fallback_url": "https://agency/t.zip"}
+    return mod.fetch_feed(feed, require=require), fetched
+
+
+def test_agency_url_is_tried_when_the_hosted_copy_is_unusable(monkeypatch):
+    good = _zip("stops.txt", "shapes.txt")
+    for bad in (b"<html>Not here</html>", _zip("agency.txt")):
+        data, fetched = _fetch_feed_with(
+            monkeypatch, {"https://mdb/t.zip": bad, "https://agency/t.zip": good}, "shapes.txt")
+        assert data == good and fetched == ["https://mdb/t.zip", "https://agency/t.zip"]
+
+
+def test_usable_hosted_copy_is_used_without_trying_the_agency(monkeypatch):
+    good = _zip("stops.txt")
+    data, fetched = _fetch_feed_with(monkeypatch, {"https://mdb/t.zip": good}, "stops.txt")
+    assert data == good and fetched == ["https://mdb/t.zip"]
