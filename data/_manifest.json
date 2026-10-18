@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T16:33:35.134Z",
+    "generated_at": "2026-10-18T20:40:03.840Z",
     "root": "data/",
-    "file_count": 1754,
-    "total_size_bytes": 191842692,
+    "file_count": 1752,
+    "total_size_bytes": 191811986,
     "kinds": {
-      "json": 1708,
+      "json": 1706,
       "geojson": 34,
       "csv": 12
     }
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T16:33:31.155Z",
+      "mtime": "2026-10-18T20:40:00.765Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30433,32 +30433,6 @@
       ]
     },
     {
-      "path": "jurisdiction-briefs/_contacts/0833640.json",
-      "kind": "json",
-      "size_bytes": 3205,
-      "mtime": "2026-10-14T17:13:16.630Z",
-      "shape": "object",
-      "keys": [
-        "geoid",
-        "name",
-        "checked",
-        "note",
-        "contacts"
-      ],
-      "key_count": 5,
-      "primary_array_key": "contacts",
-      "primary_array_length": 6,
-      "primary_array_first_keys": [
-        "name",
-        "role",
-        "org",
-        "phone",
-        "source_label",
-        "source_url",
-        "source_quote"
-      ]
-    },
-    {
       "path": "jurisdiction-briefs/_land-banking-contacts.json",
       "kind": "json",
       "size_bytes": 56594,
@@ -30486,29 +30460,6 @@
         "source_url",
         "source_quote"
       ]
-    },
-    {
-      "path": "jurisdiction-briefs/_landscape/0833640.json",
-      "kind": "json",
-      "size_bytes": 27501,
-      "mtime": "2026-10-14T23:56:45.038Z",
-      "shape": "object",
-      "keys": [
-        "geoid",
-        "researched",
-        "plans",
-        "agencies",
-        "state_funds",
-        "task_forces",
-        "people",
-        "land",
-        "lihtc_and_pipeline",
-        "not_found"
-      ],
-      "key_count": 10,
-      "primary_array_key": "not_found",
-      "primary_array_length": 13,
-      "primary_array_first_keys": null
     },
     {
       "path": "jurisdiction-briefs/_lihtc-applications-excluded.json",
@@ -32757,7 +32708,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T16:33:33.115Z",
+      "mtime": "2026-10-18T20:40:02.379Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32781,7 +32732,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T16:33:32.603Z",
+      "mtime": "2026-10-18T20:40:01.905Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

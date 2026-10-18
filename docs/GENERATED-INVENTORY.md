@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T16:33:02.746Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T20:39:38.671Z. Do not edit by hand.
 
 ---
 
@@ -88,7 +88,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1709 JSON files found.
+1707 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1577,9 +1577,7 @@
 | `data/jurisdiction-briefs/0870195.json` | 32.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0873825.json` | 23.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 19.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_contacts/0833640.json` | 3.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_landscape/0833640.json` | 26.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
@@ -2118,7 +2116,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 31.9 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 32.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 10.3 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 25.5 KB |
