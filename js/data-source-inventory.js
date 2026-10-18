@@ -1138,7 +1138,7 @@
       provider: 'Kalshi',
       url: 'https://kalshi.com/',
       localFile: 'data/kalshi/prediction-market.json',
-      lastUpdated: '2026-10-11',
+      lastUpdated: '2026-10-18',
       // Not a feed. fetch-kalshi.yml runs weekly but exits early with
       // "Kalshi credentials not configured", preserving this committed seed —
       // so it reported success while changing nothing for 183 days. Declaring

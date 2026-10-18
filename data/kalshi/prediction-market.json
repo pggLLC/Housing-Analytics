@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11T09:55:18Z",
+  "updated": "2026-10-18T08:15:16Z",
   "source": "kalshi",
   "items": [
     {
@@ -18,31 +18,31 @@
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.400M?",
-          "prob": 0.04
+          "prob": 0.06
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.350M?",
-          "prob": 0.04
+          "prob": 0.16
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.300M?",
-          "prob": 0.1
+          "prob": 0.25
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.250M?",
-          "prob": 0.24
+          "prob": 0.5
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.200M?",
-          "prob": 0.47
+          "prob": 0.7
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.150M?",
-          "prob": 0.75
+          "prob": 0.71
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.100M?",
-          "prob": 0.88
+          "prob": 0.32
         }
       ]
     }
