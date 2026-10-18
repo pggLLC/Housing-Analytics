@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:58:05.653Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T09:17:51.447Z. Do not edit by hand.
 
 ---
 
@@ -48,12 +48,12 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.2 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.5 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.4 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.6 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 166.5 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.6 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.9 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 40.7 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.8 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
@@ -235,7 +235,7 @@
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
-| `data/hna/hna-views.json` | 12.6 KB | ✅ | — |
+| `data/hna/hna-views.json` | 13.1 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 130.8 KB | ✅ | — |
 | `data/hna/housing-units-b25001.json` | 36.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 39.2 KB | ✅ | — |
@@ -1801,7 +1801,7 @@
 
 ## Test Files
 
-654 test files found.
+655 test files found.
 
 | File | Size |
 |------|------|
@@ -1868,7 +1868,7 @@
 | `test/colorado-elections.test.mjs` | 36.4 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 48.4 KB |
-| `test/compliance-checklist.test.js` | 23.5 KB |
+| `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 7.9 KB |
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
@@ -2045,13 +2045,13 @@
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-need-reconciliation.test.js` | 24.6 KB |
-| `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
+| `test/hna-orphan-charts-wired.test.js` | 5.4 KB |
 | `test/hna-ownership-need.test.js` | 23.2 KB |
 | `test/hna-ownership-strategy.test.js` | 14.5 KB |
-| `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
+| `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 57.3 KB |
-| `test/hna-prop123-relationship.test.js` | 7.9 KB |
+| `test/hna-prop123-relationship.test.js` | 13.6 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
@@ -2065,7 +2065,7 @@
 | `test/hna-section-rail.test.js` | 8.8 KB |
 | `test/hna-snapshot-margins.test.js` | 26.9 KB |
 | `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
-| `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
+| `test/hna-sub-county-and-sync.test.js` | 5.0 KB |
 | `test/hna-surplus-semantics.test.js` | 12.3 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/hna-transit-zone.test.js` | 40.3 KB |
@@ -2102,7 +2102,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
-| `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
+| `test/integration/housing-needs-assessment.test.js` | 34.4 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
 | `test/inventory-mtime-sync.test.js` | 26.5 KB |
@@ -2243,9 +2243,10 @@
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-administration.test.js` | 7.9 KB |
-| `test/prop123-historical.test.js` | 19.2 KB |
+| `test/prop123-historical.test.js` | 15.6 KB |
+| `test/prop123-legal-claims.test.js` | 9.4 KB |
 | `test/prop123-rental-rules.test.js` | 7.0 KB |
-| `test/prop123.test.js` | 13.9 KB |
+| `test/prop123.test.js` | 12.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 9.5 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
@@ -2302,7 +2303,7 @@
 | `test/smoke-f139.test.js` | 14.8 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
-| `test/smoke.test.js` | 10.1 KB |
+| `test/smoke.test.js` | 10.2 KB |
 | `test/soft-funding-availability.test.js` | 5.1 KB |
 | `test/soft-funding-terms.test.js` | 7.7 KB |
 | `test/soft-funding-tracker.test.js` | 16.8 KB |
