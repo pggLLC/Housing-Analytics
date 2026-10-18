@@ -282,12 +282,13 @@
     if (!g) return null;
     var s30 = _shortfall(g['30']), s50 = _shortfall(g['50']), s60 = _shortfall(g['60']);
     if (s30 === null && s50 === null && s60 === null) return null;
-    var top30 = s30 || 0;
-    var top50 = Math.max(top30, s50 || 0);
+    // A band is only known when every cheaper threshold is known too.
+    var top30 = s30;
+    var top50 = (s30 === null || s50 === null) ? null : Math.max(s30, s50);
     return {
       ami30UnitsNeeded: s30,
-      ami50UnitsNeeded: s50 === null ? null : Math.max(0, s50 - top30),
-      ami60UnitsNeeded: s60 === null ? null : Math.max(0, s60 - top50),
+      ami50UnitsNeeded: (s50 === null || top30 === null) ? null : Math.max(0, s50 - top30),
+      ami60UnitsNeeded: (s60 === null || top50 === null) ? null : Math.max(0, s60 - top50),
       amiGapCumulative: { '30': s30, '50': s50, '60': s60 }
     };
   }
@@ -1056,7 +1057,7 @@
    * Returns { notes, workforce, burden, pencil, sentence, tierLines,
    * assumptionsText, sources } or { unavailableReason, pending }.
    */
-  function _computeMixCheck(inputs, amiMix) {
+  function _computeMixCheck(inputs, amiMix, conceptType) {
     var M = _mixCheckLib();
     if (!M) return { unavailableReason: 'The mix check is not loaded on this page.' };
     var fips = inputs.countyFips || inputs.geoid || null;
@@ -1076,7 +1077,7 @@
       need20yr: _optionalNumber(inputs.need20yr)
     });
     var units = { '30': amiMix.ami30, '40': amiMix.ami40, '50': amiMix.ami50, '60': amiMix.ami60 };
-    var p = M.pencil({ limits: ctx.limits, units: units, rules: ctx.rules });
+    var p = M.pencil({ limits: ctx.limits, units: units, rules: ctx.rules, senior: conceptType === 'seniors' });
     return {
       notes: nn.notes,
       workforce: nn.workforce,
@@ -1134,7 +1135,7 @@
     // Cross-tab AMI × bedroom into the matrix CHFA actually expects
     // (per-unit rent caps depend on BOTH axes). See _computeAMIxUnitMatrix.
     var suggestedMatrix  = _computeAMIxUnitMatrix(suggestedAMIMix, suggestedUnitMix, conceptType);
-    var mixCheck         = _computeMixCheck(inputs, suggestedAMIMix);
+    var mixCheck         = _computeMixCheck(inputs, suggestedAMIMix, conceptType);
 
     // Basis boost rationale
     if (inputs.isQct) rationale.push('QCT designation provides up to 30% basis boost — improves equity yield');

@@ -50,6 +50,12 @@ for (const c of gapFile.counties) {
   if (cum[0] + cum[1] + cum[2] > Math.max(...cum)) overlapped++;
 }
 ok(overlapped > 10, 'the scan must find counties where summing the cumulative figures double-counts (found ' + overlapped + ')');
+{
+  const no30 = P.amiShortfallFromCounty({ gap_units_minus_households_le_ami_pct: { '50': -40, '60': -70 } });
+  ok(no30.ami30UnitsNeeded === null && no30.ami50UnitsNeeded === null && no30.ami60UnitsNeeded === null, 'an unknown 30% threshold must leave the higher bands unknown, not guessed');
+  const no50 = P.amiShortfallFromCounty({ gap_units_minus_households_le_ami_pct: { '30': -10, '60': -70 } });
+  ok(no50.ami50UnitsNeeded === null && no50.ami60UnitsNeeded === null, 'an unknown 50% threshold must leave the 51-60% band unknown');
+}
 ok(P.amiShortfallFromCounty({ gap_units_minus_households_le_ami_pct: {} }) === null && P.amiShortfallFromCounty(null) === null, 'no gap figures: null, not zeros');
 
 // Every caller uses the conversion, not the raw cumulative values.
@@ -92,6 +98,11 @@ const units = { '30': rec.suggestedAMIMix.ami30, '40': rec.suggestedAMIMix.ami40
 const limits = {}; for (const t of ['30', '40', '50', '60']) limits[t] = lim[t].max_rents['2br'];
 const hand = M.pencil({ limits, units, rules: files.underwritingRules });
 ok(mc.sentence === M.mixSentence(hand) && hand.mix.units === 44, 'pencil sentence must be the recommended mix × CHFA two-bedroom limits');
+ok(rec.conceptType !== 'seniors' && mc.pencil.assumptions.reserve === 350, 'a family concept must use the $350 family reserve');
+{
+  const sr = P.predictConcept(Object.assign({}, gunInputs, { seniorsDemand: true }));
+  ok(sr.conceptType === 'seniors' && sr.mixCheck.pencil.assumptions.reserve === 300, 'a seniors concept must use CHFA\'s $300 senior reserve');
+}
 ok(mc.tierLines.length === Object.values(units).filter((n) => n > 0).length, 'one tier line per tier in the mix');
 ok(/^CHFA minimum pro forma assumptions/.test(mc.assumptionsText), 'assumptions line must be present');
 ok(JSON.stringify(rec.suggestedAMIMix) === JSON.stringify(P.predictConcept(Object.assign({}, gunInputs, { mixContext: undefined, countyFips: null, geoid: null })).suggestedAMIMix), 'the mix check must not change the typical mix');
@@ -109,7 +120,8 @@ ok(!noCounty.sentence && /No county/.test(noCounty.unavailableReason), 'no count
 
 // 4. Renderer: escapes, says what is unavailable, and adds no em-dash to new copy.
 const html = R.mixCheckHtml(mc);
-ok(html.includes(mc.sentence.replace(/'/g, "'")) && html.includes('Renters the homes-short counts miss') && !html.includes('—'), 'card shows notes and the pencil sentence without em-dashes');
+const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+ok(html.includes(escHtml(mc.sentence)) && html.includes('Renters the homes-short counts miss') && !html.includes('—'), 'card shows notes and the pencil sentence without em-dashes');
 ok(html.includes('Mix tested (homes by AMI level, two-bedroom rents): ' + ['30', '40', '50', '60'].filter((t) => units[t] > 0).map((t) => units[t] + ' at ' + t + '%').join(', ')), 'the tested mix shown must be the recommended AMI mix');
 ok(/Not available: CHFA underwriting rule not on file: pupa/.test(R.mixCheckHtml(stop)), 'card shows why the pencil is missing');
 ok(!R.mixCheckHtml({ notes: ['<b>x</b>'], sentence: null }).includes('<b>x'), 'notes are escaped');

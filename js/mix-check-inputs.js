@@ -143,7 +143,7 @@
   }
 
   /**
-   * check(MixCheck, inputs, { units?, gap50?, need20yr? }) → the need notes and the
+   * check(MixCheck, inputs, { units?, gap50?, need20yr?, senior? }) → the need notes and the
    * 15-year pencil for these inputs, plus the sentences pages print.
    */
   function check(MixCheck, inputs, opts) {
@@ -155,7 +155,7 @@
       rentRange: i.rentRange, ruralResort: !!i.ruralResort, mihtc: i.mihtc,
       need20yr: o.need20yr === undefined ? null : o.need20yr
     });
-    var p = MixCheck.pencil({ limits: i.limits || {}, units: o.units || null, rules: i.rules });
+    var p = MixCheck.pencil({ limits: i.limits || {}, units: o.units || null, rules: i.rules, senior: !!o.senior });
     return {
       notes: nn.notes,
       workforce: nn.workforce,

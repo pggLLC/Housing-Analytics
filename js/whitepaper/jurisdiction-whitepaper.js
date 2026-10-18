@@ -1159,7 +1159,7 @@
           return '<tr><td>' + esc(t.tier) + '% AMI</td><td class="n">' + fmtMoney(t.rent) + '</td><td class="n">' + signedMoney(t.noi1) + '</td><td class="n">' + signedMoney(t.noi15) + '</td><td class="n">' +
             (t.firstShortYear ? 'None: short from year ' + t.firstShortYear : signedMoney(t.debtServiceCapacity)) + '</td><td class="n">' + fmtMoney(t.breakevenCost) + '</td></tr>';
         }).join('') + '</tbody></table><p class="wp-meta">' + esc(d.pencil.assumptionsText) +
-        ' Net is rent after vacancy less operating cost and reserve. Debt service is what the weakest of the 15 years can carry at the minimum coverage; a deeper mix carries less debt, so its funding gap is larger. Operating cost it can bear is the most a unit at that rent can spend each year (with reserve, in year-1 dollars) and still break even through year 15; mountain and small-town budgets often run above CHFA\'s minimum, so compare it with the real budget.</p>';
+        ' Net is rent after vacancy less operating cost and reserve. Debt service is what the weakest of the 15 years can carry at the minimum coverage; a deeper mix carries less debt, so its funding gap is larger. Operating cost it can bear is the most a unit at that rent can spend on operations each year (before the reserve, in year-1 dollars) and still break even through year 15; mountain and small-town budgets often run above CHFA\'s minimum, so compare it with the real budget.</p>';
     } else if (d.pencil && d.pencil.reason) {
       h += '<p class="wp-note">Whether each rent level pays its way is not shown: ' + esc(d.pencil.reason) + '</p>';
     }

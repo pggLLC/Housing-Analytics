@@ -112,9 +112,12 @@
 
   // ------------------------------------------------------------ pencil
 
-  // The CHFA minimum pro forma assumptions, or null with the missing rule named.
-  function assumptions(rulesFile) {
+  // The CHFA minimum pro forma assumptions, or { ok: false } with the missing rule named.
+  // opts.senior picks the senior replacement reserve. A rule on file whose figure is
+  // missing counts as missing, so the check never runs on $0 or 0%.
+  function assumptions(rulesFile, opts) {
     var r = (rulesFile && rulesFile.rules) || {};
+    var senior = !!(opts && opts.senior);
     function adopted(id) { return r[id] && r[id].status === 'adopted' && r[id].source ? r[id] : null; }
     var need = {
       vacancy: adopted('pro_forma_vacancy'), rentGrowth: adopted('pro_forma_rent_growth'),
@@ -123,13 +126,20 @@
     };
     var missing = Object.keys(need).filter(function (k) { return !need[k]; });
     if (missing.length) return { ok: false, reason: 'CHFA underwriting rule not on file: ' + missing.join(', ') };
-    return {
+    var a = {
       ok: true,
       vacancy: num(need.vacancy.rate), rentGrowth: num(need.rentGrowth.rate), expGrowth: num(need.expGrowth.rate),
-      opex: num(need.pupa.per_unit_annual), reserve: num(need.reserve.family_per_unit_annual),
+      opex: num(need.pupa.per_unit_annual),
+      reserve: num(senior ? need.reserve.senior_per_unit_annual : need.reserve.family_per_unit_annual),
       dscr: num(need.dscr.min_coverage),
+      senior: senior,
       source: ((rulesFile.sources || {})[need.pupa.source] || {}).title || need.pupa.source
     };
+    var bad = ['vacancy', 'rentGrowth', 'expGrowth', 'opex', 'reserve', 'dscr'].filter(function (k) {
+      return a[k] === null || a[k] < 0 || (k === 'dscr' && a[k] === 0) || (k === 'vacancy' && a[k] >= 1);
+    });
+    if (bad.length) return { ok: false, reason: 'CHFA underwriting rule has no usable figure: ' + bad.join(', ') };
+    return a;
   }
 
   // Per-unit net operating income for each year 1..15 at a monthly rent.
@@ -137,7 +147,8 @@
     var out = [];
     for (var y = 1; y <= YEARS; y++) {
       var egi = rent * 12 * (1 - a.vacancy) * Math.pow(1 + a.rentGrowth, y - 1);
-      var cost = (a.opex + a.reserve) * Math.pow(1 + a.expGrowth, y - 1);
+      // Operating costs grow; the replacement reserve is its own flat CHFA minimum.
+      var cost = a.opex * Math.pow(1 + a.expGrowth, y - 1) + a.reserve;
       out.push(egi - cost);
     }
     return out;
@@ -154,25 +165,25 @@
       subsidy15: path[path.length - 1] < 0 ? -path[path.length - 1] : 0
     };
   }
-  // Highest yearly operating cost plus reserve per unit (year-1 dollars) a rent can bear
-  // and still break even in every year to 15. Costs grow faster than rents, so the
-  // last year binds.
+  // Highest yearly operating cost per unit (year-1 dollars, before the flat reserve) a
+  // rent can bear and still break even in every year to 15. Costs grow faster than
+  // rents, so the last year binds.
   function breakevenCost(rent, a) {
     var egi1 = rent * 12 * (1 - a.vacancy);
     var worst = Infinity;
-    for (var y = 1; y <= YEARS; y++) worst = Math.min(worst, egi1 * Math.pow(1 + a.rentGrowth, y - 1) / Math.pow(1 + a.expGrowth, y - 1));
+    for (var y = 1; y <= YEARS; y++) worst = Math.min(worst, (egi1 * Math.pow(1 + a.rentGrowth, y - 1) - a.reserve) / Math.pow(1 + a.expGrowth, y - 1));
     return worst;
   }
 
   /**
-   * pencil({ limits: { '30': rent2br, ... }, units: { '30': n, ... } optional, rules })
+   * pencil({ limits: { '30': rent2br, ... }, units: { '30': n, ... } optional, rules, senior })
    * Returns { ok, reason?, tiers: [{ tier, rent, noi1, noi15, debtServiceCapacity, firstShortYear, subsidy15 }],
    *   mix: { units, noi1, noi15, debtServiceCapacity, firstShortYear, subsidy15 } | null, assumptions }.
    * Figures are per unit per year; mix figures are for the whole mix.
    */
   function pencil(opts) {
     var o = opts || {};
-    var a = assumptions(o.rules);
+    var a = assumptions(o.rules, { senior: o.senior });
     if (!a.ok) return { ok: false, reason: a.reason, tiers: [], mix: null, assumptions: null };
     var limits = o.limits || {};
     var tiers = TIERS.filter(function (t) { return num(limits[t]) !== null && num(limits[t]) > 0; }).map(function (t) {
@@ -223,7 +234,7 @@
   function assumptionsLine(a) {
     if (!a) return '';
     return 'CHFA minimum pro forma assumptions (' + a.source + '): ' + Math.round(a.vacancy * 100) + '% vacancy, rents +' + Math.round(a.rentGrowth * 100) + '% and costs +' + Math.round(a.expGrowth * 100) + '% a year, ' +
-      money(a.opex) + ' operating cost plus ' + money(a.reserve) + ' replacement reserve per unit per year, ' + a.dscr.toFixed(2) + ' minimum debt coverage over 15 years. Rent is the two-bedroom limit with the owner paying utilities, so these figures are a ceiling.';
+      money(a.opex) + ' operating cost plus ' + money(a.reserve) + (a.senior ? ' senior' : '') + ' replacement reserve per unit per year (the reserve held flat), ' + a.dscr.toFixed(2) + ' minimum debt coverage over 15 years. Rent is the two-bedroom limit with the owner paying utilities, so these figures are a ceiling.';
   }
 
   return {

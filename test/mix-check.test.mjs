@@ -38,11 +38,14 @@ for (const id of ['pro_forma_vacancy', 'pro_forma_rent_growth', 'pro_forma_expen
 // 2. Hand arithmetic for one tier.
 const p = M.pencil({ limits: { '30': 834, '60': 1669 }, units: { '30': 10, '60': 30 }, rules });
 const t30 = p.tiers.find((t) => t.tier === '30');
-const egi1 = 834 * 12 * 0.93, cost1 = 4850;
+const egi1 = 834 * 12 * 0.93, cost1 = 4850, opex = 4500, reserve = 350;
 ok(Math.abs(t30.noi1 - (egi1 - cost1)) < 0.01, '30% year-1 net must be rent × 12 × (1 − vacancy) − (operating cost + reserve)');
-const n15 = egi1 * 1.02 ** 14 - cost1 * 1.03 ** 14;
-ok(Math.abs(t30.noi15 - n15) < 0.01, '30% year-15 net must grow rents 2% and costs 3% a year');
-ok(Math.abs(t30.breakevenCost - egi1 * (1.02 / 1.03) ** 14) < 0.01, 'operating cost a tier can bear must be set by its weakest year');
+const n15 = egi1 * 1.02 ** 14 - (opex * 1.03 ** 14 + reserve);
+ok(Math.abs(t30.noi15 - n15) < 0.01, '30% year-15 net must grow rents 2% and operating costs 3% a year, with the reserve flat');
+ok(Math.abs(t30.breakevenCost - (egi1 * 1.02 ** 14 - reserve) / 1.03 ** 14) < 0.01, 'operating cost a tier can bear must be set by its weakest year, before the flat reserve');
+const senior = M.pencil({ limits: { '30': 834 }, rules, senior: true });
+ok(senior.assumptions.reserve === 300 && Math.abs(senior.tiers[0].noi1 - (egi1 - 4800)) < 0.01, 'a senior deal must use the $300 senior reserve');
+ok(/\$300 senior replacement reserve/.test(M.assumptionsLine(senior.assumptions)), 'the assumptions line must name the senior reserve');
 ok(p.mix && p.mix.units === 40 && Math.abs(p.mix.noi1 - (10 * t30.noi1 + 30 * p.tiers[1].noi1)) < 0.01, 'a mix must sum its units');
 ok(/must-pay debt service at 1\.15 coverage/.test(M.mixSentence(p)), 'a mix that pays its way must say how much debt it carries');
 
@@ -54,6 +57,12 @@ const mid = M.pencil({ limits: { '30': 450 }, rules });
 ok(mid.tiers[0].firstShortYear > 1, 'a tier that covers costs at first must name the year it runs short');
 
 // 4. Unknowns give reasons, not zeros.
+for (const [id, field] of [['pupa_minimum', 'per_unit_annual'], ['replacement_reserve_minimum', 'family_per_unit_annual'], ['min_debt_coverage', 'min_coverage'], ['pro_forma_vacancy', 'rate']]) {
+  const blank = JSON.parse(JSON.stringify(rules));
+  blank.rules[id][field] = null;
+  const r = M.pencil({ limits: { '30': 834 }, rules: blank });
+  ok(!r.ok && /no usable figure/.test(r.reason), `${id} on file without ${field} must stop the pencil, not run on zero`);
+}
 ok(!M.pencil({ limits: {}, rules }).ok, 'no rent limits must not pencil');
 const unpriced = M.pencil({ limits: { '30': 834 }, units: { '30': 5, '70': 5 }, rules });
 ok(unpriced.mix && /No CHFA rent limit for 70% AMI/.test(unpriced.mix.reason), 'a mix with an unpriced tier must say which');
