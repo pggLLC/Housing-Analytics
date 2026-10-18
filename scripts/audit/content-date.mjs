@@ -155,11 +155,14 @@ const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?
 /** A whole, real ISO date (as given) or zoned timestamp (as UTC, whole seconds), else null. */
 function normalizeStamp(stamp) {
   if (typeof stamp !== 'string') return null;
-  if (DATE_ONLY.test(stamp)) {
-    const d = new Date(stamp + 'T00:00:00Z');
-    return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === stamp ? stamp : null;
-  }
-  if (!TIMESTAMP.test(stamp)) return null;
+  const realDay = (day) => {
+    const d = new Date(day + 'T00:00:00Z');
+    return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === day;
+  };
+  if (DATE_ONLY.test(stamp)) return realDay(stamp) ? stamp : null;
+  if (!TIMESTAMP.test(stamp) || !realDay(stamp.slice(0, 10))) return null;
+  const [hh, mm, ss] = stamp.slice(11, 19).split(':').map(Number);
+  if (hh > 23 || mm > 59 || (ss || 0) > 59) return null;
   const d = new Date(stamp);
   return Number.isFinite(d.getTime()) ? d.toISOString().replace(/\.\d{3}Z$/, 'Z') : null;
 }
