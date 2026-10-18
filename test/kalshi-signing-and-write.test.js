@@ -207,6 +207,29 @@ run('a contract with no bid and no ask is null, never 0', () => {
   assert.equal(JSON.stringify(single.outcomes), '[]', 'an unpriced single market has no outcomes rather than Yes 0%');
 });
 
+run('lines that share one title are named by their own threshold', () => {
+  // KXMORTGAGERATE gives every line "How high will 30yr mortgage rate get this year?".
+  const normalize = loadNormalizeMarket();
+  const q = 'How high will 30yr mortgage rate get this year?';
+  const out = normalize(CFG, [
+    { ticker: 'A', title: q, yes_sub_title: 'Above 7.4%', floor_strike: 7.4, yes_bid: 60, yes_ask: 64, close_time: '2027-01-01T13:29:00Z' },
+    { ticker: 'B', title: q, yes_sub_title: 'Above 8.0%', floor_strike: 8, yes_bid: 7, yes_ask: 9 }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.name), ['Above 7.4%', 'Above 8.0%']);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.08]);
+  assert.equal(out.market.closes, '2027-01-01T13:29:00Z');
+});
+
+run('one threshold contract is a one-line ladder; a plain yes/no stays Yes and No', () => {
+  const normalize = loadNormalizeMarket();
+  const line = normalize(CFG, [
+    { ticker: 'CO', title: 'Will Colorado HPI for Q4 2026 be above 679.21?', yes_sub_title: 'Above 679.21', floor_strike: 679.21, yes_bid_dollars: '0.2800', yes_ask_dollars: '0.2900' }
+  ]);
+  assert.equal(JSON.stringify(line.outcomes.map((o) => [o.name, o.prob])), '[["Above 679.21",0.29]]');
+  const yn = normalize(CFG, [{ ticker: 'R', title: 'Will there be a recession in 2027?', yes_sub_title: 'Yes', yes_bid: 19, yes_ask: 21 }]);
+  assert.equal(JSON.stringify(yn.outcomes.map((o) => [o.name, o.prob])), '[["Yes",0.2],["No",0.8]]');
+});
+
 run('the committed file carries no zero probabilities', () => {
   const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/kalshi/prediction-market.json'), 'utf8'));
   const probs = (data.items || []).flatMap((i) => (i.outcomes || []).map((o) => o.prob));
