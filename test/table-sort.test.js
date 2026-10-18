@@ -198,6 +198,15 @@ const touchTap = (el) => {
 
   // 5. Wiring on pages.
   const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+  // Nested pages too (docs/components.html). assets/ holds generated map
+  // embeds whose only table is the map library's own markup.
+  const walk = (dir) => fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((e) => {
+    const rel = dir ? `${dir}/${e.name}` : e.name;
+    if (e.isDirectory()) return /^(\.|node_modules$|assets$|test$|tests$|vendor$|_site$)/.test(e.name) ? [] : walk(rel);
+    return e.name.endsWith('.html') ? [rel] : [];
+  });
+  const noSorter = walk('').filter((p) => { const h = read(p); return /<table\b/i.test(h) && !h.includes('js/components/table-sort.js'); });
+  assert.deepEqual(noSorter, [], 'pages with tables that do not load table-sort.js');
   const missing = pages.filter((p) => { const h = read(p); return h.includes('js/components/table-header-tips.js') && !h.includes('js/components/table-sort.js'); });
   assert.deepEqual(missing, [], 'pages that load table-header-tips.js but not table-sort.js');
   assert.ok(read('js/components/table-export.js').includes('.th-sort'), 'downloads drop the sort arrow');
