@@ -249,6 +249,10 @@ const touchTap = (el) => {
   assert.ok(/Tier order is the payout order[^\n]*\n\s*return '<table data-no-sort/.test(dc), 'the capital event waterfall opts out of sorting');
   assert.ok(/Year-by-year schedule[^\n]*\n\s*return '<table data-no-sort/.test(dc), 'the waterfall annual schedule opts out of sorting');
   assert.ok(read('js/project-market-study/market-study-report.js').includes('funnelRows, true)'), 'the report buyer funnel opts out of sorting');
+  const apa = read('apa-white-paper.html');
+  for (const label of ['Fruita cost burden by tenure', 'Fruita rental affordability gap by income level']) {
+    assert.ok(apa.includes(`aria-label="${label}"><table data-no-sort>`), `${label} keeps its cumulative rows in order`);
+  }
 
   console.log(`table-sort: PASS — ${pages.filter((p) => read(p).includes('js/components/table-sort.js')).length} pages load the sorter`);
 })().catch((e) => { console.error(e); process.exit(1); });
