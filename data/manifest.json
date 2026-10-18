@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T07:42:16.871595Z",
+  "generated": "2026-10-18T08:07:32.934188Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -154,7 +154,7 @@
     "data/capital-partners.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13396
+      "bytes": 13522
     },
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
@@ -4169,7 +4169,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183567
+      "bytes": 183369
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7674,7 +7674,7 @@
     "data/market/co-adaptive-reuse-references.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13961
+      "bytes": 13987
     },
     "data/market/co-construction-labor-cost.json": {
       "featureCount": 0,
@@ -7684,7 +7684,7 @@
     "data/market/co-urban-renewal-authorities.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12169
+      "bytes": 12114
     },
     "data/market/colorado-equity-pricing-factors.json": {
       "featureCount": 0,
@@ -7914,7 +7914,7 @@
     "data/market/tax-credit-transfer-pricing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5457
+      "bytes": 5491
     },
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
@@ -8024,7 +8024,7 @@
     "data/policy/ballot-2026/counties/08005.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 26839
+      "bytes": 26852
     },
     "data/policy/ballot-2026/counties/08007.json": {
       "featureCount": 0,
@@ -8054,7 +8054,7 @@
     "data/policy/ballot-2026/counties/08015.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8169
+      "bytes": 8217
     },
     "data/policy/ballot-2026/counties/08017.json": {
       "featureCount": 0,
@@ -8104,7 +8104,7 @@
     "data/policy/ballot-2026/counties/08035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14228
+      "bytes": 14276
     },
     "data/policy/ballot-2026/counties/08037.json": {
       "featureCount": 0,
@@ -8294,7 +8294,7 @@
     "data/policy/ballot-2026/counties/08111.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9287
+      "bytes": 9310
     },
     "data/policy/ballot-2026/counties/08113.json": {
       "featureCount": 0,
@@ -8549,7 +8549,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40888
+      "bytes": 40912
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
