@@ -137,5 +137,35 @@ assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim s
   pending[urlA3].resolve(fileFor(a)); await tick();
   assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late success for A does not replace B');
 
+  // 7. The chart: before a place loads it is hidden behind the page's own
+  //    explanation instead of drawing an empty 0-1 grid with no years, and it
+  //    returns once a place loads. The chart audits load the same place.
+  const panel = new JSDOM(html).window.document;
+  assert(panel.getElementById('sbProjectionChart') && panel.getElementById('sbChartEmpty'), 'the page has the chart and its empty-state note');
+  const cg = new JSDOM(`<!doctype html><body><canvas id="sbProjectionChart"></canvas><p id="sbChartEmpty" hidden></p>
+    <table><tbody id="sbResultsBody"></tbody></table></body>`, { runScripts: 'outside-only', url: 'http://localhost/hna-scenario-builder.html' });
+  const cw = cg.window;
+  let charts = 0;
+  cw.Chart = class { constructor(c, cfg) { charts++; this.data = cfg.data; } update() {} destroy() { charts--; } };
+  for (const f of ['js/projections/cohort-component-model.js', 'js/projections/scenario-presets.js',
+    'js/projections/scenario-storage.js', 'js/projections/scenario-builder.js']) cw.eval(read(f));
+  const canvas = cw.document.getElementById('sbProjectionChart');
+  const note = cw.document.getElementById('sbChartEmpty');
+  cw.ScenarioBuilder.init({});
+  assert.equal(canvas.hidden, true, 'no chart before a place loads');
+  assert.equal(note.hidden, false, 'the empty-state note shows instead');
+  assert.equal(charts, 0, 'no empty chart is drawn');
+  cw.ScenarioBuilder.init({ dolaData: mesa, geoid: '08077', displayName: 'Mesa County' });
+  assert.equal(canvas.hidden, false, 'the chart shows once a place loads');
+  assert.equal(note.hidden, true, 'the note hides once a place loads');
+  assert.equal(charts, 1, 'one chart drawn');
+  cw.ScenarioBuilder.init({ unavailableReason: reason });
+  assert.equal(canvas.hidden, true, 'a failed load hides the chart again');
+  assert.equal(charts, 0, 'and removes the earlier place\'s chart');
+  const urlOf = (file) => (read(file).match(/'\/?(hna-scenario-builder\.html\?[^']+)'/) || [])[1];
+  assert(urlOf('scripts/audit/chart-population-audit.mjs'), 'the population audit loads a place on this page');
+  assert.equal(urlOf('scripts/audit/chart-axes-audit.mjs'), urlOf('scripts/audit/chart-population-audit.mjs'),
+    'the axes audit loads the same place as the population audit');
+
   console.log(`scenario-builder-loaded-geography: PASS (Mesa base ${expectedBase.toLocaleString()})`);
 })().catch((e) => { console.error(e); process.exit(1); });

@@ -284,6 +284,15 @@
 
     const labels = (_activeResults['baseline'] || []).map(r => r.year);
 
+    // No place loaded: show the explanation instead of an empty 0-1 grid.
+    const empty = document.getElementById('sbChartEmpty');
+    canvas.hidden = !datasets.length;
+    if (empty) empty.hidden = !!datasets.length;
+    if (!datasets.length) {
+      if (_chart) { _chart.destroy(); _chart = null; }
+      return;
+    }
+
     if (_chart) {
       _chart.data.labels   = labels;
       _chart.data.datasets = datasets;
