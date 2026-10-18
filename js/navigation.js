@@ -423,7 +423,38 @@
     `;
 
     // Footer
+    // The feedback form is a Google Form owned by the site's maintainer
+    // account; entry.440415848 is its "Which page?" field, prefilled so a
+    // question arrives with the page it was asked from. Only the parameters
+    // that name a jurisdiction are kept: a shared Deal Calculator URL carries
+    // a whole project's costs and rents, which must not be sent to Google.
+    const FEEDBACK_CONTEXT_PARAMS = ['geoid', 'geoType', 'fips', 'place', 'region', 'geos', 'combinedMode', 'town'];
+    const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform';
+    function feedbackFormHref() {
+      return FEEDBACK_FORM_URL + '?usp=pp_url&entry.440415848=' +
+        encodeURIComponent((window.location.pathname || '/') + feedbackContextQuery());
+    }
+    function feedbackContextQuery() {
+      const params = new URLSearchParams(window.location.search || '');
+      const kept = new URLSearchParams();
+      FEEDBACK_CONTEXT_PARAMS.forEach(function (key) {
+        if (params.has(key)) kept.set(key, params.get(key));
+      });
+      const query = kept.toString();
+      return query ? '?' + query : '';
+    }
     const footer = document.createElement('footer');
+    // HNA views rewrite the query string as the jurisdiction changes, so the
+    // href is refreshed as the link is used (including synthetic clicks from
+    // assistive technology), not only at render.
+    footer.addEventListener('pointerdown', refreshFeedbackHref, true);
+    footer.addEventListener('focusin', refreshFeedbackHref, true);
+    footer.addEventListener('keydown', refreshFeedbackHref, true);
+    footer.addEventListener('click', refreshFeedbackHref, true);
+    function refreshFeedbackHref(e) {
+      const link = e.target && e.target.closest && e.target.closest('a[data-feedback-link]');
+      if (link) link.href = feedbackFormHref();
+    }
     footer.className = 'site-footer';
     footer.setAttribute('role', 'contentinfo');
     footer.innerHTML = `
@@ -446,6 +477,8 @@
           <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
           <a href="${normalizeHref('about.html')}">About this site</a>
+          <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
+          <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
           <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
         <div class="footer-disclaimer">
