@@ -332,16 +332,27 @@ GEOCODER = ('https://geocoding.geo.census.gov/geocoder/geographies/onelineaddres
             '?benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json&address=')
 
 
+class GeocoderUnavailable(RuntimeError):
+    """The Census geocoder did not answer usably: unreachable, or a reply this
+    code cannot read. Not the same as an address it could not match."""
+
+
 def geocode_county(address: str, city: str) -> str | None:
     """County GEOID of a street address from the Census geocoder, or None when
-    it finds no single Colorado match (an intersection, a vague address, the
-    service unreachable)."""
+    it answers and finds no single Colorado match (an intersection, a vague
+    address). An outage raises GeocoderUnavailable instead: read as no match,
+    it would erase the county of every address-placed application in a
+    county-spanning city, and the weekly run would commit that."""
     from urllib.parse import quote
-    try:
-        res = json.loads(awards.http_get(GEOCODER + quote(f'{address}, {city}, CO'), timeout=30))
-        found = {m['geographies']['Counties'][0]['GEOID'] for m in res['result']['addressMatches']}
-    except Exception:  # noqa: BLE001 - any failure leaves the county unknown, never guessed
-        return None
+    url = GEOCODER + quote(f'{address}, {city}, CO')
+    for attempt in (1, 2):
+        try:
+            matches = json.loads(awards.http_get(url, timeout=30))['result']['addressMatches']
+            found = {m['geographies']['Counties'][0]['GEOID'] for m in matches}
+            break
+        except Exception as exc:  # noqa: BLE001 - network, bad JSON, changed shape
+            if attempt == 2:
+                raise GeocoderUnavailable(f'{exc.__class__.__name__}: {exc}') from exc
     if len(found) == 1:
         fips = next(iter(found))
         return fips if fips.startswith('08') else None
@@ -699,6 +710,26 @@ def finish(apps: list[dict], ledger: list[dict], statuses: list[dict], first_yea
     return apps
 
 
+def build_all(keep: list[dict], cache: str, ctx: dict) -> tuple[list[dict], list[dict]]:
+    """Every application in the kept reports, and each report's status."""
+    apps, statuses = [], []
+    for doc in keep:
+        path = os.path.join(cache, doc['file'])
+        try:
+            if not os.path.exists(path):
+                with open(path, 'wb') as fh:
+                    fh.write(awards.http_get(doc['url']))
+            rows, texts = read_tables(path)
+        except Exception as exc:  # network, not-a-PDF, pdfplumber failure
+            statuses.append({'file': doc['file'], 'url': doc['url'], 'status': 'error',
+                             'error': f'{exc.__class__.__name__}: {exc}'})
+            continue
+        got, status = build_document(doc, rows, texts, ctx)
+        apps.extend(got)
+        statuses.append(status)
+    return apps, statuses
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--cache', help='directory to keep downloaded PDFs (default: a temp dir)')
@@ -724,21 +755,12 @@ def main() -> int:
     ctx = context()
     ledger = awards.read_json(LEDGER)['awards']
     award_statuses = awards.read_json(DOCUMENTS)['documents']
-    apps, statuses = [], []
-    for doc in keep:
-        path = os.path.join(cache, doc['file'])
-        try:
-            if not os.path.exists(path):
-                with open(path, 'wb') as fh:
-                    fh.write(awards.http_get(doc['url']))
-            rows, texts = read_tables(path)
-        except Exception as exc:  # network, not-a-PDF, pdfplumber failure
-            statuses.append({'file': doc['file'], 'url': doc['url'], 'status': 'error',
-                             'error': f'{exc.__class__.__name__}: {exc}'})
-            continue
-        got, status = build_document(doc, rows, texts, ctx)
-        apps.extend(got)
-        statuses.append(status)
+    try:
+        apps, statuses = build_all(keep, cache, ctx)
+    except GeocoderUnavailable as exc:
+        print(f'Census geocoder unavailable ({exc}); leaving the list as it is, since '
+              'counties in cities that span counties cannot be placed without it.', file=sys.stderr)
+        return 1
     finish(apps, ledger, award_statuses, first_year, ctx)
     statuses.sort(key=lambda s: s['file'])
     for s in statuses:

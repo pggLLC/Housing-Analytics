@@ -397,3 +397,44 @@ def test_a_scattered_site_in_a_city_that_spans_counties_is_placed_by_its_own_add
     assert apps_mod.place_county(rec, cities, c)['county_fips'] is None  # spans 2 counties
     counties = apps_mod.application_counties(rec, cities, None, c)
     assert counties == ['08059', '08117']
+
+
+def test_a_geocoder_outage_is_not_read_as_no_match(monkeypatch):
+    """An answer with no match leaves the county unknown; no usable answer at
+    all raises, so the build can keep the last list instead of erasing it."""
+    monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60: b'{"result": {"addressMatches": []}}')
+    assert apps_mod.geocode_county('Sable Blvd and Centerpointe Drive', 'Aurora') is None
+    monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60: (
+        b'{"result": {"addressMatches": [{"geographies": {"Counties": [{"GEOID": "08059"}]}}]}}'))
+    assert apps_mod.geocode_county('7840 W 87th Drive', 'Westminster') == '08059'
+    for reply in (b'<html>Service Unavailable</html>', b'{"errors": ["busy"]}'):
+        monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60, r=reply: r)
+        with pytest.raises(apps_mod.GeocoderUnavailable):
+            apps_mod.geocode_county('7840 W 87th Drive', 'Westminster')
+
+    def down(url, timeout=60):
+        raise TimeoutError('timed out')
+    monkeypatch.setattr(apps_mod.awards, 'http_get', down)
+    with pytest.raises(apps_mod.GeocoderUnavailable):
+        apps_mod.geocode_county('7840 W 87th Drive', 'Westminster')
+
+
+def test_a_geocoder_outage_keeps_the_last_list(monkeypatch, tmp_path, ctx):
+    """The weekly run fails and writes nothing rather than commit unknown
+    counties for every address-placed application."""
+    out = tmp_path / 'out.json'
+    out.write_text('{"prior": true}')
+    fx = fixture('2026-HTC-Round-One-Applicant-Report')
+    name = '2026-HTC-Round-One-Applicant-Report'
+
+    def down(address, city):
+        raise apps_mod.GeocoderUnavailable('TimeoutError: timed out')
+    c = dict(ctx, geocode=down)  # the fixture's Aurora and Westminster rows need it
+    monkeypatch.setattr(apps_mod, 'OUT', str(out))
+    monkeypatch.setattr(apps_mod.awards, 'discover', lambda src: [doc(name)])
+    monkeypatch.setattr(apps_mod, 'read_tables', lambda path: (fx['rows'], fx['texts']))
+    monkeypatch.setattr(apps_mod, 'context', lambda: c)
+    monkeypatch.setattr(apps_mod.sys, 'argv', ['x', '--cache', str(tmp_path)])
+    (tmp_path / f'{name}.pdf').write_bytes(b'%PDF')
+    assert apps_mod.main() == 1
+    assert out.read_text() == '{"prior": true}'
