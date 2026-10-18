@@ -181,6 +181,16 @@ run('the most-traded event is chosen from the v2 fixed-point volume fields', () 
   assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
 });
 
+run('the event with the most combined activity wins, not the single busiest line', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume_fp: '100.00' },
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume_fp: '60.00' },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume_fp: '60.00' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
 run('a contract with no bid and no ask is null, never 0', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [

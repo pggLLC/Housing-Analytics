@@ -392,6 +392,16 @@ function normalizeMarket(cfg, markets) {
     return Number.isFinite(n) ? n : 0;
   };
   const liquidity = (m) => qty(m, 'volume') + qty(m, 'open_interest');
+  // With several events open (one per release date), keep the event with the
+  // most combined activity across its lines, then its most-traded line.
+  const byEvent = new Map();
+  for (const m of markets) {
+    const key = m.event_ticker || '';
+    byEvent.set(key, (byEvent.get(key) || 0) + liquidity(m));
+  }
+  let event = markets[0].event_ticker || '';
+  for (const [key, total] of byEvent) if (total > byEvent.get(event)) event = key;
+  if (byEvent.size > 1) markets = markets.filter((m) => (m.event_ticker || '') === event);
   const market = markets.reduce((best, m) => (liquidity(m) > liquidity(best) ? m : best), markets[0]);
 
   // Each contract's own "yes" price, as a probability. Kalshi's v2 API quotes
@@ -414,11 +424,6 @@ function normalizeMarket(cfg, markets) {
   // probability. Rescaling them to sum to 1 — as this used to — is only
   // valid for mutually exclusive outcomes, and turned P(above 1.10M) = 0.95
   // into a share of a total.
-  // A series can have several events open at once (one per release date);
-  // only the chosen market's own event is one ladder.
-  if (market.event_ticker) {
-    markets = markets.filter((m) => !m.event_ticker || m.event_ticker === market.event_ticker);
-  }
   if (markets.length > 1) {
     outcomes = enforceLadder(markets, markets.map((m) => {
       const pr = contractPrice(m);
