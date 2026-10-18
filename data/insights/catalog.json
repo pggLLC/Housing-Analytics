@@ -158,6 +158,17 @@
       "review_from": { "file": "data/policy/resident-services.json" }
     },
     {
+      "id": "affordable-deal-team",
+      "section": "reference",
+      "type": "Guide",
+      "title": "Who Does What in a Colorado Affordable Deal",
+      "url": "affordable-deal-team.html",
+      "summary": "The roles behind a Colorado affordable housing deal: investment bankers and the bond cap, tax credit syndicators, the lawyers who set the structure, and the community development work that wins local support, plus which banks get Community Reinvestment Act credit for investing where. Each role is quoted from the rule that creates it.",
+      "sources": ["26 U.S.C. 42, 103, 147", "MSRB", "CHFA QAP", "CRA regulations", "OCC", "GAO"],
+      "maintenance": "dated",
+      "published": "2026-10-18"
+    },
+    {
       "id": "help-for-homebuyers",
       "section": "reference",
       "type": "Consumer guide",
