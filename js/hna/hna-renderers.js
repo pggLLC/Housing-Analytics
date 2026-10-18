@@ -7461,9 +7461,11 @@
   function renderFastTrackCalculatorSection() {
     // Renders the Prop 123 fast-track check into #ftResult: does the
     // project qualify (at least half its homes affordable), and the
-    // 90-calendar-day decision deadline it then gets (C.R.S.
-    // § 29-32-105(2)(a)). The law sets no standard review time, so this
-    // shows no time-savings estimate.
+    // 90-calendar-day decision deadline it then gets where the local
+    // government has filed a commitment (C.R.S. § 29-32-105(2)(a)). The
+    // calculator is not tied to the selected geography, so it states the
+    // project test only, not whether this jurisdiction has filed. The law
+    // sets no standard review time, so this shows no time-savings estimate.
     const resultEl = document.getElementById('ftResult');
     if (!resultEl) return;
     const unitsEl      = document.getElementById('ftUnits');
@@ -7481,9 +7483,9 @@
     panel.style.cssText = 'margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:1rem;';
     const title = document.createElement('strong');
     title.textContent = r.eligible === true
-      ? 'Qualifies for fast-track review: final decision within ' + r.fastTrackDays + ' calendar days of a complete application'
+      ? 'Meets the fast-track project test. If the local government has filed a Prop 123 commitment, it must decide within ' + r.fastTrackDays + ' calendar days of a complete application'
       : (r.eligible === false
-        ? 'Does not qualify for fast-track review'
+        ? 'Does not meet the fast-track project test'
         : 'Enter the project to check');
     panel.appendChild(title);
     const list = document.createElement('ul');

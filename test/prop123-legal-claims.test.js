@@ -79,6 +79,11 @@ ok(U.calculateFastTrackTimeline(20, 9, 'place').eligible === false, 'under half 
 ok(U.calculateFastTrackTimeline(20, 10, 'cdp').eligible === true, 'a CDP project is not excluded (its county reviews it)');
 ok(U.calculateFastTrackTimeline(20, '', 'place').eligible === null && U.calculateFastTrackTimeline(20, null, 'place').eligible === null,
   'a blank affordable-homes count is missing, not 0: no "Does not qualify" for a project not entered');
+// The calculator does not know whether the jurisdiction has filed, so a
+// qualifying verdict must make the 90 days conditional on a commitment.
+const verdict = (read('js/hna/hna-renderers.js').match(/r\.eligible === true\s*\?\s*'([^\n]*)/) || [])[1] || '';
+ok(verdict.includes('r.fastTrackDays') && /commitment/i.test(verdict),
+  'a qualifying calculator verdict makes the decision window conditional on a filed commitment');
 ok(/String\(el\.value\)\.trim\(\) !== ''/.test(read('js/hna/hna-renderers.js')),
   'the calculator reads a cleared field as missing before calling calculateFastTrackTimeline');
 ok(U.checkFastTrackEligibility(1, 'place').threshold === null && U.checkFastTrackEligibility(1, 'place').eligible === true,
