@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-15",
+    "last_checked": "2026-10-18",
     "review_by": "2027-01-15",
     "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
@@ -5784,8 +5784,8 @@
       "funding_type": "insured_loan",
       "status": "open",
       "what_it_funds": "USDA guarantee (up to 90%) on private lender loans for construction, improvement and purchase of affordable rental housing in eligible rural areas.",
-      "award_size": "Guarantee up to 90% of the loan; borrowers may borrow up to 90% (for-profit) or 97% (nonprofit) of the lesser of total development cost or appraised value.",
-      "rate": "Negotiated between lender and borrower, fixed for the life of the guarantee; initial guarantee fee up to 1% of the guarantee amount plus an annual fee.",
+      "award_size": "Guarantee up to 90% of the loan; borrowers may borrow up to 90% (for-profit) or 97% (nonprofit) of the lesser of total development cost or appraised value. Under Option 3 (Continuous Guarantee) the maximum loan-to-cost is 80% of total development cost (raised from 70% in September 2026).",
+      "rate": "Negotiated between lender and borrower, fixed for the life of the guarantee. Since September 30, 2026 the standard guarantee fee is 65 basis points initial and 35 basis points annual, with lower fees for qualifying projects (for example 60 and 25 for new construction or substantial rehabilitation in Qualified Opportunity Zones).",
       "term": "Minimum 25 years, maximum 40 years.",
       "ami_restriction": "Tenant income at initial occupancy up to 115% of AMI; unit rents capped at 30% of 115% AMI, and project average rent at 30% of 100% AMI.",
       "affordability_period": null,
@@ -5806,6 +5806,14 @@
         {
           "label": "ecfr.gov/current/title-7/section-3565.202",
           "url": "https://www.ecfr.gov/current/title-7/section-3565.202"
+        },
+        {
+          "label": "www.govinfo.gov/content/pkg/FR-2026-09-30/html/2026-20022.htm",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-30/html/2026-20022.htm"
+        },
+        {
+          "label": "www.govinfo.gov/content/pkg/FR-2026-09-25/html/2026-19659.htm",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-25/html/2026-19659.htm"
         }
       ],
       "evidence": [
@@ -5868,13 +5876,24 @@
           "field": "key_considerations",
           "quote": "The Agency announced a revision to the reduced Initial and Annual Guarantee fees for the Section 538 Guaranteed Rural Rental Housing Program effective September 30, 2026.",
           "url": "https://www.rd.usda.gov/programs-services/multifamily-housing-programs/multifamily-housing-loan-guarantees"
+        },
+        {
+          "field": "rate",
+          "quote": "Applications that do not meet the eligibility criteria for any further reduced fee will receive the standard reduced fee of 65 basis points for the initial guarantee fee and 35 basis points for the annual guarantee fee.",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-30/html/2026-20022.htm"
+        },
+        {
+          "field": "rate",
+          "quote": "The Agency sets the fee structure for the Section 538 New Construction/Substantial Rehabilitation of Properties Located in Qualified Opportunity Zones at 60 basis points for the initial guarantee fee and 25 basis points for the annual guarantee fee.",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-30/html/2026-20022.htm"
+        },
+        {
+          "field": "award_size",
+          "quote": "Specifically, this action changes the maximum loan-to-cost percentage for loans guaranteed under Option Three (Continuous Guarantee) from 70 percent to 80 percent.",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-25/html/2026-19659.htm"
         }
       ],
       "unverified": [
-        {
-          "field": "rate",
-          "reason": "Current guarantee fee amounts (revised effective September 30, 2026) not extracted; 7 CFR 3565.53 allows up to 1% initial fee."
-        },
         {
           "field": "affordability_period",
           "reason": "Use-restriction period not extracted."
@@ -5884,7 +5903,7 @@
           "reason": "$6,500 per unit rehab minimum is from 7 CFR 3565.252 (https://www.ecfr.gov/current/title-7/section-3565.252), not quoted in evidence here."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-18",
       "fit": {
         "role": "capital",
         "execution": [

@@ -11,7 +11,8 @@
  * own browser storage, which is fine.
  *
  * The integration itself is deliberately untouched: #1611 says to await
- * Bridge's decision.
+ * Bridge's decision. What did change (2026-10-18): the weekly job no longer
+ * sends requests Bridge has refused. It runs only when someone turns it on.
  */
 
 const assert = require('node:assert/strict');
@@ -53,6 +54,25 @@ run('the integration itself is untouched while access is pending', () => {
   const d = JSON.parse(read('data/market/bridge_co_market_summary.json'));
   assert.equal(d.available, false, 'the stub must stay unavailable');
   assert.match(String(d._note), /#1611/, 'and point at the decision record');
+});
+
+run('the weekly Bridge requests run only when someone turns them on', () => {
+  // Bridge denied access; every request returned 401, the curls swallowed it
+  // and the job reported success with no data (#1611). Pin the agreement:
+  // the job's condition and the skip notice's condition are exact opposites,
+  // the dispatch switch defaults off, and the Zillow job is not gated.
+  const yaml = require('js-yaml');
+  const wf = yaml.load(read('.github/workflows/zillow-data-sync.yml'));
+  const gate = String(wf.jobs['bridge-public-data'].if || '');
+  assert.match(gate, /vars\.BRIDGE_ENABLED == 'true'/, 'the repository variable turns it on');
+  assert.match(gate, /inputs\.bridge_enabled/, 'and so does the dispatch switch');
+  const input = wf.on.workflow_dispatch.inputs.bridge_enabled;
+  assert.equal(input.default, false, 'a plain dispatch must not send Bridge requests');
+  const skip = String(wf.jobs['bridge-skipped'].if || '');
+  assert.equal(skip, '${{ !(' + gate + ') }}', 'the skip notice runs exactly when the job does not');
+  const notice = wf.jobs['bridge-skipped'].steps.map((s) => s.run || '').join('\n');
+  assert.match(notice, /::notice::.*#1611/, 'and says why, naming the decision record');
+  assert.equal(wf.jobs['zillow-research'].if, undefined, 'Zillow Research is a separate public source');
 });
 
 if (failures) { console.error('bridge-token-guidance: FAIL'); process.exitCode = 1; }

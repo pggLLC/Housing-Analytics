@@ -401,56 +401,72 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
     return notices, failures
 
 
+def _federal_register_search(cfg: dict, query: str, agency: str, term: str, types: list, title_re: re.Pattern,
+                             fetch: Fetcher, capped: list | None) -> tuple[list, dict | None]:
+    """(notices, failure or None) for one agency search. Follows next_page_url up to
+    max_pages; stopping early is recorded in `capped`."""
+    max_pages = int(cfg.get('max_pages', 5))
+    q = [('per_page', str(cfg.get('per_page', 20))), ('order', 'newest')]
+    q += [('conditions[type][]', t) for t in types]
+    q += [('conditions[agencies][]', agency), ('conditions[term]', term)]
+    q += [('fields[]', f) for f in ('document_number', 'title', 'publication_date', 'html_url', 'agencies')]
+    url = cfg['endpoint'] + '?' + urllib.parse.urlencode(q)
+    results, pages_read, err, total = [], 0, None, None
+    while url and pages_read < max_pages:
+        try:
+            _s, _h, body = fetch(url)
+            data = json.loads(body)
+        except Exception as exc:
+            err = f'{exc.__class__.__name__}: {exc}'
+            break
+        # A real empty search omits `results` and says "count": 0 (checked live
+        # 2026-10-15); anything else without a results list is not a completed search.
+        if not isinstance(data, dict) or not isinstance(data.get('count'), int) or data['count'] < 0 \
+                or not (isinstance(data.get('results'), list) or ('results' not in data and data['count'] == 0)):
+            err = f"Federal Register incomplete response: {str(data)[:200]!r}"
+            break
+        results += data.get('results') or []
+        total = data['count']
+        pages_read += 1
+        nxt = data.get('next_page_url')
+        # Only follow the API's own next page on the same host.
+        url = nxt if isinstance(nxt, str) and urllib.parse.urlsplit(nxt).netloc == urllib.parse.urlsplit(cfg['endpoint']).netloc else None
+    if not err and not url and len(results) < total:
+        # The result set stopped short with no next page to follow and our cap not reached.
+        err = f'Federal Register returned {len(results)} of {total} results with no next page'
+    if err:
+        # A page that fails part-way leaves this search incomplete; keep nothing from it.
+        return [], {'source': 'federalregister.gov', 'query': query, 'error': err}
+    if url and capped is not None:
+        capped.append({'source': 'federalregister.gov', 'query': query, 'read': len(results), 'total': total})
+    return [{
+        'key': f"federalregister:{r.get('document_number')}", 'source': 'federalregister.gov',
+        'query': query, 'number': r.get('document_number'), 'title': (r.get('title') or '')[:300],
+        'agency': ', '.join(a.get('name') or '' for a in r.get('agencies') or []),
+        'published': r.get('publication_date'), 'url': r.get('html_url'),
+    } for r in results if title_re.search(r.get('title') or '')], None
+
+
+def federal_register_queries(cfg: dict) -> list[str]:
+    """Every query id the Federal Register step runs: one per funding agency, one per program search."""
+    return list(cfg.get('agencies') or []) + [s['id'] for s in cfg.get('program_searches') or []]
+
+
 def federal_register(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[list, list]:
-    """(notices, failures): funding notices from the listed agencies, newest first.
-    Follows next_page_url up to max_pages per agency; stopping early is recorded in `capped`."""
+    """(notices, failures): funding notices from the listed agencies, newest first, plus
+    each program search (a program's own notices and rules, for an agency whose pages
+    cannot be read; titles there need not name a funding round)."""
     notices, failures = [], []
     title_re = re.compile(cfg.get('title_pattern') or '.', re.I)
-    max_pages = int(cfg.get('max_pages', 5))
     for agency in cfg.get('agencies', []):
-        q = [('per_page', str(cfg.get('per_page', 20))), ('order', 'newest'),
-             ('conditions[type][]', 'NOTICE'), ('conditions[agencies][]', agency),
-             ('conditions[term]', cfg.get('term', ''))]
-        q += [('fields[]', f) for f in ('document_number', 'title', 'publication_date', 'html_url', 'agencies')]
-        url = cfg['endpoint'] + '?' + urllib.parse.urlencode(q)
-        results, pages_read, err, total = [], 0, None, None
-        while url and pages_read < max_pages:
-            try:
-                _s, _h, body = fetch(url)
-                data = json.loads(body)
-            except Exception as exc:
-                err = f'{exc.__class__.__name__}: {exc}'
-                break
-            # A real empty search omits `results` and says "count": 0 (checked live
-            # 2026-10-15); anything else without a results list is not a completed search.
-            if not isinstance(data, dict) or not isinstance(data.get('count'), int) or data['count'] < 0 \
-                    or not (isinstance(data.get('results'), list) or ('results' not in data and data['count'] == 0)):
-                err = f"Federal Register incomplete response: {str(data)[:200]!r}"
-                break
-            results += data.get('results') or []
-            total = data['count']
-            pages_read += 1
-            nxt = data.get('next_page_url')
-            # Only follow the API's own next page on the same host.
-            url = nxt if isinstance(nxt, str) and urllib.parse.urlsplit(nxt).netloc == urllib.parse.urlsplit(cfg['endpoint']).netloc else None
-        if not err and not url and len(results) < total:
-            # The result set stopped short with no next page to follow and our cap not reached.
-            err = f'Federal Register returned {len(results)} of {total} results with no next page'
-        if err:
-            # A page that fails part-way leaves this agency incomplete; keep nothing from it.
-            failures.append({'source': 'federalregister.gov', 'query': agency, 'error': err})
-            continue
-        if url and capped is not None:
-            capped.append({'source': 'federalregister.gov', 'query': agency, 'read': len(results), 'total': total})
-        for r in results:
-            if not title_re.search(r.get('title') or ''):
-                continue
-            notices.append({
-                'key': f"federalregister:{r.get('document_number')}", 'source': 'federalregister.gov',
-                'query': agency, 'number': r.get('document_number'), 'title': (r.get('title') or '')[:300],
-                'agency': ', '.join(a.get('name') or '' for a in r.get('agencies') or []),
-                'published': r.get('publication_date'), 'url': r.get('html_url'),
-            })
+        n, f = _federal_register_search(cfg, agency, agency, cfg.get('term', ''), ['NOTICE'], title_re, fetch, capped)
+        notices += n
+        failures += [f] if f else []
+    for ps in cfg.get('program_searches') or []:
+        n, f = _federal_register_search(cfg, ps['id'], ps['agency'], ps.get('term', ''), ps.get('types') or ['NOTICE'],
+                                        re.compile(ps.get('title_pattern') or '.', re.I), fetch, capped)
+        notices += n
+        failures += [f] if f else []
     return notices, failures
 
 
@@ -487,12 +503,12 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
     fed = sources.get('federal') or {}
     notices, fed_failures, fed_queries, answered_queries, fed_capped = [], [], 0, set(), []
     for fn, key, per, source in ((grants_gov, 'grants_gov', 'keywords', 'grants.gov'),
-                                 (federal_register, 'federal_register', 'agencies', 'federalregister.gov')):
+                                 (federal_register, 'federal_register', None, 'federalregister.gov')):
         if key in fed:
             n, f = fn(fed[key], fetch, fed_capped)
             notices += n
             fed_failures += f
-            queries = fed[key].get(per) or []
+            queries = federal_register_queries(fed[key]) if key == 'federal_register' else (fed[key].get(per) or [])
             fed_queries += len(queries)
             failed_q = {x['query'] for x in f}
             answered_queries |= {f'{source}|{q}' for q in queries if q not in failed_q}
@@ -551,6 +567,21 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                 merged.append(p)
     notices = sorted(merged, key=lambda n: n['key'])
 
+    # A page on a host that blocks every automated read (USDA RD answers 403 to all of them)
+    # can be covered by federal searches that carry the same notices. Only the pages named
+    # are covered, so a new page on that host for a program the searches do not carry is
+    # still check-by-hand (Codex, 2026-10-18). While every covering search answers, a named
+    # page is not "check by hand"; it says what covers it. If a search fails, or the page
+    # comes back, the usual rules apply.
+    for cov in sources.get('covered_elsewhere') or []:
+        by = [cov['by']] if isinstance(cov.get('by'), str) else list(cov.get('by') or [])
+        if not by or not set(by) <= answered_queries:
+            continue
+        named = set(cov.get('pages') or [])
+        for p in pages:
+            if p.get('unverifiable') and p['id'] in named:
+                p['unverifiable'] = False
+                p['covered_by'] = by
     unverifiable = [{'id': p['id'], 'url': p['url'], 'error': p.get('error'),
                      'failing_since': p.get('first_failed_at'),
                      'programs': [q['name'] for q in p['programs']]}
