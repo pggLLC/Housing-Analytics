@@ -569,6 +569,17 @@
           { k: 'Shop',     v: p.shop },
         ];
       } },
+    { key: 'health-centers', name: 'Community health centers (HRSA)', group: 'Amenities',
+      url: 'data/market/health_centers_co.geojson', color: '#db2777', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Site',          v: p.name },
+          { k: 'Health center', v: p.health_center },
+          { k: 'Address',       v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Phone',         v: p.phone },
+          { k: 'Hours a week',  v: p.hours_per_week },
+        ];
+      } },
     { key: 'childcare', name: 'Childcare', group: 'Amenities',
       url: 'data/market/childcare_co.geojson', color: '#fbbf24', kind: 'point',
       popupRows: function (p) {
