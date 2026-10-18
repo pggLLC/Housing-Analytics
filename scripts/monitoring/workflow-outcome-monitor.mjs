@@ -200,12 +200,14 @@ export function cronIntervalHours(expr) {
 
   // Quarterly and other month-stepped schedules: `1 */3 *` → every 3 months.
   const monthStep = step(month);
-  if (monthStep) return monthStep * 30 * 24;
+  if (monthStep) return monthStep * 31 * 24;
   if (month !== '*') return 365 * 24;            // a fixed month = annual
 
   if (dom !== '*') {                             // day-of-month set: monthly, or more often for a list
-    const gap = longestGap(cronValues(dom, 1, 31), 30);
-    return gap == null ? 30 * 24 : Math.min(gap, 30) * 24;
+    // A 31-day cycle, the longest month: `1,16` waits 16 days from the 16th of
+    // a 31-day month to the 1st, and a monthly job can wait 31 days.
+    const gap = longestGap(cronValues(dom, 1, 31), 31);
+    return gap == null ? 31 * 24 : gap * 24;
   }
   if (dow !== '*') {                             // day-of-week set: weekly, or more often for a list
     const gap = longestGap(cronValues(dow.replace(/\b7\b/g, '0'), 0, 6), 7);
@@ -248,6 +250,13 @@ export const STALENESS_TOLERANCE = 2.0;
 export const STALENESS_FLOOR_HOURS = 6;
 
 /**
+ * Added to every limit: a scheduled run starts hours late, so "two intervals
+ * have passed" is not yet "two runs were missed". Without it a monthly job that
+ * last succeeded on the 24th is flagged on the morning the second run is due.
+ */
+export const STALENESS_GRACE_HOURS = 12;
+
+/**
  * `null` when the workflow is within its expected cadence, otherwise a
  * description of how far past due it is.
  */
@@ -255,7 +264,9 @@ export function assessStaleness({ cron, hoursSinceLastCompletedRun, expectedHour
   const expected = expectedHours != null ? expectedHours : cronIntervalHours(cron);
   if (expected == null) return null;                       // not a cron we parse
   if (hoursSinceLastCompletedRun == null) return null;     // unknown, not asserted stale
-  const limit = Math.max(expected * STALENESS_TOLERANCE, STALENESS_FLOOR_HOURS);
+  // The grace covers GitHub starting a scheduled run late (median ~3 h here,
+  // AGENTS.md), so the second missed run must actually have had time to run.
+  const limit = Math.max(expected * STALENESS_TOLERANCE, STALENESS_FLOOR_HOURS) + STALENESS_GRACE_HOURS;
   if (hoursSinceLastCompletedRun <= limit) return null;
   return {
     expectedIntervalHours: expected,

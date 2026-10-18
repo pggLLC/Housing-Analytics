@@ -395,12 +395,13 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       ['every 6h',  '17 */6 * * *',  6],
       ['daily',     '23 6 * * *',   24],
       ['weekly',    '23 7 * * 6',  168],
-      ['monthly',   '47 4 1 * *',  720],
-      ['quarterly', '41 7 1 */3 *', 2160],
+      ['monthly',   '47 4 1 * *',  744],
+      ['quarterly', '41 7 1 */3 *', 2232],
       ['annual',    '29 7 15 10 *', 8760],
       // Lists are judged by their longest gap (Codex on #2316): fetch-bps-monthly
-      // runs on the 1st and 16th, so it is a ~15-day cadence, not a monthly one.
-      ['twice a month', '22 6 1,16 * *', 360],
+      // runs on the 1st and 16th, so its longest wait is 16 days (the 16th of a
+      // 31-day month to the 1st), not a month.
+      ['twice a month', '22 6 1,16 * *', 384],
       ['weekdays',  '23 6 * * 1-5',  72],
       ['twice daily', '23 6,18 * * *', 12],
     ];
@@ -441,6 +442,28 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
          + 'every infrequent job in the repo, which is how a monitor gets muted');
     } else {
       ok('quarterly workflow silent 75 days stays quiet (within its cadence)');
+    }
+
+    // A monthly job that last succeeded on 24 July has missed only 24 August
+    // by the morning of 24 September, when the next run is due but not yet
+    // started (Codex on #2316). It must not be called stale then; a day later
+    // than the grace allows, it must.
+    const julyToSept = (Date.parse('2026-09-24T09:31:00Z') - Date.parse('2026-07-24T14:00:00Z')) / 3600000;
+    if (m.assessStaleness({ cron: '13 6 24 * *', hoursSinceLastCompletedRun: julyToSept })) {
+      fail('a monthly job is called stale on the morning its second run is due, before that run could start');
+    } else if (!m.assessStaleness({ cron: '13 6 24 * *', hoursSinceLastCompletedRun: julyToSept + 48 })) {
+      fail('a monthly job two days past its second missed run is still not called stale');
+    } else {
+      ok('monthly job: quiet the morning its second run is due, stale once that run has had time to land');
+    }
+
+    // GitHub starts scheduled runs hours late. A daily job whose last success
+    // finished at 09:00 two days ago has missed one run when the 09:31 sweep
+    // looks, because today's late-starting run has not landed yet.
+    if (m.assessStaleness({ cron: '23 6 * * *', hoursSinceLastCompletedRun: 48.5 })) {
+      fail(`a daily job is called stale after one missed run plus a late start — STALENESS_GRACE_HOURS (${m.STALENESS_GRACE_HOURS}) does not cover scheduler delay`);
+    } else {
+      ok('daily job: one missed run plus a late-starting one stays quiet');
     }
 
     // Unknown last-run time must not be asserted either way.
