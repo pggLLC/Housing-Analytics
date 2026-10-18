@@ -287,8 +287,10 @@
           '<thead><tr><th>Source</th><th>What it measures</th><th>Value</th></tr></thead>' +
           '<tbody>' +
           rows.map(function (r) {
+            // The computed average is a result row: class="total" keeps it
+            // last when the table is sorted.
             var rowStyle = r.highlight
-              ? ' style="background:var(--bg2);border-top:2px solid var(--accent)"'
+              ? ' class="total" style="background:var(--bg2);border-top:2px solid var(--accent)"'
               : '';
             return '<tr' + rowStyle + '>' +
               '<td><span class="rt-source"' + (r.highlight ? ' style="font-weight:700"' : '') + '>' + _esc(r.source) + '</span>' +
