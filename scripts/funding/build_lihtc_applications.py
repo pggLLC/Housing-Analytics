@@ -320,14 +320,26 @@ def city_spans(places: dict[str, str]) -> dict[str, set]:
     mailing city whose addresses cross a line the city itself does not
     (Englewood; Denver, whose mailing addresses reach into Adams, as at Welby)."""
     out = feed_city_spans()
+    for city, fips in cross_county_cities().items():
+        out[city] = out.get(city, set()) | fips
+    return out
+
+
+def cross_county_cities() -> dict[str, set]:
+    """Normalized place name → its counties, for each place the Census
+    cross-county list puts in more than one. Read by the list's own names, so
+    a label two places share (Coal Creek CDP in Boulder and Jefferson, Coal
+    Creek town in Fremont) is kept: an address there is geocoded either way."""
     try:
         cross = awards.read_json(CROSS_COUNTY)['places']
     except (OSError, KeyError, ValueError):
-        cross = {}
-    for city, geoid in places.items():
-        entry = cross.get(geoid)
-        if entry and len(entry.get('all_counties') or []) > 1:
-            out[city] = out.get(city, set()) | {c['fips'] for c in entry['all_counties']}
+        return {}
+    out: dict[str, set] = {}
+    for entry in cross.values():
+        counties = {c['fips'] for c in entry.get('all_counties') or []}
+        if len(counties) > 1 and entry.get('name'):
+            city = awards.norm(re.sub(r'\s*\([^)]*\)\s*$', '', entry['name']))
+            out[city] = out.get(city, set()) | counties
     return out
 
 
@@ -337,12 +349,7 @@ def city_fallbacks(places: dict[str, str]) -> dict[str, str]:
     and whose properties in the feed are nearly all in one county (Denver, 238
     of 251). A new street in Montbello is in Denver; filing it nowhere would
     hide it from the Denver brief. A city the line runs through has none."""
-    try:
-        cross = awards.read_json(CROSS_COUNTY)['places']
-    except (OSError, KeyError, ValueError):
-        cross = {}
-    split = {city for city, geoid in places.items()
-             if len((cross.get(geoid) or {}).get('all_counties') or []) > 1}
+    split = set(cross_county_cities())
     out = {}
     for city, t in feed_city_tally().items():
         total = sum(t.values())
@@ -465,7 +472,9 @@ def application_counties(rec: dict, cities: list[str], county_fips: str | None, 
         if awards.norm(c) in ctx['city_spans']:
             # the place table's one county is a guess here: each site's
             # street address in this city places it, or the site adds none
-            if len(cities) > 1:
+            # a scattered site whose sites share one city still has one
+            # address per site, each of which may be either side of the line
+            if rec.get('sites'):
                 for site in rec.get('sites') or []:
                     if site.get('address') and awards.norm(site.get('city') or '') == awards.norm(c):
                         fips = (ctx['geocode'](site['address'], c)

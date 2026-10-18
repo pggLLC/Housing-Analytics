@@ -514,3 +514,32 @@ def test_a_refused_or_multi_address_request_is_not_an_outage(monkeypatch):
         raise HTTPError(url, 400, 'Bad Request', {}, None)
     monkeypatch.setattr(apps_mod.awards, 'http_get', refused)
     assert apps_mod.geocode_county('1738 West 33rd Avenue', 'Denver') is None
+
+
+def test_every_cross_county_place_spans_even_when_its_label_is_shared():
+    """All 26 places on the Census cross-county list span counties, Coal Creek
+    CDP included, though a Fremont County town shares its name."""
+    cross = json.loads((ROOT / 'data' / 'hna' / 'cross-county-places.json').read_text())['places']
+    multi = [e for e in cross.values() if len(e.get('all_counties') or []) > 1]
+    spans = apps_mod.city_spans(apps_mod.load_places())
+    assert len(multi) >= 20
+    for e in multi:
+        city = apps_mod.awards.norm(e['name'].rsplit(' (', 1)[0])
+        assert {c['fips'] for c in e['all_counties']} <= spans.get(city, set()), e['name']
+
+
+def test_scattered_sites_in_one_county_spanning_city_are_each_placed(ctx):
+    """Two Westminster sites, one each side of the county line: the
+    application lists both counties and has no single one."""
+    sites_at = {'7840 W 87th Drive': '08059', '9000 Federal Blvd': '08001'}
+    def geocode(address, city):
+        found = {sites_at.get(p.strip()) for p in address.split(';')}
+        return found.pop() if len(found) == 1 else None
+    c = dict(ctx, geocode=geocode)
+    rec = {'name': 'Two Sides (scattered site)', 'city': 'Westminster',
+           'address': '7840 W 87th Drive; 9000 Federal Blvd',
+           'sites': [{'name': 'A', 'address': '7840 W 87th Drive', 'city': 'Westminster'},
+                     {'name': 'B', 'address': '9000 Federal Blvd', 'city': 'Westminster'}]}
+    got = apps_mod.place_county(rec, ['Westminster'], c)
+    assert got['county_fips'] is None
+    assert apps_mod.application_counties(rec, ['Westminster'], None, c) == ['08001', '08059']
