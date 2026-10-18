@@ -196,6 +196,10 @@
       deferredFee: { amount: fee, totals: window3(feeRows), paybackYear: paybackYear,
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
+          // Payback after the rows shown depends on later loan payments; when
+          // those are unknown, say so rather than that cash never repays it.
+          : fee > 0 && paybackYear === null && paidOffYear === null && r.exit && r.exit.loanUnavailableReason
+            ? 'The payback year is unavailable: ' + (unavailable['exit.dfYr'] || r.exit.loanUnavailableReason)
           : fee > 0 && paybackYear === null && (paidOffYear !== null || hold < YEARS) ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; any remaining fee is paid from the sale proceeds if they cover it.'
           : fee > 0 && paybackYear === null && hold > YEARS ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale.'
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },

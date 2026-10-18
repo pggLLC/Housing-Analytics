@@ -202,6 +202,15 @@ test('a hold past year 15 keeps the exit panel\'s payback year', () => {
   assert(f.deferredFee.unpaidAfter > 0, 'still owed at the end of DOH\'s 15 years');
 });
 
+test('when the hold runs past an unpaid maturity, the payback year says why it is unknown', () => {
+  const r = computeDeal(withTranches([], { 'dc-exit-hold': '30', 'dc-senior-maturity': '15', 'dc-asset-mgmt-fee': '140000' }));
+  assert(r.exit.loanUnavailableReason, 'later loan payments need a refinancing assumption');
+  const f = ds.fifteenYear(r);
+  assert.equal(f.deferredFee.paybackYear, null);
+  assert.equal(f.deferredFee.reason, 'The payback year is unavailable: ' + r.unavailable['exit.dfYr']);
+  assert(f.rows.every(x => x.noi !== null), 'the 15 known operating years still show');
+});
+
 test('a fee already repaid stays repaid when a later year is unknown', () => {
   const r = computeDeal(withTranches([], { 'dc-senior-maturity': '10' }));
   const f = ds.fifteenYear(r);
