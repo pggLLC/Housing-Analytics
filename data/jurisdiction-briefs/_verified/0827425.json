@@ -161,10 +161,10 @@
       "section_id": "land-bank-program",
       "paragraph_index": 0,
       "source_id": "s21",
-      "source_url": "https://www.fcgov.com/socialsustainability/landbank",
+      "source_url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing#section-6",
       "verdict": "supported",
       "supporting_quote": "The Land Bank program is Fort Collins' only long-term affordable housing tool. ... To date, the City bought seven Land Bank sites and sold two that have been developed into affordable housing.",
-      "notes": "Direct browser fetch after curl returned 403; current page redirects to city Affordable Housing page."
+      "notes": "Re-fetched 2026-10-18 with a headless browser: the old fcgov.com/socialsustainability address now redirects to this page, and the quote appears verbatim under its \"Land Bank Program\" tab."
     },
     {
       "section_id": "land-bank-program",
@@ -215,10 +215,10 @@
       "section_id": "fee-credits-and-incentives",
       "paragraph_index": 0,
       "source_id": "s28",
-      "source_url": "https://www.fcgov.com/socialsustainability/developmentincentives",
+      "source_url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing#section-7",
       "verdict": "supported",
       "supporting_quote": "Affordable housing projects may qualify for fee credits if providing housing for formerly homeless individuals, housing for people with disabilities or people earning 30% of the AMI or less.",
-      "notes": "Direct browser fetch after curl returned 403; original dollar-credit claim dropped."
+      "notes": "Re-fetched 2026-10-18 with a headless browser: the old fcgov.com/socialsustainability address now redirects to this page, and the quote appears verbatim under its \"Development Incentives and Resources\" tab. Original dollar-credit claim dropped."
     },
     {
       "section_id": "fee-credits-and-incentives",
@@ -233,10 +233,10 @@
       "section_id": "fee-credits-and-incentives",
       "paragraph_index": 1,
       "source_id": "s28",
-      "source_url": "https://www.fcgov.com/socialsustainability/developmentincentives",
+      "source_url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing#section-7",
       "verdict": "supported",
       "supporting_quote": "Impact fees are typically paid when building permits are issued. This incentive allows the developer to delay payment of those impact fees until a certificate of occupancy is issued, or Dec. 1 of that year, whichever happens first.",
-      "notes": "Direct browser fetch after curl returned 403."
+      "notes": "Re-fetched 2026-10-18 with a headless browser: the old fcgov.com/socialsustainability address now redirects to this page, and the quote appears verbatim under its \"Development Incentives and Resources\" tab."
     },
     {
       "section_id": "occupancy-reform-2024",
