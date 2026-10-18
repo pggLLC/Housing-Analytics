@@ -177,7 +177,11 @@
       .catch(function () { return null; })
       .then(function (remote) {
         if (local && unsent) return { state: cleanState(local), synced: false, unsent: true };
-        return { state: cleanState(remote || local), synced: !!remote, unsent: false };
+        var state = cleanState(remote || local);
+        // Keep the site copy in the browser too, so a later failed load falls
+        // back to the newest order, not an older one.
+        if (remote) { try { storage.setItem(LOCAL_KEY, JSON.stringify(state)); } catch (e) { /* private window */ } }
+        return { state: state, synced: !!remote, unsent: false };
       });
   }
   function keepLocal(storage, state) {
@@ -274,8 +278,9 @@
       el.innerHTML =
         '<div class="rd-tabs" role="tablist" aria-label="Ready to build lists">' +
           ['communities', 'sites'].map(function (t) {
-            return '<button type="button" role="tab" data-rd-tab="' + t + '" aria-selected="' + (ui.tab === t) + '">' + (t === 'communities' ? 'Communities' : 'Sites') + ' (' + counts[t] + ')</button>';
+            return '<button type="button" role="tab" id="rdTab-' + t + '" aria-controls="rdPanel" data-rd-tab="' + t + '" aria-selected="' + (ui.tab === t) + '">' + (t === 'communities' ? 'Communities' : 'Sites') + ' (' + counts[t] + ')</button>';
           }).join('') + '</div>' +
+        '<div role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' + ui.tab + '">' +
         '<div class="rd-tools">' +
           '<button type="button" data-rd-mode="suggested" aria-pressed="' + (ui.mode === 'suggested') + '">Suggested order</button>' +
           '<button type="button" data-rd-mode="mine" aria-pressed="' + (ui.mode === 'mine') + '">My order</button>' +
@@ -300,7 +305,7 @@
             '</div></li>';
         }).join('') + '</ol>' : '<p class="ws-status">' + (ui.selectedOnly ? 'Nothing selected yet. Tick the box beside a row to select it.' : 'Nothing in this list yet.') + '</p>') +
         '<p class="ws-status" style="margin-top:.6rem">Sites come from the state\'s Prop 123 land banking awards and CHFA tax credit applications since 2023, for the places in your pipeline or with a dossier; land banked only for ownership is left out. Rebuilt at each deploy, last ' + esc(data.generated || 'unknown') +
-          '. A reading of ripe, ripening or not yet comes only from a site dossier; every other site shows as on file until one is written.</p>';
+          '. A reading of ripe, ripening or not yet comes only from a site dossier; every other site shows as on file until one is written.</p></div>';
     }
 
     function shownKeys(all) { return arrange(lists[ui.tab], state[ui.tab], ui.mode, all ? false : ui.selectedOnly).map(function (it) { return it.key; }); }
@@ -312,16 +317,23 @@
       if (b) b.focus();
     }
 
+    // A redraw replaces every control, so put focus back on the one just used.
+    function refocus(attr, val) {
+      var sel = attr === 'id' ? '#' + val : '[' + attr + '="' + String(val).replace(/"/g, '') + '"]';
+      var b = el.querySelector(sel);
+      if (b) b.focus();
+    }
     el.addEventListener('click', function (e) {
       var t = e.target.closest('button, input');
       if (!t || !el.contains(t)) return;
-      if (t.hasAttribute('data-rd-tab')) { ui.tab = t.getAttribute('data-rd-tab'); draw(); }
-      else if (t.hasAttribute('data-rd-mode')) { ui.mode = t.getAttribute('data-rd-mode'); draw(); }
+      var a;
+      if (t.hasAttribute('data-rd-tab')) { a = t.getAttribute('data-rd-tab'); ui.tab = a; draw(); refocus('data-rd-tab', a); }
+      else if (t.hasAttribute('data-rd-mode')) { a = t.getAttribute('data-rd-mode'); ui.mode = a; draw(); refocus('data-rd-mode', a); }
       else if (t.hasAttribute('data-rd-up')) moveKey(t.getAttribute('data-rd-up'), -1);
       else if (t.hasAttribute('data-rd-down')) moveKey(t.getAttribute('data-rd-down'), 1);
-      else if (t.hasAttribute('data-rd-pin')) { var k = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, k); save(); draw(); }
-      else if (t.hasAttribute('data-rd-select')) { state[ui.tab].selected = toggle(state[ui.tab].selected, t.getAttribute('data-rd-select')); save(); draw(); }
-      else if (t.id === 'rdOnly') { ui.selectedOnly = t.checked; draw(); }
+      else if (t.hasAttribute('data-rd-pin')) { a = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, a); save(); draw(); refocus('data-rd-pin', a); }
+      else if (t.hasAttribute('data-rd-select')) { a = t.getAttribute('data-rd-select'); state[ui.tab].selected = toggle(state[ui.tab].selected, a); save(); draw(); refocus('data-rd-select', a); }
+      else if (t.id === 'rdOnly') { ui.selectedOnly = t.checked; draw(); refocus('id', 'rdOnly'); }
     });
     // Drag to reorder (mouse); the arrow buttons do the same on a phone or keyboard.
     el.addEventListener('dragstart', function (e) {
