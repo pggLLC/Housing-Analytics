@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T03:07:48.213Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T04:46:15.096Z. Do not edit by hand.
 
 ---
 
@@ -2370,7 +2370,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/workflow-next-action-prerequisites.test.js` | 7.2 KB |
-| `test/workflow-outcome-monitor.test.js` | 47.9 KB |
+| `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-rail-truthful.test.js` | 3.3 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
@@ -2541,7 +2541,7 @@
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 11.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
-| `.github/workflows/workflow-outcome-monitor.yml` | 6.8 KB |
+| `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 19.7 KB |
 
 ---
