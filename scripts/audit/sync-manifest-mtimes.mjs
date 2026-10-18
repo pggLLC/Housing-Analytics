@@ -77,8 +77,10 @@ for (const s of sources) {
   const mtimeDate = mtimeIso.slice(0, 10);
   // Two-way: a stamp that is too NEW is the defect, so correct in either
   // direction rather than only ratcheting forward.
-  if (mtimeDate !== wasDate) {
-    updates.push({ file_path: s.file_path, action: mtimeDate > wasDate ? "bump" : "correct", was, mtime: mtimeIso });
+  // A file's own timestamp is exact, so compare it whole; a date-only stamp or
+  // a commit date only by day.
+  if (own && own.length > 10 ? mtimeIso !== was : mtimeDate !== wasDate) {
+    updates.push({ file_path: s.file_path, action: mtimeIso > (was || "") ? "bump" : "correct", was, mtime: mtimeIso });
     s.last_update = mtimeIso;
   }
 }

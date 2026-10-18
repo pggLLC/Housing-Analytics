@@ -146,6 +146,14 @@ run('both freshness generators prefer the file\'s own stamp over its commit', ()
   }
 });
 
+// Two stamps on the same day but different times are different stamps: the
+// manifest sync must not keep the commit time because the day matches.
+run('the manifest sync compares a file\'s own timestamp whole, not by day', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/audit/sync-manifest-mtimes.mjs'), 'utf8');
+  assert.ok(/own && own\.length > 10 \? mtimeIso !== was : mtimeDate !== wasDate/.test(src),
+    'sync-manifest-mtimes compares an embedded timestamp only by its date');
+});
+
 fs.rmSync(repo, { recursive: true, force: true });
 
 if (failures) { console.error('content-date-freshness: FAIL'); process.exitCode = 1; }
