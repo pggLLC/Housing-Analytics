@@ -2370,7 +2370,7 @@
           </div>
           <div id="dc-add-credit" role="group" aria-labelledby="dc-add-h" style="margin-top:var(--sp3);border-top:1px solid var(--border);padding-top:var(--sp2);">
             <p id="dc-add-h" style="margin:0;font-size:var(--small);font-weight:600;">Added credit: Transit Zone or another credit</p>
-            <p style="font-size:var(--tiny);color:var(--muted);margin:.25rem 0 0;line-height:1.45;">A credit can add to the others or replace part of one. Replacing a credit brings no new cash, and an allocator may cut another award when a source is added, so the table shows the net new equity, not just the gross. It is shown beside the sources above and does not change them.</p>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:.25rem 0 0;line-height:1.45;">A credit can add to the others or replace part of one. Replacing a credit brings no new cash, and an allocator may cut another award when a source is added, so the table shows the net new equity, not just the gross. Once its figures are entered and its eligibility is shown, it is counted in the sources and uses.</p>
             <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">Added credit
               <select id="dc-add-kind" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
                 <option value="">None</option>
@@ -3277,6 +3277,14 @@
               <td style="padding:0.3rem 0.25rem;">State credit equity</td>
               <td id="dc-su-state" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-state-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr id="dc-su-added-row" hidden>
+              <td id="dc-su-added-label" style="padding:0.3rem 0.25rem;">Added credit equity</td>
+              <td id="dc-su-added" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-added-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr id="dc-su-credit-note-row" hidden>
+              <td id="dc-su-credit-note" colspan="3" style="padding:0 0.25rem 0.3rem;font-size:var(--tiny);color:var(--muted);"></td>
             </tr>
             <tr>
               <td style="padding:0.3rem 0.25rem;">Supportable First Mortgage</td>
@@ -4410,6 +4418,7 @@
       + row('four', '4% LIHTC proceeds', tc.four, { indent: true })
       + row('historic', 'Federal historic credit', tc.historic, { indent: true })
       + (tc.state === 0 ? '' : row('state', 'Colorado state credit (not a DOH row)', tc.state, { indent: true }))
+      + (!tc.added ? '' : row('added', (tc.addedLabel || 'Added credit') + ' (not a DOH row)', tc.added, { indent: true }))
       + row('government', 'Government grants and soft debt', t.government)
       + row('other_grants', 'Other grants (non-governmental)', t.otherGrants)
       + row('owner', 'Owner equity', t.ownerEquity)
@@ -4489,7 +4498,7 @@
       : 'Utilities in rent: not set. Set who pays which utilities in Market Analysis → Subject project, then budget the owner-paid ones on the Utilities line.');
   }
 
-  /** #2161: the added credit's gross and net new equity, beside the stack. */
+  /** #2161: the added credit's gross and net new equity, and the gap with it counted in the sources. */
   function renderAddedCredit(result, fmt) {
     var ac = result.costBasis && result.costBasis.addedCredit;
     var kind = document.getElementById('dc-add-kind');
@@ -4512,8 +4521,8 @@
       ['Net new equity before fees', amt(ac.netBeforeFees), null],
       ['Less new investor fees', ac.net == null ? 'Not available' : ac.fees ? '-' + fmt(ac.fees) : fmt(0), null],
       ['Net new equity', amt(ac.net), ac.net != null && ac.net < 0 ? 'Negative: this credit brings less than it displaces.' : null],
-      ['Funding gap before deferred fee, as entered', amt(ac.gapBefore), null],
-      ['Funding gap before deferred fee, with this credit', amt(ac.gapAfter), null],
+      ['Funding gap before deferred fee, without this credit', amt(ac.gapBefore), null],
+      ['Funding gap before deferred fee, with this credit', amt(ac.gapAfter), ac.gapAfter == null ? 'Not counted in the sources and uses until every figure above is available.' : 'As in the sources and uses.'],
       ['Possible cut to another award', ac.awardReduction ? ac.awardReduction.text : 'rule not sourced', ac.awardReduction && ac.awardReduction.citation]
     ];
     var body = document.getElementById('dc-add-rows');
@@ -5297,13 +5306,16 @@
       impactNoteEl.textContent = parts.length ? parts.join(' · ') : 'Add tranches to model CHFA / Prop 123 / local PHA stack.';
     }
 
-    // Update Sources & Uses table. Its equity is federal plus state credit equity, as in the gap.
-    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity + numeric(result.stateEquity), mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
+    // Update Sources & Uses table. Its equity is the credit equity the gap counts: federal,
+    // state and any added credit (#2161), less what the added credit replaces or cuts.
+    var cs = result.creditStack || { federal: equity, state: result.stateEquity, added: 0 };
+    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: numeric(dealEngine().creditStackTotal(result)), mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
       unavailableReason: !isFinite(gap) ? (noiUnknownReason || rentsUnknownReason || 'financing sources are unavailable') : tdc > 0 ? null : 'total development cost is missing',
       sources: explanationSourceContext() });
     var su = {
-      equity:   { amt: equity,             id: 'dc-su-equity' },
-      state:    { amt: numeric(result.stateEquity), id: 'dc-su-state' },
+      equity:   { amt: numeric(cs.federal), id: 'dc-su-equity' },
+      state:    { amt: numeric(cs.state),   id: 'dc-su-state' },
+      added:    { amt: numeric(cs.added),   id: 'dc-su-added' },
       mortgage: { amt: mortgage,           id: 'dc-su-mortgage' },
       deferred: { amt: deferredDevFee,     id: 'dc-su-deferred' },
       impactds: { amt: totalSoftSourceAmt, id: 'dc-su-impact-ds' },
@@ -5312,7 +5324,19 @@
     };
     var stateRow = document.getElementById('dc-su-state-row');
     if (stateRow) stateRow.hidden = !(result.costBasis && result.costBasis.stateCredit && result.costBasis.stateCredit.entered);
-    ['equity', 'state', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
+    var addedRow = document.getElementById('dc-su-added-row');
+    if (addedRow) addedRow.hidden = !cs.counted;
+    var addedLabel = document.getElementById('dc-su-added-label');
+    if (addedLabel) addedLabel.textContent = (cs.label || 'Added credit') + ' equity, after its investor fees';
+    var creditNote = document.getElementById('dc-su-credit-note'), creditNoteRow = document.getElementById('dc-su-credit-note-row');
+    var acr = result.costBasis && result.costBasis.addedCredit, noteParts = [];
+    if (cs.counted && acr) {
+      if (acr.displaced) noteParts.push(acr.displaces + ' equity is ' + fmt(acr.displaced) + ' less, because the ' + cs.label.toLowerCase() + ' replaces part of it.');
+      if (acr.resizedFederal) noteParts.push('Federal credit equity is ' + fmt(acr.resizedFederal) + ' less for the federal credit cut.');
+    } else if (cs.reason) noteParts.push(cs.reason);
+    if (creditNote) creditNote.textContent = noteParts.join(' ');
+    if (creditNoteRow) creditNoteRow.hidden = !noteParts.length;
+    ['equity', 'state', 'added', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
       var amtEl = document.getElementById(row.id);
       var pctEl = document.getElementById(row.id + '-pct');
@@ -6817,7 +6841,7 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     var is4Pct = _activeCreditIs4Pct();
     note.innerHTML =
-      '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
+      '<strong>Possible source, not in this stack unless entered as an added credit: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
       'This site is inside a Transit and Housing Investment Zone on OEDIT’s published map. ' +
       'CHFA may allocate up to $' +
       TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit. ' +
@@ -7073,9 +7097,8 @@
         var result = getResult();
         var wf = result && result.waterfall;
         var autoEl = document.getElementById('dc-wf-lp-equity-auto');
-        // Federal plus state credit equity, the same amount the waterfall uses when not overridden.
-        var autoLp = result && Number.isFinite(result.equity) && Number.isFinite(result.stateEquity)
-          ? result.equity + result.stateEquity : null;
+        // The credit equity in the sources, the same amount the waterfall uses when not overridden.
+        var autoLp = result ? dealEngine().creditStackTotal(result) : null;
         if (autoEl) autoEl.textContent = _fmtMoney(autoLp);
         var reason = result && result.unavailable.waterfall || 'The deal calculation is unavailable.';
         ['dcWaterfallTable', 'dcWaterfallAnnualTable'].forEach(function (id) {
