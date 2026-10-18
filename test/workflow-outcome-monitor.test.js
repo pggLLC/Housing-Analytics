@@ -130,15 +130,22 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
   }
 }
 
-/* ── 3b. a placeholder must not pretend to be a staleness monitor ──────── */
+/* ── 3b. the staleness sweep is scheduled and really queries runs ──────── */
 {
-  if (/^\s{2}schedule:\s*$/m.test(wfCode)) {
-    fail('the monitor is scheduled even though staleness mode queries no runs — a green placeholder '
-       + 'would falsely imply silent workflows were checked');
-  } else if (!/staleness alerting is not active/.test(src)) {
-    fail('manual staleness mode does not disclose that it performs no check');
+  // Until 2026-10-18 the dispatch-only step printed "not active" on purpose,
+  // so a green run could not be mistaken for a check. Now that it queries, it
+  // must run on a schedule; a silent-schedule detector that only runs when a
+  // person remembers to dispatch it is #1556 again.
+  const sched = /^\s{2}schedule:\s*\n\s+-\s*cron:\s*'([^']+)'/m.exec(wfCode);
+  const step = /- name: Sweep scheduled workflows[\s\S]*?MONITOR_MODE: staleness/.exec(wfCode);
+  if (!sched) {
+    fail('the staleness sweep has no schedule, so a silent cron is still found only by hand');
+  } else if (!step || !/github\.event_name == 'schedule'/.test(step[0])) {
+    fail('the scheduled run does not execute the staleness sweep step');
+  } else if (/staleness alerting is not active/.test(src)) {
+    fail('the script still carries the "not active" placeholder beside a live sweep');
   } else {
-    ok('unfinished staleness detection is manual-only and explicitly reports that it is inactive');
+    ok(`staleness sweep runs on its own schedule (${sched[1]}) and on dispatch`);
   }
 }
 
@@ -436,7 +443,7 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       fail('an unknown last-run time is being reported as stale — unknown is not evidence');
     }
 
-  }).then(() => import(GATE)).then(async (g) => {
+  }).then(() => Promise.all([import(GATE), import(SCRIPT)])).then(async ([g, m]) => {
 
     /* ── 6. the merge-ref gate (1B) ───────────────────────────────────── */
 
@@ -966,6 +973,104 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       } else {
         ok('the workflow passes branch and run identity for defense-in-depth ordering guards');
       }
+    }
+
+    /* ── P5: the staleness sweep, end to end against a stubbed API ────── */
+    {
+      // Every scheduled workflow in this repo must yield a cadence, or the
+      // sweep silently skips it. Compared with a real YAML parse so the cron
+      // regex cannot drift from what GitHub reads.
+      const yaml = require('js-yaml');
+      const wfDir = path.join(ROOT, '.github', 'workflows');
+      let scheduled = 0; const disagree = []; const uncadenced = [];
+      for (const f of fs.readdirSync(wfDir).filter((x) => /\.ya?ml$/.test(x))) {
+        const text = fs.readFileSync(path.join(wfDir, f), 'utf8');
+        const doc = yaml.load(text) || {};
+        const on = doc.on || doc[true] || {};
+        const want = ((on && on.schedule) || []).map((e) => e.cron).sort();
+        const got = m.scheduledCrons(text).sort();
+        if (JSON.stringify(want) !== JSON.stringify(got)) disagree.push(f);
+        if (want.length) { scheduled += 1; if (m.workflowCadenceHours(got) == null) uncadenced.push(f); }
+      }
+      if (scheduled < 40) fail(`only ${scheduled} scheduled workflows found — the scan is not reading the repo`);
+      else if (disagree.length) fail(`scheduledCrons disagrees with the YAML parse for: ${disagree.join(', ')}`);
+      else if (uncadenced.length) fail(`no cadence derived for: ${uncadenced.join(', ')}`);
+      else ok(`all ${scheduled} scheduled workflows parse to a cadence the sweep can judge`);
+
+      // A stub repo: a weekly job silent 15 days (#1556), a fresh daily job, a
+      // disabled job, and a job with no success on record.
+      const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'stale-wf-'));
+      const put = (f, cron) => fs.writeFileSync(path.join(dir, f), `on:\n  schedule:\n    - cron: '${cron}'\n`);
+      put('build-hna-data.yml', '23 7 * * 6'); put('fetch-fred-data.yml', '23 6 * * *');
+      put('old-off.yml', '23 6 * * *'); put('brand-new.yml', '23 6 * * *');
+      fs.writeFileSync(path.join(dir, 'push-only.yml'), 'on:\n  push:\n');
+      const NOW = Date.parse('2026-10-18T12:00:00Z');
+      const ago = (h) => new Date(NOW - h * 3600000).toISOString();
+      const makeApi = ({ lastSuccess, openIssues = [] }) => {
+        const calls = [];
+        const fetchImpl = async (url, opts = {}) => {
+          const method = opts.method || 'GET'; calls.push({ method, url, body: opts.body });
+          const reply = (v, status = 200) => ({ ok: status < 300, status, headers: { get: () => null }, text: async () => JSON.stringify(v) });
+          if (/\/actions\/workflows\?/.test(url)) return reply({ workflows: [
+            { path: '.github/workflows/build-hna-data.yml', state: 'active' },
+            { path: '.github/workflows/fetch-fred-data.yml', state: 'active' },
+            { path: '.github/workflows/old-off.yml', state: 'disabled_manually' },
+            { path: '.github/workflows/brand-new.yml', state: 'active' }] });
+          const run = /\/actions\/workflows\/([^/]+)\/runs\?(.*)$/.exec(url);
+          if (run) {
+            const q = new URLSearchParams(run[2]);
+            if (q.get('status') !== 'success') return reply({ message: 'sweep must ask for successful runs' }, 422);
+            const h = q.get('event') === 'schedule' ? lastSuccess[decodeURIComponent(run[1])] : undefined;
+            return reply({ workflow_runs: h == null ? [] : [{ updated_at: ago(h), html_url: `https://x/${run[1]}` }] });
+          }
+          if (/\/issues\?state=open/.test(url)) return reply(openIssues);
+          return reply({ number: 4321 }, method === 'POST' ? 201 : 200);
+        };
+        return { fetchImpl, calls };
+      };
+      const sweep = (api, mutate = true) => m.runStaleness({ repo: 'o/r', token: 't', branch: 'main',
+        workflowsDir: dir, fetchImpl: api.fetchImpl, now: NOW, mutate, log: () => {} });
+      const writes = (api) => api.calls.filter((c) => c.method !== 'GET');
+
+      const silent = { 'build-hna-data.yml': 15 * 24, 'fetch-fred-data.yml': 20 };
+      const a1 = makeApi({ lastSuccess: silent });
+      const r1 = await sweep(a1);
+      const ids = r1.stale.map((x) => x.workflowId);
+      const opened = writes(a1).find((c) => c.method === 'POST' && /\/issues$/.test(c.url));
+      if (JSON.stringify(ids) !== '["build-hna-data"]') fail(`#1556 sweep flagged ${JSON.stringify(ids)}, expected only build-hna-data`);
+      else if (r1.checked !== 3 || JSON.stringify(r1.unknown) !== '["brand-new"]') fail(`sweep checked ${r1.checked} / unknown ${JSON.stringify(r1.unknown)}; the disabled and push-only files must be skipped and brand-new reported unknown`);
+      else if (!opened || !JSON.parse(opened.body).title.includes(m.STALE_MARKER)) fail('a stale workflow did not open the [workflow-stale] tracker');
+      else ok('#1556 end to end: the weekly job silent 15 days opens one tracker; fresh, disabled and new jobs do not');
+
+      const openBody = JSON.parse(opened.body).body;
+      const trusted = (body) => [{ number: 77, state: 'open', title: m.STALE_TITLE, body, user: { login: 'github-actions[bot]' } }];
+      const a2 = makeApi({ lastSuccess: silent, openIssues: trusted(openBody) });
+      await sweep(a2);
+      const w2 = writes(a2);
+      if (w2.length !== 1 || w2[0].method !== 'PATCH' || /state/.test(w2[0].body)) fail(`an unchanged stale list must refresh the body silently, got ${w2.map((c) => c.method).join(',')}`);
+      else ok('the same stale list the next day refreshes the issue body without a notification');
+
+      const a3 = makeApi({ lastSuccess: { ...silent, 'fetch-fred-data.yml': 72 }, openIssues: trusted(openBody) });
+      await sweep(a3);
+      if (!writes(a3).some((c) => c.method === 'POST' && /comments$/.test(c.url))) fail('a newly stale workflow did not add a comment to the open tracker');
+      else ok('a change in the stale list adds one comment');
+
+      const a4 = makeApi({ lastSuccess: { 'build-hna-data.yml': 2, 'fetch-fred-data.yml': 2 }, openIssues: trusted(openBody) });
+      await sweep(a4);
+      if (!writes(a4).some((c) => c.method === 'PATCH' && /"closed"/.test(c.body))) fail('the tracker did not close once every workflow recovered');
+      else ok('the tracker closes itself when nothing is stale');
+
+      const lookalike = [{ number: 78, state: 'open', title: m.STALE_TITLE, body: openBody, user: { login: 'someone' } }];
+      const a5 = makeApi({ lastSuccess: silent, openIssues: lookalike });
+      await sweep(a5);
+      if (writes(a5).some((c) => /\/issues\/78/.test(c.url))) fail('a look-alike issue opened by a user was adopted as the tracker');
+      else ok('a look-alike [workflow-stale] issue by a user is never edited or closed');
+
+      const a6 = makeApi({ lastSuccess: silent });
+      await sweep(a6, false);
+      if (writes(a6).length) fail('a report-only sweep (feature-branch dispatch) wrote to GitHub');
+      else ok('a feature-branch dispatch reports only and writes nothing');
+      fs.rmSync(dir, { recursive: true, force: true });
     }
 
     if (failures) { console.error(`\nworkflow-outcome-monitor: FAIL (${failures})`); process.exit(1); }

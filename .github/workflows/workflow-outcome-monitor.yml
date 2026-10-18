@@ -37,9 +37,12 @@ on:
   # that quietly stops firing, which is exactly #1556 (build-hna-data, fifteen
   # days with no completed scheduled run, found by hand).
   #
-  # Staleness detection is not active yet. Do not schedule a green placeholder
-  # that looks like it checked anything; workflow_dispatch exposes the explicit
-  # not-yet-active status until that package is implemented.
+  # So a daily schedule runs the other half: every scheduled, enabled workflow
+  # is judged against its OWN cron, and one tracker issue lists each that has
+  # not succeeded within two of its intervals. A dispatch from a feature branch
+  # prints the same report and touches no issue.
+  schedule:
+    - cron: '31 9 * * *'
 
   workflow_run:
     # Enumerated explicitly, never a wildcard, and never this workflow itself —
@@ -101,12 +104,14 @@ jobs:
       - name: Checkout monitor script
         uses: actions/checkout@v7
 
-      - name: Report that staleness alerting is not yet active
-        if: github.event_name == 'workflow_dispatch'
+      - name: Sweep scheduled workflows for silent schedules
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           MONITOR_MODE: staleness
+          # Trackers are touched only when this run is on the default branch.
+          MONITOR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'main' }}
         run: node scripts/monitoring/workflow-outcome-monitor.mjs
 
       # Only scheduled and dispatched runs are alerted on. contrast-audit also

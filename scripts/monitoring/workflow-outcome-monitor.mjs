@@ -212,8 +212,8 @@ export const STALENESS_FLOOR_HOURS = 6;
  * `null` when the workflow is within its expected cadence, otherwise a
  * description of how far past due it is.
  */
-export function assessStaleness({ cron, hoursSinceLastCompletedRun }) {
-  const expected = cronIntervalHours(cron);
+export function assessStaleness({ cron, hoursSinceLastCompletedRun, expectedHours }) {
+  const expected = expectedHours != null ? expectedHours : cronIntervalHours(cron);
   if (expected == null) return null;                       // not a cron we parse
   if (hoursSinceLastCompletedRun == null) return null;     // unknown, not asserted stale
   const limit = Math.max(expected * STALENESS_TOLERANCE, STALENESS_FLOOR_HOURS);
@@ -433,7 +433,11 @@ export async function ghRequest(path, {
  * starting a parallel history.
  */
 export function findTracker(issues, workflowId) {
-  const marker = trackerMarker(workflowId);
+  return findMarkedIssue(issues, trackerMarker(workflowId));
+}
+
+/** The open, Actions-authored issue whose title carries `marker`, or null. */
+export function findMarkedIssue(issues, marker) {
   return (issues || []).find((i) =>
     i
     // GET /issues returns PULL REQUESTS as well as issues — on this repo it
@@ -515,6 +519,174 @@ export async function latestRelevantRun(repo, workflowFile, branch, { token, fet
   return candidates.sort((a, b) => compareRunOrder(b, a))[0] || null;
 }
 
+/* ── P5: the staleness sweep ───────────────────────────────────────────── */
+
+/**
+ * ONE tracker for every silent schedule, not one per workflow. On first run a
+ * repo with 68 scheduled workflows could have several overdue at once, and a
+ * burst of issues is how a monitor gets muted. The issue body is the current
+ * list; a comment is added only when that list changes, so a long outage is one
+ * notification, not one a day.
+ */
+export const STALE_MARKER = '[workflow-stale]';
+export const STALE_TITLE = `⚠️ ${STALE_MARKER} scheduled workflows have stopped succeeding`;
+
+/** The cron expressions a workflow file declares (comments stripped). */
+export function scheduledCrons(yamlText) {
+  if (typeof yamlText !== 'string') return [];
+  const code = yamlText.replace(/^\s*#.*$/gm, '');
+  return [...code.matchAll(/^\s*-\s*cron:\s*['"]([^'"]+)['"]/gm)].map((m) => m[1].trim());
+}
+
+/** Shortest declared interval, in hours, or null when no cron parses. */
+export function workflowCadenceHours(crons) {
+  const hours = (crons || []).map(cronIntervalHours).filter((h) => h != null);
+  return hours.length ? Math.min(...hours) : null;
+}
+
+/** Every workflow in the repo, with its enabled state, following pagination. */
+export async function listWorkflows(repo, { token, fetchImpl, maxPages = 10 } = {}) {
+  const all = [];
+  for (let page = 1; page <= maxPages; page += 1) {
+    const payload = await ghRequest(
+      `/repos/${repo}/actions/workflows?per_page=100&page=${page}`, { token, fetchImpl });
+    if (!payload || !Array.isArray(payload.workflows)) {
+      throw new Error(`GitHub workflows response for ${repo} page ${page} is malformed`);
+    }
+    all.push(...payload.workflows);
+    if (payload.workflows.length < 100) break;
+  }
+  return all;
+}
+
+/**
+ * Latest SUCCESSFUL scheduled or dispatched run on the default branch.
+ *
+ * Success, not merely completed: #1556 was a weekly job whose runs kept
+ * completing as `cancelled` at the timeout, so "it ran" was true for fifteen
+ * days while no data landed. A manual dispatch that succeeds counts, because the
+ * data it produced is just as fresh.
+ */
+export async function lastSuccessfulRun(repo, workflowFile, branch, { token, fetchImpl } = {}) {
+  const found = [];
+  for (const event of ['schedule', 'workflow_dispatch']) {
+    const query = new URLSearchParams({ branch, event, status: 'success', per_page: '1' });
+    const payload = await ghRequest(
+      `/repos/${repo}/actions/workflows/${encodeURIComponent(workflowFile)}/runs?${query}`,
+      { token, fetchImpl });
+    if (!payload || !Array.isArray(payload.workflow_runs)) {
+      throw new Error(`GitHub Actions runs response for ${workflowFile} (${event}) is malformed`);
+    }
+    if (payload.workflow_runs[0]) found.push(payload.workflow_runs[0]);
+  }
+  const at = (r) => new Date(r.updated_at || r.created_at).getTime();
+  return found.filter((r) => Number.isFinite(at(r))).sort((a, b) => at(b) - at(a))[0] || null;
+}
+
+/** The ids listed in a stale tracker's body, so a changed list can be told apart. */
+export function staleIdsFromBody(body) {
+  const m = /<!-- stale-ids: ([^>]*) -->/.exec(body || '');
+  return m ? m[1].split(',').map((s) => s.trim()).filter(Boolean).sort() : [];
+}
+
+export function staleBody(stale, { checked, unknown = [] } = {}) {
+  const days = (h) => (h / 24).toFixed(h < 48 ? 1 : 0);
+  const rows = stale.map((s) => `| \`${s.workflowId}\` | every ${days(s.expectedIntervalHours)} d `
+    + `| ${s.lastSuccessAt ? `[${s.lastSuccessAt.slice(0, 10)}](${s.lastSuccessUrl})` : 'none found'} `
+    + `| ${days(s.hoursSinceLastCompletedRun)} d | ${days(s.limitHours)} d |`);
+  const lines = [
+    `${stale.length} of ${checked} scheduled workflows have not succeeded on the default branch `
+      + 'within two of their own scheduled intervals.',
+    '',
+    '| Workflow | Cadence | Last success | Silent for | Alert after |',
+    '|---|---|---|---|---|',
+    ...rows,
+  ];
+  if (unknown.length) {
+    lines.push('', `Not judged (no successful run on record, so no baseline): ${unknown.map((u) => `\`${u}\``).join(', ')}.`);
+  }
+  lines.push('',
+    'A silent schedule is invisible to the per-run alerts, which fire only when a run completes. '
+    + 'That is how #1556 went fifteen days unnoticed. This list is rebuilt daily; the issue closes '
+    + 'itself when every listed workflow has succeeded again.',
+    '', `<!-- stale-ids: ${stale.map((s) => s.workflowId).sort().join(',')} -->`);
+  return lines.join('\n');
+}
+
+/** open / update / close / none, given the stale set now and the open tracker. */
+export function decideStaleAction({ staleIds, tracker }) {
+  if (!staleIds.length) {
+    return tracker ? { action: 'close', reason: 'every scheduled workflow is within its cadence' }
+                   : { action: 'none', reason: 'nothing stale and nothing open' };
+  }
+  if (!tracker) return { action: 'open', reason: `${staleIds.length} stale with no tracker open` };
+  const before = staleIdsFromBody(tracker.body);
+  const same = before.length === staleIds.length && before.every((id, i) => id === [...staleIds].sort()[i]);
+  return same ? { action: 'refresh', reason: 'same stale set; body refreshed without a notification' }
+              : { action: 'update', reason: `stale set changed (${before.length} → ${staleIds.length})` };
+}
+
+/**
+ * Judge every scheduled, enabled workflow against its own cadence. `mutate`
+ * false prints the report and touches no issue: a dispatch from a feature
+ * branch must never open or close a production tracker.
+ */
+export async function runStaleness({ repo, token, branch, workflowsDir, fetchImpl, now = Date.now(), mutate = true, log = console.log }) {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const files = fs.readdirSync(workflowsDir).filter((f) => /\.ya?ml$/i.test(f)).sort();
+  const states = new Map((await listWorkflows(repo, { token, fetchImpl }))
+    .map((w) => [String(w.path || '').split('/').pop(), w.state]));
+
+  const stale = []; const unknown = []; let checked = 0;
+  for (const file of files) {
+    const cadence = workflowCadenceHours(scheduledCrons(fs.readFileSync(path.join(workflowsDir, file), 'utf8')));
+    if (cadence == null) continue;
+    const id = workflowIdFromPath(file);
+    if (states.get(file) !== 'active') {
+      log(`[monitor] staleness: ${id} skipped — workflow state is ${states.get(file) || 'unknown to the API'}`);
+      continue;
+    }
+    checked += 1;
+    const last = await lastSuccessfulRun(repo, file, branch, { token, fetchImpl });
+    if (!last) { unknown.push(id); continue; }
+    const lastAt = last.updated_at || last.created_at;
+    const hours = (now - new Date(lastAt).getTime()) / 3600000;
+    // Reuses the P3 rule as is: two missed runs, never under the jitter floor.
+    const verdict = assessStaleness({ cron: null, hoursSinceLastCompletedRun: hours, expectedHours: cadence });
+    if (verdict) stale.push({ workflowId: id, ...verdict, lastSuccessAt: lastAt, lastSuccessUrl: last.html_url });
+  }
+
+  log(`[monitor] staleness: checked ${checked} scheduled workflows, ${stale.length} stale, `
+    + `${unknown.length} without a successful run on record`);
+  for (const s of stale) log(`[monitor]   stale: ${s.workflowId} — ${Math.round(s.hoursSinceLastCompletedRun)} h since last success (limit ${s.limitHours} h)`);
+
+  const body = staleBody(stale, { checked, unknown });
+  if (!mutate) { log('[monitor] staleness: report only — not on the default branch, no tracker touched'); return { stale, unknown, checked }; }
+
+  const tracker = findMarkedIssue(await listOpenIssues(repo, { token, fetchImpl }), STALE_MARKER);
+  const decided = decideStaleAction({ staleIds: stale.map((s) => s.workflowId), tracker });
+  if (decided.action === 'open') {
+    const created = await ghRequest(`/repos/${repo}/issues`, { token, fetchImpl, method: 'POST', body: { title: STALE_TITLE, body } });
+    log(`[monitor] staleness tracker: opened #${created.number} — ${decided.reason}`);
+  } else if (decided.action === 'refresh' || decided.action === 'update') {
+    await ghRequest(`/repos/${repo}/issues/${tracker.number}`, { token, fetchImpl, method: 'PATCH', body: { body } });
+    if (decided.action === 'update') {
+      await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, { token, fetchImpl, method: 'POST',
+        body: { body: `The stale list changed; it now names ${stale.length}: ${stale.map((s) => `\`${s.workflowId}\``).join(', ')}.` } });
+    }
+    log(`[monitor] staleness tracker: ${decided.action}d #${tracker.number} — ${decided.reason}`);
+  } else if (decided.action === 'close') {
+    await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, { token, fetchImpl, method: 'POST',
+      body: { body: '✅ Every scheduled workflow has succeeded within its cadence again. Auto-closing.' } });
+    await ghRequest(`/repos/${repo}/issues/${tracker.number}`, { token, fetchImpl, method: 'PATCH', body: { state: 'closed' } });
+    log(`[monitor] staleness tracker: closed #${tracker.number} — ${decided.reason}`);
+  } else {
+    log(`[monitor] staleness tracker: no action — ${decided.reason}`);
+  }
+  return { stale, unknown, checked, action: decided.action };
+}
+
 /* ── CLI ───────────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -526,9 +698,14 @@ async function main() {
   // the classification visible in the log. Issue open/close arrives in P4, when
   // a watched workflow's in-job notifier is removed in the same commit.
   if (process.env.MONITOR_MODE === 'staleness') {
-    console.log('::warning::[monitor] staleness alerting is not active; no workflow runs were '
-      + 'queried and no tracker was opened. Cancellation inference and cadence-based staleness '
-      + 'remain separate follow-up packages.');
+    const branch = process.env.MONITOR_DEFAULT_BRANCH || '';
+    const ref = process.env.GITHUB_REF_NAME || '';
+    if (!branch) throw new Error('MONITOR_DEFAULT_BRANCH is not set; refusing to judge staleness against a guessed branch');
+    await runStaleness({
+      repo, token: requireToken(), branch,
+      workflowsDir: process.env.MONITOR_WORKFLOWS_DIR || '.github/workflows',
+      mutate: ref === branch,
+    });
     return;
   }
 

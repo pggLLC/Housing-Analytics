@@ -11,6 +11,13 @@
 > the job. That matters: every data workflow here carries a job-level
 > `timeout-minutes`, and a job killed by its own timeout terminates the runner —
 > no in-job step, not even `if: always()`, can report it.
+>
+> **Silent schedules (since 2026-10-18).** The same monitor runs a daily sweep
+> (`MONITOR_MODE=staleness`). It judges every scheduled, enabled workflow
+> against its own cron, and keeps one issue titled `[workflow-stale]` listing
+> each workflow with no successful run within two of its intervals (never under
+> six hours). The issue closes itself when the list is empty. A dispatch from a
+> feature branch prints the report and writes nothing.
 
 # Monitoring & Alerting — Housing Analytics
 
