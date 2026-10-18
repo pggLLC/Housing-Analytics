@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T12:58:28.247Z",
+    "generated_at": "2026-10-18T13:47:52.024Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192288083,
+    "total_size_bytes": 192291415,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T12:58:25.008Z",
+      "mtime": "2026-10-18T13:47:49.521Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T12:58:26.602Z",
+      "mtime": "2026-10-18T13:47:50.757Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T12:58:26.198Z",
+      "mtime": "2026-10-18T13:47:50.448Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34520,8 +34520,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 430431,
-      "mtime": "2026-10-17T14:34:11.428Z",
+      "size_bytes": 432051,
+      "mtime": "2026-10-18T13:47:12.953Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34790,16 +34790,17 @@
     {
       "path": "policy/funding-watch-sources.json",
       "kind": "json",
-      "size_bytes": 10417,
-      "mtime": "2026-10-17T03:01:07.207Z",
+      "size_bytes": 12129,
+      "mtime": "2026-10-18T13:47:12.957Z",
       "shape": "object",
       "keys": [
         "schema",
         "meta",
         "agency_pages",
-        "federal"
+        "federal",
+        "covered_elsewhere"
       ],
-      "key_count": 4,
+      "key_count": 5,
       "primary_array_key": "agency_pages",
       "primary_array_length": 20,
       "primary_array_first_keys": [
