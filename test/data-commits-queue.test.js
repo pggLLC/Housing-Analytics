@@ -190,4 +190,18 @@ test('the shared push script commits before it builds the manifests', () => {
     'data/_manifest.json first, then data/manifest.json (two-manifest trap)');
 });
 
+test('Rebuild BPS Permits checks the data bounds on the tree it commits', () => {
+  // validate-critical-data.js checks the ranking-index metric bounds. Before
+  // the move to the shared script it ran after the chain; a check that only
+  // runs before the chain would pass the old committed index (Codex review).
+  const steps = docs['rebuild-bps-permits.yml'].jobs.rebuild.steps;
+  const commit = steps.find((s) => /commit-with-derived-chain\.sh/.test(s.run || ''));
+  assert.ok(commit, 'the scan finds the BPS commit step');
+  assert.match(commit.run, /commit-with-derived-chain\.sh[^\n]*--validate-critical/);
+  const src = fs.readFileSync(path.join(ROOT, 'scripts', 'commit-with-derived-chain.sh'), 'utf8');
+  const fn = src.slice(src.indexOf('rebuild_and_commit() {'), src.indexOf('git commit -q -F'));
+  assert.match(fn, /npm run rebuild:derived[\s\S]*validate-critical-data\.js/,
+    'the script validates the bounds after the chain and before its commit');
+});
+
 console.log(`\n${passed} passed`);

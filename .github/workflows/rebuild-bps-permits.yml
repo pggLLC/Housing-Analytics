@@ -167,9 +167,11 @@ jobs:
         # the manifests after the rebase. This workflow used to commit the
         # manifests and then rebase, so any commit landing on main during its
         # six-minute chain failed it on a manifest conflict: every run from
-        # 2026-10-10 to 2026-10-17 failed that way.
+        # 2026-10-10 to 2026-10-17 failed that way. --validate-critical checks
+        # the data bounds (ranking-index metrics included) on each rebuilt
+        # tree before it is committed, as the old post-chain step did.
         run: |
-          scripts/commit-with-derived-chain.sh "chore(data): rebuild BPS permits chain" -- \
+          scripts/commit-with-derived-chain.sh "chore(data): rebuild BPS permits chain" --validate-critical -- \
             data/hna/permits.json data/hna/source/bps data/hna/projections/places.json
 
       - name: Trigger Pages deploy
