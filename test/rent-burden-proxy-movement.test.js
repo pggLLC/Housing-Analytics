@@ -14,7 +14,7 @@
  * geography, so the note's level, amount and direction must agree with the
  * file, whatever its wording.
  *
- * Run: node test/rent-burden-proxy-freshness.test.js
+ * Run: node test/rent-burden-proxy-movement.test.js
  */
 const assert = require('assert');
 const fs = require('fs');
