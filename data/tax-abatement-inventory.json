@@ -4,7 +4,7 @@
     "vintage":     "Curated from each jurisdiction's published affordable-housing ordinance, IGA, or property-tax abatement program page. Verify before relying on for an underwrite — programs change yearly.",
     "scope":       "Top 30 CO jurisdictions where affordable housing is actively developing. Smaller jurisdictions fall back to county / state programs.",
     "categories": {
-      "property-tax-exemption": "Statutory or local-ordinance exemption from property tax for qualifying affordable rental properties (often tied to 60% AMI cap + LURA).",
+      "property-tax-exemption": "Statutory or local-ordinance exemption from property tax for qualifying affordable rental properties; the statewide exemptions are C.R.S. §39-3-112 and §29-4-227.",
       "PILOT":                  "Payment in Lieu of Taxes — negotiated agreement reducing property tax in exchange for affordability commitments.",
       "fee-waiver":             "Reduction or waiver of impact fees, plan-review fees, building permit fees, water/sewer tap fees, parkland dedication. Rows point at data/policy/fee-reductions.json (verified); a row with no verified entry is marked not yet verified.",
       "expedited-review":       "Priority / expedited entitlement track for qualifying affordable projects (saves carrying cost).",
@@ -14,10 +14,12 @@
       "linkage-fee":            "Inclusionary or linkage fee on market-rate development that funds affordable trust funds."
     },
     "state_baseline": {
-      "note":      "Colorado statute C.R.S. §39-3-112.5 grants property tax exemption to affordable-rental properties owned by 501(c)(3) nonprofits + maintained at ≤60% AMI per a recorded LURA. Most large rental affordable deals qualify automatically.",
+      "note":      "Two statewide property tax exemptions. C.R.S. §39-3-112 exempts charitable residential property owned by a nonprofit, including units for low-income households at or below 30% of area median income and some tax credit partnerships with a nonprofit general partner; only the qualifying share is exempt, and the state property tax administrator must approve it on application (C.R.S. §39-2-117). C.R.S. §29-4-227 exempts the low-income share of a project owned by an entity in which a housing authority holds an ownership interest; the housing authority determines that share. Neither is automatic.",
       "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
       "category":  "property-tax-exemption",
-      "applies_to":"Statewide — 501(c)(3) owner + ≤60% AMI use restriction"
+      "applies_to":"Statewide — nonprofit charitable owner (C.R.S. §39-3-112) or housing authority ownership interest (C.R.S. §29-4-227)",
+      "sources":   ["C.R.S. §39-3-112", "C.R.S. §39-2-117", "C.R.S. §29-4-227", "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"],
+      "checked":   "2026-10-18"
     }
   },
   "jurisdictions": [
@@ -27,10 +29,10 @@
       "programs": [
         {
           "category":  "property-tax-exemption",
-          "name":      "Denver Affordable Housing Property Tax Exemption (501(c)(3) per C.R.S. 39-3-112.5)",
-          "url":       "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
-          "summary":   "Full property tax exemption for qualifying nonprofit-owned affordable rental properties at ≤60% AMI. Critical underwriting assumption: full exemption boosts NOI ~15-20% vs. taxable comp.",
-          "magnitude": "100% of ad valorem property tax (typical $0.50-$1.00/sf/yr in Denver)"
+          "name":      "Statewide exemptions (C.R.S. §39-3-112 nonprofit charitable; C.R.S. §29-4-227 housing authority ownership)",
+          "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
+          "summary":   "Denver has no separate city property tax exemption listed here; the statewide exemptions apply. Each exempts only the qualifying low-income share and must be applied for: §39-3-112 on application to the state property tax administrator, §29-4-227 on the housing authority's determination of the low-income share.",
+          "magnitude": "Qualifying share of ad valorem property tax"
         },
         {
           "category":  "linkage-fee",
@@ -53,10 +55,10 @@
       "programs": [
         {
           "category":  "property-tax-exemption",
-          "name":      "C.R.S. §39-3-112.5 (statewide; default for 501(c)(3) deals in Aurora)",
-          "url":       "https://www.colorado.gov/pacific/dor/property-tax-administration",
-          "summary":   "Aurora has no city-specific property tax abatement; the statewide nonprofit exemption is the operative tool.",
-          "magnitude": "100% city property tax (limited; CO local property tax is mostly county + special districts)"
+          "name":      "Statewide exemptions (C.R.S. §39-3-112; C.R.S. §29-4-227)",
+          "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
+          "summary":   "Aurora has no city-specific property tax abatement; the statewide nonprofit (§39-3-112) and housing authority (§29-4-227) exemptions apply, each to the qualifying low-income share and on application.",
+          "magnitude": "Qualifying share of ad valorem property tax"
         },
         {
           "category":  "fee-waiver",
@@ -85,9 +87,9 @@
         },
         {
           "category":  "property-tax-exemption",
-          "name":      "C.R.S. §39-3-112.5 statutory exemption",
+          "name":      "Statewide exemptions (C.R.S. §39-3-112; C.R.S. §29-4-227)",
           "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
-          "summary":   "Default statutory exemption for 501(c)(3)-owned ≤60% AMI."
+          "summary":   "Statewide nonprofit (§39-3-112) and housing authority (§29-4-227) exemptions, each for the qualifying low-income share and on application."
         }
       ]
     },
@@ -121,8 +123,8 @@
         },
         {
           "category":  "property-tax-exemption",
-          "name":      "C.R.S. §39-3-112.5 statutory exemption",
-          "summary":   "Default for 501(c)(3) ≤60% AMI."
+          "name":      "Statewide exemptions (C.R.S. §39-3-112; C.R.S. §29-4-227)",
+          "summary":   "Statewide nonprofit (§39-3-112) and housing authority (§29-4-227) exemptions, each for the qualifying low-income share and on application."
         }
       ]
     },
@@ -235,8 +237,8 @@
       "programs": [
         {
           "category":  "property-tax-exemption",
-          "name":      "C.R.S. §39-3-112.5 (statewide statute is the operative tool)",
-          "summary":   "Garfield County towns generally don't run city-specific abatement programs; the statewide nonprofit exemption is the workhorse."
+          "name":      "Statewide exemptions (C.R.S. §39-3-112; C.R.S. §29-4-227)",
+          "summary":   "Garfield County towns generally don't run city-specific abatement programs; the statewide nonprofit (§39-3-112) and housing authority (§29-4-227) exemptions apply, each for the qualifying low-income share and on application."
         },
         {
           "category":  "fee-waiver",
@@ -342,8 +344,8 @@
       "programs": [
         {
           "category":  "property-tax-exemption",
-          "name":      "C.R.S. §39-3-112.5 (default)",
-          "summary":   "Grand Junction relies on the statewide statutory exemption; no city-specific abatement program."
+          "name":      "Statewide exemptions (C.R.S. §39-3-112; C.R.S. §29-4-227)",
+          "summary":   "Grand Junction has no city-specific abatement program; the statewide nonprofit (§39-3-112) and housing authority (§29-4-227) exemptions apply, each for the qualifying low-income share and on application."
         }
       ]
     },

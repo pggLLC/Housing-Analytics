@@ -107,7 +107,17 @@ check('USDA RD is in capital-partners', cp.partners.some(p => /USDA Rural Develo
 const ta = readJson('data/tax-abatement-inventory.json');
 check('tax-abatement-inventory.json present (F141)', !!ta.jurisdictions);
 check('tax-abatement covers 15+ jurisdictions', ta.jurisdictions.length >= 15, 'Got ' + ta.jurisdictions.length);
-check('tax-abatement has CRS §39-3-112.5 statewide baseline', !!(ta.metadata && ta.metadata.state_baseline));
+check('tax-abatement has statewide property tax baseline', !!(ta.metadata && ta.metadata.state_baseline));
+// The statewide exemptions (C.R.S. 39-3-112, 29-4-227) cover only the
+// qualifying low-income share and are never automatic. The card once cited
+// 39-3-112.5 (federal homeless housing) as a blanket 501(c)(3) / 60% AMI rule.
+{
+  const renderer = fs.readFileSync(path.join(ROOT, 'js/components/tax-abatement.js'), 'utf8');
+  const shown = JSON.stringify(ta) + renderer;
+  check('tax-abatement does not cite 39-3-112.5', !/39-3-112\.5/.test(shown));
+  check('tax-abatement does not claim a 60% AMI statewide default', !/(default|baseline)[^"']{0,60}60% AMI/i.test(shown));
+  check('tax-abatement does not claim deals qualify automatically', !/qualify automatically/i.test(shown));
+}
 check('Denver has tax-abatement entry', ta.jurisdictions.some(j => /Denver/i.test(j.name)));
 check('Aspen / Pitkin has APCHA tax-abatement entry', ta.jurisdictions.some(j =>
   /Aspen/i.test(j.name) && (j.programs || []).some(p => /APCHA/i.test(p.name))));

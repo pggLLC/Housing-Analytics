@@ -15,8 +15,8 @@
   var ZERO_POOL = 'pool_zero_see_data_limitations';
   var LABEL_SUFFIX = ' — scenario, not a prediction';
   var COMPETITIVE_SUPPLY_NOTE = 'Capture scenarios do not account for competing for-sale inventory or pipeline; no supply data source exists yet. A professional market study must supply the competitive set.';
-  // Calibration: internal/docs/audits/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md (F-CAL-3).
-  var HUMILITY_CAVEAT = 'Even professionally delineated market areas captured only 44% of actual applicants at the Fruita Mews benchmark; outside-area demand of 9–56% is documented. Treat capture scenarios as screening arithmetic, not achievable-sales claims.';
+  // Same wording as market-study-report.js HUMILITY; test/forsale-capture.test.js holds them together.
+  var HUMILITY_CAVEAT = 'A market area, even one drawn by a professional, never holds all of the demand: buyers also come from outside it, and a share of those inside will look elsewhere. Treat capture scenarios as screening arithmetic, not achievable-sales claims.';
   var DEFAULT_POOL_GROWTH = {
     share: null,
     classification: 'modeled',

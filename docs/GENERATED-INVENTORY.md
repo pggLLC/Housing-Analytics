@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T03:07:48.213Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T05:49:59.155Z. Do not edit by hand.
 
 ---
 
@@ -12,8 +12,8 @@
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
-| `about.html` | About | COHO Analytics | 18.5 KB |
-| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.7 KB |
+| `about.html` | About | COHO Analytics | 19.5 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.2 KB |
@@ -108,7 +108,7 @@
 | `data/alerts/brief-news-queue.json` | 72.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 609.7 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 609.4 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1773,7 +1773,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 431.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 180.6 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 161.7 KB | ✅ | — |
@@ -1976,14 +1976,14 @@
 | `test/fixtures/equity-pricing-drivers.json` | 7.8 KB |
 | `test/fixtures/loan-obligations/invented.json` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
-| `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
-| `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
+| `test/fixtures/pma/commute-shed-params.fixture.json` | 1.1 KB |
+| `test/fixtures/pma/pma-calibration-site.json` | 1.4 KB |
 | `test/fixtures/predictor-policy.cjs` | 1.5 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/for-sale-example-label.test.js` | 2.1 KB |
 | `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.8 KB |
 | `test/foreclosure-performance.test.js` | 6.8 KB |
-| `test/forsale-capture.test.js` | 10.8 KB |
+| `test/forsale-capture.test.js` | 11.1 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
@@ -2139,7 +2139,7 @@
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
 | `test/market-site-point-persisted.test.js` | 11.7 KB |
-| `test/market-study-page.test.js` | 21.4 KB |
+| `test/market-study-page.test.js` | 21.6 KB |
 | `test/market-study-report.test.js` | 29.7 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
@@ -2175,7 +2175,7 @@
 | `test/pages-availability-check.js` | 19.0 KB |
 | `test/pages-deploy-watchdog.test.js` | 8.3 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
-| `test/paper-names-its-author.test.mjs` | 4.8 KB |
+| `test/paper-names-its-author.test.mjs` | 5.7 KB |
 | `test/paper-typed-facts.test.mjs` | 8.4 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
@@ -2197,12 +2197,12 @@
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
-| `test/pma-barrier-data.test.js` | 6.4 KB |
+| `test/pma-barrier-data.test.js` | 6.5 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
 | `test/pma-capture-denominator.test.js` | 5.1 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
-| `test/pma-commute-shaped.test.js` | 7.3 KB |
+| `test/pma-commute-shaped.test.js` | 8.0 KB |
 | `test/pma-competitive-set.test.js` | 13.0 KB |
 | `test/pma-confidence.test.js` | 9.1 KB |
 | `test/pma-flood-absence.test.js` | 4.7 KB |
@@ -2370,7 +2370,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/workflow-next-action-prerequisites.test.js` | 7.2 KB |
-| `test/workflow-outcome-monitor.test.js` | 47.9 KB |
+| `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-rail-truthful.test.js` | 3.3 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
@@ -2416,7 +2416,7 @@
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 8.9 KB |
 | `tests/test_funding_awards_parser.py` | 5.8 KB |
-| `tests/test_funding_watch.py` | 56.4 KB |
+| `tests/test_funding_watch.py` | 58.7 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
@@ -2541,7 +2541,7 @@
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 11.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
-| `.github/workflows/workflow-outcome-monitor.yml` | 6.8 KB |
+| `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 19.7 KB |
 
 ---
