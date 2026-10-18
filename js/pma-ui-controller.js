@@ -398,7 +398,7 @@
       }).join('');
       var totals = m.totals || {};
       var totalsRow =
-        '<tr style="border-top:2px solid var(--border,#444);">' +
+        '<tr class="total" style="border-top:2px solid var(--border,#444);">' +
           td('Column total', '700', 'left') +
           bedCols.map(function (b) { return td(String(totals[b.key] || 0), '700'); }).join('') +
           td(String(totals.all || 0), '700') +

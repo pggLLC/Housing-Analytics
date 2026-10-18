@@ -3194,7 +3194,7 @@
       <!-- Sources & Uses Panel -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources &amp; Uses Summary</legend>
-        <table id="dc-su-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+        <table id="dc-su-table" data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);">
           <thead>
             <tr>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Item</th>
@@ -3268,7 +3268,7 @@
           Set each soft-funding tranche's group under "Counts in DOH's sources as".
         </p>
         <p id="dc-pf-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
-        <div style="overflow-x:auto;"><table id="dc-pf-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+        <div style="overflow-x:auto;"><table id="dc-pf-table" data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);">
           <thead><tr>
             <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Financing source</th>
             <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Total</th>
@@ -3301,7 +3301,7 @@
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Each cost category's cost and the soft sources that pay for it. Choose what a source pays for, its status and whether it is a state request on its row under Soft Funding Stack. Tax credit equity, the first mortgage and the deferred fee pay for the project as a whole.</p>
         <p id="dc-act-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
         <p id="dc-act-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-        <div style="overflow-x:auto;"><table id="dc-act-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+        <div style="overflow-x:auto;"><table id="dc-act-table" data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);">
           <thead><tr>
             <th scope="col" style="text-align:left;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Activity and sources</th>
             <th scope="col" style="text-align:right;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Total cost</th>
@@ -3328,8 +3328,8 @@
         <dl id="dc-doh15-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.2rem var(--sp2);margin:0 0 var(--sp2);font-size:var(--small);"></dl>
         <details>
           <summary style="cursor:pointer;min-height:44px;font-size:var(--small);">Year-by-year rows and totals</summary>
-          <div style="overflow-x:auto;"><table id="dc-doh15-table" style="border-collapse:collapse;font-size:var(--small);white-space:nowrap;"></table></div>
-          <div style="overflow-x:auto;margin-top:var(--sp2);"><table id="dc-doh15-totals" style="width:100%;border-collapse:collapse;font-size:var(--small);"></table></div>
+          <div style="overflow-x:auto;"><table id="dc-doh15-table" data-no-sort style="border-collapse:collapse;font-size:var(--small);white-space:nowrap;"></table></div>
+          <div style="overflow-x:auto;margin-top:var(--sp2);"><table id="dc-doh15-totals" data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);"></table></div>
         </details>
       </fieldset>
 
@@ -6862,7 +6862,8 @@
           '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
-      return '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+      // Tier order is the payout order, so this table never sorts.
+      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
         '<thead><tr style="border-bottom:1px solid var(--border);">' +
         '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
         '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
@@ -6918,7 +6919,8 @@
           '<td style="padding:3px 6px;text-align:right;color:' + (cumGp >= 0 ? 'var(--good)' : 'var(--muted)') + ';">' + _fmtMoney(cumGp) + '</td>' +
           '</tr>';
       });
-      return '<table style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
+      // Year-by-year schedule: kept in year order like the other statements.
+      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +

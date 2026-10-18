@@ -38,6 +38,7 @@
   <script src="js/housing-needs-assessment.js"></script>
   <script src="js/geographic-dashboard.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
 </head>
 <body class="no-shell" data-page="dashboard-data-sources-ui.html">
 <div id="ddLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -426,7 +427,10 @@
     // Wire sort headers
     var ths = document.querySelectorAll('#ddSourcesTable th[data-col]');
     ths.forEach(function (th) {
-      th.className = th.dataset.col === sortCol ? 'sort-' + sortDir : '';
+      // Toggle only the sort classes: the shared header tip and sort arrow
+      // (js/components/table-header-tips.js, table-sort.js) add their own.
+      th.classList.remove('sort-asc', 'sort-desc');
+      if (th.dataset.col === sortCol) th.classList.add('sort-' + sortDir);
     });
   }
 

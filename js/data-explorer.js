@@ -305,7 +305,10 @@
       ));
       tr.appendChild(el('td', {}, el('span', { class: 'dex-kind-pill ' + (f.kind || '') }, (f.kind || '?').toUpperCase())));
       tr.appendChild(el('td', { class: 'dex-num' }, fmtBytes(f.size_bytes)));
-      tr.appendChild(el('td', { class: 'dex-mtime', title: fmtTimeAbs(f.mtime) }, fmtTime(f.mtime)));
+      // The table sorter reads data-sort-value: "3 days ago" and "1 yr ago"
+      // only sort chronologically by the timestamp behind them.
+      const mtimeMs = f.mtime ? Date.parse(f.mtime) : NaN;
+      tr.appendChild(el('td', { class: 'dex-mtime', title: fmtTimeAbs(f.mtime), 'data-sort-value': Number.isFinite(mtimeMs) ? mtimeMs : null }, fmtTime(f.mtime)));
       const rc = recordCount(f);
       tr.appendChild(el('td', { class: 'dex-num' }, rc == null ? '—' : fmtCount(rc)));
       tr.appendChild(el('td', { class: 'dex-keys', title: schemaSnippet(f) }, schemaSnippet(f)));

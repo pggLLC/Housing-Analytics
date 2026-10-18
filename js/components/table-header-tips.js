@@ -6,9 +6,14 @@
  * native title is invisible until the pointer rests on it for a second,
  * never appears on touch, and gives no hint that a definition exists — so
  * a header like "NEED PCTL" (the global `table th` rule uppercases labels)
- * read as jargon with no way in. Every <th> now gets a small "?" control;
- * hover, focus or tap shows the definition in a popover, and the popover
- * is linked to the header with aria-describedby for screen readers.
+ * read as jargon with no way in. A header with a definition now gets a
+ * dotted underline on its label (the same signal glossary terms use in body
+ * text); hovering the header or focusing it shows the definition in a
+ * popover, linked with aria-describedby for screen readers. On touch, where
+ * there is no hover, a tap on the label opens it and does not sort — the
+ * sort arrow from table-sort.js is the separate touch target. (Until
+ * 2026-10-18 the trigger was a separate circled "i" glyph; paul asked for
+ * the header itself to carry the tip because the glyph read as clutter.)
  *
  * Where the text comes from, in order:
  *   1. the header's own `title` attribute (moved to data-tip so the native
@@ -27,9 +32,16 @@
 (function () {
   'use strict';
 
-  var MAP_PATH = 'data/table-header-tips.json';
+  // Resolved from this script's own URL so nested pages (docs/components.html)
+  // find the site-root data folder too.
+  var SELF = document.currentScript && document.currentScript.src;
+  var MAP_PATH = SELF && /js\/components\/table-header-tips\.js(\?.*)?$/.test(SELF)
+    ? SELF.replace(/js\/components\/table-header-tips\.js(\?.*)?$/, 'data/table-header-tips.json')
+    : 'data/table-header-tips.json';
   var map = null;
   var counter = 0;
+  var lastPointerTouch = false;
+  document.addEventListener('pointerdown', function (e) { lastPointerTouch = e.pointerType === 'touch' || e.pointerType === 'pen'; }, true);
 
   function normalize(text) {
     return String(text || '')
@@ -85,25 +97,13 @@
     pop.style.top = top + 'px';
   }
 
-  // The header's own last word: a text node that is a direct child of the
-  // <th> and carries more than a sort arrow. Text inside child elements is
-  // left alone, because renderers rewrite those (preservation.js assigns
-  // `.sort-icon.textContent` on every sort) and would delete the glyph.
-  function lastOwnTextNode(th) {
-    var last = null;
-    for (var n = th.firstChild; n; n = n.nextSibling) {
-      if (n.nodeType === 3 && /[^\s▲▼↑↓⇅↕?]/.test(n.nodeValue)) last = n;
-    }
-    return last;
-  }
-
   function decorate(th) {
-    if (th.querySelector('.th-tip__btn')) return;
-    if (th.querySelector('input, select, button, textarea')) return;
+    if (th.querySelector('.th-tip__label')) return;
+    if (th.querySelector('input, select, textarea, button:not(.th-sort)')) return;
     // A header that already links to its own explanation (the footnote
     // daggers on chfa-portfolio.html) keeps that link as its one control:
-    // a second 44px target beside it would share the same pixels, so a tap
-    // there would reach whichever wins hit testing (Codex on #2239).
+    // making the label a second tap target would compete with the link for
+    // the same pixels (Codex on #2239).
     // Its definition still rides on the header as a native title, which
     // table-export.js reads for the downloaded data dictionary.
     if (th.querySelector('a[href]')) {
@@ -118,21 +118,6 @@
     if (!tip) return;
 
     var id = 'thtip-' + (++counter);
-    var label = th.textContent.replace(/\s+/g, ' ').trim();
-
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'th-tip__btn';
-    btn.setAttribute('aria-label', 'What does "' + label + '" mean?');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-controls', id);
-    // A small inline "i" glyph, sized to the label text so it sits on the
-    // label's baseline. The 24px hit area comes from CSS (::before), not
-    // from the glyph's layout box, so it never pushes the label around.
-    btn.innerHTML = '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">'
-      + '<circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>'
-      + '<rect x="7.2" y="7" width="1.6" height="4.6" rx=".8" fill="currentColor"/>'
-      + '<circle cx="8" cy="4.6" r="1" fill="currentColor"/></svg>';
 
     var pop = document.createElement('span');
     pop.className = 'th-tip__pop';
@@ -143,35 +128,37 @@
     th.addEventListener('mouseenter', function () { place(th); });
     th.addEventListener('focusin', function () { place(th); });
 
-    // Sortable headers sort on click; the glyph must not also sort.
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
+    // The label itself carries the definition: a dotted underline marks
+    // it, hover or keyboard focus shows it. On touch there is no hover, so
+    // a tap anywhere on the header opens it (the whole cell is the target,
+    // at least 44px tall) and does not sort; the sort arrow from
+    // table-sort.js is the separate touch target.
+    var label = document.createElement('span');
+    label.className = 'th-tip__label';
+    var kids = [];
+    for (var n = th.firstChild; n; n = n.nextSibling) if (!(n.classList && n.classList.contains('th-sort'))) kids.push(n);
+    kids.forEach(function (k) { label.appendChild(k); });
+    th.insertBefore(label, th.querySelector('.th-sort'));
+    th.addEventListener('click', function (e) {
+      // The arrow's header click (table-sort.js) is not a tap on the label.
+      // Nor is a click with no pointer behind it (detail 0): renderers that
+      // sort on Enter/Space call th.click(), and a touch earlier on the page
+      // must not turn that keypress into opening the definition.
+      if (e.thSortArrow || !lastPointerTouch || !e.detail || (e.target.closest && e.target.closest('.th-sort'))) return;
+      e.stopImmediatePropagation();
       e.preventDefault();
       var open = th.classList.toggle('is-open');
       if (open) place(th);
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    btn.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { th.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+    }, true);
+    th.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') th.classList.remove('is-open');
     });
 
     th.classList.add('th-tip');
     th.setAttribute('aria-describedby', id);
-    // Keep the glyph glued to the label's last word: if a narrow column
-    // wraps the label, the glyph wraps with that word instead of landing
-    // alone on a line of its own.
-    var tail = document.createElement('span');
-    tail.className = 'th-tip__tail';
-    var last = lastOwnTextNode(th);
-    var m = last && /(\S+)(\s*)$/.exec(last.nodeValue);
-    if (m) {
-      last.nodeValue = last.nodeValue.slice(0, m.index);
-      tail.appendChild(document.createTextNode(m[1]));
-      th.insertBefore(tail, last.nextSibling);
-    } else {
-      th.appendChild(tail);
-    }
-    tail.appendChild(btn);
+    // Marked so table-sort.js can tell a header made focusable here (for
+    // the definition) from one a renderer made its own sort control.
+    if (!th.hasAttribute('tabindex')) { th.setAttribute('tabindex', '0'); th.setAttribute('data-tip-tabindex', ''); }
     th.appendChild(pop);
   }
 
@@ -186,8 +173,6 @@
     var open = document.querySelectorAll('.th-tip.is-open');
     for (var i = 0; i < open.length; i++) {
       open[i].classList.remove('is-open');
-      var b = open[i].querySelector('.th-tip__btn');
-      if (b) b.setAttribute('aria-expanded', 'false');
     }
   });
 

@@ -389,7 +389,7 @@
     "test:workflow-next-action-prerequisites": "node test/workflow-next-action-prerequisites.test.js",
     "test:hna-workflow-autosave": "node test/hna-workflow-autosave.test.js",
     "test:pipeline-financing-tracks": "node test/pipeline-financing-tracks.test.js",
-    "test:table-header-tips": "node test/table-header-tips.test.js",
+    "test:table-header-tips": "node test/table-header-tips.test.js && node test/table-sort.test.js",
     "test:table-export": "node test/table-export.test.js && node test/table-export-rendered.test.js",
     "test:data-status-footer-live-date": "node test/data-status-footer-live-date.test.js",
     "test:content-date-freshness": "node test/content-date-freshness.test.mjs",

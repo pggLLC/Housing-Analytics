@@ -218,7 +218,7 @@ async function modelChecks() {
       <thead><tr>
         <th data-tip="Where the row is.">Place</th>
         <th title="Homes short of need.">Gap</th>
-        <th>Rent<span class="th-tip__pop">Monthly rent, from the page tip.</span><button class="th-tip__btn">?</button></th>
+        <th><span class="th-tip__label">Rent</span><span class="th-tip__pop">Monthly rent, from the page tip.</span><button class="th-sort" aria-label="Sort by Rent"><span aria-hidden="true"></span></button></th>
         <th data-tip="FIPS code.">FIPS</th>
         <th data-tip="Share of the state."><button class="sort">Share ▼</button></th>
       </tr></thead>
