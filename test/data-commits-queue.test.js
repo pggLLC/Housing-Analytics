@@ -36,7 +36,6 @@ const OUTSIDE_QUEUE = {
   'discover-local-resources-weekly.yml': 'weekly candidate list; own group (pending 2.1)',
   'pab-allocations-annual.yml': 'annual; own group (pending 2.1)',
   'qa-status.yml': 'daily QA status file; own group (pending 2.1)',
-  'rebuild-bps-permits.yml': 'permits chain; own group (pending 2.1)',
   'refresh-co-demographics.yml': 'monthly; own group, retries 5x (pending 2.1)',
   'upstream-vintage-watch.yml': 'weekly vintage file; own group (pending 2.1)',
   'url-health-weekly.yml': 'weekly URL report; own group (pending 2.1)',
@@ -49,6 +48,21 @@ const NOT_MAIN = {
   'docs-sync.yml': 'pushes a PR branch',
   'market_data_build.yml': 'pushes a PR branch',
   'external-references-check.yml': '"git push" is text in an issue body',
+};
+
+// Steps that build the manifests, commit, then rebase without building them
+// again. Each fails the day another commit lands on main inside its window.
+// Moving each to scripts/push-data-commit.sh is the follow-up; the list may
+// only shrink.
+const MANIFESTS_BEFORE_REBASE = {
+  'data-source-monitoring.yml': 'Commit discovery report',
+  'discover-local-resources-weekly.yml': 'Commit updated candidates file',
+  'fetch-cdphe-boundaries.yml': 'Commit and push',
+  'pab-allocations-annual.yml': 'Commit refreshed allocations',
+  'qa-status.yml': 'Commit data/_qa-status.json (cron only)',
+  'rebuild-place-od-flows.yml': 'Commit refreshed flows',
+  'upstream-vintage-watch.yml': 'Commit refreshed watch result',
+  'url-health-weekly.yml': 'Commit updated url-health.json',
 };
 
 let passed = 0;
@@ -84,7 +98,8 @@ function pushesToMain(f, doc) {
   const text = runText(doc);
   return /(^|[\s;&|(])git push\b/m.test(text)
     || /commit-with-derived-chain\.sh(?![^\n]*--no-push)/.test(text)
-    || /push-inventory-sync\.sh/.test(text);
+    || /push-inventory-sync\.sh/.test(text)
+    || /push-data-commit\.sh/.test(text);
 }
 
 const queued = Object.keys(docs).filter((f) => inDataCommits(docs[f]));
@@ -128,6 +143,43 @@ test('deploy.yml fetches no data of its own', () => {
     .map((s) => s.name || s.run);
   assert.deepStrictEqual(fetching, [],
     'the deploy must publish committed data; refresh data in its own workflow, which validates and commits it');
+});
+
+test('no step commits the manifests and then rebases without rebuilding them', () => {
+  const rebasing = [];
+  const stale = [];
+  for (const [f, doc] of Object.entries(docs)) {
+    if (NOT_MAIN[f]) continue; // rebases onto its own branch, which nothing else writes
+    for (const job of Object.values(doc.jobs || {})) {
+      for (const s of job.steps || []) {
+        const run = s.run || '';
+        const commit = run.indexOf('git commit');
+        const rebase = run.slice(Math.max(commit, 0)).search(/git (pull --rebase|rebase)\b/);
+        if (commit < 0 || rebase < 0) continue;
+        rebasing.push(`${f}: ${s.name}`);
+        const before = run.slice(0, commit);
+        const after = run.slice(commit + rebase);
+        if (/rebuild_manifest\.py/.test(before) && !/rebuild_manifest\.py/.test(after)) {
+          stale.push(`${f}: ${s.name}`);
+        }
+      }
+    }
+  }
+  assert.ok(rebasing.length >= 20, `the scan should find the commit-then-rebase steps, found ${rebasing.length}`);
+  const known = Object.entries(MANIFESTS_BEFORE_REBASE).map(([f, step]) => `${f}: ${step}`);
+  assert.deepStrictEqual(stale.sort(), known.sort(),
+    'a step that builds the manifests before its commit must build them again after the rebase '
+    + '(or use scripts/push-data-commit.sh); fix it, or drop a fixed step from MANIFESTS_BEFORE_REBASE');
+});
+
+test('the shared push script commits before it builds the manifests', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts', 'push-data-commit.sh'), 'utf8');
+  const at = (re) => src.search(re);
+  assert.ok(at(/^git commit -q -m/m) > 0, 'the script commits the workflow paths');
+  assert.ok(at(/^git rebase /m) > at(/^git commit -q -m/m), 'it rebases after that commit');
+  assert.ok(at(/^python3 scripts\/rebuild_manifest\.py/m) > at(/^git rebase /m), 'and builds the manifests after the rebase');
+  assert.ok(at(/^npm run -s audit:file-manifest/m) < at(/^python3 scripts\/rebuild_manifest\.py/m),
+    'data/_manifest.json first, then data/manifest.json (two-manifest trap)');
 });
 
 console.log(`\n${passed} passed`);
