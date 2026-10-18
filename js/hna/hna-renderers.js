@@ -1909,10 +1909,18 @@
         noteEl.style.marginTop = '4px';
         noteEl.style.fontStyle = 'italic';
       } else if (isPlace && _rawPlaceLabel) {
-        // ACS fetch failed; only county available — keep the F183 disclosure.
+        // No place age table, so the county stands in (F183). The note names
+        // whose ages these are, whose figures, and why, in plain words. The
+        // published site carries no Census key, so there the place table is
+        // never requested; "fetch failed" told every visitor a call had
+        // broken when none was made (trust sweep, 2026-10-18).
+        const dolaYear = dola && Number.isFinite(Number(dola.pyramidYear)) ? ' for ' + Number(dola.pyramidYear) : '';
+        const why = ctx && ctx.placeAgeReason === 'census_failed'
+          ? 'The Census Bureau’s age table for ' + escHtml(_placeLabel) + ' did not load, so the county stands in.'
+          : 'This page does not load the Census Bureau’s age table for ' + escHtml(_placeLabel) + ', so the county stands in.';
         noteEl.innerHTML =
-          '<strong>Data shown: ' + escHtml(_countyLabel) + '</strong> — place-level ACS B01001 fetch failed; ' +
-          'falling back to county DOLA SYA. For ' + escHtml(_placeLabel) + '-specific cohorts, retry or check Census API status.';
+          '<strong>Ages shown are for ' + escHtml(_countyLabel) + '</strong>, from the State Demography Office’s county figures' +
+          dolaYear + '. ' + why;
         noteEl.style.fontSize = '.78rem';
         noteEl.style.color = 'var(--muted)';
         noteEl.style.marginTop = '4px';

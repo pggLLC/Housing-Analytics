@@ -319,9 +319,12 @@
     // 20-year outlook / population projection
     '20-year outlook': function (c) {
       if (c.pop == null || c.pop20yr == null) return null;
-      var hh = c.avgHhSize || 2.45;
       var deltaPop = c.pop20yr - c.pop;
-      var deltaHh = Math.round(deltaPop / hh);
+      // No household size, no household count: a stand-in 2.45 made one up.
+      var hhClause = c.avgHhSize > 0
+        ? ' — about ' + _fmtInt(Math.abs(Math.round(deltaPop / c.avgHhSize))) + ' ' +
+          (deltaPop > 0 ? 'new' : 'fewer') + ' households at current household size'
+        : '';
       var pctG = ((deltaPop / c.pop) * 100).toFixed(1);
       var direction = deltaPop > 0 ? 'growth' : 'contraction';
       var pressure = deltaPop > 0 && c.pctSfDetached != null && c.pctSfDetached >= 70
@@ -329,8 +332,7 @@
         : '';
       return '<strong>Projected to ' + (deltaPop > 0 ? 'add ' : 'lose ') +
         _fmtInt(Math.abs(deltaPop)) + ' residents (' + pctG + '% ' + direction + ')</strong> ' +
-        'over 20 years — about ' + _fmtInt(Math.abs(deltaHh)) +
-        ' ' + (deltaPop > 0 ? 'new' : 'fewer') + ' households at current household size.' + pressure;
+        'over 20 years (from the State Demography Office\u2019s county forecast)' + hhClause + '.' + pressure;
     },
 
     // Senior growth pressure
