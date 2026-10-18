@@ -108,8 +108,13 @@ run('a signing failure explains the line-break cause', () => {
 });
 
 function loadNormalizeMarket() {
-  const parts = ['const MAX_SPREAD = 0.10;', 'function contractPrice', 'function strikeOf', 'function enforceLadder', 'function normalizeMarket']
-    .map((head) => head.startsWith('const') ? new RegExp(head.replace(/[.]/g, '\\.')).exec(SRC) : new RegExp(head + '[\\s\\S]*?\\n}\\n').exec(SRC));
+  const parts = [
+    /const MAX_SPREAD = 0\.10;/,
+    /function contractPrice[\s\S]*?\n}\n/,
+    /function strikeOf[\s\S]*?\n}\n/,
+    /function enforceLadder[\s\S]*?\n}\n/,
+    /function normalizeMarket[\s\S]*?\n}\n/
+  ].map((re) => re.exec(SRC));
   assert.ok(parts.every(Boolean), 'MAX_SPREAD, contractPrice, strikeOf, enforceLadder and normalizeMarket must exist');
   const ctx = {};
   vm.createContext(ctx);
