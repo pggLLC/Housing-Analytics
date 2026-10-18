@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T09:18:22.531Z",
+    "generated_at": "2026-10-18T09:41:08.289Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192368497,
+    "total_size_bytes": 192366012,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T09:18:18.565Z",
+      "mtime": "2026-10-18T09:41:05.640Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1643,7 +1643,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1258191,
-      "mtime": "2026-10-17T09:37:30.306Z",
+      "mtime": "2026-10-18T09:40:32.842Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31078,7 +31078,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 221287,
-      "mtime": "2026-10-18T08:40:52.897Z",
+      "mtime": "2026-10-18T09:40:33.008Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31595,8 +31595,8 @@
     {
       "path": "market/employment_centers_co.geojson",
       "kind": "geojson",
-      "size_bytes": 774302,
-      "mtime": "2026-09-25T12:55:18.848Z",
+      "size_bytes": 774664,
+      "mtime": "2026-10-18T09:40:33.028Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31617,10 +31617,10 @@
     {
       "path": "market/environmental_constraints_co.geojson",
       "kind": "geojson",
-      "size_bytes": 511275,
-      "mtime": "2026-09-25T12:55:18.849Z",
+      "size_bytes": 508428,
+      "mtime": "2026-10-18T09:40:33.029Z",
       "shape": "geojson",
-      "feature_count": 1070,
+      "feature_count": 1063,
       "property_keys": [
         "geoid",
         "name",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T09:18:20.499Z",
+      "mtime": "2026-10-18T09:41:06.879Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T09:18:20.001Z",
+      "mtime": "2026-10-18T09:41:06.571Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
