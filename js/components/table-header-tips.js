@@ -32,7 +32,12 @@
 (function () {
   'use strict';
 
-  var MAP_PATH = 'data/table-header-tips.json';
+  // Resolved from this script's own URL so nested pages (docs/components.html)
+  // find the site-root data folder too.
+  var SELF = document.currentScript && document.currentScript.src;
+  var MAP_PATH = SELF && /js\/components\/table-header-tips\.js(\?.*)?$/.test(SELF)
+    ? SELF.replace(/js\/components\/table-header-tips\.js(\?.*)?$/, 'data/table-header-tips.json')
+    : 'data/table-header-tips.json';
   var map = null;
   var counter = 0;
   var lastPointerTouch = false;

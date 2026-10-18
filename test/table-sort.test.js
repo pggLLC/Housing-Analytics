@@ -205,6 +205,7 @@ const touchTap = (el) => {
     if (e.isDirectory()) return /^(\.|node_modules$|assets$|test$|tests$|vendor$|_site$)/.test(e.name) ? [] : walk(rel);
     return e.name.endsWith('.html') ? [rel] : [];
   });
+  assert.ok(/currentScript[\s\S]*'data\/table-header-tips\.json'\)/.test(read('js/components/table-header-tips.js')), 'the definitions map resolves from the script URL, so nested pages find it');
   const noSorter = walk('').filter((p) => { const h = read(p); return /<table\b/i.test(h) && !h.includes('js/components/table-sort.js'); });
   assert.deepEqual(noSorter, [], 'pages with tables that do not load table-sort.js');
   const missing = pages.filter((p) => { const h = read(p); return h.includes('js/components/table-header-tips.js') && !h.includes('js/components/table-sort.js'); });
