@@ -3,7 +3,7 @@
   "jurisdiction": "City of Fort Collins",
   "scope": "place",
   "containing_county_fips": "08069",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Fort Collins' verified affordable-housing brief now rests on direct source fetches for Housing Catalyst's public-housing-authority role, permanent-supportive and affordable-rental projects, CHFA tax-credit awards, the Land Bank program, city development incentives, Proposition 123 land-banking funds, and the 2024 repeal of U+2 occupancy limits.",
@@ -33,6 +33,12 @@
             "s8",
             "s9",
             "s20"
+          ]
+        },
+        {
+          "text": "City-owned land at 314 North Howes Street is moving toward Housing Catalyst. Council's April 21, 2026 agenda carried Resolution 2026-060, an option agreement to convey the property to Housing Catalyst at nominal consideration in support of affordable housing, so staff could keep negotiating toward a final purchase and sale agreement. The site's current tenant, EcoThrift, has a lease that runs through September 30, 2026. The agenda shows the item was scheduled; whether Council adopted it is unconfirmed here.",
+          "cites": [
+            "s-howes-2026"
           ]
         }
       ]
@@ -161,7 +167,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Fort Collins' recent verified development activity is concentrated in affordable-home production and land deployment. Housing Catalyst's Village on Eastbrook is planned for 73 new homes with an all-electric design and solar system, supported by a .61 million Proposition 123 Land Banking award on a 2.9-acre parcel. The Kechter Townhomes land-bank project adds a separate for-sale homeownership signal, with 54 homes restricted to 80% AMI.",
+          "text": "Fort Collins' recent verified development activity is concentrated in affordable-home production and land deployment. Housing Catalyst's Village on Eastbrook is planned for 73 new homes with an all-electric design and solar system, supported by a $1.61 million Proposition 123 Land Banking award on a 2.9-acre parcel. The Kechter Townhomes land-bank project adds a separate for-sale homeownership signal, with 54 homes restricted to 80% AMI.",
           "cites": [
             "s20",
             "s25",
@@ -745,6 +751,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s-howes-2026",
+      "label": "City Council regular meeting agenda, April 21, 2026, item 22 (Resolution 2026-060) — City of Fort Collins",
+      "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&ip=True&me=0507f97438d4498aacff5dc939081b29",
+      "kind": "government",
+      "accessed": "2026-10-18"
     }
   ]
 }

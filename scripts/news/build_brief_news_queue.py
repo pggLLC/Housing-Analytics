@@ -22,7 +22,11 @@ reviewer which brief to open and why.
 How a story leaves the queue: the brief is re-reviewed (`last_curated` moves
 past the story's date), or the story is recorded in
 data/jurisdiction-briefs/_news-used.json as `used` (it went into the brief) or
-`dismissed` (with the reason). That ledger is how the queue learns.
+`dismissed` (with the reason). That ledger is how the queue learns. A story
+recorded as `unread` (it could not be read: paywall, blocked publisher, video
+only) is the exception: it stays in the queue through any re-review, until
+someone reads it and changes its status to `used` or `dismissed`. An unread
+entry needs the story's own `date`; one without it is skipped with a warning.
 
 Matching:
   - a story naming the brief's own geography matches as `place`;
@@ -112,6 +116,31 @@ def ledger_keys(ledger: dict | None) -> dict[str, set]:
     return keys
 
 
+def _calendar_date(value) -> bool:
+    """True for a real YYYY-MM-DD date (not 2026-02-30 or 2026-13-01)."""
+    if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(value or '')):
+        return False
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
+
+
+def unread_leads(ledger: dict | None) -> dict[str, list]:
+    """geoid → stories a reviewer could not read (status "unread"). They stay queued whatever the
+    brief's last review date, until someone reads them and marks them used or dismissed."""
+    out: dict[str, list] = {}
+    for e in (ledger or {}).get('entries') or []:
+        if e.get('status') != 'unread' or not e.get('geoid') or not e.get('title'):
+            continue
+        if not _calendar_date(e.get('date')):
+            print(f"⚠ unread entry without its story date skipped: {e['geoid']} {e['title']!r}", file=sys.stderr)
+            continue
+        out.setdefault(e['geoid'], []).append(e)
+    return out
+
+
 def match_story(brief: dict, story: dict, counties: dict[str, str]) -> str | None:
     for p in story.get('places') or []:
         g = p.get('geoid')
@@ -140,6 +169,7 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
           counties: dict[str, str], ledger: dict | None, candidates: list[dict] | None = None,
           events_meta: dict | None = None) -> dict:
     handled = ledger_keys(ledger)
+    unread = unread_leads(ledger)
     rows = []
     for b in briefs:
         done = handled.get(b['geoid'], set())
@@ -155,6 +185,17 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
                 found.append({'title': s['title'], 'source': s.get('source'), 'link': s.get('link'),
                               'date': s['date'], 'match': m,
                               'also': [a.get('source') for a in s.get('also') or [] if a.get('source')]})
+        for e in unread.get(b['geoid'], []):
+            note = e.get('reason') or 'Not read yet.'
+            same = [x for x in found if (e.get('link') and x.get('link') == e['link'])
+                    or norm_title(x['title']) == norm_title(e['title'])]
+            for x in same:
+                x['unread'] = note
+            if same:
+                continue
+            found.append({'title': e['title'], 'source': e.get('source'), 'link': e.get('link'),
+                          'date': e['date'], 'match': e.get('match') or 'place', 'also': [],
+                          'unread': note})
         found.sort(key=lambda x: x['date'], reverse=True)
         found.sort(key=lambda x: x['match'] != 'place')
         evs = [{'title': e['title'], 'start': e['start'], 'end': e.get('end'), 'location': e.get('location'),
@@ -165,13 +206,17 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
         except (TypeError, ValueError):
             days = None
         reasons = []
-        own = sum(1 for x in found if x['match'] == 'place')
+        fresh = [x for x in found if not (x.get('unread') and x['date'] < since)]
+        own = sum(1 for x in fresh if x['match'] == 'place')
         if own:
             reasons.append(f'{own} new {"story" if own == 1 else "stories"} naming it')
-        if len(found) > own:
-            n = len(found) - own
+        if len(fresh) > own:
+            n = len(fresh) - own
             reasons.append(f'{n} new {"story" if n == 1 else "stories"} about its '
                            + ('towns' if b['scope'] == 'county' else 'county'))
+        if len(found) > len(fresh):
+            n = len(found) - len(fresh)
+            reasons.append(f'{n} older {"story" if n == 1 else "stories"} not read yet')
         if days is None:
             reasons.append('no review date on file')
         elif days > STALE_DAYS:
@@ -191,7 +236,8 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
             'events_as_of': (events_meta or {}).get('as_of'),
             'method': ('Headlines from data/policy_briefs.json dated on or after each brief\'s last review '
                        '(last_curated), matched by the places the news pipeline tagged in them. Stories '
-                       'recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. '
+                       'recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; '
+                       'stories recorded there as unread stay in until someone reads them. '
                        'Headlines are leads for a reviewer, not sources: a brief claim still needs the article '
                        'and its quote in _verified/.'),
         },

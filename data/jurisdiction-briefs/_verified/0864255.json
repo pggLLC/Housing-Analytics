@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0864255",
   "brief_jurisdiction": "City of Rifle",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "lihtc-history",
@@ -102,6 +102,15 @@
       "verdict": "supported",
       "supporting_quote": "Habitat for Humanity is in the process of developing a  million facility here in Rifle that will, ultimately, within the next several years, be producing up to 200 homes (units) a year and hiring 64 employees and training up to 100 students a year at the facility.",
       "notes": "Quote reused from the Silt B4 pilot verification row for the same directly fetched Post Independent article; source is added to the Rifle brief for the Rifle-specific facility signal."
+    },
+    {
+      "section_id": "rifle-recent-business-developments",
+      "paragraph_index": 1,
+      "source_id": "s16",
+      "source_url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
+      "verdict": "supported",
+      "supporting_quote": "Roberts Resorts & Communities, a premier owner and operator of manufactured housing and resort communities across the United States, announced the acquisition of King's Crown, a 200-space residential community in Rifle, Colorado. The property will be rebranded as Elk Run MHC ... [Article date, from the page metadata: article:published_time\" content=\"2026-07-22T14:05:00-05:00\"]",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [
@@ -219,11 +228,12 @@
     }
   ],
   "summary": {
-    "total": 6,
-    "supported": 6,
+    "total": 12,
+    "supported": 12,
     "partial": 0,
     "unsupported": 0,
-    "inaccessible": 0
+    "inaccessible": 0,
+    "dropped": 14
   },
   "strip_summary": {
     "original_cite_pairs": 21,

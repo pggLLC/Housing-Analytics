@@ -309,6 +309,15 @@
       "verdict": "supported",
       "supporting_quote": "Located at 3620 Kechter Road, Kechter Townhomes ... These for-sale homes are restricted to 80% of the area median income (AMI). ... provide 54 families a path to affordable home ownership.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "housing-catalyst",
+      "paragraph_index": 3,
+      "source_id": "s-howes-2026",
+      "source_url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&ip=True&me=0507f97438d4498aacff5dc939081b29",
+      "verdict": "supported",
+      "supporting_quote": "City Council Regular Meeting 04/21/2026 ... 22. Resolution 2026-060 Approving an Option Agreement for the Potential Sale of City-Owned Real Property Located at 314 North Howes Street in Support of Affordable Housing Development. ... The Property is currently owned by the City and supports EcoThrift, which is a private tenant ... The current tenant’s lease expires on September 30, 2026. City staff has negotiated an Option Agreement with the intention to convey 314 North Howes to Housing Catalyst at nominal consideration in support of affordable housing. The proposed resolution would approve an Option Agreement to allow staff to continue negotiations toward a final Purchase and Sale Agreement.",
+      "notes": "2026-10-18 news review; direct fetch of the official agenda. The agenda shows the item scheduled, not its outcome; the paragraph says adoption is unconfirmed."
     }
   ],
   "dropped_rows": [
@@ -349,8 +358,8 @@
     }
   ],
   "summary": {
-    "total": 29,
-    "supported": 29,
+    "total": 35,
+    "supported": 35,
     "partial": 0,
     "unsupported": 0,
     "inaccessible": 0,

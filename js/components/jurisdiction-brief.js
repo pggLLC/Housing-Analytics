@@ -277,9 +277,10 @@
     var generated = Date.parse((queue.meta && queue.meta.generated) || '');
     var stale = !isFinite(generated) || ((now || new Date()).getTime() - generated) > NEWS_STALE_DAYS * 864e5;
     // The brief's own review date wins over the queue's: a brief re-reviewed
-    // today drops the older headlines before the next daily rebuild.
+    // today drops the older headlines before the next daily rebuild. A lead
+    // nobody could read yet (st.unread) stays until someone reads it.
     var stories = (row && Array.isArray(row.stories) ? row.stories : []).filter(function (st) {
-      return st && st.title && (!brief.last_curated || String(st.date || '') >= brief.last_curated);
+      return st && st.title && (st.unread || !brief.last_curated || String(st.date || '') >= brief.last_curated);
     });
     var events = row && Array.isArray(row.events) ? row.events : [];
     var today = new Date((now || new Date()).getTime() - 7 * 36e5).toISOString().slice(0, 10);
@@ -290,6 +291,7 @@
       '<p class="jbrief-news__note">Headlines that named ' + _esc(brief.jurisdiction) + ' on or after ' +
       _esc(_newsDate(brief.last_curated) || 'its last review') + ', matched by place name. They are leads for the ' +
       'next review, not part of this brief and not sources for it.' +
+      (stories.some(function (st) { return st.unread && brief.last_curated && String(st.date || '') < brief.last_curated; }) ? ' Older headlines marked "not yet read" come from before that date and still need reading.' : '') +
       (stale ? ' <strong>The queue has not updated since ' + _esc(_newsDate(new Date(generated || 0).toISOString().slice(0, 10)) || 'an unknown date') + '.</strong>' : '') +
       '</p>';
     if (!stories.length) {
@@ -298,7 +300,7 @@
       html += '<ul>' + stories.map(function (st) {
         var url = _safeUrl(st.link);
         var head = url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(st.title) + '</a>' : _esc(st.title);
-        var meta = [st.source, MATCH_LABEL[st.match]].filter(Boolean).map(_esc).join(' · ');
+        var meta = [st.source, MATCH_LABEL[st.match], st.unread ? ((brief.last_curated && String(st.date || '') < brief.last_curated ? 'older lead, ' : '') + 'not yet read for this brief') : ''].filter(Boolean).map(_esc).join(' · ');
         return '<li><span class="jbrief-news__date">' + _esc(_newsDate(st.date)) + '</span>' + head +
           (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
       }).join('') + '</ul>';

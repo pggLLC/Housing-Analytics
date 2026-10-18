@@ -200,7 +200,10 @@ already puts on every headline. A headline is a lead, not a source: a claim
 still needs the article and its quote in `_verified/`. A story leaves the queue
 when the brief is re-reviewed (`last_curated` moves past its date), or when it
 is recorded in `_news-used.json` as `used` (the brief was updated from it) or
-`dismissed` (with a reason).
+`dismissed` (with a reason). A story recorded as `unread` (paywalled, blocked or
+video only, with its own `date`, `source` and `match`) is the exception: it
+stays through any re-review until someone reads it and marks it `used` or
+`dismissed`.
 
 ```bash
 # What needs a brief but doesn't have one?

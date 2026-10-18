@@ -3,7 +3,7 @@
   "jurisdiction": "Town of Telluride",
   "scope": "place",
   "containing_county_fips": "08113",
-  "last_curated": "2026-07-30",
+  "last_curated": "2026-10-18",
   "curator": "auto-draft",
   "published": false,
   "summary": "Skeleton brief for Town of Telluride — auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
@@ -44,6 +44,18 @@
             "s3"
           ],
           "needs_source": true
+        }
+      ]
+    },
+    {
+      "id": "housing-policy-review",
+      "heading": "Housing policy review",
+      "paragraphs": [
+        {
+          "text": "On Sept. 1, 2026, Telluride Town Council, acting as the Telluride Housing Authority, reviewed a request for proposals to hire a consultant to analyze the town's housing policies before it reviews and possibly amends them in 2027.",
+          "cites": [
+            "s4"
+          ]
         }
       ]
     },
@@ -481,6 +493,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s4",
+      "label": "Council discusses hiring consultants to review Telluride housing policies — The Telluride Times",
+      "url": "https://www.telluridenews.com/news/article_faa3af4b-23c1-445b-a6c6-80541f470b37.html",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 2160
