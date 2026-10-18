@@ -216,21 +216,17 @@
       });
     }
 
-    // 7. NHPD — National Housing Preservation Database. Searches by zip.
-    if (n.zip) {
+    // 7. NHPD — National Housing Preservation Database. NHPD's property
+    //    search sits behind a sign-in and has no public deep-link URL
+    //    (the old /property-search/?zip= and ?city= patterns now 404), so
+    //    link to its access page and name the ZIP or city to search for.
+    if (n.zip || (n.city && n.state)) {
       links.push({
         key:   'nhpd',
         label: 'NHPD',
-        title: 'Search the National Housing Preservation Database for this zip',
-        url:   'https://preservationdatabase.org/property-search/?zip=' + _enc(n.zip),
-        icon:  '📋'
-      });
-    } else if (n.city && n.state) {
-      links.push({
-        key:   'nhpd',
-        label: 'NHPD',
-        title: 'Search NHPD by city + state',
-        url:   'https://preservationdatabase.org/property-search/?city=' + _enc(n.city) + '&state=' + _enc(n.state),
+        title: 'Open the National Housing Preservation Database (sign-in required), then search for ' +
+               (n.zip ? 'ZIP ' + n.zip : n.city + ', ' + n.state),
+        url:   'https://preservationdatabase.org/access/',
         icon:  '📋'
       });
     }

@@ -582,3 +582,33 @@ test('a no-position record without a check date does not blank the candidates se
   const card = [...host.querySelectorAll('[data-candidate]')].find((el) => el.dataset.candidate === record.candidate);
   assert.match(normalized(card.textContent), /No housing position found in published campaign material(?! \(checked)/);
 });
+
+// Research notes may name a coverage state by its code; readers must see words.
+const CODE_TOKEN = /(?<![\w./-])[a-z][a-z0-9]*(?:_[a-z0-9]+)+(?![\w-]*\.\w)/g;
+const INTERNALS = /\bHTTP \d{3}\b|\b(?:sources|measure)\.[a-z_]+\b/g;
+const proseOnly = (text) => text.replace(/https?:\/\/\S+/g, ' ');
+
+test('rendered research notes and coverage labels carry no internal codes', async (t) => {
+  const { doc } = await page(t);
+  const rows = [...doc.querySelectorAll('#coverage-rows tr')];
+  assert.ok(new Set(rows.map((tr) => tr.dataset.coverageState)).size > 1, 'the scan must cover several coverage states');
+  // Non-vacuity: the source notes really do name codes the renderer has to translate.
+  const coded = BALLOTS.flatMap((b) => [...b.coverage, ...b.entries])
+    .flatMap((row) => row.limitations || []).filter((text) => (proseOnly(text).match(CODE_TOKEN) || []).length > 0);
+  assert.ok(coded.length > 0, 'the scan must find source notes that name a code');
+  const shown = [...doc.querySelectorAll('#election-data li, #election-data td, #election-data p')];
+  assert.ok(shown.length > 100, 'the scan must inspect rendered notes');
+  const leaks = new Set();
+  for (const el of shown) {
+    const text = proseOnly(el.textContent);
+    const found = [...(text.match(CODE_TOKEN) || []), ...(text.match(INTERNALS) || [])];
+    if (found.length) leaks.add(`${found.join(', ')} :: ${text.trim().slice(0, 120)}`);
+  }
+  assert.deepEqual([...leaks], [], 'rendered prose must not show internal codes');
+  // A note that names a state must use the same label the coverage column shows.
+  const labels = new Set(rows.map((tr) => tr.cells[2].textContent));
+  const quoted = shown.flatMap((el) => [...el.textContent.matchAll(/“([^”]+)”/g)].map((m) => m[1]))
+    .filter((q) => /^(Not applicable|Official |Not yet researched)/.test(q));
+  assert.ok(quoted.length > 0, 'translated notes must be found');
+  for (const q of quoted) assert.ok(labels.has(q) || q === 'Not applicable', `note label "${q}" must match a coverage label`);
+});

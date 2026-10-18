@@ -91,7 +91,7 @@
       "price_high": null,
       "as_of": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
-      "source_note": "Official CDFI Fund program page verifies the program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read. Re-checked 2026-10-09: the CDFI Fund page states no price; one Area Development worked example (Q3 2026) assumes about $0.79, which is an illustration, not a market range.",
+      "source_note": "Official CDFI Fund program page verifies the program but does not publish current cents-per-credit market pricing. No price is shown until a pricing source that can be read and cited is found. Re-checked 2026-10-09: the CDFI Fund page states no price; one Area Development worked example (Q3 2026) assumes about $0.79, which is an illustration, not a market range.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-07"
     },
@@ -105,7 +105,7 @@
       "price_high": null,
       "as_of": null,
       "source_url": "https://www.nps.gov/subjects/taxincentives/index.htm",
-      "source_note": "Official NPS tax incentives page verifies the federal HTC program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read. Re-checked 2026-10-09: the NPS page states no price, and the Novogradac pages that discuss HTC pricing block scripted reads.",
+      "source_note": "Official NPS tax incentives page verifies the federal HTC program but does not publish current cents-per-credit market pricing. No price is shown until a pricing source that can be read and cited is found. Re-checked 2026-10-09: the NPS page states no price, and the Novogradac pages that discuss HTC pricing block scripted reads.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-07"
     }

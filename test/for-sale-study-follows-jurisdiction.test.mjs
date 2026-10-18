@@ -348,6 +348,39 @@ test('no report is offered when the demand sections could not be screened', () =
     'the preview does not say why there is no report');
 });
 
+test('with no jurisdiction chosen, the demand sections ask for a place instead of reporting a failure', () => {
+  // Nothing failed on the landing view: there is no place to screen yet. The
+  // ask must route where the example banner routes, and the failure wording is
+  // reserved for a chosen jurisdiction that really could not be screened.
+  const example = mountFor(StudyGeography.inputs(null, DATA, ENGINES));
+  const orphan = mountFor(StudyGeography.inputs({ geoid: '0899999', geoLevel: 'place', name: 'Unknown' }, DATA, ENGINES));
+  const bannerLink = example.mount.querySelector('[data-study-mode="example"] a[href*="select-jurisdiction"]');
+  const orphanS5 = orphan.mount.querySelector('#ms-s5');
+  assert.ok(bannerLink, 'the example banner must link to the jurisdiction picker');
+  assert.ok(orphanS5, 'section 5 must render for a chosen jurisdiction');
+  const bannerRoute = bannerLink.getAttribute('href');
+  const failureWording = orphanS5.textContent;
+  const reason = orphan.data.geography.unavailable && orphan.data.geography.unavailable.detail;
+  assert.ok(reason && failureWording.includes(reason), 'the failure case must still state its reason');
+  const preview = example.dom.window.document.getElementById('marketStudyReportPreview');
+  const checked = [];
+  for (const el of [example.mount.querySelector('#ms-s5'), example.mount.querySelector('#ms-s6'), preview]) {
+    assert.ok(el, 'empty-state section missing');
+    checked.push(el);
+    assert.ok(el.querySelector(`a[href="${bannerRoute}"]`), 'the empty state must route where the example banner routes');
+    assert.ok(!el.textContent.includes(reason), 'the empty state must not report the failure reason');
+    assert.ok(!/could not be screened|No report for this jurisdiction/.test(el.textContent),
+      'the empty state must not read as a failure');
+  }
+  assert.strictEqual(checked.length, 3, 'the scan must cover both sections and the report preview');
+  for (const id of ['ms-s5', 'ms-s6']) {
+    assert.strictEqual(example.mount.querySelector(`#${id}`).getAttribute('data-unmeasured'), 'true');
+    assert.strictEqual(orphan.mount.querySelector(`#${id} a[href="${bannerRoute}"]`), null,
+      'a chosen jurisdiction that failed must not be told to choose a place');
+  }
+  assert.strictEqual(example.dom.window.document.getElementById('marketStudyReportDownload').disabled, true);
+});
+
 test('the exported report names the reader\'s jurisdiction, not the fixture\'s', () => {
   // A downloaded file outlives the tab. One that said the example town while
   // quoting Denver's home value would be unre-checkable by whoever opens it.
