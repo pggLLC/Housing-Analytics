@@ -77,9 +77,10 @@ function enterAdded(p, over) {
     setField(p, 'dc-add-payin-closing', 100); setField(p, 'dc-add-payin-completion', 0); setField(p, 'dc-add-payin-stabilization', 0);
     assert.match(p.d.getElementById('dc-add-payin-h').textContent, /gross equity/);
     assert.equal(p.w.__DealCalc.getResult().costBasis.payIn.added.installments[0].amount, c.gross);
-    // The investor's automatic equity in the waterfall is the credit equity the sources count.
+    // The investor's automatic equity in the waterfall is what it pays in: the credit equity
+    // the sources count plus the added credit's investor fees.
     assert(r.waterfall, 'non-vacuous: the waterfall runs for this deal');
-    assert(Math.abs(r.waterfall.lpEquity - p.w.DealEngine.creditStackTotal(r)) < 0.01, 'LP equity ' + r.waterfall.lpEquity);
+    assert(Math.abs(r.waterfall.lpEquity - (p.w.DealEngine.creditStackTotal(r) + fx.added.fees)) < 0.01, 'LP equity ' + r.waterfall.lpEquity);
     // The added credit's results export with the other outputs, which come from the same result.
     const snap = p.w.__DealCalcShare.buildSnapshot();
     assert.equal(snap.outputs.addedCreditGrossEquity.value, r.costBasis.addedCredit.gross);
@@ -185,6 +186,11 @@ function enterAdded(p, over) {
     setField(p, 'dc-state-fees', 20000);
     assert.equal(p.w.__DealCalc.getResult().stateEquity, fx.state.expectedEquity - 20000);
     assert.match(p.d.getElementById('dc-cb-detail').textContent, /less \$20,000 investor fees/);
+    // The investor pays in the gross state equity, fees included.
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.creditStack.investorFees, 20000);
+    const stack = Object.assign({}, r.creditStack, { federal: 1000000 });
+    assert.equal(p.w.DealEngine.investorCapital({ creditStack: stack }), p.w.DealEngine.creditStackTotal({ creditStack: stack }) + 20000);
     assert.deepEqual(p.errors, []);
   });
 

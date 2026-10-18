@@ -584,9 +584,14 @@
     var cs = result.creditStack || { federal: result.equity, state: result.stateEquity, added: 0 };
     return known(cs.federal) && known(cs.state) && known(cs.added) ? cs.federal + cs.state + cs.added : null;
   }
+  // What the investor pays in for those credits: their equity plus the investor fees taken from it.
+  function investorCapital(result) {
+    var total = creditStackTotal(result), fees = result.creditStack ? result.creditStack.investorFees : 0;
+    return known(total) && known(fees) ? total + fees : null;
+  }
   function capitalWaterfall(result, fields) {
-    // The investor buys the credits, so the automatic LP amount is the credit equity in the sources.
-    var autoLpEquity = creditStackTotal(result);
+    // The investor buys the credits, so the automatic LP amount is what it pays in for them.
+    var autoLpEquity = investorCapital(result);
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
         result.exit.assetMgmtOwed, autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
@@ -1223,6 +1228,11 @@
       }
       addedCredit.gapAfter = creditStack.counted && Number.isFinite(gapBeforeDeferred) ? gapBeforeDeferred : null;
     }
+    // Investors pay in the gross equity; their fees come out before the project gets it.
+    // The state credit's fees follow the share of its equity still in the sources.
+    var stateFees = stateCreditApplies && stateCredit.equity !== null ? stateCredit.fees || 0 : 0;
+    creditStack.investorFees = (stateEquity > 0 ? stateFees * creditStack.state / stateEquity : stateFees)
+      + (creditStack.counted ? addedCredit.fees : 0);
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -1572,7 +1582,7 @@
     return cleaned;
   }
 
-  return { computeDeal: computeDeal, creditStackTotal: creditStackTotal, costPerGrossSf: costPerGrossSf,
+  return { computeDeal: computeDeal, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
     computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
     isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };

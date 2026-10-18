@@ -7097,8 +7097,8 @@
         var result = getResult();
         var wf = result && result.waterfall;
         var autoEl = document.getElementById('dc-wf-lp-equity-auto');
-        // The credit equity in the sources, the same amount the waterfall uses when not overridden.
-        var autoLp = result ? dealEngine().creditStackTotal(result) : null;
+        // What the investor pays in for the credits, the same amount the waterfall uses when not overridden.
+        var autoLp = result ? dealEngine().investorCapital(result) : null;
         if (autoEl) autoEl.textContent = _fmtMoney(autoLp);
         var reason = result && result.unavailable.waterfall || 'The deal calculation is unavailable.';
         ['dcWaterfallTable', 'dcWaterfallAnnualTable'].forEach(function (id) {
