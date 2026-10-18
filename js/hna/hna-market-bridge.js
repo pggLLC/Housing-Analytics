@@ -111,10 +111,12 @@
     var ami30, ami50, ami60;
     if (!_missing(c30) || !_missing(c50) || !_missing(c60)) {
       cum = { '30': c30, '50': c50, '60': c60 };
-      var top30 = _num(c30, 0), top50 = Math.max(top30, _num(c50, 0));
+      // A band is only known when every lower threshold is known too.
+      var top30 = _missing(c30) ? null : c30;
+      var top50 = (top30 === null || _missing(c50)) ? null : Math.max(top30, c50);
       ami30 = c30;
-      ami50 = _missing(c50) ? null : Math.max(0, c50 - top30);
-      ami60 = _missing(c60) ? null : Math.max(0, c60 - top50);
+      ami50 = (_missing(c50) || top30 === null) ? null : Math.max(0, c50 - top30);
+      ami60 = (_missing(c60) || top50 === null) ? null : Math.max(0, c60 - top50);
     } else {
       ami30 = _num(hnaData.ami30UnitsNeeded || hnaData.gap_30ami, null);
       ami50 = _num(hnaData.ami50UnitsNeeded || hnaData.gap_50ami, null);
@@ -124,7 +126,11 @@
     var vacancy = _num(hnaData.vacancyRate || hnaData.vacancy, null);
 
     // Compute total if not provided: the bands do not overlap, so they add.
-    if (_missing(total) && (!_missing(ami30) || !_missing(ami50) || !_missing(ami60))) {
+    if (_missing(total) && cum) {
+      // The largest known "at or below" shortfall is the whole gap through that level.
+      var known = [c30, c50, c60].filter(function (v) { return !_missing(v); });
+      total = Math.max.apply(null, known);
+    } else if (_missing(total) && (!_missing(ami30) || !_missing(ami50) || !_missing(ami60))) {
       total = _num(ami30, 0) + _num(ami50, 0) + _num(ami60, 0);
     }
 

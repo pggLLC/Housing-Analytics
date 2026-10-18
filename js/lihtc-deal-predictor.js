@@ -293,6 +293,10 @@
     };
   }
 
+  // Unit-mix bedroom keys → CHFA max_rents keys.
+  var BED_KEYS = { studio: '0br', oneBR: '1br', twoBR: '2br', threeBR: '3br', fourBRPlus: '4br' };
+  var BED_NAMES = { studio: 'studio', oneBR: '1BR', twoBR: '2BR', threeBR: '3BR', fourBRPlus: '4BR' };
+
   var BAND_LABELS = { '31to50': '31–50% AMI', '51to80': '51–80% AMI', '81to100': '81–100% AMI' };
 
   /**
@@ -306,11 +310,15 @@
     var fips = countyFips ? String(countyFips).padStart(5, '0') : null;
     if (!M || !fips || !/^08\d{3}$/.test(fips)) return null;
     var lim = ((files.chfaLimits && files.chfaLimits.counties) || []).find(function (c) { return c.fips === fips; }) || null;
-    var limits = {};
+    var limits = {}, limitsByBed = {};
     M.TIERS.forEach(function (t) {
       var r = lim && lim.regular_tiers && lim.regular_tiers[t];
       var v = r && r.max_rents ? _numOrNull(r.max_rents['2br']) : null;
       if (v !== null) limits[t] = v;
+      if (r && r.max_rents) {
+        limitsByBed[t] = {};
+        Object.keys(BED_KEYS).forEach(function (b) { limitsByBed[t][b] = _numOrNull(r.max_rents[BED_KEYS[b]]); });
+      }
     });
     var chas = ((files.countyChas && files.countyChas.records) || []).find(function (r) { return r.fips === fips; }) || null;
     var bands = [];
@@ -333,6 +341,7 @@
       countyFips: fips,
       countyName: (lim && lim.county_name) || (chas && chas.name) || null,
       limits: limits,
+      limitsByBed: limitsByBed,
       lim70: limits['70'] === undefined ? null : limits['70'],
       lim80: limits['80'] === undefined ? null : limits['80'],
       ruralResort: lim ? !!lim.rural_resort : false,
@@ -1057,7 +1066,7 @@
    * Returns { notes, workforce, burden, pencil, sentence, tierLines,
    * assumptionsText, sources } or { unavailableReason, pending }.
    */
-  function _computeMixCheck(inputs, amiMix, conceptType) {
+  function _computeMixCheck(inputs, amiMix, conceptType, matrix) {
     var M = _mixCheckLib();
     if (!M) return { unavailableReason: 'The mix check is not loaded on this page.' };
     var fips = inputs.countyFips || inputs.geoid || null;
@@ -1077,7 +1086,18 @@
       need20yr: _optionalNumber(inputs.need20yr)
     });
     var units = { '30': amiMix.ami30, '40': amiMix.ami40, '50': amiMix.ami50, '60': amiMix.ami60 };
-    var p = M.pencil({ limits: ctx.limits, units: units, rules: ctx.rules, senior: conceptType === 'seniors' });
+    // Price each home at its own bedroom size's limit when the matrix and limits are on hand.
+    var homes = null;
+    if (matrix && matrix.tiers && ctx.limitsByBed) {
+      homes = [];
+      matrix.tiers.forEach(function (row) {
+        var t = String(row.ami);
+        Object.keys(BED_KEYS).forEach(function (b) {
+          if (row[b] > 0) homes.push({ tier: t, bedrooms: BED_NAMES[b], units: row[b], rent: ctx.limitsByBed[t] ? ctx.limitsByBed[t][b] : null });
+        });
+      });
+    }
+    var p = M.pencil({ limits: ctx.limits, units: units, homes: homes, rules: ctx.rules, senior: conceptType === 'seniors' });
     return {
       notes: nn.notes,
       workforce: nn.workforce,
@@ -1086,7 +1106,7 @@
       sentence: M.mixSentence(p),
       mixUnits: units,
       tierLines: p.ok ? p.tiers.filter(function (t) { return units[t.tier] > 0; }).map(M.tierLine) : [],
-      assumptionsText: p.ok ? M.assumptionsLine(p.assumptions) : null,
+      assumptionsText: p.ok ? M.assumptionsLine(p.assumptions, { byBedroom: !!(p.mix && p.mix.byBedroom) }) : null,
       unavailableReason: p.ok ? null : p.reason,
       countyName: ctx.countyName,
       sources: ctx.sources
@@ -1135,7 +1155,7 @@
     // Cross-tab AMI × bedroom into the matrix CHFA actually expects
     // (per-unit rent caps depend on BOTH axes). See _computeAMIxUnitMatrix.
     var suggestedMatrix  = _computeAMIxUnitMatrix(suggestedAMIMix, suggestedUnitMix, conceptType);
-    var mixCheck         = _computeMixCheck(inputs, suggestedAMIMix, conceptType);
+    var mixCheck         = _computeMixCheck(inputs, suggestedAMIMix, conceptType, suggestedMatrix);
 
     // Basis boost rationale
     if (inputs.isQct) rationale.push('QCT designation provides up to 30% basis boost — improves equity yield');

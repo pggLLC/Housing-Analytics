@@ -56,6 +56,14 @@ ok(/does not cover its own operating costs even in year 1/.test(M.mixSentence(lo
 const mid = M.pencil({ limits: { '30': 450 }, rules });
 ok(mid.tiers[0].firstShortYear > 1, 'a tier that covers costs at first must name the year it runs short');
 
+// 3b. Homes priced by bedroom size win over two-bedroom pricing.
+{
+  const byBed = M.pencil({ limits: { '30': 834 }, units: { '30': 3 }, homes: [{ tier: '30', bedrooms: 'studio', rent: 650, units: 2 }, { tier: '30', bedrooms: '2BR', rent: 834, units: 1 }], rules });
+  ok(byBed.mix.byBedroom && byBed.mix.units === 3 && Math.abs(byBed.mix.noi1 - (2 * (650 * 12 * 0.93 - 4850) + (834 * 12 * 0.93 - 4850))) < 0.01, 'a mix priced by bedroom must use each home\'s own rent');
+  const gap = M.pencil({ limits: { '30': 834 }, homes: [{ tier: '30', bedrooms: '4BR', rent: null, units: 1 }], rules });
+  ok(gap.mix && /No CHFA rent limit for 30% AMI 4BR/.test(gap.mix.reason), 'an unpriced bedroom size must be named, not priced at $0');
+}
+
 // 4. Unknowns give reasons, not zeros.
 for (const [id, field] of [['pupa_minimum', 'per_unit_annual'], ['replacement_reserve_minimum', 'family_per_unit_annual'], ['min_debt_coverage', 'min_coverage'], ['pro_forma_vacancy', 'rate']]) {
   const blank = JSON.parse(JSON.stringify(rules));

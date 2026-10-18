@@ -176,7 +176,8 @@
   }
 
   /**
-   * pencil({ limits: { '30': rent2br, ... }, units: { '30': n, ... } optional, rules, senior })
+   * pencil({ limits: { '30': rent2br, ... }, units: { '30': n, ... } optional, homes optional, rules, senior })
+   * homes: [{ tier, bedrooms, rent, units }] prices the mix by bedroom size and wins over units.
    * Returns { ok, reason?, tiers: [{ tier, rent, noi1, noi15, debtServiceCapacity, firstShortYear, subsidy15 }],
    *   mix: { units, noi1, noi15, debtServiceCapacity, firstShortYear, subsidy15 } | null, assumptions }.
    * Figures are per unit per year; mix figures are for the whole mix.
@@ -194,7 +195,21 @@
     if (!tiers.length) return { ok: false, reason: 'No CHFA rent limits on file for this county.', tiers: [], mix: null, assumptions: a };
     var mix = null;
     var units = o.units || null;
-    if (units) {
+    if (o.homes) {
+      // Homes priced at their own bedroom-size limit: [{ tier, bedrooms, rent, units }].
+      var hTotal = 0, hPath = null, hUnpriced = [];
+      o.homes.forEach(function (h) {
+        var n = num(h && h.units);
+        if (n === null || n <= 0) return;
+        var rent = num(h.rent);
+        if (rent === null || rent <= 0) { hUnpriced.push(h.tier + '% AMI ' + h.bedrooms); return; }
+        hTotal += n;
+        var hp = noiPath(rent, a).map(function (x) { return x * n; });
+        hPath = hPath ? hPath.map(function (x, i) { return x + hp[i]; }) : hp;
+      });
+      if (hUnpriced.length) mix = { reason: 'No CHFA rent limit for ' + hUnpriced.join(', ') + ' homes.' };
+      else if (hPath) { mix = summarizePath(hPath, a); mix.units = hTotal; mix.byBedroom = true; }
+    } else if (units) {
       var total = 0, path = null, unpriced = [];
       Object.keys(units).forEach(function (t) {
         var n = num(units[t]);
@@ -231,10 +246,13 @@
     return t.tier + '% AMI (' + money(t.rent) + '): ' + money(t.noi1) + ' a unit in year 1, ' + money(t.noi15) + ' in year 15; carries about ' + money(t.debtServiceCapacity) + ' a unit of yearly debt service.';
   }
 
-  function assumptionsLine(a) {
+  function assumptionsLine(a, opts) {
     if (!a) return '';
+    var rentNote = opts && opts.byBedroom
+      ? ' The mix is priced at each bedroom size\'s limit and the tiers at the two-bedroom limit, with the owner paying utilities, so these figures are a ceiling.'
+      : ' Rent is the two-bedroom limit with the owner paying utilities, so these figures are a ceiling.';
     return 'CHFA minimum pro forma assumptions (' + a.source + '): ' + Math.round(a.vacancy * 100) + '% vacancy, rents +' + Math.round(a.rentGrowth * 100) + '% and costs +' + Math.round(a.expGrowth * 100) + '% a year, ' +
-      money(a.opex) + ' operating cost plus ' + money(a.reserve) + (a.senior ? ' senior' : '') + ' replacement reserve per unit per year (the reserve held flat), ' + a.dscr.toFixed(2) + ' minimum debt coverage over 15 years. Rent is the two-bedroom limit with the owner paying utilities, so these figures are a ceiling.';
+      money(a.opex) + ' operating cost plus ' + money(a.reserve) + (a.senior ? ' senior' : '') + ' replacement reserve per unit per year (the reserve held flat), ' + a.dscr.toFixed(2) + ' minimum debt coverage over 15 years.' + rentNote;
   }
 
   return {

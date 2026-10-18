@@ -96,8 +96,14 @@ ok(mc.notes.some((n) => n.includes('$' + lim['70'].max_rents['2br'].toLocaleStri
 ok(mc.workforce && mc.workforce.ruralResort, 'Gunnison is a CHFA rural resort county: the workforce lane must show');
 const units = { '30': rec.suggestedAMIMix.ami30, '40': rec.suggestedAMIMix.ami40, '50': rec.suggestedAMIMix.ami50, '60': rec.suggestedAMIMix.ami60 };
 const limits = {}; for (const t of ['30', '40', '50', '60']) limits[t] = lim[t].max_rents['2br'];
-const hand = M.pencil({ limits, units, rules: files.underwritingRules });
-ok(mc.sentence === M.mixSentence(hand) && hand.mix.units === 44, 'pencil sentence must be the recommended mix × CHFA two-bedroom limits');
+const BED = { studio: '0br', oneBR: '1br', twoBR: '2br', threeBR: '3br', fourBRPlus: '4br' };
+const homes = [];
+for (const row of rec.suggestedMatrix.tiers) for (const b of Object.keys(BED)) if (row[b] > 0) homes.push({ tier: String(row.ami), bedrooms: b, units: row[b], rent: lim[String(row.ami)].max_rents[BED[b]] });
+const hand = M.pencil({ limits, units, homes, rules: files.underwritingRules });
+ok(mc.sentence === M.mixSentence(hand) && hand.mix.units === 44 && mc.pencil.mix.byBedroom, 'pencil sentence must be the recommended AMI × bedroom matrix, each home at its own CHFA bedroom limit');
+const as2br = M.pencil({ limits, units, rules: files.underwritingRules });
+ok(Math.abs(as2br.mix.noi1 - mc.pencil.mix.noi1) > 1, 'pricing by bedroom must differ from pricing every home as a two-bedroom');
+ok(/each bedroom size/.test(mc.assumptionsText), 'the assumptions line must say the mix is priced by bedroom size');
 ok(rec.conceptType !== 'seniors' && mc.pencil.assumptions.reserve === 350, 'a family concept must use the $350 family reserve');
 {
   const sr = P.predictConcept(Object.assign({}, gunInputs, { seniorsDemand: true }));
@@ -122,7 +128,7 @@ ok(!noCounty.sentence && /No county/.test(noCounty.unavailableReason), 'no count
 const html = R.mixCheckHtml(mc);
 const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 ok(html.includes(escHtml(mc.sentence)) && html.includes('Renters the homes-short counts miss') && !html.includes('—'), 'card shows notes and the pencil sentence without em-dashes');
-ok(html.includes('Mix tested (homes by AMI level, two-bedroom rents): ' + ['30', '40', '50', '60'].filter((t) => units[t] > 0).map((t) => units[t] + ' at ' + t + '%').join(', ')), 'the tested mix shown must be the recommended AMI mix');
+ok(html.includes("Mix tested (homes by AMI level, each at its bedroom size's rent limit): " + ['30', '40', '50', '60'].filter((t) => units[t] > 0).map((t) => units[t] + ' at ' + t + '%').join(', ')), 'the tested mix shown must be the recommended AMI mix');
 ok(/Not available: CHFA underwriting rule not on file: pupa/.test(R.mixCheckHtml(stop)), 'card shows why the pencil is missing');
 ok(!R.mixCheckHtml({ notes: ['<b>x</b>'], sentence: null }).includes('<b>x'), 'notes are escaped');
 ok(/mixCheckHtml\(rec\.mixCheck\)/.test(src('js/deal-calculator.js')) && /_mixCheckFallbackHtml\(rec\.mixCheck\)/.test(src('js/pma-ui-controller.js')), 'both concept cards render rec.mixCheck');
@@ -138,6 +144,12 @@ const prof2 = Bridge.buildNeedProfile({ ami30Cumulative: 100, ami50Cumulative: 1
 ok(prof2.affordabilityGap.totalUndersupply === 160 && prof2.affordabilityGap.ami50UnitsNeeded === 50, 'bridge total must be the ≤60% shortfall, not 410');
 ok(prof.prioritySegments.some((s) => s.band === '31to50' && s.burdenedHouseholds === burd3150), 'bridge must add the burdened 31–50% band from CHAS');
 ok(prof.needNotes.some((n) => /20-year need \(594 homes\)/.test(n)) && prof.workforce, 'bridge must carry the 20-year and workforce notes');
+{
+  const g1 = Bridge.buildNeedProfile({ ami30Cumulative: null, ami50Cumulative: 100, ami60Cumulative: 120 }, null).affordabilityGap;
+  ok(g1.ami50UnitsNeeded === null && g1.ami60UnitsNeeded === null && g1.totalUndersupply === 120, 'bridge: an unknown 30% threshold leaves the higher bands unknown; total is the largest known shortfall');
+  const g2 = Bridge.buildNeedProfile({ ami30Cumulative: 40, ami50Cumulative: null, ami60Cumulative: 90 }, null).affordabilityGap;
+  ok(g2.ami30UnitsNeeded === 40 && g2.ami50UnitsNeeded === null && g2.ami60UnitsNeeded === null && g2.totalUndersupply === 90, 'bridge: an unknown 50% threshold leaves the 51-60% band unknown');
+}
 ok(Bridge.toDealInputs(prof).amiGapCumulative['30'] === 357, 'bridge hands the cumulative figures to the predictor');
 ok(Bridge.buildNeedProfile({ ami30UnitsNeeded: 10 }, null).prioritySegments.every((s) => !s.band), 'no CHAS record: no burden segments');
 

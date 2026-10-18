@@ -343,7 +343,8 @@
     var tested = mc.mixUnits ? ['30', '40', '50', '60'].filter(function (t) { return mc.mixUnits[t] > 0; })
       .map(function (t) { return mc.mixUnits[t] + ' at ' + t + '%'; }) : [];
     if (mc.sentence) {
-      if (tested.length) h += '<p' + P + '>Mix tested (homes by AMI level, two-bedroom rents): ' + _esc(tested.join(', ')) + '.</p>';
+      var rentsUsed = mc.pencil && mc.pencil.mix && mc.pencil.mix.byBedroom ? 'each at its bedroom size\'s rent limit' : 'two-bedroom rents';
+      if (tested.length) h += '<p' + P + '>Mix tested (homes by AMI level, ' + rentsUsed + '): ' + _esc(tested.join(', ')) + '.</p>';
       h += '<p data-mix-pencil' + P + '>' + _esc(mc.sentence) + '</p>';
       if (opts.tierLines !== false && mc.tierLines && mc.tierLines.length) {
         h += '<ul style="font-size:.85rem;">' + mc.tierLines.map(function (t) { return '<li>' + _esc(t) + '</li>'; }).join('') + '</ul>';
