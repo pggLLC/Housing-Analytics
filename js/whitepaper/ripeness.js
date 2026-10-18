@@ -98,14 +98,14 @@
         best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : 'No site on file in public program records',
         sig ? 'Latest signal: ' + [sig.signal_type, sig.strength, sig.date].filter(Boolean).join(', ') : ''
       ].filter(Boolean).join('. ') + '.';
-      return { key: r.geoid, name: r.jurisdiction || r.geoid, geoid: r.geoid, row: r, sites: sites, reading: reading, signal: sig, place: (data.places || {})[r.geoid] || null, why: why };
+      return { key: r.geoid, report: r.geoid, name: r.jurisdiction || r.geoid, geoid: r.geoid, row: r, sites: sites, reading: reading, signal: sig, place: (data.places || {})[r.geoid] || null, why: why };
     }).sort(function (a, b) {
       return RANK[a.reading] - RANK[b.reading] || (num(b.row.ioi_score) || 0) - (num(a.row.ioi_score) || 0) || a.name.localeCompare(b.name);
     });
 
     var sites = (data.sites || []).map(function (s) {
       var c = byPlace[s.geoid] || null;
-      return { key: s.id, name: s.name, geoid: s.geoid, place: s.place, site: s, reading: siteReading(s), community: c, why: siteLine(s) };
+      return { key: s.id, report: reportId(s), name: s.name, geoid: s.geoid, place: s.place, site: s, reading: siteReading(s), community: c, why: siteLine(s) };
     }).sort(function (a, b) {
       return RANK[a.reading] - RANK[b.reading] ||
         (num(b.community && b.community.ioi_score) || 0) - (num(a.community && a.community.ioi_score) || 0) ||
@@ -122,7 +122,26 @@
       return { order: keys(v.order), pinned: keys(v.pinned), selected: keys(v.selected) };
     }
     s = s && typeof s === 'object' ? s : {};
-    return { communities: list(s.communities), sites: list(s.sites) };
+    var r = s.reports && typeof s.reports === 'object' && !Array.isArray(s.reports) ? s.reports : null;
+    var ids = function (a) { return Array.isArray(a) ? a.map(String) : []; };
+    return { communities: list(s.communities), sites: list(s.sites), reports: r ? { communities: ids(r.communities), sites: ids(r.sites) } : null };
+  }
+
+  // ---- Daily update picks. The alert email's "Today's tasks" reports on the
+  // projects ticked here: a community by its geoid, a site by its dossier when
+  // it has a readiness card (the email reads the card), else by its record id.
+  // No choice saved (reports null) means every project is reported; the first
+  // untick writes out the full choice for both lists, minus that row.
+  function reportId(s) { return s.card && s.card.dossier ? String(s.card.dossier) : String(s.id); }
+  function isReported(state, tab, id) { return !state.reports || state.reports[tab].indexOf(id) !== -1; }
+  function toggleReport(state, lists, tab, id) {
+    var r = state.reports || {
+      communities: lists.communities.map(function (it) { return it.report; }),
+      sites: lists.sites.map(function (it) { return it.report; })
+    };
+    var next = { communities: r.communities.slice(), sites: r.sites.slice() };
+    next[tab] = toggle(next[tab], id);
+    return next;
   }
 
   // The rows to show: pinned first (in the order pinned); then, in "My order",
@@ -211,6 +230,7 @@
     '.rd-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:0 .4rem;border-radius:4px;border:1px solid var(--border);margin-left:.35rem;white-space:nowrap}' +
     '.rd-ripe{background:var(--good,#1a7f37);border-color:var(--good,#1a7f37);color:#fff}.rd-ripening{border-color:var(--accent);color:var(--accent)}' +
     '.rd-pin{font-size:.72rem;font-weight:700;color:var(--muted);margin-left:.35rem}' +
+    '.rd-report{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;font-size:var(--small,.9rem);font-weight:600;cursor:pointer}.rd-report input{width:1.15rem;height:1.15rem}' +
     '.rd-why{margin:.25rem 0 0;font-size:var(--small,.9rem);line-height:1.5}' +
     '.rd-main details{margin-top:.3rem;font-size:var(--small,.9rem)}.rd-main summary{cursor:pointer;color:var(--accent);font-weight:600;line-height:44px}' +
     '.rd-answers{list-style:none;padding:0;margin:.4rem 0 0}.rd-answers li{padding:.3rem 0;border-top:1px solid var(--border);line-height:1.5}' +
@@ -286,6 +306,7 @@
           '<button type="button" data-rd-mode="mine" aria-pressed="' + (ui.mode === 'mine') + '">My order</button>' +
           '<label><input type="checkbox" id="rdOnly"' + (ui.selectedOnly ? ' checked' : '') + '> Show selected only (' + saved.selected.length + ')</label>' +
         '</div>' +
+        '<p class="ws-status">Ticked "Daily update" rows are in the daily task email' + (state.reports ? '' : ' (all of them, until you untick one)') + '.</p>' +
         '<p class="ws-status" id="rdSaved">' + (synced ? 'Your order is saved on the site, so it is the same on every device.' : 'Your order is saved in this browser.') + '</p>' +
         (shown.length ? '<ol class="rd-list">' + shown.map(function (it, i) {
           var isPinned = saved.pinned.indexOf(it.key) !== -1;
@@ -297,6 +318,7 @@
             '<div class="rd-pick"><label><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '"></label>' + (i + 1) + '</div>' +
             '<div class="rd-main">' + nameHtml + ' <span class="rd-badge rd-' + esc(it.reading) + '">' + esc(LABEL[it.reading]) + '</span>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
               '<p class="rd-why">' + esc(it.why) + '</p>' +
+              '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.report) + '"' + (isReported(state, ui.tab, it.report) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
               '<details><summary>Why, in detail</summary>' + (ui.tab === 'communities' ? communityDetail(it) : answersHtml(it.site)) + '</details></div>' +
             '<div class="rd-move">' +
               '<button type="button" data-rd-up="' + esc(it.key) + '" aria-label="Move ' + esc(it.name) + ' up"' + (isPinned ? ' disabled' : '') + '>&uarr;</button>' +
@@ -333,6 +355,7 @@
       else if (t.hasAttribute('data-rd-down')) moveKey(t.getAttribute('data-rd-down'), 1);
       else if (t.hasAttribute('data-rd-pin')) { a = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, a); save(); draw(); refocus('data-rd-pin', a); }
       else if (t.hasAttribute('data-rd-select')) { a = t.getAttribute('data-rd-select'); state[ui.tab].selected = toggle(state[ui.tab].selected, a); save(); draw(); refocus('data-rd-select', a); }
+      else if (t.hasAttribute('data-rd-report')) { a = t.getAttribute('data-rd-report'); state.reports = toggleReport(state, lists, ui.tab, a); save(); draw(); refocus('data-rd-report', a); }
       else if (t.id === 'rdOnly') { ui.selectedOnly = t.checked; draw(); refocus('id', 'rdOnly'); }
     });
     // Drag to reorder (mouse); the arrow buttons do the same on a phone or keyboard.
@@ -377,5 +400,5 @@
     });
   }
 
-  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
+  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
 });

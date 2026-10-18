@@ -79,7 +79,20 @@ ok(keys(R.arrange(items, saved, 'suggested')).startsWith('0800003,') && keys(R.a
 saved = { ...saved, selected: ['0800001', '0800002'] };
 ok(keys(R.arrange(items, saved, 'mine', true)) === '0800002,0800001', 'selected only shows the selected rows, in order');
 ok(R.toggle(['a', 'b'], 'a').join() === 'b' && R.toggle(['b'], 'a').join() === 'b,a', 'toggle adds and removes');
-ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ communities: { order: [], pinned: [], selected: [] }, sites: { order: ['1'], pinned: [], selected: [] } }), 'a saved order is cleaned before use');
+ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ communities: { order: [], pinned: [], selected: [] }, sites: { order: ['1'], pinned: [], selected: [] }, reports: null }), 'a saved order is cleaned before use');
+
+// Daily update picks: every project until the first untick, then the rest.
+{
+  ok(L.sites.find((s) => s.key === 's-b').report === 'test-dossier' && L.sites.find((s) => s.key === 's-a').report === 's-a' && L.communities[0].report === L.communities[0].geoid,
+    'a carded site reports by its dossier (what the email reads), others by record id, communities by geoid');
+  const st = R.cleanState(null);
+  ok(R.isReported(st, 'communities', '0800003') && R.isReported(st, 'sites', 's-a'), 'with no choice saved every row is ticked');
+  st.reports = R.toggleReport(st, L, 'communities', '0800003');
+  ok(!R.isReported(st, 'communities', '0800003') && st.reports.communities.length === 3 && st.reports.sites.length === L.sites.length, 'the first untick keeps every other row in both lists');
+  st.reports = R.toggleReport(st, L, 'communities', '0800003');
+  ok(R.isReported(st, 'communities', '0800003'), 'ticking again puts it back');
+  ok(JSON.stringify(R.cleanState({ reports: { communities: [1], sites: 'x' } }).reports) === JSON.stringify({ communities: ['1'], sites: [] }), 'a saved choice is cleaned before use');
+}
 
 // Moving a row while only selected rows show leaves the hidden rows in place.
 {
@@ -106,6 +119,7 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
 }
 
 // ---- 4. Privacy and wiring.
+ok(/data-rd-report="' \+ esc\(it\.report\)/.test(read('js/whitepaper/ripeness.js')) && /\.rd-report\{[^}]*min-height:44px/.test(read('js/whitepaper/ripeness.js')), 'every row has a 44px Daily update tick box');
 ok(/role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' \+ esc\(ui\.tab\)/.test(read('js/whitepaper/ripeness.js')) && /aria-controls="rdPanel"/.test(read('js/whitepaper/ripeness.js')), 'each tab is tied to the list it shows');
 ok(/refocus\('data-rd-pin', a\)/.test(read('js/whitepaper/ripeness.js')) && /refocus\('data-rd-select', a\)/.test(read('js/whitepaper/ripeness.js')), 'focus returns to the pin or checkbox after a redraw');
 ok(!fs.existsSync(path.join(ROOT, 'data/ripeness.json')), 'the readiness data is never in the public repo');
