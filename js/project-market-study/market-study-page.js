@@ -435,17 +435,29 @@
       + '<p class="ms-caveat">' + esc(detail) + '</p></section>';
   }
 
+  // With no jurisdiction selected nothing failed: there is simply no local
+  // buyer pool to screen yet. The failure wording is kept for a real failure.
+  var CHOOSE_PLACE = 'Choose a place to screen its buyer pool.';
+  function renderChoosePlace(id, heading) {
+    return '<section id="' + id + '" class="chart-card ms-section" data-unmeasured="true" data-study-mode="example"><h2>' + esc(heading) + '</h2>'
+      + '<p class="ms-unavailable">' + CHOOSE_PLACE + '</p>'
+      + '<p class="ms-caveat">This section is built from a local buyer pool, so it runs only for a selected jurisdiction. '
+      + '<a href="select-jurisdiction.html">Choose your jurisdiction</a>.</p></section>';
+  }
+
   function render(mount, model, data) {
+    var noPlace = !data.geography || data.geography.mode !== 'jurisdiction';
     var reason = (data.geography && data.geography.unavailable && data.geography.unavailable.detail)
       || 'The buyer pool for this jurisdiction could not be screened.';
+    var notScreened = noPlace ? renderChoosePlace : function (id, heading) { return renderUnmeasured(id, heading, reason); };
     mount.innerHTML = [
       renderGeographyBanner(data),
       '<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
       renderSalePrice(data),
       renderScenario(model, data), renderLand(model, data), renderConventions(model, data),
       renderSettlement(model, data),
-      model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. How many local households could buy', reason),
-      model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. How fast the homes might sell', reason)
+      model.funnel ? renderFunnel(model) : notScreened('ms-s5', '5. How many local households could buy'),
+      model.capture ? renderCapture(model) : notScreened('ms-s6', '6. How fast the homes might sell')
     ].join('');
     var preview = mount.ownerDocument.getElementById('marketStudyReportPreview');
     var download = mount.ownerDocument.getElementById('marketStudyReportDownload');
@@ -454,9 +466,13 @@
       // keeps that refusal legible instead of turning it into a stack trace,
       // and makes sure no one downloads a report that silently omits the two
       // sections a for-sale study is actually commissioned for.
-      preview.innerHTML = '<p class="ms-unavailable">No report for this jurisdiction.</p>'
-        + '<p class="ms-caveat">' + esc(reason) + ' A screening report without the demand and capture '
-        + 'sections would be a document about an example town wearing this one\'s name.</p>';
+      preview.innerHTML = noPlace
+        ? '<p class="ms-unavailable">' + CHOOSE_PLACE + '</p>'
+          + '<p class="ms-caveat">The screening report is built for a selected jurisdiction, because its demand and capture '
+          + 'sections need that place\'s buyer pool. <a href="select-jurisdiction.html">Choose your jurisdiction</a>.</p>'
+        : '<p class="ms-unavailable">No report for this jurisdiction.</p>'
+          + '<p class="ms-caveat">' + esc(reason) + ' A screening report without the demand and capture '
+          + 'sections would be a document about an example town wearing this one\'s name.</p>';
       download.disabled = true;
       download.onclick = null;
     } else if (preview && download) {

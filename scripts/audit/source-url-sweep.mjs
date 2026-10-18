@@ -98,7 +98,6 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
-  "https://cdola.colorado.gov/division-of-housing",
   // DOLA's Prop 123 law and fast-track guidance pages, cited by the HNA
   // compliance section. Same cdola.colorado.gov CI blocking as the entries
   // above; both returned 200 to the 2026-10-18 Prop 123 legal check.
@@ -110,9 +109,6 @@ const ALLOW_LIST = new Set([
   "https://co.chfainfo.com/",
   "https://co.chfainfo.com/find-a-tax-credit-property",
   "https://www.rd.usda.gov/programs-services/multifamily-housing-programs/",
-  "https://cdola.colorado.gov/funding-programs/urban-renewal",
-  "https://cdphe.colorado.gov/voluntary-cleanup-program",
-  "https://cdola.colorado.gov/brownfields-revolving-loan-fund",
   // DOLA/SDO moved machine-readable population data from the old
   // demography.dola.colorado.gov pages to public GCS CSVs.
   "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
@@ -122,12 +118,6 @@ const ALLOW_LIST = new Set([
   // (KALSHI_API_KEY/KALSHI_API_SECRET). Returns 401 to unauthenticated
   // probes from the URL sweep; endpoint is healthy.
   "https://trading-api.kalshi.com/trade-api/v2",
-  // CHFA's QAP page is JS-rendered; the canonical URL has moved repeatedly
-  // and the curl-based sweep can't follow their dynamic routing. The
-  // multifamily/QAP path is the documented landing per CHFA staff but
-  // returns 404 to non-browser GETs. Verified accessible in a real browser.
-  "https://www.chfainfo.com/multifamily/QAP",
-  "https://www.chfainfo.com/multifamily/qap",
   // BLS blocks CI user-agents across all subpaths (returns 403).
   "https://www.bls.gov/cew/",
   "https://www.bls.gov/ppi/",
@@ -145,8 +135,6 @@ const ALLOW_LIST = new Set([
   // Project Pages site is served under /Housing-Analytics/; user root returns
   // 404 even while the site is healthy.
   "https://pggllc.github.io/",
-  // HUD NEPA page returns 404 to CI user-agents but is accessible to real browsers.
-  "https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa",
   // USDA RD public data/catalog pages intermittently return 404 to CI
   // probes while the program landing/data-set pages remain browser-accessible.
   "https://www.rd.usda.gov/data-sets/multi-family-housing-rentals",

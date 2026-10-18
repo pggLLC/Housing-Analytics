@@ -207,7 +207,11 @@ async function main() {
   assert.equal(document.getElementById('decisionProductionValue').textContent, SURPLUS_TEXT, 'decision tile value should render surplus wording');
   assert.equal(document.getElementById('decisionProductionRead').textContent, 'Surplus', 'decision tile read should remain Surplus');
   assert(document.getElementById('needNote').textContent.includes(SURPLUS_TEXT), 'need note should render surplus wording');
-  assert(document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'need note should describe current housing stock');
+  // The note says what the figure subtracted, and that must agree with the
+  // reading: the place ledger is the change in homes needed from today and
+  // nets out no stock, so it must not claim to (trust sweep, 2026-10-18).
+  assert(!document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a place-ledger note must not claim it subtracted the housing stock');
+  assert(/fewer homes are needed than today/.test(document.getElementById('needNote').textContent), 'a place-ledger surplus note should say it is a fall from today');
   assert(!document.getElementById('needNote').textContent.includes('after subtracting the current requirement'), 'need note should not describe a current requirement');
   assert(!document.getElementById('needNote').textContent.includes('net new total units'), 'surplus note should not reuse net-new wording');
   assert(!document.getElementById('statBaseUnitsSrc').textContent.toLowerCase().includes('requirement'), 'base-units label should not say requirement');
@@ -254,6 +258,13 @@ async function main() {
   assert.equal(document.getElementById('decisionProductionValue').textContent, '819', 'positive fixture should keep numeric decision value');
   assert(document.getElementById('needNote').textContent.includes('819 net new total units'), 'positive fixture should keep existing net-new wording');
   assert(!document.getElementById('needNote').textContent.includes('Estimated surplus of'), 'positive fixture should not show surplus wording');
+  assert(/rise in homes needed from today/.test(document.getElementById('needNote').textContent), 'a place-ledger note should say it is the rise from today');
+  assert(!document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a place-ledger note must not claim it subtracted the housing stock');
+
+  // A county computed on the page does subtract the stock, and says so.
+  const washington = { geoType: 'county', geoid: '08121', label: 'Washington County', contextCounty: '08121', profile: { DP02_0001E: 2100, DP04_0001E: 2400, DP05_0001E: 4800 } };
+  await applyFixture(washington);
+  assert(document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a county note computed against the stock should say so: ' + document.getElementById('needNote').textContent);
 
   console.log('HNA surplus semantics tests passed');
 }

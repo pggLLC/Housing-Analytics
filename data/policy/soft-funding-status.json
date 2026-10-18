@@ -26,7 +26,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending",
-      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding_type and max_rule are unverified, not inferred from its name. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding type and maximum award are not confirmed and are not inferred from its name. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -53,7 +53,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending",
-      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding_type and max_rule are unverified, not inferred from its name. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding type and maximum award are not confirmed and are not inferred from its name. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -90,7 +90,7 @@
         "must_pay_dscr": null
       },
       "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending/capital-magnet-fund-cmf",
-      "source_note": "Main loan requires monthly principal and interest. No numeric rate_pct or uncommitted balance is published. CHFA pages disagree on the optional 20% when CHFA is senior lender: the CMF FAQ says a deferred no-interest loan, while the small-loan comparison says a grant. Confirm that portion with CHFA; do not classify the whole loan as a grant. The 17-year term comes from both pages.",
+      "source_note": "Main loan requires monthly principal and interest. No numeric interest rate or uncommitted balance is published. CHFA pages disagree on the optional 20% when CHFA is senior lender: the CMF FAQ says a deferred no-interest loan, while the small-loan comparison says a grant. Confirm that portion with CHFA; do not classify the whole loan as a grant. The 17-year term comes from both pages.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "relatedSourceUrls": [
@@ -127,7 +127,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding_type and max_rule remain null. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -154,7 +154,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH describes disaster-specific programs through local partners. No current rental award structure, rate_pct, term_years, repayment, cap or remaining balance is stated here. All are null; the previous zero balance was not a measured amount.",
+      "source_note": "DOH describes disaster-specific programs through local partners. No current rental award structure, interest rate, loan term, repayment, cap or remaining balance is stated here. All are left blank; the previous zero balance was not a measured amount.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -181,7 +181,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
-      "source_note": "Denver HOST housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding_type or max_rule. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "Denver HOST housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding type or maximum award. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -208,7 +208,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://bouldercounty.gov/departments/housing/",
-      "source_note": "Boulder County housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding_type or max_rule. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "Boulder County housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding type or maximum award. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -235,7 +235,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "The DOH resources page describes project-by-project rental acquisition, rehabilitation and construction assistance, but does not state one funding_type, rate_pct, term_years, repayment schedule, maximum or available balance. Nulls require the specific HOME award terms.",
+      "source_note": "The DOH resources page describes project-by-project rental acquisition, rehabilitation and construction assistance, but does not state one funding type, interest rate, loan term, repayment schedule, maximum or available balance. Nulls require the specific HOME award terms.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -265,7 +265,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding_type and max_rule remain null. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -295,7 +295,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/housing-development-grant-funds-hdg",
-      "source_note": "The official page offers grants or loans; funding_type and repayment are not one universal structure. Loan rates are generally 2% for for-profits and 1% for nonprofits, with terms tied to senior debt and repayment from cash flow or up to 40-year amortization. A single rate_pct or term_years would be misleading, so each is null. No program-wide project cap, round deadline or available balance is stated.",
+      "source_note": "The official page offers grants or loans; funding type and repayment are not one universal structure. Loan rates are generally 2% for for-profits and 1% for nonprofits, with terms tied to senior debt and repayment from cash flow or up to 40-year amortization. A single interest rate or loan term would be misleading, so each is left blank. No program-wide project cap, round deadline or available balance is stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -326,7 +326,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding_type and max_rule remain null. The page does not publish a program-wide rate_pct, term_years, repayment schedule, project cap or current uncommitted balance for this entry; those values are null. Confirm the specific award before relying on it.",
+      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -355,7 +355,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/national-housing-trust-fund-htf",
-      "source_note": "The DOH page identifies rental housing with all DOH-assisted units at 30% AMI or less, and awards as grants or loans. A single funding_type, rate_pct, term_years, repayment, project cap and available balance are not stated and remain null.",
+      "source_note": "The DOH page identifies rental housing with all DOH-assisted units at 30% AMI or less, and awards as grants or loans. A single funding type, interest rate, loan term, repayment, project cap and available balance are not stated and are left blank.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -385,7 +385,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/",
-      "source_note": "Umbrella record, not an additional financing source. It contains multiple instruments, so funding_type, rate_pct, term_years, repayment and max_rule are null. See the separate LIHTC gap, equity and land-banking records. No remaining balance is published on the program pages.",
+      "source_note": "Umbrella record, not an additional financing source. It contains multiple instruments, so funding type, interest rate, loan term, repayment and maximum award are left blank. See the separate LIHTC gap, equity and land-banking records. No remaining balance is published on the program pages.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -423,7 +423,7 @@
         "must_pay_dscr": null
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/land-banking/",
-      "source_note": "Grants serve local/tribal governments; forgivable loans serve nonprofits. There is no single funding_type, rate_pct, term_years or repayment for both, so these scalars are null. Nonprofit loans accrue 2% deferred interest, waived if milestones are met: zoning/development plan within 5 years and permits/funding within 10. Missed milestones trigger repayment within six months. The cap is also limited to CHFA appraised value. The FY27 allocation is not an uncommitted balance.",
+      "source_note": "Grants serve local/tribal governments; forgivable loans serve nonprofits. There is no single funding type, interest rate, loan term or repayment for both, so these are left blank. Nonprofit loans accrue 2% deferred interest, waived if milestones are met: zoning/development plan within 5 years and permits/funding within 10. Missed milestones trigger repayment within six months. The cap is also limited to CHFA appraised value. The FY27 allocation is not an uncommitted balance.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -451,7 +451,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.chfainfo.com/rental-housing/private-activity-bonds",
-      "source_note": "Volume-cap allocation is borrowing authority, not itself a loan or cash grant. funding_type, rate_pct, term_years, repayment and max_rule are therefore null; bond terms come from a separate financing. The page does not give this listing a verified remaining allocation balance.",
+      "source_note": "Volume-cap allocation is borrowing authority, not itself a loan or cash grant. Funding type, interest rate, loan term, repayment and maximum award are therefore left blank; bond terms come from a separate financing. The page does not give this listing a verified remaining allocation balance.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -482,7 +482,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/opportunity-zones",
-      "source_note": "The CDFI page describes the Opportunity Zone designation and investor tax incentive. It does not state a universal investor rate_pct, term_years, repayment schedule, project cap or available balance. Those terms depend on private investment agreements; null does not mean free capital.",
+      "source_note": "The CDFI page describes the Opportunity Zone designation and investor tax incentive. It does not state a universal investor interest rate, loan term, repayment schedule, project cap or available balance. Those terms depend on private investment agreements; a blank does not mean free capital.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -511,7 +511,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
-      "source_note": "CDFI describes tax credits for investments into CDEs, not one standardized rental-project financing instrument. funding_type, rate_pct, term_years, repayment and max_rule are null for the downstream project. The seven-year tax-credit period is not a loan term. No universal project maximum or available balance is published.",
+      "source_note": "CDFI describes tax credits for investments into CDEs, not one standardized rental-project financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank for the downstream project. The seven-year tax-credit period is not a loan term. No universal project maximum or available balance is published.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -542,7 +542,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.leg.colorado.gov/bills/hb24-1172",
-      "source_note": "The official act describes tax-increment financing authority, not an award to this project. Local agreements determine funding_type, rate_pct, term_years, repayment and max_rule; all are null without an adopted agreement. No statewide project cap or available balance is stated.",
+      "source_note": "The official act describes tax-increment financing authority, not an award to this project. Local agreements determine funding type, interest rate, loan term, repayment and maximum award; all are left blank without an adopted agreement. No statewide project cap or available balance is stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09"
     },
@@ -569,7 +569,7 @@
         "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
       ],
       "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
-      "source_note": "Primary source reopened 2026-10-09. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. funding_type, rate_pct, term_years, repayment and max_rule are null: no universal rental-project terms or cap are stated.",
+      "source_note": "Primary source reopened 2026-10-09. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope.",
@@ -603,7 +603,7 @@
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. DOE program page previously checked 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active. DOE describes rebates rather than one of the loan/equity instruments. funding_type, rate_pct, term_years and repayment are null. Federal household examples ($8,000 HOMES and $14,000 HEEHR) are not a verified Colorado multifamily project maximum, so max_rule remains null.",
+      "source_note": "Primary source reopened 2026-10-09. DOE program page previously checked 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active. DOE describes rebates rather than one of the loan/equity instruments. Funding type, interest rate, loan term and repayment are left blank. Federal household examples ($8,000 HOMES and $14,000 HEEHR) are not a verified Colorado multifamily project maximum, so maximum award is left blank.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "VERIFY before use. Federal IRA rebate implementation is volatile and Colorado phase availability was not independently confirmed on an accessible current official state page.",
@@ -637,7 +637,7 @@
         "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund"
       ],
       "adminEntity": "EPA / Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. Colorado award page and EPA GGRF status page previously checked 2026-07-18; EPA states Solar for All is no longer being implemented. The state page describes a federal award to Colorado, not current project-level financing terms. funding_type, rate_pct, term_years, repayment and max_rule remain null; the historical state award is not an available balance.",
+      "source_note": "Primary source reopened 2026-10-09. Colorado award page and EPA GGRF status page previously checked 2026-07-18; EPA states Solar for All is no longer being implemented. The state page describes a federal award to Colorado, not current project-level financing terms. Funding type, interest rate, loan term, repayment and maximum award are left blank; the historical state award is not an available balance.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Do not count as available funding without fresh official confirmation; GGRF/Solar for All is rescission/litigation exposed.",
@@ -670,7 +670,7 @@
       "description": "Colorado HB22-1362 created CEO-administered building electrification and high-efficiency electric heating/appliance grant authority for eligible entities including housing developers. Current open-round dollars were not fetch-verified on an accessible official CEO page this session.",
       "contactUrl": "https://leg.colorado.gov/bills/HB22-1362",
       "adminEntity": "Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. Colorado General Assembly enacted-bill page previously checked 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible. HB22-1362 establishes grant authority. No project-specific rate_pct, term_years, repayment or universal per-project maximum is stated, so these remain null. The legislation is not proof of an open funding round.",
+      "source_note": "Primary source reopened 2026-10-09. Colorado General Assembly enacted-bill page previously checked 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible. HB22-1362 establishes grant authority. No project-specific interest rate, loan term, repayment or universal per-project maximum is stated, so these are left blank. The legislation is not proof of an open funding round.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Statutory program authority only. Verify any current NOFA, eligible uses, deadlines, and stacking rules before underwriting.",
@@ -705,7 +705,7 @@
         "https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule"
       ],
       "adminEntity": "Colorado Energy Office",
-      "source_note": "Official Governor/CEO release and CDPHE Building Performance Standards page verified 2026-07-18. The previously cited release could not be re-opened on 2026-10-09 (HTTP 403). No new funding_type, rate_pct, term_years, repayment or max_rule is verified; each remains null. Prior verification date is retained, not advanced.",
+      "source_note": "Official Governor/CEO release and CDPHE Building Performance Standards page verified 2026-07-18. The previously cited release could not be re-opened on 2026-10-09 (HTTP 403). No new funding type, interest rate, loan term, repayment or maximum award is verified; each is left blank. Prior verification date is retained, not advanced.",
       "last_verified": "2026-07-18",
       "review_by": "2026-10-18",
       "warning": "Context only. Verify current LBD NOFA status and project eligibility before assuming availability.",
@@ -745,7 +745,7 @@
         "must_pay_dscr": 1.05
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding_type or repayment schedule; these are null until underwriting. term_years is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The last application window was May 27–June 10, 2026 and is closed. Available, awarded and capacity balances for this instrument are not stated.",
+      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The last application window was May 27–June 10, 2026 and is closed. Available, awarded and capacity balances for this instrument are not stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "OEDIT / CHFA",
@@ -783,7 +783,7 @@
         "must_pay_dscr": null
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/equity/",
-      "source_note": "Below-market returns are cash-flow dependent; no numeric rate_pct is stated. Principal is deferred to a capital event or sale; the investment term is up to 30 years. The 1% servicing charge is a share of available cash flow, not an interest rate. No current uncommitted balance is published. Last applications closed February 26, 2026.",
+      "source_note": "Below-market returns are cash-flow dependent; no numeric interest rate is stated. Principal is deferred to a capital event or sale; the investment term is up to 30 years. The 1% servicing charge is a share of available cash flow, not an interest rate. No current uncommitted balance is published. Last applications closed February 26, 2026.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "OEDIT / CHFA",
@@ -823,7 +823,7 @@
         "must_pay_dscr": null
       },
       "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending/chfa-hof-program",
-      "source_note": "Main loan requires monthly principal and interest, normally a 30-year term; longer terms are case-by-case. HOF may instead subsidize CHFA senior-debt interest costs. No numeric rate_pct or remaining balance is published. CHFA must be senior lender.",
+      "source_note": "Main loan requires monthly principal and interest, normally a 30-year term; longer terms are case-by-case. HOF may instead subsidize CHFA senior-debt interest costs. No numeric interest rate or remaining balance is published. CHFA must be senior lender.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "CHFA",
@@ -865,7 +865,7 @@
         "must_pay_dscr": null
       },
       "source_url": "https://www.fhlbtopeka.com/ahp",
-      "source_note": "AHP is a grant, not interest-bearing project debt. rate_pct, term_years and repayment are null because the page does not publish a loan rate, loan term or one of the listed loan repayment structures; grant compliance and recapture rules still apply. Round opens July 1 and closes July 31, 2026; announcements no later than December 31. At least $29.3 million is a round allocation, not a current remaining balance.",
+      "source_note": "AHP is a grant, not interest-bearing project debt. Interest rate, loan term and repayment are left blank because the page does not publish a loan rate, loan term or one of the listed loan repayment structures; grant compliance and recapture rules still apply. Round opens July 1 and closes July 31, 2026; announcements no later than December 31. At least $29.3 million is a round allocation, not a current remaining balance.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "FHLBank Topeka",

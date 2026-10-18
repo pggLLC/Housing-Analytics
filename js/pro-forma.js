@@ -167,7 +167,7 @@
     var cols = [
       'Year', 'Gross Rents', 'Other Income', 'Vacancy Loss', 'EGI',
       'Operating Exp', 'Rep Reserve', 'Prop Tax', 'NOI',
-      'All Must-pay Service', 'Cash Flow', 'All Must-pay DSCR', 'Cumulative CF'
+      'All Must-pay Service', 'Bridge & Asset Fee', 'Cash Flow', 'All Must-pay DSCR', 'Cumulative CF'
     ];
 
     var html = '<table style="width:100%;border-collapse:collapse;font-size:var(--small);white-space:nowrap;">';
@@ -199,6 +199,8 @@
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.propTax) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + fmt(r.noi) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + rowMoney(r.debtService) + '</td>';
+      // DOH PR 4: bridge-loan debt service and the asset management fee also come out of cash flow.
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + rowMoney(r.bridgeDebtService == null || r.assetMgmtFee == null ? null : r.bridgeDebtService + r.assetMgmtFee) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + cfColor + '">' + rowMoney(r.cashFlow) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + dscrColor + '">' + (r.dscr == null ? 'Unavailable — ' + escapeLabel(r.unavailableReason || unavailable['projection.rows.' + i + '.dscr']) : fmtPct(r.dscr)) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);' + cumColor + '">' + rowMoney(r.cumCF) + '</td>';

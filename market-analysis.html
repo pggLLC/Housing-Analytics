@@ -603,7 +603,7 @@
           <p style="font-size:.78rem;color:var(--muted);margin:0 0 .6rem">
             Snapshot of what the PMA boundary contains. Use this card to sanity-check the analysis before reading scores.
           </p>
-          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:max-content 1fr;column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0">
+          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0;overflow-wrap:anywhere">
             <dt style="font-weight:600;color:var(--muted)">Boundary method</dt>
             <dd id="pmaSumBoundary" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)">Commute context</dt>
@@ -1504,6 +1504,7 @@
   <script defer src="js/deal-cost-basis.js"></script>
   <script defer src="js/deal-operating-budget.js"></script>
   <script defer src="js/deal-permanent-financing.js"></script>
+  <script defer src="js/deal-doh-schedules.js"></script>
   <script defer src="js/deal-engine.js"></script>
   <script defer src="js/deal-calculator.js"></script>
   <!-- Enhanced PMA delineation modules -->

@@ -7,7 +7,7 @@
  * Two-layer lookup:
  *   1. If the jurisdiction (by GEOID) has its own entry, render it.
  *   2. Otherwise render the statewide statutory baseline (C.R.S.
- *      §39-3-112.5 nonprofit exemption) so the developer always
+ *      §39-3-112 nonprofit and §29-4-227 housing authority exemptions) so the developer always
  *      sees something defensible.
  *
  * Fee waivers come only from data/policy/fee-reductions.json (verified
@@ -329,7 +329,7 @@
         var sb = data.metadata.state_baseline;
         rendered.push(
           '<div class="ta-baseline">' +
-            '<strong>Statewide baseline (default for 501(c)(3) ≤ 60% AMI):</strong> ' +
+            '<strong>Statewide exemptions:</strong> ' +
             (sb.url
               ? '<a href="' + _esc(sb.url) + '" target="_blank" rel="noopener">' + _esc(sb.note) + '</a>'
               : _esc(sb.note)) +

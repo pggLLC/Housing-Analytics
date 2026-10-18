@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T03:08:10.124Z",
+    "generated_at": "2026-10-18T07:42:12.816Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192368853,
+    "total_size_bytes": 192367304,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -500,8 +500,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 624344,
-      "mtime": "2026-10-17T09:39:21.019Z",
+      "size_bytes": 624074,
+      "mtime": "2026-10-18T05:49:37.101Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T03:08:07.621Z",
+      "mtime": "2026-10-18T07:42:08.683Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -17028,8 +17028,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 183559,
-      "mtime": "2026-10-16T15:30:48.778Z",
+      "size_bytes": 183567,
+      "mtime": "2026-10-18T05:49:37.251Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -29886,8 +29886,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 10646,
-      "mtime": "2026-10-17T16:26:38.909Z",
+      "size_bytes": 11368,
+      "mtime": "2026-10-18T07:29:24.748Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29896,7 +29896,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 14,
+      "primary_array_length": 15,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -30233,8 +30233,8 @@
     {
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
-      "size_bytes": 20490,
-      "mtime": "2026-10-17T23:49:04.036Z",
+      "size_bytes": 20498,
+      "mtime": "2026-10-18T05:49:37.383Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -31077,8 +31077,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 221286,
-      "mtime": "2026-10-17T23:49:16.484Z",
+      "size_bytes": 221287,
+      "mtime": "2026-10-18T04:45:53.095Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32617,8 +32617,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16095,
-      "mtime": "2026-10-18T03:08:08.900Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-18T07:42:10.688Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T03:08:08.582Z",
+      "mtime": "2026-10-18T07:42:10.183Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35396,8 +35396,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 44590,
-      "mtime": "2026-10-10T04:14:58.634Z",
+      "size_bytes": 44921,
+      "mtime": "2026-10-18T07:17:04.986Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -35581,8 +35581,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 184894,
-      "mtime": "2026-10-17T16:26:39.122Z",
+      "size_bytes": 181298,
+      "mtime": "2026-10-18T05:49:37.681Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -36040,8 +36040,8 @@
     {
       "path": "tax-abatement-inventory.json",
       "kind": "json",
-      "size_bytes": 23144,
-      "mtime": "2026-09-26T06:30:24.784Z",
+      "size_bytes": 24390,
+      "mtime": "2026-10-18T06:32:14.776Z",
       "shape": "object",
       "keys": [
         "metadata",

@@ -162,6 +162,27 @@
     };
   }
 
+  // A proxy's 1-year rate is for a wider area (the containing county, or the
+  // state). Set against this geography's CHAS rate it measures the gap between
+  // two places, not movement since 2018–2022: Hinsdale's 23% against the
+  // state's 53% read as "the market has moved 30.3pp". So the movement test
+  // runs where the 1-year figure is: the proxy's 1-year rate against its own
+  // same-vintage 5-year rate, the one comparison in the file over time alone.
+  function _scoreProxyFreshness(acs1, proxyRec, thresholds) {
+    var base = proxyRec && proxyRec.acs5;
+    if (!base || base.rate == null) {
+      return {
+        tier: 'insufficient',
+        gap_pp: null,
+        flags: ['current_but_regional', 'proxy_geography_used', 'proxy_baseline_missing'],
+      };
+    }
+    var score = _scoreFreshness(base, acs1, thresholds);
+    score.proxyBaseline = base;
+    if (score.divergence_reason) score.divergence_reason = 'regional_market';
+    return score;
+  }
+
   // ── MOE / denominator side-flags ──
   function _qualityFlags(rec, thresholds) {
     var flags = [];
@@ -242,7 +263,9 @@
 
       var m = entry[metric];
       var defScore  = _scoreDefinitional(m.chas, m.acs5, thresholds);
-      var freshScore = _scoreFreshness(m.chas, m.acs1, thresholds);
+      var freshScore = m.acs1 && m.acs1.isProxy
+        ? _scoreProxyFreshness(m.acs1, ((crosscheck.geos || {})[m.acs1.proxyGeoid] || {})[metric], thresholds)
+        : _scoreFreshness(m.chas, m.acs1, thresholds);
       var qFlags    = []
         .concat(_qualityFlags(m.chas, thresholds))
         .concat(_qualityFlags(m.acs5, thresholds))
@@ -276,12 +299,20 @@
 
   function _composeNotes(defScore, freshScore, rec, flags) {
     var notes = [];
+    // What limits the figure itself comes first, so a low badge shows its reason.
+    if (flags.indexOf('high_margin_of_error') !== -1) notes.push('High margin of error — point estimate uncertain.');
+    if (flags.indexOf('denominator_small') !== -1) notes.push('Small denominator (<100 households) — proceed with caution.');
     if (defScore.tier === 'high') notes.push('Same-vintage ACS 5-year confirms the CHAS definition (within ' + (defScore.gap_pp || 0).toFixed(1) + 'pp).');
     if (defScore.tier === 'medium' && flags.indexOf('definitional_difference_expected') !== -1) {
       notes.push('5–10pp gap vs same-vintage ACS 5-year is the expected HUD adjusted-income / no-cash-rent definitional difference — not a data-quality concern.');
     }
     if (defScore.tier === 'low' && defScore.divergence_reason === 'definitional') {
       notes.push('Definitional divergence > 10pp at same vintage. Investigate tenure / denominator / suppression before trusting the CHAS rate.');
+    }
+    var proxy = rec.acs1 && rec.acs1.isProxy ? rec.acs1 : null;
+    if (proxy) {
+      notes.push(_proxyNote(freshScore, proxy));
+      return notes;
     }
     if (freshScore.tier === 'insufficient') {
       notes.push('No newer ACS 1-year available for this geography. CHAS 2018–2022 is the only signal — directional only.');
@@ -293,11 +324,28 @@
       notes.push('Some movement since CHAS (5–10pp gap vs ACS 1-year' + (rec.acs1 && rec.acs1.isProxy ? ' regional proxy' : '') + '). Treat as directional, not precise.');
     }
     if (freshScore.tier === 'low' && freshScore.divergence_reason === 'freshness/market') {
-      notes.push('Newer ACS 1-year shows market has moved materially (' + (freshScore.gap_pp || 0).toFixed(1) + 'pp gap). CHAS baseline may understate current burden.');
+      notes.push('Newer ACS 1-year shows market has moved materially (' + (freshScore.gap_pp || 0).toFixed(1) + 'pp gap). CHAS baseline may ' +
+        (rec.acs1.rate >= rec.chas.rate ? 'understate' : 'overstate') + ' current burden.');
     }
-    if (flags.indexOf('high_margin_of_error') !== -1) notes.push('High margin of error — point estimate uncertain.');
-    if (flags.indexOf('denominator_small') !== -1) notes.push('Small denominator (<100 households) — proceed with caution.');
     return notes;
+  }
+
+  // The movement note for a geography with no 1-year figure of its own. It
+  // says whose 1-year figure it is and compares that figure only with itself.
+  function _proxyNote(freshScore, acs1) {
+    var where = acs1.proxyKind === 'state' ? 'statewide' : "county's";
+    var head = 'No ACS 1-year for this geography itself. ';
+    var base = freshScore.proxyBaseline;
+    if (!base || freshScore.gap_pp == null) {
+      return head + 'The ' + where + ' 1-year rate has no earlier rate to compare with, so movement since CHAS 2018–2022 is unknown.';
+    }
+    var moved = 'The ' + where + ' rate in the ACS 1-year ' + acs1.vintage + ' is ' +
+      freshScore.gap_pp.toFixed(1) + 'pp ' + (acs1.rate >= base.rate ? 'above' : 'below') +
+      ' its ACS 5-year ' + base.vintage + ' rate';
+    if (freshScore.tier === 'high') return head + moved + ', so the wider market has not moved much since the CHAS baseline.';
+    if (freshScore.tier === 'medium') return head + moved + '. Treat the CHAS figure here as directional, not precise.';
+    return head + moved + ', so the CHAS baseline here may ' +
+      (acs1.rate >= base.rate ? 'understate' : 'overstate') + ' current burden.';
   }
 
   // ── Confidence badge HTML ──

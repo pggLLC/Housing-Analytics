@@ -107,7 +107,17 @@ check('USDA RD is in capital-partners', cp.partners.some(p => /USDA Rural Develo
 const ta = readJson('data/tax-abatement-inventory.json');
 check('tax-abatement-inventory.json present (F141)', !!ta.jurisdictions);
 check('tax-abatement covers 15+ jurisdictions', ta.jurisdictions.length >= 15, 'Got ' + ta.jurisdictions.length);
-check('tax-abatement has CRS §39-3-112.5 statewide baseline', !!(ta.metadata && ta.metadata.state_baseline));
+check('tax-abatement has statewide property tax baseline', !!(ta.metadata && ta.metadata.state_baseline));
+// The statewide exemptions (C.R.S. 39-3-112, 29-4-227) cover only the
+// qualifying low-income share and are never automatic. The card once cited
+// 39-3-112.5 (federal homeless housing) as a blanket 501(c)(3) / 60% AMI rule.
+{
+  const renderer = fs.readFileSync(path.join(ROOT, 'js/components/tax-abatement.js'), 'utf8');
+  const shown = JSON.stringify(ta) + renderer;
+  check('tax-abatement does not cite 39-3-112.5', !/39-3-112\.5/.test(shown));
+  check('tax-abatement does not claim a 60% AMI statewide default', !/(default|baseline)[^"']{0,60}60% AMI/i.test(shown));
+  check('tax-abatement does not claim deals qualify automatically', !/qualify automatically/i.test(shown));
+}
 check('Denver has tax-abatement entry', ta.jurisdictions.some(j => /Denver/i.test(j.name)));
 check('Aspen / Pitkin has APCHA tax-abatement entry', ta.jurisdictions.some(j =>
   /Aspen/i.test(j.name) && (j.programs || []).some(p => /APCHA/i.test(p.name))));
@@ -182,6 +192,45 @@ check('HNA renderers call _renderCommunityInstitutionsSection (F131)', /_renderC
 check('HNA renderers call _renderMajorEmployersSection (F133)',         /_renderMajorEmployersSection/.test(hnaRendererJs));
 check('HNA renderers reference #lr-capital-partners-mount (F138)',      /lr-capital-partners-mount/.test(hnaRendererJs));
 check('HNA renderers reference #lr-tax-abatement-mount (F141)',         /lr-tax-abatement-mount/.test(hnaRendererJs));
+
+// ─────────────────────────────────────────────────────────────────────
+// 5. IC summary with no jurisdiction asks for one
+// ─────────────────────────────────────────────────────────────────────
+// Opened without ?geoid=, every field used to sit at "—" or "Loading…" with
+// the explanation below the fold. The ask must be what the reader sees, and it
+// must route to the page that actually lists jurisdictions.
+console.log('\n── 5. IC summary empty state ──');
+{
+  const { JSDOM } = require('jsdom');
+  function icDom(search) {
+    const dom = new JSDOM(icHtml, { url: 'http://127.0.0.1/ic-summary.html' + search, runScripts: 'outside-only' });
+    const requested = [];
+    dom.window.fetch = (u) => { requested.push(String(u)); return new Promise(() => {}); };
+    dom.window.eval(icJs);
+    return { doc: dom.window.document, requested, close: () => dom.window.close() };
+  }
+  const empty = icDom('');
+  const page = empty.doc.getElementById('icPage');
+  const err = empty.doc.getElementById('icErr');
+  check('IC summary has its page and message containers', !!page && !!err);
+  if (page && err) {
+  const placeholders = [...page.querySelectorAll('.ic-v, td.ic-muted')]
+    .filter((el) => /^(—|Loading…)$/.test(el.textContent.trim()));
+  check('IC summary skeleton has placeholder fields to hide (scan is not vacuous)', placeholders.length > 0);
+  check('IC summary hides the placeholder skeleton when no jurisdiction is given', page.hidden === true);
+  check('IC summary shows its empty-state message', err.style.display === 'block' && err.dataset.state === 'no-jurisdiction');
+  const pick = err.querySelector('a[href="select-jurisdiction.html"]');
+  check('IC summary empty state links to a page that exists and lists jurisdictions',
+    !!pick && exists('select-jurisdiction.html') && /jurisdiction/i.test(pick.textContent));
+  check('IC summary empty state requests no data', empty.requested.length === 0);
+  empty.close();
+  const chosen = icDom('?geoid=08045');
+  check('IC summary with a jurisdiction keeps the page and starts loading',
+    chosen.doc.getElementById('icPage').hidden === false && chosen.requested.length > 0 &&
+    chosen.doc.getElementById('icErr').style.display === 'none');
+  chosen.close();
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────
 // Summary
