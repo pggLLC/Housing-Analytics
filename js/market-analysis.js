@@ -5784,10 +5784,20 @@
       // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
       // A site analyzed before the file settles got _pending amenities; fill
       // them in once it loads, or mark them unavailable if it cannot.
+      // MAController read OsmAmenities.isLoaded() as false for that run too,
+      // so its Neighborhood Access card and access score are re-run for the
+      // same site once the amenities are in.
       var settleSiteAmenities = function () {
         if (lastResult && lastResult.amenities && lastResult.amenities._pending) {
           lastResult.amenities = siteAmenities(lastResult.lat, lastResult.lon);
           renderPmaSiteSummary(lastResult);
+          var MAC = window.MAController;
+          if (!lastResult.amenities._unavailable && MAC && typeof MAC.runAnalysis === 'function') {
+            var isCentroid = !!(_jurisdictionCentroid &&
+              _jurisdictionCentroid.lat === lastResult.lat && _jurisdictionCentroid.lon === lastResult.lon);
+            MAC.runAnalysis(lastResult.lat, lastResult.lon, lastResult.bufferMiles,
+              { siteSource: isCentroid ? 'jurisdiction_centroid' : 'site' });
+          }
         }
       };
       amenityUnavailableReason = null;

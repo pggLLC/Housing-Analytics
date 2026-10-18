@@ -110,6 +110,7 @@ def test_healthcare_means_a_place_to_see_a_doctor(builder):
     assert keep({"amenity": "doctors", "healthcare": ""})
     assert keep({"amenity": "", "healthcare": "centre"})
     assert keep({"amenity": "hospital", "healthcare": "hospital"})
+    assert keep({"amenity": "clinic", "healthcare": "urgent_care"})
     for props in ({"amenity": "dentist", "healthcare": "dentist"},
                   {"amenity": "pharmacy", "healthcare": "pharmacy"},
                   {"amenity": "", "healthcare": "alternative"},

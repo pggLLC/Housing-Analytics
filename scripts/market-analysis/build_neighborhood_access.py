@@ -88,14 +88,15 @@ GEOJSON_SOURCES = {
 # healthcare" often a dentist. A source with no entry here keeps every record.
 #   grocery:    shop=supermarket / grocery / greengrocer (a full grocery store)
 #   healthcare: a place to see a doctor: amenity=clinic / doctors /
-#               hospital, or healthcare=clinic / doctor / centre / hospital,
+#               hospital, or healthcare=clinic / doctor / centre / hospital /
+#               urgent_care,
 #               except specialty healthcare values such as dialysis or blood
 #               donation. Hospitals stay in: in many rural towns the hospital
 #               and its clinics are the only medical care, and dropping them
 #               put Antonito's nearest care 28 mi away instead of 13.
 FULL_GROCERY_SHOPS = {"supermarket", "grocery", "greengrocer"}
 PRIMARY_CARE_AMENITIES = {"clinic", "doctors", "hospital"}
-PRIMARY_CARE_HEALTHCARE = {"clinic", "doctor", "centre", "hospital"}
+PRIMARY_CARE_HEALTHCARE = {"clinic", "doctor", "centre", "hospital", "urgent_care"}
 
 
 def is_full_grocery(props: dict) -> bool:

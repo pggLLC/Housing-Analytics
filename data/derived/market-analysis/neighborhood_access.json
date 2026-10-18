@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated": "2026-10-18T11:31:42.052690+00:00",
+    "generated": "2026-10-18T11:57:00.611767+00:00",
     "source": "OpenStreetMap Overpass API + seed fallback; statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); HIFLD/CDPHE hospitals; CDHS licensed child care facilities",
     "sources_detail": [
       "grocery_co.geojson: 717 features",
-      "healthcare_co.geojson: 1056 features",
+      "healthcare_co.geojson: 1058 features",
       "schools_co.geojson: 2552 features",
       "parks_co.geojson: 3267 features",
       "transit_stops_statewide_co.geojson: 14077 features",
@@ -14,7 +14,7 @@
       "healthcare_co.geojson (pharmacy): 327 features"
     ],
     "note": "Includes grocery, healthcare, school, park, transit_stop, convenience, pharmacy, hospital, childcare. Refresh sources with scripts/amenities/build_osm_amenities.py, scripts/market/build_transit_stops_co.py, scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, then rerun this script.",
-    "record_count": 26194,
+    "record_count": 26196,
     "amenity_types": [
       "grocery",
       "healthcare",
@@ -5938,6 +5938,12 @@
     },
     {
       "type": "healthcare",
+      "name": "Metro Urgent Care",
+      "lat": 39.957337,
+      "lon": -105.037572
+    },
+    {
+      "type": "healthcare",
       "name": "National Jewish Health Highlands Ranch",
       "lat": 39.559728,
       "lon": -104.908148
@@ -9397,6 +9403,12 @@
       "name": "Yuma District Hospital",
       "lat": 40.120038,
       "lon": -102.737019
+    },
+    {
+      "type": "healthcare",
+      "name": "UCHealth Urgent Care",
+      "lat": 39.94343,
+      "lon": -104.94198
     },
     {
       "type": "healthcare",
