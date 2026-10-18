@@ -519,6 +519,9 @@
     // first year cumulative cash reaches it (the exit panel's payback year).
     // Once fully paid, later payments are $0 even where a year is unknown.
     var fee = known(result.deferredDevFee) ? Math.max(0, result.deferredDevFee) : null, feePaid = 0;
+    // Cash after the fee first makes up deficits from earlier years (funded by
+    // the sponsor); only what is left is distributable.
+    var deficit = 0;
     for (var y = 1; y <= 50; y++) {
       var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
@@ -535,13 +538,17 @@
         : known(feePaid) && known(cumCF) ? Math.min(fee, Math.max(feePaid, cumCF)) : null;
       var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
       feePaid = feeNow;
+      var afterFee = known(cashFlow) && known(deferredFeePaid) ? cashFlow - deferredFeePaid : null;
+      var deficitRecovered = known(afterFee) && known(deficit) ? Math.min(deficit, Math.max(0, afterFee)) : null;
+      deficit = known(afterFee) && known(deficit) ? Math.max(0, deficit - afterFee) : null;
+      var distributable = known(afterFee) && known(deficitRecovered) ? Math.max(0, afterFee - deficitRecovered) : null;
       rows.push({ year: y, grossRents: rents, otherIncome: otherIncome, vacancyLoss: vacancyLoss, egi: egi,
         opex: opex, repReserve: reserve, propTax: tax, noi: noi, debtService: debtService,
         cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
         bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
-        deferredFeePaid: deferredFeePaid,
+        deferredFeePaid: deferredFeePaid, deficitRecovered: deficitRecovered, distributable: distributable,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -1419,13 +1426,11 @@
     result.sliderImpacts = sliderImpacts(result, fields);
     result.waterfall = capitalWaterfall(result, fields);
     if (result.waterfall) {
-      var cumLp = -result.waterfall.lpEquity, cumGp = 0, deficit = 0;
+      var cumLp = -result.waterfall.lpEquity, cumGp = 0;
       result.waterfall.annual = result.projection.rows.slice(0, exit.holdYears).map(function (row) {
         // Cash that repays the deferred fee goes to the developer, not to
         // distributions, and a deficit from earlier years is made up first.
-        var net = row.cashFlow - row.deferredFeePaid - deficit;
-        deficit = Math.max(0, -net);
-        var surplus = Math.max(0, net);
+        var surplus = row.distributable;
         // The developer receives the deferred fee paid from this year's cash.
         var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }

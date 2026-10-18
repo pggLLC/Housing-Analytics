@@ -4252,6 +4252,7 @@
         return line('cf_loan_' + (n + 1), l.label + ' (' + (pf.PROGRAM_LABELS[l.program] || l.program) + ')', f.rows.map(function (x) { return money(x.cashFlowLoans[n]); }));
       }).join('')
       + line('deferred_fee', 'Deferred developer fees', col('deferredFee'))
+      + (f.rows.some(function (x) { return x.deficitRecovered > 0; }) ? line('deficit', 'Repays earlier deficits', col('deficitRecovered')) : '')
       + line('after', 'Available cash after payments', col('availableAfterPayments'), { strong: true });
     if (tableEl) tableEl.innerHTML = head + '<tbody>' + body + '</tbody>';
     function totalRow(key, label, w) {

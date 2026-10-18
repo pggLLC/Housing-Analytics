@@ -125,8 +125,8 @@ test('the 15-year rows are the engine\'s projection, and cash after payments rec
     close(x.expenses, p.opex + p.repReserve + p.propTax, 'expenses');
     close(x.cashFlowAvailable, p.noi - p.debtService, 'cash flow available');
     close(x.cashFlowLoans[0], r.obligations.loans.find(l => l.type === 'cash_flow').rows[n].paid, 'cash flow loan paid');
-    close(x.availableAfterPayments + x.deferredFee, p.cashFlow, 'the deferred fee comes out of the engine\'s cash flow');
-    close(x.cashFlowAvailable - x.assetMgmtFee - x.cashFlowLoans[0] - x.deferredFee, x.availableAfterPayments, 'payments add up');
+    close(x.availableAfterPayments + x.deferredFee + x.deficitRecovered, p.cashFlow, 'the deferred fee comes out of the engine\'s cash flow');
+    close(x.cashFlowAvailable - x.assetMgmtFee - x.cashFlowLoans[0] - x.deferredFee - x.deficitRecovered, x.availableAfterPayments, 'payments add up');
   });
   assert(f.loans[0].totals.total > 0, 'the cash-flow loan is paid');
   close(f.loans[0].totals.first10 + f.loans[0].totals.last5, f.loans[0].totals.total, 'windows add to total');
@@ -229,6 +229,12 @@ test('after a deficit, distributions wait until cumulative cash is positive, and
     close(distributed, Math.max(0, rows[n].cumCF), 'year ' + y.year + ': fee plus distributions to date equal cumulative cash');
   });
   assert.equal(r.waterfall.annual[2].lp + r.waterfall.annual[2].gp, 0, 'year 3 cash makes up the deficit');
+  const f = ds.fifteenYear(r);
+  assert(f.rows[2].deficitRecovered > 0, 'DOH shows year 3 making up the deficit');
+  assert.equal(f.rows[2].availableAfterPayments, 0, 'so nothing is available again that year');
+  r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
+    close(y.lp + y.gp - f.rows[n].deferredFee, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ': DOH and the waterfall agree');
+  });
 });
 
 test('an invalid payment entry is unknown, not $0: the schedule and everything after it say why', () => {

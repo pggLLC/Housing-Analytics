@@ -155,9 +155,10 @@
         expenses: sum([p.opex, p.repReserve, p.propTax]), noi: p.noi, debtService: ds, bridge: bridge,
         cashFlowAvailable: cfAvailable,
         dcr: known(ds) && known(bridge) && ds + bridge > 0 ? p.noi / (ds + bridge) : null,
-        deferredFee: deferred, assetMgmtFee: p.assetMgmtFee, assetMgmtUnpaid: p.assetMgmtUnpaid, cashFlowLoans: loanPaid,
+        deferredFee: deferred, deficitRecovered: p.deficitRecovered, assetMgmtFee: p.assetMgmtFee, assetMgmtUnpaid: p.assetMgmtUnpaid, cashFlowLoans: loanPaid,
         // The engine's cash flow is after the asset fee and cash-flow loans.
-        availableAfterPayments: known(p.cashFlow) && known(deferred) ? p.cashFlow - deferred : null,
+        // Cash that makes up an earlier deficit is not available again.
+        availableAfterPayments: known(p.cashFlow) && known(deferred) && known(p.deficitRecovered) ? p.cashFlow - deferred - p.deficitRecovered : null,
         reason: reason
       };
     });
@@ -186,7 +187,7 @@
       deferredFee: { amount: fee, totals: window3(feeRows), paybackYear: paybackYear,
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
-          : fee > 0 && paybackYear === null && paidOffYear !== null ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; the sale proceeds pay the rest.'
+          : fee > 0 && paybackYear === null && paidOffYear !== null ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; any remaining fee is paid from the sale proceeds if they cover it.'
           : fee > 0 && paybackYear === null && hold > YEARS ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale.'
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },
       // An asset fee cash could not cover accrues; what is still owed after year 15 is disclosed.
