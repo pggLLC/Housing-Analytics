@@ -55,7 +55,8 @@
     acsRent: { path: 'data/market/acs_median_rent_co.json', optional: true },
     properties: { path: 'data/affordable-housing/properties.json', optional: true },
     scorecard: { path: 'data/policy/housing-policy-scorecard.json', optional: true },
-    progress: { path: 'data/policy/jurisdiction-housing-progress.json', optional: true }
+    progress: { path: 'data/policy/jurisdiction-housing-progress.json', optional: true },
+    underwritingRules: { path: 'data/policy/lihtc-underwriting-rules.json', optional: true }
   };
 
   function sourcePath(key) {
@@ -105,6 +106,10 @@
   function fmtMoney(v) {
     var n = num(v);
     return n === null || n <= 0 ? NA : '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function signedMoney(v) {
+    var n = num(v);
+    return n === null ? NA : (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US');
   }
   function fmtPct(v, digits) {
     var n = num(v);
@@ -529,7 +534,16 @@
     return { programs: out, awardsHref: awardsHref, asOf: (src.fundingGuide.meta || {}).last_checked || null, source: sourcePath('fundingGuide') + ' via js/funding-fit.js (the Funding Sources finder)' };
   }
 
-  function dealShape(need, rents, lihtc) {
+  // Current rents a new unit competes with: HUD two-bedroom FMR, Zillow's observed
+  // rent, Apartment List's two-bedroom rent. ACS median gross rent includes long-held
+  // cheap leases, so it is left out.
+  function currentRents(market) {
+    return (market || []).map(function (r) {
+      return { rent: /ZORI/.test(r.source) ? r.all : /Apartment List|fair market rent/.test(r.source) ? r.br2 : null };
+    });
+  }
+
+  function dealShape(need, rents, lihtc, guide, marketList, MixCheck, rulesFile) {
     // Screening rules, each stated in the document. Not an underwriting model.
     var notes = [];
     var route;
@@ -551,10 +565,31 @@
       if (need.gap30 === 0 && need.gap50 === 0 && need.gap60 === 0) {
         notes.push('No rental shortfall is measured at or below 60% AMI. A tax-credit deal here has to rest on other evidence (waiting lists, a market study, commuters), and CHFA will ask for it.');
       } else if (need.gap30 > 0 && need.gap60 < need.gap30) {
-        notes.push('The shortfall is deepest at the bottom: ' + fmtInt(need.gap30) + ' homes short at or below 30% AMI against ' + fmtInt(need.gap60) + ' at or below 60%. Weight the mix to 30–40% AMI units; under income averaging, some higher units keep the average at or below 60%. Plan rental subsidy (project-based vouchers) for the 30% units.');
+        notes.push('The shortfall is deepest at the bottom: ' + fmtInt(need.gap30) + ' homes short at or below 30% AMI against ' + fmtInt(need.gap60) + ' at or below 60%. Weight the mix to 30–40% AMI units; under income averaging, some higher units keep the average at or below 60%. The 30% units carry the least debt (see the table below), so plan soft funds or project-based vouchers for them.');
       } else {
         notes.push('The shortfall reaches 60% AMI (' + fmtInt(need.gap60) + ' homes at or below 60%, ' + fmtInt(need.gap30) + ' of the need at or below 30%), so a 30–60% AMI mix fits the measured need.');
       }
+    }
+
+    // The homes-short counts are cumulative and can read 0 at a band whose renters
+    // still pay too much; MixCheck reads cost burden by band, income averaging,
+    // the middle-income lane and the 20-year need (js/mix-check.js).
+    var burden = null, workforce = null, pencil = null;
+    if (MixCheck) {
+      burden = MixCheck.burdenByBand(need.bands);
+      var mihtc = (((guide || {}).programs) || []).find(function (p) { return p && p.id === 'chfa-mihtc'; }) || null;
+      var nn = MixCheck.needNotes({
+        burden: burden, gap50: need.gap50,
+        lim70: rents.tiers['70'] ? rents.tiers['70'].rent2br : null, lim80: rents.tiers['80'] ? rents.tiers['80'].rent2br : null,
+        rentRange: MixCheck.rentRange(currentRents(marketList)), ruralResort: rents.ruralResort,
+        mihtc: mihtc ? { name: mihtc.name, url: safeHref(mihtc.official_url) } : null, need20yr: need.need20yr
+      });
+      notes = notes.concat(nn.notes);
+      workforce = nn.workforce;
+      var limits = {};
+      Object.keys(rents.tiers).forEach(function (t) { limits[t] = rents.tiers[t].rent2br; });
+      pencil = MixCheck.pencil({ limits: limits, rules: rulesFile });
+      if (pencil.ok) pencil.assumptionsText = MixCheck.assumptionsLine(pencil.assumptions);
     }
 
     var rentCheck = null;
@@ -579,7 +614,7 @@
     var sizes = lihtc.properties.map(function (p) { return p.units; }).filter(function (u) { return u !== null; }).sort(function (a, b) { return a - b; });
     var medianSize = sizes.length ? sizes[Math.floor(sizes.length / 2)] : null;
     if (medianSize !== null) notes.push('Existing tax-credit projects here have a median of ' + fmtInt(medianSize) + ' units: a size the market has already absorbed.');
-    return { route: route, mix: mix, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
+    return { route: route, mix: mix, burden: burden, workforce: workforce, pencil: pencil, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
   }
 
   function contactsSection(row, src, contactsFile, resources, relatedFiles) {
@@ -769,7 +804,7 @@
       prop123: prop123Section(row, src, countyName),
       policy: policy,
       funding: fundingSection(row, src, opts.FundingFit),
-      deal: dealShape(need, rents, lihtc),
+      deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src), opts.MixCheck || null, src.underwritingRules || null),
       landscape: landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName),
       dynamics: dealDynamics(row, src, need, lihtc, policy),
       contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || []),
@@ -1112,11 +1147,26 @@
         '<tr><td>At or below 60% AMI</td><td class="n">' + fmtInt(d.mix.le60) + '</td></tr></tbody></table>' +
         '<p class="wp-meta">Each row is renter households at or below that income minus the rental homes priced for them, so the rows overlap and do not add up. A lower 60% figure means the cheaper homes are missing, not the 60% ones. A minimum: a home priced for a band may be rented by a higher-income household.</p>';
     }
+    if (d.burden) {
+      h += '<table><thead><tr><th>Renters by income band</th><th>Households</th><th>Paying over 30% of income</th></tr></thead><tbody>' +
+        Object.keys(d.burden).map(function (k) { var b = d.burden[k]; return '<tr><td>' + esc(b.label) + '</td><td class="n">' + fmtInt(b.households) + '</td><td class="n">' + fmtInt(b.burdened) + ' (' + fmtPct(b.pct, 0) + ')</td></tr>'; }).join('') +
+        '</tbody></table><p class="wp-meta">HUD CHAS cost burden by band. These are the renters a band\'s units would serve, whether or not homes priced for them are counted as short.</p>';
+    }
     h += '<ul>' + d.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
+    if (d.pencil && d.pencil.ok) {
+      h += '<h3>Does each rent level pay its way?</h3><table><thead><tr><th>Units at</th><th>Rent (2BR limit)</th><th>Net per unit, year 1</th><th>Net per unit, year 15</th><th>Yearly debt service it can carry</th><th>Operating cost it can bear</th></tr></thead><tbody>' +
+        d.pencil.tiers.map(function (t) {
+          return '<tr><td>' + esc(t.tier) + '% AMI</td><td class="n">' + fmtMoney(t.rent) + '</td><td class="n">' + signedMoney(t.noi1) + '</td><td class="n">' + signedMoney(t.noi15) + '</td><td class="n">' +
+            (t.firstShortYear ? 'None: short from year ' + t.firstShortYear : signedMoney(t.debtServiceCapacity)) + '</td><td class="n">' + fmtMoney(t.breakevenCost) + '</td></tr>';
+        }).join('') + '</tbody></table><p class="wp-meta">' + esc(d.pencil.assumptionsText) +
+        ' Net is rent after vacancy less operating cost and reserve. Debt service is what the weakest of the 15 years can carry at the minimum coverage; a deeper mix carries less debt, so its funding gap is larger. Operating cost it can bear is the most a unit at that rent can spend on operations each year (before the reserve, in year-1 dollars) and still break even through year 15; mountain and small-town budgets often run above CHFA\'s minimum, so compare it with the real budget.</p>';
+    } else if (d.pencil && d.pencil.reason) {
+      h += '<p class="wp-note">Whether each rent level pays its way is not shown: ' + esc(d.pencil.reason) + '</p>';
+    }
     h += '<p class="wp-note">This is the deal\'s shape from the data, not a pro forma. Size the dollars in the ' +
       link('Deal Calculator for ' + m.name, 'https://cohoanalytics.com/deal-calculator.html?geoid=' + encodeURIComponent(m.geoid)) +
       ' and confirm achievable rents with a CHFA market study.</p>';
-    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent and tax-credit sections');
+    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent, tax-credit and funding sections');
   }
 
   function renderLandscape(m) {

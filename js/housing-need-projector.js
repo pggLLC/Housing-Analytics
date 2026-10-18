@@ -621,10 +621,41 @@
   };
 
   /**
+   * The need notes and 15-year pencil check (js/mix-check.js) for the preset
+   * recommendAmiMix picked. Percent shares stand in for units, so the mix is
+   * tested as a nominal 100-unit building; the 100% AMI slice has no CHFA
+   * tax-credit rent, so it is left out and named. Pure.
+   * @param {AmiRecommendation} rec
+   * @param {Object} inputs  MixCheckInputs.build() result
+   * @param {Object} MixCheck
+   * @param {Object} MixCheckInputs
+   * @returns {{ units: Object, leftOut: number|null, result: Object, lead: string }}
+   */
+  function mixCheckFor(rec, inputs, MixCheck, MixCheckInputs) {
+    var units = {};
+    var total = 0;
+    ['30', '40', '50', '60', '70', '80'].forEach(function (t) {
+      var v = rec.recommended['pct' + t];
+      if (v != null && Number.isFinite(v) && v > 0) { units[t] = v; total += v; }
+    });
+    var p100 = rec.recommended.pct100;
+    var leftOut = (p100 != null && Number.isFinite(p100) && p100 > 0) ? p100 : null;
+    var result = MixCheckInputs.check(MixCheck, inputs, { units: units });
+    var lead = 'Tested as a nominal 100-unit building split by the shares above (' + total +
+      ' tax-credit units' + (leftOut ? '; the ' + leftOut + ' units at 100% AMI are left out because CHFA sets no tax-credit rent for them' : '') +
+      '). Dollar figures scale with the real unit count.';
+    return { units: units, leftOut: leftOut, result: result, lead: lead };
+  }
+
+  /**
    * @param {string} containerId
    * @param {Object} countyData
+   * @param {Object} [options]
+   * @param {string} [options.countyFips]  enables the need notes and 15-year check
+   * @param {string} [options.placeGeoid]  place CHAS is used when the place has it
+   * @param {string} [options.placeName]
    */
-  function renderAmiRecommendation(containerId, countyData) {
+  function renderAmiRecommendation(containerId, countyData, options) {
     _injectStyles();
 
     var container = document.getElementById(containerId);
@@ -714,10 +745,42 @@
         '</ul>' +
       '</details>';
 
+    // The preset reads median income and overall burden only. The check below
+    // reads CHAS burden by band, current rents and CHFA's underwriting minimums,
+    // and tests whether this mix pays its way for 15 years (js/mix-check.js).
+    options = options || {};
+    var canCheck = !!(options.countyFips && root.MixCheck && root.MixCheckInputs);
+    var checkId = containerId + 'MixCheck';
+    var checkSlot = canCheck
+      ? '<div id="' + _escHtml(checkId) + '" style="margin-top:14px;border-top:1px solid var(--border,#e5e7eb);padding-top:10px;">' +
+          '<p style="font-size:1rem;color:var(--muted,#555);margin:0;">Checking this mix against renter cost burden and current rents.</p></div>'
+      : '';
+
     container.innerHTML =
       '<div class="hnp-recommendation-card">' +
-      heading + intro + bars + disclaimer + notTellYou +
+      heading + intro + bars + checkSlot + disclaimer + notTellYou +
       '</div>';
+
+    if (!canCheck) return;
+    var hs = root.HNAState && root.HNAState.state;
+    root.MixCheckInputs.load({ have: { countyChas: hs && hs.chasData } }).then(function (files) {
+      var slot = document.getElementById(checkId);
+      if (!slot) return;
+      var placeRecord = (options.placeGeoid && root.PlaceChas && typeof root.PlaceChas.lookup === 'function')
+        ? root.PlaceChas.lookup(options.placeGeoid) : null;
+      var inputs = root.MixCheckInputs.build(files, {
+        countyFips: options.countyFips, placeGeoid: options.placeGeoid,
+        placeName: options.placeName, placeRecord: placeRecord
+      }, root.MixCheck);
+      var mc = mixCheckFor(rec, inputs, root.MixCheck, root.MixCheckInputs);
+      slot.innerHTML = root.MixCheckInputs.renderHtml(mc.result, inputs, {
+        heading: 'Need beyond the homes-short counts, and does this mix pay its way?',
+        mixLead: mc.lead
+      });
+      try {
+        root.dispatchEvent(new CustomEvent('mixcheck:inputs', { detail: { inputs: inputs } }));
+      } catch (_e) {}
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -739,6 +802,7 @@
   root.HousingNeedProjector = {
     project: project,
     recommendAmiMix: recommendAmiMix,
+    mixCheckFor: mixCheckFor,
     renderProjectionSection: renderProjectionSection,
     renderAmiRecommendation: renderAmiRecommendation
   };

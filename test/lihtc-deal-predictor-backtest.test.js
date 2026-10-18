@@ -35,19 +35,15 @@ read('data/co_ami_gap_by_county.json').counties.forEach((c) => { gapByFips[c.fip
 function pageInputs(p) {
   // Mirrors _runDealPredictor in js/deal-calculator.js.
   const c = gapByFips[p.CNTY_FIPS];
-  const g = (c && c.gap_units_minus_households_le_ami_pct) || {};
-  return {
+  const shortfall = c ? Predictor.amiShortfallFromCounty(c) : null;
+  return Object.assign({
     softFundingAvailable: null,
     pmaScore: null,
     geoid: p.CNTY_FIPS,
     countyFips: p.CNTY_FIPS,
     proposedUnits: p.N_UNITS,
-    isQct: !!(p.QCT || p.DDA),
-    ami30Scope: 'area',
-    ami30UnitsNeeded: Math.max(0, -(g['30'] || 0)),
-    ami50UnitsNeeded: Math.max(0, -(g['50'] || 0)),
-    ami60UnitsNeeded: Math.max(0, -(g['60'] || 0))
-  };
+    isQct: !!(p.QCT || p.DDA)
+  }, shortfall || {}, shortfall ? { ami30Scope: 'area' } : {});
 }
 
 let passed = 0;

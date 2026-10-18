@@ -6,7 +6,8 @@
  *
  * Exposes: window.HousingTypeNeed.compute({
  *            acsProfile, chasRows, hudIncomeLimits, lihtcInventory,
- *            jurisdictionName
+ *            jurisdictionName, mixCheck?  ({ inputs, result } from
+ *            js/mix-check-inputs.js; adds pencilLines / laneNotes, never scores)
  *          })
  *          -> Array<{
  *               type, label, score, level, signals, confidence,
@@ -811,6 +812,15 @@
     return { confidence: level, confidenceReason: reasons.join('; ') };
   }
 
+  // CHFA rent tiers each rental lane covers, for the 15-year pencil lines.
+  var LANE_TIERS = {
+    deeplyAffordableRental: ['30'],
+    workforceRental: ['60', '70', '80']
+  };
+  var MIDDLE_INCOME_UNMEASURED = 'HUD CHAS counts renters at 81–100% AMI and above 100% AMI, ' +
+    'not at 100–120% AMI, so the upper half of this band is not measured here; the 81–100% ' +
+    'cohort stands in for it.';
+
   // ── public API ────────────────────────────────────────────────────────────
 
   function compute(input) {
@@ -863,6 +873,32 @@
       };
     });
 
+    // Size check beside the ranking (scores are unchanged): the 15-year pencil
+    // lines for the CHFA rent tiers each rental lane covers, from
+    // MixCheckInputs.check() (js/mix-check-inputs.js), and the middle-income
+    // lane's measurement limit and state program.
+    var mc = input.mixCheck || null;
+    var pencil = mc && mc.result && mc.result.pencil && mc.result.pencil.ok ? mc.result : null;
+    results.forEach(function (r) {
+      var tiers = LANE_TIERS[r.type];
+      if (tiers && pencil) {
+        r.pencilLines = [];
+        pencil.pencil.tiers.forEach(function (t, i) {
+          if (tiers.indexOf(t.tier) !== -1) r.pencilLines.push(pencil.tierLines[i]);
+        });
+        r.pencilAssumptions = pencil.assumptions;
+      }
+      if (r.type === 'middleIncomeRental') {
+        var prog = mc && mc.inputs && mc.inputs.mihtc;
+        r.laneNotes = [MIDDLE_INCOME_UNMEASURED,
+          'Federal tax credits stop at 80% AMI, so this lane has no tax-credit rent to test. ' +
+          (prog ? 'The state ' + prog.name + ' covers 80–120% AMI' +
+            (mc.inputs.ruralResort ? ' (up to 140% in rural resort counties such as this one)' : '') +
+            ', a separate deal from the tax-credit lanes above.'
+            : 'A middle-income deal needs its own funding.')];
+      }
+    });
+
     // Sort by score descending (callers can re-sort if they want a fixed order).
     results.sort(function (a, b) { return b.score - a.score; });
 
@@ -883,7 +919,8 @@
     compute: compute,
     // exposed for unit tests / debugging
     _scoreToLevel: scoreToLevel,
-    _extractAcs: extractAcs
+    _extractAcs: extractAcs,
+    _laneTiers: LANE_TIERS
   };
 
 }(typeof window !== 'undefined' ? window : globalThis));

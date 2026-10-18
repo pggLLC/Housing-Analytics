@@ -994,6 +994,82 @@
     '</div>';
   }
 
+  // ── Need notes and 15-year check for the derived mix (js/mix-check.js) ──
+  // _deriveAmiMix reads only the cumulative homes-short counts. This adds what
+  // they miss: renters at 31–80% AMI who still pay too much, the middle-income
+  // lane, and whether the derived mix pays its own operating costs for 15
+  // years at CHFA's minimum underwriting. Files load once; the panel renders
+  // again when they arrive.
+  var _mixFiles = null;
+  var _mixLoading = false;
+
+  function _ensureMixFiles() {
+    if (_mixFiles || _mixLoading || !window.MixCheck || !window.MixCheckInputs) return;
+    _mixLoading = true;
+    window.MixCheckInputs.load({ keys: ['countyChas', 'limits', 'rules', 'guide', 'fmr', 'zori', 'apartmentList'] })
+      .then(function (files) {
+        _mixFiles = files;
+        if (_compA && _compB) _renderComparisonPanel();
+      });
+  }
+
+  function _countyFor(entry) {
+    if (!entry) return null;
+    if (entry.type === 'county') return entry.geoid;
+    return entry.containingCounty || _countyMap[entry.geoid] || null;
+  }
+
+  // Pure: the check for one side, from files already loaded. Shares of the
+  // derived mix stand in for units (a nominal 100-unit building).
+  function _mixCheckForEntry(entry, mix, files, MixCheck, MixCheckInputs) {
+    var fips = _countyFor(entry);
+    if (!fips || !files || !MixCheck || !MixCheckInputs) return null;
+    var isPlace = entry.type === 'place' || entry.type === 'cdp';
+    var placeRecord = (isPlace && window.PlaceChas && typeof window.PlaceChas.lookup === 'function')
+      ? window.PlaceChas.lookup(entry.geoid) : null;
+    var inputs = MixCheckInputs.build(files, {
+      countyFips: fips, placeGeoid: isPlace ? entry.geoid : null,
+      placeName: isPlace ? entry.name : null, placeRecord: placeRecord
+    }, MixCheck);
+    var units = null;
+    if (mix) {
+      units = {};
+      ['30', '50', '60'].forEach(function (t, i) {
+        var pct = mix.tiers[i].pct;
+        if (pct > 0) units[t] = Math.round(pct * 10) / 10;
+      });
+    }
+    var m = entry.metrics || {};
+    var gap50 = (m.ami_gap_50pct === null || m.ami_gap_50pct === undefined) ? null : m.ami_gap_50pct;
+    var result = MixCheckInputs.check(MixCheck, inputs, { units: units, gap50: gap50 });
+    return { inputs: inputs, result: result };
+  }
+
+  function _buildMixCheckBlock(entryA, entryB, mixA, mixB) {
+    if (!window.MixCheck || !window.MixCheckInputs) return '';
+    if (!_mixFiles) {
+      _ensureMixFiles();
+      return '<div class="hca-cp-ami__mixcheck" style="margin-top:.75rem;font-size:.85rem;color:var(--muted);">' +
+        'Checking each mix against renter cost burden and current rents.</div>';
+    }
+    var html = '<div class="hca-cp-ami__mixcheck" style="margin-top:.75rem;">' +
+      '<div class="hca-cp-ami__burden-title">Need beyond the homes-short counts, and does each mix pay its way?</div>';
+    [{ entry: entryA, mix: mixA }, { entry: entryB, mix: mixB }].forEach(function (side) {
+      var mc = _mixCheckForEntry(side.entry, side.mix, _mixFiles, window.MixCheck, window.MixCheckInputs);
+      html += '<details style="margin:.35rem 0;font-size:.85rem;"><summary style="cursor:pointer;font-weight:600;">' +
+        _esc(side.entry.name) + '</summary>';
+      if (!mc) {
+        html += '<p style="margin:.35rem 0;color:var(--muted);">Not available: the county for this jurisdiction is not on file.</p>';
+      } else {
+        html += window.MixCheckInputs.renderHtml(mc.result, mc.inputs, {
+          mixLead: side.mix ? 'The mix above, tested as a nominal 100-unit building split by its shares; dollar figures scale with the real unit count.' : null
+        });
+      }
+      html += '</details>';
+    });
+    return html + '</div>';
+  }
+
   function _buildAmiMixSection(entryA, entryB) {
     var mixA = _deriveAmiMix(entryA);
     var mixB = _deriveAmiMix(entryB);
@@ -1103,6 +1179,8 @@
       html += '</div>';
       html += '</div>';
     }
+
+    html += _buildMixCheckBlock(entryA, entryB, mixA, mixB);
 
     html += '</div>';
     return html;
@@ -1439,7 +1517,11 @@
     _scopeNote:  _scopeNote,
     _buildHomeownershipSection: _buildHomeownershipSection,
     _homeValueInfo: _homeValueInfo,
-    _comparisonMetrics: COMPARISON_METRICS
+    _comparisonMetrics: COMPARISON_METRICS,
+    _deriveAmiMix: _deriveAmiMix,
+    _mixCheckForEntry: _mixCheckForEntry,
+    _buildAmiMixSection: _buildAmiMixSection,
+    _setMixFiles: function (files) { _mixFiles = files; }
   };
 
   // Auto-init after DOMContentLoaded
