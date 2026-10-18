@@ -185,6 +185,10 @@
   function permanentFinancingModule() {
     return window.DealPermanentFinancing || (typeof require === 'function' ? require('./deal-permanent-financing.js') : null);
   }
+  // DOH PR 4: sources and uses by activity and the 15-year pro forma rows.
+  function dohSchedulesModule() {
+    return window.DealDohSchedules || (typeof require === 'function' ? require('./deal-doh-schedules.js') : null);
+  }
   // DOH's C / T / F loan types as select options.
   function lenderTypeOptions(selected) {
     var pf = permanentFinancingModule();
@@ -1327,8 +1331,12 @@
     if (mixPreference() === 'manual') return { available: false, reason: 'manual_selection' };
     var limits = window.ChfaRentLimits, SP = window.SubjectProject;
     if (!limits || !SP || typeof SP.get !== 'function') return { available: false, reason: 'schedule_unavailable:subject_project_unavailable' };
-    return limits.dealMixFromSchedule(limits.rentSchedule(SP.get(), { chfaTable: _chfaRentTable }),
+    var subject = SP.get();
+    var mix = limits.dealMixFromSchedule(limits.rentSchedule(subject, { chfaTable: _chfaRentTable }),
       { countyFips: _countyFips, regime: rentLimitRegime() });
+    // Before any Market Analysis run the subject project has no rent rows.
+    if (!mix.available && !((subject && subject.unit_mix) || []).length) mix.notStarted = true;
+    return mix;
   }
 
   function getRentScheduleMetadata() {
@@ -1435,6 +1443,21 @@
     recalculate();
   }
 
+  // Plain words for why the Market Analysis schedule is not in use; the code
+  // itself stays on data-unavailable-reason.
+  function dealMixReasonText(reason) {
+    var limits = window.ChfaRentLimits;
+    var inner = /^schedule_unavailable:(.+)$/.exec(reason || '');
+    var text = inner ? (limits ? limits.unavailableMessage(inner[1]) : 'The schedule is unavailable') : ({
+      schedule_other_county: 'It was built for a different county',
+      schedule_requires_chfa_setting: 'It needs the CHFA LIHTC rent-limit setting',
+      shared_schedule_loading: 'The shared schedule is still loading',
+      shared_schedule_invalid: 'The shared schedule could not be read',
+      ownership_mode: 'For-sale deals do not use it'
+    })[reason] || 'It is not available';
+    return text.charAt(0).toLowerCase() + text.slice(1);
+  }
+
   function renderDealMixContext(mix) {
     var active = mix.available;
     var status = document.getElementById('dc-unit-mix-status');
@@ -1444,7 +1467,8 @@
     status.textContent = active ? 'Unit mix source: From Market Analysis rent schedule — edit it there' +
       (_sharedRentSchedule ? ' (from shared scenario)' : '')
       : mixPreference() === 'manual' || mix.reason === 'manual_selection' ? "Unit mix source: Using this page's unit mix — manual editing selected"
-      : "Using this page's unit mix — Market Analysis schedule unavailable: " + mix.reason;
+      : mix.notStarted ? "Unit mix source: Using this page's unit mix. No Market Analysis rent schedule yet; build one there to use it here."
+      : "Unit mix source: Using this page's unit mix. Market Analysis rent schedule not in use: " + dealMixReasonText(mix.reason) + '.';
     var notice = document.getElementById('dc-schedule-local-notice');
     notice.hidden = !_scheduleSourceChanged;
     notice.textContent = _scheduleSourceChanged ? 'County or rent setting changed — unit mix now uses your local Market Analysis schedule when available.' : '';
@@ -3270,6 +3294,45 @@
         </details>
       </fieldset>
 
+      <!-- DOH PR 4: DOH's Permanent Sources & Uses Budget, by activity. Each
+           soft source says what it pays for; the rest pay for the whole project. -->
+      <fieldset id="dc-act-doh" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources and uses by activity (DOH layout)</legend>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Each cost category's cost and the soft sources that pay for it. Choose what a source pays for, its status and whether it is a state request on its row under Soft Funding Stack. Tax credit equity, the first mortgage and the deferred fee pay for the project as a whole.</p>
+        <p id="dc-act-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+        <p id="dc-act-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div style="overflow-x:auto;"><table id="dc-act-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <thead><tr>
+            <th scope="col" style="text-align:left;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Activity and sources</th>
+            <th scope="col" style="text-align:right;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Total cost</th>
+            <th scope="col" style="text-align:right;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">State funds</th>
+            <th scope="col" style="text-align:right;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Other funds</th>
+          </tr></thead>
+          <tbody id="dc-act-rows"></tbody>
+        </table></div>
+      </fieldset>
+
+      <!-- DOH PR 4: DOH's 15-Year Operating Proforma rows, from the engine's
+           projection and loan schedule. -->
+      <fieldset id="dc-doh15" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">15-year operating pro forma (DOH layout)</legend>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then cash-flow loans, then the deferred developer fee. Rent and expense growth are the Operating Pro Forma Projection's.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
+          <label style="font-size:var(--small);color:var(--muted);">Asset management fee, year 1 ($/yr)<input id="dc-asset-mgmt-fee" type="number" min="0" step="500" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Asset management fee increase (%/yr)<input id="dc-asset-mgmt-growth" type="number" min="0" max="10" step="0.5" value="3" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Bridge-loan debt service ($/yr)<input id="dc-bridge-ds" type="number" min="0" step="1000" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Years of bridge-loan payments<input id="dc-bridge-years" type="number" min="0" max="50" step="1" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+        </div>
+        <p id="dc-doh15-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+        <p id="dc-doh15-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+        <dl id="dc-doh15-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.2rem var(--sp2);margin:0 0 var(--sp2);font-size:var(--small);"></dl>
+        <details>
+          <summary style="cursor:pointer;min-height:44px;font-size:var(--small);">Year-by-year rows and totals</summary>
+          <div style="overflow-x:auto;"><table id="dc-doh15-table" style="border-collapse:collapse;font-size:var(--small);white-space:nowrap;"></table></div>
+          <div style="overflow-x:auto;margin-top:var(--sp2);"><table id="dc-doh15-totals" style="width:100%;border-collapse:collapse;font-size:var(--small);"></table></div>
+        </details>
+      </fieldset>
+
       <!-- L6 — Year-15 exit analysis. Closes the IC packet: resale value
            at hold-period end, remaining debt balances, net sale proceeds,
            deferred-fee payback timing, sponsor IRR. -->
@@ -3378,6 +3441,7 @@
     const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-pf-cap-rate', 'dc-pf-cap-lvr', 'dc-pf-appraised', 'dc-pf-appraised-lvr',
+      'dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years',
       'dc-senior-mode', 'dc-senior-lender-type', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
       'dc-vacancy', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
@@ -3520,6 +3584,15 @@
     function defaultFundSource(program) { return FEDERAL_FUND_DEFAULTS[program] || ''; }
     // DOH PR 3: where the tranche counts in DOH's Permanent Financing Sources.
     function defaultDohGroup(program) { var pf = permanentFinancingModule(); return pf ? pf.defaultGroup(program) : ''; }
+    // DOH PR 4: what a source pays for, its status, and whether it is a state request.
+    function defaultStateRequest(program) { var ds = dohSchedulesModule(); return ds ? ds.defaultStateRequest(program) : false; }
+    function activityOptions(t) {
+      var ds = dohSchedulesModule();
+      if (!ds) return '';
+      return [['', 'The whole project']].concat(ds.ACTIVITIES.map(function (a) { return [a.id, a.label]; })).map(function (o) {
+        return '<option value="' + o[0] + '"' + ((t.activity || '') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+      }).join('');
+    }
     function dohGroupOptions(t) {
       var pf = permanentFinancingModule();
       if (!pf) return '';
@@ -3570,6 +3643,17 @@
         + '    </select></label>'
         + '  <label style="display:block;margin-top:0.5rem;">Counts in DOH\'s sources as'
         + '    <select class="dc-tr-doh" style="' + inputCss + '">' + dohGroupOptions(t) + '</select></label>'
+        + '  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-top:0.5rem;">'
+        + '    <label style="display:block;">Pays for<select class="dc-tr-activity" style="' + inputCss + '">' + activityOptions(t) + '</select></label>'
+        + '    <label style="display:block;">Status<select class="dc-tr-status" style="' + inputCss + '">'
+        + [['pending', 'Pending'], ['committed', 'Committed']].map(function (o) {
+            return '<option value="' + o[0] + '"' + ((t.status || 'pending') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+          }).join('') + '</select></label>'
+        + '    <label style="display:block;">State funds request?<select class="dc-tr-state" style="' + inputCss + '">'
+        + [['yes', 'Yes'], ['no', 'No']].map(function (o) {
+            return '<option value="' + o[0] + '"' + ((t.stateRequest ? 'yes' : 'no') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+          }).join('') + '</select></label>'
+        + '  </div>'
         + '  <label style="display:block;margin-top:0.5rem;">Repayment obligation <select class="dc-tr-type" style="' + inputCss + '">' + loanTypeOptions(dealEngine().loanTerms(t).loan.type) + '</select></label>'
         + '  <details style="margin-top:var(--sp2);">'
         + '    <summary style="cursor:pointer;min-height:44px;">Loan terms and cash-flow priority</summary>'
@@ -3600,6 +3684,9 @@
       _softTranches.forEach(function (t) {
         if (t.fundSource === undefined) t.fundSource = defaultFundSource(t.program);
         if (t.doh === undefined) t.doh = defaultDohGroup(t.program);
+        if (t.stateRequest === undefined) t.stateRequest = defaultStateRequest(t.program);
+        if (t.status === undefined) t.status = 'pending';
+        if (t.activity === undefined) t.activity = '';
       });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
       if (provenance) {
@@ -3627,8 +3714,13 @@
           rowEl.querySelector('.dc-tr-fed').value = t.fundSource;
           t.doh = defaultDohGroup(t.program);
           rowEl.querySelector('.dc-tr-doh').innerHTML = dohGroupOptions(t);
+          t.stateRequest = defaultStateRequest(t.program);
+          rowEl.querySelector('.dc-tr-state').value = t.stateRequest ? 'yes' : 'no';
           recalculate();
         });
+        rowEl.querySelector('.dc-tr-activity').addEventListener('change', function () { t.activity = this.value; recalculate(); });
+        rowEl.querySelector('.dc-tr-status').addEventListener('change', function () { t.status = this.value; recalculate(); });
+        rowEl.querySelector('.dc-tr-state').addEventListener('change', function () { t.stateRequest = this.value === 'yes'; recalculate(); });
         rowEl.querySelector('.dc-tr-doh').addEventListener('change', function () {
           t.doh = this.value;
           recalculate();
@@ -4094,6 +4186,126 @@
   // per unit per year expenses and other income. Absent figures show a reason.
   // DOH PR 3: the sources regrouped as DOH's Permanent Financing Sources tab.
   var _lastPermanentFinancing = null;
+  var _lastPfSummary = null;
+  // DOH PR 4: sources and uses by activity, and DOH's 15-year pro forma rows.
+  var _lastDohSchedules = null;
+  function renderDohSchedules(result, fmt) {
+    var ds = dohSchedulesModule(), pf = permanentFinancingModule();
+    var suRows = document.getElementById('dc-act-rows');
+    if (!ds || !pf || !suRows) return;
+    function money(v) { return v === null || v === undefined ? '—' : fmt(v); }
+    var su = ds.sourcesByActivity({ costSummary: result.costBasis && result.costBasis.summary,
+      financing: _lastPfSummary, tranches: result.tranches || [], labels: pf.PROGRAM_LABELS });
+    var cell = 'padding:0.3rem 0.25rem;font-size:var(--small);vertical-align:top;';
+    function names(list) {
+      return list.map(function (e) {
+        return _escHtml(e.name) + (e.status ? ' (' + (e.status === 'committed' ? 'committed' : 'pending') + ')' : '');
+      }).join(', ');
+    }
+    function tr(key, label, cost, state, other, sources, opts) {
+      opts = opts || {};
+      // The sources sit under the activity name, so the table fits a phone.
+      return '<tr data-su-row="' + key + '"' + (opts.strong ? ' style="background:var(--bg2);font-weight:700;"' : '') + '>'
+        + '<th scope="row" style="' + cell + 'text-align:left;text-transform:none;letter-spacing:normal;font-weight:' + (opts.strong ? '700' : '400') + ';">' + _escHtml(label)
+        + '<span data-su="sources" style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">' + sources + '</span></th>'
+        + '<td data-su="cost" style="' + cell + 'text-align:right;">' + cost + '</td>'
+        + '<td data-su="state" style="' + cell + 'text-align:right;">' + state + '</td>'
+        + '<td data-su="other" style="' + cell + 'text-align:right;">' + other + '</td></tr>';
+    }
+    // "—" is for an unknown amount; a category with no state or other dollars shows $0.
+    function amt(v) { return v == null ? '—' : money(v); }
+    var html = su.rows.map(function (r) {
+      return tr(r.id, r.label, money(r.cost), amt(r.state), amt(r.other), names(r.sources));
+    }).join('');
+    if (su.notItemized) html += tr('not_itemized', 'Not itemized', money(su.notItemized), '—', '—', '');
+    var t = su.totals;
+    if (su.general) html += tr('general', 'Whole project', '', amt(su.general.state), amt(su.general.other), names(su.general.sources));
+    if (t) {
+      html += tr('total', 'Total', money(t.cost), money(t.state), money(t.other), '', { strong: true })
+        + tr('gap', 'Gap (surplus)', '', '', money(t.gap), '');
+    }
+    suRows.innerHTML = html;
+    var suReason = document.getElementById('dc-act-reason');
+    if (suReason) { suReason.textContent = su.reasons.join(' '); suReason.hidden = !su.reasons.length; }
+    // Screen readers hear when an edit moves dollars on the activity table.
+    var actLive = document.getElementById('dc-act-live');
+    // Every row with a source is read out, its sources and their status
+    // included; an unknown amount is read as unavailable, never $0.
+    function spoken(v) { return v === null || v === undefined ? 'unavailable' : fmt(v); }
+    var actText = 'Sources by activity updated. ' + su.rows.concat(su.general ? [Object.assign({ label: 'Whole project' }, su.general)] : [])
+      .filter(function (r) { return r.sources && r.sources.length; })
+      .map(function (r) { return r.label + ': state ' + spoken(r.state) + ', other ' + spoken(r.other) + ' (' + r.sources.map(function (e) { return e.name + (e.status ? ', ' + (e.status === 'committed' ? 'committed' : 'pending') : ''); }).join('; ') + ')'; }).join('; ')
+      + (t ? '. Gap ' + spoken(t.gap) + '.' : '.');
+    if (actLive && actLive.dataset.last !== undefined && actLive.dataset.last !== actText) actLive.textContent = actText;
+    if (actLive) actLive.dataset.last = actText;
+
+    var f = ds.fifteenYear(result);
+    var reasonEl = document.getElementById('dc-doh15-reason');
+    var doh15Notice = f.reason ? 'Unavailable — ' + f.reason : f.notice ? 'Some years are unavailable — ' + f.notice : '';
+    if (reasonEl) { reasonEl.textContent = doh15Notice; reasonEl.hidden = !doh15Notice; }
+    var sumEl = document.getElementById('dc-doh15-summary');
+    var tableEl = document.getElementById('dc-doh15-table');
+    var totalsEl = document.getElementById('dc-doh15-totals');
+    _lastDohSchedules = JSON.parse(JSON.stringify({ sourcesByActivity: su, fifteenYear: f }));
+    if (!f.rows) {
+      if (sumEl) sumEl.innerHTML = '';
+      if (tableEl) tableEl.innerHTML = '';
+      if (totalsEl) totalsEl.innerHTML = '';
+      return;
+    }
+    var df = f.deferredFee;
+    var y15 = f.rows[f.rows.length - 1];
+    // Screen readers hear when an edit changes the schedule's answer.
+    var liveEl = document.getElementById('dc-doh15-live');
+    var liveText = 'DOH 15-year schedule updated. Deferred developer fee ' + (df.paybackYear ? 'repaid in year ' + df.paybackYear : df.amount === 0 ? 'none' : 'not repaid: ' + (df.reason || 'unavailable')) + '.';
+    if (liveEl && liveEl.dataset.last !== undefined && liveEl.dataset.last !== liveText) liveEl.textContent = liveText;
+    if (liveEl) liveEl.dataset.last = liveText;
+    if (sumEl) sumEl.innerHTML = [
+      ['Year-15 cash after payments', money(y15.availableAfterPayments), 'cash15'],
+      ['Deferred developer fee repaid', df.paybackYear ? 'Year ' + df.paybackYear : df.amount === 0 ? 'No deferred fee' : _escHtml(df.reason || '—'), 'payback'],
+      ['Deferred fee unpaid after year 15', money(df.unpaidAfter), 'unpaid']
+    ].concat(f.assetMgmt.unpaidAfter !== 0 ? [['Asset management fee owed after year 15', money(f.assetMgmt.unpaidAfter), 'asset-unpaid']] : []).map(function (p) { return '<dt style="color:var(--muted);">' + _escHtml(p[0]) + '</dt><dd data-doh15="' + p[2] + '" style="margin:0;text-align:right;font-weight:700;">' + p[1] + '</dd>'; }).join('');
+    var c = 'padding:0.25rem 0.4rem;text-align:right;border-bottom:1px solid var(--border);text-transform:none;letter-spacing:normal;';
+    // A narrow, wrapping label column that stays put while the years scroll.
+    var lc = c + 'text-align:left;position:sticky;left:0;background:var(--card);white-space:normal;min-width:7rem;max-width:8.5rem;font-size:var(--tiny);';
+    function line(key, label, values, opts) {
+      opts = opts || {};
+      return '<tr data-doh15-row="' + key + '"' + (opts.strong ? ' style="font-weight:700;"' : '') + '><th scope="row" style="' + lc + '">' + _escHtml(label) + '</th>'
+        + values.map(function (v) { return '<td style="' + c + '">' + v + '</td>'; }).join('') + '</tr>';
+    }
+    function col(key, fmtFn) { return f.rows.map(function (x) { return (fmtFn || money)(x[key]); }); }
+    var head = '<thead><tr><th scope="col" style="' + lc + '">Year</th>'
+      + f.rows.map(function (x) { return '<th scope="col" style="' + c + 'color:var(--muted);">' + x.year + '</th>'; }).join('') + '</tr></thead>';
+    var body = line('rent', 'Rent income', col('rentIncome'))
+      + line('vacancy', 'Less vacancy', col('vacancy'))
+      + line('other_income', 'Other income', col('otherIncome'))
+      + line('egi', 'Effective gross income', col('egi'))
+      + line('expenses', 'Total annual expenses', col('expenses'))
+      + line('noi', 'Net operating income', col('noi'), { strong: true })
+      + line('debt_service', 'Total debt service', col('debtService'))
+      + line('bridge', 'Bridge loan debt service', col('bridge'))
+      + line('cf_available', 'Cash flow available', col('cashFlowAvailable'), { strong: true })
+      + line('dcr', 'Debt coverage ratio', col('dcr', function (v) { return v === null || v === undefined ? '—' : v.toFixed(2); }))
+      // Must-pay debt service NOI could not cover is added to the loan
+      // balance, not paid from cash, so it comes back here.
+      + (f.rows.some(function (x) { return x.mustPayUnpaid > 0; }) ? line('unpaid_ds', 'Debt service left unpaid (added to the loan balance)', col('mustPayUnpaid')) : '')
+      + line('asset_fee', 'Asset management fees', col('assetMgmtFee'))
+      + f.loans.map(function (l, n) {
+        return line('cf_loan_' + (n + 1), l.label + ' (' + (pf.PROGRAM_LABELS[l.program] || l.program) + ')', f.rows.map(function (x) { return money(x.cashFlowLoans[n]); }));
+      }).join('')
+      + line('deferred_fee', 'Deferred developer fees', col('deferredFee'))
+      + (f.rows.some(function (x) { return x.deficitRecovered > 0; }) ? line('deficit', 'Repays earlier deficits', col('deficitRecovered')) : '')
+      + line('after', 'Available cash after payments', col('availableAfterPayments'), { strong: true });
+    if (tableEl) tableEl.innerHTML = head + '<tbody>' + body + '</tbody>';
+    function totalRow(key, label, w) {
+      return '<tr data-doh15-total="' + key + '"><th scope="row" style="' + c + 'text-align:left;">' + _escHtml(label) + '</th><td style="' + c + '">' + money(w.first10) + '</td><td style="' + c + '">' + money(w.last5) + '</td><td style="' + c + '">' + money(w.total) + '</td></tr>';
+    }
+    if (totalsEl) totalsEl.innerHTML = '<thead><tr><th scope="col" style="' + c + 'text-align:left;">Paid from cash flow</th><th scope="col" style="' + c + 'color:var(--muted);">Yrs 1–10</th><th scope="col" style="' + c + 'color:var(--muted);">Yrs 11–15</th><th scope="col" style="' + c + 'color:var(--muted);">Total</th></tr></thead><tbody>'
+      + totalRow('deferred_fee', 'Deferred developer fee', df.totals)
+      + f.loans.map(function (l) { return totalRow(l.label.replace(/\W+/g, '_').toLowerCase(), l.label, l.totals); }).join('')
+      + totalRow('asset_fee', 'Asset management fees', f.assetMgmt)
+      + totalRow('bridge', 'Bridge loan debt service', f.bridge) + '</tbody>';
+  }
   function renderPermanentFinancing(result, fmt) {
     var pf = permanentFinancingModule();
     var rowsEl = document.getElementById('dc-pf-rows');
@@ -4103,6 +4315,7 @@
       capRatePct: val('dc-pf-cap-rate'), capLvrPct: val('dc-pf-cap-lvr'),
       appraisedValue: val('dc-pf-appraised'), appraisedLvrPct: val('dc-pf-appraised-lvr') });
     _lastPermanentFinancing = pf.exportView(s);
+    _lastPfSummary = s;
     var t = s.totals;
     function money(v) { return v === null || v === undefined ? '—' : fmt(v); }
     function pct(v) { var p = s.pctOfTdc(v); return p === null ? '—' : (p * 100).toFixed(1) + '%'; }
@@ -4600,6 +4813,7 @@
     renderCostBasis(result, fmt);
     renderOperatingBudget(result, fmt);
     renderPermanentFinancing(result, fmt);
+    renderDohSchedules(result, fmt);
 
     // F257-6 — "How to adjust" advisory. Surfaces 2-3 short levers when
     // the deal is marginal. Drives off the same equity / mortgage / NOI
@@ -5050,6 +5264,28 @@
       _setText('dc-exit-mortbal', tdc > 0 ? fmt(firstMortBal) : '—');
       _setText('dc-exit-softbal', tdc > 0 ? fmt(softBal)      : '—');
       _setText('dc-exit-net',    isFinite(netProceeds) ? fmt(netProceeds) : '—');
+      // An asset management fee still owed at the sale comes out of it (DOH PR 4).
+      // The line exists only while something is owed, so the panel is unchanged otherwise.
+      var assetOwed = numeric(exit.assetMgmtOwed), assetDd = document.getElementById('dc-exit-assetmgmt');
+      var softDd = document.getElementById('dc-exit-softbal');
+      if (isFinite(assetOwed) && assetOwed > 0 && softDd) {
+        if (!assetDd) {
+          var assetDt = document.createElement('dt');
+          assetDt.id = 'dc-exit-assetmgmt-label';
+          assetDt.style.color = 'var(--muted)';
+          assetDt.textContent = 'Accrued asset management fee owed';
+          assetDd = document.createElement('dd');
+          assetDd.id = 'dc-exit-assetmgmt';
+          assetDd.style.cssText = 'margin:0;text-align:right;font-weight:700;';
+          softDd.parentNode.insertBefore(assetDt, softDd.nextSibling);
+          softDd.parentNode.insertBefore(assetDd, assetDt.nextSibling);
+        }
+        assetDd.textContent = fmt(assetOwed);
+      } else if (assetDd) {
+        var oldDt = document.getElementById('dc-exit-assetmgmt-label');
+        if (oldDt) oldDt.remove();
+        assetDd.remove();
+      }
       _setText('dc-exit-defyr',  dfYr ? 'Year ' + dfYr : (deferredDevFee > 0 ? '> ' + holdYears + 'y' : 'n/a'));
       var irrEl = document.getElementById('dc-exit-irr');
       if (irrEl) {
@@ -7388,6 +7624,7 @@
     getResult: getResult,
     getOutputRecords: getOutputRecords,
     getPermanentFinancing: function () { return _lastPermanentFinancing == null ? null : JSON.parse(JSON.stringify(_lastPermanentFinancing)); },
+    getDohSchedules: function () { return _lastDohSchedules == null ? null : JSON.parse(JSON.stringify(_lastDohSchedules)); },
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
     setCostRules: function (rules) { _costRules = rules; recalculate(); },

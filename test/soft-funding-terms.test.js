@@ -110,6 +110,17 @@ for (const [id, p] of Object.entries(committed.programs)) {
   assert(p.last_verified <= committed.lastUpdated, `${id}: file date covers verification`);
   assert(p.review_by >= p.last_verified, `${id}: review follows verification`);
 }
+// Source notes are shown on the Deal Calculator and Market Analysis, so they name
+// terms in words, never by this file's own field names or as "null".
+let notes = 0;
+for (const [id, prog] of Object.entries(committed.programs)) {
+  if (!prog.source_note) continue;
+  notes++;
+  const keys = Object.keys(prog).concat(Object.keys(prog.max_rule || {})).filter(k => k.includes('_'));
+  for (const key of keys) assert(!new RegExp('\\b' + key + '\\b').test(prog.source_note), `${id}: source note names the field ${key}`);
+  assert(!/\bnull\b/.test(prog.source_note), `${id}: source note says null instead of words`);
+}
+assert(notes > 0, 'source-note wording scan is not vacuous');
 const p = committed.programs;
 assert.deepEqual([p['CHFA-CMF'].funding_type, p['CHFA-CMF'].term_years, p['CHFA-CMF'].repayment, p['CHFA-CMF'].rate_pct], ['amortizing_loan', 17, 'must_pay', null]);
 assert.deepEqual(p['CHFA-CMF'].latest_award, {
