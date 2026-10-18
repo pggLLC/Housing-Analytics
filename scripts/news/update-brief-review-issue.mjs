@@ -27,7 +27,7 @@ export const md = (s) => String(s == null ? '' : s).replace(/([\\[\]|*_`<>])/g, 
 
 function storyLine(s) {
   const head = s.link ? `[${md(s.title)}](${s.link})` : md(s.title);
-  return `- ${s.date} · ${head} — ${md(s.source || 'Unknown publisher')}${MATCH[s.match] || ''}`;
+  return `- ${s.date} · ${head} — ${md(s.source || 'Unknown publisher')}${MATCH[s.match] || ''}${s.unread ? ' · not read yet: open it by hand, then mark it used or dismissed' : ''}`;
 }
 
 function eventLine(e) {

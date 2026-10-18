@@ -71,6 +71,20 @@ def test_a_used_or_dismissed_story_leaves_the_queue():
     assert len(kept) == 2, "a story handled for one brief still counts for another"
 
 
+def test_an_unread_story_stays_queued_after_the_review_date():
+    s1 = story('Carbondale paywalled housing story', '2026-09-01', '0812045')
+    lead = {'geoid': '0812045', 'title': s1['title'], 'link': s1['link'], 'date': s1['date'],
+            'source': 'Paywalled Daily', 'status': 'unread', 'reason': 'publisher blocks automated reading'}
+    reviewed = {**CARBONDALE, 'last_curated': '2026-10-01'}
+    got = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['stories']
+    assert [(x['title'], x['match'], x['unread']) for x in got] == [
+        (s1['title'], 'place', 'publisher blocks automated reading')]
+    got = rows(bnq.build(TODAY, [CARBONDALE], [s1], [], COUNTIES, {'entries': [lead]}))['0812045']['stories']
+    assert len(got) == 1, "a story both in the feed and unread in the ledger shows once"
+    done = rows(bnq.build(TODAY, [reviewed], [s1], [], COUNTIES, {'entries': [{**lead, 'status': 'dismissed'}]}))
+    assert done['0812045']['stories'] == []
+
+
 def test_events_match_by_name_and_past_ones_drop():
     events = [
         {'title': 'chfareach: NSPIRE Inspections, Carbondale', 'start': '2026-10-22', 'location': 'In-person'},

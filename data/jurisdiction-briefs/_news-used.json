@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "Headlines a reviewer has handled for a brief. scripts/news/build_brief_news_queue.py leaves these out of the brief's news queue (data/alerts/brief-news-queue.json), so a story drops off once it has been dealt with. status 'used': the brief was updated from the article, with its quote in _verified/. status 'dismissed': not relevant to the brief, with the reason. Match is by link, or by headline when the link changed.",
+    "description": "Headlines a reviewer has handled for a brief. scripts/news/build_brief_news_queue.py leaves these out of the brief's news queue (data/alerts/brief-news-queue.json), so a story drops off once it has been dealt with. status 'used': the brief was updated from the article, with its quote in _verified/. status 'dismissed': not relevant to the brief, with the reason. status 'unread': could not be read yet (for example the publisher blocks automated reading); it stays in the queue, whatever the brief's last review date, until someone reads it and changes the status. Match is by link, or by headline when the link changed.",
     "entry_fields": [
       "geoid",
       "title",
@@ -71,9 +71,12 @@
       "geoid": "0820000",
       "title": "State money will help build 82 condos near Denver Health",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBGc1hBNm4tdWlfRVFUMlBtUGdvNkEweHRVeU0xUk9XUmxIMnB1ZllZRFFkdzVXY0VvZ3RqSlVTSGNpeC1uLVZjVjI2azBET1JSUDhwX3NHZlhiT2pYZjlpRGY1cXNyb0Y1LUxmRmltbGxYZk9Qenc?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-10-06",
+      "source": "Denverite",
+      "match": "place"
     },
     {
       "geoid": "0820000",
@@ -95,9 +98,12 @@
       "geoid": "0820000",
       "title": "News | Archway Communities looks to expand affordable housing efforts beyond Denver",
       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVy1Bb2VybDBFQmN0UkRTa2VlRWpuT0lmcklzTkRnazRwNFNJVk4xeXNNdWhtMWlLRDlfNDBIMS1UZ3dudU03QkIxUk5PNkJXSFFqZUtIWmxNdnVyVnFyRHp4b3hQYVZKU3Ziakl4RjFxTFZnWDJzLWdPSnVILVJsYzhtTmc5bkZ3aE53N2tqSHJIZG5ndGNkczUyY0pHUmdHaDRRMGIzMjRlYmtoTTByYXFZUVRLVWdG?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-09-25",
+      "source": "CoStar",
+      "match": "place"
     },
     {
       "geoid": "0820000",
@@ -181,9 +187,12 @@
       "geoid": "0820000",
       "title": "Zoned in, funded out: Denver’s ADU dream faces budget wall",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVlFQQzE3S09rU3RZZkRCX29LQjUzS3Z2eWZ3UDZrTjBlRVp0VENzbkVXWlVvUjhiM3FqYkJGOEZpWW5fSUdFY0FhanJjX3BHU0xReE1HUmhYMi1oT1VGQnBzY3NLUWNHZkt0VUcydzhHaklROTgySllqSk00OG1KT3NPZnlJWUZTc004ag?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-08-25",
+      "source": "Westword",
+      "match": "place"
     },
     {
       "geoid": "0820000",
@@ -242,9 +251,12 @@
       "geoid": "0820000",
       "title": "5 new state-funded housing projects are coming to Denver",
       "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNY25JZzU0Y2taM2NFbUswTVl4NE1tSWx2N3FjWG5QTlhoR0hzR053Q3RWOGRYcXo2cmp4eTAwSnVILTNLZ2k4Znk5bVRmQ2xCYkdxQl9MOGk5M0piUmFNSWpUb054Sjg5VDZubHF5THV5c3d3QWFkRDU3RzJGVjI0RQ?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-07-21",
+      "source": "Denverite",
+      "match": "place"
     },
     {
       "geoid": "0820000",
@@ -258,9 +270,12 @@
       "geoid": "0816000",
       "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZkZwMFMzcGU0eHpfZ3R2VnRGZmEzTnZwcUxnbXZNajQ3c0dBa1IyT0FCZFQ3QkRXbU5ZQzAzTnM0TjlwMUltZFdwaHpfX0NZMWJVNHh2QzFkeGphTk1XSXBhNGJjVW5xMEpnSHl4VjJ0VnZ5Mlp4ZVNRSENESXJYdFFubWNVMDQ?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-10-17",
+      "source": "Colorado Public Radio",
+      "match": "place"
     },
     {
       "geoid": "0816000",
@@ -353,9 +368,12 @@
       "geoid": "0816000",
       "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team",
       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-08-12",
+      "source": "Axios",
+      "match": "place"
     },
     {
       "geoid": "0816000",
@@ -528,9 +546,12 @@
       "geoid": "0803620",
       "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-09-22",
+      "source": "Pueblo Chieftain",
+      "match": "place"
     },
     {
       "geoid": "0803620",
@@ -722,17 +743,23 @@
       "geoid": "0818310",
       "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkFPQUVLc1Q1Q21NQ2ZfU2ZmY3NWcHJhT3o2SDhLM3hNY2g4MnZEbXlERXBMRGx6ZEp3OWxyOEtOVksxR19fUjNkYUE3NWZBNzdIQXIyaURvYXJDNVZBQS1zbGpZaGNsWEdxUmo4WWZ3eXFNZVc3U2hfUnBfdjlGeEZKVzJqQ0xYNThyT3FqeVJyVkczV3c?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-10-06",
+      "source": "Affordable Housing Finance",
+      "match": "place"
     },
     {
       "geoid": "0818310",
       "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
       "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlZCMFQzU1pjVENqRlAxZXZZMV9oRU53c0RpWS12QnJGbWdhNHBNb0JFa0MxbWFMYjN0bFA4WHBIN3duR1k2ZWNGY3NvM05tVjlNWGJhTnM1VGNDNEg4bS1sd2lzY1RVeHRQTUctM3lVbXpKTDU3b1cxdVhDeVNHMVk2cjhwLWhIT0Mw?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-09-29",
+      "source": "coloradobiz.com",
+      "match": "place"
     },
     {
       "geoid": "0818310",
@@ -803,9 +830,12 @@
       "geoid": "08097",
       "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Not read: the publisher blocks automated reading, so nothing from it can be quoted. Open it by hand if it matters."
+      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
+      "date": "2026-09-22",
+      "source": "Pueblo Chieftain",
+      "match": "in_county"
     },
     {
       "geoid": "08097",

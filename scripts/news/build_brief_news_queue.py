@@ -112,6 +112,16 @@ def ledger_keys(ledger: dict | None) -> dict[str, set]:
     return keys
 
 
+def unread_leads(ledger: dict | None) -> dict[str, list]:
+    """geoid → stories a reviewer could not read (status "unread"). They stay queued whatever the
+    brief's last review date, until someone reads them and marks them used or dismissed."""
+    out: dict[str, list] = {}
+    for e in (ledger or {}).get('entries') or []:
+        if e.get('status') == 'unread' and e.get('geoid') and e.get('title'):
+            out.setdefault(e['geoid'], []).append(e)
+    return out
+
+
 def match_story(brief: dict, story: dict, counties: dict[str, str]) -> str | None:
     for p in story.get('places') or []:
         g = p.get('geoid')
@@ -140,6 +150,7 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
           counties: dict[str, str], ledger: dict | None, candidates: list[dict] | None = None,
           events_meta: dict | None = None) -> dict:
     handled = ledger_keys(ledger)
+    unread = unread_leads(ledger)
     rows = []
     for b in briefs:
         done = handled.get(b['geoid'], set())
@@ -155,6 +166,13 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
                 found.append({'title': s['title'], 'source': s.get('source'), 'link': s.get('link'),
                               'date': s['date'], 'match': m,
                               'also': [a.get('source') for a in s.get('also') or [] if a.get('source')]})
+        seen = {x['link'] for x in found if x.get('link')} | {'t:' + norm_title(x['title']) for x in found}
+        for e in unread.get(b['geoid'], []):
+            if e.get('link') in seen or 't:' + norm_title(e['title']) in seen:
+                continue
+            found.append({'title': e['title'], 'source': e.get('source'), 'link': e.get('link'),
+                          'date': e.get('date') or since, 'match': e.get('match') or 'place', 'also': [],
+                          'unread': e.get('reason') or 'Not read yet.'})
         found.sort(key=lambda x: x['date'], reverse=True)
         found.sort(key=lambda x: x['match'] != 'place')
         evs = [{'title': e['title'], 'start': e['start'], 'end': e.get('end'), 'location': e.get('location'),
@@ -191,7 +209,8 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
             'events_as_of': (events_meta or {}).get('as_of'),
             'method': ('Headlines from data/policy_briefs.json dated on or after each brief\'s last review '
                        '(last_curated), matched by the places the news pipeline tagged in them. Stories '
-                       'recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. '
+                       'recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; '
+                       'stories recorded there as unread stay in until someone reads them. '
                        'Headlines are leads for a reviewer, not sources: a brief claim still needs the article '
                        'and its quote in _verified/.'),
         },
