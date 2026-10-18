@@ -65,7 +65,7 @@ let reliabilityMissing = false;
 // Set by a test to answer Census API requests: url -> [header, row].
 let censusAnswer = null;
 window.fetch = async function (url) {
-  if (censusAnswer && String(url).includes('api.census.gov')) {
+  if (censusAnswer && new URL(String(url), 'http://localhost/').hostname === 'api.census.gov') {
     const rows = censusAnswer(String(url));
     return { ok: true, status: 200, json: async () => rows, text: async () => JSON.stringify(rows) };
   }
