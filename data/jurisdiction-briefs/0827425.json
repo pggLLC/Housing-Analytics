@@ -34,6 +34,12 @@
             "s9",
             "s20"
           ]
+        },
+        {
+          "text": "City-owned land at 314 North Howes Street is moving toward Housing Catalyst. Council's April 21, 2026 agenda carried Resolution 2026-060, an option agreement to convey the property to Housing Catalyst at nominal consideration in support of affordable housing, so staff could keep negotiating toward a final purchase and sale agreement. The site's current tenant, EcoThrift, has a lease that runs through September 30, 2026. The agenda shows the item was scheduled; whether Council adopted it is unconfirmed here.",
+          "cites": [
+            "s-howes-2026"
+          ]
         }
       ]
     },
@@ -745,6 +751,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s-howes-2026",
+      "label": "City Council regular meeting agenda, April 21, 2026, item 22 (Resolution 2026-060) — City of Fort Collins",
+      "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&ip=True&me=0507f97438d4498aacff5dc939081b29",
+      "kind": "government",
+      "accessed": "2026-10-18"
     }
   ]
 }

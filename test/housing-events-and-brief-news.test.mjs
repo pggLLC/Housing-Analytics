@@ -200,7 +200,11 @@ test('the review issue lists each brief with news, with its reasons and headline
       stories: [{ title: 'Fixture headline', source: 'Fixture', link: 'https://example.org/story', date: '2026-10-14', match: 'place', also: [] }],
     })),
   };
-  if (q !== committed) assert.match(issueBody(committed), /No brief has news since its last review/);
+  if (q !== committed) {
+    const empty = issueBody(committed);
+    assert.match(empty, /\(0\)/);
+    assert.ok(!empty.includes('\n### '), 'an empty queue still rendered a brief section');
+  }
   const body = issueBody(q);
   assert.ok(body.startsWith(MARKER));
   assert.ok(!/\d{4}-\d{2}-\d{2}T\d{2}:/.test(body), 'a run timestamp in the body edits the issue every day');
