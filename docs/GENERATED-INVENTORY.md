@@ -1,18 +1,19 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T07:17:19.342Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T07:29:46.880Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-71 pages found.
+72 pages found.
 
 | File | Title | Size |
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 19.5 KB |
+| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 41.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.1 KB |
@@ -45,17 +46,17 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.2 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.3 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.2 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.3 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.3 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.6 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.5 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.4 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.6 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.6 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.9 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
-| `insights.html` | Research &amp; Analysis | COHO Analytics | 29.1 KB |
+| `insights.html` | Research &amp; Analysis | COHO Analytics | 29.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
@@ -77,7 +78,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.7 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.5 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 12.8 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 2.8 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.0 KB |
@@ -1556,7 +1557,7 @@
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 10.4 KB | ✅ | — |
+| `data/insights/catalog.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 34.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 31.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 34.4 KB | ✅ | — |
@@ -1799,7 +1800,7 @@
 
 ## Test Files
 
-651 test files found.
+654 test files found.
 
 | File | Size |
 |------|------|
@@ -2001,7 +2002,7 @@
 | `test/glossary-rerender.test.js` | 4.9 KB |
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/glossary-skips-svg-text.test.js` | 4.2 KB |
-| `test/growth-figure-agrees.test.js` | 14.0 KB |
+| `test/growth-figure-agrees.test.js` | 14.6 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
@@ -2017,6 +2018,7 @@
 | `test/hmda-lookup.test.js` | 6.9 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
+| `test/hna-age-and-growth-labels.test.js` | 9.2 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-build-rebase-recovery.test.js` | 7.7 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
@@ -2060,10 +2062,10 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-scorecard-small-place.test.js` | 4.8 KB |
 | `test/hna-section-rail.test.js` | 8.8 KB |
-| `test/hna-snapshot-margins.test.js` | 22.5 KB |
+| `test/hna-snapshot-margins.test.js` | 26.9 KB |
 | `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
-| `test/hna-surplus-semantics.test.js` | 11.1 KB |
+| `test/hna-surplus-semantics.test.js` | 12.3 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/hna-transit-zone.test.js` | 40.3 KB |
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
@@ -2266,6 +2268,7 @@
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
+| `test/rent-burden-proxy-movement.test.js` | 6.1 KB |
 | `test/rent-ceiling-regime.test.js` | 18.0 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
 | `test/rent-limit-programs.test.js` | 11.1 KB |
@@ -2396,7 +2399,7 @@
 | `tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
-| `tests/test_acs_reliability.py` | 13.8 KB |
+| `tests/test_acs_reliability.py` | 16.5 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_award_rows.py` | 3.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
@@ -2404,6 +2407,7 @@
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
+| `tests/test_build_hna_data_series_stamp.py` | 14.9 KB |
 | `tests/test_build_place_decade_trends.py` | 27.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
@@ -2428,7 +2432,7 @@
 | `tests/test_lihtc_applications.py` | 13.6 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
-| `tests/test_market_construction.py` | 10.9 KB |
+| `tests/test_market_construction.py` | 13.3 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_market_direction.py` | 18.9 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
