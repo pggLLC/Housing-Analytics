@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T04:46:39.166776Z",
+  "generated": "2026-10-18T05:50:35.082885Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -129,7 +129,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 624344
+      "bytes": 624074
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -4169,7 +4169,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183559
+      "bytes": 183567
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7444,7 +7444,7 @@
     "data/jurisdiction-briefs/0828745.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20490
+      "bytes": 20498
     },
     "data/jurisdiction-briefs/0830780.json": {
       "featureCount": 0,
@@ -8574,7 +8574,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 184894
+      "bytes": 181298
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
