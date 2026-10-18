@@ -180,8 +180,11 @@
         return { state: cleanState(remote || local), synced: !!remote, unsent: false };
       });
   }
-  function saveState(fetchFn, storage, state) {
+  function keepLocal(storage, state) {
     try { storage.setItem(LOCAL_KEY, JSON.stringify(state)); storage.setItem(PENDING_KEY, '1'); } catch (e) { /* private window */ }
+  }
+  function saveState(fetchFn, storage, state) {
+    keepLocal(storage, state);
     return fetchFn(ORDER_URL, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state) })
       .then(function (r) { return r.ok; }).catch(function () { return false; })
       .then(function (ok) {
@@ -252,7 +255,7 @@
     // save of the latest state, so an older order can never land last.
     var saving = false, again = false;
     function save() {
-      if (saving) { again = true; return; }
+      if (saving) { keepLocal(storage, state); again = true; return; }
       saving = true;
       saveState(fetchFn, storage, state).then(function (ok) {
         saving = false;

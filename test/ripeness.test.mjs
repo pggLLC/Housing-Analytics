@@ -108,7 +108,7 @@ const page = read('developer-pipeline.html');
 ok(page.includes('<script src="js/whitepaper/ripeness.js"></script>') && page.includes("Ripeness.mount($('ready')"), 'the pipeline page loads the lists');
 const src = read('js/whitepaper/ripeness.js');
 ok(!/min-(width|height):2\.4rem/.test(src) && (src.match(/min-height:44px/g) || []).length >= 4, 'buttons, checkboxes and toggles are at least 44px to touch');
-ok(/if \(saving\) \{ again = true; return; \}/.test(src), 'order saves go one at a time, so the latest order lands last');
+ok(/if \(saving\) \{ keepLocal\(storage, state\); again = true; return; \}/.test(src), 'order saves go one at a time, so the latest order lands last, and a queued change is kept in the browser at once');
 ok(/developer site, which builds them/.test(read('js/whitepaper/ripeness.js')), 'without the data the section says where the lists live');
 
 console.log(`ripeness: ${checks} checks passed`);
