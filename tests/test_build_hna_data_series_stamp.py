@@ -27,11 +27,16 @@ import fetch_census_state_hna as state  # noqa: E402
 FIXED_TIME = "2026-10-18T12:00:00Z"
 
 
+def answer(value, name):
+    """A source's answer for one variable: value itself, or value[name] (else
+    value["*"]) when a test needs variables to differ."""
+    return value.get(name, value.get("*")) if isinstance(value, dict) else value
+
+
 def census(answers, refuse=()):
     """http_get_json that answers a profile request from answers[(year, series)]
-    with every requested variable set to that source's value, and returns None
-    (the ACS 1-year's "no content") for anything else, or for a request naming
-    a variable in refuse[(year, series)]."""
+    (see answer()), and returns None (the ACS 1-year's "no content") for
+    anything else, or for a request naming a variable in refuse[(year, series)]."""
     def get(url, *args, **kwargs):
         year = int(url.split("/data/")[1].split("/")[0])
         series = "acs1" if "/acs/acs1/" in url else "acs5"
@@ -41,7 +46,7 @@ def census(answers, refuse=()):
         names = url.split("get=")[1].split("&")[0].split(",")
         if set(names) & set(dict(refuse).get((year, series), ())):
             return None
-        return [names, [value if n != "NAME" else "Somewhere" for n in names]]
+        return [names, [answer(value, n) if n != "NAME" else "Somewhere" for n in names]]
     return get
 
 
@@ -54,12 +59,14 @@ def fetch(answers, geo_type="county", geoid="08031", refuse=()):
 
 
 def test_a_one_year_profile_is_stamped_1_year_and_carries_its_5_year_twin():
-    profile = fetch({(2024, "acs1"): "1940", (2024, "acs5"): "1781"})
+    profile = fetch({(2024, "acs1"): {"DP04_0134E": "1940", "DP04_0047E": "171900", "*": "1"},
+                     (2024, "acs5"): {"DP04_0134E": "1781", "DP04_0047E": "165432", "*": "5"}})
     assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs1")
-    assert profile["DP04_0134E"] == "1940"
+    assert profile["DP04_0134E"] == "1940" and profile["DP04_0047E"] == "171900"
     twin = profile["_acs5Profile"]
     assert (twin["_acsYear"], twin["_acsSeries"]) == ("2024", "acs5")
-    assert twin["DP04_0134E"] == "1781" and twin["DP04_0047E"] == "1781"
+    # Each field from its own variable, not one value for the whole source.
+    assert twin["DP04_0134E"] == "1781" and twin["DP04_0047E"] == "165432"
 
 
 def test_a_five_year_profile_is_stamped_5_year_with_no_twin():
@@ -129,16 +136,19 @@ def test_the_summary_records_the_source_and_keeps_the_twin_only_for_1_year(tmp_p
     assert small["source"]["acs_profile_endpoint"] == "https://api.census.gov/data/2024/acs/acs5/profile"
 
 
-def state_census(answers, refuse=()):
-    """census() for the state: answers[(year, series)] for every variable."""
+def state_census(answers, refuse=(), asked=None):
+    """census() for the state: answers[(year, series)] (see answer()). Records
+    each requested variable in asked, when given."""
     def get(url, *args, **kwargs):
         year = int(url.split("/data/")[1].split("/")[0])
         series = "acs1" if "/acs/acs1/" in url else "acs5"
         value = answers.get((year, series))
         names = url.split("get=")[1].split("&")[0].split(",")
+        if asked is not None:
+            asked.extend((year, n) for n in names)
         if value is None or set(names) & set(refuse):
             return None
-        return [names, [value for _ in names]]
+        return [names, [answer(value, n) for n in names]]
     return get
 
 
@@ -184,6 +194,30 @@ def test_the_state_fetch_covers_every_field_the_state_summary_carries():
     backfill = set(re.findall(r"'(DP0\d_\d{4}P?E)'", batches))
     assert len(backfill) > 50, "the scan found the backfill's variables"
     assert sorted(backfill - fetched) == []
+    # And every profile field the county and place build fetches, so the state
+    # has the same panels with the same 2024 codes (Codex, 2026-10-18: the
+    # race panel reads DP05_0090E and DP05_0096E, which the state never asked).
+    hsrc = (ROOT / "scripts" / "hna" / "build_hna_data.py").read_text()
+    county = set(re.findall(r"'(DP0\d_\d{4}P?E)'", hsrc[hsrc.index("    vars_a = ["):hsrc.index("    vars_ = vars_a +")]))
+    assert len(county) > 100, "the scan found the county build's variables"
+    assert sorted(county - fetched) == []
+
+
+def test_the_state_asks_each_year_for_its_own_variable_number():
+    # DP05_0096E (not Hispanic, White alone) is DP05_0082E in 2023. A state
+    # that fell back a year asks for that number and stores it as DP05_0096E,
+    # the name the race panel reads.
+    asked = []
+    answers = {(2023, "acs1"): {"DP05_0082E": "3800000", "*": "7"}}
+    with mock.patch.object(state, "http_get_json", side_effect=state_census(answers, asked=asked)):
+        profile = state.fetch_acs_profile(2024, 3)
+    assert profile["_acsYear"] == "2023"
+    assert profile["DP05_0096E"] == "3800000"
+    assert (2023, "DP05_0082E") in asked and (2023, "DP05_0096E") not in asked
+    asked.clear()
+    with mock.patch.object(state, "http_get_json", side_effect=state_census({(2024, "acs1"): "1"}, asked=asked)):
+        state.fetch_acs_profile(2024, 3)
+    assert (2024, "DP05_0096E") in asked
 
 
 def test_the_detail_tables_carry_their_own_year():

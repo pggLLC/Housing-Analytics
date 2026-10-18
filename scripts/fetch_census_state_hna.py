@@ -31,6 +31,9 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hna'))
+from build_hna_data import profile_var_for_year  # noqa: E402  (one alias table for both builders)
+
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
@@ -118,6 +121,22 @@ EXTENDED_PROFILE_VARS = [
     'DP05_0029E','DP05_0033E','DP05_0037E','DP05_0038E','DP05_0039E',
     'DP05_0047E','DP05_0055E','DP05_0060E','DP05_0061E','DP05_0076E',
     'DP05_0082E',
+    # Every other profile field build_hna_data.py fetches for a county or
+    # place, so the state carries the same panels. The DP05 race and ethnicity
+    # codes are the canonical 2024 ones the race panel reads (Codex,
+    # 2026-10-18); the seven DP05 codes above are the backfill's older ones,
+    # kept because the backfill refetches its whole batch from the 5-year when
+    # any of them is missing.
+    'DP05_0035E','DP05_0045E','DP05_0053E','DP05_0069E','DP05_0074E',
+    'DP05_0090E','DP05_0096E',
+    'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E','DP03_0056E',
+    'DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
+    'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
+    'DP04_0022E','DP04_0023E','DP04_0024E','DP04_0025E','DP04_0026E',
+    'DP04_0023PE','DP04_0024PE','DP04_0025PE','DP04_0026PE',
+    'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E',
+    'DP04_0044E',
+    'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
 ]
 # The Census profile endpoint takes at most 50 variables per request.
 PROFILE_CHUNK = 45
@@ -206,8 +225,9 @@ def http_get_json(url: str, timeout: int = 30, retries: int = 3,
 # ---------------------------------------------------------------------------
 
 def _build_profile_url(year: int, series: str, endpoint: str,
-                       variables: list[str] = ACS_PROFILE_VARS) -> str:
+                       variables: list[str] | None = None) -> str:
     """Build a Census ACS URL for Colorado state-level data."""
+    variables = ACS_PROFILE_VARS if variables is None else variables
     key = census_key()
     base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
     # Use manual query-string construction to preserve literal colons in
@@ -253,9 +273,15 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                 # and the refresh in main() names them.
                 for i in range(0, len(EXTENDED_PROFILE_VARS), PROFILE_CHUNK):
                     chunk = EXTENDED_PROFILE_VARS[i:i + PROFILE_CHUNK]
-                    more = http_get_json(_build_profile_url(year, series, endpoint, chunk))
+                    # Profile numbers move between releases; ask for each
+                    # field under this year's number and store it under the
+                    # canonical one, as build_hna_data.py does.
+                    wire = list(dict.fromkeys(profile_var_for_year(v, year) for v in chunk))
+                    more = http_get_json(_build_profile_url(year, series, endpoint, wire))
                     if more and len(more) > 1:
-                        data.update({more[0][j]: more[1][j] for j in range(len(more[0]))})
+                        got = {more[0][j]: more[1][j] for j in range(len(more[0]))}
+                        data.update({v: got[profile_var_for_year(v, year)] for v in chunk
+                                     if profile_var_for_year(v, year) in got})
                     else:
                         print(f'⚠ ACS profile: {len(chunk)} extended fields not published by '
                               f'{series} {year}', file=sys.stderr)
