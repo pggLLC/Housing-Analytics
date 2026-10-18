@@ -119,6 +119,33 @@ def test_both_transfort_catalog_names_count_as_one_agency(tmp_path, monkeypatch)
     assert doc["meta"]["carried_forward"] == {}
 
 
+def test_other_known_operator_aliases_count_as_one_agency(tmp_path, monkeypatch):
+    # The stop builder's alias table is shared, so Mountain Metro's two
+    # catalog names cannot leave a carried copy beside fresh routes.
+    previous_name, fresh_name = "Mountain Metro Transit", "Mountain Metropolitan Transit"
+    monkeypatch.setitem(PREVIOUS, "features", [feature(previous_name, "m1", -104.8)])
+    rows = [{"provider": previous_name, "urls.latest": "https://mdb/m.zip"},
+            {"provider": fresh_name, "urls.latest": "https://mdb/mm.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://mdb/m.zip": RuntimeError("HTTP Error 404"), "https://mdb/mm.zip": "ok"},
+                 {"https://mdb/mm.zip": [feature(fresh_name, "m1", -104.8)]})
+    assert agencies(doc) == [fresh_name]
+    assert doc["meta"]["carried_forward"] == {}
+
+
+def test_hosted_routes_outside_colorado_reach_the_agency_url(tmp_path, monkeypatch):
+    # Blank or out-of-range coordinates parse into routes the state filter
+    # drops; that copy must not count as usable.
+    rows = [{"provider": "Transfort", "urls.latest": "https://mdb/t.zip",
+             "urls.direct_download": "https://agency/t.zip"}]
+    doc, fetched = run(tmp_path, monkeypatch, rows,
+                       {"https://mdb/t.zip": "ok", "https://agency/t.zip": "ok"},
+                       {"https://mdb/t.zip": [feature("Transfort", "t9", lon=0.0)],
+                        "https://agency/t.zip": [feature("Transfort", "t1")]})
+    assert "https://agency/t.zip" in fetched
+    assert [f["properties"]["shape_id"] for f in doc["features"]] == ["t1"]
+
+
 def test_agency_url_is_tried_when_the_hosted_copy_is_gone(tmp_path, monkeypatch):
     rows = [{"provider": "Transfort", "urls.latest": "https://mdb/t.zip",
              "urls.direct_download": "https://ridetransfort.com/transfort_gtfs.zip"}]

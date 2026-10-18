@@ -152,20 +152,77 @@ def _norm_agency(name: str) -> str:
     return n
 
 
-# Provider names the catalog gives one operator under more than one feed.
-# RTD's features are renamed "RTD Denver" below. Transfort is listed as both
-# "Transfort" (feed 2293) and "Transfort – City of Fort Collins (Transfort)"
-# (feed 3521); without the alias, a partial recovery kept both copies.
-AGENCY_ALIASES = {
-    "regional_transportation_district": "rtd_denver",
-    "transfort_city_of_fort_collins": "transfort",
+# One name per operator, whichever source or catalog feed spelled it. Keys
+# are lower-cased with whitespace collapsed; a key may also match with its
+# parenthetical suffix removed. Shared with build_transit_stops_co.py.
+OPERATOR_NAMES = {
+    "rtd": "RTD",
+    "regional transportation district": "RTD",
+    "rtd denver": "RTD",
+    "gvt": "Grand Valley Transit",
+    "grand valley transit": "Grand Valley Transit",
+    "get": "Greeley-Evans Transit",
+    "greeley-evans transit": "Greeley-Evans Transit",
+    "mountain metro transit": "Mountain Metropolitan Transit",
+    "mountain metropolitan transit": "Mountain Metropolitan Transit",
+    "rfta": "Roaring Fork Transportation Authority",
+    "roaring fork transportation authority": "Roaring Fork Transportation Authority",
+    "smart": "San Miguel Authority for Regional Transportation",
+    "san miguel authority for regional transportation": "San Miguel Authority for Regional Transportation",
+    "road runner": "Road Runner Transit",
+    "road runner transit": "Road Runner Transit",
+    "roadrunnertransit": "Road Runner Transit",
+    "clear creek transit": "Clear Creek County Transit",
+    "clear creek county transit": "Clear Creek County Transit",
+    "via transit": "Via Mobility Services",
+    "via mobility": "Via Mobility Services",
+    "via mobility services": "Via Mobility Services",
+    "transfort": "Transfort",
+    "transfort – city of fort collins": "Transfort",
+    "all points": "All Points Transit",
+    "all points transit": "All Points Transit",
+    "cripple creek transit": "Cripple Creek Transportation",
+    "cripple creek transportation": "Cripple Creek Transportation",
+    "estes transit": "Estes Transit",
+    "town of estes park": "Estes Transit",
+    "rmnp shuttle": "Rocky Mountain National Park Shuttles",
+    "rocky mountain national park shuttles": "Rocky Mountain National Park Shuttles",
+    "snowmass village shuttle": "Snowmass Village Transportation",
+    "snowmass village transportation": "Snowmass Village Transportation",
+    "bent county transportation": "Bent County Transit",
+    "bent county transit": "Bent County Transit",
+    "prairie express": "Prairie Express Transit",
+    "prairie express transit": "Prairie Express Transit",
+    "mountain express": "Mountain Express",
+    "mountain express (mtnexp)": "Mountain Express",
+    "met": "Mountain Express",
+    # CME now publishes as Epic Mountain Express, not the public Mountain
+    # Express service in Crested Butte. Keep the private classification on
+    # both names: https://www.epicmountainexpress.com/history
+    "colorado mountain express": "Epic Mountain Express",
+    "epic mountain express": "Epic Mountain Express",
 }
 
 
+def operator_name(name: str) -> str:
+    """The operator's one name, or the name unchanged when it has no alias."""
+    key = " ".join((name or "").lower().split())
+    if key in OPERATOR_NAMES:
+        return OPERATOR_NAMES[key]
+    base = key.split("(")[0].strip()
+    if base in OPERATOR_NAMES:
+        return OPERATOR_NAMES[base]
+    if key.startswith("groome transportation"):
+        return "Groome Transportation"
+    return name
+
+
 def agency_key(name: str) -> str:
-    """The key that identifies an agency across feeds and runs."""
-    n = _norm_agency(name)
-    return AGENCY_ALIASES.get(n, n)
+    """The key that identifies an operator across feeds and runs. The
+    catalog lists some operators under two names (Transfort, Mountain
+    Metropolitan Transit, RTD); without one key a partial recovery kept a
+    fresh and a carried copy of the same routes (Codex review on #2339)."""
+    return _norm_agency(operator_name(name))
 
 
 def carry_forward_failed(all_features: list, agencies_failed: list,
@@ -416,8 +473,12 @@ def main() -> int:
         url = feed["url"]
         log(f"[{i}/{len(feeds)}] Fetching GTFS for {agency_name} ({feed.get('municipality') or 'CO'})…")
         try:
+            # A feed counts as usable only when a route reaches Colorado: blank
+            # or out-of-range coordinates parse into routes the state filter
+            # below drops, and the agency would then be lost for that run.
             features = fetch_feed(
-                feed, lambda data: parse_gtfs_shapes(data, agency_id, agency_name))
+                feed, lambda data: parse_gtfs_shapes(data, agency_id, agency_name),
+                ok=lambda fs: any(route_touches_colorado(f.get("geometry")) for f in fs))
             if features:
                 all_features.extend(features)
                 agencies_ok.append(agency_name)

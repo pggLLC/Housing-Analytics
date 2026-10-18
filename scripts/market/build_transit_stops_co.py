@@ -192,55 +192,9 @@ def demand_only_feed(fixed_stop_ids, windowed_rows: int) -> bool:
     """True when a feed has on-demand trips and not one scheduled stop call."""
     return windowed_rows > 0 and not fixed_stop_ids
 
-# One name per agency, whichever source spelled it. Keys are lower-cased,
-# parenthetical suffixes removed, whitespace collapsed.
-AGENCY_ALIASES = {
-    "rtd": "RTD",
-    "regional transportation district": "RTD",
-    "rtd denver": "RTD",
-    "gvt": "Grand Valley Transit",
-    "grand valley transit": "Grand Valley Transit",
-    "get": "Greeley-Evans Transit",
-    "greeley-evans transit": "Greeley-Evans Transit",
-    "mountain metro transit": "Mountain Metropolitan Transit",
-    "mountain metropolitan transit": "Mountain Metropolitan Transit",
-    "rfta": "Roaring Fork Transportation Authority",
-    "roaring fork transportation authority": "Roaring Fork Transportation Authority",
-    "smart": "San Miguel Authority for Regional Transportation",
-    "san miguel authority for regional transportation": "San Miguel Authority for Regional Transportation",
-    "road runner": "Road Runner Transit",
-    "road runner transit": "Road Runner Transit",
-    "roadrunnertransit": "Road Runner Transit",
-    "clear creek transit": "Clear Creek County Transit",
-    "clear creek county transit": "Clear Creek County Transit",
-    "via transit": "Via Mobility Services",
-    "via mobility": "Via Mobility Services",
-    "via mobility services": "Via Mobility Services",
-    "transfort": "Transfort",
-    "transfort – city of fort collins": "Transfort",
-    "all points": "All Points Transit",
-    "all points transit": "All Points Transit",
-    "cripple creek transit": "Cripple Creek Transportation",
-    "cripple creek transportation": "Cripple Creek Transportation",
-    "estes transit": "Estes Transit",
-    "town of estes park": "Estes Transit",
-    "rmnp shuttle": "Rocky Mountain National Park Shuttles",
-    "rocky mountain national park shuttles": "Rocky Mountain National Park Shuttles",
-    "snowmass village shuttle": "Snowmass Village Transportation",
-    "snowmass village transportation": "Snowmass Village Transportation",
-    "bent county transportation": "Bent County Transit",
-    "bent county transit": "Bent County Transit",
-    "prairie express": "Prairie Express Transit",
-    "prairie express transit": "Prairie Express Transit",
-    "mountain express": "Mountain Express",
-    "mountain express (mtnexp)": "Mountain Express",
-    "met": "Mountain Express",
-    # CME now publishes as Epic Mountain Express, not the public Mountain
-    # Express service in Crested Butte. Keep the private classification on
-    # both names: https://www.epicmountainexpress.com/history
-    "colorado mountain express": "Epic Mountain Express",
-    "epic mountain express": "Epic Mountain Express",
-}
+# One name per agency, whichever source spelled it. The table lives with the
+# route builder, which needs the same names to tell one operator's feeds apart.
+AGENCY_ALIASES = gtfs.OPERATOR_NAMES
 
 # Private shuttle operators: real stops, but not public transit service.
 PRIVATE_OPERATORS = {
@@ -257,18 +211,7 @@ def log(msg: str) -> None:
 
 def normalize_agency(name: str | None) -> str:
     raw = (name or "").strip()
-    if not raw:
-        return UNLISTED_AGENCY
-    key = " ".join(raw.lower().split())
-    if key in AGENCY_ALIASES:
-        return AGENCY_ALIASES[key]
-    base = key.split("(")[0].strip()
-    if base in AGENCY_ALIASES:
-        return AGENCY_ALIASES[base]
-    for prefix in ("groome transportation",):
-        if key.startswith(prefix):
-            return "Groome Transportation"
-    return raw
+    return gtfs.operator_name(raw) if raw else UNLISTED_AGENCY
 
 
 def metres(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
