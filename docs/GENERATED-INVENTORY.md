@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:07:03.977Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:41:15.225Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-72 pages found.
+73 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -51,12 +51,13 @@
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.6 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.6 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.9 KB |
+| `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 40.7 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.8 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
-| `insights.html` | Research &amp; Analysis | COHO Analytics | 29.2 KB |
+| `insights.html` | Research &amp; Analysis | COHO Analytics | 29.3 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
@@ -78,7 +79,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.7 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.8 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 13.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 2.8 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.0 KB |
@@ -1557,7 +1558,7 @@
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 11.1 KB | ✅ | — |
+| `data/insights/catalog.json` | 11.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 34.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 31.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 34.4 KB | ✅ | — |
