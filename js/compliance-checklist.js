@@ -27,6 +27,15 @@
   /** LocalStorage namespace prefix — avoids collisions with other tools. */
   var STORAGE_PREFIX = 'hna_compliance_';
 
+  /** Saved-state version. v2 (2026-10): 'dola' became the November 1 cycle
+   *  commitment (was an annual January 31 notice) and 'report' the
+   *  end-of-cycle report (was annual), so a box ticked for the old task
+   *  must not carry over as done. */
+  var STATE_VERSION = 'v2';
+
+  /** Items whose meaning did not change in v2; carried over from v1 state. */
+  var CARRIED_FROM_V1 = ['baseline', 'growth', 'fasttrack'];
+
   /** Prop 123 commitment deadline, November 1 before the cycle it covers
    *  (C.R.S. § 29-32-105(1)(d)). Month is 0-indexed: 10 = November. */
   var DOLA_DEADLINE_MONTH = 10;  // November
@@ -56,6 +65,11 @@
    * @returns {string}
    */
   function storageKey(geoType, geoid) {
+    return STORAGE_PREFIX + STATE_VERSION + '_' + (geoType || 'county') + '_' + (geoid || '');
+  }
+
+  /** Key used before the 2026-10 legal corrections (unversioned). */
+  function legacyStorageKey(geoType, geoid) {
     return STORAGE_PREFIX + (geoType || 'county') + '_' + (geoid || '');
   }
 
@@ -182,7 +196,16 @@
    */
   function initComplianceChecklist(geoType, geoid) {
     var key   = storageKey(geoType, geoid);
-    var state = lsRead(key) || createDefaultState(geoType, geoid);
+    var state = lsRead(key);
+    if (!state) {
+      state = createDefaultState(geoType, geoid);
+      var legacy = lsRead(legacyStorageKey(geoType, geoid));
+      if (legacy && legacy.items) {
+        CARRIED_FROM_V1.forEach(function (id) {
+          if (legacy.items[id]) state.items[id] = legacy.items[id];
+        });
+      }
+    }
 
     // Ensure all items are present (handles state objects from older versions)
     ITEM_IDS.forEach(function (id) {

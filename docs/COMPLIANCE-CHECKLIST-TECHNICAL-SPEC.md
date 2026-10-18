@@ -2,14 +2,14 @@
 
 **Module:** `js/compliance-checklist.js`  
 **Version:** 2026-03  
-**Scope:** Prop 123 / HB 22-1093 five-item compliance checklist  
+**Scope:** Prop 123 (C.R.S. §§ 29-32-101 to -106) five-item compliance checklist  
 **Page:** `housing-needs-assessment.html`
 
 ---
 
 ## Overview
 
-The Compliance Checklist module provides persistent, accessible state management for the Prop 123 / HB 22-1093 five-item compliance checklist embedded in the Housing Needs Assessment tool.
+The Compliance Checklist module provides persistent, accessible state management for the Prop 123 (C.R.S. §§ 29-32-101 to -106) five-item compliance checklist embedded in the Housing Needs Assessment tool.
 
 ### Features
 
@@ -116,7 +116,7 @@ Returns `true` if all five checklist items are checked for the given geography.
 Returns a human-readable string describing the next required compliance action.
 
 **Priority:**
-1. If DOLA deadline is within 30 days and item 4 (`dola`) is unchecked → `"File with DOLA by January 31 ⚠️"`
+1. If DOLA deadline is within 30 days and item 4 (`dola`) is unchecked → `"File with DOLA by November 1 ⚠️"`
 2. The first unchecked item's label
 3. `"All items complete! ✅"` when everything is checked
 
@@ -153,10 +153,10 @@ Validate a checkbox item before saving.
 
 | Key Pattern                                | Contents                              |
 |--------------------------------------------|---------------------------------------|
-| `hna_compliance_{geoType}_{geoid}`         | Full checklist state JSON object      |
+| `hna_compliance_v2_{geoType}_{geoid}`      | Full checklist state JSON object      |
 | `hna_compliance_last_change`               | Cross-tab broadcast marker            |
 
-**Example:** `hna_compliance_county_08031`
+**Example:** `hna_compliance_v2_county_08031` (v2 since 2026-10; the unversioned v1 key is read once and only `baseline`, `growth`, `fasttrack` carry over)
 
 localStorage is namespaced to avoid collisions with other tools. All JSON is stored with `JSON.stringify` and parsed with `JSON.parse`. Errors (invalid JSON, quota exceeded, private browsing) are swallowed gracefully — the page continues to work without persistence.
 
@@ -225,7 +225,7 @@ User clicks checkbox manually
 DOLA deadline within 30 days?
   → _isDeadlineWarning() === true
     → _syncWarningBadge() adds .warning class + ⚠️ icon to DOLA item
-      → getNextAction() returns "File with DOLA by January 31 ⚠️"
+      → getNextAction() returns "File with DOLA by November 1 ⚠️"
 ```
 
 ---

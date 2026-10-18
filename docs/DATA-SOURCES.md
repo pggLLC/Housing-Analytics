@@ -80,7 +80,7 @@ All API keys and credentials are stored as **GitHub Actions Secrets** (Settings 
 
 | Path | Contents | CI Workflow | Schedule | Status | Notes |
 |---|---|---|---|---|---|
-| `data/policy/prop123_jurisdictions.json` | Prop 123 / HB 22-1093 commitment filings | Committed to repo + manual | Manual | ✅ | Used by compliance dashboard and HNA page |
+| `data/policy/prop123_jurisdictions.json` | Prop 123 (C.R.S. §§ 29-32-101 to -106) commitment filings | Committed to repo + manual | Manual | ✅ | Used by compliance dashboard and HNA page |
 
 ---
 

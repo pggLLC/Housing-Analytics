@@ -128,6 +128,11 @@ withSection.forEach((p) => {
   ok(months.every((d) => d === deadlineWords), `${p}: states no other filing deadline (${[...new Set(months)].join(', ')})`);
 });
 
+// The practitioner guide walks users through the same rules.
+const guide = read('HOUSING-NEEDS-ASSESSMENT-USER-GUIDE.md');
+ok(guide.includes('Deadline: ' + deadlineWords) && !/January 31/.test(guide), `user guide states the ${deadlineWords} deadline and no other`);
+ok(!/1\.03\^/.test(guide) && !/≥\s*[\d,]+ population/.test(guide), 'user guide states no compounding goal and no population threshold');
+
 console.log('\n[2024–2026 unit goal]');
 ok(U.calculateGrowthTarget(1000, 2) === 1060, 'goal is 3% of baseline per year, simple (1060, not compound 1061)');
 ok(U.calculateGrowthTarget(1000, 5) === U.calculateGrowthTarget(1000, 3), 'no goal projected past the 2024–2026 cycle');
@@ -144,7 +149,7 @@ relPages.forEach((p) => {
 
 console.log('\n[citation]');
 const served = PAGES.concat(['js/hna/hna-utils.js', 'js/hna/hna-renderers.js', 'js/hna/hna-dev-context.js',
-  'js/compliance-checklist.js', 'js/prop123-historical-tracker.js']);
+  'js/compliance-checklist.js', 'js/prop123-historical-tracker.js', 'HOUSING-NEEDS-ASSESSMENT-USER-GUIDE.md']);
 served.forEach((p) => ok(!/22-1093/.test(read(p)), `${p}: does not cite HB22-1093 (a bingo-and-raffles bill)`));
 withSection.forEach((p) => ok(section(read(p)).includes('29-32'), `${p}: cites C.R.S. 29-32`));
 

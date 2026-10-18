@@ -195,6 +195,23 @@ test('initComplianceChecklist: back-fills missing items from old state', () => {
   });
 });
 
+test('initComplianceChecklist: a box ticked under the old meaning does not carry over', () => {
+  resetStorage();
+  // Pre-2026-10 state, unversioned key: 'dola' then meant an annual
+  // January 31 notice and 'report' an annual report.
+  const all = (v) => ({ checked: v, date: v ? '2025-02-01T00:00:00.000Z' : null, metadata: null });
+  global.localStorage.setItem('hna_compliance_county_08077', JSON.stringify({
+    geoType: 'county', geoid: '08077',
+    items: { baseline: all(true), growth: all(true), fasttrack: all(true), dola: all(true), report: all(true) },
+  }));
+  assert(CC._storageKey('county', '08077') !== 'hna_compliance_county_08077', 'saved state is versioned');
+  const state = CC.initComplianceChecklist('county', '08077');
+  assert(state.items.baseline.checked === true && state.items.growth.checked === true && state.items.fasttrack.checked === true,
+    'items whose meaning is unchanged carry over');
+  assert(state.items.dola.checked === false, 'the old annual DOLA notice does not count as the Nov 1 commitment');
+  assert(state.items.report.checked === false, 'the old annual report does not count as the end-of-cycle report');
+});
+
 // ── updateChecklistItem ──────────────────────────────────────────────────────
 
 test('updateChecklistItem: saves checked=true with date to localStorage', () => {
