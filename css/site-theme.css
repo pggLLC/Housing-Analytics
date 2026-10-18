@@ -1239,7 +1239,7 @@ th[aria-sort="ascending"] .th-sort, th[aria-sort="descending"] .th-sort, th.sort
    renderer's own indicator (↑↓ after the label, ▲▼ spans, ⇅ icons), so
    every sortable table on the site reads the same way. */
 table.th-own-sort th.th-sortable::after { content: none !important; }
-table.th-own-sort th.th-sortable .sort-icon { display: none !important; }
+table.th-own-sort th.th-sortable :is(.sort-icon, .aff-sort-indicator, .mhc-sort-indicator) { display: none !important; }
 .th-tip__pop {
   display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 60;
   min-width: 14rem; max-width: 22rem; padding: .55rem .7rem;

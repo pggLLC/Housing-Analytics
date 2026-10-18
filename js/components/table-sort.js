@@ -35,7 +35,7 @@
 (function () {
   'use strict';
 
-  var OWN_SORT = 'th[aria-sort]:not(.th-sortable), th[data-sort], th[data-sort-key], th[data-col], th[data-metric], th.sortable, th.sort-asc, th.sort-desc';
+  var OWN_SORT = 'th[aria-sort]:not(.th-sortable):not([data-aria-from-class]), th[data-sort], th[data-sort-key], th[data-col], th[data-metric], th.sortable, th.sort-asc, th.sort-desc';
   var BLANK = /^(—|–|-|n\/a|na|not published|unavailable|not available)$/i;
   var lastPointerTouch = false;
   document.addEventListener('pointerdown', function (e) {
@@ -139,10 +139,23 @@
   // A renderer's own sortable headers: add the arrow, and let the header's
   // own click handler do the sorting. Headers whose sort control is already
   // a button inside the cell (agency funding, funding vs need) keep it.
+  // These stay two-state (the renderer's own asc/desc): a renderer's default
+  // order is itself a sort on one column (award year, need score), so
+  // clicking that column is the way back to it.
+  //
+  // Renderers that mark direction only with .sort-asc/.sort-desc get
+  // aria-sort kept in step here, so assistive technology hears it too.
+  function syncAria(t) {
+    Array.prototype.forEach.call(t.querySelectorAll('th[data-aria-from-class]'), function (th) {
+      th.setAttribute('aria-sort', th.classList.contains('sort-asc') ? 'ascending' : th.classList.contains('sort-desc') ? 'descending' : 'none');
+    });
+  }
+
   function wireOwn(t) {
     t.classList.add('th-own-sort');
     Array.prototype.forEach.call(t.querySelectorAll(OWN_SORT), function (th) {
       if (th.querySelector('.th-sort, button, input, select, a[href]') || !label(th)) return;
+      if (!th.hasAttribute('aria-sort')) th.setAttribute('data-aria-from-class', '');
       addArrow(th, function () {
         // Marked so table-header-tips.js does not read it as a tap on the
         // label (which would open the definition instead of sorting).
@@ -151,6 +164,11 @@
         th.dispatchEvent(ev);
       });
     });
+    if (!t.dataset.ariaSync) {
+      t.dataset.ariaSync = '1';
+      t.addEventListener('click', function () { setTimeout(function () { syncAria(t); }, 0); });
+    }
+    syncAria(t);
   }
 
   function wireShared(t) {

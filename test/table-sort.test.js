@@ -41,7 +41,13 @@ const { window } = dom;
 const { document } = window;
 window.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ tips: {} }) });
 let ownClicks = 0;
-document.querySelectorAll('#own th').forEach((th) => th.addEventListener('click', () => { ownClicks++; }));
+document.querySelectorAll('#own th').forEach((th) => th.addEventListener('click', () => {
+  ownClicks++;
+  // Like chfa-portfolio.html: direction is marked only with classes.
+  const asc = !th.classList.contains('sort-asc');
+  document.querySelectorAll('#own th').forEach((h) => h.classList.remove('sort-asc', 'sort-desc'));
+  th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+}));
 window.eval(tipsSrc);
 window.eval(sortSrc);
 
@@ -108,6 +114,13 @@ const touchTap = (el) => {
   own[0].querySelector('.th-sort').click();
   assert.equal(ownClicks, 1, 'the arrow clicks the header so the renderer sorts');
   assert.deepEqual(col('own', 0), ['2', '1', '3'], 'no DOM sort on top of the renderer');
+  await tick();
+  assert.equal(own[0].getAttribute('aria-sort'), 'ascending', 'class-only renderer direction is mirrored to aria-sort');
+  assert.equal(own[1].getAttribute('aria-sort'), 'none');
+  own[0].querySelector('.th-sort').click();
+  await tick();
+  assert.equal(own[0].getAttribute('aria-sort'), 'descending');
+  assert.equal(ownClicks, 2);
 
   // 4. Touch: tap on a header with a definition opens it and does not sort.
   touchTap(ths[1].querySelector('.th-tip__label'));
@@ -130,6 +143,15 @@ const touchTap = (el) => {
   assert.deepEqual(missing, [], 'pages that load table-header-tips.js but not table-sort.js');
   assert.ok(read('js/components/table-export.js').includes('.th-sort'), 'downloads drop the sort arrow');
   // Statements whose row order is the meaning stay unsorted.
+  const ms = read('js/project-market-study/market-study-page.js');
+  for (const label of ['Resale settlement steps', 'Effective-demand funnel']) {
+    assert.ok(ms.includes(`'${label}', true)`), `${label} opts out of sorting`);
+  }
+  // Renderers' own indicators give way to the shared arrow.
+  const css = read('css/site-theme.css');
+  for (const cls of ['sort-icon', 'aff-sort-indicator', 'mhc-sort-indicator']) {
+    assert.ok(new RegExp('table\\.th-own-sort th\\.th-sortable [^{]*\\.' + cls + '\\b').test(css), `.${cls} is hidden in renderer-sorted tables`);
+  }
   const dc = read('js/deal-calculator.js');
   for (const id of ['dc-su-table', 'dc-pf-table', 'dc-act-table', 'dc-doh15-table', 'dc-doh15-totals']) {
     assert.ok(dc.includes(`<table id="${id}" data-no-sort`), `${id} opts out of sorting`);
