@@ -397,7 +397,7 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       ['weekly',    '23 7 * * 6',  168],
       ['monthly',   '47 4 1 * *',  744],
       ['quarterly', '41 7 1 */3 *', 2232],
-      ['annual',    '29 7 15 10 *', 8760],
+      ['annual',    '29 7 15 10 *', 8784],
       // Lists are judged by their longest gap (Codex on #2316): fetch-bps-monthly
       // runs on the 1st and 16th, so its longest wait is 16 days (the 16th of a
       // 31-day month to the 1st), not a month.

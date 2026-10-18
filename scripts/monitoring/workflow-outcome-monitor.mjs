@@ -201,7 +201,7 @@ export function cronIntervalHours(expr) {
   // Quarterly and other month-stepped schedules: `1 */3 *` → every 3 months.
   const monthStep = step(month);
   if (monthStep) return monthStep * 31 * 24;
-  if (month !== '*') return 365 * 24;            // a fixed month = annual
+  if (month !== '*') return 366 * 24;            // a fixed month = annual; 366 so a leap day is not a missed run
 
   if (dom !== '*') {                             // day-of-month set: monthly, or more often for a list
     // A 31-day cycle, the longest month: `1,16` waits 16 days from the 16th of
