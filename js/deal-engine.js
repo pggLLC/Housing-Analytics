@@ -548,7 +548,7 @@
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
         bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
-        deferredFeePaid: deferredFeePaid, deficitRecovered: deficitRecovered, distributable: distributable,
+        deferredFeePaid: deferredFeePaid, deficitRecovered: deficitRecovered, deficitOwed: deficit, distributable: distributable,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -607,6 +607,17 @@
       remaining -= tierAsset;
     }
 
+    // Operating deficits the sponsor funded and cash flow has not yet made up
+    // are repaid next (shown only when one is outstanding at the sale).
+    var deficitOwed = result.projection.rows[hold - 1] ? result.projection.rows[hold - 1].deficitOwed : null;
+    if (!known(deficitOwed)) return null;
+    var tierDeficit = 0;
+    if (deficitOwed > 0) {
+      tierDeficit = Math.min(remaining, deficitOwed);
+      tiers.push({ name: '2c. Operating deficits funded by the sponsor', amount: tierDeficit, recipient: 'Sponsor (GP)' });
+      remaining -= tierDeficit;
+    }
+
     // Tier 3: Deferred dev fee remaining balance
     var tier3 = Math.min(remaining, exit.defFeeRemaining);
     tiers.push({ name: '3. Deferred developer fee', amount: tier3, recipient: 'Developer (GP)' });
@@ -648,7 +659,7 @@
 
     // Totals by party
     var lpTotal = tier4a + tier4b + tier6lp;
-    var gpTotal = tier3 + tier5 + tier6gp;  // dev fee + catch-up + residual
+    var gpTotal = tierDeficit + tier3 + tier5 + tier6gp;  // deficits + dev fee + catch-up + residual
 
     // LP IRR — simplified: LP put in lpEquity at year 0, got back lpTotal at year hold
     // (ignoring tax credits — those are the LP's primary return, not modeled here)

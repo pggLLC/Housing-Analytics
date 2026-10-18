@@ -208,6 +208,20 @@ test('a blank payment entry names itself on the exit panel, not a loan or refina
   assert.equal(r.exit.loanUnavailableReason, 'Enter bridge-loan debt service as $0 or more a year.');
 });
 
+test('an operating deficit still owed at the sale is repaid to the sponsor before the developer fee and investors', () => {
+  const base = computeDeal(withTranches([]));
+  assert(!base.waterfall.tiers.some(t => /Operating deficits/.test(t.name)), 'no tier when nothing is owed');
+  const r = computeDeal(withTranches([], { 'dc-bridge-ds': '400000', 'dc-bridge-years': '15' }));
+  const owed = r.projection.rows[r.exit.holdYears - 1].deficitOwed;
+  assert(owed > 0, 'a real deficit at the exit year: ' + owed);
+  close(owed, -r.projection.rows[r.exit.holdYears - 1].cumCF, 'it is the negative cumulative cash');
+  const tier = r.waterfall.tiers.find(t => /Operating deficits/.test(t.name));
+  assert(tier && tier.amount > 0);
+  const i = r.waterfall.tiers.indexOf(tier);
+  assert(i < r.waterfall.tiers.findIndex(t => /Deferred developer fee/.test(t.name)) && i < r.waterfall.tiers.findIndex(t => /LP return of capital/.test(t.name)), 'before the developer fee and the investors');
+  assert(r.waterfall.gpTotal >= tier.amount, 'and it counts as sponsor cash');
+});
+
 test('a deficit year pays no deferred fee and must be made up first, so the payback year still matches the engine', () => {
   const r = computeDeal(withTranches([], { 'dc-bridge-ds': '300000', 'dc-bridge-years': '2' }));
   assert(r.obligations.years[0].cashFlow < 0, 'a real deficit year: ' + r.obligations.years[0].cashFlow);
