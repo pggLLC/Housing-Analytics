@@ -6,8 +6,10 @@ Colorado amenity GeoJSON files into the unified format expected by the
 OsmAmenities JS connector (js/data-connectors/osm-amenities.js).
 
 OSM sources (built by scripts/amenities/build_osm_amenities.py):
-  - data/amenities/grocery_co.geojson       → type: "grocery"
-  - data/amenities/healthcare_co.geojson    → type: "healthcare"
+  - data/amenities/grocery_co.geojson       → type: "grocery" (full grocery
+    stores only; see OSM_FILTERS)
+  - data/amenities/healthcare_co.geojson    → type: "healthcare" (clinics,
+    doctors' offices and hospitals only; see OSM_FILTERS)
   - data/amenities/schools_co.geojson       → type: "school"
   - data/amenities/parks_co.geojson         → type: "park"
 
@@ -79,6 +81,65 @@ GEOJSON_SOURCES = {
     "data/market/childcare_co.geojson":         "childcare",
 }
 
+# Which OSM records count as each type. The grocery file also holds
+# convenience and general stores (65% of it), and the healthcare file holds
+# dentists, alternative medicine, labs and therapists; without these filters
+# "nearest grocery store" was usually a gas-station shop and "nearest
+# healthcare" often a dentist. A source with no entry here keeps every record.
+#   grocery:    shop=supermarket / grocery / greengrocer (a full grocery store)
+#   healthcare: a place to see a doctor: amenity=clinic / doctors /
+#               hospital, or healthcare=clinic / doctor / centre / hospital,
+#               except specialty healthcare values such as dialysis or blood
+#               donation. Hospitals stay in: in many rural towns the hospital
+#               and its clinics are the only medical care, and dropping them
+#               put Antonito's nearest care 28 mi away instead of 13.
+FULL_GROCERY_SHOPS = {"supermarket", "grocery", "greengrocer"}
+PRIMARY_CARE_AMENITIES = {"clinic", "doctors", "hospital"}
+PRIMARY_CARE_HEALTHCARE = {"clinic", "doctor", "centre", "hospital"}
+
+
+def is_full_grocery(props: dict) -> bool:
+    return (props.get("shop") or "") in FULL_GROCERY_SHOPS
+
+
+def is_medical_care(props: dict) -> bool:
+    amenity = props.get("amenity") or ""
+    healthcare = props.get("healthcare") or ""
+    if amenity in PRIMARY_CARE_AMENITIES:
+        return healthcare in PRIMARY_CARE_HEALTHCARE or healthcare == ""
+    return amenity == "" and healthcare in PRIMARY_CARE_HEALTHCARE
+
+
+OSM_FILTERS = {
+    "data/amenities/grocery_co.geojson":    is_full_grocery,
+    "data/amenities/healthcare_co.geojson": is_medical_care,
+}
+
+# What the filters leave out is still worth showing, under its own label:
+# in many small towns the only food store is tagged convenience or general,
+# and a pharmacy is where many residents get basic care. These types are
+# shown on the page but not scored (OsmAmenities SHOWN_KEY_TO_TYPE).
+CONVENIENCE_SHOPS = {"convenience", "general"}
+
+
+def is_convenience_or_general(props: dict) -> bool:
+    return (props.get("shop") or "") in CONVENIENCE_SHOPS
+
+
+def is_pharmacy(props: dict) -> bool:
+    return (props.get("amenity") or "") == "pharmacy" or (props.get("healthcare") or "") == "pharmacy"
+
+
+EXTRA_OSM_TYPES = {
+    "convenience": ("data/amenities/grocery_co.geojson",    is_convenience_or_general),
+    "pharmacy":    ("data/amenities/healthcare_co.geojson", is_pharmacy),
+}
+
+
+def output_types() -> set[str]:
+    """Every amenity type the builder can write."""
+    return set(GEOJSON_SOURCES.values()) | set(EXTRA_OSM_TYPES)
+
 # Registry sources: kept one record per feature (no rounding, no dedup) and
 # required to exist (no seed fallback). See the module docstring.
 REGISTRY_SOURCES = {
@@ -129,11 +190,13 @@ SEED_AMENITIES = [
 ]
 
 
-def load_geojson(filepath: Path, amenity_type: str, registry: bool = False) -> list[dict]:
+def load_geojson(filepath: Path, amenity_type: str, registry: bool = False,
+                 keep=None) -> list[dict]:
     """Load a GeoJSON FeatureCollection and return amenity records.
 
     Registry records keep their published coordinates; OSM records are
-    rounded to 6 dp (~0.1 m).
+    rounded to 6 dp (~0.1 m). keep, when given, is an OSM_FILTERS test on
+    each feature's properties.
     """
     if not filepath.exists():
         return []
@@ -150,6 +213,8 @@ def load_geojson(filepath: Path, amenity_type: str, registry: bool = False) -> l
         coords = geom.get("coordinates", [])
         props = feat.get("properties", {})
         if len(coords) < 2:
+            continue
+        if keep is not None and not keep(props):
             continue
         lon, lat = coords[0], coords[1]
         name = props.get("name", "") or ""
@@ -266,7 +331,8 @@ def build(output_path: Path) -> None:
         if rel_path == TRANSIT_SOURCE:
             records, transit_meta = load_transit(REPO_ROOT / rel_path, load_centroids())
         else:
-            records = load_geojson(REPO_ROOT / rel_path, amenity_type, registry=registry)
+            records = load_geojson(REPO_ROOT / rel_path, amenity_type, registry=registry,
+                                   keep=OSM_FILTERS.get(rel_path))
         if records:
             (registry_amenities if registry else osm_amenities).extend(records)
             live_types.add(amenity_type)
@@ -279,6 +345,15 @@ def build(output_path: Path) -> None:
             )
         else:
             print(f"  ⚠ {rel_path}: missing or empty — will use seed data for {amenity_type}")
+
+    for amenity_type, (rel_path, keep) in EXTRA_OSM_TYPES.items():
+        records = load_geojson(REPO_ROOT / rel_path, amenity_type, keep=keep)
+        if records:
+            osm_amenities.extend(records)
+            sources_used.append(f"{Path(rel_path).name} ({amenity_type}): {len(records)} features")
+            print(f"  ✅ {rel_path}: {len(records)} {amenity_type} records")
+        else:
+            print(f"  ⚠ {rel_path}: no {amenity_type} records (shown only, never seeded)")
 
     # Fill in seed data for any category that had no live data
     for seed in SEED_AMENITIES:

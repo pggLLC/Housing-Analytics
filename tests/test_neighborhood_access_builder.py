@@ -57,7 +57,7 @@ def _type_counts(doc):
 
 
 def test_every_committed_type_is_a_builder_source(builder, committed):
-    source_types = set(builder.GEOJSON_SOURCES.values())
+    source_types = builder.output_types()
     committed_types = set(_type_counts(committed))
     assert committed_types, "committed file has no amenity records to check"
     missing = committed_types - source_types
@@ -90,3 +90,49 @@ def test_rebuild_reproduces_committed_records(committed, rebuilt):
     assert rebuilt["amenities"] == committed["amenities"]
     assert rebuilt["meta"]["record_count"] == len(committed["amenities"])
     assert committed["meta"]["record_count"] == len(committed["amenities"])
+
+
+def test_grocery_means_a_full_grocery_store(builder):
+    """Convenience and general stores are 65% of grocery_co.geojson; counting
+    them made "nearest grocery store" a gas-station shop at most sites."""
+    keep = builder.OSM_FILTERS["data/amenities/grocery_co.geojson"]
+    assert keep({"shop": "supermarket"}) and keep({"shop": "grocery"}) and keep({"shop": "greengrocer"})
+    for shop in ("convenience", "general", "wholesale", ""):
+        assert not keep({"shop": shop}), shop
+
+
+def test_healthcare_means_a_place_to_see_a_doctor(builder):
+    """Clinics, doctors' offices and hospitals count; dentists, alternative
+    medicine, labs and pharmacies do not."""
+    keep = builder.OSM_FILTERS["data/amenities/healthcare_co.geojson"]
+    assert keep({"amenity": "clinic", "healthcare": "clinic"})
+    assert keep({"amenity": "doctors", "healthcare": "doctor"})
+    assert keep({"amenity": "doctors", "healthcare": ""})
+    assert keep({"amenity": "", "healthcare": "centre"})
+    assert keep({"amenity": "hospital", "healthcare": "hospital"})
+    for props in ({"amenity": "dentist", "healthcare": "dentist"},
+                  {"amenity": "pharmacy", "healthcare": "pharmacy"},
+                  {"amenity": "", "healthcare": "alternative"},
+                  {"amenity": "clinic", "healthcare": "dialysis"},
+                  {"amenity": "", "healthcare": "laboratory"}):
+        assert not keep(props), props
+
+
+def test_committed_grocery_and_healthcare_are_filtered(builder, committed):
+    """The committed file holds only records the filters keep."""
+    for rel, typ in (("data/amenities/grocery_co.geojson", "grocery"),
+                     ("data/amenities/healthcare_co.geojson", "healthcare")):
+        src = json.loads((REPO_ROOT / rel).read_text(encoding="utf-8"))
+        kept_names = {f["properties"].get("name") for f in src["features"]
+                      if builder.OSM_FILTERS[rel](f["properties"])}
+        names = {a["name"] for a in committed["amenities"] if a["type"] == typ}
+        assert names and names <= kept_names, typ
+
+
+def test_left_out_stores_and_pharmacies_get_their_own_type(builder, committed):
+    """Convenience/general stores and pharmacies are shown as their own rows,
+    never folded back into grocery or healthcare."""
+    counts = _type_counts(committed)
+    assert counts["convenience"] > 0 and counts["pharmacy"] > 0
+    assert builder.EXTRA_OSM_TYPES["convenience"][1]({"shop": "general"})
+    assert builder.EXTRA_OSM_TYPES["pharmacy"][1]({"amenity": "pharmacy", "healthcare": "pharmacy"})

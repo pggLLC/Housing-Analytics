@@ -637,10 +637,12 @@
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Distance to Amenities') +
-        _distRow('Grocery Store',     amenities.grocery) +
+        _distRow('Full grocery store', amenities.grocery) +
+        _distRow('Convenience or general store', amenities.convenience) +
         _distRow('Transit Stop',      amenities.transit) +
         _distRow('Park / Open Space', amenities.parks) +
-        _distRow('Healthcare',        amenities.healthcare) +
+        _distRow('Clinic or hospital', amenities.healthcare) +
+        _distRow('Pharmacy',          amenities.pharmacy) +
         _distRow('School',            amenities.schools) +
         _distRow('Hospital',          amenities.hospitals) +
         _distRow('Child Care Center', amenities.childcare)

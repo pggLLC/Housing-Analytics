@@ -14,7 +14,8 @@
    * Canonical amenity type identifiers used throughout the scoring logic.
    * @type {Array.<string>}
    */
-  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare'];
+  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare',
+                       'convenience', 'pharmacy'];
 
   /**
    * Mapping from score-output keys to canonical amenity type identifiers.
@@ -28,6 +29,18 @@
     schools:    'school',
     hospitals:  'hospital',
     childcare:  'childcare'
+  };
+
+  /**
+   * Types reported by getAccessScore() for display but left out of its
+   * overall score: the convenience and general stores and the pharmacies the
+   * builder keeps out of "grocery" and "healthcare"
+   * (scripts/market-analysis/build_neighborhood_access.py, EXTRA_OSM_TYPES).
+   * @type {Object.<string, string>}
+   */
+  var SHOWN_KEY_TO_TYPE = {
+    convenience: 'convenience',
+    pharmacy:    'pharmacy'
   };
 
   /**
@@ -293,6 +306,8 @@
       schools:    defaultEntry,
       hospitals:  defaultEntry,
       childcare:  defaultEntry,
+      convenience: defaultEntry,
+      pharmacy:   defaultEntry,
       overall:    0
     };
 
@@ -317,6 +332,12 @@
     }
 
     result.overall = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+
+    for (var shownKey in SHOWN_KEY_TO_TYPE) {
+      if (!Object.prototype.hasOwnProperty.call(SHOWN_KEY_TO_TYPE, shownKey)) { continue; }
+      result[shownKey] = getNearestByType(lat, lon, SHOWN_KEY_TO_TYPE[shownKey]) ||
+        { name: '', distanceMiles: null, score: 0 };
+    }
 
     // Add typed transit distances for rail vs bus differentiation.
     // transit_rail = nearest rail/tram/light rail stop
@@ -360,7 +381,7 @@
 
   /**
    * Returns how many loaded records there are of each type, e.g.
-   * { grocery: 2178, hospital: 121, ... }. A fresh object each call; types
+   * { grocery: 716, hospital: 121, ... }. A fresh object each call; types
    * with no records are absent, not 0. Empty object before data loads.
    * @returns {Object.<string, number>}
    */

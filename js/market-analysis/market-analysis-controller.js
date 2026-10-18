@@ -896,7 +896,10 @@
               healthcare:   accessResult.healthcare    != null ? accessResult.healthcare.distanceMiles   : null,
               schools:      accessResult.schools       != null ? accessResult.schools.distanceMiles      : null,
               hospitals:    accessResult.hospitals     != null ? accessResult.hospitals.distanceMiles    : null,
-              childcare:    accessResult.childcare     != null ? accessResult.childcare.distanceMiles    : null
+              childcare:    accessResult.childcare     != null ? accessResult.childcare.distanceMiles    : null,
+              // Shown only; scoreAccess() reads neither.
+              convenience:  accessResult.convenience   != null ? accessResult.convenience.distanceMiles  : null,
+              pharmacy:     accessResult.pharmacy      != null ? accessResult.pharmacy.distanceMiles     : null
             };
           }
         }
