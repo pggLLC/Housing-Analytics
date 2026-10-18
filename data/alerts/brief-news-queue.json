@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-18T14:05:26Z",
+    "generated": "2026-10-18T14:10:08Z",
     "as_of": "2026-10-18",
     "stale_days": 30,
     "events_as_of": "2026-10-18",
@@ -158,45 +158,9 @@
       "published": true,
       "last_curated": "2026-10-18",
       "days_since_review": 0,
-      "stories": [
-        {
-          "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
-          "source": "Pueblo Chieftain",
-          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-          "date": "2026-09-22",
-          "match": "place",
-          "also": [],
-          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
-        }
-      ],
+      "stories": [],
       "events": [],
-      "reasons": [
-        "1 older story not read yet"
-      ]
-    },
-    {
-      "geoid": "08097",
-      "jurisdiction": "Pitkin County",
-      "scope": "county",
-      "county_fips": "08097",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 0,
-      "stories": [
-        {
-          "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
-          "source": "Pueblo Chieftain",
-          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-          "date": "2026-09-22",
-          "match": "in_county",
-          "also": [],
-          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 older story not read yet"
-      ]
+      "reasons": []
     },
     {
       "geoid": "0817375",
@@ -320,6 +284,18 @@
       "reasons": [
         "draft, not shown on the site"
       ]
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "scope": "county",
+      "county_fips": "08097",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 0,
+      "stories": [],
+      "events": [],
+      "reasons": []
     },
     {
       "geoid": "0810105",

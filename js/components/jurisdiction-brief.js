@@ -300,7 +300,7 @@
       html += '<ul>' + stories.map(function (st) {
         var url = _safeUrl(st.link);
         var head = url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(st.title) + '</a>' : _esc(st.title);
-        var meta = [st.source, MATCH_LABEL[st.match], st.unread ? 'older lead, not yet read for this brief' : ''].filter(Boolean).map(_esc).join(' · ');
+        var meta = [st.source, MATCH_LABEL[st.match], st.unread ? ((brief.last_curated && String(st.date || '') < brief.last_curated ? 'older lead, ' : '') + 'not yet read for this brief') : ''].filter(Boolean).map(_esc).join(' · ');
         return '<li><span class="jbrief-news__date">' + _esc(_newsDate(st.date)) + '</span>' + head +
           (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
       }).join('') + '</ul>';

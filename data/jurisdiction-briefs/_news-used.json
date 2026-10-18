@@ -546,12 +546,9 @@
       "geoid": "0803620",
       "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-      "status": "unread",
+      "status": "dismissed",
       "decided": "2026-10-18",
-      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
-      "date": "2026-09-22",
-      "source": "Pueblo Chieftain",
-      "match": "place"
+      "reason": "False place match: the Aspen Acres Fire burned in Pueblo and Custer counties, not Aspen or Pitkin County. KOAA's report on the same FEMA denial: \"people impacted in Pueblo and Custer Counties\"."
     },
     {
       "geoid": "0803620",
@@ -830,12 +827,9 @@
       "geoid": "08097",
       "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
-      "status": "unread",
+      "status": "dismissed",
       "decided": "2026-10-18",
-      "reason": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed.",
-      "date": "2026-09-22",
-      "source": "Pueblo Chieftain",
-      "match": "in_county"
+      "reason": "False place match: the Aspen Acres Fire burned in Pueblo and Custer counties, not Aspen or Pitkin County. KOAA's report on the same FEMA denial: \"people impacted in Pueblo and Custer Counties\"."
     },
     {
       "geoid": "08097",
