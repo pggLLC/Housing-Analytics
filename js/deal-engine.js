@@ -550,6 +550,8 @@
       // Unpaid must-pay debt service is not a shortfall the sponsor funded.
       var afterFee = known(cashFlow) && known(deferredFeePaid) && known(mustPayUnpaid) ? cashFlow - deferredFeePaid + mustPayUnpaid : null;
       var deficitRecovered = known(afterFee) && known(deficit) ? Math.min(deficit, Math.max(0, afterFee)) : null;
+      // A year whose cash cannot cover its payments is funded by the sponsor.
+      var deficitFunded = known(afterFee) ? Math.max(0, -afterFee) : null;
       deficit = known(afterFee) && known(deficit) ? Math.max(0, deficit - afterFee) : null;
       var distributable = known(afterFee) && known(deficitRecovered) ? Math.max(0, afterFee - deficitRecovered) : null;
       rows.push({ year: y, grossRents: rents, otherIncome: otherIncome, vacancyLoss: vacancyLoss, egi: egi,
@@ -558,7 +560,7 @@
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
         bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
-        deferredFeePaid: deferredFeePaid, deficitRecovered: deficitRecovered, deficitOwed: deficit, distributable: distributable,
+        deferredFeePaid: deferredFeePaid, mustPayUnpaid: mustPayUnpaid, deficitFunded: deficitFunded, deficitRecovered: deficitRecovered, deficitOwed: deficit, distributable: distributable,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -1455,8 +1457,9 @@
         // distributions, and a deficit from earlier years is made up first.
         var surplus = row.distributable;
         // The developer receives the deferred fee paid from this year's cash and
-        // any earlier operating deficit it funded that this year's cash repays.
-        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid + row.deficitRecovered;
+        // any earlier operating deficit it funded that this year's cash repays;
+        // a deficit it funds this year is cash it puts in.
+        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid + row.deficitRecovered - row.deficitFunded;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
         return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };

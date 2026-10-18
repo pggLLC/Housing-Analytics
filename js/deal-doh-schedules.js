@@ -160,8 +160,11 @@
         dcr: known(ds) && known(bridge) && ds + bridge > 0 ? p.noi / (ds + bridge) : null,
         deferredFee: deferred, deficitRecovered: p.deficitRecovered, assetMgmtFee: p.assetMgmtFee, assetMgmtUnpaid: p.assetMgmtUnpaid, cashFlowLoans: loanPaid,
         // The engine's cash flow is after the asset fee and cash-flow loans.
-        // Cash that makes up an earlier deficit is not available again.
-        availableAfterPayments: known(p.cashFlow) && known(deferred) && known(p.deficitRecovered) ? p.cashFlow - deferred - p.deficitRecovered : null,
+        // Must-pay debt service NOI could not cover stays in the loan balance,
+        // so it did not leave the project. Cash that makes up an earlier
+        // deficit is not available again.
+        mustPayUnpaid: p.mustPayUnpaid,
+        availableAfterPayments: [p.cashFlow, p.mustPayUnpaid, deferred, p.deficitRecovered].every(known) ? p.cashFlow + p.mustPayUnpaid - deferred - p.deficitRecovered : null,
         reason: reason
       };
     });
