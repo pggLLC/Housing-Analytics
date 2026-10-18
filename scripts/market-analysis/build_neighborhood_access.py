@@ -33,6 +33,9 @@ State registry sources:
     (HIFLD + CDPHE, scripts/market/fetch_hospitals.py)
   - data/market/childcare_co.geojson        → type: "childcare"
     (CDHS licensed facilities, scripts/market/fetch_childcare.py)
+  - data/market/health_centers_co.geojson   → type: "health_center"
+    (HRSA community health center sites, scripts/market/fetch_health_centers.py;
+    shown on the site page only, never scored)
 
 OSM records are rounded to 6 dp and deduplicated on (type, name, ~11 m), which
 removes OSM double-mapping. Registry records are kept one per feature, as
@@ -79,6 +82,7 @@ GEOJSON_SOURCES = {
     TRANSIT_SOURCE:                             "transit_stop",
     "data/market/hospitals_co.geojson":         "hospital",
     "data/market/childcare_co.geojson":         "childcare",
+    "data/market/health_centers_co.geojson":    "health_center",
 }
 
 # Which OSM records count as each type. The grocery file also holds
@@ -146,7 +150,13 @@ def output_types() -> set[str]:
 REGISTRY_SOURCES = {
     "data/market/hospitals_co.geojson",
     "data/market/childcare_co.geojson",
+    "data/market/health_centers_co.geojson",
 }
+
+# The hospital file's licence type (CDPHE: HOSP general hospital, CAH critical
+# access hospital, CCEC community clinic and emergency center, ...), carried so
+# the site page can say which kind the nearest one is. Display only.
+HOSPITAL_TYPE_FIELD = "type"
 
 # ---------------------------------------------------------------------------
 # Seed data: fallback for categories without live GeoJSON.
@@ -231,6 +241,8 @@ def load_geojson(filepath: Path, amenity_type: str, registry: bool = False,
         transit_type = props.get("transit_type", "")
         if transit_type:
             record["transit_type"] = transit_type
+        if amenity_type == "hospital" and props.get(HOSPITAL_TYPE_FIELD):
+            record["hospital_type"] = props[HOSPITAL_TYPE_FIELD]
         records.append(record)
     return records
 
@@ -386,14 +398,16 @@ def build(output_path: Path) -> None:
             "source": (
                 "OpenStreetMap Overpass API + seed fallback; "
                 "statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); "
-                "HIFLD/CDPHE hospitals; CDHS licensed child care facilities"
+                "HIFLD/CDPHE hospitals; CDHS licensed child care facilities; "
+                "HRSA community health center sites"
             ),
             "sources_detail": sources_used,
             "note": (
                 f"Includes {', '.join(amenity_types)}. "
                 "Refresh sources with scripts/amenities/build_osm_amenities.py, "
                 "scripts/market/build_transit_stops_co.py, "
-                "scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, "
+                "scripts/market/fetch_hospitals.py, scripts/market/fetch_childcare.py and "
+                "scripts/market/fetch_health_centers.py, "
                 "then rerun this script."
             ),
             "record_count": len(deduped),

@@ -15,7 +15,7 @@
    * @type {Array.<string>}
    */
   var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare',
-                       'convenience', 'pharmacy'];
+                       'convenience', 'pharmacy', 'health_center'];
 
   /**
    * Mapping from score-output keys to canonical amenity type identifiers.
@@ -146,6 +146,8 @@
       if (rec.type === 'transit_stop') {
         rec.transitStopBasis = item.transit_stop_basis === BASIS_UNCONFIRMED ? BASIS_UNCONFIRMED : BASIS_CONFIRMED;
       }
+      // Licence type of a hospital record (HOSP, CAH, CCEC, ...), display only.
+      if (item.hospital_type) { rec.hospitalType = String(item.hospital_type); }
       amenities.push(rec);
       if (rec.type === 'transit_stop') { transitRecords.push(rec); }
     }
@@ -239,6 +241,7 @@
       distanceMiles: dist,
       score:         distanceToScore(dist)
     };
+    if (nearest.hospitalType) { out.hospitalType = nearest.hospitalType; }
     if (selection) {
       out.transitStopBasis = selection.basis;
       out.confirmed = selection.basis === BASIS_NONE ? null : selection.basis === BASIS_CONFIRMED;
@@ -274,6 +277,7 @@
       if (d <= radiusMiles) {
         var hit = { name: a.name, lat: a.lat, lon: a.lon, distanceMiles: parseFloat(d.toFixed(2)) };
         if (a.transitStopBasis) { hit.transitStopBasis = a.transitStopBasis; }
+        if (a.hospitalType) { hit.hospitalType = a.hospitalType; }
         found.push(hit);
       }
     }

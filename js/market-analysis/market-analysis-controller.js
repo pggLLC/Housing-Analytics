@@ -1099,6 +1099,9 @@
               walkabilityUnavailableReason: walkabilityUnavailableReason,
               access_score: scores ? scores.access_score : null
             });
+            if (window.WhatsNear) {
+              window.WhatsNear.render('maWhatsNear', { lat: lat, lon: lon, tractGeoid: ejiMetrics.tractGeoid || '' });
+            }
           });
           _safe(function () {
             _log('rendering maPolicyOverlays');

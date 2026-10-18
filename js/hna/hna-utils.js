@@ -640,11 +640,11 @@
    *
    * History note (2026-06-01): The static CE01/CE02/CE03 fields on
    * place blobs are broken — every place record has CE03 = 0 because
-   * the tract-level LODES file at data/market/lodes_co.json itself
-   * has high_wage = 0 for all 1,447 CO tracts (build_lodes_co.py is
-   * dropping CS03 from the LODES WAC pull). The annualWages object is
-   * built from a different pipeline (county-apportioned) and is
-   * correct. Until the underlying data is rebuilt, prefer annualWages.
+   * the tract-level LODES file at data/market/lodes_co.json had
+   * high_wage = 0 for all 1,447 CO tracts (fetch_lodes.py read the WAC
+   * sex columns CS01/CS02 as wage tiers; fixed 2026-10-18 to read the
+   * CE01-CE03 earnings tiers). The annualWages object is built from a
+   * different pipeline (county-apportioned) and is still preferred.
    *
    * @param {object} lehd
    * @returns {{low, medium, high, total}|null}
