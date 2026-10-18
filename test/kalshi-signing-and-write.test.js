@@ -108,32 +108,99 @@ run('a signing failure explains the line-break cause', () => {
 });
 
 function loadNormalizeMarket() {
-  const a = /function contractProb[\s\S]*?\n}\n/.exec(SRC);
-  const b = /function normalizeMarket[\s\S]*?\n}\n/.exec(SRC);
-  assert.ok(a && b, 'contractProb and normalizeMarket must exist');
+  const parts = [
+    /const MAX_SPREAD = 0\.10;/,
+    /function contractPrice[\s\S]*?\n}\n/,
+    /function strikeOf[\s\S]*?\n}\n/,
+    /function enforceLadder[\s\S]*?\n}\n/,
+    /function normalizeMarket[\s\S]*?\n}\n/
+  ].map((re) => re.exec(SRC));
+  assert.ok(parts.every(Boolean), 'MAX_SPREAD, contractPrice, strikeOf, enforceLadder and normalizeMarket must exist');
   const ctx = {};
   vm.createContext(ctx);
-  vm.runInContext(a[0] + b[0] + ';this.normalizeMarket = normalizeMarket;', ctx);
+  vm.runInContext(parts.map((m) => m[0]).join('\n') + ';this.normalizeMarket = normalizeMarket;', ctx);
   return ctx.normalizeMarket;
 }
 
 const CFG = { metric: 'housing_starts', label: 'Starts', horizon: 'year_end' };
 
-run('a strike ladder keeps each contract\'s own probability (no rescaling to 100%)', () => {
+run('a strike ladder keeps each contract\'s own midpoint (no rescaling to 100%)', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [
-    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9500' },
-    { ticker: 'B', title: 'above 1.30M', yes_bid: 60 },
-    { ticker: 'C', title: 'above 1.45M', last_price_dollars: '0.0800' }
+    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9200', yes_ask_dollars: '0.9600' },
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 58, yes_ask: 62 },
+    { ticker: 'C', title: 'above 1.45M', yes_bid_dollars: '0.0700', yes_ask_dollars: '0.0900' }
   ]);
-  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.95, 0.6, 0.08]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.94, 0.6, 0.08]);
+  assert.ok(out.outcomes.every((o) => o.thin === false));
 });
 
-run('a contract with no bid and no trade is null, never 0', () => {
+run('a line with buyers and sellers more than 10 points apart is thin and unpriced', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9000', yes_ask_dollars: '0.9500' },
+    { ticker: 'B', title: 'above 1.35M', yes_bid_dollars: '0.1600', yes_ask_dollars: '0.3400', last_price_dollars: '0.3000' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.93, null]);
+  assert.deepEqual(out.outcomes.map((o) => o.thin), [false, true]);
+});
+
+run('a ladder whose figures contradict each other shows none of them', () => {
+  // 18 Oct 2026: a lower threshold priced below a higher one.
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'Will US housing starts for September 2026 be above 1.150M?', yes_bid_dollars: '0.7000', yes_ask_dollars: '0.7400' },
+    { ticker: 'B', title: 'Will US housing starts for September 2026 be above 1.100M?', yes_bid_dollars: '0.3000', yes_ask_dollars: '0.3400' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
+  assert.ok(out.outcomes.every((o) => o.thin === true));
+});
+
+run('an empty book side is no quote, even next to a tight other side', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.45M', yes_bid_dollars: '0.0000', yes_ask_dollars: '0.0200' },
+    { ticker: 'B', title: 'above 1.10M', yes_bid_dollars: '0.9800', yes_ask_dollars: '1.0000' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
+});
+
+run('only the chosen market\'s own event is checked as one ladder', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume: 500 },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume: 400 },
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume: 10 }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
+run('the most-traded event is chosen from the v2 fixed-point volume fields', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume_fp: '3.00', open_interest_fp: '1.00' },
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume_fp: '527.00', open_interest_fp: '257.00' },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume_fp: '400.00', open_interest_fp: '100.00' }
+  ]);
+  assert.equal(out.market.id, 'OCT-T1.10');
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
+run('the event with the most combined activity wins, not the single busiest line', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume_fp: '100.00' },
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume_fp: '60.00' },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume_fp: '60.00' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
+run('a contract with no bid and no ask is null, never 0', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [
     { ticker: 'A', title: 'above 1.10M' },
-    { ticker: 'B', title: 'above 1.30M', yes_bid: 0, yes_bid_dollars: '0.0000' }
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 0, yes_bid_dollars: '0.0000', last_price_dollars: '0.4000' }
   ]);
   assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
   const single = normalize(CFG, [{ ticker: 'A', title: 'one' }]);
