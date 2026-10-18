@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T00:26:44.946Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T03:00:13.213Z. Do not edit by hand.
 
 ---
 
@@ -1799,7 +1799,7 @@
 
 ## Test Files
 
-644 test files found.
+645 test files found.
 
 | File | Size |
 |------|------|
@@ -1876,7 +1876,7 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 10.7 KB |
-| `test/custom-pma-conclusions-blocked.test.js` | 24.1 KB |
+| `test/custom-pma-conclusions-blocked.test.js` | 27.5 KB |
 | `test/daily-audit-check-noise.test.js` | 10.9 KB |
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
@@ -1960,6 +1960,7 @@
 | `test/fee-reductions-surfaces.test.js` | 11.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 4.2 KB |
+| `test/fetch-helper-cache-size.test.js` | 2.7 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
 | `test/figure-explanations.test.js` | 21.1 KB |
