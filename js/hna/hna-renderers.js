@@ -529,8 +529,10 @@
     let n = 0;
     cards.forEach((c) => {
       const el = document.getElementById(c.id);
-      const e = R.forValue(geoid, c.field, c.value);
-      if (!el || !e) return;
+      // The first field whose estimate is the number shown. An entry with no
+      // year matched no published estimate, so it has no source to name.
+      const e = (c.fields || [c.field]).map((f) => R.forValue(geoid, f, c.value)).find(Boolean);
+      if (!el || !e || !e.y || !e.s) return;
       const margin = R.describe(e, c.unit);
       // The label is the link, from the figure's own year and series. It may
       // break after the year on a narrow card, but never inside "5-year DP04".
@@ -695,7 +697,10 @@
     // Margins of error. Home value has one only when the card shows the raw
     // ACS figure; a Zillow-based or county-adjusted value is not that estimate.
     // The cascade's own "as of" is not used for the label: it says 2020-2024
-    // 5-year for figures that are 2019-2023 or 1-year.
+    // 5-year for figures that are 2019-2023 or 1-year. Its raw figure is a copy
+    // of DP04_0089E from when the cascade was built, so the file carries an
+    // entry for the figure shown (median_home_value) as well as for the stored
+    // DP04_0089E, and either is used only when its estimate is that figure.
     const homeIsAcs = !homeInfo.display || homeInfo.display.source === 'acs_raw';
     const homeCaveat = homeInfo.display
       ? ['raw floor', homeInfo.confidence ? `${homeInfo.confidence} confidence` : null,
@@ -712,8 +717,8 @@
     ];
     if (homeIsAcs) {
       cards.push({
-        id: 'statHomeValueSrc', field: 'DP04_0089E', value: homeVal, unit: 'money', table: 'DP04',
-        caveat: homeCaveat,
+        id: 'statHomeValueSrc', fields: homeInfo.display ? ['median_home_value', 'DP04_0089E'] : ['DP04_0089E'],
+        value: homeVal, unit: 'money', table: 'DP04', caveat: homeCaveat,
       });
     }
     return applySnapshotReliability(geoid, geoType, cards, token).catch(() => 0);

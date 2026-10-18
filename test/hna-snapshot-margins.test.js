@@ -102,10 +102,19 @@ const CARDS = [
   { id: 'statTenureSrc', field: 'DP04_0047PE', unit: 'pct', table: 'DP04', value: (p) => U.safeNum(p.DP04_0047PE) },
   { id: 'statRentBurdenSrc', field: 'rent_burden_30plus', unit: 'pct', table: 'DP04', value: (p) => U.rentBurden30Plus(p) },
   { id: 'statCommuteSrc', field: 'S0801_C01_046E', unit: 'min', table: 'S0801', value: (p, s) => (s ? U.safeNum(s.S0801_C01_046E) : null) },
-  { id: 'statHomeValueSrc', field: 'DP04_0089E', unit: 'money', table: 'DP04',
-    // Only the raw ACS value is the estimate the margin belongs to.
+  // Only the raw ACS value is an estimate a margin belongs to. The cascade's
+  // copy of it can be another release than the stored DP04_0089E, so the file
+  // has an entry for the figure shown as well.
+  { id: 'statHomeValueSrc', fields: ['median_home_value', 'DP04_0089E'], unit: 'money', table: 'DP04',
     value: (p) => { const h = U.homeValueInfo(p); return !h.display || h.display.source === 'acs_raw' ? h.value : null; } },
 ];
+
+// The entry whose estimate is the number a card shows, or null.
+function entryFor(geoid, c, value) {
+  const g = FILE.geos[geoid] || {};
+  return (c.fields || [c.field]).map((f) => g[f])
+    .find((e) => e && e.e != null && value != null && Math.abs(value - e.e) < 0.051) || null;
+}
 
 // The margin as the Census Bureau publishes it, written independently of the
 // module under test.
@@ -155,11 +164,13 @@ const line = (id) => document.getElementById(id);
         const el = line(c.id);
         const text = el.textContent;
         const value = c.value(profile, s0801);
-        const e = FILE.geos[geoid][c.field];
-        const matches = e && e.e != null && value != null && Math.abs(value - e.e) < 0.051;
+        const e = entryFor(geoid, c, value);
         checked += 1;
-        if (!matches) {
-          if (/±/.test(text)) problems.push(`${geoid} ${c.id}: margin shown for a number that is not the file's estimate: ${text}`);
+        if (!e || !e.y) {
+          // No estimate in the file is this number, or it matched no published
+          // one: the card keeps its own source line.
+          if (/±|margin not published/.test(text)) problems.push(`${geoid} ${c.id}: margin shown for a number with no published source: ${text}`);
+          if (el.dataset.acsTier !== undefined) problems.push(`${geoid} ${c.id}: data-acs-tier set without an entry`);
           continue;
         }
         const link = el.querySelector('a');
@@ -204,6 +215,7 @@ const line = (id) => document.getElementById(id);
       if (!PICK.caution && t('rent_burden_30plus').t === 'use_with_caution' && /±/.test(line('statRentBurdenSrc').textContent)) PICK.caution = geoid;
       const hd = U.homeValueInfo(profile).display;
       if (!PICK.zillow && hd && hd.source === 'zhvi' && t('DP04_0089E').m > 0) PICK.zillow = geoid;
+      if (!PICK.rawHome && hd && hd.source === 'acs_raw' && /±/.test(line('statHomeValueSrc').textContent)) PICK.rawHome = geoid;
     }
     assert.deepStrictEqual(problems.slice(0, 15), [], `${problems.length} disagreements`);
     // Non-vacuity on the scan: it rendered real cards and found margins and
@@ -211,7 +223,7 @@ const line = (id) => document.getElementById(id);
     assert(checked >= 3500, `only ${checked} cards checked`);
     assert(withMargin >= 2000, `only ${withMargin} margins checked`);
     assert(caution >= 300, `only ${caution} caution figures checked`);
-    for (const k of ['margins', 'caution', 'zillow']) assert(PICK[k], `the scan found no ${k} case`);
+    for (const k of ['margins', 'caution', 'zillow', 'rawHome']) assert(PICK[k], `the scan found no ${k} case`);
   });
 
   await test('the label comes from the figure, not from the summary\'s stamp', async () => {
@@ -243,6 +255,39 @@ const line = (id) => document.getElementById(id);
     assert(t.includes(`${Math.max(0, e.e - e.m).toFixed(1)}%`) && t.includes(`${Math.min(100, e.e + e.m).toFixed(1)}%`), t);
     await render(PICK.zillow);
     assert(!/±/.test(line('statHomeValueSrc').textContent), line('statHomeValueSrc').textContent);
+  });
+
+  await test('a raw home value from another release than the stored one is labelled from its own entry', async () => {
+    // The cascade's copy of DP04_0089E was taken from an older release.
+    const g = PICK.rawHome;
+    const stored = FILE.geos[g].DP04_0089E;
+    const shownValue = stored.e + 77300;
+    const older = { e: shownValue, m: 41234, s: 'acs5', y: stored.y - 1, cv: 0.03, t: 'good' };
+    const shift = (p) => { p.median_home_value = Object.assign({}, p.median_home_value, { value: shownValue }); };
+    const withEntry = (entry) => AR._setFile(Object.assign({}, FILE, {
+      geos: Object.assign({}, FILE.geos, { [g]: Object.assign({}, FILE.geos[g], { median_home_value: entry }) }),
+    }));
+    try {
+      withEntry(older);
+      const { profile } = await render(g, shift);
+      let text = line('statHomeValueSrc').textContent;
+      assert(text.includes('±$41,234'), text);
+      assert(text.includes(`ACS ${older.y} 5-year DP04`), text);
+      assert(!text.includes(`±$${Math.round(stored.m).toLocaleString('en-US')}`), `the stored figure's margin reached the shown one: ${text}`);
+      assert(line('statHomeValueSrc').querySelector('a').href.includes(`ACSDP5Y${older.y}.DP04`));
+      assert(text.includes(`${U.homeValueInfo(profile).confidence} confidence`), `caveat lost: ${text}`);
+      // An entry that matched no release names no source and shows no margin.
+      withEntry({ e: shownValue, m: null, s: null, cv: null, t: null, why: 'stored value matches no published estimate' });
+      await render(g, shift);
+      text = line('statHomeValueSrc').textContent;
+      assert(!/±|margin not published|ACS \d{4} 5-year DP04/.test(text), text);
+      // Without an entry for the shown figure, the stored one's margin is not borrowed.
+      AR._setFile(FILE);
+      await render(g, shift);
+      assert(!/±/.test(line('statHomeValueSrc').textContent), line('statHomeValueSrc').textContent);
+    } finally {
+      AR._setFile(FILE);
+    }
   });
 
   await test('a reset takes the previous geography\'s margins with its figures', async () => {
