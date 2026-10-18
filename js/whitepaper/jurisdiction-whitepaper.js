@@ -813,6 +813,8 @@
     '.wp-glance{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:1em 0}.wp-tile{border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--bg2)}',
     '.wp-tile-v{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}.wp-tile-l{font-size:.8rem;color:var(--muted);line-height:1.3}',
     '@media (max-width:560px){.wp-glance{grid-template-columns:repeat(2,minmax(0,1fr))}}',
+    // Contact tables read as one card per person on a phone, so the phone and email show without scrolling sideways.
+    '@media screen and (max-width:560px){.wp table.wp-stack thead{display:none}.wp table.wp-stack tr{display:block;border-bottom:1px solid var(--border);padding:6px 0}.wp table.wp-stack td{display:block;border:0;padding:2px 0}.wp table.wp-stack td[data-label]::before{content:attr(data-label) ": ";font-weight:600;color:var(--muted)}}',
     '.wp-barcell{position:relative;min-width:7em;white-space:nowrap}.wp-bar{display:inline-block;height:.7em;max-width:6em;margin-right:6px;background:var(--accent);opacity:.55;vertical-align:baseline;border-radius:2px}',
     '@media print{body{background:#fff;color:#000}.wp{max-width:none;padding:0}.wp h2{break-after:avoid}.wp table{break-inside:auto}.wp tr{break-inside:avoid}.wp-noprint{display:none}a{color:#000}}'
   ].join('\n');
@@ -1192,10 +1194,12 @@
   }
 
   function contactTable(list, checked) {
-    return '<div class="wp-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Contact</th><th>Source</th></tr></thead><tbody>' +
+    return '<div class="wp-scroll"><table class="wp-stack"><thead><tr><th>Name</th><th>Role</th><th>Contact</th><th>Source</th></tr></thead><tbody>' +
       list.map(function (c) {
-        var how = [c.email ? esc(c.email) : '', c.phone ? esc(c.phone) : ''].filter(Boolean).join('<br>');
-        return '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.role || '') + (c.org ? '<br><span class="wp-meta">' + esc(c.org) + '</span>' : '') + '</td><td>' + (how || NA) + '</td><td>' + link(c.source_label || 'source', c.source_url) + '<br><span class="wp-meta">“' + esc(c.source_quote) + '”</span></td></tr>';
+        var tel = String(c.phone || '').match(/\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}/);
+        var how = [c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '',
+          c.phone ? (tel ? '<a href="tel:' + esc(tel[0].replace(/\D/g, '')) + '">' + esc(c.phone) + '</a>' : esc(c.phone)) : ''].filter(Boolean).join('<br>');
+        return '<tr><td data-label="Name"><strong>' + esc(c.name) + '</strong></td><td data-label="Role">' + esc(c.role || '') + (c.org ? '<br><span class="wp-meta">' + esc(c.org) + '</span>' : '') + '</td><td data-label="Contact">' + (how || NA) + '</td><td data-label="Source">' + link(c.source_label || 'source', c.source_url) + '<br><span class="wp-meta">“' + esc(c.source_quote) + '”</span></td></tr>';
       }).join('') + '</tbody></table></div><p class="wp-meta">Contacts checked ' + esc(checked || NA) + '. Staff change; confirm before reaching out.</p>';
   }
 
