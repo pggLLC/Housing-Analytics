@@ -17,13 +17,24 @@
   'use strict';
 
   // Prop 123 constants
+  // 2023 is the baseline year. The 2024–2026 cycle's goal is 3% of the
+  // baseline per year in new or newly affordable homes — simple, not
+  // compound (C.R.S. § 29-32-105(1)(a)). From 2027 HB26-1313 sets the goal
+  // from building permits, so no target here runs past 2026.
   const PROP123_EFFECTIVE_YEAR = 2023;
-  const PROP123_GROWTH_RATE    = 0.03;   // 3% annual compound requirement
+  const PROP123_GROWTH_RATE    = 0.03;
+  const PROP123_FIRST_CYCLE_END = 2026;
 
-  // DOLA filing schedule: annual report due January 31 of the year after the tracking year.
-  // e.g., 2026 actuals are due Jan 31, 2027.
-  const DOLA_FILING_MONTH = 1;   // January (0-indexed)
-  const DOLA_FILING_DAY   = 31;
+  // Commitments are due November 1 before the cycle they cover
+  // (C.R.S. § 29-32-105(1)(d)): Nov 1, 2026 for 2027–2029, or Nov 1, 2027
+  // or 2028 to join part-way. Month is 1-based here.
+  const DOLA_FILING_MONTH = 11;  // November
+  const DOLA_FILING_DAY   = 1;
+
+  /** Target stock `i` years after the baseline year, capped at the cycle's 3 years. */
+  function cycleTarget(baseline, i) {
+    return Math.round(baseline * (1 + PROP123_GROWTH_RATE * Math.max(0, Math.min(i, PROP123_FIRST_CYCLE_END - PROP123_EFFECTIVE_YEAR))));
+  }
 
   /**
    * Return a synthetic historical dataset for a geography.
@@ -44,7 +55,7 @@
     const years   = [];
     const actuals = [];
 
-    for (let y = PROP123_EFFECTIVE_YEAR; y <= currentYear; y++) {
+    for (let y = PROP123_EFFECTIVE_YEAR; y <= Math.min(currentYear, PROP123_FIRST_CYCLE_END); y++) {
       years.push(y);
       if (y === PROP123_EFFECTIVE_YEAR) {
         // Baseline year — actual equals the baseline by definition
@@ -63,7 +74,7 @@
   }
 
   /**
-   * Compare actual affordable-unit counts against the 3% compounding requirement.
+   * Compare actual affordable-unit counts against the 2024–2026 goal.
    *
    * @param {number}          baseline    - Baseline unit count (year 0)
    * @param {(number|null)[]} actuals     - Array of actual unit counts per year (index 0 = baseline year)
@@ -83,7 +94,7 @@
     }
 
     const startYear    = PROP123_EFFECTIVE_YEAR;
-    const totalYears   = currentYear - startYear + 1;
+    const totalYears   = Math.min(currentYear, PROP123_FIRST_CYCLE_END) - startYear + 1;
     const targets      = [];
     const trendLine    = [];
     let yearsOffCount  = 0;
@@ -91,7 +102,7 @@
     let lastKnownIdx    = 0;
 
     for (let i = 0; i < totalYears; i++) {
-      const target = Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, i));
+      const target = cycleTarget(baseline, i);
       targets.push(target);
 
       const actual = (actuals && i < actuals.length) ? actuals[i] : null;
@@ -109,11 +120,12 @@
     const gapAtCurrentYear = latestTarget - lastKnownActual;
     const onTrack = gapAtCurrentYear <= 0;
 
-    // yearsAhead: how many additional years' worth of 3% growth has been banked
-    // (negative means behind schedule)
+    // yearsAhead: how many years' worth of the goal (3% of the baseline
+    // each) has been banked beyond the target (negative means behind)
+    const yearStep   = baseline * PROP123_GROWTH_RATE;
     const yearsAhead = gapAtCurrentYear <= 0
-      ? Math.floor(Math.log(lastKnownActual / latestTarget) / Math.log(1 + PROP123_GROWTH_RATE))
-      : -Math.ceil(Math.log(latestTarget / lastKnownActual) / Math.log(1 + PROP123_GROWTH_RATE));
+      ? Math.floor(-gapAtCurrentYear / yearStep)
+      : -Math.ceil(gapAtCurrentYear / yearStep);
 
     return {
       onTrack,
@@ -126,29 +138,31 @@
   }
 
   /**
-   * Return DOLA filing deadline information for the current and next cycles.
+   * Return the next Prop 123 commitment deadline (November 1).
    *
+   * @param {Date} [now] - override for testing; defaults to today
    * @returns {{
    *   nextDeadline: string,      // ISO date "YYYY-MM-DD"
    *   filed: boolean,            // always false (runtime has no filing registry access)
-   *   filingYear: number,        // year the report covers
+   *   filingYear: number,        // first year the commitment filed by this deadline covers
    *   daysUntilDeadline: number
    * }}
    */
-  function getDolaFilingDeadlines() {
-    const today = new Date();
+  function getDolaFilingDeadlines(now) {
+    const today = now || new Date();
     const year  = today.getFullYear();
 
-    // The deadline for the previous year's actuals is Jan 31 of the current year.
-    // If we're past that, the next deadline is Jan 31 of next year.
+    // A commitment filed by Nov 1 covers the cycle (or the rest of it)
+    // from the next Jan 1. Past this year's Nov 1, the next is next year's.
     const deadlineThisYear = new Date(year, DOLA_FILING_MONTH - 1, DOLA_FILING_DAY);
-    const isPastDeadline   = today > deadlineThisYear;
+    const todayMidnight    = new Date(year, today.getMonth(), today.getDate());
+    const isPastDeadline   = todayMidnight > deadlineThisYear;
 
     const deadlineYear   = isPastDeadline ? year + 1 : year;
-    const filingYear     = deadlineYear - 1;
+    const filingYear     = deadlineYear + 1;
     const nextDeadline   = new Date(deadlineYear, DOLA_FILING_MONTH - 1, DOLA_FILING_DAY);
     const msPerDay       = 1000 * 60 * 60 * 24;
-    const daysUntil      = Math.ceil((nextDeadline - today) / msPerDay);
+    const daysUntil      = Math.ceil((nextDeadline - todayMidnight) / msPerDay);
 
     const pad = (n) => String(n).padStart(2, '0');
     const isoDate = `${deadlineYear}-${pad(DOLA_FILING_MONTH)}-${pad(DOLA_FILING_DAY)}`;
@@ -178,13 +192,13 @@
     const trajectory = calculateComplianceTrajectory(baseline, actuals, currentYear);
     const { targets, trendLine } = trajectory;
 
-    // Extend labels 3 years into the future for projection
+    // Extend labels to the end of the 2024–2026 cycle; HB26-1313 sets
+    // later goals from building permits, so none is projected past it.
     const labels       = [...years];
     const targetSeries = [...targets];
-    for (let i = 1; i <= 3; i++) {
-      const futureYear = currentYear + i;
+    for (let futureYear = currentYear + 1; futureYear <= PROP123_FIRST_CYCLE_END; futureYear++) {
       labels.push(futureYear);
-      targetSeries.push(Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, futureYear - PROP123_EFFECTIVE_YEAR)));
+      targetSeries.push(cycleTarget(baseline, futureYear - PROP123_EFFECTIVE_YEAR));
     }
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -201,7 +215,7 @@
         labels,
         datasets: [
           {
-            label: 'Required Target (3%/yr)',
+            label: 'Goal (3% of baseline per year, 2024–2026)',
             data: targetSeries,
             borderColor: '#ef4444',
             backgroundColor: 'transparent',
@@ -211,7 +225,7 @@
           },
           {
             label: 'Actual Units',
-            data: [...trendLine, ...Array(3).fill(null)],
+            data: [...trendLine, ...Array(labels.length - trendLine.length).fill(null)],
             borderColor: '#22c55e',
             backgroundColor: 'rgba(34,197,94,0.12)',
             fill: false,
@@ -262,7 +276,7 @@
     iconSpan.setAttribute('aria-hidden', 'true');
     iconSpan.textContent = icon + ' ';
     const textSpan = document.createElement('span');
-    textSpan.textContent = `DOLA Report for ${info.filingYear}: ${statusTx}`;
+    textSpan.textContent = `Prop 123 commitment covering ${info.filingYear} on: ${statusTx}`;
     badge.appendChild(iconSpan);
     badge.appendChild(textSpan);
     el.appendChild(badge);
@@ -277,5 +291,8 @@
     renderDolaFilingStatus,
     PROP123_EFFECTIVE_YEAR,
     PROP123_GROWTH_RATE,
+    PROP123_FIRST_CYCLE_END,
+    DOLA_FILING_MONTH,
+    DOLA_FILING_DAY,
   };
 })();

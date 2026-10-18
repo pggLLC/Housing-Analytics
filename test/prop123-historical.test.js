@@ -1,9 +1,8 @@
 // test/prop123-historical.test.js
 //
 // Unit tests for Phase 3 Prop 123 historical compliance tracking functions.
-// Functions are re-implemented here (they live inside an IIFE in the browser JS
-// and in the prop123-historical-tracker.js module) to validate correctness
-// independently of the browser environment.
+// The browser modules are loaded in a vm sandbox (see loadBrowserModule), so
+// the behavior tests below run the shipped functions.
 //
 // Usage:
 //   node test/prop123-historical.test.js
@@ -40,132 +39,21 @@ function test(name, fn) {
   }
 }
 
-// ── Re-implemented helpers (mirror js/prop123-historical-tracker.js) ──────────
-
-const PROP123_EFFECTIVE_YEAR = 2023;
-const PROP123_GROWTH_RATE    = 0.03;
-const DOLA_FILING_MONTH      = 1;   // January
-const DOLA_FILING_DAY        = 31;
-
-function calculateComplianceTrajectory(baseline, actuals, currentYear) {
-  if (!Number.isFinite(baseline) || baseline <= 0) {
-    return { onTrack: null, yearsAhead: 0, yearsOffTargetCount: 0, gapAtCurrentYear: 0, trendLine: [], targets: [] };
-  }
-
-  const startYear    = PROP123_EFFECTIVE_YEAR;
-  const totalYears   = currentYear - startYear + 1;
-  const targets      = [];
-  const trendLine    = [];
-  let yearsOffCount  = 0;
-  let lastKnownActual = baseline;
-
-  for (let i = 0; i < totalYears; i++) {
-    const target = Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, i));
-    targets.push(target);
-
-    const actual = (actuals && i < actuals.length) ? actuals[i] : null;
-    if (actual !== null && Number.isFinite(actual)) {
-      lastKnownActual = actual;
-      trendLine.push(actual);
-      if (actual < target) yearsOffCount++;
-    } else {
-      trendLine.push(null);
-    }
-  }
-
-  const latestTarget       = targets[totalYears - 1];
-  const gapAtCurrentYear   = latestTarget - lastKnownActual;
-  const onTrack            = gapAtCurrentYear <= 0;
-
-  const yearsAhead = gapAtCurrentYear <= 0
-    ? Math.floor(Math.log(lastKnownActual / latestTarget) / Math.log(1 + PROP123_GROWTH_RATE))
-    : -Math.ceil(Math.log(latestTarget / lastKnownActual) / Math.log(1 + PROP123_GROWTH_RATE));
-
-  return { onTrack, yearsAhead, yearsOffTargetCount: yearsOffCount, gapAtCurrentYear, trendLine, targets };
+// ── The real modules, loaded in a sandbox ─────────────────────────────────────
+// Both are browser IIFEs that attach to window; vm runs them as the page does,
+// so these tests exercise the shipped code rather than a copy of it.
+const vm = require('vm');
+function loadBrowserModule(rel, extra) {
+  const ctx = Object.assign({ console, URLSearchParams, location: { search: '' } }, extra || {});
+  ctx.window = ctx;
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(ROOT, rel), 'utf8'), ctx, { filename: rel });
+  return ctx;
 }
-
-function getDolaFilingDeadlines() {
-  const today = new Date();
-  const year  = today.getFullYear();
-
-  const deadlineThisYear = new Date(year, DOLA_FILING_MONTH - 1, DOLA_FILING_DAY);
-  const isPastDeadline   = today > deadlineThisYear;
-
-  const deadlineYear = isPastDeadline ? year + 1 : year;
-  const filingYear   = deadlineYear - 1;
-  const nextDeadline = new Date(deadlineYear, DOLA_FILING_MONTH - 1, DOLA_FILING_DAY);
-  const msPerDay     = 1000 * 60 * 60 * 24;
-  const daysUntil    = Math.ceil((nextDeadline - today) / msPerDay);
-
-  const pad     = (n) => String(n).padStart(2, '0');
-  const isoDate = `${deadlineYear}-${pad(DOLA_FILING_MONTH)}-${pad(DOLA_FILING_DAY)}`;
-
-  return { nextDeadline: isoDate, filed: false, filingYear, daysUntilDeadline: daysUntil };
-}
-
-function calculateFastTrackTimeline(projectUnits, ami_pct, jurisdiction_type) {
-  const units  = Number(projectUnits);
-  const ami    = Number(ami_pct);
-
-  const standardDays  = 270;
-  const fastTrackDays = 60;
-
-  const conditions = [];
-  let eligible = true;
-
-  if (!Number.isFinite(ami) || ami > 60) {
-    eligible = false;
-    conditions.push('Project must serve households at 60% AMI or below');
-  } else {
-    conditions.push('✅ 60% AMI or below — meets income targeting requirement');
-  }
-
-  if (!Number.isFinite(units) || units < 1) {
-    eligible = false;
-    conditions.push('At least 1 affordable unit required');
-  } else {
-    conditions.push(`✅ ${units} unit(s) proposed`);
-  }
-
-  const eligibleTypes = ['county', 'place'];
-  if (!eligibleTypes.includes(jurisdiction_type)) {
-    eligible = false;
-    conditions.push('Jurisdiction must be a county or incorporated municipality with a filed commitment');
-  } else {
-    conditions.push('✅ Eligible jurisdiction type (' + jurisdiction_type + ')');
-  }
-
-  conditions.push('Must provide proper advance notice to DOLA (per statute)');
-  conditions.push('Must comply with DOLA expedited process guidance');
-
-  const savedDays   = standardDays - fastTrackDays;
-  const savedMonths = Math.round(savedDays / 30);
-  const savings     = savedMonths + ' month' + (savedMonths !== 1 ? 's' : '');
-
-  return { standardDays, fastTrackDays, timelineSavings: savings, eligible, conditions };
-}
-
-function generateComplianceReport(rows) {
-  if (!Array.isArray(rows) || rows.length === 0) return '';
-
-  const headers = ['geoid', 'name', 'population', 'baseline', 'current', 'target', 'pct_complete', 'status', 'last_filed'];
-  const escape  = (v) => {
-    const s = String(v == null ? '' : v);
-    return s.includes(',') || s.includes('"') || s.includes('\n')
-      ? '"' + s.replace(/"/g, '""') + '"'
-      : s;
-  };
-
-  const lines = [headers.join(',')];
-  rows.forEach((r) => {
-    lines.push([
-      r.geoid, r.name, r.population,
-      r.baseline, r.current, r.target,
-      r.pctComplete, r.status, r.lastFiled,
-    ].map(escape).join(','));
-  });
-  return lines.join('\n');
-}
+const Tracker = loadBrowserModule('js/prop123-historical-tracker.js').Prop123Tracker;
+const Utils   = loadBrowserModule('js/hna/hna-utils.js').HNAUtils;
+const { calculateComplianceTrajectory, getDolaFilingDeadlines } = Tracker;
+const { calculateFastTrackTimeline, generateComplianceReport } = Utils;
 
 // ── Tests ──────────────────────────────────────────────────────────────────────
 //
@@ -254,98 +142,84 @@ test('compliance-dashboard.html is retired and redirects to the Data Trust Cente
 // compliance-dashboard.html was retired in #1349 and is a redirect stub that
 // loads no stylesheet, so those 244 lines could not reach a viewer.
 
+// The 2024–2026 goal is 3% of the baseline per year in new or newly
+// affordable homes — simple, not compound — and stops at 2026, because
+// HB26-1313 sets later goals from building permits (C.R.S. § 29-32-105(1)).
 test('calculateComplianceTrajectory: on-track baseline 1000', () => {
-  // Baseline 1000 → on-track at year 1 (actual = 1030)
   const result = calculateComplianceTrajectory(1000, [1000, 1030], 2024);
   assert(result.targets[0] === 1000,  'year 0 target = 1000');
-  assert(result.targets[1] === 1030,  'year 1 target = 1030 (3%)');
+  assert(result.targets[1] === 1030,  'year 1 target = 1030 (3% of baseline)');
   assert(result.onTrack    === true,   'on-track: actual >= target');
-  assert(result.trendLine[0] === 1000, 'trendLine[0] = 1000');
   assert(result.trendLine[1] === 1030, 'trendLine[1] = 1030');
   assert(result.yearsOffTargetCount === 0, 'no years off target');
 });
 
-test('calculateComplianceTrajectory: off-track scenario', () => {
-  // Baseline 1000; actuals 1000 → 1000 → 1025 (need 1061 by 2025)
+test('calculateComplianceTrajectory: the goal is simple, not compound', () => {
   const result = calculateComplianceTrajectory(1000, [1000, 1000, 1025], 2025);
+  assert(result.targets[2] === 1060, 'year 2 target = 1060 (6% of baseline, not 1.03^2)');
   assert(result.onTrack === false, 'off-track: actual < target');
-  assert(result.gapAtCurrentYear > 0, 'gap is positive (behind)');
-  // target at year 2 (2025) = round(1000 * 1.03^2) = round(1060.9) = 1061
-  assert(result.targets[2] === 1061, 'year 2 target = 1061');
-  assert(result.gapAtCurrentYear === 1061 - 1025, 'gap = 36 units');
-  assert(result.yearsOffTargetCount === 2, 'two years off target (year 1: 1000 < 1030; year 2: 1025 < 1061)');
+  assert(result.gapAtCurrentYear === 1060 - 1025, 'gap = 35 units');
+  assert(result.yearsOffTargetCount === 2, 'two years off target');
+  assert(result.yearsAhead === -2, 'behind by two years of the goal (35 units at 30 a year)');
+});
+
+test('calculateComplianceTrajectory: no goal is projected past 2026', () => {
+  const result = calculateComplianceTrajectory(1000, [1000], 2028);
+  assert(result.targets.length === 4, 'targets cover 2023–2026 only: ' + result.targets.length);
+  assert(result.targets[3] === 1090, '2026 target = 1090 (9% over the cycle)');
 });
 
 test('calculateComplianceTrajectory: null baseline returns safe defaults', () => {
   const r = calculateComplianceTrajectory(null, [], 2025);
   assert(r.onTrack  === null, 'null baseline → onTrack = null');
   assert(r.targets.length === 0, 'empty targets');
-  assert(r.trendLine.length === 0, 'empty trendLine');
 });
 
 test('calculateComplianceTrajectory: missing actuals treated as null', () => {
-  // Only one actual provided for year 2023; 2024 and 2025 are unknown
   const result = calculateComplianceTrajectory(500, [500], 2025);
-  assert(result.trendLine[0] === 500,  'year 0 actual = 500');
   assert(result.trendLine[1] === null, 'year 1 actual = null (unknown)');
-  assert(result.trendLine[2] === null, 'year 2 actual = null (unknown)');
-  // last known actual = 500, but target for 2025 = round(500 * 1.03^2) = round(530.45) = 530
   assert(result.gapAtCurrentYear === 30, 'gap = 530 - 500 = 30');
 });
 
-test('getDolaFilingDeadlines: deadline is Jan 31', () => {
-  const info = getDolaFilingDeadlines();
-  assert(info.nextDeadline.endsWith('-01-31'), 'deadline is January 31');
-  assert(typeof info.filingYear === 'number', 'filingYear is a number');
-  assert(info.filed === false, 'filed is always false (runtime has no registry)');
-  assert(Number.isFinite(info.daysUntilDeadline), 'daysUntilDeadline is finite');
+test('getDolaFilingDeadlines: commitments are due November 1, as the checklist says', () => {
+  const CC = require(path.join(ROOT, 'js', 'compliance-checklist.js'));
+  const oct = getDolaFilingDeadlines(new Date(2026, 9, 18));
+  assert(oct.nextDeadline === '2026-11-01', 'Oct 18, 2026 → due 2026-11-01: ' + oct.nextDeadline);
+  assert(oct.filingYear === 2027, 'that filing covers the cycle from 2027');
+  assert(oct.daysUntilDeadline === 14, '14 days to go: ' + oct.daysUntilDeadline);
+  const cc = CC._nextDolaDeadline(new Date(2026, 9, 18));
+  assert(cc.getMonth() + 1 === Number(oct.nextDeadline.slice(5, 7)) && cc.getDate() === Number(oct.nextDeadline.slice(8)),
+    'the checklist module and the tracker badge give the same deadline');
+  const nov = getDolaFilingDeadlines(new Date(2026, 10, 2));
+  assert(nov.nextDeadline === '2027-11-01' && nov.filingYear === 2028, 'after Nov 1, 2026 → due 2027-11-01, covering 2028 on');
+  assert(getDolaFilingDeadlines(new Date(2026, 10, 1, 15)).nextDeadline === '2026-11-01', 'no rollover on Nov 1 itself');
+  assert(oct.filed === false, 'filed is always false (runtime has no registry)');
 });
 
-test('getDolaFilingDeadlines: filing year is current or prior year', () => {
-  const info      = getDolaFilingDeadlines();
-  const thisYear  = new Date().getFullYear();
-  const today     = new Date();
-  const deadlineThisYear = new Date(thisYear, 0, 31);   // Jan 31 this year
-  const isPast    = today > deadlineThisYear;
-
-  if (isPast) {
-    assert(info.filingYear === thisYear, 'past Jan 31: filing year = current year');
-  } else {
-    assert(info.filingYear === thisYear - 1, 'before Jan 31: filing year = previous year');
-  }
+test('calculateFastTrackTimeline: qualifies when at least half the homes are affordable', () => {
+  const r = calculateFastTrackTimeline(20, 10, 'county');
+  assert(r.eligible === true, '10 of 20 affordable → qualifies');
+  assert(r.fastTrackDays === 90, 'decision within 90 calendar days, § 29-32-105(2)(a)');
+  assert(r.standardDays === null && r.timelineSavings === null,
+    'no standard review time or savings figure: the law sets none');
 });
 
-test('calculateFastTrackTimeline: eligible project (60% AMI, county)', () => {
-  const r = calculateFastTrackTimeline(20, 60, 'county');
-  assert(r.eligible === true, '20 units, 60% AMI, county → eligible');
-  assert(r.standardDays  === 270, 'standard = 270 days');
-  assert(r.fastTrackDays === 60,  'fast-track = 60 days');
-  const savedMonths = Math.round((270 - 60) / 30);
-  assert(r.timelineSavings === savedMonths + ' months', 'savings = ~7 months');
-  assert(r.conditions.some(c => c.startsWith('✅ 60%')), 'AMI condition met');
+test('calculateFastTrackTimeline: under half affordable does not qualify', () => {
+  const r = calculateFastTrackTimeline(20, 9, 'place');
+  assert(r.eligible === false, '9 of 20 affordable → does not qualify');
+  assert(r.conditions.some(c => c.includes('at least half')), 'says why');
 });
 
-test('calculateFastTrackTimeline: ineligible — too high AMI', () => {
-  const r = calculateFastTrackTimeline(10, 80, 'place');
-  assert(r.eligible === false, '80% AMI → not eligible');
-  assert(r.conditions.some(c => c.includes('60% AMI')), 'AMI condition listed');
+test('calculateFastTrackTimeline: a CDP project qualifies under its county', () => {
+  const r = calculateFastTrackTimeline(5, 5, 'cdp');
+  assert(r.eligible === true, 'CDP projects are not excluded');
+  assert(r.conditions.some(c => /county reviews/.test(c)), 'the county reviews it');
 });
 
-test('calculateFastTrackTimeline: ineligible — CDP type', () => {
-  const r = calculateFastTrackTimeline(5, 50, 'cdp');
-  assert(r.eligible === false, 'CDP type → not eligible');
-});
-
-test('calculateFastTrackTimeline: ineligible — zero units', () => {
-  const r = calculateFastTrackTimeline(0, 60, 'county');
-  assert(r.eligible === false, '0 units → not eligible');
-});
-
-test('calculateFastTrackTimeline: fast-track is always faster than standard', () => {
-  [['county', 60], ['place', 40], ['county', 30]].forEach(([jt, ami]) => {
-    const r = calculateFastTrackTimeline(10, ami, jt);
-    assert(r.fastTrackDays < r.standardDays, `fast-track (${r.fastTrackDays}) < standard (${r.standardDays}) for ${jt}/${ami}%`);
-  });
+test('calculateFastTrackTimeline: missing inputs give no verdict', () => {
+  assert(calculateFastTrackTimeline(0, 0, 'county').eligible === null, '0 homes → null, not a verdict');
+  assert(calculateFastTrackTimeline(10, NaN, 'county').eligible === null, 'no affordable count → null');
+  assert(calculateFastTrackTimeline(10, 11, 'county').eligible === null, 'more affordable than total → null');
 });
 
 test('generateComplianceReport: produces valid CSV', () => {

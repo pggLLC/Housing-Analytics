@@ -170,7 +170,6 @@
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- Shared Prop 123 jurisdiction loader/lookup; the map-specific initializer
        exits on this page, while HNA reuses its cached policy-data path. -->
-  <script defer src="js/prop123-map.js"></script>
   <!-- HNA modules — load order: projection presets/storage/model → utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/format-money.js"></script>
   <script defer src="js/utils/data-quality.js"></script>
@@ -263,7 +262,7 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
-<!-- [hna-view] not loaded here: js/transit-zone.js -->
+<!-- [hna-view] not loaded here: js/prop123-map.js, js/transit-zone.js -->
 <script>window.HNA_VIEW={"id": "stock", "nav": "What housing exists", "question": "What housing is here, and what shape is it in?", "slug": "hna-what-housing-exists.html"};window.HNA_VIEW_ANCHORS={"affordable-ownership-need-section": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-update-key="hna"
@@ -953,9 +952,9 @@
 <!-- [hna-view:stock] not on this view: Economic Indicators -->
 
 
-      <!-- Prop 123 / HB 22-1093 Compliance -->
+      <!-- Prop 123 (C.R.S. 29-32) Compliance -->
       
-<!-- [hna-view:stock] not on this view: Affordable Housing Compliance (HB 22-1093 / Prop 123) -->
+<!-- [hna-view:stock] not on this view: Affordable Housing Compliance (Proposition 123) -->
 
 
       <!-- ── PMA → Market Analysis redirect ── -->

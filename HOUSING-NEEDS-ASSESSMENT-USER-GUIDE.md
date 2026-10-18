@@ -19,7 +19,7 @@
    - 3.7 [Scenario-Based Projections (5–10 Year Horizon)](#37-scenario-based-projections-510-year-horizon)
    - 3.8 [Labor Market Context](#38-labor-market-context)
    - 3.9 [Economic Indicators](#39-economic-indicators)
-   - 3.10 [Prop 123 / HB 22-1093 Compliance Tracking](#310-prop-123--hb-22-1093-compliance-tracking)
+   - 3.10 [Prop 123 Compliance Tracking](#310-prop-123-compliance-tracking)
 4. [How to Use Scenario Projections](#4-how-to-use-scenario-projections)
 5. [Prop 123 Compliance Tracking Workflow](#5-prop-123-compliance-tracking-workflow)
 6. [Municipal-Level Assessments](#6-municipal-level-assessments)
@@ -36,7 +36,7 @@ The Housing Needs Assessment (HNA) tool is an interactive, data-driven dashboard
 
 1. **How many housing units does a jurisdiction need** over a 5–20 year horizon?
 2. **Who is being left behind** in affordability (by income tier, tenure, age)?
-3. **Is the jurisdiction on track** with Prop 123 / HB 22-1093 affordable housing commitments?
+3. **Is the jurisdiction on track** with Prop 123 affordable housing commitments (C.R.S. §§ 29-32-101 to -106)?
 
 The tool aggregates data from five primary sources:
 - **U.S. Census Bureau ACS 5-Year Estimates** (population, households, housing stock, income, commuting)
@@ -205,18 +205,18 @@ See [Section 4 — How to Use Scenario Projections](#4-how-to-use-scenario-proje
 - **Industry Analysis** — Employment composition by major sector
 - **Wage Gaps** — Comparison of median wages across income quartiles
 
-### 3.10 Prop 123 / HB 22-1093 Compliance Tracking
+### 3.10 Prop 123 Compliance Tracking
 
 See [Section 5 — Prop 123 Compliance Tracking Workflow](#5-prop-123-compliance-tracking-workflow) for the complete workflow.
 
 **Components:**
-- **Eligibility check** — Is the jurisdiction eligible to opt in? (Municipalities ≥1,000 population; counties ≥5,000 population)
-- **Baseline (60% AMI rentals)** — Current count of units at or below 60% AMI
-- **3% Annual Growth Target** — Progress toward the required 3% annual increase
-- **Fast-Track Approval Eligibility** — Streamlined permitting for qualifying affordable projects
-- **Historical Compliance Chart** — Year-over-year tracking against 3% target
-- **Fast-Track Timeline Calculator** — Estimates months to approval under fast-track vs. standard review
-- **Compliance Checklist** — Five-step checklist for annual DOLA filing
+- **Filing relationship** — DOLA's record for the jurisdiction: 2024–2026 commitment status, fast-track designation, and any 2027–2029 filing. An unincorporated area (CDP) shows its county's record.
+- **Baseline estimate** — A rough proxy (about 6% of all housing units), not DOLA's count
+- **2024–2026 unit goal** — 3% of baseline per year, simple, 9% over the cycle
+- **Fast-track review** — Required of committed local governments from January 1, 2027
+- **Historical Compliance Chart** — Tracking against the 2024–2026 goal
+- **Fast-track check** — Whether a project meets the test (at least half its homes affordable)
+- **Compliance Checklist** — Five-step checklist for the cycle commitment
 
 ---
 
@@ -288,50 +288,38 @@ This lets you compare your custom assumptions directly against the standard scen
 
 ## 5. Prop 123 Compliance Tracking Workflow
 
-Proposition 123 (HB 22-1093) requires participating jurisdictions to commit to a 3% annual increase in affordable rental units (at or below 60% AMI) and to implement fast-track permitting for qualifying projects.
+Proposition 123 (C.R.S. §§ 29-32-101 to -106, amended by HB26-1313) makes state affordable-housing funding available to local governments that file a commitment with DOLA to increase affordable housing and that adopt fast-track review. Filing is voluntary, and there is no population threshold: any county or municipality may file. An unincorporated area (CDP) is covered by its county's commitment (§ 29-32-105(1)(b)).
 
-### Eligibility Check
+### Cycle Workflow
 
-The tool automatically evaluates eligibility:
-- **Municipalities ≥1,000 population** — eligible
-- **Counties ≥5,000 population** — eligible
-- Below these thresholds — not required to participate
+1. **Establish Baseline (2024–2026 cycle)** — Homes affordable to renters at or below 60% AMI and to buyers at or below 100% AMI, counted from 2017–2021 ACS, HUD CHAS or DOLA's baseline tool. The panel's figure is only a rough proxy (about 6% of all housing units); verify against DOLA's numbers.
 
-### Annual Compliance Workflow
+2. **Commit to a Unit Goal** — For 2024–2026 the goal is 3% of the baseline per year, simple, so 9% over the cycle: `goal = baseline × (1 + 0.03 × years)`, with years capped at 3. From the 2027–2029 cycle the goal is set from recent building permits instead (HB26-1313).
 
-1. **Establish Baseline** — Document the current number of units affordable to households at ≤60% AMI. This becomes the denominator for the 3% growth target.
+3. **Adopt Fast-Track Review** — A project qualifies when at least half its homes are affordable (rentals at or below 60% AMI, for-sale at or below 100% AMI), and gets a final decision within 90 calendar days of a complete application (§ 29-32-105(2)(a)). Committed local governments must have it in place by January 1, 2027.
 
-2. **Set 3% Annual Growth Target** — The tool calculates `target_units = baseline × 1.03^years`. Track actual affordable unit additions against this trajectory.
+4. **File the Commitment with DOLA** — **Deadline: November 1** before the cycle it covers (November 1, 2026 for 2027–2029), at [DOLA Commitment Filings](https://cdola.colorado.gov/commitment-filings). Missing it makes the jurisdiction ineligible for the following year's funding; there is no repayment.
 
-3. **Review Fast-Track Eligibility** — Use the **Fast-Track Approval Timeline Calculator**:
-   - Enter the project's number of affordable units and income level
-   - Click **Calculate** to see estimated review timeline (standard vs. fast-track)
-   - Fast-track qualification requires: ≥10% units at ≤60% AMI *or* 100% at ≤80% AMI
-
-4. **File Annual Notice with DOLA** — **Deadline: January 31 each year**
-   - Submit commitment notice at [DOLA Commitment Filings Portal](https://cdola.colorado.gov/commitment-filings)
-   - Report actual unit counts and progress toward 3% target
-
-5. **Annual Reporting** — File the full annual report with DOLA by the filing deadline
+5. **Report Progress** — Report to DOLA by the end of each cycle.
 
 ### Compliance Checklist
 
 The five-item checklist in the tool tracks:
-- [ ] Establish baseline (60% AMI rentals documented)
-- [ ] Adopt 3% annual growth target
-- [ ] Document fast-track approval process
-- [ ] File notice with DOLA (annual deadline: January 31)
-- [ ] Annual reporting filed with DOLA
+- [ ] Establish baseline (2024–2026 cycle)
+- [ ] Commit to a unit goal
+- [ ] Adopt fast-track review (90-day decision)
+- [ ] File commitment with DOLA (deadline: November 1)
+- [ ] Report progress to DOLA by the end of the cycle
 
 #### Checking Off Items & Progress Tracking
 
-**Automatic item detection:** Items 1–3 (baseline, growth target, fast-track) are automatically checked when the tool detects sufficient data from ACS. Items 4–5 (DOLA filing and annual reporting) require manual confirmation, since they are administrative actions taken outside this tool.
+**Automatic item detection:** Items 1–3 (baseline, growth target, fast-track) are automatically checked when the tool detects sufficient data from ACS. Items 4–5 (DOLA filing and cycle reporting) require manual confirmation, since they are administrative actions taken outside this tool.
 
 **Persistent state:** Checkbox states are saved to your browser's local storage by geography (county or municipality). Your progress persists across page refreshes and browser sessions. Each checked item shows a completion timestamp (e.g., "Completed Mar 8, 2026").
 
-**Deadline warnings:** When the DOLA filing deadline (January 31) is within 30 days, item 4 displays an orange ⚠️ warning with the exact deadline date.
+**Deadline warnings:** When the DOLA filing deadline (November 1) is within 30 days, item 4 displays an orange ⚠️ warning with the exact deadline date.
 
-**Screen reader support:** The checklist includes an ARIA live region. Whenever the state changes, a status message (e.g., "Adopt 3% annual growth target") is announced to screen readers automatically.
+**Screen reader support:** The checklist includes an ARIA live region. Whenever the state changes, a status message (e.g., "Commit to a unit goal") is announced to screen readers automatically.
 
 **Cross-tab synchronization:** If you have the Compliance Dashboard open in another tab, it will receive the same state updates automatically via the browser `storage` event.
 
@@ -341,7 +329,7 @@ To undo a checked item, simply uncheck it. The completion timestamp is cleared a
 
 #### Data Isolation
 
-Each county or municipality has its own independent checklist stored under a namespaced localStorage key (e.g., `hna_compliance_county_08031`). Switching geographies loads that geography's saved state.
+Each county or municipality has its own independent checklist stored under a namespaced localStorage key (e.g., `hna_compliance_v2_county_08031`; the version was added in October 2026 when every item was redefined to match the law, so boxes ticked before then start unchecked). Switching geographies loads that geography's saved state.
 
 ### Viewing the Full Compliance Dashboard
 
@@ -386,7 +374,6 @@ If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, thos
 | No DOLA municipal-level projections | Less accurate long-run forecasts | Cross-check with local housing element data |
 | Headship rate estimated from ACS 5-year | Less precise for small municipalities | Use ACS 1-year if available |
 | LEHD WAC data aggregated to county | Job counts are workplace-area estimates | Note in reports as "county workplace area" |
-| Prop 123 eligibility uses ACS population | Small error for rapidly growing places | Verify against DOLA OFM population estimates |
 
 ---
 

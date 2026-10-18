@@ -1,7 +1,8 @@
 // test/prop123.test.js
 //
-// Unit tests for Prop 123 / HB 22-1093 calculation helpers defined in
-// js/hna/* modules.
+// Unit tests for Prop 123 (C.R.S. 29-32) calculation helpers defined in
+// js/hna/* modules. The Prop 123 rules run against the shipped hna-utils.js;
+// the labor-market helpers below are still re-implemented copies.
 //
 // Because the helpers are defined inside an IIFE (immediately invoked function
 // expression) in the browser JS file, this test file re-implements the same
@@ -45,10 +46,6 @@ function test(name, fn) {
 
 // ── Re-implemented calculation helpers (mirrors js/hna/* modules) ──
 
-const PROP123_GROWTH_RATE             = 0.03;
-const PROP123_MUNICIPALITY_THRESHOLD  = 1000;
-const PROP123_COUNTY_THRESHOLD        = 5000;
-
 const NAICS_LABELS = {
   CNS01: 'Agriculture & Forestry',   CNS02: 'Mining & Oil/Gas',
   CNS03: 'Utilities',                CNS04: 'Construction',
@@ -62,36 +59,14 @@ const NAICS_LABELS = {
   CNS19: 'Other Services',           CNS20: 'Public Administration',
 };
 
-function calculateGrowthTarget(baseline, yearsAhead) {
-  if (!Number.isFinite(baseline) || baseline <= 0) return 0;
-  yearsAhead = Number.isFinite(yearsAhead) ? yearsAhead : 0;
-  return Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsAhead));
-}
-
-function checkFastTrackEligibility(population, geoType) {
-  const pop = Number(population);
-  if (!Number.isFinite(pop) || pop <= 0) {
-    return { eligible: null, threshold: null, reason: 'Population data unavailable' };
-  }
-  // CDPs are unincorporated areas and not eligible jurisdictions under HB 22-1093
-  if (geoType === 'cdp') {
-    return {
-      eligible:  false,
-      threshold: null,
-      reason:    'Census-Designated Places (unincorporated areas) are not eligible jurisdictions under HB 22-1093',
-    };
-  }
-  const isCounty  = geoType === 'county';
-  const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
-  const eligible  = pop >= threshold;
-  return {
-    eligible,
-    threshold,
-    reason: eligible
-      ? `Population (${pop.toLocaleString()}) meets the ${threshold.toLocaleString()} threshold`
-      : `Population (${pop.toLocaleString()}) below the ${threshold.toLocaleString()} minimum`,
-  };
-}
+// The Prop 123 rules are tested against the shipped hna-utils.js, loaded in a
+// vm sandbox the way the page runs it — not against a copy kept here.
+const vm = require('vm');
+const utilsCtx = { console, URLSearchParams, location: { search: '' } };
+utilsCtx.window = utilsCtx;
+vm.createContext(utilsCtx);
+vm.runInContext(fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-utils.js'), 'utf8'), utilsCtx);
+const { calculateGrowthTarget, checkFastTrackEligibility } = utilsCtx.HNAUtils;
 
 function calculateBaseline(profile) {
   if (!profile) return null;
@@ -185,49 +160,37 @@ test('housing-needs-assessment.html contains new sections', () => {
   assert(html.includes('id="prop123Checklist"'),       'Compliance checklist present');
 });
 
-test('calculateGrowthTarget: applies 3% annual compound growth', () => {
+// 2024–2026: 3% of the baseline per year, simple not compound, capped at the
+// cycle's three years (C.R.S. § 29-32-105(1)(a)); HB26-1313 sets later goals.
+test('calculateGrowthTarget: 3% of the baseline per year, not compound', () => {
   const baseline = 1000;
   assert(calculateGrowthTarget(baseline, 0) === 1000, 'year 0 = baseline');
-  assert(calculateGrowthTarget(baseline, 1) === 1030, 'year 1 = 1030 (3% up)');
-  assert(calculateGrowthTarget(baseline, 2) === 1061, 'year 2 = 1061 (3% compound)');
-  assert(calculateGrowthTarget(baseline, 5) === Math.round(1000 * Math.pow(1.03, 5)), 'year 5 compound');
+  assert(calculateGrowthTarget(baseline, 1) === 1030, 'year 1 = 1030');
+  assert(calculateGrowthTarget(baseline, 2) === 1060, 'year 2 = 1060, not 1061 (compound)');
+  assert(calculateGrowthTarget(baseline, 3) === 1090, 'year 3 = 1090 (9% over the cycle)');
+  assert(calculateGrowthTarget(baseline, 5) === 1090, 'no goal past the 2024–2026 cycle');
 });
 
-test('calculateGrowthTarget: handles edge cases', () => {
-  assert(calculateGrowthTarget(0, 3)   === 0, 'zero baseline → 0');
-  assert(calculateGrowthTarget(-100, 1) === 0, 'negative baseline → 0');
-  assert(calculateGrowthTarget(null, 1) === 0, 'null baseline → 0');
-  assert(calculateGrowthTarget(500, 0)  === 500, 'zero years ahead = baseline');
+test('calculateGrowthTarget: no baseline means no target', () => {
+  assert(calculateGrowthTarget(0, 3)   === null, 'zero baseline → null');
+  assert(calculateGrowthTarget(-100, 1) === null, 'negative baseline → null');
+  assert(calculateGrowthTarget(null, 1) === null, 'null baseline → null');
 });
 
-test('checkFastTrackEligibility: county threshold is 5,000', () => {
-  const above = checkFastTrackEligibility(10000, 'county');
-  assert(above.eligible === true, 'county 10k is eligible');
-  assert(above.threshold === 5000, 'county threshold is 5000');
-
-  const below = checkFastTrackEligibility(4999, 'county');
-  assert(below.eligible === false, 'county 4999 is not eligible');
+// The law sets no population threshold for filing or for fast-track review,
+// and a CDP is covered by its county (C.R.S. § 29-32-105(1)(b), (2)).
+test('checkFastTrackEligibility: no population threshold', () => {
+  [[1, 'place'], [999, 'place'], [4999, 'county'], [null, 'county']].forEach(([pop, gt]) => {
+    const r = checkFastTrackEligibility(pop, gt);
+    assert(r.eligible === true && r.threshold === null, `${gt} of ${pop} people: applies, no threshold`);
+  });
 });
 
-test('checkFastTrackEligibility: municipality threshold is 1,000', () => {
-  const above = checkFastTrackEligibility(1500, 'place');
-  assert(above.eligible === true, 'place 1500 is eligible');
-  assert(above.threshold === 1000, 'place threshold is 1000');
-
-  const below = checkFastTrackEligibility(999, 'place');
-  assert(below.eligible === false, 'place 999 is not eligible');
-
+test('checkFastTrackEligibility: a CDP is covered by its county', () => {
   const cdp = checkFastTrackEligibility(2000, 'cdp');
-  assert(cdp.eligible === false, 'CDP is never eligible — unincorporated areas excluded by HB 22-1093');
-  assert(cdp.threshold === null, 'CDP has no population threshold');
-});
-
-test('checkFastTrackEligibility: missing population returns null eligible', () => {
-  const r = checkFastTrackEligibility(null, 'county');
-  assert(r.eligible === null, 'null population → eligible is null');
-
-  const r2 = checkFastTrackEligibility(0, 'place');
-  assert(r2.eligible === null, 'zero population → eligible is null');
+  assert(cdp.eligible === true, 'CDP is not excluded');
+  assert(/county/i.test(cdp.reason), 'reason names the county');
+  assert(checkFastTrackEligibility(2000, undefined).eligible === null, 'unknown type → null');
 });
 
 test('calculateBaseline: returns correct fields from ACS profile', () => {

@@ -65,6 +65,51 @@ async function main() {
   assert.equal(absent.status, 'Not committed', 'absence means Not committed, never missing data');
   assert.equal(absent.fastTrack, 'Not committed', 'absence is explicit in the fast-track fact too');
 
+  // A CDP cannot file; its county's commitment covers it (C.R.S.
+  // § 29-32-105(1)(b)), so its status must equal the county's record.
+  const douglas = api.relationship(DATA, 'county', 'Douglas County');
+  const acresGreen = api.relationship(DATA, 'cdp', 'Acres Green (CDP)', 'Douglas County');
+  assert.equal(acresGreen.record, null, 'a CDP has no filing of its own');
+  assert.equal(acresGreen.coveredBy.name, douglas.record.name, 'a CDP is covered by its containing county');
+  assert.equal(acresGreen.status, douglas.status, 'a CDP shows its county\'s commitment status');
+  assert.equal(acresGreen.fastTrack, douglas.fastTrack, 'a CDP shows its county\'s fast-track designation');
+  const unknownCounty = api.relationship(DATA, 'cdp', 'Acres Green (CDP)', 'Nowhere County');
+  assert.equal(unknownCounty.status, 'Not committed', 'a county with no DOLA filing leaves the CDP Not committed');
+
+  // A CDP across a county line takes each county's record; where they
+  // differ the status says so instead of picking one county.
+  const columbine = api.relationship(DATA, 'cdp', 'Columbine (CDP)', ['Jefferson County', 'Arapahoe County']);
+  const jeffco = api.relationship(DATA, 'county', 'Jefferson County');
+  const arapahoe = api.relationship(DATA, 'county', 'Arapahoe County');
+  assert.equal(columbine.countyRecords.length, 2, 'a two-county CDP carries both county records');
+  assert.equal(columbine.fastTrack, jeffco.fastTrack === arapahoe.fastTrack ? jeffco.fastTrack : 'Depends on county',
+    'a two-county CDP never shows one county\'s fast-track designation for the whole area');
+
+  // The 2027–2029 filing comes from DOLA's next-cycle list, including
+  // filers with no 2024–2026 record.
+  DATA.next_cycle.filings.forEach((f) => {
+    const isCounty = /county/i.test(f.name) && !/city and county/i.test(f.name);
+    const label = isCounty ? f.name : f.name.replace(/^(City and County|City|Town) of /, '') + ' (place)';
+    const r = api.relationship(DATA, isCounty ? 'county' : 'place', label === 'Central (place)' ? 'Central City (city)' : label);
+    assert(r.nextCycle && r.nextCycle.filing, `${f.name}: its 2027–2029 filing is found`);
+    assert.equal(r.nextCycle.filing.submitted, f.submitted, `${f.name}: the filing date is DOLA's`);
+  });
+  assert.equal(api.relationship(DATA, 'place', 'Fruita (city)').nextCycle.filing, null, 'no 2027–2029 filing is invented');
+  (DATA.fast_track_without_cycle1_commitment || []).forEach((f) => {
+    const r = api.relationship(DATA, 'place', f.name.replace(/^(City|Town) of /, '') + ' (town)');
+    assert.equal(r.fastTrack, 'Yes', `${f.name}: a fast-track adoption without a 2024–2026 commitment still shows`);
+    assert.equal(r.status, 'Not committed', `${f.name}: its 2024–2026 status stays Not committed`);
+  });
+  assert((DATA.fast_track_without_cycle1_commitment || []).length > 0, 'the fast-track-only list is non-empty, so the check above ran');
+
+  // Every DOLA filing by a Colorado county or municipality matches a geography.
+  const geo = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/geo-config.json'), 'utf8'));
+  const matched = new Set();
+  geo.counties.forEach((c) => { const r = api.relationship(DATA, 'county', c.label); if (r.record) matched.add(r.record.name); });
+  geo.places.concat(geo.cdps || []).forEach((p) => { const r = api.relationship(DATA, p.type === 'cdp' ? 'cdp' : 'place', p.label); if (r.record) matched.add(r.record.name); });
+  const unmatched = DATA.jurisdictions.filter((j) => !matched.has(j.name) && !/tribe/i.test(j.name)).map((j) => j.name);
+  assert.deepEqual(unmatched, [], 'every county and municipal filing reaches a selectable geography');
+
   // The same-name guards are checked on synthetic filings: DOLA's real list
   // has no Glendale or Highlands Ranch filing (the hand-typed list before
   // 2026-10 invented both).
@@ -105,6 +150,30 @@ async function main() {
   assert(!rendered.includes('No data'), 'absent geography never renders as No data');
   assert(values.every((value) => value !== '—' && value !== ''), 'neither factual value renders as a dash or blank');
   assert(rendered.includes('not a ranking or recommendation'), 'relationship panel expressly disclaims ranking');
+
+  window.HNARenderers.renderProp123Relationship(acresGreen, 'Acres Green (CDP)', true);
+  const acresRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
+  assert.equal(relationshipEl.querySelector('.metric-value').textContent, douglas.status, 'rendered CDP status is the county\'s');
+  assert(acresRendered.includes('covered by ' + douglas.record.name), 'rendered CDP names the county whose commitment covers it');
+
+  window.HNARenderers.renderProp123Relationship(columbine, 'Columbine (CDP)', true);
+  const columbineRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
+  assert(columbineRendered.includes('Jefferson County') && columbineRendered.includes('Arapahoe County'), 'a two-county CDP names both counties');
+  // 2027–2029 across a county line: one answer only when the counties agree.
+  const jeffFiled = Object.assign({}, DATA, { next_cycle: Object.assign({}, DATA.next_cycle, {
+    filings: DATA.next_cycle.filings.concat([{ name: 'Jefferson County', submitted: '2026-10-15', unit_goal: 100 }]) }) });
+  const mixed = api.relationship(jeffFiled, 'cdp', 'Columbine (CDP)', ['Jefferson County', 'Arapahoe County']);
+  assert.equal(mixed.nextCycle.across, 'mixed', 'one county filed, one not: mixed');
+  window.HNARenderers.renderProp123Relationship(mixed, 'Columbine (CDP)', true);
+  const mixedValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
+  assert.equal(mixedValues[2], 'Depends on county', 'mixed next-cycle filings show Depends on county, not nothing');
+  assert(relationshipEl.textContent.includes('2027–2029 filed 2026-10-15') && relationshipEl.textContent.includes('2027–2029 not yet filed'),
+    'each county\'s 2027–2029 filing is listed');
+
+  const stratton = api.relationship(DATA, 'place', 'Stratton (town)');
+  window.HNARenderers.renderProp123Relationship(stratton, 'Stratton (town)', true);
+  const strattonValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
+  assert.equal(strattonValues[2], 'Filed ' + stratton.nextCycle.filing.submitted, 'a 2027–2029 filer shows its filing even with no 2024–2026 record');
 
   window.HNARenderers.renderProp123Relationship(highlandsRanch, 'Highlands Ranch (CDP)', true);
   const highlandsRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();

@@ -164,7 +164,8 @@ test('housing-needs-assessment.html has Labor Market and Prop 123 sections', () 
   assert(hnaHtml.includes('id="labor-market-section"'), 'Labor Market section present in HNA HTML');
   assert(hnaHtml.includes('id="prop123-section"'),       'Prop 123 section present in HNA HTML');
   assert(hnaHtml.includes('id="jobMetrics"'),            'jobMetrics container present in HNA HTML');
-  assert(hnaHtml.includes('HB 22-1093'),                 'HB 22-1093 referenced in HNA HTML');
+  assert(hnaHtml.includes('C.R.S. §§ 29-32-101 to -106'), 'Prop 123 cited to its statute, C.R.S. 29-32, in HNA HTML');
+  assert(!/22-1093/.test(hnaHtml),                       'HB22-1093 (a bingo bill) is not cited for Prop 123');
 });
 
 test('housing-needs-assessment.css has new section styles', () => {

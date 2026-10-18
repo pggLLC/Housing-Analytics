@@ -100,8 +100,10 @@ if (propBody) {
     'renderProp123Section references #chartProp123Growth');
   assert(propBody.includes('chartProp123Historical'),
     'renderProp123Section references #chartProp123Historical');
-  assert(/Math\.pow\(\s*1\.03/.test(propBody),
-    'renderProp123Section uses 3% annual growth (Math.pow(1.03, i))');
+  // The 2024–2026 goal is 3% of the baseline per year, simple not compound
+  // (C.R.S. § 29-32-105(1)(a)); the charts plot the shared rule.
+  assert(/calculateGrowthTarget/.test(propBody) && !/Math\.pow\(\s*1\.03/.test(propBody),
+    'renderProp123Section plots calculateGrowthTarget, not a compounding 1.03^n');
 }
 
 console.log('\n[test] All orphan IDs resolve in chart-id coherence check');
