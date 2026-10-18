@@ -107,7 +107,7 @@ check('USDA RD is in capital-partners', cp.partners.some(p => /USDA Rural Develo
 const ta = readJson('data/tax-abatement-inventory.json');
 check('tax-abatement-inventory.json present (F141)', !!ta.jurisdictions);
 check('tax-abatement covers 15+ jurisdictions', ta.jurisdictions.length >= 15, 'Got ' + ta.jurisdictions.length);
-check('tax-abatement has CRS §39-3-112.5 statewide baseline', !!(ta.metadata && ta.metadata.state_baseline));
+check('tax-abatement has statewide property tax baseline', !!(ta.metadata && ta.metadata.state_baseline));
 check('Denver has tax-abatement entry', ta.jurisdictions.some(j => /Denver/i.test(j.name)));
 check('Aspen / Pitkin has APCHA tax-abatement entry', ta.jurisdictions.some(j =>
   /Aspen/i.test(j.name) && (j.programs || []).some(p => /APCHA/i.test(p.name))));

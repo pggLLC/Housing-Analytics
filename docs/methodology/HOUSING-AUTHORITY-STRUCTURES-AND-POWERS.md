@@ -8,9 +8,9 @@
 
 ## 1. What a housing authority *is* (the quasi-jurisdictional part)
 
-A Colorado housing authority is a **separate body corporate and politic** — a public entity distinct from the city or county that creates it, established under **C.R.S. Title 29, Article 4** (Housing Authorities Law; the Deal Calculator already cites this family at `js/deal-calculator.js:755` alongside the tax exemption in **C.R.S. §39-3-112.5**). Being a distinct public corporation — not a line department — is the source of its strengths: it can own property, contract, sue and be sued, employ staff, act as a developer, and issue its own bonds **independent of the general municipal budget, debt limits, and election cycles**, while remaining a governmental instrumentality for tax-exemption and funding-eligibility purposes. That combination — public powers with corporate independence — is why it functions as a *quasi-jurisdictional public developer*.
+A Colorado housing authority is a **separate body corporate and politic** — a public entity distinct from the city or county that creates it, established under **C.R.S. Title 29, Article 4** (Housing Authorities Law; the Deal Calculator already cites this family at `js/deal-calculator.js:755` alongside the housing authority tax exemption in **C.R.S. §29-4-227**; the separate nonprofit charitable-housing exemption is **C.R.S. §39-3-112** — §39-3-112.5, cited here before 2026-10-18, covers federally owned homeless housing leased to a nonprofit and does not apply). Being a distinct public corporation — not a line department — is the source of its strengths: it can own property, contract, sue and be sued, employ staff, act as a developer, and issue its own bonds **independent of the general municipal budget, debt limits, and election cycles**, while remaining a governmental instrumentality for tax-exemption and funding-eligibility purposes. That combination — public powers with corporate independence — is why it functions as a *quasi-jurisdictional public developer*.
 
-> **Citation discipline:** the Title 29, Art. 4 framework and §39-3-112.5 exemption are repo-established. Specific part/section numbers below (e.g. the multijurisdictional act) are marked **VERIFY** and must be confirmed with counsel against current C.R.S. before appearing in production output — consistent with the repo's VERIFY policy for legal/funding terms.
+> **Citation discipline:** the Title 29, Art. 4 framework and the §29-4-227 exemption were checked against the statute text on 2026-10-18. Specific part/section numbers below (e.g. the multijurisdictional act) are marked **VERIFY** and must be confirmed with counsel against current C.R.S. before appearing in production output — consistent with the repo's VERIFY policy for legal/funding terms.
 
 ---
 
@@ -57,7 +57,7 @@ Every example below is already present in `data/hna/local-resources.json`.
 | Power / strength | What it enables | Structure types that have it |
 |---|---|---|
 | **Separate body corporate** | Act as developer independent of municipal budget, debt limit, and election cycle | All (A–E) |
-| **Property-tax exemption** (C.R.S. §39-3-112.5; Title 29 Art. 4) | Zero property tax **while the authority owns** — the land-retention lever (worth ~$30k/unit buyer power at 100% AMI; see study QA Addendum A3) | All authority types |
+| **Property-tax exemption** (C.R.S. §29-4-227) | No property tax on the low-income share **while the authority holds an ownership interest** (claimed with the county assessor) — the land-retention lever (worth ~$30k/unit buyer power at 100% AMI; see study QA Addendum A3) | All authority types |
 | **Revenue / private-activity bond issuance** | Tax-exempt financing **off** the municipality's GO debt limit; conduit issuer for buyer mortgages (MRBs/MCCs) | All; strongest at C/D |
 | **Dedicated taxing power** (mill levy / sales tax, voter-approved) | Recurring revenue for land banking, per-unit subsidy, and stewardship | **C (multijurisdictional)** primarily |
 | **Land assembly / banking / eminent domain** | Hold land long-term (99-yr ground lease), assemble sites; condemnation for housing (used rarely) | All; scale at B/C |
