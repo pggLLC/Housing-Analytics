@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T14:19:20.068Z",
+    "generated_at": "2026-10-18T15:06:35.145Z",
     "root": "data/",
-    "file_count": 1748,
-    "total_size_bytes": 191757889,
+    "file_count": 1749,
+    "total_size_bytes": 191680938,
     "kinds": {
       "json": 1703,
-      "geojson": 33,
+      "geojson": 34,
       "csv": 12
     }
   },
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T14:19:16.027Z",
+      "mtime": "2026-10-18T15:06:30.633Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1390,8 +1390,8 @@
     {
       "path": "derived/market-analysis/neighborhood_access.json",
       "kind": "json",
-      "size_bytes": 4215444,
-      "mtime": "2026-10-18T10:02:03.872Z",
+      "size_bytes": 4049418,
+      "mtime": "2026-10-18T15:05:40.086Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1399,7 +1399,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "amenities",
-      "primary_array_length": 27735,
+      "primary_array_length": 26377,
       "primary_array_first_keys": [
         "type",
         "name",
@@ -31753,6 +31753,26 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/health_centers_co.geojson",
+      "kind": "geojson",
+      "size_bytes": 87729,
+      "mtime": "2026-10-18T15:05:40.369Z",
+      "shape": "geojson",
+      "feature_count": 181,
+      "property_keys": [
+        "name",
+        "health_center",
+        "address",
+        "city",
+        "zip",
+        "county",
+        "phone",
+        "hours_per_week",
+        "site_setting"
+      ],
+      "geometry_type": "Point"
+    },
+    {
       "path": "market/hospitals_co.geojson",
       "kind": "geojson",
       "size_bytes": 76214,
@@ -31939,8 +31959,8 @@
     {
       "path": "market/lodes_co.json",
       "kind": "json",
-      "size_bytes": 678458,
-      "mtime": "2026-09-25T12:55:18.888Z",
+      "size_bytes": 679804,
+      "mtime": "2026-10-18T15:05:40.390Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32618,7 +32638,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T14:19:17.969Z",
+      "mtime": "2026-10-18T15:06:32.606Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32662,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T14:19:17.495Z",
+      "mtime": "2026-10-18T15:06:32.111Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
