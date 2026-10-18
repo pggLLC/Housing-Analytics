@@ -447,6 +447,7 @@
    * while a new geography loads.
    */
   function clearStats() {
+    _snapshotToken += 1;
     const els = S().els;
     if (!els) return;
     const fields = [
@@ -457,6 +458,11 @@
     ];
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
+    });
+    // A margin belongs to the figure it was shown with; it goes with it.
+    document.querySelectorAll('[data-acs-tier]').forEach((el) => {
+      el.textContent = '—';
+      delete el.dataset.acsTier;
     });
     if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     clearNeedReconciliation();
@@ -503,6 +509,53 @@
   // Executive snapshot rendering
   // ---------------------------------------------------------------------------
 
+  // Bumped by every snapshot render and every reset, so a margins file that
+  // arrives late never writes onto a newer geography's cards.
+  let _snapshotToken = 0;
+
+  /**
+   * applySnapshotReliability — put the Census margin of error and reliability
+   * in each snapshot card's source line, with the year and series the figure
+   * actually came from (data/hna/acs-reliability.json). A card is left as it
+   * is when its number is not the estimate the file describes.
+   * @param {Array<{id:string, field:string, value:?number, unit:string, table:string, sourceText?:string}>} cards
+   * @returns {Promise<number>} how many cards were annotated
+   */
+  async function applySnapshotReliability(geoid, geoType, cards, token) {
+    const R = window.ACSReliability;
+    if (!R || !geoid) return 0;
+    const file = await R.load();
+    if (!file || token !== _snapshotToken) return 0;
+    let n = 0;
+    cards.forEach((c) => {
+      const el = document.getElementById(c.id);
+      const e = R.forValue(geoid, c.field, c.value);
+      if (!el || !e) return;
+      const margin = R.describe(e, c.unit);
+      // A figure already shown with its own source text (the raw ACS home
+      // value floor) keeps that text; the margin goes above it. Otherwise the
+      // label is the link. It may break after the year on a narrow card, but
+      // never inside "5-year DP04". Links here are inline-flex 44px tap
+      // targets (css/responsive.css), which drop the space between the two
+      // parts, so the gap and the wrap are set on the link itself.
+      let source;
+      if (c.sourceText != null) {
+        source = escHtml(c.sourceText);
+      } else {
+        const url = U().censusSourceUrl(e.y, e.s, c.table, geoType, geoid);
+        const nowrap = (t) => `<span style="white-space:nowrap">${escHtml(t)}</span>`;
+        const label = `${nowrap(`ACS ${e.y}`)} ${nowrap(`${R.seriesLabel(e)} ${c.table}`)}`;
+        source = url
+          ? `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;flex-wrap:wrap;column-gap:.3em" title="View the source table on data.census.gov">${label}</a>`
+          : label;
+      }
+      el.innerHTML = (margin ? `<span class="acs-moe" style="display:block">${escHtml(margin)}</span>` : '') + source;
+      el.dataset.acsTier = e.t || (e.m == null ? 'no_margin' : '');
+      n += 1;
+    });
+    return n;
+  }
+
   /**
    * renderSnapshot — populate the executive summary stat cards.
    * @param {object} profile  - ACS DP-series profile object
@@ -511,8 +564,9 @@
    * @param {object|null} prevProfile - Prior period profile for YoY deltas
    */
   function renderSnapshot(profile, s0801, label, prevProfile) {
+    const token = ++_snapshotToken;
     const els = S().els;
-    if (!els || !profile) return;
+    if (!els || !profile) return Promise.resolve(0);
 
     const fmtNum   = U().fmtNum;
     const fmtMoney = U().fmtMoney;
@@ -562,10 +616,12 @@
     // Tenure: % renter-occupied (DP04_0047PE)
     const renterPct = safeNum(profile.DP04_0047PE);
     if (els.statTenure) els.statTenure.textContent = renterPct !== null ? fmtPct(renterPct) : '—';
+    if (els.statTenureSrc) els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
 
     // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+    if (els.statRentBurdenSrc) els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
     updateDecisionStrip({
       affordability: {
         value: rb30 !== null ? fmtPct(rb30) : '—',
@@ -606,8 +662,9 @@
     }
 
     // Commute (S0801 mean travel time C01_046E)
+    let commute = null;
     if (s0801) {
-      const commute = safeNum(s0801.S0801_C01_046E || s0801.S0801_C01_046);
+      commute = safeNum(s0801.S0801_C01_046E || s0801.S0801_C01_046);
       if (els.statCommute) els.statCommute.textContent = commute !== null ? `${Math.round(commute)} min` : '—';
       if (els.statCommuteSrc) {
         const sYear = s0801._acsYear || yr;
@@ -639,6 +696,25 @@
         }
       } catch (_) { /* narrative is optional */ }
     }
+
+    // Margins of error. Home value has one only when the card shows the raw
+    // ACS figure; a Zillow-based or county-adjusted value is not that estimate.
+    const homeIsAcs = !homeInfo.display || homeInfo.display.source === 'acs_raw';
+    const cards = [
+      { id: 'statPopSrc', field: 'DP05_0001E', value: pop, unit: 'count', table: 'DP05' },
+      { id: 'statMhiSrc', field: 'DP03_0062E', value: mhi, unit: 'money', table: 'DP03' },
+      { id: 'statRentSrc', field: 'DP04_0134E', value: rent, unit: 'money', table: 'DP04' },
+      { id: 'statTenureSrc', field: 'DP04_0047PE', value: renterPct, unit: 'pct', table: 'DP04' },
+      { id: 'statRentBurdenSrc', field: 'rent_burden_30plus', value: rb30, unit: 'pct', table: 'DP04' },
+      { id: 'statCommuteSrc', field: 'S0801_C01_046E', value: commute, unit: 'min', table: 'S0801' },
+    ];
+    if (homeIsAcs) {
+      cards.push({
+        id: 'statHomeValueSrc', field: 'DP04_0089E', value: homeVal, unit: 'money', table: 'DP04',
+        sourceText: homeInfo.display ? (U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText) : null,
+      });
+    }
+    return applySnapshotReliability(geoid, geoType, cards, token).catch(() => 0);
   }
 
   // ---------------------------------------------------------------------------

@@ -74,11 +74,15 @@
     var detail = _n(s.units) + ' (±' + _n(s.moe) + ')' +
       (s.housing_units ? ' of ' + _n(s.housing_units) + ' housing units' : '') +
       ', ' + _esc(release) + '. These are homes nobody lives in for most of the year, which is how the Census counts second homes and many short-term rentals.';
+    // The site's one reliability scale (js/acs-reliability.js): the data's
+    // 'use_with_caution' (CV 15-30%) reads as fair, its 'unreliable' (CV over
+    // 30%) as use with caution. CV is the standard error, the margin / 1.645,
+    // so the margin itself is about 1.6 times the CV.
     var caution = '';
     if (s.reliability === 'unreliable') {
-      caution = '<p class="shp-caution">The margin of error is large relative to the estimate, so treat this as a rough order of magnitude.</p>';
+      caution = '<p class="shp-caution">Use with caution: the margin of error is about half the estimate or more, so treat this as a rough order of magnitude.</p>';
     } else if (s.reliability === 'use_with_caution') {
-      caution = '<p class="shp-caution">Use with caution: the margin of error is between 15% and 30% of the estimate.</p>';
+      caution = '<p class="shp-caution">Fair reliability: the margin of error is roughly a quarter to a half of the estimate.</p>';
     }
     if (share == null && rec.seasonal_homes_unavailable_reason) {
       caution += '<p class="shp-absent">' + _esc(rec.seasonal_homes_unavailable_reason) + '</p>';

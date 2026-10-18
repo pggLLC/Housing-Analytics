@@ -754,34 +754,30 @@ function lossAccounting() {
     || absent('methods_data.gap30_aa_vintage', aa.ok ? 'chas_affordable_available.json meta has no vintage' : aa.reason);
   out.chas_place_table_places = aa.ok && aa.data.places ? Object.keys(aa.data.places).length
     : absent('methods_data.chas_place_table_places', aa.ok ? 'chas_affordable_available.json has no places' : aa.reason);
-  // §10: sampling error of the place renter cost-burden rate (ACS 5-year, 90% margin, percentage points).
-  const rb = readJson('data/processed/rent_burden_crosscheck.json');
-  if (!rb.ok) {
-    out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', rb.reason);
-    out.renter_burden_moe_vintage = absent('methods_data.renter_burden_moe_vintage', rb.reason);
-    out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', rb.reason);
-    out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', rb.reason);
+  // §10: sampling error of the place renter cost-burden rate: the margins the
+  // HNA cards show (data/hna/acs-reliability.json), for the places whose figure
+  // is from the ACS 5-year release at the file's year (90% margin, points).
+  const rel = readJson('data/hna/acs-reliability.json');
+  const relYear = rel.ok && rel.data.meta && /^\d{4}$/.test(String(rel.data.meta.acs_year ?? '')) ? Number(rel.data.meta.acs_year) : null;
+  const relWhy = !rel.ok ? rel.reason : relYear === null ? 'acs-reliability.json meta has no acs_year' : null;
+  out.renter_burden_moe_vintage = relWhy ? absent('methods_data.renter_burden_moe_vintage', relWhy) : `${relYear - 4}\u2013${relYear}`;
+  const moes = relWhy ? [] : Object.entries(rel.data.geos || {})
+    .filter(([geoid]) => geoid.length === 7)
+    .map(([, g]) => g.rent_burden_30plus)
+    .filter((e) => e && e.s === 'acs5' && e.y === relYear && Number.isFinite(e.m))
+    .map((e) => e.m)
+    .sort((a, b) => a - b);
+  if (!moes.length) {
+    const why = relWhy || 'acs-reliability.json has no place with an ACS 5-year renter cost-burden margin';
+    out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', why);
+    out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', why);
+    out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', why);
   } else {
-    const moes = Object.values(rb.data.geos || {})
-      .filter((g) => g.geoType === 'place')
-      .map((g) => g.renter_cb30 && g.renter_cb30.acs5)
-      .filter((a) => a && Number.isFinite(a.moe) && Number.isFinite(a.rate))
-      .map((a) => a.moe * 100)
-      .sort((a, b) => a - b);
-    out.renter_burden_moe_vintage = (rb.data.meta && span(rb.data.meta.acs5_vintage))
-      || absent('methods_data.renter_burden_moe_vintage', 'rent_burden_crosscheck.json meta has no acs5_vintage');
-    if (!moes.length) {
-      const why = 'rent_burden_crosscheck.json has no place with an ACS 5-year rate and margin';
-      out.renter_burden_moe_places = absent('methods_data.renter_burden_moe_places', why);
-      out.renter_burden_moe_median_pp = absent('methods_data.renter_burden_moe_median_pp', why);
-      out.renter_burden_moe_over_20pp = absent('methods_data.renter_burden_moe_over_20pp', why);
-    } else {
-      const n = moes.length;
-      const mid = n % 2 ? moes[(n - 1) / 2] : (moes[n / 2 - 1] + moes[n / 2]) / 2;
-      out.renter_burden_moe_places = n;
-      out.renter_burden_moe_median_pp = Number(mid.toFixed(1));
-      out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
-    }
+    const n = moes.length;
+    const mid = n % 2 ? moes[(n - 1) / 2] : (moes[n / 2 - 1] + moes[n / 2]) / 2;
+    out.renter_burden_moe_places = n;
+    out.renter_burden_moe_median_pp = Number(mid.toFixed(1));
+    out.renter_burden_moe_over_20pp = moes.filter((m) => m > 20).length;
   }
   // Income-restricted properties and how many carry an end date.
   const props = readJson('data/affordable-housing/properties.json');
