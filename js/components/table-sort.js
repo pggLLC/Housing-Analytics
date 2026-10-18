@@ -78,6 +78,10 @@
         if (c.colSpan > 1 || c.rowSpan > 1) return false;
       }
     }
+    // Rows labelled "≤30% AMI", "≤50% AMI" … are nested thresholds: each
+    // includes the ones above it, so they only read correctly in order.
+    var nested = rows.filter(function (r) { return /^\s*(≤|<=|up to)\s*\d/i.test(r.cells[0].textContent); });
+    if (nested.length >= 2) return false;
     return true;
   }
 
@@ -133,7 +137,7 @@
     // "5 years", "4-5 weeks", "384 (36%)", "$35.04/hr", "+105 bp",
     // "60% AMI", "7.5 KB" next to "2.1 MB". Prose that happens to start
     // with a number stays text.
-    var lead = /^[~≈<>]?\s*([+−–-])?\s*\$?(\d[\d,]*\.?\d*)\s*%?\s*(.*)$/.exec(txt);
+    var lead = /^[~≈<>≤≥]?\s*([+−–-])?\s*\$?(\d[\d,]*\.?\d*)\s*%?\s*(.*)$/.exec(txt);
     if (lead && lead[3].length <= 24) {
       var lv = parseFloat(lead[2].replace(/,/g, ''));
       var unit = /^([kmg])b\b/i.exec(lead[3]);

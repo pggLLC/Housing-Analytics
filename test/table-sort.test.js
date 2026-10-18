@@ -38,6 +38,8 @@ const html = `<!doctype html><body>
 <tr class="total" style="border-top: 2px solid var(--mcm-mustard);"><td>Net Benefit</td><td>$2.9M</td></tr></tbody></table>
 <table id="ruled"><thead><tr><th>Project</th><th>Units</th></tr></thead><tbody>
 <tr style="border-top:1px solid"><td>Bravo</td><td>40</td></tr><tr style="border-top:1px solid"><td>Alpha</td><td>120</td></tr><tr style="border-top:1px solid"><td>Charlie</td><td>8</td></tr></tbody></table>
+<table id="nested"><thead><tr><th>AMI band</th><th>Today</th><th>+10yr</th></tr></thead><tbody><tr><td>≤30% AMI</td><td>9</td><td>12</td></tr><tr><td>≤50% AMI</td><td>4</td><td>6</td></tr><tr><td>≤80% AMI</td><td>7</td><td>8</td></tr></tbody></table>
+<table id="bands"><thead><tr><th>AMI band</th><th>Units</th></tr></thead><tbody><tr><td>31–50%</td><td>1</td></tr><tr><td>&gt;100%</td><td>2</td></tr><tr><td>≤30%</td><td>3</td></tr><tr><td>51–80%</td><td>4</td></tr></tbody></table>
 <table id="running"><thead><tr><th>Year</th><th>Cash flow</th><th>Cumulative CF</th></tr></thead><tbody><tr><td>1</td><td>5</td><td>5</td></tr><tr><td>2</td><td>-2</td><td>3</td></tr><tr><td>3</td><td>4</td><td>7</td></tr></tbody></table>
 <table id="short"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
@@ -222,6 +224,9 @@ const touchTap = (el) => {
   });
   assert.ok(/currentScript[\s\S]*'data\/table-header-tips\.json'\)/.test(read('js/components/table-header-tips.js')), 'the definitions map resolves from the script URL, so nested pages find it');
   assert.equal(document.querySelectorAll('#running .th-sort').length, 0, 'a table with a cumulative column stays in row order');
+  assert.equal(document.querySelectorAll('#nested .th-sort').length, 0, 'nested ≤ thresholds stay in row order');
+  document.querySelector('#bands th .th-sort').click();
+  assert.deepEqual(col('bands', 0), ['≤30%', '31–50%', '51–80%', '>100%'], '≤ and > prefixes sort as numbers');
   assert.ok(/<table data-loan-coverage data-no-sort>/.test(read('js/pro-forma.js')) && /<table data-no-sort data-loan-id=/.test(read('js/pro-forma.js')) && /Annual schedules carry[^\n]*\n\s*var html = '<table data-no-sort/.test(read('js/pro-forma.js')), 'pro-forma schedules opt out of sorting');
   // A page counts as having tables when its own markup has one or a local
   // script it loads renders one (recommendation.html's evidence table).
