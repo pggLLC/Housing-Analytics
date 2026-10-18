@@ -23,7 +23,7 @@ Open **for-sale-market-study.html**. Walk the seven sections:
 - **S3 — Shared-equity conventions.** Three real Colorado conventions (WMRHC fixed-simple, APCHA's regulation-default fixed-simple, Elevation shared-appreciation) across 5/10/20/30 years and five market paths. Owner outcome and affordability outcome sit side by side — the tool never ranks them; that trade-off is your policy call.
 - **S4 — Settlement viewer.** The resale waterfall on screening inputs: public subsidy **retained $20,000 / recaptured $80,000** at year 10 under the default configuration. Watch for the owner-net transparency warning if you experiment with aggressive recapture + appreciation-share combinations.
 - **S5 — Demand funnel.** **Its default state is mostly "not_available" — that is correct, not broken.** Each of the 11 stages shows exactly what evidence would resolve it. Do not type guesses in; Part C tells you how to get real numbers.
-- **S6 — Capture scenarios.** Sellout paces at 24/30/36/48 months with the denominator printed beside every rate, plus two caveats to take seriously: no competing-inventory data exists yet, and even the professional Fruita Mews market area contained only 44% of its actual applicants.
+- **S6 — Capture scenarios.** Sellout paces at 24/30/36/48 months with the denominator printed beside every rate, plus two caveats to take seriously: no competing-inventory data exists yet, and a market area, even one drawn by a professional, never holds all of the demand.
 - **S7 — Report.** Download the screening draft. It is publishable-honest today: every limitation is in it, and its "What this report is waiting on" section is your data to-do list.
 
 ---
@@ -49,7 +49,7 @@ These fill the report's `not_available` rows. For each: paste whatever you get (
 Each conversation converts specific funnel nulls into defensible shares with a named basis. Enter them in S5; the funnel, capture, and report update live.
 
 1. **A lender (CHFA-participating) + the USDA RD area office.** Ask: which products would finance a deed-restricted / ground-lease townhome in Fruita, at what ratios — and roughly what share of local pre-qual applicants clears underwriting. → resolves `down_payment_readiness`, `debt_credit_readiness`, `mortgage_readiness`; also Phase-11 product-acceptance evidence.
-2. **1–2 Grand Valley residential brokers.** Ask: months of supply under $500k; who buys entry-level (locals vs in-migrants); how attached townhomes move vs detached; any comparable project's actual pace. → resolves `unit_type_preference`, `location_preference`; grounds the in-migration stage (documented range 9–56%) and S6 pacing.
+2. **1–2 Grand Valley residential brokers.** Ask: months of supply under $500k; who buys entry-level (locals vs in-migrants); how attached townhomes move vs detached; any comparable project's actual pace. → resolves `unit_type_preference`, `location_preference`; grounds the in-migration stage and S6 pacing.
 3. **HRWC's counseling pipeline.** Ask: how many Mesa County households in homebuyer education now, their income bands, readiness distribution; any Fruita Mews waitlist data. → resolves `first_time_buyer_share`, `purchase_readiness_window`; your best `tenure_preference` proxy.
 4. **One or two comparable absorption data points.** Any recent attainable for-sale project in Mesa/Garfield/Eagle: units/month actually sold, fallout rate. → resolves `contract_fallout`; calibrates S6 (the for-sale side currently has **no** professional benchmark, unlike the rental side).
 
