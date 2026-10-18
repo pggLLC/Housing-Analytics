@@ -216,6 +216,19 @@ test('initComplianceChecklist: a box ticked under the old meaning does not carry
     'the first change after migration keeps the carried items');
 });
 
+test('migration: a read without init (as the HNA page does) migrates v1 state', () => {
+  resetStorage();
+  // The HNA page calls updateChecklistItem directly; it never calls init.
+  const all = (v) => ({ checked: v, date: null, metadata: null });
+  global.localStorage.setItem('hna_compliance_county_08079', JSON.stringify({
+    geoType: 'county', geoid: '08079',
+    items: { baseline: all(true), growth: all(true), fasttrack: all(true), dola: all(true), report: all(true) },
+  }));
+  const s = CC.getChecklistState('county', '08079');
+  assert(s && s.items.baseline.checked === true && s.items.dola.checked === false,
+    'getChecklistState migrates on first read: carried items kept, changed items reset');
+});
+
 // ── updateChecklistItem ──────────────────────────────────────────────────────
 
 test('updateChecklistItem: saves checked=true with date to localStorage', () => {

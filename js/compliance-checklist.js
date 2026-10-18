@@ -183,6 +183,27 @@
   // ── Public API ─────────────────────────────────────────────────────────────
 
   /**
+   * Read saved state for a geography, migrating the unversioned v1 state
+   * on first read. Every read goes through here (the HNA page calls
+   * updateChecklistItem without initComplianceChecklist), so the carried
+   * items survive whichever call comes first.
+   * @returns {object|null}
+   */
+  function loadState(geoType, geoid) {
+    var key   = storageKey(geoType, geoid);
+    var state = lsRead(key);
+    if (state) return state;
+    var legacy = lsRead(legacyStorageKey(geoType, geoid));
+    if (!legacy || !legacy.items) return null;
+    state = createDefaultState(geoType, geoid);
+    CARRIED_FROM_V1.forEach(function (id) {
+      if (legacy.items[id]) state.items[id] = legacy.items[id];
+    });
+    lsWrite(key, state);
+    return state;
+  }
+
+  /**
    * Initialize the checklist for a specific geography.
    * Loads any existing persisted state; falls back to default if none found.
    *
@@ -195,19 +216,7 @@
    * @returns {object} The current checklist state
    */
   function initComplianceChecklist(geoType, geoid) {
-    var key   = storageKey(geoType, geoid);
-    var state = lsRead(key);
-    if (!state) {
-      state = createDefaultState(geoType, geoid);
-      var legacy = lsRead(legacyStorageKey(geoType, geoid));
-      if (legacy && legacy.items) {
-        CARRIED_FROM_V1.forEach(function (id) {
-          if (legacy.items[id]) state.items[id] = legacy.items[id];
-        });
-        // Save now, so the first checkbox change builds on the carried items.
-        lsWrite(key, state);
-      }
-    }
+    var state = loadState(geoType, geoid) || createDefaultState(geoType, geoid);
 
     // Ensure all items are present (handles state objects from older versions)
     ITEM_IDS.forEach(function (id) {
@@ -247,7 +256,7 @@
     var geoid   = _activeGeoid   || _currentGeoid();
     var key     = storageKey(geoType, geoid);
 
-    var state = lsRead(key) || createDefaultState(geoType, geoid);
+    var state = loadState(geoType, geoid) || createDefaultState(geoType, geoid);
 
     var resolvedDate;
     if (meta && meta.date) {
@@ -284,8 +293,7 @@
    * @returns {object|null} State object or null if not yet saved
    */
   function getChecklistState(geoType, geoid) {
-    var key = storageKey(geoType, geoid);
-    return lsRead(key);
+    return loadState(geoType, geoid);
   }
 
   /**
