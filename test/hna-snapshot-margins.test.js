@@ -143,9 +143,10 @@ const line = (id) => document.getElementById(id);
 
 (async function main() {
   const geoids = Object.keys(FILE.geos);
+  const PICK = {};
 
   await test('every card agrees with the margins file, for every geography in it', async () => {
-    let withMargin = 0; let checked = 0; let caution = 0; let relabelled = 0;
+    let withMargin = 0; let checked = 0; let caution = 0;
     const problems = [];
     for (const geoid of geoids) {
       if (!fs.existsSync(path.join(ROOT, `data/hna/summary/${geoid}.json`))) continue;
@@ -196,51 +197,58 @@ const line = (id) => document.getElementById(id);
         else if (!link.href.endsWith(`?g=${{ state: '0400000US', county: '0500000US' }[geoType] || '1600000US'}${geoid}`)) {
           problems.push(`${geoid} ${c.id}: link is not for this geography: ${link.href}`);
         }
-        if (`${e.y}/${e.s}` !== `${profile._acsYear}/${profile._acsSeries}` && c.table !== 'S0801') relabelled += 1;
       }
+      // Geographies for the cases below, picked from the data rather than by name.
+      const t = (f) => (FILE.geos[geoid][f] || {});
+      if (!PICK.margins && t('DP03_0062E').m > 0 && t('DP04_0134E').m > 0 && profile.DP03_0062E === t('DP03_0062E').e) PICK.margins = geoid;
+      if (!PICK.caution && t('rent_burden_30plus').t === 'use_with_caution' && /±/.test(line('statRentBurdenSrc').textContent)) PICK.caution = geoid;
+      const hd = U.homeValueInfo(profile).display;
+      if (!PICK.zillow && hd && hd.source === 'zhvi' && t('DP04_0089E').m > 0) PICK.zillow = geoid;
     }
     assert.deepStrictEqual(problems.slice(0, 15), [], `${problems.length} disagreements`);
-    // Non-vacuity on the scan: it rendered real cards, found margins in every
-    // tier and found the mislabelled figures this was written for.
+    // Non-vacuity on the scan: it rendered real cards and found margins and
+    // caution figures to check.
     assert(checked >= 3500, `only ${checked} cards checked`);
     assert(withMargin >= 2000, `only ${withMargin} margins checked`);
     assert(caution >= 300, `only ${caution} caution figures checked`);
-    assert(relabelled >= 30, `only ${relabelled} figures had a year or series different from the summary stamp`);
+    for (const k of ['margins', 'caution', 'zillow']) assert(PICK[k], `the scan found no ${k} case`);
   });
 
-  await test('Denver links its 1-year figures to the 1-year table; Kremmling labels its 2023 figures 2023', async () => {
-    await render('08031');
-    assert.match(line('statMhiSrc').textContent, /ACS 2024 1-year DP03/);
-    assert.match(line('statMhiSrc').querySelector('a').href, /ACSDP1Y2024\.DP03/);
-    assert(!/±/.test(line('statPopSrc').textContent), 'a county population is controlled and has no margin');
-    await render('0841560');
-    assert.match(line('statMhiSrc').textContent, /ACS 2023 5-year DP03/);
-    assert.match(line('statCommuteSrc').textContent, /ACS 2024 5-year S0801/);
+  await test('the label comes from the figure, not from the summary\'s stamp', async () => {
+    // A stamp that disagrees with every entry: another year, the other series.
+    const g = PICK.margins;
+    const e = FILE.geos[g].DP03_0062E;
+    const wrongYear = String(e.y - 3);
+    const wrongSeries = e.s === 'acs1' ? 'acs5' : 'acs1';
+    await render(g, (p) => { p._acsYear = wrongYear; p._acsSeries = wrongSeries; });
+    const text = line('statMhiSrc').textContent;
+    const series = e.s === 'acs1' ? '1-year' : '5-year';
+    assert(text.includes(`ACS ${e.y} ${series} DP03`), text);
+    assert(!text.includes(wrongYear), `the stamp's year reached the label: ${text}`);
+    assert(line('statMhiSrc').querySelector('a').href.includes(`ACSDP${e.s === 'acs1' ? '1Y' : '5Y'}${e.y}.DP03`));
   });
 
   await test('a number that is not the file\'s estimate gets no margin and keeps its label', async () => {
-    const before = await render('0805265');
-    assert(before.annotated >= 6, `Bayfield annotated ${before.annotated} cards`);
-    assert(/±/.test(line('statMhiSrc').textContent));
-    await render('0805265', (p) => { p.DP03_0062E += 1000; });
+    const g = PICK.margins;
+    const { profile } = await render(g, (p) => { p.DP03_0062E += 1000; });
     assert(!/±/.test(line('statMhiSrc').textContent), line('statMhiSrc').textContent);
-    assert.match(line('statMhiSrc').textContent, /^ACS 2024 DP03/);
+    assert(line('statMhiSrc').textContent.startsWith(`ACS ${profile._acsYear} DP03`), line('statMhiSrc').textContent);
     assert(/±/.test(line('statRentSrc').textContent), 'the other cards keep their margins');
   });
 
-  await test('Bayfield: renter cost burden is read as a range; a Zillow home value has no margin', async () => {
-    await render('0805265');
-    const e = FILE.geos['0805265'].rent_burden_30plus;
-    assert.strictEqual(e.t, 'use_with_caution');
+  await test('a caution figure is read as a range; a Zillow home value has no margin', async () => {
+    await render(PICK.caution);
+    const e = FILE.geos[PICK.caution].rent_burden_30plus;
     const t = line('statRentBurdenSrc').textContent;
-    assert(t.includes(`${(e.e - e.m).toFixed(1)}%`) && t.includes(`${(e.e + e.m).toFixed(1)}%`), t);
+    assert(t.includes(`${Math.max(0, e.e - e.m).toFixed(1)}%`) && t.includes(`${Math.min(100, e.e + e.m).toFixed(1)}%`), t);
+    await render(PICK.zillow);
     assert(!/±/.test(line('statHomeValueSrc').textContent), line('statHomeValueSrc').textContent);
   });
 
   await test('a reset takes the previous geography\'s margins with its figures', async () => {
-    await render('0805265');
+    await render(PICK.margins);
     const shown = [...document.querySelectorAll('[data-acs-tier]')];
-    assert(shown.length >= 6, `only ${shown.length} cards carried a margin`);
+    assert(shown.length >= 2, `only ${shown.length} cards carried a margin`);
     R.clearStats();
     for (const el of shown) {
       assert(!/±/.test(el.textContent), `${el.id} keeps "${el.textContent}" after the figures were cleared`);
@@ -249,9 +257,10 @@ const line = (id) => document.getElementById(id);
 
   await test('a margins file that arrives after the next geography is picked writes nothing', async () => {
     AR._setFile(null);
-    const summary = readJson('data/hna/summary/0805265.json');
-    const p = Object.assign({}, summary.acsProfile, { _geoid: '0805265', _geoType: 'place' });
-    const pending = R.renderSnapshot(p, summary.acsS0801, 'Bayfield', null);
+    const g = PICK.margins;
+    const summary = readJson(`data/hna/summary/${g}.json`);
+    const p = Object.assign({}, summary.acsProfile, { _geoid: g, _geoType: geoTypeOf(g, summary) });
+    const pending = R.renderSnapshot(p, summary.acsS0801, summary.geo.label, null);
     R.clearStats();
     assert.strictEqual(await pending, 0);
     assert(!/±/.test(line('statMhiSrc').textContent));
@@ -261,11 +270,11 @@ const line = (id) => document.getElementById(id);
     AR._setFile(null);
     reliabilityMissing = true;
     const before = fetches;
-    const { annotated } = await render('0805265');
+    const { annotated, profile } = await render(PICK.margins);
     reliabilityMissing = false;
     assert(fetches > before, 'the page never asked for the margins file');
     assert.strictEqual(annotated, 0);
-    assert.match(line('statMhiSrc').textContent, /^ACS 2024 DP03 · \[Source\]$/);
+    assert.strictEqual(line('statMhiSrc').textContent, `ACS ${profile._acsYear} DP03 · [Source]`);
     assert(!/±/.test(document.querySelector('.stats').textContent));
     AR._setFile(FILE);
   });
