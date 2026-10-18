@@ -341,9 +341,12 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
     for i, feed in enumerate(feeds, 1):
         try:
             # Stops are read inside fetch_feed, so a hosted copy with no
-            # usable stops falls back to the agency's own URL.
-            agency, rows = gtfs.fetch_feed(feed, lambda data: read_feed_stops(data, feed),
-                                           ok=lambda r: bool(r[1]), retries=2, timeout=90)
+            # usable stops falls back to the agency's own URL. Usable means a
+            # stop in Colorado: merge() drops every other row.
+            agency, rows = gtfs.fetch_feed(
+                feed, lambda data: read_feed_stops(data, feed),
+                ok=lambda r: any(in_colorado_bbox(s["lon"], s["lat"]) for s in r[1]),
+                retries=2, timeout=90)
         except Exception as exc:  # one bad feed must not sink the rest
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue

@@ -236,7 +236,8 @@ def carry_forward_failed(all_features: list, agencies_failed: list,
     carried, so a second feed for the same agency never duplicates routes.
     Returns {agency: {"features": n, "last_fetched": date}}, recorded in meta.
     """
-    have = {agency_key(f.get("properties", {}).get("agency", "")) for f in all_features}
+    have = {agency_key(f.get("properties", {}).get("agency", "")) for f in all_features
+            if route_touches_colorado(f.get("geometry"))}
     prev_meta = previous.get("meta") or {}
     prev_carried = prev_meta.get("carried_forward") or {}
     prev_generated = prev_meta.get("generated") or prev_meta.get("vintage") or ""
@@ -328,6 +329,11 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 120) -> bytes:
                 log(f"[retry {attempt+1}/{retries-1}] {exc} — waiting {wait}s", level="WARN")
                 time.sleep(wait)
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
+
+
+def reaches_colorado(features: list) -> bool:
+    """True when at least one route has a vertex in Colorado."""
+    return any(route_touches_colorado(f.get("geometry")) for f in features or [])
 
 
 def fetch_feed(feed: dict, read, ok=bool, **kw):
@@ -478,11 +484,17 @@ def main() -> int:
             # below drops, and the agency would then be lost for that run.
             features = fetch_feed(
                 feed, lambda data: parse_gtfs_shapes(data, agency_id, agency_name),
-                ok=lambda fs: any(route_touches_colorado(f.get("geometry")) for f in fs))
-            if features:
+                ok=reaches_colorado)
+            if reaches_colorado(features):
                 all_features.extend(features)
                 agencies_ok.append(agency_name)
                 log(f"  ✓ {agency_name}: {len(features)} shapes")
+            elif features:
+                # Kept so the state filter below counts them as dropped; the
+                # agency is a failure, so its previous routes can be carried.
+                all_features.extend(features)
+                agencies_failed.append({"agency": agency_name, "reason": "no routes in Colorado"})
+                log(f"  ⚠ {agency_name}: {len(features)} shapes, none in Colorado", level="WARN")
             else:
                 # Empty ZIP or no shapes.txt — soft failure
                 agencies_failed.append({"agency": agency_name, "reason": "no shapes parsed"})

@@ -146,6 +146,18 @@ def test_hosted_routes_outside_colorado_reach_the_agency_url(tmp_path, monkeypat
     assert [f["properties"]["shape_id"] for f in doc["features"]] == ["t1"]
 
 
+def test_feed_with_no_route_in_colorado_keeps_previous_routes(tmp_path, monkeypatch):
+    # No agency URL to try: routes that all miss Colorado make the feed a
+    # failure, so the previous routes are carried instead of all dropped.
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows, {"https://example.com/mdb/t.zip": "ok"},
+                 {"https://example.com/mdb/t.zip": [feature("Transfort", "t9", lon=0.0)]})
+    assert sorted(f["properties"]["shape_id"] for f in doc["features"]) == ["t1", "t2"]
+    assert doc["meta"]["carried_forward"]["Transfort"]["features"] == 2
+    assert doc["meta"]["agencies_failed"] == [{"agency": "Transfort", "reason": "no routes in Colorado"}]
+    assert doc["meta"]["dropped_outside_colorado"] == {"Transfort": 1}
+
+
 def test_agency_url_is_tried_when_the_hosted_copy_is_gone(tmp_path, monkeypatch):
     rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip",
              "urls.direct_download": "https://example.org/transfort_gtfs.zip"}]
