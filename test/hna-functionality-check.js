@@ -491,12 +491,14 @@ test('JS: a county absent from the loaded CHFA statewide file counts zero projec
 
 // The map status names its source; every _source the fetch returns must have a
 // plain label, so no internal token ("local") reaches the page.
+const escapeRe = (s) => String(s).replace(/[.*+?^${}()|[\]\\-]/g, '\\$&');
+
 test('JS: every LIHTC source the fetch returns has a plain-language label', () => {
     const fn = js.slice(js.indexOf('async function fetchLihtcProjects'), js.indexOf('function lihtcUnavailable'));
     const sources = [...new Set([...fn.matchAll(/_source:\s*'([^']+)'/g)].map(m => m[1]))];
     assert(sources.length >= 3, 'found ' + sources.length + ' sources to check');
     const block = js.slice(js.indexOf('const LIHTC_SOURCE_LABELS'), js.indexOf('};', js.indexOf('const LIHTC_SOURCE_LABELS')));
-    sources.forEach(src => assert(new RegExp("(^|[\\s{,])'?" + src.replace(/[-]/g, '\\-') + "'?:\\s*'").test(block), 'no label for _source ' + src));
+    sources.forEach(src => assert(new RegExp("(^|[\\s{,])'?" + escapeRe(src) + "'?:\\s*'").test(block), 'no label for _source ' + src));
     assert(/LIHTC_SOURCE_LABELS\[src\]/.test(js), 'the map status uses the labels');
     // The renderer's own status line and popups take the collection's source, never
     // the HUD default, and the popup names a CHFA file the way the map status does.
@@ -504,8 +506,8 @@ test('JS: every LIHTC source the fetch returns has a plain-language label', () =
     assert(/const lihtcDataSource = \(data && data\._source\)/.test(js), 'popups and badge use the collection\'s own source');
     const utils = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-utils.js'), 'utf8');
     ['local', 'local-county'].forEach(src => {
-        const mapLabel = (block.match(new RegExp("'?" + src.replace(/[-]/g, '\\-') + "'?:\\s*'([^']+)'")) || [])[1];
-        const popup = (utils.match(new RegExp("source === '" + src + "'\\)\\s*return \\{ label: '([^']+)'")) || [])[1];
+        const mapLabel = (block.match(new RegExp("'?" + escapeRe(src) + "'?:\\s*'([^']+)'")) || [])[1];
+        const popup = (utils.match(new RegExp("source === '" + escapeRe(src) + "'\\)\\s*return \\{ label: '([^']+)'")) || [])[1];
         assert(mapLabel && popup, 'found both labels for ' + src);
         assert(popup === mapLabel, 'popup label for ' + src + ' (' + popup + ') matches the map status (' + mapLabel + ')');
     });
