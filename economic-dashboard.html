@@ -1632,40 +1632,67 @@ function getKey(){ return CONFIG_KEY || ""; }
   function fmtPct(p) { return Math.round((p || 0) * 100) + '%'; }
   function fmtDate(iso) { if (!iso) return ''; try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch (_) { return iso.slice(0, 10); } }
 
+  // Threshold of an "above X" line, or null when the line is not one.
+  function strikeOf(name) {
+    var hit = /above\s+\$?([\d.,]+)/i.exec(String(name || ''));
+    if (!hit) return null;
+    var n = parseFloat(hit[1].replace(/,/g, ''));
+    return isFinite(n) ? n : null;
+  }
+
+  // Unprices every line of a ladder whose figures fall as its threshold
+  // falls: "above 1.10M" must be at least as likely as "above 1.15M".
+  function ladderChecked(outcomes) {
+    var strikes = outcomes.map(function (o) { return strikeOf(o.name); });
+    if (outcomes.length < 2 || strikes.some(function (k) { return k == null; })) return outcomes;
+    var priced = outcomes.map(function (o, i) { return { k: strikes[i], p: o.prob }; })
+      .filter(function (x) { return typeof x.p === 'number' && isFinite(x.p); })
+      .sort(function (a, b) { return a.k - b.k; });
+    var ordered = priced.every(function (x, i) { return i === 0 || x.p <= priced[i - 1].p; });
+    if (ordered) return outcomes;
+    return outcomes.map(function (o) { return { name: o.name, prob: null, thin: true }; });
+  }
+
   function renderKalshi(payload) {
     var grid = document.getElementById('kalshiMarketsGrid');
     var meta = document.getElementById('kalshiUpdatedAt');
     if (!grid || !meta) return;
     var items = (payload && Array.isArray(payload.items)) ? payload.items : [];
     if (!items.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);font-size:.9rem;text-align:center;padding:var(--sp3);">No Kalshi data available. CI fetcher may not have run yet, or KALSHI_API_KEY is missing.</div>';
-      meta.textContent = 'Source: data/kalshi/prediction-market.json — not populated';
+      grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);font-size:.9rem;text-align:center;padding:var(--sp3);">Kalshi odds are not available right now. They are saved weekly and will appear after the next update.</div>';
+      meta.textContent = 'Source: Kalshi prediction markets';
       return;
     }
     grid.innerHTML = items.map(function (item) {
       var market = item.market || {};
-      // A contract with no price carries prob null: it shows as "No price",
-      // never 0%. Strike ladders ("above 1.30M", "above 1.35M") overlap, so
-      // the headline is the least likely outcome that is still at least even
-      // odds — for a ladder, the highest threshold the market expects to
-      // clear; for a yes/no pair, the likelier side.
-      var priced = (item.outcomes || []).filter(function (o) { return typeof o.prob === 'number' && isFinite(o.prob); });
+      // A line with no reliable price carries prob null (thin: true when its
+      // bid–ask gap is too wide): it shows as "Too few trades", never 0%.
+      // Strike ladders ("above 1.30M", "above 1.35M") overlap, so a lower
+      // threshold can never be less likely than a higher one; when the
+      // figures say otherwise, none of them is shown. The headline is the
+      // least likely outcome that is still at least even odds — for a
+      // ladder, the highest threshold the market expects to clear; for a
+      // yes/no pair, the likelier side.
+      var outcomes = ladderChecked(item.outcomes || []);
+      var priced = outcomes.filter(function (o) { return typeof o.prob === 'number' && isFinite(o.prob); });
       var evenOrBetter = priced.filter(function (o) { return o.prob >= 0.5; });
       var top = evenOrBetter.length
         ? evenOrBetter.slice().sort(function (a, b) { return a.prob - b.prob; })[0]
         : priced.slice().sort(function (a, b) { return b.prob - a.prob; })[0];
-      var outcomeRows = (item.outcomes || []).map(function (o) {
+      var anyThin = outcomes.some(function (o) { return !(typeof o.prob === 'number' && isFinite(o.prob)); });
+      var outcomeRows = outcomes.map(function (o) {
         var has = typeof o.prob === 'number' && isFinite(o.prob);
         var pct = has ? Math.round(o.prob * 100) : 0;
         return '<tr><td style="padding:.2rem .4rem;font-size:.78rem;">' + escHtml(o.name) + '</td>' +
-          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + (has ? pct + '%' : 'No price') + '</td>' +
+          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + (has ? pct + '%' : 'Too few trades') + '</td>' +
           '<td style="padding:.15rem 0;width:60px;"><div style="height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--accent);"></div></div></td>' +
         '</tr>';
       }).join('');
       return '<div class="card" style="padding:var(--sp3);">' +
         '<div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;">' + escHtml(item.label || item.metric) + '</div>' +
-        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : 'No live price on any contract') + '</div>' +
+        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : 'Too few trades for a clear reading') + '</div>' +
         '<table style="width:100%;border-collapse:collapse;margin:.3rem 0;">' + outcomeRows + '</table>' +
+        (anyThin ? '<div style="font-size:.75rem;color:var(--muted);margin:.2rem 0 .4rem;">Lines marked "Too few trades" have buyers and sellers more than 10 points apart, or prices that contradict each other, so no figure is shown.</div>' : '') +
         (market.url ? '<a href="' + escHtml(market.url) + '" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--accent);text-decoration:underline;">View market on Kalshi ↗</a>' : '') +
         '<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem;">' + escHtml(market.title || '') + '</div>' +
       '</div>';

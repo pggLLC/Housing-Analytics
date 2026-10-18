@@ -301,21 +301,75 @@ async function fetchMarketsForMetric(cfg) {
 }
 
 /**
- * Probability (0–1, two decimals) of a contract's "yes" side, from the best
- * bid, else the last trade. null when the contract has neither.
- * @param {Object} m
- * @returns {number|null}
+ * Widest bid–ask gap (in dollars, i.e. probability points) at which the
+ * midpoint is still a fair read of the market. Wider than this, a line has
+ * too few traders to quote a figure.
  */
-function contractProb(m) {
+const MAX_SPREAD = 0.10;
+
+/**
+ * Price of a contract's "yes" side, as a probability (0–1, two decimals).
+ *
+ * The midpoint of the best bid and best ask, when the two are within
+ * MAX_SPREAD of each other. A wider gap (or a missing side) is a thin line:
+ * prob is null and thin is true. This used to take the best bid alone, which
+ * on a thin September 2026 housing-starts ladder printed "above 1.15M: 71%"
+ * next to "above 1.10M: 32%" — impossible, since the lower line must be at
+ * least as likely. The last trade is no fallback: on that ladder it was just
+ * as contradictory (54% above 1.30M, 36% above 1.25M).
+ * @param {Object} m
+ * @returns {{prob: number|null, bid: number|null, ask: number|null, thin: boolean}}
+ */
+function contractPrice(m) {
   const fromDollars = (v) => {
     if (v == null || v === '') return null;
     const n = typeof v === 'number' ? v : parseFloat(v);
-    return Number.isFinite(n) && n > 0 && n <= 1 ? n : null;
+    return Number.isFinite(n) && n >= 0 && n <= 1 ? n : null;
   };
-  const fromCents = (v) => (typeof v === 'number' && Number.isFinite(v) && v > 0 && v <= 100 ? v / 100 : null);
-  const p = fromDollars(m.yes_bid_dollars) ?? fromCents(m.yes_bid) ??
-    fromDollars(m.last_price_dollars) ?? fromCents(m.last_price);
-  return p == null ? null : Math.round(p * 100) / 100;
+  const fromCents = (v) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 100 ? v / 100 : null);
+  const bid = fromDollars(m.yes_bid_dollars) ?? fromCents(m.yes_bid);
+  const ask = fromDollars(m.yes_ask_dollars) ?? fromCents(m.yes_ask);
+  const round = (n) => Math.round(n * 100) / 100;
+  // An empty book side reads as a 0.00 bid or a 1.00 ask, which makes the
+  // widest possible gap and lands in the thin branch.
+  if (bid != null && ask != null && ask > 0 && ask >= bid && ask - bid <= MAX_SPREAD + 1e-9) {
+    return { prob: round((bid + ask) / 2), bid, ask, thin: false };
+  }
+  return { prob: null, bid, ask, thin: true };
+}
+
+/**
+ * Threshold of an "above X" ladder line, from Kalshi's floor_strike or the
+ * title. null when the contract is not a threshold line.
+ * @param {Object} m
+ * @returns {number|null}
+ */
+function strikeOf(m) {
+  if (typeof m.floor_strike === 'number' && Number.isFinite(m.floor_strike)) return m.floor_strike;
+  const hit = /above\s+\$?([\d.,]+)/i.exec(m.title || '');
+  if (!hit) return null;
+  const n = parseFloat(hit[1].replace(/,/g, ''));
+  return Number.isFinite(n) ? n : null;
+}
+
+/**
+ * A ladder must get no less likely as its threshold falls ("above 1.10M" is
+ * at least as likely as "above 1.15M"). When the priced lines break that,
+ * none of them is a reliable read: every line is marked thin, unpriced.
+ * @param {Object[]} markets
+ * @param {Object[]} outcomes — same order as markets
+ * @returns {Object[]}
+ */
+function enforceLadder(markets, outcomes) {
+  const strikes = markets.map(strikeOf);
+  if (strikes.some((k) => k == null)) return outcomes;
+  const priced = outcomes
+    .map((o, i) => ({ k: strikes[i], p: o.prob }))
+    .filter((x) => x.p != null)
+    .sort((a, b) => a.k - b.k);
+  const ordered = priced.every((x, i) => i === 0 || x.p <= priced[i - 1].p);
+  if (ordered) return outcomes;
+  return outcomes.map((o) => ({ ...o, prob: null, thin: true }));
 }
 
 /**
@@ -336,16 +390,16 @@ function normalizeMarket(cfg, markets) {
 
   // Each contract's own "yes" price, as a probability. Kalshi's v2 API quotes
   // prices as dollar strings (`yes_bid_dollars`, "0.4500"); older responses
-  // used integer cents (`yes_bid`). A contract with no bid and no trade has
-  // no price: that is null, never 0 — a 0 here rendered as "0%" for every
+  // used integer cents (`yes_bid`). A contract without a tight bid–ask pair
+  // has no price: that is null, never 0 — a 0 here rendered as "0%" for every
   // housing-starts threshold on the dashboard.
-  const yesProb = contractProb(market);
+  const yes = contractPrice(market);
 
   let outcomes = [];
-  if (yesProb != null) {
+  if (yes.prob != null) {
     outcomes = [
-      { name: 'Yes', prob: yesProb },
-      { name: 'No',  prob: Math.round((1 - yesProb) * 100) / 100 },
+      { name: 'Yes', prob: yes.prob },
+      { name: 'No',  prob: Math.round((1 - yes.prob) * 100) / 100 },
     ];
   }
 
@@ -355,7 +409,10 @@ function normalizeMarket(cfg, markets) {
   // valid for mutually exclusive outcomes, and turned P(above 1.10M) = 0.95
   // into a share of a total.
   if (markets.length > 1) {
-    outcomes = markets.map(m => ({ name: m.title || m.ticker || '?', prob: contractProb(m) }));
+    outcomes = enforceLadder(markets, markets.map((m) => {
+      const pr = contractPrice(m);
+      return { name: m.title || m.ticker || '?', prob: pr.prob, bid: pr.bid, ask: pr.ask, thin: pr.thin };
+    }));
   }
 
   return {

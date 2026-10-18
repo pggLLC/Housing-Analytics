@@ -108,32 +108,54 @@ run('a signing failure explains the line-break cause', () => {
 });
 
 function loadNormalizeMarket() {
-  const a = /function contractProb[\s\S]*?\n}\n/.exec(SRC);
-  const b = /function normalizeMarket[\s\S]*?\n}\n/.exec(SRC);
-  assert.ok(a && b, 'contractProb and normalizeMarket must exist');
+  const parts = ['const MAX_SPREAD = 0.10;', 'function contractPrice', 'function strikeOf', 'function enforceLadder', 'function normalizeMarket']
+    .map((head) => head.startsWith('const') ? new RegExp(head.replace(/[.]/g, '\\.')).exec(SRC) : new RegExp(head + '[\\s\\S]*?\\n}\\n').exec(SRC));
+  assert.ok(parts.every(Boolean), 'MAX_SPREAD, contractPrice, strikeOf, enforceLadder and normalizeMarket must exist');
   const ctx = {};
   vm.createContext(ctx);
-  vm.runInContext(a[0] + b[0] + ';this.normalizeMarket = normalizeMarket;', ctx);
+  vm.runInContext(parts.map((m) => m[0]).join('\n') + ';this.normalizeMarket = normalizeMarket;', ctx);
   return ctx.normalizeMarket;
 }
 
 const CFG = { metric: 'housing_starts', label: 'Starts', horizon: 'year_end' };
 
-run('a strike ladder keeps each contract\'s own probability (no rescaling to 100%)', () => {
+run('a strike ladder keeps each contract\'s own midpoint (no rescaling to 100%)', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [
-    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9500' },
-    { ticker: 'B', title: 'above 1.30M', yes_bid: 60 },
-    { ticker: 'C', title: 'above 1.45M', last_price_dollars: '0.0800' }
+    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9200', yes_ask_dollars: '0.9600' },
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 58, yes_ask: 62 },
+    { ticker: 'C', title: 'above 1.45M', yes_bid_dollars: '0.0700', yes_ask_dollars: '0.0900' }
   ]);
-  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.95, 0.6, 0.08]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.94, 0.6, 0.08]);
+  assert.ok(out.outcomes.every((o) => o.thin === false));
 });
 
-run('a contract with no bid and no trade is null, never 0', () => {
+run('a line with buyers and sellers more than 10 points apart is thin and unpriced', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9000', yes_ask_dollars: '0.9500' },
+    { ticker: 'B', title: 'above 1.35M', yes_bid_dollars: '0.1600', yes_ask_dollars: '0.3400', last_price_dollars: '0.3000' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.93, null]);
+  assert.deepEqual(out.outcomes.map((o) => o.thin), [false, true]);
+});
+
+run('a ladder whose figures contradict each other shows none of them', () => {
+  // 18 Oct 2026: a lower threshold priced below a higher one.
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'Will US housing starts for September 2026 be above 1.150M?', yes_bid_dollars: '0.7000', yes_ask_dollars: '0.7400' },
+    { ticker: 'B', title: 'Will US housing starts for September 2026 be above 1.100M?', yes_bid_dollars: '0.3000', yes_ask_dollars: '0.3400' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
+  assert.ok(out.outcomes.every((o) => o.thin === true));
+});
+
+run('a contract with no bid and no ask is null, never 0', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [
     { ticker: 'A', title: 'above 1.10M' },
-    { ticker: 'B', title: 'above 1.30M', yes_bid: 0, yes_bid_dollars: '0.0000' }
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 0, yes_bid_dollars: '0.0000', last_price_dollars: '0.4000' }
   ]);
   assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
   const single = normalize(CFG, [{ ticker: 'A', title: 'one' }]);
