@@ -1,48 +1,467 @@
 {
-  "updated": "2026-10-18T08:15:16Z",
+  "updated": "2026-10-18T20:56:40Z",
   "source": "kalshi",
   "items": [
     {
-      "metric": "housing_starts",
-      "label": "Total Housing Starts (Annualized)",
-      "horizon": "year_end",
+      "metric": "colorado_home_prices",
+      "label": "Colorado home price index, Q4 2026 (FHFA)",
+      "horizon": "quarter",
+      "note": "Kalshi compares the Q4 2026 index with Q4 2025, and the line sits near the end-2025 level, so its price reads as the odds Colorado home prices finish 2026 higher than a year earlier.",
       "market": {
-        "id": "KXHOUSINGSTART-26OCT20-T1.450",
-        "title": "Will US housing starts for September 2026 be above 1.450M?",
-        "url": "https://kalshi.com/markets/KXHOUSINGSTART-26OCT20-T1.450"
+        "id": "KXCOHPIYOY-27FEB23-T679.21",
+        "title": "Will Colorado’s seasonally adjusted Purchase-Only FHFA HPI for Q4 2026 be above 679.21?",
+        "url": "https://kalshi.com/markets/KXCOHPIYOY-27FEB23-T679.21",
+        "closes": "2027-02-23T13:59:00Z"
       },
       "outcomes": [
         {
-          "name": "Will US housing starts for September 2026 be above 1.450M?",
-          "prob": 0.01
+          "name": "Above 679.21",
+          "prob": 0.29,
+          "bid": 0.28,
+          "ask": 0.29,
+          "thin": false
+        }
+      ]
+    },
+    {
+      "metric": "colorado_building_permits",
+      "label": "Colorado homes permitted in 2026 (Census)",
+      "horizon": "year_end",
+      "market": {
+        "id": "KXCOBUILDPERMITS-27JAN27-T32000",
+        "title": "Will the number of new privately owned housing units authorized by building permits in Colorado in 2026 be above 32,000?",
+        "url": "https://kalshi.com/markets/KXCOBUILDPERMITS-27JAN27-T32000",
+        "closes": "2027-01-27T12:59:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above 38,000",
+          "prob": 0.03,
+          "bid": 0.02,
+          "ask": 0.03,
+          "thin": false
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.400M?",
-          "prob": 0.06
+          "name": "Above 36,000",
+          "prob": 0.06,
+          "bid": 0.05,
+          "ask": 0.06,
+          "thin": false
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.350M?",
-          "prob": 0.16
+          "name": "Above 34,000",
+          "prob": 0.21,
+          "bid": 0.2,
+          "ask": 0.21,
+          "thin": false
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.300M?",
-          "prob": 0.25
+          "name": "Above 32,000",
+          "prob": 0.33,
+          "bid": 0.3,
+          "ask": 0.36,
+          "thin": false
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.250M?",
-          "prob": 0.5
+          "name": "Above 30,000",
+          "prob": 0.57,
+          "bid": 0.57,
+          "ask": 0.58,
+          "thin": false
+        }
+      ]
+    },
+    {
+      "metric": "30yr_mortgage_rate",
+      "label": "30-year mortgage rate, high for the year (Freddie Mac)",
+      "horizon": "year_end",
+      "market": {
+        "id": "KXMORTGAGERATE-26DEC-T7.4",
+        "title": "How high will 30yr mortgage rate get this year?",
+        "url": "https://kalshi.com/markets/KXMORTGAGERATE-26DEC-T7.4",
+        "closes": "2027-01-01T13:29:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above 8.0%",
+          "prob": null,
+          "bid": 0.07,
+          "ask": 0.09,
+          "thin": true
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.200M?",
-          "prob": 0.7
+          "name": "Above 7.9%",
+          "prob": null,
+          "bid": 0.03,
+          "ask": 0.1,
+          "thin": true
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.150M?",
-          "prob": 0.71
+          "name": "Above 7.8%",
+          "prob": null,
+          "bid": 0.04,
+          "ask": 0.17,
+          "thin": true
         },
         {
-          "name": "Will US housing starts for September 2026 be above 1.100M?",
-          "prob": 0.32
+          "name": "Above 7.7%",
+          "prob": null,
+          "bid": 0.05,
+          "ask": 0.27,
+          "thin": true
+        },
+        {
+          "name": "Above 7.6%",
+          "prob": null,
+          "bid": 0.12,
+          "ask": 0.45,
+          "thin": true
+        },
+        {
+          "name": "Above 7.5%",
+          "prob": null,
+          "bid": 0.3,
+          "ask": 0.63,
+          "thin": true
+        },
+        {
+          "name": "Above 7.4%",
+          "prob": null,
+          "bid": 0.46,
+          "ask": 0.87,
+          "thin": true
+        }
+      ]
+    },
+    {
+      "metric": "housing_starts",
+      "label": "US housing starts, monthly (Census)",
+      "horizon": "month",
+      "market": {
+        "id": "KXHOUSINGSTART-26OCT20-T1.250",
+        "title": "Will US housing starts for September 2026 be above 1.250M?",
+        "url": "https://kalshi.com/markets/KXHOUSINGSTART-26OCT20-T1.250",
+        "closes": "2026-10-20T12:29:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above 1.450M",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.02,
+          "thin": true
+        },
+        {
+          "name": "Above 1.400M",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 1.350M",
+          "prob": null,
+          "bid": 0.16,
+          "ask": 0.34,
+          "thin": true
+        },
+        {
+          "name": "Above 1.300M",
+          "prob": null,
+          "bid": 0.25,
+          "ask": 0.57,
+          "thin": true
+        },
+        {
+          "name": "Above 1.250M",
+          "prob": null,
+          "bid": 0.5,
+          "ask": 1,
+          "thin": true
+        },
+        {
+          "name": "Above 1.200M",
+          "prob": null,
+          "bid": 0.7,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 1.150M",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.99,
+          "thin": true
+        },
+        {
+          "name": "Above 1.100M",
+          "prob": null,
+          "bid": 0.31,
+          "ask": 0.99,
+          "thin": true
+        }
+      ]
+    },
+    {
+      "metric": "building_permits",
+      "label": "US building permits, monthly (Census)",
+      "horizon": "month",
+      "market": {
+        "id": "KXBUILDPERMS-26OCT20-T1.300",
+        "title": "Will US building permits for September 2026 be above 1.300M?",
+        "url": "https://kalshi.com/markets/KXBUILDPERMS-26OCT20-T1.300",
+        "closes": "2026-10-20T12:29:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above 1.550M",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.03,
+          "thin": true
+        },
+        {
+          "name": "Above 1.500M",
+          "prob": 0.08,
+          "bid": 0.03,
+          "ask": 0.13,
+          "thin": false
+        },
+        {
+          "name": "Above 1.450M",
+          "prob": 0.3,
+          "bid": 0.29,
+          "ask": 0.3,
+          "thin": false
+        },
+        {
+          "name": "Above 1.400M",
+          "prob": 0.52,
+          "bid": 0.48,
+          "ask": 0.57,
+          "thin": false
+        },
+        {
+          "name": "Above 1.350M",
+          "prob": 0.83,
+          "bid": 0.78,
+          "ask": 0.87,
+          "thin": false
+        },
+        {
+          "name": "Above 1.300M",
+          "prob": 0.94,
+          "bid": 0.93,
+          "ask": 0.95,
+          "thin": false
+        },
+        {
+          "name": "Above 1.250M",
+          "prob": null,
+          "bid": 0.94,
+          "ask": 1,
+          "thin": true
+        }
+      ]
+    },
+    {
+      "metric": "existing_home_price",
+      "label": "US median existing-home price, monthly (NAR)",
+      "horizon": "month",
+      "market": {
+        "id": "KXEXUSHOME-26NOV12-T395000",
+        "title": "Will Median Sales Price of Existing Homes (HOSMEDUSM052N) for October 2026 be above $395,000?",
+        "url": "https://kalshi.com/markets/KXEXUSHOME-26NOV12-T395000",
+        "closes": "2026-11-12T14:59:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above $435,000",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.44,
+          "thin": true
+        },
+        {
+          "name": "Above $430,000",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.48,
+          "thin": true
+        },
+        {
+          "name": "Above $425,000",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.97,
+          "thin": true
+        },
+        {
+          "name": "Above $420,000",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above $415,000",
+          "prob": null,
+          "bid": 0.02,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above $410,000",
+          "prob": null,
+          "bid": 0.06,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above $405,000",
+          "prob": null,
+          "bid": 0.03,
+          "ask": 0.99,
+          "thin": true
+        },
+        {
+          "name": "Above $400,000",
+          "prob": null,
+          "bid": 0.8,
+          "ask": 1,
+          "thin": true
+        },
+        {
+          "name": "Above $395,000",
+          "prob": null,
+          "bid": 0.05,
+          "ask": 0.99,
+          "thin": true
+        }
+      ]
+    },
+    {
+      "metric": "owners_equivalent_rent",
+      "label": "US rent index, monthly (BLS owners' equivalent rent)",
+      "horizon": "month",
+      "market": {
+        "id": "KXOER-26NOV10-T449.7",
+        "title": "Will CPI-U for Owners' equivalent rent for October 2026 be above 449.7?",
+        "url": "https://kalshi.com/markets/KXOER-26NOV10-T449.7",
+        "closes": "2026-11-10T13:29:00Z"
+      },
+      "outcomes": [
+        {
+          "name": "Above 450.0",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.93,
+          "thin": true
+        },
+        {
+          "name": "Above 449.9",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 449.8",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.63,
+          "thin": true
+        },
+        {
+          "name": "Above 449.7",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.77,
+          "thin": true
+        },
+        {
+          "name": "Above 449.6",
+          "prob": null,
+          "bid": 0.03,
+          "ask": 0.93,
+          "thin": true
+        },
+        {
+          "name": "Above 449.5",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.72,
+          "thin": true
+        },
+        {
+          "name": "Above 449.4",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.89,
+          "thin": true
+        },
+        {
+          "name": "Above 449.3",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 449.2",
+          "prob": null,
+          "bid": 0.01,
+          "ask": 0.74,
+          "thin": true
+        },
+        {
+          "name": "Above 449.1",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.65,
+          "thin": true
+        },
+        {
+          "name": "Above 449.0",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 448.9",
+          "prob": null,
+          "bid": 0,
+          "ask": 0.98,
+          "thin": true
+        },
+        {
+          "name": "Above 448.8",
+          "prob": null,
+          "bid": 0.01,
+          "ask": 0.97,
+          "thin": true
+        },
+        {
+          "name": "Above 448.7",
+          "prob": null,
+          "bid": 0.03,
+          "ask": 0.85,
+          "thin": true
+        },
+        {
+          "name": "Above 448.6",
+          "prob": null,
+          "bid": 0.01,
+          "ask": 0.94,
+          "thin": true
+        },
+        {
+          "name": "Above 448.5",
+          "prob": null,
+          "bid": 0.04,
+          "ask": 0.92,
+          "thin": true
         }
       ]
     }

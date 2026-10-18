@@ -461,19 +461,22 @@ document.addEventListener('DOMContentLoaded', function () {
 </details>
 
 <!-- Q4: Kalshi prediction-market section — shows the Kalshi contracts the
-     weekly fetcher finds (today only monthly housing starts) next to the
-     FRED series they settle on. Reads
+     weekly fetcher finds (MARKET_CONFIG in the fetcher) next to the FRED
+     series they settle on. Reads
      from data/kalshi/prediction-market.json (updated by CI cron from the
      existing scripts/kalshi/fetch_kalshi_prediction_markets.js fetcher). -->
 <section id="kalshi-macro-section" aria-label="Market-priced macro expectations" class="card" style="margin-top: 2rem; padding: var(--sp4);">
   <h2 style="margin-top:0;">Market-priced macro expectations <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Kalshi prediction markets</small></h2>
   <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--sp3);">
-    What Kalshi traders are paying on upcoming housing data releases, such as the
-    monthly housing starts figure that FRED reports above. Each card lists the
-    contracts for one release; a contract&rsquo;s price is the traders&rsquo; odds that
-    the figure lands above that line. Prices are saved weekly.
+    What Kalshi traders are paying on upcoming housing figures: Colorado home
+    prices and building permits, the year&rsquo;s highest 30-year mortgage rate, and
+    the monthly US housing starts, building permits, median existing-home price
+    and owners&rsquo; equivalent rent index. Each card lists the contracts for one figure; a
+    contract&rsquo;s price is the traders&rsquo; odds that the figure lands above that
+    line. Prices are saved weekly.
   </p>
   <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:var(--sp3);"></div>
+  <p id="kalshiQuiet" hidden style="font-size:.85rem;color:var(--muted);margin-top:var(--sp3);"></p>
   <p id="kalshiUpdatedAt" style="font-size:.78rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
 </section>
 
@@ -1358,15 +1361,21 @@ function getKey(){ return CONFIG_KEY || ""; }
         });
         var vol = 0;
         (event.markets || []).forEach(function(m) { vol += parseFloat(m.volume) || 0; });
+        // Several recession markets (one per year) share one Colorado
+        // impact tile: the first live one in curated order fills it, so the
+        // 2027 market takes over once the 2026 one settles.
         if (resolved) {
           markSettledValue('pm-' + e.key, 'pm-' + e.key + '-delta', 'Settled · ' + fmtVol(vol) + ' volume');
-          markSettledValue('pm-co-recession');
+          if (!_coRecessionOwner) markSettledValue('pm-co-recession');
         } else {
           setText('pm-' + e.key, pct(rYes));
           setText('pm-' + e.key + '-delta', fmtVol(vol) + ' volume');
-          setText('pm-co-recession', pct(rYes));
-          var recEl = document.getElementById('pm-co-recession');
-          if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
+          if (!_coRecessionOwner) {
+            _coRecessionOwner = e.key;
+            setText('pm-co-recession', pct(rYes));
+            var recEl = document.getElementById('pm-co-recession');
+            if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
+          }
         }
         var detail = document.getElementById('pm-' + e.key + '-detail');
         if (detail) {
@@ -1400,9 +1409,14 @@ function getKey(){ return CONFIG_KEY || ""; }
       }
     },
     'fed-decision-pair': {
+      // Hold, raise and cut each get their own figure. "Not hold" used to be
+      // labelled "Cut", which on 18 Oct 2026 showed a 38% cut when traders
+      // priced a 34% hike and a 2% cut.
       body: function(e) {
         return '<div class="hp-odds-row">' +
-          '<div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-' + e.key + '-yes">—</span><span class="hp-odds-lbl">No chg</span></div>' +
+          '<div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-' + e.key + '-yes">—</span><span class="hp-odds-lbl">Hold</span></div>' +
+          '<div class="hp-odds-sep">|</div>' +
+          '<div class="hp-odds-no"><span class="hp-odds-pct" id="pm-' + e.key + '-up">—</span><span class="hp-odds-lbl">Raise</span></div>' +
           '<div class="hp-odds-sep">|</div>' +
           '<div class="hp-odds-no"><span class="hp-odds-pct" id="pm-' + e.key + '-no">—</span><span class="hp-odds-lbl">Cut</span></div>' +
           '</div>' +
@@ -1411,14 +1425,19 @@ function getKey(){ return CONFIG_KEY || ""; }
       render: function(e, event) {
         var brackets = parseMarkets(event);
         var noChange = brackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
+        var sum = function(word) {
+          return brackets.reduce(function(t, b) { return t + (b.question.toLowerCase().indexOf(word) !== -1 ? b.prob : 0); }, 0);
+        };
         var bar = document.getElementById('pm-' + e.key + '-bar');
         if (pmEventIsResolved(brackets)) {
           markSettledValue('pm-' + e.key + '-yes');
+          markSettledValue('pm-' + e.key + '-up');
           markSettledValue('pm-' + e.key + '-no');
           if (bar) bar.style.width = '0%';
         } else if (noChange) {
           setText('pm-' + e.key + '-yes', pct(noChange.prob));
-          setText('pm-' + e.key + '-no', pct(1 - noChange.prob));
+          setText('pm-' + e.key + '-up', pct(sum('increase')));
+          setText('pm-' + e.key + '-no', pct(sum('decrease')));
           if (bar) bar.style.width = (noChange.prob * 100) + '%';
         }
       }
@@ -1485,10 +1504,36 @@ function getKey(){ return CONFIG_KEY || ""; }
     },
     'brackets': {
       body: detailBody,
+      // Threshold ladders ("Reaches 5.5%", "Below 4.7%") list many long-shot
+      // lines whose 1-3% prices sit inside the buy-sell gap and can contradict
+      // each other (on 18 Oct 2026 "below 2.0%" was priced above "below
+      // 3.0%"), and keep every line already settled. Only open lines at 5%
+      // or more are drawn; the rest are counted.
       render: function(e, event) {
-        renderBrackets('pm-' + e.key + '-detail', parseMarkets(event).map(function(b) {
-          return { label: b.question, prob: b.prob, resolved: b.resolved };
+        var prefix = e.prefix || '';
+        var all = parseMarkets(event);
+        var shown = all.filter(function(b) { return !b.resolved && b.prob >= 0.05; });
+        var settledCount = all.filter(function(b) { return b.resolved; }).length;
+        var longShots = all.length - shown.length - settledCount;
+        var el = document.getElementById('pm-' + e.key + '-detail');
+        if (!shown.length && settledCount === all.length) {
+          // Every line settled: keep the old settled rows.
+          renderBrackets('pm-' + e.key + '-detail', all.map(function(b) {
+            return { label: prefix + b.question, prob: b.prob, resolved: true };
+          }));
+          return;
+        }
+        renderBrackets('pm-' + e.key + '-detail', shown.map(function(b) {
+          var q = prefix ? b.question.charAt(0).toLowerCase() + b.question.slice(1) : b.question;
+          return { label: prefix + q, prob: b.prob, resolved: false };
         }));
+        var notes = [];
+        if (longShots) notes.push((longShots === 1 ? '1 more open line is' : longShots + ' more open lines are') + ' under 5%.');
+        if (settledCount) notes.push((settledCount === 1 ? '1 line has' : settledCount + ' lines have') + ' already settled.');
+        if (el && !shown.length) el.innerHTML = '';
+        if (el && notes.length) {
+          el.insertAdjacentHTML('beforeend', '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">' + esc(notes.join(' ')) + '</div>');
+        }
       }
     },
     'up-down': {
@@ -1518,6 +1563,7 @@ function getKey(){ return CONFIG_KEY || ""; }
   // Load from cached JSON, falling back to live API per-event
   var _pmCache = null;
   var _curated = null;
+  var _coRecessionOwner = null;
   function fetchJson(url) {
     var fetcher = (typeof window.safeFetchJSON === 'function')
       ? window.safeFetchJSON
@@ -1577,6 +1623,7 @@ function getKey(){ return CONFIG_KEY || ""; }
     }
     setText('pm-co-cost', 'Unavailable');
     setText('pm-co-recession', 'Unavailable');
+    _coRecessionOwner = null;
     var grids = document.querySelectorAll('#polymarket-section [data-pm-section]');
     Array.prototype.forEach.call(grids, function(grid) {
       var mine = entries.filter(function(e) { return e.section === grid.getAttribute('data-pm-section'); });
@@ -1676,10 +1723,13 @@ function getKey(){ return CONFIG_KEY || ""; }
       meta.textContent = 'Source: Kalshi prediction markets';
       return;
     }
+    // A card needs at least one priced line. Markets with none this week are
+    // named in one line under the grid instead of a card of blanks.
+    var quiet = [];
     grid.innerHTML = items.map(function (item) {
       var market = item.market || {};
       // A line with no reliable price carries prob null (thin: true when its
-      // bid–ask gap is too wide): it shows as "Too few trades", never 0%.
+      // bid–ask gap is too wide): it is left out and counted, never 0%.
       // Strike ladders ("above 1.30M", "above 1.35M") overlap, so a lower
       // threshold can never be less likely than a higher one; when the
       // figures say otherwise, none of them is shown. The headline is the
@@ -1692,24 +1742,43 @@ function getKey(){ return CONFIG_KEY || ""; }
       var top = evenOrBetter.length
         ? evenOrBetter.slice().sort(function (a, b) { return a.prob - b.prob; })[0]
         : priced.slice().sort(function (a, b) { return b.prob - a.prob; })[0];
-      var anyThin = outcomes.some(function (o) { return !(typeof o.prob === 'number' && isFinite(o.prob)); });
-      var outcomeRows = outcomes.map(function (o) {
-        var has = typeof o.prob === 'number' && isFinite(o.prob);
-        var pct = has ? Math.round(o.prob * 100) : 0;
+      // Only priced lines get a row; the rest are counted in one note, so a
+      // card whose lines are mostly untraded is not a column of blanks.
+      var unpriced = outcomes.length - priced.length;
+      var outcomeRows = priced.map(function (o) {
+        var pct = Math.round(o.prob * 100);
         return '<tr><td style="padding:.2rem .4rem;font-size:.78rem;">' + escHtml(o.name) + '</td>' +
-          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + (has ? pct + '%' : 'Too few trades') + '</td>' +
+          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + pct + '%</td>' +
           '<td style="padding:.15rem 0;width:60px;"><div style="height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--accent);"></div></div></td>' +
         '</tr>';
       }).join('');
+      var thinNote = !unpriced ? ''
+        : (unpriced === 1 ? '1 more line is' : unpriced + ' more lines are') + ' not shown: buyers and sellers are more than 10 points apart, or the prices contradict each other.';
+      var closes = market.closes ? 'Trading closes ' + fmtDate(market.closes) + '. ' : '';
+      if (!priced.length) {
+        quiet.push(market.url
+          ? '<a href="' + escHtml(market.url) + '" target="_blank" rel="noopener" style="color:var(--accent);">' + escHtml(item.label || item.metric) + '</a>'
+          : escHtml(item.label || item.metric));
+        return '';
+      }
       return '<div class="card" style="padding:var(--sp3);">' +
         '<div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;">' + escHtml(item.label || item.metric) + '</div>' +
-        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : 'Too few trades for a clear reading') + '</div>' +
-        '<table style="width:100%;border-collapse:collapse;margin:.3rem 0;">' + outcomeRows + '</table>' +
-        (anyThin ? '<div style="font-size:.75rem;color:var(--muted);margin:.2rem 0 .4rem;">Lines marked "Too few trades" have buyers and sellers more than 10 points apart, or prices that contradict each other, so no figure is shown.</div>' : '') +
+        (item.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.2rem;">' + escHtml(item.note) + '</div>' : '') +
+        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span></div>' +
+        (outcomeRows ? '<table style="width:100%;border-collapse:collapse;margin:.3rem 0;">' + outcomeRows + '</table>' : '') +
+        (thinNote ? '<div style="font-size:.75rem;color:var(--muted);margin:.2rem 0 .4rem;">' + thinNote + '</div>' : '') +
         (market.url ? '<a href="' + escHtml(market.url) + '" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--accent);text-decoration:underline;">View market on Kalshi ↗</a>' : '') +
-        '<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem;">' + escHtml(market.title || '') + '</div>' +
+        '<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem;">' + escHtml(closes + (market.title || '')) + '</div>' +
       '</div>';
     }).join('');
+    var quietEl = document.getElementById('kalshiQuiet');
+    if (quietEl) {
+      quietEl.innerHTML = quiet.length
+        ? 'Too few trades this week for a reading on: ' + quiet.join('; ') + '. These markets have no line where buyers and sellers are within 10 points of each other.'
+        : '';
+      quietEl.hidden = !quiet.length;
+    }
+    if (!grid.innerHTML) grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);font-size:.9rem;text-align:center;padding:var(--sp3);">No Kalshi market has enough trading for a reading this week.</div>';
     var noteStr = payload.note ? ' · ' + payload.note : '';
     meta.textContent = 'Updated: ' + fmtDate(payload.updated) + ' · Source: Kalshi prediction markets' + noteStr;
   }
