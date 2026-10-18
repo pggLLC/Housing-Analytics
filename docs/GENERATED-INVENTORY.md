@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T05:49:59.155Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T06:32:31.706Z. Do not edit by hand.
 
 ---
 
@@ -1792,7 +1792,7 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
-| `data/tax-abatement-inventory.json` | 22.6 KB | ✅ | — |
+| `data/tax-abatement-inventory.json` | 23.8 KB | ✅ | — |
 | `data/url-health.json` | 580.1 KB | ✅ | — |
 
 ---
@@ -2293,7 +2293,7 @@
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/site-transit-evidence.test.js` | 14.7 KB |
-| `test/smoke-f139.test.js` | 11.7 KB |
+| `test/smoke-f139.test.js` | 12.3 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
