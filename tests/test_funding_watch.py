@@ -982,3 +982,49 @@ def test_a_new_yearly_allocation_link_is_a_change():
     r = run(site(eiaf=page.format(new)), previous=base, now="2026-10-16T05:34:00Z")
     [ch] = r["changes"]["changed_pages"]
     assert ch["key_lines"]["added"] == ["Direct Allocations - 2027"]
+
+
+def test_a_new_extraction_version_rebaselines_key_lines_instead_of_reporting_them():
+    base = run(site())
+    # Pages stored before versioning, under an older pattern, held fewer lines.
+    for p in base["pages"]:
+        p.pop("key_lines_version", None)
+        if p["key_lines"]:
+            p["key_lines"] = p["key_lines"][:1]
+    r = run(site(), previous=base, now="2026-10-16T05:34:00Z")
+    assert r["changes"]["changed_pages"] == []
+    assert all(p.get("last_changed_at") is None for p in r["pages"] if p["ok"])
+    assert {p.get("key_lines_version") for p in r["pages"] if p["ok"]} == {watch.KEY_LINES_VERSION}
+    # The next run compares again under the new version.
+    page = "<title>EIAF</title><p>Round 1 applications due March 3, 2027</p>"
+    r2 = run(site(eiaf=page), previous=r, now="2026-10-17T05:34:00Z")
+    assert [c for c in r2["changes"]["changed_pages"] if c["key_lines"]["added"]]
+
+
+def test_a_rebaseline_still_reports_a_new_document():
+    base = run(site())
+    for p in base["pages"]:
+        p.pop("key_lines_version", None)
+    page = QUIET + "<p><a href='/files/eiaf-2027-guidelines.pdf'>2027 Guidelines</a></p>"
+    r = run(site(eiaf=page), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert ch["key_lines"] == {"added": [], "removed": []}
+    assert [d["title"] for d in ch["new_documents"]] == ["2027 Guidelines"]
+
+
+def test_an_up_to_date_stamp_is_not_a_key_line():
+    text = ("Displaying title 24, up to date as of 10/15/2026. Title 24 was last amended 8/20/2026.\n"
+            "Page last updated October 16, 2026\n"
+            "Applications due as of March 5, 2027\n"
+            "Awards announced December 1, 2026. Last updated October 16, 2026")
+    assert watch.key_lines(text, watch.ROUND_LINE_RE) == [
+        "Applications due as of March 5, 2027",
+        "Awards announced December 1, 2026. Last updated October 16, 2026",
+    ]
+
+
+def test_a_daily_ecfr_stamp_is_not_a_change():
+    page = "<title>eCFR</title><p>Displaying title 24, up to date as of {}. Title 24 was last amended 8/20/2026.</p><p>Round due 2027</p>"
+    base = run(site(eiaf=page.format("10/14/2026")))
+    r = run(site(eiaf=page.format("10/15/2026")), previous=base, now="2026-10-16T05:34:00Z")
+    assert r["changes"]["changed_pages"] == []
