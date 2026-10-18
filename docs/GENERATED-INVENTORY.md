@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T10:54:32.351Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T12:58:00.760Z. Do not edit by hand.
 
 ---
 
@@ -93,7 +93,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 836.3 KB | ✅ | — |
-| `data/_qa-status.json` | 7.5 KB | ✅ | — |
+| `data/_qa-status.json` | 9.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -106,8 +106,8 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 318.4 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 72.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 321.4 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 74.8 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 587.2 KB | ✅ | — |
@@ -132,7 +132,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -149,7 +149,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 259.2 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 260.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1746,7 +1746,7 @@
 | `data/policy/funding-watch-sources.json` | 10.2 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
-| `data/policy/housing-events.json` | 14.3 KB | ✅ | — |
+| `data/policy/housing-events.json` | 13.5 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 53.5 KB | ✅ | — |
@@ -1774,7 +1774,7 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 431.1 KB | ✅ | — |
+| `data/policy_briefs.json` | 345.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
@@ -1801,7 +1801,7 @@
 
 ## Test Files
 
-657 test files found.
+658 test files found.
 
 | File | Size |
 |------|------|
@@ -1883,7 +1883,7 @@
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
-| `test/data-commits-queue.test.js` | 10.0 KB |
+| `test/data-commits-queue.test.js` | 11.0 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
@@ -2428,6 +2428,7 @@
 | `tests/test_funding_awards_parser.py` | 5.8 KB |
 | `tests/test_funding_watch.py` | 58.7 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
+| `tests/test_gtfs_transit_carry_forward.py` | 11.2 KB |
 | `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
@@ -2459,7 +2460,7 @@
 | `tests/test_stage3_visualization.py` | 23.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
-| `tests/test_transit_stops_statewide.py` | 21.9 KB |
+| `tests/test_transit_stops_statewide.py` | 24.1 KB |
 | `tests/test_upstream_schema_check.py` | 7.7 KB |
 | `tests/test_workforce_need.py` | 5.8 KB |
 
@@ -2525,7 +2526,7 @@
 | `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.9 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
-| `.github/workflows/market_data_build.yml` | 21.9 KB |
+| `.github/workflows/market_data_build.yml` | 22.4 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
