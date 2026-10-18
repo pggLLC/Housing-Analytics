@@ -1454,8 +1454,9 @@
         // Cash that repays the deferred fee goes to the developer, not to
         // distributions, and a deficit from earlier years is made up first.
         var surplus = row.distributable;
-        // The developer receives the deferred fee paid from this year's cash.
-        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid;
+        // The developer receives the deferred fee paid from this year's cash and
+        // any earlier operating deficit it funded that this year's cash repays.
+        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid + row.deficitRecovered;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
         return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };

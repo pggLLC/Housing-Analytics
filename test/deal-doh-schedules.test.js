@@ -278,15 +278,17 @@ test('after a deficit, distributions wait until cumulative cash is positive, and
   const rows = r.projection.rows;
   let distributed = 0;
   r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
-    distributed += y.lp + y.gp;
+    distributed += y.lp + y.gp - rows[n].deficitRecovered;
     close(distributed, Math.max(0, rows[n].cumCF), 'year ' + y.year + ': fee plus distributions to date equal cumulative cash');
   });
-  assert.equal(r.waterfall.annual[2].lp + r.waterfall.annual[2].gp, 0, 'year 3 cash makes up the deficit');
+  assert(rows[2].deficitRecovered > 0, 'year 3 cash makes up the deficit');
+  close(r.waterfall.annual[2].lp, 0, 'investors get none of it');
+  close(r.waterfall.annual[2].gp, rows[2].deficitRecovered, 'the sponsor who funded the deficit is repaid');
   const f = ds.fifteenYear(r);
   assert(f.rows[2].deficitRecovered > 0, 'DOH shows year 3 making up the deficit');
   assert.equal(f.rows[2].availableAfterPayments, 0, 'so nothing is available again that year');
   r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
-    close(y.lp + y.gp - f.rows[n].deferredFee, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ': DOH and the waterfall agree');
+    close(y.lp + y.gp - f.rows[n].deferredFee - f.rows[n].deficitRecovered, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ': DOH and the waterfall agree');
   });
 });
 
