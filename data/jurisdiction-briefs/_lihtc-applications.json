@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:50:03Z",
+  "generated_at": "2026-10-18T11:00:27Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
@@ -2074,12 +2074,12 @@
    "toc_credit_requested": 262000,
    "mihtc_credit_requested": null,
    "pab_requested": 18960167,
-   "county_fips": "08031",
+   "county_fips": "08001",
    "place_geoids": [
     "0820000"
    ],
    "county_fips_all": [
-    "08031"
+    "08001"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Vantage Pointe Residences; Address: 6731 Lowell Boulevard; City: Denver; Total Units: 131; LI Units: 131; Federal 4% Credit Requested: $2,768,455; PAB Issuer: Maiker Housing Partners; PAB Requested: $18,960,167; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $262,000; Sponsor: Northpointe Development II Corporation",
    "source_file": "2026-HTC-Round-Two-Applicant-Report.pdf",
@@ -2179,12 +2179,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": 16930186,
-   "county_fips": "08031",
+   "county_fips": "08001",
    "place_geoids": [
     "0820000"
    ],
    "county_fips_all": [
-    "08031"
+    "08001"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Welby; Address: 7295 Washington Street; City: Denver; Total Units: 117; LI Units: 117; Federal 4% Credit Requested: $2,997,728; PAB Issuer: Maiker Housing Partners; PAB Requested: $16,930,186; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $599,454; Sponsor: Maiker Housing Partners",
    "source_file": "2026-HTC-Round-Two-Applicant-Report.pdf",
@@ -4080,8 +4080,7 @@
     "0820000"
    ],
    "county_fips_all": [
-    "08001",
-    "08031"
+    "08001"
    ],
    "quote": "Type: I/F, N; Name: Elmwood North; Address: 8000 N Pecos Street; City: Denver; Total Units: 70; Total MIHTC Units: 70; MIHTC Amount Requested: $ 1,649,753; Sponsor: Delwest Development Corp.",
    "source_file": "2025-MIHTC-Applicant-Report.pdf",
@@ -10523,12 +10522,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08031",
+   "county_fips": "08001",
    "place_geoids": [
     "0820000"
    ],
    "county_fips_all": [
-    "08031"
+    "08001"
    ],
    "quote": "Type: N,F; Name: Clear Creek; Address: 5901 Federal Boulevard; City: Denver; Credit Requested: $1,355,677; Total Units: 47; Total LI Units: 47; Owner Name: Atrium Housing",
    "source_file": "2023-HTC-Round-One-Applicant-Report.pdf",

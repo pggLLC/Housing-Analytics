@@ -299,7 +299,7 @@ def test_a_namesake_elsewhere_does_not_move_an_application_to_its_county():
         'counties': {'denver': '08031', 'el paso': '08041', 'adams': '08001', 'jefferson': '08059'},
         'county_places': {'denver': {'08031'}, 'colorado springs': {'08041'}, 'westminster': {'08001'}},
         'names': {'ridge': '08041', 'blossom commons': '08059'},
-        'name_cities': {'ridge': {'colorado springs'}, 'blossom commons': {'westminster'}},
+        'name_cities': {'ridge': {'colorado springs': {'08041'}}, 'blossom commons': {'westminster': {'08059'}}},
         'city_spans': {'westminster': {'08001', '08059'}},
         'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
     }
@@ -320,7 +320,7 @@ def test_in_a_city_that_spans_counties_the_address_decides_or_the_county_is_unkn
         'counties': {'adams': '08001', 'jefferson': '08059', 'la plata': '08067'},
         'county_places': {'westminster': {'08001'}},
         'names': {'mountain vista apartments': '08067'},
-        'name_cities': {'mountain vista apartments': {'durango'}},
+        'name_cities': {'mountain vista apartments': {'durango': {'08067'}}},
         'city_spans': {'westminster': {'08001', '08059'}},
         'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
     }
@@ -374,8 +374,9 @@ def test_an_application_in_a_city_that_spans_counties_is_filed_under_one_county_
     awards = apps_mod.awards
     data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
     spans = apps_mod.city_spans(apps_mod.load_places())
-    # the Census cross-county list (Arvada, Longmont) and the feed (Englewood)
-    assert {'westminster', 'aurora', 'arvada', 'longmont', 'englewood'} <= set(spans)
+    # the Census cross-county list (Arvada, Longmont) and the feed (Englewood,
+    # and Denver, whose mailing addresses reach into Adams)
+    assert {'westminster', 'aurora', 'arvada', 'longmont', 'englewood', 'denver'} <= set(spans)
     checked = 0
     for r in data['applications']:
         cities = [c for c in (r.get('city') or '').split(',') if c.strip()]
@@ -441,3 +442,71 @@ def test_a_geocoder_outage_keeps_the_last_list(monkeypatch, tmp_path, ctx):
     (tmp_path / f'{name}.pdf').write_bytes(b'%PDF')
     assert apps_mod.main() == 1
     assert out.read_text() == '{"prior": true}'
+
+
+def test_a_name_in_several_cities_takes_the_county_of_the_applications_city():
+    """The feed has "Legacy Senior Residences" in Arvada (Jefferson) and Fort
+    Collins (Larimer): a Fort Collins application takes Larimer, not whichever
+    one the statewide name lookup found first."""
+    c = {
+        'counties': {'jefferson': '08059', 'larimer': '08069'},
+        'county_places': {'fort collins': {'08069'}, 'arvada': {'08059'}},
+        'names': {'legacy senior residences': '08059'},
+        'name_cities': {'legacy senior residences': {'arvada': {'08059'}, 'fort collins': {'08069'}}},
+        'city_spans': {},
+        'geocode': lambda address, city: None,
+    }
+    got = apps_mod.place_county({'name': 'Legacy Senior Residences', 'city': 'Fort Collins'}, ['Fort Collins'], c)
+    assert got['county_fips'] == '08069'
+
+
+def test_a_mailing_city_mostly_in_one_county_still_geocodes_and_falls_back_to_it():
+    """Denver mailing addresses reach into Adams (Welby, 7295 Washington
+    Street): the address decides it, and an address the geocoder cannot place
+    stays in Denver rather than on no county's brief."""
+    c = {
+        'counties': {'denver': '08031', 'adams': '08001'},
+        'county_places': {'denver': {'08031'}},
+        'names': {}, 'name_cities': {},
+        'city_spans': {'denver': {'08031', '08001'}},
+        'city_fallbacks': {'denver': '08031'},
+        'geocode': lambda address, city: {'7295 Washington Street': '08001'}.get(address),
+    }
+    got = apps_mod.place_county({'name': 'Welby', 'city': 'Denver', 'address': '7295 Washington Street'}, ['Denver'], c)
+    assert got['county_fips'] == '08001'
+    got = apps_mod.place_county({'name': 'New Street', 'city': 'Denver', 'address': '3979 Central Park Blvd'}, ['Denver'], c)
+    assert got['county_fips'] == '08031' and got['county_method'].startswith('Mailing city')
+    got = apps_mod.place_county({'name': 'No Address', 'city': 'Denver', 'address': None}, ['Denver'], c)
+    assert got['county_fips'] == '08031'
+
+
+def test_the_fallback_is_only_for_a_city_no_county_line_runs_through():
+    """Denver and Lakewood fall back to their county; Westminster, Aurora and
+    Englewood, where the line runs through the city or its addresses, do not."""
+    fb = apps_mod.city_fallbacks(apps_mod.load_places())
+    assert fb.get('denver') == '08031'
+    assert not {'westminster', 'aurora', 'englewood', 'arvada', 'longmont'} & set(fb)
+
+
+def test_a_refused_or_multi_address_request_is_not_an_outage(monkeypatch):
+    """The geocoder answers 400 to a request it will not read (six addresses
+    in one cell): that is no match, not an outage. Several addresses are
+    placed one by one and agree on a county, or give none."""
+    from urllib.error import HTTPError
+    calls = []
+
+    def get(url, timeout=60):
+        calls.append(url)
+        if '%3B' in url:
+            raise HTTPError(url, 400, 'Bad Request', {}, None)
+        county = '08001' if 'Pecos' in url else '08031'
+        return json.dumps({'result': {'addressMatches': [{'geographies': {'Counties': [{'GEOID': county}]}}]}}).encode()
+    monkeypatch.setattr(apps_mod.awards, 'http_get', get)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; 2301 Eliot Street', 'Denver') == '08031'
+    assert len(calls) == 2 and not any('%3B' in u for u in calls)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; 8000 Pecos Street', 'Denver') is None
+
+    def refused(url, timeout=60):
+        raise HTTPError(url, 400, 'Bad Request', {}, None)
+    monkeypatch.setattr(apps_mod.awards, 'http_get', refused)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue', 'Denver') is None
