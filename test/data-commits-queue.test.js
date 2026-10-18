@@ -204,4 +204,25 @@ test('Rebuild BPS Permits checks the data bounds on the tree it commits', () => 
     'the script validates the bounds after the chain and before its commit');
 });
 
+test('a workflow that pushes a PR branch leaves both manifests out of its commit', () => {
+  // ci-checks rebuilds the manifests on every PR and the post-merge job commits
+  // them to main, so a PR never carries them (AGENTS.md). market_data_build
+  // staged them and its rebase onto main conflicted whenever another data
+  // commit landed during its run: three failed builds for #2318, 2026-10-18.
+  const prBranch = Object.keys(NOT_MAIN).filter((f) => /PR branch/.test(NOT_MAIN[f]));
+  assert.ok(prBranch.length >= 2, 'the scan finds the PR-branch workflows');
+  for (const f of prBranch) {
+    for (const [job, def] of Object.entries(docs[f].jobs || {})) {
+      for (const step of def.steps || []) {
+        for (const line of String(step.run || '').split('\n')) {
+          if (/^\s*git add\b/.test(line)) {
+            assert.ok(!/data\/(_)?manifest\.json|\bdata\/?(\s|$)/.test(line),
+              `${f} ${job} "${step.name}" stages a manifest: ${line.trim()}`);
+          }
+        }
+      }
+    }
+  }
+});
+
 console.log(`\n${passed} passed`);

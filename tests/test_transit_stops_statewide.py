@@ -433,3 +433,45 @@ def test_committed_service_agrees_with_its_sources():
     report = _load(REPORT)
     assert {a['agency']: dict(a['service']) for a in report['agencies']} == \
         {k: dict(v) for k, v in per_agency.items()}
+
+
+def test_hosted_copy_without_stops_falls_back_to_the_agency_url(tmp_path, monkeypatch):
+    """A hosted copy can be a ZIP with no stops.txt (or an HTML page); the
+    agency's own download is then read instead (#2339)."""
+    def archive(members):
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, 'w') as z:
+            for name, text in members.items():
+                z.writestr(name, text)
+        return buf.getvalue()
+    good = archive({'feed/stops.txt': f'stop_id,stop_name,stop_lat,stop_lon\ns1,Main,{DENVER[1]},{DENVER[0]}\n'})
+    bodies = {'hosted': archive({'agency.txt': 'agency_id\nx\n'}), 'agency': good}
+    fetched = []
+    monkeypatch.setattr(B.gtfs, 'CACHE_DIR', tmp_path)
+    monkeypatch.setattr(B.gtfs, 'fetch_mdb_catalog', lambda: 'fixture')
+    monkeypatch.setattr(B.gtfs, 'load_co_feeds', lambda _: [
+        {'agency': 'Transfort', 'url': 'hosted', 'fallback_url': 'agency'}])
+    monkeypatch.setattr(B.gtfs, 'fetch_url', lambda url, **kw: fetched.append(url) or bodies[url])
+    rows, failed = B.fetch_feed_stops()
+    assert fetched == ['hosted', 'agency'] and not failed
+    assert [r['stop_id'] for r in rows] == ['s1']
+
+
+def test_hosted_stops_outside_colorado_fall_back_to_the_agency_url(tmp_path, monkeypatch):
+    """merge() drops every stop outside Colorado, so a hosted copy whose
+    stops are all elsewhere (blank coordinates read as 0,0) is not usable."""
+    def archive(lat, lon):
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, 'w') as z:
+            z.writestr('stops.txt', f'stop_id,stop_name,stop_lat,stop_lon\ns1,Main,{lat},{lon}\n')
+        return buf.getvalue()
+    bodies = {'hosted': archive(0, 0), 'agency': archive(DENVER[1], DENVER[0])}
+    fetched = []
+    monkeypatch.setattr(B.gtfs, 'CACHE_DIR', tmp_path)
+    monkeypatch.setattr(B.gtfs, 'fetch_mdb_catalog', lambda: 'fixture')
+    monkeypatch.setattr(B.gtfs, 'load_co_feeds', lambda _: [
+        {'agency': 'Transfort', 'url': 'hosted', 'fallback_url': 'agency'}])
+    monkeypatch.setattr(B.gtfs, 'fetch_url', lambda url, **kw: fetched.append(url) or bodies[url])
+    rows, failed = B.fetch_feed_stops()
+    assert fetched == ['hosted', 'agency'] and not failed
+    assert [(r['lat'], r['lon']) for r in rows] == [(DENVER[1], DENVER[0])]
