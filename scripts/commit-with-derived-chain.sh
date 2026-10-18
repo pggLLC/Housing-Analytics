@@ -22,7 +22,10 @@
 #      diff that cannot apply, or a second rebase conflict, fails without pushing.
 #   6. regenerate manifests from the rebased tree, and push.
 #
-# Usage: scripts/commit-with-derived-chain.sh "<commit subject>" [--no-push] -- <input path>...
+# Usage: scripts/commit-with-derived-chain.sh "<commit subject>" [--no-push] [--validate-critical] -- <input path>...
+#   --validate-critical also runs scripts/validate-critical-data.js (the data
+#   bounds, ranking-index metrics included) on every rebuilt tree before it is
+#   committed, so out-of-range output from a retry cannot be pushed either.
 #   The input paths are what the workflow itself wrote; the chain's outputs are
 #   added below. Nothing happens unless one of the input paths changed.
 # DERIVED_COMMIT_BRANCH defaults to main; a caller may preserve its selected ref.
@@ -31,7 +34,14 @@ set -euo pipefail
 
 subject="${1:?commit subject required}"; shift
 push=true
-if [ "${1:-}" = "--no-push" ]; then push=false; shift; fi
+validate_critical=false
+while [ "${1:-}" = "--no-push" ] || [ "${1:-}" = "--validate-critical" ]; do
+  case "$1" in
+    --no-push) push=false ;;
+    --validate-critical) validate_critical=true ;;
+  esac
+  shift
+done
 [ "${1:-}" = "--" ] && shift
 INPUTS=("$@")
 [ "${#INPUTS[@]}" -gt 0 ] || { echo "::error::no input paths given" >&2; exit 2; }
@@ -79,6 +89,9 @@ git diff --cached --binary HEAD -- "${INPUTS[@]}" > "$input_patch"
 rebuild_and_commit() {
   npm run rebuild:derived
   node scripts/validate-schemas.js
+  if [ "$validate_critical" = true ]; then
+    node scripts/validate-critical-data.js
+  fi
 
   excludes=()
   for p in "${PATHS[@]}"; do excludes+=(":!$p"); done

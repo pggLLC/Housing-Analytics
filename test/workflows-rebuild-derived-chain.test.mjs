@@ -179,9 +179,10 @@ for (const c of checked) console.log('  ' + c);
 
 // ── 3. hand-kept copies of the output contract ─────────────────────────────
 // Some workflows keep their own list of what the chain writes and abort when
-// the chain writes outside it (rebuild-bps-permits.yml, the parcel/zoning
-// fetch). A new CHAIN output added to the contract but not to such a list
-// stops that workflow's next run before it commits (#2261). A hand-kept list
+// the chain writes outside it (the parcel/zoning fetch; rebuild-bps-permits.yml
+// kept two until it moved to scripts/commit-with-derived-chain.sh). A new
+// CHAIN output added to the contract but not to such a list stops that
+// workflow's next run before it commits (#2261). A hand-kept list
 // is recognised by naming a chain output and data/paper together; each must
 // cover every output in the contract.
 const covers = (list, p) => list.some((x) => {
@@ -201,7 +202,5 @@ for (const file of fs.readdirSync(dir).filter((f) => /\.ya?ml$/.test(f)).sort())
     assert.deepEqual(missing, [], `${file} keeps a chain output list that is missing ${missing.join(', ')}`);
   }
 }
-assert(handLists.filter((f) => f === 'rebuild-bps-permits.yml').length === 2,
-  'the scan must find both of rebuild-bps-permits.yml\'s output lists');
 assert(handLists.includes('fetch-parcel-zoning-data.yml'), 'the scan must find the parcel/zoning output list');
 console.log(`hand-kept output lists: ${handLists.length} checked (${[...new Set(handLists)].join(', ')})`);
