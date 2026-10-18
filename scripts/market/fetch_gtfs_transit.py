@@ -152,12 +152,20 @@ def _norm_agency(name: str) -> str:
     return n
 
 
+# Provider names the catalog gives one operator under more than one feed.
+# RTD's features are renamed "RTD Denver" below. Transfort is listed as both
+# "Transfort" (feed 2293) and "Transfort – City of Fort Collins (Transfort)"
+# (feed 3521); without the alias, a partial recovery kept both copies.
+AGENCY_ALIASES = {
+    "regional_transportation_district": "rtd_denver",
+    "transfort_city_of_fort_collins": "transfort",
+}
+
+
 def agency_key(name: str) -> str:
-    """The key that identifies an agency across feeds and runs. RTD's
-    features are renamed "RTD Denver" below, so its provider name maps to
-    the same key."""
+    """The key that identifies an agency across feeds and runs."""
     n = _norm_agency(name)
-    return "rtd_denver" if n == "regional_transportation_district" else n
+    return AGENCY_ALIASES.get(n, n)
 
 
 def carry_forward_failed(all_features: list, agencies_failed: list,
@@ -481,7 +489,7 @@ def main() -> int:
     pre_count = len(all_features)
     for f in all_features:
         p = f.get("properties", {})
-        key = (_norm_agency(p.get("agency", "")), p.get("shape_id", ""))
+        key = (agency_key(p.get("agency", "")), p.get("shape_id", ""))
         if key in seen_keys:
             continue
         seen_keys.add(key)

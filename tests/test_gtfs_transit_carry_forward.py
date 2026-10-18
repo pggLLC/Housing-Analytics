@@ -106,6 +106,19 @@ def test_carry_is_skipped_when_another_feed_served_the_agency(tmp_path, monkeypa
     assert doc["meta"]["carried_forward"] == {}
 
 
+def test_both_transfort_catalog_names_count_as_one_agency(tmp_path, monkeypatch):
+    # The catalog lists Transfort under two provider names. One feed
+    # recovering must stop the other's failure from carrying old routes.
+    full = "Transfort – City of Fort Collins (Transfort)"
+    rows = [{"provider": "Transfort", "urls.latest": "https://mdb/t.zip"},
+            {"provider": full, "urls.latest": "https://mdb/tf.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://mdb/t.zip": RuntimeError("HTTP Error 404"), "https://mdb/tf.zip": "ok"},
+                 {"https://mdb/tf.zip": [feature(full, "t1")]})
+    assert agencies(doc) == [full]
+    assert doc["meta"]["carried_forward"] == {}
+
+
 def test_agency_url_is_tried_when_the_hosted_copy_is_gone(tmp_path, monkeypatch):
     rows = [{"provider": "Transfort", "urls.latest": "https://mdb/t.zip",
              "urls.direct_download": "https://ridetransfort.com/transfort_gtfs.zip"}]
