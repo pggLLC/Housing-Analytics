@@ -170,6 +170,17 @@ run('only the chosen market\'s own event is checked as one ladder', () => {
   assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
 });
 
+run('the most-traded event is chosen from the v2 fixed-point volume fields', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'NOV-T1.20', event_ticker: 'NOV', title: 'November above 1.20M', yes_bid: 80, yes_ask: 84, volume_fp: '3.00', open_interest_fp: '1.00' },
+    { ticker: 'OCT-T1.10', event_ticker: 'OCT', title: 'October above 1.10M', yes_bid: 60, yes_ask: 64, volume_fp: '527.00', open_interest_fp: '257.00' },
+    { ticker: 'OCT-T1.20', event_ticker: 'OCT', title: 'October above 1.20M', yes_bid: 30, yes_ask: 34, volume_fp: '400.00', open_interest_fp: '100.00' }
+  ]);
+  assert.equal(out.market.id, 'OCT-T1.10');
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.62, 0.32]);
+});
+
 run('a contract with no bid and no ask is null, never 0', () => {
   const normalize = loadNormalizeMarket();
   const out = normalize(CFG, [

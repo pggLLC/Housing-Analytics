@@ -384,12 +384,15 @@ function enforceLadder(markets, outcomes) {
 function normalizeMarket(cfg, markets) {
   if (!markets.length) return null;
 
-  // Pick the first market with the most liquidity / volume
-  const market = markets.reduce((best, m) => {
-    const vol = (m.volume || 0) + (m.open_interest || 0);
-    const bestVol = (best.volume || 0) + (best.open_interest || 0);
-    return vol > bestVol ? m : best;
-  }, markets[0]);
+  // Pick the first market with the most liquidity / volume. The v2 API sends
+  // these as fixed-point strings (`volume_fp: "527.00"`); older responses
+  // used integers (`volume`).
+  const qty = (m, key) => {
+    const n = parseFloat(m[key + '_fp'] ?? m[key]);
+    return Number.isFinite(n) ? n : 0;
+  };
+  const liquidity = (m) => qty(m, 'volume') + qty(m, 'open_interest');
+  const market = markets.reduce((best, m) => (liquidity(m) > liquidity(best) ? m : best), markets[0]);
 
   // Each contract's own "yes" price, as a probability. Kalshi's v2 API quotes
   // prices as dollar strings (`yes_bid_dollars`, "0.4500"); older responses
