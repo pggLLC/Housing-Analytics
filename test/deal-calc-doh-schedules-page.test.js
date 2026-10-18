@@ -87,6 +87,8 @@ async function test(name, fn) {
     assert(f.deferredFee.unpaidAfter > 0);
     assert.equal(p.d.querySelector('[data-doh15="unpaid"]').textContent, money(f.deferredFee.unpaidAfter));
     assert.equal(p.d.getElementById('dc-exit-defyr').textContent, '> 15y', 'the exit panel agrees');
+    assert.equal(p.d.getElementById('dc-doh15-live').textContent, 'DOH 15-year schedule updated. Deferred developer fee not repaid: ' + f.deferredFee.reason + '.', 'screen readers hear the changed answer');
+    ['dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years'].forEach(id => assert.equal(p.d.getElementById(id).style.minHeight, '44px', id + ' is a 44px touch target'));
     assert.equal(p.d.querySelector('[data-doh15="asset-unpaid"]'), null, 'a fee cash covers owes nothing after year 15');
     setField(p, 'dc-asset-mgmt-fee', '900000');
     const owed = ds.fifteenYear(p.w.__DealCalc.getResult()).assetMgmt.unpaidAfter;

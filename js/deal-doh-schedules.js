@@ -12,8 +12,8 @@
  * 15-year pro forma: the engine's projection and loan schedule in DOH's rows.
  * Cash after the must-pay loans and the bridge loan pays the asset management
  * fee (any part cash cannot cover accrues to later years), then cash-flow loans, then the deferred developer fee. The engine
- * already allocates the first two; the deferred fee is paid from the
- * cumulative cash flow, so its payback year is the engine's.
+ * allocates all three; the deferred fee is paid from cumulative cash flow, so
+ * its payback year is the exit panel's.
  * An unknown figure is null with a reason, never 0.
  */
 (function (root, factory) {
@@ -142,21 +142,14 @@
     }
     var loans = r.obligations && r.obligations.loans ? r.obligations.loans.filter(function (l) { return l.type === 'cash_flow'; }) : [];
     var fee = known(r.deferredDevFee) ? r.deferredDevFee : null;
-    var paidToDate = 0;
+    var hold = r.exit && known(r.exit.holdYears) ? r.exit.holdYears : YEARS;
     var rows = r.projection.rows.slice(0, YEARS).map(function (p, i) {
       var reason = p.unavailableReason || null;
       var ds = p.debtService, bridge = p.bridgeDebtService;
       var cfAvailable = known(ds) && known(bridge) ? p.noi - ds - bridge : null;
       var loanPaid = loans.map(function (l) { var row = l.rows[i]; return row && known(row.paid) ? row.paid : null; });
-      // Deferred fee from the cumulative cash flow: a deficit year pays nothing
-      // and must be made up before payments resume, so the fee is fully paid in
-      // the first year cumulative cash flow reaches it (the engine's payback year).
-      var deferred = null;
-      if (fee !== null && known(paidToDate) && known(p.cumCF)) {
-        var next = Math.min(fee, Math.max(paidToDate, p.cumCF));
-        deferred = next - paidToDate;
-        paidToDate = next;
-      } else paidToDate = null;
+      // The engine pays the deferred fee from cumulative cash flow (see its projection).
+      var deferred = fee === null ? null : known(p.deferredFeePaid) ? p.deferredFeePaid : null;
       return {
         year: p.year, rentIncome: p.grossRents, vacancy: p.vacancyLoss, otherIncome: p.otherIncome, egi: p.egi,
         expenses: sum([p.opex, p.repReserve, p.propTax]), noi: p.noi, debtService: ds, bridge: bridge,
@@ -169,12 +162,15 @@
       };
     });
     var feeRows = rows.map(function (x) { return x.deferredFee; });
-    var paybackYear = null;
+    var paidOffYear = null;
     if (fee !== null && fee > 0) rows.some(function (x, i) {
       var toDate = sum(feeRows.slice(0, i + 1));
-      if (known(toDate) && toDate >= fee - 0.005) { paybackYear = x.year; return true; }
+      if (known(toDate) && toDate >= fee - 0.005) { paidOffYear = x.year; return true; }
       return false;
     });
+    // After the modeled sale the sale proceeds pay what is left, so operations
+    // repay the fee only within the hold (the exit panel's payback year).
+    var paybackYear = paidOffYear !== null && paidOffYear <= hold ? paidOffYear : null;
     var feeTotal = sum(feeRows);
     // Years the engine could not schedule (an unpaid maturity, say) keep their
     // reason; the notice names them while the known years still show.
@@ -190,6 +186,7 @@
       deferredFee: { amount: fee, totals: window3(feeRows), paybackYear: paybackYear,
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
+          : fee > 0 && paybackYear === null && paidOffYear !== null ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; the sale proceeds pay the rest.'
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },
       // An asset fee cash could not cover accrues; what is still owed after year 15 is disclosed.
       assetMgmt: Object.assign(window3(rows.map(function (x) { return x.assetMgmtFee; })), {

@@ -149,13 +149,53 @@ test('the asset management fee and bridge loan come out of cash flow: payback, I
   close(y1.cashFlow, base.obligations.years[0].cashFlow - 60000, 'cash flow is lower by both');
   assert(r.exit.dfYr > base.exit.dfYr, 'the deferred fee takes longer to repay: ' + base.exit.dfYr + ' → ' + r.exit.dfYr);
   assert(r.exit.irr < base.exit.irr, 'the sponsor return falls: ' + base.exit.irr + ' → ' + r.exit.irr);
-  close(r.waterfall.annual[0].lp + r.waterfall.annual[0].gp, base.waterfall.annual[0].lp + base.waterfall.annual[0].gp - 60000, 'year-1 distributions fall by both');
+  const firstPaid = (x) => x.waterfall.annual.find(y => y.year < x.exit.holdYears && y.lp + y.gp > 0.01).year;
+  assert(firstPaid(r) > firstPaid(base), 'distributions start later, after the slower fee repayment');
   const f = ds.fifteenYear(r);
   assert.equal(f.deferredFee.paybackYear, r.exit.dfYr, 'and the DOH rows agree');
   close(f.rows[0].cashFlowAvailable, y1.noi - y1.mustPayDebtService - 40000, 'cash flow available is after the bridge');
   close(f.rows[0].dcr, y1.noi / (y1.mustPayDebtService + 40000), 'DOH coverage includes the bridge');
   close(f.bridge.total, 120000, 'three years of bridge payments');
   close(f.assetMgmt.first10 + f.assetMgmt.last5, f.assetMgmt.total, 'asset fee windows add up');
+});
+
+test('distributions are the cash left after the deferred fee, and the sale pays only the fee operations did not', () => {
+  const r = computeDeal(withTranches([]));
+  const f = ds.fifteenYear(r);
+  assert(r.exit.dfYr > 1 && r.exit.dfYr < r.exit.holdYears, 'the fee is repaid during the hold');
+  r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
+    close(y.lp + y.gp, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ' distributes what DOH shows after payments');
+  });
+  assert.equal(r.waterfall.annual[0].lp + r.waterfall.annual[0].gp, 0, 'year 1 cash repays the fee, so nothing is distributed');
+  assert.equal(r.waterfall.tiers.find(t => /Deferred developer fee/.test(t.name)).amount, 0, 'repaid in operations, so the sale owes no fee');
+  const short = computeDeal(withTranches([], { 'dc-exit-hold': '5' }));
+  const paidIn5 = short.projection.rows.slice(0, 5).reduce((a, x) => a + x.deferredFeePaid, 0);
+  assert(paidIn5 > 0 && paidIn5 < short.deferredDevFee);
+  close(short.waterfall.tiers.find(t => /Deferred developer fee/.test(t.name)).amount, short.deferredDevFee - paidIn5, 'the sale pays the rest, not the whole fee again');
+});
+
+test('a fee repaid after the modeled sale has no operating payback year, matching the exit panel', () => {
+  const r = computeDeal(withTranches([], { 'dc-exit-hold': '5' }));
+  const f = ds.fifteenYear(r);
+  assert.equal(r.exit.dfYr, null);
+  assert.equal(f.deferredFee.paybackYear, null);
+  assert.match(f.deferredFee.reason, /before the year-5 sale/);
+  assert(f.rows.slice(5).some(x => x.deferredFee > 0), 'the operating rows still show DOH\'s 15 years');
+});
+
+test('a fee already repaid stays repaid when a later year is unknown', () => {
+  const r = computeDeal(withTranches([], { 'dc-senior-maturity': '10' }));
+  const f = ds.fifteenYear(r);
+  assert(r.exit.dfYr < 10, 'repaid before the maturity year');
+  assert.equal(f.rows[11].cashFlowAvailable, null, 'year 12 is unknown');
+  assert.equal(f.rows[11].deferredFee, 0, 'but owes no fee payment');
+  close(f.deferredFee.totals.total, r.deferredDevFee, 'the paid total stays known');
+  assert.equal(f.deferredFee.unpaidAfter, 0);
+});
+
+test('a blank payment entry names itself on the exit panel, not a loan or refinancing assumption', () => {
+  const r = computeDeal(withTranches([], { 'dc-bridge-ds': '' }));
+  assert.equal(r.exit.loanUnavailableReason, 'Enter bridge-loan debt service as $0 or more a year.');
 });
 
 test('a deficit year pays no deferred fee and must be made up first, so the payback year still matches the engine', () => {

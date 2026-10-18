@@ -87,7 +87,9 @@ async function run() {
       assert.equal(r.waterfall.autoLpEquity, r.equity + r.stateEquity);
       assert.equal(r.waterfall.lpEquity, r.equity + r.stateEquity, 'LP contribution uses the actual 4% equity plus any state credit equity');
       assert(r.deferredDevFee > 0 && r.exit.dfYr === null, 'unpaid deferred fee is a non-zero test');
-      assert.equal(r.waterfall.inputs.defFeeRemaining, r.deferredDevFee, 'unpaid fee reaches the waterfall');
+      const feePaidInHold = r.projection.rows.slice(0, r.exit.holdYears).reduce((a, x) => a + x.deferredFeePaid, 0);
+      assert(feePaidInHold < r.deferredDevFee, 'part of the fee is still unpaid at exit');
+      assert(Math.abs(r.waterfall.inputs.defFeeRemaining - (r.deferredDevFee - feePaidInHold)) < 0.01, 'the sale pays the fee operations left unpaid, not the whole fee again');
       assert.equal(view.text['dc-wf-lp-equity-auto'], compact(r.equity + r.stateEquity));
       for (let i = 0; i < r.waterfall.tiers.length; i++) assert.equal(view.waterfall[i], compact(r.waterfall.tiers[i].amount), 'waterfall tier ' + i);
       assert.equal(r.fundingGap, Math.max(0, r.gap), 'guidance includes all Sources & Uses');

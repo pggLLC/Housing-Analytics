@@ -3292,12 +3292,13 @@
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">15-year operating pro forma (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then cash-flow loans, then the deferred developer fee. Rent and expense growth are the Operating Pro Forma Projection's.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
-          <label style="font-size:var(--small);color:var(--muted);">Asset management fee, year 1 ($/yr)<input id="dc-asset-mgmt-fee" type="number" min="0" step="500" value="0" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
-          <label style="font-size:var(--small);color:var(--muted);">Asset management fee increase (%/yr)<input id="dc-asset-mgmt-growth" type="number" min="0" max="10" step="0.5" value="3" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
-          <label style="font-size:var(--small);color:var(--muted);">Bridge-loan debt service ($/yr)<input id="dc-bridge-ds" type="number" min="0" step="1000" value="0" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
-          <label style="font-size:var(--small);color:var(--muted);">Years of bridge-loan payments<input id="dc-bridge-years" type="number" min="0" max="50" step="1" value="0" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Asset management fee, year 1 ($/yr)<input id="dc-asset-mgmt-fee" type="number" min="0" step="500" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Asset management fee increase (%/yr)<input id="dc-asset-mgmt-growth" type="number" min="0" max="10" step="0.5" value="3" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Bridge-loan debt service ($/yr)<input id="dc-bridge-ds" type="number" min="0" step="1000" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
+          <label style="font-size:var(--small);color:var(--muted);">Years of bridge-loan payments<input id="dc-bridge-years" type="number" min="0" max="50" step="1" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
         </div>
         <p id="dc-doh15-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+        <p id="dc-doh15-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
         <dl id="dc-doh15-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.2rem var(--sp2);margin:0 0 var(--sp2);font-size:var(--small);"></dl>
         <details>
           <summary style="cursor:pointer;min-height:44px;font-size:var(--small);">Year-by-year rows and totals</summary>
@@ -4215,6 +4216,11 @@
     }
     var df = f.deferredFee;
     var y15 = f.rows[f.rows.length - 1];
+    // Screen readers hear when an edit changes the schedule's answer.
+    var liveEl = document.getElementById('dc-doh15-live');
+    var liveText = 'DOH 15-year schedule updated. Deferred developer fee ' + (df.paybackYear ? 'repaid in year ' + df.paybackYear : df.amount === 0 ? 'none' : 'not repaid: ' + (df.reason || 'unavailable')) + '.';
+    if (liveEl && liveEl.dataset.last !== undefined && liveEl.dataset.last !== liveText) liveEl.textContent = liveText;
+    if (liveEl) liveEl.dataset.last = liveText;
     if (sumEl) sumEl.innerHTML = [
       ['Year-15 cash after payments', money(y15.availableAfterPayments), 'cash15'],
       ['Deferred developer fee repaid', df.paybackYear ? 'Year ' + df.paybackYear : df.amount === 0 ? 'No deferred fee' : _escHtml(df.reason || '—'), 'payback'],

@@ -514,6 +514,11 @@
     var years = fieldNumber(fields, 'pf-years', 15);
     if (!known(years)) return null;
     var rows = [], cumCF = 0;
+    // DOH PR 4: the deferred fee is paid from cumulative cash flow. A deficit
+    // year pays nothing and is made up first, so the fee is fully paid in the
+    // first year cumulative cash reaches it (the exit panel's payback year).
+    // Once fully paid, later payments are $0 even where a year is unknown.
+    var fee = known(result.deferredDevFee) ? Math.max(0, result.deferredDevFee) : null, feePaid = 0;
     for (var y = 1; y <= 50; y++) {
       var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
@@ -526,12 +531,17 @@
       var debtService = obligation.mustPayDebtService;
       var cashFlow = obligation.cashFlow;
       cumCF = known(cumCF) && known(cashFlow) ? cumCF + cashFlow : null;
+      var feeNow = fee === null ? null : feePaid !== null && feePaid >= fee ? fee
+        : known(feePaid) && known(cumCF) ? Math.min(fee, Math.max(feePaid, cumCF)) : null;
+      var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
+      feePaid = feeNow;
       rows.push({ year: y, grossRents: rents, otherIncome: otherIncome, vacancyLoss: vacancyLoss, egi: egi,
         opex: opex, repReserve: reserve, propTax: tax, noi: noi, debtService: debtService,
         cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
         bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
+        deferredFeePaid: deferredFeePaid,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -553,7 +563,12 @@
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
         autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
-      hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
+      hold: result.exit.holdYears, defFeeRemaining: null };
+    // The sale pays only the deferred fee operations left unpaid by the exit year.
+    var feePaidInHold = result.projection.rows.slice(0, exit.hold).reduce(function (a, row) {
+      return known(a) && known(row.deferredFeePaid) ? a + row.deferredFeePaid : null; }, 0);
+    if (!known(feePaidInHold)) return null;
+    exit.defFeeRemaining = Math.max(0, result.deferredDevFee - feePaidInHold);
     var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
     var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
     var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
@@ -1196,7 +1211,7 @@
         irr = computeIRR(flows);
       }
 
-      var loanUnavailableReason = debtInputsReason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
+      var loanUnavailableReason = debtInputsReason || cashPayments.reason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
       return { loanUnavailableReason: loanUnavailableReason, holdYears: holdYears, exitCap: exitCap, rentGrowth: rentGrowth, expGrowth: expGrowth,
         nNoi: nNoi, resale: resale, firstMortBal: firstMortBal, softBal: softBal,
         netProceeds: netProceeds, dfYr: dfYr, irr: irr };
@@ -1395,7 +1410,8 @@
     if (result.waterfall) {
       var cumLp = -result.waterfall.lpEquity, cumGp = 0;
       result.waterfall.annual = result.projection.rows.slice(0, exit.holdYears).map(function (row) {
-        var surplus = Math.max(0, row.cashFlow);
+        // Cash that repays the deferred fee goes to the developer, not to distributions.
+        var surplus = Math.max(0, row.cashFlow - row.deferredFeePaid);
         var lp = surplus * 0.9999, gp = surplus * 0.0001;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
