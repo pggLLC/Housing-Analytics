@@ -31,7 +31,8 @@
     /* Phones: stack each table row so every cell stays readable. */
     @media (max-width: 640px) {
       .dt-stack table, .dt-stack tbody, .dt-stack tr, .dt-stack th, .dt-stack td { display: block; width: auto; }
-      .dt-stack thead { display: none; }
+      /* Keep the column headers in the accessibility tree; hide them visually only. */
+      .dt-stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       .dt-stack tr { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
       .dt-stack th[scope="row"], .dt-stack td { border: 0; white-space: normal; overflow-wrap: anywhere; }
       .dt-stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 600; }
@@ -105,19 +106,19 @@
           <h2 id="dt-team-h">The team at a glance</h2>
           <p>Who works for whom matters: some of these roles owe the project a duty of loyalty, and some are on the other side of the table.</p>
           <div class="dt-table-wrap dt-stack">
-            <table class="data-table">
-              <thead>
-                <tr><th scope="col">Role</th><th scope="col">Works for</th><th scope="col">Comes in</th><th scope="col">What they produce</th></tr>
+            <table role="table" class="data-table">
+              <thead role="rowgroup">
+                <tr role="row"><th scope="col" role="columnheader">Role</th><th scope="col" role="columnheader">Works for</th><th scope="col" role="columnheader">Comes in</th><th scope="col" role="columnheader">What they produce</th></tr>
               </thead>
-              <tbody>
-                <tr><th scope="row">Community development</th><td data-label="Works for">The developer, a housing authority or the town</td><td data-label="Comes in">Before a site is chosen, and through opening</td><td data-label="What they produce">Local support, letters, hearing records, the application's outreach narrative</td></tr>
-                <tr><th scope="row">Developer and its counsel</th><td data-label="Works for">The ownership entity</td><td data-label="Comes in">At site control</td><td data-label="What they produce">The ownership structure, land use approvals, the application</td></tr>
-                <tr><th scope="row">Municipal advisor</th><td data-label="Works for">The bond issuer, as a fiduciary</td><td data-label="Comes in">When bonds are first considered</td><td data-label="What they produce">Advice on the bond structure and terms</td></tr>
-                <tr><th scope="row">Underwriter</th><td data-label="Works for">Itself, at arm's length from the issuer</td><td data-label="Comes in">Once a bond allocation is in sight</td><td data-label="What they produce">Buys the bonds and resells them to investors</td></tr>
-                <tr><th scope="row">Placement agent</th><td data-label="Works for">The issuer, as its agent</td><td data-label="Comes in">Once a bond allocation is in sight</td><td data-label="What they produce">A few sophisticated buyers, or one bank, for the bonds</td></tr>
-                <tr><th scope="row">Bond counsel</th><td data-label="Works for">The issuer</td><td data-label="Comes in">Before the public hearing on the bonds</td><td data-label="What they produce">The opinion that the bonds are valid and tax-exempt</td></tr>
-                <tr><th scope="row">Syndicator</th><td data-label="Works for">Its investor fund</td><td data-label="Comes in">Before the tax credit application</td><td data-label="What they produce">An equity offer, then the partnership agreement and 15 years of oversight</td></tr>
-                <tr><th scope="row">Investor (usually a bank)</th><td data-label="Works for">Itself</td><td data-label="Comes in">Through the syndicator's fund</td><td data-label="What they produce">Cash for the credits, paid in stages</td></tr>
+              <tbody role="rowgroup">
+                <tr role="row"><th scope="row" role="rowheader">Community development</th><td role="cell" data-label="Works for">The developer, a housing authority or the town</td><td role="cell" data-label="Comes in">Before a site is chosen, and through opening</td><td role="cell" data-label="What they produce">Local support, letters, hearing records, the application's outreach narrative</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Developer and its counsel</th><td role="cell" data-label="Works for">The ownership entity</td><td role="cell" data-label="Comes in">At site control</td><td role="cell" data-label="What they produce">The ownership structure, land use approvals, the application</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Municipal advisor</th><td role="cell" data-label="Works for">The bond issuer, as a fiduciary</td><td role="cell" data-label="Comes in">When bonds are first considered</td><td role="cell" data-label="What they produce">Advice on the bond structure and terms</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Underwriter</th><td role="cell" data-label="Works for">Itself, at arm's length from the issuer</td><td role="cell" data-label="Comes in">Once a bond allocation is in sight</td><td role="cell" data-label="What they produce">Buys the bonds and resells them to investors</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Placement agent</th><td role="cell" data-label="Works for">The issuer, as its agent</td><td role="cell" data-label="Comes in">Once a bond allocation is in sight</td><td role="cell" data-label="What they produce">A few sophisticated buyers, or one bank, for the bonds</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Bond counsel</th><td role="cell" data-label="Works for">The issuer</td><td role="cell" data-label="Comes in">Before the public hearing on the bonds</td><td role="cell" data-label="What they produce">The opinion that the bonds are valid and tax-exempt</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Syndicator</th><td role="cell" data-label="Works for">Its investor fund</td><td role="cell" data-label="Comes in">Before the tax credit application</td><td role="cell" data-label="What they produce">An equity offer, then the partnership agreement and 15 years of oversight</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Investor (usually a bank)</th><td role="cell" data-label="Works for">Itself</td><td role="cell" data-label="Comes in">Through the syndicator's fund</td><td role="cell" data-label="What they produce">Cash for the credits, paid in stages</td></tr>
               </tbody>
             </table>
           </div>
@@ -198,22 +199,22 @@
           <h3>Why structure comes first</h3>
           <ul>
             <li><strong>The clock starts at the award.</strong> For a 9 percent award, CHFA requires a carryover or final application "within 13 months of Preliminary Reservation," and buildings "must place in service no later than 24 months after the calendar year" of the carryover. Federal law also requires more than 10 percent of the expected cost to be incurred within a year of a carryover allocation. A 4 percent bond deal has no carryover step: CHFA issues an "Initial Determination" of the credit, and the schedule is set by the bond financing. Either way, a structure still being argued after the award costs time the schedule does not have.</li>
-            <li><strong>Ownership decides taxes.</strong> When a housing authority holds an ownership share, Colorado exempts the project from property tax, and from sales and use tax during construction, in proportion to its low-income share (<a href="https://colorado.public.law/statutes/crs_29-4-227" rel="noopener">C.R.S. 29-4-227</a>). That share has to be in the ownership structure from the start.</li>
+            <li><strong>Ownership decides taxes.</strong> When a housing authority holds an ownership share, Colorado exempts the project from property tax, and from sales and use tax during construction, in proportion to its low-income share (<a href="https://colorado.public.law/statutes/crs_29-4-227" rel="noopener">C.R.S. 29-4-227</a>). Home-rule cities that collect their own sales tax may not honor the construction exemption, so ask the city before budgeting; the state's guidance "does not apply to sales taxes administered directly by home rule cities" (<a href="https://tax.colorado.gov/sales-use-tax-topics-affordable-housing-projects" rel="noopener">Colorado Department of Revenue</a>). That share has to be in the ownership structure from the start.</li>
             <li><strong>Ownership decides the exit.</strong> Who holds a right to buy the property after year 15 is written into the partnership agreement at closing.</li>
           </ul>
           <p class="dt-source">Sources: <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" rel="noopener">CHFA 2025–2026 Qualified Allocation Plan, Second Amendment</a>; <a href="https://www.law.cornell.edu/uscode/text/26/42" rel="noopener">26 U.S.C. 42(h)(1)(E)</a>.</p>
 
           <h3>Who the lawyers are</h3>
           <div class="dt-table-wrap dt-stack">
-            <table class="data-table">
-              <thead>
-                <tr><th scope="col">Counsel</th><th scope="col">What they do</th><th scope="col">Rule behind it</th></tr>
+            <table role="table" class="data-table">
+              <thead role="rowgroup">
+                <tr role="row"><th scope="col" role="columnheader">Counsel</th><th scope="col" role="columnheader">What they do</th><th scope="col" role="columnheader">Rule behind it</th></tr>
               </thead>
-              <tbody>
-                <tr><th scope="row">Bond counsel</th><td data-label="What they do">Gives the opinion that "the bonds have been validly issued and, if tax exemption is intended, that the bonds are tax-exempt bonds." Runs the public hearing and elected-official approval that federal law requires before private activity bonds are issued.</td><td data-label="Rule behind it"><a href="https://www.law.cornell.edu/uscode/text/26/103" rel="noopener">26 U.S.C. 103</a>; <a href="https://www.law.cornell.edu/uscode/text/26/147" rel="noopener">26 U.S.C. 147(f)</a> (approval "after a public hearing following reasonable public notice")</td></tr>
-                <tr><th scope="row">Developer counsel</th><td data-label="What they do">Forms the ownership entity, negotiates the partnership agreement with the syndicator, handles land use approvals and the zoning documentation CHFA requires.</td><td data-label="Rule behind it">CHFA QAP: "zoning status documentation from the planning department"</td></tr>
-                <tr><th scope="row">Investor counsel</th><td data-label="What they do">Reviews the partnership agreement, guaranties and adjusters for the fund. "Investors should engage legal counsel to review the fund partnership agreement."</td><td data-label="Rule behind it">OCC Community Developments Insights (above)</td></tr>
-                <tr><th scope="row">Tax counsel and accountants</th><td data-label="What they do">Confirm which costs count toward the credit, and that the credits will be there for the investor.</td><td data-label="Rule behind it"><a href="https://www.law.cornell.edu/uscode/text/26/42" rel="noopener">26 U.S.C. 42</a></td></tr>
+              <tbody role="rowgroup">
+                <tr role="row"><th scope="row" role="rowheader">Bond counsel</th><td role="cell" data-label="What they do">Gives the opinion that "the bonds have been validly issued and, if tax exemption is intended, that the bonds are tax-exempt bonds." Runs the public hearing and elected-official approval that federal law requires before private activity bonds are issued.</td><td role="cell" data-label="Rule behind it"><a href="https://www.law.cornell.edu/uscode/text/26/103" rel="noopener">26 U.S.C. 103</a>; <a href="https://www.law.cornell.edu/uscode/text/26/147" rel="noopener">26 U.S.C. 147(f)</a> (approval "after a public hearing following reasonable public notice")</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Developer counsel</th><td role="cell" data-label="What they do">Forms the ownership entity, negotiates the partnership agreement with the syndicator, handles land use approvals and the zoning documentation CHFA requires.</td><td role="cell" data-label="Rule behind it">CHFA QAP: "zoning status documentation from the planning department"</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Investor counsel</th><td role="cell" data-label="What they do">Reviews the partnership agreement, guaranties and adjusters for the fund. "Investors should engage legal counsel to review the fund partnership agreement."</td><td role="cell" data-label="Rule behind it">OCC Community Developments Insights (above)</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Tax counsel and accountants</th><td role="cell" data-label="What they do">Confirm which costs count toward the credit, and that the credits will be there for the investor.</td><td role="cell" data-label="Rule behind it"><a href="https://www.law.cornell.edu/uscode/text/26/42" rel="noopener">26 U.S.C. 42</a></td></tr>
               </tbody>
             </table>
           </div>
