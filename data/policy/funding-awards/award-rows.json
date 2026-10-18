@@ -1,9 +1,9 @@
 {
   "meta": {
     "generator": "scripts/funding/build_award_rows.py",
-    "ledger_generated_at": "2026-10-10T21:31:02Z",
+    "ledger_generated_at": "2026-10-18T12:19:29Z",
     "method": "Each award PDF read as tables with pdfplumber; each ledger award matched to the printed row that carries both its amount and its unit count. Contact columns are never read. The quote is the row as printed, heading by heading.",
-    "rows": 429,
+    "rows": 458,
     "unmatched": 0,
     "sponsors_from_applications": 2
   },
@@ -459,13 +459,13 @@
       "quote": "Type: N,H; Name: Providence at the Heights; Address: 15602 E. Alameda Parkway; City: Aurora; Credit Amount Requested: $1,185,541; Total Units: 50; Total LI Units: 49; Owner Name: Blueline Development"
     },
     {
-      "key": "2018-LIHTC-Round2-Award-Report.pdf|1300000|68#1",
+      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|48#1",
       "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
-      "name": "Mission Village of Evans",
-      "sponsor": "Commonwealth Development Corporation",
+      "name": "Alpenglow Village",
+      "sponsor": "Overland Property Group & Yampa Valley Housing Authority",
       "sponsor_heading": "Owner Name",
-      "location": "Evans",
-      "quote": "Type: N,F; Name: Mission Village of Evans; Address: 23rd Ave & Prairie View Dr.; City: Evans; Credit Amount Requested: $1,300,000; Total Units: 68; Total LI Units: 68; Owner Name: Commonwealth Development Corporation"
+      "location": "Steamboat Springs",
+      "quote": "Type: N,F; Name: Alpenglow Village; Address: Highway 40 at Pine Grove Rd; City: Steamboat Springs; Credit Amount Requested: $1,350,000; Total Units: 72; Total LI Units: 48; Owner Name: Overland Property Group & Yampa Valley Housing Authority"
     },
     {
       "key": "2018-LIHTC-Round2-Award-Report.pdf|906737|36#1",
@@ -477,16 +477,7 @@
       "quote": "Type: N,F; Name: GardenWalk of Gunnison; Address: N. Colorado Street (USPS Address TBD); City: Gunnison; Credit Amount Requested: $906,737; Total Units: 36; Total LI Units: 36; Owner Name: Belmont Development Group"
     },
     {
-      "key": "2018-LIHTC-Round2-Award-Report.pdf|1426148|95#1",
-      "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
-      "name": "Geteway North",
-      "sponsor": "Denver Housing Authority",
-      "sponsor_heading": "Owner Name",
-      "location": "Denver",
-      "quote": "Type: A/R,F; Name: Geteway North; Address: 1005 Decatur Street; City: Denver; Credit Amount Requested: $1,426,148; Total Units: 95; Total LI Units: 95; Owner Name: Denver Housing Authority"
-    },
-    {
-      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|92#1",
+      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|58#1",
       "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
       "name": "Gateway South",
       "sponsor": "Housing Authority of the City and County of Denver",
@@ -495,13 +486,13 @@
       "quote": "Type: N,F; Name: Gateway South; Address: 995 Decatur Street; City: Denver; Credit Amount Requested: $1,350,000; Total Units: 92; Total LI Units: 58; Owner Name: Housing Authority of the City and County of Denver"
     },
     {
-      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|51#1",
+      "key": "2018-LIHTC-Round2-Award-Report.pdf|1426148|95#1",
       "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
-      "name": "Uplands Townhomes Phase II",
-      "sponsor": "Housing Authority of the City of Pueblo",
+      "name": "Geteway North",
+      "sponsor": "Denver Housing Authority",
       "sponsor_heading": "Owner Name",
-      "location": "Pueblo",
-      "quote": "Type: N,F; Name: Uplands Townhomes Phase II; Address: 201 S Victoria Ave; City: Pueblo; Credit Amount Requested: $1,350,000; Total Units: 51; Total LI Units: 51; Owner Name: Housing Authority of the City of Pueblo"
+      "location": "Denver",
+      "quote": "Type: A/R,F; Name: Geteway North; Address: 1005 Decatur Street; City: Denver; Credit Amount Requested: $1,426,148; Total Units: 95; Total LI Units: 95; Owner Name: Denver Housing Authority"
     },
     {
       "key": "2018-LIHTC-Round2-Award-Report.pdf|1174614|70#1",
@@ -549,13 +540,13 @@
       "quote": "Type: N,S; Name: Mirasol III; Address: 510 S. St. Louis Avenue; City: Loveland; Credit Amount Requested: $1,290,396; Total Units: 60; Total LI Units: 60; Owner Name: Loveland Housing Authority"
     },
     {
-      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|48#1",
+      "key": "2018-LIHTC-Round2-Award-Report.pdf|1300000|68#1",
       "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
-      "name": "Alpenglow Village",
-      "sponsor": "Overland Property Group & Yampa Valley Housing Authority",
+      "name": "Mission Village of Evans",
+      "sponsor": "Commonwealth Development Corporation",
       "sponsor_heading": "Owner Name",
-      "location": "Steamboat Springs",
-      "quote": "Type: N,F; Name: Alpenglow Village; Address: Highway 40 at Pine Grove Rd; City: Steamboat Springs; Credit Amount Requested: $1,350,000; Total Units: 72; Total LI Units: 48; Owner Name: Overland Property Group & Yampa Valley Housing Authority"
+      "location": "Evans",
+      "quote": "Type: N,F; Name: Mission Village of Evans; Address: 23rd Ave & Prairie View Dr.; City: Evans; Credit Amount Requested: $1,300,000; Total Units: 68; Total LI Units: 68; Owner Name: Commonwealth Development Corporation"
     },
     {
       "key": "2018-LIHTC-Round2-Award-Report.pdf|1157614|47#1",
@@ -592,6 +583,15 @@
       "sponsor_heading": "Owner Name",
       "location": "Nederland",
       "quote": "Type: N,F; Name: Tungsten Village fka: Third Street Community; Address: 344 W Third Street; City: Nederland; Credit Amount Requested: $597,000; Total Units: 26; Total LI Units: 26; Owner Name: Boulder County Housing Authority"
+    },
+    {
+      "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|51#1",
+      "source_file": "2018-LIHTC-Round2-Award-Report.pdf",
+      "name": "Uplands Townhomes Phase II",
+      "sponsor": "Housing Authority of the City of Pueblo",
+      "sponsor_heading": "Owner Name",
+      "location": "Pueblo",
+      "quote": "Type: N,F; Name: Uplands Townhomes Phase II; Address: 201 S Victoria Ave; City: Pueblo; Credit Amount Requested: $1,350,000; Total Units: 51; Total LI Units: 51; Owner Name: Housing Authority of the City of Pueblo"
     },
     {
       "key": "2018-LIHTC-Round2-Award-Report.pdf|1350000|59#1",
@@ -675,12 +675,118 @@
       "quote": "Type *: AR; Target **: Family; Name: The Colburn; Address: 980 Grant St.; City: Denver; County: Denver; Federal Credit: $408,796; State Credit: $628,916; Bond Issuer: CHFA; Bond Amount: $13,000,000; Total Units: 92; Total TC Units: 91; Ownership: Gorman & Company"
     },
     {
+      "key": "2019-Round-1-Award-Report.pdf|1891472|120#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "30Pearl Apartments",
+      "sponsor": "Boulder Housing Partners",
+      "sponsor_heading": "Ownership",
+      "location": "Boulder",
+      "quote": "Type *: N; Target **: F,SN; Name: 30Pearl Apartments; Address: 30th and Pearl St.; City: Boulder; County: Boulder; Federal Credit: $1,891,472; State Credit: $838,020; Bond Issuer: BHP; Bond Amount: $26,659,208; Total Units: 120; Total TC Units: 120; Ownership: Boulder Housing Partners"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|1426865|150#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "48th and Race",
+      "sponsor": "Columbia Ventures, LLC",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: F; Name: 48th and Race; Address: 4800 Race St.; City: Denver; County: Denver; Federal Credit: $1,426,865; State Credit: $912,776; Bond Issuer: CHFA; Bond Amount: $18,400,000; Total Units: 150; Total TC Units: 150; Ownership: Columbia Ventures, LLC"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|1527916|116#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "7401 Broadway",
+      "sponsor": "Unison Housing Partners",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: F; Name: 7401 Broadway; Address: 7401 Broadway St.; City: Denver; County: Adams; Federal Credit: $1,527,916; State Credit: $927,779; Bond Issuer: Unison Housing Partners; Bond Amount: $22,150,000; Total Units: 116; Total TC Units: 116; Ownership: Unison Housing Partners"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|550582|54#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Atruim at Austin Bluffs",
+      "sponsor": "Greccio Housing",
+      "sponsor_heading": "Ownership",
+      "location": "Colorado Springs",
+      "quote": "Type *: N; Target **: S; Name: Atruim at Austin Bluffs; Address: 4921 Templeton Gap Road; City: Colorado Springs; County: El Paso; Federal Credit: $550,582; State Credit: $834,215; Bond Issuer: CHFA; Bond Amount: $8,000,000; Total Units: 54; Total TC Units: 54; Ownership: Greccio Housing"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|1213140|103#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Capitol Square Apartments",
+      "sponsor": "Mile High Affordable Housing",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: F; Name: Capitol Square Apartments; Address: 1275 Sherman St.; City: Denver; County: Denver; Federal Credit: $1,213,140; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $16,283,406; Total Units: 103; Total TC Units: 103; Ownership: Mile High Affordable Housing"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|779274|73#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Coffman Street Apartments",
+      "sponsor": "Boulder County Housing Authority",
+      "sponsor_heading": "Ownership",
+      "location": "Longmont",
+      "quote": "Type *: N; Target **: F; Name: Coffman Street Apartments; Address: 518 Coffman St.; City: Longmont; County: Boulder; Federal Credit: $779,274; State Credit: $930,000; Bond Issuer: BCHA; Bond Amount: $13,000,000; Total Units: 73; Total TC Units: 73; Ownership: Boulder County Housing Authority"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|1490047|143#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": null,
+      "sponsor": null,
+      "location": null,
+      "quote": "Line as printed: AR H,S,F Broadway/Studebaker $1,490,047 $815,000 DHA $27,300,000 see below Denver Housing Authority"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|651340|69#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Edge Phase II",
+      "sponsor": "Loveland Housing Partners",
+      "sponsor_heading": "Ownership",
+      "location": "Loveland",
+      "quote": "Type *: N; Target **: F; Name: Edge Phase II; Address: 15th St at Horstman Pl; City: Loveland; County: Larimer; Federal Credit: $651,340; State Credit: $995,933; Bond Issuer: LHA; Bond Amount: $10,703,797; Total Units: 69; Total TC Units: 69; Ownership: Loveland Housing Partners"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|2260807|205#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Legends of Church Ranch",
+      "sponsor": "Dominium",
+      "sponsor_heading": "Ownership",
+      "location": "Westminster",
+      "quote": "Type *: N; Target **: S; Name: Legends of Church Ranch; Address: 10050 Wadsworth Blvd; City: Westminster; County: Jefferson; Federal Credit: $2,260,807; State Credit: $499,999; Bond Issuer: CHFA; Bond Amount: $33,800,000; Total Units: 205; Total TC Units: 205; Ownership: Dominium"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|943721|79#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Morrison Road",
+      "sponsor": "Gorman & Company, LLC",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: F; Name: Morrison Road; Address: 5048 Morrison Rd.; City: Denver; County: Denver; Federal Credit: $943,721; State Credit: $800,000; Bond Issuer: Denver; Bond Amount: $15,000,000; Total Units: 80; Total TC Units: 79; Ownership: Gorman & Company, LLC"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|628161|72#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": "Park at Colorado Outdoors*",
+      "sponsor": "Colorado Outdoors LLC",
+      "sponsor_heading": "Ownership",
+      "location": "Montrose",
+      "quote": "Type *: N; Target **: F; Name: Park at Colorado Outdoors*; Address: SW corner N. 5th St & N. Grand Ave.; City: Montrose; County: Montrose; Federal Credit: $628,161; State Credit: $738,840; Bond Issuer: CHFA; Bond Amount: $8,489,906; Total Units: 72; Total TC Units: 72; Ownership: Colorado Outdoors LLC"
+    },
+    {
+      "key": "2019-Round-1-Award-Report.pdf|1393960|159#1",
+      "source_file": "2019-Round-1-Award-Report.pdf",
+      "name": null,
+      "sponsor": null,
+      "location": null,
+      "quote": "Line as printed: AR F Thistle scattered sites $1,393,960 $850,000 CHFA $2,389,633 see below Thistle"
+    },
+    {
       "key": "2019-Round-2-Award-Report.pdf|1349865|60#1",
       "source_file": "2019-Round-2-Award-Report.pdf",
       "name": null,
       "sponsor": null,
       "location": null,
-      "quote": "Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 Grand Junction Housing Authority Jody Kole 970-208-9555 jkole@gjha.org"
+      "quote": "Line as printed: N,F 2814 2814 Patterson Road Grand Junction 81506 $1,349,865 60 60 Grand Junction Housing Authority"
     },
     {
       "key": "2019-Round-2-Award-Report.pdf|1254749|49#1",
@@ -1034,7 +1140,7 @@
       "quote": "Type *: N; Target **: M; Name: Rhonda's Place; Address: 211-225 South Federal Boulevard; City: Denver; County: Denver; Federal Credit: $737,868; State Credit: $467,481; Bond Issuer: City of Denver; Bond Amount: $7,500,000; Total Units: 50; Total TC Units: 49; Ownership: BlueLine Development"
     },
     {
-      "key": "2020-Round-2-Award-Report.pdf|972089|#1",
+      "key": "2020-Round-2-Award-Report.pdf|972089|82#1",
       "source_file": "2020-Round-2-Award-Report.pdf",
       "name": "Rose on Colfax",
       "sponsor": "Mercy Housing Mountain Plains",
@@ -1043,7 +1149,7 @@
       "quote": "Type *: N; Target **: F; Name: Rose on Colfax; Address: 8315 East Colfax; City: Denver; County: Denver; Federal Credit: $972,089; State Credit: $903,322; Bond Issuer: City and County of Denver; Bond Amount: $15,425,000; Total Units: 82; Total TC Units: 82; Ownership: Mercy Housing Mountain Plains"
     },
     {
-      "key": "2020-Round-2-Award-Report.pdf|995933|#1",
+      "key": "2020-Round-2-Award-Report.pdf|995933|77#1",
       "source_file": "2020-Round-2-Award-Report.pdf",
       "name": "Village at Solid Rock",
       "sponsor": "Commonwealth Development Corporation",
@@ -1178,6 +1284,159 @@
       "quote": "Type: N,F; Name: Vincent Village Apartments; Address: Northeast Corner of SH-52 & Rollie Avenue; City: Fort Lupton; Credit Amount Awarded: $1,250,000; Total Units: 72; Total LI Units: 72; Owner Name: Vincent Village Associates, LLC"
     },
     {
+      "key": "2021-Round-2-Award-Report.pdf|684816|56#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "2700 Wewatta Affordable",
+      "sponsor": "Rivet Development",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: H; Name: 2700 Wewatta Affordable; Address: 2700 Wewatta Way; City: Denver; County: Denver; Federal Credit: $684,816; State Credit: $781,055; Bond Issuer: CHFA; Bond Amount: $11,400,000; Total Units: 56; Total TC Units: 56; Ownership: Rivet Development"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|588304|63#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "All Saints Apartments",
+      "sponsor": "Archdiocesan Housing Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: S; Name: All Saints Apartments; Address: 2559 S Federal Blvd; City: Denver; County: Denver; Federal Credit: $588,304; State Credit: $735,380; Bond Issuer: CHFA; Bond Amount: $8,745,000; Total Units: 63; Total TC Units: 63; Ownership: Archdiocesan Housing Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|586486|40#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Bluebird",
+      "sponsor": "Element Properties",
+      "sponsor_heading": "Ownership",
+      "location": "Boulder",
+      "quote": "Type *: N; Target **: H; Name: Bluebird; Address: 2445 30th Street; City: Boulder; County: Boulder; Federal Credit: $586,486; State Credit: $733,107; Bond Issuer: CHFA; Bond Amount: $9,710,000; Total Units: 40; Total TC Units: 40; Ownership: Element Properties"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1729349|149#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Bonsai Apartments",
+      "sponsor": "Medici Development LLC",
+      "sponsor_heading": "Ownership",
+      "location": "Sheridan",
+      "quote": "Type *: N; Target **: F; Name: Bonsai Apartments; Address: 3750 S. Federal Blvd; City: Sheridan; County: Arapahoe; Federal Credit: $1,729,349; State Credit: $995,137; Bond Issuer: CHFA; Bond Amount: $20,250,000; Total Units: 149; Total TC Units: 149; Ownership: Medici Development LLC"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1562268|93#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Eagle Meadow Homes",
+      "sponsor": "Community Housing Partners",
+      "sponsor_heading": "Ownership",
+      "location": "Aurora",
+      "quote": "Type *: N; Target **: F; Name: Eagle Meadow Homes; Address: 14875 E 2nd Avenue; City: Aurora; County: Arapahoe; Federal Credit: $1,562,268; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $15,750,000; Total Units: 93; Total TC Units: 93; Ownership: Community Housing Partners"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|3874164|212#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Flo",
+      "sponsor": "Housing Authority of the City and County of Denver",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: N; Target **: S; Name: Flo; Address: 930 N. Bryant St.; City: Denver; County: Denver; Federal Credit: $3,874,164; State Credit: $900,000; Bond Issuer: DHA; Bond Amount: $41,500,000; Total Units: 212; Total TC Units: 212; Ownership: Housing Authority of the City and County of Denver"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1445384|81#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Jewell Apartments",
+      "sponsor": "Community Housing Development Association Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Aurora",
+      "quote": "Type *: N; Target **: F; Name: Jewell Apartments; Address: 10150 E Colorado Ave; City: Aurora; County: Arapahoe; Federal Credit: $1,445,384; State Credit: $799,070; Bond Issuer: CHFA; Bond Amount: $15,800,000; Total Units: 81; Total TC Units: 81; Ownership: Community Housing Development Association Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1907312|154#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Johnson and Wales Family Housing",
+      "sponsor": "Archway Investment Corporation",
+      "sponsor_heading": "Ownership",
+      "location": "Denver",
+      "quote": "Type *: AR; Target **: F; Name: Johnson and Wales Family Housing; Address: 7150 Montview Boulevard; City: Denver; County: Denver; Federal Credit: $1,907,312; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $29,100,000; Total Units: 154; Total TC Units: 154; Ownership: Archway Investment Corporation"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1180147|60#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Mount Calvary Senior",
+      "sponsor": "Boulder Housing Partners",
+      "sponsor_heading": "Ownership",
+      "location": "Boulder",
+      "quote": "Type *: AR; Target **: M; Name: Mount Calvary Senior; Address: 3485 Stanford Ct.; City: Boulder; County: Boulder; Federal Credit: $1,180,147; State Credit: $662,227; Bond Issuer: CHFA; Bond Amount: $14,800,000; Total Units: 60; Total TC Units: 60; Ownership: Boulder Housing Partners"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1489395|125#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Paloma Garden",
+      "sponsor": "Volunteers of America National Services",
+      "sponsor_heading": "Ownership",
+      "location": "Colorado Springs",
+      "quote": "Type *: N,A R; Target **: S; Name: Paloma Garden; Address: 920 S. Chelton Road and 3140 Mallard Drive; City: Colorado Springs; County: El Paso; Federal Credit: $1,489,395; State Credit: $1,000,000; Bond Issuer: City of Colorado Springs; Bond Amount: $16,400,000; Total Units: 126; Total TC Units: 125; Ownership: Volunteers of America National Services"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|267936|31#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Park Ridge Apartments - Estes Park",
+      "sponsor": "Chrisman Development, Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Estes Park",
+      "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Estes Park; Address: 1250 Acacia Drive; City: Estes Park; County: Larimer; Federal Credit: $267,936; State Credit: $206,789; Bond Issuer: CHFA; Bond Amount: $3,755,000; Total Units: 32; Total TC Units: 31; Ownership: Chrisman Development, Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|109976|16#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Park Ridge Apartments - Limon Apartments",
+      "sponsor": "Chrisman Development, Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Limon",
+      "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Limon Apartments; Address: 440 1st Avenue; City: Limon; County: Lincoln; Federal Credit: $109,976; State Credit: $84,878; Bond Issuer: CHFA; Bond Amount: $1,566,000; Total Units: 16; Total TC Units: 16; Ownership: Chrisman Development, Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|671882|45#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Park Ridge Apartments - Platte Valley Terrace",
+      "sponsor": "Chrisman Development, Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Brighton",
+      "quote": "Type *: AR; Target **: F; Name: Park Ridge Apartments - Platte Valley Terrace; Address: 611 Miller Avenue; City: Brighton; County: Adams; Federal Credit: $671,882; State Credit: $518,548; Bond Issuer: CHFA; Bond Amount: $8,325,000; Total Units: 46; Total TC Units: 45; Ownership: Chrisman Development, Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|155206|23#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Park Ridge Apartments - Trail Ridge",
+      "sponsor": "Chrisman Development, Inc.",
+      "sponsor_heading": "Ownership",
+      "location": "Estes Park",
+      "quote": "Type *: AR; Target **: S; Name: Park Ridge Apartments - Trail Ridge; Address: 1256 Community Drive; City: Estes Park; County: Larimer; Federal Credit: $155,206; State Credit: $119,786; Bond Issuer: CHFA; Bond Amount: $2,194,000; Total Units: 24; Total TC Units: 23; Ownership: Chrisman Development, Inc."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|943092|72#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Peoria Crossing Phase II",
+      "sponsor": "Aurora Housing Authority",
+      "sponsor_heading": "Ownership",
+      "location": "Aurora",
+      "quote": "Type *: N; Target **: F; Name: Peoria Crossing Phase II; Address: 3002 Peoria St.; City: Aurora; County: Adams; Federal Credit: $943,092; State Credit: $970,004; Bond Issuer: AHA; Bond Amount: $13,000,000; Total Units: 72; Total TC Units: 72; Ownership: Aurora Housing Authority"
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|1139742|102#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Ralston Gardens",
+      "sponsor": "Mile High Development and Brinshore Development, L.L.C.",
+      "sponsor_heading": "Ownership",
+      "location": "Arvada",
+      "quote": "Type *: N; Target **: F; Name: Ralston Gardens; Address: 58th Avenue at Garrison Street; City: Arvada; County: Jefferson; Federal Credit: $1,139,742; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $16,100,000; Total Units: 102; Total TC Units: 102; Ownership: Mile High Development and Brinshore Development, L.L.C."
+    },
+    {
+      "key": "2021-Round-2-Award-Report.pdf|879000|46#1",
+      "source_file": "2021-Round-2-Award-Report.pdf",
+      "name": "Wintergreen Ridge",
+      "sponsor": "Gorman & Company, LLC",
+      "sponsor_heading": "Ownership",
+      "location": "Keystone",
+      "quote": "Type *: N; Target **: F; Name: Wintergreen Ridge; Address: Approx 0235 Antlers Gulch Road; City: Keystone; County: Summit; Federal Credit: $879,000; State Credit: $700,000; Bond Issuer: CHFA; Bond Amount: $9,275,000; Total Units: 47; Total TC Units: 46; Ownership: Gorman & Company, LLC"
+    },
+    {
       "key": "2022-Round-1-Award-Report.pdf|653854|55#1",
       "source_file": "2022-Round-1-Award-Report.pdf",
       "name": "Bluebird Longmont",
@@ -1286,7 +1545,7 @@
       "quote": "Type: N,S; Name: Willoughby Corner Phase IA Senior; Address: N 120th St. & E Emma St.; City: Lafayette; Credit Amount Awarded: $1,350,000; Total Units: 63; Total LI Units: 63; Owner Name: Boulder County Housing Authority"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|2735647|#1",
+      "key": "2022-Round-2-Award-Report.pdf|2735647|192#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Bentley Commons",
       "sponsor": "Greccio Housing / Partners in Housing /RMCLT",
@@ -1295,7 +1554,7 @@
       "quote": "Typ e *: N A/R; Target **: M; Name: Bentley Commons; Address: 2730 Bentley Point; City: Colorado Springs; County: El Paso; Federal Credit: $2,735,647; State Credit: $1,000,000; Bond Issuer: City of Colorado Springs; Bond Amount: $30,000,000; Total Units: 192; Total TC Units: 192; Ownership: Greccio Housing / Partners in Housing /RMCLT"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|2689571|#1",
+      "key": "2022-Round-2-Award-Report.pdf|2689571|137#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Elevate at Aurora",
       "sponsor": "CV Colorado, LLC",
@@ -1304,7 +1563,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Elevate at Aurora; Address: 1671 Altura Boulevard; City: Aurora; County: Adams; Federal Credit: $2,689,571; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $29,295,000; Total Units: 137; Total TC Units: 137; Ownership: CV Colorado, LLC"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1171431|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1171431|71#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Heartside Hill",
       "sponsor": "CARE Housing, Inc.",
@@ -1313,7 +1572,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Heartside Hill; Address: 6501 Brittany St.; City: Fort Collins; County: Larimer; Federal Credit: $1,171,431; State Credit: $989,961; Bond Issuer: CHFA; Bond Amount: $16,100,000; Total Units: 71; Total TC Units: 71; Ownership: CARE Housing, Inc."
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1934593|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1934593|102#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Irving at Mile High Vista",
       "sponsor": "Urban Land Conservancy",
@@ -1322,7 +1581,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Irving at Mile High Vista; Address: 3270 W Colfax; City: Denver; County: Denver; Federal Credit: $1,934,593; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $19,400,000; Total Units: 102; Total TC Units: 102; Ownership: Urban Land Conservancy"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1078412|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1078412|72#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Legacy Senior Residences",
       "sponsor": "Cornerstone Housing Group, LLC",
@@ -1331,7 +1590,7 @@
       "quote": "Typ e *: N; Target **: S; Name: Legacy Senior Residences; Address: 5430 W 64th Ave.; City: Arvada; County: Jefferson; Federal Credit: $1,078,412; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $15,800,000; Total Units: 72; Total TC Units: 72; Ownership: Cornerstone Housing Group, LLC"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1553542|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1553542|85#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Marshall Homes",
       "sponsor": "Family Tree, Inc.",
@@ -1340,7 +1599,7 @@
       "quote": "Typ e *: N; Target **: H; Name: Marshall Homes; Address: 5549 Marshall Street; City: Arvada; County: Jefferson; Federal Credit: $1,553,542; State Credit: $648,429; Bond Issuer: CHFA; Bond Amount: $17,075,000; Total Units: 85; Total TC Units: 85; Ownership: Family Tree, Inc."
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1778095|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1778095|100#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Rally Apartments",
       "sponsor": "Boulder Housing Partners",
@@ -1349,7 +1608,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Rally Apartments; Address: 2727 29th St.; City: Boulder; County: Boulder; Federal Credit: $1,778,095; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $29,250,000; Total Units: 100; Total TC Units: 100; Ownership: Boulder Housing Partners"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|3276397|#1",
+      "key": "2022-Round-2-Award-Report.pdf|3276397|192#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Reserves at Eagle Point",
       "sponsor": "Overland Property Group",
@@ -1358,7 +1617,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Reserves at Eagle Point; Address: E Steven D. Hogan Pkwy at S Picadilly Road; City: Aurora; County: Arapahoe; Federal Credit: $3,276,397; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $36,000,000; Total Units: 192; Total TC Units: 192; Ownership: Overland Property Group"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1619731|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1619731|128#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Residences on Acoma",
       "sponsor": "Residences on Acoma, LLLP",
@@ -1367,7 +1626,7 @@
       "quote": "Typ e *: N; Target **: M; Name: Residences on Acoma; Address: 1501 S. Acoma Street; City: Denver; County: Denver; Federal Credit: $1,619,731; State Credit: $953,024; Bond Issuer: CHFA; Bond Amount: $23,482,000; Total Units: 128; Total TC Units: 128; Ownership: Residences on Acoma, LLLP"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1845371|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1845371|101#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "RidgeGate Senior",
       "sponsor": "Koelbel and Company",
@@ -1376,7 +1635,7 @@
       "quote": "Typ e *: N; Target **: S; Name: RidgeGate Senior; Address: Approx 12500 E. Ridgegate Pkwy; City: Lone Tree; County: Douglas; Federal Credit: $1,845,371; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $20,000,000; Total Units: 101; Total TC Units: 101; Ownership: Koelbel and Company"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|1348613|#1",
+      "key": "2022-Round-2-Award-Report.pdf|1348613|64#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Smith Ranch Apartments",
       "sponsor": "Gorman & Company, LLC",
@@ -1385,7 +1644,7 @@
       "quote": "Typ e *: N; Target **: F; Name: Smith Ranch Apartments; Address: 105 Ruby Ranch Road; City: Silverthorne; County: Summit; Federal Credit: $1,348,613; State Credit: $300,000; Bond Issuer: CHFA; Bond Amount: $14,264,000; Total Units: 65; Total TC Units: 64; Ownership: Gorman & Company, LLC"
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|2484288|#1",
+      "key": "2022-Round-2-Award-Report.pdf|2484288|89#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Warren Village III",
       "sponsor": "Warren Village Inc.",
@@ -1394,7 +1653,7 @@
       "quote": "Typ e *: N; Target **: M; Name: Warren Village III; Address: 1394 W. Alameda Ave.; City: Denver; County: Denver; Federal Credit: $2,484,288; State Credit: $1,000,000; Bond Issuer: CHFA; Bond Amount: $26,000,000; Total Units: 89; Total TC Units: 89; Ownership: Warren Village Inc."
     },
     {
-      "key": "2022-Round-2-Award-Report.pdf|3099664|#1",
+      "key": "2022-Round-2-Award-Report.pdf|3099664|129#1",
       "source_file": "2022-Round-2-Award-Report.pdf",
       "name": "Willoughby Corner Phase IB Family Apartments",
       "sponsor": "Boulder County Housing Authority",
