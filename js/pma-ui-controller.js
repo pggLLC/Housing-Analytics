@@ -1470,10 +1470,23 @@
     } catch (_) { return null; }
   }
 
+  /* A saved run and a permalink describe the same run when every input the
+     permalink carries matches, read with _writePermalink's defaults. */
+  function _permalinkMatchesStored(permalink, stored) {
+    var opts = stored.options || {};
+    // The permalink rounds to six decimals.
+    return Math.abs(Number(stored.lat) - permalink.lat) <= 1e-6 &&
+      Math.abs(Number(stored.lon) - permalink.lon) <= 1e-6 &&
+      (opts.method || 'buffer') === permalink.method &&
+      (parseInt(opts.bufferMiles, 10) || 5) === permalink.bufferMiles &&
+      (parseInt(opts.proposedUnits, 10) || 100) === permalink.proposedUnits;
+  }
+
   /**
    * On page load, restore the last PMA run from localStorage (if within TTL)
    * OR from a URL permalink hash.  The URL hash takes priority so shared
-   * links always reproduce the correct analysis context.
+   * links always reproduce the correct analysis context; the saved run is
+   * kept only when the hash names its own site and method.
    *
    * When a restorable state is found, the form controls are pre-populated
    * and an informational banner is shown near the run button.
@@ -1482,9 +1495,13 @@
     var permalink = _readPermalink();
     var stored    = null;
 
-    if (!permalink && window.PMADataCache && window.PMADataCache.loadLastResult) {
+    if (window.PMADataCache && window.PMADataCache.loadLastResult) {
       stored = window.PMADataCache.loadLastResult();
     }
+    // Every run writes its own permalink, so a reload carries one. The saved
+    // run still applies when the link names that same site and method; a link
+    // to anything else restores only its inputs, as before.
+    if (permalink && stored && !_permalinkMatchesStored(permalink, stored)) stored = null;
 
     // Every cached method belongs to its recorded jurisdiction. Legacy entries
     // cannot establish that binding and must be run again.
@@ -1598,10 +1615,16 @@
     var strong = document.createElement('strong');
     strong.textContent = 'Restoring analysis';
 
-    var originLabel = permalink ? 'shared link' : 'previous session';
+    // A reload of your own run carries its permalink too; it is the saved run.
+    var originLabel = permalink && !(stored && stored.scoreRun) ? 'shared link' : 'previous session';
     var coords = ' from ' + originLabel + ' — lat ' +
                  parseFloat(source.lat).toFixed(4) + ', lon ' +
-                 parseFloat(source.lon).toFixed(4) + '. ';
+                 parseFloat(source.lon).toFixed(4) + '. ' +
+                 // Only the narrative and the recommendation are saved; the
+                 // score card, the site and the map are drawn by a new run.
+                 (stored && stored.scoreRun
+                   ? 'The narrative and recommendation below are from that run. To redraw the score and the map, click the site on the map and press Run Analysis. '
+                   : 'Click the site on the map and press Run Analysis to see the results. ');
 
     var coordText = document.createTextNode(coords);
 

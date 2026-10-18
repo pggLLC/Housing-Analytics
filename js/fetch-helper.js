@@ -24,6 +24,11 @@
   // support tooling can inspect `window.dataFetchErrors` without reading the console.
   window.dataFetchErrors = window.dataFetchErrors || [];
   var CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+  // Browser storage holds about 5 MB per site, and the map layers alone are
+  // larger than that. Caching them filled storage, so a user's own saved work
+  // (the last market-area run) was silently refused. Only files small enough
+  // to leave room are cached; a larger one is simply fetched again.
+  var CACHE_MAX_CHARS = 256 * 1024;
 
   // In-flight request de-duplication, keyed by resolved URL. Several
   // independent modules can each kick off their own fetch for the same
@@ -120,7 +125,12 @@
    */
   function writeCache(cacheKey, data) {
     try {
-      localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: data }));
+      var raw = JSON.stringify({ ts: Date.now(), data: data });
+      if (raw.length > CACHE_MAX_CHARS) {
+        localStorage.removeItem(cacheKey);
+        return;
+      }
+      localStorage.setItem(cacheKey, raw);
     } catch (e) {
       // Ignore storage errors (private mode, quota exceeded, etc.)
     }
@@ -278,6 +288,25 @@
     _inflightRequests[url] = promise;
     return promise;
   }
+
+  /**
+   * Drop cache entries larger than CACHE_MAX_CHARS, including those written
+   * before the limit existed, so the space returns to the user's saved work.
+   */
+  function pruneOversizeCache() {
+    try {
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf('_fh_') === 0) {
+          var raw = localStorage.getItem(key);
+          if (raw && raw.length > CACHE_MAX_CHARS) localStorage.removeItem(key);
+        }
+      }
+    } catch (e) {
+      // Storage unavailable: nothing to prune.
+    }
+  }
+  pruneOversizeCache();
 
   // Expose on window
   window.resolveAssetUrl = resolveAssetUrl;

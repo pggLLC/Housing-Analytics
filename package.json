@@ -127,7 +127,7 @@
     "test:all": "npm run test:ci && node test/smoke.test.js && node test/smoke-fmr.test.js && node test/data-quality-check.test.js && node test/pro-forma.test.js && node test/pma-competitive-set.test.js && node test/lihtc-deal-predictor.test.js && node test/pma-transit.test.js && node test/soft-funding-tracker.test.js && node test/hna-ranking-index.test.js && python3 -m pytest tests/ -v --tb=short",
     "typecheck": "echo \"No dedicated typecheck script for this static site\"",
     "test:validate": "node test/validate-site.js",
-    "test:fetch-helper": "node test/fetch-helper-resolve.js",
+    "test:fetch-helper": "node test/fetch-helper-resolve.js && node test/fetch-helper-cache-size.test.js",
     "test:hna-export-matches-screen": "node test/hna-export-matches-screen.test.js",
     "test:hna": "node test/hna-functionality-check.js && node test/hna-profile-fetch-batches.test.js && npm run test:metric-semantics && npm run test:scenario-presets && node test/hna-scenario-builder-saved.test.js && npm run test:hna-prop123-relationship && npm run test:hna-build-concurrency && npm run test:place-decade-trends && node test/package-4-user-visible.test.js",
     "test:hna-build-concurrency": "python3 -m pytest tests/test_build_hna_data_concurrency.py -q",

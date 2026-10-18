@@ -143,6 +143,10 @@
   });
   var dataLoaded   = false;  // true once loadData() has settled
   var dataReadyPromise = null; // saved custom PMAs must use the loaded bindings
+  // Callers that ask before the load has started (the UI controller's
+  // deferred script runs before DOMContentLoaded) wait for it instead of
+  // getting an already-resolved promise and restoring against no data.
+  var dataReadyWaiters = [];
   var contextRevision = 0; // includes direct engine calls from jurisdiction deep links
 
   // ── CHFA rural classification ─────────────────────────────────────
@@ -6063,6 +6067,7 @@
       if (hint) hint.textContent = 'Warning: data service unavailable.';
       loadOverlays();
     });
+    dataReadyWaiters.splice(0).forEach(function (resolve) { resolve(dataReadyPromise); });
   });
 
   /* ── PMA polygon generator (buffer | commuting | hybrid) ────────── */
@@ -6162,7 +6167,9 @@
     computeCoverage:         computeCoverage,
     customPmaReadiness:      customPmaReadiness,
     blockCustomPma:          blockCustomPma,
-    whenDataReady:           function () { return dataReadyPromise || Promise.resolve(); },
+    whenDataReady:           function () {
+      return dataReadyPromise || new Promise(function (resolve) { dataReadyWaiters.push(resolve); });
+    },
     getContextRevision:     function () { return contextRevision; },
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
