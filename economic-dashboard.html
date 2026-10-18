@@ -1647,20 +1647,22 @@ function getKey(){ return CONFIG_KEY || ""; }
   function ladderChecked(outcomes) {
     var strikes = outcomes.map(function (o) { return strikeOf(o.name); });
     if (outcomes.length < 2 || strikes.some(function (k) { return k == null; })) return outcomes;
-    var groups = {};
+    // A Map, not an object: the keys come from market titles.
+    var groups = new Map();
     outcomes.forEach(function (o, i) {
       var key = String(o.name).replace(/above\s+\$?[\d.,]+/i, 'above #');
-      (groups[key] = groups[key] || []).push(i);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(i);
     });
-    var broken = {};
-    Object.keys(groups).forEach(function (key) {
-      var priced = groups[key].map(function (i) { return { k: strikes[i], p: outcomes[i].prob }; })
+    var broken = new Set();
+    groups.forEach(function (idx) {
+      var priced = idx.map(function (i) { return { k: strikes[i], p: outcomes[i].prob }; })
         .filter(function (x) { return typeof x.p === 'number' && isFinite(x.p); })
         .sort(function (a, b) { return a.k - b.k; });
       var ordered = priced.every(function (x, j) { return j === 0 || x.p <= priced[j - 1].p; });
-      if (!ordered) groups[key].forEach(function (i) { broken[i] = true; });
+      if (!ordered) idx.forEach(function (i) { broken.add(i); });
     });
-    return outcomes.map(function (o, i) { return broken[i] ? { name: o.name, prob: null, thin: true } : o; });
+    return outcomes.map(function (o, i) { return broken.has(i) ? { name: o.name, prob: null, thin: true } : o; });
   }
 
   function renderKalshi(payload) {
