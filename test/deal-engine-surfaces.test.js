@@ -33,6 +33,7 @@ async function capture(page) {
       text: Object.fromEntries(ids.map(id => [id, text(id)])),
       reasons: Object.fromEntries(ids.map(id => [id, document.getElementById(id)?.dataset.unavailableReason])),
       projection: [...document.querySelectorAll('#pf-table-wrap tbody tr:first-child td')].map(n => n.textContent.trim()),
+      projectionColumns: document.querySelectorAll('#pf-table-wrap thead th').length,
       waterfall: [...document.querySelectorAll('#dcWaterfallTable tbody tr')].map(n => n.querySelectorAll('td')[1].textContent.trim()),
       scroll: { viewport: innerWidth, document: document.documentElement.scrollWidth } };
   });
@@ -76,6 +77,7 @@ async function run() {
         assert.equal(view.projection[column], money(r[key]), 'projection year 1 ' + key); comparisons++;
       }
       assert.equal(view.projection[9], money(r.annualDebtService + r.totalSoftDebtService), 'projection includes the engine soft debt service');
+      assert.equal(view.projection[10], money(r.projection.rows[0].bridgeDebtService + r.projection.rows[0].assetMgmtFee), 'projection bridge and asset fee column reads the engine row');
       assert.equal(view.text['dc-stress-base-noi'], money(r.noi));
       assert.equal(view.text['dc-stress-base-dscr'], r.allMustPayDSCR.toFixed(2) + 'x');
       assert.equal(view.text['dc-stress-base-margin'], (r.stressBase.margin >= 0 ? '+' : '') + r.stressBase.margin.toFixed(2));
@@ -132,7 +134,7 @@ async function run() {
       await page.evaluate(() => { const ob = window.DealOperatingBudget; ob.LINE_TEMPLATE.forEach(t => { document.getElementById('dc-op-' + t.id).value = ob.EXAMPLE_BUDGET[t.id]; }); });
       await page.evaluate(() => window.__DealCalc.recalculate());
       view = await capture(page);
-      assert(view.result.noi > 0 && view.projection.length === 13, 'restoring costs restores projection');
+      assert(view.result.noi > 0 && view.projectionColumns > 0 && view.projection.length === view.projectionColumns, 'restoring costs restores projection (a full row under every column header)');
       assert.equal(view.reasons['dcWaterfallTable'], undefined, 'old unavailable state cleared');
       await page.locator('#pf-rent-growth').fill('');
       await page.evaluate(() => window.__DealCalc.recalculate());
