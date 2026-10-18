@@ -63,9 +63,28 @@ test('the organisation is credited, and the domain resolves to a link', () => {
     // Asked on #1757 and answered on 2026-09-19: leave it out. The paper
     // credits Paul Glasgow and pggLLC. This is a recorded decision, not an
     // oversight — if the rebrand is ever reversed, narrow the guard first.
-    assert.ok(/href="https:\/\/pggllc\.com"/.test(src),
-      `${p} mentions pggLLC but never links pggllc.com`);
+    assert.ok(/<a href="[^"]+"[^>]*>pggLLC<\/a>/.test(src),
+      `${p} mentions pggLLC but never links it`);
   }
+});
+
+test('every pggLLC credit links the same site as the footer', () => {
+  // pggllc.com belongs to an unrelated company; pggLLC's own site is
+  // pggllc.org. The papers linked .com until 2026-10-18. Pin agreement with
+  // the footer credit rendered on every page, so a wrong domain in any one
+  // credit fails here.
+  const nav = read('js/navigation.js');
+  const footer = (nav.match(/Developed and maintained by <a href="([^"]+)"[^>]*>pggLLC<\/a>/) || [])[1];
+  assert.ok(footer, 'the footer no longer credits pggLLC with a link');
+  assert.notEqual(footer, 'https://pggllc.com', 'pggllc.com is not pggLLC\'s site');
+  let checked = 0;
+  for (const p of [...PAGES, 'about.html', 'apa-white-paper.html']) {
+    for (const m of read(p).matchAll(/<a href="([^"]+)"[^>]*>pggLLC<\/a>/g)) {
+      assert.equal(m[1], footer, `${p} links pggLLC to ${m[1]}, the footer to ${footer}`);
+      checked++;
+    }
+  }
+  assert.ok(checked >= 5, `only ${checked} pggLLC links found; the scan is not reading the credits`);
 });
 
 test('the use of AI is disclosed where the author is named', () => {
