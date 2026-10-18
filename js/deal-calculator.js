@@ -4201,7 +4201,8 @@
 
     var f = ds.fifteenYear(result);
     var reasonEl = document.getElementById('dc-doh15-reason');
-    if (reasonEl) { reasonEl.textContent = f.reason ? 'Unavailable — ' + f.reason : ''; reasonEl.hidden = !f.reason; }
+    var doh15Notice = f.reason ? 'Unavailable — ' + f.reason : f.notice ? 'Some years are unavailable — ' + f.notice : '';
+    if (reasonEl) { reasonEl.textContent = doh15Notice; reasonEl.hidden = !doh15Notice; }
     var sumEl = document.getElementById('dc-doh15-summary');
     var tableEl = document.getElementById('dc-doh15-table');
     var totalsEl = document.getElementById('dc-doh15-totals');

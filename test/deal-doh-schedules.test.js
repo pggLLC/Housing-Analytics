@@ -78,6 +78,42 @@ test('assigning more to an activity than it costs is flagged; an unknown cost st
   assert.match(su.reasons[0], /Enter a cost of \$0 or more/);
 });
 
+test('unknown credit equity stays unknown in the whole-project row and the totals, never $0', () => {
+  const { r, s } = views(withTranches(STACK));
+  s.taxCredit = Object.assign({}, s.taxCredit, { nine: null });
+  const su = ds.sourcesByActivity({ costSummary: r.costBasis.summary, financing: s, tranches: r.tranches, labels: pf.PROGRAM_LABELS });
+  const equity = su.general.sources.find(e => e.id === 'lihtc9');
+  assert(equity, 'the unknown equity is still listed');
+  assert.equal(equity.amount, null);
+  assert.equal(su.general.amount, null);
+  assert.equal(su.totals.other, null);
+  assert.equal(su.totals.sources, null);
+  assert(!su.general.sources.some(e => e.id === 'lihtc4'), 'an explicit $0 (no 4% equity on a 9% deal) is left out');
+});
+
+test('years after an unpaid maturity keep their reason, and the notice names it while known years still show', () => {
+  const r = computeDeal(withTranches([], { 'dc-senior-maturity': '10' }));
+  const f = ds.fifteenYear(r);
+  assert.equal(f.reason, null, 'the schedule as a whole is available');
+  assert(Number.isFinite(f.rows[0].cashFlowAvailable), 'year 1 is known');
+  assert.equal(f.rows[11].cashFlowAvailable, null, 'year 12 is not');
+  assert.equal(f.notice, r.projection.rows[11].unavailableReason);
+  assert.match(f.notice, /refinancing/);
+  assert.equal(ds.fifteenYear(computeDeal(withTranches([]))).notice, null, 'no notice when every year is known');
+});
+
+test('every page that mounts the calculator loads the DOH schedules module before it', () => {
+  const fs = require('fs'), path = require('path');
+  const pages = fs.readdirSync(path.join(__dirname, '..')).filter(f => f.endsWith('.html'))
+    .filter(f => /src="js\/deal-calculator\.js"/.test(fs.readFileSync(path.join(__dirname, '..', f), 'utf8')));
+  assert(pages.length >= 2, 'found the pages that mount it: ' + pages.join(', '));
+  pages.forEach(f => {
+    const html = fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+    const mod = html.indexOf('src="js/deal-doh-schedules.js"'), calc = html.indexOf('src="js/deal-calculator.js"');
+    assert(mod !== -1 && mod < calc, f + ' loads js/deal-doh-schedules.js before js/deal-calculator.js');
+  });
+});
+
 test('the 15-year rows are the engine\'s projection, and cash after payments reconciles to its cash flow', () => {
   const r = computeDeal(withTranches([{ program: 'chfa_htf', amount: 500000, mode: 'loan', loanType: 'cash_flow', cashflowPayPct: 50 }]));
   const f = ds.fifteenYear(r);

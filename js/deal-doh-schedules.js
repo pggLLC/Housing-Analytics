@@ -103,8 +103,9 @@
     var tc = fin.taxCredit;
     var whole = [
       senior ? { id: 'senior', name: 'First mortgage', amount: senior.principal === undefined ? senior.amount : senior.principal } : null,
-      tc.nine ? { id: 'lihtc9', name: '9% LIHTC proceeds', amount: tc.nine } : null,
-      tc.four ? { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four } : null,
+      // Only an explicit $0 is left out; unknown equity (null) stays and makes the total unknown.
+      tc.nine === 0 ? null : { id: 'lihtc9', name: '9% LIHTC proceeds', amount: tc.nine },
+      tc.four === 0 ? null : { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four },
       tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state },
       fin.deferredDevFee === 0 ? null : { id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }
     ].filter(Boolean);
@@ -175,7 +176,11 @@
       return false;
     });
     var feeTotal = sum(feeRows);
+    // Years the engine could not schedule (an unpaid maturity, say) keep their
+    // reason; the notice names them while the known years still show.
+    var notice = rows.map(function (x) { return x.reason; }).filter(function (v, i, all) { return v && all.indexOf(v) === i; });
     return {
+      notice: notice.length ? notice.join(' ') : null,
       rows: rows,
       loans: loans.map(function (l, n) {
         return { id: l.id, label: 'Cash flow loan #' + (n + 1), program: l.program,
