@@ -112,7 +112,7 @@ test('an award reduction is flagged only from a cited rule; otherwise "rule not 
 test('missing inputs are unknown with a reason, never $0', () => {
   const cases = [
     [{ annual: '' }, /other credit/], [{ years: '' }, /years/], [{ years: 2.5 }, /whole number of years/], [{ price: '' }, /investor price/],
-    [{ mode: null }, /adds to the other credits or replaces/], [{ fees: '' }, /investor fees.*\$0 if none/],
+    [{ mode: null }, /adds to the other credits or replaces/], [{ fees: '' }, /investor fees.*\$0 if none/], [{ fees: fx.cases.supplement.expected.gross + 1 }, /investor fees of .* more than its/],
     [{ mode: 'substitute' }, /which credit/], [{ mode: 'substitute', displaced: stateDisplaced('') }, /annual colorado state credit it replaces/],
     [{ mode: 'substitute', displaced: stateDisplaced(500000) }, /cannot replace more/],
     [{ federalCut: fedCut(2000000) }, /more than the/], [{ federalCut: Object.assign(fedCut(5000), { maxAnnual: null }) }, /federal credit is not available/]
