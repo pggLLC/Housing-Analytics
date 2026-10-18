@@ -54,7 +54,7 @@ assert(/prop123FastTrackContent/.test(rend),
   'renderer writes #prop123FastTrackContent');
 // Fast-track uses the shared eligibility helper. The law sets no population
 // threshold (C.R.S. § 29-32-105(2)), so the renderer passes no population.
-assert(/checkFastTrackEligibility\(null,\s*geoType\)/.test(rend),
+assert(/checkFastTrackEligibility\(null,\s*prop123Unincorporated\(geoType, geoLabel\)/.test(rend),
   'fast-track delegates to checkFastTrackEligibility utility');
 
 console.log('\n[test] #3 HSA dropdown changes sync back to WorkflowState');

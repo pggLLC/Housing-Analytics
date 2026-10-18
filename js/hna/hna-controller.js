@@ -4801,11 +4801,30 @@
     // Prop 123 filing relationship is a direct lookup. A geography absent
     // from DOLA's filing list is intentionally rendered as "Not committed".
     if (window.HNARenderers.renderProp123Relationship) {
-      // A CDP is covered by its county's commitment, so pass the county's name.
-      var prop123CountyRow = geoType === 'cdp' && contextCounty
-        ? ((window.__HNA_GEO_CONFIG && window.__HNA_GEO_CONFIG.counties) || []).find(function (c) { return c.geoid === contextCounty; })
-        : null;
-      var prop123CountyLabel = prop123CountyRow ? prop123CountyRow.label : null;
+      // A CDP is covered by its county's commitment, so pass the county's
+      // name, or each county's for a CDP that spans a county line.
+      var prop123CountyLabel = null;
+      // CDPs are selected as geoType 'place'; the label marks them.
+      var prop123IsCdp = window.Prop123Jurisdictions && window.Prop123Jurisdictions.isUnincorporated
+        ? window.Prop123Jurisdictions.isUnincorporated(geoType, label)
+        : (geoType === 'cdp' || /\(cdp\)/i.test(label || ''));
+      if (prop123IsCdp && contextCounty) {
+        if (window.HNAState.state.crossCountyPlaces === undefined) {
+          window.HNAState.state.crossCountyPlaces = await loadJson('data/hna/cross-county-places.json').catch(function () { return null; });
+        }
+        var prop123Cross = window.HNAState.state.crossCountyPlaces && window.HNAState.state.crossCountyPlaces.places
+          ? window.HNAState.state.crossCountyPlaces.places[geoid]
+          : null;
+        var prop123Fips = prop123Cross && Array.isArray(prop123Cross.all_counties) && prop123Cross.all_counties.length > 1
+          ? prop123Cross.all_counties.map(function (c) { return c.fips; })
+          : [contextCounty];
+        var prop123Counties = (window.__HNA_GEO_CONFIG && window.__HNA_GEO_CONFIG.counties) || [];
+        var prop123Labels = prop123Fips.map(function (fips) {
+          var row = prop123Counties.find(function (c) { return c.geoid === fips; });
+          return row ? row.label : null;
+        }).filter(Boolean);
+        prop123CountyLabel = prop123Labels.length > 1 ? prop123Labels : (prop123Labels[0] || null);
+      }
       var prop123Relationship = window.Prop123Jurisdictions && window.HNAState.state.prop123Jurisdictions
         ? window.Prop123Jurisdictions.relationship(window.HNAState.state.prop123Jurisdictions, geoType, label, prop123CountyLabel)
         : { status: 'Not committed', fastTrack: 'Not committed', record: null };

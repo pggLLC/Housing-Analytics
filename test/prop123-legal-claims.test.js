@@ -51,6 +51,7 @@ const CC = require(path.join(ROOT, 'js', 'compliance-checklist.js'));
 const CANONICAL = 'housing-needs-assessment.html';
 const VIEWS = JSON.parse(read('data/hna/hna-views.json')).views.map((v) => v.slug.endsWith('.html') ? v.slug : v.slug + '.html');
 const PAGES = [CANONICAL].concat(VIEWS);
+const rend = read('js/hna/hna-renderers.js');
 
 function section(html) {
   const m = html.match(/<section id="prop123-section"[\s\S]*?<\/section>/);
@@ -95,6 +96,21 @@ withSection.forEach((p) => {
     `${p}: copy states no population threshold`);
 });
 
+// The geography card states a requirement, not a designation: the 90-day
+// window is shown as required from 2027, never as this jurisdiction's.
+const ftCard = (rend.match(/var fastTrackEl[\s\S]*?\n    \}\n/) || [''])[0];
+ok(/PROP123_FAST_TRACK_REQUIRED_FROM/.test(ftCard) && !/'-day decision<\/div>'/.test(ftCard),
+  'the fast-track card headlines the 2027 requirement, not a 90-day decision for this jurisdiction');
+
+console.log('\n[baseline estimate]');
+// The panel's estimate is ~6% of all housing units (DP04_0001E); the copy
+// must not describe it as a rental count or say which way it errs.
+ok(/DP04_0001E[\s\S]{0,400}\* 0\.06/.test(rend), 'the baseline panel estimates 6% of total housing units');
+withSection.forEach((p) => {
+  const t = text(section(read(p)));
+  ok(!/counts rentals only|understates the official baseline/.test(t), `${p}: does not call the total-unit proxy a rental count`);
+});
+
 console.log('\n[commitment deadline]');
 const probe = new Date(2026, 9, 18);
 const cc = CC._nextDolaDeadline(probe);
@@ -116,7 +132,6 @@ console.log('\n[2024–2026 unit goal]');
 ok(U.calculateGrowthTarget(1000, 2) === 1060, 'goal is 3% of baseline per year, simple (1060, not compound 1061)');
 ok(U.calculateGrowthTarget(1000, 5) === U.calculateGrowthTarget(1000, 3), 'no goal projected past the 2024–2026 cycle');
 ok(T.calculateComplianceTrajectory(1000, [1000], 2028).targets.length === 4, 'tracker targets stop at 2026');
-const rend = read('js/hna/hna-renderers.js');
 ok(!/Math\.pow\(1\.03/.test(rend), 'renderers plot calculateGrowthTarget, not a compounding 1.03^n');
 
 console.log('\n[DOLA list reaches every filing card]');

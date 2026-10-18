@@ -7358,6 +7358,15 @@
    * jurisdiction-specific number comes from CDOLA Prop 123
    * commitment filings. Labelled so the user knows it's an estimate.
    */
+  // CDPs are selected as geoType 'place' and marked by their label; a CDP
+  // that has since incorporated files and reviews on its own.
+  function prop123Unincorporated(geoType, geoLabel) {
+    var P = window.Prop123Jurisdictions;
+    return P && P.isUnincorporated
+      ? P.isUnincorporated(geoType, geoLabel)
+      : (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''));
+  }
+
   function renderProp123BaselineAndFastTrack(profile, geoType, geoLabel) {
     var safeNum = U().safeNum;
     var fmtNum  = U().fmtNum;
@@ -7396,18 +7405,21 @@
     var fastTrackEl = document.getElementById('prop123FastTrackContent');
     if (fastTrackEl) {
       var check = U().checkFastTrackEligibility
-        ? U().checkFastTrackEligibility(null, geoType)
+        ? U().checkFastTrackEligibility(null, prop123Unincorporated(geoType, geoLabel) ? 'cdp' : (geoType === 'cdp' ? 'place' : geoType))
         : null;
       if (check && check.eligible !== null) {
+        // A statutory requirement, not this jurisdiction's designation:
+        // the filing card shows whether it has adopted fast-track review.
         fastTrackEl.innerHTML =
           '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
-            + fmtNum(U().PROP123_FAST_TRACK_DAYS) + '-day decision</div>'
+            + 'Required from ' + U().PROP123_FAST_TRACK_REQUIRED_FROM + '</div>'
           + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
             + escHtml(check.reason)
             + '. It applies to projects where at least half the homes are '
             + 'affordable, which must get a final decision within '
             + fmtNum(U().PROP123_FAST_TRACK_DAYS) + ' calendar days of a '
-            + 'complete application (C.R.S. § 29-32-105(2)(a), (3)(a)).</p>';
+            + 'complete application (C.R.S. § 29-32-105(2)(a), (3)(a)). '
+            + 'The filing card shows whether this jurisdiction has adopted it.</p>';
       } else {
         fastTrackEl.innerHTML =
           '<p style="margin:0;color:var(--muted);font-size:1.133rem">'
@@ -7429,7 +7441,25 @@
     var record = relationship && relationship.record;
     var rejectedSameNameRecord = relationship && relationship.rejectedSameNameRecord;
     var coveredBy = relationship && relationship.coveredBy;
-    var source = record && record.source_url
+    var countyRecords = (relationship && relationship.countyRecords) || [];
+    var nextCycle = relationship && relationship.nextCycle;
+    var nextValue = sourceLoaded === false || !nextCycle
+      ? null
+      : (nextCycle.filing ? 'Filed ' + nextCycle.filing.submitted : 'No filing yet');
+    var nextNote = nextValue && !nextCycle.filing && nextCycle.deadline
+      ? 'Due ' + new Date(nextCycle.deadline + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : (nextCycle && nextCycle.filing && nextCycle.filing.unit_goal != null
+        ? 'Goal: ' + Number(nextCycle.filing.unit_goal).toLocaleString('en-US') + ' homes'
+        : '');
+    var source = countyRecords.length && sourceLoaded !== false
+      ? 'An unincorporated area does not file its own commitment; the county it sits in covers it ' +
+        '(C.R.S. &sect; 29-32-105(1)(b)). This area spans a county line, so it depends on which side a project is on: ' +
+        countyRecords.map(function (c) {
+          return escHtml(c.county) + ' ' + (c.record
+            ? escHtml(c.record.status) + ', fast-track ' + (c.record.fast_track === true ? 'Yes' : 'No')
+            : 'Not committed');
+        }).join('; ') + '.'
+      : record && record.source_url
       ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'
       : (coveredBy && sourceLoaded !== false
         ? 'An unincorporated area does not file its own commitment; it is covered by ' +
@@ -7442,18 +7472,23 @@
           '&rdquo;; this geography is an unincorporated CDP, which cannot file.'
       : (sourceLoaded === false
         ? 'The DOLA jurisdiction list could not be loaded.'
-        : 'No commitment filing appears in the DOLA jurisdiction list.')));
+        : 'No 2024–2026 commitment filing appears in the DOLA jurisdiction list.')));
 
     el.innerHTML =
       '<h3>Jurisdiction relationship to Prop 123</h3>' +
       '<p style="margin:0 0 10px;color:var(--muted);font-size:1.133rem">' +
         escHtml(geoLabel || 'Selected jurisdiction') +
         ' — factual filing relationship only; this is not a ranking or recommendation.</p>' +
-      '<div class="metric-cards metric-cards-2">' +
-        '<div class="metric-card"><div class="metric-label">Commitment status</div>' +
+      '<div class="metric-cards metric-cards-' + (nextValue ? '3' : '2') + '">' +
+        '<div class="metric-card"><div class="metric-label">Commitment status, 2024–2026</div>' +
           '<div class="metric-value">' + escHtml(status) + '</div></div>' +
         '<div class="metric-card"><div class="metric-label">Fast-track designation</div>' +
           '<div class="metric-value">' + escHtml(fastTrack) + '</div></div>' +
+        (nextValue
+          ? '<div class="metric-card"><div class="metric-label">' + escHtml(String(nextCycle.cycle || '2027-2029').replace('-', '–')) + ' commitment</div>' +
+              '<div class="metric-value">' + escHtml(nextValue) + '</div>' +
+              (nextNote ? '<div class="metric-label">' + escHtml(nextNote) + '</div>' : '') + '</div>'
+          : '') +
       '</div>' +
       '<p style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">' + source + '</p>';
   }

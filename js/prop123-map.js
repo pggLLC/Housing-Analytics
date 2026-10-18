@@ -146,11 +146,19 @@
       .replace(/^(city and county|city|town|village) of\s+/, '')
       .replace(/\s+county$/, '')
       .replace(/^mt\.?\s+/, 'mount ')
+      // DOLA files Central City as "City of Central", its legal name.
+      .replace(/^central city$/, 'central')
       .trim();
   }
 
+  // Census still tabulates these as CDPs, but each has since incorporated
+  // and filed its own commitment, so the CDP rule must not reject the
+  // filing. Keystone incorporated as a town in 2024.
+  var INCORPORATED_AFTER_CENSUS = ['keystone'];
+
   function findJurisdiction(payload, geoType, geoLabel) {
-    if (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || '')) return null;
+    if ((geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || '')) &&
+        INCORPORATED_AFTER_CENSUS.indexOf(comparableName(geoLabel)) === -1) return null;
     var index = buildIndex(payload);
     var wantedName = comparableName(geoLabel);
     var wantedKind = geoType === 'county' ? 'county' : 'municipality';
@@ -168,29 +176,85 @@
       : null;
   }
 
-  // countyLabel names the county containing a CDP. A CDP cannot file a
-  // commitment of its own; the county's commitment covers it (C.R.S.
-  // § 29-32-105(1)(b)), so its status is the county's, marked coveredBy.
-  function relationship(payload, geoType, geoLabel, countyLabel) {
+  // countyLabels names the county (or, for a CDP spanning a county line,
+  // each county) containing a CDP. A CDP cannot file a commitment of its
+  // own; its county's commitment covers it (C.R.S. § 29-32-105(1)(b)), so
+  // its status is the county's. Where the counties differ, the status is
+  // "Depends on county" and countyRecords lists each one.
+  function relationship(payload, geoType, geoLabel, countyLabels) {
     var record = findJurisdiction(payload, geoType, geoLabel);
     var rejectedSameNameRecord = null;
-    var coveredBy = null;
+    var countyRecords = [];
     if (!record && (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''))) {
-      coveredBy = countyLabel ? findJurisdiction(payload, 'county', countyLabel) : null;
+      countyRecords = [].concat(countyLabels || []).filter(Boolean).map(function (countyLabel) {
+        return { county: countyLabel, record: findJurisdiction(payload, 'county', countyLabel) };
+      });
       var wantedName = comparableName(geoLabel);
       rejectedSameNameRecord = buildIndex(payload).list.find(function (candidate) {
         return classifyKind(candidate) === 'municipality' &&
           comparableName(candidate.name) === wantedName;
       }) || null;
     }
-    var governing = record || coveredBy;
+    var statusOf = function (r) { return r ? r.status : 'Not committed'; };
+    var fastTrackOf = function (r) { return r ? (r.fast_track === true ? 'Yes' : 'No') : 'Not committed'; };
+    var agreed = function (values) {
+      return values.every(function (v) { return v === values[0]; }) ? values[0] : 'Depends on county';
+    };
+    var coveredBy = countyRecords.length === 1 ? countyRecords[0].record : null;
+    var status, fastTrack;
+    if (record || !countyRecords.length) {
+      status = statusOf(record);
+      fastTrack = fastTrackOf(record);
+    } else {
+      status = agreed(countyRecords.map(function (c) { return statusOf(c.record); }));
+      fastTrack = agreed(countyRecords.map(function (c) { return fastTrackOf(c.record); }));
+    }
     return {
       record: record,
       coveredBy: coveredBy,
-      status: governing ? governing.status : 'Not committed',
-      fastTrack: governing ? (governing.fast_track === true ? 'Yes' : 'No') : 'Not committed',
+      countyRecords: countyRecords.length > 1 ? countyRecords : [],
+      status: status,
+      fastTrack: fastTrack,
+      nextCycle: countyRecords.length > 1 ? nextCycleAcross(payload, countyRecords) : nextCycleFor(payload, record || coveredBy || nextCycleOnly(payload, geoType, geoLabel)),
       rejectedSameNameRecord: rejectedSameNameRecord
     };
+  }
+
+  // The 2027–2029 filing, if DOLA lists one for this record. Filings for
+  // jurisdictions with no first-cycle record (Moffat County, Stratton) sit
+  // only in payload.next_cycle.filings, so look there by name and kind.
+  function nextCycleFor(payload, record) {
+    var cycle = payload && payload.next_cycle;
+    if (!cycle) return null;
+    var filing = null;
+    if (record && record.next_cycle) filing = record.next_cycle;
+    else if (record) {
+      var name = comparableName(record.name);
+      var kind = classifyKind(record);
+      filing = (cycle.filings || []).find(function (f) {
+        return comparableName(f.name) === name && classifyKind(f) === kind;
+      }) || null;
+    }
+    return { cycle: cycle.cycle, deadline: cycle.filing_deadline, filing: filing };
+  }
+
+  // Across a county line: "no filing yet" only if no county has filed;
+  // otherwise it depends on the side, so show no single answer.
+  function nextCycleAcross(payload, countyRecords) {
+    var each = countyRecords.map(function (c) { return nextCycleFor(payload, c.record); });
+    return each.every(function (n) { return n && !n.filing; }) ? each[0] : null;
+  }
+
+  // A jurisdiction absent from the first-cycle list can still have filed
+  // for 2027–2029; findJurisdiction only sees first-cycle records.
+  function nextCycleOnly(payload, geoType, geoLabel) {
+    var cycle = payload && payload.next_cycle;
+    if (!cycle || geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || '')) return null;
+    var name = comparableName(geoLabel);
+    var kind = geoType === 'county' ? 'county' : 'municipality';
+    return (cycle.filings || []).find(function (f) {
+      return comparableName(f.name) === name && classifyKind(f) === kind;
+    }) || null;
   }
 
   function buildIndex(payload) {
@@ -389,6 +453,11 @@
     load: loadProp123List,
     find: findJurisdiction,
     relationship: relationship,
+    // True for a CDP that has not since incorporated (the county covers it).
+    isUnincorporated: function (geoType, geoLabel) {
+      return (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || '')) &&
+        INCORPORATED_AFTER_CENSUS.indexOf(comparableName(geoLabel)) === -1;
+    },
     findLoaded: async function (geoType, geoLabel) {
       return findJurisdiction(await loadProp123List(), geoType, geoLabel);
     }
