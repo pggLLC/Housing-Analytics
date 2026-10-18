@@ -313,9 +313,12 @@
       "geoid": "0816000",
       "title": "New affordable housing coming to southeast Colorado Springs",
       "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Video only; no article text to quote."
+      "reason": "Video only, with no article text to quote. Watch it by hand, then use or dismiss it.",
+      "date": "2026-09-22",
+      "source": "Yahoo",
+      "match": "place"
     },
     {
       "geoid": "0816000",

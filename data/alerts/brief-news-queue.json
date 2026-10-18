@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-18T14:19:04Z",
+    "generated": "2026-10-18T14:26:35Z",
     "as_of": "2026-10-18",
     "stale_days": 30,
     "events_as_of": "2026-10-18",
@@ -102,6 +102,15 @@
           "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
         },
         {
+          "title": "New affordable housing coming to southeast Colorado Springs",
+          "source": "Yahoo",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
+          "date": "2026-09-22",
+          "match": "place",
+          "also": [],
+          "unread": "Video only, with no article text to quote. Watch it by hand, then use or dismiss it."
+        },
+        {
           "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team",
           "source": "Axios",
           "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
@@ -113,7 +122,7 @@
       ],
       "events": [],
       "reasons": [
-        "2 older stories not read yet"
+        "3 older stories not read yet"
       ]
     },
     {
