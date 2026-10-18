@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-15T09:41:33Z",
+  "generated_at": "2026-10-18T10:33:18Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_development_activity.py",
   "title": "Significant affordable-housing development activity in Colorado",
@@ -43,8 +43,8 @@
  "county_summary": {
   "08001": {
    "name": "Adams County",
-   "projects": 23,
-   "homes": 2321,
+   "projects": 24,
+   "homes": 2394,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -55,7 +55,7 @@
     },
     "funded": {
      "projects": 15,
-     "homes": 1238,
+     "homes": 1261,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -69,8 +69,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 50,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -121,8 +121,8 @@
   },
   "08005": {
    "name": "Arapahoe County",
-   "projects": 32,
-   "homes": 3154,
+   "projects": 30,
+   "homes": 3029,
    "projects_without_homes": 1,
    "multi_county_projects": 0,
    "by_stage": {
@@ -132,8 +132,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 22,
-     "homes": 2046,
+     "projects": 21,
+     "homes": 1971,
      "projects_without_homes": 1
     },
     "land_funded": {
@@ -147,8 +147,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 4,
-     "homes": 292,
+     "projects": 3,
+     "homes": 242,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -1213,8 +1213,8 @@
   },
   "08059": {
    "name": "Jefferson County",
-   "projects": 25,
-   "homes": 1909,
+   "projects": 26,
+   "homes": 1961,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1224,8 +1224,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 15,
-     "homes": 1302,
+     "projects": 16,
+     "homes": 1354,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -2762,6 +2762,48 @@
    ]
   },
   {
+   "id": "living-tower-senior-living-08001",
+   "name": "Living Tower Senior Living",
+   "city": "Aurora",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": "0804000",
+   "stage": "not_funded",
+   "first_year": 2025,
+   "latest_year": 2026,
+   "total_units": 50,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 50,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "not_funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1600000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: N, OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000",
+     "round": "2025 Round One",
+     "as_of": "2025-02-12"
+    },
+    {
+     "stage": "not_funded",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1800000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: N,OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; LI Units: 50; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000",
+     "round": "2026 Round One",
+     "as_of": "2026-02-09"
+    }
+   ]
+  },
+  {
    "id": "maiker-boyers-08001",
    "name": "Maiker Boyers",
    "city": null,
@@ -2794,46 +2836,70 @@
    ]
   },
   {
-   "id": "mountain-vista-08001",
-   "name": "Mountain Vista",
-   "city": "Westminster",
+   "id": "stanley-98-08001",
+   "name": "Stanley 98",
+   "city": "Aurora",
    "county_fips": "08001",
    "county_fips_all": null,
    "county": "Adams County",
-   "place_geoid": "0883835",
+   "place_geoid": "0804000",
    "stage": "funded",
-   "first_year": 2025,
+   "first_year": 2024,
    "latest_year": 2026,
-   "total_units": 52,
+   "total_units": 75,
    "total_units_unavailable_reason": null,
-   "restricted_units": 52,
+   "restricted_units": 75,
    "restricted_units_unavailable_reason": null,
    "events": [
     {
-     "stage": "funded",
-     "year": 2025,
-     "agency": "DOLA",
-     "program": "Division of Housing award",
-     "amount": 770000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Mountain Vista; Program: Rental; Amount: $770,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
-     "announced": "2025-11",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
+     "stage": "not_funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 1784331,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Bldg. Type: N; Pop Type: F; Name: Stanley 98; Address: E. 25th Avenue and Joliet Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Amount Requested: $1,784,331; PAB Issuer: Aurora Housing Authority; PAB Amount Requested: $19,829,000; State Credit Amount Requested*: $1,800,000",
+     "round": "2024 Round Two",
+     "as_of": "2024-08-15"
     },
     {
      "stage": "not_funded",
+     "year": 2025,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 1797118,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,797,118; PAB Issuer: Aurora Housing Authority; PAB Requested: $21,000,000; State Credit Requested*: $1,800,000",
+     "round": "2025 Round Two",
+     "as_of": "2025-08-12"
+    },
+    {
+     "stage": "applied",
      "year": 2026,
      "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1800000,
+     "program": "Housing tax credit 4% application",
+     "amount": 1836904,
      "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: N,I/F; Name: Mountain Vista Apartments; Address: 7840 W 87th Drive; City: Westminster; Total Units: 52; LI Units: 52; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000",
-     "round": "2026 Round One",
-     "as_of": "2026-02-09"
+     "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,836,904; PAB Issuer: Aurora Housing Authority; PAB Requested: $11,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000",
+     "round": "2026 Round Two",
+     "as_of": "2026-08-11"
+    },
+    {
+     "stage": "funded",
+     "year": 2026,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 1700000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+     "quote": "Project: Stanley 98; Program: Rental; Amount: $1,700,000; Amount basis: requested; Homes: 75; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
+     "announced": "2026-06",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -3082,48 +3148,6 @@
    ]
   },
   {
-   "id": "living-tower-senior-living-08005",
-   "name": "Living Tower Senior Living",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "not_funded",
-   "first_year": 2025,
-   "latest_year": 2026,
-   "total_units": 50,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 50,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1600000,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: N, OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000",
-     "round": "2025 Round One",
-     "as_of": "2025-02-12"
-    },
-    {
-     "stage": "not_funded",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "Housing tax credit 9% application",
-     "amount": 1800000,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
-     "quote": "Type: N,OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; LI Units: 50; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000",
-     "round": "2026 Round One",
-     "as_of": "2026-02-09"
-    }
-   ]
-  },
-  {
    "id": "metro-center-08005",
    "name": "Metro Center Apartments",
    "city": "Aurora",
@@ -3303,74 +3327,6 @@
      "quote": "Type: N,OA; Name: Stables II; Address: 10850 E Exposition Avenue; City: Aurora; Total Units: 52; LI Units: 52; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $104,000",
      "round": "2026 Round One",
      "as_of": "2026-02-09"
-    }
-   ]
-  },
-  {
-   "id": "stanley-98-08005",
-   "name": "Stanley 98",
-   "city": "Aurora",
-   "county_fips": "08005",
-   "county_fips_all": null,
-   "county": "Arapahoe County",
-   "place_geoid": "0804000",
-   "stage": "funded",
-   "first_year": 2024,
-   "latest_year": 2026,
-   "total_units": 75,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 75,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 1784331,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Bldg. Type: N; Pop Type: F; Name: Stanley 98; Address: E. 25th Avenue and Joliet Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Amount Requested: $1,784,331; PAB Issuer: Aurora Housing Authority; PAB Amount Requested: $19,829,000; State Credit Amount Requested*: $1,800,000",
-     "round": "2024 Round Two",
-     "as_of": "2024-08-15"
-    },
-    {
-     "stage": "not_funded",
-     "year": 2025,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 1797118,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,797,118; PAB Issuer: Aurora Housing Authority; PAB Requested: $21,000,000; State Credit Requested*: $1,800,000",
-     "round": "2025 Round Two",
-     "as_of": "2025-08-12"
-    },
-    {
-     "stage": "applied",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 1836904,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,836,904; PAB Issuer: Aurora Housing Authority; PAB Requested: $11,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000",
-     "round": "2026 Round Two",
-     "as_of": "2026-08-11"
-    },
-    {
-     "stage": "funded",
-     "year": 2026,
-     "agency": "DOLA",
-     "program": "Division of Housing award",
-     "amount": 1700000,
-     "amount_label": "requested (award amount not printed)",
-     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-     "quote": "Project: Stanley 98; Program: Rental; Amount: $1,700,000; Amount basis: requested; Homes: 75; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026",
-     "announced": "2026-06",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": true,
-     "source_title": "DOH Application Schedule and Awards page: awards announced June 2026"
     }
    ]
   },
@@ -5849,6 +5805,50 @@
      "quote": "Building Type: N; Resident Type: I/F; Name: Cedar Gardens; Address: 6990 W. Cedar Avenue; City: Lakewood; Total Units: 84; LI Units: 84; Federal 4% Credit Requested: $1,951,562; PAB Issuer: Metro West Housing Solutions; PAB Requested: $18,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $168,000",
      "round": "2026 Round Two",
      "as_of": "2026-08-11"
+    }
+   ]
+  },
+  {
+   "id": "mountain-vista-08059",
+   "name": "Mountain Vista",
+   "city": "Westminster",
+   "county_fips": "08059",
+   "county_fips_all": null,
+   "county": "Jefferson County",
+   "place_geoid": "0883835",
+   "stage": "funded",
+   "first_year": 2025,
+   "latest_year": 2026,
+   "total_units": 52,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 52,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2025,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 770000,
+     "amount_label": "requested (award amount not printed)",
+     "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+     "quote": "Project: Mountain Vista; Program: Rental; Amount: $770,000; Amount basis: requested; Homes: 52; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
+     "announced": "2025-11",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
+    },
+    {
+     "stage": "not_funded",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 9% application",
+     "amount": 1800000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+     "quote": "Type: N,I/F; Name: Mountain Vista Apartments; Address: 7840 W 87th Drive; City: Westminster; Total Units: 52; LI Units: 52; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000",
+     "round": "2026 Round One",
+     "as_of": "2026-02-09"
     }
    ]
   },

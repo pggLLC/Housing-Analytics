@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:26:26Z",
+  "generated_at": "2026-10-18T10:33:18Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
@@ -2004,12 +2004,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": 11000000,
-   "county_fips": "08005",
+   "county_fips": "08001",
    "place_geoids": [
     "0804000"
    ],
    "county_fips_all": [
-    "08005"
+    "08001"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,836,904; PAB Issuer: Aurora Housing Authority; PAB Requested: $11,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; Sponsor: Aurora Housing Authority",
    "source_file": "2026-HTC-Round-Two-Applicant-Report.pdf",
@@ -2802,13 +2802,12 @@
    "toc_credit_requested": 96000,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08005",
+   "county_fips": null,
+   "county_unavailable_reason": "Aurora spans 2 counties and the report gives no street address the Census geocoder can place",
    "place_geoids": [
     "0804000"
    ],
-   "county_fips_all": [
-    "08005"
-   ],
+   "county_fips_all": [],
    "quote": "Type: N,I/F,SH; Name: Hazelbrook HUB Apartments; Address: Sable Blvd and Centerpointe Drive; City: Aurora; Total Units: 48; LI Units: 48; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $96,000; Sponsor: ParidigmONE Inc",
    "source_file": "2026-HTC-Round-One-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
@@ -2872,12 +2871,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08005",
+   "county_fips": "08001",
    "place_geoids": [
     "0804000"
    ],
    "county_fips_all": [
-    "08005"
+    "08001"
    ],
    "quote": "Type: N,OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; LI Units: 50; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; Sponsor: Blue Ridge Cascade",
    "source_file": "2026-HTC-Round-One-Applicant-Report.pdf",
@@ -2991,12 +2990,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08001",
+   "county_fips": "08059",
    "place_geoids": [
     "0883835"
    ],
    "county_fips_all": [
-    "08001"
+    "08059"
    ],
    "quote": "Type: N,I/F; Name: Mountain Vista Apartments; Address: 7840 W 87th Drive; City: Westminster; Total Units: 52; LI Units: 52; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; Sponsor: Grand Peaks Housing Solutions",
    "source_file": "2026-HTC-Round-One-Applicant-Report.pdf",
@@ -4565,8 +4564,7 @@
     "0804000"
    ],
    "county_fips_all": [
-    "08001",
-    "08005"
+    "08001"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Crossbar Commons; Address: 15961 E. Colfax Avenue; City: Aurora; Total Units: 104; LI Units: 104; Federal 4% Credit Requested: $2,071,594; PAB Issuer: CHFA; PAB Requested: $21,900,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $135,200; Sponsor: Mercy Housing Mountain Plains",
    "source_file": "2025-HTC-Round-Two-Applicant-Report.pdf",
@@ -4911,12 +4909,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": 21000000,
-   "county_fips": "08005",
+   "county_fips": "08001",
    "place_geoids": [
     "0804000"
    ],
    "county_fips_all": [
-    "08005"
+    "08001"
    ],
    "quote": "Building Type: N; Resident Type: I/F; Name: Stanley 98; Address: 2520 N. Jamaica Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Requested: $1,797,118; PAB Issuer: Aurora Housing Authority; PAB Requested: $21,000,000; State Credit Requested*: $1,800,000; Sponsor: Housing Authority of the City of Aurora",
    "source_file": "2025-HTC-Round-Two-Applicant-Report.pdf",
@@ -5252,7 +5250,6 @@
     "0883835"
    ],
    "county_fips_all": [
-    "08001",
     "08059"
    ],
    "quote": "Type: N, OA; Name: Blossom Commons; Address: 91st Place and Eaton Street; City: Westminster; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $65,000; Sponsor: Volker Housing Partners, LLC",
@@ -5612,12 +5609,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": null,
-   "county_fips": "08005",
+   "county_fips": "08001",
    "place_geoids": [
     "0804000"
    ],
    "county_fips_all": [
-    "08005"
+    "08001"
    ],
    "quote": "Type: N, OA; Name: Living Tower Senior Living; Address: 18821 E 22nd Place; City: Aurora; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; Sponsor: Blue Ridge Atlantic",
    "source_file": "2025-HTC-Round-One-Applicant-Report.pdf",
@@ -7297,12 +7294,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": 19829000,
-   "county_fips": "08005",
+   "county_fips": "08001",
    "place_geoids": [
     "0804000"
    ],
    "county_fips_all": [
-    "08005"
+    "08001"
    ],
    "quote": "Bldg. Type: N; Pop Type: F; Name: Stanley 98; Address: E. 25th Avenue and Joliet Street; City: Aurora; Total Units: 75; LI Units: 75; Federal 4% Credit Amount Requested: $1,784,331; PAB Issuer: Aurora Housing Authority; PAB Amount Requested: $19,829,000; State Credit Amount Requested*: $1,800,000; Sponsor: Housing Authority of the City of Aurora",
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",
@@ -7391,8 +7388,7 @@
     "0804000"
    ],
    "county_fips_all": [
-    "08001",
-    "08005"
+    "08001"
    ],
    "quote": "Bldg. Type: A/R; Pop Type: OA; Name: Tiara Apartments; Address: 12000 E. 16th Avenue; City: Aurora; Total Units: 50; LI Units: 50; Federal 4% Credit Amount Requested: $877,787; PAB Issuer: CHFA; PAB Amount Requested: $10,300,000; State Credit Amount Requested*: $1,330,000; Sponsor: KCG Development, LLC",
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",

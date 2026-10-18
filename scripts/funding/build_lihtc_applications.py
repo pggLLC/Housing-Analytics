@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import functools
 import hashlib
 import importlib.util
 import json
@@ -303,19 +304,77 @@ def feed_name_cities() -> dict[str, set]:
     return out
 
 
+def feed_city_spans() -> dict[str, set]:
+    """Normalized city → the counties it spans, for cities the LIHTC feed puts
+    properties of in more than one county (each holding at least a tenth of
+    them: Westminster in Adams and Jefferson, Aurora in Adams and Arapahoe).
+    The place table names one containing county per city, which is wrong for
+    any project on the other side of the line."""
+    tally: dict[str, dict] = {}
+    try:
+        for f in awards.read_json(awards.LIHTC_FEED)['features']:
+            pr = f.get('properties') or {}
+            if pr.get('PROJ_CTY') and pr.get('CNTY_FIPS'):
+                t = tally.setdefault(awards.norm(pr['PROJ_CTY']), {})
+                t[pr['CNTY_FIPS']] = t.get(pr['CNTY_FIPS'], 0) + 1
+    except (OSError, KeyError, ValueError):
+        return {}
+    out = {}
+    for city, t in tally.items():
+        total = sum(t.values())
+        spans = {c for c, n in t.items() if n / total >= 0.1}
+        if len(spans) > 1:
+            out[city] = spans
+    return out
+
+
+GEOCODER = ('https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress'
+            '?benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json&address=')
+
+
+def geocode_county(address: str, city: str) -> str | None:
+    """County GEOID of a street address from the Census geocoder, or None when
+    it finds no single Colorado match (an intersection, a vague address, the
+    service unreachable)."""
+    from urllib.parse import quote
+    try:
+        res = json.loads(awards.http_get(GEOCODER + quote(f'{address}, {city}, CO'), timeout=30))
+        found = {m['geographies']['Counties'][0]['GEOID'] for m in res['result']['addressMatches']}
+    except Exception:  # noqa: BLE001 - any failure leaves the county unknown, never guessed
+        return None
+    if len(found) == 1:
+        fips = next(iter(found))
+        return fips if fips.startswith('08') else None
+    return None
+
+
 def place_county(rec: dict, cities: list[str], ctx: dict) -> dict:
-    """County for an application. A project name in the LIHTC feed places it
-    only when the feed puts that name in one of the application's own cities:
-    names repeat across the state ("Ridge" in Colorado Springs, "Mountain Vista
-    Apartments" in Durango), and a namesake elsewhere must not move a Denver or
-    Westminster application to its county."""
+    """County for an application.
+
+    A project name in the LIHTC feed places it only when the feed puts that
+    name in one of the application's own cities: names repeat across the state
+    ("Ridge" in Colorado Springs, "Mountain Vista Apartments" in Durango), and a
+    namesake elsewhere must not move a Denver or Westminster application.
+
+    Otherwise, in a city that spans counties, the street address decides it
+    through the Census geocoder; with no address it can place, the county is
+    unknown rather than the city's main county."""
     probe = {'name': rec['name'], 'location': rec['city']}
     awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
     if probe.get('county_method') == 'LIHTC feed project name':
         feed_cities = ctx['name_cities'].get(awards.norm(rec['name'] or ''), set())
-        if not feed_cities & {awards.norm(c) for c in cities}:
-            probe = {'name': None, 'location': rec['city']}
-            awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+        if feed_cities & {awards.norm(c) for c in cities}:
+            return probe
+        probe = {'name': None, 'location': rec['city']}
+        awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+    spans = ctx['city_spans'].get(awards.norm(cities[0])) if len(cities) == 1 else None
+    if spans:
+        fips = ctx['geocode'](rec['address'], cities[0]) if rec.get('address') else None
+        if fips:
+            return {'county_fips': fips, 'county_method': 'Census geocoder, street address'}
+        return {'county_fips': None, 'county_unavailable_reason': (
+            f'{cities[0]} spans {len(spans)} counties and the report gives '
+            + ('no street address the Census geocoder can place' if rec.get('address') else 'no street address'))}
     return probe
 
 
@@ -517,6 +576,8 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
         app['place_geoids'] = sorted({g for g in (ctx['places'].get(awards.norm(c)) for c in cities) if g})
         counties = set()
         for c in cities:
+            if awards.norm(c) in ctx['city_spans']:
+                continue  # the application's own county above is the evidence; the place table's is a guess
             one = {'name': None, 'location': c}
             awards.assign_county(one, ctx['counties'], ctx['county_places'], ctx['names'])
             if one['county_fips']:
@@ -547,7 +608,9 @@ def context() -> dict:
     except (OSError, ValueError):
         excluded = set()
     return {'counties': counties, 'county_places': county_places, 'names': awards.lihtc_names(),
-            'places': load_places(), 'name_cities': feed_name_cities(), 'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
+            'places': load_places(), 'name_cities': feed_name_cities(), 'city_spans': feed_city_spans(),
+            'geocode': functools.lru_cache(maxsize=None)(geocode_county),
+            'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
 
 
 def award_only_row(aw: dict, ctx: dict) -> dict:

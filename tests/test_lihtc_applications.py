@@ -50,6 +50,7 @@ def doc(name):
 def ctx():
     c = apps_mod.context()
     c['excluded'] = set()
+    c['geocode'] = lambda address, city: None  # tests never call the Census geocoder
     return c
 
 
@@ -299,6 +300,8 @@ def test_a_namesake_elsewhere_does_not_move_an_application_to_its_county():
         'county_places': {'denver': {'08031'}, 'colorado springs': {'08041'}, 'westminster': {'08001'}},
         'names': {'ridge': '08041', 'blossom commons': '08059'},
         'name_cities': {'ridge': {'colorado springs'}, 'blossom commons': {'westminster'}},
+        'city_spans': {'westminster': {'08001', '08059'}},
+        'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
     }
     # "Ridge" in the feed is in Colorado Springs: a Denver application stays in Denver
     got = apps_mod.place_county({'name': 'Ridge', 'city': 'Denver'}, ['Denver'], c)
@@ -307,6 +310,30 @@ def test_a_namesake_elsewhere_does_not_move_an_application_to_its_county():
     # though the place table lists Westminster under Adams only
     got = apps_mod.place_county({'name': 'Blossom Commons', 'city': 'Westminster'}, ['Westminster'], c)
     assert got['county_fips'] == '08059'
+
+
+def test_in_a_city_that_spans_counties_the_address_decides_or_the_county_is_unknown():
+    """Westminster is in Adams and Jefferson, but the place table names Adams
+    only: a Westminster application is placed by its street address, and one
+    with no address the geocoder can place gets no county, not Adams."""
+    c = {
+        'counties': {'adams': '08001', 'jefferson': '08059', 'la plata': '08067'},
+        'county_places': {'westminster': {'08001'}},
+        'names': {'mountain vista apartments': '08067'},
+        'name_cities': {'mountain vista apartments': {'durango'}},
+        'city_spans': {'westminster': {'08001', '08059'}},
+        'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
+    }
+    got = apps_mod.place_county({'name': 'Mountain Vista Apartments', 'city': 'Westminster',
+                                 'address': '7840 W 87th Drive'}, ['Westminster'], c)
+    assert got['county_fips'] == '08059' and got['county_method'] == 'Census geocoder, street address'
+    got = apps_mod.place_county({'name': 'Somewhere New', 'city': 'Westminster',
+                                 'address': '91st Place and Eaton Street'}, ['Westminster'], c)
+    assert got['county_fips'] is None
+    assert 'Westminster spans 2 counties' in got['county_unavailable_reason']
+    got = apps_mod.place_county({'name': 'Somewhere New', 'city': 'Westminster', 'address': None},
+                                ['Westminster'], c)
+    assert got['county_fips'] is None and got['county_unavailable_reason'].endswith('no street address')
 
 
 def test_every_committed_county_agrees_with_the_rows_own_city():
@@ -336,3 +363,24 @@ def test_every_committed_county_agrees_with_the_rows_own_city():
             assert fips in allowed, (r['name'], r['city'], fips, sorted(allowed))
         checked += 1
     assert checked > 100
+
+
+def test_an_application_in_a_city_that_spans_counties_is_filed_under_one_county_or_none():
+    """The place table names one county for Westminster or Aurora, so adding it
+    beside the application's own county would file the row on a county brief
+    it does not belong to; with no county found, the row is on no county's."""
+    awards = apps_mod.awards
+    data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
+    spans = apps_mod.feed_city_spans()
+    assert {'westminster', 'aurora'} <= set(spans)
+    checked = 0
+    for r in data['applications']:
+        cities = [c for c in (r.get('city') or '').split(',') if c.strip()]
+        if r.get('award_only') or len(cities) != 1 or awards.norm(cities[0]) not in spans:
+            continue
+        expected = [r['county_fips']] if r['county_fips'] else []
+        assert r['county_fips_all'] == expected, (r['name'], r['city'], r['county_fips_all'])
+        if not r['county_fips']:
+            assert r.get('county_unavailable_reason'), r['name']
+        checked += 1
+    assert checked > 20
