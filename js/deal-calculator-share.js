@@ -252,7 +252,8 @@
       var maturity = (row.querySelector('.dc-tr-maturity') || {}).value;
       var io = (row.querySelector('.dc-tr-io') || {}).value;
       var fed = (row.querySelector('.dc-tr-fed') || {}).value || '';
-      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed].join(':'));
+      var doh = (row.querySelector('.dc-tr-doh') || {}).value || '';
+      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed, doh].join(':'));
     });
     return out.join(';');
   }
@@ -305,6 +306,8 @@
         _setRowInput('.dc-tr-io', parts[10] === undefined ? '2' : parts[10]);
         // #2160: links made before the federal-money field leave it at the program default.
         if (parts[11] !== undefined) _setRowInput('.dc-tr-fed', parts[11]);
+        // DOH PR 3: links made before the DOH group keep the program's default group.
+        if (parts[12] !== undefined) _setRowInput('.dc-tr-doh', parts[12]);
       });
       if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     }, 80);
@@ -525,6 +528,9 @@
     if (snapshot.dealMode === 'rental') {
       snapshot.loanObligations = result ? result.obligations : null;
       snapshot.debtCoverage = result ? result.coverage : null;
+      // DOH's Permanent Financing Sources view, as displayed.
+      snapshot.permanentFinancing = window.__DealCalc && window.__DealCalc.getPermanentFinancing
+        ? window.__DealCalc.getPermanentFinancing() : null;
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
       snapshot.rentSchedule = window.__DealCalc && window.__DealCalc.getRentScheduleMetadata ? window.__DealCalc.getRentScheduleMetadata() : null;
       snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata
@@ -545,7 +551,7 @@
         return {
           program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
           cashflowPayPct: p[5], accrueMode: p[6], priority: p[7], loanType: p[8], maturity: p[9], ioYears: p[10],
-          fundSource: p[11] || null
+          fundSource: p[11] || null, doh: p[12] === undefined ? null : p[12]
         };
       });
     }

@@ -26,6 +26,11 @@
     'dc-prop-tax': 'Annual property tax per home before the selected exemption.',
     'dc-tax-exempt': 'Share of property taxes exempted in the scenario.',
     'dc-senior-mode': 'Size the senior loan from NOI or keep an entered principal amount.',
+    'dc-senior-lender-type': 'The first mortgage\'s loan type in DOH\'s key: Conventional, Tax-exempt or Federal financing.',
+    'dc-pf-cap-rate': 'Capitalization rate used to value NOI for DOH\'s maximum-loan check, in percent.',
+    'dc-pf-cap-lvr': 'Loan-to-value ratio applied to the cap-rate value, in percent.',
+    'dc-pf-appraised': 'The property\'s value from an appraisal you have, for DOH\'s maximum-loan check.',
+    'dc-pf-appraised-lvr': 'Loan-to-value ratio applied to the value from an appraisal, in percent.',
     'dc-senior-amount': 'Entered senior loan principal; coverage is measured, not assumed.',
     'dc-senior-type': 'Selected senior repayment obligation; verify the loan agreement.',
     'dc-senior-maturity': 'Year principal becomes due, separately from amortization.',
@@ -126,6 +131,7 @@
     maturity: 'Year principal is due or conditionally forgiven.', io: 'Interest-only years before amortization starts.',
     accrue: 'Whether tranche interest is paid currently or accrued until exit.', priority: 'Payment order in the cash-flow waterfall.'
   };
+  tranche.doh = 'Where this source counts in DOH\'s Permanent Financing Sources; the program sets the starting group.';
   tranche.fed = 'Whether this source contains federal money; a federally funded grant reduces eligible basis.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
   ['fed', 'state'].forEach(function (src) {
@@ -133,7 +139,7 @@
       add('dc-' + src + '-payin-' + stage, 'Share of ' + (src === 'fed' ? 'federal' : 'state') + ' credit equity paid in at ' + stage + ', in percent.');
     });
   });
-  ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence'].forEach(function (id) {
+  ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-pf-appraised'].forEach(function (id) {
     fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
   });
   // #2160: itemized cost lines (js/deal-cost-basis.js). The prefilled amounts
