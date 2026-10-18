@@ -395,4 +395,19 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(mb.plans.length < mesa.contacts.plans.length && mb.partners.length < mesa.contacts.partners.length, 'sabotage: the lists come from the data, not the template');
 }
 
+// ---- Contacts read on a phone: one card per person, phone and email as links.
+{
+  const fx = { geoid: '0833640', name: 'Gunnison', checked: '2026-10-01', contacts: [
+    { name: 'Test Person', role: 'Planning Director', org: 'City of Gunnison', email: 'tp@example.org', phone: '970-555-0100 (front desk)', source_label: 'Staff page', source_url: 'https://example.org/staff', source_quote: 'Planning Director Test Person 970-555-0100' }
+  ] };
+  const h = WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit, contacts: fx, relatedContacts: [] }));
+  const who = h.slice(h.indexOf('id="contacts"'));
+  ok(who.includes('<table class="wp-stack">') && /table\.wp-stack thead\{display:none\}/.test(h), 'the contacts table stacks into cards on a phone');
+  ok(who.includes('<td data-label="Contact"><a href="mailto:tp@example.org">') && who.includes('<a href="tel:9705550100">970-555-0100 (front desk)</a>'), 'email and phone are tappable links');
+  ok(/@media screen and \(max-width:560px\)\{\.wp table\.wp-stack/.test(h), 'the stacking is for screens only, so the PDF keeps the table');
+  const brief = read('developer-brief.html');
+  ok(/function publicFill\(rows, researched\)/.test(brief) && brief.includes('networkTable(mine.own.network, researched)') && brief.includes('(public record'),
+    'a network contact with no phone or email borrows the researched one for the same person, marked as public record');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);
