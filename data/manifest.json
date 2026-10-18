@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T16:33:39.083841Z",
+  "generated": "2026-10-18T20:45:37.943293Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 859968
+      "bytes": 858838
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7476,20 +7476,10 @@
       "placeholder": false,
       "bytes": 20279
     },
-    "data/jurisdiction-briefs/_contacts/0833640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3205
-    },
     "data/jurisdiction-briefs/_land-banking-contacts.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 56594
-    },
-    "data/jurisdiction-briefs/_landscape/0833640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 27501
     },
     "data/jurisdiction-briefs/_lihtc-applications-excluded.json": {
       "featureCount": 0,

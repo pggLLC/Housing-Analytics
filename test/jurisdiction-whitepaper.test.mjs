@@ -136,22 +136,30 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(build('Fruita', { today: '2026-10-14' }).html.length > 1000, 'the CLI builds Fruita with the guard on');
 }
 
+// Synthetic researched files. The real ones live in the private coho-backend repo,
+// whose build checks every entry's source; these prove the paper prints them.
+const Q = 'a quote long enough to pass the source check';
+const FIXTURE_CONTACTS = { geoid: '0833640', name: 'City of Gunnison', checked: '2026-10-14', contacts: [
+  { name: 'Test Director', role: 'Community Development Director', org: 'City of Gunnison', source_url: 'https://example.org/minutes', source_quote: Q },
+  { name: 'Test Manager', role: 'City Manager', org: 'City of Gunnison', source_url: 'https://example.org/staff', source_quote: Q }
+] };
+const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
+  plans: [{ title: 'Test housing plan', year: '2024', finding: 'Finds a shortage', source_url: 'https://example.org/plan', source_quote: Q }],
+  agencies: [{ name: 'Test housing fund', role: 'Funder', source_url: 'https://example.org/fund', source_quote: Q }],
+  state_funds: [{ program: 'Test state program', recipient: 'Test housing fund', amount: '$1', date: '2026-01-01', source_url: 'https://example.org/award', source_quote: Q }],
+  task_forces: [{ name: 'Test task force', members_public: 'Not published', source_url: 'https://example.org/tf', source_quote: Q }],
+  people: [{ name: 'Test Person', public_role: 'Developer', housing_involvement: 'Built homes', source_url: 'https://example.org/news', source_quote: Q }],
+  land: [{ name: 'Test parcel', acres: '5', owner: 'City', status: 'Vacant', source_url: 'https://example.org/land', source_quote: Q }],
+  lihtc_and_pipeline: [{ name: 'Test apartments', units: '36', status: 'Built', source_url: 'https://example.org/lihtc', source_quote: Q }] };
+
 // ---- 5. Contacts: researched ones quote their source; search links never show.
 {
-  const dir = join(ROOT, 'data/jurisdiction-briefs/_contacts');
-  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
-  ok(files.length >= 1, 'at least one researched contacts file');
-  for (const f of files) {
-    const c = JSON.parse(readFileSync(join(dir, f), 'utf8'));
-    assert.equal(c.geoid + '.json', f, `${f}: geoid must match the file name`);
-    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(c.checked), `${f}: checked date`);
-    for (const p of c.contacts) {
-      assert.ok(p.name && /^https:\/\//.test(p.source_url) && p.source_quote && p.source_quote.length > 15, `${f}: ${p.name} needs a source URL and quote`);
-      assert.ok(!WP._internal.isSearchLink(p.source_url), `${f}: ${p.name} cites a search page`);
-    }
-    const m = WP.buildModel(src, c.geoid, { FundingFit, contacts: c });
-    ok(m.contacts.researched.length === c.contacts.length, `${f}: every contact reaches the paper`);
-  }
+  const c = FIXTURE_CONTACTS;
+  ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_contacts')), 'researched contacts stay out of the public repo (they live in coho-backend)');
+  const cmod = WP.buildModel(src, c.geoid, { FundingFit, contacts: c });
+  ok(cmod.contacts.researched.length === c.contacts.length, 'every researched contact reaches the paper');
+  const bad = { ...c, contacts: [{ ...c.contacts[0], source_url: 'https://www.google.com/search?q=x' }] };
+  ok(WP._internal.isSearchLink(bad.contacts[0].source_url), 'sabotage: a search page is recognised as one');
   // Curated brief sources: search links never print, here or in any brief.
   for (const f of readdirSync(join(ROOT, 'data/jurisdiction-briefs')).filter((n) => /^\d+\.json$/.test(n))) {
     const brief = JSON.parse(readFileSync(join(ROOT, 'data/jurisdiction-briefs', f), 'utf8'));
@@ -192,26 +200,13 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
 
 // ---- 7. Local landscape and deal dynamics agree with their files.
 {
-  const dir = join(ROOT, 'data/jurisdiction-briefs/_landscape');
-  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
-  ok(files.length >= 1, 'at least one researched landscape file');
-  for (const f of files) {
-    const L = JSON.parse(readFileSync(join(dir, f), 'utf8'));
-    assert.equal(L.geoid + '.json', f, `${f}: geoid must match the file name`);
-    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(L.researched), `${f}: researched date`);
-    let entries = 0;
-    for (const [key] of [['plans'], ['agencies'], ['state_funds'], ['task_forces'], ['people'], ['land'], ['lihtc_and_pipeline']]) {
-      for (const e of L[key] || []) {
-        entries++;
-        assert.ok(/^https:\/\//.test(e.source_url) && e.source_quote && e.source_quote.length > 15, `${f}: ${key} entry needs a source URL and quote`);
-        assert.ok(!WP._internal.isSearchLink(e.source_url), `${f}: ${key} entry cites a search page`);
-      }
-    }
-    const m = WP.buildModel(src, L.geoid, { FundingFit, landscape: L, isSensitive });
-    const shown = m.landscape.research.groups.reduce((n, g) => n + g.items.length, 0);
-    ok(shown === entries && entries > 0, `${f}: every sourced entry reaches the paper`);
-    ok(!isSensitive(WP.renderHtml(m)), `${f}: the paper passes the private-text guard`);
-  }
+  const L = FIXTURE_LANDSCAPE;
+  ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_landscape')), 'researched landscape stays out of the public repo (it lives in coho-backend)');
+  const entries = ['plans', 'agencies', 'state_funds', 'task_forces', 'people', 'land', 'lihtc_and_pipeline'].reduce((n, k) => n + L[k].length, 0);
+  const lm = WP.buildModel(src, L.geoid, { FundingFit, landscape: L, isSensitive });
+  const shownCount = lm.landscape.research.groups.reduce((n, g) => n + g.items.length, 0);
+  ok(shownCount === entries && entries === 7, 'every sourced entry reaches the paper');
+  ok(!isSensitive(WP.renderHtml(lm)), 'the paper passes the private-text guard');
   // Sabotage: an unsourced entry and the owner's project never print.
   const fake = { geoid: '0833640', researched: '2026-10-14', land: [{ name: 'Unsourced lot', acres: 5 }], lihtc_and_pipeline: [{ name: 'Fruita Mews Phase II', units: 40, source_url: 'https://example.org/x', source_quote: 'a quote long enough to pass the check' }] };
   const fm = WP.buildModel(src, '0833640', { FundingFit, landscape: fake });
@@ -347,8 +342,8 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
 // ---- 11. Research stands in across levels: a county with none of its own shows its
 // towns' researched contacts and landscape, labelled; a town borrows its county's.
 {
-  const cityContacts = JSON.parse(read(WP.contactsPath('0833640')));
-  const cityLand = JSON.parse(read(WP.landscapePath('0833640')));
+  const cityContacts = clone(FIXTURE_CONTACTS);
+  const cityLand = clone(FIXTURE_LANDSCAPE);
   ok(!existsSync(join(ROOT, WP.contactsPath('08051'))), 'Gunnison County has no contacts file of its own (the case paul hit)');
   ok(WP.relatedGeoids(src, '08051').includes('0833640') && WP.relatedGeoids(src, '0833640')[0] === '08051', 'related places: county to towns, town to county');
   const cm = WP.buildModel(src, '08051', { FundingFit, relatedContacts: [cityContacts], relatedLandscape: [cityLand] });

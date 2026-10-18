@@ -2344,6 +2344,8 @@
               <input id="dc-state-standard-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
             <label style="display:block;font-size:var(--small);color:var(--muted);">Price per $1 of state credit
               <input id="dc-state-price" type="number" min="0" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            <label style="display:block;font-size:var(--small);color:var(--muted);">State credit investor fees, total ($)
+              <input id="dc-state-fees" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
           </div>
           <label style="display:flex;align-items:flex-start;gap:0.55rem;margin-top:.35rem;font-size:var(--small);cursor:pointer;min-height:44px;">
             <input id="dc-state-awarded" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
@@ -2364,6 +2366,66 @@
               <label style="font-size:var(--tiny);color:var(--muted);">At closing<input id="dc-state-payin-closing" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="font-size:var(--tiny);color:var(--muted);">At completion<input id="dc-state-payin-completion" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="font-size:var(--tiny);color:var(--muted);">At stabilization<input id="dc-state-payin-stabilization" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+          </div>
+          <div id="dc-add-credit" role="group" aria-labelledby="dc-add-h" style="margin-top:var(--sp3);border-top:1px solid var(--border);padding-top:var(--sp2);">
+            <p id="dc-add-h" style="margin:0;font-size:var(--small);font-weight:600;">Added credit: Transit Zone or another credit</p>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:.25rem 0 0;line-height:1.45;">A credit can add to the others or replace part of one. Replacing a credit brings no new cash, and an allocator may cut another award when a source is added, so the table shows the net new equity, not just the gross. It is shown beside the sources above and does not change them.</p>
+            <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">Added credit
+              <select id="dc-add-kind" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+                <option value="">None</option>
+                <option value="tz">Colorado Transit Zone credit (HB26-1065)</option>
+                <option value="designation">Another location- or designation-based credit</option>
+                <option value="other">Another credit, not tied to location</option>
+              </select></label>
+            <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">Eligibility evidence (the designation, map or letter showing the site qualifies)
+              <input id="dc-add-evidence" type="text" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            <p id="dc-add-tz-note" hidden style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0 0;line-height:1.45;">The Transit Zone credit counts only when Market Analysis places the site inside a zone on OEDIT's map and you enter the evidence, so use this calculator on the Market Analysis page for it. CHFA's draft 2027-28 QAP takes it in place of standard state credit, as one allowance: if that applies, choose that it replaces the Colorado state credit.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Annual credit ($)
+                <input id="dc-add-annual" type="number" min="1" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Years claimed
+                <input id="dc-add-years" type="number" min="1" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Investor price per $1 of credit
+                <input id="dc-add-price" type="number" min="0.01" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">New investor fees, total ($)
+                <input id="dc-add-fees" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Program year
+                <input id="dc-add-program-year" type="number" min="2000" max="2100" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:var(--sp2);margin-top:.35rem;">
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Adds or replaces
+                <select id="dc-add-mode" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+                  <option value="">Not answered</option>
+                  <option value="supplement">Adds to the other credits</option>
+                  <option value="substitute">Replaces part of another credit</option>
+                </select></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Credit it replaces
+                <select id="dc-add-displaces" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+                  <option value="">Not answered</option>
+                  <option value="state">Colorado state credit</option>
+                  <option value="federal">Federal credit</option>
+                </select></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Annual amount it replaces ($)
+                <input id="dc-add-displaced-annual" type="number" min="1" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--small);color:var(--muted);">Cut to the annual federal credit, if the allocator makes one ($)
+                <input id="dc-add-fed-cut" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+            <div role="group" aria-labelledby="dc-add-payin-h" style="margin-top:var(--sp2);">
+              <p id="dc-add-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Added credit equity pay-in (% of its gross equity)</p>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
+                <label style="font-size:var(--tiny);color:var(--muted);">At closing<input id="dc-add-payin-closing" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+                <label style="font-size:var(--tiny);color:var(--muted);">At completion<input id="dc-add-payin-completion" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+                <label style="font-size:var(--tiny);color:var(--muted);">At stabilization<input id="dc-add-payin-stabilization" type="number" min="0" max="100" step="1" placeholder="—" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              </div>
+            </div>
+            <div id="dc-add-result" hidden style="margin-top:var(--sp2);">
+              <p id="dc-add-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+              <div style="overflow-x:auto;"><table id="dc-add-table" data-no-sort style="width:100%;border-collapse:collapse;font-size:var(--small);">
+                <caption style="text-align:left;font-weight:600;padding:0 0 .25rem;">Net new equity</caption>
+                <thead><tr><th scope="col" style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Item</th><th scope="col" style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Amount</th></tr></thead>
+                <tbody id="dc-add-rows"></tbody>
+              </table></div>
             </div>
           </div>
         </details>
@@ -3468,15 +3530,17 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path']
-      .concat(['fed', 'state'].reduce(function (acc, src) {
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path', 'dc-state-fees',
+      'dc-add-kind', 'dc-add-evidence', 'dc-add-annual', 'dc-add-years', 'dc-add-price', 'dc-add-fees', 'dc-add-program-year',
+      'dc-add-mode', 'dc-add-displaces', 'dc-add-displaced-annual', 'dc-add-fed-cut']
+      .concat(['fed', 'state', 'add'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -4131,6 +4195,13 @@
       }
       records[key] = { value: value, display: display, unavailableReason: reason || null };
     });
+    // #2161: an added credit's results travel with the deal only when one is entered.
+    var ac = mode !== 'ownership' && result && result.costBasis && result.costBasis.addedCredit;
+    if (ac) [['addedCreditGrossEquity', ac.gross], ['addedCreditNetNewEquity', ac.net], ['fundingGapWithAddedCredit', ac.gapAfter]].forEach(function (p) {
+      var v = Number.isFinite(p[1]) ? p[1] : null;
+      var why = v === null ? (ac.reason || 'The funding gap before the added credit is unavailable.') : null;
+      records[p[0]] = { value: v, display: v === null ? 'Unavailable — ' + why : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'), unavailableReason: why };
+    });
     return records;
   }
 
@@ -4139,6 +4210,9 @@
     document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"]').forEach(function (el) {
       fields[el.id] = el.type === 'checkbox' || el.type === 'radio' ? el.checked : el.value;
     });
+    // Whether Market Analysis placed the site in a Transit Zone. Read from the last
+    // result, not an input, so a saved or shared deal never carries a stale answer.
+    fields['dc-tz-in-zone'] = transitZoneInZone(_tzLastResult);
     var ownership = readOwnershipSources({
       ami4Person: getCurrentAmi4Person(),
       targetAmiPct: (parseFloat(fields['dc-sale-target-ami']) || 80) / 100,
@@ -4415,6 +4489,42 @@
       : 'Utilities in rent: not set. Set who pays which utilities in Market Analysis → Subject project, then budget the owner-paid ones on the Utilities line.');
   }
 
+  /** #2161: the added credit's gross and net new equity, beside the stack. */
+  function renderAddedCredit(result, fmt) {
+    var ac = result.costBasis && result.costBasis.addedCredit;
+    var kind = document.getElementById('dc-add-kind');
+    var tzNote = document.getElementById('dc-add-tz-note');
+    if (tzNote) tzNote.hidden = !(kind && kind.value === 'tz');
+    var wrap = document.getElementById('dc-add-result');
+    if (!wrap) return;
+    wrap.hidden = !ac;
+    if (!ac) return;
+    var reason = document.getElementById('dc-add-reason');
+    if (reason) { reason.hidden = !ac.reason; reason.textContent = ac.reason || ''; }
+    function amt(v) { return v == null ? 'Not available' : v < 0 ? '-' + fmt(-v) : fmt(v); }
+    var eligibility = { 'unknown': 'Eligibility unknown', 'not in a zone': 'Not eligible: site not in a Transit Zone',
+      'evidence entered': 'Evidence entered', 'not location-based': 'Not tied to location' }[ac.eligibility] || 'Eligibility unknown';
+    var rows = [
+      ['Eligibility', eligibility, ac.evidence],
+      ['Gross equity', amt(ac.gross), ac.gross == null ? null : fmt(ac.annual) + ' a year, equal each year, for ' + ac.years + ' years at $' + ac.price.toFixed(2) + (ac.programYear ? ', program year ' + ac.programYear : '')],
+      ['Less equity of the credit it replaces', ac.displaced == null ? 'Not available' : ac.displaced ? '-' + fmt(ac.displaced) : fmt(0), ac.displaces],
+      ['Less equity from the federal credit cut', ac.resizedFederal == null ? 'Not available' : ac.resizedFederal ? '-' + fmt(ac.resizedFederal) : fmt(0), null],
+      ['Net new equity before fees', amt(ac.netBeforeFees), null],
+      ['Less new investor fees', ac.net == null ? 'Not available' : ac.fees ? '-' + fmt(ac.fees) : fmt(0), null],
+      ['Net new equity', amt(ac.net), ac.net != null && ac.net < 0 ? 'Negative: this credit brings less than it displaces.' : null],
+      ['Funding gap before deferred fee, as entered', amt(ac.gapBefore), null],
+      ['Funding gap before deferred fee, with this credit', amt(ac.gapAfter), null],
+      ['Possible cut to another award', ac.awardReduction ? ac.awardReduction.text : 'rule not sourced', ac.awardReduction && ac.awardReduction.citation]
+    ];
+    var body = document.getElementById('dc-add-rows');
+    if (body) body.innerHTML = rows.map(function (r, i) {
+      var strong = r[0] === 'Net new equity';
+      return '<tr data-add-row="' + i + '"><th scope="row" style="text-align:left;font-weight:' + (strong ? '700' : '400') + ';padding:0.3rem 0.25rem;border-top:1px solid var(--border);">' + _escHtml(r[0])
+        + (r[2] ? '<span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">' + _escHtml(r[2]) + '</span>' : '') + '</th>'
+        + '<td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:' + (strong ? '700' : '400') + ';padding:0.3rem 0.25rem;border-top:1px solid var(--border);">' + _escHtml(r[1]) + '</td></tr>';
+    }).join('');
+  }
+
   function renderCostBasis(result, fmt) {
     var cbr = result.costBasis;
     if (!cbr) return;
@@ -4528,13 +4638,15 @@
     // Credit equity is $0 outside CHFA LIHTC, so there is nothing to pay in.
     if (chfa) {
       heading('Equity pay-in');
-      [['Federal credit equity', pay.federal], ['State credit equity', pay.state]].forEach(function (p) {
+      [['Federal credit equity', pay.federal], ['State credit equity', pay.state],
+        [(cbr.addedCredit && cbr.addedCredit.label || 'Added credit') + ' equity (gross)', pay.added]].forEach(function (p) {
         if (!p[1]) return;
         row(p[0], p[1].installments ? p[1].installments.map(function (i) { return fmt(i.amount); }).join(' / ') : p[1].reason,
           p[1].installments ? 'Closing / completion / stabilization' : null);
       });
       if (cbr.stateCredit.entered) row('State credit allowed (annual)', money(cbr.stateCredit.allowedAnnual, cbr.stateCredit.reason),
-        [cbr.stateCredit.capReason, cbr.stateCredit.years ? 'Claimed over the ' + cbr.stateCredit.years + '-year allocation (' + cbr.stateCredit.termCitation + ').' : null].filter(Boolean).join(' ') || null);
+        [cbr.stateCredit.capReason, cbr.stateCredit.years ? 'Claimed over the ' + cbr.stateCredit.years + '-year allocation (' + cbr.stateCredit.termCitation + ').' : null,
+          cbr.stateCredit.fees ? 'Equity ' + fmt(cbr.stateCredit.grossEquity) + ' less ' + fmt(cbr.stateCredit.fees) + ' investor fees.' : null].filter(Boolean).join(' ') || null);
     }
 
     heading('Rules');
@@ -4811,6 +4923,7 @@
 
     // #2160: budget totals come from the itemized cost lines.
     renderCostBasis(result, fmt);
+    renderAddedCredit(result, fmt);
     renderOperatingBudget(result, fmt);
     renderPermanentFinancing(result, fmt);
     renderDohSchedules(result, fmt);
@@ -6686,8 +6799,22 @@
     return s + (p.status === 'draft' ? 'Check the final QAP before relying on these amounts. '
       : 'Confirm project eligibility under the adopted QAP. ');
   }
+  /** 'yes' inside an official zone polygon, 'no' when the official map places the site
+   * outside one, '' when Market Analysis has not answered. */
+  function transitZoneInZone(result) {
+    var tz = window.TransitZone;
+    if (!result || !tz || typeof tz.fundingPath !== 'function') return '';
+    if (tz.fundingPath(result)) return 'yes';
+    var p = result.program;
+    return p && p.qualified === false && p.determinationMethod === 'point_in_official_polygon' ? 'no' : '';
+  }
+
   function setTransitZoneContext(result) {
+    var before = transitZoneInZone(_tzLastResult);
     _tzLastResult = result || null;
+    // A Transit Zone credit's eligibility turns on this answer, so recompute when it changes.
+    var kind = document.getElementById('dc-add-kind');
+    if (kind && kind.value === 'tz' && transitZoneInZone(_tzLastResult) !== before) recalculate();
     var note = document.getElementById('dc-tz-note');
     if (!note) return; // calculator not yet mounted — intentional no-op
     // The rule lives in TransitZone.fundingPath so this line and the PMA gate

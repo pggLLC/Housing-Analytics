@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T16:33:02.746Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T20:45:13.224Z. Do not edit by hand.
 
 ---
 
@@ -88,11 +88,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1709 JSON files found.
+1707 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 839.8 KB | ✅ | — |
+| `data/_manifest.json` | 838.7 KB | ✅ | — |
 | `data/_qa-status.json` | 9.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1577,9 +1577,7 @@
 | `data/jurisdiction-briefs/0870195.json` | 32.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0873825.json` | 23.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 19.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_contacts/0833640.json` | 3.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_landscape/0833640.json` | 26.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
@@ -1606,7 +1604,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 216.9 KB | ✅ | — |
+| `data/manifest.json` | 216.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1806,7 +1804,7 @@
 
 ## Test Files
 
-661 test files found.
+664 test files found.
 
 | File | Size |
 |------|------|
@@ -1906,6 +1904,7 @@
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 21.8 KB |
+| `test/deal-calc-credit-stack-page.test.js` | 9.0 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 11.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
@@ -1931,6 +1930,7 @@
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 54.5 KB |
+| `test/deal-credit-stack.test.js` | 8.4 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 7.9 KB |
 | `test/deal-engine-surfaces.test.js` | 13.0 KB |
@@ -1979,6 +1979,7 @@
 | `test/finish-line-holds.test.mjs` | 15.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/fixtures/credit-stack/invented.json` | 939 B |
 | `test/fixtures/deal-cost-basis/invented-cases.json` | 1.7 KB |
 | `test/fixtures/deal-engine/golden.json` | 36.1 KB |
 | `test/fixtures/deal-engine/invented-sources.cjs` | 2.3 KB |
@@ -2118,7 +2119,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 31.9 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 32.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 10.3 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 25.5 KB |
