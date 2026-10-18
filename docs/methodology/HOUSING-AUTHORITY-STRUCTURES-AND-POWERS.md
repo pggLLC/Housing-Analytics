@@ -57,7 +57,7 @@ Every example below is already present in `data/hna/local-resources.json`.
 | Power / strength | What it enables | Structure types that have it |
 |---|---|---|
 | **Separate body corporate** | Act as developer independent of municipal budget, debt limit, and election cycle | All (A–E) |
-| **Property-tax exemption** (C.R.S. §29-4-227) | No property tax on the low-income share **while the authority holds an ownership interest** (claimed with the county assessor) — the land-retention lever (worth ~$30k/unit buyer power at 100% AMI; see study QA Addendum A3) | All authority types |
+| **Property-tax exemption** (C.R.S. §29-4-227) | No property tax on the low-income share **while the authority holds an ownership interest** (in practice claimed with the county assessor, per Gano, *Colorado Lawyer*, Dec 2025; the statute itself sets no filing procedure) — the land-retention lever (worth ~$30k/unit buyer power at 100% AMI; see study QA Addendum A3) | All authority types |
 | **Revenue / private-activity bond issuance** | Tax-exempt financing **off** the municipality's GO debt limit; conduit issuer for buyer mortgages (MRBs/MCCs) | All; strongest at C/D |
 | **Dedicated taxing power** (mill levy / sales tax, voter-approved) | Recurring revenue for land banking, per-unit subsidy, and stewardship | **C (multijurisdictional)** primarily |
 | **Land assembly / banking / eminent domain** | Hold land long-term (99-yr ground lease), assemble sites; condemnation for housing (used rarely) | All; scale at B/C |

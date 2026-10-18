@@ -1084,7 +1084,10 @@
         exemption = entry.programs.find(function (p) { return /property-tax-exemption|PILOT/i.test(p.category || ''); });
       }
       // Suggested % from the program magnitude string ("100%" → 100, "50%" → 50)
-      var suggestedPct = 100;  // fully low-income project; mixed-income projects qualify only for their low-income share
+      // No default: the statewide exemptions cover only the project's
+      // low-income share (C.R.S. §39-3-112(4), §29-4-227(1)(b)), which the
+      // banner cannot know. Suggest a % only when a program states one.
+      var suggestedPct = null;
       if (exemption && exemption.magnitude) {
         var m = exemption.magnitude.match(/(\d+)\s*%/);
         if (m) suggestedPct = parseInt(m[1], 10);
@@ -1094,7 +1097,7 @@
         : '<strong>Statewide exemptions:</strong> C.R.S. §39-3-112 (nonprofit charitable owner) and C.R.S. §29-4-227 (housing authority ownership interest)';
       var summary = exemption && exemption.summary
         ? exemption.summary
-        : 'Neither is automatic: each exempts only the low-income share, §39-3-112 on application to the state property tax administrator and §29-4-227 with the county assessor. Confirm your structure qualifies before underwriting.';
+        : 'Neither is automatic: each exempts only the low-income share, §39-3-112 on application to the state property tax administrator, and §29-4-227 on the housing authority\'s certification of that share. Confirm your structure qualifies before underwriting.';
       // Remove existing banner if present (re-render on jurisdiction change)
       if (__dcAbatementBanner) __dcAbatementBanner.remove();
       // Build banner
@@ -1102,10 +1105,12 @@
       banner.dataset.dcAbatement = '1';
       banner.style.cssText = 'padding:.55rem .7rem;margin:0 0 .5rem;border-radius:6px;' +
         'background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);border-left:4px solid #047857;font-size:.82rem;line-height:1.4';
-      var btn = '<button type="button" id="dc-apply-abatement" ' +
-        'style="margin-top:.35rem;padding:.25rem .65rem;font-size:.78rem;font-weight:700;' +
-        'background:#047857;color:white;border:0;border-radius:5px;cursor:pointer">' +
-        'Apply ' + suggestedPct + '% to Tax Exemption ↓</button>';
+      var btn = suggestedPct == null
+        ? '<div style="margin-top:.35rem;font-size:.78rem;font-weight:700">Set Tax Exemption below to your project\'s low-income share.</div>'
+        : '<button type="button" id="dc-apply-abatement" ' +
+          'style="margin-top:.35rem;padding:.25rem .65rem;font-size:.78rem;font-weight:700;' +
+          'background:#047857;color:white;border:0;border-radius:5px;cursor:pointer">' +
+          'Apply ' + suggestedPct + '% to Tax Exemption ↓</button>';
       banner.innerHTML = '<div>🏛️ ' + headline + '</div>' +
         '<div style="margin-top:.2rem;color:var(--muted);font-size:.78rem">' + summary + '</div>' +
         btn;
