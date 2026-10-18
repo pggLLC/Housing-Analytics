@@ -65,6 +65,17 @@ async function main() {
   assert.equal(absent.status, 'Not committed', 'absence means Not committed, never missing data');
   assert.equal(absent.fastTrack, 'Not committed', 'absence is explicit in the fast-track fact too');
 
+  // A CDP cannot file; its county's commitment covers it (C.R.S.
+  // § 29-32-105(1)(b)), so its status must equal the county's record.
+  const douglas = api.relationship(DATA, 'county', 'Douglas County');
+  const acresGreen = api.relationship(DATA, 'cdp', 'Acres Green (CDP)', 'Douglas County');
+  assert.equal(acresGreen.record, null, 'a CDP has no filing of its own');
+  assert.equal(acresGreen.coveredBy.name, douglas.record.name, 'a CDP is covered by its containing county');
+  assert.equal(acresGreen.status, douglas.status, 'a CDP shows its county\'s commitment status');
+  assert.equal(acresGreen.fastTrack, douglas.fastTrack, 'a CDP shows its county\'s fast-track designation');
+  const unknownCounty = api.relationship(DATA, 'cdp', 'Acres Green (CDP)', 'Nowhere County');
+  assert.equal(unknownCounty.status, 'Not committed', 'a county with no DOLA filing leaves the CDP Not committed');
+
   // The same-name guards are checked on synthetic filings: DOLA's real list
   // has no Glendale or Highlands Ranch filing (the hand-typed list before
   // 2026-10 invented both).
@@ -105,6 +116,11 @@ async function main() {
   assert(!rendered.includes('No data'), 'absent geography never renders as No data');
   assert(values.every((value) => value !== '—' && value !== ''), 'neither factual value renders as a dash or blank');
   assert(rendered.includes('not a ranking or recommendation'), 'relationship panel expressly disclaims ranking');
+
+  window.HNARenderers.renderProp123Relationship(acresGreen, 'Acres Green (CDP)', true);
+  const acresRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
+  assert.equal(relationshipEl.querySelector('.metric-value').textContent, douglas.status, 'rendered CDP status is the county\'s');
+  assert(acresRendered.includes('covered by ' + douglas.record.name), 'rendered CDP names the county whose commitment covers it');
 
   window.HNARenderers.renderProp123Relationship(highlandsRanch, 'Highlands Ranch (CDP)', true);
   const highlandsRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();

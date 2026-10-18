@@ -77,6 +77,10 @@ console.log('\n[fast-track: who qualifies]');
 ok(U.calculateFastTrackTimeline(20, 10, 'place').eligible === true, 'half the homes affordable qualifies');
 ok(U.calculateFastTrackTimeline(20, 9, 'place').eligible === false, 'under half does not');
 ok(U.calculateFastTrackTimeline(20, 10, 'cdp').eligible === true, 'a CDP project is not excluded (its county reviews it)');
+ok(U.calculateFastTrackTimeline(20, '', 'place').eligible === null && U.calculateFastTrackTimeline(20, null, 'place').eligible === null,
+  'a blank affordable-homes count is missing, not 0: no "Does not qualify" for a project not entered');
+ok(/String\(el\.value\)\.trim\(\) !== ''/.test(read('js/hna/hna-renderers.js')),
+  'the calculator reads a cleared field as missing before calling calculateFastTrackTimeline');
 ok(U.checkFastTrackEligibility(1, 'place').threshold === null && U.checkFastTrackEligibility(1, 'place').eligible === true,
   'no population threshold: a town of 1 is covered');
 ok(!/PROP123_(MUNICIPALITY|COUNTY)_THRESHOLD/.test(read('js/hna/hna-utils.js')), 'no population-threshold constants in hna-utils.js');

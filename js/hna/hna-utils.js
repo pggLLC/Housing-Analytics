@@ -957,8 +957,10 @@
    * @param {string} jurisdiction_type - 'county' | 'place' | 'cdp'
    */
   function calculateFastTrackTimeline(projectUnits, affordableUnits, jurisdiction_type) {
-    const units      = Number(projectUnits);
-    const affordable = Number(affordableUnits);
+    // null or a blank field is missing, not 0 (Number(null) and Number('') are 0).
+    const count = (v) => v === null || v === undefined || String(v).trim() === '' ? NaN : Number(v);
+    const units      = count(projectUnits);
+    const affordable = count(affordableUnits);
     const fastTrackDays = PROP123_FAST_TRACK_DAYS;
 
     const conditions = [];

@@ -4774,8 +4774,13 @@
     // Prop 123 filing relationship is a direct lookup. A geography absent
     // from DOLA's filing list is intentionally rendered as "Not committed".
     if (window.HNARenderers.renderProp123Relationship) {
+      // A CDP is covered by its county's commitment, so pass the county's name.
+      var prop123CountyRow = geoType === 'cdp' && contextCounty
+        ? ((window.__HNA_GEO_CONFIG && window.__HNA_GEO_CONFIG.counties) || []).find(function (c) { return c.geoid === contextCounty; })
+        : null;
+      var prop123CountyLabel = prop123CountyRow ? prop123CountyRow.label : null;
       var prop123Relationship = window.Prop123Jurisdictions && window.HNAState.state.prop123Jurisdictions
-        ? window.Prop123Jurisdictions.relationship(window.HNAState.state.prop123Jurisdictions, geoType, label)
+        ? window.Prop123Jurisdictions.relationship(window.HNAState.state.prop123Jurisdictions, geoType, label, prop123CountyLabel)
         : { status: 'Not committed', fastTrack: 'Not committed', record: null };
       window.HNARenderers.renderProp123Relationship(
         prop123Relationship,

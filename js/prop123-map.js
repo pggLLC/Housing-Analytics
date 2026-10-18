@@ -168,20 +168,27 @@
       : null;
   }
 
-  function relationship(payload, geoType, geoLabel) {
+  // countyLabel names the county containing a CDP. A CDP cannot file a
+  // commitment of its own; the county's commitment covers it (C.R.S.
+  // § 29-32-105(1)(b)), so its status is the county's, marked coveredBy.
+  function relationship(payload, geoType, geoLabel, countyLabel) {
     var record = findJurisdiction(payload, geoType, geoLabel);
     var rejectedSameNameRecord = null;
+    var coveredBy = null;
     if (!record && (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''))) {
+      coveredBy = countyLabel ? findJurisdiction(payload, 'county', countyLabel) : null;
       var wantedName = comparableName(geoLabel);
       rejectedSameNameRecord = buildIndex(payload).list.find(function (candidate) {
         return classifyKind(candidate) === 'municipality' &&
           comparableName(candidate.name) === wantedName;
       }) || null;
     }
+    var governing = record || coveredBy;
     return {
       record: record,
-      status: record ? record.status : 'Not committed',
-      fastTrack: record ? (record.fast_track === true ? 'Yes' : 'No') : 'Not committed',
+      coveredBy: coveredBy,
+      status: governing ? governing.status : 'Not committed',
+      fastTrack: governing ? (governing.fast_track === true ? 'Yes' : 'No') : 'Not committed',
       rejectedSameNameRecord: rejectedSameNameRecord
     };
   }

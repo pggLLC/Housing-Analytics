@@ -7412,14 +7412,21 @@
       : relationship.fastTrack;
     var record = relationship && relationship.record;
     var rejectedSameNameRecord = relationship && relationship.rejectedSameNameRecord;
+    var coveredBy = relationship && relationship.coveredBy;
     var source = record && record.source_url
       ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'
+      : (coveredBy && sourceLoaded !== false
+        ? 'An unincorporated area does not file its own commitment; it is covered by ' +
+          escHtml(coveredBy.name) + '&rsquo;s commitment (C.R.S. &sect; 29-32-105(1)(b)).' +
+          (coveredBy.source_url
+            ? ' <a href="' + escHtml(coveredBy.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'
+            : '')
       : (rejectedSameNameRecord
         ? 'Not committed — DOLA lists a filing under &ldquo;' + escHtml(rejectedSameNameRecord.name) +
           '&rdquo;; this geography is an unincorporated CDP, which cannot file.'
       : (sourceLoaded === false
         ? 'The DOLA jurisdiction list could not be loaded.'
-        : 'No commitment filing appears in the DOLA jurisdiction list.'));
+        : 'No commitment filing appears in the DOLA jurisdiction list.')));
 
     el.innerHTML =
       '<h3>Jurisdiction relationship to Prop 123</h3>' +
@@ -7446,8 +7453,11 @@
     const unitsEl      = document.getElementById('ftUnits');
     const affordableEl = document.getElementById('ftAffordable');
     const typeEl       = document.getElementById('ftGeoType');
-    const units      = unitsEl ? Number(unitsEl.value) : NaN;
-    const affordable = affordableEl ? Number(affordableEl.value) : NaN;
+    // A cleared field is missing, not zero: Number('') is 0, which would
+    // report "Does not qualify" for a project nobody has entered.
+    const entered    = (el) => el && String(el.value).trim() !== '' ? Number(el.value) : NaN;
+    const units      = entered(unitsEl);
+    const affordable = entered(affordableEl);
     const geoType    = typeEl ? typeEl.value : 'place';
     const r = U().calculateFastTrackTimeline(units, affordable, geoType);
     resultEl.textContent = '';
