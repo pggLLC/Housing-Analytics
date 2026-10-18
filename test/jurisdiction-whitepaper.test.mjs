@@ -27,6 +27,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
 const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
 const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
+const MixCheck = require(join(ROOT, 'js/mix-check.js'));
 const { isSensitive } = await import(join(ROOT, 'scripts/lib/public-sensitive-patterns.mjs'));
 const { loadSources, build } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -414,7 +415,7 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
 {
   const BANDS = ['31to50', '51to80', '81to100'];
   for (const g of ['0833640', '0820000', '08045']) {
-    const m = WP.buildModel(src, g, { FundingFit, today: '2026-10-18' });
+    const m = WP.buildModel(src, g, { FundingFit, MixCheck, today: '2026-10-18' });
     const rec = g.length === 5 ? src.countyChas.records.find((r) => r.fips === g) : src.placeChas.places[g];
     for (const k of BANDS) {
       const b = rec.renter_hh_by_ami[k];
@@ -427,7 +428,7 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
     ok(n === null || m.deal.notes.some((x) => x.includes('20-year need (' + fmt(n) + ' homes) is one total')), `${g}: the 20-year need must be named as unsplit by income`);
   }
   // Gunnison: 0 short at 60% AMI but most 31–50% renters burdened, rural resort county.
-  const gm = WP.buildModel(src, '0833640', { FundingFit, today: '2026-10-18' });
+  const gm = WP.buildModel(src, '0833640', { FundingFit, MixCheck, today: '2026-10-18' });
   ok(gm.deal.mix.le60 === 0 && gm.deal.notes.some((x) => /at 31–50% AMI .* pay more than 30% of income, though only/.test(x)),
     'a band counted 0 short whose renters are burdened must be called real need');
   ok(gm.deal.workforce && gm.deal.workforce.ruralResort && /Middle-income Housing Tax Credit/.test(gm.deal.notes.join(' ')),
@@ -436,9 +437,18 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   // Sabotage: with no burden at 31–80% the new notes must not fire.
   const quiet = clone(src);
   for (const k of BANDS) quiet.placeChas.places['0833640'].renter_hh_by_ami[k].pct_cost_burdened_30 = 0;
-  const qm = WP.buildModel(quiet, '0833640', { FundingFit, today: '2026-10-18' });
+  const qm = WP.buildModel(quiet, '0833640', { FundingFit, MixCheck, today: '2026-10-18' });
   ok(!qm.deal.notes.some((x) => /pay more than 30% of income/.test(x)), 'with no burdened renters above 30% AMI no band note may fire');
   ok(qm.deal.workforce && qm.deal.workforce.burdened === 0, 'a rural resort county keeps the workforce lane even without 81–100% burden');
+  // Pencil table: one row per CHFA tier, from the county's limits and CHFA's quoted assumptions.
+  const lim = src.rentLimits.counties.find((c) => c.fips === '08051');
+  ok(gm.deal.pencil.ok && gm.deal.pencil.tiers.length >= 4 && gm.deal.pencil.tiers.every((t) => t.rent === lim.regular_tiers[t.tier].max_rents['2br']),
+    'the pencil table must price each tier at the county\'s CHFA two-bedroom limit');
+  const gh = WP.renderHtml(gm);
+  ok(gh.includes('Does each rent level pay its way?') && gh.includes('$4,500 operating cost'), 'the pencil table and its CHFA assumptions must print');
+  const noRules = clone(src); delete noRules.underwritingRules;
+  const nr = WP.buildModel(noRules, '0833640', { FundingFit, MixCheck, today: '2026-10-18' });
+  ok(!nr.deal.pencil.ok && /not on file/.test(WP.renderHtml(nr)), 'without the CHFA underwriting rules the pencil table must say why it is missing, not print zeros');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

@@ -23,6 +23,7 @@ const require = createRequire(import.meta.url);
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
 const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
+const MixCheck = require(join(ROOT, 'js/mix-check.js'));
 const { isSensitive } = await import(join(ROOT, 'scripts/lib/public-sensitive-patterns.mjs'));
 
 function readJson(rel, optional) {
@@ -50,6 +51,7 @@ export function build(query, { today, src = loadSources() } = {}) {
   const model = WP.buildModel(src, geoid, {
     today,
     FundingFit,
+    MixCheck,
     isSensitive,
     brief: readJson(WP.briefPath(geoid), true),
     contacts: readJson(WP.contactsPath(geoid), true),
