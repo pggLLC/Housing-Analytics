@@ -2115,10 +2115,12 @@
       if (unitsEl) unitsEl.textContent = U().fmtNum(placeUnits);
       subOf(unitsEl, 'in ' + placeLabel + ' · ' + U().fmtNum(totalUnits) + ' county-wide');
     } else {
+      // The source the controller resolved, not a fixed "HUD database".
+      const sourceLabel = (data && data._sourceLabel) || 'Source not recorded';
       if (countEl) countEl.textContent = features.length;
-      subOf(countEl, 'HUD database');
+      subOf(countEl, sourceLabel);
       if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
-      subOf(unitsEl, 'HUD database');
+      subOf(unitsEl, sourceLabel);
     }
 
     // F179 — Recency badge. Reads ranking-index.json (augmented with
@@ -2132,9 +2134,9 @@
     // awards" signal — this was the Pagosa Springs / Archuleta County bug).
     if (curGeoid) _renderLihtcRecencyBadge(curGeoid, features.length);
 
-    // Source badge for info panel
-    const lihtcDataSource = S().lihtcDataSource || 'HUD';
-    const sourceBadge = lihtcDataSource === 'CHFA'
+    // Source badge for info panel: the source this collection came from, not a default.
+    const lihtcDataSource = (data && data._source) || S().lihtcDataSource || 'HUD';
+    const sourceBadge = lihtcDataSource !== 'HUD'
       ? '<span class="source-badge source-badge--chfa">CHFA</span>'
       : '<span class="source-badge source-badge--hud">HUD</span>';
 
@@ -2170,7 +2172,7 @@
     // Show source label in status bar
     const statusEl = S().els && S().els.lihtcMapStatus;
     if (statusEl) {
-      statusEl.innerHTML = `Source: ${escHtml(S().lihtcDataSource)} ${sourceBadge}`;
+      statusEl.innerHTML = `Source: ${escHtml((data && data._sourceLabel) || 'Source not recorded')} ${sourceBadge}`;
     }
 
     // Update info panel to reflect current viewport
@@ -5708,13 +5710,18 @@
   function _renderOwnershipStrategyFromState(result, geoType, geoid, label, contextCounty) {
     var mount = document.getElementById('hnaOwnershipStrategy');
     if (!mount || !window.HNAOwnershipStrategy || !window.OwnershipFinance) return;
-    _ownershipStrategyDocs().then(function (datasets) {
+    // The AMI comes from the HUD limits file; asked before it loads, it is
+    // missing, and Number(null) used to turn that into a $0 income ladder.
+    var limitsReady = window.HudFmr && typeof window.HudFmr.load === 'function'
+      ? Promise.resolve(window.HudFmr.load()).catch(function () { return null; }) : Promise.resolve();
+    Promise.all([_ownershipStrategyDocs(), limitsReady]).then(function (loaded) {
+      var datasets = loaded[0];
       var incomeLimits = window.HudFmr && typeof window.HudFmr.getIncomeLimitsByFips === 'function'
         ? window.HudFmr.getIncomeLimitsByFips(contextCounty || geoid) : null;
-      var ami4Person = incomeLimits && (incomeLimits.ami_4person || incomeLimits.ami_4 || incomeLimits.ami);
+      var ami4Person = Number(incomeLimits && (incomeLimits.ami_4person || incomeLimits.ami_4 || incomeLimits.ami));
       window.HNAOwnershipStrategy.render(mount, {
         geo: { type: geoType === 'county' ? 'county' : geoType === 'cdp' ? 'cdp' : 'place', geoid: String(geoid), countyGeoid: String(contextCounty || geoid), name: label },
-        ami4Person: Number(ami4Person),
+        ami4Person: ami4Person > 0 ? ami4Person : null,
         ownershipNeedResult: result,
         engine: window.OwnershipFinance,
         resaleEngine: window.OwnershipResale,

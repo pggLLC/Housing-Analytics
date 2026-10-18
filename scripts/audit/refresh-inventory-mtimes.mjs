@@ -5,7 +5,8 @@
  * file, and rewrite two fields that otherwise rot:
  *
  *   - `lastUpdated:` → the source extraction date for cache-filterable OSM
- *     files; otherwise the date of the file's last content change in git.
+ *     files; else the file's own fetch/build stamp when it carries one;
+ *     otherwise the date of the file's last content change in git.
  *   - `features:`    → the actual record count in the file, for every
  *     source listed in JSON_COUNT_PATHS.
  *
@@ -48,7 +49,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { contentDate, isShallow } from "./content-date.mjs";
+import { contentDate, embeddedStamp, isShallow } from "./content-date.mjs";
 import { fileURLToPath } from "node:url";
 
 import countPaths from "./inventory-count-paths.cjs";
@@ -232,7 +233,8 @@ for (const e of entries) {
   // The commit that last changed the file is the honest answer.
   const mtimeIso = SOURCE_DATE_PATHS[e.id]
     ? sourceDate(e, abs)
-    : contentDate(REPO, e.localFile, { shallow: repoIsShallow }).date;
+    : (embeddedStamp(abs) || '').slice(0, 10)
+      || contentDate(REPO, e.localFile, { shallow: repoIsShallow }).date;
   if (!mtimeIso) {
     skippedNoHistory += 1;
     continue;
