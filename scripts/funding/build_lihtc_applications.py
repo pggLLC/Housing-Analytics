@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import functools
 import hashlib
 import importlib.util
 import json
@@ -289,6 +290,207 @@ def load_places() -> dict[str, str]:
     return {k: next(iter(v)) for k, v in seen.items() if len(v) == 1}
 
 
+def feed_name_cities() -> dict[str, dict]:
+    """Normalized LIHTC feed project name → each city the feed puts it in →
+    the counties of the projects of that name in that city. Keyed by both,
+    because one name can be in several cities ("Legacy Senior Residences" in
+    Arvada and Fort Collins), each in its own county."""
+    out: dict[str, dict] = {}
+    try:
+        for f in awards.read_json(awards.LIHTC_FEED)['features']:
+            pr = f.get('properties') or {}
+            for k in ('PROJECT', 'ReportedName'):
+                if pr.get(k) and pr.get('PROJ_CTY') and pr.get('CNTY_FIPS'):
+                    out.setdefault(awards.norm(pr[k]), {}).setdefault(
+                        awards.norm(pr['PROJ_CTY']), set()).add(pr['CNTY_FIPS'])
+    except (OSError, KeyError, ValueError):
+        pass  # no feed: no name can be confirmed, so locations place every row
+    return out
+
+
+CROSS_COUNTY = os.path.join(ROOT, 'data', 'hna', 'cross-county-places.json')
+
+
+def city_spans(places: dict[str, str]) -> dict[str, set]:
+    """Normalized city → the counties it spans. The place table names one
+    containing county per city, which is wrong for any project on the other
+    side of the line. Two sources: the Census cross-county place list
+    (Westminster in Adams and Jefferson, Arvada, Longmont, ...), and cities
+    the LIHTC feed puts properties of in more than one county, which catches a
+    mailing city whose addresses cross a line the city itself does not
+    (Englewood; Denver, whose mailing addresses reach into Adams, as at Welby)."""
+    out = feed_city_spans()
+    for city, fips in cross_county_cities().items():
+        out[city] = out.get(city, set()) | fips
+    return out
+
+
+def cross_county_cities() -> dict[str, set]:
+    """Normalized place name → its counties, for each place the Census
+    cross-county list puts in more than one. Read by the list's own names, so
+    a label two places share (Coal Creek CDP in Boulder and Jefferson, Coal
+    Creek town in Fremont) is kept: an address there is geocoded either way."""
+    try:
+        cross = awards.read_json(CROSS_COUNTY)['places']
+    except (OSError, KeyError, ValueError):
+        return {}
+    out: dict[str, set] = {}
+    for entry in cross.values():
+        counties = {c['fips'] for c in entry.get('all_counties') or []}
+        if len(counties) > 1 and entry.get('name'):
+            city = awards.norm(re.sub(r'\s*\([^)]*\)\s*$', '', entry['name']))
+            out[city] = out.get(city, set()) | counties
+    return out
+
+
+def city_fallbacks(places: dict[str, str]) -> dict[str, str]:
+    """Normalized city → the county an address the geocoder cannot place
+    falls back to: a mailing city that is not itself split by a county line
+    and whose properties in the feed are nearly all in one county (Denver, 238
+    of 251). A new street in Montbello is in Denver; filing it nowhere would
+    hide it from the Denver brief. A city the line runs through has none."""
+    split = set(cross_county_cities())
+    out = {}
+    for city, t in feed_city_tally().items():
+        total = sum(t.values())
+        main, n = max(t.items(), key=lambda kv: kv[1])
+        if city not in split and len(t) > 1 and n / total >= 0.9:
+            out[city] = main
+    return out
+
+
+def feed_city_tally() -> dict[str, dict]:
+    """Normalized city → county → how many feed properties it has there."""
+    tally: dict[str, dict] = {}
+    try:
+        for f in awards.read_json(awards.LIHTC_FEED)['features']:
+            pr = f.get('properties') or {}
+            if pr.get('PROJ_CTY') and pr.get('CNTY_FIPS'):
+                t = tally.setdefault(awards.norm(pr['PROJ_CTY']), {})
+                t[pr['CNTY_FIPS']] = t.get(pr['CNTY_FIPS'], 0) + 1
+    except (OSError, KeyError, ValueError):
+        return {}
+    return tally
+
+
+def feed_city_spans() -> dict[str, set]:
+    """Cities the LIHTC feed puts properties of in more than one county. No
+    share cutoff: a city with one property in a second county still has
+    addresses there (Denver: 238 in Denver, 5 in Adams)."""
+    out = {}
+    for city, t in feed_city_tally().items():
+        if len(t) > 1:
+            out[city] = set(t)
+    return out
+
+
+GEOCODER = ('https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress'
+            '?benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json&address=')
+
+
+class GeocoderUnavailable(RuntimeError):
+    """The Census geocoder did not answer usably: unreachable, or a reply this
+    code cannot read. Not the same as an address it could not match."""
+
+
+def geocode_county(address: str, city: str) -> str | None:
+    """County GEOID of a street address from the Census geocoder, or None when
+    it answers and finds no single Colorado match (an intersection, a vague
+    address). An outage raises GeocoderUnavailable instead: read as no match,
+    it would erase the county of every address-placed application in a
+    county-spanning city, and the weekly run would commit that."""
+    from urllib.error import HTTPError
+    from urllib.parse import quote
+    parts = [p.strip() for p in address.split(';') if p.strip()]
+    if len(parts) > 1:
+        # a scattered site lists its addresses in one cell: each is placed on
+        # its own, and the site has a county only when every one is placed
+        # and they agree: an address left unplaced could be over the line
+        found = {geocode_county(p, city) for p in parts}
+        return next(iter(found)) if len(found) == 1 else None
+    url = GEOCODER + quote(f'{address}, {city}, CO')
+    for attempt in (1, 2):
+        try:
+            matches = json.loads(awards.http_get(url, timeout=30))['result']['addressMatches']
+            found = {m['geographies']['Counties'][0]['GEOID'] for m in matches}
+            break
+        except HTTPError as exc:
+            if exc.code == 400:
+                return None  # the geocoder read the request and refused this address
+            if attempt == 2:
+                raise GeocoderUnavailable(f'{exc.__class__.__name__}: {exc}') from exc
+        except Exception as exc:  # noqa: BLE001 - network, bad JSON, changed shape
+            if attempt == 2:
+                raise GeocoderUnavailable(f'{exc.__class__.__name__}: {exc}') from exc
+    if len(found) == 1:
+        fips = next(iter(found))
+        return fips if fips.startswith('08') else None
+    return None
+
+
+def place_county(rec: dict, cities: list[str], ctx: dict) -> dict:
+    """County for an application.
+
+    A project name in the LIHTC feed places it only when the feed puts that
+    name in one of the application's own cities: names repeat across the state
+    ("Ridge" in Colorado Springs, "Mountain Vista Apartments" in Durango), and a
+    namesake elsewhere must not move a Denver or Westminster application.
+
+    Otherwise, in a city that spans counties, the street address decides it
+    through the Census geocoder; with no address it can place, the county is
+    unknown rather than the city's main county."""
+    probe = {'name': rec['name'], 'location': rec['city']}
+    awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+    if probe.get('county_method') == 'LIHTC feed project name':
+        by_city = ctx['name_cities'].get(awards.norm(rec['name'] or ''), {})
+        found = set().union(*(by_city.get(awards.norm(c), set()) for c in cities))
+        if len(found) == 1:
+            # the county of that name in this city, not the first match statewide
+            return {**probe, 'county_fips': next(iter(found))}
+        probe = {'name': None, 'location': rec['city']}
+        awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+    spans = ctx['city_spans'].get(awards.norm(cities[0])) if len(cities) == 1 else None
+    if spans:
+        fips = ctx['geocode'](rec['address'], cities[0]) if rec.get('address') else None
+        if fips:
+            return {'county_fips': fips, 'county_method': 'Census geocoder, street address'}
+        fallback = ctx.get('city_fallbacks', {}).get(awards.norm(cities[0]))
+        if fallback:
+            return {'county_fips': fallback, 'county_method':
+                    f'Mailing city: nearly all {cities[0]} properties in the LIHTC feed are in this county'}
+        return {'county_fips': None, 'county_unavailable_reason': (
+            f'{cities[0]} spans {len(spans)} counties and the report gives '
+            + ('no street address the Census geocoder can place' if rec.get('address') else 'no street address'))}
+    return probe
+
+
+def application_counties(rec: dict, cities: list[str], county_fips: str | None, ctx: dict) -> list[str]:
+    """Every county the application builds in, so a scattered-site application
+    shows on each county brief it touches."""
+    counties = set()
+    for c in cities:
+        if awards.norm(c) in ctx['city_spans']:
+            # the place table's one county is a guess here: each site's
+            # street address in this city places it, or the site adds none
+            # a scattered site whose sites share one city still has one
+            # address per site, each of which may be either side of the line
+            if rec.get('sites'):
+                for site in rec.get('sites') or []:
+                    if site.get('address') and awards.norm(site.get('city') or '') == awards.norm(c):
+                        fips = (ctx['geocode'](site['address'], c)
+                                or ctx.get('city_fallbacks', {}).get(awards.norm(c)))
+                        if fips:
+                            counties.add(fips)
+            continue
+        one = {'name': None, 'location': c}
+        awards.assign_county(one, ctx['counties'], ctx['county_places'], ctx['names'])
+        if one['county_fips']:
+            counties.add(one['county_fips'])
+    if county_fips:
+        counties.add(county_fips)
+    return sorted(counties)
+
+
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def similar(a: str, b: str) -> bool:
@@ -477,24 +679,15 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
         }
         for f in TEXT_FIELDS + INT_FIELDS + MONEY_FIELDS:
             app[f] = rec.get(f)
-        probe = {'name': rec['name'], 'location': rec['city']}
-        awards.assign_county(probe, ctx['counties'], ctx['county_places'], ctx['names'])
+        cities = [c.strip() for c in rec['city'].split(',') if c.strip()]
+        probe = place_county(rec, cities, ctx)
         app['county_fips'] = probe['county_fips']
         if probe.get('county_unavailable_reason'):
             app['county_unavailable_reason'] = probe['county_unavailable_reason']
-        cities = [c.strip() for c in rec['city'].split(',') if c.strip()]
         # every place and county the application builds in, so a scattered-site
         # application shows in each jurisdiction it touches
         app['place_geoids'] = sorted({g for g in (ctx['places'].get(awards.norm(c)) for c in cities) if g})
-        counties = set()
-        for c in cities:
-            one = {'name': None, 'location': c}
-            awards.assign_county(one, ctx['counties'], ctx['county_places'], ctx['names'])
-            if one['county_fips']:
-                counties.add(one['county_fips'])
-        if app['county_fips']:
-            counties.add(app['county_fips'])
-        app['county_fips_all'] = sorted(counties)
+        app['county_fips_all'] = application_counties(rec, cities, app['county_fips'], ctx)
         if rec.get('sites'):
             app['sites'] = rec['sites']
         for f in ('name', 'sponsor', 'address'):
@@ -513,12 +706,16 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
 
 def context() -> dict:
     counties, county_places = awards.load_geo()
+    places = load_places()
     try:
         excluded = {e['sha256'] for e in awards.read_json(EXCLUDED).get('excluded', [])}
     except (OSError, ValueError):
         excluded = set()
     return {'counties': counties, 'county_places': county_places, 'names': awards.lihtc_names(),
-            'places': load_places(), 'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
+            'places': places, 'name_cities': feed_name_cities(), 'city_spans': city_spans(places),
+            'city_fallbacks': city_fallbacks(places),
+            'geocode': functools.lru_cache(maxsize=None)(geocode_county),
+            'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
 
 
 def award_only_row(aw: dict, ctx: dict) -> dict:
@@ -593,6 +790,26 @@ def finish(apps: list[dict], ledger: list[dict], statuses: list[dict], first_yea
     return apps
 
 
+def build_all(keep: list[dict], cache: str, ctx: dict) -> tuple[list[dict], list[dict]]:
+    """Every application in the kept reports, and each report's status."""
+    apps, statuses = [], []
+    for doc in keep:
+        path = os.path.join(cache, doc['file'])
+        try:
+            if not os.path.exists(path):
+                with open(path, 'wb') as fh:
+                    fh.write(awards.http_get(doc['url']))
+            rows, texts = read_tables(path)
+        except Exception as exc:  # network, not-a-PDF, pdfplumber failure
+            statuses.append({'file': doc['file'], 'url': doc['url'], 'status': 'error',
+                             'error': f'{exc.__class__.__name__}: {exc}'})
+            continue
+        got, status = build_document(doc, rows, texts, ctx)
+        apps.extend(got)
+        statuses.append(status)
+    return apps, statuses
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--cache', help='directory to keep downloaded PDFs (default: a temp dir)')
@@ -618,21 +835,12 @@ def main() -> int:
     ctx = context()
     ledger = awards.read_json(LEDGER)['awards']
     award_statuses = awards.read_json(DOCUMENTS)['documents']
-    apps, statuses = [], []
-    for doc in keep:
-        path = os.path.join(cache, doc['file'])
-        try:
-            if not os.path.exists(path):
-                with open(path, 'wb') as fh:
-                    fh.write(awards.http_get(doc['url']))
-            rows, texts = read_tables(path)
-        except Exception as exc:  # network, not-a-PDF, pdfplumber failure
-            statuses.append({'file': doc['file'], 'url': doc['url'], 'status': 'error',
-                             'error': f'{exc.__class__.__name__}: {exc}'})
-            continue
-        got, status = build_document(doc, rows, texts, ctx)
-        apps.extend(got)
-        statuses.append(status)
+    try:
+        apps, statuses = build_all(keep, cache, ctx)
+    except GeocoderUnavailable as exc:
+        print(f'Census geocoder unavailable ({exc}); leaving the list as it is, since '
+              'counties in cities that span counties cannot be placed without it.', file=sys.stderr)
+        return 1
     finish(apps, ledger, award_statuses, first_year, ctx)
     statuses.sort(key=lambda s: s['file'])
     for s in statuses:
