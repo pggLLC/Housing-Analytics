@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-18T13:47:54.601317Z",
+  "generated": "2026-10-18T14:08:51.970979Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 856377
+      "bytes": 856376
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7499,7 +7499,7 @@
     "data/jurisdiction-briefs/_lihtc-applications.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 421547
+      "bytes": 421578
     },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
@@ -7714,7 +7714,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1154274
+      "bytes": 1153751
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -7799,7 +7799,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7839,7 +7839,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774636
+      "bytes": 774736
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
