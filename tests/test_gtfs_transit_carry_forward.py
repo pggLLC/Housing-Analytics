@@ -1,0 +1,235 @@
+"""
+tests/test_gtfs_transit_carry_forward.py
+
+A feed that fails must not remove its agency from the transit layer.
+
+On 2026-10-18 the Mobility Database's hosted copy of the Transfort feed
+returned 404, fetch_gtfs_transit.py wrote the file without any Transfort
+route (1,675 -> 1,622 features), and the site showed no Fort Collins transit.
+Two fixes are pinned here: the agency's own download URL is tried when the
+hosted copy fails, and an agency whose feed still fails keeps the routes
+from the previous file.
+"""
+
+import csv
+import importlib.util
+import io
+import json
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = REPO_ROOT / "scripts" / "market" / "fetch_gtfs_transit.py"
+
+
+def load_module():
+    spec = importlib.util.spec_from_file_location("fetch_gtfs_transit_carry_test", SCRIPT)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def feature(agency, shape_id, lon=-105.08):
+    return {"type": "Feature",
+            "properties": {"agency": agency, "route_type": 3, "shape_id": shape_id},
+            "geometry": {"type": "LineString", "coordinates": [[lon, 40.55], [lon + 0.01, 40.56]]}}
+
+
+PREVIOUS = {
+    "type": "FeatureCollection",
+    "features": [feature("Transfort", "t1"), feature("Transfort", "t2"),
+                 feature("RTD Denver", "r1", -104.99), feature("Pueblo Transit", "p1", -104.6)],
+    "meta": {"generated": "2026-10-11T11:32:30Z"},
+}
+
+CATALOG_FIELDS = ["mdb_source_id", "data_type", "location.subdivision_name", "status",
+                  "provider", "location.municipality", "urls.latest", "urls.direct_download"]
+
+
+def catalog(rows):
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=CATALOG_FIELDS)
+    w.writeheader()
+    for r in rows:
+        w.writerow({"data_type": "gtfs", "location.subdivision_name": "Colorado", **r})
+    return buf.getvalue()
+
+
+def run(tmp_path, monkeypatch, rows, responses, parsed):
+    """responses: url -> 'ok' or an exception; parsed: url -> features."""
+    mod = load_module()
+    out = tmp_path / "transit_routes_co.geojson"
+    out.write_text(json.dumps(PREVIOUS))
+    monkeypatch.setattr(mod, "OUT_FILE", out)
+    monkeypatch.setattr(mod, "fetch_mdb_catalog", lambda use_cache=False: catalog(rows))
+    fetched = []
+
+    def fake_fetch(url, **kw):
+        fetched.append(url)
+        if responses[url] != "ok":
+            raise responses[url]
+        return url.encode()
+
+    monkeypatch.setattr(mod, "fetch_url", fake_fetch)
+    monkeypatch.setattr(mod, "parse_gtfs_shapes", lambda b, aid, name: parsed.get(b.decode(), []))
+    monkeypatch.setattr(mod.time, "sleep", lambda s: None)
+    monkeypatch.setattr(sys, "argv", ["fetch_gtfs_transit.py"])
+    assert mod.main() == 0
+    return json.loads(out.read_text()), fetched
+
+
+def agencies(doc):
+    return sorted(f["properties"]["agency"] for f in doc["features"])
+
+
+def test_failed_feed_keeps_previous_routes(tmp_path, monkeypatch):
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip"},
+            {"provider": "Pueblo Transit", "urls.latest": "https://example.com/mdb/p.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://example.com/mdb/t.zip": RuntimeError("HTTP Error 404"), "https://example.com/mdb/p.zip": "ok"},
+                 {"https://example.com/mdb/p.zip": [feature("Pueblo Transit", "p1", -104.6)]})
+    assert agencies(doc) == ["Pueblo Transit", "Transfort", "Transfort"]
+    assert doc["meta"]["carried_forward"] == {
+        "Transfort": {"features": 2, "last_fetched": "2026-10-11T11:32:30Z"}}
+    assert [f["agency"] for f in doc["meta"]["agencies_failed"]] == ["Transfort"]
+
+
+def test_carry_is_skipped_when_another_feed_served_the_agency(tmp_path, monkeypatch):
+    # RTD has two catalog entries; the provider name differs from the
+    # "RTD Denver" label its routes carry. One failing must not duplicate it.
+    rows = [{"provider": "Regional Transportation District", "urls.latest": "https://example.com/mdb/r1.zip"},
+            {"provider": "Regional Transportation District", "urls.latest": "https://example.com/mdb/r2.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://example.com/mdb/r1.zip": RuntimeError("HTTP Error 404"), "https://example.com/mdb/r2.zip": "ok"},
+                 {"https://example.com/mdb/r2.zip": [feature("Regional Transportation District", "r1", -104.99)]})
+    assert agencies(doc) == ["RTD Denver"]
+    assert doc["meta"]["carried_forward"] == {}
+
+
+def test_both_transfort_catalog_names_count_as_one_agency(tmp_path, monkeypatch):
+    # The catalog lists Transfort under two provider names. One feed
+    # recovering must stop the other's failure from carrying old routes.
+    full = "Transfort – City of Fort Collins (Transfort)"
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip"},
+            {"provider": full, "urls.latest": "https://example.com/mdb/tf.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://example.com/mdb/t.zip": RuntimeError("HTTP Error 404"), "https://example.com/mdb/tf.zip": "ok"},
+                 {"https://example.com/mdb/tf.zip": [feature(full, "t1")]})
+    assert agencies(doc) == [full]
+    assert doc["meta"]["carried_forward"] == {}
+
+
+def test_other_known_operator_aliases_count_as_one_agency(tmp_path, monkeypatch):
+    # The stop builder's alias table is shared, so Mountain Metro's two
+    # catalog names cannot leave a carried copy beside fresh routes.
+    previous_name, fresh_name = "Mountain Metro Transit", "Mountain Metropolitan Transit"
+    monkeypatch.setitem(PREVIOUS, "features", [feature(previous_name, "m1", -104.8)])
+    rows = [{"provider": previous_name, "urls.latest": "https://example.com/mdb/m.zip"},
+            {"provider": fresh_name, "urls.latest": "https://example.com/mdb/mm.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows,
+                 {"https://example.com/mdb/m.zip": RuntimeError("HTTP Error 404"), "https://example.com/mdb/mm.zip": "ok"},
+                 {"https://example.com/mdb/mm.zip": [feature(fresh_name, "m1", -104.8)]})
+    assert agencies(doc) == [fresh_name]
+    assert doc["meta"]["carried_forward"] == {}
+
+
+def test_hosted_routes_outside_colorado_reach_the_agency_url(tmp_path, monkeypatch):
+    # Blank or out-of-range coordinates parse into routes the state filter
+    # drops; that copy must not count as usable.
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip",
+             "urls.direct_download": "https://example.org/agency/t.zip"}]
+    doc, fetched = run(tmp_path, monkeypatch, rows,
+                       {"https://example.com/mdb/t.zip": "ok", "https://example.org/agency/t.zip": "ok"},
+                       {"https://example.com/mdb/t.zip": [feature("Transfort", "t9", lon=0.0)],
+                        "https://example.org/agency/t.zip": [feature("Transfort", "t1")]})
+    assert "https://example.org/agency/t.zip" in fetched
+    assert [f["properties"]["shape_id"] for f in doc["features"]] == ["t1"]
+
+
+def test_feed_with_no_route_in_colorado_keeps_previous_routes(tmp_path, monkeypatch):
+    # No agency URL to try: routes that all miss Colorado make the feed a
+    # failure, so the previous routes are carried instead of all dropped.
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip"}]
+    doc, _ = run(tmp_path, monkeypatch, rows, {"https://example.com/mdb/t.zip": "ok"},
+                 {"https://example.com/mdb/t.zip": [feature("Transfort", "t9", lon=0.0)]})
+    assert sorted(f["properties"]["shape_id"] for f in doc["features"]) == ["t1", "t2"]
+    assert doc["meta"]["carried_forward"]["Transfort"]["features"] == 2
+    assert doc["meta"]["agencies_failed"] == [{"agency": "Transfort", "reason": "no routes in Colorado"}]
+    assert doc["meta"]["dropped_outside_colorado"] == {"Transfort": 1}
+
+
+def test_agency_url_is_tried_when_the_hosted_copy_is_gone(tmp_path, monkeypatch):
+    rows = [{"provider": "Transfort", "urls.latest": "https://example.com/mdb/t.zip",
+             "urls.direct_download": "https://example.org/transfort_gtfs.zip"}]
+    doc, fetched = run(tmp_path, monkeypatch, rows,
+                       {"https://example.com/mdb/t.zip": RuntimeError("HTTP Error 404"),
+                        "https://example.org/transfort_gtfs.zip": "ok"},
+                       {"https://example.org/transfort_gtfs.zip": [feature("Transfort", "t9")]})
+    assert fetched == ["https://example.com/mdb/t.zip", "https://example.org/transfort_gtfs.zip"]
+    assert agencies(doc) == ["Transfort"]
+    assert doc["meta"]["carried_forward"] == {}
+    assert doc["meta"]["agencies_failed"] == []
+
+
+def _zip(*members):
+    import zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        for name, text in members:
+            zf.writestr(name, text)
+    return buf.getvalue()
+
+
+SHAPES = "shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence\ns1,40.55,-105.08,1\ns1,40.56,-105.07,2\n"
+
+
+def _routes_via_fetch_feed(monkeypatch, bodies):
+    mod = load_module()
+    fetched = []
+
+    def fake_fetch(url, **kw):
+        fetched.append(url)
+        return bodies[url]
+
+    monkeypatch.setattr(mod, "fetch_url", fake_fetch)
+    feed = {"url": "https://example.com/mdb/t.zip", "fallback_url": "https://example.org/agency/t.zip"}
+    features = mod.fetch_feed(feed, lambda d: mod.parse_gtfs_shapes(d, "t", "Transfort"))
+    return features, fetched
+
+
+def test_agency_url_is_tried_whenever_the_route_reader_gets_nothing(monkeypatch):
+    # fetch_feed's check is the real reader, so anything it cannot use
+    # (an HTML page with a 200, no shapes.txt, shapes.txt only in a folder,
+    # an empty or malformed shapes.txt) reaches the agency URL.
+    good = _zip(("shapes.txt", SHAPES))
+    for bad in (b"<html>Not here</html>", _zip(("agency.txt", "x\n")),
+                _zip(("feed/shapes.txt", SHAPES)), _zip(("shapes.txt", "")),
+                _zip(("shapes.txt", "shape_id,shape_pt_lat\ns1,not-a-number\n"))):
+        features, fetched = _routes_via_fetch_feed(
+            monkeypatch, {"https://example.com/mdb/t.zip": bad, "https://example.org/agency/t.zip": good})
+        assert fetched == ["https://example.com/mdb/t.zip", "https://example.org/agency/t.zip"]
+        assert len(features) == 1
+
+
+def test_usable_hosted_copy_is_used_without_trying_the_agency(monkeypatch):
+    features, fetched = _routes_via_fetch_feed(
+        monkeypatch, {"https://example.com/mdb/t.zip": _zip(("shapes.txt", SHAPES))})
+    assert fetched == ["https://example.com/mdb/t.zip"] and len(features) == 1
+
+
+def test_both_copies_unusable_reports_as_before(monkeypatch):
+    bad = _zip(("agency.txt", "x\n"))
+    features, fetched = _routes_via_fetch_feed(
+        monkeypatch, {"https://example.com/mdb/t.zip": bad, "https://example.org/agency/t.zip": bad})
+    assert features == [] and len(fetched) == 2
+
+
+def test_date_only_vintage_still_carries_routes(capsys):
+    # A previous file with only meta.vintage gives a timezone-naive date.
+    mod = load_module()
+    previous = {"features": [feature("Transfort", "t1")], "meta": {"vintage": "2026-01-02"}}
+    kept = []
+    carried = mod.carry_forward_failed(kept, [{"agency": "Transfort"}], previous)
+    assert carried == {"Transfort": {"features": 1, "last_fetched": "2026-01-02"}}
+    assert len(kept) == 1
+    assert "::warning::Transfort feed has failed since 2026-01-02" in capsys.readouterr().out
