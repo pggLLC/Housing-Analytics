@@ -32,7 +32,14 @@ const RANKING = json('data/hna/ranking-index.json');
 const GEO = json('data/hna/geo-config.json');
 const COUNTY_LABEL = Object.fromEntries(GEO.counties.map((c) => [c.geoid, c.label]));
 const ROWS = RANKING.rankings;
-const text = (html) => String(html || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
+// The text a reader sees, parsed as the browser would (a <template> never
+// runs what it holds), so entities decode and no tag survives.
+const TEXT_DOC = new JSDOM('').window.document;
+const text = (html) => {
+  const t = TEXT_DOC.createElement('template');
+  t.innerHTML = String(html || '');
+  return t.content.textContent;
+};
 const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
 
 let failures = 0;
