@@ -149,7 +149,22 @@ export const EMBEDDED_STAMP_KEYS = [
   'updated', 'updatedAt', 'as_of', 'asOf',
 ];
 
-/** The JSON file's own stamp as written (ISO date or timestamp), or null. */
+const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
+const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/;
+
+/** A whole, real ISO date (as given) or zoned timestamp (as UTC, whole seconds), else null. */
+function normalizeStamp(stamp) {
+  if (typeof stamp !== 'string') return null;
+  if (DATE_ONLY.test(stamp)) {
+    const d = new Date(stamp + 'T00:00:00Z');
+    return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === stamp ? stamp : null;
+  }
+  if (!TIMESTAMP.test(stamp)) return null;
+  const d = new Date(stamp);
+  return Number.isFinite(d.getTime()) ? d.toISOString().replace(/\.\d{3}Z$/, 'Z') : null;
+}
+
+/** The JSON file's own stamp: YYYY-MM-DD or a UTC timestamp ending in Z, or null. */
 export function embeddedStamp(absPath) {
   if (!/\.(geo)?json$/i.test(absPath)) return null;
   let doc;
@@ -157,9 +172,8 @@ export function embeddedStamp(absPath) {
   for (const holder of [doc, doc && doc.meta, doc && doc.metadata]) {
     if (!holder || typeof holder !== 'object' || Array.isArray(holder)) continue;
     for (const key of EMBEDDED_STAMP_KEYS) {
-      const stamp = holder[key];
-      if (typeof stamp === 'string' && /^\d{4}-\d{2}-\d{2}/.test(stamp)
-          && Number.isFinite(Date.parse(stamp.slice(0, 10)))) return stamp;
+      const stamp = normalizeStamp(holder[key]);
+      if (stamp) return stamp;
     }
   }
   return null;

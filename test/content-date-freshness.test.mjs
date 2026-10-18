@@ -126,6 +126,10 @@ run('a file\'s own fetch stamp is read at the top level or under meta, fetch bef
   assert.equal(embeddedStamp(write('c.json', { metadata: { as_of: '2026-06-30' } })), '2026-06-30');
   assert.equal(embeddedStamp(write('d.json', { a: 1 })), null, 'no stamp: the caller falls back to git');
   assert.equal(embeddedStamp(write('e.json', { generated: 'soon' })), null, 'a non-date is not a stamp');
+  assert.equal(embeddedStamp(write('f.json', { generated: '2026-10-01 draft' })), null, 'a date with trailing text is not a stamp');
+  assert.equal(embeddedStamp(write('g.json', { generated: '2026-02-31' })), null, 'an impossible date is not a stamp');
+  assert.equal(embeddedStamp(write('h.json', { generated: '2026-04-09T10:00:00.123456+00:00' })), '2026-04-09T10:00:00Z', 'a timestamp is normalised to UTC seconds');
+  assert.equal(embeddedStamp(write('i.json', { generated: '2026-10-01 draft', as_of: '2026-06-30' })), '2026-06-30', 'a malformed stamp falls through to the next key');
   assert.equal(embeddedStamp(path.join(repo, 'x.csv')), null, 'only JSON files carry stamps');
 });
 
