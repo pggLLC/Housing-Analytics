@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:41:15.225Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T08:58:05.653Z. Do not edit by hand.
 
 ---
 
@@ -1883,7 +1883,7 @@
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
-| `test/data-commits-queue.test.js` | 5.7 KB |
+| `test/data-commits-queue.test.js` | 10.0 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
@@ -2380,7 +2380,7 @@
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-rail-truthful.test.js` | 3.3 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
-| `test/workflows-rebuild-derived-chain.test.mjs` | 11.7 KB |
+| `test/workflows-rebuild-derived-chain.test.mjs` | 11.6 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/workforce-housing-brief.test.mjs` | 7.9 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
@@ -2519,7 +2519,7 @@
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.0 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.6 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 9.6 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.9 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.9 KB |
@@ -2528,7 +2528,7 @@
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/policy-review-reminders.yml` | 2.1 KB |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 11.4 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 8.2 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.6 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
