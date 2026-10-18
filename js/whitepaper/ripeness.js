@@ -143,12 +143,20 @@
   }
 
   // Move one row within the shown order and save that whole order as "mine".
-  function move(saved, shownKeys, key, to) {
-    var keys = shownKeys.filter(function (k) { return saved.pinned.indexOf(k) === -1; });
+  // fullKeys is the same view unfiltered: when only selected rows are shown,
+  // the moved rows trade places among the slots they already hold, so the
+  // hidden rows stay where they were.
+  function move(saved, shownKeys, key, to, fullKeys) {
+    var unpinned = function (k) { return saved.pinned.indexOf(k) === -1; };
+    var keys = shownKeys.filter(unpinned);
     var from = keys.indexOf(key);
     if (from === -1) return saved;
     to = Math.max(0, Math.min(keys.length - 1, to));
     keys.splice(to, 0, keys.splice(from, 1)[0]);
+    if (fullKeys) {
+      var next = 0;
+      keys = fullKeys.filter(unpinned).map(function (k) { return keys.indexOf(k) === -1 ? k : keys[next++]; });
+    }
     var others = saved.order.filter(function (k) { return keys.indexOf(k) === -1; });
     return { order: keys.concat(others), pinned: saved.pinned.slice(), selected: saved.selected.slice() };
   }
@@ -158,18 +166,28 @@
   }
 
   // ---- browser: saved order, rendering, events.
+  // The browser copy is marked unsent until the site takes it. An unsent copy
+  // is newer than the site's, so it wins at the next load and is sent then.
+  var PENDING_KEY = LOCAL_KEY + '-unsent';
   function loadState(fetchFn, storage) {
-    var local = null;
-    try { local = JSON.parse(storage.getItem(LOCAL_KEY) || 'null'); } catch (e) { local = null; }
+    var local = null, unsent = false;
+    try { local = JSON.parse(storage.getItem(LOCAL_KEY) || 'null'); unsent = storage.getItem(PENDING_KEY) === '1'; } catch (e) { local = null; }
     return fetchFn(ORDER_URL, { cache: 'no-store', credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
-      .then(function (remote) { return { state: cleanState(remote || local), synced: !!remote }; });
+      .then(function (remote) {
+        if (local && unsent) return { state: cleanState(local), synced: false, unsent: true };
+        return { state: cleanState(remote || local), synced: !!remote, unsent: false };
+      });
   }
   function saveState(fetchFn, storage, state) {
-    try { storage.setItem(LOCAL_KEY, JSON.stringify(state)); } catch (e) { /* private window */ }
+    try { storage.setItem(LOCAL_KEY, JSON.stringify(state)); storage.setItem(PENDING_KEY, '1'); } catch (e) { /* private window */ }
     return fetchFn(ORDER_URL, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state) })
-      .then(function (r) { return r.ok; }).catch(function () { return false; });
+      .then(function (r) { return r.ok; }).catch(function () { return false; })
+      .then(function (ok) {
+        if (ok) { try { storage.removeItem(PENDING_KEY); } catch (e) { /* private window */ } }
+        return ok;
+      });
   }
 
   var STYLE =
@@ -282,10 +300,10 @@
           '. A reading of ripe, ripening or not yet comes only from a site dossier; every other site shows as on file until one is written.</p>';
     }
 
-    function shownKeys() { return arrange(lists[ui.tab], state[ui.tab], ui.mode, ui.selectedOnly).map(function (it) { return it.key; }); }
+    function shownKeys(all) { return arrange(lists[ui.tab], state[ui.tab], ui.mode, all ? false : ui.selectedOnly).map(function (it) { return it.key; }); }
     function moveKey(key, delta) {
       var keys = shownKeys().filter(function (k) { return state[ui.tab].pinned.indexOf(k) === -1; });
-      state[ui.tab] = move(state[ui.tab], shownKeys(), key, keys.indexOf(key) + delta);
+      state[ui.tab] = move(state[ui.tab], shownKeys(), key, keys.indexOf(key) + delta, shownKeys(true));
       ui.mode = 'mine'; save(); draw();
       var b = el.querySelector('[data-rd-' + (delta < 0 ? 'up' : 'down') + '="' + key.replace(/"/g, '') + '"]');
       if (b) b.focus();
@@ -322,7 +340,7 @@
       e.preventDefault();
       var keys = shownKeys().filter(function (k) { return state[ui.tab].pinned.indexOf(k) === -1; });
       var to = keys.indexOf(li.getAttribute('data-key'));
-      if (to !== -1) { state[ui.tab] = move(state[ui.tab], shownKeys(), dragKey, to); ui.mode = 'mine'; save(); }
+      if (to !== -1) { state[ui.tab] = move(state[ui.tab], shownKeys(), dragKey, to, shownKeys(true)); ui.mode = 'mine'; save(); }
       dragKey = null; draw();
     });
     el.addEventListener('dragend', function () { dragKey = null; draw(); });
@@ -340,8 +358,9 @@
       state = v[1].state; synced = v[1].synced;
       lists = build(data, ctx && ctx.pipeline, ctx && ctx.signals);
       draw();
+      if (v[1].unsent) save();
     });
   }
 
-  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
+  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
 });

@@ -81,6 +81,25 @@ ok(keys(R.arrange(items, saved, 'mine', true)) === '0800002,0800001', 'selected 
 ok(R.toggle(['a', 'b'], 'a').join() === 'b' && R.toggle(['b'], 'a').join() === 'b,a', 'toggle adds and removes');
 ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ communities: { order: [], pinned: [], selected: [] }, sites: { order: ['1'], pinned: [], selected: [] } }), 'a saved order is cleaned before use');
 
+// Moving a row while only selected rows show leaves the hidden rows in place.
+{
+  const st = { order: [], pinned: [], selected: ['b', 'd'] };
+  const after = R.move(st, ['b', 'd'], 'b', 1, ['a', 'b', 'c', 'd']);
+  ok(after.order.join() === 'a,d,c,b', 'a filtered move swaps only the shown rows; hidden rows keep their places');
+}
+
+// An order the site did not take wins at the next load and is sent again.
+{
+  const mem = {}; const storage = { getItem: (k) => (k in mem ? mem[k] : null), setItem: (k, v) => { mem[k] = String(v); }, removeItem: (k) => { delete mem[k]; } };
+  const mine = R.cleanState({ communities: { order: ['x', 'y'] } });
+  const down = () => Promise.resolve({ ok: false });
+  const up = (u, o) => Promise.resolve(o && o.method === 'POST' ? { ok: true } : { ok: true, json: () => Promise.resolve(R.cleanState(null)) });
+  ok(await R.saveState(down, storage, mine) === false, 'a save the site refuses reports false');
+  const back = await R.loadState(up, storage);
+  ok(back.unsent && back.state.communities.order.join() === 'x,y', 'the unsent browser order beats the site copy at the next load');
+  ok(await R.saveState(up, storage, back.state) === true && !(await R.loadState(up, storage)).unsent, 'once the site takes it, the site copy is used again');
+}
+
 // ---- 4. Privacy and wiring.
 ok(!fs.existsSync(path.join(ROOT, 'data/ripeness.json')), 'the readiness data is never in the public repo');
 const build = read('scripts/build-public-site.mjs');
