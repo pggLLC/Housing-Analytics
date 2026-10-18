@@ -162,6 +162,9 @@ async function processFile(filePath) {
       if (k.startsWith('_')) merged[k] = merged[k] || v;
       else merged[k] = v;
     }
+    // These come from the 5-year whatever the profile's own stamp says (the
+    // 1-year for a place of 65,000 or more), so their year is kept apart.
+    if (batch.vars.includes('DP04_0076E')) merged._acs5BackfillYear = values._acsYear;
   }
 
   if (!DRY_RUN) {

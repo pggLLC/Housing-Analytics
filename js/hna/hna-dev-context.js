@@ -180,7 +180,7 @@
     /* ── 20-year outlook / population projection ── */
     '20-year outlook': {
       why: 'A 20-year projection shows whether the unit need being solved is permanent or a passing wave. LIHTC compliance is 15-30 years; demand thesis must outlast that.',
-      demand: 'When projected population growth implies 1,500+ new households over 10 years and current housing-gap is 600 units, the gap is growing — durable solutions are warranted.',
+      demand: 'When the households a projection adds over the next ten years outnumber today\'s housing gap, the gap is growing — durable solutions are warranted.',
       project: 'Projections support CHFA "market durability" narratives. When projections show DECLINING population, senior + workforce niches with specific local drivers tend to fit better.',
     },
 

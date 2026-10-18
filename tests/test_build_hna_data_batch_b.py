@@ -76,10 +76,11 @@ def test_fetch_acs_profile_runs_both_batches_and_merges():
     """The function must run _fetch_batch twice (once per vars_*) and
     fall through cleanly if batch B fails — otherwise the supplement
     would silently drop the historical fields."""
+    import re
     src = _source()
     assert "_fetch_batch(vars_a)" in src, \
         "fetch_acs_profile must call _fetch_batch with vars_a"
-    assert "_fetch_batch(vars_b)" in src, \
+    assert re.search(r"_fetch_batch\(\s*vars_b\b", src), \
         "fetch_acs_profile must call _fetch_batch with vars_b"
     # When B fails, A's data should still be returned (i.e. there's a
     # 'b is None' branch that doesn't abort the whole function).
