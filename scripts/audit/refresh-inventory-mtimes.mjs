@@ -5,7 +5,8 @@
  * file, and rewrite two fields that otherwise rot:
  *
  *   - `lastUpdated:` → the source extraction date for cache-filterable OSM
- *     files; otherwise the date of the file's last content change in git.
+ *     files; else the file's own fetch/build stamp when it carries one;
+ *     otherwise the date of the file's last content change in git.
  *   - `features:`    → the actual record count in the file, for every
  *     source listed in JSON_COUNT_PATHS.
  *
@@ -77,6 +78,31 @@ function sourceDate(entry, abs) {
     console.warn(`[refresh-mtimes] ${entry.id}: cannot read source timestamp (${error.message}); leaving lastUpdated alone`);
     return null;
   }
+}
+
+// A file that carries its own fetch or build stamp is dated by that stamp.
+// A commit only says the bytes changed: a re-serialised or re-sorted file got
+// a new commit date and read as freshly fetched on the data-status pages
+// (fema-flood-co read 2026-08-01 for an extract built 2026-04-09). Checked in
+// this order, at the top level and then under meta/metadata; the git date is
+// the fallback for files with no stamp.
+const EMBEDDED_STAMP_KEYS = [
+  'fetchedAt', 'fetched_at', 'generatedAt', 'generated_at', 'generated',
+  'updated', 'updatedAt', 'as_of', 'asOf',
+];
+
+function embeddedDate(abs) {
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(abs, 'utf8')); } catch (_) { return null; }
+  for (const holder of [doc, doc && doc.meta, doc && doc.metadata]) {
+    if (!holder || typeof holder !== 'object' || Array.isArray(holder)) continue;
+    for (const key of EMBEDDED_STAMP_KEYS) {
+      const stamp = holder[key];
+      if (typeof stamp === 'string' && /^\d{4}-\d{2}-\d{2}/.test(stamp)
+          && Number.isFinite(Date.parse(stamp.slice(0, 10)))) return stamp.slice(0, 10);
+    }
+  }
+  return null;
 }
 
 const dryRun = process.argv.includes("--dry-run");
@@ -232,7 +258,8 @@ for (const e of entries) {
   // The commit that last changed the file is the honest answer.
   const mtimeIso = SOURCE_DATE_PATHS[e.id]
     ? sourceDate(e, abs)
-    : contentDate(REPO, e.localFile, { shallow: repoIsShallow }).date;
+    : (/\.(geo)?json$/i.test(e.localFile) && embeddedDate(abs))
+      || contentDate(REPO, e.localFile, { shallow: repoIsShallow }).date;
   if (!mtimeIso) {
     skippedNoHistory += 1;
     continue;
