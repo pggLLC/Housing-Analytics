@@ -58,6 +58,9 @@ async function test(name, fn) {
     setRow(p, 0, '.dc-tr-status', 'committed');
     assert.equal(cell(p, 'construction', 'state'), money(400000));
     assert.equal(cell(p, 'construction', 'sources'), 'Prop 123 (committed)');
+    const live = p.d.getElementById('dc-act-live').textContent;
+    assert.match(live, /^Sources by activity updated\. /, 'screen readers hear the moved dollars');
+    assert(live.includes('Construction') && live.includes('state ' + money(400000)), live);
     assert.equal(cell(p, 'general', 'state'), '—');
     setRow(p, 0, '.dc-tr-state', 'no');
     assert.equal(cell(p, 'construction', 'state'), '—');

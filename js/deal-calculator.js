@@ -3275,6 +3275,7 @@
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources and uses by activity (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Each cost category's cost and the soft sources that pay for it. Choose what a source pays for, its status and whether it is a state request on its row under Soft Funding Stack. Tax credit equity, the first mortgage and the deferred fee pay for the project as a whole.</p>
         <p id="dc-act-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
+        <p id="dc-act-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
         <div style="overflow-x:auto;"><table id="dc-act-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
           <thead><tr>
             <th scope="col" style="text-align:left;padding:0.3rem 0.25rem;color:var(--muted);text-transform:none;letter-spacing:normal;">Activity and sources</th>
@@ -4199,6 +4200,14 @@
     suRows.innerHTML = html;
     var suReason = document.getElementById('dc-act-reason');
     if (suReason) { suReason.textContent = su.reasons.join(' '); suReason.hidden = !su.reasons.length; }
+    // Screen readers hear when an edit moves dollars on the activity table.
+    var actLive = document.getElementById('dc-act-live');
+    var actText = 'Sources by activity updated. ' + su.rows.concat(su.general ? [Object.assign({ label: 'Whole project' }, su.general)] : [])
+      .filter(function (r) { return r.state || r.other; })
+      .map(function (r) { return r.label + ': state ' + money(r.state || 0) + ', other ' + money(r.other || 0); }).join('; ')
+      + (t ? '. Gap ' + money(t.gap) + '.' : '.');
+    if (actLive && actLive.dataset.last !== undefined && actLive.dataset.last !== actText) actLive.textContent = actText;
+    if (actLive) actLive.dataset.last = actText;
 
     var f = ds.fifteenYear(result);
     var reasonEl = document.getElementById('dc-doh15-reason');
