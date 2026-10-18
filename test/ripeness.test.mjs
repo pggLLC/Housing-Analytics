@@ -106,7 +106,7 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
 }
 
 // ---- 4. Privacy and wiring.
-ok(/role="tabpanel" id="rdPanel" aria-labelledby="rdTab-/.test(read('js/whitepaper/ripeness.js')) && /aria-controls="rdPanel"/.test(read('js/whitepaper/ripeness.js')), 'each tab is tied to the list it shows');
+ok(/role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' \+ esc\(ui\.tab\)/.test(read('js/whitepaper/ripeness.js')) && /aria-controls="rdPanel"/.test(read('js/whitepaper/ripeness.js')), 'each tab is tied to the list it shows');
 ok(/refocus\('data-rd-pin', a\)/.test(read('js/whitepaper/ripeness.js')) && /refocus\('data-rd-select', a\)/.test(read('js/whitepaper/ripeness.js')), 'focus returns to the pin or checkbox after a redraw');
 ok(!fs.existsSync(path.join(ROOT, 'data/ripeness.json')), 'the readiness data is never in the public repo');
 const build = read('scripts/build-public-site.mjs');

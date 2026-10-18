@@ -280,7 +280,7 @@
           ['communities', 'sites'].map(function (t) {
             return '<button type="button" role="tab" id="rdTab-' + t + '" aria-controls="rdPanel" data-rd-tab="' + t + '" aria-selected="' + (ui.tab === t) + '">' + (t === 'communities' ? 'Communities' : 'Sites') + ' (' + counts[t] + ')</button>';
           }).join('') + '</div>' +
-        '<div role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' + ui.tab + '">' +
+        '<div role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' + esc(ui.tab) + '">' +
         '<div class="rd-tools">' +
           '<button type="button" data-rd-mode="suggested" aria-pressed="' + (ui.mode === 'suggested') + '">Suggested order</button>' +
           '<button type="button" data-rd-mode="mine" aria-pressed="' + (ui.mode === 'mine') + '">My order</button>' +
@@ -313,22 +313,22 @@
       var keys = shownKeys().filter(function (k) { return state[ui.tab].pinned.indexOf(k) === -1; });
       state[ui.tab] = move(state[ui.tab], shownKeys(), key, keys.indexOf(key) + delta, shownKeys(true));
       ui.mode = 'mine'; save(); draw();
-      var b = el.querySelector('[data-rd-' + (delta < 0 ? 'up' : 'down') + '="' + key.replace(/"/g, '') + '"]');
-      if (b) b.focus();
+      refocus(delta < 0 ? 'data-rd-up' : 'data-rd-down', key);
     }
 
     // A redraw replaces every control, so put focus back on the one just used.
     function refocus(attr, val) {
-      var sel = attr === 'id' ? '#' + val : '[' + attr + '="' + String(val).replace(/"/g, '') + '"]';
-      var b = el.querySelector(sel);
-      if (b) b.focus();
+      var all = el.querySelectorAll('[' + attr + ']');
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].getAttribute(attr) === val) { all[i].focus(); return; }
+      }
     }
     el.addEventListener('click', function (e) {
       var t = e.target.closest('button, input');
       if (!t || !el.contains(t)) return;
       var a;
-      if (t.hasAttribute('data-rd-tab')) { a = t.getAttribute('data-rd-tab'); ui.tab = a; draw(); refocus('data-rd-tab', a); }
-      else if (t.hasAttribute('data-rd-mode')) { a = t.getAttribute('data-rd-mode'); ui.mode = a; draw(); refocus('data-rd-mode', a); }
+      if (t.hasAttribute('data-rd-tab')) { ui.tab = t.getAttribute('data-rd-tab') === 'sites' ? 'sites' : 'communities'; draw(); refocus('data-rd-tab', ui.tab); }
+      else if (t.hasAttribute('data-rd-mode')) { ui.mode = t.getAttribute('data-rd-mode') === 'mine' ? 'mine' : 'suggested'; draw(); refocus('data-rd-mode', ui.mode); }
       else if (t.hasAttribute('data-rd-up')) moveKey(t.getAttribute('data-rd-up'), -1);
       else if (t.hasAttribute('data-rd-down')) moveKey(t.getAttribute('data-rd-down'), 1);
       else if (t.hasAttribute('data-rd-pin')) { a = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, a); save(); draw(); refocus('data-rd-pin', a); }
