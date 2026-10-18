@@ -1426,7 +1426,8 @@
         var net = row.cashFlow - row.deferredFeePaid - deficit;
         deficit = Math.max(0, -net);
         var surplus = Math.max(0, net);
-        var lp = surplus * 0.9999, gp = surplus * 0.0001;
+        // The developer receives the deferred fee paid from this year's cash.
+        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
         return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };

@@ -149,8 +149,8 @@ test('the asset management fee and bridge loan come out of cash flow: payback, I
   close(y1.cashFlow, base.obligations.years[0].cashFlow - 60000, 'cash flow is lower by both');
   assert(r.exit.dfYr > base.exit.dfYr, 'the deferred fee takes longer to repay: ' + base.exit.dfYr + ' → ' + r.exit.dfYr);
   assert(r.exit.irr < base.exit.irr, 'the sponsor return falls: ' + base.exit.irr + ' → ' + r.exit.irr);
-  const firstPaid = (x) => x.waterfall.annual.find(y => y.year < x.exit.holdYears && y.lp + y.gp > 0.01).year;
-  assert(firstPaid(r) > firstPaid(base), 'distributions start later, after the slower fee repayment');
+  const firstPaid = (x) => x.waterfall.annual.find(y => y.year < x.exit.holdYears && y.lp > 0.01).year;
+  assert(firstPaid(r) > firstPaid(base), 'LP distributions start later, after the slower fee repayment');
   const f = ds.fifteenYear(r);
   assert.equal(f.deferredFee.paybackYear, r.exit.dfYr, 'and the DOH rows agree');
   close(f.rows[0].cashFlowAvailable, y1.noi - y1.mustPayDebtService - 40000, 'cash flow available is after the bridge');
@@ -164,9 +164,11 @@ test('distributions are the cash left after the deferred fee, and the sale pays 
   const f = ds.fifteenYear(r);
   assert(r.exit.dfYr > 1 && r.exit.dfYr < r.exit.holdYears, 'the fee is repaid during the hold');
   r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
-    close(y.lp + y.gp, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ' distributes what DOH shows after payments');
+    close(y.lp + y.gp - f.rows[n].deferredFee, Math.max(0, f.rows[n].availableAfterPayments), 'year ' + y.year + ' distributes what DOH shows after payments');
+    assert(y.gp >= f.rows[n].deferredFee - 0.01, 'year ' + y.year + ': the GP receives the fee paid from operations');
   });
-  assert.equal(r.waterfall.annual[0].lp + r.waterfall.annual[0].gp, 0, 'year 1 cash repays the fee, so nothing is distributed');
+  close(r.waterfall.annual[0].gp, f.rows[0].deferredFee + r.waterfall.annual[0].lp / 0.9999 * 0.0001, 'year 1 cash goes to the developer as fee');
+  assert(r.waterfall.annual[r.exit.holdYears - 1].cumGp >= r.deferredDevFee - 0.01, 'over the hold the GP receives at least the whole fee: ' + r.waterfall.annual[r.exit.holdYears - 1].cumGp);
   assert.equal(r.waterfall.tiers.find(t => /Deferred developer fee/.test(t.name)).amount, 0, 'repaid in operations, so the sale owes no fee');
   const short = computeDeal(withTranches([], { 'dc-exit-hold': '5' }));
   const paidIn5 = short.projection.rows.slice(0, 5).reduce((a, x) => a + x.deferredFeePaid, 0);
@@ -181,6 +183,14 @@ test('a fee repaid after the modeled sale has no operating payback year, matchin
   assert.equal(f.deferredFee.paybackYear, null);
   assert.match(f.deferredFee.reason, /before the year-5 sale/);
   assert(f.rows.slice(5).some(x => x.deferredFee > 0), 'the operating rows still show DOH\'s 15 years');
+});
+
+test('a hold past year 15 keeps the exit panel\'s payback year', () => {
+  const r = computeDeal(withTranches([], { 'dc-exit-hold': '30', 'dc-asset-mgmt-fee': '140000', 'dc-asset-mgmt-growth': '0' }));
+  assert(r.exit.dfYr > 15, 'repaid after year 15: ' + r.exit.dfYr);
+  const f = ds.fifteenYear(r);
+  assert.equal(f.deferredFee.paybackYear, r.exit.dfYr);
+  assert(f.deferredFee.unpaidAfter > 0, 'still owed at the end of DOH\'s 15 years');
 });
 
 test('a fee already repaid stays repaid when a later year is unknown', () => {
@@ -216,8 +226,7 @@ test('after a deficit, distributions wait until cumulative cash is positive, and
   let distributed = 0;
   r.waterfall.annual.slice(0, r.exit.holdYears - 1).forEach((y, n) => {
     distributed += y.lp + y.gp;
-    const paid = rows.slice(0, n + 1).reduce((a, x) => a + x.deferredFeePaid, 0);
-    close(distributed + paid, Math.max(0, rows[n].cumCF), 'year ' + y.year + ': fee plus distributions to date equal cumulative cash');
+    close(distributed, Math.max(0, rows[n].cumCF), 'year ' + y.year + ': fee plus distributions to date equal cumulative cash');
   });
   assert.equal(r.waterfall.annual[2].lp + r.waterfall.annual[2].gp, 0, 'year 3 cash makes up the deficit');
 });

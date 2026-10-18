@@ -168,9 +168,9 @@
       if (known(toDate) && toDate >= fee - 0.005) { paidOffYear = x.year; return true; }
       return false;
     });
-    // After the modeled sale the sale proceeds pay what is left, so operations
-    // repay the fee only within the hold (the exit panel's payback year).
-    var paybackYear = paidOffYear !== null && paidOffYear <= hold ? paidOffYear : null;
+    // The payback year is the exit panel's: operations repay the fee within the
+    // hold (which can run past year 15); after the sale its proceeds pay the rest.
+    var paybackYear = r.exit && known(r.exit.dfYr) ? r.exit.dfYr : null;
     var feeTotal = sum(feeRows);
     // Years the engine could not schedule (an unpaid maturity, say) keep their
     // reason; the notice names them while the known years still show.
@@ -187,6 +187,7 @@
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
           : fee > 0 && paybackYear === null && paidOffYear !== null ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale; the sale proceeds pay the rest.'
+          : fee > 0 && paybackYear === null && hold > YEARS ? 'Cash flow does not repay the deferred fee before the year-' + hold + ' sale.'
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },
       // An asset fee cash could not cover accrues; what is still owed after year 15 is disclosed.
       assetMgmt: Object.assign(window3(rows.map(function (x) { return x.assetMgmtFee; })), {
