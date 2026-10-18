@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "4e5b91ffa",
+  "generated_from_commit": "35f3c456d",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -246,10 +246,10 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 464228,
+    "hand_written_lines": 464230,
     "generated_place_page_lines": 226828,
     "top_level_pages": 73,
-    "html_nonblank_lines": 50043,
+    "html_nonblank_lines": 50045,
     "html_distinct_lines": 20578,
     "html_distinct_share": 0.411,
     "substantial_tools": 27,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "4e5b91ffa",
+    "extracted_at_commit": "35f3c456d",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
