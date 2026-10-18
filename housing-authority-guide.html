@@ -27,7 +27,7 @@
     /* Phones: each table row becomes a card, labelled from its column header. */
     @media (max-width: 640px) {
       .ha-stack table, .ha-stack tbody, .ha-stack tr, .ha-stack th, .ha-stack td { display: block; width: auto; }
-      .ha-stack thead { display: none; }
+      .ha-stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       .ha-stack tr { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
       .ha-stack th[scope="row"], .ha-stack td { border: 0; overflow-wrap: anywhere; }
       .ha-stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 700; }
@@ -95,19 +95,19 @@
                   <th scope="row">City or town authority <span class="ha-cite">C.R.S. 29-4-204, 29-4-205</span></th>
                   <td data-label="Who creates it">City council or town board</td>
                   <td data-label="Board">Up to 9 commissioners appointed by the mayor, or the council itself</td>
-                  <td data-label="Tax">No</td>
+                  <td data-label="Can it levy a tax?">No</td>
                 </tr>
                 <tr>
                   <th scope="row">County authority <span class="ha-cite">C.R.S. 29-4-503, 29-4-504</span></th>
                   <td data-label="Who creates it">Board of county commissioners</td>
                   <td data-label="Board">Up to 11 commissioners appointed by the board chair, or the board itself</td>
-                  <td data-label="Tax">No</td>
+                  <td data-label="Can it levy a tax?">No</td>
                 </tr>
                 <tr>
                   <th scope="row">Joint (multijurisdictional) authority <span class="ha-cite">C.R.S. 29-1-204.5</span></th>
                   <td data-label="Who creates it">Two or more cities, towns or counties, by contract</td>
                   <td data-label="Board">A board of directors set by the contract</td>
-                  <td data-label="Tax">Yes, with voter approval: sales or use tax up to 1%, property tax up to 5 mills</td>
+                  <td data-label="Can it levy a tax?">Yes, with voter approval: sales or use tax up to 1%, property tax up to 5 mills</td>
                 </tr>
               </tbody>
             </table>
@@ -129,9 +129,9 @@
 
           <h3>Board rules the statute sets</h3>
           <ul>
-            <li><strong>Terms:</strong> staggered at first, then up to five years for a city or town; five years for a county. <span class="ha-cite">C.R.S. 29-4-205(3)(b); 29-4-504(3)(b)</span></li>
+            <li><strong>Terms (appointed boards):</strong> staggered at first, then up to five years for a city or town; five years for a county. When the council or county board sits as the authority, members serve for their elected terms. <span class="ha-cite">C.R.S. 29-4-205(2), (3)(b); 29-4-504(2), (3)(b)</span></li>
             <li><strong>Elected officials:</strong> on an appointed board, "not more than one of such commissioners may be a county official," and the city rule is the same for city officials. The limit does not apply when the council or county board chooses to sit as the authority itself. <span class="ha-cite">C.R.S. 29-4-504(2), (3)(a); 29-4-205(2), (3)(a)</span></li>
-            <li><strong>A resident seat:</strong> at least one commissioner must be someone "directly assisted by the authority." An authority with fewer than 300 public housing units is excused if it gives reasonable notice to its resident advisory board and no eligible person says they want to serve. Federal rules set the same seat and exception for an authority that runs public housing or vouchers. <span class="ha-cite">C.R.S. 29-4-205(3.5); 29-4-504(3.5); 24 CFR 964.415</span></li>
+            <li><strong>A resident seat (appointed boards):</strong> at least one appointed commissioner must be someone "directly assisted by the authority." An authority with fewer than 300 public housing units is excused if it gives reasonable notice to its resident advisory board and no eligible person says they want to serve. Federal rules set the same seat and exception for an authority that runs public housing or vouchers. <span class="ha-cite">C.R.S. 29-4-205(3.5); 29-4-504(3.5); 24 CFR 964.415</span></li>
             <li><strong>No pay:</strong> commissioners are reimbursed for "actual and necessary expenses" but are not paid. <span class="ha-cite">C.R.S. 29-4-205(4); 29-4-504(4)</span></li>
             <li><strong>Conflicts:</strong> a commissioner or employee may not hold "any interest, direct or indirect, in any project or in any property included or planned to be included in any project," must "immediately disclose the same in writing to the authority," and failing to disclose "shall constitute misconduct in office." <span class="ha-cite">C.R.S. 29-4-207</span></li>
           </ul>
