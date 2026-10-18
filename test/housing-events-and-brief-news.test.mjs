@@ -166,6 +166,7 @@ test('the brief panel shows this brief\'s headlines since its review, apart from
   const items = [...el.querySelectorAll('li')].map((li) => li.textContent);
   assert.match(el.textContent, /News since this brief was last reviewed \(3\)/);
   assert.ok(items.some((t) => t.includes('Paywalled lead') && t.includes('not yet read')), 'an unread lead from before the review was dropped');
+  assert.match(el.textContent, /Older headlines marked "not yet read" come from before that date/);
   assert.match(el.textContent, /not part of this brief and not sources for it/);
   assert.ok(items.some((t) => t.includes('Carbondale approves lease')));
   assert.ok(items.some((t) => t.includes('Garfield County housing') && t.includes('names the county')));

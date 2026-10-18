@@ -51,6 +51,7 @@ export function issueBody(queue) {
     'Headlines are leads, not sources. A brief claim still needs the article itself and its quote in '
     + '`data/jurisdiction-briefs/_verified/`.', ''];
   out.push(`## News since the last review (${withNews.length})`, '');
+  if (withNews.some((b) => b.stories.some((s) => s.unread))) out.push('Stories marked "not read yet" are older leads nobody could read at the last review; they stay here until someone does.', '');
   if (!withNews.length) out.push('No brief has news since its last review.', '');
   for (const b of withNews) {
     out.push(`### ${briefName(b)} · ${b.reasons.join('; ')}`, '');

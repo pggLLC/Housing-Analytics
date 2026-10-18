@@ -183,13 +183,17 @@ def build(today: date, briefs: list[dict], stories: list[dict], events: list[dic
         except (TypeError, ValueError):
             days = None
         reasons = []
-        own = sum(1 for x in found if x['match'] == 'place')
+        fresh = [x for x in found if not x.get('unread')]
+        own = sum(1 for x in fresh if x['match'] == 'place')
         if own:
             reasons.append(f'{own} new {"story" if own == 1 else "stories"} naming it')
-        if len(found) > own:
-            n = len(found) - own
+        if len(fresh) > own:
+            n = len(fresh) - own
             reasons.append(f'{n} new {"story" if n == 1 else "stories"} about its '
                            + ('towns' if b['scope'] == 'county' else 'county'))
+        if len(found) > len(fresh):
+            n = len(found) - len(fresh)
+            reasons.append(f'{n} older {"story" if n == 1 else "stories"} not read yet')
         if days is None:
             reasons.append('no review date on file')
         elif days > STALE_DAYS:
