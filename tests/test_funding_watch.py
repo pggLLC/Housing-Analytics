@@ -1028,3 +1028,82 @@ def test_a_daily_ecfr_stamp_is_not_a_change():
     base = run(site(eiaf=page.format("10/14/2026")))
     r = run(site(eiaf=page.format("10/15/2026")), previous=base, now="2026-10-16T05:34:00Z")
     assert r["changes"]["changed_pages"] == []
+
+
+RHS_SEARCH = {"id": "rhs-mf", "agency": "rural-housing-service", "term": "\"Section 538\"",
+              "types": ["NOTICE", "RULE"], "title_pattern": r"section 538|multi-?family housing"}
+COVERED = dict(SOURCES, covered_elsewhere=[{"host": "dlg.localhost", "pages": ["dlg-eiaf"],
+                                            "by": ["federalregister.gov|rhs-mf", "federalregister.gov|hud"]}])
+COVERED["federal"] = dict(SOURCES["federal"], federal_register=dict(SOURCES["federal"]["federal_register"],
+                                                                     program_searches=[RHS_SEARCH]))
+
+
+def rhs_site(rhs_results=(), rhs_down=False, **kw):
+    """The usual fake site, with the Rural Housing Service search answered separately."""
+    base, seen = site(**kw), []
+
+    def fetch(url, data=None, headers=None):
+        if url.startswith(FR) and "rural-housing-service" in url:
+            seen.append(url)
+            if rhs_down:
+                raise HTTPError("HTTP Error 503: Service Unavailable")
+            return 200, {}, json.dumps({"count": len(rhs_results), "results": list(rhs_results)}).encode()
+        return base(url, data, headers)
+    fetch.seen = seen
+    return fetch
+
+
+def run_covered(fetch, previous=None, now="2026-10-15T05:34:00Z"):
+    return watch.run(fetch=fetch, previous=previous, now=now, guide=GUIDE, soft=SOFT, sources=COVERED)
+
+
+def test_a_program_search_keeps_program_notices_that_name_no_funding_round():
+    fee = {"document_number": "2026-20022", "title": "Revised Fee Structure for Section 538 Guaranteed Rural Rental Housing",
+           "agencies": [{"name": "Rural Housing Service"}], "publication_date": "2026-09-30",
+           "html_url": "https://fr.localhost/d/2026-20022"}
+    other = {"document_number": "2026-9", "title": "Single Family Housing Guaranteed Loan Program", "agencies": [],
+             "publication_date": "2026-09-01", "html_url": "https://fr.localhost/d/2026-9"}
+    f = rhs_site()
+    base = run_covered(f)
+    assert "conditions%5Btype%5D%5B%5D=RULE" in f.seen[0], "the program search asks for rules too"
+    r = run_covered(rhs_site(rhs_results=[fee, other]), previous=base, now="2026-10-16T05:34:00Z")
+    assert [n["number"] for n in r["changes"]["new_federal_notices"]] == ["2026-20022"]
+    assert "federalregister.gov|rhs-mf" in r["federal_baselined_queries"]
+
+
+def test_a_new_program_search_starts_with_a_silent_baseline():
+    base = run(site())
+    fee = {"document_number": "2026-20022", "title": "Section 538 fee notice", "agencies": [],
+           "publication_date": "2026-09-30", "html_url": "https://fr.localhost/d/2026-20022"}
+    r = run_covered(rhs_site(rhs_results=[fee]), previous=base, now="2026-10-16T05:34:00Z")
+    assert r["changes"]["new_federal_notices"] == []
+
+
+def test_a_blocked_host_covered_by_answering_searches_is_not_check_by_hand():
+    prev = run_covered(rhs_site())
+    for i, day in enumerate(("2026-10-16", "2026-10-17", "2026-10-18", "2026-10-19")):
+        prev = run_covered(rhs_site(blocked=(EIAF, GRANT)), previous=prev, now=f"{day}T05:34:00Z")
+    p = next(p for p in prev["pages"] if p["id"] == "dlg-eiaf")
+    assert p["ok"] is False and p["unverifiable"] is False
+    # A blocked page that is not named stays check-by-hand, whatever its host.
+    other = next(p for p in prev["pages"] if p["id"] == "guide:doh-grant")
+    assert other["unverifiable"] is True and "covered_by" not in other
+    assert p["covered_by"] == ["federalregister.gov|rhs-mf", "federalregister.gov|hud"]
+    assert [u["id"] for u in prev["unverifiable"]] == ["guide:doh-grant"]
+    # The covering search fails too: the blocked page is check-by-hand again.
+    down = run_covered(rhs_site(blocked=(EIAF,), rhs_down=True), previous=prev, now="2026-10-20T05:34:00Z")
+    assert [u["id"] for u in down["unverifiable"]] == ["dlg-eiaf"]
+    assert "covered_by" not in next(p for p in down["pages"] if p["id"] == "dlg-eiaf")
+
+
+def test_the_usda_rd_pages_are_covered_by_searches_that_exist():
+    cfg = json.loads((ROOT / "data" / "policy" / "funding-watch-sources.json").read_text(encoding="utf-8"))
+    fr = cfg["federal"]["federal_register"]
+    ids = {f"federalregister.gov|{q}" for q in watch.federal_register_queries(fr)}
+    [cov] = [c for c in cfg["covered_elsewhere"] if c["host"] == "www.rd.usda.gov"]
+    assert cov["by"] and set(cov["by"]) <= ids, "every covering search must be one the watch runs"
+    guide = json.loads((ROOT / "data" / "policy" / "co-developer-funding-guide.json").read_text(encoding="utf-8"))
+    soft = json.loads((ROOT / "data" / "policy" / "soft-funding-status.json").read_text(encoding="utf-8"))
+    targets = {t["id"]: t["url"] for t in watch.watch_targets(guide, soft, cfg)}
+    assert cov["pages"] and all(urlsplit(targets[p]).netloc == cov["host"] for p in cov["pages"]), \
+        "every covered page is a watched page on the covered host"
