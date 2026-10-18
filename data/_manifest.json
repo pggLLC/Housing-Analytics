@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T09:02:52.726Z",
+    "generated_at": "2026-10-18T08:58:37.379Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192366369,
+    "total_size_bytes": 192368053,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -500,8 +500,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 624344,
-      "mtime": "2026-10-17T09:39:21.019Z",
+      "size_bytes": 624074,
+      "mtime": "2026-10-18T05:49:37.101Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T03:08:07.621Z",
+      "mtime": "2026-10-18T08:58:32.813Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -619,8 +619,8 @@
     {
       "path": "capital-partners.json",
       "kind": "json",
-      "size_bytes": 13396,
-      "mtime": "2026-10-10T04:14:58.191Z",
+      "size_bytes": 13522,
+      "mtime": "2026-10-18T08:06:44.396Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -17028,8 +17028,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 183559,
-      "mtime": "2026-10-16T15:30:48.778Z",
+      "size_bytes": 183369,
+      "mtime": "2026-10-18T08:06:44.500Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -29886,8 +29886,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 10646,
-      "mtime": "2026-10-17T16:26:38.909Z",
+      "size_bytes": 12029,
+      "mtime": "2026-10-18T08:40:52.890Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29896,7 +29896,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 14,
+      "primary_array_length": 16,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -30233,8 +30233,8 @@
     {
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
-      "size_bytes": 20490,
-      "mtime": "2026-10-17T23:49:04.036Z",
+      "size_bytes": 20498,
+      "mtime": "2026-10-18T05:49:37.383Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -31035,8 +31035,8 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 1451,
-      "mtime": "2026-10-11T10:04:50.379Z",
+      "size_bytes": 1450,
+      "mtime": "2026-10-18T08:40:52.896Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31078,7 +31078,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 221287,
-      "mtime": "2026-10-18T08:50:20.295Z",
+      "mtime": "2026-10-18T08:40:52.897Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31357,8 +31357,8 @@
     {
       "path": "market/co-adaptive-reuse-references.json",
       "kind": "json",
-      "size_bytes": 13961,
-      "mtime": "2026-09-25T12:55:18.843Z",
+      "size_bytes": 13987,
+      "mtime": "2026-10-18T08:06:44.629Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31399,8 +31399,8 @@
     {
       "path": "market/co-urban-renewal-authorities.json",
       "kind": "json",
-      "size_bytes": 12169,
-      "mtime": "2026-09-25T12:55:18.843Z",
+      "size_bytes": 12114,
+      "mtime": "2026-10-18T08:06:44.629Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31595,8 +31595,8 @@
     {
       "path": "market/employment_centers_co.geojson",
       "kind": "geojson",
-      "size_bytes": 774664,
-      "mtime": "2026-10-18T09:02:48.451Z",
+      "size_bytes": 774302,
+      "mtime": "2026-09-25T12:55:18.848Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31617,10 +31617,10 @@
     {
       "path": "market/environmental_constraints_co.geojson",
       "kind": "geojson",
-      "size_bytes": 508428,
-      "mtime": "2026-10-18T09:02:48.451Z",
+      "size_bytes": 511275,
+      "mtime": "2026-09-25T12:55:18.849Z",
       "shape": "geojson",
-      "feature_count": 1063,
+      "feature_count": 1070,
       "property_keys": [
         "geoid",
         "name",
@@ -32277,8 +32277,8 @@
     {
       "path": "market/tax-credit-transfer-pricing.json",
       "kind": "json",
-      "size_bytes": 5457,
-      "mtime": "2026-10-09T05:14:07.908Z",
+      "size_bytes": 5491,
+      "mtime": "2026-10-18T08:06:44.748Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32617,8 +32617,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16095,
-      "mtime": "2026-10-18T03:08:08.900Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-18T08:58:34.698Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T03:08:08.582Z",
+      "mtime": "2026-10-18T08:58:34.240Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32770,8 +32770,8 @@
     {
       "path": "policy/ballot-2026/counties/08005.json",
       "kind": "json",
-      "size_bytes": 26839,
-      "mtime": "2026-09-27T03:10:31.733Z",
+      "size_bytes": 26852,
+      "mtime": "2026-10-18T08:06:44.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32927,8 +32927,8 @@
     {
       "path": "policy/ballot-2026/counties/08015.json",
       "kind": "json",
-      "size_bytes": 8169,
-      "mtime": "2026-09-27T02:18:51.671Z",
+      "size_bytes": 8217,
+      "mtime": "2026-10-18T08:06:44.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33186,8 +33186,8 @@
     {
       "path": "policy/ballot-2026/counties/08035.json",
       "kind": "json",
-      "size_bytes": 14228,
-      "mtime": "2026-09-26T19:23:40.058Z",
+      "size_bytes": 14276,
+      "mtime": "2026-10-18T08:06:44.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34172,8 +34172,8 @@
     {
       "path": "policy/ballot-2026/counties/08111.json",
       "kind": "json",
-      "size_bytes": 9287,
-      "mtime": "2026-10-11T07:51:15.383Z",
+      "size_bytes": 9310,
+      "mtime": "2026-10-18T08:06:44.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35396,8 +35396,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 44590,
-      "mtime": "2026-10-10T04:14:58.634Z",
+      "size_bytes": 44921,
+      "mtime": "2026-10-18T07:17:04.986Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -35443,8 +35443,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 40888,
-      "mtime": "2026-10-17T16:26:39.119Z",
+      "size_bytes": 40912,
+      "mtime": "2026-10-18T08:06:44.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35581,8 +35581,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 184894,
-      "mtime": "2026-10-17T16:26:39.122Z",
+      "size_bytes": 181298,
+      "mtime": "2026-10-18T05:49:37.681Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -36040,8 +36040,8 @@
     {
       "path": "tax-abatement-inventory.json",
       "kind": "json",
-      "size_bytes": 23144,
-      "mtime": "2026-09-26T06:30:24.784Z",
+      "size_bytes": 24390,
+      "mtime": "2026-10-18T06:32:14.776Z",
       "shape": "object",
       "keys": [
         "metadata",
