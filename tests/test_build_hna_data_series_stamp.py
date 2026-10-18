@@ -169,13 +169,25 @@ def test_every_state_field_comes_from_the_stamped_source():
     fields = {k: v for k, v in profile.items() if not k.startswith("_")}
     assert set(state.EXTENDED_PROFILE_VARS) <= set(fields)
     assert {v for v in fields.values()} == {"1"}, "a field came from another source"
-    # A chunk the stamped source refuses is left out, never taken from another
-    # source; main() keeps the previous value and names it.
+    # Codex, 2026-10-18: a source that refuses one chunk is not the source
+    # that answered, or main() would keep the previous file's values for that
+    # chunk under its stamp. The next source answers in full instead...
     late = state.EXTENDED_PROFILE_VARS[-1]
-    with mock.patch.object(state, "http_get_json", side_effect=state_census(answers, refuse=(late,))):
+    full = state_census(answers)
+
+    def acs1_refuses_late(url, *args, **kwargs):
+        if "/acs/acs1/" in url and late in url.split("get=")[1].split("&")[0].split(","):
+            return None
+        return full(url)
+    with mock.patch.object(state, "http_get_json", side_effect=acs1_refuses_late):
         profile = state.fetch_acs_profile(2024, 3)
-    assert late not in profile and profile["_acsSeries"] == "acs1"
-    assert {v for k, v in profile.items() if not k.startswith("_")} == {"1"}
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs5")
+    assert late in profile
+    assert {v for k, v in profile.items() if not k.startswith("_")} == {"5"}
+    # ...and when no source gives every field there is no fresh profile, so
+    # main() keeps the previous one whole.
+    with mock.patch.object(state, "http_get_json", side_effect=state_census(answers, refuse=(late,))):
+        assert state.fetch_acs_profile(2024, 3) is None
 
 
 def test_the_state_fetch_covers_every_field_the_state_summary_carries():

@@ -268,9 +268,12 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                         file=sys.stderr,
                     )
                 data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
-                # The other fields come from the source that answered, or not
-                # at all: a chunk that fails leaves the previous file's values,
-                # and the refresh in main() names them.
+                # The other fields come from the same source. One that cannot
+                # give them all is not the source that answered: main() would
+                # keep the previous file's values for the rest under this
+                # stamp. So it is passed over, and when none can give every
+                # field the previous profile stays whole, under its own stamp.
+                complete = True
                 for i in range(0, len(EXTENDED_PROFILE_VARS), PROFILE_CHUNK):
                     chunk = EXTENDED_PROFILE_VARS[i:i + PROFILE_CHUNK]
                     # Profile numbers move between releases; ask for each
@@ -284,7 +287,11 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                                      if profile_var_for_year(v, year) in got})
                     else:
                         print(f'⚠ ACS profile: {len(chunk)} extended fields not published by '
-                              f'{series} {year}', file=sys.stderr)
+                              f'{series} {year}; trying the next source', file=sys.stderr)
+                        complete = False
+                        break
+                if not complete:
+                    continue
                 data['_acsYear'] = str(year)
                 data['_acsSeries'] = series
                 return data
