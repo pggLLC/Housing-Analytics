@@ -69,9 +69,10 @@
     var reasons = costReason ? [costReason] : [];
     if (!fin) return { rows: rows, notItemized: null, general: null, totals: null, reasons: reasons.concat('Permanent financing is unavailable.') };
 
-    // Each soft source the financing summary counted, in whatever DOH group.
+    // Each soft source the financing summary counted, in whatever DOH group
+    // (historic credit equity is tax credit equity and stays in the whole-project row).
     var items = [].concat(fin.hardMortgages.filter(function (m) { return m.source !== 'senior'; }),
-      fin.government, fin.other, fin.owner, fin.historic, fin.unclassified.filter(function (u) { return u.source !== 'senior'; }));
+      fin.government, fin.other, fin.owner, fin.unclassified.filter(function (u) { return u.source !== 'senior'; }));
     items.forEach(function (item) {
       var t = byId[item.id] || {};
       var entry = { id: item.id, name: labels[item.program] || item.program, amount: item.amount,
@@ -107,6 +108,8 @@
       tc.nine === 0 ? null : { id: 'lihtc9', name: '9% LIHTC proceeds', amount: tc.nine },
       tc.four === 0 ? null : { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four },
       tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state },
+      // Historic credit equity is tax credit equity too: it pays for the whole project.
+      !tc.historic ? null : { id: 'historic_credit', name: 'Historic tax credit proceeds', amount: tc.historic },
       fin.deferredDevFee === 0 ? null : { id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }
     ].filter(Boolean);
     whole.forEach(function (w) {

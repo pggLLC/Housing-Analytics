@@ -538,7 +538,11 @@
         : known(feePaid) && known(cumCF) ? Math.min(fee, Math.max(feePaid, cumCF)) : null;
       var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
       feePaid = feeNow;
-      var afterFee = known(cashFlow) && known(deferredFeePaid) ? cashFlow - deferredFeePaid : null;
+      // Must-pay debt service NOI could not cover stays in the loan balance, so
+      // it is not a shortfall the sponsor funded.
+      var mustPayUnpaid = [obligation.mustPayDebtService, obligation.paid, obligation.contingentPaid].every(known)
+        ? Math.max(0, obligation.mustPayDebtService - (obligation.paid - obligation.contingentPaid)) : null;
+      var afterFee = known(cashFlow) && known(deferredFeePaid) && known(mustPayUnpaid) ? cashFlow - deferredFeePaid + mustPayUnpaid : null;
       var deficitRecovered = known(afterFee) && known(deficit) ? Math.min(deficit, Math.max(0, afterFee)) : null;
       deficit = known(afterFee) && known(deficit) ? Math.max(0, deficit - afterFee) : null;
       var distributable = known(afterFee) && known(deficitRecovered) ? Math.max(0, afterFee - deficitRecovered) : null;

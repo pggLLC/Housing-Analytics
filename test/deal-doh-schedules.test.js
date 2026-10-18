@@ -222,6 +222,20 @@ test('an operating deficit still owed at the sale is repaid to the sponsor befor
   assert(r.waterfall.gpTotal >= tier.amount, 'and it counts as sponsor cash');
 });
 
+test('debt service NOI cannot cover stays with the loan and is not repaid again as a sponsor deficit', () => {
+  const r = computeDeal(withTranches([], { 'dc-senior-mode': 'entered', 'dc-senior-amount': '20000000', 'dc-senior-type': 'amortizing', 'dc-senior-maturity': '30' }));
+  assert(r.projection.rows[0].cashFlow < 0, 'an undercovered mortgage');
+  assert.equal(r.projection.rows[r.exit.holdYears - 1].deficitOwed, 0, 'the shortfall is in the loan balance, not owed to the sponsor');
+  assert(!r.waterfall.tiers.some(t => /Operating deficits/.test(t.name)), 'so the sale does not repay it twice');
+});
+
+test('historic tax credit equity pays for the whole project, not one category', () => {
+  const { su } = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant', activity: 'construction' }]));
+  assert(!su.rows.find(x => x.id === 'construction').sources.some(x => x.amount === 300000), 'not in construction');
+  const h = su.general.sources.find(x => x.id === 'historic_credit');
+  assert(h && h.amount === 300000, 'in the whole-project row');
+});
+
 test('a deficit year pays no deferred fee and must be made up first, so the payback year still matches the engine', () => {
   const r = computeDeal(withTranches([], { 'dc-bridge-ds': '300000', 'dc-bridge-years': '2' }));
   assert(r.obligations.years[0].cashFlow < 0, 'a real deficit year: ' + r.obligations.years[0].cashFlow);
