@@ -116,23 +116,17 @@ const ALLOW_LIST = new Set([
   'https://cdola.colorado.gov/commitment-filings',
   'https://cdola.colorado.gov/housing',
   'https://cdola.colorado.gov/prop123',
-  'https://cdola.colorado.gov/division-of-housing',
   // HNA renderer source links that are public agency/program landing pages
   // but block or reset CI fetches. Keep in sync with source-url-sweep.mjs.
   'https://co.chfainfo.com/',
   'https://co.chfainfo.com/find-a-tax-credit-property',
   'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/',
-  'https://cdola.colorado.gov/funding-programs/urban-renewal',
-  'https://cdphe.colorado.gov/voluntary-cleanup-program',
-  'https://cdola.colorado.gov/brownfields-revolving-loan-fund',
   'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
   'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
   'https://storage.googleapis.com/co-publicdata/sya-county.csv',
   // P5: removed 'https://trading-api.kalshi.com/trade-api/v2' — experimental
   // sentiment overlay not used in production scoring; the endpoint rate-limits
   // anonymous requests to 429 which polluted the broken-URL report.
-  'https://www.chfainfo.com/multifamily/QAP',
-  'https://www.chfainfo.com/multifamily/qap',
   'https://www.bls.gov/cew/',
   'https://www.bls.gov/ppi/',
   'https://www.bls.gov/ppi',
@@ -145,7 +139,6 @@ const ALLOW_LIST = new Set([
   'https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf',
   'https://www.jchs.harvard.edu/',
   'https://www.fema.gov/flood-maps',
-  'https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa',
   'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals',
   // Public data/news/program sources that are live in browsers but regularly
   // hit Census session handling or publisher/agency WAFs from CI probes.

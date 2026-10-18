@@ -19,7 +19,7 @@
   "partners": [
     {
       "name": "Colorado Housing and Finance Authority (CHFA)",
-      "url":  "https://www.chfainfo.com/multifamily-developers",
+      "url":  "https://www.chfainfo.com/rental-housing",
       "category": "State HFA",
       "deal_types": ["lihtc-9pct","lihtc-4pct","lihtc-state","preservation","permanent-debt","construction"],
       "service_area": "Colorado statewide",
@@ -36,23 +36,23 @@
     },
     {
       "name": "Colorado Department of Local Affairs (DOLA)",
-      "url":  "https://cdola.colorado.gov/division-housing",
+      "url":  "https://doh.colorado.gov/",
       "category": "State agency",
       "deal_types": ["lihtc-state","prop123","preservation","soft-debt"],
       "service_area": "Colorado statewide (state + Prop 123 funds)",
       "notes": "Administers Prop 123 equity grants + State Housing Fund + Housing Development Grant + workforce + Affordable Housing Development Fund (AHDF). Critical for stacking soft debt."
     },
     {
-      "name": "Enterprise Community Partners — Mountain Plains",
-      "url":  "https://www.enterprisecommunity.org/where-we-work/mountain-plains",
+      "name": "Enterprise Community Partners — Rocky Mountain",
+      "url":  "https://www.enterprisecommunity.org/about/where-we-work/rocky-mountain",
       "category": "CDFI + equity syndicator",
       "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication","preservation","soft-debt"],
-      "service_area": "CO, NM, NV (Mountain Plains office)",
+      "service_area": "Colorado + Rocky Mountain region (Rocky Mountain office)",
       "notes": "LIHTC equity syndication + bridge / acquisition loans + Section 4 grants. Active partner on most CHFA awards."
     },
     {
       "name": "LISC Colorado",
-      "url":  "https://www.lisc.org/colorado/",
+      "url":  null,
       "category": "CDFI",
       "deal_types": ["soft-debt","construction","preservation","prop123"],
       "service_area": "Denver Metro + selected statewide",
@@ -67,8 +67,8 @@
       "notes": "Predevelopment + construction + permanent loans for affordable housing developers; particularly active on Catholic / nonprofit deals."
     },
     {
-      "name": "Catholic Health Initiatives (CommonSpirit) — Healthy Communities Fund",
-      "url":  "https://www.commonspirit.org/about-us/community-benefit/",
+      "name": "CommonSpirit Health — Community Investment Program",
+      "url":  "https://www.commonspirit.org/impact/community-health-initiatives/community-investment-program",
       "category": "Impact / mission lender",
       "deal_types": ["soft-debt","workforce","permanent-debt"],
       "service_area": "Communities served by CommonSpirit hospitals (CO Springs, Denver Metro, Centura system)",
@@ -132,7 +132,7 @@
     },
     {
       "name": "Freddie Mac Multifamily Targeted Affordable Housing",
-      "url":  "https://mf.freddiemac.com/product/targeted-affordable-housing",
+      "url":  "https://mf.freddiemac.com/financing/tah",
       "category": "GSE",
       "deal_types": ["permanent-debt","preservation","lihtc-4pct"],
       "service_area": "National",
@@ -156,7 +156,7 @@
     },
     {
       "name": "Alpine Bank",
-      "url":  "https://www.alpinebank.com/business/commercial-lending",
+      "url":  "https://www.alpinebank.com/business/business-lending/real-estate-loans.html",
       "category": "Community bank",
       "deal_types": ["construction","permanent-debt","soft-debt"],
       "service_area": "Colorado Western Slope (Glenwood Springs HQ); Garfield, Eagle, Pitkin, Routt, Mesa, Delta, Montrose, Gunnison, La Plata + Denver Metro",
@@ -180,7 +180,7 @@
     },
     {
       "name": "ANB Bank",
-      "url":  "https://www.anbbank.com/Business/Lending/Commercial-Real-Estate-Loans.aspx",
+      "url":  "https://www.anbbank.com/business-lending/business-real-estate-loans",
       "category": "Community bank",
       "deal_types": ["construction","permanent-debt","soft-debt"],
       "service_area": "Colorado (HQ Denver), Wyoming, Northern New Mexico",
@@ -188,7 +188,7 @@
     },
     {
       "name": "U.S. Bank Community Development Corp (USBCDC)",
-      "url":  "https://www.usbank.com/corporate-and-commercial-banking/industry-expertise/community-development.html",
+      "url":  "https://www.usbank.com/corporate-and-commercial-banking/solutions/credit-and-financing/impact-finance/affordable-housing.html",
       "category": "Equity syndicator + lender",
       "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication","permanent-debt","construction"],
       "service_area": "National (very active in CO LIHTC)",
@@ -196,7 +196,7 @@
     },
     {
       "name": "Vectra Bank Colorado (Zions Bancorporation)",
-      "url":  "https://www.vectrabank.com/business/commercial-lending",
+      "url":  "https://www.vectrabank.com/business/business-financing/commercial-real-estate-financing",
       "category": "Community bank",
       "deal_types": ["construction","permanent-debt"],
       "service_area": "Colorado statewide (Front Range focus)",
@@ -228,7 +228,7 @@
     },
     {
       "name": "Boulder County Worthy Cause Fund",
-      "url":  "https://bouldercounty.gov/community/economy/worthy-cause/",
+      "url":  "https://bouldercounty.gov/government/your-taxes-at-work/worthy-cause-sales-tax/",
       "category": "Local public fund",
       "deal_types": ["soft-debt","preservation"],
       "service_area": "Boulder County",
@@ -236,7 +236,7 @@
     },
     {
       "name": "Denver Affordable Housing Loan Fund (City)",
-      "url":  "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
+      "url":  "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Housing-Development-Resources",
       "category": "Local public fund",
       "deal_types": ["soft-debt","preservation","construction","workforce"],
       "service_area": "Denver",

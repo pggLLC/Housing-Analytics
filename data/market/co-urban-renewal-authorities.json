@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado Urban Renewal Authorities (URA) — Statewide Registry",
     "source": "Colorado Department of Local Affairs (DOLA) + Colorado URA Council + Municipal League registries",
-    "source_url": "https://cdola.colorado.gov/funding-programs/urban-renewal",
+    "source_url": null,
     "vintage": "2026",
     "methodology": "Colorado statute (C.R.S. § 31-25-101 et seq.) authorizes municipalities and counties to create Urban Renewal Authorities (URAs) to remediate blight in defined plan areas. URAs can use tax increment financing (TIF), eminent domain (limited post-2010 reforms), and direct land acquisition + disposition to facilitate redevelopment. Approximately 50 active URAs exist statewide; this registry tracks the most active ones in Colorado affordable-housing development conversations. For each, we capture: URA name, parent jurisdiction, current plan-area focus (downtown CBD / corridor / brownfield / TOD), housing in mission statement (yes/no), TIF revenue ballpark, and current LIHTC-stack partnership track record.",
     "important_disclaimer": "URA boundaries and active plan areas change frequently — new plans get adopted, sunset plans expire, TIF districts get extended. ALWAYS confirm current plan-area boundaries + remaining TIF capacity with the URA executive director before pitching a LIHTC deal. Many smaller CO URAs operate on tiny budgets; large URAs (Denver DURA, Aurora AURA) operate at $20-100M+/year.",

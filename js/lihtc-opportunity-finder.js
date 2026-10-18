@@ -3299,8 +3299,7 @@
       html += '</div>';
     } else {
       html += '<div style="font-size:.78rem;color:var(--muted);">' +
-        'No active URA on file for ' + escHtml(op.name) + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly. ' +
-        '<a href="https://cdola.colorado.gov/funding-programs/urban-renewal" target="_blank" rel="noopener" style="color:var(--brand);">DOLA URA program ↗</a>' +
+        'No active URA on file for ' + escHtml(op.name) + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly.' +
       '</div>';
     }
     html += '</div>';
@@ -3372,8 +3371,8 @@
     html += '<div style="margin:.6rem 0 .25rem;font-size:.76rem;color:var(--muted);">' +
       '<strong>Environmental + acquisition tools:</strong> ' +
       '<a href="https://www.epa.gov/brownfields" target="_blank" rel="noopener" style="color:var(--brand);">EPA Brownfields ↗</a> · ' +
-      '<a href="https://cdphe.colorado.gov/voluntary-cleanup-program" target="_blank" rel="noopener" style="color:var(--brand);">CO Voluntary Cleanup ↗</a> · ' +
-      '<a href="https://cdola.colorado.gov/brownfields-revolving-loan-fund" target="_blank" rel="noopener" style="color:var(--brand);">DOLA Brownfields RLF ↗</a> · ' +
+      '<a href="https://cdphe.colorado.gov/hm/voluntary-cleanup" target="_blank" rel="noopener" style="color:var(--brand);">CO Voluntary Cleanup ↗</a> · ' +
+      '<a href="https://cdphe.colorado.gov/hm/brownfields" target="_blank" rel="noopener" style="color:var(--brand);">CO Brownfields RLF ↗</a> · ' +
       '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--brand);">Federal Historic Tax Credit ↗</a>' +
     '</div>';
     html += '<div style="font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +

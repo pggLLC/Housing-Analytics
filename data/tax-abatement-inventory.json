@@ -15,7 +15,7 @@
     },
     "state_baseline": {
       "note":      "Colorado statute C.R.S. §39-3-112.5 grants property tax exemption to affordable-rental properties owned by 501(c)(3) nonprofits + maintained at ≤60% AMI per a recorded LURA. Most large rental affordable deals qualify automatically.",
-      "url":       "https://www.colorado.gov/pacific/sites/default/files/15CRS39-3.pdf",
+      "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
       "category":  "property-tax-exemption",
       "applies_to":"Statewide — 501(c)(3) owner + ≤60% AMI use restriction"
     }
@@ -86,7 +86,7 @@
         {
           "category":  "property-tax-exemption",
           "name":      "C.R.S. §39-3-112.5 statutory exemption",
-          "url":       "https://www.colorado.gov/pacific/sites/default/files/15CRS39-3.pdf",
+          "url":       "https://dpt.colorado.gov/charitable-residential-property-exemption-forms",
           "summary":   "Default statutory exemption for 501(c)(3)-owned ≤60% AMI."
         }
       ]

@@ -170,8 +170,7 @@ const SEED = {
       { name: 'Valley View Hospital',     url: 'https://www.vvh.org/',
         note: 'Largest year-round employer in western Garfield County' },
       { name: 'Colorado Mountain College', url: 'https://coloradomtn.edu/',
-        note: 'Runs employee housing at multiple campuses',
-        workforce_housing_url: 'https://coloradomtn.edu/jobs/' },
+        note: 'Runs employee housing at multiple campuses' },
       { name: 'Glenwood Caverns Adventure Park', url: 'https://glenwoodcaverns.com/' },
       { name: 'City of Glenwood Springs', url: 'https://www.gwsco.gov/' }
     ]
