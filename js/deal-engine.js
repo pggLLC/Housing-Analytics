@@ -409,7 +409,7 @@
    * interest compounds annually. Forgiveness occurs at stated maturity.
    * After an unpaid maturity, subsequent years need a refinancing assumption.
    */
-  function loanObligations(inputs, annualNoi) {
+  function loanObligations(inputs, annualNoi, deductions) {
     var parsed = inputs.map(loanTerms);
     var invalid = parsed.find(function (p) { return p.unavailableReason; });
     if (invalid) return { loans: null, years: null, unavailableReason: invalid.unavailableReason };
@@ -421,10 +421,21 @@
       var year = index + 1;
       var available = known(noi) ? Math.max(0, noi) : null;
       var seniorDue = 0, mustPayDue = 0, paid = 0, contingentPaid = 0, maturityDue = 0;
+      var bridgeDue = 0, assetDue = 0, assetPaid = 0;
       var reason = !known(noi) ? 'NOI is unavailable for this year.' : null;
       // Required payments are allocated before contingent payments. Priority
       // orders lenders within each class; it never makes a residual loan senior.
       [false, true].forEach(function (contingent) {
+        // DOH PR 4: bridge-loan debt service, then the asset management fee,
+        // come out of cash after the must-pay loans and before cash-flow loans.
+        var d = contingent && deductions ? deductions[index] : null;
+        if (d && known(available)) {
+          bridgeDue = d.bridge;
+          available = Math.max(0, available - bridgeDue);
+          assetDue = d.assetFee;
+          assetPaid = Math.min(available, assetDue);
+          available -= assetPaid;
+        }
         order.forEach(function (loan) {
           if ((loan.type === 'cash_flow') !== contingent) return;
           var i = loans.indexOf(loan), opening = balances[i];
@@ -473,7 +484,9 @@
         maturityDue: reason ? null : maturityDue,
         seniorCoverage: reason ? null : coverageRatio(noi, seniorDue),
         allMustPayCoverage: reason ? null : coverageRatio(noi, mustPayDue),
-        cashFlow: reason ? null : noi - mustPayDue - contingentPaid,
+        bridgeDebtService: reason ? null : bridgeDue,
+        assetMgmtFee: reason ? null : assetPaid, assetMgmtUnpaid: reason ? null : assetDue - assetPaid,
+        cashFlow: reason ? null : noi - mustPayDue - bridgeDue - assetPaid - contingentPaid,
         unavailableReason: reason });
     });
     return { loans: loans, years: years, unavailableReason: null };
@@ -510,6 +523,7 @@
         cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
+        bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -980,8 +994,22 @@
         ? (annualRents + otherIncomeForMath) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
           - (annualOpex + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index) : null;
     });
+    // DOH PR 4: payments from cash flow that are not loans in the stack. Both
+    // default to $0; a blank or out-of-range entry is unknown, not $0.
+    var cashPayments = (function () {
+      var fee = fieldNumber(fields, 'dc-asset-mgmt-fee', 0), growth = fieldNumber(fields, 'dc-asset-mgmt-growth', 3);
+      var bridge = fieldNumber(fields, 'dc-bridge-ds', 0), bridgeYears = fieldNumber(fields, 'dc-bridge-years', 0);
+      var reason = !known(fee) || fee < 0 ? 'Enter the asset management fee as $0 or more a year.'
+        : !known(growth) || growth < 0 || growth > 10 ? 'Enter the asset management fee increase from 0% to 10% a year.'
+        : !known(bridge) || bridge < 0 ? 'Enter bridge-loan debt service as $0 or more a year.'
+        : !Number.isInteger(bridgeYears) || bridgeYears < 0 || bridgeYears > 50 ? 'Enter the years of bridge-loan payments as a whole number from 0 to 50.' : null;
+      return { reason: reason, years: reason ? null : loanNoi.map(function (_, index) {
+        return { assetFee: fee * Math.pow(1 + growth / 100, index), bridge: index < bridgeYears ? bridge : 0 };
+      }) };
+    })();
     var obligations = debtInputsReason ? { loans: null, years: null, unavailableReason: debtInputsReason }
-      : loanObligations([seniorInput].concat(loanInputs), loanNoi);
+      : cashPayments.reason ? { loans: null, years: null, unavailableReason: cashPayments.reason }
+      : loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years);
     var firstLoanYear = obligations.years && obligations.years[0];
     var allMustPayDebtService = firstLoanYear ? firstLoanYear.mustPayDebtService : null;
     // Why NOI or the rent roll is unknown, carried with it so each message
@@ -1381,6 +1409,7 @@
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
+      if (cashPayments.reason && /^(coverage|obligations|allMustPay|projection|waterfall|exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       // #2160: basis and credit depend on the itemized costs; figures that also

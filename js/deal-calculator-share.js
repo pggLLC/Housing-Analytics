@@ -26,6 +26,7 @@
  * Each ';' delimits a tranche; each ':' delimits one field:
  *   program : amount : mode : rate : term : cashflowPayPct : accrueMode : priority
  *   : loanType : maturity : ioYears : fundSource (federal | nonfederal | blank, #2160)
+ *   : doh (DOH PR 3) : activity : status : state request (yes | no) (DOH PR 4)
  *
  * Exposes window.__DealCalcShare with { copyLink, exportPdf, exportJson }.
  */
@@ -253,7 +254,10 @@
       var io = (row.querySelector('.dc-tr-io') || {}).value;
       var fed = (row.querySelector('.dc-tr-fed') || {}).value || '';
       var doh = (row.querySelector('.dc-tr-doh') || {}).value || '';
-      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed, doh].join(':'));
+      var activity = (row.querySelector('.dc-tr-activity') || {}).value || '';
+      var status = (row.querySelector('.dc-tr-status') || {}).value || '';
+      var state = (row.querySelector('.dc-tr-state') || {}).value || '';
+      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io, fed, doh, activity, status, state].join(':'));
     });
     return out.join(';');
   }
@@ -308,6 +312,11 @@
         if (parts[11] !== undefined) _setRowInput('.dc-tr-fed', parts[11]);
         // DOH PR 3: links made before the DOH group keep the program's default group.
         if (parts[12] !== undefined) _setRowInput('.dc-tr-doh', parts[12]);
+        // DOH PR 4: older links keep the whole-project default, pending, and the
+        // program's state-request default.
+        if (parts[13] !== undefined) _setRowInput('.dc-tr-activity', parts[13]);
+        if (parts[14]) _setRowInput('.dc-tr-status', parts[14]);
+        if (parts[15]) _setRowInput('.dc-tr-state', parts[15]);
       });
       if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     }, 80);
@@ -531,6 +540,8 @@
       // DOH's Permanent Financing Sources view, as displayed.
       snapshot.permanentFinancing = window.__DealCalc && window.__DealCalc.getPermanentFinancing
         ? window.__DealCalc.getPermanentFinancing() : null;
+      snapshot.dohSchedules = window.__DealCalc && window.__DealCalc.getDohSchedules
+        ? window.__DealCalc.getDohSchedules() : null;
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
       snapshot.rentSchedule = window.__DealCalc && window.__DealCalc.getRentScheduleMetadata ? window.__DealCalc.getRentScheduleMetadata() : null;
       snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata
@@ -551,7 +562,8 @@
         return {
           program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
           cashflowPayPct: p[5], accrueMode: p[6], priority: p[7], loanType: p[8], maturity: p[9], ioYears: p[10],
-          fundSource: p[11] || null, doh: p[12] === undefined ? null : p[12]
+          fundSource: p[11] || null, doh: p[12] === undefined ? null : p[12],
+          activity: p[13] || null, status: p[14] || null, stateRequest: p[15] ? p[15] === 'yes' : null
         };
       });
     }

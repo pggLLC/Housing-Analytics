@@ -41,6 +41,10 @@
     'dc-rate': 'Annual interest rate assumed for the permanent mortgage.',
     'dc-term': 'Permanent mortgage amortization period, in years.',
     'dc-equity-price': 'Dollars of investor equity assumed per dollar of tax credit.',
+    'dc-asset-mgmt-fee': 'Asset management fee paid from cash flow in year 1, in dollars a year.',
+    'dc-asset-mgmt-growth': 'Yearly increase in the asset management fee, in percent.',
+    'dc-bridge-ds': 'Bridge-loan debt service paid from operations each year, in dollars.',
+    'dc-bridge-years': 'Number of years, from year 1, that bridge-loan debt service is paid from operations.',
     'dc-exit-hold': 'Years until the modeled sale.',
     'dc-exit-cap': 'Capitalization rate used to estimate resale value from NOI.',
     'dc-own-resale-years': 'Years before the ownership resale screen.',
@@ -133,6 +137,9 @@
   };
   tranche.doh = 'Where this source counts in DOH\'s Permanent Financing Sources; the program sets the starting group.';
   tranche.fed = 'Whether this source contains federal money; a federally funded grant reduces eligible basis.';
+  tranche.activity = 'The DOH cost category this source pays for, or the whole project.';
+  tranche.status = 'Whether this source is committed or still pending approval.';
+  tranche.state = 'Whether this source is a request for state funds; DOLA HTF and Prop 123 start as yes.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
   ['fed', 'state'].forEach(function (src) {
     ['closing', 'completion', 'stabilization'].forEach(function (stage) {
