@@ -474,6 +474,27 @@ test('JS: LIHTC fetch function reports unavailability instead of stand-in data',
     assert(js.includes('hudLihtcQuery'),                     'HUD LIHTC ArcGIS service URL is referenced');
 });
 
+// CHFA's statewide file lists every property it records, so a county absent
+// from a loaded copy has none: a count of 0, not "unavailable" (Hinsdale).
+test('JS: a county absent from the loaded CHFA statewide file counts zero projects', () => {
+    const fn = js.slice(js.indexOf('async function fetchLihtcProjects'), js.indexOf('function lihtcUnavailable'));
+    assert(/statewideList\s*=\s*stateGj/.test(fn), 'the loaded statewide list is remembered');
+    assert(/if \(statewideList\) \{\s*return \{ type: 'FeatureCollection', features: \[\]/.test(fn),
+        'a county the statewide list lacks returns an empty collection before the unavailable throw');
+    assert(fn.indexOf('if (statewideList)') < fn.lastIndexOf('throw lihtcUnavailable('), 'zero is decided before unavailable');
+});
+
+// The map status names its source; every _source the fetch returns must have a
+// plain label, so no internal token ("local") reaches the page.
+test('JS: every LIHTC source the fetch returns has a plain-language label', () => {
+    const fn = js.slice(js.indexOf('async function fetchLihtcProjects'), js.indexOf('function lihtcUnavailable'));
+    const sources = [...new Set([...fn.matchAll(/_source:\s*'([^']+)'/g)].map(m => m[1]))];
+    assert(sources.length >= 3, 'found ' + sources.length + ' sources to check');
+    const block = js.slice(js.indexOf('const LIHTC_SOURCE_LABELS'), js.indexOf('};', js.indexOf('const LIHTC_SOURCE_LABELS')));
+    sources.forEach(src => assert(new RegExp("(^|[\\s{,])'?" + src.replace(/[-]/g, '\\-') + "'?:\\s*'").test(block), 'no label for _source ' + src));
+    assert(/LIHTC_SOURCE_LABELS\[src\]/.test(js), 'the map status uses the labels');
+});
+
 test('JS: HUD LIHTC WHERE clause uses quoted CNTY_FIPS to avoid HTTP 400', () => {
     // ArcGIS SQL requires string fields to be quoted; an unquoted value causes a 400 error.
     assert(js.includes("CNTY_FIPS='${countyFips5}'"),     "HUD LIHTC WHERE clause quotes CNTY_FIPS value");

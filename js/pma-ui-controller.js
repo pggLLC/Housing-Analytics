@@ -1657,6 +1657,9 @@
       }
       _renderJustification(stored.scoreRun);
       _renderConceptCard(stored.scoreRun);
+      // The score card is not saved; say so rather than "Select a site".
+      var restoredTier = $id('pmaScoreTier');
+      if (restoredTier) restoredTier.textContent = 'Score not redrawn yet \u2014 click the site on the map, then Run Analysis';
       var explainBtn = $id('pmaExplainScoreBtn');
       if (explainBtn) explainBtn.hidden = false;
       var auditBtn = $id('pmaExportAuditJson');

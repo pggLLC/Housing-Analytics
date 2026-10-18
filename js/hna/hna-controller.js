@@ -958,9 +958,13 @@
       // HUD-ArcGIS snapshot that lagged CHFA by 2-3 years; reading those first
       // hid the most recent 2022-2025 awards on the HNA map. (F89.)
       if (stateFips === '08') {
+        // CHFA's statewide file lists every tax-credit property it records,
+        // so a county absent from a loaded copy has none on record.
+        let statewideList = null;
         try {
           const stateGj = await loadJson('data/chfa-lihtc.json');
           if (stateGj && Array.isArray(stateGj.features)) {
+            if (stateGj.features.length > 0) statewideList = stateGj;
             const features = stateGj.features.filter(f =>
               (f.properties && f.properties.CNTY_FIPS === countyFips5) ||
               (f.properties && (f.properties.COUNTYFP || '') === countyFips)
@@ -1009,6 +1013,9 @@
           console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5);
         } catch(e) {
           console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message);
+        }
+        if (statewideList) {
+          return { type: 'FeatureCollection', features: [], _source: 'local', _fetchedAt: statewideList.fetchedAt || null };
         }
       }
     }
@@ -1238,6 +1245,13 @@
 
   // Load and render all LIHTC/QCT/DDA overlays for the selected geography
 
+  const LIHTC_SOURCE_LABELS = {
+    local: 'CHFA tax-credit properties (statewide file)',
+    'local-county': 'CHFA tax-credit properties (county file)',
+    CHFA: 'LIHTC properties map service (ArcGIS)',
+    HUD: 'HUD LIHTC database (ArcGIS)',
+  };
+
   async function updateLihtcOverlays(countyFips5, geoType, geoLabel){
     // Increment the sequence counter. Any in-flight request for an older county
     // will see that its requestSeq no longer matches and will discard its result.
@@ -1260,12 +1274,12 @@
         const fetchedAt = lihtcData && lihtcData._fetchedAt;
         let dateStr = '';
         if (fetchedAt) {
-          try { dateStr = ` · cache: ${new Date(fetchedAt).toISOString().slice(0, 10)}`; } catch (_) { /* unparseable */ }
+          try { dateStr = ` · as of ${new Date(fetchedAt).toISOString().slice(0, 10)}`; } catch (_) { /* unparseable */ }
         }
         // For place/CDP, note that LIHTC counts are for the containing county
         const scopeNote = (geoType === 'place' || geoType === 'cdp')
           ? ' · Stat splits jurisdiction vs. containing county; map shows the county.' : '';
-        window.HNAState.els.lihtcMapStatus.textContent = src ? `Source: ${src}${dateStr}${scopeNote}` : '';
+        window.HNAState.els.lihtcMapStatus.textContent = src ? `Source: ${LIHTC_SOURCE_LABELS[src] || src}${dateStr}${scopeNote}` : '';
       }
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
