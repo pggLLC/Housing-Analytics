@@ -1326,8 +1326,12 @@
     if (mixPreference() === 'manual') return { available: false, reason: 'manual_selection' };
     var limits = window.ChfaRentLimits, SP = window.SubjectProject;
     if (!limits || !SP || typeof SP.get !== 'function') return { available: false, reason: 'schedule_unavailable:subject_project_unavailable' };
-    return limits.dealMixFromSchedule(limits.rentSchedule(SP.get(), { chfaTable: _chfaRentTable }),
+    var subject = SP.get();
+    var mix = limits.dealMixFromSchedule(limits.rentSchedule(subject, { chfaTable: _chfaRentTable }),
       { countyFips: _countyFips, regime: rentLimitRegime() });
+    // Before any Market Analysis run the subject project has no rent rows.
+    if (!mix.available && !((subject && subject.unit_mix) || []).length) mix.notStarted = true;
+    return mix;
   }
 
   function getRentScheduleMetadata() {
@@ -1434,6 +1438,21 @@
     recalculate();
   }
 
+  // Plain words for why the Market Analysis schedule is not in use; the code
+  // itself stays on data-unavailable-reason.
+  function dealMixReasonText(reason) {
+    var limits = window.ChfaRentLimits;
+    var inner = /^schedule_unavailable:(.+)$/.exec(reason || '');
+    var text = inner ? (limits ? limits.unavailableMessage(inner[1]) : 'The schedule is unavailable') : ({
+      schedule_other_county: 'It was built for a different county',
+      schedule_requires_chfa_setting: 'It needs the CHFA LIHTC rent-limit setting',
+      shared_schedule_loading: 'The shared schedule is still loading',
+      shared_schedule_invalid: 'The shared schedule could not be read',
+      ownership_mode: 'For-sale deals do not use it'
+    })[reason] || 'It is not available';
+    return text.charAt(0).toLowerCase() + text.slice(1);
+  }
+
   function renderDealMixContext(mix) {
     var active = mix.available;
     var status = document.getElementById('dc-unit-mix-status');
@@ -1443,7 +1462,8 @@
     status.textContent = active ? 'Unit mix source: From Market Analysis rent schedule — edit it there' +
       (_sharedRentSchedule ? ' (from shared scenario)' : '')
       : mixPreference() === 'manual' || mix.reason === 'manual_selection' ? "Unit mix source: Using this page's unit mix — manual editing selected"
-      : "Using this page's unit mix — Market Analysis schedule unavailable: " + mix.reason;
+      : mix.notStarted ? "Unit mix source: Using this page's unit mix. No Market Analysis rent schedule yet; build one there to use it here."
+      : "Unit mix source: Using this page's unit mix. Market Analysis rent schedule not in use: " + dealMixReasonText(mix.reason) + '.';
     var notice = document.getElementById('dc-schedule-local-notice');
     notice.hidden = !_scheduleSourceChanged;
     notice.textContent = _scheduleSourceChanged ? 'County or rent setting changed — unit mix now uses your local Market Analysis schedule when available.' : '';
