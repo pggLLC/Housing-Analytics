@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-17T23:37:24.700Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T00:18:51.749Z. Do not edit by hand.
 
 ---
 
@@ -70,7 +70,7 @@
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
-| `privacy-policy.html` | Privacy Policy | COHO Analytics | 6.6 KB |
+| `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.0 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 22.8 KB |
@@ -86,11 +86,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1703 JSON files found.
+1704 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 836.0 KB | ✅ | — |
+| `data/_manifest.json` | 836.3 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -157,6 +157,7 @@
 | `data/glossary.json` | 36.0 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
+| `data/hna/acs-reliability.json` | 630.9 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/chas_affordable_available.json` | 612.9 KB | ✅ | — |
@@ -1599,7 +1600,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 216.0 KB | ✅ | — |
+| `data/manifest.json` | 216.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
