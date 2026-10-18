@@ -112,16 +112,19 @@
       tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state }
     ].concat(
       // Historic credit equity is tax credit equity too: it pays for the whole
-      // project. Each source keeps its own status; an unknown amount stays listed.
+      // project. Each source keeps its own status and state-request choice; an
+      // unknown amount stays listed.
       (fin.historic || []).map(function (h) {
-        return { id: 'historic_' + h.id, name: 'Historic tax credit proceeds', amount: h.amount, status: statusOf(byId[h.id] || {}) };
+        var t = byId[h.id] || {};
+        return { id: 'historic_' + h.id, name: 'Historic tax credit proceeds', amount: h.amount, status: statusOf(t), state: stateRequest(t) };
       }),
       fin.deferredDevFee === 0 ? [] : [{ id: 'deferred_fee', name: 'Deferred developer fee', amount: fin.deferredDevFee }]
     ).filter(Boolean);
     whole.forEach(function (w) {
       if (!known(w.amount)) reasons.push(w.name + ' is unavailable; the permanent financing section says why.');
       general.amount = sum([general.amount, w.amount]);
-      general.other = sum([general.other, w.amount]);
+      if (w.state) general.state = sum([general.state, w.amount]);
+      else general.other = sum([general.other, w.amount]);
     });
     general.sources = whole.concat(general.sources);
 

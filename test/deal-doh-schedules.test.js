@@ -283,6 +283,11 @@ test('historic tax credit equity pays for the whole project, not one category', 
   const two = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant', status: 'committed' },
     { program: 'historic_tc', amount: 200000, mode: 'grant' }])).su.general.sources.filter(x => /^historic_/.test(x.id));
   assert.deepEqual(two.map(x => [x.amount, x.status]), [[300000, 'committed'], [200000, 'pending']], 'each historic source keeps its own status');
+  const plain = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant' }])).su;
+  const asState = views(withTranches([{ program: 'historic_tc', amount: 300000, mode: 'grant', stateRequest: true }])).su;
+  close(asState.general.state - plain.general.state, 300000, 'a historic credit marked as a state request counts as state funds');
+  close(plain.general.other - asState.general.other, 300000, 'and leaves other funds');
+  close(asState.totals.state + asState.totals.other, plain.totals.state + plain.totals.other, 'total sources unchanged');
 });
 
 test('a deficit year pays no deferred fee and must be made up first, so the payback year still matches the engine', () => {
