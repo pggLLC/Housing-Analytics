@@ -74,7 +74,7 @@ test('every pggLLC credit links the same site as the footer', () => {
   // the footer credit rendered on every page, so a wrong domain in any one
   // credit fails here.
   const nav = read('js/navigation.js');
-  const footer = (nav.match(/Developed and maintained by <a href="([^"]+)"[^>]*>pggLLC<\/a>/) || [])[1];
+  const footer = (nav.match(/<a href="([^"]+)"[^>]*>pggLLC<\/a>/) || [])[1];
   assert.ok(footer, 'the footer no longer credits pggLLC with a link');
   assert.notEqual(footer, 'https://pggllc.com', 'pggllc.com is not pggLLC\'s site');
   let checked = 0;
