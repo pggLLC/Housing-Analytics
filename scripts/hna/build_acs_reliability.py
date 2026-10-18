@@ -56,6 +56,19 @@ PROFILE_VARS = {
 SUBJECT_VARS = {
     "S0801_C01_046E": "Mean travel time to work (minutes)",
 }
+# The home value a page shows where no Zillow index covers the place is the
+# cascade's raw ACS floor, acsProfile.median_home_value with source acs_raw.
+# It is a copy of DP04_0089E taken when data/hna/home-value-cascade.json was
+# last built, so after an ACS refresh it can be another vintage than the
+# stored DP04_0089E (Crisman CDP on 2026-10-17: 924,500 shown, 846,600
+# stored). It gets its own entry, matched like any stored figure. A Zillow or
+# county-adjusted value is not an ACS estimate and gets none.
+SHOWN = {
+    "median_home_value": {
+        "label": "Median home value shown, where it is the raw ACS figure",
+        "var": "DP04_0089E",
+    },
+}
 # Figures the page computes from two published ones. Sums use the Census
 # approximation MOE = sqrt(sum of squared component MOEs) (handbook ch. 8).
 DERIVED = {
@@ -253,6 +266,31 @@ def stored_year(block):
     return None
 
 
+def matched_entry(stored, var, cands, geoid, prefer, stamped):
+    """A stored figure's entry: the margin of the published estimate it equals,
+    or no margin and the reason."""
+    src = match_source(stored, var, cands, geoid, prefer, stamped)
+    if src is None:
+        tried = sorted({y for y, _ in cands}, reverse=True)
+        return {"e": stored, "m": None, "s": None, "cv": None, "t": None,
+                "why": ("stored value matches no published ACS 1-year or "
+                        f"5-year estimate for {', '.join(map(str, tried))}")}
+    y, series = src
+    raw_m = cands[src][geoid].get(moe_name(var))
+    try:
+        controlled = raw_m is not None and int(float(raw_m)) == CONTROLLED
+    except (TypeError, ValueError):
+        controlled = False
+    moe = 0.0 if controlled else to_number(raw_m)
+    cv, tier, why = tier_for(stored, moe)
+    entry = {"e": stored, "m": moe, "s": series, "y": y, "cv": cv, "t": tier}
+    if controlled:
+        entry["why"] = "controlled to an independent total; no sampling error"
+    elif why:
+        entry["why"] = why
+    return entry
+
+
 def build_record(geoid, summary, published, year):
     """One geography's figures. published[table] = {(year, series): {geoid: rec}}."""
     rec = {}
@@ -275,28 +313,20 @@ def build_record(geoid, summary, published, year):
                 rec[var] = {"e": None, "m": None, "s": None, "cv": None, "t": None,
                             "why": "no estimate stored for this geography"}
                 continue
-            src = match_source(stored, var, published[table], geoid,
-                               prefer if table == "profile" else None, stamps[table])
-            if src is None:
-                tried = sorted({y for y, _ in published[table]}, reverse=True)
-                rec[var] = {"e": stored, "m": None, "s": None, "cv": None, "t": None,
-                            "why": ("stored value matches no published ACS 1-year or "
-                                    f"5-year estimate for {', '.join(map(str, tried))}")}
-                continue
-            y, series = src
-            raw_m = published[table][src][geoid].get(moe_name(var))
-            try:
-                controlled = raw_m is not None and int(float(raw_m)) == CONTROLLED
-            except (TypeError, ValueError):
-                controlled = False
-            moe = 0.0 if controlled else to_number(raw_m)
-            cv, tier, why = tier_for(stored, moe)
-            entry = {"e": stored, "m": moe, "s": series, "y": y, "cv": cv, "t": tier}
-            if controlled:
-                entry["why"] = "controlled to an independent total; no sampling error"
-            elif why:
-                entry["why"] = why
-            rec[var] = entry
+            rec[var] = matched_entry(stored, var, published[table], geoid,
+                                     prefer if table == "profile" else None, stamps[table])
+
+    for name, spec in SHOWN.items():
+        shown = blocks["profile"].get(name)
+        if not isinstance(shown, dict) or shown.get("source") != "acs_raw":
+            continue
+        stored = to_number(shown.get("value"))
+        if stored is None:
+            rec[name] = {"e": None, "m": None, "s": None, "cv": None, "t": None,
+                         "why": "no estimate stored for this geography"}
+            continue
+        rec[name] = matched_entry(stored, spec["var"], published["profile"], geoid,
+                                  prefer, stamps["profile"])
 
     for name, spec in DERIVED.items():
         parts = [rec.get(v) or {} for v in spec["sum_of"]]
@@ -390,6 +420,7 @@ def build(all_summaries, year, key, getter=census_get):
             counts.setdefault(var, {}).setdefault(t, 0)
             counts[var][t] += 1
     labels = {**PROFILE_VARS, **SUBJECT_VARS,
+              **{k: v["label"] for k, v in SHOWN.items()},
               **{k: v["label"] for k, v in DERIVED.items()}}
     return {
         "meta": {
@@ -414,6 +445,8 @@ def build(all_summaries, year, key, getter=census_get):
             "not_published": sorted(not_published),
             "derived": {k: f"sum of {' + '.join(v['sum_of'])}; MOE = root sum of squares"
                         for k, v in DERIVED.items()},
+            "shown": {k: f"acsProfile.{k}.value where its source is acs_raw, matched "
+                         f"against published {v['var']}" for k, v in SHOWN.items()},
             "variables": labels,
             "tier_counts": counts,
             "fields": {"e": "estimate as stored in data/hna/summary", "m": "90% MOE",

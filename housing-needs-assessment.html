@@ -222,6 +222,7 @@
   <script defer src="js/hna/county-comparison-view.js"></script>
   <!-- HB26-1065 zone designation note; must load before hna-renderers.js. -->
   <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/acs-reliability.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/config/table-export-registry.js"></script>
@@ -2390,6 +2391,12 @@
         <p style="color:var(--muted)">
           This section updates as you change geographies and as cached datasets become available.
           All sources link to the primary publisher.
+        </p>
+        <p id="hnaMarginNote" style="color:var(--muted)">
+          A &plusmn; beside a Census figure is the Census Bureau&rsquo;s 90% margin of error.
+          <em>Fair</em> means the margin is roughly a quarter to a half of the figure;
+          <em>use with caution</em> means it is about half the figure or more, so read it as a range.
+          <a href="methods.html#m-sampling-error">How reliability is judged</a>.
         </p>
         <div id="methodology"></div>
 

@@ -84,9 +84,10 @@ jobs:
       - name: Commit the margins
         id: commit
         if: ${{ github.event.inputs.dry_run != 'true' }}
-        # The chain does not read this file, but the commit helper also
-        # regenerates both manifests in order, validates schemas and rebases
-        # without swallowing a conflict, which every data commit needs.
+        # The chain reads this file in its paper step (the methods page's
+        # section 10 margins), and the commit helper also regenerates both
+        # manifests in order, validates schemas and rebases without
+        # swallowing a conflict, which every data commit needs.
         env:
           DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
