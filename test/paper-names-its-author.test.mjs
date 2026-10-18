@@ -77,14 +77,13 @@ test('every pggLLC credit links the same site as the footer', () => {
   const footer = (nav.match(/<a href="([^"]+)"[^>]*>pggLLC<\/a>/) || [])[1];
   assert.ok(footer, 'the footer no longer credits pggLLC with a link');
   assert.notEqual(footer, 'https://pggllc.com', 'pggllc.com is not pggLLC\'s site');
-  let checked = 0;
   for (const p of [...PAGES, 'about.html', 'apa-white-paper.html']) {
-    for (const m of read(p).matchAll(/<a href="([^"]+)"[^>]*>pggLLC<\/a>/g)) {
+    const links = [...read(p).matchAll(/<a href="([^"]+)"[^>]*>pggLLC<\/a>/g)];
+    assert.ok(links.length > 0, `${p} has no linked pggLLC credit; the scan is not reading it`);
+    for (const m of links) {
       assert.equal(m[1], footer, `${p} links pggLLC to ${m[1]}, the footer to ${footer}`);
-      checked++;
     }
   }
-  assert.ok(checked >= 5, `only ${checked} pggLLC links found; the scan is not reading the credits`);
 });
 
 test('the use of AI is disclosed where the author is named', () => {
