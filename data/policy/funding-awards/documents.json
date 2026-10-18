@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-10T21:31:02Z",
+  "generated_at": "2026-10-18T12:19:29Z",
   "discovery": [
    {
     "index_url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
@@ -285,8 +285,10 @@
    "program": "LIHTC 9% + state",
    "title": "Colorado Housing and Finance Authority | 2018 Round 2 - 9% Competitive LIHTC Award Report",
    "rows": 16,
-   "status": "units_withheld",
-   "checks": [
+   "status": "accepted_by_review",
+   "rows_checked": 15,
+   "parser_status": "units_withheld",
+   "parser_checks": [
     {
      "field": "total_units",
      "pdf_total": 814,
@@ -300,10 +302,55 @@
      "ok": true
     }
    ],
-   "rows_checked": 15,
-   "units_withheld": [
-    "total_units"
-   ]
+   "checks": [
+    {
+     "field": "printed_totals.amount_requested",
+     "pdf_total": 17128412,
+     "transcribed": 17128412,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.units",
+     "pdf_total": [
+      755,
+      814
+     ],
+     "transcribed": [
+      755,
+      814
+     ],
+     "ok": true
+    },
+    {
+     "field": "amount_requested",
+     "pdf_total": 17128412,
+     "transcribed_total": 17128412,
+     "ok": true
+    },
+    {
+     "field": "restricted_units",
+     "pdf_total": 755,
+     "transcribed_total": 755,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 814,
+     "transcribed_total": 814,
+     "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
+    }
+   ],
+   "review": {
+    "reason": "The Total Units and Total LI Units columns sit close together, and the parser read most rows' total units into the LI column (Gateway South: 92 total, 58 LI). Each row transcribed from the PDF.",
+    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_at": "2026-10-18",
+    "method": "rows transcribed from the PDF and checked against its printed totals"
+   }
   },
   {
    "file": "2018-Round-1-Award-Report.pdf",
@@ -356,8 +403,10 @@
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2019 Round 1 | 4% Federal Credit and State Credit | Award Report",
    "rows": 12,
-   "status": "mismatch",
-   "checks": [
+   "status": "accepted_by_review",
+   "rows_checked": 12,
+   "parser_status": "mismatch",
+   "parser_checks": [
     {
      "field": "restricted_units",
      "pdf_total": 1343,
@@ -383,7 +432,68 @@
      "ok": true
     }
    ],
-   "rows_checked": 12
+   "checks": [
+    {
+     "field": "printed_totals.federal_credit",
+     "pdf_total": 12496478,
+     "transcribed": 12496478,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.state_credit",
+     "pdf_total": 10142562,
+     "transcribed": 10142562,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.units",
+     "pdf_total": [
+      1343,
+      1344
+     ],
+     "transcribed": [
+      1343,
+      1344
+     ],
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 12496478,
+     "transcribed_total": 14757285,
+     "ok": false,
+     "pdf_total_error": "The Traunch 1 federal credit total ($7,381,087) is $2,260,807 less than the federal credits printed above it, which is exactly the federal credit printed for Legends of Church Ranch; the Traunch 1 state credit and unit totals include that row. The PDF does not say why."
+    },
+    {
+     "field": "restricted_units",
+     "pdf_total": 1343,
+     "transcribed_total": 1343,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 10142562,
+     "transcribed_total": 10142562,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1344,
+     "transcribed_total": 1344,
+     "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
+    }
+   ],
+   "review": {
+    "reason": "Two scattered-site awards print their credits on a parent row and their units on sub-rows (\"see below\"), which the parser read as separate projects. Each award transcribed from the PDF, with its sites' units summed.",
+    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_at": "2026-10-18",
+    "method": "rows transcribed from the PDF and checked against its printed totals"
+   }
   },
   {
    "file": "2019-Round-2-Award-Report.pdf",
@@ -458,8 +568,10 @@
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2020 Round 2 | 4% Federal Credit and State Credit | Award Report",
    "rows": 11,
-   "status": "units_withheld",
-   "checks": [
+   "status": "accepted_by_review",
+   "rows_checked": 11,
+   "parser_status": "units_withheld",
+   "parser_checks": [
     {
      "field": "total_units",
      "pdf_total": 852,
@@ -479,10 +591,67 @@
      "ok": true
     }
    ],
-   "rows_checked": 11,
-   "units_withheld": [
-    "total_units"
-   ]
+   "checks": [
+    {
+     "field": "printed_totals.federal_credit",
+     "pdf_total": 12061542,
+     "transcribed": 12061542,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.state_credit",
+     "pdf_total": 6563795,
+     "transcribed": 6563795,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.units",
+     "pdf_total": [
+      852,
+      853
+     ],
+     "transcribed": [
+      852,
+      853
+     ],
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 12061542,
+     "transcribed_total": 12061542,
+     "ok": true
+    },
+    {
+     "field": "restricted_units",
+     "pdf_total": 852,
+     "transcribed_total": 852,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 6563795,
+     "transcribed_total": 6563795,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 853,
+     "transcribed_total": 853,
+     "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
+    }
+   ],
+   "review": {
+    "reason": "Rose on Colfax's two unit counts are printed run together (\"8282\"), and Village at Solid Rock's two were read as one number. Each row transcribed from the PDF; 82 and 82 are the only values that make both unit columns add up to the printed totals.",
+    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_at": "2026-10-18",
+    "method": "rows transcribed from the PDF and checked against its printed totals"
+   }
   },
   {
    "file": "2021-Round-1-Award-Report.pdf",
@@ -528,9 +697,11 @@
    "round": 2,
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2021 Round 2 | 4% Federal Credit and State Credit | Award Report",
-   "rows": 18,
-   "status": "mismatch",
-   "checks": [
+   "rows": 17,
+   "status": "accepted_by_review",
+   "rows_checked": 17,
+   "parser_status": "mismatch",
+   "parser_checks": [
     {
      "field": "restricted_units",
      "pdf_total": 1373,
@@ -556,7 +727,80 @@
      "ok": false
     }
    ],
-   "rows_checked": 18
+   "checks": [
+    {
+     "field": "printed_totals.bond_amount",
+     "pdf_total": 155370000,
+     "transcribed": 155370000,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.federal_credit",
+     "pdf_total": 19214459,
+     "transcribed": 19214459,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.state_credit",
+     "pdf_total": 12205982,
+     "transcribed": 12205982,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.units",
+     "pdf_total": [
+      1368,
+      1373
+     ],
+     "transcribed": [
+      1368,
+      1373
+     ],
+     "ok": true
+    },
+    {
+     "field": "bond_amount",
+     "pdf_total": 155370000,
+     "transcribed_total": 237670000,
+     "ok": false,
+     "pdf_total_error": "The PDF prints a bond total of $155,370,000, but the 17 bond amounts it prints add up to $237,670,000. The printed total leaves out exactly four of them (2700 Wewatta Affordable, Flo, Paloma Garden and Peoria Crossing Phase II, $82,300,000 together); the PDF does not say why."
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 19214459,
+     "transcribed_total": 19214459,
+     "ok": true
+    },
+    {
+     "field": "restricted_units",
+     "pdf_total": 1368,
+     "transcribed_total": 1368,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 12205982,
+     "transcribed_total": 12205981,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1373,
+     "transcribed_total": 1373,
+     "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
+    }
+   ],
+   "review": {
+    "reason": "The four Park Ridge Apartments properties are followed by a \"Park Ridge Apartments - Totals\" subtotal row, which the parser counted as a fifth award. Each award transcribed from the PDF, without the subtotal.",
+    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_at": "2026-10-18",
+    "method": "rows transcribed from the PDF and checked against its printed totals"
+   }
   },
   {
    "file": "2022-Round-1-Award-Report.pdf",
@@ -603,8 +847,10 @@
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2022 Round 2 | 4% Federal Credit and State Credit | Award Report",
    "rows": 13,
-   "status": "units_withheld",
-   "checks": [
+   "status": "accepted_by_review",
+   "rows_checked": 13,
+   "parser_status": "units_withheld",
+   "parser_checks": [
     {
      "field": "restricted_units",
      "pdf_total": 1463,
@@ -624,10 +870,67 @@
      "ok": true
     }
    ],
-   "rows_checked": 13,
-   "units_withheld": [
-    "restricted_units"
-   ]
+   "checks": [
+    {
+     "field": "printed_totals.federal_credit",
+     "pdf_total": 26615354,
+     "transcribed": 26615354,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.state_credit",
+     "pdf_total": 11891413,
+     "transcribed": 11891413,
+     "ok": true
+    },
+    {
+     "field": "printed_totals.units",
+     "pdf_total": [
+      1462,
+      1463
+     ],
+     "transcribed": [
+      1462,
+      1463
+     ],
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 26615354,
+     "transcribed_total": 26615355,
+     "ok": true
+    },
+    {
+     "field": "restricted_units",
+     "pdf_total": 1462,
+     "transcribed_total": 1462,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 11891413,
+     "transcribed_total": 11891414,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1463,
+     "transcribed_total": 1463,
+     "ok": true
+    },
+    {
+     "field": "units_order",
+     "ok": true,
+     "detail": "no row has more restricted than total units"
+    }
+   ],
+   "review": {
+    "reason": "The parser read the Total Units column as the TC Units column, and Bentley Commons's two counts as one (384). Each row transcribed from the PDF.",
+    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_at": "2026-10-18",
+    "method": "rows transcribed from the PDF and checked against its printed totals"
+   }
   },
   {
    "file": "2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",

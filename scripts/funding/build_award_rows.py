@@ -102,7 +102,22 @@ def line_quote(r: dict, lines: list[str]) -> str | None:
     if a is None:
         return None
     hits = [l for l in lines if f'${a:,}' in l and not sensitive(l)]
-    return hits[0] if len(hits) == 1 else None
+    return without_contact(hits[0]) if len(hits) == 1 else None
+
+
+# A printed line still carries the contact columns: a first and last name,
+# then a phone and an email, in either order, at the end of the line.
+CONTACT_TOKEN = re.compile(r'\S+@\S+|\(?\d{3}\)?[\s.-]*\d{3}[\s.-]\d{4}')
+
+
+def without_contact(line: str) -> str:
+    """The line up to its contact columns: the two words before the first
+    phone or email are the contact's name, and go with them."""
+    m = CONTACT_TOKEN.search(line)
+    if not m:
+        return clean(line)
+    words = line[:m.start()].split()
+    return ' '.join(words[:-2]) if len(words) > 2 else ''
 
 
 # 2016 Round One prints its whole heading row in one cell, so the columns are
