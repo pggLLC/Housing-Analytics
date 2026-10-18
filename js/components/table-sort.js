@@ -199,10 +199,13 @@
     return c.textContent.replace(/[⇅↑↓▲▼↕]/g, '').replace(/\s+/g, ' ').trim();
   }
 
-  function addArrow(th, onSort) {
+  // skipTab: the header itself is the keyboard control (shared tables), so
+  // the arrow stays a pointer and touch target only, not a second tab stop.
+  function addArrow(th, onSort, skipTab) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'th-sort';
+    if (skipTab) btn.tabIndex = -1;
     btn.setAttribute('aria-label', 'Sort by ' + label(th));
     btn.innerHTML = '<span aria-hidden="true"></span>';
     btn.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); onSort(); });
@@ -267,7 +270,7 @@
       th.dataset.sortWired = '1';
       th.setAttribute('aria-sort', 'none');
       if (!th.hasAttribute('tabindex')) th.setAttribute('tabindex', '0');
-      addArrow(th, function () { sortBy(t, th, col); });
+      addArrow(th, function () { sortBy(t, th, col); }, true);
       th.addEventListener('click', function (e) {
         sortBy(t, th, col);
       });

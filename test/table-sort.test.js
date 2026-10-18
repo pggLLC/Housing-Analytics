@@ -94,6 +94,10 @@ const touchTap = (el) => {
     assert.equal(th.getAttribute('aria-sort'), 'none');
   });
   assert.match(ths[1].querySelector('.th-sort').getAttribute('aria-label'), /^Sort by Units$/);
+  ths.forEach((th) => {
+    assert.equal(th.getAttribute('tabindex'), '0', 'the header is the keyboard stop');
+    assert.equal(th.querySelector('.th-sort').tabIndex, -1, 'the arrow is not a second tab stop');
+  });
   assert.equal(document.querySelectorAll('.th-tip__btn').length, 0, 'no circled-i glyph anywhere');
   assert.ok(ths[1].querySelector('.th-tip__label'), 'the label carries the definition');
   assert.ok(ths[1].classList.contains('th-tip') && ths[1].getAttribute('aria-describedby'), 'definition linked for screen readers');
