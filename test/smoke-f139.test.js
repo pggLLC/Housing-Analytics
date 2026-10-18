@@ -194,6 +194,45 @@ check('HNA renderers reference #lr-capital-partners-mount (F138)',      /lr-capi
 check('HNA renderers reference #lr-tax-abatement-mount (F141)',         /lr-tax-abatement-mount/.test(hnaRendererJs));
 
 // ─────────────────────────────────────────────────────────────────────
+// 5. IC summary with no jurisdiction asks for one
+// ─────────────────────────────────────────────────────────────────────
+// Opened without ?geoid=, every field used to sit at "—" or "Loading…" with
+// the explanation below the fold. The ask must be what the reader sees, and it
+// must route to the page that actually lists jurisdictions.
+console.log('\n── 5. IC summary empty state ──');
+{
+  const { JSDOM } = require('jsdom');
+  function icDom(search) {
+    const dom = new JSDOM(icHtml, { url: 'http://127.0.0.1/ic-summary.html' + search, runScripts: 'outside-only' });
+    const requested = [];
+    dom.window.fetch = (u) => { requested.push(String(u)); return new Promise(() => {}); };
+    dom.window.eval(icJs);
+    return { doc: dom.window.document, requested, close: () => dom.window.close() };
+  }
+  const empty = icDom('');
+  const page = empty.doc.getElementById('icPage');
+  const err = empty.doc.getElementById('icErr');
+  check('IC summary has its page and message containers', !!page && !!err);
+  if (page && err) {
+  const placeholders = [...page.querySelectorAll('.ic-v, td.ic-muted')]
+    .filter((el) => /^(—|Loading…)$/.test(el.textContent.trim()));
+  check('IC summary skeleton has placeholder fields to hide (scan is not vacuous)', placeholders.length > 0);
+  check('IC summary hides the placeholder skeleton when no jurisdiction is given', page.hidden === true);
+  check('IC summary shows its empty-state message', err.style.display === 'block' && err.dataset.state === 'no-jurisdiction');
+  const pick = err.querySelector('a[href="select-jurisdiction.html"]');
+  check('IC summary empty state links to a page that exists and lists jurisdictions',
+    !!pick && exists('select-jurisdiction.html') && /jurisdiction/i.test(pick.textContent));
+  check('IC summary empty state requests no data', empty.requested.length === 0);
+  empty.close();
+  const chosen = icDom('?geoid=08045');
+  check('IC summary with a jurisdiction keeps the page and starts loading',
+    chosen.doc.getElementById('icPage').hidden === false && chosen.requested.length > 0 &&
+    chosen.doc.getElementById('icErr').style.display === 'none');
+  chosen.close();
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // Summary
 // ─────────────────────────────────────────────────────────────────────
 console.log('\n══════════════════════════════════════════════════════════════');

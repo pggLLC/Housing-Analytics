@@ -6282,8 +6282,7 @@
         html += '</div>';
       } else {
         html += '<div style="font-size:1rem;color:var(--muted);line-height:1.55;">' +
-          'No active URA on file for ' + jurisName + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly. ' +
-          '<a href="https://cdola.colorado.gov/funding-programs/urban-renewal" target="_blank" rel="noopener" style="color:var(--accent);">DOLA URA program ↗</a>' +
+          'No active URA on file for ' + jurisName + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly.' +
         '</div>';
       }
       html += '</div>';
@@ -6335,8 +6334,8 @@
       html += '<div style="margin:10px 0;font-size:1rem;color:var(--muted);">' +
         '<strong>Environmental + acquisition tools:</strong> ' +
         '<a href="https://www.epa.gov/brownfields" target="_blank" rel="noopener" style="color:var(--accent);">EPA Brownfields ↗</a> · ' +
-        '<a href="https://cdphe.colorado.gov/voluntary-cleanup-program" target="_blank" rel="noopener" style="color:var(--accent);">CO Voluntary Cleanup ↗</a> · ' +
-        '<a href="https://cdola.colorado.gov/brownfields-revolving-loan-fund" target="_blank" rel="noopener" style="color:var(--accent);">DOLA Brownfields RLF ↗</a> · ' +
+        '<a href="https://cdphe.colorado.gov/hm/voluntary-cleanup" target="_blank" rel="noopener" style="color:var(--accent);">CO Voluntary Cleanup ↗</a> · ' +
+        '<a href="https://cdphe.colorado.gov/hm/brownfields" target="_blank" rel="noopener" style="color:var(--accent);">CO Brownfields RLF ↗</a> · ' +
         '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--accent);">Federal Historic Tax Credit ↗</a>' +
       '</div>';
       html += '<p style="font-size:1rem;color:var(--muted);font-style:italic;margin:6px 0 0;">' +
@@ -8764,7 +8763,7 @@
             '<li><strong>A · Cost burden (blended).</strong> <code>(renter_cb30 × renter_HH + owner_cb30 × owner_HH) ÷ total_HH</code>. Single % reflecting ALL households\' cost burden, weighted by tenure mix. <em>Why blend?</em> Pure renter burden misses owner-heavy markets; this version doesn\'t. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS 2018-2022</a> Table 7.</li>' +
             '<li><strong>B · Deep-need share.</strong> <code>renters_at_≤30%_AMI ÷ renters_at_≤100%_AMI</code>. Drops the 100+ tier (high-income cohort) from the denominator so the signal isn\'t diluted by wealthy renters. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS</a> Table 9.</li>' +
             '<li><strong>C · Affordability pressure.</strong> <code>median_home_price ÷ median_household_income</code>. Resort and high-cost markets (Pitkin 11.1x, Summit 8.6x) score high — appropriately — because they ARE expensive relative to local incomes. This is the lever percentile-normalisation pulls so resort distress surfaces without dwarfing urban distress. Source: <a href="https://data.census.gov/" target="_blank" rel="noopener" class="hna-source-link">ACS B19013 + B25077</a>.</li>' +
-            '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/affhsg/wc_HsgNeeds25.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
+            '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/Worst-Case-Housing-Needs-2025-Report-to-Congress.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
           '</ul>' +
           '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card is banded on the same scale, using its own percentile.</p>' +
           '<p style="margin:.25rem 0;color:var(--muted);font-size:1rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +

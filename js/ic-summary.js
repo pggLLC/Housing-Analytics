@@ -58,13 +58,19 @@
     (geoid.length === 7 ? 'place' : (geoid.length === 5 ? 'county' : null));
 
   if (!geoid || !geoType) {
+    // No place chosen: show what to do instead of a page of blank fields
+    // that read as "Loading…" forever.
+    var page = $('icPage');
+    if (page) page.hidden = true;
     var err = $('icErr');
     if (err) {
       err.style.display = 'block';
+      err.dataset.state = 'no-jurisdiction';
       err.innerHTML =
-        '<strong>Missing jurisdiction.</strong> Add <code>?geoid=&lt;7-digit place&gt;</code> or ' +
-        '<code>?geoid=&lt;5-digit county&gt;</code> to the URL.<br>' +
-        'Examples: <a href="?geoid=0853395">New Castle</a> · ' +
+        '<strong>Choose a place to see its underwriting snapshot.</strong> ' +
+        'This page summarizes one Colorado county, city, town or CDP at a time.<br>' +
+        '<a href="select-jurisdiction.html">Pick a jurisdiction</a>, or open an example: ' +
+        '<a href="?geoid=0853395">New Castle</a> · ' +
         '<a href="?geoid=0807850">Boulder</a> · ' +
         '<a href="?geoid=08045">Garfield County</a>.';
     }
