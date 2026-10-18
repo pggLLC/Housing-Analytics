@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "18a8d540c",
+  "generated_from_commit": "86b6277e7",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-17",
-    "total_commits": 8465,
+    "total_commits": 8467,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 868,
-        "pct_of_peak": 60.7
+        "commits": 870,
+        "pct_of_peak": 60.9
       }
     ]
   },
@@ -68,7 +68,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 68,
-    "test_files": 573,
+    "test_files": 574,
     "absence_test_cases": 280,
     "absence_tests": 109,
     "lihtc_features": 926
@@ -246,11 +246,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 456256,
+    "hand_written_lines": 457045,
     "generated_place_page_lines": 226828,
     "top_level_pages": 71,
-    "html_nonblank_lines": 49291,
-    "html_distinct_lines": 20220,
+    "html_nonblank_lines": 49335,
+    "html_distinct_lines": 20222,
     "html_distinct_share": 0.41,
     "substantial_tools": 27,
     "declared_data_sources": 83,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "18a8d540c",
+    "extracted_at_commit": "86b6277e7",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -560,10 +560,10 @@
     "gap30_priced_vintage": "2020–2024",
     "gap30_aa_vintage": "2018–2022",
     "chas_place_table_places": 482,
-    "renter_burden_moe_vintage": "2018–2022",
-    "renter_burden_moe_places": 400,
-    "renter_burden_moe_median_pp": 28.1,
-    "renter_burden_moe_over_20pp": 261,
+    "renter_burden_moe_vintage": "2020–2024",
+    "renter_burden_moe_places": 378,
+    "renter_burden_moe_median_pp": 34.1,
+    "renter_burden_moe_over_20pp": 280,
     "restricted_properties": 1854,
     "restricted_with_end_date": 110,
     "restricted_already_expired": 77,
