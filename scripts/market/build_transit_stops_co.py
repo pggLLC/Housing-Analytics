@@ -192,55 +192,9 @@ def demand_only_feed(fixed_stop_ids, windowed_rows: int) -> bool:
     """True when a feed has on-demand trips and not one scheduled stop call."""
     return windowed_rows > 0 and not fixed_stop_ids
 
-# One name per agency, whichever source spelled it. Keys are lower-cased,
-# parenthetical suffixes removed, whitespace collapsed.
-AGENCY_ALIASES = {
-    "rtd": "RTD",
-    "regional transportation district": "RTD",
-    "rtd denver": "RTD",
-    "gvt": "Grand Valley Transit",
-    "grand valley transit": "Grand Valley Transit",
-    "get": "Greeley-Evans Transit",
-    "greeley-evans transit": "Greeley-Evans Transit",
-    "mountain metro transit": "Mountain Metropolitan Transit",
-    "mountain metropolitan transit": "Mountain Metropolitan Transit",
-    "rfta": "Roaring Fork Transportation Authority",
-    "roaring fork transportation authority": "Roaring Fork Transportation Authority",
-    "smart": "San Miguel Authority for Regional Transportation",
-    "san miguel authority for regional transportation": "San Miguel Authority for Regional Transportation",
-    "road runner": "Road Runner Transit",
-    "road runner transit": "Road Runner Transit",
-    "roadrunnertransit": "Road Runner Transit",
-    "clear creek transit": "Clear Creek County Transit",
-    "clear creek county transit": "Clear Creek County Transit",
-    "via transit": "Via Mobility Services",
-    "via mobility": "Via Mobility Services",
-    "via mobility services": "Via Mobility Services",
-    "transfort": "Transfort",
-    "transfort – city of fort collins": "Transfort",
-    "all points": "All Points Transit",
-    "all points transit": "All Points Transit",
-    "cripple creek transit": "Cripple Creek Transportation",
-    "cripple creek transportation": "Cripple Creek Transportation",
-    "estes transit": "Estes Transit",
-    "town of estes park": "Estes Transit",
-    "rmnp shuttle": "Rocky Mountain National Park Shuttles",
-    "rocky mountain national park shuttles": "Rocky Mountain National Park Shuttles",
-    "snowmass village shuttle": "Snowmass Village Transportation",
-    "snowmass village transportation": "Snowmass Village Transportation",
-    "bent county transportation": "Bent County Transit",
-    "bent county transit": "Bent County Transit",
-    "prairie express": "Prairie Express Transit",
-    "prairie express transit": "Prairie Express Transit",
-    "mountain express": "Mountain Express",
-    "mountain express (mtnexp)": "Mountain Express",
-    "met": "Mountain Express",
-    # CME now publishes as Epic Mountain Express, not the public Mountain
-    # Express service in Crested Butte. Keep the private classification on
-    # both names: https://www.epicmountainexpress.com/history
-    "colorado mountain express": "Epic Mountain Express",
-    "epic mountain express": "Epic Mountain Express",
-}
+# One name per agency, whichever source spelled it. The table lives with the
+# route builder, which needs the same names to tell one operator's feeds apart.
+AGENCY_ALIASES = gtfs.OPERATOR_NAMES
 
 # Private shuttle operators: real stops, but not public transit service.
 PRIVATE_OPERATORS = {
@@ -257,18 +211,7 @@ def log(msg: str) -> None:
 
 def normalize_agency(name: str | None) -> str:
     raw = (name or "").strip()
-    if not raw:
-        return UNLISTED_AGENCY
-    key = " ".join(raw.lower().split())
-    if key in AGENCY_ALIASES:
-        return AGENCY_ALIASES[key]
-    base = key.split("(")[0].strip()
-    if base in AGENCY_ALIASES:
-        return AGENCY_ALIASES[base]
-    for prefix in ("groome transportation",):
-        if key.startswith(prefix):
-            return "Groome Transportation"
-    return raw
+    return gtfs.operator_name(raw) if raw else UNLISTED_AGENCY
 
 
 def metres(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
@@ -397,44 +340,56 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
     failed: list[dict] = []
     for i, feed in enumerate(feeds, 1):
         try:
-            z = zipfile.ZipFile(io.BytesIO(gtfs.fetch_url(feed["url"], retries=2, timeout=90)))
+            # Stops are read inside fetch_feed, so a hosted copy with no
+            # usable stops falls back to the agency's own URL. Usable means a
+            # stop in Colorado: merge() drops every other row.
+            agency, rows = gtfs.fetch_feed(
+                feed, lambda data: read_feed_stops(data, feed),
+                ok=lambda r: any(in_colorado_bbox(s["lon"], s["lat"]) for s in r[1]),
+                retries=2, timeout=90)
         except Exception as exc:  # one bad feed must not sink the rest
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue
-        names = z.namelist()
-        stop_file = gtfs_member(names, "stops.txt")
-        if not stop_file:
-            failed.append({"agency": feed["agency"], "reason": "no stops.txt"})
-            continue
-        agency = feed["agency"]
-        agency_file = gtfs_member(names, "agency.txt")
-        if agency_file:
-            try:
-                first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
-                agency = (first.get("agency_name") or agency).strip() or agency
-            except (StopIteration, UnicodeDecodeError, csv.Error):
-                pass
-        try:
-            services = feed_stop_services(z)
-        except (UnicodeDecodeError, csv.Error, KeyError) as exc:
-            # No usable stop_times: every stop in this feed is "unknown", never fixed_route.
-            log(f"  {agency}: stop_times unreadable ({exc}); service unknown")
-            services = {}
-        n = 0
-        for r in csv.DictReader(io.TextIOWrapper(z.open(stop_file), encoding="utf-8-sig")):
-            if (r.get("location_type") or "").strip() in NON_STOP_LOCATION_TYPES:
-                continue
-            try:
-                lat = float(r.get("stop_lat") or "")
-                lon = float(r.get("stop_lon") or "")
-            except ValueError:
-                continue
-            stops.append({"lon": lon, "lat": lat, "name": (r.get("stop_name") or "").strip(),
-                          "agency": agency, "stop_id": r.get("stop_id"),
-                          "service": services.get((r.get("stop_id") or "").strip(), SERVICE_UNKNOWN)})
-            n += 1
-        log(f"  [{i}/{len(feeds)}] {agency}: {n} stops")
+        stops.extend(rows)
+        log(f"  [{i}/{len(feeds)}] {agency}: {len(rows)} stops")
     return stops, failed
+
+
+def read_feed_stops(data: bytes, feed: dict) -> tuple[str, list[dict]]:
+    """(agency name, stop rows) from one GTFS archive. Raises when the
+    archive has no stops.txt."""
+    z = zipfile.ZipFile(io.BytesIO(data))
+    names = z.namelist()
+    stop_file = gtfs_member(names, "stops.txt")
+    if not stop_file:
+        raise ValueError("no stops.txt")
+    agency = feed["agency"]
+    agency_file = gtfs_member(names, "agency.txt")
+    if agency_file:
+        try:
+            first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
+            agency = (first.get("agency_name") or agency).strip() or agency
+        except (StopIteration, UnicodeDecodeError, csv.Error):
+            pass
+    try:
+        services = feed_stop_services(z)
+    except (UnicodeDecodeError, csv.Error, KeyError) as exc:
+        # No usable stop_times: every stop in this feed is "unknown", never fixed_route.
+        log(f"  {agency}: stop_times unreadable ({exc}); service unknown")
+        services = {}
+    rows = []
+    for r in csv.DictReader(io.TextIOWrapper(z.open(stop_file), encoding="utf-8-sig")):
+        if (r.get("location_type") or "").strip() in NON_STOP_LOCATION_TYPES:
+            continue
+        try:
+            lat = float(r.get("stop_lat") or "")
+            lon = float(r.get("stop_lon") or "")
+        except ValueError:
+            continue
+        rows.append({"lon": lon, "lat": lat, "name": (r.get("stop_name") or "").strip(),
+                     "agency": agency, "stop_id": r.get("stop_id"),
+                     "service": services.get((r.get("stop_id") or "").strip(), SERVICE_UNKNOWN)})
+    return agency, rows
 
 
 def load_osm_stops() -> list[dict]:
