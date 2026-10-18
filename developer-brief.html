@@ -337,7 +337,8 @@
       current = model.error ? null : model;
       const pipe = PIPE[geoid] || {};
       // Your own notes on the place come first, then the report, then the working tools.
-      let page = privateSection(name, geoid, related) +
+      const researched = [contacts].concat(relatedContacts || []).reduce((all, f) => all.concat((f && Array.isArray(f.contacts)) ? f.contacts : []), []);
+      let page = privateSection(name, geoid, related, researched) +
         '<iframe id="reportFrame" title="Jurisdiction report for ' + esc(name) + '"></iframe>' +
         '<section class="ib-tools" aria-labelledby="toolsHead"><h2 class="ib-tools-head" id="toolsHead">Working tools</h2>' +
         '<p>For your own work on ' + esc(name) + '. Kept in this browser or the gated site, never in the report or the PDF.</p>' +
@@ -394,12 +395,26 @@
   // anti-target status. Read at run time on the gated site; outside the report frame,
   // so it never reaches the report, the PDF or the downloaded file, and hidden in print.
   const TIER = { '1': 'Strong / recurring', '2': 'Warm / introduced', '3': 'Cold / research only', never: 'Never contacted' };
-  function networkTable(rows) {
+  // A network row with no email or phone borrows them from the researched public
+  // contacts for the same person (same name), marked as from the public record.
+  const nameKey = (s) => String(s || '').toLowerCase().replace(/[^a-z]+/g, ' ').trim();
+  function publicFill(rows, researched) {
+    const byName = {};
+    (researched || []).forEach(c => { if (c && c.name) byName[nameKey(c.name)] = c; });
+    return rows.map(c => {
+      const pub = byName[nameKey(c.name)];
+      if (!pub || (c.email && c.phone)) return c;
+      return Object.assign({}, c, { email: c.email || pub.email || '', phone: c.phone || pub.phone || '', _pub: pub, _pubEmail: !c.email && !!pub.email, _pubPhone: !c.phone && !!pub.phone });
+    });
+  }
+  function networkTable(rows, researched) {
+    rows = publicFill(rows, researched);
     const td = (label, v) => '<td data-label="' + label + '">' + v + '</td>';
+    const fromPublic = (c, on) => on ? ' <span class="ib-muted">(public record' + (/^https:\/\//.test(c._pub.source_url || '') ? ': <a href="' + esc(c._pub.source_url) + '" target="_blank" rel="noopener">' + esc(c._pub.source_label || 'source') + '</a>' : '') + ')</span>' : '';
     return '<div class="ib-scroll"><table class="ib-rent-table ib-net-table ib-stack"><thead><tr><th>Name</th><th title="Role and organisation">Role</th><th title="Email on file">Email</th><th title="Phone on file">Phone</th><th title="Date of the last conversation">Last talked</th><th title="1 strong, 2 warm, 3 cold, from your network file">Relationship</th><th>Notes</th></tr></thead><tbody>' +
       rows.map(c => '<tr>' + td('Name', '<strong>' + esc(c.name) + '</strong>') + td('Role', esc(c.role) + (c.org ? '<br><span class="ib-muted">' + esc(c.org) + '</span>' : '')) +
-        td('Email', c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '<span class="ib-muted">none on file</span>') +
-        td('Phone', c.phone ? '<a href="tel:' + esc(c.phone.replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>' : '<span class="ib-muted">none on file</span>') +
+        td('Email', c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' + fromPublic(c, c._pubEmail) : '<span class="ib-muted">none on file</span>') +
+        td('Phone', c.phone ? '<a href="tel:' + esc(c.phone.replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>' + fromPublic(c, c._pubPhone) : '<span class="ib-muted">none on file</span>') +
         td('Last talked', esc(c.last_talked || 'never')) + td('Relationship', esc(TIER[c.relationship_tier] || c.relationship_tier || 'not set')) + td('Notes', esc(c.notes)) + '</tr>').join('') +
       '</tbody></table></div>';
   }
@@ -415,7 +430,7 @@
       (p.next_action ? '<br><strong>Next:</strong> ' + esc(p.next_action) + (p.next_action_due ? ' (due ' + esc(p.next_action_due) + ')' : '') : '') +
       (p.notes ? '<br><span class="ib-muted">' + esc(p.notes) + '</span>' : '') + '</p>';
   }
-  function privateSection(name, geoid, related) {
+  function privateSection(name, geoid, related, researched) {
     let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">Your notes on ' + esc(name) + '</h2>';
     if (!WS || !WS.reachable) {
       return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '</section>';
@@ -424,11 +439,12 @@
     h += '<p>From your private files on the gated site. Not in the report, the PDF or the downloaded file. <a href="developer-pipeline.html#network">All contacts and the pipeline →</a></p>';
     if (mine.own.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(mine.own.anti.date_dropped) + ': ' + esc(mine.own.anti.reason) + (mine.own.anti.revisit_date ? ' Revisit ' + esc(mine.own.anti.revisit_date) + '.' : '') + '</p>';
     h += mine.own.pipeline ? pipelineLine(mine.own.pipeline) : '<p class="ib-muted">Not in your pipeline. Add it from Working tools below.</p>';
-    h += '<h3>Your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet. The report\'s “Who to contact” section lists researched public contacts and offices.</p>');
+    h += '<h3>Your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network, researched) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet.</p>') +
+      (researched.length ? '<p>The report\'s <strong>Who to contact</strong> section below lists ' + researched.length + ' researched public contacts with their phones, emails and sources.</p>' : '');
     if (mine.own.signals.length) h += '<h3>Signals you logged</h3>' + signalList(mine.own.signals);
     mine.related.forEach(r => {
       h += '<h3>Nearby: ' + esc(r.name) + '</h3>' + (r.pipeline ? pipelineLine(r.pipeline) : '') +
-        (r.network.length ? networkTable(r.network) : '') + (r.signals.length ? signalList(r.signals) : '');
+        (r.network.length ? networkTable(r.network, researched) : '') + (r.signals.length ? signalList(r.signals) : '');
     });
     return h + '</section>';
   }
