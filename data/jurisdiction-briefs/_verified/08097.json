@@ -244,8 +244,8 @@
       "source_id": "s8",
       "source_url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
       "verdict": "supported",
-      "supporting_quote": "Voters approved the mill levy, or property tax, in support of “constructing, acquiring, preserving, and operating affordable housing,” in 2024.",
-      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+      "supporting_quote": "Last year, a new affordable housing mill levy collected a total of $8,527,200 for Pitkin County... For 2026, the county is anticipating a large expenditure at the Phillips Mobile Home Park, currently budgeted at $5 million, for a water infrastructure overhaul... The board is also setting aside $4.5 million for grants and contributions. [Article date, from the page metadata: \"datePublished\": \"2026-01-28 20:31:42\"]",
+      "notes": "2026-10-18 recheck: direct fetch of the article; quote covers the $8.5 million (rounded from $8,527,200), $5 million and $4.5 million figures in this paragraph."
     },
     {
       "section_id": "pitkin-county-recent-business-developments",

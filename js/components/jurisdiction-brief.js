@@ -277,9 +277,10 @@
     var generated = Date.parse((queue.meta && queue.meta.generated) || '');
     var stale = !isFinite(generated) || ((now || new Date()).getTime() - generated) > NEWS_STALE_DAYS * 864e5;
     // The brief's own review date wins over the queue's: a brief re-reviewed
-    // today drops the older headlines before the next daily rebuild.
+    // today drops the older headlines before the next daily rebuild. A lead
+    // nobody could read yet (st.unread) stays until someone reads it.
     var stories = (row && Array.isArray(row.stories) ? row.stories : []).filter(function (st) {
-      return st && st.title && (!brief.last_curated || String(st.date || '') >= brief.last_curated);
+      return st && st.title && (st.unread || !brief.last_curated || String(st.date || '') >= brief.last_curated);
     });
     var events = row && Array.isArray(row.events) ? row.events : [];
     var today = new Date((now || new Date()).getTime() - 7 * 36e5).toISOString().slice(0, 10);
@@ -298,7 +299,7 @@
       html += '<ul>' + stories.map(function (st) {
         var url = _safeUrl(st.link);
         var head = url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(st.title) + '</a>' : _esc(st.title);
-        var meta = [st.source, MATCH_LABEL[st.match]].filter(Boolean).map(_esc).join(' · ');
+        var meta = [st.source, MATCH_LABEL[st.match], st.unread ? 'older lead, not yet read for this brief' : ''].filter(Boolean).map(_esc).join(' · ');
         return '<li><span class="jbrief-news__date">' + _esc(_newsDate(st.date)) + '</span>' + head +
           (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
       }).join('') + '</ul>';

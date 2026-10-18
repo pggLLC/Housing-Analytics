@@ -158,12 +158,14 @@ test('the brief panel shows this brief\'s headlines since its review, apart from
     { title: 'Carbondale approves lease', source: 'The Sopris Sun', date: '2026-10-01', match: 'place', link: 'https://news.localhost/1' },
     { title: 'Garfield County housing', source: 'Post Independent', date: '2026-09-20', match: 'county', link: 'https://news.localhost/2' },
     { title: 'Before the review', source: 'X', date: '2026-08-31', match: 'place', link: 'https://news.localhost/3' },
+    { title: 'Paywalled lead', source: 'Y', date: '2026-08-30', match: 'place', link: 'https://news.localhost/4', unread: 'blocked' },
   ], [{ title: 'NSPIRE, Carbondale', start: '2026-10-22', organizer: 'CHFA', url: 'https://chfa.localhost/n' },
     { title: 'Over already', start: '2026-10-01', organizer: 'CHFA' }]), NOW);
   const el = w.document.createElement('div');
   el.innerHTML = html;
   const items = [...el.querySelectorAll('li')].map((li) => li.textContent);
-  assert.match(el.textContent, /News since this brief was last reviewed \(2\)/);
+  assert.match(el.textContent, /News since this brief was last reviewed \(3\)/);
+  assert.ok(items.some((t) => t.includes('Paywalled lead') && t.includes('not yet read')), 'an unread lead from before the review was dropped');
   assert.match(el.textContent, /not part of this brief and not sources for it/);
   assert.ok(items.some((t) => t.includes('Carbondale approves lease')));
   assert.ok(items.some((t) => t.includes('Garfield County housing') && t.includes('names the county')));
