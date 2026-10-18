@@ -774,6 +774,9 @@
     var fees = num(args.fees);
     if (fees !== null && (!Number.isFinite(fees) || fees < 0)) { out.reason = 'Enter state credit investor fees of $0 or more.'; return out; }
     out.grossEquity = allowed * out.years * price;
+    if (fees !== null && fees > out.grossEquity) {
+      out.reason = 'State credit investor fees of ' + money(fees) + ' are more than its ' + money(out.grossEquity) + ' of equity.'; return out;
+    }
     out.fees = fees === null ? 0 : fees;
     out.equity = out.grossEquity - out.fees;
     return out;

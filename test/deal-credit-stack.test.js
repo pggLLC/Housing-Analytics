@@ -131,6 +131,9 @@ test('state credit investor fees come out of state equity; blank is none', () =>
   const f = cb.stateCredit(Object.assign({}, base, { fees: 20000 }));
   assert.equal(f.grossEquity, fx.state.expectedEquity);
   assert.equal(f.equity, fx.state.expectedEquity - 20000);
+  const tooMuch = cb.stateCredit(Object.assign({}, base, { fees: fx.state.expectedEquity + 1 }));
+  assert.equal(tooMuch.equity, null); assert.match(tooMuch.reason, /more than its/);
+  assert.equal(cb.stateCredit(Object.assign({}, base, { fees: fx.state.expectedEquity })).equity, 0, 'fees equal to equity leave $0, a real amount');
   const bad = cb.stateCredit(Object.assign({}, base, { fees: -1 }));
   assert.equal(bad.equity, null); assert.match(bad.reason, /investor fees of \$0 or more/);
 });

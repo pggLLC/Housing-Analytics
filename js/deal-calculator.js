@@ -2383,11 +2383,11 @@
             <p id="dc-add-tz-note" hidden style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0 0;line-height:1.45;">The Transit Zone credit counts only when Market Analysis places the site inside a zone on OEDIT's map and you enter the evidence, so use this calculator on the Market Analysis page for it. CHFA's draft 2027-28 QAP takes it in place of standard state credit, as one allowance: if that applies, choose that it replaces the Colorado state credit.</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
               <label style="display:block;font-size:var(--small);color:var(--muted);">Annual credit ($)
-                <input id="dc-add-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+                <input id="dc-add-annual" type="number" min="1" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">Years claimed
                 <input id="dc-add-years" type="number" min="1" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">Investor price per $1 of credit
-                <input id="dc-add-price" type="number" min="0" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+                <input id="dc-add-price" type="number" min="0.01" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">New investor fees, total ($)
                 <input id="dc-add-fees" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">Program year
@@ -2407,7 +2407,7 @@
                   <option value="federal">Federal credit</option>
                 </select></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">Annual amount it replaces ($)
-                <input id="dc-add-displaced-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+                <input id="dc-add-displaced-annual" type="number" min="1" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
               <label style="display:block;font-size:var(--small);color:var(--muted);">Cut to the annual federal credit, if the allocator makes one ($)
                 <input id="dc-add-fed-cut" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
             </div>
