@@ -1488,7 +1488,7 @@
       payIn: {
         federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
         state: stateCredit.entered ? cbm.payIn(stateCredit.equity === null ? null : creditStack.state, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null,
-        added: addedCredit ? cbm.payIn(creditStack.counted ? creditStack.added : null, { closing: fields['dc-add-payin-closing'], completion: fields['dc-add-payin-completion'], stabilization: fields['dc-add-payin-stabilization'] }) : null
+        added: addedCredit ? cbm.payIn(addedCredit.gross, { closing: fields['dc-add-payin-closing'], completion: fields['dc-add-payin-completion'], stabilization: fields['dc-add-payin-stabilization'] }) : null
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
         grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'], units: units,

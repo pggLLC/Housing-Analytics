@@ -73,6 +73,10 @@ function enterAdded(p, over) {
     const pfCredits = p.d.querySelector('[data-pf-row="tax_credits"] [data-pf-amount]').textContent.trim();
     assert.equal(pfCredits, money(r.creditStack.federal + r.creditStack.state + r.creditStack.added), 'DOH tax credit equity includes it');
     assert.equal(p.w.DealEngine.creditStackTotal(r), r.creditStack.federal + r.creditStack.state + r.creditStack.added);
+    // The pay-in schedule is a share of the credit's gross equity, as its heading says.
+    setField(p, 'dc-add-payin-closing', 100); setField(p, 'dc-add-payin-completion', 0); setField(p, 'dc-add-payin-stabilization', 0);
+    assert.match(p.d.getElementById('dc-add-payin-h').textContent, /gross equity/);
+    assert.equal(p.w.__DealCalc.getResult().costBasis.payIn.added.installments[0].amount, c.gross);
     // The investor's automatic equity in the waterfall is the credit equity the sources count.
     assert(r.waterfall, 'non-vacuous: the waterfall runs for this deal');
     assert(Math.abs(r.waterfall.lpEquity - p.w.DealEngine.creditStackTotal(r)) < 0.01, 'LP equity ' + r.waterfall.lpEquity);
