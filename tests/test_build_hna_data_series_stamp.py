@@ -129,13 +129,58 @@ def test_the_summary_records_the_source_and_keeps_the_twin_only_for_1_year(tmp_p
     assert small["source"]["acs_profile_endpoint"] == "https://api.census.gov/data/2024/acs/acs5/profile"
 
 
-def test_the_state_profile_is_stamped_with_the_series_that_answered():
+def state_census(answers, refuse=()):
+    """census() for the state: answers[(year, series)] for every variable."""
     def get(url, *args, **kwargs):
-        if "/acs/acs1/profile" not in url or "/2024/" not in url:
-            return None
+        year = int(url.split("/data/")[1].split("/")[0])
+        series = "acs1" if "/acs/acs1/" in url else "acs5"
+        value = answers.get((year, series))
         names = url.split("get=")[1].split("&")[0].split(",")
-        return [names, ["5957493" for _ in names]]
-    with mock.patch.object(state, "http_get_json", side_effect=get):
+        if value is None or set(names) & set(refuse):
+            return None
+        return [names, [value for _ in names]]
+    return get
+
+
+def test_the_state_profile_is_stamped_with_the_series_that_answered():
+    with mock.patch.object(state, "http_get_json", side_effect=state_census({(2024, "acs1"): "5957493"})):
         profile = state.fetch_acs_profile(2024, 3)
     assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs1")
     assert state.normalize_acs_dict(profile)["_acsSeries"] == "acs1"
+
+
+def test_every_state_field_comes_from_the_stamped_source():
+    # Codex, 2026-10-18: the state refresh replaced 29 fields from the 1-year
+    # and kept the rest of 08.json, which the extended backfill had filled
+    # from the 5-year, under the new 1-year stamp.
+    answers = {(2024, "acs1"): "1", (2024, "acs5"): "5"}
+    with mock.patch.object(state, "http_get_json", side_effect=state_census(answers)):
+        profile = state.fetch_acs_profile(2024, 3)
+    fields = {k: v for k, v in profile.items() if not k.startswith("_")}
+    assert set(state.EXTENDED_PROFILE_VARS) <= set(fields)
+    assert {v for v in fields.values()} == {"1"}, "a field came from another source"
+    # A chunk the stamped source refuses is left out, never taken from another
+    # source; main() keeps the previous value and names it.
+    late = state.EXTENDED_PROFILE_VARS[-1]
+    with mock.patch.object(state, "http_get_json", side_effect=state_census(answers, refuse=(late,))):
+        profile = state.fetch_acs_profile(2024, 3)
+    assert late not in profile and profile["_acsSeries"] == "acs1"
+    assert {v for k, v in profile.items() if not k.startswith("_")} == {"1"}
+
+
+def test_the_state_fetch_covers_every_field_the_state_summary_carries():
+    # The agreement, not a list: each field in the committed 08.json, and each
+    # one the extended backfill would fill, is fetched by the state refresh
+    # or dropped there as legacy, so none sits under a stamp it did not share.
+    import re
+    fetched = set(state.ACS_PROFILE_VARS) | set(state.EXTENDED_PROFILE_VARS)
+    dropped = set(state.LEGACY_PROFILE_KEYS)
+    stored = json.loads((ROOT / "data" / "hna" / "summary" / "08.json").read_text())["acsProfile"]
+    outside = sorted(k for k in stored if not k.startswith("_") and k != "state"
+                     and k not in fetched | dropped)
+    assert outside == [], f"state fields no fetch refreshes: {outside}"
+    src = (ROOT / "scripts" / "backfill_hna_extended_acs_cache.mjs").read_text()
+    batches = src[src.index("const BATCHES"):src.index("const REQUIRED")]
+    backfill = set(re.findall(r"'(DP0\d_\d{4}P?E)'", batches))
+    assert len(backfill) > 50, "the scan found the backfill's variables"
+    assert sorted(backfill - fetched) == []

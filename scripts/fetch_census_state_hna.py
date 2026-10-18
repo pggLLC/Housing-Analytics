@@ -98,6 +98,30 @@ ACS_PROFILE_VARS = [
     'NAME',
 ]
 
+# Every other profile field the state summary carries: household composition,
+# labor force, race and ethnicity, home value brackets and overcrowding. The
+# extended backfill (backfill_hna_extended_acs_cache.mjs) used to fill these
+# from the ACS 5-year, and the refresh below kept them, so a 1-year profile
+# held 5-year fields under its 1-year stamp. They are fetched with the
+# profile, from the same year and series, so the stamp describes every field.
+EXTENDED_PROFILE_VARS = [
+    'DP04_0076E','DP04_0078E','DP04_0079E','DP04_0078PE','DP04_0079PE',
+    'DP04_0080E','DP04_0081E','DP04_0082E','DP04_0083E','DP04_0084E',
+    'DP04_0085E','DP04_0086E','DP04_0087E','DP04_0088E','DP03_0061E',
+    'DP02_0002E','DP02_0004E','DP02_0006E','DP02_0007E','DP02_0008E',
+    'DP02_0010E','DP02_0011E','DP02_0012E','DP02_0014E','DP02_0015E',
+    'DP02_0016E','DP02_0017E','DP02_0072E','DP02_0059E','DP02_0060E',
+    'DP02_0061E','DP02_0062E','DP02_0063E','DP02_0064E','DP02_0065E',
+    'DP02_0066E','DP02_0067E','DP02_0068E','DP03_0027E','DP03_0028E',
+    'DP03_0029E','DP03_0030E','DP03_0031E','DP03_0002E','DP03_0005E',
+    'DP03_0007E','DP05_0016E','DP05_0017E','DP05_0019E','DP05_0024E',
+    'DP05_0029E','DP05_0033E','DP05_0037E','DP05_0038E','DP05_0039E',
+    'DP05_0047E','DP05_0055E','DP05_0060E','DP05_0061E','DP05_0076E',
+    'DP05_0082E',
+]
+# The Census profile endpoint takes at most 50 variables per request.
+PROFILE_CHUNK = 45
+
 # Keys from the pre-fix hand-seeded 08.json whose values carry legacy /
 # shifted semantics. They are dropped from the merged output: no current
 # fetch refreshes them, so leaving them would keep stale garbage alive
@@ -106,6 +130,11 @@ ACS_PROFILE_VARS = [
 LEGACY_PROFILE_KEYS = [
     'DP04_0006E',   # held "3-4 units" count under pre-fix shifted mapping
     'DP04_0143PE', 'DP04_0144PE', 'DP04_0145PE', 'DP04_0146PE',  # removed GRAPI codes
+    # Written once by backfill_hna_household_occupation.mjs from the 2023
+    # 5-year; nothing reads them, and in the 2024 profile they are marital
+    # status and fertility counts.
+    'DP02_0034E', 'DP02_0035E', 'DP02_0036E', 'DP02_0037E', 'DP02_0038E',
+    'DP02_0039E', 'DP02_0040E',
 ]
 
 ACS_S0801_VARS = [
@@ -176,13 +205,14 @@ def http_get_json(url: str, timeout: int = 30, retries: int = 3,
 # ACS fetch helpers
 # ---------------------------------------------------------------------------
 
-def _build_profile_url(year: int, series: str, endpoint: str) -> str:
+def _build_profile_url(year: int, series: str, endpoint: str,
+                       variables: list[str] = ACS_PROFILE_VARS) -> str:
     """Build a Census ACS URL for Colorado state-level data."""
     key = census_key()
     base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
     # Use manual query-string construction to preserve literal colons in
     # Census geography parameters (urlencode encodes ':' as '%3A').
-    qs = f"get={','.join(ACS_PROFILE_VARS)}&for=state:{STATE_FIPS}"
+    qs = f"get={','.join(variables)}&for=state:{STATE_FIPS}"
     if key:
         qs += f"&key={urllib.parse.quote(key, safe='')}"
     return f"{base}?{qs}"
@@ -218,6 +248,17 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                         file=sys.stderr,
                     )
                 data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                # The other fields come from the source that answered, or not
+                # at all: a chunk that fails leaves the previous file's values,
+                # and the refresh in main() names them.
+                for i in range(0, len(EXTENDED_PROFILE_VARS), PROFILE_CHUNK):
+                    chunk = EXTENDED_PROFILE_VARS[i:i + PROFILE_CHUNK]
+                    more = http_get_json(_build_profile_url(year, series, endpoint, chunk))
+                    if more and len(more) > 1:
+                        data.update({more[0][j]: more[1][j] for j in range(len(more[0]))})
+                    else:
+                        print(f'⚠ ACS profile: {len(chunk)} extended fields not published by '
+                              f'{series} {year}', file=sys.stderr)
                 data['_acsYear'] = str(year)
                 data['_acsSeries'] = series
                 return data
@@ -496,6 +537,12 @@ def main(validate_counties: bool = False) -> int:
     for k in LEGACY_PROFILE_KEYS:
         merged_profile.pop(k, None)
     if acs_profile is not None:
+        carried = sorted(k for k in merged_profile
+                         if not k.startswith('_') and k not in acs_profile)
+        if carried:
+            print(f"⚠ ACS profile: {len(carried)} fields kept from the previous file, not from "
+                  f"{acs_profile.get('_acsSeries')} {acs_profile.get('_acsYear')}: "
+                  f"{', '.join(carried[:8])}", file=sys.stderr)
         merged_profile.update(acs_profile)
     elif not merged_profile:
         merged_profile = None
