@@ -50,14 +50,16 @@ const NOT_MAIN = {
   'external-references-check.yml': '"git push" is text in an issue body',
 };
 
-// Steps that build the manifests, commit, then rebase without building them
-// again. Each fails the day another commit lands on main inside its window.
+// Steps that build a manifest, commit, then rebase without building that
+// manifest again. Each fails the day another commit lands on main inside its window.
 // Moving each to scripts/push-data-commit.sh is the follow-up; the list may
 // only shrink.
 const MANIFESTS_BEFORE_REBASE = {
+  'data-refresh.yml': 'Commit refreshed data', // rebuilds only data/manifest.json after
   'data-source-monitoring.yml': 'Commit discovery report',
   'discover-local-resources-weekly.yml': 'Commit updated candidates file',
   'fetch-cdphe-boundaries.yml': 'Commit and push',
+  'fetch-parcel-zoning-data.yml': 'Commit updated data files', // rebuilds only data/manifest.json after
   'pab-allocations-annual.yml': 'Commit refreshed allocations',
   'qa-status.yml': 'Commit data/_qa-status.json (cron only)',
   'rebuild-place-od-flows.yml': 'Commit refreshed flows',
@@ -159,7 +161,11 @@ test('no step commits the manifests and then rebases without rebuilding them', (
         rebasing.push(`${f}: ${s.name}`);
         const before = run.slice(0, commit);
         const after = run.slice(commit + rebase);
-        if (/rebuild_manifest\.py/.test(before) && !/rebuild_manifest\.py/.test(after)) {
+        // Each manifest built before the commit is built again after the
+        // rebase: rebuilding only data/manifest.json leaves a committed
+        // data/_manifest.json describing the pre-rebase tree.
+        const builders = [/rebuild_manifest\.py/, /audit:file-manifest/];
+        if (builders.some((re) => re.test(before) && !re.test(after))) {
           stale.push(`${f}: ${s.name}`);
         }
       }

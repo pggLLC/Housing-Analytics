@@ -154,6 +154,9 @@ jobs:
       - name: Rebuild the derived chain and commit
         id: data-commit
         if: steps.inputs.outputs.changed == 'true'
+        env:
+          # A dispatch on a feature branch commits to that branch, as before.
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         # build_place_projections.py rewrites data/hna/projections/places.json,
         # an INPUT to the ranking index (build_ranking_index.py loads it per
         # jurisdiction), and permits.json feeds the place pages. Committing them
