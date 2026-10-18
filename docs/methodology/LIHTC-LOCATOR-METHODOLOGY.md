@@ -515,7 +515,7 @@ The following data + components landed during the F119–F145 series:
 **Curated coverage rosters**
 - `data/hna/local-resources.json` — expanded to ~68 place + 25 county entries with school district + hospital + 3-10 employers each. Counties cite source publications via `_employers_source` (F131-F133, F136, F142)
 - `data/capital-partners.json` — 29 curated lenders + equity partners tagged by deal_types (CHFA, USDA RD, DOLA, Enterprise, LISC, Mercy, FHLB, GSEs, USBCDC, Walker & Dunlop, community banks Alpine, Bank of the San Juans, FirstBank, ANB, Vectra, Glacier) (F138, F142)
-- `data/tax-abatement-inventory.json` — 20 jurisdictions tagged by category (property-tax-exemption, PILOT, fee-waiver, density-bonus, land-contribution, URA-TIF, linkage-fee). C.R.S. §39-3-112.5 statewide statutory baseline as fallback (F141)
+- `data/tax-abatement-inventory.json` — 20 jurisdictions tagged by category (property-tax-exemption, PILOT, fee-waiver, density-bonus, land-contribution, URA-TIF, linkage-fee). Statewide exemptions (C.R.S. §39-3-112, §29-4-227) as fallback (F141)
 - `data/chfa-qap-calendar.json` — CHFA cycle dates for 2026 + 2027 + rolling programs (4% PAB, MIHTC, State LIHTC, Prop 123). Estimated dates flagged "est." (F143)
 - `data/resort-workforce-housing-programs.json` — APCHA, Vail InDEED, Eagle County, SCHA, Telluride, YVHA detail with cash-in-lieu rates + portfolio sizes + developer actions (F145)
 
