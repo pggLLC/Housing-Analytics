@@ -410,4 +410,35 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
     'a network contact with no phone or email borrows the researched one for the same person, marked as public record');
 }
 
+// ---- Deal shape reads the whole range of need, not only the homes-short counts.
+{
+  const BANDS = ['31to50', '51to80', '81to100'];
+  for (const g of ['0833640', '0820000', '08045']) {
+    const m = WP.buildModel(src, g, { FundingFit, today: '2026-10-18' });
+    const rec = g.length === 5 ? src.countyChas.records.find((r) => r.fips === g) : src.placeChas.places[g];
+    for (const k of BANDS) {
+      const b = rec.renter_hh_by_ami[k];
+      const want = Math.round(b.total * b.pct_cost_burdened_30);
+      ok(m.deal.burden && m.deal.burden[k] && m.deal.burden[k].burdened === want, `${g} ${k}: burdened renters must equal CHAS total × burden share (${want})`);
+    }
+    const html = WP.renderHtml(m);
+    ok(html.includes('Paying over 30% of income'), `${g}: the deal shape must show cost burden by band`);
+    const n = m.need.need20yr;
+    ok(n === null || m.deal.notes.some((x) => x.includes('20-year need (' + fmt(n) + ' homes) is one total')), `${g}: the 20-year need must be named as unsplit by income`);
+  }
+  // Gunnison: 0 short at 60% AMI but most 31–50% renters burdened, rural resort county.
+  const gm = WP.buildModel(src, '0833640', { FundingFit, today: '2026-10-18' });
+  ok(gm.deal.mix.le60 === 0 && gm.deal.notes.some((x) => /at 31–50% AMI .* pay more than 30% of income, though only/.test(x)),
+    'a band counted 0 short whose renters are burdened must be called real need');
+  ok(gm.deal.workforce && gm.deal.workforce.ruralResort && /Middle-income Housing Tax Credit/.test(gm.deal.notes.join(' ')),
+    'a rural resort county must get the middle-income (80–120% AMI) lane');
+  ok(gm.deal.notes.some((x) => /51–80% AMI .*Income averaging allows 70% and 80% AMI units/.test(x)), 'burdened 51–80% renters must raise income averaging');
+  // Sabotage: with no burden at 31–80% the new notes must not fire.
+  const quiet = clone(src);
+  for (const k of BANDS) quiet.placeChas.places['0833640'].renter_hh_by_ami[k].pct_cost_burdened_30 = 0;
+  const qm = WP.buildModel(quiet, '0833640', { FundingFit, today: '2026-10-18' });
+  ok(!qm.deal.notes.some((x) => /pay more than 30% of income/.test(x)), 'with no burdened renters above 30% AMI no band note may fire');
+  ok(qm.deal.workforce && qm.deal.workforce.burdened === 0, 'a rural resort county keeps the workforce lane even without 81–100% burden');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

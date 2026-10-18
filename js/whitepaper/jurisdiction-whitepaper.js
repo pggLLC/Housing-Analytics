@@ -529,7 +529,32 @@
     return { programs: out, awardsHref: awardsHref, asOf: (src.fundingGuide.meta || {}).last_checked || null, source: sourcePath('fundingGuide') + ' via js/funding-fit.js (the Funding Sources finder)' };
   }
 
-  function dealShape(need, rents, lihtc) {
+  // Renter households paying more than 30% of income, per CHAS band above 30% AMI.
+  function burdenByBand(need) {
+    var out = {};
+    (need.bands || []).forEach(function (b) {
+      if (['31to50', '51to80', '81to100'].indexOf(b.key) === -1 || b.households === null || b.burdenedPct === null) return;
+      out[b.key] = { label: b.label, households: b.households, pct: b.burdenedPct, burdened: Math.round(b.households * b.burdenedPct / 100) };
+    });
+    return Object.keys(out).length ? out : null;
+  }
+  // A band counts when at least 25 households and a fifth of its renters are burdened.
+  function material(b) { return !!b && b.burdened >= 25 && b.pct >= 20; }
+  // What a new unit competes with: today's rent for a recently leased or listed home
+  // (HUD two-bedroom FMR, Zillow's observed rent, Apartment List's two-bedroom rent).
+  // ACS median gross rent includes long-held cheap leases, so it is left out. The
+  // sources disagree, often by county versus town, so the test uses their range.
+  function askingRange(market) {
+    var v = [];
+    (market || []).forEach(function (r) {
+      var x = /ZORI/.test(r.source) ? r.all : /Apartment List|fair market rent/.test(r.source) ? r.br2 : null;
+      if (x !== null && x !== undefined) v.push(x);
+    });
+    return v.length ? { low: Math.min.apply(null, v), high: Math.max.apply(null, v) } : null;
+  }
+  function rentRange(r) { return r.low === r.high ? fmtMoney(r.low) : fmtMoney(r.low) + '–' + fmtMoney(r.high); }
+
+  function dealShape(need, rents, lihtc, guide, marketList) {
     // Screening rules, each stated in the document. Not an underwriting model.
     var notes = [];
     var route;
@@ -557,6 +582,46 @@
       }
     }
 
+    // The homes-short counts are cumulative and can read 0 at a band whose renters
+    // still pay too much, because higher-income households occupy the cheaper homes.
+    // CHAS cost burden by band shows that need directly.
+    var burden = burdenByBand(need);
+    var ask = askingRange(marketList);
+    var b3150 = burden && burden['31to50'];
+    if (material(b3150) && need.gap50 !== null && need.gap50 < b3150.burdened) {
+      notes.push(fmtInt(b3150.burdened) + ' renter households at 31–50% AMI (' + fmtPct(b3150.pct, 0) + ') pay more than 30% of income, though only ' + fmtInt(need.gap50) + ' homes are counted short at or below 50% AMI. Homes priced for this band exist, but higher-income renters occupy many of them, so the need here is real and 40–50% AMI units serve it.');
+    }
+    var b5180 = burden && burden['51to80'];
+    if (material(b5180)) {
+      var lim70 = rents.tiers['70'] ? rents.tiers['70'].rent2br : null;
+      var lim80 = rents.tiers['80'] ? rents.tiers['80'].rent2br : null;
+      var lead = fmtInt(b5180.burdened) + ' renter households at 51–80% AMI (' + fmtPct(b5180.pct, 0) + ') pay more than 30% of income. Income averaging allows 70% and 80% AMI units if the average across units stays at or below 60%. ';
+      var lims = 'The CHFA two-bedroom limits are ' + fmtMoney(lim70) + ' at 70% and ' + fmtMoney(lim80) + ' at 80%';
+      if (!ask || lim70 === null) {
+        notes.push(lead + 'No current rent is on file to test whether such units would lease.');
+      } else if (lim80 !== null && lim80 <= ask.low) {
+        notes.push(lead + lims + ', at or below every current rent measure here (' + rentRange(ask) + '), so 70–80% units should lease and serve this band.');
+      } else if (lim70 > ask.high) {
+        notes.push(lead + lims + ', above every current rent measure here (' + rentRange(ask) + '), so higher-band tax-credit units would not lease; these renters need homes below market, which takes deeper units or rental subsidy.');
+      } else {
+        notes.push(lead + lims + ', inside the range of current rent measures here (' + rentRange(ask) + '). Whether they lease depends on the site; the market study has to test it before 70–80% units go in the mix.');
+      }
+    }
+
+    // Workforce (80–120% AMI): no federal credit reaches it, so name the state route.
+    var b81 = burden && burden['81to100'];
+    var mihtc = (((guide || {}).programs) || []).find(function (p) { return p && p.id === 'chfa-mihtc'; }) || null;
+    var workforce = null;
+    if (material(b81) || rents.ruralResort) {
+      workforce = { burdened: b81 ? b81.burdened : null, pct: b81 ? b81.pct : null, ruralResort: !!rents.ruralResort, program: mihtc ? { name: mihtc.name, url: safeHref(mihtc.official_url), band: mihtc.ami_restriction || null } : null };
+      notes.push((material(b81) ? fmtInt(b81.burdened) + ' renter households at 81–100% AMI (' + fmtPct(b81.pct, 0) + ') pay more than 30% of income. ' : 'This is a rural resort county, where workforce need runs above 80% AMI. ') +
+        'Federal tax credits stop at 80% AMI. ' + (mihtc ? 'The state ' + mihtc.name + ' covers 80–120% AMI' + (rents.ruralResort ? ' (up to 140% in rural resort counties such as this one)' : '') + ' as a separate deal; ' : 'A middle-income deal needs its own funding; ') +
+        'the Deal Calculator does not size it yet.');
+    }
+    if (need.need20yr !== null) {
+      notes.push('The 20-year need (' + fmtInt(need.need20yr) + ' homes) is one total, not split by income, and can count local low-wage jobs as well as resident growth, so it does not set the mix above.');
+    }
+
     var rentCheck = null;
     var lim60 = rents.tiers['60'] && rents.tiers['60'].rent2br;
     if (lim60 !== null && lim60 !== undefined) {
@@ -579,7 +644,7 @@
     var sizes = lihtc.properties.map(function (p) { return p.units; }).filter(function (u) { return u !== null; }).sort(function (a, b) { return a - b; });
     var medianSize = sizes.length ? sizes[Math.floor(sizes.length / 2)] : null;
     if (medianSize !== null) notes.push('Existing tax-credit projects here have a median of ' + fmtInt(medianSize) + ' units: a size the market has already absorbed.');
-    return { route: route, mix: mix, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
+    return { route: route, mix: mix, burden: burden, workforce: workforce, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
   }
 
   function contactsSection(row, src, contactsFile, resources, relatedFiles) {
@@ -769,7 +834,7 @@
       prop123: prop123Section(row, src, countyName),
       policy: policy,
       funding: fundingSection(row, src, opts.FundingFit),
-      deal: dealShape(need, rents, lihtc),
+      deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src)),
       landscape: landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName),
       dynamics: dealDynamics(row, src, need, lihtc, policy),
       contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || []),
@@ -1112,11 +1177,16 @@
         '<tr><td>At or below 60% AMI</td><td class="n">' + fmtInt(d.mix.le60) + '</td></tr></tbody></table>' +
         '<p class="wp-meta">Each row is renter households at or below that income minus the rental homes priced for them, so the rows overlap and do not add up. A lower 60% figure means the cheaper homes are missing, not the 60% ones. A minimum: a home priced for a band may be rented by a higher-income household.</p>';
     }
+    if (d.burden) {
+      h += '<table><thead><tr><th>Renters by income band</th><th>Households</th><th>Paying over 30% of income</th></tr></thead><tbody>' +
+        Object.keys(d.burden).map(function (k) { var b = d.burden[k]; return '<tr><td>' + esc(b.label) + '</td><td class="n">' + fmtInt(b.households) + '</td><td class="n">' + fmtInt(b.burdened) + ' (' + fmtPct(b.pct, 0) + ')</td></tr>'; }).join('') +
+        '</tbody></table><p class="wp-meta">HUD CHAS cost burden by band. These are the renters a band\'s units would serve, whether or not homes priced for them are counted as short.</p>';
+    }
     h += '<ul>' + d.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
     h += '<p class="wp-note">This is the deal\'s shape from the data, not a pro forma. Size the dollars in the ' +
       link('Deal Calculator for ' + m.name, 'https://cohoanalytics.com/deal-calculator.html?geoid=' + encodeURIComponent(m.geoid)) +
       ' and confirm achievable rents with a CHFA market study.</p>';
-    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent and tax-credit sections');
+    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent, tax-credit and funding sections');
   }
 
   function renderLandscape(m) {
