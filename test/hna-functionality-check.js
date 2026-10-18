@@ -478,10 +478,15 @@ test('JS: LIHTC fetch function reports unavailability instead of stand-in data',
 // from a loaded copy has none: a count of 0, not "unavailable" (Hinsdale).
 test('JS: a county absent from the loaded CHFA statewide file counts zero projects', () => {
     const fn = js.slice(js.indexOf('async function fetchLihtcProjects'), js.indexOf('function lihtcUnavailable'));
-    assert(/statewideList\s*=\s*stateGj/.test(fn), 'the loaded statewide list is remembered');
-    assert(/if \(statewideList\) \{\s*return \{ type: 'FeatureCollection', features: \[\]/.test(fn),
-        'a county the statewide list lacks returns an empty collection before the unavailable throw');
-    assert(fn.indexOf('if (statewideList)') < fn.lastIndexOf('throw lihtcUnavailable('), 'zero is decided before unavailable');
+    assert(/if \(stateGj\.features\.length > 0\) statewideList = stateGj/.test(fn), 'only a non-empty statewide list is authoritative');
+    // The filtered (possibly empty) list is returned at once: no county-cache or
+    // map-service wait for a county CHFA records no property in.
+    assert(/if \(statewideList\) \{\s*return \{ type: 'FeatureCollection', features,/.test(fn),
+        'a loaded statewide list answers, empty or not');
+    assert(fn.indexOf('if (statewideList)') < fn.indexOf('PATHS.lihtc(countyFips5)'), 'decided before the county cache and remote fallbacks');
+    // The count card's source line is the resolved source, not a fixed "HUD database".
+    assert(/_sourceLabel = LIHTC_SOURCE_LABELS\[lihtcData\._source\]/.test(js), 'the controller hands the renderer its source label');
+    assert(!/subOf\((?:count|units)El, 'HUD database'\)/.test(js), 'the county count card does not hard-code "HUD database"');
 });
 
 // The map status names its source; every _source the fetch returns must have a

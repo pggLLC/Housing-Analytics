@@ -2115,10 +2115,12 @@
       if (unitsEl) unitsEl.textContent = U().fmtNum(placeUnits);
       subOf(unitsEl, 'in ' + placeLabel + ' · ' + U().fmtNum(totalUnits) + ' county-wide');
     } else {
+      // The source the controller resolved, not a fixed "HUD database".
+      const sourceLabel = (data && data._sourceLabel) || 'Source not recorded';
       if (countEl) countEl.textContent = features.length;
-      subOf(countEl, 'HUD database');
+      subOf(countEl, sourceLabel);
       if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
-      subOf(unitsEl, 'HUD database');
+      subOf(unitsEl, sourceLabel);
     }
 
     // F179 — Recency badge. Reads ranking-index.json (augmented with

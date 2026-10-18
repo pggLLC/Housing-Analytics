@@ -959,7 +959,8 @@
       // hid the most recent 2022-2025 awards on the HNA map. (F89.)
       if (stateFips === '08') {
         // CHFA's statewide file lists every tax-credit property it records,
-        // so a county absent from a loaded copy has none on record.
+        // so a county absent from a loaded, non-empty copy has none on record:
+        // that is the answer, without waiting on the fallbacks below.
         let statewideList = null;
         try {
           const stateGj = await loadJson('data/chfa-lihtc.json');
@@ -969,10 +970,9 @@
               (f.properties && f.properties.CNTY_FIPS === countyFips5) ||
               (f.properties && (f.properties.COUNTYFP || '') === countyFips)
             );
-            if (features.length > 0) {
+            if (statewideList) {
               return { type: 'FeatureCollection', features, _source: 'local', _fetchedAt: stateGj.fetchedAt || null };
             }
-            console.info('[HNA] data/chfa-lihtc.json has no features for county', countyFips5, '— falling back to county cache, then remote.');
           }
         } catch(e) {
           if (e.httpStatus === 404) {
@@ -1013,9 +1013,6 @@
           console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5);
         } catch(e) {
           console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message);
-        }
-        if (statewideList) {
-          return { type: 'FeatureCollection', features: [], _source: 'local', _fetchedAt: statewideList.fetchedAt || null };
         }
       }
     }
@@ -1268,6 +1265,7 @@
     try {
       const lihtcData = await fetchLihtcProjects(countyFips5);
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return; // county changed while fetching — discard
+      if (lihtcData) lihtcData._sourceLabel = LIHTC_SOURCE_LABELS[lihtcData._source] || lihtcData._source || null;
       window.HNARenderers.renderLihtcLayer(lihtcData, { type: geoType, name: geoLabel });
       if (window.HNAState.els.lihtcMapStatus) {
         const src = lihtcData && lihtcData._source;

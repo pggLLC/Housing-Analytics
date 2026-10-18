@@ -138,3 +138,30 @@ export function contentDate(repo, relPath, opts) {
 }
 
 export default { contentDate, isShallow, isDirty, isTracked };
+
+// A file that carries its own fetch or build stamp is dated by that stamp.
+// A commit only says the bytes changed: a re-serialised or re-sorted file got
+// a new commit date and read as freshly fetched on the data-status pages
+// (fema-flood-co read 2026-08-01 for an extract built 2026-04-09). Checked in
+// this order, at the top level and then under meta/metadata.
+export const EMBEDDED_STAMP_KEYS = [
+  'fetchedAt', 'fetched_at', 'generatedAt', 'generated_at', 'generated',
+  'updated', 'updatedAt', 'as_of', 'asOf',
+];
+
+/** The JSON file's own stamp as written (ISO date or timestamp), or null. */
+export function embeddedStamp(absPath) {
+  if (!/\.(geo)?json$/i.test(absPath)) return null;
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(absPath, 'utf8')); } catch (_) { return null; }
+  for (const holder of [doc, doc && doc.meta, doc && doc.metadata]) {
+    if (!holder || typeof holder !== 'object' || Array.isArray(holder)) continue;
+    for (const key of EMBEDDED_STAMP_KEYS) {
+      const stamp = holder[key];
+      if (typeof stamp === 'string' && /^\d{4}-\d{2}-\d{2}/.test(stamp)
+          && Number.isFinite(Date.parse(stamp.slice(0, 10)))) return stamp;
+    }
+  }
+  return null;
+}
+
