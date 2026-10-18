@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T20:45:13.224Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T23:47:08.059Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 19.5 KB |
-| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 41.9 KB |
+| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 47.8 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.0 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.2 KB |
@@ -34,26 +34,26 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 70.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.0 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.0 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 47.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.2 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 47.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 18.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.0 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 98.2 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.0 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.8 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.2 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.6 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.4 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 166.5 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.6 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 135.9 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.9 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.4 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.0 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.8 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 166.9 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.0 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.3 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 791 B |
@@ -63,9 +63,9 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.4 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.3 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.6 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.7 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.2 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 151.3 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 151.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 76.0 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -1569,7 +1569,7 @@
 | `data/jurisdiction-briefs/0818310.json` | 21.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 43.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0822035.json` | 27.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0827425.json` | 32.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0827425.json` | 32.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 20.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 37.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 22.7 KB | ✅ | — |
@@ -1580,10 +1580,10 @@
 | `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 341.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_news-used.json` | 67.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verification-plan.json` | 176.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803620.json` | 22.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08045.json` | 17.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08097.json` | 23.4 KB | ✅ | — |
@@ -1594,7 +1594,7 @@
 | `data/jurisdiction-briefs/_verified/0818310.json` | 1.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0820000.json` | 25.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0822035.json` | 8.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0827425.json` | 21.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0827425.json` | 21.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0828745.json` | 3.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0830780.json` | 23.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 14.1 KB | ✅ | — |
@@ -1602,7 +1602,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0873825.json` | 1.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
+| `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 216.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
@@ -1758,7 +1758,7 @@
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.2 KB | ✅ | — |
-| `data/policy/lihtc-underwriting-rules.json` | 12.7 KB | ✅ | — |
+| `data/policy/lihtc-underwriting-rules.json` | 14.4 KB | ✅ | — |
 | `data/policy/local-housing-funds.json` | 137.1 KB | ✅ | — |
 | `data/policy/local-support.json` | 146.6 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
@@ -1779,7 +1779,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 345.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
-| `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
+| `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 163.1 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1804,7 +1804,7 @@
 
 ## Test Files
 
-664 test files found.
+667 test files found.
 
 | File | Size |
 |------|------|
@@ -1937,6 +1937,7 @@
 | `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
+| `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
@@ -2119,15 +2120,15 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 32.5 KB |
-| `test/kalshi-signing-and-write.test.js` | 10.3 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 35.8 KB |
+| `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 25.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
-| `test/lihtc-deal-predictor-backtest.test.js` | 6.1 KB |
+| `test/lihtc-deal-predictor-backtest.test.js` | 6.0 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.9 KB |
 | `test/lihtc-guide-accuracy.test.js` | 5.9 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
@@ -2158,6 +2159,8 @@
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.4 KB |
+| `test/mix-check-recommenders.test.mjs` | 14.9 KB |
+| `test/mix-check.test.mjs` | 7.0 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
@@ -2237,7 +2240,7 @@
 | `test/policy-review-status.test.mjs` | 11.5 KB |
 | `test/policy-timeline-series.test.js` | 22.5 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
-| `test/polymarket-resolved.test.js` | 23.7 KB |
+| `test/polymarket-resolved.test.js` | 25.3 KB |
 | `test/predictor-policy-browser.test.js` | 8.4 KB |
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
@@ -2290,7 +2293,7 @@
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
-| `test/scenario-builder-loaded-geography.test.js` | 8.5 KB |
+| `test/scenario-builder-loaded-geography.test.js` | 10.7 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/second-homes-str.test.mjs` | 7.6 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
