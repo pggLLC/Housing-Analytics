@@ -129,19 +129,42 @@
 
   // ---- Daily update picks. The alert email's "Today's tasks" reports on the
   // projects ticked here: a community by its geoid, a site by its dossier when
-  // it has a readiness card (the email reads the card), else by its record id.
+  // it has a readiness card (the email reads the card). A site is saved under
+  // every id it has (record id, and dossier when carded), so it stays ticked
+  // when a card is added or removed; syncReports fills in a new card's id.
   // No choice saved (reports null) means every project is reported; the first
   // untick writes out the full choice for both lists, minus that row.
   function reportId(s) { return s.card && s.card.dossier ? String(s.card.dossier) : String(s.id); }
-  function isReported(state, tab, id) { return !state.reports || state.reports[tab].indexOf(id) !== -1; }
-  function toggleReport(state, lists, tab, id) {
-    var r = state.reports || {
-      communities: lists.communities.map(function (it) { return it.report; }),
-      sites: lists.sites.map(function (it) { return it.report; })
-    };
+  function reportIds(it) { return it.report === it.key ? [it.report] : [it.report, String(it.key)]; }
+  function isReported(state, tab, it) {
+    if (!state.reports) return true;
+    var saved = state.reports[tab];
+    return reportIds(it).some(function (id) { return saved.indexOf(id) !== -1; });
+  }
+  function toggleReport(state, lists, tab, it) {
+    var all = function (xs) { return [].concat.apply([], xs.map(reportIds)); };
+    var r = state.reports || { communities: all(lists.communities), sites: all(lists.sites) };
     var next = { communities: r.communities.slice(), sites: r.sites.slice() };
-    next[tab] = toggle(next[tab], id);
+    var ids = reportIds(it);
+    next[tab] = isReported(state, tab, it)
+      ? next[tab].filter(function (id) { return ids.indexOf(id) === -1; })
+      : next[tab].concat(ids.filter(function (id) { return next[tab].indexOf(id) === -1; }));
     return next;
+  }
+  // Add any id a ticked row now has but the saved choice lacks (a card added
+  // since the last save). Returns true when the choice changed.
+  function syncReports(state, lists) {
+    if (!state.reports) return false;
+    var changed = false;
+    ['communities', 'sites'].forEach(function (tab) {
+      lists[tab].forEach(function (it) {
+        if (!isReported(state, tab, it)) return;
+        reportIds(it).forEach(function (id) {
+          if (state.reports[tab].indexOf(id) === -1) { state.reports[tab].push(id); changed = true; }
+        });
+      });
+    });
+    return changed;
   }
 
   // The rows to show: pinned first (in the order pinned); then, in "My order",
@@ -318,7 +341,7 @@
             '<div class="rd-pick"><label><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '"></label>' + (i + 1) + '</div>' +
             '<div class="rd-main">' + nameHtml + ' <span class="rd-badge rd-' + esc(it.reading) + '">' + esc(LABEL[it.reading]) + '</span>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
               '<p class="rd-why">' + esc(it.why) + '</p>' +
-              '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.report) + '"' + (isReported(state, ui.tab, it.report) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
+              '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.report) + '"' + (isReported(state, ui.tab, it) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
               '<details><summary>Why, in detail</summary>' + (ui.tab === 'communities' ? communityDetail(it) : answersHtml(it.site)) + '</details></div>' +
             '<div class="rd-move">' +
               '<button type="button" data-rd-up="' + esc(it.key) + '" aria-label="Move ' + esc(it.name) + ' up"' + (isPinned ? ' disabled' : '') + '>&uarr;</button>' +
@@ -355,7 +378,7 @@
       else if (t.hasAttribute('data-rd-down')) moveKey(t.getAttribute('data-rd-down'), 1);
       else if (t.hasAttribute('data-rd-pin')) { a = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, a); save(); draw(); refocus('data-rd-pin', a); }
       else if (t.hasAttribute('data-rd-select')) { a = t.getAttribute('data-rd-select'); state[ui.tab].selected = toggle(state[ui.tab].selected, a); save(); draw(); refocus('data-rd-select', a); }
-      else if (t.hasAttribute('data-rd-report')) { a = t.getAttribute('data-rd-report'); state.reports = toggleReport(state, lists, ui.tab, a); save(); draw(); refocus('data-rd-report', a); }
+      else if (t.hasAttribute('data-rd-report')) { a = t.getAttribute('data-rd-report'); var row = lists[ui.tab].filter(function (x) { return x.report === a; })[0]; if (row) { state.reports = toggleReport(state, lists, ui.tab, row); save(); } draw(); refocus('data-rd-report', a); }
       else if (t.id === 'rdOnly') { ui.selectedOnly = t.checked; draw(); refocus('id', 'rdOnly'); }
     });
     // Drag to reorder (mouse); the arrow buttons do the same on a phone or keyboard.
@@ -395,10 +418,11 @@
       }
       state = v[1].state; synced = v[1].synced;
       lists = build(data, ctx && ctx.pipeline, ctx && ctx.signals);
+      var grew = syncReports(state, lists);
       draw();
-      if (v[1].unsent) save();
+      if (v[1].unsent || grew) save();
     });
   }
 
-  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
+  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, syncReports: syncReports, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
 });

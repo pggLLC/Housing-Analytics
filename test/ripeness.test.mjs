@@ -85,12 +85,24 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
 {
   ok(L.sites.find((s) => s.key === 's-b').report === 'test-dossier' && L.sites.find((s) => s.key === 's-a').report === 's-a' && L.communities[0].report === L.communities[0].geoid,
     'a carded site reports by its dossier (what the email reads), others by record id, communities by geoid');
+  const row = (tab, key) => L[tab].find((x) => x.key === key);
   const st = R.cleanState(null);
-  ok(R.isReported(st, 'communities', '0800003') && R.isReported(st, 'sites', 's-a'), 'with no choice saved every row is ticked');
-  st.reports = R.toggleReport(st, L, 'communities', '0800003');
-  ok(!R.isReported(st, 'communities', '0800003') && st.reports.communities.length === 3 && st.reports.sites.length === L.sites.length, 'the first untick keeps every other row in both lists');
-  st.reports = R.toggleReport(st, L, 'communities', '0800003');
-  ok(R.isReported(st, 'communities', '0800003'), 'ticking again puts it back');
+  ok(R.isReported(st, 'communities', row('communities', '0800003')) && R.isReported(st, 'sites', row('sites', 's-a')), 'with no choice saved every row is ticked');
+  st.reports = R.toggleReport(st, L, 'communities', row('communities', '0800003'));
+  ok(!R.isReported(st, 'communities', row('communities', '0800003')) && st.reports.communities.length === 3, 'the first untick keeps every other community');
+  ok(['test-dossier', 's-b', 's-a'].every((id) => st.reports.sites.includes(id)), 'a carded site is saved under its dossier and its record id');
+  st.reports = R.toggleReport(st, L, 'communities', row('communities', '0800003'));
+  ok(R.isReported(st, 'communities', row('communities', '0800003')), 'ticking again puts it back');
+  st.reports = R.toggleReport(st, L, 'sites', row('sites', 's-b'));
+  ok(!st.reports.sites.includes('test-dossier') && !st.reports.sites.includes('s-b'), 'unticking a carded site drops both its ids');
+  // A site picked before it had a card stays ticked once a card arrives, and the card's id is added.
+  const later = { communities: [], sites: [], reports: { communities: [], sites: ['s-a'] } };
+  const carded = R.build({ ...DATA, sites: DATA.sites.map((x) => x.id === 's-a' ? { ...x, card: { ...card('ripening'), dossier: 'alpha-dossier' } } : x) }, PIPELINE, SIGNALS);
+  const ls = R.cleanState(later);
+  ok(R.isReported(ls, 'sites', carded.sites.find((x) => x.key === 's-a')), 'a card added later keeps the site ticked');
+  ok(R.syncReports(ls, carded) && ls.reports.sites.includes('alpha-dossier'), 'and its new dossier id is added for the email');
+  ok(!R.syncReports(ls, carded), 'nothing to add the second time');
+  ok(R.isReported(ls, 'sites', L.sites.find((x) => x.key === 's-a')), 'a card removed later still matches by record id');
   ok(JSON.stringify(R.cleanState({ reports: { communities: [1], sites: 'x' } }).reports) === JSON.stringify({ communities: ['1'], sites: [] }), 'a saved choice is cleaned before use');
 }
 
