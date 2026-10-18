@@ -92,6 +92,9 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  // Why neighborhood_access.json could not supply amenities (load failed or
+  // held no records); null while loading or once loaded.
+  var amenityUnavailableReason = null;
   var _scenarioScorer = null; // computePma bound to the last run's inputs
   // Re-render hook for the LIHTC concept card's constraint screening.
   // Set on each runAnalysis() so the async flood-zone loader (see
@@ -2588,11 +2591,17 @@
   // full {name, distanceMiles, score} entries on _detail. Marked _pending until
   // neighborhood_access.json has loaded: getAccessScore() would otherwise
   // return blank defaults that read as "nothing nearby". The loader
-  // refreshes lastResult's amenities when the file arrives.
+  // refreshes lastResult's amenities when the file arrives, and marks them
+  // _unavailable (with the reason) when it fails or holds no records.
   function siteAmenities(lat, lon) {
     var OA = window.OsmAmenities;
-    if (!OA || typeof OA.getAccessScore !== 'function' ||
-        (typeof OA.isLoaded === 'function' && !OA.isLoaded())) {
+    if (!OA || typeof OA.getAccessScore !== 'function') {
+      return { _unavailable: 'the amenity connector did not load.' };
+    }
+    if (amenityUnavailableReason) {
+      return { _unavailable: amenityUnavailableReason };
+    }
+    if (typeof OA.isLoaded === 'function' && !OA.isLoaded()) {
       return { _pending: true };
     }
     var _access = OA.getAccessScore(lat, lon);
@@ -4315,6 +4324,8 @@
         : '');
     } else if (a._pending) {
       transitStr = 'Amenity data still loading';
+    } else if (a._unavailable) {
+      transitStr = 'Amenity data unavailable: ' + a._unavailable;
     } else {
       transitStr = 'No transit stop found';
     }
@@ -5771,23 +5782,34 @@
         });
 
       // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
+      // A site analyzed before the file settles got _pending amenities; fill
+      // them in once it loads, or mark them unavailable if it cannot.
+      var settleSiteAmenities = function () {
+        if (lastResult && lastResult.amenities && lastResult.amenities._pending) {
+          lastResult.amenities = siteAmenities(lastResult.lat, lastResult.lon);
+          renderPmaSiteSummary(lastResult);
+        }
+      };
+      amenityUnavailableReason = null;
       if (window.OsmAmenities && DS) {
         DS.getJSON(DS.baseData('derived/market-analysis/neighborhood_access.json'))
           .then(function (data) {
             var records = data && Array.isArray(data.amenities) ? data.amenities : [];
             if (records.length > 0) {
               window.OsmAmenities.loadAmenities(records);
-              // A site analyzed before the file arrived got no distances;
-              // fill them in now rather than leave the summary blank.
-              if (lastResult && lastResult.amenities && lastResult.amenities._pending) {
-                lastResult.amenities = siteAmenities(lastResult.lat, lastResult.lon);
-                renderPmaSiteSummary(lastResult);
-              }
+            } else {
+              amenityUnavailableReason = 'the amenity file has no records.';
             }
+            settleSiteAmenities();
           })
           .catch(function (e) {
             console.warn('[market-analysis] neighborhood_access.json unavailable:', e && e.message);
+            amenityUnavailableReason = 'the amenity file did not load.';
+            settleSiteAmenities();
           });
+      } else if (window.OsmAmenities) {
+        amenityUnavailableReason = 'the data service did not load.';
+        settleSiteAmenities();
       }
 
       // Data quality assessment
