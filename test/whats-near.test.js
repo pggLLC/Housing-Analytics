@@ -106,5 +106,10 @@ setTimeout(() => {
   hosts.wn3 = { innerHTML: '' };
   WN.render('wn3', { lat: BAYFIELD[0], lon: BAYFIELD[1] });
   assert.ok(hosts.wn3.innerHTML.includes('Nearby places are unavailable'));
+  // The connector script itself missing: unavailable, never "still loading".
+  delete ctx.window.OsmAmenities;
+  hosts.wn4 = { innerHTML: '' };
+  WN.render('wn4', { lat: DURANGO[0], lon: DURANGO[1] });
+  assert.ok(hosts.wn4.innerHTML.includes('Nearby places are unavailable: the amenity connector did not load.'));
   console.log('whats-near: all checks passed');
 }, 500);

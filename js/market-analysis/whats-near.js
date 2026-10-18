@@ -304,6 +304,7 @@
     var token = ++renderToken;
     var lat = site.lat, lon = site.lon;
     var osm = window.OsmAmenities;
+    if (!osm) { placesUnavailableReason = 'the amenity connector did not load.'; }
 
     var places = osm && osm.isLoaded()
       ? PLACE_ROWS.map(function (row) { return placeRow(osm, lat, lon, row); })
