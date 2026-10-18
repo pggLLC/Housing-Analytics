@@ -10,7 +10,7 @@
  *      registry had loaded, so non-featured place lookups returned null
  *      and the LEHD/DOLA fallback never ran.
  *
- *   2. "Baseline: 60% AMI Rentals" + "Fast-Track Approval Eligibility"
+ *   2. "Baseline (2024–2026 cycle)" + "Fast-Track Review"
  *      cards stayed on their "Select a geography…" placeholders forever
  *      — no renderer touched the prop123BaselineContent or
  *      prop123FastTrackContent containers.
@@ -52,8 +52,9 @@ assert(/prop123BaselineContent/.test(rend),
   'renderer writes #prop123BaselineContent');
 assert(/prop123FastTrackContent/.test(rend),
   'renderer writes #prop123FastTrackContent');
-// Fast-track uses the existing eligibility helper (population + threshold).
-assert(/checkFastTrackEligibility\(pop,\s*geoType\)/.test(rend),
+// Fast-track uses the shared eligibility helper. The law sets no population
+// threshold (C.R.S. § 29-32-105(2)), so the renderer passes no population.
+assert(/checkFastTrackEligibility\(null,\s*prop123Unincorporated\(geoType, geoLabel\)/.test(rend),
   'fast-track delegates to checkFastTrackEligibility utility');
 
 console.log('\n[test] #3 HSA dropdown changes sync back to WorkflowState');

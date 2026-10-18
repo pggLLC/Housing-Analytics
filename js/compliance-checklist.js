@@ -1,6 +1,6 @@
 /*
   compliance-checklist.js
-  Prop 123 / HB 22-1093 Compliance Checklist Manager
+  Prop 123 (C.R.S. 29-32) Compliance Checklist Manager
 
   Provides pure-function state management for the five-item compliance checklist
   with localStorage persistence, deadline detection, and cross-tab sync.
@@ -10,7 +10,7 @@
     updateChecklistItem(itemId, checked, metadata) — Persist checkbox state
     getChecklistState(geoType, geoid)              — Retrieve full saved state
     isChecklistComplete(geoType, geoid)            — All 5 items checked?
-    getNextAction(geoType, geoid)                  — Returns the next required action
+    getNextAction(geoType, geoid[, now])           — Returns the next required action
     broadcastChecklistChange(event)                — Emit change event for sync
     validateChecklistItem(itemId, value)           — Validate item data before save
 
@@ -27,9 +27,18 @@
   /** LocalStorage namespace prefix — avoids collisions with other tools. */
   var STORAGE_PREFIX = 'hna_compliance_';
 
-  /** DOLA annual filing deadline (month is 0-indexed: 0 = January). */
-  var DOLA_DEADLINE_MONTH = 0;   // January
-  var DOLA_DEADLINE_DAY   = 31;
+  /** Saved-state version. v2 (2026-10): every item was redefined by the
+   *  legal corrections (baseline now includes ownership homes; the goal is
+   *  cycle-specific; fast-track means the 90-day decision; 'dola' is the
+   *  November 1 cycle commitment, not an annual January 31 notice; 'report'
+   *  is end-of-cycle). A box ticked for an old task must not show the new
+   *  one as done, so v1 state is not carried over. */
+  var STATE_VERSION = 'v2';
+
+  /** Prop 123 commitment deadline, November 1 before the cycle it covers
+   *  (C.R.S. § 29-32-105(1)(d)). Month is 0-indexed: 10 = November. */
+  var DOLA_DEADLINE_MONTH = 10;  // November
+  var DOLA_DEADLINE_DAY   = 1;
 
   /** Days before DOLA deadline to show warning badge. */
   var DEADLINE_WARN_DAYS = 30;
@@ -39,11 +48,11 @@
 
   /** Human-readable labels for each item. */
   var ITEM_LABELS = {
-    baseline:  'Establish baseline (60% AMI rentals documented)',
-    growth:    'Adopt 3% annual growth target',
-    fasttrack: 'Document fast-track approval process',
-    dola:      'File notice with DOLA (annual deadline: January 31)',
-    report:    'Annual reporting filed with DOLA',
+    baseline:  'Establish baseline (2024–2026 cycle)',
+    growth:    'Commit to a unit goal',
+    fasttrack: 'Adopt fast-track review (90-day decision)',
+    dola:      'File commitment with DOLA (deadline: November 1)',
+    report:    'Report progress to DOLA by the end of the cycle',
   };
 
   // ── Storage helpers ────────────────────────────────────────────────────────
@@ -55,8 +64,9 @@
    * @returns {string}
    */
   function storageKey(geoType, geoid) {
-    return STORAGE_PREFIX + (geoType || 'county') + '_' + (geoid || '');
+    return STORAGE_PREFIX + STATE_VERSION + '_' + (geoType || 'county') + '_' + (geoid || '');
   }
+
 
   /**
    * Read a JSON value from localStorage; returns null on any error.
@@ -117,7 +127,7 @@
   // ── DOLA deadline helpers ──────────────────────────────────────────────────
 
   /**
-   * Calculate the next DOLA deadline (January 31) from today.
+   * Calculate the next commitment deadline (November 1) from today.
    * @param {Date} [now] - Override for testing; defaults to today.
    * @returns {Date}
    */
@@ -125,7 +135,7 @@
     var d    = now || new Date();
     var year = d.getFullYear();
     var dl   = new Date(year, DOLA_DEADLINE_MONTH, DOLA_DEADLINE_DAY);
-    // Compare dates only (ignore time-of-day) to avoid rolling over on Jan 31 itself
+    // Compare dates only (ignore time-of-day) to avoid rolling over on the deadline itself
     var todayMidnight = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     if (todayMidnight > dl) {
       dl = new Date(year + 1, DOLA_DEADLINE_MONTH, DOLA_DEADLINE_DAY);
@@ -167,6 +177,11 @@
 
   // ── Public API ─────────────────────────────────────────────────────────────
 
+  /** Read saved state for a geography (v2 key only). @returns {object|null} */
+  function loadState(geoType, geoid) {
+    return lsRead(storageKey(geoType, geoid));
+  }
+
   /**
    * Initialize the checklist for a specific geography.
    * Loads any existing persisted state; falls back to default if none found.
@@ -180,8 +195,7 @@
    * @returns {object} The current checklist state
    */
   function initComplianceChecklist(geoType, geoid) {
-    var key   = storageKey(geoType, geoid);
-    var state = lsRead(key) || createDefaultState(geoType, geoid);
+    var state = loadState(geoType, geoid) || createDefaultState(geoType, geoid);
 
     // Ensure all items are present (handles state objects from older versions)
     ITEM_IDS.forEach(function (id) {
@@ -221,7 +235,7 @@
     var geoid   = _activeGeoid   || _currentGeoid();
     var key     = storageKey(geoType, geoid);
 
-    var state = lsRead(key) || createDefaultState(geoType, geoid);
+    var state = loadState(geoType, geoid) || createDefaultState(geoType, geoid);
 
     var resolvedDate;
     if (meta && meta.date) {
@@ -258,8 +272,7 @@
    * @returns {object|null} State object or null if not yet saved
    */
   function getChecklistState(geoType, geoid) {
-    var key = storageKey(geoType, geoid);
-    return lsRead(key);
+    return loadState(geoType, geoid);
   }
 
   /**
@@ -289,15 +302,15 @@
    * @param {string} [geoid]
    * @returns {string}
    */
-  function getNextAction(geoType, geoid) {
+  function getNextAction(geoType, geoid, now) {
     var gt = geoType || _activeGeoType || _currentGeoType();
     var gd = geoid   || _activeGeoid   || _currentGeoid();
 
     var state = getChecklistState(gt, gd) || createDefaultState(gt, gd);
 
     // DOLA deadline warning overrides normal flow
-    if (isDeadlineWarning()) {
-      var dl     = nextDolaDeadline();
+    if (isDeadlineWarning(now)) {
+      var dl     = nextDolaDeadline(now);
       var opts   = { month: 'long', day: 'numeric' };
       var dlStr  = dl.toLocaleDateString('en-US', opts);
       if (!state.items.dola || !state.items.dola.checked) {

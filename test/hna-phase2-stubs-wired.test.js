@@ -88,8 +88,9 @@ assert(ftBody !== null, 'function exists');
 if (ftBody) {
   assert(ftBody.length > 200, 'body has substance');
   assert(/ftResult/.test(ftBody), 'writes to #ftResult');
-  assert(/HB 22-1093|fast.track/i.test(ftBody), 'references HB 22-1093 / fast-track');
-  assert(/estMonths|baseMonths/.test(ftBody), 'computes a timeline estimate');
+  assert(/fast.track/i.test(ftBody), 'references fast-track');
+  assert(/calculateFastTrackTimeline/.test(ftBody), 'uses the shared fast-track rule in hna-utils');
+  assert(/ftAffordable/.test(ftBody), 'reads the affordable-homes input the page renders');
 }
 
 console.log('\n[test] renderHistoricalSection no longer a stub');

@@ -1465,12 +1465,15 @@
         </div>
       </section>
 
-      <!-- Prop 123 / HB 22-1093 Compliance -->
+      <!-- Prop 123 (C.R.S. 29-32) Compliance -->
       <section id="prop123-section" class="chart-card span-12 prop123-section">
-        <h2>Affordable Housing Compliance (HB 22-1093 / Prop 123)</h2>
+        <h2>Affordable Housing Compliance (Proposition 123)</h2>
         <p style="color:var(--muted)">
-          Colorado's HB 22-1093 (Proposition 123, effective Jan 1, 2023) requires communities to track affordable
-          housing progress. Jurisdictions must establish a baseline of 60% AMI rentals and commit to 3% annual growth.
+          Proposition 123, approved by Colorado voters in November 2022 and codified at
+          <a href="https://cdola.colorado.gov/about-proposition-123" target="_blank" rel="noopener">C.R.S. §§ 29-32-101 to -106</a>,
+          funds affordable housing. Projects can draw on it only in a city, town or county that has filed a commitment
+          with DOLA's Division of Housing (C.R.S. § 29-32-105(1)). From 2027 the local government must also run a
+          fast-track review for affordable housing (§ 29-32-105(2), (3)(a)).
           <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 page</a>
         </p>
 
@@ -1482,7 +1485,7 @@
         <div class="prop123-cards-row">
           <!-- Baseline card -->
           <div class="baseline-card">
-            <h3>Baseline: 60% AMI Rentals</h3>
+            <h3>Baseline (2024–2026 cycle)</h3>
             <div id="prop123BaselineContent">
               <p style="color:var(--muted);font-size:1.133rem">Select a geography to calculate the baseline.</p>
             </div>
@@ -1490,16 +1493,16 @@
 
           <!-- Growth tracking card -->
           <div class="growth-tracking">
-            <h3>3% Annual Growth Target</h3>
+            <h3>Unit Goal (2024–2026 cycle)</h3>
             <div id="prop123GrowthContent">
               <p style="color:var(--muted);font-size:1.133rem">Baseline required before growth targets can be set.</p>
-              <div class="timeline-chart" data-source="DOLA Prop 123 Baseline + 3% Growth Target" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="transformed"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
+              <div class="timeline-chart" data-source="DOLA Prop 123 Baseline + 2024–2026 Unit Goal" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="transformed"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
             </div>
           </div>
 
           <!-- Fast-track eligibility card -->
           <div class="fast-track-card">
-            <h3>Fast-Track Approval Eligibility</h3>
+            <h3>Fast-Track Review</h3>
             <div id="prop123FastTrackContent">
               <p style="color:var(--muted);font-size:1.133rem">Select a geography to check eligibility.</p>
             </div>
@@ -1515,7 +1518,7 @@
           <div id="prop123HistoricalStatus" class="compliance-status" style="margin-bottom:10px;">
             Select a geography to view compliance status.
           </div>
-          <div class="timeline-chart" style="height:220px;" data-source="DOLA Prop 123 Annual Filings" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="raw">
+          <div class="timeline-chart" style="height:220px;" data-source="DOLA Prop 123 Commitment Filings" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="raw">
             <canvas id="chartProp123Historical" role="img" aria-label="Proposition 123 historical compliance tracking chart"></canvas>
           </div>
           <div id="prop123HistoricalContent" style="margin-top:12px;overflow-x:auto;"></div>
@@ -1523,20 +1526,21 @@
 
         <!-- Phase 3: Fast-track timeline calculator -->
         <div id="fastTrackCalculator" class="chart-card" style="margin-top:14px;padding:14px;">
-          <h3>Fast-Track Approval Timeline Calculator</h3>
+          <h3>Fast-Track Review Check</h3>
           <p style="color:var(--muted);font-size:1.133rem;margin-bottom:10px;">
-            Estimate permitting duration under HB 22-1093 fast-track vs. standard process.
-            <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093</a>
+            Check whether a project qualifies for Prop 123 fast-track review: at least half its homes affordable,
+            decided within 90 calendar days of a complete application (C.R.S. § 29-32-105(2)).
+            <a href="https://cdola.colorado.gov/prop123fasttrack" target="_blank" rel="noopener">DOLA fast-track guidance</a>
           </p>
           <div class="fast-track-inputs" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
             <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
-              Units
+              Total homes
               <input id="ftUnits" type="number" min="1" value="20"
                 style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
             </label>
             <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
-              AMI %
-              <input id="ftAmi" type="number" min="1" max="120" value="60"
+              Affordable homes
+              <input id="ftAffordable" type="number" min="0" value="10"
                 style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
             </label>
             <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
@@ -1545,7 +1549,7 @@
                 style="margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
                 <option value="place">Incorporated Place</option>
                 <option value="county">County</option>
-                <option value="cdp">CDP (unincorporated)</option>
+                <option value="cdp">Unincorporated (CDP)</option>
               </select>
             </label>
             <button onclick="(function(){var m=document.getElementById('fastTrackCalculator');if(m&&window.__HNA_renderFastTrack)window.__HNA_renderFastTrack();})()"
@@ -1573,7 +1577,7 @@
         <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Compliance Checklist</h3>
           <p style="font-size:1.133rem;color:var(--muted);margin-bottom:8px">
-            Prop 123 (HB 22-1093) compliance steps for the selected jurisdiction. Checked items are saved locally by geography.
+            Prop 123 (C.R.S. 29-32) compliance steps for the selected jurisdiction. Checked items are saved locally by geography.
             <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
           </p>
           <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
@@ -1581,13 +1585,14 @@
           <ul class="compliance-checklist" id="prop123Checklist">
             <li class="checklist-item pending" id="checkItemBaseline" data-storage-key="baseline">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
-              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)" aria-checked="false">
+              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (2024–2026 cycle)" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkBaseline"><strong>Establish baseline</strong> — document the number of affordable rentals at 60% AMI or below</label>
+                <label for="chkBaseline"><strong>Establish baseline (2024–2026 cycle)</strong> — homes affordable to renters at or below 60% AMI and to buyers at or below 100% AMI</label>
                 <p class="checklist-item-note">
-                  <em>Why it matters:</em> The baseline establishes the starting inventory from which the 3% annual growth target is measured.
-                  Accurate baseline data is required before a jurisdiction can commit to Prop 123.
-                  Source: ACS DP04 data shown in the Prop 123 panel above; verify against
+                  <em>Why it matters:</em> For the 2024–2026 cycle the goal was set from this baseline, counted from 2017-2021 ACS,
+                  HUD CHAS or DOLA's baseline tool (C.R.S. §§ 29-32-101(2), 29-32-105(1)(c)). From the 2027–2029 cycle the goal is set
+                  from recent building permits instead, so the baseline no longer sets it (HB26-1313).
+                  The estimate in the panel above is a rough proxy (about 6% of all housing units), not a count of affordable homes, and can be high or low; verify against
                   <a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Gap Map</a>.
                 </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
@@ -1595,14 +1600,18 @@
             </li>
             <li class="checklist-item pending" id="checkItemGrowth" data-storage-key="growth">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
-              <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target" aria-checked="false">
+              <input type="checkbox" id="chkGrowth" aria-label="Commit to a unit goal" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkGrowth"><strong>Adopt 3% annual growth target</strong> — formally commit to growing affordable stock by ≥3% each year</label>
+                <label for="chkGrowth"><strong>Commit to a unit goal</strong> — the number of new or newly affordable homes for the cycle</label>
                 <p class="checklist-item-note">
-                  <em>Why it matters:</em> The 3% annual growth commitment is a core Prop 123 requirement.
-                  Adoption signals to DOLA, CHFA, and developers that the jurisdiction supports affordable housing creation.
-                  Without adoption, the jurisdiction is ineligible for Prop 123 land grant and workforce housing funds.
-                  Reference: <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093, Section 3(1)(b)</a>.
+                  <em>Why it matters:</em> 2024–2026: 3% of the baseline per year, counted as new or newly affordable homes
+                  (3 years = 9%), not compound growth. 2027–2029: average yearly new-housing permits over the past 3 years
+                  × years committed × 10%, 15% or 20% depending on county job growth, with a minimum of 1 home a year.
+                  Without a commitment (and, from 2027, fast-track review), projects in the jurisdiction cannot receive Prop 123 money
+                  from the OEDIT/CHFA Affordable Housing Financing Fund (land banking, equity, concessionary debt) or DOLA's
+                  Affordable Housing Support Fund (homeownership, local planning capacity grants). DOLA's homelessness programs are the exception.
+                  Reference: C.R.S. § 29-32-105(1)(a) (2024–2026) and (1)(d) (2027 on), as amended by
+                  <a href="https://leg.colorado.gov/bills/hb26-1313" target="_blank" rel="noopener">HB26-1313</a>.
                 </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
@@ -1611,23 +1620,25 @@
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkFastTrack"><strong>Establish fast-track approval process</strong> — adopt a streamlined permitting path for qualifying affordable developments</label>
+                <label for="chkFastTrack"><strong>Adopt fast-track review</strong> — a final decision within 90 calendar days for projects where at least half the homes are affordable</label>
                 <p class="checklist-item-note">
-                  <em>Why it matters:</em> A documented fast-track process is required for jurisdictions with populations ≥ 1,000 (municipalities) or ≥ 5,000 (counties).
-                  Fast-tracking reduces permitting delays by 50%+ and is a prerequisite to access DOLA land grant funds.
-                  See <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 FAQ</a> for approved process templates.
+                  <em>Why it matters:</em> From January 1, 2027, a city, town or county that wants Prop 123 funding must decide qualifying
+                  applications within 90 calendar days (C.R.S. § 29-32-105(2)(a), (3)(a)). It covers development permits, not subdivisions
+                  or rezonings. A developer may ask for a 90-day extension, and may opt out (§ 29-32-105(2)(b), (d)). There is no population threshold.
+                  See <a href="https://cdola.colorado.gov/prop123fasttrack" target="_blank" rel="noopener">DOLA fast-track guidance</a>.
                 </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
             <li class="checklist-item pending" id="checkItemDola" data-storage-key="dola">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
-              <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)" aria-checked="false">
+              <input type="checkbox" id="chkDola" aria-label="File commitment with DOLA (by Nov 1)" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkDola"><strong>File commitment notice with DOLA</strong> — annual deadline: <strong>January 31</strong></label>
+                <label for="chkDola"><strong>File commitment with DOLA</strong> — deadline: <strong>November 1</strong> before the cycle starts</label>
                 <p class="checklist-item-note">
-                  <em>Why it matters:</em> The annual DOLA notice is the formal on-record commitment that preserves eligibility for the current funding cycle.
-                  Missing the January 31 deadline disqualifies the jurisdiction from Prop 123 land grant and CDOH workforce housing funds for that year.
+                  <em>Why it matters:</em> One filing covers the whole three-year cycle: Nov 1, 2026 for 2027–2029, or Nov 1, 2027 or 2028 to join part-way.
+                  A government that does not file is ineligible for Prop 123 money the following calendar year, and may file later
+                  for the rest of the cycle (C.R.S. § 29-32-105(1)(d), (3)(b)(III), (V)).
                   File at the <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a>.
                 </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
@@ -1635,12 +1646,14 @@
             </li>
             <li class="checklist-item pending" id="checkItemReport" data-storage-key="report">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
-              <input type="checkbox" id="chkReport" aria-label="Annual reporting filed" aria-checked="false">
+              <input type="checkbox" id="chkReport" aria-label="Cycle progress reported" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkReport"><strong>Annual progress report filed with DOLA</strong> — documents units added toward the 3% growth target</label>
+                <label for="chkReport"><strong>Report progress to DOLA</strong> — homes counted toward the goal, by the end of each cycle</label>
                 <p class="checklist-item-note">
-                  <em>Why it matters:</em> Annual reporting demonstrates accountability and validates the jurisdiction's progress.
-                  Failure to report may result in clawback of Prop 123 funds received and suspension of eligibility.
+                  <em>Why it matters:</em> Homes are documented by the end of each three-year cycle (Dec 31, 2026 for 2024–2026);
+                  annual reports are encouraged but not required. Missing the cycle goal without a waiver makes the jurisdiction
+                  ineligible for the first year of the next cycle (C.R.S. § 29-32-105(3)(b)(IV)). Money already received does not have
+                  to be paid back (§ 29-32-105(3)(b)(VII)).
                   Cross-reference with <a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a>
                   for LIHTC project timelines that count toward the growth target.
                 </p>
@@ -1654,15 +1667,15 @@
         <div class="resources-section chart-card" style="margin-top:14px;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Resources &amp; Guidance</h3>
           <ul>
-            <li><strong>Annual filing deadline:</strong> January 31 each year — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">File commitment notice with DOLA</a></li>
-            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Official guidance, FAQ, and forms</li>
+            <li><strong>Commitment deadline:</strong> November 1 before each cycle (Nov 1, 2026 for 2027–2029) — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA commitment filings</a></li>
+            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123 page</a> — Official guidance, FAQ, and forms</li>
             <li><a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA State Demography Office</a> — Population forecasts and Regional Data Explorer used in projections above</li>
             <li>The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive — Every Colorado program that funds affordable housing, with a finder that narrows them to the ones a project can use</li>
             <li><a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">CDOH (Colorado Division of Housing)</a> — State housing programs, vouchers, and funding streams</li>
             <li><a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Housing Affordability Gap Map</a> — County-level gap analysis aligned with Prop 123 baseline</li>
             <li><a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a> — Developer guides, LIHTC program resources, and QAP</li>
-            <li><a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093 Full Text</a> — Colorado General Assembly</li>
-            <li><strong>Eligible jurisdictions:</strong> Municipalities ≥ 1,000 population &amp; counties ≥ 5,000 population (per HB 22-1093)</li>
+            <li><a href="https://cdola.colorado.gov/about-proposition-123" target="_blank" rel="noopener">About Proposition 123</a> (DOLA) — the law, C.R.S. §§ 29-32-101 to -106, and its amendments; <a href="https://leg.colorado.gov/bills/hb26-1313" target="_blank" rel="noopener">HB26-1313</a> set the 2027–2029 goal formula</li>
+            <li><strong>Who can file:</strong> any city, town or county, at any size, and tribal governments. A county's commitment covers its unincorporated areas, including census-designated places (C.R.S. § 29-32-105(1)(b)).</li>
           </ul>
         </div>
       </section>

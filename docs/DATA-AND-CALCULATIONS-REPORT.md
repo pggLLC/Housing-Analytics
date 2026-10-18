@@ -196,9 +196,9 @@ HUD provides several distinct datasets that the platform uses:
 
 ---
 
-### 2.8 Proposition 123 / Colorado HB 22-1093
+### 2.8 Proposition 123 (C.R.S. §§ 29-32-101 to -106)
 
-**What it is:** Colorado Proposition 123 (2022) created a dedicated state fund for affordable housing, funded by a portion of state income taxes. Local governments that commit to specific zoning reforms and affordability requirements gain access to these funds.
+**What it is:** Colorado Proposition 123 (2022) created a dedicated state fund for affordable housing, funded by a portion of state income taxes. Local governments that file a commitment with DOLA to increase affordable housing (3% a year for 2024–2026; a permit-based goal from 2027) and adopt 90-day fast-track review for qualifying projects gain access to these funds.
 
 **What COHO uses it for:**
 - Mapping which Colorado jurisdictions have committed to Proposition 123 requirements
