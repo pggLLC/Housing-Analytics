@@ -329,7 +329,7 @@
         var sb = data.metadata.state_baseline;
         rendered.push(
           '<div class="ta-baseline">' +
-            '<strong>Statewide baseline (default for 501(c)(3) ≤ 60% AMI):</strong> ' +
+            '<strong>Statewide exemptions:</strong> ' +
             (sb.url
               ? '<a href="' + _esc(sb.url) + '" target="_blank" rel="noopener">' + _esc(sb.note) + '</a>'
               : _esc(sb.note)) +
