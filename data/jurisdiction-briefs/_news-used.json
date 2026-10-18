@@ -805,9 +805,12 @@
       "geoid": "0876795",
       "title": "Telluride School District talks housing developments",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX1V2M2REZ2JhQVFiRldUb3I0TTVKeHRNVXhyb0VpZXUtYnVxTFppYTZQcHhkYUwwOUpvRWx5X0ozbS1HNFpmak5RZHVONnVncEdhOW50SGEtV0hXT29fSjZnX3FxNjA0aVRsOVh6ZWU2Zk5SWnMzT2Z4d2dXR1lhXy1xTGVoTUVaMFplWg?oc=5",
-      "status": "dismissed",
+      "status": "unread",
       "decided": "2026-10-18",
-      "reason": "Statewide CHFA loan program for school staff; the article is behind a paywall past its first paragraph."
+      "reason": "The original report is paywalled past its first paragraph. The Daily Telluridian reports the school district is exploring building workforce housing itself or with a partner; read the original by hand before using or dismissing it.",
+      "date": "2026-10-17",
+      "source": "The Telluride Times",
+      "match": "place"
     },
     {
       "geoid": "0876795",

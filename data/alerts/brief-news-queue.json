@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-18T14:10:08Z",
+    "generated": "2026-10-18T14:19:04Z",
     "as_of": "2026-10-18",
     "stale_days": 30,
     "events_as_of": "2026-10-18",
@@ -147,6 +147,31 @@
       "events": [],
       "reasons": [
         "2 older stories not read yet",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "scope": "place",
+      "county_fips": "08113",
+      "published": false,
+      "last_curated": "2026-10-18",
+      "days_since_review": 0,
+      "stories": [
+        {
+          "title": "Telluride School District talks housing developments",
+          "source": "The Telluride Times",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX1V2M2REZ2JhQVFiRldUb3I0TTVKeHRNVXhyb0VpZXUtYnVxTFppYTZQcHhkYUwwOUpvRWx5X0ozbS1HNFpmak5RZHVONnVncEdhOW50SGEtV0hXT29fSjZnX3FxNjA0aVRsOVh6ZWU2Zk5SWnMzT2Z4d2dXR1lhXy1xTGVoTUVaMFplWg?oc=5",
+          "date": "2026-10-17",
+          "match": "place",
+          "also": [],
+          "unread": "The original report is paywalled past its first paragraph. The Daily Telluridian reports the school district is exploring building workforce housing itself or with a partner; read the original by hand before using or dismissing it."
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 older story not read yet",
         "draft, not shown on the site"
       ]
     },
@@ -334,20 +359,6 @@
       "stories": [],
       "events": [],
       "reasons": []
-    },
-    {
-      "geoid": "0876795",
-      "jurisdiction": "Town of Telluride",
-      "scope": "place",
-      "county_fips": "08113",
-      "published": false,
-      "last_curated": "2026-10-18",
-      "days_since_review": 0,
-      "stories": [],
-      "events": [],
-      "reasons": [
-        "draft, not shown on the site"
-      ]
     }
   ],
   "candidates": [
