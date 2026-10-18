@@ -94,8 +94,11 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
   st.reports = R.toggleReport(st, L, 'communities', row('communities', '0800003'));
   ok(R.isReported(st, 'communities', row('communities', '0800003')), 'ticking again puts it back');
   st.reports = R.toggleReport(st, L, 'sites', row('sites', 's-b'));
-  ok(!st.reports.sites.includes('test-dossier') && !st.reports.sites.includes('s-b'), 'unticking a carded site drops both its ids');
-  ok(R.isReported(st, 'sites', row('sites', 'dossier-x')), 'a second site sharing that dossier keeps its own tick');
+  ok(!R.isReported(st, 'sites', row('sites', 's-b')) && !st.reports.sites.includes('s-b'), 'unticking a carded site drops its record id');
+  ok(R.isReported(st, 'sites', row('sites', 'dossier-x')) && st.reports.sites.includes('test-dossier'), 'a second site sharing that dossier keeps its tick and the dossier stays in the email');
+  ok(!R.syncReports(st, L) && !R.isReported(st, 'sites', row('sites', 's-b')), 'reloading the page does not tick the unticked site again');
+  st.reports = R.toggleReport(st, L, 'sites', row('sites', 'dossier-x'));
+  ok(!st.reports.sites.includes('test-dossier'), 'unticking both sites drops the dossier');
   // A site picked before it had a card stays ticked once a card arrives, and the card's id is added.
   const later = { communities: [], sites: [], reports: { communities: [], sites: ['s-a'] } };
   const carded = R.build({ ...DATA, sites: DATA.sites.map((x) => x.id === 's-a' ? { ...x, card: { ...card('ripening'), dossier: 'alpha-dossier' } } : x) }, PIPELINE, SIGNALS);

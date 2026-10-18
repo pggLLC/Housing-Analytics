@@ -129,41 +129,40 @@
 
   // ---- Daily update picks. The alert email's "Today's tasks" reports on the
   // projects ticked here: a community by its geoid, a site by its dossier when
-  // it has a readiness card (the email reads the card). A site is saved under
-  // every id it has (record id, and dossier when carded), so it stays ticked
-  // when a card is added or removed; syncReports fills in a new card's id.
+  // it has a readiness card (the email reads the card). A row counts as ticked
+  // when its own row key is saved; the saved list also carries each ticked
+  // row's email id, rebuilt from the ticked rows on every change, so a card
+  // added or removed (or two sites sharing a dossier) never flips a tick.
   // No choice saved (reports null) means every project is reported; the first
   // untick writes out the full choice for both lists, minus that row.
   function reportId(s) { return s.card && s.card.dossier ? String(s.card.dossier) : String(s.id); }
-  function reportIds(it) { return it.report === it.key ? [it.report] : [it.report, String(it.key)]; }
+  function reportIds(it) { return it.report === String(it.key) ? [it.report] : [String(it.key), it.report]; }
   function isReported(state, tab, it) {
-    if (!state.reports) return true;
-    var saved = state.reports[tab];
-    return reportIds(it).some(function (id) { return saved.indexOf(id) !== -1; });
+    return !state.reports || state.reports[tab].indexOf(String(it.key)) !== -1;
+  }
+  // The saved list for one tab: ids no current row owns (kept for rows that
+  // may come back), then every id of each ticked row.
+  function rebuild(state, rows, tab, flip) {
+    var owned = [].concat.apply([], rows.map(reportIds));
+    var out = state.reports ? state.reports[tab].filter(function (id) { return owned.indexOf(id) === -1; }) : [];
+    rows.forEach(function (it) {
+      if (isReported(state, tab, it) === (it !== flip)) reportIds(it).forEach(function (id) { if (out.indexOf(id) === -1) out.push(id); });
+    });
+    return out;
   }
   function toggleReport(state, lists, tab, it) {
-    var all = function (xs) { return [].concat.apply([], xs.map(reportIds)); };
-    var r = state.reports || { communities: all(lists.communities), sites: all(lists.sites) };
-    var next = { communities: r.communities.slice(), sites: r.sites.slice() };
-    var ids = reportIds(it);
-    next[tab] = isReported(state, tab, it)
-      ? next[tab].filter(function (id) { return ids.indexOf(id) === -1; })
-      : next[tab].concat(ids.filter(function (id) { return next[tab].indexOf(id) === -1; }));
-    return next;
+    return {
+      communities: rebuild(state, lists.communities, 'communities', tab === 'communities' ? it : null),
+      sites: rebuild(state, lists.sites, 'sites', tab === 'sites' ? it : null)
+    };
   }
-  // Add any id a ticked row now has but the saved choice lacks (a card added
+  // Bring the saved ids in line with the ticked rows (a card added or removed
   // since the last save). Returns true when the choice changed.
   function syncReports(state, lists) {
     if (!state.reports) return false;
-    var changed = false;
-    ['communities', 'sites'].forEach(function (tab) {
-      lists[tab].forEach(function (it) {
-        if (!isReported(state, tab, it)) return;
-        reportIds(it).forEach(function (id) {
-          if (state.reports[tab].indexOf(id) === -1) { state.reports[tab].push(id); changed = true; }
-        });
-      });
-    });
+    var next = toggleReport(state, lists, null, null);
+    var changed = JSON.stringify(next) !== JSON.stringify(state.reports);
+    state.reports = next;
     return changed;
   }
 
