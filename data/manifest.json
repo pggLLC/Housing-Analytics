@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T07:17:44.482043Z",
+  "generated": "2026-10-18T07:30:22.047008Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7384,7 +7384,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 10646
+      "bytes": 11368
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -7994,7 +7994,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16095
+      "bytes": 16094
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
