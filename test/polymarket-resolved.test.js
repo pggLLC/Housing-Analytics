@@ -291,6 +291,10 @@ const cardCases = [
   ['fed-decision-in-january-20260729233815502', 'pm-fed-jan-yes', 'No change', .64],
   ['tech-layoffs-up-or-down-in-2026', 'pm-layoffs', 'Up', .22],
   ['will-the-30-year-mortgage-rate-hit-in-2026', 'pm-mortgage-detail', 'Below 6%', .31],
+  ['fed-decision-in-december-20260729232808632', 'pm-fed-dec-detail', 'No change', .21],
+  ['how-high-will-10-year-treasury-yield-go-before-2027', 'pm-t10-high-detail', '5.5%', .26],
+  ['how-low-will-10-year-treasury-yield-get-before-2027', 'pm-t10-low-detail', 'Below 4.7%', .24],
+  ['us-recession-by-end-of-2027-20260807185409760', 'pm-recession-2027-detail', 'Recession', .35],
 ];
 assert.deepEqual(cardCases.map(([slug]) => slug).sort(), [...curated].sort(), 'exercise every curated card');
 
@@ -369,7 +373,8 @@ async function render(cache, live, curatedOverride) {
     const panel = settled.document.getElementById('polymarket-section');
     assert.equal(panel.querySelector(`[data-pm-slug="${recessionSlug}"]`), null, 'a settled market keeps no card');
     assert.equal(settled.document.getElementById('pm-recession'), null, 'a settled market keeps no headline tile');
-    assert.equal(settled.document.getElementById('pm-co-recession').textContent, 'Unavailable');
+    assert.equal(settled.document.getElementById('pm-co-recession').textContent, '35%',
+      'the 2027 recession market fills the Colorado tile once the 2026 one settles');
     assert.deepEqual(settled.requests, [], 'a settled market is not fetched live');
     assert.equal(panel.querySelectorAll('a.hp-binary-card').length, curated.length - 1);
     assert.doesNotMatch(panel.textContent, /Loading/);
@@ -399,6 +404,26 @@ async function render(cache, live, curatedOverride) {
     assert.match(added.document.getElementById('pm-fixture-new-detail').textContent, /48%/);
     assert.equal(added.document.querySelectorAll('a.hp-binary-card').length, curated.length + 1);
   } finally { added.dom.window.close(); }
+
+  // A Fed meeting priced for a hike shows it as a hike, not a cut; ladder
+  // long shots under 5% are counted rather than drawn.
+  const janSlug = 'fed-decision-in-january-20260729233815502';
+  const lowSlug = 'how-low-will-10-year-treasury-yield-get-before-2027';
+  const line = (q, p) => ({ groupItemTitle: q, outcomePrices: JSON.stringify([p, 1 - p]), volume: '100' });
+  const shaped = await render({ events: { ...fixtures,
+    [janSlug]: { markets: [line('25 bps decrease', .015), line('No change', .625), line('25 bps increase', .34), line('50+ bps increase', .0115)] },
+    [lowSlug]: { markets: [line('Below 4.7%', .24), line('Below 4.6%', .145), line('Below 2.0%', .0235), line('Below 3.0%', .0175)] },
+  } }, {});
+  try {
+    const d = shaped.document;
+    assert.equal(d.getElementById('pm-fed-jan-yes').textContent, '63%');
+    assert.equal(d.getElementById('pm-fed-jan-up').textContent, '35%');
+    assert.equal(d.getElementById('pm-fed-jan-no').textContent, '2%');
+    const low = d.getElementById('pm-t10-low-detail').textContent;
+    assert.match(low, /Falls below 4\.7%/);
+    assert.doesNotMatch(low, /below 2\.0%/i, 'a 2% long shot is not drawn');
+    assert.match(low, /2 more open lines are under 5%/);
+  } finally { shaped.dom.window.close(); }
 
   console.log(`polymarket-resolved: PASS (${slugs.length} cached live events, ${housing.length} housing, ${cardCases.length} rendered cards, 0 settled)`);
 })().catch((error) => { console.error(error); process.exitCode = 1; });
