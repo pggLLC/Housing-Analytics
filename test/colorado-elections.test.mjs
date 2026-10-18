@@ -594,8 +594,7 @@ test('rendered research notes and coverage labels carry no internal codes', asyn
   assert.ok(new Set(rows.map((tr) => tr.dataset.coverageState)).size > 1, 'the scan must cover several coverage states');
   // Non-vacuity: the source notes really do name codes the renderer has to translate.
   const coded = BALLOTS.flatMap((b) => [...b.coverage, ...b.entries])
-    .flatMap((row) => row.limitations || []).filter((text) => CODE_TOKEN.test(proseOnly(text)));
-  CODE_TOKEN.lastIndex = 0;
+    .flatMap((row) => row.limitations || []).filter((text) => (proseOnly(text).match(CODE_TOKEN) || []).length > 0);
   assert.ok(coded.length > 0, 'the scan must find source notes that name a code');
   const shown = [...doc.querySelectorAll('#election-data li, #election-data td, #election-data p')];
   assert.ok(shown.length > 100, 'the scan must inspect rendered notes');

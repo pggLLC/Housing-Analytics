@@ -354,8 +354,12 @@ test('with no jurisdiction chosen, the demand sections ask for a place instead o
   // reserved for a chosen jurisdiction that really could not be screened.
   const example = mountFor(StudyGeography.inputs(null, DATA, ENGINES));
   const orphan = mountFor(StudyGeography.inputs({ geoid: '0899999', geoLevel: 'place', name: 'Unknown' }, DATA, ENGINES));
-  const bannerRoute = example.mount.querySelector('[data-study-mode="example"] a[href*="select-jurisdiction"]').getAttribute('href');
-  const failureWording = orphan.mount.querySelector('#ms-s5').textContent;
+  const bannerLink = example.mount.querySelector('[data-study-mode="example"] a[href*="select-jurisdiction"]');
+  const orphanS5 = orphan.mount.querySelector('#ms-s5');
+  assert.ok(bannerLink, 'the example banner must link to the jurisdiction picker');
+  assert.ok(orphanS5, 'section 5 must render for a chosen jurisdiction');
+  const bannerRoute = bannerLink.getAttribute('href');
+  const failureWording = orphanS5.textContent;
   const reason = orphan.data.geography.unavailable && orphan.data.geography.unavailable.detail;
   assert.ok(reason && failureWording.includes(reason), 'the failure case must still state its reason');
   const preview = example.dom.window.document.getElementById('marketStudyReportPreview');

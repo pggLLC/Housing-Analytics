@@ -202,6 +202,8 @@ console.log('\n── 5. IC summary empty state ──');
   const empty = icDom('');
   const page = empty.doc.getElementById('icPage');
   const err = empty.doc.getElementById('icErr');
+  check('IC summary has its page and message containers', !!page && !!err);
+  if (page && err) {
   const placeholders = [...page.querySelectorAll('.ic-v, td.ic-muted')]
     .filter((el) => /^(—|Loading…)$/.test(el.textContent.trim()));
   check('IC summary skeleton has placeholder fields to hide (scan is not vacuous)', placeholders.length > 0);
@@ -217,6 +219,7 @@ console.log('\n── 5. IC summary empty state ──');
     chosen.doc.getElementById('icPage').hidden === false && chosen.requested.length > 0 &&
     chosen.doc.getElementById('icErr').style.display === 'none');
   chosen.close();
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────
