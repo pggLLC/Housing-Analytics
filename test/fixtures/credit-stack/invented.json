@@ -1,0 +1,12 @@
+{
+  "invented": true,
+  "note": "Invented K1 (#2161) acceptance inputs only; no real project's figures. Expected values computed independently (annual x years x price).",
+  "federal": { "annual": 1000000, "years": 10, "price": 0.85, "expectedEquity": 8500000 },
+  "state": { "path": "round_two", "creditType": "4", "annual": 400000, "price": 0.80, "expectedEquity": 1920000 },
+  "added": { "annual": 50000, "years": 6, "price": 0.75, "fees": 15000 },
+  "cases": {
+    "supplement": { "mode": "supplement", "expected": { "gross": 225000, "displaced": 0, "resizedFederal": 0, "netBeforeFees": 225000, "net": 210000 } },
+    "substitute": { "mode": "substitute", "displacedStateAnnual": 50000, "expected": { "gross": 225000, "displaced": 240000, "netBeforeFees": -15000, "net": -30000 } },
+    "resizedFederal": { "mode": "supplement", "federalCutAnnual": 5000, "expected": { "gross": 225000, "resizedFederal": 42500, "net": 167500 } }
+  }
+}

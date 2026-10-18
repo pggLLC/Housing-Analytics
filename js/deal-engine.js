@@ -926,7 +926,7 @@
     var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
-      price: fields['dc-state-price'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
+      price: fields['dc-state-price'], fees: fields['dc-state-fees'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
     // No state credit entered is no source; an incomplete one is unknown.
     // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
     var stateCreditApplies = chfaRegime && stateCredit.entered;
@@ -1177,6 +1177,30 @@
     var gapBeforeDeferred = tdc - equity - stateEquity - mortgage - impactGrant - totalLoanPrincipal;
     // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
     if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
+    // #2161: a credit added on top of the federal and state credits, with the net new
+    // equity it brings. It is reported beside the stack, which it does not change.
+    var addedCredit = null;
+    if (chfaRegime && fields['dc-add-kind']) {
+      var displacedChoice = fields['dc-add-displaces'] || null, displaced = null;
+      if (displacedChoice === 'state') {
+        // State equity in the stack is net of its investor fees, so the replaced share is too.
+        displaced = { label: 'Colorado state credit', annual: fields['dc-add-displaced-annual'], years: stateCredit.years, price: stateCredit.price,
+          netShare: stateCredit.equity === null || !stateCredit.grossEquity ? 1 : stateCredit.equity / stateCredit.grossEquity,
+          maxAnnual: stateCredit.equity === null ? null : stateCredit.allowedAnnual,
+          reason: !stateCredit.entered ? 'no state credit is entered.' : stateCredit.equity === null ? stateCredit.reason : null };
+      } else if (displacedChoice === 'federal') {
+        displaced = { label: 'Federal credit', federal: true, annual: fields['dc-add-displaced-annual'], years: CREDIT_YEARS, price: equityPrice,
+          maxAnnual: Number.isFinite(annualCredits) ? annualCredits : null,
+          reason: Number.isFinite(annualCredits) ? null : (basisUnknownReason || 'the federal credit is not available.') };
+      }
+      addedCredit = cbm.addedCredit({ kind: fields['dc-add-kind'], annual: fields['dc-add-annual'], years: fields['dc-add-years'],
+        price: fields['dc-add-price'], fees: fields['dc-add-fees'], programYear: fields['dc-add-program-year'], mode: fields['dc-add-mode'] || null,
+        evidence: fields['dc-add-evidence'], inZone: fields['dc-tz-in-zone'] === 'yes' ? true : fields['dc-tz-in-zone'] === 'no' ? false : null,
+        displaced: displaced, rules: costRules,
+        federalCut: { annual: fields['dc-add-fed-cut'], years: CREDIT_YEARS, price: equityPrice, maxAnnual: Number.isFinite(annualCredits) ? annualCredits : null } });
+      addedCredit.gapBefore = Number.isFinite(gapBeforeDeferred) ? gapBeforeDeferred : null;
+      addedCredit.gapAfter = addedCredit.net !== null && addedCredit.gapBefore !== null ? addedCredit.gapBefore - addedCredit.net : null;
+    }
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -1436,11 +1460,12 @@
     var federalEquity = basis.creditForEquity === null ? null : equity;
     result.costBasis = {
       summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
-      feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit,
+      feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit, addedCredit: addedCredit,
       underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
       payIn: {
         federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
-        state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null
+        state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null,
+        added: addedCredit ? cbm.payIn(addedCredit.gross, { closing: fields['dc-add-payin-closing'], completion: fields['dc-add-payin-completion'], stabilization: fields['dc-add-payin-stabilization'] }) : null
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
         grossSf: fields['dc-gross-sf'], residentialSf: fields['dc-res-sf'], units: units,
