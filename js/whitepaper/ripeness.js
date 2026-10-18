@@ -174,22 +174,22 @@
 
   var STYLE =
     '.rd-tabs,.rd-tools{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.6rem 0}' +
-    '.rd-tabs button,.rd-tools button{padding:.45rem .8rem;border-radius:var(--radius-sm,6px);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-weight:600;font-size:var(--small,.9rem);cursor:pointer}' +
+    '.rd-tabs button,.rd-tools button{padding:.45rem .8rem;border-radius:var(--radius-sm,6px);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-weight:600;font-size:var(--small,.9rem);cursor:pointer;min-height:44px}' +
     '.rd-tabs button[aria-selected="true"],.rd-tools button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--on-accent,#fff)}' +
-    '.rd-tools label{font-size:var(--small,.9rem);display:flex;gap:.35rem;align-items:center}' +
+    '.rd-tools label{font-size:var(--small,.9rem);display:flex;gap:.35rem;align-items:center;min-height:44px;cursor:pointer}' +
     '.rd-list{list-style:none;padding:0;margin:0}' +
     '.rd-row{display:grid;grid-template-columns:auto 1fr auto;gap:.5rem .7rem;align-items:start;padding:.65rem .2rem;border-bottom:1px solid var(--border)}' +
     '.rd-row.dragging{opacity:.4}.rd-row.over{border-top:2px solid var(--accent)}' +
     '.rd-pick{display:flex;flex-direction:column;align-items:center;gap:.2rem;font-weight:700;color:var(--muted);font-size:.85rem}' +
-    '.rd-pick input{width:1.15rem;height:1.15rem}' +
+    '.rd-pick label{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;cursor:pointer}.rd-pick input{width:1.15rem;height:1.15rem}' +
     '.rd-main{min-width:0}.rd-main a.rd-name{font-weight:700}' +
     '.rd-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:0 .4rem;border-radius:4px;border:1px solid var(--border);margin-left:.35rem;white-space:nowrap}' +
     '.rd-ripe{background:var(--good,#1a7f37);border-color:var(--good,#1a7f37);color:#fff}.rd-ripening{border-color:var(--accent);color:var(--accent)}' +
     '.rd-pin{font-size:.72rem;font-weight:700;color:var(--muted);margin-left:.35rem}' +
     '.rd-why{margin:.25rem 0 0;font-size:var(--small,.9rem);line-height:1.5}' +
-    '.rd-main details{margin-top:.3rem;font-size:var(--small,.9rem)}.rd-main summary{cursor:pointer;color:var(--accent);font-weight:600}' +
+    '.rd-main details{margin-top:.3rem;font-size:var(--small,.9rem)}.rd-main summary{cursor:pointer;color:var(--accent);font-weight:600;line-height:44px}' +
     '.rd-answers{list-style:none;padding:0;margin:.4rem 0 0}.rd-answers li{padding:.3rem 0;border-top:1px solid var(--border);line-height:1.5}' +
-    '.rd-move{display:flex;gap:.25rem}.rd-move button{min-width:2.4rem;min-height:2.4rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--bg2);color:var(--text);cursor:pointer;font-size:1rem}' +
+    '.rd-move{display:flex;gap:.25rem}.rd-move button{min-width:44px;min-height:44px;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--bg2);color:var(--text);cursor:pointer;font-size:1rem}' +
     '.rd-move button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}' +
     '@media (max-width:600px){.rd-row{grid-template-columns:auto 1fr}.rd-move{grid-column:2;justify-content:flex-start}}';
 
@@ -230,8 +230,15 @@
     var ui = { tab: 'communities', mode: 'suggested', selectedOnly: false };
     var lists = null, state = cleanState(null), synced = false, data = null, dragKey = null;
 
+    // One save in flight at a time; changes made meanwhile go in one follow-up
+    // save of the latest state, so an older order can never land last.
+    var saving = false, again = false;
     function save() {
+      if (saving) { again = true; return; }
+      saving = true;
       saveState(fetchFn, storage, state).then(function (ok) {
+        saving = false;
+        if (again) { again = false; save(); return; }
         synced = ok;
         var s = el.querySelector('#rdSaved');
         if (s) s.textContent = ok ? 'Your order is saved on the site, so it is the same on every device.' : 'Your order is saved in this browser only; the site did not take it.';
@@ -261,7 +268,7 @@
             ? '<a class="rd-name" href="developer-brief.html?geoid=' + encodeURIComponent(it.geoid) + '">' + esc(it.name) + '</a>' + (it.row.stage ? ' <span class="rd-pin">' + esc(it.row.stage) + '</span>' : '')
             : '<span class="rd-name" style="font-weight:700">' + esc(it.name) + '</span> <span class="rd-pin">' + esc(it.place || '') + (it.site.homes ? ', ' + esc(it.site.homes) + ' homes' : '') + '</span>';
           return '<li class="rd-row" draggable="true" data-key="' + esc(it.key) + '">' +
-            '<div class="rd-pick"><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '">' + (i + 1) + '</div>' +
+            '<div class="rd-pick"><label><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '"></label>' + (i + 1) + '</div>' +
             '<div class="rd-main">' + nameHtml + ' <span class="rd-badge rd-' + esc(it.reading) + '">' + esc(LABEL[it.reading]) + '</span>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
               '<p class="rd-why">' + esc(it.why) + '</p>' +
               '<details><summary>Why, in detail</summary>' + (ui.tab === 'communities' ? communityDetail(it) : answersHtml(it.site)) + '</details></div>' +
