@@ -4207,12 +4207,14 @@
         + '<td data-su="state" style="' + cell + 'text-align:right;">' + state + '</td>'
         + '<td data-su="other" style="' + cell + 'text-align:right;">' + other + '</td></tr>';
     }
+    // "—" is for an unknown amount; a category with no state or other dollars shows $0.
+    function amt(v) { return v == null ? '—' : money(v); }
     var html = su.rows.map(function (r) {
-      return tr(r.id, r.label, money(r.cost), r.state ? money(r.state) : '—', r.other ? money(r.other) : '—', names(r.sources));
+      return tr(r.id, r.label, money(r.cost), amt(r.state), amt(r.other), names(r.sources));
     }).join('');
     if (su.notItemized) html += tr('not_itemized', 'Not itemized', money(su.notItemized), '—', '—', '');
     var t = su.totals;
-    if (su.general) html += tr('general', 'Whole project', '', su.general.state ? money(su.general.state) : '—', money(su.general.other), names(su.general.sources));
+    if (su.general) html += tr('general', 'Whole project', '', amt(su.general.state), amt(su.general.other), names(su.general.sources));
     if (t) {
       html += tr('total', 'Total', money(t.cost), money(t.state), money(t.other), '', { strong: true })
         + tr('gap', 'Gap (surplus)', '', '', money(t.gap), '');

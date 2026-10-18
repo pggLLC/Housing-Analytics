@@ -70,9 +70,9 @@ async function test(name, fn) {
     assert.match(p.d.getElementById('dc-act-reason').textContent, /Prop 123 has no valid amount/, 'and the reason says which source');
     setRow(p, 0, '.dc-tr-amount', '400000');
     setRow(p, 0, '.dc-tr-status', 'committed');
-    assert.equal(cell(p, 'general', 'state'), '—');
+    assert.equal(cell(p, 'general', 'state'), money(0), 'no state dollars is $0, not unavailable');
     setRow(p, 0, '.dc-tr-state', 'no');
-    assert.equal(cell(p, 'construction', 'state'), '—');
+    assert.equal(cell(p, 'construction', 'state'), money(0));
     assert.equal(cell(p, 'construction', 'other'), money(400000));
     setRow(p, 0, '.dc-tr-prog', 'chfa_htf');
     assert.equal(rowField(p, 0, '.dc-tr-state'), 'no', 'a program change takes that program\'s default');

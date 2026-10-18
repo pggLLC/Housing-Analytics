@@ -156,7 +156,7 @@
     var rows = r.projection.rows.slice(0, YEARS).map(function (p, i) {
       var reason = p.unavailableReason || null;
       var ds = p.debtService, bridge = p.bridgeDebtService;
-      var cfAvailable = known(ds) && known(bridge) ? p.noi - ds - bridge : null;
+      var cfAvailable = known(p.noi) && known(ds) && known(bridge) ? p.noi - ds - bridge : null;
       var loanPaid = loans.map(function (l) { var row = l.rows[i]; return row && known(row.paid) ? row.paid : null; });
       // The engine pays the deferred fee from cumulative cash flow (see its projection).
       var deferred = fee === null ? null : known(p.deferredFeePaid) ? p.deferredFeePaid : null;
@@ -164,7 +164,7 @@
         year: p.year, rentIncome: p.grossRents, vacancy: p.vacancyLoss, otherIncome: p.otherIncome, egi: p.egi,
         expenses: sum([p.opex, p.repReserve, p.propTax]), noi: p.noi, debtService: ds, bridge: bridge,
         cashFlowAvailable: cfAvailable,
-        dcr: known(ds) && known(bridge) && ds + bridge > 0 ? p.noi / (ds + bridge) : null,
+        dcr: known(p.noi) && known(ds) && known(bridge) && ds + bridge > 0 ? p.noi / (ds + bridge) : null,
         deferredFee: deferred, deficitRecovered: p.deficitRecovered, assetMgmtFee: p.assetMgmtFee, assetMgmtUnpaid: p.assetMgmtUnpaid, cashFlowLoans: loanPaid,
         // The engine's cash flow is after the asset fee and cash-flow loans.
         // Must-pay debt service NOI could not cover stays in the loan balance,

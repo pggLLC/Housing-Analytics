@@ -380,5 +380,13 @@ test('loanObligations without payments is unchanged for callers that pass none',
   close(paid.years[0].cashFlow, none.years[0].cashFlow - 15000 + (none.loans[1].rows[0].paid - paid.loans[1].rows[0].paid), 'cash flow reconciles');
 });
 
+test('an unknown bridge or asset payment carries a reason, never NaN', () => {
+  for (const d of [{ bridge: NaN, assetFee: 0 }, { bridge: 0, assetFee: undefined }]) {
+    const y = loanObligations([], [10000, 10000], [d, { bridge: 0, assetFee: 0 }]).years;
+    assert.match(y[0].unavailableReason || '', /bridge-loan or asset management payment/);
+    for (const row of y) for (const [k, v] of Object.entries(row)) assert(!Number.isNaN(v), k + ' is NaN');
+  }
+});
+
 console.log(passed + ' passed, ' + failed + ' failed');
 process.exit(failed ? 1 : 0);

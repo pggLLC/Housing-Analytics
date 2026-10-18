@@ -438,7 +438,10 @@
         // DOH PR 4: bridge-loan debt service, then the asset management fee,
         // come out of cash after the must-pay loans and before cash-flow loans.
         var d = contingent && deductions ? deductions[index] : null;
-        if (d && known(available) && known(assetOwed)) {
+        if (d && (!known(d.bridge) || !known(d.assetFee))) {
+          assetOwed = null;
+          reason = reason || 'The bridge-loan or asset management payment for this year is unknown.';
+        } else if (d && known(available) && known(assetOwed)) {
           bridgeDue = d.bridge;
           available = Math.max(0, available - bridgeDue);
           assetDue = d.assetFee + assetOwed;
