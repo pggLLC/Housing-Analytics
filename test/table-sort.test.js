@@ -46,6 +46,7 @@ const html = `<!doctype html><body>
 <table id="dates"><thead><tr><th>Date</th><th>Action</th></tr></thead><tbody>
 <tr><td>3 Mar 2025</td><td>a</td></tr><tr><td>10 Aug 2026</td><td>b</td></tr><tr><td>10 Dec 2025</td><td>c</td></tr><tr><td>14 Jan 2026</td><td>d</td></tr></tbody></table>
 <table id="iconown"><thead><tr><th class="pres-th sortable" aria-sort="none">Expiration <span class="sort-icon">↑</span></th><th class="pres-th sortable" aria-sort="none">Property</th></tr></thead><tbody><tr><td>1</td><td>x</td></tr><tr><td>2</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
+<table id="ownkeys"><thead><tr><th class="sortable" data-col="a" tabindex="0">A</th><th class="sortable" data-col="b" tabindex="0">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 <table id="own"><thead><tr><th data-col="a">A</th><th data-col="b">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 </body>`;
 
@@ -180,6 +181,10 @@ const touchTap = (el) => {
   await tick();
   assert.equal(own[0].getAttribute('aria-sort'), 'descending');
   assert.equal(ownClicks, 2);
+  assert.equal(own[0].querySelector('.th-sort').tabIndex, 0, 'without a focusable header the arrow is the keyboard control');
+  document.querySelectorAll('#ownkeys th').forEach((th) => {
+    assert.equal(th.querySelector('.th-sort').tabIndex, -1, 'a renderer header that is already a keyboard stop gets no second one');
+  });
   const oa = document.querySelectorAll('#ownaria th');
   oa[1].querySelector('.th-sort').click();
   await tick();

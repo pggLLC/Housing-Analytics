@@ -153,7 +153,9 @@
 
     th.classList.add('th-tip');
     th.setAttribute('aria-describedby', id);
-    if (!th.hasAttribute('tabindex')) th.setAttribute('tabindex', '0');
+    // Marked so table-sort.js can tell a header made focusable here (for
+    // the definition) from one a renderer made its own sort control.
+    if (!th.hasAttribute('tabindex')) { th.setAttribute('tabindex', '0'); th.setAttribute('data-tip-tabindex', ''); }
     th.appendChild(pop);
   }
 

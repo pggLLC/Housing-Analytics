@@ -199,8 +199,9 @@
     return c.textContent.replace(/[⇅↑↓▲▼↕]/g, '').replace(/\s+/g, ' ').trim();
   }
 
-  // skipTab: the header itself is the keyboard control (shared tables), so
-  // the arrow stays a pointer and touch target only, not a second tab stop.
+  // skipTab: the header itself is the keyboard control (shared tables, and
+  // renderer headers that sort on Enter/Space), so the arrow stays a pointer
+  // and touch target only, not a second tab stop.
   function addArrow(th, onSort, skipTab) {
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -239,13 +240,17 @@
     Array.prototype.forEach.call(t.querySelectorAll(OWN_SORT), function (th) {
       if (th.querySelector('.th-sort, button, input, select, a[href]') || !label(th)) return;
       if (!rendererAria && !th.hasAttribute('aria-sort')) th.setAttribute('data-aria-from-class', '');
+      // A header the renderer made focusable already sorts on Enter/Space
+      // (Preservation, HNA ranking, metric panels), so the arrow is not a
+      // second tab stop there. Otherwise the arrow is the keyboard control.
+      var rendererKeys = th.hasAttribute('tabindex') && !th.hasAttribute('data-tip-tabindex');
       addArrow(th, function () {
         // Marked so table-header-tips.js does not read it as a tap on the
         // label (which would open the definition instead of sorting).
         var ev = new MouseEvent('click', { bubbles: true, cancelable: true });
         ev.thSortArrow = true;
         th.dispatchEvent(ev);
-      });
+      }, rendererKeys);
     });
     if (!t.dataset.ariaSync) {
       t.dataset.ariaSync = '1';
