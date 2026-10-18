@@ -285,4 +285,40 @@ def test_committed_file_covers_every_summary_when_present():
                 assert e.get("why"), f"{gid} {var}: no margin and no reason"
             if e["t"] is not None:
                 assert e["t"] in doc["meta"]["tiers"]
+            # A twin is the 5-year estimate ending the same year as a 1-year one.
+            five = e.get("five")
+            if five is not None:
+                assert e["s"] == "acs1", f"{gid} {var}: a twin on a {e['s']} figure"
+                assert (five["s"], five["y"]) == ("acs5", e["y"]), f"{gid} {var}: twin {five}"
     assert checked > 0
+
+
+def test_a_one_year_figure_carries_its_five_year_twin():
+    # Denver-sized geographies store the ACS 1-year. Each such entry also gives
+    # the 5-year estimate ending the same year, with its own margin and tier,
+    # so the page can show the difference; a 5-year figure carries none.
+    big, small = "08031", "08003"
+    tables = {
+        ("acs1", "profile", "county"): {big: {
+            "DP05_0001E": 729000, "DP05_0001M": -555555555,
+            "DP04_0134E": 1870, "DP04_0134M": 30,
+            "DP04_0141PE": 10.0, "DP04_0141PM": 1.2, "DP04_0142PE": 40.0, "DP04_0142PM": 1.6}},
+        ("acs5", "profile", "county"): {
+            big: {"DP05_0001E": 713000, "DP05_0001M": -555555555,
+                  "DP04_0134E": 1781, "DP04_0134M": 22,
+                  "DP04_0141PE": 9.0, "DP04_0141PM": 0.6, "DP04_0142PE": 41.0, "DP04_0142PM": 0.8},
+            small: {"DP05_0001E": 16000, "DP05_0001M": -555555555,
+                    "DP04_0134E": 900, "DP04_0134M": 80}},
+    }
+    sums = {big: summary(DP05_0001E=729000, DP04_0134E=1870, DP04_0141PE=10.0, DP04_0142PE=40.0),
+            small: summary(DP05_0001E=16000, DP04_0134E=900)}
+    doc = mod.build(sums, 2024, key="", getter=fake_getter(tables))
+    rent = doc["geos"][big]["DP04_0134E"]
+    assert (rent["s"], rent["e"], rent["m"]) == ("acs1", 1870, 30.0)
+    assert rent["five"] == {"e": 1781, "m": 22.0, "s": "acs5", "y": 2024,
+                            "cv": round((22.0 / 1.645) / 1781, 4), "t": "good"}
+    burden = doc["geos"][big]["rent_burden_30plus"]
+    assert burden["five"]["e"] == 50.0 and burden["five"]["m"] == 1.0
+    assert doc["geos"][big]["DP05_0001E"]["five"]["m"] == 0.0
+    assert "five" not in doc["geos"][small]["DP04_0134E"]
+    assert "five" in doc["meta"]["fields"]

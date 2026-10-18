@@ -539,14 +539,16 @@
       // Links here are inline-flex 44px tap targets (css/responsive.css),
       // which drop the space between the two parts, so the gap and the wrap
       // are set on the link itself. A caveat (the raw ACS home value floor)
-      // follows the label.
+      // follows the label. A 1-year figure ends with its 5-year twin.
       const url = U().censusSourceUrl(e.y, e.s, c.table, geoType, geoid);
       const nowrap = (t) => `<span style="white-space:nowrap">${escHtml(t)}</span>`;
       const label = `${nowrap(`ACS ${e.y}`)} ${nowrap(`${R.seriesLabel(e)} ${c.table}`)}`;
       const source = (url
         ? `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;flex-wrap:wrap;column-gap:.3em" title="View the source table on data.census.gov">${label}</a>`
         : label) + (c.caveat ? ' · ' + escHtml(c.caveat) : '');
-      el.innerHTML = (margin ? `<span class="acs-moe" style="display:block">${escHtml(margin)}</span>` : '') + source;
+      const five = R.fiveYear(e, c.unit);
+      el.innerHTML = (margin ? `<span class="acs-moe" style="display:block">${escHtml(margin)}</span>` : '') + source
+        + (five ? `<span class="acs-five" style="display:block">${escHtml(five)}</span>` : '');
       el.dataset.acsTier = e.t || (e.m == null ? 'no_margin' : '');
       n += 1;
     });

@@ -266,9 +266,37 @@ def stored_year(block):
     return None
 
 
+def published_entry(estimate, raw_m, series, y):
+    """{e, m, s, y, cv, t[, why]} for a published estimate and its raw margin."""
+    try:
+        controlled = raw_m is not None and int(float(raw_m)) == CONTROLLED
+    except (TypeError, ValueError):
+        controlled = False
+    moe = 0.0 if controlled else to_number(raw_m)
+    cv, tier, why = tier_for(estimate, moe)
+    entry = {"e": estimate, "m": moe, "s": series, "y": y, "cv": cv, "t": tier}
+    if controlled:
+        entry["why"] = "controlled to an independent total; no sampling error"
+    elif why:
+        entry["why"] = why
+    return entry
+
+
+def five_year_twin(var, cands, geoid, y):
+    """The ACS 5-year estimate ending in the same year as a 1-year figure, with
+    its margin: the series every smaller geography has, so a page can show how
+    far the 1-year figure is from it. None when the 5-year has no estimate."""
+    rec = cands.get((y, "acs5"), {}).get(geoid)
+    estimate = to_number((rec or {}).get(var))
+    if estimate is None:
+        return None
+    return published_entry(estimate, rec.get(moe_name(var)), "acs5", y)
+
+
 def matched_entry(stored, var, cands, geoid, prefer, stamped):
     """A stored figure's entry: the margin of the published estimate it equals,
-    or no margin and the reason."""
+    or no margin and the reason. A 1-year figure also carries its 5-year twin
+    (five)."""
     src = match_source(stored, var, cands, geoid, prefer, stamped)
     if src is None:
         tried = sorted({y for y, _ in cands}, reverse=True)
@@ -276,18 +304,11 @@ def matched_entry(stored, var, cands, geoid, prefer, stamped):
                 "why": ("stored value matches no published ACS 1-year or "
                         f"5-year estimate for {', '.join(map(str, tried))}")}
     y, series = src
-    raw_m = cands[src][geoid].get(moe_name(var))
-    try:
-        controlled = raw_m is not None and int(float(raw_m)) == CONTROLLED
-    except (TypeError, ValueError):
-        controlled = False
-    moe = 0.0 if controlled else to_number(raw_m)
-    cv, tier, why = tier_for(stored, moe)
-    entry = {"e": stored, "m": moe, "s": series, "y": y, "cv": cv, "t": tier}
-    if controlled:
-        entry["why"] = "controlled to an independent total; no sampling error"
-    elif why:
-        entry["why"] = why
+    entry = published_entry(stored, cands[src][geoid].get(moe_name(var)), series, y)
+    if series == "acs1":
+        five = five_year_twin(var, cands, geoid, y)
+        if five is not None:
+            entry["five"] = five
     return entry
 
 
@@ -352,6 +373,14 @@ def build_record(geoid, summary, published, year):
         entry = {"e": est, "m": moe, "s": ser, "y": y, "cv": cv, "t": tier}
         if why:
             entry["why"] = why
+        fives = [p.get("five") for p in parts]
+        if ser == "acs1" and all(f and f.get("m") is not None for f in fives):
+            est5 = round(sum(f["e"] for f in fives), 1)
+            moe5 = round(math.sqrt(sum(f["m"] ** 2 for f in fives)), 1)
+            cv5, tier5, why5 = tier_for(est5, moe5)
+            entry["five"] = {"e": est5, "m": moe5, "s": "acs5", "y": y, "cv": cv5, "t": tier5}
+            if why5:
+                entry["five"]["why"] = why5
         rec[name] = entry
     return rec
 
@@ -451,7 +480,9 @@ def build(all_summaries, year, key, getter=census_get):
             "tier_counts": counts,
             "fields": {"e": "estimate as stored in data/hna/summary", "m": "90% MOE",
                        "s": "ACS series", "y": "ACS year of the estimate", "cv": "coefficient of variation",
-                       "t": "tier", "why": "reason when m or t is absent or special"},
+                       "t": "tier", "why": "reason when m or t is absent or special",
+                       "five": "for a 1-year figure, the ACS 5-year estimate ending the same "
+                               "year, with its own e, m, s, y, cv and t"},
         },
         "geos": geos,
     }

@@ -1,0 +1,126 @@
+"""The HNA summary says which ACS series its profile came from.
+
+build_hna_data.py asks the ACS 1-year first and the 5-year second. The 1-year
+answers for the state and for every county or place of 65,000 or more, so those
+summaries hold 1-year figures. Until 2026-10-18 nothing in the fetch stamped
+that, and the extended backfill's "acs5" stood on 33 of them (the White papers
+check of the 11 large counties, then the margins file, found it). A 1-year
+profile also carries its 5-year twin, so a builder that must compare like with
+like has the 5-year figure.
+
+Run: python3 -m pytest tests/test_build_hna_data_series_stamp.py -q
+"""
+
+import json
+import sys
+from pathlib import Path
+from unittest import mock
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts" / "hna"))
+
+import build_hna_data as hna  # noqa: E402
+
+sys.path.insert(0, str(ROOT / "scripts"))
+import fetch_census_state_hna as state  # noqa: E402
+
+FIXED_TIME = "2026-10-18T12:00:00Z"
+
+
+def census(answers):
+    """http_get_json that answers a profile request from answers[(year, series)]
+    with every requested variable set to that source's value, and returns None
+    (the ACS 1-year's "no content") for anything else."""
+    def get(url, *args, **kwargs):
+        year = int(url.split("/data/")[1].split("/")[0])
+        series = "acs1" if "/acs/acs1/" in url else "acs5"
+        value = answers.get((year, series))
+        if value is None or "/profile?" not in url:
+            return None
+        names = url.split("get=")[1].split("&")[0].split(",")
+        return [names, [value if n != "NAME" else "Somewhere" for n in names]]
+    return get
+
+
+def fetch(answers, geo_type="county", geoid="08031"):
+    with (
+        mock.patch.object(hna, "http_get_json", side_effect=census(answers)),
+        mock.patch.object(hna, "_acs5_detail_tenure_for_geo", return_value=None),
+    ):
+        return hna.fetch_acs_profile(geo_type, geoid)
+
+
+def test_a_one_year_profile_is_stamped_1_year_and_carries_its_5_year_twin():
+    profile = fetch({(2024, "acs1"): "1940", (2024, "acs5"): "1781"})
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs1")
+    assert profile["DP04_0134E"] == "1940"
+    twin = profile["_acs5Profile"]
+    assert (twin["_acsYear"], twin["_acsSeries"]) == ("2024", "acs5")
+    assert twin["DP04_0134E"] == "1781" and twin["DP04_0047E"] == "1781"
+
+
+def test_a_five_year_profile_is_stamped_5_year_with_no_twin():
+    profile = fetch({(2024, "acs5"): "900"}, "place", "0803455")
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs5")
+    assert "_acs5Profile" not in profile
+    # A fallback year is stamped as the year that answered.
+    profile = fetch({(2023, "acs5"): "880"}, "place", "0803455")
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2023", "acs5")
+
+
+def test_the_series_stamp_survives_normalization():
+    # As a number "acs1" reads as missing; that is how every S0801 stamp was lost.
+    out = hna.normalize_acs_dict({"_acsSeries": "acs1", "_acsYear": "2024", "DP04_0134E": "-666666666"})
+    assert out == {"_acsSeries": "acs1", "_acsYear": 2024, "DP04_0134E": None}
+
+
+def test_the_summary_records_the_source_and_keeps_the_twin_only_for_1_year(tmp_path):
+    summary_dir = tmp_path / "summary"
+    summary_dir.mkdir()
+    # A geography that used to be 1-year keeps no stale twin.
+    (summary_dir / "08003.json").write_text(json.dumps({
+        "acsProfile": {"_acsYear": "2024", "_acsSeries": "acs5", "DP03_0062E": 60000},
+        "acs5Profile": {"_acsYear": "2023", "_acsSeries": "acs5", "DP04_0134E": 700},
+    }))
+    out = dict(hna.OUT)
+    out["geo_config"] = str(ROOT / "data" / "hna" / "geo-config.json")
+    out["summary_dir"] = str(summary_dir)
+
+    def profile(_geo_type, geoid):
+        base = {"NAME": geoid, "DP02_0001E": "100", "DP03_0062E": "75000", "DP04_0001E": "120",
+                "DP04_0134E": "1940"}
+        if geoid == "08031":
+            return {**base, "_acsYear": "2024", "_acsSeries": "acs1",
+                    "_acs5Profile": {"DP04_0134E": "1781", "_acsYear": "2024", "_acsSeries": "acs5"}}
+        return {**base, "_acsYear": "2024", "_acsSeries": "acs5"}
+
+    with (
+        mock.patch.object(hna, "OUT", out),
+        mock.patch.object(hna, "utc_now_z", return_value=FIXED_TIME),
+        mock.patch.object(hna, "fetch_acs_profile", side_effect=profile),
+        mock.patch.object(hna, "fetch_acs_s0801", return_value=None),
+        mock.patch.object(hna, "fetch_acs_b08301", return_value=None),
+    ):
+        hna.build_summary_cache(max_workers=4)
+
+    denver = json.loads((summary_dir / "08031.json").read_text())
+    assert denver["acsProfile"]["_acsSeries"] == "acs1"
+    assert "_acs5Profile" not in denver["acsProfile"]
+    assert denver["acs5Profile"] == {"DP04_0134E": 1781, "_acsYear": 2024, "_acsSeries": "acs5"}
+    assert denver["source"]["acs_profile_endpoint"] == "https://api.census.gov/data/2024/acs/acs1/profile"
+    small = json.loads((summary_dir / "08003.json").read_text())
+    assert small["acsProfile"]["_acsSeries"] == "acs5"
+    assert "acs5Profile" not in small
+    assert small["source"]["acs_profile_endpoint"] == "https://api.census.gov/data/2024/acs/acs5/profile"
+
+
+def test_the_state_profile_is_stamped_with_the_series_that_answered():
+    def get(url, *args, **kwargs):
+        if "/acs/acs1/profile" not in url or "/2024/" not in url:
+            return None
+        names = url.split("get=")[1].split("&")[0].split(",")
+        return [names, ["5957493" for _ in names]]
+    with mock.patch.object(state, "http_get_json", side_effect=get):
+        profile = state.fetch_acs_profile(2024, 3)
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs1")
+    assert state.normalize_acs_dict(profile)["_acsSeries"] == "acs1"

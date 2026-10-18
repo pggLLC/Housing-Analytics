@@ -65,7 +65,9 @@ function readVintages() {
   const amiPlace = read(AMI_GAP_PLACE_PATH)?.meta || {};
   const amiCounty = read(AMI_GAP_COUNTY_PATH)?.meta || {};
   const vintages = {
-    acsDefault: acsVintageLabel(stateAcs._acsYear, stateAcs._acsSeries),
+    // The fallback for a summary with no stamp of its own. Most geographies
+    // are 5-year; the state itself is 1-year, so its series is not the default.
+    acsDefault: acsVintageLabel(stateAcs._acsYear, 'acs5'),
     chasPlace: chasVintageLabel(placeChas.vintage_chas),
     chasCounty: chasVintageLabel(countyChas.vintage),
     // co_ami_gap_by_*.json are built from ACS 5-year tables (B25118, B19001,

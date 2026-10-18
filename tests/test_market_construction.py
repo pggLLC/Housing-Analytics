@@ -32,9 +32,10 @@ def test_acs_every_published_place_and_county_median():
     for kind in ('counties', 'places', 'cdps'):
         for geo in config[kind]:
             geoid = geo['geoid']
-            p = read('data/hna/summary/' + geoid + '.json')['acsProfile']
-            assert str(p['_acsYear']) == '2024' and p['_acsSeries'] == 'acs5'
-            expected = p['DP04_0134E']
+            p = acs.five_year_profile(read('data/hna/summary/' + geoid + '.json')) or {}
+            if p:
+                assert str(p['_acsYear']) == '2024' and p['_acsSeries'] == 'acs5'
+            expected = p.get('DP04_0134E')
             if expected is not None and expected <= 0:
                 expected = None
             bucket = 'counties' if kind == 'counties' else 'places'
@@ -47,6 +48,34 @@ def test_acs_every_published_place_and_county_median():
             counts[bucket] += 1
     assert counts['counties'] == 64
     assert counts['places'] == len(config['places']) + len(config['cdps']) > 0
+
+
+def test_a_one_year_summary_contributes_its_five_year_twin_only(tmp_path):
+    """A geography of 65,000+ stores ACS 1-year figures in acsProfile and the
+    5-year ones in acs5Profile. The rent file is 5-year throughout, so it takes
+    the twin, and without one it publishes nothing rather than the 1-year."""
+    summaries = tmp_path / 'summary'
+    summaries.mkdir()
+    one_year = {'_acsYear': '2024', '_acsSeries': 'acs1', 'DP04_0134E': 1940, 'DP04_0047E': 90000}
+    rows = {
+        '08001': {'acsProfile': one_year,
+                  'acs5Profile': {'_acsYear': '2024', '_acsSeries': 'acs5',
+                                  'DP04_0134E': 1781, 'DP04_0047E': 88000}},
+        '08005': {'acsProfile': one_year},
+        '08003': {'acsProfile': {'_acsYear': 2024, '_acsSeries': 'acs5', 'DP04_0134E': 900,
+                                 'DP04_0047E': 2000}},
+    }
+    for geoid, summary in rows.items():
+        (summaries / (geoid + '.json')).write_text(json.dumps(summary))
+    config = tmp_path / 'geo-config.json'
+    config.write_text(json.dumps({'counties': [{'geoid': g, 'label': g} for g in rows],
+                                  'places': [], 'cdps': []}))
+    out = acs.build_artifact(summaries, config)['counties']
+    assert out['08001']['median_gross_rent'] == 1781
+    assert out['08001']['total_renter_hh'] == 88000
+    assert out['08005']['median_gross_rent'] is None
+    assert out['08005']['unavailable_reason'] == 'acs5_estimate_not_in_summary'
+    assert out['08003']['median_gross_rent'] == 900
 
 
 def test_every_zip_place_weight_uses_homes_not_acres():

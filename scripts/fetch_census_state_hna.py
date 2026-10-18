@@ -202,7 +202,9 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
     """Fetch ACS Profile variables for Colorado state level.
 
     Tries ACS1/profile → ACS5/profile for each year in
-    descending order from *start_year*.
+    descending order from *start_year*, and stamps ``_acsYear`` and
+    ``_acsSeries`` with the one that answered: the state's figures are 1-year,
+    and before 2026-10-18 the only stamp was the extended backfill's "acs5".
     """
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
@@ -215,7 +217,10 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                         f'ℹ ACS profile: resolved via {series}/{endpoint} year={year}',
                         file=sys.stderr,
                     )
-                return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                data['_acsYear'] = str(year)
+                data['_acsSeries'] = series
+                return data
     print(
         f'⚠ Could not fetch ACS profile for state:{STATE_FIPS} (tried years {list(years)})',
         file=sys.stderr,
@@ -499,6 +504,8 @@ def main(validate_counties: bool = False) -> int:
     # returned S0801 dict (commuting reliability: record what was truly used).
     s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
     s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+    profile_year = (merged_profile or {}).get('_acsYear') or start_year
+    profile_series = (merged_profile or {}).get('_acsSeries') or 'acs1'
 
     # Count how many county summary files are already on disk for transparency.
     try:
@@ -522,7 +529,9 @@ def main(validate_counties: bool = False) -> int:
         'acsProfile': merged_profile,
         'acsS0801': acs_s0801 if acs_s0801 is not None else existing.get('acsS0801'),
         'source': {
-            'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
+            'acs_profile_endpoint': (
+                f'https://api.census.gov/data/{profile_year}/acs/{profile_series}/profile'
+            ),
             'acs_s0801_endpoint': (
                 f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
             ),
