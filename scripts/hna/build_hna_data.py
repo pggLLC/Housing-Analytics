@@ -1536,6 +1536,21 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 preserved += 1
                 if k in CORE_FIELDS:
                     core_regression = True
+    # Overcrowding's inputs (DP04_0076E/0078E/0079E) come only from the
+    # extended backfill, from the 5-year, and this build keeps them from disk.
+    # Until 2026-10-18 nothing else stamped a profile, so the backfill's own
+    # _acsYear/_acsSeries is their year; this build now writes its own source
+    # there. Carry that year across once, as _acs5BackfillYear (which the
+    # backfill writes itself from now on), so a later profile year cannot
+    # relabel figures that were not refetched.
+    new_prof, old_prof = payload.get('acsProfile'), existing.get('acsProfile')
+    if (isinstance(new_prof, dict) and isinstance(old_prof, dict)
+            and new_prof.get('_acs5BackfillYear') is None
+            and old_prof.get('_acs5BackfillYear') is None
+            and old_prof.get('_acsSeries') == 'acs5' and old_prof.get('_acsYear')
+            and new_prof.get('DP04_0076E') is not None
+            and new_prof.get('DP04_0076E') == old_prof.get('DP04_0076E')):
+        new_prof['_acs5BackfillYear'] = str(old_prof['_acsYear'])
     if preserved:
         payload.setdefault('source', {})['merge_preserved_fields'] = preserved
     return payload, preserved, core_regression

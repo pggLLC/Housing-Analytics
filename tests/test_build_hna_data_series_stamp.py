@@ -258,3 +258,29 @@ def test_the_5_year_twin_keeps_fields_only_from_its_own_year(tmp_path):
     # reads its year and leaves the row unavailable.
     lost = merged(old, {"_acsYear": 2024, "_acsSeries": "acs5"})
     assert lost == old
+
+
+def test_overcrowding_keeps_the_backfill_year_when_the_profile_moves_on(tmp_path):
+    # Codex, 2026-10-18: the backfill skips complete summaries, so none of the
+    # 547 carried _acs5BackfillYear. The digest would then label overcrowding
+    # with the profile's year, and a 2025 build would publish the backfill's
+    # 2020-2024 figures as 2021-2025.
+    path = tmp_path / "08031.json"
+
+    def merged(old_profile):
+        path.write_text(json.dumps({"acsProfile": old_profile}))
+        fresh = {"_acsYear": "2025", "_acsSeries": "acs1", "DP04_0001E": 330000}
+        payload, _, _ = hna._merge_preserve_summary(str(path), {"acsProfile": fresh})
+        return payload["acsProfile"]
+
+    legacy = {"_acsYear": "2024", "_acsSeries": "acs5", "DP04_0001E": 320000,
+              "DP04_0076E": 300000, "DP04_0078E": 9000, "DP04_0079E": 2500}
+    after = merged(legacy)
+    assert after["DP04_0076E"] == 300000 and after["_acsYear"] == "2025"
+    assert after["_acs5BackfillYear"] == "2024"
+    # A year the backfill already recorded stands.
+    assert merged({**legacy, "_acs5BackfillYear": "2023"})["_acs5BackfillYear"] == "2023"
+    # Nothing to label, no stamp; and a stamp this build wrote is not the backfill's.
+    assert "_acs5BackfillYear" not in merged({k: v for k, v in legacy.items() if k[:7] != "DP04_00"})
+    assert "_acs5BackfillYear" not in merged({**legacy, "_acsSeries": "acs1"})
+
