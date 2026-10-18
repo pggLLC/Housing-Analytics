@@ -397,44 +397,53 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
     failed: list[dict] = []
     for i, feed in enumerate(feeds, 1):
         try:
-            z = zipfile.ZipFile(io.BytesIO(gtfs.fetch_feed(feed, require="stops.txt", nested=True, retries=2, timeout=90)))
+            # Stops are read inside fetch_feed, so a hosted copy with no
+            # usable stops falls back to the agency's own URL.
+            agency, rows = gtfs.fetch_feed(feed, lambda data: read_feed_stops(data, feed),
+                                           ok=lambda r: bool(r[1]), retries=2, timeout=90)
         except Exception as exc:  # one bad feed must not sink the rest
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue
-        names = z.namelist()
-        stop_file = gtfs_member(names, "stops.txt")
-        if not stop_file:
-            failed.append({"agency": feed["agency"], "reason": "no stops.txt"})
-            continue
-        agency = feed["agency"]
-        agency_file = gtfs_member(names, "agency.txt")
-        if agency_file:
-            try:
-                first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
-                agency = (first.get("agency_name") or agency).strip() or agency
-            except (StopIteration, UnicodeDecodeError, csv.Error):
-                pass
-        try:
-            services = feed_stop_services(z)
-        except (UnicodeDecodeError, csv.Error, KeyError) as exc:
-            # No usable stop_times: every stop in this feed is "unknown", never fixed_route.
-            log(f"  {agency}: stop_times unreadable ({exc}); service unknown")
-            services = {}
-        n = 0
-        for r in csv.DictReader(io.TextIOWrapper(z.open(stop_file), encoding="utf-8-sig")):
-            if (r.get("location_type") or "").strip() in NON_STOP_LOCATION_TYPES:
-                continue
-            try:
-                lat = float(r.get("stop_lat") or "")
-                lon = float(r.get("stop_lon") or "")
-            except ValueError:
-                continue
-            stops.append({"lon": lon, "lat": lat, "name": (r.get("stop_name") or "").strip(),
-                          "agency": agency, "stop_id": r.get("stop_id"),
-                          "service": services.get((r.get("stop_id") or "").strip(), SERVICE_UNKNOWN)})
-            n += 1
-        log(f"  [{i}/{len(feeds)}] {agency}: {n} stops")
+        stops.extend(rows)
+        log(f"  [{i}/{len(feeds)}] {agency}: {len(rows)} stops")
     return stops, failed
+
+
+def read_feed_stops(data: bytes, feed: dict) -> tuple[str, list[dict]]:
+    """(agency name, stop rows) from one GTFS archive. Raises when the
+    archive has no stops.txt."""
+    z = zipfile.ZipFile(io.BytesIO(data))
+    names = z.namelist()
+    stop_file = gtfs_member(names, "stops.txt")
+    if not stop_file:
+        raise ValueError("no stops.txt")
+    agency = feed["agency"]
+    agency_file = gtfs_member(names, "agency.txt")
+    if agency_file:
+        try:
+            first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
+            agency = (first.get("agency_name") or agency).strip() or agency
+        except (StopIteration, UnicodeDecodeError, csv.Error):
+            pass
+    try:
+        services = feed_stop_services(z)
+    except (UnicodeDecodeError, csv.Error, KeyError) as exc:
+        # No usable stop_times: every stop in this feed is "unknown", never fixed_route.
+        log(f"  {agency}: stop_times unreadable ({exc}); service unknown")
+        services = {}
+    rows = []
+    for r in csv.DictReader(io.TextIOWrapper(z.open(stop_file), encoding="utf-8-sig")):
+        if (r.get("location_type") or "").strip() in NON_STOP_LOCATION_TYPES:
+            continue
+        try:
+            lat = float(r.get("stop_lat") or "")
+            lon = float(r.get("stop_lon") or "")
+        except ValueError:
+            continue
+        rows.append({"lon": lon, "lat": lat, "name": (r.get("stop_name") or "").strip(),
+                     "agency": agency, "stop_id": r.get("stop_id"),
+                     "service": services.get((r.get("stop_id") or "").strip(), SERVICE_UNKNOWN)})
+    return agency, rows
 
 
 def load_osm_stops() -> list[dict]:

@@ -265,45 +265,35 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 120) -> bytes:
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
 
 
-def _feed_problem(data: bytes, require: str | None, nested: bool) -> str | None:
-    """Why a downloaded feed is unusable, or None. A 200 can still be an HTML
-    error page, a corrupt ZIP, or a GTFS archive without the file we need.
-    nested accepts the member inside a folder (the stops builder resolves
-    that); otherwise it must sit at the root, as parse_gtfs_shapes reads it."""
-    try:
-        with zipfile.ZipFile(io.BytesIO(data)) as zf:
-            names = zf.namelist()
-    except zipfile.BadZipFile:
-        return "not a ZIP archive"
-    found = (any(n.rsplit("/", 1)[-1] == require for n in names) if nested
-             else require in names)
-    if require and not found:
-        return f"no {require}"
-    return None
-
-
-def fetch_feed(feed: dict, require: str | None = None, nested: bool = False, **kw) -> bytes:
-    """Fetch a catalog feed, trying the agency's own URL if the hosted copy
-    fails or is unusable. When both are unusable the hosted copy's bytes are
-    returned, so the caller reports the failure as it always has."""
+def fetch_feed(feed: dict, read, ok=bool, **kw):
+    """Fetch a catalog feed and return read(bytes), trying the agency's own
+    URL when the hosted copy fails to download, read raises, or ok() rejects
+    what it read. The check is the caller's own reader, so anything that
+    reader cannot use -- an HTML error page with a 200, a corrupt ZIP, a
+    missing or malformed table -- reaches the agency URL. When both copies
+    are unusable the hosted copy's outcome is returned or raised, so the
+    caller reports the failure as it always has."""
     fallback = feed.get("fallback_url")
+    hosted_error = None
     try:
-        data = fetch_url(feed["url"], **kw)
+        result = read(fetch_url(feed["url"], **kw))
+        if ok(result) or not fallback:
+            return result
+        problem = "nothing usable in it"
     except Exception as exc:
         if not fallback:
             raise
-        log(f"  ⚠ {exc}; trying the agency's own URL", level="WARN")
-        return fetch_url(fallback, **kw)
-    problem = _feed_problem(data, require, nested)
-    if not problem or not fallback:
-        return data
-    log(f"  ⚠ hosted copy unusable ({problem}); trying the agency's own URL", level="WARN")
+        hosted_error, problem = exc, str(exc)
+    log(f"  ⚠ hosted copy unusable ({problem[:120]}); trying the agency's own URL", level="WARN")
     try:
-        direct = fetch_url(fallback, **kw)
+        direct = read(fetch_url(fallback, **kw))
+        if ok(direct):
+            return direct
     except Exception as exc:
-        log(f"  ⚠ agency URL failed too: {exc}", level="WARN")
-        return data
-    return data if _feed_problem(direct, require, nested) else direct
+        log(f"  ⚠ agency URL unusable too: {str(exc)[:120]}", level="WARN")
+    if hosted_error is not None:
+        raise hosted_error
+    return result
 
 
 def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> list:
@@ -418,8 +408,8 @@ def main() -> int:
         url = feed["url"]
         log(f"[{i}/{len(feeds)}] Fetching GTFS for {agency_name} ({feed.get('municipality') or 'CO'})…")
         try:
-            zip_bytes = fetch_feed(feed, require="shapes.txt")
-            features = parse_gtfs_shapes(zip_bytes, agency_id, agency_name)
+            features = fetch_feed(
+                feed, lambda data: parse_gtfs_shapes(data, agency_id, agency_name))
             if features:
                 all_features.extend(features)
                 agencies_ok.append(agency_name)
