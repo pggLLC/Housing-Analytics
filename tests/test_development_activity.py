@@ -794,3 +794,29 @@ def test_an_award_in_towns_of_several_counties_counts_in_each():
     md = md if isinstance(md, dict) else {c['fips']: c for c in md}
     for f in ('08023', '08055', '08071'):
         assert md[f]['affordable_activity']['multi_county_projects'] >= 1, f
+
+
+def test_an_application_with_an_unknown_county_in_a_county_spanning_city_stays_unknown():
+    # Hazelbrook HUB's address ("Sable Blvd and Centerpointe Drive") places it
+    # in none of Aurora's three counties: the applications list leaves the
+    # county unknown, and this file must not fill in Aurora's main county
+    L = dev.Ledger(set(), {}, {'08005': 'Arapahoe County'})
+    L.county_places = {}
+    L.city_county = {'aurora': '08005'}
+    L.city_counties = {'aurora': {'08005', '08001', '08035'}}
+    q = dict(source_url='https://example.org/a.pdf', quote='Name: X')
+    L.add('Hazelbrook HUB', 'Aurora', None, dev.ev('applied', 2026, 'CHFA', 'p', **q), 48, county_unknown=True)
+    L.add('Other Place', 'Aurora', None, dev.ev('applied', 2026, 'CHFA', 'p', **q), 60)
+    got = {p['name']: p['county_fips'] for p in dev.finish(L)}
+    assert got == {'Hazelbrook HUB': None, 'Other Place': '08005'}
+    # the committed file agrees with the applications list, row for row
+    apps = json.load(open(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')))
+    spans = dev.apps_mod.city_spans(dev.apps_mod.load_places())
+    unknown = {(a['name'], a['city']) for a in apps['applications']
+               if not a.get('award_only') and not a.get('county_fips') and (a.get('year') or 0) >= dev.FIRST_YEAR
+               and dev.awards.norm(a.get('city') or '') in spans}
+    assert unknown, 'no unknown-county application in a spanning city to check'
+    rows = {(p['name'], p['city']): p for p in load()['projects']}
+    for key in unknown:
+        if key in rows:
+            assert rows[key]['county_fips'] is None, key

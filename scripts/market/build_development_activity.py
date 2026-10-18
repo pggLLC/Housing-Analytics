@@ -259,7 +259,7 @@ class Ledger:
 
     def add(self, name: str, city: str | None, county: str | None, event: dict,
             units: int | None = None, restricted: int | None = None, place: str | None = None,
-            counties: list[str] | None = None) -> None:
+            counties: list[str] | None = None, county_unknown: bool = False) -> None:
         if not name:
             return
         if NOT_A_PROJECT.search(name) or re.search(r'down ?payment', SOURCE_FIELD.sub('', event.get('quote') or ''), re.I) or event.get('program') in NOT_A_SITE_PROGRAMS \
@@ -283,7 +283,7 @@ class Ledger:
                     city_n = tail
                     city = ' '.join((city or '').split()[-k:])
                     break
-        if not county and city_n and ',' not in (city or ''):
+        if not county and city_n and ',' not in (city or '') and not county_unknown:
             # a town wholly in one county, or a postal locality that is
             # neither a place nor a CDP (Conifer)
             county = self.city_county.get(city_n) or LOCALITY_COUNTY.get(city_n)
@@ -383,6 +383,10 @@ def strip_sponsor(quote: str | None, sponsor: str | None = None) -> str | None:
 
 
 def load_applications(L: Ledger) -> int:
+    # In a city that spans counties the applications builder leaves the county
+    # unknown when the street address cannot place it; the city's main county
+    # would put the project on a brief and a count it may not belong to
+    spans = apps_mod.city_spans(apps_mod.load_places())
     n = 0
     for a in read(APPLICATIONS)['applications']:
         if (a.get('year') or 0) < FIRST_YEAR:
@@ -397,7 +401,8 @@ def load_applications(L: Ledger) -> int:
                  round=a.get('round_label'), as_of=a.get('source_as_of'), _sponsors=sponsor_keys(a.get('sponsor')) or None),
               a.get('total_units'), a.get('restricted_units'),
               a['place_geoids'][0] if len(a.get('place_geoids') or []) == 1 else None,
-              a.get('county_fips_all'))
+              a.get('county_fips_all'),
+              county_unknown=not a.get('county_fips') and awards.norm(a.get('city') or '') in spans)
         n += 1
     return n
 
