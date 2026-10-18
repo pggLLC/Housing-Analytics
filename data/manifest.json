@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T06:32:59.368929Z",
+  "generated": "2026-10-18T07:17:44.482043Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8539,7 +8539,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 44590
+      "bytes": 44921
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T06:32:31.706Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T07:17:19.342Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 150.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 151.0 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 76.0 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -1766,7 +1766,7 @@
 | `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 43.9 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
@@ -1799,7 +1799,7 @@
 
 ## Test Files
 
-649 test files found.
+651 test files found.
 
 | File | Size |
 |------|------|
@@ -1868,7 +1868,7 @@
 | `test/combined-geo.test.js` | 48.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
-| `test/content-date-freshness.test.mjs` | 5.0 KB |
+| `test/content-date-freshness.test.mjs` | 7.9 KB |
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
 | `test/contrast-audit-summary.test.js` | 8.3 KB |
 | `test/cost-per-sf-absence.test.js` | 7.0 KB |
@@ -1876,7 +1876,7 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 10.7 KB |
-| `test/custom-pma-conclusions-blocked.test.js` | 27.5 KB |
+| `test/custom-pma-conclusions-blocked.test.js` | 28.1 KB |
 | `test/daily-audit-check-noise.test.js` | 10.9 KB |
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
@@ -1899,6 +1899,7 @@
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 21.8 KB |
+| `test/deal-calc-doh-schedules-page.test.js` | 11.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
@@ -1913,7 +1914,7 @@
 | `test/deal-calc-provenance.test.js` | 16.8 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
-| `test/deal-calc-schedule.test.js` | 23.8 KB |
+| `test/deal-calc-schedule.test.js` | 25.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 22.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
@@ -1923,8 +1924,9 @@
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 54.5 KB |
+| `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 7.9 KB |
-| `test/deal-engine-surfaces.test.js` | 12.4 KB |
+| `test/deal-engine-surfaces.test.js` | 13.0 KB |
 | `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
@@ -2031,7 +2033,7 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-export-matches-screen.test.js` | 27.3 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
-| `test/hna-functionality-check.js` | 60.6 KB |
+| `test/hna-functionality-check.js` | 63.8 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
 | `test/hna-home-value-absence.test.js` | 4.8 KB |
 | `test/hna-home-value-cascade.test.js` | 17.4 KB |
@@ -2042,7 +2044,7 @@
 | `test/hna-need-reconciliation.test.js` | 24.6 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 23.2 KB |
-| `test/hna-ownership-strategy.test.js` | 13.9 KB |
+| `test/hna-ownership-strategy.test.js` | 14.5 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 57.3 KB |
@@ -2100,7 +2102,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/inventory-mtime-sync.test.js` | 25.4 KB |
+| `test/inventory-mtime-sync.test.js` | 26.5 KB |
 | `test/inventory-sync-push.test.js` | 15.7 KB |
 | `test/jchs-card-confirmed.test.mjs` | 3.3 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
@@ -2298,7 +2300,7 @@
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-availability.test.js` | 5.1 KB |
-| `test/soft-funding-terms.test.js` | 7.0 KB |
+| `test/soft-funding-terms.test.js` | 7.7 KB |
 | `test/soft-funding-tracker.test.js` | 16.8 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-maintenance-declarations.test.js` | 8.9 KB |
