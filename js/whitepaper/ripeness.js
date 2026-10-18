@@ -341,7 +341,7 @@
             '<div class="rd-pick"><label><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '"></label>' + (i + 1) + '</div>' +
             '<div class="rd-main">' + nameHtml + ' <span class="rd-badge rd-' + esc(it.reading) + '">' + esc(LABEL[it.reading]) + '</span>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
               '<p class="rd-why">' + esc(it.why) + '</p>' +
-              '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.report) + '"' + (isReported(state, ui.tab, it) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
+              '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.key) + '"' + (isReported(state, ui.tab, it) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
               '<details><summary>Why, in detail</summary>' + (ui.tab === 'communities' ? communityDetail(it) : answersHtml(it.site)) + '</details></div>' +
             '<div class="rd-move">' +
               '<button type="button" data-rd-up="' + esc(it.key) + '" aria-label="Move ' + esc(it.name) + ' up"' + (isPinned ? ' disabled' : '') + '>&uarr;</button>' +
@@ -378,7 +378,7 @@
       else if (t.hasAttribute('data-rd-down')) moveKey(t.getAttribute('data-rd-down'), 1);
       else if (t.hasAttribute('data-rd-pin')) { a = t.getAttribute('data-rd-pin'); state[ui.tab].pinned = toggle(state[ui.tab].pinned, a); save(); draw(); refocus('data-rd-pin', a); }
       else if (t.hasAttribute('data-rd-select')) { a = t.getAttribute('data-rd-select'); state[ui.tab].selected = toggle(state[ui.tab].selected, a); save(); draw(); refocus('data-rd-select', a); }
-      else if (t.hasAttribute('data-rd-report')) { a = t.getAttribute('data-rd-report'); var row = lists[ui.tab].filter(function (x) { return x.report === a; })[0]; if (row) { state.reports = toggleReport(state, lists, ui.tab, row); save(); } draw(); refocus('data-rd-report', a); }
+      else if (t.hasAttribute('data-rd-report')) { a = t.getAttribute('data-rd-report'); var row = lists[ui.tab].filter(function (x) { return String(x.key) === a; })[0]; if (row) { state.reports = toggleReport(state, lists, ui.tab, row); save(); } draw(); refocus('data-rd-report', a); }
       else if (t.id === 'rdOnly') { ui.selectedOnly = t.checked; draw(); refocus('id', 'rdOnly'); }
     });
     // Drag to reorder (mouse); the arrow buttons do the same on a phone or keyboard.

@@ -95,6 +95,7 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
   ok(R.isReported(st, 'communities', row('communities', '0800003')), 'ticking again puts it back');
   st.reports = R.toggleReport(st, L, 'sites', row('sites', 's-b'));
   ok(!st.reports.sites.includes('test-dossier') && !st.reports.sites.includes('s-b'), 'unticking a carded site drops both its ids');
+  ok(R.isReported(st, 'sites', row('sites', 'dossier-x')), 'a second site sharing that dossier keeps its own tick');
   // A site picked before it had a card stays ticked once a card arrives, and the card's id is added.
   const later = { communities: [], sites: [], reports: { communities: [], sites: ['s-a'] } };
   const carded = R.build({ ...DATA, sites: DATA.sites.map((x) => x.id === 's-a' ? { ...x, card: { ...card('ripening'), dossier: 'alpha-dossier' } } : x) }, PIPELINE, SIGNALS);
@@ -131,7 +132,8 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
 }
 
 // ---- 4. Privacy and wiring.
-ok(/data-rd-report="' \+ esc\(it\.report\)/.test(read('js/whitepaper/ripeness.js')) && /\.rd-report\{[^}]*min-height:44px/.test(read('js/whitepaper/ripeness.js')), 'every row has a 44px Daily update tick box');
+ok(/data-rd-report="' \+ esc\(it\.key\)/.test(read('js/whitepaper/ripeness.js')) && /\.rd-report\{[^}]*min-height:44px/.test(read('js/whitepaper/ripeness.js')), 'every row has a 44px Daily update tick box, named by its own row key');
+ok(/String\(x\.key\) === a/.test(read('js/whitepaper/ripeness.js')), 'a tick box click toggles the row it sits on, even when two sites share a dossier');
 ok(/role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' \+ esc\(ui\.tab\)/.test(read('js/whitepaper/ripeness.js')) && /aria-controls="rdPanel"/.test(read('js/whitepaper/ripeness.js')), 'each tab is tied to the list it shows');
 ok(/refocus\('data-rd-pin', a\)/.test(read('js/whitepaper/ripeness.js')) && /refocus\('data-rd-select', a\)/.test(read('js/whitepaper/ripeness.js')), 'focus returns to the pin or checkbox after a redraw');
 ok(!fs.existsSync(path.join(ROOT, 'data/ripeness.json')), 'the readiness data is never in the public repo');
