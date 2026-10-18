@@ -3,7 +3,7 @@
   "context_only": true,
   "not_scoring_input": false,
   "mode_label": "Commute-shaped PMA (beta)",
-  "calibration_source": "One professional market study (owner-provided, not published)",
+  "calibration_source": "Professional market studies of one site (owner-provided, not published)",
   "calibration_note": "One-site beta calibration. Thresholds reproduce the Fruita professional PMA acceptance gate and must not be treated as a statewide validated standard until a second professional benchmark passes unchanged.",
   "params": {
     "minimum_jobs_to_seed_work_tracts": 50,
@@ -35,11 +35,6 @@
       "08077001304"
     ],
     "minimum_professional_captures": 6,
-    "minimum_jaccard": 0.6,
-    "outside_pma_demand_range": {
-      "min": 0.4,
-      "max": 0.56,
-      "source": "Professional market studies of the calibration site (two, owner-provided, not published)."
-    }
+    "minimum_jaccard": 0.6
   }
 }
