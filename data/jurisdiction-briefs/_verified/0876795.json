@@ -1,0 +1,26 @@
+{
+  "brief_geoid": "0876795",
+  "brief_jurisdiction": "Town of Telluride",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
+  "rows": [
+    {
+      "section_id": "housing-policy-review",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.telluridenews.com/news/article_faa3af4b-23c1-445b-a6c6-80541f470b37.html",
+      "verdict": "supported",
+      "supporting_quote": "Before the Town of Telluride reviews and potentially amends its housing policies in 2027, staff is considering hiring a third-party consultant group to analyze the current policies. Telluride Town Council, acting at the Telluride Housing Authority, went over a request for proposals (RFP) during its regular meeting on Tuesday, Sept. 1.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    }
+  ],
+  "dropped_rows": [],
+  "summary": {
+    "supported": 1,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0,
+    "total": 1,
+    "dropped": 0
+  }
+}

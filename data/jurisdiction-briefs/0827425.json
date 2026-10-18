@@ -3,7 +3,7 @@
   "jurisdiction": "City of Fort Collins",
   "scope": "place",
   "containing_county_fips": "08069",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Fort Collins' verified affordable-housing brief now rests on direct source fetches for Housing Catalyst's public-housing-authority role, permanent-supportive and affordable-rental projects, CHFA tax-credit awards, the Land Bank program, city development incentives, Proposition 123 land-banking funds, and the 2024 repeal of U+2 occupancy limits.",
@@ -161,7 +161,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Fort Collins' recent verified development activity is concentrated in affordable-home production and land deployment. Housing Catalyst's Village on Eastbrook is planned for 73 new homes with an all-electric design and solar system, supported by a .61 million Proposition 123 Land Banking award on a 2.9-acre parcel. The Kechter Townhomes land-bank project adds a separate for-sale homeownership signal, with 54 homes restricted to 80% AMI.",
+          "text": "Fort Collins' recent verified development activity is concentrated in affordable-home production and land deployment. Housing Catalyst's Village on Eastbrook is planned for 73 new homes with an all-electric design and solar system, supported by a $1.61 million Proposition 123 Land Banking award on a 2.9-acre parcel. The Kechter Townhomes land-bank project adds a separate for-sale homeownership signal, with 54 homes restricted to 80% AMI.",
           "cites": [
             "s20",
             "s25",

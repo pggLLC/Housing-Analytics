@@ -1,0 +1,26 @@
+{
+  "brief_geoid": "0818310",
+  "brief_jurisdiction": "Town of Crested Butte",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
+  "rows": [
+    {
+      "section_id": "mineral-point",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://milehighcre.com/34-unit-affordable-housing-community-opens-in-crested-butte/",
+      "verdict": "supported",
+      "supporting_quote": "Mineral Point, a new 34-unit affordable rental community located at the north end of Crested Butte at 603 Butte Ave., celebrated its grand opening this week ... TWG Development was selected through the Town of Crested Butte’s Request for Proposals process to develop Mineral Point. ... Mineral Point includes studios and one- and two-bedroom apartments across three buildings totaling approximately 26,700 square feet. The community is designed to serve households earning between 30% and 60% of the Area Median Income (AMI)",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    }
+  ],
+  "dropped_rows": [],
+  "summary": {
+    "supported": 1,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0,
+    "total": 1,
+    "dropped": 0
+  }
+}

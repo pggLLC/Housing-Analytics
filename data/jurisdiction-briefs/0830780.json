@@ -3,7 +3,7 @@
   "jurisdiction": "City of Glenwood Springs",
   "scope": "place",
   "containing_county_fips": "08045",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Glenwood Springs' verified affordable-housing brief now rests on direct URL fetches for Ballot Measure 2C, recent 2C appropriations, CHFA tax-credit awards, the Strategic Housing Plan Update, city-owned land projects, WMRHC / Good Deeds, and Garfield County co-investments tied to The Benedict and Canyon Vista.",
@@ -118,6 +118,12 @@
             "s7",
             "s24"
           ]
+        },
+        {
+          "text": "The Post Independent reported in September 2026 that residents of the 98-unit Cavern Springs Mobile Home Park were under contract to buy it for about $23 million, with a target closing of Oct. 20. Government commitments include $500,000 each from Glenwood Springs and Carbondale, $2 million from Aspen, $1.5 million from Pitkin County and $1 million from Snowmass Village. Garfield County commissioners backed a request for the Garfield County Housing Authority to take a small ownership interest so the land could qualify for the authority's property-tax exemption, saving residents about $55,000 a year.",
+          "cites": [
+            "s36"
+          ]
         }
       ]
     },
@@ -141,6 +147,24 @@
       ]
     },
     {
+      "id": "regional-deed-restricted-sales",
+      "heading": "Deed-restricted homes and nearby proposals",
+      "paragraphs": [
+        {
+          "text": "In July 2026 the city ran a lottery for a two-bedroom deed-restricted townhome at 619 Overlin Drive priced at $309,535, open to households earning no more than 110% of AMI in which at least one member works at least 1,500 hours a year in the city's designated employment areas. The buyer must live there at least nine months a year.",
+          "cites": [
+            "s34"
+          ]
+        },
+        {
+          "text": "Just west of the city, the Garfield County Planning and Zoning Commission unanimously recommended approval of the Mitchell Creek Community: 98 for-sale homes on about 25 acres at 50235 Highway 6 and 24, now the Ami's Acres campground. Ten homes would be deed-restricted for households earning 70% to 110% of AMI, and new hydrants would connect to Glenwood Springs city water. The proposal goes next to the county commissioners.",
+          "cites": [
+            "s35"
+          ]
+        }
+      ]
+    },
+    {
       "id": "regional-macro-context",
       "heading": "Macro backdrop: the insurance-cost squeeze",
       "paragraphs": [
@@ -157,7 +181,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Glenwood Springs' recent verified development signals are workforce-housing investments rather than a single employer expansion. City Council approved a .8 million package for Canyon Vista Apartments, Habitat is working with the city on two housing developments, and the city is pursuing an estimated 100 to 150 workforce-housing units on the Vogelaar Park property.",
+          "text": "Glenwood Springs' recent verified development signals are workforce-housing investments rather than a single employer expansion. City Council approved a $3.8 million package for Canyon Vista Apartments, Habitat is working with the city on two housing developments, and the city is pursuing an estimated 100 to 150 workforce-housing units on the Vogelaar Park property.",
           "cites": [
             "s6",
             "s18",
@@ -795,6 +819,27 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s34",
+      "label": "Glenwood Springs opens lottery for deed-restricted townhome — Post Independent",
+      "url": "https://www.postindependent.com/news/glenwood-springs-opens-lottery-for-deed-restricted-townhome/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s35",
+      "label": "Nearly 100 homes proposed west of Glenwood Springs — Post Independent",
+      "url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s36",
+      "label": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

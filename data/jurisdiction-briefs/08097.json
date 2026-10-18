@@ -3,7 +3,7 @@
   "jurisdiction": "Pitkin County",
   "scope": "county",
   "containing_county_fips": "08097",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Pitkin County's verified housing record centers on APCHA deed restrictions, the voter-approved 1.5-mill affordable and workforce housing levy, county STR licensing in unincorporated areas, the regional Lumberyard pipeline, a small 127-unit APCHA LIHTC footprint, and participation in WMRHC's Good Deeds buy-down program.",
@@ -77,6 +77,12 @@
             "s15",
             "s16"
           ]
+        },
+        {
+          "text": "In August 2026 Aspen and Gorman & Company announced $2.89 million in Middle-Income Housing Tax Credits from CHFA for Lumberyard Phase B; the Aspen Times reported the credits are expected to bring about $10.5 million toward Buildings 2 and 3, with construction expected to begin in spring 2027.",
+          "cites": [
+            "s31"
+          ]
         }
       ]
     },
@@ -96,6 +102,12 @@
           "cites": [
             "s19",
             "s18"
+          ]
+        },
+        {
+          "text": "On Aug. 18, 2026, county staff presented commissioners with a study by Economic and Planning Systems that recommends removing the 2017-2022 rental-history requirement and instead limiting short-term rentals by geography through a new Type 1 license, with a new Type 2 license to lower application barriers. The study counted 73 active licensed short-term rentals in unincorporated Pitkin County as of November 2025. No formal action was taken.",
+          "cites": [
+            "s32"
           ]
         }
       ]
@@ -161,7 +173,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Pitkin County's recent economic-development posture is centered on worker-housing capital. The county's new affordable-housing mill levy raised .5 million in 2025, with 2026 planning that included a  million Phillips Mobile Home Park expenditure and .5 million for grants and contributions. The county also backed the West Mountain Regional Housing Coalition with  million allocations for both 2025 and 2026.",
+          "text": "Pitkin County's recent economic-development posture is centered on worker-housing capital. The county's new affordable-housing mill levy raised $8.5 million in 2025, with 2026 planning that included a $5 million Phillips Mobile Home Park expenditure and $4.5 million for grants and contributions. The county also backed the West Mountain Regional Housing Coalition with $1 million allocations for both 2025 and 2026.",
           "cites": [
             "s8",
             "s25"
@@ -771,6 +783,20 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s31",
+      "label": "Aspen’s Lumberyard project receives $2.89 million in tax credits — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspens-lumberyard-project-receives-2-89-million-in-tax-credits/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s32",
+      "label": "Pitkin County short-term rental regulations could see a change — Aspen Times",
+      "url": "https://www.aspentimes.com/news/pitkin-county-short-term-rental-regulations-could-see-a-change/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

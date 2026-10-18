@@ -3,7 +3,7 @@
   "jurisdiction": "City of Salida",
   "scope": "place",
   "containing_county_fips": "08015",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Salida's verified affordable-housing brief now rests on direct URL fetches for Salida Ridge / Confluent Park, voter-approved STR housing revenue, fee-in-lieu policy changes, South Ark / Vandaveer Ranch planning, Chaffee Housing Authority and Chaffee Housing Trust context, Jane's Place, and the Flour Mill / downtown-apartment pipeline.",
@@ -48,6 +48,12 @@
           "text": "In May 2024, Salida City Council voted 4-1 to reduce fee-in-lieu charges from the prior flat $17.40 per square foot rate. The Mountain Mail reported that the new formula lowered fees for smaller projects and that fee-in-lieu collections fund the city affordable-housing fund.",
           "cites": [
             "s9"
+          ]
+        },
+        {
+          "text": "In August 2026 the city proposed stricter short-term rental licensing, with first reading on Aug. 4: applicants would document their residency, and licensed rentals would have to be rented at least 12 nights a year to stay eligible for renewal. Lodging-tax revenue from short-term rentals goes into Salida's Affordable Housing Fund.",
+          "cites": [
+            "s33"
           ]
         }
       ]
@@ -117,6 +123,31 @@
           "cites": [
             "s25"
           ]
+        },
+        {
+          "text": "Ark Valley Voice reported in October 2026 that Salida had 26 units counting toward its 32-unit Proposition 123 commitment for the cycle ending Dec. 31, 20 from Flour Mill and 6 from West End, and that council would consider an Oct. 6 regional agreement under which Buena Vista transfers six credits to Salida. The city noted its inclusionary program counts rentals up to 80% of AMI and ownership up to 120%, while Proposition 123 counts rentals up to 60% and ownership up to 100%.",
+          "cites": [
+            "s31"
+          ]
+        },
+        {
+          "text": "Artspace withdrew from the 19-unit 1st and D rental project in May 2026. A selection committee then recommended Trellis Housing Partners as the new developer, and council was set to consider an agreement on Sept. 15, 2026. The project holds a $1.75 million reservation of state Community Revitalization Tax Credits; long-term ownership of the site had not been decided.",
+          "cites": [
+            "s32"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-needs-assessment",
+      "heading": "2026 housing needs assessment",
+      "paragraphs": [
+        {
+          "text": "Preliminary findings of the regional Housing Needs Assessment by Root Policy Research, reviewed by Salida City Council on Aug. 17, 2026, estimate that Chaffee County needs 1,070 additional units over the next 10 years, 636 of them in Salida. Ark Valley Voice reported that 58% of Salida households pay 30% or more of income on housing and that Salida's median home value rose 62% in five years to $665,000. The assessment is required under SB24-174 and will be the foundation for Salida's Housing Action Plan, which must be adopted by the end of 2027.",
+          "cites": [
+            "s34",
+            "s35"
+          ]
         }
       ]
     },
@@ -137,7 +168,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Salida's verified recent development signals are project-specific and housing-linked. City Council approved the Flour Mill Planned Development with 69 housing units, half deed-restricted, while Jane's Place combined 13 affordable-housing units with the Molly House and Bloom and Brew coffee shop. Separately, the Chaffee Housing Authority was awarded .1 million for 20 apartments near downtown.",
+          "text": "Salida's verified recent development signals are project-specific and housing-linked. City Council approved the Flour Mill Planned Development with 69 housing units, half deed-restricted, while Jane's Place combined 13 affordable-housing units with the Molly House and Bloom and Brew coffee shop. Separately, the Chaffee Housing Authority was awarded $1.1 million for 20 apartments near downtown.",
           "cites": [
             "s24",
             "s23",
@@ -658,6 +689,41 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s31",
+      "label": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-seeks-six-housing-credits-from-buena-vista-to-meet-proposition-123-commitment/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s32",
+      "label": "After Artspace Exits, Salida Seeks New Path For 1st and D Affordable Housing Project — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/after-artspace-exits-salida-seeks-new-path-for-1st-and-d-affordable-housing-project/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s33",
+      "label": "Salida City Council to Consider Stricter Short-Term Rental Rules — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-to-hear-str-requirements-hot-springs-pool-liner-repair-financial-monitoring-policy/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s34",
+      "label": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/chaffee-county-needs-more-than-1000-new-homes-over-next-decade-preliminary-study-finds/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s35",
+      "label": "Salida City Council Hears Housing Needs Assessment Presentation — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-hears-housing-needs-assessment-presentation-salida-data/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

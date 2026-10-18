@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0820000",
   "brief_jurisdiction": "City of Denver",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "eha-ordinance",
@@ -264,6 +264,51 @@
       "verdict": "supported",
       "supporting_quote": "7,003 people have come inside from the streets, and more than 5,597 people have moved into permanent housing since 2023.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 3,
+      "source_id": "s39",
+      "source_url": "https://www.denvergazette.com/2026/09/25/denver-reports-mixed-results-on-five-year-housing-goals/",
+      "verdict": "supported",
+      "supporting_quote": "Unsheltered homelessness was cut 60% from 1,313 to 518, exceeding the 50% target. ... The department reached about 56% of its affordable housing goal, creating 3,396 homes of its 6,050 objective. ... Rather than declining to the goal of 6,600 annually, eviction filings rose to 15,953. ... HOST also sought, and received earlier this week, City Council approval to delay its next long-term strategic plan by a year. ... Root Policy Research was selected through a competitive bid process conducted last summer, Woodbury said. ... The $350,000 housing needs assessment, officials confirmed, caused the one-year delay.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 4,
+      "source_id": "s40",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Local-Leaders-Break-Ground-on-Park-Avenue-Apartments",
+      "verdict": "supported",
+      "supporting_quote": "Denver city officials joined the Colorado Coalition for the Homeless (CCH) to break ground on the Park Avenue Apartments, a new 60‑unit permanent supportive housing development at 3721 N. Globeville Road. ... Scheduled to open in 2027, the four‑story building will offer one‑bedroom homes for individuals earning between 30% and 60% of the Area Median Income (AMI), including residents exiting homelessness. All units will be supported by project‑based vouchers from the Colorado Department of Local Affairs (DOLA) Division of Housing. ... The Park Avenue site previously operated as a non‑congregate shelter ... HOST contributed $5 million in American Rescue Plan Act funds for acquisition, $3.2 million in development funding, and $1.35 million for long‑term supportive services. ... Across the city, 1,561 affordable units with city financing are under construction or undergoing preservation, with an additional 403 affordable homes in the planning stage",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 3,
+      "source_id": "s41",
+      "source_url": "https://www.coloradopolitics.com/2026/08/11/denver-city-council-committee-looks-to-ease-affordable-housing-metrics/",
+      "verdict": "supported",
+      "supporting_quote": "HOST is asking the city to amend parts of a 2018 intergovernmental agreement with DHA to lower its promised housing totals for the DHA Delivers for Denver program, drop the Westridge development from the program and extend some deadlines by almost a decade. ... At the project’s onset, the cost assumption was $332 million. By the time it was finished, Clark said actual costs for the project were closer to $480 million ... With all D3 Direct funds exhausted, Westridge cannot be completed as part of the D3 program without additional funding. ... DHA’s affordable housing production commitment to be lowered from 1,300 units to the 959 income-restricted units already complete ... Remove the Westridge projects from the D3 program ... Reduce the permanent supportive housing unit goal from 1,200 to 1,100 ... Extend the deadline for DHA to complete its two remaining supportive housing sites at 3965 Fox St. and 4595 Quebec St. to Dec. 31, 2038. ... Committee members voted unanimously to advance the bill to the full Denver City Council for consideration.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "parking-and-growth",
+      "paragraph_index": 0,
+      "source_id": "s42",
+      "source_url": "https://www.marketplace.org/story/2026/09/02/denver-changed-parking-rule-to-spur-more-housing",
+      "verdict": "supported",
+      "supporting_quote": "Until a year ago, Denver required that most apartment buildings provide at least one parking spot per unit, but last August the city council voted to eliminate those requirements, in an effort to spur more housing construction. ... Before the vote, Chavez-Norgaard co-authored a study estimating the change could add 460 more housing units per year, or almost 13% more than the status quo. ... In Denver, it’s too soon to know how the parking change will play out in the real world.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "parking-and-growth",
+      "paragraph_index": 1,
+      "source_id": "s43",
+      "source_url": "https://www.rmpbs.org/news/government/denver-mayor-mike-johnston-unveils-mile-high-line-project",
+      "verdict": "supported",
+      "supporting_quote": "Johnston unveiled plans for The Mile High Line, physically connecting Denver neighborhoods from the Santa Fe Yards, up through downtown and into Park Hill Park. ... Johnston plans to ease housing affordability by creating 20,000 new housing units within the Mile High Line. ... “The vision for the future of housing in the city is also not random. It is actually focused on places where public transit and density will make housing more affordable and make getting around easier,” said Johnston.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [
@@ -339,8 +384,8 @@
     }
   ],
   "summary": {
-    "total": 25,
-    "supported": 25,
+    "total": 34,
+    "supported": 34,
     "partial": 0,
     "unsupported": 0,
     "inaccessible": 0,

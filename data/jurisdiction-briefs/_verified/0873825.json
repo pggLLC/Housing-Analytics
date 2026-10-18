@@ -1,0 +1,26 @@
+{
+  "brief_geoid": "0873825",
+  "brief_jurisdiction": "City of Steamboat Springs",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
+  "rows": [
+    {
+      "section_id": "linkage-fee",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.steamboatpilot.com/news/development-fee-debate-reveals-no-easy-answer-to-steamboat-springs-housing-challenge/",
+      "verdict": "supported",
+      "supporting_quote": "the Steamboat Springs City Council signaled a split last week on how to move the program forward — or whether to move it forward at all. ... At council’s regular meeting on Tuesday, Sept. 15, Planning Director Rebecca Bessey presented city staff’s final recommendations on implementing the program ... City Council initially green-lit preliminary recommendations for a linkage-fee program in March, opting to pursue that path versus an inclusionary zoning ordinance ... Last Tuesday, council considered a recommended program with four policy options presented by staff. ... Use of linkage-fee revenue would be restricted to capital costs, such as new construction, land acquisition, infrastructure improvements and engineering studies",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    }
+  ],
+  "dropped_rows": [],
+  "summary": {
+    "supported": 1,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0,
+    "total": 1,
+    "dropped": 0
+  }
+}

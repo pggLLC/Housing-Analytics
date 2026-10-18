@@ -3,7 +3,7 @@
   "jurisdiction": "City of Colorado Springs",
   "scope": "place",
   "containing_county_fips": "08041",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Colorado Springs’ verified affordable-housing brief now rests on directly fetched source text: HUD/CSHA voucher status, HomeCOS and Strategic Doing policy documents, city-reported 2022 production and fee-rebate program materials, CHFA tax-credit award announcements, Proposition 123 compliance context, and permanent-supportive-housing / homelessness-response updates.",
@@ -68,6 +68,12 @@
           "cites": [
             "s13"
           ]
+        },
+        {
+          "text": "The Gazette reported in August 2026 that Sunrise at Shiloh Mesa opened as a 50-unit affordable development for seniors 62 and older at 7727 Mulberry Wood Drive, built by Greccio Housing on 1.1 acres donated by Woodmen Valley Chapel. Greccio said the parcel was valued at $900,000, the project cost $17 million, and the property mainly serves seniors earning 30% to 50% of AMI.",
+          "cites": [
+            "s31"
+          ]
         }
       ]
     },
@@ -91,6 +97,12 @@
           "text": "Proposition 123 participation requires local governments to commit to increasing affordable housing stock by 3% each year in the first three-year cycle and to create a fast-track approval process. A July 2023 Colorado Sun report said only 14 of 336 eligible local governments had applied at that point, while larger municipalities were expected to begin opting in.",
           "cites": [
             "s18"
+          ]
+        },
+        {
+          "text": "In July 2026 the Governor's office, OEDIT and CHFA selected 11 developments statewide for Proposition 123 funding. KKTV reported that Silver Key Apartments at North Weber in Colorado Springs will receive $1 million for a 49-unit rental community for older adults earning 30% to 60% of AMI, with supportive senior services. Final award details are set during underwriting.",
+          "cites": [
+            "s32"
           ]
         }
       ]
@@ -691,6 +703,20 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s31",
+      "label": "Second affordable housing project on church land opens in Colorado Springs — Colorado Springs Gazette",
+      "url": "https://gazette.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s32",
+      "label": "Prop 123 funds to support 11 new affordable housing developments across Colorado — KKTV",
+      "url": "https://www.kktv.com/2026/07/21/prop-123-funds-support-11-new-affordable-housing-developments-across-colorado-including-one-colorado-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

@@ -3,7 +3,7 @@
   "jurisdiction": "City of Steamboat Springs",
   "scope": "place",
   "containing_county_fips": "08107",
-  "last_curated": "2026-07-30",
+  "last_curated": "2026-10-18",
   "curator": "auto-draft",
   "published": false,
   "summary": "Skeleton brief for City of Steamboat Springs — auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
@@ -44,6 +44,18 @@
             "s3"
           ],
           "needs_source": true
+        }
+      ]
+    },
+    {
+      "id": "linkage-fee",
+      "heading": "Housing linkage fee",
+      "paragraphs": [
+        {
+          "text": "Steamboat Springs City Council chose in March to pursue a housing linkage fee rather than an inclusionary zoning ordinance. When staff presented final recommendations on Sept. 15, 2026, with four options for which residential and non-residential development would pay, council split on how, or whether, to move forward. Fee revenue would be limited to capital costs such as new construction and land acquisition.",
+          "cites": [
+            "s4"
+          ]
         }
       ]
     },
@@ -519,6 +531,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s4",
+      "label": "Development-fee debate reveals no easy answer to Steamboat Springs’ housing challenge — Steamboat Pilot",
+      "url": "https://www.steamboatpilot.com/news/development-fee-debate-reveals-no-easy-answer-to-steamboat-springs-housing-challenge/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 13433

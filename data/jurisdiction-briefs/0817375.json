@@ -3,7 +3,7 @@
   "jurisdiction": "City of Cortez",
   "scope": "place",
   "containing_county_fips": "08083",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Cortez has a verified affordable-housing record anchored by Tawi Kaan, a 42-unit permanent supportive housing project on Empire Street, the 2023 Housing Needs Assessment and Housing Action Plan, a 2023 Proposition 123 opt-in baseline, the 2025 Land Use Code rewrite, the Park Village West 7th Street RFQ, and regional capacity through Region 9 and HomesFund.",
@@ -13,9 +13,9 @@
       "heading": "Tawi Kaan Apartments",
       "paragraphs": [
         {
-          "text": "Tawi Kaan Apartments at 560 E. Empire Street is Cortez’s first permanent supportive housing development. The three-story building has 42 units, split evenly among one-, two-, and three-bedroom homes, for households making 30% or less of area median income. The project celebrated its grand opening on October 15, 2024, and CHFA helped finance it with a roughly $1.2M tax credit award.",
+          "text": "Tawi Kaan Apartments, a 42-unit complex at 560 E. Empire St. in Cortez, provides permanent supportive housing for homeless and formerly homeless families and prioritizes Ute community members. Its 14 one-bedroom, 14 two-bedroom and 14 three-bedroom units are all restricted to 30% of area median income, and it opened Oct. 15, 2024.",
           "cites": [
-            "s4"
+            "s6"
           ]
         },
         {
@@ -232,13 +232,6 @@
     }
   ],
   "sources": [
-    {
-      "id": "s4",
-      "label": "Affordable Housing with Heart (Tawi Kaan opens) — The Journal",
-      "url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
-      "kind": "press",
-      "accessed": "2026-06-12"
-    },
     {
       "id": "s6",
       "label": "AHTCC honors Tawi Kaan Apartments with national award — The Journal",

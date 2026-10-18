@@ -1,18 +1,9 @@
 {
   "brief_geoid": "0817375",
   "brief_jurisdiction": "City of Cortez",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 re-review: Tawi Kaan paragraph re-sourced to s6 by direct URL fetch after s4 went 404.",
   "rows": [
-    {
-      "section_id": "regional-lihtc-tawi-kaan",
-      "paragraph_index": 0,
-      "source_id": "s4",
-      "source_url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
-      "verdict": "supported",
-      "supporting_quote": "On the afternoon of Tuesday, Oct. 15, Tawi Kaan celebrated its grand opening. ... newly built permanent supportive housing apartments at 560 E. Empire St. in Cortez... There are 42 units – 14 one-bed, 14 two-bed and 14 three-bed – in the three-story building for people making 30% or less than the median income for the area... Colorado Housing and Finance Authority – which helped finance the project with a $1.2 million tax credit award.",
-      "notes": "Direct URL fetch via curl."
-    },
     {
       "section_id": "regional-lihtc-tawi-kaan",
       "paragraph_index": 1,
@@ -165,6 +156,15 @@
       "verdict": "supported",
       "supporting_quote": "As of March 11, development within the city of Cortez answers to a new land use code. Tuesday evening, Cortez City Council unanimously agreed to repeal its 30-year-old code and adopt the revised one... Manufactured Home District on the south side of Cortez was changed to Mixed Residential.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "regional-lihtc-tawi-kaan",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
+      "verdict": "supported",
+      "supporting_quote": "Tawi Kaan Apartments in Cortez, which will serve the Ute Mountain Ute Tribe and provide permanent supportive housing for homeless and formerly homeless families. ... Tawi Kaan Apartments is a 42-unit complex at 560 E. Empire St. in Cortez. ... The complex includes 14 one-bedroom, 14 two-bedroom and 14 three-bedroom units, all restricted to 30% of area median income ... and prioritizes Ute community members. It opened Oct. 15, 2024.",
+      "notes": "2026-10-18 re-review; direct URL fetch (browser-UA curl) of the article."
     }
   ],
   "dropped_rows": [
@@ -217,14 +217,25 @@
       "source_id": "s24",
       "verdict": "inaccessible",
       "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "section_id": "regional-lihtc-tawi-kaan",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
+      "verdict": "supported",
+      "supporting_quote": "On the afternoon of Tuesday, Oct. 15, Tawi Kaan celebrated its grand opening. ... newly built permanent supportive housing apartments at 560 E. Empire St. in Cortez... There are 42 units – 14 one-bed, 14 two-bed and 14 three-bed – in the three-story building for people making 30% or less than the median income for the area... Colorado Housing and Finance Authority – which helped finance the project with a $1.2 million tax credit award.",
+      "notes": "Direct URL fetch via curl.",
+      "dropped_reason": "2026-10-18: The Journal article (s4) now returns 404 and has no archive copy; paragraph rewritten to what s6 supports (the \"first\", \"three-story\" and tax-credit amount details are dropped)."
     }
   ],
   "summary": {
-    "total": 14,
-    "supported": 14,
+    "total": 18,
+    "supported": 18,
     "partial": 0,
     "unsupported": 0,
-    "inaccessible": 0
+    "inaccessible": 0,
+    "dropped": 11
   },
   "strip_summary": {
     "original_cite_pairs": 26,

@@ -186,7 +186,17 @@ test('a missing or stale queue is said, not shown as "no news"', () => {
 // ── The review issue ───────────────────────────────────────────────────────
 
 test('the review issue lists each brief with news, with its reasons and headlines', () => {
-  const q = JSON.parse(read('data/alerts/brief-news-queue.json'));
+  const committed = JSON.parse(read('data/alerts/brief-news-queue.json'));
+  // A fully reviewed queue is the goal state, so when the committed file has no news,
+  // give its first brief one headline to keep the section check honest.
+  const q = committed.briefs.some((b) => b.stories.length) ? committed : {
+    ...committed,
+    briefs: committed.briefs.map((b, i) => (i ? b : {
+      ...b, days_since_review: 3, reasons: ['1 new story naming it'],
+      stories: [{ title: 'Fixture headline', source: 'Fixture', link: 'https://example.org/story', date: '2026-10-14', match: 'place', also: [] }],
+    })),
+  };
+  if (q !== committed) assert.match(issueBody(committed), /No brief has news since its last review/);
   const body = issueBody(q);
   assert.ok(body.startsWith(MARKER));
   assert.ok(!/\d{4}-\d{2}-\d{2}T\d{2}:/.test(body), 'a run timestamp in the body edits the issue every day');

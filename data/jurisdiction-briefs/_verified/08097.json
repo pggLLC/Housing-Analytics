@@ -1,8 +1,8 @@
 {
   "brief_geoid": "08097",
   "brief_jurisdiction": "Pitkin County",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "regional-apcha",
@@ -255,6 +255,24 @@
       "verdict": "supported",
       "supporting_quote": "The BOCC supported a $1 million allocation of its affordable housing fund for 2025 and another $1 million in 2026... Before the affordable housing tax, the county supported the WMRHC through American Rescue Plan Act funding and general fund dollars marked for affordable housing, totaling $1 million. In 2024, the WMRHC facilitated nine free-market home buydowns by contributing 30% of the purchase price for the buyer... The program affords a 3% annual appreciation for the home price and some capital improvement allowances.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "regional-lumberyard",
+      "paragraph_index": 2,
+      "source_id": "s31",
+      "source_url": "https://www.aspentimes.com/news/aspens-lumberyard-project-receives-2-89-million-in-tax-credits/",
+      "verdict": "supported",
+      "supporting_quote": "The city of Aspen, in partnership with Gorman & Company, has announced that Phase B of the Lumberyard affordable housing development has received $2.89 million in Middle-Income Housing Tax Credits from the Colorado Housing and Finance Authority. ... Approximately $10.5 million is expected to be provided by those investments, and will go toward construction of Buildings 2 and 3 — which is expected to begin in spring 2027 after financial closing.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "str-regulation",
+      "paragraph_index": 2,
+      "source_id": "s32",
+      "source_url": "https://www.aspentimes.com/news/pitkin-county-short-term-rental-regulations-could-see-a-change/",
+      "verdict": "supported",
+      "supporting_quote": "This change is among the recommendations presented by the Pitkin County Community Development team on Aug. 18 examining a study looking into the impacts of short-term rental activity. ... November 2025 data from SageGov, used throughout the report, found 73 active licensed STRs in unincorporated Pitkin County. ... the report recommended removing the 2017-2022 requirement and instead adopting geographical limits through a new Type 1 license. ... A new Type 2 license that would lessen application barriers for qualified owners was also proposed. ... No formal action was taken in the meeting.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [
@@ -284,11 +302,12 @@
     }
   ],
   "summary": {
-    "total": 24,
-    "supported": 24,
+    "total": 30,
+    "supported": 30,
     "partial": 0,
     "unsupported": 0,
-    "inaccessible": 0
+    "inaccessible": 0,
+    "dropped": 3
   },
   "strip_summary": {
     "original_cite_pairs": 25,

@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0830780",
   "brief_jurisdiction": "City of Glenwood Springs",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "workforce-housing-fund-2c",
@@ -273,6 +273,33 @@
       "verdict": "supported",
       "supporting_quote": "Glenwood Springs currently looks to build an estimated 100-150 workforce housing units on the Vogelaar Park property at the corner of Eighth and School streets. ... Garfield County commissioners approved a letter of support ... More Housing Now and Land Use Initiative Grant",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "regional-deed-restricted-sales",
+      "paragraph_index": 0,
+      "source_id": "s34",
+      "source_url": "https://www.postindependent.com/news/glenwood-springs-opens-lottery-for-deed-restricted-townhome/",
+      "verdict": "supported",
+      "supporting_quote": "Glenwood Springs workers have until the end of the day Wednesday, July 29, to apply for a lottery to purchase a deed-restricted townhome priced at $309,535. ... The City of Glenwood Springs is facilitating the lottery for the two-bedroom, 1.5-bathroom home at 619 Overlin Drive. The unit is available to a household earning no more than 110% of the area median income ... At least one household member must work at least 1,500 hours per year within one of the city’s designated employment areas. ... The townhome must serve as the buyer’s primary residence for at least nine months of the year.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "regional-deed-restricted-sales",
+      "paragraph_index": 1,
+      "source_id": "s35",
+      "source_url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
+      "verdict": "supported",
+      "supporting_quote": "A nearly 100-home residential development could replace Ami’s Acres Campground west of Glenwood Springs ... The Garfield County Planning and Zoning Commission unanimously recommended approval of the Mitchell Creek Community proposal Wednesday, advancing the project to the Garfield County commissioners for consideration. ... The project would bring 98 new for-sale homes to roughly 25 acres at 50235 Highway 6 and 24. ... Ten homes would be deed-restricted workforce housing units serving households earning between 70% and 110% of the area median income. ... The redevelopment would add hydrants connected to Glenwood Springs city water",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 2,
+      "source_id": "s36",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
+      "verdict": "supported",
+      "supporting_quote": "Residents of the 98-unit mobile home park are under contract to purchase the property, with a target closing date of Oct. 20. ... Government commitments include $2 million from the City of Aspen, $1.5 million from Pitkin County, $1 million from the Town of Snowmass Village, and $500,000 each from the towns of Carbondale and Glenwood Springs. ... The purchase price is about $23 million ... Commissioners approved a letter of support for the Sopris Mountain Collective’s request to enter into a special limited partnership with the Garfield County Housing Authority. If approved by the housing authority, the arrangement could extend the authority’s tax-exempt status to the mobile home park and save residents about $55,000 a year in property taxes on the land.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [
@@ -303,8 +330,8 @@
     }
   ],
   "summary": {
-    "total": 25,
-    "supported": 25,
+    "total": 33,
+    "supported": 33,
     "partial": 0,
     "unsupported": 0,
     "inaccessible": 0,

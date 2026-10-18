@@ -3,7 +3,7 @@
   "jurisdiction": "City of Denver",
   "scope": "place",
   "containing_county_fips": "08031",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Denver's verified affordable-housing brief now rests on direct source fetches for Expanding Housing Affordability, dedicated affordable-housing revenues, HOST and All In Mile High, Denver Housing Authority redevelopment, and recent CHFA tax-credit awards. Unsupported NEST, Proposition 123, stale election-result, and blocked-source claims were stripped.",
@@ -84,6 +84,18 @@
             "s18",
             "s19"
           ]
+        },
+        {
+          "text": "The Denver Gazette reported in September 2026 that HOST's five-year plan produced mixed results: unsheltered homelessness fell 60%, from 1,313 to 518 people, beating the 50% target; the department created 3,396 of its 6,050-home affordable-housing goal, about 56%; and eviction filings rose to 15,953 instead of falling to the goal of 6,600 a year. The same report says HOST's $350,000 Housing Needs Assessment, prepared by Root Policy Research, delayed its next long-term strategic plan by a year.",
+          "cites": [
+            "s39"
+          ]
+        },
+        {
+          "text": "HOST says city officials and the Colorado Coalition for the Homeless broke ground on Park Avenue Apartments, a 60-unit permanent supportive housing building at 3721 N. Globeville Road on a former non-congregate shelter site. It is scheduled to open in 2027 with one-bedroom homes for people earning 30% to 60% of AMI, all supported by project-based vouchers from DOLA's Division of Housing. HOST contributed $5 million in American Rescue Plan Act funds for acquisition, $3.2 million in development funding and $1.35 million for long-term supportive services. The same release says 1,561 affordable units with city financing are under construction or being preserved, with another 403 in planning.",
+          "cites": [
+            "s40"
+          ]
         }
       ]
     },
@@ -109,6 +121,12 @@
           "text": "For future DHA pipeline, Developing MyCity reports that DHA is exploring Westridge and Mulroy redevelopment near Knox Station, with a first phase of 133 units and a broader concept that could support roughly 600 to 800 affordable units across the properties.",
           "cites": [
             "s25"
+          ]
+        },
+        {
+          "text": "Colorado Politics reported in August 2026 that HOST asked the city to amend its 2018 DHA Delivers for Denver (D3) agreement with Denver Housing Authority: lower DHA's affordable-housing production commitment from 1,300 units to the 959 income-restricted units already complete, remove the Westridge projects from D3, cut the permanent supportive housing goal from 1,200 to 1,100 units, and extend the deadline for the supportive-housing sites at 3965 Fox St. and 4595 Quebec St. to December 31, 2038. DHA said Sun Valley's cost rose from an assumed $332 million to closer to $480 million and that D3 funds are exhausted. The council's housing committee voted unanimously to send the bill to the full City Council.",
+          "cites": [
+            "s41"
           ]
         }
       ]
@@ -150,6 +168,24 @@
       ]
     },
     {
+      "id": "parking-and-growth",
+      "heading": "Parking rules and growth plans",
+      "paragraphs": [
+        {
+          "text": "Marketplace reported in September 2026 that Denver's City Council had voted the previous August to eliminate the requirement that most apartment buildings provide at least one parking spot per unit. A study co-authored by a University of Denver public-policy professor before the vote estimated the change could add 460 housing units a year; the report says it is too soon to know how the change will play out.",
+          "cites": [
+            "s42"
+          ]
+        },
+        {
+          "text": "At his State of the City address, reported by Rocky Mountain PBS in July 2026, Mayor Mike Johnston unveiled the Mile High Line, connecting neighborhoods from the Santa Fe Yards through downtown to Park Hill Park, and said he plans to create 20,000 new housing units within it, focused on places where transit and density can make housing more affordable.",
+          "cites": [
+            "s43"
+          ]
+        }
+      ]
+    },
+    {
       "id": "regional-macro-context",
       "heading": "Macro backdrop: the insurance-cost squeeze",
       "paragraphs": [
@@ -166,7 +202,7 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Denver's recent verified activity includes major redevelopment completion and homelessness-to-housing implementation. DHA opened Flo as the seventh and final multifamily building in the Sun Valley redevelopment, replacing 333 outdated public-housing units with 965 modern mixed-income homes and more than  million in total investment. Denver's All in Mile High report separately said 7,003 people had come inside and more than 5,597 had moved into permanent housing since 2023.",
+          "text": "Denver's recent verified activity includes major redevelopment completion and homelessness-to-housing implementation. DHA opened Flo as the seventh and final multifamily building in the Sun Valley redevelopment, replacing 333 outdated public-housing units with 965 modern mixed-income homes and more than $500 million in new development. Denver's All in Mile High report separately said 7,003 people had come inside and more than 5,597 had moved into permanent housing since 2023.",
           "cites": [
             "s20",
             "s18"
@@ -861,6 +897,41 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s39",
+      "label": "Denver reports mixed results on five-year housing goals — Denver Gazette",
+      "url": "https://www.denvergazette.com/2026/09/25/denver-reports-mixed-results-on-five-year-housing-goals/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s40",
+      "label": "Local Leaders Break Ground on Park Avenue Apartments — City and County of Denver (HOST)",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Local-Leaders-Break-Ground-on-Park-Avenue-Apartments",
+      "kind": "primary",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s41",
+      "label": "Denver City Council committee looks to ease affordable housing metrics — Colorado Politics",
+      "url": "https://www.coloradopolitics.com/2026/08/11/denver-city-council-committee-looks-to-ease-affordable-housing-metrics/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s42",
+      "label": "To spur more housing construction, Denver changed its parking rules — Marketplace",
+      "url": "https://www.marketplace.org/story/2026/09/02/denver-changed-parking-rule-to-spur-more-housing",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s43",
+      "label": "Denver Mayor Mike Johnston unveils Mile High Line project at State of the City — Rocky Mountain PBS",
+      "url": "https://www.rmpbs.org/news/government/denver-mayor-mike-johnston-unveils-mile-high-line-project",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }

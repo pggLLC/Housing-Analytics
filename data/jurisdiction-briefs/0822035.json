@@ -3,7 +3,7 @@
   "jurisdiction": "City of Durango",
   "scope": "place",
   "containing_county_fips": "08067",
-  "last_curated": "2026-07-30",
+  "last_curated": "2026-10-18",
   "curator": "claude-draft",
   "published": false,
   "summary": "Draft brief for City of Durango (pending curator review). Durango's verified affordable-housing record is anchored by Espero Apartments — a 40-unit permanent supportive-housing development — the City's Innovative Housing Solutions Division and Fair Share fee-offset policy, the 2024 La Plata County lodgers-tax reallocation to workforce housing, and regional capacity through the Regional Housing Alliance of La Plata County and Housing Solutions for the Southwest.",
@@ -72,6 +72,18 @@
           "text": "Housing Solutions for the Southwest is a nonprofit affordable-housing organization that has served Archuleta, Dolores, La Plata, Montezuma, and San Juan counties since 1981. It creates new construction of affordable housing for seniors, families, and people with disabilities, including rental apartments and single-family homes.",
           "cites": [
             "s-sw-solutions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "school-district-housing",
+      "heading": "School district staff housing",
+      "paragraphs": [
+        {
+          "text": "In September 2026 the Durango School District board approved buying six townhomes at The Homestead, 1720 County Road 240, for $2.98 million for staff housing, paid from the 2024 school bond. The district bought 35 apartments at Lightner Creek in 2025; staff began moving in in June 2026 and the district reports them 94% occupied. Its goal is to keep rent at or below 30% of employees' gross income.",
+          "cites": [
+            "s1"
           ]
         }
       ]
@@ -593,6 +605,13 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s1",
+      "label": "Durango School District expands workforce housing — Durango Herald",
+      "url": "https://www.durangoherald.com/articles/news/durango-school-district-expands-workforce-housing/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 19411

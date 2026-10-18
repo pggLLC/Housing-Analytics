@@ -3,7 +3,7 @@
   "jurisdiction": "Garfield County",
   "scope": "county",
   "containing_county_fips": "08045",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": false,
   "summary": "Garfield County's housing posture is delegated and late-arriving on state programs: the county channels affordable housing primarily through the Garfield County Housing Authority (GCHA), an annual Private Activity Bond → CHFA transfer, and land-use approval rather than direct capital. The county opted in to Proposition 123 only in October 2024 and is not a member of the West Mountain Regional Housing Coalition. A bifurcated economy splits housing demand between the eastern Roaring Fork commuter corridor and the western Colorado River Valley energy workforce.",
@@ -144,6 +144,36 @@
           "cites": [
             "s21",
             "s22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regional-recent-county-decisions",
+      "heading": "Recent county housing decisions",
+      "paragraphs": [
+        {
+          "text": "In August 2026 the county Planning and Zoning Commission unanimously recommended approval of the Mitchell Creek Community west of Glenwood Springs: 98 for-sale homes on about 25 acres at 50235 Highway 6 and 24, ten of them deed-restricted for households earning 70% to 110% of AMI. The proposal goes next to the county commissioners.",
+          "cites": [
+            "s28"
+          ]
+        },
+        {
+          "text": "In September 2026 commissioners unanimously approved a letter supporting a request for the Garfield County Housing Authority to take a small ownership interest in the resident purchase of the 98-unit Cavern Springs Mobile Home Park, so the land could qualify for the authority's property-tax exemption and save residents about $55,000 a year. The housing authority's director said it would be the first such arrangement in the county for residents buying their own mobile home park.",
+          "cites": [
+            "s29"
+          ]
+        },
+        {
+          "text": "At the Garfield County Housing Summit in Rifle in September 2026, builders and town officials named construction costs, development regulations and state-mandated building codes as the main barriers. Parachute's town manager said smaller towns such as Parachute and Silt lack the staff to interpret new state requirements.",
+          "cites": [
+            "s30"
+          ]
+        },
+        {
+          "text": "In July 2026 Roberts Resorts & Communities, a Scottsdale, Arizona owner of manufactured-housing communities, announced it had bought King's Crown, a 200-space residential community in Rifle, and would rename it Elk Run MHC.",
+          "cites": [
+            "s31"
           ]
         }
       ]
@@ -726,6 +756,34 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s28",
+      "label": "Nearly 100 homes proposed west of Glenwood Springs — Post Independent",
+      "url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s29",
+      "label": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s30",
+      "label": "Garfield County Housing Summit discusses rising costs, barriers to building — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-housing-summit-discusses-rising-costs-barriers-to-building/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s31",
+      "label": "Roberts Resorts & Communities Acquires King’s Crown in Rifle, Colorado — PR Newswire via Morningstar",
+      "url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ],
   "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."

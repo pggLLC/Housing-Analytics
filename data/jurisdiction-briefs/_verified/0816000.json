@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0816000",
   "brief_jurisdiction": "City of Colorado Springs",
-  "audited_at": "2026-06-19",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
+  "audited_at": "2026-10-18",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them. 2026-10-18 news review: new rows verified by direct URL fetch (browser-UA curl of the article, or direct WebFetch where the publisher rate-limits curl); every quote segment was string-matched against the fetched article text.",
   "rows": [
     {
       "section_id": "csha-vouchers",
@@ -174,6 +174,24 @@
       "verdict": "supported",
       "supporting_quote": "identified 1,413 people experiencing homelessness, compared to 1,745 in 2025 — a 19% decrease. The count also identified 308 people experiencing unsheltered homelessness, compared to 522 in 2025 — a 41% decrease.",
       "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "lihtc-awards",
+      "paragraph_index": 3,
+      "source_id": "s31",
+      "source_url": "https://gazette.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/",
+      "verdict": "supported",
+      "supporting_quote": "The 50-unit affordable-housing development for seniors 62 and older also will offer extra services to help residents as they age. ... The church that serves about 10,000 congregants on five campuses donated 1.1 acres to Greccio to build Sunrise at Shiloh Mesa. ... The empty parcel west of the church building was valued at $900,000, Patke said. ... seniors who have the lowest income levels, earning 30% to 50% of area median income. ... A public grand opening and ribbon cutting with tours will be held at 11 a.m. Thursday at the site, 7727 Mulberry Wood Drive. ... The $17 million project has been six years in the making, Patke said.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
+    },
+    {
+      "section_id": "prop-123-context",
+      "paragraph_index": 1,
+      "source_id": "s32",
+      "source_url": "https://www.kktv.com/2026/07/21/prop-123-funds-support-11-new-affordable-housing-developments-across-colorado-including-one-colorado-springs/",
+      "verdict": "supported",
+      "supporting_quote": "Governor Jared Polis, the Colorado Office of Economic Development and International Trade (OEDIT), and the Colorado Housing Finance Authority (CHFA) announced Tuesday the selection of 11 new housing developments that will receive funding from Proposition 123. ... the Silver Key Apartments at North Weber in Colorado Springs will receive $1 million, which will be used as a 49-unit rental housing community that will serve older adult residents earning between 30 percent and 60 percent AMI and include supportive senior services. ... Final award details will be determined during the underwriting process.",
+      "notes": "2026-10-18 news review; direct fetch of the article."
     }
   ],
   "dropped_rows": [
@@ -239,8 +257,8 @@
     }
   ],
   "summary": {
-    "total": 15,
-    "supported": 15,
+    "total": 21,
+    "supported": 21,
     "partial": 0,
     "unsupported": 0,
     "inaccessible": 0,

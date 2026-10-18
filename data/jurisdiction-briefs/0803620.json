@@ -3,7 +3,7 @@
   "jurisdiction": "City of Aspen",
   "scope": "place",
   "containing_county_fips": "08097",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-10-18",
   "curator": "PG",
   "published": true,
   "summary": "Aspen's affordable-housing model is anchored in APCHA deed restrictions, the 1.0% housing Real Estate Transfer Tax (RETT), and the 277-unit Lumberyard project now under construction. The verified public record also shows a small LIHTC slice inside APCHA's portfolio, a transferable affordable-housing-credit program, regional Good Deeds funding through WMRHC, and short-term-rental permit rules tied to housing impacts.",
@@ -79,6 +79,12 @@
           "cites": [
             "s10",
             "s11"
+          ]
+        },
+        {
+          "text": "In August 2026 the city and Gorman & Company announced that Lumberyard Phase B received $2.89 million in Middle-Income Housing Tax Credits from CHFA. The Aspen Times reported that investors buying the credits are expected to provide about $10.5 million toward Buildings 2 and 3, with construction expected to begin in spring 2027 after financial closing. The city is also designing a Lumberyard Employer Partnership Program to give sponsored employees a priority in the Lumberyard housing lottery.",
+          "cites": [
+            "s26"
           ]
         }
       ]
@@ -168,10 +174,16 @@
       "heading": "Recent business and economic-development signals",
       "paragraphs": [
         {
-          "text": "Aspen's recent economic-development signal is housing-linked construction and real-estate revenue rather than a single new employer announcement. The Lumberyard affordable-housing project reached City Council approval for financial closing A in March 2026, with 277 deed-restricted rental apartments planned across two phases and 104 units plus public infrastructure in Phase A. At the same time, Aspen's real-estate transfer taxes generated .9 million in 2024, with .8 million allocated to housing.",
+          "text": "Aspen's recent economic-development signal is housing-linked construction and real-estate revenue rather than a single new employer announcement. The Lumberyard affordable-housing project reached City Council approval for financial closing A in March 2026, with 277 deed-restricted rental apartments planned across two phases and 104 units plus public infrastructure in Phase A. At the same time, Aspen's real-estate transfer taxes generated $23.9 million in 2024, with $15.8 million allocated to housing.",
           "cites": [
             "s9",
             "s6"
+          ]
+        },
+        {
+          "text": "Aspen One's Tenants for Turns program offers ski-area perks to valley homeowners who rent guest units or spare bedrooms to its employees. The company told The Aspen Times that 191 landlords rented through the program last season, housing 244 employees; winter leases must run at least 16 consecutive weeks.",
+          "cites": [
+            "s27"
           ]
         }
       ]
@@ -813,6 +825,20 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "s26",
+      "label": "Aspen’s Lumberyard project receives $2.89 million in tax credits — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspens-lumberyard-project-receives-2-89-million-in-tax-credits/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s27",
+      "label": "Aspen One’s creative solution to housing goes live for upcoming season — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspen-ones-creative-solution-to-housing-goes-live-for-upcoming-season/",
+      "kind": "press",
+      "accessed": "2026-10-18"
     }
   ]
 }
