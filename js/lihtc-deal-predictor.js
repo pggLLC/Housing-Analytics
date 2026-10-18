@@ -29,8 +29,11 @@
  * @property {number}   [proposedUnits]        — total proposed units
  * @property {number}   [ami30UnitsNeeded]     — units needed at 30% AMI (HNA gap)
  * @property {string}   [ami30Scope]           — 'area' (a county or HNA shortfall) | 'project' (the building's own 30% AMI units)
- * @property {number}   [ami50UnitsNeeded]     — units needed at 50% AMI
- * @property {number}   [ami60UnitsNeeded]     — units needed at 60% AMI
+ * @property {number}   [ami50UnitsNeeded]     — units needed at 31–50% AMI (a band, not "at or below 50%")
+ * @property {number}   [ami60UnitsNeeded]     — units needed at 51–60% AMI (a band; see amiShortfallFromCounty)
+ * @property {Object}   [amiGapCumulative]     — { '30','50','60' } shortfall at or below each threshold, for the need notes
+ * @property {number}   [need20yr]             — 20-year housing need, one unsplit total (need notes only)
+ * @property {Object}   [mixContext]           — buildMixContext() result; defaults to the files this module loads
  * @property {number}   [totalUndersupply]     — total affordable unit gap
  * @property {number}   [competitiveSetSize]   — LIHTC projects within 1 mile
  * @property {boolean}  [isQct]                — Qualified Census Tract flag
@@ -197,6 +200,7 @@
       var data = results[0] || {};
       var benchmark = results[1] || null;
       _applyUnderwritingRules(results[2]);
+      _mixFiles.underwritingRules = results[2] || null;
       if (data.hardCostPerUnit && typeof data.hardCostPerUnit === 'object') {
         _hardCostByConcept = {
           family:      data.hardCostPerUnit.family      || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
@@ -219,6 +223,129 @@
 
   // Kick off loading immediately in browser context
   if (typeof window !== 'undefined') { _loadAssumptions(); }
+
+  /* ── Mix check data: need beyond the homes-short counts, and the pencil ── */
+
+  // Files the mix check reads beside the recommendation (js/mix-check.js). The
+  // CHFA underwriting rules come from the load above, so they are fetched once.
+  var MIX_FILES = {
+    chfaLimits:   'data/chfa-income-rent-limits-2026.json',
+    countyChas:   'data/market/chas_co.json',
+    fundingGuide: 'data/policy/co-developer-funding-guide.json',
+    zori:         'data/market/zori_rents_co.json',
+    fmr:          'data/hud-fmr-income-limits.json'
+  };
+  var _mixFiles = {};
+  var _mixPromise = null;
+
+  function _mixCheckLib() {
+    if (typeof window !== 'undefined' && window.MixCheck) return window.MixCheck;
+    if (typeof module !== 'undefined' && module.exports && typeof require === 'function') {
+      try { return require('./mix-check.js'); } catch (_) { return null; }
+    }
+    return null;
+  }
+
+  /** Resolves once the mix-check files have loaded (or failed); browser only. */
+  function whenMixDataReady() {
+    if (_mixPromise) return _mixPromise;
+    if (typeof fetch !== 'function') return (_mixPromise = Promise.resolve(false));
+    var keys = Object.keys(MIX_FILES);
+    _mixPromise = Promise.all([_loadAssumptions()].concat(keys.map(function (k) {
+      return _fetchJson(MIX_FILES[k]).catch(function () { return null; });
+    }))).then(function (res) {
+      keys.forEach(function (k, i) { _mixFiles[k] = res[i + 1]; });
+      _mixFiles.loaded = true;
+      return true;
+    });
+    return _mixPromise;
+  }
+  if (typeof window !== 'undefined') { whenMixDataReady(); }
+
+  function _shortfall(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? Math.max(0, -n) : null;
+  }
+
+  /**
+   * The county AMI gap file (data/co_ami_gap_by_county.json) gives each threshold
+   * as units minus households AT OR BELOW it, so the ≤30, ≤50 and ≤60 figures
+   * overlap: summing them counts the ≤30% households three times. This returns
+   * the shortfalls as they are (amiGapCumulative) and as non-overlapping bands
+   * (ami30/50/60UnitsNeeded) whose sum is the largest of the three shortfalls.
+   * A band whose cumulative shortfall falls (cheaper homes missing, not the
+   * band's own) adds nothing. Unknown thresholds stay null.
+   */
+  function amiShortfallFromCounty(county) {
+    var g = (county && county.gap_units_minus_households_le_ami_pct) || null;
+    if (!g) return null;
+    var s30 = _shortfall(g['30']), s50 = _shortfall(g['50']), s60 = _shortfall(g['60']);
+    if (s30 === null && s50 === null && s60 === null) return null;
+    var top30 = s30 || 0;
+    var top50 = Math.max(top30, s50 || 0);
+    return {
+      ami30UnitsNeeded: s30,
+      ami50UnitsNeeded: s50 === null ? null : Math.max(0, s50 - top30),
+      ami60UnitsNeeded: s60 === null ? null : Math.max(0, s60 - top50),
+      amiGapCumulative: { '30': s30, '50': s50, '60': s60 }
+    };
+  }
+
+  var BAND_LABELS = { '31to50': '31–50% AMI', '51to80': '51–80% AMI', '81to100': '81–100% AMI' };
+
+  /**
+   * Everything the mix check needs for one county, read from the files in
+   * MIX_FILES (plus the underwriting rules). Pure: tests pass the files in.
+   * A file or record that is missing leaves its part null, never 0.
+   */
+  function buildMixContext(files, countyFips) {
+    var M = _mixCheckLib();
+    files = files || {};
+    var fips = countyFips ? String(countyFips).padStart(5, '0') : null;
+    if (!M || !fips || !/^08\d{3}$/.test(fips)) return null;
+    var lim = ((files.chfaLimits && files.chfaLimits.counties) || []).find(function (c) { return c.fips === fips; }) || null;
+    var limits = {};
+    M.TIERS.forEach(function (t) {
+      var r = lim && lim.regular_tiers && lim.regular_tiers[t];
+      var v = r && r.max_rents ? _numOrNull(r.max_rents['2br']) : null;
+      if (v !== null) limits[t] = v;
+    });
+    var chas = ((files.countyChas && files.countyChas.records) || []).find(function (r) { return r.fips === fips; }) || null;
+    var bands = [];
+    if (chas && chas.renter_hh_by_ami) {
+      Object.keys(BAND_LABELS).forEach(function (k) {
+        var b = chas.renter_hh_by_ami[k];
+        var share = b ? _optionalNumber(b.pct_cost_burdened_30) : null;
+        if (b) bands.push({ key: k, label: BAND_LABELS[k], households: _optionalNumber(b.total), burdenedPct: share === null ? null : share * 100 });
+      });
+    }
+    var fmr = ((files.fmr && files.fmr.counties) || []).find(function (c) { return c.fips === fips; }) || null;
+    var zori = files.zori && files.zori.counties ? files.zori.counties[fips] : null;
+    var rents = [];
+    if (fmr && fmr.fmr) rents.push({ kind: 'fmr2br', rent: fmr.fmr.two_br });
+    if (zori) rents.push({ kind: 'zori', rent: zori.rent });
+    var mihtc = ((files.fundingGuide && files.fundingGuide.programs) || []).find(function (p) { return p && p.id === 'chfa-mihtc'; }) || null;
+    var chasMeta = (files.countyChas && files.countyChas.meta) || {};
+    var limMeta = (files.chfaLimits && files.chfaLimits.meta) || {};
+    return {
+      countyFips: fips,
+      countyName: (lim && lim.county_name) || (chas && chas.name) || null,
+      limits: limits,
+      lim70: limits['70'] === undefined ? null : limits['70'],
+      lim80: limits['80'] === undefined ? null : limits['80'],
+      ruralResort: lim ? !!lim.rural_resort : false,
+      burdenBands: bands,
+      rentRange: M.rentRange(rents),
+      mihtc: mihtc ? { name: mihtc.name } : null,
+      rules: files.underwritingRules || null,
+      sources: [
+        chas ? 'HUD CHAS ' + (chasMeta.vintage || '') + ' renter cost burden by income, county' : null,
+        lim ? 'CHFA ' + (limMeta.fiscal_year || '') + ' maximum rents (two-bedroom)' : null,
+        rents.length ? 'current rents: ' + [fmr && fmr.fmr ? 'HUD fair market rent' : null, zori ? 'Zillow observed rent' : null].filter(Boolean).join(' and ') : null
+      ].filter(Boolean).map(function (s) { return s.replace(/\s+/g, ' ').trim(); })
+    };
+  }
 
   /**
    * Geographic cost multipliers by CO county FIPS. Calibrated to bracket
@@ -518,7 +645,10 @@
     };
     var pcts = defaults[conceptType] || defaults.family;
 
-    // Adjust toward gap data if available
+    // Adjust toward gap data if available. The three must be non-overlapping
+    // bands (≤30, 31–50, 51–60) for this sum to mean anything; callers holding
+    // the county file's cumulative "at or below" figures convert them with
+    // amiShortfallFromCounty() first.
     var totalGap = ami30Gap + ami50Gap + ami60Gap;
     if (totalGap > 0) {
       var gapWeight = Math.min(0.5, totalGap / (n * 2));
@@ -917,6 +1047,51 @@
     return '$' + Math.round(n);
   }
 
+  /* ── Mix check beside the recommendation ─────────────────────────── */
+
+  /**
+   * The need notes and the 15-year pencil test (js/mix-check.js) for the
+   * recommended AMI mix. The typical mix itself is unchanged; this says what
+   * the homes-short counts miss and whether the mix pays its own way.
+   * Returns { notes, workforce, burden, pencil, sentence, tierLines,
+   * assumptionsText, sources } or { unavailableReason, pending }.
+   */
+  function _computeMixCheck(inputs, amiMix) {
+    var M = _mixCheckLib();
+    if (!M) return { unavailableReason: 'The mix check is not loaded on this page.' };
+    var fips = inputs.countyFips || inputs.geoid || null;
+    var ctx = inputs.mixContext || null;
+    if (!ctx) {
+      if (!fips) return { unavailableReason: 'No county is selected, so local need and rent limits are not available.' };
+      if (!_mixFiles.loaded) return { pending: true, unavailableReason: 'Local need and rent limit files are still loading.' };
+      ctx = buildMixContext(_mixFiles, fips);
+      if (!ctx) return { unavailableReason: 'No Colorado county is selected, so local need and rent limits are not available.' };
+    }
+    var cum = inputs.amiGapCumulative || null;
+    var burden = M.burdenByBand(ctx.burdenBands);
+    var nn = M.needNotes({
+      burden: burden, gap50: cum ? cum['50'] : null,
+      lim70: ctx.lim70, lim80: ctx.lim80, rentRange: ctx.rentRange,
+      ruralResort: ctx.ruralResort, mihtc: ctx.mihtc,
+      need20yr: _optionalNumber(inputs.need20yr)
+    });
+    var units = { '30': amiMix.ami30, '40': amiMix.ami40, '50': amiMix.ami50, '60': amiMix.ami60 };
+    var p = M.pencil({ limits: ctx.limits, units: units, rules: ctx.rules });
+    return {
+      notes: nn.notes,
+      workforce: nn.workforce,
+      burden: burden,
+      pencil: p,
+      sentence: M.mixSentence(p),
+      mixUnits: units,
+      tierLines: p.ok ? p.tiers.filter(function (t) { return units[t.tier] > 0; }).map(M.tierLine) : [],
+      assumptionsText: p.ok ? M.assumptionsLine(p.assumptions) : null,
+      unavailableReason: p.ok ? null : p.reason,
+      countyName: ctx.countyName,
+      sources: ctx.sources
+    };
+  }
+
   /* ── Main predictConcept function ────────────────────────────────── */
 
   /**
@@ -959,6 +1134,7 @@
     // Cross-tab AMI × bedroom into the matrix CHFA actually expects
     // (per-unit rent caps depend on BOTH axes). See _computeAMIxUnitMatrix.
     var suggestedMatrix  = _computeAMIxUnitMatrix(suggestedAMIMix, suggestedUnitMix, conceptType);
+    var mixCheck         = _computeMixCheck(inputs, suggestedAMIMix);
 
     // Basis boost rationale
     if (inputs.isQct) rationale.push('QCT designation provides up to 30% basis boost — improves equity yield');
@@ -977,6 +1153,7 @@
       suggestedUnitMix:       suggestedUnitMix,
       suggestedAMIMix:        suggestedAMIMix,
       suggestedMatrix:        suggestedMatrix,
+      mixCheck:               mixCheck,
       indicativeCapitalStack: capitalStack,
       inputAvailability:      inputAvailability,
       keyRationale:           rationale,
@@ -1015,6 +1192,10 @@
   return {
     predictConcept:              predictConcept,
     predict:                     predict,
+    amiShortfallFromCounty:      amiShortfallFromCounty,
+    buildMixContext:             buildMixContext,
+    whenMixDataReady:            whenMixDataReady,
+    MIX_FILES:                   MIX_FILES,
     DISCLAIMER:                  DISCLAIMER,
     _applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     _getEquityPricingDefaults:   _getEquityPricingDefaults,

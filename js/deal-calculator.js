@@ -5867,14 +5867,14 @@
 
     // AMI gap data
     var county = _findAmiGapCounty(fips);
-    if (county) {
-      // County convention: units − households, negative = deficit (clamp
-      // surpluses to 0 rather than abs()-ing them into phantom need).
-      var gaps = county.gap_units_minus_households_le_ami_pct || {};
-      dealInputs.ami30UnitsNeeded = Math.max(0, -(gaps['30'] || 0));
+    // County convention: units − households at or below each threshold,
+    // negative = deficit. The thresholds overlap, so the predictor converts
+    // them to bands before anything sums them (the ≤30% households were
+    // counted three times before 2026-10-18).
+    var shortfall = county && predictor.amiShortfallFromCounty ? predictor.amiShortfallFromCounty(county) : null;
+    if (shortfall) {
+      Object.assign(dealInputs, shortfall);
       dealInputs.ami30Scope = 'area';
-      dealInputs.ami50UnitsNeeded = Math.max(0, -(gaps['50'] || 0));
-      dealInputs.ami60UnitsNeeded = Math.max(0, -(gaps['60'] || 0));
     }
 
     // Use enhanced predictor when available
@@ -5917,8 +5917,19 @@
         missing.map(function (key) { var input = rec.inputAvailability[key];
           return '<li data-missing-input="' + esc(key) + '" data-unavailable-reason="' + esc(input.unavailableReason) + '">' +
             esc(input.label) + ': ' + esc(input.reason) + '</li>';
-        }).join('') + '</ul></div>' : '');
+        }).join('') + '</ul></div>' : '') +
+      // Need notes and the 15-year pencil test on the recommended mix (js/mix-check.js).
+      (window.LIHTCConceptCardRenderer && window.LIHTCConceptCardRenderer.mixCheckHtml
+        ? window.LIHTCConceptCardRenderer.mixCheckHtml(rec.mixCheck) : '');
     recCard.hidden = false;
+    if (rec.mixCheck && rec.mixCheck.pending && predictor.whenMixDataReady && !_runDealPredictor.waiting) {
+      _runDealPredictor.waiting = true;
+      predictor.whenMixDataReady().then(function () {
+        _runDealPredictor.waiting = false;
+        var sel = document.getElementById('dc-county-select');
+        _runDealPredictor((sel && sel.value) || fips);
+      });
+    }
   }
 
   // -------------------------------------------------------------------
