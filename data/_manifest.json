@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T11:35:54.430Z",
+    "generated_at": "2026-10-18T12:58:28.247Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192249232,
+    "total_size_bytes": 192288083,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7699,
-      "mtime": "2026-10-17T12:28:46.543Z",
+      "size_bytes": 9992,
+      "mtime": "2026-10-18T12:56:59.670Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T10:55:00.279Z",
+      "mtime": "2026-10-18T12:58:25.008Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1449,8 +1449,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 265392,
-      "mtime": "2026-10-17T11:53:19.952Z",
+      "size_bytes": 266313,
+      "mtime": "2026-10-18T12:56:59.741Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1465,7 +1465,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1716,
+      "primary_array_length": 1722,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -31078,7 +31078,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 221287,
-      "mtime": "2026-10-18T11:15:34.817Z",
+      "mtime": "2026-10-18T12:58:00.716Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32345,10 +32345,10 @@
     {
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
-      "size_bytes": 4666184,
-      "mtime": "2026-10-18T10:01:59.887Z",
+      "size_bytes": 4701821,
+      "mtime": "2026-10-18T12:57:00.113Z",
       "shape": "geojson",
-      "feature_count": 1622,
+      "feature_count": 1675,
       "property_keys": [
         "shape_id",
         "agency",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T10:55:02.222Z",
+      "mtime": "2026-10-18T12:58:26.602Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T10:55:01.733Z",
+      "mtime": "2026-10-18T12:58:26.198Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
