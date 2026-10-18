@@ -634,13 +634,21 @@
       return _metricRow(label, d, c);
     }
 
-    var html = (
+    // On Market Analysis the "What's near this site" block (whats-near.js,
+    // drawn into #maWhatsNear by the controller) replaces the nearest-distance
+    // rows with names, counts within 1 and 3 miles, and jobs nearby.
+    var html = window.WhatsNear ? (
+      '<div style="display:grid;gap:0.5rem;">' +
+        '<div id="maWhatsNear" style="min-width:0;max-width:100%;"></div>'
+    ) : (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Distance to Amenities') +
-        _distRow('Grocery Store',     amenities.grocery) +
+        _distRow('Full grocery store', amenities.grocery) +
+        _distRow('Convenience or general store', amenities.convenience) +
         _distRow('Transit Stop',      amenities.transit) +
         _distRow('Park / Open Space', amenities.parks) +
-        _distRow('Healthcare',        amenities.healthcare) +
+        _distRow('Clinic or hospital', amenities.healthcare) +
+        _distRow('Pharmacy',          amenities.pharmacy) +
         _distRow('School',            amenities.schools) +
         _distRow('Hospital',          amenities.hospitals) +
         _distRow('Child Care Center', amenities.childcare)
