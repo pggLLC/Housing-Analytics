@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Economic Dashboard | COHO Analytics</title>
-  <meta name="description" content="Track economic indicators from FRED that determine affordable housing deal outcomes: interest rates, construction costs, labor market trends, CPI, and housing supply data. Each series refreshes on its FRED release schedule (daily, weekly, or monthly).">
+  <meta name="description" content="Economic indicators and prediction-market odds that shape affordable housing deals: interest rates, construction costs, labor market, inflation and housing supply from FRED, plus Kalshi and Polymarket odds on Fed decisions, recession, inflation and housing data releases.">
   <meta property="og:title" content="Economic Dashboard | COHO Analytics">
-  <meta property="og:description" content="Real-time FRED economic indicators for affordable housing professionals: interest rates, CPI, construction costs, unemployment, and housing supply data.">
+  <meta property="og:description" content="FRED economic indicators and Kalshi and Polymarket prediction-market odds for affordable housing professionals: interest rates, inflation, construction costs, unemployment and housing supply.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
@@ -50,7 +50,7 @@
 </head>
 <body class="no-shell" data-page="economic-dashboard.html"
       data-page-update-key="fred"
-      data-page-source="FRED · Federal Reserve Bank of St. Louis">
+      data-page-source="FRED · Federal Reserve Bank of St. Louis; Kalshi; Polymarket">
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <!-- Navigation (mimics HousingMetrics style) -->
@@ -66,9 +66,9 @@
 <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
 <div id="pipeline-status-banner" class="pipeline-status-banner" hidden role="status" aria-live="polite"></div>
 
-<section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
+<section class="page-hero econ-hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
 <div style="padding:0 var(--sp4) var(--sp4);">
-<div class="kicker">Federal Reserve • FRED</div>
+<div class="kicker">FRED • Kalshi • Polymarket</div>
 <h1>Economic Dashboard</h1>
 <small id="economicDataTimestamp" class="data-timestamp"></small>
 <span class="data-reliability-badge" aria-live="polite" aria-label="Data status loading" style="margin-left:.5rem;">Checking data…</span>
@@ -76,17 +76,20 @@
 
 <div class="page-disclosure">
   <p><strong>What this page does.</strong>
-    Tracks the macro indicators from FRED that drive affordable
-    housing deal outcomes: rates, construction costs, labor market,
-    CPI, and housing supply. Each series refreshes on its own FRED
-    release schedule — daily for rates, weekly or monthly for the rest.
-    The timestamp at the top reflects the most recent series we fetched.
+    Tracks the FRED indicators that drive affordable housing deals:
+    rates, construction costs, labor market, CPI (Consumer Price Index,
+    the main inflation measure) and housing supply, each on its own
+    release schedule. Further down, the Kalshi and Polymarket prediction
+    markets show traders&rsquo; odds on Fed decisions, recession,
+    inflation and housing data releases. The timestamp at the top is the
+    latest FRED series we fetched.
   </p>
   <p><strong>What this page is not.</strong>
     A trading screen or live data terminal. Numbers reflect the latest
     FRED release, not a streaming feed. FRED revises some historical
     values; the "View diagnostics" link shows which series have stale
-    or revised data.
+    or revised data. Prediction-market odds are prices set by traders,
+    not forecasts from an agency or economist.
   </p>
   <p><strong>How to use it.</strong>
     Pair the rate trend with the Deal Calculator before locking
@@ -95,14 +98,8 @@
   </p>
 </div>
 
-<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
-        Macro conditions that determine deal outcomes. Interest rate movements affect equity pricing and permanent debt terms. Construction cost indices influence per-unit budgets and change-order exposure. Labor market tightness impacts contractor bids and development timelines. Housing supply and vacancy data define the market case for new units.
-      </p>
-<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
-        Whether underwriting a LIHTC deal, sizing a construction loan, assessing rental demand, or shaping housing policy, these numbers move outcomes: the rate environment that prices tax credit equity, the CPI trajectory that determines rent restrictions’ viability, pipeline pressure signals from starts and permits data, and labor costs in contractor estimates.
-      </p>
-<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp4);">
-        Construction PPIs feed feasibility models, Treasury yields and mortgage spreads set permanent debt terms, SOFR for variable-rate exposure, and vacancy and homeownership rates anchor market studies. All sourced from FRED, the Federal Reserve’s public data repository, and updated on each series’ schedule. In affordable housing finance, assumptions are made months before closing, and the market rarely waits.
+<p class="page-sub">
+        Interest rates set permanent debt terms and move tax credit equity, construction cost indexes drive per-unit budgets, labor market tightness shows up in contractor bids, and housing supply and vacancy make the market case for new units. The charts come from FRED, the St. Louis Federal Reserve’s public economic database, and update on each series’ schedule.
       </p>
 <p style="font-size:.82rem;color:var(--muted);margin-bottom:var(--sp3);" role="note"><strong>Screening tool only.</strong> Macro indicators shown here are for early-stage deal context and market orientation. They are not investment advice, underwriting inputs, or a substitute for current lender quotes, appraisals, or professional financial analysis.</p>
 <div id="econDataQuality"></div>
@@ -116,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { name: 'Census ACS State Data', status: 'primary', vintage: '2024', coverage: 'Colorado statewide' },
         { name: 'Prediction Markets', status: 'cached', vintage: '2026', coverage: 'Housing contracts', note: 'Kalshi + Polymarket — sentiment indicators only' }
       ],
-      limitations: 'FRED data requires API key for live updates; falls back to cached JSON from CI pipeline. Prediction market data is for informational context only and should not be used for investment decisions.'
+      limitations: 'FRED series are checked daily and shown from a saved copy, so a figure appears after FRED publishes it. Polymarket odds are saved daily and Kalshi odds weekly. Prediction market data is for informational context only and should not be used for investment decisions.'
     });
   }
 });
@@ -184,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <div style="padding:0 var(--sp4);">
 <p class="note" style="margin-top:var(--sp3);">
-        Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis. Data refreshed daily via automated workflow.
+        Indicator source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis, checked daily. Prediction-market odds: <a href="https://kalshi.com" rel="noopener" target="_blank">Kalshi</a> (weekly) and <a href="https://polymarket.com" rel="noopener" target="_blank">Polymarket</a> (daily).
       </p>
 </div>
 </section>
@@ -193,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   if (window.PageContext) PageContext.render('pageContext', {
-    what: 'Real-time economic indicators from the Federal Reserve (FRED) that affect affordable housing deal timing: mortgage rates, inflation, unemployment, housing starts, construction costs, and commodity prices.',
-    why: 'LIHTC deal feasibility is sensitive to macro-economic conditions. A 50bp change in mortgage rates can shift supportable debt by $100K+. Construction cost trends affect hard cost assumptions. This dashboard helps developers time their applications and adjust underwriting assumptions.',
-    not: 'Economic indicators are trailing (released with 1-4 week lag) and do not predict future conditions. Prediction market data is for informational context only. This dashboard does not provide investment advice or economic forecasting.',
+    what: 'Economic indicators from FRED (the St. Louis Federal Reserve\'s data service) that affect affordable housing deal timing, such as mortgage rates, inflation, unemployment, housing starts and construction costs, plus Kalshi and Polymarket prediction-market odds on Fed decisions, recession, inflation and housing data releases.',
+    why: 'LIHTC (Low-Income Housing Tax Credit) deal feasibility is sensitive to macro-economic conditions. A higher interest rate lowers the permanent loan a project\'s rents can support. Construction cost trends affect hard cost assumptions. This dashboard helps developers time their applications and adjust underwriting assumptions.',
+    not: 'FRED indicators describe the past and do not predict future conditions. Prediction-market odds are traders\' prices, not forecasts, and are for informational context only. This dashboard does not provide investment advice or economic forecasting.',
     nextSteps: [
       { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model how rates affect your deal' },
       { label: 'Construction Commodities', href: 'construction-commodities.html', desc: 'Detailed cost trend analysis' }
@@ -253,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </summary>
 <div class="section-body">
 <p class="section-desc">
-  Leading / coincident / lagging indicators for reading the housing cycle. New home sales lead starts by ~3-6 months; residential construction spending follows permits/starts by ~6-12 months; construction employment is the lagging signal. Use these alongside permits, starts, and Months' Supply (above) for cycle-stage timing on LIHTC application windows and pricing-locked debt.
+  Indicators that tend to turn at different points in the housing cycle: new home sales, residential construction spending and construction employment. Read them alongside permits, starts and months' supply (above) when timing a LIHTC application or a rate lock.
 </p>
 <div class="metric-grid" id="sec-housing-cycle"></div>
 </div>
@@ -279,8 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </details>
 <p class="note small">
-      Implementation notes: FRED data is fetched client-side via the FRED API “observations” endpoint.
-      Some series update monthly or quarterly; charts show the most recent 5 years (or max available if shorter).
+      Some series update monthly or quarterly. Each chart shows the latest 120 readings: about ten years of a monthly series, two years of a weekly one and six months of a daily one.
     </p>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -357,24 +353,11 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
           <p class="note small" style="margin-top:.75rem;">
             Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>.
-            Vintages 2018-current. Refreshed monthly by
-            <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/.github/workflows/fetch-hmda-data.yml" target="_blank" rel="noopener">fetch-hmda-data.yml</a>.
+            Vintages 2018-current. Checked monthly.
           </p>
         </div>
       </div>
     </details>
-
-<!-- ══════════════════════════════════════════════════════════════
-     HOUSING PREDICTIVE MODELING SECTION — moved to Colorado Deep Dive
-     ══════════════════════════════════════════════════════════════ -->
-    <div class="card" style="margin-top:var(--sp4); padding:1.25rem;" aria-label="Housing predictions moved">
-      <p style="margin:0; font-size:0.9rem; color:var(--text2,#444);">
-        🏔 <strong>Colorado Regional Housing Predictions</strong> have moved to the
-        <a href="colorado-deep-dive.html#tab-market-trends">Colorado Deep Dive — Market Trends</a> page,
-        where you can explore 2025 forecasts across all five Colorado regions: Denver Metro,
-        Western Slope, Colorado Springs/Pueblo, Boulder/Northern Front Range, and Mountains.
-      </p>
-    </div>
 
 <!-- ══════════════════════════════════════════════════════════════
      POLYMARKET PREDICTION MARKETS — Real-time crowd consensus
@@ -386,11 +369,11 @@ document.addEventListener('DOMContentLoaded', function () {
 </summary>
 <div class="section-body">
 <p class="section-desc">
-  Prediction-market prices from <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> — crowd-consensus probabilities for economic outcomes that directly affect Colorado real estate, construction costs, and housing affordability.
-  Open-market prices update continuously; settled markets are labeled.
+  Prediction-market prices from <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> — crowd-consensus probabilities for national economic outcomes that affect Colorado real estate, construction costs, and housing affordability.
+  Prices are saved once a day; settled markets are labeled.
 </p>
 <div class="hp-disclaimer" style="margin-bottom:1rem;">
-  <strong>Not financial advice.</strong> Prediction market prices represent crowd consensus, not forecasts. Use alongside FRED data above for context on rate environment, inflation trajectory, and recession risk when assessing Colorado housing deals.
+  <strong>Not financial advice.</strong> Prediction market prices represent crowd consensus, not forecasts. Use alongside the FRED data above for context on rate environment, inflation trajectory, and recession risk when assessing Colorado housing deals.
 </div>
 
 <!-- Polymarket KPI strip. Tiles, cards and their order all come from
@@ -403,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="hp-co-item">
     <div class="hp-co-label">Construction Cost Pressure</div>
     <div class="hp-co-value" id="pm-co-cost">Unavailable</div>
-    <div class="hp-co-range">Inflation &gt; 4% prob</div>
+    <div class="hp-co-range" id="pm-co-cost-range">Inflation &gt; 4% prob</div>
   </div>
   <div class="hp-co-item">
     <div class="hp-co-label">Recession Risk</div>
@@ -429,8 +412,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="hp-binary-grid" data-pm-section="labor" style="margin-bottom:1.25rem;"></div>
 
 <div style="font-size:.82rem;color:var(--muted);margin-top:var(--sp3);line-height:1.6;">
-  <strong>Data:</strong> <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> via Gamma API. Prices are real-money prediction market contracts — not polls or models.
-  Daily cache via Gamma API; click Refresh Polymarket to reload the panel. Missing or stale market data is unavailable.<br>
+  <strong>Data:</strong> <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> public market data. Prices are real-money prediction market contracts — not polls or models.
+  Saved once a day; click Refresh Polymarket to reload the panel. A market with missing or stale prices shows as unavailable.<br>
   <strong>Colorado context:</strong> Rates affect construction financing and mortgage affordability; inflation affects building costs, and employment affects housing demand.
 </div>
 <div style="margin-top:var(--sp2);">
@@ -467,29 +450,28 @@ document.addEventListener('DOMContentLoaded', function () {
     <li><strong>Housing Market</strong> — Census Bureau / Census-HUD via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: HOUST (Total housing starts), HOUST5F (Multifamily 5+ unit starts), PERMIT (Total building permits), PERMIT5 (Multifamily permits), UNDCONTSA (Units under construction), COMPUTSA (Total housing completions, national), CSUSHPISA (S&amp;P/Case-Shiller HPI), MSPUS (Median sales price), RHORUSQ156N (Homeownership rate), RRVRUSQ156N (Rental vacancy rate)</li>
     <li><strong>Financial &amp; Interest Rates</strong> — Federal Reserve / ICE via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: DGS10 (10-yr Treasury), DGS2 (2-yr Treasury), DFF (Fed Funds), SOFR (Secured Overnight Financing Rate), MORTGAGE30US (30-yr Fixed Mortgage), BAA10Y (Moody's Baa spread), T10Y2Y (Yield curve 10Y-2Y)</li>
     <li><strong>Labor Market</strong> — BLS via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: UNRATE (Unemployment rate), PAYEMS (Nonfarm payrolls), CIVPART (Labor force participation), CES0500000003 (Average hourly earnings), JTSJOL (JOLTS job openings), ICSA (Initial jobless claims), CPIAUCSL (CPI All Items), CUUR0000SAH1 (CPI Shelter)</li>
+    <li><strong>Prediction Markets</strong> — <a href="https://kalshi.com" target="_blank" rel="noopener">Kalshi</a>, a US exchange for event contracts regulated by the CFTC (Commodity Futures Trading Commission), and <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a>. A contract pays $1 if its event happens, so a price of 30¢ means traders put the odds near 30%. Polymarket prices are saved daily and Kalshi prices weekly. Thinly traded contracts can show stale prices.</li>
     <li><strong>Census Snapshot</strong> — <a href="https://www.census.gov/data/developers/data-sets/acs-1year.html" target="_blank" rel="noopener">U.S. Census Bureau ACS 1-Year and 5-Year Estimates</a>: DP02 (Social), DP03 (Economic), DP04 (Housing), DP05 (Demographic) profile tables. Select a geography using the Census Snapshot dropdown to link to the source data for that jurisdiction.</li>
   </ul>
   <h3 style="margin-bottom:var(--sp2)">Methodology</h3>
-  <p>All FRED series are fetched daily by a GitHub Actions workflow and stored in <code>data/fred-data.json</code> — no API key is required in the browser and no CORS issues occur. Charts show the most recent 84 months (7 years) or the maximum available history if shorter. Year-over-year changes are computed from the same-month prior year; for non-monthly series the nearest prior period is used.</p>
-  <p>The <strong>Predictive Modeling</strong> section uses illustrative probability distributions aligned with published GSE and independent forecaster consensus. Expert consensus incorporates: Fannie Mae Economic &amp; Housing Outlook (monthly), Freddie Mac Quarterly Forecast, Federal Reserve Monetary Policy Reports (semiannual), NAR Economic Outlook, MBA Mortgage Finance Forecast, Zillow Research, Moody's Analytics, and CoreLogic market insights. These are not actual prediction-market contract prices.</p>
-  <p>The <strong>Historical Accuracy</strong> table tracks documented housing outcomes against the forecaster consensus probability at the start of each year. Realized outcomes are sourced from FRED (CSUSHPISA, MORTGAGE30US, HOUST, RRVRUSQ156N), NAR, and the U.S. Census Bureau Housing Vacancy Survey. A "Correct" designation means the highest-probability outcome category materialized.</p>
-  <p class="note">Data is updated daily. Series availability depends on publication lag from the originating agency — some series update monthly, others quarterly. Stub placeholder data (marked <code>_stub: true</code> in the JSON) will be replaced by real FRED observations on the next automated fetch cycle.</p>
+  <p>FRED series are checked daily and shown from a saved copy. Each chart shows the latest 120 readings of its series. Year-over-year changes are computed from the same-month prior year; for non-monthly series the nearest prior period is used.</p>
+  <p>Prediction-market cards show the latest saved price of each contract. They are not adjusted, averaged or combined with economist forecasts.</p>
+  <p class="note">Series availability depends on publication lag from the originating agency — some series update monthly, others quarterly.</p>
 </div>
 </details>
 
-<section id="housing-predictions-section" aria-label="Housing Market Predictions" style="margin-top: 2rem;"></section>
-
-<!-- Q4: Kalshi prediction-market sidebar — surfaces real-time market-priced
-     macro expectations (Fed cuts, CPI, home prices) so users can sanity-check
-     the FRED point-estimates against a market-priced forward curve. Reads
+<!-- Q4: Kalshi prediction-market section — shows the Kalshi contracts the
+     weekly fetcher finds (today only monthly housing starts) next to the
+     FRED series they settle on. Reads
      from data/kalshi/prediction-market.json (updated by CI cron from the
      existing scripts/kalshi/fetch_kalshi_prediction_markets.js fetcher). -->
 <section id="kalshi-macro-section" aria-label="Market-priced macro expectations" class="card" style="margin-top: 2rem; padding: var(--sp4);">
   <h2 style="margin-top:0;">Market-priced macro expectations <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Kalshi prediction markets</small></h2>
   <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--sp3);">
-    What the prediction-market consensus says about Fed moves, CPI, and home prices.
-    Useful for sanity-checking the FRED point-in-time numbers against a market-priced
-    forward curve. Each card shows probability bands for outcomes at a horizon date.
+    What Kalshi traders are paying on upcoming housing data releases, such as the
+    monthly housing starts figure that FRED reports above. Each card lists the
+    contracts for one release; a contract&rsquo;s price is the traders&rsquo; odds that
+    the figure lands above that line. Prices are saved weekly.
   </p>
   <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:var(--sp3);"></div>
   <p id="kalshiUpdatedAt" style="font-size:.78rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
@@ -1205,7 +1187,6 @@ function getKey(){ return CONFIG_KEY || ""; }
 <!-- HMDA statewide trend chart (PR #786 data + this PR's panel) -->
 <script src="js/hmda-trend-chart.js"></script>
 
-<script defer src="js/housing-predictions.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
 <script src="js/help-modal.js"></script>
@@ -1213,16 +1194,17 @@ function getKey(){ return CONFIG_KEY || ""; }
 <script>
   CohoHelp.init({
     title: 'How to Use the Economic Dashboard',
-    description: 'This dashboard displays economic indicators sourced from the Federal Reserve (FRED) that directly affect affordable housing development outcomes. Each series refreshes on its FRED release schedule — daily for rates, weekly or monthly for the rest.',
+    description: 'This dashboard displays economic indicators from FRED (the St. Louis Federal Reserve\'s data service) that directly affect affordable housing development outcomes, plus Kalshi and Polymarket prediction-market odds on Fed decisions, recession, inflation and housing data releases. The saved FRED data is checked daily; each series appears once its agency publishes it, daily for rates and weekly, monthly or quarterly for the rest.',
     steps: [
       { label: 'View key indicators', desc: 'The top KPI strip shows the most critical numbers at a glance: CPI inflation, unemployment rate, mortgage rate, and housing starts.' },
       { label: 'Explore indicator sections', desc: 'Expand each section (Interest Rates, Construction Costs, Labor Market, etc.) to see charts and trend data for individual FRED series.' },
       { label: 'Check data freshness', desc: 'The "Last updated" label and data status bar show when each series was last refreshed from FRED. Click "View diagnostics" for a full health report.' },
+      { label: 'Read the prediction markets', desc: 'The Polymarket and Kalshi sections show traders\' odds on future Fed decisions, recession, inflation and housing data releases. Use them as context next to the FRED trend, not as a forecast.' },
       { label: 'Use in underwriting', desc: 'Reference these numbers when sizing construction loans, pricing tax credit equity, or projecting operating expenses in a LIHTC pro forma.' },
     ],
     tips: [
       'Indicators are color-coded: green = favorable, amber = watch, red = adverse for affordable housing deals.',
-      'Use the Refresh button to pull the latest FRED data if your connection is active.',
+      'The Refresh button reloads the saved FRED data; new figures appear after the daily check picks up a FRED release.',
       'Construction PPI data is especially useful for change-order exposure analysis.',
     ]
   });
@@ -1466,6 +1448,13 @@ function getKey(){ return CONFIG_KEY || ""; }
         if (live) {
           setText('pm-' + e.key, pct(live.prob));
           setText('pm-' + e.key + '-delta', fmtVol(totalVolume(brackets)) + ' volume');
+          // Once the 4% line has settled, the figure shown is the next open
+          // line, so the tile and the cost note must name that line.
+          if (live !== gt4) {
+            var line = live.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim().toLowerCase();
+            setText('pm-' + e.key + '-label', 'Inflation ' + line + ' in 2026');
+            setText('pm-co-cost-range', 'Inflation ' + line + ' prob');
+          }
           setText('pm-co-cost', live.prob > 0.5 ? 'High' : 'Moderate');
           var costEl = document.getElementById('pm-co-cost');
           if (costEl) costEl.style.color = live.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
@@ -1579,7 +1568,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       strip.innerHTML = entries.filter(function(e) { return e.kpi && ROLES[e.role].kpi; }).map(function(e) {
         return '<div class="kpi-strip-item">' +
           '<div class="kpi-strip-value" id="pm-' + e.key + '">Unavailable</div>' +
-          '<div class="kpi-strip-label">' + esc(e.kpi) + '</div>' +
+          '<div class="kpi-strip-label" id="pm-' + e.key + '-label">' + esc(e.kpi) + '</div>' +
           '<div class="kpi-delta" id="pm-' + e.key + '-delta">Market data unavailable</div>' +
           '<div class="kpi-source">Polymarket</div>' +
           '</div>';

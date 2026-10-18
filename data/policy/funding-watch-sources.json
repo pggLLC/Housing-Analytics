@@ -183,7 +183,38 @@
         "community-development-financial-institutions-fund"
       ],
       "term": "\"funding opportunity\" | \"notice of funding\" | \"funding availability\"",
-      "title_pattern": "notice of funding|funding opportunit|funding availability|allocation availability|funding round"
+      "title_pattern": "notice of funding|funding opportunit|funding availability|allocation availability|funding round",
+      "program_searches": [
+        {
+          "id": "rhs-multifamily",
+          "agency": "rural-housing-service",
+          "term": "\"Section 515\" | \"Section 538\" | \"multifamily housing\" | \"multi-family housing\" | \"rural rental housing\"",
+          "types": [
+            "NOTICE",
+            "RULE",
+            "PRORULE"
+          ],
+          "title_pattern": "section 51[456]|section 538|multi-?family housing|rural rental housing|\\bMFH\\b",
+          "why": "USDA Rural Development's own pages answer HTTP 403 to every automated read (checked 2026-10-18 with three different clients). Section 515 rounds, the Section 538 notice and their fee and rule changes are all published in the Federal Register, so this search stands in for those pages. Titles here need not name a funding round: a fee or loan-to-cost change is news for these programs."
+        }
+      ]
     }
-  }
+  },
+  "covered_elsewhere": [
+    {
+      "host": "www.rd.usda.gov",
+      "pages": [
+        "usda-rd-colorado",
+        "guide:usda-515",
+        "guide:usda-538"
+      ],
+      "by": [
+        "federalregister.gov|rhs-multifamily",
+        "federalregister.gov|rural-housing-service",
+        "federalregister.gov|rural-utilities-service"
+      ],
+      "since": "2026-10-18",
+      "why": "Every rd.usda.gov page answers HTTP 403 to automated reads, including robots.txt (checked 2026-10-18). The Federal Register carries Rural Development's funding notices (Rural Housing Service, Rural Utilities Service) and the multifamily program notices and rules, so while those searches answer, a blocked rd.usda.gov page is not a check-by-hand item. The pages are still fetched daily and compared again the day they answer."
+    }
+  ]
 }

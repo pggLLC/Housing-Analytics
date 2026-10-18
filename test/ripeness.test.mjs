@@ -79,7 +79,36 @@ ok(keys(R.arrange(items, saved, 'suggested')).startsWith('0800003,') && keys(R.a
 saved = { ...saved, selected: ['0800001', '0800002'] };
 ok(keys(R.arrange(items, saved, 'mine', true)) === '0800002,0800001', 'selected only shows the selected rows, in order');
 ok(R.toggle(['a', 'b'], 'a').join() === 'b' && R.toggle(['b'], 'a').join() === 'b,a', 'toggle adds and removes');
-ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ communities: { order: [], pinned: [], selected: [] }, sites: { order: ['1'], pinned: [], selected: [] } }), 'a saved order is cleaned before use');
+ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ communities: { order: [], pinned: [], selected: [] }, sites: { order: ['1'], pinned: [], selected: [] }, reports: null }), 'a saved order is cleaned before use');
+
+// Daily update picks: every project until the first untick, then the rest.
+{
+  ok(L.sites.find((s) => s.key === 's-b').report === 'test-dossier' && L.sites.find((s) => s.key === 's-a').report === 's-a' && L.communities[0].report === L.communities[0].geoid,
+    'a carded site reports by its dossier (what the email reads), others by record id, communities by geoid');
+  const row = (tab, key) => L[tab].find((x) => x.key === key);
+  const st = R.cleanState(null);
+  ok(R.isReported(st, 'communities', row('communities', '0800003')) && R.isReported(st, 'sites', row('sites', 's-a')), 'with no choice saved every row is ticked');
+  st.reports = R.toggleReport(st, L, 'communities', row('communities', '0800003'));
+  ok(!R.isReported(st, 'communities', row('communities', '0800003')) && st.reports.communities.length === 3, 'the first untick keeps every other community');
+  ok(['test-dossier', 's-b', 's-a'].every((id) => st.reports.sites.includes(id)), 'a carded site is saved under its dossier and its record id');
+  st.reports = R.toggleReport(st, L, 'communities', row('communities', '0800003'));
+  ok(R.isReported(st, 'communities', row('communities', '0800003')), 'ticking again puts it back');
+  st.reports = R.toggleReport(st, L, 'sites', row('sites', 's-b'));
+  ok(!R.isReported(st, 'sites', row('sites', 's-b')) && !st.reports.sites.includes('s-b'), 'unticking a carded site drops its record id');
+  ok(R.isReported(st, 'sites', row('sites', 'dossier-x')) && st.reports.sites.includes('test-dossier'), 'a second site sharing that dossier keeps its tick and the dossier stays in the email');
+  ok(!R.syncReports(st, L) && !R.isReported(st, 'sites', row('sites', 's-b')), 'reloading the page does not tick the unticked site again');
+  st.reports = R.toggleReport(st, L, 'sites', row('sites', 'dossier-x'));
+  ok(!st.reports.sites.includes('test-dossier'), 'unticking both sites drops the dossier');
+  // A site picked before it had a card stays ticked once a card arrives, and the card's id is added.
+  const later = { communities: [], sites: [], reports: { communities: [], sites: ['s-a'] } };
+  const carded = R.build({ ...DATA, sites: DATA.sites.map((x) => x.id === 's-a' ? { ...x, card: { ...card('ripening'), dossier: 'alpha-dossier' } } : x) }, PIPELINE, SIGNALS);
+  const ls = R.cleanState(later);
+  ok(R.isReported(ls, 'sites', carded.sites.find((x) => x.key === 's-a')), 'a card added later keeps the site ticked');
+  ok(R.syncReports(ls, carded) && ls.reports.sites.includes('alpha-dossier'), 'and its new dossier id is added for the email');
+  ok(!R.syncReports(ls, carded), 'nothing to add the second time');
+  ok(R.isReported(ls, 'sites', L.sites.find((x) => x.key === 's-a')), 'a card removed later still matches by record id');
+  ok(JSON.stringify(R.cleanState({ reports: { communities: [1], sites: 'x' } }).reports) === JSON.stringify({ communities: ['1'], sites: [] }), 'a saved choice is cleaned before use');
+}
 
 // Moving a row while only selected rows show leaves the hidden rows in place.
 {
@@ -106,6 +135,8 @@ ok(JSON.stringify(R.cleanState({ sites: { order: [1] } })) === JSON.stringify({ 
 }
 
 // ---- 4. Privacy and wiring.
+ok(/data-rd-report="' \+ esc\(it\.key\)/.test(read('js/whitepaper/ripeness.js')) && /\.rd-report\{[^}]*min-height:44px/.test(read('js/whitepaper/ripeness.js')), 'every row has a 44px Daily update tick box, named by its own row key');
+ok(/String\(x\.key\) === a/.test(read('js/whitepaper/ripeness.js')), 'a tick box click toggles the row it sits on, even when two sites share a dossier');
 ok(/role="tabpanel" id="rdPanel" aria-labelledby="rdTab-' \+ esc\(ui\.tab\)/.test(read('js/whitepaper/ripeness.js')) && /aria-controls="rdPanel"/.test(read('js/whitepaper/ripeness.js')), 'each tab is tied to the list it shows');
 ok(/refocus\('data-rd-pin', a\)/.test(read('js/whitepaper/ripeness.js')) && /refocus\('data-rd-select', a\)/.test(read('js/whitepaper/ripeness.js')), 'focus returns to the pin or checkbox after a redraw');
 ok(!fs.existsSync(path.join(ROOT, 'data/ripeness.json')), 'the readiness data is never in the public repo');

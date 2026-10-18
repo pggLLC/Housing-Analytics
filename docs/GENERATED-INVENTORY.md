@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T12:58:00.760Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T14:18:47.610Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 18.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 91.8 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 18.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
@@ -1637,7 +1637,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 756.5 KB | ✅ | — |
+| `data/market/market-direction.json` | 756.6 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -1732,7 +1732,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 420.3 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 421.9 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
@@ -1743,7 +1743,7 @@
 | `data/policy/funding-awards/dola-awards.json` | 323.6 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
-| `data/policy/funding-watch-sources.json` | 10.2 KB | ✅ | — |
+| `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
 | `data/policy/housing-events.json` | 13.5 KB | ✅ | — |
@@ -1801,7 +1801,7 @@
 
 ## Test Files
 
-658 test files found.
+657 test files found.
 
 | File | Size |
 |------|------|
@@ -1822,7 +1822,7 @@
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
-| `test/aria-list-ownership.test.js` | 2.9 KB |
+| `test/aria-list-ownership.test.js` | 2.1 KB |
 | `test/attribute-escaping.test.js` | 4.9 KB |
 | `test/audit-budgets.test.mjs` | 9.1 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
@@ -1840,7 +1840,7 @@
 | `test/bot-pr-dispatches-ci-checks.test.js` | 18.9 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 5.9 KB |
 | `test/branded-404.test.js` | 2.1 KB |
-| `test/bridge-token-guidance.test.js` | 2.4 KB |
+| `test/bridge-token-guidance.test.js` | 3.9 KB |
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
@@ -2087,7 +2087,6 @@
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
-| `test/housing-predictions-null-odds.test.js` | 3.1 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
@@ -2281,7 +2280,7 @@
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
-| `test/ripeness.test.mjs` | 9.6 KB |
+| `test/ripeness.test.mjs` | 12.9 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
@@ -2419,14 +2418,14 @@
 | `tests/test_chfa_qap_watch.py` | 23.0 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
-| `tests/test_development_activity.py` | 43.6 KB |
+| `tests/test_development_activity.py` | 45.2 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 8.9 KB |
 | `tests/test_funding_awards_parser.py` | 5.8 KB |
-| `tests/test_funding_watch.py` | 58.7 KB |
+| `tests/test_funding_watch.py` | 63.4 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_gtfs_transit_carry_forward.py` | 11.2 KB |
 | `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
@@ -2434,7 +2433,7 @@
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_housing_events.py` | 6.4 KB |
-| `tests/test_lihtc_applications.py` | 13.6 KB |
+| `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
 | `tests/test_market_construction.py` | 13.3 KB |
@@ -2553,7 +2552,7 @@
 | `.github/workflows/weekly_housing_brief.yml` | 11.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
-| `.github/workflows/zillow-data-sync.yml` | 19.7 KB |
+| `.github/workflows/zillow-data-sync.yml` | 20.8 KB |
 
 ---
 

@@ -3,7 +3,8 @@
 // A role="list" may own only listitems (WCAG 1.3.1; axe aria-required-children
 // is critical). On 2026-10-17 axe found three on the guided path and the
 // dashboard: the HNA housing-type need ranking (canonical HNA and "What to do")
-// and the Economic Dashboard's binary predictions. Each is rendered here by its
+// and the Economic Dashboard's binary predictions (that panel has since been
+// removed with its module). Each remaining list is rendered here by its
 // real module from committed data, and every role=list it produces is checked
 // for what it actually contains, so a new list or a new row type is covered too.
 const assert = require('node:assert/strict');
@@ -40,18 +41,5 @@ function checkLists(root, where) {
     assert(n >= 1, 'the HNA ranking rendered a role=list to check');
   }
 
-  // 2. Economic Dashboard binary predictions.
-  {
-    const dom = new JSDOM('<!doctype html><body><section id="housing-predictions-section"></section></body>', { runScripts: 'outside-only', pretendToBeVisual: true });
-    const w = dom.window;
-    w.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
-    w.Chart = function () { this.destroy = () => {}; };
-    const payload = JSON.parse(read('data/kalshi/prediction-market.json'));
-    w.fetch = async () => ({ ok: true, json: async () => JSON.parse(JSON.stringify(payload)) });
-    w.eval(read('js/housing-predictions.js'));
-    for (let i = 0; i < 10; i++) await new Promise((r) => setTimeout(r, 20));
-    const n = checkLists(w.document, 'Economic Dashboard');
-    assert(n >= 1, 'the dashboard rendered a role=list to check');
-  }
   console.log('aria-list-ownership: PASS');
 })().catch((e) => { console.error(e); process.exit(1); });

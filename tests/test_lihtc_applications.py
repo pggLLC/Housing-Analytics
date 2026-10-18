@@ -50,6 +50,7 @@ def doc(name):
 def ctx():
     c = apps_mod.context()
     c['excluded'] = set()
+    c['geocode'] = lambda address, city: None  # tests never call the Census geocoder
     return c
 
 
@@ -289,3 +290,256 @@ def test_committed_list_agrees_with_its_documents():
         if not r.get('award_only'):
             assert r['source_file'] in usable
     assert '@' not in json.dumps(rows)
+
+
+def test_a_namesake_elsewhere_does_not_move_an_application_to_its_county():
+    """A project name in the LIHTC feed places an application only when the
+    feed puts that name in one of the application's own cities."""
+    c = {
+        'counties': {'denver': '08031', 'el paso': '08041', 'adams': '08001', 'jefferson': '08059'},
+        'county_places': {'denver': {'08031'}, 'colorado springs': {'08041'}, 'westminster': {'08001'}},
+        'names': {'ridge': '08041', 'blossom commons': '08059'},
+        'name_cities': {'ridge': {'colorado springs': {'08041'}}, 'blossom commons': {'westminster': {'08059'}}},
+        'city_spans': {'westminster': {'08001', '08059'}},
+        'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
+    }
+    # "Ridge" in the feed is in Colorado Springs: a Denver application stays in Denver
+    got = apps_mod.place_county({'name': 'Ridge', 'city': 'Denver'}, ['Denver'], c)
+    assert got['county_fips'] == '08031'
+    # the feed's own Westminster project keeps the feed's county, Jefferson,
+    # though the place table lists Westminster under Adams only
+    got = apps_mod.place_county({'name': 'Blossom Commons', 'city': 'Westminster'}, ['Westminster'], c)
+    assert got['county_fips'] == '08059'
+
+
+def test_in_a_city_that_spans_counties_the_address_decides_or_the_county_is_unknown():
+    """Westminster is in Adams and Jefferson, but the place table names Adams
+    only: a Westminster application is placed by its street address, and one
+    with no address the geocoder can place gets no county, not Adams."""
+    c = {
+        'counties': {'adams': '08001', 'jefferson': '08059', 'la plata': '08067'},
+        'county_places': {'westminster': {'08001'}},
+        'names': {'mountain vista apartments': '08067'},
+        'name_cities': {'mountain vista apartments': {'durango': {'08067'}}},
+        'city_spans': {'westminster': {'08001', '08059'}},
+        'geocode': lambda address, city: {'7840 W 87th Drive': '08059'}.get(address),
+    }
+    got = apps_mod.place_county({'name': 'Mountain Vista Apartments', 'city': 'Westminster',
+                                 'address': '7840 W 87th Drive'}, ['Westminster'], c)
+    assert got['county_fips'] == '08059' and got['county_method'] == 'Census geocoder, street address'
+    got = apps_mod.place_county({'name': 'Somewhere New', 'city': 'Westminster',
+                                 'address': '91st Place and Eaton Street'}, ['Westminster'], c)
+    assert got['county_fips'] is None
+    assert 'Westminster spans 2 counties' in got['county_unavailable_reason']
+    got = apps_mod.place_county({'name': 'Somewhere New', 'city': 'Westminster', 'address': None},
+                                ['Westminster'], c)
+    assert got['county_fips'] is None and got['county_unavailable_reason'].endswith('no street address')
+
+
+def test_every_committed_county_agrees_with_the_rows_own_city():
+    """Each county a row is filed under is one its city is in: the county the
+    place table gives the city, one the Census cross-county list puts part of
+    it in, or one the CHFA feed puts properties of that city in (Westminster
+    spans Adams and Jefferson, Aurora Adams and Arapahoe).
+    A county from neither is a namesake's, and puts the row on the wrong
+    county's brief."""
+    awards = apps_mod.awards
+    data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
+    _, county_places = awards.load_geo()
+    spans = apps_mod.city_spans(apps_mod.load_places())
+    feed_counties: dict = {}
+    for f in awards.read_json(awards.LIHTC_FEED)['features']:
+        pr = f.get('properties') or {}
+        if pr.get('PROJ_CTY') and pr.get('CNTY_FIPS'):
+            feed_counties.setdefault(awards.norm(pr['PROJ_CTY']), set()).add(pr['CNTY_FIPS'])
+    checked = 0
+    for r in data['applications']:
+        if r.get('award_only') or not r.get('city'):
+            continue
+        allowed = set()
+        for city in (awards.norm(c) for c in r['city'].split(',') if c.strip()):
+            allowed |= county_places.get(city, set()) | feed_counties.get(city, set()) | spans.get(city, set())
+        if not allowed:
+            continue
+        for fips in r['county_fips_all']:
+            assert fips in allowed, (r['name'], r['city'], fips, sorted(allowed))
+        checked += 1
+    assert checked > 100
+
+
+def test_an_application_in_a_city_that_spans_counties_is_filed_under_one_county_or_none():
+    """The place table names one county for Westminster or Aurora, so adding it
+    beside the application's own county would file the row on a county brief
+    it does not belong to; with no county found, the row is on no county's."""
+    awards = apps_mod.awards
+    data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
+    spans = apps_mod.city_spans(apps_mod.load_places())
+    # the Census cross-county list (Arvada, Longmont) and the feed (Englewood,
+    # and Denver, whose mailing addresses reach into Adams)
+    assert {'westminster', 'aurora', 'arvada', 'longmont', 'englewood', 'denver'} <= set(spans)
+    checked = 0
+    for r in data['applications']:
+        cities = [c for c in (r.get('city') or '').split(',') if c.strip()]
+        if r.get('award_only') or len(cities) != 1 or awards.norm(cities[0]) not in spans:
+            continue
+        expected = [r['county_fips']] if r['county_fips'] else []
+        assert r['county_fips_all'] == expected, (r['name'], r['city'], r['county_fips_all'])
+        if not r['county_fips']:
+            assert r.get('county_unavailable_reason'), r['name']
+        checked += 1
+    assert checked > 20
+
+
+def test_a_scattered_site_in_a_city_that_spans_counties_is_placed_by_its_own_address(ctx):
+    """A scattered-site application across Silverthorne and Westminster files
+    the Westminster site under the county its street address is in."""
+    c = dict(ctx, geocode=lambda address, city: {'7840 W 87th Drive': '08059'}.get(address))
+    rec = {'name': 'Two Towns (scattered site)', 'city': 'Silverthorne, Westminster',
+           'sites': [{'name': 'A', 'address': '1 Main St', 'city': 'Silverthorne'},
+                     {'name': 'B', 'address': '7840 W 87th Drive', 'city': 'Westminster'}]}
+    cities = ['Silverthorne', 'Westminster']
+    assert apps_mod.place_county(rec, cities, c)['county_fips'] is None  # spans 2 counties
+    counties = apps_mod.application_counties(rec, cities, None, c)
+    assert counties == ['08059', '08117']
+
+
+def test_a_geocoder_outage_is_not_read_as_no_match(monkeypatch):
+    """An answer with no match leaves the county unknown; no usable answer at
+    all raises, so the build can keep the last list instead of erasing it."""
+    monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60: b'{"result": {"addressMatches": []}}')
+    assert apps_mod.geocode_county('Sable Blvd and Centerpointe Drive', 'Aurora') is None
+    monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60: (
+        b'{"result": {"addressMatches": [{"geographies": {"Counties": [{"GEOID": "08059"}]}}]}}'))
+    assert apps_mod.geocode_county('7840 W 87th Drive', 'Westminster') == '08059'
+    for reply in (b'<html>Service Unavailable</html>', b'{"errors": ["busy"]}'):
+        monkeypatch.setattr(apps_mod.awards, 'http_get', lambda url, timeout=60, r=reply: r)
+        with pytest.raises(apps_mod.GeocoderUnavailable):
+            apps_mod.geocode_county('7840 W 87th Drive', 'Westminster')
+
+    def down(url, timeout=60):
+        raise TimeoutError('timed out')
+    monkeypatch.setattr(apps_mod.awards, 'http_get', down)
+    with pytest.raises(apps_mod.GeocoderUnavailable):
+        apps_mod.geocode_county('7840 W 87th Drive', 'Westminster')
+
+
+def test_a_geocoder_outage_keeps_the_last_list(monkeypatch, tmp_path, ctx):
+    """The weekly run fails and writes nothing rather than commit unknown
+    counties for every address-placed application."""
+    out = tmp_path / 'out.json'
+    out.write_text('{"prior": true}')
+    fx = fixture('2026-HTC-Round-One-Applicant-Report')
+    name = '2026-HTC-Round-One-Applicant-Report'
+
+    def down(address, city):
+        raise apps_mod.GeocoderUnavailable('TimeoutError: timed out')
+    c = dict(ctx, geocode=down)  # the fixture's Aurora and Westminster rows need it
+    monkeypatch.setattr(apps_mod, 'OUT', str(out))
+    monkeypatch.setattr(apps_mod.awards, 'discover', lambda src: [doc(name)])
+    monkeypatch.setattr(apps_mod, 'read_tables', lambda path: (fx['rows'], fx['texts']))
+    monkeypatch.setattr(apps_mod, 'context', lambda: c)
+    monkeypatch.setattr(apps_mod.sys, 'argv', ['x', '--cache', str(tmp_path)])
+    (tmp_path / f'{name}.pdf').write_bytes(b'%PDF')
+    assert apps_mod.main() == 1
+    assert out.read_text() == '{"prior": true}'
+
+
+def test_a_name_in_several_cities_takes_the_county_of_the_applications_city():
+    """The feed has "Legacy Senior Residences" in Arvada (Jefferson) and Fort
+    Collins (Larimer): a Fort Collins application takes Larimer, not whichever
+    one the statewide name lookup found first."""
+    c = {
+        'counties': {'jefferson': '08059', 'larimer': '08069'},
+        'county_places': {'fort collins': {'08069'}, 'arvada': {'08059'}},
+        'names': {'legacy senior residences': '08059'},
+        'name_cities': {'legacy senior residences': {'arvada': {'08059'}, 'fort collins': {'08069'}}},
+        'city_spans': {},
+        'geocode': lambda address, city: None,
+    }
+    got = apps_mod.place_county({'name': 'Legacy Senior Residences', 'city': 'Fort Collins'}, ['Fort Collins'], c)
+    assert got['county_fips'] == '08069'
+
+
+def test_a_mailing_city_mostly_in_one_county_still_geocodes_and_falls_back_to_it():
+    """Denver mailing addresses reach into Adams (Welby, 7295 Washington
+    Street): the address decides it, and an address the geocoder cannot place
+    stays in Denver rather than on no county's brief."""
+    c = {
+        'counties': {'denver': '08031', 'adams': '08001'},
+        'county_places': {'denver': {'08031'}},
+        'names': {}, 'name_cities': {},
+        'city_spans': {'denver': {'08031', '08001'}},
+        'city_fallbacks': {'denver': '08031'},
+        'geocode': lambda address, city: {'7295 Washington Street': '08001'}.get(address),
+    }
+    got = apps_mod.place_county({'name': 'Welby', 'city': 'Denver', 'address': '7295 Washington Street'}, ['Denver'], c)
+    assert got['county_fips'] == '08001'
+    got = apps_mod.place_county({'name': 'New Street', 'city': 'Denver', 'address': '3979 Central Park Blvd'}, ['Denver'], c)
+    assert got['county_fips'] == '08031' and got['county_method'].startswith('Mailing city')
+    got = apps_mod.place_county({'name': 'No Address', 'city': 'Denver', 'address': None}, ['Denver'], c)
+    assert got['county_fips'] == '08031'
+
+
+def test_the_fallback_is_only_for_a_city_no_county_line_runs_through():
+    """Denver and Lakewood fall back to their county; Westminster, Aurora and
+    Englewood, where the line runs through the city or its addresses, do not."""
+    fb = apps_mod.city_fallbacks(apps_mod.load_places())
+    assert fb.get('denver') == '08031'
+    assert not {'westminster', 'aurora', 'englewood', 'arvada', 'longmont'} & set(fb)
+
+
+def test_a_refused_or_multi_address_request_is_not_an_outage(monkeypatch):
+    """The geocoder answers 400 to a request it will not read (six addresses
+    in one cell): that is no match, not an outage. Several addresses are
+    placed one by one and agree on a county, or give none."""
+    from urllib.error import HTTPError
+    calls = []
+
+    def get(url, timeout=60):
+        calls.append(url)
+        if '%3B' in url:
+            raise HTTPError(url, 400, 'Bad Request', {}, None)
+        if 'Nowhere' in url:
+            return b'{"result": {"addressMatches": []}}'
+        county = '08001' if 'Pecos' in url else '08031'
+        return json.dumps({'result': {'addressMatches': [{'geographies': {'Counties': [{'GEOID': county}]}}]}}).encode()
+    monkeypatch.setattr(apps_mod.awards, 'http_get', get)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; 2301 Eliot Street', 'Denver') == '08031'
+    assert len(calls) == 2 and not any('%3B' in u for u in calls)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; 8000 Pecos Street', 'Denver') is None
+    # one address placed and one not is not agreement
+    assert apps_mod.geocode_county('1738 West 33rd Avenue; Nowhere Lane', 'Denver') is None
+
+    def refused(url, timeout=60):
+        raise HTTPError(url, 400, 'Bad Request', {}, None)
+    monkeypatch.setattr(apps_mod.awards, 'http_get', refused)
+    assert apps_mod.geocode_county('1738 West 33rd Avenue', 'Denver') is None
+
+
+def test_every_cross_county_place_spans_even_when_its_label_is_shared():
+    """All 26 places on the Census cross-county list span counties, Coal Creek
+    CDP included, though a Fremont County town shares its name."""
+    cross = json.loads((ROOT / 'data' / 'hna' / 'cross-county-places.json').read_text())['places']
+    multi = [e for e in cross.values() if len(e.get('all_counties') or []) > 1]
+    spans = apps_mod.city_spans(apps_mod.load_places())
+    assert len(multi) >= 20
+    for e in multi:
+        city = apps_mod.awards.norm(e['name'].rsplit(' (', 1)[0])
+        assert {c['fips'] for c in e['all_counties']} <= spans.get(city, set()), e['name']
+
+
+def test_scattered_sites_in_one_county_spanning_city_are_each_placed(ctx):
+    """Two Westminster sites, one each side of the county line: the
+    application lists both counties and has no single one."""
+    sites_at = {'7840 W 87th Drive': '08059', '9000 Federal Blvd': '08001'}
+    def geocode(address, city):
+        found = {sites_at.get(p.strip()) for p in address.split(';')}
+        return found.pop() if len(found) == 1 else None
+    c = dict(ctx, geocode=geocode)
+    rec = {'name': 'Two Sides (scattered site)', 'city': 'Westminster',
+           'address': '7840 W 87th Drive; 9000 Federal Blvd',
+           'sites': [{'name': 'A', 'address': '7840 W 87th Drive', 'city': 'Westminster'},
+                     {'name': 'B', 'address': '9000 Federal Blvd', 'city': 'Westminster'}]}
+    got = apps_mod.place_county(rec, ['Westminster'], c)
+    assert got['county_fips'] is None
+    assert apps_mod.application_counties(rec, ['Westminster'], None, c) == ['08001', '08059']
