@@ -5788,6 +5788,11 @@
       // so its Neighborhood Access card and access score are re-run for the
       // same site once the amenities are in.
       var settleSiteAmenities = function () {
+        // The "What's near this site" block keeps its own copy of the
+        // reason: it may be drawn before or after this settles.
+        if (amenityUnavailableReason && window.WhatsNear) {
+          window.WhatsNear.setPlacesUnavailable(amenityUnavailableReason);
+        }
         if (lastResult && lastResult.amenities && lastResult.amenities._pending) {
           lastResult.amenities = siteAmenities(lastResult.lat, lastResult.lon);
           renderPmaSiteSummary(lastResult);

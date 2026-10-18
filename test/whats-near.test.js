@@ -95,5 +95,16 @@ setTimeout(() => {
   const after = hosts.wn.innerHTML;
   assert.ok(after.includes('This census tract'), 'jobs table fills in once LODES loads');
   assert.ok(/This census tract is (not )?a USDA/.test(after) || !after.includes('USDA Food'), 'food line, when shown, is a sentence');
+  // A failed or empty amenity file: the block says so instead of loading forever,
+  // whether the failure lands after the render or before a later one.
+  ctx.window.OsmAmenities = { isLoaded: () => false };
+  hosts.wn2 = { innerHTML: '' };
+  WN.render('wn2', { lat: DURANGO[0], lon: DURANGO[1] });
+  assert.ok(hosts.wn2.innerHTML.includes('Nearby places are still loading.'));
+  WN.setPlacesUnavailable('the amenity file did not load.');
+  assert.ok(hosts.wn2.innerHTML.includes('Nearby places are unavailable: the amenity file did not load.'));
+  hosts.wn3 = { innerHTML: '' };
+  WN.render('wn3', { lat: BAYFIELD[0], lon: BAYFIELD[1] });
+  assert.ok(hosts.wn3.innerHTML.includes('Nearby places are unavailable'));
   console.log('whats-near: all checks passed');
 }, 500);

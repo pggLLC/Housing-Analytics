@@ -61,6 +61,10 @@
 
   var files = {};
   var renderToken = 0;
+  // Set when neighborhood_access.json fails or is empty (market-analysis.js),
+  // so the places table says so instead of "still loading" forever.
+  var placesUnavailableReason = null;
+  var redraw = null;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
@@ -316,7 +320,10 @@
                     : '<p style="color:var(--muted);font-size:var(--small);">' + esc(state.jobsNote) + '</p>') +
         '<div style="height:.75rem;"></div>' +
         (places ? placesTable(places)
-                : '<p style="color:var(--muted);font-size:var(--small);">Nearby places are still loading.</p>') +
+                : '<p style="color:var(--muted);font-size:var(--small);">' +
+                  (placesUnavailableReason
+                    ? 'Nearby places are unavailable: ' + esc(placesUnavailableReason)
+                    : 'Nearby places are still loading.') + '</p>') +
         state.food +
         '<p style="margin:.5rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.4;">' +
           'Distances are straight-line miles. Places: © OpenStreetMap contributors; CDPHE hospitals; ' +
@@ -325,6 +332,7 @@
         '</p>';
     }
 
+    redraw = draw;
     draw();
 
     var tract = site.tractGeoid || '';
@@ -348,8 +356,15 @@
       });
   }
 
+  /** Mark nearby places unavailable and redraw the current site's block. */
+  function setPlacesUnavailable(reason) {
+    placesUnavailableReason = String(reason || 'the amenity data did not load.');
+    if (redraw) { redraw(); }
+  }
+
   window.WhatsNear = {
     render: render,
+    setPlacesUnavailable: setPlacesUnavailable,
     // exposed for tests
     _jobsWithin: jobsWithin,
     _tractAt: tractAt,
