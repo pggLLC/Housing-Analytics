@@ -89,12 +89,15 @@ function acsAsOf(summary) {
 }
 
 /**
- * The vintage of a B-series detail table in the summary (B25003, B25075).
- * build_hna_data.py fetches those from the ACS 5-year only, so a 1-year
- * profile's series stamp does not describe them.
+ * The vintage of summary fields fetched from the ACS 5-year only, whatever
+ * the profile's own series: the B-series detail tables (B25003, B25075;
+ * build_hna_data.py stamps their year as _acs5DetailYear) and overcrowding's
+ * inputs (backfill_hna_extended_acs_cache.mjs, _acs5BackfillYear). A summary
+ * written before those stamps takes the profile's year.
  */
-function acs5AsOf(summary) {
-  return acsVintageLabel(summary?.acsProfile?._acsYear, 'acs5') || VINTAGES.acsDefault;
+function acs5AsOf(summary, yearKey = '_acs5DetailYear') {
+  const acs = summary?.acsProfile;
+  return acsVintageLabel(acs?.[yearKey] ?? acs?._acsYear, 'acs5') || VINTAGES.acsDefault;
 }
 
 function chasAsOf(chasSource) {
@@ -469,6 +472,9 @@ function sourceForMetric(metric, entry, summary) {
       geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
       as_of: 'LEHD LODES WAC vs ' + amiGapAsOf(place ? 'place' : 'county'),
     };
+  }
+  if (metric === 'overcrowding_rate_pct') {
+    return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acs5AsOf(summary, '_acs5BackfillYear') };
   }
   return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acsAsOf(summary) };
 }

@@ -324,6 +324,8 @@ def _fetch_acs5_detail_tenure_lookup_locked(years_to_try: list[int]) -> dict[str
                     geoid = STATE_FIPS_CO + rec['county']
                 else:
                     geoid = STATE_FIPS_CO + rec['place']
+                # Its own year: the profile can fall back while this answers.
+                rec['_acs5DetailYear'] = str(year)
                 lookup[geoid] = rec
             if year != years_to_try[0]:
                 print(f"ℹ ACS detail tenure/race {scope}:* resolved via acs5 year={year}", file=sys.stderr)
@@ -1219,10 +1221,12 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     # stamped it, so the extended backfill's "acs5" stood on 33 geographies
     # whose figures are 1-year. It covers the profile batches this function
     # fetches, which ask batch A's source first and log any that could not
-    # come from it. The B-series tenure/race supplement (B25003, B25075) and
-    # the fields only backfill_hna_extended_acs_cache.mjs fetches are 5-year
-    # whatever it says; build_jurisdiction_metrics_digest.mjs labels the
-    # B-series metrics 5-year for that reason.
+    # come from it. The B-series tenure/race supplement (B25003, B25075,
+    # stamped _acs5DetailYear) and the fields only
+    # backfill_hna_extended_acs_cache.mjs fetches (overcrowding's DP04_0076E,
+    # 0078E, 0079E; stamped _acs5BackfillYear when it writes them) are 5-year
+    # whatever it says, and build_jurisdiction_metrics_digest.mjs labels
+    # their metrics from those stamps.
     merged['_acsYear'] = str(source[0])
     merged['_acsSeries'] = source[1]
     if source[1] == 'acs1':
@@ -1500,6 +1504,13 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 preserved += n
                 if section == 'acsProfile':
                     core_regression = True
+            continue
+        # The 5-year twin is one source by definition: a field from another
+        # year would sit under this one's stamp, and the rent file would take
+        # it as 2020-2024. Its fields are kept only from the same year.
+        if section == 'acs5Profile' and (
+                str(old_sec.get('_acsYear')), old_sec.get('_acsSeries')) != (
+                str(new_sec.get('_acsYear')), new_sec.get('_acsSeries')):
             continue
         # Whole-group preservation first, so a partial refresh cannot mix
         # vintages inside a group.

@@ -184,3 +184,43 @@ def test_the_state_fetch_covers_every_field_the_state_summary_carries():
     backfill = set(re.findall(r"'(DP0\d_\d{4}P?E)'", batches))
     assert len(backfill) > 50, "the scan found the backfill's variables"
     assert sorted(backfill - fetched) == []
+
+
+def test_the_detail_tables_carry_their_own_year():
+    # Copilot, 2026-10-18: the profile can fall back to 2023 while B25003 and
+    # B25075 answer for 2024, so their label needs their own year.
+    def get(url, *args, **kwargs):
+        if "/2023/acs/acs5?" not in url:
+            return None
+        names = url.split("get=")[1].split("&")[0].split(",")
+        scope = "county" if "for=county" in url else "place"
+        return [names + [scope], ["1" for _ in names] + ["031" if scope == "county" else "20000"]]
+    with (
+        mock.patch.object(hna, "_ACS5_DETAIL_TENURE_CACHE", None),
+        mock.patch.object(hna, "_ACS5_DETAIL_TENURE_CACHE_KEY", None),
+        mock.patch.object(hna, "http_get_json", side_effect=get),
+    ):
+        lookup = hna._fetch_acs5_detail_tenure_lookup_locked([2024, 2023, 2022])
+    assert lookup["08031"]["_acs5DetailYear"] == "2023"
+    assert lookup["0820000"]["_acs5DetailYear"] == "2023"
+
+
+def test_the_5_year_twin_keeps_fields_only_from_its_own_year(tmp_path):
+    # Copilot, 2026-10-18: a 2023 twin's rent restored into a 2024 twin whose
+    # rent came back empty would be published as a 2020-2024 figure.
+    path = tmp_path / "08031.json"
+
+    def merged(old_twin, new_twin):
+        path.write_text(json.dumps({"acs5Profile": old_twin}))
+        payload, _, _ = hna._merge_preserve_summary(str(path), {"acs5Profile": dict(new_twin)})
+        return payload["acs5Profile"]
+
+    old = {"_acsYear": 2023, "_acsSeries": "acs5", "DP04_0134E": 1700, "DP04_0047E": 90000}
+    new = {"_acsYear": 2024, "_acsSeries": "acs5", "DP04_0134E": None, "DP04_0047E": 91000}
+    assert merged(old, new)["DP04_0134E"] is None
+    # The same year keeps a field the fresh fetch lost, as for any section.
+    assert merged({**old, "_acsYear": 2024}, new)["DP04_0134E"] == 1700
+    # A twin lost whole is kept whole, with its own stamp; the rent file then
+    # reads its year and leaves the row unavailable.
+    lost = merged(old, {"_acsYear": 2024, "_acsSeries": "acs5"})
+    assert lost == old
