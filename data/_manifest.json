@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T04:46:36.818Z",
+    "generated_at": "2026-10-18T05:50:31.163Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192368854,
+    "total_size_bytes": 192365004,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -500,8 +500,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 624344,
-      "mtime": "2026-10-17T09:39:21.019Z",
+      "size_bytes": 624074,
+      "mtime": "2026-10-18T05:49:37.101Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T04:46:33.429Z",
+      "mtime": "2026-10-18T05:50:26.555Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -17028,8 +17028,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 183559,
-      "mtime": "2026-10-16T15:30:48.778Z",
+      "size_bytes": 183567,
+      "mtime": "2026-10-18T05:49:37.251Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -30233,8 +30233,8 @@
     {
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
-      "size_bytes": 20490,
-      "mtime": "2026-10-17T23:49:04.036Z",
+      "size_bytes": 20498,
+      "mtime": "2026-10-18T05:49:37.383Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16095,
-      "mtime": "2026-10-18T04:46:34.892Z",
+      "mtime": "2026-10-18T05:50:28.504Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T04:46:34.512Z",
+      "mtime": "2026-10-18T05:50:28.013Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35581,8 +35581,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 184894,
-      "mtime": "2026-10-17T16:26:39.122Z",
+      "size_bytes": 181298,
+      "mtime": "2026-10-18T05:49:37.681Z",
       "shape": "object",
       "keys": [
         "meta",
