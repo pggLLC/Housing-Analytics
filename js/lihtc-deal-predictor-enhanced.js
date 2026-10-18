@@ -264,10 +264,19 @@
       lines.push('PAB cap note: ' + base.pabCapNote);
     }
 
+    // Need notes and the 15-year pencil test from the base recommendation (js/mix-check.js).
+    var mc = base.mixCheck || null;
+    if (mc && mc.sentence) {
+      lines.push('Does the mix pay its way: ' + mc.sentence);
+    } else if (mc && mc.unavailableReason) {
+      lines.push('Does the mix pay its way: not available. ' + mc.unavailableReason);
+    }
+
     var notes = [];
     if (pma.note)  notes.push(pma.note);
     if (gap.note)  notes.push(gap.note);
     if (leg.note)  notes.push(leg.note);
+    if (mc && mc.notes) notes = notes.concat(mc.notes);
     if (notes.length) {
       lines.push('');
       lines.push('Notes:');

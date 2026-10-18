@@ -17,6 +17,8 @@
  *   • Indicative capital stack (collapsible <details>)
  *   • Important caveats (yellow warning box)
  *   • Housing Needs Fit section — HNA alignment, coverage %, gaps
+ *   • Mix check — renters the homes-short counts miss, and whether the mix
+ *     pays its way over 15 years (rec.mixCheck, built with js/mix-check.js)
  *   • Export JSON button
  *
  * Depends on (all optional — card gracefully degrades):
@@ -75,6 +77,13 @@
       '.lihtc-cc-hna-fill{display:block;height:100%;',
       '  background:var(--accent,#096e65);border-radius:3px;}',
       '.lihtc-cc-hna-tier{font-size:.78rem;min-width:90px;}',
+      /* Mix check */
+      '.lihtc-cc-mixcheck{margin:.75rem 0 0;font-size:.85rem;line-height:1.45;overflow-wrap:anywhere;}',
+      '.lihtc-cc-mixcheck h4{margin:.6rem 0 .3rem;font-size:.85rem;font-weight:600;}',
+      '.lihtc-cc-mixcheck ul{margin:.25rem 0;padding-left:1.2rem;}',
+      '.lihtc-cc-mixcheck li{margin:.2rem 0;}',
+      '.lihtc-cc-mixcheck p{margin:.3rem 0;}',
+      '.lihtc-cc-mixcheck .lihtc-cc-small{font-size:.75rem;color:var(--text-muted,var(--muted,#666));}',
       '.lihtc-cc-badge-strong{color:#096e65;}',
       '.lihtc-cc-badge-partial{color:#f39c12;}',
       '.lihtc-cc-badge-weak{color:#c0392b;}',
@@ -310,6 +319,46 @@
     return sections.join('');
   }
 
+  /* ── Mix check section ───────────────────────────────────────────── */
+
+  /**
+   * HTML for rec.mixCheck: the need notes, one sentence on whether the
+   * recommended mix pays its way over CHFA's 15-year pro forma, the per-tier
+   * lines (opts.tierLines !== false) and the assumptions in small print.
+   * Shared by this card and the Deal Calculator's concept card.
+   */
+  function mixCheckHtml(mc, opts) {
+    opts = opts || {};
+    if (!mc) return '';
+    _injectStyle();
+    // Inline sizes: host pages style bare <p> more specifically than this card does.
+    var P = ' style="margin:.3rem 0;font-size:.85rem;line-height:1.45;"';
+    var SMALL = ' class="lihtc-cc-small" style="margin:.3rem 0;font-size:.75rem;line-height:1.4;color:var(--text-muted,var(--muted,#666));"';
+    var h = '<section class="lihtc-cc-mixcheck" aria-label="Need the homes-short counts miss, and whether the mix pays its way">';
+    if (mc.notes && mc.notes.length) {
+      h += '<h4>Renters the homes-short counts miss</h4><ul>' +
+        mc.notes.map(function (n) { return '<li>' + _esc(n) + '</li>'; }).join('') + '</ul>';
+    }
+    h += '<h4>Does this mix pay its way over 15 years?</h4>';
+    var tested = mc.mixUnits ? ['30', '40', '50', '60'].filter(function (t) { return mc.mixUnits[t] > 0; })
+      .map(function (t) { return mc.mixUnits[t] + ' at ' + t + '%'; }) : [];
+    if (mc.sentence) {
+      if (tested.length) h += '<p' + P + '>Mix tested (homes by AMI level, two-bedroom rents): ' + _esc(tested.join(', ')) + '.</p>';
+      h += '<p data-mix-pencil' + P + '>' + _esc(mc.sentence) + '</p>';
+      if (opts.tierLines !== false && mc.tierLines && mc.tierLines.length) {
+        h += '<ul style="font-size:.85rem;">' + mc.tierLines.map(function (t) { return '<li>' + _esc(t) + '</li>'; }).join('') + '</ul>';
+      }
+      if (mc.assumptionsText) h += '<p' + SMALL + '>' + _esc(mc.assumptionsText) + '</p>';
+    } else {
+      h += '<p' + SMALL + ' data-unavailable-reason="' + _esc(mc.pending ? 'loading' : 'mix_check_unavailable') + '">Not available: ' +
+        _esc(mc.unavailableReason || 'no reason recorded.') + '</p>';
+    }
+    if (mc.sources && mc.sources.length) {
+      h += '<p' + SMALL + '>Sources: ' + _esc(mc.sources.join('; ')) + '; CHFA underwriting rules.</p>';
+    }
+    return h + '</section>';
+  }
+
   /* ── Main render ─────────────────────────────────────────────────── */
 
   /**
@@ -447,6 +496,9 @@
         /* HNA section */
         hnaSection,
 
+        /* Need notes and the 15-year pencil test */
+        mixCheckHtml(rec.mixCheck),
+
         /* Constraint sections (environmental, public land, soft funding, CHFA) */
         constraintSections,
 
@@ -496,8 +548,11 @@
   }
 
   /* ── Expose ──────────────────────────────────────────────────────── */
-  window.LIHTCConceptCardRenderer = {
-    render: render
+  var api = {
+    render: render,
+    mixCheckHtml: mixCheckHtml
   };
+  if (typeof window !== 'undefined') window.LIHTCConceptCardRenderer = api;
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
 
 }());
