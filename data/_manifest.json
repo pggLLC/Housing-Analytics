@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T03:05:51.186Z",
+    "generated_at": "2026-10-18T03:08:10.124Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192348613,
+    "total_size_bytes": 192368853,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -124,16 +124,15 @@
     {
       "path": "affordable-housing/nlihc-out-of-reach-co.json",
       "kind": "json",
-      "size_bytes": 9042,
-      "mtime": "2026-09-25T12:55:18.559Z",
+      "size_bytes": 28642,
+      "mtime": "2026-10-18T03:06:56.069Z",
       "shape": "object",
       "keys": [
         "meta",
         "state_summary",
-        "by_county",
-        "lihtc_dev_implications"
+        "by_county"
       ],
-      "key_count": 4,
+      "key_count": 3,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -540,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T03:05:47.418Z",
+      "mtime": "2026-10-18T03:08:07.621Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32619,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16095,
-      "mtime": "2026-10-18T03:05:49.184Z",
+      "mtime": "2026-10-18T03:08:08.900Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32643,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T03:05:48.736Z",
+      "mtime": "2026-10-18T03:08:08.582Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34981,8 +34980,8 @@
     {
       "path": "policy/jchs-state-of-nations-housing.json",
       "kind": "json",
-      "size_bytes": 3713,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 4353,
+      "mtime": "2026-10-18T03:06:56.547Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34992,7 +34991,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "key_quotes_for_ic_memos",
-      "primary_array_length": 4,
+      "primary_array_length": 3,
       "primary_array_first_keys": null
     },
     {
