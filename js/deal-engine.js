@@ -561,7 +561,7 @@
     // The investor buys both credits, so the automatic LP amount is federal plus state equity.
     var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
-        autoLpEquity, result.deferredDevFee].every(known)) return null;
+        result.exit.assetMgmtOwed, autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
       hold: result.exit.holdYears, defFeeRemaining: null };
     // The sale pays only the deferred fee operations left unpaid by the exit year.
@@ -591,6 +591,14 @@
     var tier2 = Math.min(remaining, exit.softBal);
     tiers.push({ name: '2. Soft debt payoff (priority order)', amount: tier2, recipient: 'Soft lenders' });
     remaining -= tier2;
+
+    // An asset management fee operations could not pay is settled before the
+    // developer and the investors are paid (shown only when one is owed).
+    if (result.exit.assetMgmtOwed > 0) {
+      var tierAsset = Math.min(remaining, result.exit.assetMgmtOwed);
+      tiers.push({ name: '2b. Accrued asset management fee', amount: tierAsset, recipient: 'Asset manager' });
+      remaining -= tierAsset;
+    }
 
     // Tier 3: Deferred dev fee remaining balance
     var tier3 = Math.min(remaining, exit.defFeeRemaining);
@@ -1164,7 +1172,10 @@
         softBal = known(balance) ? softBal + balance : NaN;
       });
       if (!known(firstMortBal)) firstMortBal = NaN;
-      var netProceeds = (known(resale) && known(firstMortBal) && known(softBal)) ? resale - firstMortBal - softBal : NaN;
+      // DOH PR 4: an asset management fee still owed at the sale is paid from it.
+      var exitYear = obligations.years ? obligations.years[holdYears - 1] : null;
+      var assetMgmtOwed = exitYear && known(exitYear.assetMgmtUnpaid) ? exitYear.assetMgmtUnpaid : NaN;
+      var netProceeds = (known(resale) && known(firstMortBal) && known(softBal) && known(assetMgmtOwed)) ? resale - firstMortBal - softBal - assetMgmtOwed : NaN;
 
       // Deferred fee payback timing. Walk the pro forma yearly, accumulating
       // cash flow (NOI − total debt service). Find the first year where
@@ -1214,7 +1225,7 @@
       var loanUnavailableReason = debtInputsReason || cashPayments.reason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
       return { loanUnavailableReason: loanUnavailableReason, holdYears: holdYears, exitCap: exitCap, rentGrowth: rentGrowth, expGrowth: expGrowth,
         nNoi: nNoi, resale: resale, firstMortBal: firstMortBal, softBal: softBal,
-        netProceeds: netProceeds, dfYr: dfYr, irr: irr };
+        assetMgmtOwed: assetMgmtOwed, netProceeds: netProceeds, dfYr: dfYr, irr: irr };
     })();
     // Sensitivity needs known NOI and rents. Without them every swing below
     // would be computed from 0 and published as a real figure, so report
@@ -1435,7 +1446,7 @@
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
-      if (cashPayments.reason && /^(coverage|obligations|allMustPay|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
+      if (cashPayments.reason && /^(coverage|obligations|allMustPay|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       // #2160: basis and credit depend on the itemized costs; figures that also
@@ -1446,7 +1457,7 @@
       if (costReason && /^(gap|deferred|devFeeAtClosing|fundingGap|exit\.(dfYr|irr)|waterfall|tornado|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || costReason;
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
-      if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
+      if (/^exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
       if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
       if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';
       if (/^(projection|waterfall)/.test(path)) return noiUnknownReason || rentsUnknownReason || (!autoNoi

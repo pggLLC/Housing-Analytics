@@ -235,6 +235,21 @@ test('an asset management fee cash cannot cover accrues and is paid from later c
   close(f.assetMgmt.total + f.assetMgmt.unpaidAfter, 200000 * 15, 'paid plus owed is every year\'s fee');
 });
 
+test('an asset management fee still owed at the sale is paid from the sale, before the developer and investors', () => {
+  const base = computeDeal(withTranches([]));
+  assert.equal(base.exit.assetMgmtOwed, 0);
+  assert(!base.waterfall.tiers.some(t => /asset management/.test(t.name)), 'no tier when nothing is owed');
+  const r = computeDeal(withTranches([], { 'dc-asset-mgmt-fee': '200000', 'dc-asset-mgmt-growth': '0' }));
+  const owed = r.obligations.years[r.exit.holdYears - 1].assetMgmtUnpaid;
+  assert(owed > 0, 'a real balance at the exit year');
+  close(r.exit.assetMgmtOwed, owed, 'the exit carries the hold-year balance');
+  close(r.exit.netProceeds, r.exit.resale - r.exit.firstMortBal - r.exit.softBal - owed, 'net sale proceeds are after it');
+  const tier = r.waterfall.tiers.find(t => /asset management/.test(t.name));
+  close(tier.amount, Math.min(owed, r.exit.resale - r.exit.firstMortBal - r.exit.softBal), 'the waterfall settles it');
+  const i = r.waterfall.tiers.indexOf(tier);
+  assert(i > r.waterfall.tiers.findIndex(t => /Soft debt/.test(t.name)) && i < r.waterfall.tiers.findIndex(t => /Deferred developer fee/.test(t.name)), 'after the loans, before the developer fee');
+});
+
 test('break-even occupancy counts year-1 bridge-loan debt service', () => {
   const base = computeDeal(withTranches([]));
   const r = computeDeal(withTranches([], { 'dc-bridge-ds': '40000', 'dc-bridge-years': '3' }));
