@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T15:35:29.536Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T16:03:53.929Z. Do not edit by hand.
 
 ---
 
@@ -88,11 +88,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1705 JSON files found.
+1709 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 836.7 KB | ✅ | — |
+| `data/_manifest.json` | 837.1 KB | ✅ | — |
 | `data/_qa-status.json` | 9.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -107,7 +107,7 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 321.4 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 74.8 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 17.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 587.2 KB | ✅ | — |
@@ -1559,50 +1559,54 @@
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 11.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/0803620.json` | 34.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/08045.json` | 31.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/08097.json` | 34.4 KB | ✅ | — |
-| `data/jurisdiction-briefs/0810105.json` | 19.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 36.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 34.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/08097.json` | 35.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0810105.json` | 21.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 32.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/0816000.json` | 29.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0817375.json` | 26.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/0818310.json` | 20.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/0820000.json` | 38.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/0822035.json` | 26.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/0827425.json` | 31.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 30.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/0817375.json` | 26.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0818310.json` | 21.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/0820000.json` | 43.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0822035.json` | 27.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0827425.json` | 32.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 20.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0830780.json` | 34.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/0864255.json` | 22.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0867280.json` | 27.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0830780.json` | 37.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0864255.json` | 22.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/0867280.json` | 30.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 32.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/0873825.json` | 22.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/0876795.json` | 19.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/0873825.json` | 23.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/0876795.json` | 19.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_contacts/0833640.json` | 3.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_landscape/0833640.json` | 26.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/_news-used.json` | 557 B | ✅ | — |
+| `data/jurisdiction-briefs/_news-used.json` | 67.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0803620.json` | 20.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/08045.json` | 13.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/08097.json` | 21.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0803620.json` | 22.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/08045.json` | 17.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/08097.json` | 23.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0810105.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 14.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0816000.json` | 14.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0817375.json` | 13.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0820000.json` | 19.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0822035.json` | 6.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0827425.json` | 20.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0816000.json` | 16.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0817375.json` | 15.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0818310.json` | 1.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0820000.json` | 25.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0822035.json` | 8.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0827425.json` | 21.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0828745.json` | 3.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0830780.json` | 20.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0864255.json` | 13.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0867280.json` | 16.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0830780.json` | 23.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0864255.json` | 14.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0867280.json` | 21.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0873825.json` | 1.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 216.2 KB | ✅ | — |
+| `data/manifest.json` | 216.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2084,7 +2088,7 @@
 | `test/homepage-snapshot.test.js` | 14.8 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
-| `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
+| `test/housing-events-and-brief-news.test.mjs` | 13.2 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
@@ -2409,7 +2413,7 @@
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_award_rows.py` | 4.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
-| `tests/test_brief_news_queue.py` | 4.6 KB |
+| `tests/test_brief_news_queue.py` | 6.6 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
