@@ -78,6 +78,14 @@
     <a href="#how">How the pipeline works</a>.
   </div>
 
+  <section id="readyToBuild" aria-labelledby="readyH">
+    <h2 id="readyH" style="margin-top:var(--sp3);">Ready to build</h2>
+    <p>Two lists: your pipeline places and the specific sites in them. Each row says why it sits where it does.
+      The suggested order puts places with the readiest site first. Switch to <em>My order</em> to move,
+      pin or select rows; your order is kept.</p>
+    <div id="ready"></div>
+  </section>
+
   <section id="workspace" aria-labelledby="workspaceH">
     <h2 id="workspaceH" style="margin-top:var(--sp3);">Due in the next 30 days</h2>
     <p id="wsStatus" class="ws-status" role="status">Loading your private files…</p>
@@ -229,6 +237,7 @@
 
 <script src="js/components/pipeline-store.js"></script>
 <script src="js/components/private-workspace.js"></script>
+<script src="js/whitepaper/ripeness.js"></script>
 <script>
 // The working pipeline: the private files merged with the site's drafts and edits.
 (function () {
@@ -275,6 +284,8 @@
           st.strong30 !== null ? plural(st.strong30, 'strong signal', 'strong signals') + ' in the last 30 days' : ''
         ].filter(Boolean).join(', ') + '.'
       : 'Your private files did not load here. They load only on the gated developer site, which copies them from your private folder. The places you added on this site are shown below.';
+
+    if (window.Ripeness) window.Ripeness.mount($('ready'), { pipeline: pipeline, signals: f.signals || [] });
 
     var due = PW.dueWithin(WS, pipeline, today, 30);
     $('wsDue').innerHTML = due.length ? due.map(function (d) {

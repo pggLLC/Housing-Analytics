@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T10:07:31.673376Z",
+  "generated": "2026-10-18T10:55:08.310312Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1522524
+      "bytes": 1522382
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -389,7 +389,7 @@
     "data/hna/acs-reliability.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 645991
+      "bytes": 698215
     },
     "data/hna/benchmarks.json": {
       "featureCount": 0,
@@ -7714,7 +7714,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1154270
+      "bytes": 1154274
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -7839,7 +7839,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774632
+      "bytes": 774636
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -8584,12 +8584,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12594
+      "bytes": 12554
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 165560
+      "bytes": 167002
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
