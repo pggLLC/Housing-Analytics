@@ -456,9 +456,9 @@ def build():
                 lehd_out["CE02"] = int(round(f_mid))
                 lehd_out["CE03"] = int(round(f_high))
                 # F101 — Data fix (2026-06-01): data/market/lodes_co.json
-                # currently has high_wage = 0 for all 1,447 CO tracts (the
-                # fetch_lodes.py pipeline is dropping CS03). Until that's
-                # rebuilt, prefer annualWages[latest] for the CE0X scalars,
+                # had high_wage = 0 for all 1,447 CO tracts (fetch_lodes.py
+                # read the WAC sex columns as wage tiers; fixed 2026-10-18).
+                # Still prefer annualWages[latest] for the CE0X scalars,
                 # since that pipeline aggregates correctly. Drop back to
                 # the tract-LODES values only when annualWages is missing.
                 if annual_wages_acc:

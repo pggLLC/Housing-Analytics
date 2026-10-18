@@ -14,7 +14,8 @@
    * Canonical amenity type identifiers used throughout the scoring logic.
    * @type {Array.<string>}
    */
-  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare'];
+  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare',
+                       'convenience', 'pharmacy', 'health_center'];
 
   /**
    * Mapping from score-output keys to canonical amenity type identifiers.
@@ -28,6 +29,18 @@
     schools:    'school',
     hospitals:  'hospital',
     childcare:  'childcare'
+  };
+
+  /**
+   * Types reported by getAccessScore() for display but left out of its
+   * overall score: the convenience and general stores and the pharmacies the
+   * builder keeps out of "grocery" and "healthcare"
+   * (scripts/market-analysis/build_neighborhood_access.py, EXTRA_OSM_TYPES).
+   * @type {Object.<string, string>}
+   */
+  var SHOWN_KEY_TO_TYPE = {
+    convenience: 'convenience',
+    pharmacy:    'pharmacy'
   };
 
   /**
@@ -133,6 +146,8 @@
       if (rec.type === 'transit_stop') {
         rec.transitStopBasis = item.transit_stop_basis === BASIS_UNCONFIRMED ? BASIS_UNCONFIRMED : BASIS_CONFIRMED;
       }
+      // Licence type of a hospital record (HOSP, CAH, CCEC, ...), display only.
+      if (item.hospital_type) { rec.hospitalType = String(item.hospital_type); }
       amenities.push(rec);
       if (rec.type === 'transit_stop') { transitRecords.push(rec); }
     }
@@ -226,6 +241,7 @@
       distanceMiles: dist,
       score:         distanceToScore(dist)
     };
+    if (nearest.hospitalType) { out.hospitalType = nearest.hospitalType; }
     if (selection) {
       out.transitStopBasis = selection.basis;
       out.confirmed = selection.basis === BASIS_NONE ? null : selection.basis === BASIS_CONFIRMED;
@@ -261,6 +277,7 @@
       if (d <= radiusMiles) {
         var hit = { name: a.name, lat: a.lat, lon: a.lon, distanceMiles: parseFloat(d.toFixed(2)) };
         if (a.transitStopBasis) { hit.transitStopBasis = a.transitStopBasis; }
+        if (a.hospitalType) { hit.hospitalType = a.hospitalType; }
         found.push(hit);
       }
     }
@@ -293,6 +310,8 @@
       schools:    defaultEntry,
       hospitals:  defaultEntry,
       childcare:  defaultEntry,
+      convenience: defaultEntry,
+      pharmacy:   defaultEntry,
       overall:    0
     };
 
@@ -317,6 +336,12 @@
     }
 
     result.overall = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+
+    for (var shownKey in SHOWN_KEY_TO_TYPE) {
+      if (!Object.prototype.hasOwnProperty.call(SHOWN_KEY_TO_TYPE, shownKey)) { continue; }
+      result[shownKey] = getNearestByType(lat, lon, SHOWN_KEY_TO_TYPE[shownKey]) ||
+        { name: '', distanceMiles: null, score: 0 };
+    }
 
     // Add typed transit distances for rail vs bus differentiation.
     // transit_rail = nearest rail/tram/light rail stop
@@ -360,7 +385,7 @@
 
   /**
    * Returns how many loaded records there are of each type, e.g.
-   * { grocery: 2178, hospital: 121, ... }. A fresh object each call; types
+   * { grocery: 716, hospital: 121, ... }. A fresh object each call; types
    * with no records are absent, not 0. Empty object before data loads.
    * @returns {Object.<string, number>}
    */
