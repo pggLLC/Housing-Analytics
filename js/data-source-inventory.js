@@ -861,6 +861,27 @@
         { title: 'HIFLD Healthcare Facilities', description: 'DHS Homeland Infrastructure Foundation-Level Data', url: 'https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals/' }
       ]
     },
+    {
+      id: 'hrsa-health-centers-co',
+      name: 'Community Health Center Sites CO',
+      category: 'GIS / Amenities',
+      format: 'GeoJSON',
+      provider: 'HRSA (Health Resources and Services Administration)',
+      url: 'https://data.hrsa.gov/data/download',
+      localFile: 'data/market/health_centers_co.geojson',
+      lastUpdated: '2026-10-18',
+      // Refreshed by hand: python3 scripts/market/fetch_health_centers.py
+      // (no workflow runs it yet).
+      maintenance: 'curated',
+      maintenanceNote: 'Pulled by hand from HRSA’s Health Center Service Delivery and Look-Alike Sites file with scripts/market/fetch_health_centers.py; no scheduled job refreshes it.',
+      updateFrequency: 'Curated \u2014 no automated refresh',
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 181,
+      description: 'Federally funded community health centers and look-alikes in Colorado (sliding-fee care that takes Medicaid and uninsured patients). Active, permanent service delivery sites only; school-based sites and mobile vans left out. Shown in Market Analysis “What’s near this site” and on the Data Map.',
+      tags: ['amenities', 'healthcare', 'health-centers', 'gis'],
+      apiEndpoint: 'https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv'
+    },
     // ── NHPD ─────────────────────────────────────────────────────
     {
       id: 'nhpd-co',

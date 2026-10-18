@@ -1,0 +1,3817 @@
+{
+ "type": "FeatureCollection",
+ "meta": {
+  "source": "HRSA Health Center Service Delivery and Look-Alike Sites",
+  "url": "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv",
+  "page": "https://data.hrsa.gov/data/download",
+  "state": "Colorado",
+  "hrsa_record_date": "10/18/2026",
+  "generated": "2026-10-18T12:11:15Z",
+  "colorado_sites": 293,
+  "feature_count": 181,
+  "kept": "Active, permanent Service Delivery or Administrative/Service Delivery sites with coordinates; not school-based."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.556265,
+     37.978347
+    ]
+   },
+   "properties": {
+    "name": "La Junta Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "1012 Belmont Ave",
+    "city": "La Junta",
+    "zip": "81050",
+    "county": "Otero County",
+    "phone": "719-383-5900",
+    "hours_per_week": "66.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.78508,
+     39.542167
+    ]
+   },
+   "properties": {
+    "name": "MOUNTAIN FAMILY HEALTH CENTERS RIFLE",
+    "health_center": "MOUNTAIN FAMILY HEALTH CENTERS",
+    "address": "195 W 14th, Ste C",
+    "city": "Rifle",
+    "zip": "81650",
+    "county": "Garfield County",
+    "phone": "970-945-2840",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.831158,
+     37.600504
+    ]
+   },
+   "properties": {
+    "name": "Walsenburg OB Clinic",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "23450 US Highway 160",
+    "city": "Walsenburg",
+    "zip": "81089",
+    "county": "Huerfano County",
+    "phone": "719-543-8711",
+    "hours_per_week": "2.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.878109,
+     39.723335
+    ]
+   },
+   "properties": {
+    "name": "Renaissance at Lowry Boulevard",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "550 Alton Way",
+    "city": "Denver",
+    "zip": "80230",
+    "county": "Denver County",
+    "phone": "303-340-3940",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.1315,
+     38.07475
+    ]
+   },
+   "properties": {
+    "name": "Fort Lyon Health Center",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "30999 County Road 15",
+    "city": "Las Animas",
+    "zip": "81054",
+    "county": "Bent County",
+    "phone": "719-662-1142",
+    "hours_per_week": "40.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.875804,
+     38.471508
+    ]
+   },
+   "properties": {
+    "name": "River Valley Family Health Center of Montrose",
+    "health_center": "OLATHE COMMUNITY CLINIC, INC.",
+    "address": "1010 Rio Grande Ave",
+    "city": "Montrose",
+    "zip": "81401",
+    "county": "Montrose County",
+    "phone": "970-497-3333",
+    "hours_per_week": "56.25",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.750025,
+     38.850661
+    ]
+   },
+   "properties": {
+    "name": "Family Health Center at Mitchell High School",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "4041 E San Miguel St",
+    "city": "Colorado Springs",
+    "zip": "80909",
+    "county": "El Paso County",
+    "phone": "719-328-6600",
+    "hours_per_week": "53.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.115189,
+     40.148993
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- Wellness Education Center",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "834 S Sherman St",
+    "city": "Longmont",
+    "zip": "80501",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.882091,
+     37.472458
+    ]
+   },
+   "properties": {
+    "name": "Alamosa Family Medical Center, Valley-Wide Pharmacy, or Anti-Coagulation Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "1710 1st St",
+    "city": "Alamosa",
+    "zip": "81101",
+    "county": "Alamosa County",
+    "phone": "719-589-3658",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.985484,
+     39.750567
+    ]
+   },
+   "properties": {
+    "name": "Stout Street Recuperative Care Center & Legacy Lofts",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2175 California St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-312-9559",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.82042,
+     38.794133
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Myron Stratton",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "410 Gold Pass Hts",
+    "city": "Colorado Springs",
+    "zip": "80906",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.881388,
+     39.644058
+    ]
+   },
+   "properties": {
+    "name": "MOUNTAIN FAMILY HEALTH CENTERS GYPSUM",
+    "health_center": "MOUNTAIN FAMILY HEALTH CENTERS",
+    "address": "410 McGregor Dr",
+    "city": "Gypsum",
+    "zip": "81637",
+    "county": "Eagle County",
+    "phone": "970-945-2840",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.301971,
+     39.240247
+    ]
+   },
+   "properties": {
+    "name": "Care Clinic Lake County",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "735 US Highway 24",
+    "city": "Leadville",
+    "zip": "80461",
+    "county": "Lake County",
+    "phone": "970-668-4040",
+    "hours_per_week": "16.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.123413,
+     38.053716
+    ]
+   },
+   "properties": {
+    "name": "High Plains Holly Clinic",
+    "health_center": "HIGH PLAINS COMMUNITY HEALTH CENTER",
+    "address": "410 W Colorado St",
+    "city": "Holly",
+    "zip": "81047",
+    "county": "Prowers County",
+    "phone": "719-336-0261",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.104136,
+     40.16813
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- St. Vrain Community Hub",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "515 Coffman St",
+    "city": "Longmont",
+    "zip": "80501",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.623818,
+     38.257346
+    ]
+   },
+   "properties": {
+    "name": "COLORADO AVENUE CLINIC",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "300 Colorado Ave",
+    "city": "Pueblo",
+    "zip": "81004",
+    "county": "Pueblo County",
+    "phone": "719-543-8711",
+    "hours_per_week": "50.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.281045,
+     40.023956
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - People's",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "2525 13th St",
+    "city": "Boulder",
+    "zip": "80304",
+    "county": "Boulder County",
+    "phone": "303-449-6050",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.907825,
+     37.999929
+    ]
+   },
+   "properties": {
+    "name": "Moffat Family Health Center",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "545 Moffat Way",
+    "city": "Moffat",
+    "zip": "81143",
+    "county": "Saguache County",
+    "phone": "719-256-4025",
+    "hours_per_week": "16.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.521757,
+     37.167046
+    ]
+   },
+   "properties": {
+    "name": "Salud Trinidad Dental Clinic",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "928 Smith Ave",
+    "city": "Trinidad",
+    "zip": "81082",
+    "county": "Las Animas County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.076249,
+     39.570159
+    ]
+   },
+   "properties": {
+    "name": "Summit Community Care Clinic Dental Clinic",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "360 Peak One Dr",
+    "city": "Frisco",
+    "zip": "80443",
+    "county": "Summit County",
+    "phone": "970-668-4040",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.239823,
+     38.441366
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Canon City",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "121 N 6th St",
+    "city": "Canon City",
+    "zip": "81212",
+    "county": "Fremont County",
+    "phone": "719-275-2301",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.975629,
+     39.755643
+    ]
+   },
+   "properties": {
+    "name": "Eastside Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "501 28th St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-602-6333",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.489096,
+     40.38866
+    ]
+   },
+   "properties": {
+    "name": "Salud Estes Park",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "1950 Redtail Hawk Dr",
+    "city": "Estes Park",
+    "zip": "80517",
+    "county": "Larimer County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.076249,
+     39.570159
+    ]
+   },
+   "properties": {
+    "name": "Summit Community Care Clinic, Inc.",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "360 Peak One Dr, Suite 100",
+    "city": "Frisco",
+    "zip": "80443",
+    "county": "Summit County",
+    "phone": "970-668-4040",
+    "hours_per_week": "54.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.518794,
+     39.632991
+    ]
+   },
+   "properties": {
+    "name": "MOUNTAIN FAMILY HEALTH CENTERS Avon",
+    "health_center": "MOUNTAIN FAMILY HEALTH CENTERS",
+    "address": "230 Chapel Sq",
+    "city": "Avon",
+    "zip": "81620",
+    "county": "Eagle County",
+    "phone": "970-945-2840",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.4755,
+     39.838197
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Gilpin County",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "972 Golden Gate Canyon Rd",
+    "city": "Black Hawk",
+    "zip": "80422",
+    "county": "Gilpin County",
+    "phone": "303-650-4460",
+    "hours_per_week": "16.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.686956,
+     39.261354
+    ]
+   },
+   "properties": {
+    "name": "Health Center  at Limon",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "820 1st St",
+    "city": "Limon",
+    "zip": "80828",
+    "county": "Lincoln County",
+    "phone": "719-771-7556",
+    "hours_per_week": "50.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.959504,
+     39.769373
+    ]
+   },
+   "properties": {
+    "name": "Inner City Health Center",
+    "health_center": "INNER CITY HEALTH CENTER",
+    "address": "3800 N York St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-296-1767",
+    "hours_per_week": "54.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.935645,
+     39.734868
+    ]
+   },
+   "properties": {
+    "name": "Primary Care Clinic at WellPower",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "4455 E 12th Ave",
+    "city": "Denver",
+    "zip": "80220",
+    "county": "Denver County",
+    "phone": "303-504-7700",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.019127,
+     39.850831
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Westminster",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "8510 Bryant St, Suite 200",
+    "city": "Westminster",
+    "zip": "80031",
+    "county": "Adams County",
+    "phone": "303-650-4460",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.819286,
+     38.79377
+    ]
+   },
+   "properties": {
+    "name": "Logan Health Center at Myron Stratton",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "430 Gold Pass Hts",
+    "city": "Colorado Spgs",
+    "zip": "80906",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.942744,
+     40.111753
+    ]
+   },
+   "properties": {
+    "name": "Salud Frederick",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "5995 Iris Pkwy",
+    "city": "Longmont",
+    "zip": "80504",
+    "county": "Weld County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.154954,
+     38.940848
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Divide",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "34 Hybrook Rd S",
+    "city": "Divide",
+    "zip": "80814",
+    "county": "Teller County",
+    "phone": "719-687-4460",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.071216,
+     38.732695
+    ]
+   },
+   "properties": {
+    "name": "Axis Health System - Delta",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "107 W 11th St",
+    "city": "Delta",
+    "zip": "81416",
+    "county": "Delta County",
+    "phone": "970-252-3200",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.076249,
+     39.570159
+    ]
+   },
+   "properties": {
+    "name": "Medical Office Building - Suite 320",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "360 Peak One Dr",
+    "city": "Frisco",
+    "zip": "80443",
+    "county": "Summit County",
+    "phone": "970-668-4040",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.756243,
+     38.218493
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Ordway",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "319 Main St",
+    "city": "Ordway",
+    "zip": "81063",
+    "county": "Crowley County",
+    "phone": "719-267-3503",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.221859,
+     40.611705
+    ]
+   },
+   "properties": {
+    "name": "Salud Sterling",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "1410 S 7th Ave",
+    "city": "Sterling",
+    "zip": "80751",
+    "county": "Logan County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.75612,
+     38.878543
+    ]
+   },
+   "properties": {
+    "name": "Developmental Disabilities Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "3205 N Academy Blvd, Suite 120",
+    "city": "Colorado Springs",
+    "zip": "80917",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.090885,
+     39.927745
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- Broomfield Clinic",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "897 US Highway 287",
+    "city": "Broomfield",
+    "zip": "80020",
+    "county": "Broomfield County",
+    "phone": "303-650-4460",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.903457,
+     39.810297
+    ]
+   },
+   "properties": {
+    "name": "Salud Commerce City",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "6255 Quebec St",
+    "city": "Commerce City",
+    "zip": "80022",
+    "county": "Adams County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.078873,
+     37.256648
+    ]
+   },
+   "properties": {
+    "name": "Pagosa Springs Integrated Healthcare",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "52 Village Dr",
+    "city": "Pagosa Springs",
+    "zip": "81147",
+    "county": "Archuleta County",
+    "phone": "970-246-2104",
+    "hours_per_week": "53.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.145911,
+     37.579593
+    ]
+   },
+   "properties": {
+    "name": "Edward M. Kennedy Health Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "925 2nd Ave",
+    "city": "Monte Vista",
+    "zip": "81144",
+    "county": "Rio Grande County",
+    "phone": "719-852-2512",
+    "hours_per_week": "47.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.284253,
+     40.02522
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - MHP Alpine",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "1000 Alpine Ave",
+    "city": "Boulder",
+    "zip": "80304",
+    "county": "Boulder County",
+    "phone": "303-443-8500",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.991287,
+     39.738268
+    ]
+   },
+   "properties": {
+    "name": "Forum Apartments",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "250 W 14th Ave",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-573-3707",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.554019,
+     37.980391
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Regional Assessment Center- La Junta",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "721 Barnes Ave",
+    "city": "La Junta",
+    "zip": "81050",
+    "county": "Otero County",
+    "phone": "800-511-5446",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.994774,
+     39.737581
+    ]
+   },
+   "properties": {
+    "name": "Rose Andom Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "1330 Fox St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "720-337-4419",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.7055,
+     38.692161
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Fountain",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "350 Lyckman Pl",
+    "city": "Fountain",
+    "zip": "80817",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.86736,
+     37.469117
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Health and Wellness Campus",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "702 4th St",
+    "city": "Alamosa",
+    "zip": "81101",
+    "county": "Alamosa County",
+    "phone": "719-589-3658",
+    "hours_per_week": "58.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.885735,
+     39.730324
+    ]
+   },
+   "properties": {
+    "name": "Lowry Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "1001 Yosemite St",
+    "city": "Denver",
+    "zip": "80230",
+    "county": "Denver County",
+    "phone": "303-602-4545",
+    "hours_per_week": "66.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.61046,
+     38.068572
+    ]
+   },
+   "properties": {
+    "name": "Family Health Center",
+    "health_center": "HIGH PLAINS COMMUNITY HEALTH CENTER",
+    "address": "200 Kendall Dr",
+    "city": "Lamar",
+    "zip": "81052",
+    "county": "Prowers County",
+    "phone": "719-336-8445",
+    "hours_per_week": "54.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.110606,
+     37.756587
+    ]
+   },
+   "properties": {
+    "name": "Center Community Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "186 Hurt St",
+    "city": "Center",
+    "zip": "81125",
+    "county": "Saguache County",
+    "phone": "719-754-2778",
+    "hours_per_week": "45.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.787423,
+     38.826496
+    ]
+   },
+   "properties": {
+    "name": "Pediatric Walk-in Clinic",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "2828 International Cir, #160",
+    "city": "Colorado Springs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "48.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.9872,
+     39.750883
+    ]
+   },
+   "properties": {
+    "name": "2100 Broadway Services Builiding",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2100 N Broadway",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-297-4091",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.991032,
+     39.728587
+    ]
+   },
+   "properties": {
+    "name": "Pediatric Emergency Department and Urgent Care",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "777 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-602-2273",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.007453,
+     39.827719
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Pecos",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "1701 W 72nd Ave",
+    "city": "Denver",
+    "zip": "80221",
+    "county": "Adams County",
+    "phone": "303-650-4460",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.033856,
+     39.642629
+    ]
+   },
+   "properties": {
+    "name": "Sheridan Health Services",
+    "health_center": "THE REGENTS OF THE UNIVERSITY OF COLORADO",
+    "address": "3525 W Oxford Ave",
+    "city": "Denver",
+    "zip": "80236",
+    "county": "Denver County",
+    "phone": "303-315-6150",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.818391,
+     39.723743
+    ]
+   },
+   "properties": {
+    "name": "Salud Aurora",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "562 Sable Blvd, Suite 100",
+    "city": "Aurora",
+    "zip": "80011",
+    "county": "Arapahoe County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.873986,
+     37.468402
+    ]
+   },
+   "properties": {
+    "name": "Convenient Care Community Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "1131 Main St",
+    "city": "Alamosa",
+    "zip": "81101",
+    "county": "Alamosa County",
+    "phone": "719-589-2562",
+    "hours_per_week": "80.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.001212,
+     39.223519
+    ]
+   },
+   "properties": {
+    "name": "Care Clinic Park County",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "548 Front St",
+    "city": "Fairplay",
+    "zip": "80440",
+    "county": "Park County",
+    "phone": "970-668-4055",
+    "hours_per_week": "8.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.835139,
+     38.832794
+    ]
+   },
+   "properties": {
+    "name": "Behavioral Health at Inside Out Youth Services",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "516 W Colorado Ave",
+    "city": "Colorado Springs",
+    "zip": "80905",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.080741,
+     39.759417
+    ]
+   },
+   "properties": {
+    "name": "STRIDE CHC  -  Wheat Ridge",
+    "health_center": "METRO COMMUNITY PROVIDER NETWORK INC",
+    "address": "7495 W 29th Ave",
+    "city": "Wheat Ridge",
+    "zip": "80033",
+    "county": "Jefferson County",
+    "phone": "303-761-1100",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.909151,
+     39.676057
+    ]
+   },
+   "properties": {
+    "name": "STRIDE CHC  -  Oneida",
+    "health_center": "METRO COMMUNITY PROVIDER NETWORK INC",
+    "address": "2255 S Oneida St",
+    "city": "Denver",
+    "zip": "80224",
+    "county": "Denver County",
+    "phone": "303-761-1977",
+    "hours_per_week": "42.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.576422,
+     37.355656
+    ]
+   },
+   "properties": {
+    "name": "Cortez Integrated Healthcare",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "691 E Empire St",
+    "city": "Cortez",
+    "zip": "81321",
+    "county": "Montezuma County",
+    "phone": "970-565-7946",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.991032,
+     39.728587
+    ]
+   },
+   "properties": {
+    "name": "Obstetrics and Gynecology Clinic",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "777 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.755151,
+     38.878417
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Academy, Suite 3500",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "3207 N Academy Blvd",
+    "city": "Colorado Springs",
+    "zip": "80917",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.076249,
+     39.570159
+    ]
+   },
+   "properties": {
+    "name": "Elevated Community Health Pediatric Dental",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "360 Peak One Dr, Suite 380",
+    "city": "Frisco",
+    "zip": "80443",
+    "county": "Summit County",
+    "phone": "970-668-8668",
+    "hours_per_week": "26.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.015148,
+     37.08091
+    ]
+   },
+   "properties": {
+    "name": "Guadalupe Health Center",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "W 10th Ave & Dahlia St",
+    "city": "Antonito",
+    "zip": "81120",
+    "county": "Conejos County",
+    "phone": "719-376-5426",
+    "hours_per_week": "36.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.611281,
+     38.068106
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Counseling & Support Center - Lamar",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "100 Kendall Dr",
+    "city": "Lamar",
+    "zip": "81052",
+    "county": "Prowers County",
+    "phone": "800-511-5446",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.805387,
+     40.081993
+    ]
+   },
+   "properties": {
+    "name": "Salud Fort Lupton",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "1115 2nd St",
+    "city": "Fort Lupton",
+    "zip": "80621",
+    "county": "Weld County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.987606,
+     39.75041
+    ]
+   },
+   "properties": {
+    "name": "Renaissance Downtown Lofts",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2075 N Broadway",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-293-2217",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.98672,
+     39.788525
+    ]
+   },
+   "properties": {
+    "name": "Clinica Tepeyac - Clinic",
+    "health_center": "LA CLINICA TEPEYAC, INC.",
+    "address": "5075 Lincoln St",
+    "city": "Denver",
+    "zip": "80216",
+    "county": "Denver County",
+    "phone": "303-458-5302",
+    "hours_per_week": "5.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.699328,
+     40.449807
+    ]
+   },
+   "properties": {
+    "name": "SUNRISE NORTH RANGE CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "1300 N 17th Ave",
+    "city": "Greeley",
+    "zip": "80631",
+    "county": "Weld County",
+    "phone": "970-353-9403",
+    "hours_per_week": "20.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.695293,
+     40.43483
+    ]
+   },
+   "properties": {
+    "name": "SUNRISE FAMILY DENTAL CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "1006 A St",
+    "city": "Greeley",
+    "zip": "80631",
+    "county": "Weld County",
+    "phone": "970-352-0048",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.073972,
+     37.257389
+    ]
+   },
+   "properties": {
+    "name": "Pagosa Springs Comprehensive Primary Care",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "27 Talisman Dr, #B",
+    "city": "Pagosa Springs",
+    "zip": "81147",
+    "county": "Archuleta County",
+    "phone": "970-335-2422",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.696084,
+     40.434295
+    ]
+   },
+   "properties": {
+    "name": "MONFORT CHILDREN'S CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "100 N 11th Ave",
+    "city": "Greeley",
+    "zip": "80631",
+    "county": "Weld County",
+    "phone": "970-352-8898",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.024141,
+     39.734342
+    ]
+   },
+   "properties": {
+    "name": "Westside Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "1100 Federal Blvd",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4200",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.553777,
+     37.981434
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Integrated Care Clinic - La Junta",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "711 Barnes Ave",
+    "city": "La Junta",
+    "zip": "81050",
+    "county": "Otero County",
+    "phone": "833-350-1113",
+    "hours_per_week": "48.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.091118,
+     39.982651
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Lafayette",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "1735 S Public Rd",
+    "city": "Lafayette",
+    "zip": "80026",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.004775,
+     39.779024
+    ]
+   },
+   "properties": {
+    "name": "La Casa Quigg Newton Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "4545 Navajo St",
+    "city": "Denver",
+    "zip": "80211",
+    "county": "Denver County",
+    "phone": "303-602-6700",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.9154,
+     40.478354
+    ]
+   },
+   "properties": {
+    "name": "Sunrise Windsor Clinic",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "1039 Main St, Unit G",
+    "city": "Windsor",
+    "zip": "80550",
+    "county": "Weld County",
+    "phone": "970-353-9403",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.796778,
+     39.986203
+    ]
+   },
+   "properties": {
+    "name": "Salud Brighton's Women Center",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "30 S 20th Ave",
+    "city": "Brighton",
+    "zip": "80601",
+    "county": "Adams County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.044324,
+     39.708535
+    ]
+   },
+   "properties": {
+    "name": "Westwood Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "4320 W Alaska Pl",
+    "city": "Denver",
+    "zip": "80219",
+    "county": "Denver County",
+    "phone": "303-602-4660",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.072561,
+     40.389944
+    ]
+   },
+   "properties": {
+    "name": "South Loveland Community Health Center",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "302 3rd St SE",
+    "city": "Loveland",
+    "zip": "80537",
+    "county": "Larimer County",
+    "phone": "970-669-4855",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.076249,
+     39.570159
+    ]
+   },
+   "properties": {
+    "name": "Elevated Community Health Pharmacy",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "360 Peak One Dr, Suite 100",
+    "city": "Frisco",
+    "zip": "80443",
+    "county": "Summit County",
+    "phone": "970-486-3110",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.692658,
+     40.388619
+    ]
+   },
+   "properties": {
+    "name": "MONFORT FAMILY CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "2930 11th Ave",
+    "city": "Evans",
+    "zip": "80620",
+    "county": "Weld County",
+    "phone": "970-353-9403",
+    "hours_per_week": "65.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.52089,
+     37.16641
+    ]
+   },
+   "properties": {
+    "name": "Salud Trinidad",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "911 Robinson Ave",
+    "city": "Trinidad",
+    "zip": "81082",
+    "county": "Las Animas County",
+    "phone": "719-422-8800",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.843938,
+     39.781089
+    ]
+   },
+   "properties": {
+    "name": "Montbello Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "12600 Albrook Dr",
+    "city": "Denver",
+    "zip": "80239",
+    "county": "Denver County",
+    "phone": "303-602-4000",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.611443,
+     38.068533
+    ]
+   },
+   "properties": {
+    "name": "HIGH PLAINS COMMUNITY HEALTH CENTER",
+    "health_center": "HIGH PLAINS COMMUNITY HEALTH CENTER",
+    "address": "201 Kendall Dr",
+    "city": "Lamar",
+    "zip": "81052",
+    "county": "Prowers County",
+    "phone": "719-336-0261",
+    "hours_per_week": "56.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.794251,
+     38.828225
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Union, Women's Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "225 S Union Blvd",
+    "city": "Colorado Springs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-344-6948",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.611497,
+     38.276564
+    ]
+   },
+   "properties": {
+    "name": "GRAND AVENUE HOMELESS CLINIC",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "1008 N Grand Ave",
+    "city": "Pueblo",
+    "zip": "81003",
+    "county": "Pueblo County",
+    "phone": "719-584-3964",
+    "hours_per_week": "30.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.552888,
+     39.087838
+    ]
+   },
+   "properties": {
+    "name": "PrimeHealth+12th Street Clinic",
+    "health_center": "MARILLAC CLINIC, INC.",
+    "address": "2139 N 12th St, Suite 2",
+    "city": "Grand Junction",
+    "zip": "81501",
+    "county": "Mesa County",
+    "phone": "970-200-1600",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.787513,
+     38.827034
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Printers Parkway, 340",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "340 Printers Pkwy",
+    "city": "Colorado Springs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.039529,
+     39.740505
+    ]
+   },
+   "properties": {
+    "name": "Sloan's Lake Primary Care Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "4007 W Colfax Ave",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-602-5900",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.990045,
+     39.727095
+    ]
+   },
+   "properties": {
+    "name": "Dermatology Clinic and Endocrinology Clinic",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "660 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.072611,
+     40.61012
+    ]
+   },
+   "properties": {
+    "name": "Salud Fort Collins Blue Spruce",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "1635 Blue Spruce Dr",
+    "city": "Fort Collins",
+    "zip": "80524",
+    "county": "Larimer County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.720428,
+     38.044865
+    ]
+   },
+   "properties": {
+    "name": "Rocky Ford Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "903 S 12th St",
+    "city": "Rocky Ford",
+    "zip": "81067",
+    "county": "Otero County",
+    "phone": "719-254-7623",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.859606,
+     38.482168
+    ]
+   },
+   "properties": {
+    "name": "Axis Health System Montrose",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "605 Miami Rd",
+    "city": "Montrose",
+    "zip": "81401",
+    "county": "Montrose County",
+    "phone": "970-252-3200",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.078999,
+     40.463388
+    ]
+   },
+   "properties": {
+    "name": "North Loveland Community Health Center",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "201 W 69th Ct",
+    "city": "Loveland",
+    "zip": "80538",
+    "county": "Larimer County",
+    "phone": "970-699-7500",
+    "hours_per_week": "52.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.890458,
+     37.474724
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Health Systems, Inc., Administrative Services Building, Alamosa Dental Clinic, Counseling and Support Center",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "128 Market St",
+    "city": "Alamosa",
+    "zip": "81101",
+    "county": "Alamosa County",
+    "phone": "719-587-1000",
+    "hours_per_week": "57.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.035488,
+     39.740093
+    ]
+   },
+   "properties": {
+    "name": "Beacon Place",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "3636 W Colfax Ave",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-629-1667",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.81895,
+     38.823771
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Wahsatch, Behavioral Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "722 S Wahsatch Ave",
+    "city": "Colorado Springs",
+    "zip": "80903",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.934499,
+     39.782803
+    ]
+   },
+   "properties": {
+    "name": "48th Avenue East Shelter Health Center",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "4600 E 48th Ave",
+    "city": "Denver",
+    "zip": "80216",
+    "county": "Denver County",
+    "phone": "303-312-9559",
+    "hours_per_week": "54.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.350132,
+     38.237943
+    ]
+   },
+   "properties": {
+    "name": "AVONDALE CLINIC",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "328 Avondale Blvd",
+    "city": "Avondale",
+    "zip": "81022",
+    "county": "Pueblo County",
+    "phone": "719-947-3344",
+    "hours_per_week": "42.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.799783,
+     39.982719
+    ]
+   },
+   "properties": {
+    "name": "Salud Brighton",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "1860 E Egbert St",
+    "city": "Brighton",
+    "zip": "80601",
+    "county": "Adams County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.987914,
+     39.751583
+    ]
+   },
+   "properties": {
+    "name": "CCH Administration & Champa Dental Clinic",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2111 Champa St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-293-2217",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.81654,
+     38.901906
+    ]
+   },
+   "properties": {
+    "name": "Lane Family Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "4863 N Nevada Ave",
+    "city": "Colorado Springs",
+    "zip": "80918",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.066487,
+     39.745453
+    ]
+   },
+   "properties": {
+    "name": "Renaissance Children's Center",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "1797 Kendall St",
+    "city": "Lakewood",
+    "zip": "80214",
+    "county": "Jefferson County",
+    "phone": "303-237-6132",
+    "hours_per_week": "57.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.788191,
+     38.827183
+    ]
+   },
+   "properties": {
+    "name": "Dental Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "2828 International Cir STE 100",
+    "city": "Colorado Springs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-475-0738",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.067197,
+     39.769397
+    ]
+   },
+   "properties": {
+    "name": "Wheat Ridge Family Health Clinic",
+    "health_center": "INNER CITY HEALTH CENTER",
+    "address": "6301 W 38th Ave BLDG",
+    "city": "Wheat Ridge",
+    "zip": "80033",
+    "county": "Jefferson County",
+    "phone": "303-940-9118",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.505199,
+     39.080579
+    ]
+   },
+   "properties": {
+    "name": "PrimeHealth+ Main Clinic",
+    "health_center": "MARILLAC CLINIC, INC.",
+    "address": "526 29 1/2 Rd",
+    "city": "Grand Junction",
+    "zip": "81504",
+    "county": "Mesa County",
+    "phone": "970-200-1600",
+    "hours_per_week": "58.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.885539,
+     39.739053
+    ]
+   },
+   "properties": {
+    "name": "Renaissance Xenia Village",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "1420 Xenia St",
+    "city": "Denver",
+    "zip": "80220",
+    "county": "Denver County",
+    "phone": "303-355-9196",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.033715,
+     39.364584
+    ]
+   },
+   "properties": {
+    "name": "MOUNTAIN FAMILY HEALTH CENTERS BASALT",
+    "health_center": "MOUNTAIN FAMILY HEALTH CENTERS",
+    "address": "123 Emma Rd, Ste 106",
+    "city": "Basalt",
+    "zip": "81621",
+    "county": "Pitkin County",
+    "phone": "970-945-2840",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.974329,
+     39.746452
+    ]
+   },
+   "properties": {
+    "name": "Uptown Community Health Center, Inc. Bruner Family Medicine",
+    "health_center": "UPTOWN COMMUNITY HEALTH CENTER INC",
+    "address": "1960 N Ogden St, Suite 460",
+    "city": "Denver",
+    "zip": "80218",
+    "county": "Denver County",
+    "phone": "303-318-2500",
+    "hours_per_week": "48.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.868447,
+     39.739847
+    ]
+   },
+   "properties": {
+    "name": "Geneva Health Center",
+    "health_center": "METRO COMMUNITY PROVIDER NETWORK INC",
+    "address": "10260 E Colfax Ave",
+    "city": "Aurora",
+    "zip": "80010",
+    "county": "Arapahoe County",
+    "phone": "303-778-7433",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.547181,
+     40.514013
+    ]
+   },
+   "properties": {
+    "name": "Northwest Colorado Health Dental Clinic  -  Craig",
+    "health_center": "NORTHWEST COLORADO VISITING NURSE ASSOCIATION",
+    "address": "485 Yampa Ave",
+    "city": "Craig",
+    "zip": "81625",
+    "county": "Moffat County",
+    "phone": "970-824-8000",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.75612,
+     38.878543
+    ]
+   },
+   "properties": {
+    "name": "Convenient Care Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "3205 N Academy Blvd, Suite 100",
+    "city": "Colorado Springs",
+    "zip": "80917",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "68.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.815991,
+     40.462824
+    ]
+   },
+   "properties": {
+    "name": "Northwest Colorado Health Community Health Center  -  Routt County",
+    "health_center": "NORTHWEST COLORADO VISITING NURSE ASSOCIATION",
+    "address": "940 Central Park Dr, Suite 101",
+    "city": "Steamboat Springs",
+    "zip": "80487",
+    "county": "Routt County",
+    "phone": "970-879-1632",
+    "hours_per_week": "46.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.588596,
+     38.274139
+    ]
+   },
+   "properties": {
+    "name": "East Side Clinic",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "1301 E 7th St",
+    "city": "Pueblo",
+    "zip": "81001",
+    "county": "Pueblo County",
+    "phone": "719-543-8711",
+    "hours_per_week": "50.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.988597,
+     39.686778
+    ]
+   },
+   "properties": {
+    "name": "Sheridan Health Services-Urban Peak",
+    "health_center": "THE REGENTS OF THE UNIVERSITY OF COLORADO",
+    "address": "1630 S Acoma St",
+    "city": "Denver",
+    "zip": "80223",
+    "county": "Denver County",
+    "phone": "303-315-6199",
+    "hours_per_week": "8.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.323201,
+     39.53252
+    ]
+   },
+   "properties": {
+    "name": "MOUNTAIN FAMILY HEALTH CENTERS GLENWOOD SPRINGS",
+    "health_center": "MOUNTAIN FAMILY HEALTH CENTERS",
+    "address": "1905 Blake Ave, Suite 101",
+    "city": "Glenwood Springs",
+    "zip": "81601",
+    "county": "Garfield County",
+    "phone": "970-945-2840",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.789663,
+     40.249046
+    ]
+   },
+   "properties": {
+    "name": "Salud Fort Morgan",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "729 E Railroad Ave",
+    "city": "Fort Morgan",
+    "zip": "80701",
+    "county": "Morgan County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.33189,
+     39.738864
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Strasburg",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "55981 E Colfax Ave",
+    "city": "Strasburg",
+    "zip": "80136",
+    "county": "Adams County",
+    "phone": "303-622-9237",
+    "hours_per_week": "59.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.929873,
+     39.764061
+    ]
+   },
+   "properties": {
+    "name": "Park Hill Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "4995 E 33rd Ave",
+    "city": "Denver",
+    "zip": "80207",
+    "county": "Denver County",
+    "phone": "303-602-3720",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.960004,
+     37.27303
+    ]
+   },
+   "properties": {
+    "name": "La Jara Dental Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "421 Walnut St",
+    "city": "La Jara",
+    "zip": "81140",
+    "county": "Conejos County",
+    "phone": "719-274-8948",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.986483,
+     39.751325
+    ]
+   },
+   "properties": {
+    "name": "Renaissance Off Broadway Lofts",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2135 Stout St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-298-8148",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.990045,
+     39.727095
+    ]
+   },
+   "properties": {
+    "name": "Denver Health Primary Care Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "660 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.845387,
+     39.763681
+    ]
+   },
+   "properties": {
+    "name": "STRIDE CHC  -  Peoria",
+    "health_center": "METRO COMMUNITY PROVIDER NETWORK INC",
+    "address": "3292 Peoria St",
+    "city": "Aurora",
+    "zip": "80010",
+    "county": "Adams County",
+    "phone": "303-343-6130",
+    "hours_per_week": "61.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.991659,
+     39.726426
+    ]
+   },
+   "properties": {
+    "name": "Wellington E. Webb Center for Primary Care",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "301 W 6th Ave",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.97432,
+     39.746855
+    ]
+   },
+   "properties": {
+    "name": "Uptown Community Health Center, Inc. Caritas Internal Medicine",
+    "health_center": "UPTOWN COMMUNITY HEALTH CENTER INC",
+    "address": "1960 N Ogden St, Suite 400",
+    "city": "Denver",
+    "zip": "80218",
+    "county": "Denver County",
+    "phone": "303-318-1540",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.549406,
+     37.978
+    ]
+   },
+   "properties": {
+    "name": "La Junta Perinatal Clinic",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "1100 Carson Ave",
+    "city": "La Junta",
+    "zip": "81050",
+    "county": "Otero County",
+    "phone": "719-543-8711",
+    "hours_per_week": "3.00",
+    "site_setting": "Hospital"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.615436,
+     37.405164
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Counseling & Support Center- Springfield",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "189 E 9th Ave",
+    "city": "Springfield",
+    "zip": "81073",
+    "county": "Baca County",
+    "phone": "800-511-5446",
+    "hours_per_week": "32.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.025777,
+     39.692484
+    ]
+   },
+   "properties": {
+    "name": "Federico F. Pena Family Health Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "1339 S Federal Blvd",
+    "city": "Denver",
+    "zip": "80219",
+    "county": "Denver County",
+    "phone": "303-602-0000",
+    "hours_per_week": "68.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.282775,
+     40.062616
+    ]
+   },
+   "properties": {
+    "name": "Boulder Shelter For The Homeless",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "4869 Broadway St",
+    "city": "Boulder",
+    "zip": "80304",
+    "county": "Boulder County",
+    "phone": "303-442-4646",
+    "hours_per_week": "2.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.981757,
+     39.855544
+    ]
+   },
+   "properties": {
+    "name": "The Renaissance Village 88",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "388 E 88th Ave",
+    "city": "Thornton",
+    "zip": "80229",
+    "county": "Adams County",
+    "phone": "303-430-0157",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.62413,
+     38.232064
+    ]
+   },
+   "properties": {
+    "name": "O'ROURKE DENTAL CLINIC",
+    "health_center": "PUEBLO COMMUNITY HEALTH CENTER",
+    "address": "2030 Lake Ave",
+    "city": "Pueblo",
+    "zip": "81004",
+    "county": "Pueblo County",
+    "phone": "719-564-4823",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.91406,
+     39.678248
+    ]
+   },
+   "properties": {
+    "name": "Southeast Medical Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "6360 E Evans Ave",
+    "city": "Denver",
+    "zip": "80222",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.567625,
+     39.064589
+    ]
+   },
+   "properties": {
+    "name": "PrimeHealth+ Outreach Day Center",
+    "health_center": "MARILLAC CLINIC, INC.",
+    "address": "302 Pitkin Ave",
+    "city": "Grand Junction",
+    "zip": "81501",
+    "county": "Mesa County",
+    "phone": "970-200-1600",
+    "hours_per_week": "4.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.284137,
+     40.024725
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- Norton Center for Behavioral Medicine",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "975 North St",
+    "city": "Boulder",
+    "zip": "80304",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.290885,
+     39.245926
+    ]
+   },
+   "properties": {
+    "name": "Lake County Dental",
+    "health_center": "SUMMIT COMMUNITY CARE CLINIC, INC.",
+    "address": "223 Harrison Ave",
+    "city": "Leadville",
+    "zip": "80461",
+    "county": "Lake County",
+    "phone": "970-668-4055",
+    "hours_per_week": "30.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.613391,
+     38.053988
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Support Services- Lamar",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "3500 1st St S",
+    "city": "Lamar",
+    "zip": "81052",
+    "county": "Prowers County",
+    "phone": "800-511-5446",
+    "hours_per_week": "53.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.09347,
+     39.986139
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- Dixon Clinic",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "1455 Dixon Ave",
+    "city": "Lafayette",
+    "zip": "80026",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.974451,
+     39.746658
+    ]
+   },
+   "properties": {
+    "name": "Uptown Community Health Center, Inc. Seton Women's Center",
+    "health_center": "UPTOWN COMMUNITY HEALTH CENTER INC",
+    "address": "1960 N Ogden St, Suite 340",
+    "city": "Denver",
+    "zip": "80218",
+    "county": "Denver County",
+    "phone": "303-318-3830",
+    "hours_per_week": "40.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.696153,
+     40.434762
+    ]
+   },
+   "properties": {
+    "name": "SUNRISE ADELANTE CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "1010 A St",
+    "city": "Greeley",
+    "zip": "80631",
+    "county": "Weld County",
+    "phone": "970-313-0400",
+    "hours_per_week": "50.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.923912,
+     38.55159
+    ]
+   },
+   "properties": {
+    "name": "Axis Health System - Gunnison",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "710 N Taylor St",
+    "city": "Gunnison",
+    "zip": "81230",
+    "county": "Gunnison County",
+    "phone": "970-252-3200",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.086691,
+     40.162826
+    ]
+   },
+   "properties": {
+    "name": "Salud Longmont",
+    "health_center": "SALUD FAMILY HEALTH, INC.",
+    "address": "220 E Rogers Rd",
+    "city": "Longmont",
+    "zip": "80501",
+    "county": "Boulder County",
+    "phone": "303-697-2583",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.051568,
+     39.740226
+    ]
+   },
+   "properties": {
+    "name": "West End Health Center",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "5050 W Colfax Ave",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-312-9750",
+    "hours_per_week": "27.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.42744,
+     37.197234
+    ]
+   },
+   "properties": {
+    "name": "San Luis Health Center, Ernesto Pacheco Dental Clinic, or San Luis Physical Therapy and Rehabilitation",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "233 Main St STE B",
+    "city": "San Luis",
+    "zip": "81152",
+    "county": "Costilla County",
+    "phone": "719-672-3352",
+    "hours_per_week": "27.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.551527,
+     39.096529
+    ]
+   },
+   "properties": {
+    "name": "PrimeHealth+ Primary Care Partners",
+    "health_center": "MARILLAC CLINIC, INC.",
+    "address": "3150 N 12th St",
+    "city": "Grand Junction",
+    "zip": "81506",
+    "county": "Mesa County",
+    "phone": "970-245-1220",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.109648,
+     40.406209
+    ]
+   },
+   "properties": {
+    "name": "SUNRISE SUMMITSTONE CLINIC",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "1250 N Wilson Ave",
+    "city": "Loveland",
+    "zip": "80537",
+    "county": "Larimer County",
+    "phone": "970-353-9403",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.787872,
+     38.826364
+    ]
+   },
+   "properties": {
+    "name": "Pediatric Health Center at International Circle",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "2828 International Cir, Unit 140",
+    "city": "Colorado Springs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.986108,
+     39.750849
+    ]
+   },
+   "properties": {
+    "name": "Stout Street Health Center",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2130 Stout St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-293-2220",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.54522,
+     40.518741
+    ]
+   },
+   "properties": {
+    "name": "Northwest Colorado Health Community Health Center  -  Moffat County",
+    "health_center": "NORTHWEST COLORADO VISITING NURSE ASSOCIATION",
+    "address": "745 Russell St",
+    "city": "Craig",
+    "zip": "81625",
+    "county": "Moffat County",
+    "phone": "970-824-8233",
+    "hours_per_week": "47.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.166792,
+     39.969077
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health & Wellness -- Crisis & Addiction Center",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "1107 W Century Dr",
+    "city": "Louisville",
+    "zip": "80027",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.718351,
+     38.054476
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Counseling & Support Center - Rocky Ford",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "404 N Main St",
+    "city": "Rocky Ford",
+    "zip": "81067",
+    "county": "Otero County",
+    "phone": "719-254-7623",
+    "hours_per_week": "57.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.767506,
+     40.406285
+    ]
+   },
+   "properties": {
+    "name": "Aims Student Health and Wellness Center",
+    "health_center": "SUNRISE COMMUNITY HEALTH",
+    "address": "5311 W 20th St",
+    "city": "Greeley",
+    "zip": "80634",
+    "county": "Weld County",
+    "phone": "970-702-7200",
+    "hours_per_week": "42.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.986603,
+     39.750483
+    ]
+   },
+   "properties": {
+    "name": "Outreach & Engagement Services",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "2100 Stout St",
+    "city": "Denver",
+    "zip": "80205",
+    "county": "Denver County",
+    "phone": "303-312-2217",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.91391,
+     37.764731
+    ]
+   },
+   "properties": {
+    "name": "Dove Creek Integrated Healthcare",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "495 W 4th St",
+    "city": "Dove Creek",
+    "zip": "81324",
+    "county": "Dolores County",
+    "phone": "970-677-2291",
+    "hours_per_week": "53.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.986521,
+     39.741742
+    ]
+   },
+   "properties": {
+    "name": "Renaissance at Civic Center Apartments",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "25 E 16th Ave",
+    "city": "Denver",
+    "zip": "80202",
+    "county": "Denver County",
+    "phone": "303-764-2100",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.990925,
+     39.78367
+    ]
+   },
+   "properties": {
+    "name": "Renewal Village",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "200 W Warner Pl",
+    "city": "Denver",
+    "zip": "80216",
+    "county": "Denver County",
+    "phone": "303-293-2217",
+    "hours_per_week": "56.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.289378,
+     38.130996
+    ]
+   },
+   "properties": {
+    "name": "Axis Health System - Norwood",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "1605 Grand Ave",
+    "city": "Norwood",
+    "zip": "81423",
+    "county": "San Miguel County",
+    "phone": "970-252-3200",
+    "hours_per_week": "45.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.975025,
+     39.859488
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Thornton",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "8990 Washington St",
+    "city": "Thornton",
+    "zip": "80229",
+    "county": "Adams County",
+    "phone": "720-929-1655",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.135423,
+     38.847356
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Buena Vista",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "707 US Highway 24 N",
+    "city": "Buena Vista",
+    "zip": "81211",
+    "county": "Chaffee County",
+    "phone": "719-589-3658",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.298167,
+     38.129327
+    ]
+   },
+   "properties": {
+    "name": "UNCOMPAHGRE COMBINED CLINICS",
+    "health_center": "UNCOMPAHGRE COMBINED CLINICS",
+    "address": "1350 S Aspen St",
+    "city": "Norwood",
+    "zip": "81423",
+    "county": "San Miguel County",
+    "phone": "970-327-4233",
+    "hours_per_week": "51.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.990045,
+     39.727095
+    ]
+   },
+   "properties": {
+    "name": "Adult Dental and OMFS Clinic",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "660 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "65.25",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.055795,
+     38.750628
+    ]
+   },
+   "properties": {
+    "name": "River Valley Family Health Center of Delta",
+    "health_center": "OLATHE COMMUNITY CLINIC, INC.",
+    "address": "1250 Valley View Dr",
+    "city": "Delta",
+    "zip": "81416",
+    "county": "Delta County",
+    "phone": "970-874-8981",
+    "hours_per_week": "56.25",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.740425,
+     38.806989
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Jet Wing",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "1815 Jet Wing Dr",
+    "city": "Colorado Springs",
+    "zip": "80916",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "55.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.776851,
+     38.475581
+    ]
+   },
+   "properties": {
+    "name": "Valley-Wide Counseling & Support Center - Eads",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "14833 S Rittgers St",
+    "city": "Eads",
+    "zip": "81036",
+    "county": "Kiowa County",
+    "phone": "800-511-5446",
+    "hours_per_week": "8.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.228352,
+     38.07075
+    ]
+   },
+   "properties": {
+    "name": "Las Animas Clinic and Las Animas Dental Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "245 Vine Ave",
+    "city": "Las Animas",
+    "zip": "81054",
+    "county": "Bent County",
+    "phone": "719-456-2653",
+    "hours_per_week": "54.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.756972,
+     38.878488
+    ]
+   },
+   "properties": {
+    "name": "Health Center at Academy, Suite 3300",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "3207 N Academy Blvd STE 3300",
+    "city": "Colorado Springs",
+    "zip": "80917",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "53.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.962279,
+     39.78404
+    ]
+   },
+   "properties": {
+    "name": "Tepeyac 48th Avenue Clinic",
+    "health_center": "LA CLINICA TEPEYAC, INC.",
+    "address": "2101 E 48th Ave",
+    "city": "Denver",
+    "zip": "80216",
+    "county": "Denver County",
+    "phone": "303-458-5302",
+    "hours_per_week": "49.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.867705,
+     37.240144
+    ]
+   },
+   "properties": {
+    "name": "Durango Integrated Healthcare",
+    "health_center": "SOUTHWEST COLORADO MENTAL HEALTH CENTER, INC",
+    "address": "150 Mercury Village Dr",
+    "city": "Durango",
+    "zip": "81301",
+    "county": "La Plata County",
+    "phone": "970-335-2288",
+    "hours_per_week": "54.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.853868,
+     39.738591
+    ]
+   },
+   "properties": {
+    "name": "Forest Manor Apartments",
+    "health_center": "THE COLORADO COALITION FOR THE HOMELESS",
+    "address": "1410 Moline St APT 108",
+    "city": "Aurora",
+    "zip": "80010",
+    "county": "Arapahoe County",
+    "phone": "303-363-8391",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.515917,
+     39.972639
+    ]
+   },
+   "properties": {
+    "name": "Clinica Family Health - Nederland",
+    "health_center": "CLINICA CAMPESINA/FAMILY HEALTH SERVICES",
+    "address": "80 Big Springs Dr",
+    "city": "Nederland",
+    "zip": "80466",
+    "county": "Boulder County",
+    "phone": "303-650-4460",
+    "hours_per_week": "24.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.812351,
+     39.652976
+    ]
+   },
+   "properties": {
+    "name": "STRIDE CHC  -  Hampden and Chambers",
+    "health_center": "METRO COMMUNITY PROVIDER NETWORK INC",
+    "address": "15132 E Hampden Ave STE G",
+    "city": "Aurora",
+    "zip": "80014",
+    "county": "Arapahoe County",
+    "phone": "303-752-8070",
+    "hours_per_week": "52.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.974444,
+     39.746952
+    ]
+   },
+   "properties": {
+    "name": "Uptown Community Health Center, Inc Midwifery Center",
+    "health_center": "UPTOWN COMMUNITY HEALTH CENTER INC",
+    "address": "1960 N Ogden St, Suite 320",
+    "city": "Denver",
+    "zip": "80218",
+    "county": "Denver County",
+    "phone": "303-318-2842",
+    "hours_per_week": "44.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.990045,
+     39.727095
+    ]
+   },
+   "properties": {
+    "name": "Adult Urgent Care Clinic",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "660 Bannock St",
+    "city": "Denver",
+    "zip": "80204",
+    "county": "Denver County",
+    "phone": "303-436-4949",
+    "hours_per_week": "84.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.111872,
+     37.750509
+    ]
+   },
+   "properties": {
+    "name": "Center Dental Clinic",
+    "health_center": "VALLEY-WIDE HEALTH SYSTEMS",
+    "address": "135 E 6th St",
+    "city": "Center",
+    "zip": "81125",
+    "county": "Saguache County",
+    "phone": "719-754-3584",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.823968,
+     38.818312
+    ]
+   },
+   "properties": {
+    "name": "Downtown Health Center",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "111 E Las Vegas St",
+    "city": "Colorado Springs",
+    "zip": "80903",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "47.50",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.788191,
+     38.827183
+    ]
+   },
+   "properties": {
+    "name": "Enrollment Services",
+    "health_center": "PEAK VISTA COMMUNITY HEALTH CENTERS",
+    "address": "2828 International Cir STE 120",
+    "city": "Colorado Spgs",
+    "zip": "80910",
+    "county": "El Paso County",
+    "phone": "719-632-5700",
+    "hours_per_week": "40.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.983784,
+     38.605938
+    ]
+   },
+   "properties": {
+    "name": "Olathe Community Clinic, Inc.",
+    "health_center": "OLATHE COMMUNITY CLINIC, INC.",
+    "address": "308 Main St",
+    "city": "Olathe",
+    "zip": "81425",
+    "county": "Montrose County",
+    "phone": "970-323-6141",
+    "hours_per_week": "9.75",
+    "site_setting": "All Other Clinic Types"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.000368,
+     39.709507
+    ]
+   },
+   "properties": {
+    "name": "Safe Center",
+    "health_center": "Denver Health and Hospital Authority",
+    "address": "405 S Platte River Dr",
+    "city": "Denver",
+    "zip": "80223",
+    "county": "Denver County",
+    "phone": "720-944-3700",
+    "hours_per_week": "168.00",
+    "site_setting": "All Other Clinic Types"
+   }
+  }
+ ]
+}

@@ -117,6 +117,19 @@ def parse_gz_csv(data: bytes) -> list:
     return list(reader)
 
 
+# LODES NAICS sector columns grouped the way LODES' own super-sector
+# variables (SI01-SI03) group them.
+SECTOR_GROUPS = {
+    # Goods producing: agriculture 11, mining 21, construction 23, manufacturing 31-33
+    "goods":   ["CNS01", "CNS02", "CNS04", "CNS05"],
+    # Trade, transportation and utilities: utilities 22, wholesale 42,
+    # retail 44-45, transportation and warehousing 48-49
+    "trade":   ["CNS03", "CNS06", "CNS07", "CNS08"],
+    # All other services: NAICS 51 through 92
+    "service": [f"CNS{i:02d}" for i in range(9, 21)],
+}
+
+
 def process_wac(rows: list) -> dict:
     """
     Aggregate WAC (Workplace Area Characteristics) from block to tract level.
@@ -124,21 +137,25 @@ def process_wac(rows: list) -> dict:
     Key fields:
       w_geocode: workplace block GEOCODE (15 digits)
       C000: total jobs
-      CE01: goods-producing jobs (NAICS 11,21,23,31-33)
-      CE02: trade/transport/utilities (NAICS 22,42,44-45,48-49)
-      CE03: all other services (NAICS 51+)
+      CE01: earnings $1,250/month or less (low wage)
+      CE02: earnings $1,251 to $3,333/month (mid wage)
+      CE03: earnings more than $3,333/month (high wage)
       CA01: age 29 or younger
       CA02: age 30 to 54
       CA03: age 55 or older
-      CS01: $1,250/month or less (low wage)
-      CS02: $1,251 to $3,333/month (mid wage)
-      CS03: more than $3,333/month (high wage)
+      CNS01-CNS20: jobs by NAICS sector (see SECTOR_GROUPS)
+
+    LODES Technical Documentation 8.x, WAC layout. CS01/CS02 are worker
+    sex, not wages; reading them as wage tiers (before 2026-10-18) gave
+    "low_wage" = male workers, "mid_wage" = female workers and
+    "high_wage" = 0 everywhere, and the CE earnings tiers were stored as
+    goods/trade/service sectors.
     """
     log(f"Processing {len(rows)} WAC block records...")
     tracts = defaultdict(lambda: defaultdict(int))
 
-    fields = ["C000", "CE01", "CE02", "CE03", "CS01", "CS02", "CS03",
-              "CA01", "CA02", "CA03"]
+    fields = ["C000", "CE01", "CE02", "CE03", "CA01", "CA02", "CA03"] + \
+             [f"CNS{i:02d}" for i in range(1, 21)]
 
     for row in rows:
         geocode = row.get("w_geocode", "")
@@ -331,15 +348,15 @@ def main() -> int:
         # County FIPS (first 5 digits)
         county_fips = geoid[:5]
 
-        # Wage categories from WAC (jobs at workplace)
-        low_wage = wac.get("CS01", 0)
-        mid_wage = wac.get("CS02", 0)
-        high_wage = wac.get("CS03", 0)
+        # Earnings tiers from WAC (jobs at workplace)
+        low_wage = wac.get("CE01", 0)
+        mid_wage = wac.get("CE02", 0)
+        high_wage = wac.get("CE03", 0)
 
         # Sector breakdown from WAC
-        goods_jobs = wac.get("CE01", 0)
-        trade_jobs = wac.get("CE02", 0)
-        service_jobs = wac.get("CE03", 0)
+        goods_jobs = sum(wac.get(c, 0) for c in SECTOR_GROUPS["goods"])
+        trade_jobs = sum(wac.get(c, 0) for c in SECTOR_GROUPS["trade"])
+        service_jobs = sum(wac.get(c, 0) for c in SECTOR_GROUPS["service"])
 
         tract_record = {
             "geoid": geoid,
