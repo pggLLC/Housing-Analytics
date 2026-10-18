@@ -384,3 +384,16 @@ def test_an_application_in_a_city_that_spans_counties_is_filed_under_one_county_
             assert r.get('county_unavailable_reason'), r['name']
         checked += 1
     assert checked > 20
+
+
+def test_a_scattered_site_in_a_city_that_spans_counties_is_placed_by_its_own_address(ctx):
+    """A scattered-site application across Silverthorne and Westminster files
+    the Westminster site under the county its street address is in."""
+    c = dict(ctx, geocode=lambda address, city: {'7840 W 87th Drive': '08059'}.get(address))
+    rec = {'name': 'Two Towns (scattered site)', 'city': 'Silverthorne, Westminster',
+           'sites': [{'name': 'A', 'address': '1 Main St', 'city': 'Silverthorne'},
+                     {'name': 'B', 'address': '7840 W 87th Drive', 'city': 'Westminster'}]}
+    cities = ['Silverthorne', 'Westminster']
+    assert apps_mod.place_county(rec, cities, c)['county_fips'] is None  # spans 2 counties
+    counties = apps_mod.application_counties(rec, cities, None, c)
+    assert counties == ['08059', '08117']

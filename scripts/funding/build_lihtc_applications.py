@@ -378,6 +378,30 @@ def place_county(rec: dict, cities: list[str], ctx: dict) -> dict:
     return probe
 
 
+def application_counties(rec: dict, cities: list[str], county_fips: str | None, ctx: dict) -> list[str]:
+    """Every county the application builds in, so a scattered-site application
+    shows on each county brief it touches."""
+    counties = set()
+    for c in cities:
+        if awards.norm(c) in ctx['city_spans']:
+            # the place table's one county is a guess here: each site's
+            # street address in this city places it, or the site adds none
+            if len(cities) > 1:
+                for site in rec.get('sites') or []:
+                    if site.get('address') and awards.norm(site.get('city') or '') == awards.norm(c):
+                        fips = ctx['geocode'](site['address'], c)
+                        if fips:
+                            counties.add(fips)
+            continue
+        one = {'name': None, 'location': c}
+        awards.assign_county(one, ctx['counties'], ctx['county_places'], ctx['names'])
+        if one['county_fips']:
+            counties.add(one['county_fips'])
+    if county_fips:
+        counties.add(county_fips)
+    return sorted(counties)
+
+
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def similar(a: str, b: str) -> bool:
@@ -574,17 +598,7 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
         # every place and county the application builds in, so a scattered-site
         # application shows in each jurisdiction it touches
         app['place_geoids'] = sorted({g for g in (ctx['places'].get(awards.norm(c)) for c in cities) if g})
-        counties = set()
-        for c in cities:
-            if awards.norm(c) in ctx['city_spans']:
-                continue  # the application's own county above is the evidence; the place table's is a guess
-            one = {'name': None, 'location': c}
-            awards.assign_county(one, ctx['counties'], ctx['county_places'], ctx['names'])
-            if one['county_fips']:
-                counties.add(one['county_fips'])
-        if app['county_fips']:
-            counties.add(app['county_fips'])
-        app['county_fips_all'] = sorted(counties)
+        app['county_fips_all'] = application_counties(rec, cities, app['county_fips'], ctx)
         if rec.get('sites'):
             app['sites'] = rec['sites']
         for f in ('name', 'sponsor', 'address'):
