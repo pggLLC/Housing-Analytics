@@ -9,20 +9,24 @@ tract, and La Plata County (08067) tracts were drawn near Trinidad. The
 attributes are keyed correctly (totalJobs matches lodes_co.json by geoid), so
 only the geometry is wrong.
 
-This rewrites each Point from data/market/tract_centroids_co.json (TIGER 2020
-internal points, rebuilt 2026-06-11). A feature whose geoid is not a 2020
-tract is dropped, as fetch_environmental_justice.py already does: CDC EJI 2022
-still uses some 2010 tract ids that have no single 2020 location.
+This rewrites each Point from the tract's INTPTLAT/INTPTLON in Census TIGERweb
+(Census 2020 tracts layer), read directly rather than from
+tract_centroids_co.json, whose stored point differs from TIGER for 14 tracts
+(up to 402 m). A feature whose geoid is not a 2020 tract is dropped, as
+fetch_environmental_justice.py already does: CDC EJI 2022 still uses some 2010 tract ids that have no single 2020 location.
 
 Usage: python3 scripts/market/place_tract_points.py
 Guarded by test/tract-point-placement.test.js.
 """
 import json
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CENTROIDS = ROOT / "data" / "market" / "tract_centroids_co.json"
+TIGERWEB = ("https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/"
+            "tigerWMS_Census2020/MapServer/6/query")
 LAYERS = [
     ROOT / "data" / "market" / "employment_centers_co.geojson",
     ROOT / "data" / "market" / "environmental_constraints_co.geojson",
@@ -30,8 +34,20 @@ LAYERS = [
 
 
 def main():
-    tracts = json.loads(CENTROIDS.read_text())["tracts"]
-    points = {t["geoid"]: [round(t["lon"], 4), round(t["lat"], 4)] for t in tracts}
+    query = urllib.parse.urlencode({
+        "where": "STATE='08'", "outFields": "GEOID,INTPTLAT,INTPTLON",
+        "returnGeometry": "false", "resultRecordCount": 2000, "f": "json",
+    })
+    with urllib.request.urlopen(f"{TIGERWEB}?{query}", timeout=120) as resp:
+        payload = json.load(resp)
+    if payload.get("exceededTransferLimit"):
+        raise SystemExit("TIGERweb truncated the tract list; page the query")
+    points = {
+        a["GEOID"]: [round(float(a["INTPTLON"]), 4), round(float(a["INTPTLAT"]), 4)]
+        for a in (f["attributes"] for f in payload["features"])
+    }
+    if len(points) != 1447:
+        raise SystemExit(f"expected 1447 Colorado tracts from TIGERweb, got {len(points)}")
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     for path in LAYERS:
@@ -53,7 +69,7 @@ def main():
             meta["high_risk_tracts"] = cats.count("high")
             meta["moderate_risk_tracts"] = cats.count("moderate")
         meta["points_placed"] = {
-            "source": "data/market/tract_centroids_co.json (TIGER 2020 internal points)",
+            "source": f"Census TIGERweb Census 2020 tracts, INTPTLAT/INTPTLON ({TIGERWEB})",
             "placed": stamp,
             "dropped_not_2020_tracts": dropped,
             "script": "scripts/market/place_tract_points.py",
