@@ -162,3 +162,49 @@ def test_a_property_listing_is_not_news(geos):
     ], geos)
     assert [s['title'] for s in stories] == ['Carbondale council approves affordable housing lease']
     assert counts['out_of_scope'] == 2
+
+
+def test_yuma_needs_colorado_context(geos):
+    stories, _ = gpb.build_stories([
+        alert('Gov. Hobbs highlights Yuma apartments as model for affordable housing', 'AZ Family'),
+        alert('Yuma apartments praised as model for affordable housing', 'KAWC'),
+        alert('Yuma, Colorado council weighs new rental housing', 'Fort Morgan Times'),
+    ], geos)
+    titles = [s['title'] for s in stories]
+    assert titles == ['Yuma, Colorado council weighs new rental housing']
+
+
+def test_briefs_summarise_only_headlines_the_stories_keep(geos):
+    alerts = [
+        alert('Gov. Hobbs highlights Yuma apartments as model for affordable housing', 'AZ Family'),
+        alert('Yorkshire Water sewer capacity threatens new homes and funding, says councillor',
+              'Richmondshire Today', topic='infrastructure'),
+        alert('Alders want review of inclusionary housing ordinance', 'Evanston Now', topic='policy'),
+        alert('Salida asks Buena Vista for Proposition 123 housing credits', 'The Mountain Mail',
+              topic='policy'),
+        {'title': 'Tool watch item', 'source': 'x', 'date': '2026-09-20', 'topic': 'tool_watch'},
+    ]
+    kept = gpb.in_scope_alerts(alerts, geos)
+    stories, _ = gpb.build_stories(alerts, geos)
+    # The scan found something to keep and something to drop.
+    assert 0 < len(kept) < len(alerts)
+    story_titles = {s['title'] for s in stories}
+    for a in kept:
+        if a['topic'] == 'tool_watch':
+            continue
+        headline, _src = gpb.split_title(a['title'], a['source'])
+        assert headline in story_titles
+    assert not any('Yuma' in a['title'] or 'Richmondshire' in a['title'] or 'Evanston' in a['title']
+                   for a in kept)
+
+
+def test_a_colorado_headline_naming_another_state_stays_in_briefs_and_stories(geos):
+    kept = alert('Colorado lawmakers borrow Oregon zoning reforms', 'Patch')
+    dropped = alert('Oregon lawmakers pass zoning reforms', 'Patch')
+    town_elsewhere = alert('Aurora, Illinois approves housing plan', 'Patch')
+    stories, _ = gpb.build_stories([kept, dropped, town_elsewhere], geos)
+    s = by_title(stories)
+    assert 'Colorado lawmakers borrow Oregon zoning reforms' in s
+    assert 'Oregon lawmakers pass zoning reforms' not in s
+    assert 'Aurora, Illinois approves housing plan' not in s
+    assert gpb.in_scope_alerts([kept, dropped, town_elsewhere], geos) == [kept]

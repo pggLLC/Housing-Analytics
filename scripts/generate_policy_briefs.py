@@ -229,7 +229,7 @@ OTHER_STATE_RE = re.compile(
     r'maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|'
     r'idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|'
     r'seattle|portland|burbank|felton|tulsa|indianapolis|trumann|newport|reese apartments|'
-    r'streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog)\b', re.I)
+    r'streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog|az ?family)\b', re.I)
 COLORADO_RE = re.compile(
     r'\b(colorado|colo\.|chfa|dola|cdola|gov\.colorado|cdle|front range|western slope|'
     r'san luis valley|eastern plains|prop(?:osition)?\s*123)\b', re.I)
@@ -266,6 +266,7 @@ AMBIGUOUS_PLACE_NAMES = {
     'Lafayette', 'Louisville', 'Brighton', 'Eaton', 'Kiowa', 'Laporte', 'Redlands', 'Derby',
     'Eagle', 'Garfield', 'Elbert', 'Pitkin', 'Moffat', 'Montezuma', 'Conejos', 'Arapahoe',
     'Kit Carson', 'Stonegate', 'Security-Widefield', 'Dinosaur', 'Silt', 'Loma', 'Rye',
+    'Yuma',
 }
 # Counties whose name is unique to Colorado, so "<name> County" alone places a
 # story in Colorado. Every other Colorado county name also names a county in
@@ -412,6 +413,12 @@ def norm_title(t: str) -> str:
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     """'colorado', 'federal', or None (another state's news, or not housing policy)."""
     hay = f'{title} {source}'
+    # A headline that says Colorado outright is Colorado news even when it names
+    # another state ("Colorado lawmakers borrow Oregon zoning reforms"). Only the
+    # headline counts here: a bare town name ("Aurora, Illinois") or a Colorado
+    # outlet carrying another state's story still falls to OTHER_STATE_RE.
+    if COLORADO_RE.search(title):
+        return 'colorado'
     if OTHER_STATE_RE.search(hay):
         return None
     if distinct_place or COLORADO_RE.search(hay):
@@ -449,6 +456,28 @@ LISTING_SOURCE_RE = re.compile(
 LISTING_TITLE_RE = re.compile(r'^\d+\s+\S.*,\s*CO\s+8\d{4}\b')
 
 
+def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
+    """(scope, headline, publisher, places) for one alert; scope None means out of scope.
+
+    The briefs and the stories use this one rule, so a brief never summarises a
+    headline the Housing News page left out as another state's news.
+    """
+    title, source = split_title(a.get('title', ''), a.get('source', ''))
+    if not title:
+        return None, title, source, []
+    places, distinct = find_places(title, geos, source)
+    scope = story_scope(title, source, distinct)
+    if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
+        scope = None
+    return scope, title, source, places
+
+
+def in_scope_alerts(alerts: list[dict], geos: dict) -> list[dict]:
+    """The alerts a brief may summarise: tool-watch items plus every in-scope headline."""
+    return [a for a in alerts
+            if a.get('topic') == 'tool_watch' or alert_scope(a, geos)[0] is not None]
+
+
 def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[dict], dict]:
     """Every in-scope alert as a story, newest first, same headlines merged.
 
@@ -462,13 +491,9 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
         if a.get('topic') == 'tool_watch':
             continue
         counts['alerts'] += 1
-        title, source = split_title(a.get('title', ''), a.get('source', ''))
+        scope, title, source, places = alert_scope(a, geos)
         if not title:
             continue
-        places, distinct = find_places(title, geos, source)
-        scope = story_scope(title, source, distinct)
-        if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
-            scope = None
         if scope is None:
             counts['out_of_scope'] += 1
             continue
@@ -641,8 +666,11 @@ def main() -> int:
     if tool_alerts:
         alerts.extend(tool_alerts)
 
-    print(f'Generating policy briefs from {len(alerts)} alert(s)…')
-    groups = group_alerts_by_topic(alerts)
+    geos = load_geographies()
+    brief_alerts = in_scope_alerts(alerts, geos)
+    print(f'Generating policy briefs from {len(brief_alerts)} in-scope alert(s) '
+          f'of {len(alerts)}…')
+    groups = group_alerts_by_topic(brief_alerts)
 
     # Sort topics by alert count (most active topics first)
     sorted_topics = sorted(groups.items(), key=lambda kv: len(kv[1]), reverse=True)
@@ -667,7 +695,7 @@ def main() -> int:
     else:
         print('  OPENAI_API_KEY not set — using rule-based mode')
 
-    stories, story_counts = build_stories(alerts)
+    stories, story_counts = build_stories(alerts, geos)
     print(f'  Stories: {len(stories)} ({story_counts["merged"]} duplicate headline(s) merged, '
           f'{story_counts["out_of_scope"]} out of scope)')
 
