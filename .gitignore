@@ -70,3 +70,7 @@ dist-whitepapers/
 # Private working files (network contacts, pipeline, signal log). The gated deploy copies
 # them in from the private workspace; they must never be committed (private-workspace.js).
 docs/developer-pipeline-prototype/
+# Researched contacts and local landscape per place live in the private coho-backend
+# repo (gated/data/jurisdiction-briefs/), which the gated deploy lays over this build.
+data/jurisdiction-briefs/_contacts/
+data/jurisdiction-briefs/_landscape/
