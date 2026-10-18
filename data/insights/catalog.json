@@ -169,6 +169,17 @@
       "review_from": { "file": "data/policy/homeownership-programs.json" }
     },
     {
+      "id": "housing-authority-guide",
+      "section": "reference",
+      "type": "Guide",
+      "title": "Starting a Housing Authority",
+      "url": "housing-authority-guide.html",
+      "summary": "How a Colorado city, town or county creates a housing authority, why a working authority needs a board with real estate, finance and legal skills, and how its property and sales tax exemptions work for the contractor and each subcontractor, each step cited to statute or Department of Revenue guidance.",
+      "sources": ["C.R.S. Title 29", "Colorado Department of Revenue", "HUD"],
+      "maintenance": "dated",
+      "published": "2026-10-18"
+    },
+    {
       "id": "colorado-deep-dive",
       "section": "data",
       "type": "Data exploration",
