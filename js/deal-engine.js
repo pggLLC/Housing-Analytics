@@ -1229,10 +1229,11 @@
       addedCredit.gapAfter = creditStack.counted && Number.isFinite(gapBeforeDeferred) ? gapBeforeDeferred : null;
     }
     // Investors pay in the gross equity; their fees come out before the project gets it.
-    // The state credit's fees follow the share of its equity still in the sources.
+    // The state credit's fees follow the share of its annual credit still in the sources.
     var stateFees = stateCreditApplies && stateCredit.equity !== null ? stateCredit.fees || 0 : 0;
-    creditStack.investorFees = (stateEquity > 0 ? stateFees * creditStack.state / stateEquity : stateFees)
-      + (creditStack.counted ? addedCredit.fees : 0);
+    var stateShare = creditStack.counted && displacedChoice === 'state' && addedCredit.mode === 'substitute' && stateCredit.allowedAnnual > 0
+      ? 1 - parseFloat(fields['dc-add-displaced-annual']) / stateCredit.allowedAnnual : 1;
+    creditStack.investorFees = stateFees * stateShare + (creditStack.counted ? addedCredit.fees : 0);
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));

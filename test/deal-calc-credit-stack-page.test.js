@@ -175,6 +175,12 @@ function enterAdded(p, over) {
     const r = p.w.__DealCalc.getResult();
     assert.equal(r.costBasis.addedCredit.displaced, r.stateEquity, 'the displaced equity is the state equity in the stack');
     assert(Math.abs(r.costBasis.addedCredit.net - 20000) < 0.01, 'net ' + r.costBasis.addedCredit.net);
+    // Fully replaced, the state credit's investor pays nothing in, even when its fees take all its equity.
+    assert.equal(r.creditStack.investorFees, 0);
+    setField(p, 'dc-state-fees', fx.state.expectedEquity);
+    const all = p.w.__DealCalc.getResult();
+    assert.equal(all.stateEquity, 0, 'non-vacuous: fees equal to the gross leave $0 state equity');
+    assert.equal(all.creditStack.investorFees, 0);
     assert.deepEqual(p.errors, []);
   });
 
