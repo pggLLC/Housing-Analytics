@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T05:50:35.082885Z",
+  "generated": "2026-10-18T06:32:59.368929Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8674,7 +8674,7 @@
     "data/tax-abatement-inventory.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23144
+      "bytes": 24390
     },
     "data/url-health.json": {
       "featureCount": 0,

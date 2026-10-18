@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T05:50:31.163Z",
+    "generated_at": "2026-10-18T06:32:56.979Z",
     "root": "data/",
     "file_count": 1748,
-    "total_size_bytes": 192365004,
+    "total_size_bytes": 192366250,
     "kinds": {
       "json": 1703,
       "geojson": 33,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T05:50:26.555Z",
+      "mtime": "2026-10-18T06:32:53.787Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32618,7 +32618,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16095,
-      "mtime": "2026-10-18T05:50:28.504Z",
+      "mtime": "2026-10-18T06:32:55.445Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32642,7 +32642,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T05:50:28.013Z",
+      "mtime": "2026-10-18T06:32:55.008Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -36040,8 +36040,8 @@
     {
       "path": "tax-abatement-inventory.json",
       "kind": "json",
-      "size_bytes": 23144,
-      "mtime": "2026-09-26T06:30:24.784Z",
+      "size_bytes": 24390,
+      "mtime": "2026-10-18T06:32:14.776Z",
       "shape": "object",
       "keys": [
         "metadata",
