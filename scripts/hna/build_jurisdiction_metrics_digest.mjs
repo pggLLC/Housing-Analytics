@@ -88,6 +88,15 @@ function acsAsOf(summary) {
   return acsVintageLabel(acs._acsYear, acs._acsSeries) || VINTAGES.acsDefault;
 }
 
+/**
+ * The vintage of a B-series detail table in the summary (B25003, B25075).
+ * build_hna_data.py fetches those from the ACS 5-year only, so a 1-year
+ * profile's series stamp does not describe them.
+ */
+function acs5AsOf(summary) {
+  return acsVintageLabel(summary?.acsProfile?._acsYear, 'acs5') || VINTAGES.acsDefault;
+}
+
 function chasAsOf(chasSource) {
   return chasSource === 'place' ? VINTAGES.chasPlace : VINTAGES.chasCounty;
 }
@@ -638,7 +647,7 @@ function ownershipStockAffordabilityMetrics(entry, acs, amiGap) {
     'acs-b25075',
     'owner_occupied_housing_units',
     denominator,
-    acsVintageLabel(acs?._acsYear, acs?._acsSeries) || VINTAGES.acsDefault,
+    acs5AsOf({ acsProfile: acs }),
   );
   return {
     pct_owner_stock_affordable_80ami: metric(0.80),
@@ -700,7 +709,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-b25003',
       'occupied_housing_units',
       acs.B25003_001E,
-      acsAsOf(summary),
+      acs5AsOf(summary),
     ),
   };
 }

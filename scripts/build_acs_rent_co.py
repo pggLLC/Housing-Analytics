@@ -55,6 +55,7 @@ def build_artifact(summary_dir=SUMMARY_DIR, geographies=GEOGRAPHIES):
         'acs_year': 2024,
         'notes': 'Each row is the published median for that geography. Suppressed or missing estimates stay null with a reason; no county or tract value is substituted.'
     }, 'counties': {}, 'places': {}}
+    on_vintage = 0
     for kind in ('counties', 'places', 'cdps'):
         for geo in config[kind]:
             geoid = geo['geoid']
@@ -65,7 +66,11 @@ def build_artifact(summary_dir=SUMMARY_DIR, geographies=GEOGRAPHIES):
             if profile is None:
                 profile, reason = {}, 'acs5_estimate_not_in_summary'
             elif str(profile.get('_acsYear')) != '2024' or profile.get('_acsSeries') != 'acs5':
-                raise ValueError(f'{geoid}: B25064 summary must be 2020–2024 ACS 5-year')
+                # A profile that fell back to an older year is not this
+                # file's 2020–2024 figure; it waits for the next build.
+                profile, reason = {}, 'acs5_2024_not_in_summary'
+            else:
+                on_vintage += 1
             rent = number(profile.get('DP04_0134E'))
             rent = int(rent) if rent is not None and rent > 0 else None
             row = {
@@ -77,6 +82,9 @@ def build_artifact(summary_dir=SUMMARY_DIR, geographies=GEOGRAPHIES):
                 'unavailable_reason': reason if rent is None else None
             }
             result['counties' if kind == 'counties' else 'places'][geoid] = row
+    if not on_vintage:
+        # Every summary on another vintage means the meta above is out of date.
+        raise ValueError('no summary is 2020–2024 ACS 5-year; update this file\'s vintage')
     result['meta']['scope'] = f"Colorado: {len(result['counties'])} counties, {len(result['places'])} places and CDPs (including unavailable rows)"
     return result
 

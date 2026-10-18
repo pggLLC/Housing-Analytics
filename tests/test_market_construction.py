@@ -6,6 +6,8 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -33,8 +35,8 @@ def test_acs_every_published_place_and_county_median():
         for geo in config[kind]:
             geoid = geo['geoid']
             p = acs.five_year_profile(read('data/hna/summary/' + geoid + '.json')) or {}
-            if p:
-                assert str(p['_acsYear']) == '2024' and p['_acsSeries'] == 'acs5'
+            if not (str(p.get('_acsYear')) == '2024' and p.get('_acsSeries') == 'acs5'):
+                p = {}  # another vintage is published as unavailable
             expected = p.get('DP04_0134E')
             if expected is not None and expected <= 0:
                 expected = None
@@ -64,6 +66,9 @@ def test_a_one_year_summary_contributes_its_five_year_twin_only(tmp_path):
         '08005': {'acsProfile': one_year},
         '08003': {'acsProfile': {'_acsYear': 2024, '_acsSeries': 'acs5', 'DP04_0134E': 900,
                                  'DP04_0047E': 2000}},
+        # A profile that fell back a year is not a 2020-2024 figure.
+        '08007': {'acsProfile': {'_acsYear': '2023', '_acsSeries': 'acs5', 'DP04_0134E': 850,
+                                 'DP04_0047E': 1900}},
     }
     for geoid, summary in rows.items():
         (summaries / (geoid + '.json')).write_text(json.dumps(summary))
@@ -76,6 +81,15 @@ def test_a_one_year_summary_contributes_its_five_year_twin_only(tmp_path):
     assert out['08005']['median_gross_rent'] is None
     assert out['08005']['unavailable_reason'] == 'acs5_estimate_not_in_summary'
     assert out['08003']['median_gross_rent'] == 900
+    assert out['08007']['median_gross_rent'] is None
+    assert out['08007']['unavailable_reason'] == 'acs5_2024_not_in_summary'
+    # The file refuses only when no summary is on its vintage at all.
+    for geoid in ('08001', '08003'):
+        (summaries / (geoid + '.json')).unlink()
+    config.write_text(json.dumps({'counties': [{'geoid': g, 'label': g} for g in ('08005', '08007')],
+                                  'places': [], 'cdps': []}))
+    with pytest.raises(ValueError):
+        acs.build_artifact(summaries, config)
 
 
 def test_every_zip_place_weight_uses_homes_not_acres():

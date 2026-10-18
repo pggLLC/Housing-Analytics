@@ -322,3 +322,17 @@ def test_a_one_year_figure_carries_its_five_year_twin():
     assert doc["geos"][big]["DP05_0001E"]["five"]["m"] == 0.0
     assert "five" not in doc["geos"][small]["DP04_0134E"]
     assert "five" in doc["meta"]["fields"]
+
+
+def test_a_geography_that_fell_back_a_year_does_not_stop_the_build():
+    # build_hna_data.py stamps the year each profile came from; one that fell
+    # back to 2023 sits among 2024 ones, and its year is fetched from here.
+    import pytest
+    sums = {"0800010": summary(), "0800011": {"acsProfile": {"_acsYear": "2023"}}}
+    assert mod.vintage_of(sums) == 2024
+    assert 2023 in mod.fallback_years(mod.vintage_of(sums))
+    # Years further apart than the fallback window are not a fallback.
+    with pytest.raises(SystemExit):
+        mod.vintage_of({**sums, "0800012": {"acsProfile": {"_acsYear": "2019"}}})
+    with pytest.raises(SystemExit):
+        mod.vintage_of({"0800013": {"acsProfile": {}}})

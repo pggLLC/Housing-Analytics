@@ -240,6 +240,9 @@ function summaryAcs(geoid) {
           // A home value's as_of is the cascade's own (ACS raw, or adjusted).
           const home = acs && acs.median_home_value;
           if ((key === 'median_home_value' || key === 'home_value_to_income') && home && home.as_of) want = home.as_of;
+          // A B-series detail table (B25003, B25075) is fetched from the ACS
+          // 5-year only (build_hna_data.py), whatever the profile's series.
+          else if (src.startsWith('acs-b')) want = acs ? acsLabel(acs._acsYear, 'acs5') : null;
           else want = acsWant;
           cls = 'acs';
         }

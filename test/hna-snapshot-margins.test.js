@@ -336,10 +336,13 @@ const line = (id) => document.getElementById(id);
     const rent = FILE.geos[g].DP04_0134E;
     const burden = FILE.geos[g].rent_burden_30plus;
     const pop = FILE.geos[g].DP05_0001E;
+    // Income is the card with no twin, so a real one from a margins build is dropped.
+    const { five: _realTwin, ...income } = FILE.geos[g].DP03_0062E;
     const twins = {
       DP04_0134E: Object.assign({}, rent, { five: { e: rent.e - 89, m: 22, s: 'acs5', y: rent.y, cv: 0.0075, t: 'good' } }),
       rent_burden_30plus: Object.assign({}, burden, { five: { e: burden.e + 2.5, m: 3.9, s: 'acs5', y: burden.y, cv: 0.2, t: 'fair' } }),
       DP05_0001E: Object.assign({}, pop, { five: { e: pop.e, m: 0, s: 'acs5', y: pop.y, cv: 0, t: 'good' } }),
+      DP03_0062E: income,
     };
     AR._setFile(Object.assign({}, FILE, {
       geos: Object.assign({}, FILE.geos, { [g]: Object.assign({}, FILE.geos[g], twins) }),

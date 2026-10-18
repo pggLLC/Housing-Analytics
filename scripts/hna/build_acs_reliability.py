@@ -396,14 +396,21 @@ def summaries():
 
 
 def vintage_of(all_summaries):
+    """The newest ACS year the summaries are stamped with. A geography whose
+    profile fell back to an older year keeps that stamp; its year is among the
+    fallback years fetched from here, so matching still finds its figures."""
     years = set()
     for s in all_summaries.values():
         y = (s.get("acsProfile") or {}).get("_acsYear")
         if y is not None and str(y).isdigit() and len(str(y)) == 4:
             years.add(int(y))
-    if len(years) != 1:
-        raise SystemExit(f"summaries carry ACS years {sorted(years)}; expected exactly one")
-    return years.pop()
+    if not years:
+        raise SystemExit("summaries carry no ACS year")
+    newest = max(years)
+    if not years <= set(fallback_years(newest)):
+        raise SystemExit(f"summaries carry ACS years {sorted(years)}; "
+                         f"more than build_hna_data.py's fallback window from {newest}")
+    return newest
 
 
 def build(all_summaries, year, key, getter=census_get):

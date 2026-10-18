@@ -79,7 +79,7 @@ def test_fetch_acs_profile_runs_both_batches_and_merges():
     src = _source()
     assert "_fetch_batch(vars_a)" in src, \
         "fetch_acs_profile must call _fetch_batch with vars_a"
-    assert "_fetch_batch(vars_b)" in src, \
+    assert "_fetch_batch(vars_b" in src, \
         "fetch_acs_profile must call _fetch_batch with vars_b"
     # When B fails, A's data should still be returned (i.e. there's a
     # 'b is None' branch that doesn't abort the whole function).

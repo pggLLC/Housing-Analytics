@@ -1171,10 +1171,17 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
             for i in range(len(result[0]))
         }
 
-    def _fetch_batch(batch_vars: list[str]) -> tuple[dict, tuple[int, str]] | None:
-        """Try ACS1/profile → ACS5/profile for each year in the fallback window.
+    def _fetch_batch(batch_vars: list[str], first: tuple[int, str] | None = None
+                     ) -> tuple[dict, tuple[int, str]] | None:
+        """Try ACS1/profile → ACS5/profile for each year in the fallback window,
+        after `first` (batch A's source) when given, so every batch comes from
+        the year and series the profile is stamped with whenever it can.
         Returns ({var: value}, (year, series)) on first success, None if all
         attempts fail."""
+        if first is not None:
+            values = _fetch_from(first[0], first[1], batch_vars)
+            if values is not None:
+                return values, first
         for year in years_to_try:
             for series in ('acs1', 'acs5'):
                 values = _fetch_from(year, series, batch_vars)
@@ -1211,8 +1218,11 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     # 65,000 or more, the 5-year otherwise. Before 2026-10-18 nothing here
     # stamped it, so the extended backfill's "acs5" stood on 33 geographies
     # whose figures are 1-year. It covers the profile batches this function
-    # fetches; the B-series tenure/race supplement and the fields only
-    # backfill_hna_extended_acs_cache.mjs fetches are 5-year whatever it says.
+    # fetches, which ask batch A's source first and log any that could not
+    # come from it. The B-series tenure/race supplement (B25003, B25075) and
+    # the fields only backfill_hna_extended_acs_cache.mjs fetches are 5-year
+    # whatever it says; build_jurisdiction_metrics_digest.mjs labels the
+    # B-series metrics 5-year for that reason.
     merged['_acsYear'] = str(source[0])
     merged['_acsSeries'] = source[1]
     if source[1] == 'acs1':
@@ -1230,7 +1240,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                   f"{got_source[1]} {got_source[0]}, not the stamped {source[1]} {source[0]}",
                   file=sys.stderr)
 
-    got_b = _fetch_batch(vars_b)
+    got_b = _fetch_batch(vars_b, source)
     b = None
     if got_b is not None:
         b, b_source = got_b
@@ -1247,7 +1257,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         ('D', vars_d, 'household composition / occupation / labor-force / race / education panels'),
     ]
     for label, batch_vars, description in supplements:
-        got = _fetch_batch(batch_vars)
+        got = _fetch_batch(batch_vars, source)
         supplement = None
         if got is not None:
             supplement, got_source = got

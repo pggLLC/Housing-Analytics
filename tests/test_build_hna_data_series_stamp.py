@@ -27,10 +27,11 @@ import fetch_census_state_hna as state  # noqa: E402
 FIXED_TIME = "2026-10-18T12:00:00Z"
 
 
-def census(answers):
+def census(answers, refuse=()):
     """http_get_json that answers a profile request from answers[(year, series)]
     with every requested variable set to that source's value, and returns None
-    (the ACS 1-year's "no content") for anything else."""
+    (the ACS 1-year's "no content") for anything else, or for a request naming
+    a variable in refuse[(year, series)]."""
     def get(url, *args, **kwargs):
         year = int(url.split("/data/")[1].split("/")[0])
         series = "acs1" if "/acs/acs1/" in url else "acs5"
@@ -38,13 +39,15 @@ def census(answers):
         if value is None or "/profile?" not in url:
             return None
         names = url.split("get=")[1].split("&")[0].split(",")
+        if set(names) & set(dict(refuse).get((year, series), ())):
+            return None
         return [names, [value if n != "NAME" else "Somewhere" for n in names]]
     return get
 
 
-def fetch(answers, geo_type="county", geoid="08031"):
+def fetch(answers, geo_type="county", geoid="08031", refuse=()):
     with (
-        mock.patch.object(hna, "http_get_json", side_effect=census(answers)),
+        mock.patch.object(hna, "http_get_json", side_effect=census(answers, refuse)),
         mock.patch.object(hna, "_acs5_detail_tenure_for_geo", return_value=None),
     ):
         return hna.fetch_acs_profile(geo_type, geoid)
@@ -66,6 +69,18 @@ def test_a_five_year_profile_is_stamped_5_year_with_no_twin():
     # A fallback year is stamped as the year that answered.
     profile = fetch({(2023, "acs5"): "880"}, "place", "0803455")
     assert (profile["_acsYear"], profile["_acsSeries"]) == ("2023", "acs5")
+
+
+def test_later_batches_come_from_the_stamped_source_first():
+    # Batch A's 1-year request fails, so it settles on the 5-year. The other
+    # batches would answer from the 1-year if asked in the usual order; they
+    # ask batch A's source first, so the profile is all one series.
+    profile = fetch({(2024, "acs1"): "10", (2024, "acs5"): "20"},
+                    refuse={(2024, "acs1"): ("DP05_0001E",)})
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2024", "acs5")
+    mixed = sorted(k for k, v in profile.items() if v == "10")
+    assert mixed == [], f"fields from the 1-year under a 5-year stamp: {mixed[:5]}"
+    assert len([v for v in profile.values() if v == "20"]) > 60
 
 
 def test_the_series_stamp_survives_normalization():
