@@ -1176,7 +1176,7 @@
       maxAgeDays: 14,
       geoUnit: 'National / Metro',
       coverage: 'National',
-      features: 1,
+      features: 7,
       description: 'Four illustrative seed prediction-market items for housing indicators. This committed file is not a live Kalshi market feed.',
       tags: ['kalshi', 'prediction-markets', 'housing'],
       apiEndpoint: 'https://api.kalshi.com/trade-api/v2/markets'

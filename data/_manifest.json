@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-18T20:45:35.335Z",
+    "generated_at": "2026-10-18T23:47:40.439Z",
     "root": "data/",
     "file_count": 1752,
-    "total_size_bytes": 191811710,
+    "total_size_bytes": 191896597,
     "kinds": {
       "json": 1706,
       "geojson": 34,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-18T20:45:32.453Z",
+      "mtime": "2026-10-18T23:47:36.626Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30204,8 +30204,8 @@
     {
       "path": "jurisdiction-briefs/0827425.json",
       "kind": "json",
-      "size_bytes": 33304,
-      "mtime": "2026-10-18T16:03:39.388Z",
+      "size_bytes": 33356,
+      "mtime": "2026-10-18T23:47:08.007Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -30511,8 +30511,8 @@
     {
       "path": "jurisdiction-briefs/_liveness.json",
       "kind": "json",
-      "size_bytes": 279251,
-      "mtime": "2026-09-27T20:46:09.706Z",
+      "size_bytes": 350092,
+      "mtime": "2026-10-18T23:47:08.008Z",
       "shape": "object",
       "keys": [
         "summary",
@@ -30520,7 +30520,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "records",
-      "primary_array_length": 754,
+      "primary_array_length": 918,
       "primary_array_first_keys": [
         "geoid",
         "jurisdiction",
@@ -30575,8 +30575,8 @@
     {
       "path": "jurisdiction-briefs/_verification-plan.json",
       "kind": "json",
-      "size_bytes": 180888,
-      "mtime": "2026-09-25T12:55:18.820Z",
+      "size_bytes": 180965,
+      "mtime": "2026-10-18T23:47:08.009Z",
       "shape": "object",
       "keys": [
         "rows",
@@ -30885,8 +30885,8 @@
     {
       "path": "jurisdiction-briefs/_verified/0827425.json",
       "kind": "json",
-      "size_bytes": 21824,
-      "mtime": "2026-10-18T16:03:39.391Z",
+      "size_bytes": 22278,
+      "mtime": "2026-10-18T23:47:08.009Z",
       "shape": "object",
       "keys": [
         "brief_geoid",
@@ -31105,8 +31105,8 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 1450,
-      "mtime": "2026-10-18T08:40:52.896Z",
+      "size_bytes": 11222,
+      "mtime": "2026-10-18T23:47:08.009Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31115,11 +31115,12 @@
       ],
       "key_count": 3,
       "primary_array_key": "items",
-      "primary_array_length": 1,
+      "primary_array_length": 7,
       "primary_array_first_keys": [
         "metric",
         "label",
         "horizon",
+        "note",
         "market",
         "outcomes"
       ]
@@ -32708,7 +32709,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-18T20:45:33.783Z",
+      "mtime": "2026-10-18T23:47:38.536Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32732,7 +32733,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-18T20:45:33.451Z",
+      "mtime": "2026-10-18T23:47:38.062Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35167,8 +35168,8 @@
     {
       "path": "policy/lihtc-underwriting-rules.json",
       "kind": "json",
-      "size_bytes": 13025,
-      "mtime": "2026-10-17T01:35:22.064Z",
+      "size_bytes": 14793,
+      "mtime": "2026-10-18T23:45:59.277Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35714,8 +35715,8 @@
     {
       "path": "polymarket-curated.json",
       "kind": "json",
-      "size_bytes": 4279,
-      "mtime": "2026-10-07T01:40:42.454Z",
+      "size_bytes": 6202,
+      "mtime": "2026-10-18T23:47:08.011Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35723,7 +35724,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "events",
-      "primary_array_length": 8,
+      "primary_array_length": 12,
       "primary_array_first_keys": [
         "slug",
         "key",
@@ -35957,7 +35958,7 @@
       "path": "reports/data-source-health.json",
       "kind": "json",
       "size_bytes": 7833,
-      "mtime": "2026-09-27T20:46:10.209Z",
+      "mtime": "2026-10-18T23:47:08.011Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -36079,7 +36080,7 @@
       "path": "source-registry.json",
       "kind": "json",
       "size_bytes": 6362,
-      "mtime": "2026-09-27T20:46:10.214Z",
+      "mtime": "2026-10-18T23:47:08.011Z",
       "shape": "object",
       "keys": [
         "generated_at",
