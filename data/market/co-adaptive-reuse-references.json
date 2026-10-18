@@ -169,8 +169,8 @@
       ],
       "references": [
         {"name": "EPA Brownfields Program", "url": "https://www.epa.gov/brownfields"},
-        {"name": "Colorado Voluntary Cleanup Program", "url": "https://cdphe.colorado.gov/voluntary-cleanup-program"},
-        {"name": "DOLA Brownfields Coalition", "url": "https://cdola.colorado.gov/brownfields-revolving-loan-fund"}
+        {"name": "Colorado Voluntary Cleanup and Redevelopment Program (CDPHE)", "url": "https://cdphe.colorado.gov/hm/voluntary-cleanup"},
+        {"name": "Colorado Brownfields Revolving Loan Fund (CDPHE)", "url": "https://cdphe.colorado.gov/hm/brownfields"}
       ]
     }
   },

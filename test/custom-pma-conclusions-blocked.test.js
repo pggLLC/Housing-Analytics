@@ -249,7 +249,15 @@ function assertRestored(w, saved) {
   assert.ok(w.document.getElementById('lihtcExportConceptBtn'), 'valid saved concept has no export');
   assert.strictEqual(w.document.getElementById('pmaExplainScoreBtn').hidden, false);
   assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, false);
+  // The score card is not saved. Its line must not invite a first site pick,
+  // and must name the page's own run button.
+  const tier = w.document.getElementById('pmaScoreTier').textContent;
+  assert.ok(!/select a site/i.test(tier), 'restored run still says: ' + tier);
+  assert.ok(tier.includes(RUN_BUTTON_LABEL), 'restored score line does not name "' + RUN_BUTTON_LABEL + '": ' + tier);
 }
+const RUN_BUTTON_LABEL = (fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8')
+  .match(/id="pmaRunBtn"[^>]*>([^<]+)</) || [])[1];
+assert.ok(RUN_BUTTON_LABEL, 'market-analysis.html run button label not found');
 
 test('a valid saved custom PMA restores its narrative, explanation and audit export', () => {
   const w = page();

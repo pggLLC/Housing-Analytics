@@ -5,7 +5,7 @@ import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-import { contentDate, isShallow, isDirty } from '../scripts/audit/content-date.mjs';
+import { contentDate, embeddedStamp, isShallow, isDirty } from '../scripts/audit/content-date.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 let failures = 0;
@@ -117,6 +117,41 @@ run('the live inventory freshness signal is not vacuous', () => {
   assert.ok(distinct >= 5,
     'only ' + distinct + ' distinct lastUpdated dates across ' + dates.length +
     ' sources — the freshness signal has gone vacuous again (#1597)');
+});
+
+run('a file\'s own fetch stamp is read at the top level or under meta, fetch before build before as_of', () => {
+  const write = (name, doc) => { const p = path.join(repo, name); fs.writeFileSync(p, JSON.stringify(doc)); return p; };
+  assert.equal(embeddedStamp(write('a.json', { fetchedAt: '2026-04-09T10:00:00Z', as_of: '2026-01-01' })), '2026-04-09T10:00:00Z');
+  assert.equal(embeddedStamp(write('b.json', { meta: { generated: '2026-04-09T10:00:00Z' } })), '2026-04-09T10:00:00Z');
+  assert.equal(embeddedStamp(write('c.json', { metadata: { as_of: '2026-06-30' } })), '2026-06-30');
+  assert.equal(embeddedStamp(write('d.json', { a: 1 })), null, 'no stamp: the caller falls back to git');
+  assert.equal(embeddedStamp(write('e.json', { generated: 'soon' })), null, 'a non-date is not a stamp');
+  assert.equal(embeddedStamp(write('f.json', { generated: '2026-10-01 draft' })), null, 'a date with trailing text is not a stamp');
+  assert.equal(embeddedStamp(write('g.json', { generated: '2026-02-31' })), null, 'an impossible date is not a stamp');
+  assert.equal(embeddedStamp(write('g2.json', { generated: '2026-02-31T10:00:00Z' })), null, 'an impossible date inside a timestamp is not a stamp');
+  assert.equal(embeddedStamp(write('g3.json', { generated: '2026-04-09T24:30:00Z' })), null, 'an impossible time is not a stamp');
+  assert.equal(embeddedStamp(write('h.json', { generated: '2026-04-09T10:00:00.123456+00:00' })), '2026-04-09T10:00:00Z', 'a timestamp is normalised to UTC seconds');
+  assert.equal(embeddedStamp(write('i.json', { generated: '2026-10-01 draft', as_of: '2026-06-30' })), '2026-06-30', 'a malformed stamp falls through to the next key');
+  assert.equal(embeddedStamp(path.join(repo, 'x.csv')), null, 'only JSON files carry stamps');
+});
+
+// Both data-status generators use the stamp before git, so a re-serialised file
+// cannot read as freshly fetched on either public surface.
+run('both freshness generators prefer the file\'s own stamp over its commit', () => {
+  for (const rel of ['scripts/audit/refresh-inventory-mtimes.mjs', 'scripts/audit/sync-manifest-mtimes.mjs']) {
+    const src = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+    const stampAt = src.indexOf('embeddedStamp(abs)');
+    assert.ok(stampAt > 0, rel + ' does not read the embedded stamp');
+    assert.ok(stampAt < src.indexOf('contentDate(REPO', stampAt - 400), rel + ' consults git before the stamp');
+  }
+});
+
+// Two stamps on the same day but different times are different stamps: the
+// manifest sync must not keep the commit time because the day matches.
+run('the manifest sync compares a file\'s own timestamp whole, not by day', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/audit/sync-manifest-mtimes.mjs'), 'utf8');
+  assert.ok(/own && own\.length > 10 \? mtimeIso !== was : mtimeDate !== wasDate/.test(src),
+    'sync-manifest-mtimes compares an embedded timestamp only by its date');
 });
 
 fs.rmSync(repo, { recursive: true, force: true });

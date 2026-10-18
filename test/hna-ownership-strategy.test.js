@@ -90,6 +90,13 @@ assert.equal(ceiling140.amiCeilingSource, 'user');
 assert.equal(ceiling140.ladder.at(-1).tier, 1.40, 'user ceiling becomes the top price tier');
 assert.equal(ceiling140.ladder.at(-1).maxPrice, Finance.maxAffordablePrice(100000, 1.40, { modelId: defaultModel.id, householdSize: 4 }));
 assert.notEqual(ceiling140.ladder.at(-1).maxPrice, fruita.ladder.at(-1).maxPrice, 'changed ceiling moves the modeled price threshold');
+// A missing AMI is unknown, never $0 income (hna-what-to-do showed "60% AMI $0").
+assert(fruita.ladder.every((row) => row.income > 0), 'a known AMI gives every tier an income');
+[null, undefined, '', 0].forEach((missing) => {
+  const vm = Strategy.buildViewModel(input(fruitaGeo, missing));
+  assert.equal(vm.ami4Person, null, 'missing AMI ' + JSON.stringify(missing) + ' reads as unknown');
+  vm.ladder.forEach((row) => assert.equal(row.income, null, 'missing AMI ' + JSON.stringify(missing) + ' gave income ' + row.income));
+});
 assert.equal(ceiling140.ownership.priceBandScreen.rows[1].potentialBuyerPoolHouseholds, null, 'changed ceiling does not fabricate upper-band demand');
 assert.equal(ceiling140.ownership.priceBandScreen.rows[1].currentGapHouseholds, null, 'changed ceiling does not fabricate an upper-band gap');
 

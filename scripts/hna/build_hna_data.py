@@ -324,6 +324,8 @@ def _fetch_acs5_detail_tenure_lookup_locked(years_to_try: list[int]) -> dict[str
                     geoid = STATE_FIPS_CO + rec['county']
                 else:
                     geoid = STATE_FIPS_CO + rec['place']
+                # Its own year: the profile can fall back while this answers.
+                rec['_acs5DetailYear'] = str(year)
                 lookup[geoid] = rec
             if year != years_to_try[0]:
                 print(f"ℹ ACS detail tenure/race {scope}:* resolved via acs5 year={year}", file=sys.stderr)
@@ -568,7 +570,9 @@ def normalize_acs_dict(d):
     """
     if not isinstance(d, dict):
         return d
-    return {k: normalize_acs_value(v) for k, v in d.items()}
+    # The series stamp is text ('acs1' / 'acs5'); as a number it would read as
+    # missing, which is how every S0801 stamp was lost before 2026-10-18.
+    return {k: v if k == '_acsSeries' else normalize_acs_value(v) for k, v in d.items()}
 
 
 def safe_float(v):
@@ -1022,6 +1026,8 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
                 'DP04_0114PE': str(smocapi_pct(owner_30_35)) if owner_30_35 is not None else None,  # 30–35%
                 'DP04_0115PE': str(smocapi_pct(owner_35p))   if owner_35p   is not None else None,  # 35%+
                 'NAME': raw.get('NAME'),
+                '_acsYear': str(year),
+                '_acsSeries': 'acs5',
             }
             return mapped
 
@@ -1156,22 +1162,35 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
 
-    def _fetch_batch(batch_vars: list[str]) -> dict | None:
-        """Try ACS1/profile → ACS5/profile for each year in the fallback window.
-        Returns a {var: value} dict on first success, None if all attempts fail."""
+    def _fetch_from(year: int, series: str, batch_vars: list[str]) -> dict | None:
+        result = http_get_json(build_url(year, 'profile', series, batch_vars))
+        if not (result and len(result) > 1):
+            return None
+        # Key by the canonical name so the cache shape — and every client
+        # reading it — is identical whichever year answered.
+        return {
+            canonical_profile_var(result[0][i], year): result[1][i]
+            for i in range(len(result[0]))
+        }
+
+    def _fetch_batch(batch_vars: list[str], first: tuple[int, str] | None = None
+                     ) -> tuple[dict, tuple[int, str]] | None:
+        """Try ACS1/profile → ACS5/profile for each year in the fallback window,
+        after `first` (batch A's source) when given, so every batch comes from
+        the year and series the profile is stamped with whenever it can.
+        Returns ({var: value}, (year, series)) on first success, None if all
+        attempts fail."""
+        if first is not None:
+            values = _fetch_from(first[0], first[1], batch_vars)
+            if values is not None:
+                return values, first
         for year in years_to_try:
-            for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
-                url = build_url(year, endpoint, series, batch_vars)
-                result = http_get_json(url)
-                if result and len(result) > 1:
+            for series in ('acs1', 'acs5'):
+                values = _fetch_from(year, series, batch_vars)
+                if values is not None:
                     if year != start_year:
-                        print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/{endpoint} year={year}", file=sys.stderr)
-                    # Key by the canonical name so the cache shape — and every
-                    # client reading it — is identical whichever year answered.
-                    return {
-                        canonical_profile_var(result[0][i], year): result[1][i]
-                        for i in range(len(result[0]))
-                    }
+                        print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/profile year={year}", file=sys.stderr)
+                    return values, (year, series)
         return None
 
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
@@ -1186,8 +1205,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     # mix supplement — a partial summary (A but not B) is still valuable,
     # so don't block on B failing.
     merged: dict = {}
-    a = _fetch_batch(vars_a)
-    if a is None:
+    got_a = _fetch_batch(vars_a)
+    if got_a is None:
         print(f"⚠ Could not fetch ACS profile (batch A) for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
         # ACS profile/subject tables may fail for some geographies and ACS years
         # (e.g. CDPs not in profile tables; DP variable numbering can shift between
@@ -1195,9 +1214,41 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # types and uses stable variable codes.
         print(f"ℹ {geo_type}:{geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
         return _fetch_acs5_b_series(geo_type, geoid)
+    a, source = got_a
     merged.update(a)
+    # The stamp is where batch A came from: the ACS 1-year for a geography of
+    # 65,000 or more, the 5-year otherwise. Before 2026-10-18 nothing here
+    # stamped it, so the extended backfill's "acs5" stood on 33 geographies
+    # whose figures are 1-year. It covers the profile batches this function
+    # fetches, which ask batch A's source first and log any that could not
+    # come from it. The B-series tenure/race supplement (B25003, B25075,
+    # stamped _acs5DetailYear) and the fields only
+    # backfill_hna_extended_acs_cache.mjs fetches (overcrowding's DP04_0076E,
+    # 0078E, 0079E; stamped _acs5BackfillYear when it writes them) are 5-year
+    # whatever it says, and build_jurisdiction_metrics_digest.mjs labels
+    # their metrics from those stamps.
+    merged['_acsYear'] = str(source[0])
+    merged['_acsSeries'] = source[1]
+    if source[1] == 'acs1':
+        # The 5-year twin of batch A, same year, so a builder that must compare
+        # like with like (scripts/build_acs_rent_co.py) has the 5-year figure.
+        twin = _fetch_from(source[0], 'acs5', vars_a)
+        if twin is not None:
+            merged['_acs5Profile'] = {**twin, '_acsYear': str(source[0]), '_acsSeries': 'acs5'}
+        else:
+            print(f"⚠ ACS 5-year twin of batch A for {geo_type}:{geoid} unavailable", file=sys.stderr)
 
-    b = _fetch_batch(vars_b)
+    def _note_source(label: str, got_source: tuple[int, str]) -> None:
+        if got_source != source:
+            print(f"⚠ ACS profile batch {label} for {geo_type}:{geoid} came from "
+                  f"{got_source[1]} {got_source[0]}, not the stamped {source[1]} {source[0]}",
+                  file=sys.stderr)
+
+    got_b = _fetch_batch(vars_b, source)
+    b = None
+    if got_b is not None:
+        b, b_source = got_b
+        _note_source('B', b_source)
     if b is not None:
         # Preserve earlier-batch values on conflicting keys (NAME, etc.).
         for k, v in b.items():
@@ -1210,7 +1261,11 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         ('D', vars_d, 'household composition / occupation / labor-force / race / education panels'),
     ]
     for label, batch_vars, description in supplements:
-        supplement = _fetch_batch(batch_vars)
+        got = _fetch_batch(batch_vars, source)
+        supplement = None
+        if got is not None:
+            supplement, got_source = got
+            _note_source(label, got_source)
         if supplement is not None:
             # Preserve earlier-batch values on conflicting keys (NAME, etc.).
             for k, v in supplement.items():
@@ -1434,7 +1489,7 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
 
     preserved = 0
     core_regression = False
-    for section in ('acsProfile', 'acsS0801', 'acsB08301'):
+    for section in ('acsProfile', 'acsS0801', 'acsB08301', 'acs5Profile'):
         old_sec = existing.get(section)
         new_sec = payload.get(section)
         if not isinstance(old_sec, dict):
@@ -1449,6 +1504,13 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 preserved += n
                 if section == 'acsProfile':
                     core_regression = True
+            continue
+        # The 5-year twin is one source by definition: a field from another
+        # year would sit under this one's stamp, and the rent file would take
+        # it as 2020-2024. Its fields are kept only from the same year.
+        if section == 'acs5Profile' and (
+                str(old_sec.get('_acsYear')), old_sec.get('_acsSeries')) != (
+                str(new_sec.get('_acsYear')), new_sec.get('_acsSeries')):
             continue
         # Whole-group preservation first, so a partial refresh cannot mix
         # vintages inside a group.
@@ -1474,6 +1536,21 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 preserved += 1
                 if k in CORE_FIELDS:
                     core_regression = True
+    # Overcrowding's inputs (DP04_0076E/0078E/0079E) come only from the
+    # extended backfill, from the 5-year, and this build keeps them from disk.
+    # Until 2026-10-18 nothing else stamped a profile, so the backfill's own
+    # _acsYear/_acsSeries is their year; this build now writes its own source
+    # there. Carry that year across once, as _acs5BackfillYear (which the
+    # backfill writes itself from now on), so a later profile year cannot
+    # relabel figures that were not refetched.
+    new_prof, old_prof = payload.get('acsProfile'), existing.get('acsProfile')
+    if (isinstance(new_prof, dict) and isinstance(old_prof, dict)
+            and new_prof.get('_acs5BackfillYear') is None
+            and old_prof.get('_acs5BackfillYear') is None
+            and old_prof.get('_acsSeries') == 'acs5' and old_prof.get('_acsYear')
+            and new_prof.get('DP04_0076E') is not None
+            and new_prof.get('DP04_0076E') == old_prof.get('DP04_0076E')):
+        new_prof['_acs5BackfillYear'] = str(old_prof['_acsYear'])
     if preserved:
         payload.setdefault('source', {})['merge_preserved_fields'] = preserved
     return payload, preserved, core_regression
@@ -1563,6 +1640,9 @@ def build_summary_cache(max_workers: int | None = None):
                 # (commuting reliability: the endpoint should reflect the data truly used).
                 s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
                 s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+                acs5_twin = (acs_profile or {}).pop('_acs5Profile', None)
+                profile_year = (acs_profile or {}).get('_acsYear') or start_year
+                profile_series = (acs_profile or {}).get('_acsSeries') or 'acs1'
                 payload = {
                     'updated': utc_now_z(),
                     'geo': g,
@@ -1570,14 +1650,22 @@ def build_summary_cache(max_workers: int | None = None):
                     'acsS0801': normalize_acs_dict(acs_s0801),
                     'acsB08301': normalize_acs_dict(acs_b08301),
                     'source': {
-                        'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
+                        'acs_profile_endpoint': (
+                            f'https://api.census.gov/data/{profile_year}/acs/{profile_series}/profile'
+                        ),
                         'acs_s0801_endpoint': (
                             f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
                         ),
                         'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
                     }
                 }
+                if acs5_twin is not None:
+                    payload['acs5Profile'] = normalize_acs_dict(acs5_twin)
                 payload, n_preserved, core_reg = _merge_preserve_summary(out_path, payload)
+                if (payload.get('acsProfile') or {}).get('_acsSeries') != 'acs1':
+                    # Only a 1-year profile has a 5-year twin; never keep a
+                    # stale one for a geography the 1-year no longer covers.
+                    payload.pop('acs5Profile', None)
                 if n_preserved:
                     geos_preserved += 1
                     total_fields_preserved += n_preserved

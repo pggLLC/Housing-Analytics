@@ -103,6 +103,11 @@ CAPPED_NOTICE_MEMORY_DAYS = 3 * 365
 # was last seen (missing_since), never while the query that found it is failing.
 NOTICE_MEMORY_DAYS = 365
 
+# Bump KEY_LINES_VERSION whenever ROUND_LINE_RE, STAMP_LINE_RE or key_lines() changes.
+# A page stored under another version is re-baselined on its key lines, not reported:
+# widening the pattern on 2026-10-17 (`allocations?`) read as 15 page changes and put
+# false findings in the daily audit. Pages stored before versioning count as version 1.
+KEY_LINES_VERSION = 2
 # `allocations?` catches a yearly link such as DOH's "Direct Allocations - 2027", which
 # names no date, amount or round (Codex, 2026-10-17).
 ROUND_LINE_RE = re.compile(
@@ -122,6 +127,15 @@ DOC_LINK_RE = re.compile(
     r'|^https?://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
     r'|forms\.gle/|[\w-]+\.sharepoint\.com/|1drv\.ms/|onedrive\.live\.com/)', re.I)
 KEY_LINE_CHARS = 300
+# A "this page is current as of" stamp (eCFR: "Displaying title 24, up to date as of
+# 10/15/2026.") changes every day and says nothing about a round. Dropped unless the
+# line also carries an amount or a round word, so "applications due as of March 5" stays.
+STAMP_LINE_RE = re.compile(
+    r'\b(up to date as of|(last|page) (updated|modified|reviewed|amended)|updated (on|as of))\b', re.I)
+STAMP_KEEP_RE = re.compile(
+    r'\$\s?\d|\b(rounds?|cycles?|nofas?|nofos?|notice of funding|deadlines?|due|open(s|ed)?|clos(e|ed|es|ing)|'
+    r'letters? of intent|accepting|awards?|awarded|allocations?|funding available|application (period|window))\b',
+    re.I)
 
 
 def key_lines(text: str, pattern: re.Pattern) -> list[str]:
@@ -133,6 +147,8 @@ def key_lines(text: str, pattern: re.Pattern) -> list[str]:
     for ln in text.split('\n'):
         ln = re.sub(r'\s+', ' ', ln).strip()
         if len(ln) < 4 or not pattern.search(ln):
+            continue
+        if STAMP_LINE_RE.search(ln) and not STAMP_KEEP_RE.search(ln):
             continue
         if len(ln) > KEY_LINE_CHARS:
             ln = f"{ln[:KEY_LINE_CHARS - 20]} … [{hashlib.sha256(ln.encode('utf-8')).hexdigest()[:12]}]"
@@ -287,13 +303,16 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
             error = f'page {what} (HTTP {status}, title "{title[:80]}"); likely an error page'
     if error:
         first_failed = (prev.get('first_failed_at') if prev.get('ok') is False else None) or now
-        entry.update({k: prev.get(k) for k in ('title', 'key_lines', 'documents', 'last_changed_at')})
+        entry.update({k: prev.get(k) for k in ('title', 'key_lines', 'key_lines_version', 'documents', 'last_changed_at')})
         entry.update({'ok': False, 'error': error, 'first_failed_at': first_failed,
                       'unverifiable': _days_between(first_failed, now) >= UNREACHABLE_AFTER_DAYS - 1})
         return entry, None, error
 
     baseline = 'key_lines' not in prev or prev.get('key_lines') is None
-    lines = line_diff(prev.get('key_lines') or [], kl)
+    # Lines extracted under another version are not comparable: take today's as the
+    # baseline. Documents are still compared, since their extraction did not change.
+    rebaselined = not baseline and (prev.get('key_lines_version') or 1) != KEY_LINES_VERSION
+    lines = line_diff(prev.get('key_lines') or [], kl) if not rebaselined else {'added': [], 'removed': []}
     prev_docs = {d['url'] for d in prev.get('documents') or []}
     new_docs = [d for d in docs if d['url'] not in prev_docs]
     cur_docs = {d['url'] for d in docs}
@@ -305,7 +324,8 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
                     for d in docs if d['url'] in prev_titles and prev_titles[d['url']] != d['title']]
     changed = not baseline and bool(lines['added'] or lines['removed'] or new_docs or removed_docs or renamed_docs)
     entry.update({
-        'ok': True, 'http_status': status, 'title': title[:200], 'key_lines': kl, 'documents': docs,
+        'ok': True, 'http_status': status, 'title': title[:200], 'key_lines': kl,
+        'key_lines_version': KEY_LINES_VERSION, 'documents': docs,
         'unverifiable': False,
         # A baseline is not a change: the daily audit compares this date with each
         # program's last_checked, and a first sighting must not flag every program.

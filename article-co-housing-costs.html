@@ -129,7 +129,7 @@
 
         <!-- ── Interactive Maps ── -->
         <h2>Interactive County Maps</h2>
-        <p>Maps are generated monthly from the Python pipeline and embedded below. If a map file is not yet available (first run), a placeholder is shown. Use the pipeline script to regenerate: <code>python scripts/build_co_housing_costs_insight.py --refresh</code>.</p>
+        <p>Maps are generated monthly from the Python pipeline and embedded below. If a map file is not yet available (first run), a placeholder is shown until the next monthly update creates it.</p>
 
         <h3>Current Housing Cost Indicators (2020–2024 ACS)</h3>
 
@@ -270,7 +270,7 @@
             onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
           >
           <p style="display:none;padding:var(--sp4);color:var(--muted);background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);">
-            Chart not yet generated. Run <code>python scripts/build_co_housing_costs_insight.py --refresh</code> to create charts.
+            Chart not yet available. It is created by the monthly data update.
           </p>
         </div>
 
@@ -394,11 +394,11 @@
             <dd style="margin:.15rem 0 .25rem 0;">All counties with non-missing values for every input. In practice this is <strong>52–58 of Colorado's 64 counties</strong> — the smallest rural counties are dropped when FHFA HPI or BLS QCEW suppresses their figures due to disclosure rules. The dropped counties are listed in the pipeline log.</dd>
           </dl>
           <p style="margin:.75rem 0 0;font-size:.78rem;color:var(--muted);">
-            <strong>Technical spec for reproducibility:</strong> Target = FHFA HPI 10-year % change. Features = ACS B19013 (income growth), ACS B25002 (vacancy), ACS B25070 (rent burden), Census BPS (permits/capita), BLS QCEW NAICS 23 (wages). Method = <code>sklearn.linear_model.ElasticNetCV(cv=5)</code> with α selected via leave-one-out MSE minimization. Inputs are z-score standardized before fitting.
+            <strong>Technical spec for reproducibility:</strong> Target = FHFA HPI 10-year % change. Features = ACS B19013 (income growth), ACS B25002 (vacancy), ACS B25070 (rent burden), Census BPS (permits/capita), BLS QCEW NAICS 23 (wages). Method = elastic-net linear regression (scikit-learn ElasticNetCV), with the penalty strength α chosen by 5-fold cross-validation as the value with the lowest mean squared error. Inputs are z-score standardized before fitting.
           </p>
         </div>
 
-        <p>The ranked feature importance table is exported to <code>assets/co-housing-costs/snapshots/drivers_ranking.csv</code> and reproduced below (regenerated monthly).</p>
+        <p>The ranked table of drivers below is regenerated monthly, and the same figures can be downloaded as a CSV file from the table caption.</p>
 
         <!-- F119 — drivers ranking table was rendering hardcoded placeholder
              coefficients (+0.41 / +0.29 / etc.) until the JS fetch of
@@ -410,7 +410,7 @@
         <div style="overflow-x:auto;margin:var(--sp3) 0;">
           <table class="data-table" style="width:100%;border-collapse:collapse;">
             <caption style="text-align:left;font-size:var(--small);color:var(--muted);margin-bottom:var(--sp2);">
-              ElasticNetCV driver ranking — FHFA HPI 10-year change · <span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="assets/co-housing-costs/snapshots/drivers_ranking.csv" target="_blank" rel="noopener">drivers_ranking.csv</a> (regenerated monthly from pipeline)
+              ElasticNetCV driver ranking — FHFA HPI 10-year change · <span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="assets/co-housing-costs/snapshots/drivers_ranking.csv" target="_blank" rel="noopener">Download the driver ranking (CSV)</a> (regenerated monthly)
             </caption>
             <thead>
               <tr>
@@ -531,7 +531,7 @@
           // F119 — explicit no-data state instead of dressing up fabricated
           // placeholder coefficients as the pipeline output.
           const tbody = document.getElementById('drivers-table-body');
-          if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Driver ranking unavailable — pipeline CSV (assets/co-housing-costs/snapshots/drivers_ranking.csv) not present in this build. Run <code>python scripts/build_co_housing_costs_insight.py --refresh</code> to regenerate.</td></tr>';
+          if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Driver ranking unavailable — the data file behind this table is not present in this build. It is recreated by the monthly data update.</td></tr>';
           if (noteEl) noteEl.textContent = '';
         });
     }());
@@ -565,7 +565,7 @@
           if (msgs.length) {
             var banner = document.getElementById('pipeline-status-banner');
             if (banner) {
-              banner.textContent = '⚠ Pipeline notice: ' + msgs.join(' ') + ' Run python scripts/build_co_housing_costs_insight.py --refresh to generate all outputs.';
+              banner.textContent = '⚠ Pipeline notice: ' + msgs.join(' ') + ' The next monthly data update will try to regenerate them.';
               banner.hidden = false;
             }
           }

@@ -350,6 +350,12 @@
   }
 
   function known(value) { return typeof value === 'number' && Number.isFinite(value); }
+  // Must-pay debt service NOI could not cover stays in the loan balance; it is
+  // not cash that left the project (DOH PR 4).
+  function mustPayUnpaidFor(obligation) {
+    return obligation && [obligation.mustPayDebtService, obligation.paid, obligation.contingentPaid].every(known)
+      ? Math.max(0, obligation.mustPayDebtService - (obligation.paid - obligation.contingentPaid)) : null;
+  }
   // A not-yet-mounted optional control uses its visible UI default. Clearing an
   // existing control is absence, and must not silently reapply that default.
   function fieldNumber(fields, id, initial) {
@@ -409,7 +415,7 @@
    * interest compounds annually. Forgiveness occurs at stated maturity.
    * After an unpaid maturity, subsequent years need a refinancing assumption.
    */
-  function loanObligations(inputs, annualNoi) {
+  function loanObligations(inputs, annualNoi, deductions) {
     var parsed = inputs.map(loanTerms);
     var invalid = parsed.find(function (p) { return p.unavailableReason; });
     if (invalid) return { loans: null, years: null, unavailableReason: invalid.unavailableReason };
@@ -417,14 +423,35 @@
     var order = loans.slice().sort(function (a, b) { return a.priority - b.priority; });
     var balances = loans.map(function (loan) { return loan.amount; });
     var years = [];
+    // An asset management fee that cash cannot cover accrues and is paid first
+    // from later years' cash, never dropped (DOH PR 4).
+    var assetOwed = 0;
     annualNoi.forEach(function (noi, index) {
       var year = index + 1;
       var available = known(noi) ? Math.max(0, noi) : null;
       var seniorDue = 0, mustPayDue = 0, paid = 0, contingentPaid = 0, maturityDue = 0;
+      var bridgeDue = 0, assetDue = 0, assetPaid = 0;
       var reason = !known(noi) ? 'NOI is unavailable for this year.' : null;
       // Required payments are allocated before contingent payments. Priority
       // orders lenders within each class; it never makes a residual loan senior.
       [false, true].forEach(function (contingent) {
+        // DOH PR 4: bridge-loan debt service, then the asset management fee,
+        // come out of cash after the must-pay loans and before cash-flow loans.
+        var d = contingent && deductions ? deductions[index] : null;
+        if (d && (!known(d.bridge) || !known(d.assetFee))) {
+          assetOwed = null;
+          reason = reason || 'The bridge-loan or asset management payment for this year is unknown.';
+        } else if (d && known(available) && known(assetOwed)) {
+          bridgeDue = d.bridge;
+          available = Math.max(0, available - bridgeDue);
+          assetDue = d.assetFee + assetOwed;
+          assetPaid = Math.min(available, assetDue);
+          available -= assetPaid;
+          assetOwed = assetDue - assetPaid;
+        } else if (d) {
+          assetOwed = null;
+          reason = reason || 'The asset management fee owed from earlier years is unknown.';
+        }
         order.forEach(function (loan) {
           if ((loan.type === 'cash_flow') !== contingent) return;
           var i = loans.indexOf(loan), opening = balances[i];
@@ -473,7 +500,10 @@
         maturityDue: reason ? null : maturityDue,
         seniorCoverage: reason ? null : coverageRatio(noi, seniorDue),
         allMustPayCoverage: reason ? null : coverageRatio(noi, mustPayDue),
-        cashFlow: reason ? null : noi - mustPayDue - contingentPaid,
+        bridgeDebtService: reason ? null : bridgeDue,
+        // Owed at year end, carried into next year's fee.
+        assetMgmtFee: reason ? null : assetPaid, assetMgmtUnpaid: reason ? null : assetDue - assetPaid,
+        cashFlow: reason ? null : noi - mustPayDue - bridgeDue - assetPaid - contingentPaid,
         unavailableReason: reason });
     });
     return { loans: loans, years: years, unavailableReason: null };
@@ -492,7 +522,15 @@
         result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known) || !result.obligations.years) return null;
     var years = fieldNumber(fields, 'pf-years', 15);
     if (!known(years)) return null;
-    var rows = [], cumCF = 0;
+    var rows = [], cumCF = 0, cumCash = 0;
+    // DOH PR 4: the deferred fee is paid from cumulative cash flow. A deficit
+    // year pays nothing and is made up first, so the fee is fully paid in the
+    // first year cumulative cash reaches it (the exit panel's payback year).
+    // Once fully paid, later payments are $0 even where a year is unknown.
+    var fee = known(result.deferredDevFee) ? Math.max(0, result.deferredDevFee) : null, feePaid = 0;
+    // Cash after the fee first makes up deficits from earlier years (funded by
+    // the sponsor); only what is left is distributable.
+    var deficit = 0;
     for (var y = 1; y <= 50; y++) {
       var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
@@ -505,11 +543,27 @@
       var debtService = obligation.mustPayDebtService;
       var cashFlow = obligation.cashFlow;
       cumCF = known(cumCF) && known(cashFlow) ? cumCF + cashFlow : null;
+      var mustPayUnpaid = mustPayUnpaidFor(obligation);
+      // The fee is paid from cash actually left after the payments made.
+      cumCash = known(cumCash) && known(cashFlow) && known(mustPayUnpaid) ? cumCash + cashFlow + mustPayUnpaid : null;
+      var feeNow = fee === null ? null : feePaid !== null && feePaid >= fee ? fee
+        : known(feePaid) && known(cumCash) ? Math.min(fee, Math.max(feePaid, cumCash)) : null;
+      var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
+      feePaid = feeNow;
+      // Unpaid must-pay debt service is not a shortfall the sponsor funded.
+      var afterFee = known(cashFlow) && known(deferredFeePaid) && known(mustPayUnpaid) ? cashFlow - deferredFeePaid + mustPayUnpaid : null;
+      var deficitRecovered = known(afterFee) && known(deficit) ? Math.min(deficit, Math.max(0, afterFee)) : null;
+      // A year whose cash cannot cover its payments is funded by the sponsor.
+      var deficitFunded = known(afterFee) ? Math.max(0, -afterFee) : null;
+      deficit = known(afterFee) && known(deficit) ? Math.max(0, deficit - afterFee) : null;
+      var distributable = known(afterFee) && known(deficitRecovered) ? Math.max(0, afterFee - deficitRecovered) : null;
       rows.push({ year: y, grossRents: rents, otherIncome: otherIncome, vacancyLoss: vacancyLoss, egi: egi,
         opex: opex, repReserve: reserve, propTax: tax, noi: noi, debtService: debtService,
         cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
+        bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
+        deferredFeePaid: deferredFeePaid, mustPayUnpaid: mustPayUnpaid, deficitFunded: deficitFunded, deficitRecovered: deficitRecovered, deficitOwed: deficit, distributable: distributable,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -529,9 +583,14 @@
     // The investor buys both credits, so the automatic LP amount is federal plus state equity.
     var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
-        autoLpEquity, result.deferredDevFee].every(known)) return null;
+        result.exit.assetMgmtOwed, autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
-      hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
+      hold: result.exit.holdYears, defFeeRemaining: null };
+    // The sale pays only the deferred fee operations left unpaid by the exit year.
+    var feePaidInHold = result.projection.rows.slice(0, exit.hold).reduce(function (a, row) {
+      return known(a) && known(row.deferredFeePaid) ? a + row.deferredFeePaid : null; }, 0);
+    if (!known(feePaidInHold)) return null;
+    exit.defFeeRemaining = Math.max(0, result.deferredDevFee - feePaidInHold);
     var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
     var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
     var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
@@ -554,6 +613,25 @@
     var tier2 = Math.min(remaining, exit.softBal);
     tiers.push({ name: '2. Soft debt payoff (priority order)', amount: tier2, recipient: 'Soft lenders' });
     remaining -= tier2;
+
+    // An asset management fee operations could not pay is settled before the
+    // developer and the investors are paid (shown only when one is owed).
+    if (result.exit.assetMgmtOwed > 0) {
+      var tierAsset = Math.min(remaining, result.exit.assetMgmtOwed);
+      tiers.push({ name: '2b. Accrued asset management fee', amount: tierAsset, recipient: 'Asset manager' });
+      remaining -= tierAsset;
+    }
+
+    // Operating deficits the sponsor funded and cash flow has not yet made up
+    // are repaid next (shown only when one is outstanding at the sale).
+    var deficitOwed = result.projection.rows[hold - 1] ? result.projection.rows[hold - 1].deficitOwed : null;
+    if (!known(deficitOwed)) return null;
+    var tierDeficit = 0;
+    if (deficitOwed > 0) {
+      tierDeficit = Math.min(remaining, deficitOwed);
+      tiers.push({ name: '2c. Operating deficits funded by the sponsor', amount: tierDeficit, recipient: 'Sponsor (GP)' });
+      remaining -= tierDeficit;
+    }
 
     // Tier 3: Deferred dev fee remaining balance
     var tier3 = Math.min(remaining, exit.defFeeRemaining);
@@ -596,13 +674,15 @@
 
     // Totals by party
     var lpTotal = tier4a + tier4b + tier6lp;
-    var gpTotal = tier3 + tier5 + tier6gp;  // dev fee + catch-up + residual
+    var gpTotal = tierDeficit + tier3 + tier5 + tier6gp;  // deficits + dev fee + catch-up + residual
 
     // LP IRR — simplified: LP put in lpEquity at year 0, got back lpTotal at year hold
     // (ignoring tax credits — those are the LP's primary return, not modeled here)
     var lpCashIrr = lpEquity > 0 ? Math.pow(lpTotal / lpEquity, 1 / hold) - 1 : NaN;
     var lpMultiple = lpEquity > 0 ? lpTotal / lpEquity : NaN;
-    var gpMultiple = exit.defFeeRemaining > 0 ? gpTotal / exit.defFeeRemaining : NaN;
+    // A repaid operating deficit returns the sponsor's own advance; it is not
+    // return on the deferred fee, so the multiple leaves it out.
+    var gpMultiple = exit.defFeeRemaining > 0 ? (gpTotal - tierDeficit) / exit.defFeeRemaining : NaN;
 
     return {
       tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,
@@ -980,8 +1060,22 @@
         ? (annualRents + otherIncomeForMath) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
           - (annualOpex + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index) : null;
     });
+    // DOH PR 4: payments from cash flow that are not loans in the stack. Both
+    // default to $0; a blank or out-of-range entry is unknown, not $0.
+    var cashPayments = (function () {
+      var fee = fieldNumber(fields, 'dc-asset-mgmt-fee', 0), growth = fieldNumber(fields, 'dc-asset-mgmt-growth', 3);
+      var bridge = fieldNumber(fields, 'dc-bridge-ds', 0), bridgeYears = fieldNumber(fields, 'dc-bridge-years', 0);
+      var reason = !known(fee) || fee < 0 ? 'Enter the asset management fee as $0 or more a year.'
+        : !known(growth) || growth < 0 || growth > 10 ? 'Enter the asset management fee increase from 0% to 10% a year.'
+        : !known(bridge) || bridge < 0 ? 'Enter bridge-loan debt service as $0 or more a year.'
+        : !Number.isInteger(bridgeYears) || bridgeYears < 0 || bridgeYears > 50 ? 'Enter the years of bridge-loan payments as a whole number from 0 to 50.' : null;
+      return { reason: reason, years: reason ? null : loanNoi.map(function (_, index) {
+        return { assetFee: fee * Math.pow(1 + growth / 100, index), bridge: index < bridgeYears ? bridge : 0 };
+      }) };
+    })();
     var obligations = debtInputsReason ? { loans: null, years: null, unavailableReason: debtInputsReason }
-      : loanObligations([seniorInput].concat(loanInputs), loanNoi);
+      : cashPayments.reason ? { loans: null, years: null, unavailableReason: cashPayments.reason }
+      : loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years);
     var firstLoanYear = obligations.years && obligations.years[0];
     var allMustPayDebtService = firstLoanYear ? firstLoanYear.mustPayDebtService : null;
     // Why NOI or the rent roll is unknown, carried with it so each message
@@ -1012,9 +1106,11 @@
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
     var annualDebtService = firstLoanYear ? firstLoanYear.seniorDebtService : null;
-    var breakEvenOcc = known(allMustPayDebtService) && annualRents > 0
+    // Year-1 bridge-loan debt service is a required payment too (DOH PR 4).
+    var firstYearBridge = firstLoanYear ? firstLoanYear.bridgeDebtService : null;
+    var breakEvenOcc = known(allMustPayDebtService) && known(firstYearBridge) && annualRents > 0
       ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService) / (annualRents + otherIncomeForMath), 1)
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService + firstYearBridge) / (annualRents + otherIncomeForMath), 1)
           : null)
       : null;
 
@@ -1111,17 +1207,22 @@
         softBal = known(balance) ? softBal + balance : NaN;
       });
       if (!known(firstMortBal)) firstMortBal = NaN;
-      var netProceeds = (known(resale) && known(firstMortBal) && known(softBal)) ? resale - firstMortBal - softBal : NaN;
+      // DOH PR 4: an asset management fee still owed at the sale is paid from it.
+      var exitYear = obligations.years ? obligations.years[holdYears - 1] : null;
+      var assetMgmtOwed = exitYear && known(exitYear.assetMgmtUnpaid) ? exitYear.assetMgmtUnpaid : NaN;
+      var netProceeds = (known(resale) && known(firstMortBal) && known(softBal) && known(assetMgmtOwed)) ? resale - firstMortBal - softBal - assetMgmtOwed : NaN;
 
       // Deferred fee payback timing. Walk the pro forma yearly, accumulating
       // cash flow (NOI − total debt service). Find the first year where
-      // cumCF ≥ deferredDevFee, after the scheduled loan payments.
+      // cumCF ≥ deferredDevFee, after the loan payments actually made (debt
+      // service NOI could not cover stays in the loan balance, DOH PR 4).
       var dfYr = null;
       if (deferredDevFee > 0 && obligations.years && annualRents > 0) {
         var cumCF = 0;
         for (var y = 1; y <= holdYears; y++) {
           var paymentYear = obligations.years && obligations.years[y - 1];
-          cumCF += paymentYear && known(paymentYear.cashFlow) ? paymentYear.cashFlow : NaN;
+          var unpaidNow = mustPayUnpaidFor(paymentYear);
+          cumCF += paymentYear && known(paymentYear.cashFlow) && known(unpaidNow) ? paymentYear.cashFlow + unpaidNow : NaN;
           if (cumCF >= deferredDevFee) { dfYr = y; break; }
         }
       }
@@ -1158,10 +1259,10 @@
         irr = computeIRR(flows);
       }
 
-      var loanUnavailableReason = debtInputsReason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
+      var loanUnavailableReason = debtInputsReason || cashPayments.reason || (!known(firstMortBal) || !known(softBal) ? 'Loan payments or a maturity refinancing assumption are unavailable at exit.' : null);
       return { loanUnavailableReason: loanUnavailableReason, holdYears: holdYears, exitCap: exitCap, rentGrowth: rentGrowth, expGrowth: expGrowth,
         nNoi: nNoi, resale: resale, firstMortBal: firstMortBal, softBal: softBal,
-        netProceeds: netProceeds, dfYr: dfYr, irr: irr };
+        assetMgmtOwed: assetMgmtOwed, netProceeds: netProceeds, dfYr: dfYr, irr: irr };
     })();
     // Sensitivity needs known NOI and rents. Without them every swing below
     // would be computed from 0 and published as a real figure, so report
@@ -1357,8 +1458,13 @@
     if (result.waterfall) {
       var cumLp = -result.waterfall.lpEquity, cumGp = 0;
       result.waterfall.annual = result.projection.rows.slice(0, exit.holdYears).map(function (row) {
-        var surplus = Math.max(0, row.cashFlow);
-        var lp = surplus * 0.9999, gp = surplus * 0.0001;
+        // Cash that repays the deferred fee goes to the developer, not to
+        // distributions, and a deficit from earlier years is made up first.
+        var surplus = row.distributable;
+        // The developer receives the deferred fee paid from this year's cash and
+        // any earlier operating deficit it funded that this year's cash repays;
+        // a deficit it funds this year is cash it puts in.
+        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid + row.deficitRecovered - row.deficitFunded;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
         return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };
@@ -1381,6 +1487,7 @@
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
+      if (cashPayments.reason && /^(coverage|obligations|allMustPay|annualDebtService|baseDSCR|stress|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       // #2160: basis and credit depend on the itemized costs; figures that also
@@ -1391,7 +1498,7 @@
       if (costReason && /^(gap|deferred|devFeeAtClosing|fundingGap|exit\.(dfYr|irr)|waterfall|tornado|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || costReason;
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
-      if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
+      if (/^exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
       if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
       if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';
       if (/^(projection|waterfall)/.test(path)) return noiUnknownReason || rentsUnknownReason || (!autoNoi

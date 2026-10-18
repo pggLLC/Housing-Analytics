@@ -138,7 +138,7 @@
       },
       "limitations": [
         "Status is proposed: the only copies of the text are DRAFT-watermarked documents in commissioners' meeting packets. The final sample ballot and TABOR notice were not posted as of 2026-09-26 (clerk page: sample ballot 'will be available in October').",
-        "measure.number is 'Unassigned': the draft TABOR notice leaves the issue number blank. Replace it and move status to on_ballot once the final sample ballot or notice is posted.",
+        "The issue number is shown as Unassigned because the draft TABOR notice leaves it blank. It will be updated, and the measure listed as on the ballot, once the final sample ballot or notice is posted.",
         "Adoption is recorded only in draft minutes: Resolution 2026-10 approved unanimously on Aug 12, 2026 (draft minutes in the Aug 26, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf), and the draft TABOR notice accepted 'as presented' on Sep 9, 2026 (draft minutes in the Sep 23, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf).",
         "Quote is transcribed from scanned page images of the draft resolution. The draft TABOR notice (PDF p.32 of the Sep 9 packet) has the same opening and closing text, but its middle lines are garbled in the scan, and it has a semicolon after '(3%)' where the resolution has a comma.",
         "The draft resolution's heading reads 'RESOLUTION NO. 2016-10'; the agenda and minutes call it Resolution 2026-10."

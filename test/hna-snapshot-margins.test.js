@@ -138,6 +138,27 @@ function valueText(v, unit) {
   return Math.round(v).toLocaleString('en-US');
 }
 
+// What a 1-year figure's 5-year line must say, from the file and written
+// independently of the module: the twin's period and estimate, its margin,
+// and how far the figure shown is from it, in which direction. The wording
+// around those is the page's to choose.
+function fiveProblems(e, unit, got) {
+  const f = e.five;
+  const diff = e.e - f.e;
+  const amount = moeText(Math.abs(diff), unit).slice(1);
+  const out = [];
+  if (!got.startsWith(`5-year ${f.y - 4}–${f.y}`)) out.push(`period ${f.y - 4}–${f.y}`);
+  if (!got.includes(valueText(f.e, unit))) out.push(`estimate ${valueText(f.e, unit)}`);
+  if (f.m > 0 && !got.includes(moeText(f.m, unit))) out.push(`margin ${moeText(f.m, unit)}`);
+  if (f.m === 0 && /±/.test(got)) out.push('no margin for a controlled total');
+  if (Math.abs(diff) < 0.051) {
+    if (!/same/.test(got) || /higher|lower/.test(got)) out.push('the same figure');
+  } else if (!got.includes(`${amount} ${diff > 0 ? 'higher' : 'lower'}`)) {
+    out.push(`${amount} ${diff > 0 ? 'higher' : 'lower'}`);
+  }
+  return out;
+}
+
 function geoTypeOf(geoid, summary) {
   return (summary.geo && summary.geo.type) || (geoid.length === 2 ? 'state' : geoid.length === 5 ? 'county' : 'place');
 }
@@ -168,7 +189,9 @@ const line = (id) => document.getElementById(id);
       const { profile, s0801, geoType } = await render(geoid);
       for (const c of CARDS) {
         const el = line(c.id);
-        const text = el.textContent;
+        // The figure's own line; a 1-year figure's 5-year twin is checked apart.
+        const fiveEl = el.querySelector('.acs-five');
+        const text = fiveEl ? el.textContent.replace(fiveEl.textContent, '') : el.textContent;
         const value = c.value(profile, s0801);
         const e = entryFor(geoid, c, value);
         checked += 1;
@@ -214,6 +237,13 @@ const line = (id) => document.getElementById(id);
         else if (!link.href.endsWith(`?g=${{ state: '0400000US', county: '0500000US' }[geoType] || '1600000US'}${geoid}`)) {
           problems.push(`${geoid} ${c.id}: link is not for this geography: ${link.href}`);
         }
+        if (!e.five) {
+          if (fiveEl) problems.push(`${geoid} ${c.id}: a 5-year line with no twin in the file: ${fiveEl.textContent}`);
+        } else {
+          const got = fiveEl ? fiveEl.textContent : '';
+          const off = fiveProblems(e, c.unit, got);
+          if (off.length) problems.push(`${geoid} ${c.id}: 5-year line "${got}" lacks ${off.join(', ')}`);
+        }
       }
       // Geographies for the cases below, picked from the data rather than by name.
       const t = (f) => (FILE.geos[geoid][f] || {});
@@ -222,6 +252,8 @@ const line = (id) => document.getElementById(id);
       const hd = U.homeValueInfo(profile).display;
       if (!PICK.zillow && hd && hd.source === 'zhvi' && t('DP04_0089E').m > 0) PICK.zillow = geoid;
       if (!PICK.rawHome && hd && hd.source === 'acs_raw' && /±/.test(line('statHomeValueSrc').textContent)) PICK.rawHome = geoid;
+      if (!PICK.oneYear && t('DP04_0134E').s === 'acs1' && t('rent_burden_30plus').s === 'acs1'
+        && /±/.test(line('statRentSrc').textContent) && /±/.test(line('statRentBurdenSrc').textContent)) PICK.oneYear = geoid;
     }
     assert.deepStrictEqual(problems.slice(0, 15), [], `${problems.length} disagreements`);
     // Non-vacuity on the scan: it rendered real cards and found margins and
@@ -229,7 +261,7 @@ const line = (id) => document.getElementById(id);
     assert(checked >= 3500, `only ${checked} cards checked`);
     assert(withMargin >= 2000, `only ${withMargin} margins checked`);
     assert(caution >= 300, `only ${caution} caution figures checked`);
-    for (const k of ['margins', 'caution', 'zillow', 'rawHome']) assert(PICK[k], `the scan found no ${k} case`);
+    for (const k of ['margins', 'caution', 'zillow', 'rawHome', 'oneYear']) assert(PICK[k], `the scan found no ${k} case`);
   });
 
   await test('the label comes from the figure, not from the summary\'s stamp', async () => {
@@ -291,6 +323,47 @@ const line = (id) => document.getElementById(id);
       AR._setFile(FILE);
       await render(g, shift);
       assert(!/±/.test(line('statHomeValueSrc').textContent), line('statHomeValueSrc').textContent);
+    } finally {
+      AR._setFile(FILE);
+    }
+  });
+
+  await test('a 1-year figure shows its 5-year twin, that margin and the difference', async () => {
+    // paul, 2026-10-18: "show the difference from the 5 and note the margin of
+    // error". The twins are made up here, so the case does not wait on a
+    // margins build; the scan above checks every real one against the file.
+    const g = PICK.oneYear;
+    const rent = FILE.geos[g].DP04_0134E;
+    const burden = FILE.geos[g].rent_burden_30plus;
+    const pop = FILE.geos[g].DP05_0001E;
+    // Income is the card with no twin, so a real one from a margins build is dropped.
+    const { five: _realTwin, ...income } = FILE.geos[g].DP03_0062E;
+    const twins = {
+      DP04_0134E: Object.assign({}, rent, { five: { e: rent.e - 89, m: 22, s: 'acs5', y: rent.y, cv: 0.0075, t: 'good' } }),
+      rent_burden_30plus: Object.assign({}, burden, { five: { e: burden.e + 2.5, m: 3.9, s: 'acs5', y: burden.y, cv: 0.2, t: 'fair' } }),
+      DP05_0001E: Object.assign({}, pop, { five: { e: pop.e, m: 0, s: 'acs5', y: pop.y, cv: 0, t: 'good' } }),
+      DP03_0062E: income,
+    };
+    AR._setFile(Object.assign({}, FILE, {
+      geos: Object.assign({}, FILE.geos, { [g]: Object.assign({}, FILE.geos[g], twins) }),
+    }));
+    try {
+      await render(g);
+      const five = (id) => (line(id).querySelector('.acs-five') || {}).textContent || '';
+      const cards = [['statRentSrc', 'money', twins.DP04_0134E], ['statRentBurdenSrc', 'pct', twins.rent_burden_30plus],
+        ['statPopSrc', 'count', twins.DP05_0001E]];
+      for (const [id, unit, e] of cards) {
+        assert.deepStrictEqual(fiveProblems(e, unit, five(id)), [], `${id}: ${five(id)}`);
+      }
+      assert(five('statRentSrc').includes('$89 higher'), five('statRentSrc'));
+      assert(five('statRentBurdenSrc').includes('2.5 pts lower'), five('statRentBurdenSrc'));
+      // The twin's own tier is said, as for any figure.
+      assert(/fair/.test(five('statRentBurdenSrc')), five('statRentBurdenSrc'));
+      // The figure's own margin and source are unchanged above the twin.
+      const own = line('statRentSrc').textContent.replace(five('statRentSrc'), '');
+      assert(own.startsWith(moeText(rent.m, 'money')) && own.includes(`ACS ${rent.y} 1-year DP04`), own);
+      // A card with no twin has no 5-year line.
+      assert.strictEqual(line('statMhiSrc').querySelector('.acs-five'), null);
     } finally {
       AR._setFile(FILE);
     }
@@ -373,7 +446,9 @@ const line = (id) => document.getElementById(id);
     let n = 0;
     const off = [];
     for (const [geoid, g] of Object.entries(FILE.geos)) {
-      for (const [field, e] of Object.entries(g)) {
+      // A 1-year figure's 5-year twin carries a tier of its own.
+      const entries = Object.entries(g).flatMap(([f, e]) => (e.five ? [[f, e], [`${f}.five`, e.five]] : [[f, e]]));
+      for (const [field, e] of entries) {
         if (e.cv == null || e.m === 0 || [0.15, 0.30].some((x) => Math.abs(e.cv - x) < 1e-4)) continue;
         n += 1;
         if (AR.tierForCv(e.cv) !== e.t) off.push(`${geoid} ${field} cv ${e.cv}: file ${e.t}, rule ${AR.tierForCv(e.cv)}`);

@@ -12,6 +12,10 @@
  * (over 30%) or zero_in_sample. A margin belongs to a number only when the
  * number shown equals e, so forValue() returns nothing for any other number,
  * such as a Zillow-based home value or a figure fetched live.
+ *
+ * A 1-year figure (a geography of 65,000 or more) also has `five`: the ACS
+ * 5-year estimate ending the same year, with its own margin and tier, which
+ * fiveYear() puts beside it with the difference.
  */
 (function () {
   'use strict';
@@ -123,6 +127,24 @@
     return 'use_with_caution';
   }
 
+  /**
+   * For a 1-year figure, its 5-year twin, the series every smaller geography
+   * has: "5-year 2020–2024: $1,781 ±$22 · this figure is $89 higher". The two
+   * cover different periods, so the gap is partly change over time; it is not
+   * a significance test. '' when the entry has no twin.
+   */
+  function fiveYear(e, unit) {
+    const f = e && e.five;
+    if (!f || f.e == null || f.y == null || e.e == null) return '';
+    const margin = describe(f, unit);
+    const diff = Number(e.e) - Number(f.e);
+    const gap = Math.abs(diff) < TOLERANCE
+      ? 'same as this figure'
+      : 'this figure is ' + _fmt(diff, unit) + (diff > 0 ? ' higher' : ' lower');
+    return '5-year ' + (f.y - 4) + '–' + f.y + ': ' + _fmtValue(Number(f.e), unit)
+      + (margin ? ' ' + margin : '') + ' · ' + gap;
+  }
+
   /** "5-year" or "1-year" for an entry's series. */
   function seriesLabel(e) {
     if (!e || !e.s) return '';
@@ -137,6 +159,7 @@
     forValue,
     range,
     describe,
+    fiveYear,
     tierForCv,
     seriesLabel,
     // Tests replace the loaded file without a fetch.

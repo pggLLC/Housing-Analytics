@@ -590,40 +590,6 @@
           "note": "The design items are practices consistent with the cited studies and standards. Apart from the cited findings, they have not each been tested in a trial."
         },
         {
-          "id": "fruita-mews",
-          "heading": "From practice: questions from Fruita Mews, and what the research says",
-          "paragraphs": [
-            "Fruita Mews Phase I is a 50-unit affordable townhome community in Fruita, with an individual porch for every home along tree-lined pedestrian walks. Phase II is a proposal that has applied to CHFA for housing tax credits. It has not been awarded, and its design may change.",
-            "In a March 2026 response to CHFA's questions on the Phase II application, the developer described what residents of Phase I valued and what went unused. Those are one team's observations, not an evaluation. This brief uses them as questions and sets each one beside the research that supports it, qualifies it, or leaves it untested."
-          ],
-          "table": {
-            "caption": "Fruita Mews observations and the research on each",
-            "columns": [
-              "What Phase I residents showed",
-              "What the research says"
-            ],
-            "rows": [
-              [
-                "Residents valued their own front porches, front and rear entries and defined outdoor space. The Phase II proposal adds privacy screens on the porches.",
-                "Supported in part. Gehl's street studies and Wilkerson's Portland study link porches and front yards to more lingering and neighbor contact, though several of Wilkerson's results were not significant. The London Plan treats 1.5 meters (about 5 feet) as the minimum usable depth. No study found tested privacy screens on porches."
-              ],
-              [
-                "Detached exterior storage went largely unused. Residents preferred storage inside their homes, and the Phase II proposal moves that budget indoors.",
-                "Consistent, but untested directly. England's space standard requires built-in storage inside each home (1.5 square meters for a one-bedroom home for two people), and RIBA framed the space shortfall in new homes in terms of furniture and storage. No study found compared detached and in-unit storage use."
-              ],
-              [
-                "Older adults filled more of the one-bedroom homes than expected. The Phase II proposal groups single-story one-bedroom homes around a garden, next to family townhomes.",
-                "Supported. Having the kitchen, bedroom and bathroom on one floor was among the home features most linked to older adults staying in place (Granbom et al., 2018). Under 5% of U.S. homes suit someone with moderate mobility difficulties. Shared outdoor space and nearby greenery are linked to neighbor ties and higher well-being, though the shared-space evidence is mostly qualitative."
-              ],
-              [
-                "The Phase II plans add kitchen islands, defined entries, larger living areas and walk-in closets, and move entries off the face of the porch.",
-                "Partly supported. Layout and room volume can offset crowding stress (Evans and Rollings), and small size and poor views each raised the odds of depressive symptoms in the Milan lockdown study. Universal design's 'size and space for approach and use' supports clear entries. No study found tested kitchen islands or foyers on their own."
-              ]
-            ]
-          },
-          "note": "Source for the left column: the developer's clarification response to CHFA on the Fruita Mews II application (March 2026), provided to COHO. Where a row says no study was found, that is a gap in the evidence, not evidence against the design."
-        },
-        {
           "id": "qap",
           "heading": "What CHFA requires, scores and rewards",
           "paragraphs": [

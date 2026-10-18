@@ -476,7 +476,11 @@
         '<strong>20-year population projection of ' + _fmtInt(ctx.pop20yr) + '</strong> implies ' +
         (deltaPop > 0 ? 'roughly ' : 'a net loss of ~') + _fmtInt(Math.abs(deltaHh)) + ' ' +
         (deltaPop > 0 ? 'new' : 'fewer') + ' households at current average household size (' + ctx.avgHhSize.toFixed(2) + '), ' +
-        _aOrAn(pctGrowth) + ' ' + pctGrowth + '% ' + direction + ' from today.'
+        _aOrAn(pctGrowth) + ' ' + pctGrowth + '% ' + direction + ' from today (from the State Demography Office\u2019s county forecast). ' +
+        // The homes-needed figure on the same page is a different count (it
+        // comes from projected households at a target vacancy), and the two
+        // read as a contradiction when neither says so (trust sweep, 2026-10-18).
+        'This count holds household size at today’s level; the homes-needed estimate uses its own household and vacancy assumptions, so the two differ.'
       );
     }
     if (ctx.pctSfDetached != null && ctx.pctMultifamily != null) {

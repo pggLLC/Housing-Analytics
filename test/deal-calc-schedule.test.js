@@ -153,7 +153,8 @@ async function test(name, fn) {
       ['unpriced', s => { s.unit_mix[0].proposed_gross_rent = ''; }, fips, 'chfa_lihtc', 'schedule_unavailable:unpriced_rows'],
       ['county', () => {}, '08031', 'chfa_lihtc', 'schedule_other_county'],
       ['setting', () => {}, fips, 'ami_formula', 'schedule_requires_chfa_setting'],
-      ['vacancy', s => { s.vacancy_rate = ''; }, fips, 'chfa_lihtc', 'schedule_unavailable:vacancy_rate_missing']
+      ['vacancy', s => { s.vacancy_rate = ''; }, fips, 'chfa_lihtc', 'schedule_unavailable:vacancy_rate_missing'],
+      ['units', s => { s.unit_mix[0].count = ''; }, fips, 'chfa_lihtc', 'schedule_unavailable:unit_count_invalid']
     ]) {
       const w = await calculator();
       try {
@@ -161,7 +162,14 @@ async function test(name, fn) {
         change(w, 'dc-county-select', county); change(w, 'dc-rent-limit-regime', regime);
         const status = w.document.getElementById('dc-unit-mix-status');
         assert.equal(status.dataset.mode, 'manual', name); assert.equal(status.dataset.unavailableReason, reason);
-        assert(status.textContent.includes(reason)); assert(!w.document.getElementById('dc-manual-unit-mix').hidden);
+        // The status speaks plain words, never the code; for a schedule reason
+        // it is the rent module's own message for that code.
+        assert(!/[a-z]+_[a-z_]+/.test(status.textContent), name + ': no raw code on the page: ' + status.textContent);
+        if (reason.startsWith('schedule_unavailable:')) {
+          const words = limits.unavailableMessage(reason.slice('schedule_unavailable:'.length));
+          assert(status.textContent.toLowerCase().includes(words.toLowerCase()), name + ': ' + status.textContent);
+        }
+        assert(!w.document.getElementById('dc-manual-unit-mix').hidden);
         assert(!w.document.getElementById('dc-vacancy').readOnly);
         assert.equal(+w.document.getElementById('dc-units').value, 60, 'fallback restores the existing manual grid total');
         const ua = limits.allowanceByBedroom(w.SubjectProject.get(), county);
@@ -173,6 +181,18 @@ async function test(name, fn) {
         assert.equal(text(w, 'dc-r-rents'), money(annual));
       } finally { w.close(); }
     }
+  });
+  await test('before any Market Analysis run the unit mix status says so in words, not a code', async () => {
+    const w = await calculator();
+    try {
+      w.SubjectProject.set({ county_fips: fips, total_units: 0, unit_mix: [] });
+      change(w, 'dc-county-select', fips);
+      const status = w.document.getElementById('dc-unit-mix-status');
+      assert.equal(status.dataset.mode, 'manual');
+      assert.match(status.dataset.unavailableReason, /^schedule_unavailable:/, 'the code stays on the data attribute');
+      assert(!/[a-z]+_[a-z_]+/.test(status.textContent), 'no raw code on the page: ' + status.textContent);
+      assert.match(status.textContent, /No Market Analysis rent schedule yet/);
+    } finally { w.close(); }
   });
   await test('manual fallback without a county stays unavailable rather than becoming zero revenue', async () => {
     const w = await calculator();

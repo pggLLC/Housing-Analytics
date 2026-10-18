@@ -399,9 +399,9 @@
 
   function lihtcSourceInfo(source) {
     if (source === 'CHFA')  return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
-    if (source === 'local') return { label: 'Local CHFA data (chfa-lihtc.json)', color: '#16a34a' };
+    if (source === 'local') return { label: 'CHFA tax-credit properties (statewide file)', color: '#16a34a' };
     if (source === 'HUD')   return { label: 'HUD LIHTC Database', color: '#6366f1' };
-    if (source === 'local-county') return { label: 'Local CHFA county cache', color: '#16a34a' };
+    if (source === 'local-county') return { label: 'CHFA tax-credit properties (county file)', color: '#16a34a' };
     return                         { label: 'Unknown source', color: '#6366f1' };
   }
 

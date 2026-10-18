@@ -21,9 +21,35 @@
   };
   // A row closed on an official notice must not claim a ballot was reviewed.
   var NOTICE_BASIS = 'No official ballot found — official notice reviewed, no direct housing measure found';
+  // Research notes are written by researchers and can name a coverage state by
+  // its code. Readers see the same label the coverage table shows instead.
+  var NOTE_TERMS = Object.assign({}, STATES, {
+    none_found: 'no housing measure found',
+    on_ballot: 'on the ballot'
+  });
+  var HTTP_TERMS = {
+    403: 'an access-denied error', 404: 'a page-not-found error', 406: 'a request-refused error',
+    429: 'a too-many-requests error', 500: 'a server error', 502: 'a server error', 503: 'a server error'
+  };
+  function plainWords(part) {
+    return part
+      .replace(/\bHTTP 202 with no content\b/g, 'an empty response')
+      .replace(/\bHTTP (\d{3})\b/g, function (_, code) { return HTTP_TERMS[code] || 'an error response'; })
+      .replace(/[\w\-]+(?:\.[\w\-]+)*/g, function (word) {
+        // Only bare snake_case codes; file names and dotted paths are left alone.
+        if (!/^[a-z][a-z0-9]*(?:_[a-z0-9]+)+$/.test(word)) return word;
+        return NOTE_TERMS[word] ? '“' + NOTE_TERMS[word] + '”' : word.replace(/_/g, ' ');
+      });
+  }
+  function plainNote(text) {
+    // Links stay exactly as researched; only the prose around them is translated.
+    return String(text == null ? '' : text).split(/(https?:\/\/\S+)/).map(function (part, i) {
+      return i % 2 ? part : plainWords(part);
+    }).join('');
+  }
   function stateLabel(row) {
     if (row.coverage_state === 'official_ballot_reviewed_none_found' && row.basis === 'official_notice') return NOTICE_BASIS;
-    return STATES[row.coverage_state] || row.coverage_state;
+    return STATES[row.coverage_state] || (row.coverage_state ? plainWords(row.coverage_state) : 'Not yet researched');
   }
   var past = document.getElementById('past-election-records');
 
@@ -77,7 +103,7 @@
     var detail = add(parent, 'details', null, 'research-notes');
     add(detail, 'summary', 'Research notes and limitations');
     var list = add(detail, 'ul');
-    limitations.forEach(function (text) { add(list, 'li', text); });
+    limitations.forEach(function (text) { add(list, 'li', plainNote(text)); });
   }
   function resultPending(entry) {
     // The merged schema supports passed/failed only. Malformed outcomes (such
@@ -90,7 +116,7 @@
     var result = entry.result;
     var label;
     if (resultPending(entry)) {
-      label = 'Result pending: ' + (entry.limitations[0] || 'No outcome is available.');
+      label = 'Result pending: ' + (entry.limitations[0] ? plainNote(entry.limitations[0]) : 'No outcome is available.');
     } else if (result) {
       label = (result.outcome === 'passed' ? 'Passed' : 'Failed') +
         (result.stage === 'certified' ? ' — certified ' + result.as_of :
@@ -107,7 +133,7 @@
     var status = entry.status.replace(/_/g, ' ');
     if (resultPending(entry) && ['passed', 'failed'].includes(entry.status)) status = 'Result pending';
     add(card, 'p', 'Status: ' + status + ' · Election: ' + entry.election.date, 'election-check');
-    if (entry.detail) add(card, 'p', entry.detail);
+    if (entry.detail) add(card, 'p', plainNote(entry.detail));
     excerpts(card, 'Official question and source excerpts', entry.evidence);
     var source = entry.sources.certification || entry.sources.ballot_notice || entry.sources.official_text || entry.sources.resolution;
     link(card, 'Official source', source && source.url);

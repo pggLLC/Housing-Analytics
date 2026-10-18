@@ -449,6 +449,25 @@ check('lastUpdated follows the commit that changed the file, in both directions'
   });
 });
 
+// A re-serialised file gets a new commit but is not a new fetch. When the file
+// carries its own stamp, that stamp is the date; a file with none still
+// follows git (the fred-data case above).
+check('a file that carries its own fetch stamp is dated by it, not by its last commit', () => {
+  withSandbox(HONEST_COUNTS, (dir) => {
+    const rel = 'data/regrid-parcels.json';
+    const doc = { ...DATA_FILES[rel], meta: { generated: '2026-04-09T10:00:00Z' } };
+    fs.writeFileSync(path.join(dir, rel), JSON.stringify(doc, null, 2));
+    commitFileAt(dir, rel, '2026-08-01T12:00:00Z');
+    commitFileAt(dir, 'data/fred-data.json', '2024-06-15T12:00:00Z');
+    const result = run(dir);
+    assert.strictEqual(result.status, 0, result.output);
+    const after = inventoryOf(dir);
+    assert.match(after, /lastUpdated: '2026-04-09',/, `the stamp must win over the 2026-08-01 commit:\n${result.output}`);
+    assert.doesNotMatch(after, /lastUpdated: '2026-08-01',/, 'a re-serialising commit must not read as a fetch');
+    assert.match(after, /lastUpdated: '2024-06-15',/, 'a file with no stamp still follows git');
+  });
+});
+
 check('an mtime of now cannot move lastUpdated — only content can', () => {
   // The exact condition actions/checkout creates on every runner.
   withSandbox(HONEST_COUNTS, (dir) => {

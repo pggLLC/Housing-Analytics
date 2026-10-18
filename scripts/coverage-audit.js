@@ -186,7 +186,7 @@ out.per_category.tax_abatement = {
   places_covered: Array.from(taPlaceKeys).length
 };
 log('  ' + taJurisdictions + ' jurisdictions covering ' + taPlaceKeys.size + ' places');
-log('  (smaller jurisdictions fall back to CRS §39-3-112.5 statewide baseline)');
+log('  (smaller jurisdictions fall back to statewide exemptions (CRS §39-3-112, §29-4-227))');
 
 // ─────────────────────────────────────────────────────────────────────
 // 6. Local-PHA roster — places with 0 federal affordable but pop ≥1000
