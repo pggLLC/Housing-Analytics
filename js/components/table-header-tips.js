@@ -141,7 +141,10 @@
     th.insertBefore(label, th.querySelector('.th-sort'));
     th.addEventListener('click', function (e) {
       // The arrow's header click (table-sort.js) is not a tap on the label.
-      if (e.thSortArrow || !lastPointerTouch || (e.target.closest && e.target.closest('.th-sort'))) return;
+      // Nor is a click with no pointer behind it (detail 0): renderers that
+      // sort on Enter/Space call th.click(), and a touch earlier on the page
+      // must not turn that keypress into opening the definition.
+      if (e.thSortArrow || !lastPointerTouch || !e.detail || (e.target.closest && e.target.closest('.th-sort'))) return;
       e.stopImmediatePropagation();
       e.preventDefault();
       var open = th.classList.toggle('is-open');

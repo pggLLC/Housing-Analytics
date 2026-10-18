@@ -82,7 +82,7 @@ const touchTap = (el) => {
   const pd = new window.Event('pointerdown', { bubbles: true });
   Object.defineProperty(pd, 'pointerType', { value: 'touch' });
   el.dispatchEvent(pd);
-  el.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }));
+  el.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
 };
 
 (async () => {
@@ -199,6 +199,11 @@ const touchTap = (el) => {
   assert.equal(ths[1].getAttribute('aria-sort'), 'ascending', 'tap on the arrow sorts');
   touchTap(ths[2]);
   assert.equal(ths[2].getAttribute('aria-sort'), 'ascending', 'a header with no definition sorts on a tap anywhere');
+  // After a touch, a keyboard-driven th.click() (detail 0) still sorts.
+  ths[1].classList.remove('is-open');
+  ths[1].click();
+  assert.ok(!ths[1].classList.contains('is-open'), 'a click with no pointer behind it does not open the definition');
+  assert.equal(ths[1].getAttribute('aria-sort'), 'ascending', 'a click with no pointer behind it sorts');
 
   // Re-render: a renderer replaces the rows while a sort shows; the arrow resets.
   const tb = document.querySelector('#plain tbody');
