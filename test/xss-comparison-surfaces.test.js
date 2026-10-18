@@ -318,7 +318,7 @@ function assertEscapeCallGuards() {
       '_esc(labelB)',
       '_esc(entryA.name)',
       '_esc(entryB.name)',
-      { needle: '_esc(side.entry.name)', count: 2 },
+      { needle: '_esc(side.entry.name)', count: 3 },
       '_esc(tier)'
     ]
   };

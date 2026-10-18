@@ -409,8 +409,43 @@
     return best;
   }
 
+  // Callouts that suggest a unit mix also point to the 15-year check under
+  // Recommended AMI Distribution (js/mix-check.js), and name the renters at
+  // 31–80% AMI who pay too much once the HUD CHAS figures for the selection
+  // are on hand (the projector announces them with a mixcheck:inputs event).
+  const MIX_KEYS = { 'Cost burden by AMI tier': 1, 'Labor Market Context': 1, 'Wage Distribution': 1 };
+  function _attr(v) {
+    return String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  // The check lives on the What to do view and the full report; other views link to it.
+  function _mixPointer() {
+    const here = !!document.getElementById('hnpAmiContainer');
+    const where = here ? 'under Recommended AMI Distribution on this page'
+      : 'under Recommended AMI Distribution in <a href="hna-what-to-do.html' + _attr(location.search || '') + '">What to do about it</a>';
+    return ' Test any mix with the 15-year check ' + where + ', which shows whether each rent level covers its own operating costs.';
+  }
+  let _burdenText = '';
+
+  function _burdenSentence(inputs) {
+    const b = inputs && inputs.burden;
+    if (!b) return '';
+    const parts = ['31to50', '51to80'].filter(k => b[k]).map(k =>
+      Math.round(b[k].burdened).toLocaleString('en-US') + ' at ' + b[k].label + ' (' + Math.round(b[k].pct) + '%)');
+    if (!parts.length) return '';
+    return ' Here, renter households paying more than 30% of income include ' + parts.join(' and ') +
+      ' (HUD CHAS' + (inputs.chasVintage ? ' ' + inputs.chasVintage : '') + (inputs.chasScope === 'place' ? ', place estimate' : ', county') + ').';
+  }
+
+  window.addEventListener('mixcheck:inputs', function (e) {
+    _burdenText = _burdenSentence(e && e.detail && e.detail.inputs);
+    document.querySelectorAll('.hna-dev-context__burden').forEach(function (el) { el.textContent = _burdenText; });
+  });
+
   function _renderCallout(key) {
     const entry = EXPLAIN[key];
+    const mixTail = MIX_KEYS[key]
+      ? _mixPointer() + '<span class="hna-dev-context__burden">' + _attr(_burdenText) + '</span>'
+      : '';
     // F199 — Dropped the "For affordable-housing developers" eyebrow
     // per user request. The three labeled paragraphs already make the
     // intent clear without the redundant header. Accent left border +
@@ -421,7 +456,7 @@
            'border-radius:0 6px 6px 0;font-size:.85rem;line-height:1.45">' +
              '<p style="margin:0 0 .4rem"><strong>Why it matters:</strong> ' + entry.why + '</p>' +
              '<p style="margin:0 0 .4rem"><strong>What it says about need:</strong> ' + entry.demand + '</p>' +
-             '<p style="margin:0"><strong>How it shapes a project:</strong> ' + entry.project + '</p>' +
+             '<p style="margin:0"><strong>How it shapes a project:</strong> ' + entry.project + mixTail + '</p>' +
            '</aside>';
   }
 
@@ -504,5 +539,5 @@
   }
 
   // Expose for debugging / extending
-  window.HnaDevContext = { explain: EXPLAIN, render: _renderCallout, inject: _injectCallouts };
+  window.HnaDevContext = { explain: EXPLAIN, render: _renderCallout, inject: _injectCallouts, burdenSentence: _burdenSentence };
 })();

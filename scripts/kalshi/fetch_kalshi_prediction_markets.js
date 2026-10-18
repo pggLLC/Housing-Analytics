@@ -39,9 +39,9 @@ const path   = require('path');
 const https  = require('https');
 
 // ---------------------------------------------------------------------------
-// Configuration — fill in series_ticker / event_ticker values once known.
+// Configuration. Each series ticker was checked against the live Kalshi API
+// on 2026-10-18 (KXHOMEPRICE and KXMORTGAGE30, used before, do not exist).
 // The `seriesTicker` or `eventTicker` field is used to search Kalshi markets.
-// Leave a field null to skip that metric; the script will warn but continue.
 // ---------------------------------------------------------------------------
 
 /**
@@ -49,60 +49,77 @@ const https  = require('https');
  * @property {string}      metric        — stable camelCase key used in JSON output
  * @property {string}      label         — human-readable label for the UI
  * @property {string}      horizon       — description of the time horizon
- * @property {string|null} seriesTicker  — Kalshi series ticker (e.g. "KXMORTGAGE30")
+ * @property {string|null} seriesTicker  — Kalshi series ticker (e.g. "KXMORTGAGERATE")
  * @property {string|null} eventTicker   — Kalshi event ticker (overrides seriesTicker search)
  * @property {string[]}    keywords      — fallback keyword search terms
+ * @property {string}      [note]        — one line under the label saying how to read the line
  */
 const MARKET_CONFIG = [
+  // Colorado first: the only prediction markets on Colorado housing itself.
   {
-    metric:       'home_price_growth',
-    label:        'National Home Price Growth (YoY)',
-    horizon:      'year_end',
-    // Known Kalshi series: "KXHOMEPRICE" tracks national home price indices.
-    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
-    seriesTicker: 'KXHOMEPRICE',
+    metric:       'colorado_home_prices',
+    label:        'Colorado home price index, Q4 2026 (FHFA)',
+    horizon:      'quarter',
+    // FHFA seasonally adjusted purchase-only index for Colorado.
+    seriesTicker: 'KXCOHPIYOY',
+    note:         'Kalshi compares the Q4 2026 index with Q4 2025, and the line sits near the end-2025 level, so its price reads as the odds Colorado home prices finish 2026 higher than a year earlier.',
     eventTicker:  null,
-    keywords:     ['home price', 'house price', 'HPI', 'Case-Shiller'],
+    keywords:     [],
+  },
+  {
+    metric:       'colorado_building_permits',
+    label:        'Colorado homes permitted in 2026 (Census)',
+    horizon:      'year_end',
+    // Census Building Permits Survey: units authorized in Colorado.
+    seriesTicker: 'KXCOBUILDPERMITS',
+    eventTicker:  null,
+    keywords:     [],
   },
   {
     metric:       '30yr_mortgage_rate',
-    label:        '30-Year Mortgage Rate',
+    label:        '30-year mortgage rate, high for the year (Freddie Mac)',
     horizon:      'year_end',
-    // Known Kalshi series: "KXMORTGAGE30" tracks the 30-year fixed mortgage rate.
-    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
-    seriesTicker: 'KXMORTGAGE30',
+    // Freddie Mac PMMS weekly rate (FRED MORTGAGE30US). One event per
+    // calendar year; the busiest one is shown.
+    seriesTicker: 'KXMORTGAGERATE',
     eventTicker:  null,
-    keywords:     ['mortgage rate', '30-year mortgage', '30yr mortgage'],
+    keywords:     [],
   },
   {
     metric:       'housing_starts',
-    label:        'Total Housing Starts (Annualized)',
-    horizon:      'year_end',
-    // Known Kalshi series: "KXHOUSINGSTART" tracks annualized housing starts.
-    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
+    label:        'US housing starts, monthly (Census)',
+    horizon:      'month',
+    // Census new residential construction (FRED HOUST), annualized.
     seriesTicker: 'KXHOUSINGSTART',
     eventTicker:  null,
-    keywords:     ['housing starts', 'new home construction'],
+    keywords:     [],
   },
   {
-    metric:       'rent_growth',
-    label:        'National Rent Growth (YoY)',
-    horizon:      'year_end',
-    // No confirmed Kalshi series ticker for rent growth as of 2025.
-    // Set seriesTicker once a confirmed ticker is identified.
-    seriesTicker: null,
+    metric:       'building_permits',
+    label:        'US building permits, monthly (Census)',
+    horizon:      'month',
+    // Census building permits, all units (FRED PERMIT), annualized.
+    seriesTicker: 'KXBUILDPERMS',
     eventTicker:  null,
-    keywords:     ['rent growth', 'rental price', 'rent index'],
+    keywords:     [],
   },
   {
-    metric:       'multifamily_permits',
-    label:        'Multifamily Permits / Starts',
-    horizon:      'year_end',
-    // No confirmed Kalshi series ticker for multifamily permits as of 2025.
-    // Set seriesTicker once a confirmed ticker is identified.
-    seriesTicker: null,
+    metric:       'existing_home_price',
+    label:        'US median existing-home price, monthly (NAR)',
+    horizon:      'month',
+    // NAR median sales price of existing homes (FRED HOSMEDUSM052N).
+    seriesTicker: 'KXEXUSHOME',
     eventTicker:  null,
-    keywords:     ['multifamily', 'apartment starts', 'building permits'],
+    keywords:     [],
+  },
+  {
+    metric:       'owners_equivalent_rent',
+    label:        'US rent index, monthly (BLS owners\' equivalent rent)',
+    horizon:      'month',
+    // BLS CPI-U owners' equivalent rent of residences, index level.
+    seriesTicker: 'KXOER',
+    eventTicker:  null,
+    keywords:     [],
   },
 ];
 
@@ -270,7 +287,7 @@ async function fetchMarketsForMetric(cfg) {
 
   // Use series ticker to list markets
   if (cfg.seriesTicker) {
-    const qs      = new URLSearchParams({ series_ticker: cfg.seriesTicker, status: 'open', limit: '20' });
+    const qs      = new URLSearchParams({ series_ticker: cfg.seriesTicker, status: 'open', limit: '100' });
     const apiPath = `${API_PATH}/markets?${qs}`;
     const url     = `${BASE_URL}${apiPath}`;
     const auth    = kalshiAuthHeaders('GET', apiPath);
@@ -423,11 +440,17 @@ function normalizeMarket(cfg, markets) {
   // "above 1.35M", ...): overlapping events, so each keeps its own
   // probability. Rescaling them to sum to 1 — as this used to — is only
   // valid for mutually exclusive outcomes, and turned P(above 1.10M) = 0.95
-  // into a share of a total.
-  if (markets.length > 1) {
+  // into a share of a total. A single threshold contract is a one-line
+  // ladder: "Above 679.21" reads better than "Yes".
+  //
+  // Each line is named by Kalshi's short yes_sub_title ("Above 8.0%") when
+  // it has one: some events give every line the same title ("How high will
+  // 30yr mortgage rate get this year?"), so the title cannot tell them apart.
+  if (markets.length > 1 || strikeOf(market) != null) {
     outcomes = enforceLadder(markets, markets.map((m) => {
       const pr = contractPrice(m);
-      return { name: m.title || m.ticker || '?', prob: pr.prob, bid: pr.bid, ask: pr.ask, thin: pr.thin };
+      const name = m.yes_sub_title || m.title || m.ticker || '?';
+      return { name, prob: pr.prob, bid: pr.bid, ask: pr.ask, thin: pr.thin };
     }));
   }
 
@@ -435,12 +458,16 @@ function normalizeMarket(cfg, markets) {
     metric:   cfg.metric,
     label:    cfg.label,
     horizon:  cfg.horizon,
+    ...(cfg.note ? { note: cfg.note } : {}),
     market: {
       id:    market.ticker || market.id || '',
       title: market.title || '',
       url:   market.ticker
         ? `https://kalshi.com/markets/${market.ticker}`
         : `https://kalshi.com`,
+      // When the market stops trading: tells a reader which release or
+      // year a line is about when the title says only "this year".
+      closes: market.close_time || null,
     },
     outcomes,
   };

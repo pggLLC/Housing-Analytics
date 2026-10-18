@@ -5112,6 +5112,23 @@
     return v.toFixed(1);
   }
 
+  // Per-lane size check beside the ranking: what one unit at each CHFA rent
+  // tier the lane covers nets over 15 years (js/mix-check.js), and the
+  // middle-income lane's measurement limit and state program.
+  function _htnMixCheckHtml(r) {
+    var h = '';
+    (r.laneNotes || []).forEach(function (n) {
+      h += '<div style="font-size:1rem;color:var(--text);margin-bottom:.4rem;">' + escHtml(n) + '</div>';
+    });
+    if (r.pencilLines && r.pencilLines.length) {
+      h += '<div style="font-size:1rem;color:var(--muted);margin-bottom:.2rem;">Does a unit at this rent pay its way for 15 years?</div>' +
+        '<ul style="margin:0 0 .5rem;padding-left:1.05rem;list-style:disc;font-size:1rem;">' +
+        r.pencilLines.map(function (l) { return '<li style="margin:.15rem 0;">' + escHtml(l) + '</li>'; }).join('') +
+        '</ul>';
+    }
+    return h;
+  }
+
   function renderHousingTypeNeed(data) {
     var container = document.getElementById('hnaHousingTypeNeed');
     if (!container) return;
@@ -5185,6 +5202,7 @@
             '<div style="font-size:1rem;color:var(--muted);margin-bottom:.5rem;font-style:italic;">' +
               'LIHTC relevance: ' + escHtml(lr) +
             '</div>' +
+            _htnMixCheckHtml(r) +
             (signals
               ? '<div style="font-size:1rem;color:var(--muted);margin-bottom:.2rem;">' +
                   'Top signals contributing:' +
@@ -5232,6 +5250,12 @@
           'Recommended AMI Distribution above and the Developer Pipeline LIHTC Readiness ' +
           'assessment - three views of the same data with different jobs.' +
         '</p>' +
+        (data && data.mixCheck && data.mixCheck.result && data.mixCheck.result.assumptions
+          ? '<p style="margin:.6rem 0 0;font-size:1rem;color:var(--muted);">' +
+              'The 15-year lines under each rental lane: ' + escHtml(data.mixCheck.result.assumptions) + ' ' +
+              escHtml(window.MixCheckInputs ? window.MixCheckInputs.sourceLine(data.mixCheck.inputs) : '') +
+            '</p>'
+          : '') +
       '</details>';
   }
 
@@ -5277,14 +5301,32 @@
         }
       } catch (_e2) {}
 
-      renderHousingTypeNeed({
+      var htnData = {
         acsProfile: profile,
         chasRows: chasRecord,
         hudIncomeLimits: hud,
         lihtcInventory: lihtcFeatures,
         jurisdictionName: jurisdictionName,
         chasCountyFallback: chasCountyFallback
-      });
+      };
+      renderHousingTypeNeed(htnData);
+
+      // Then add the 15-year pencil lines once the CHFA limits and rules are in
+      // (fetched once per page; the ranking above does not wait for them).
+      var mcCounty = '';
+      if (U() && typeof U().countyFromGeoid === 'function') {
+        try { mcCounty = U().countyFromGeoid(geoType, geoid) || ''; } catch (_e3) {}
+      }
+      if (!mcCounty && geoid && String(geoid).length === 5) mcCounty = geoid;
+      if (mcCounty && window.MixCheck && window.MixCheckInputs) {
+        window.MixCheckInputs.load({ keys: ['limits', 'rules', 'guide'] }).then(function (files) {
+          var cur = S() && S().state && S().state.current;
+          if (cur && cur.geoid && cur.geoid !== geoid) return;   // selection moved on
+          var inputs = window.MixCheckInputs.build(files, { countyFips: mcCounty }, window.MixCheck);
+          htnData.mixCheck = { inputs: inputs, result: window.MixCheckInputs.check(window.MixCheck, inputs, {}) };
+          renderHousingTypeNeed(htnData);
+        });
+      }
     } catch (e) {
       console.warn('[HNA] tryRenderHousingTypeNeedFromState failed', e);
     }

@@ -172,13 +172,17 @@
         // County convention: units − households, NEGATIVE = deficit. A
         // positive value is a surplus — clamp to 0 instead of abs()-ing
         // it into phantom need.
-        var gaps = c.gap_units_minus_households_le_ami_pct;
-        if (gaps) {
-          if (!dealInputs.ami30UnitsNeeded) dealInputs.ami30Scope = 'area';
-          dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.max(0, -(gaps['30'] || 0));
-          dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.max(0, -(gaps['50'] || 0));
-          dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.max(0, -(gaps['60'] || 0));
+        // The thresholds are cumulative ("at or below"), so they are turned
+        // into non-overlapping bands before the predictor sums them.
+        var P = window.LIHTCDealPredictor;
+        var shortfall = P && P.amiShortfallFromCounty ? P.amiShortfallFromCounty(c) : null;
+        if (shortfall && !dealInputs.ami30UnitsNeeded) {
+          dealInputs.ami30Scope = 'area';
+          dealInputs.ami30UnitsNeeded = shortfall.ami30UnitsNeeded;
+          dealInputs.ami50UnitsNeeded = shortfall.ami50UnitsNeeded;
+          dealInputs.ami60UnitsNeeded = shortfall.ami60UnitsNeeded;
         }
+        if (shortfall && !dealInputs.amiGapCumulative) dealInputs.amiGapCumulative = shortfall.amiGapCumulative;
         break;
       }
     }
@@ -305,6 +309,12 @@
       ? window.LIHTCDealPredictorEnhanced.predictEnhanced(dealInputs).base
       : predictor.predictConcept(dealInputs));
 
+    // The mix check's county files load once per page; draw again when they arrive.
+    if (rec.mixCheck && rec.mixCheck.pending && predictor.whenMixDataReady) {
+      var _rev = _conclusionRevision;
+      predictor.whenMixDataReady().then(function () { if (_rev === _conclusionRevision) _renderConceptCard(scoreRun); });
+    }
+
     // Compute housing needs fit when HNA data is available
     var hnsFit = null;
     var hnaFitAnalyzer = window.HousingNeedsFitAnalyzer;
@@ -342,6 +352,21 @@
       _dataScopeBadge('county', { inline: true }) +
       ' <span style="color:var(--text-muted,#aaa)">County-scope context; not site- or place-specific.</span>';
     card.appendChild(note);
+  }
+
+  // Need notes and the pencil sentence (js/mix-check.js), for when the full
+  // renderer is not loaded; LIHTCConceptCardRenderer.mixCheckHtml is the full form.
+  function _mixCheckFallbackHtml(mc) {
+    if (!mc) return '';
+    var small = 'margin:.35rem 0 0;font-size:.75rem;color:var(--text-muted,#aaa);';
+    return '<section aria-label="Need the homes-short counts miss, and whether the mix pays its way" style="margin:.75rem 0 0;font-size:.85rem;overflow-wrap:anywhere;">' +
+      (mc.notes && mc.notes.length ? '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Renters the homes-short counts miss</h4><ul style="margin:0;padding-left:1.25rem;">' +
+        mc.notes.map(function (n) { return '<li>' + _esc(n) + '</li>'; }).join('') + '</ul>' : '') +
+      '<h4 style="margin:.5rem 0 .25rem;font-size:.85rem;">Does this mix pay its way over 15 years?</h4>' +
+      (mc.sentence ? '<p style="margin:0;">' + _esc(mc.sentence) + '</p>' +
+        (mc.assumptionsText ? '<p style="' + small + '">' + _esc(mc.assumptionsText) + '</p>' : '')
+        : '<p style="' + small + '">Not available: ' + _esc(mc.unavailableReason || 'no reason recorded.') + '</p>') +
+      '</section>';
   }
 
   function _drawConceptCard(card, rec, hnsFit) {
@@ -487,6 +512,8 @@
       ].join('') : ''),
 
       hnaHtml,
+
+      _mixCheckFallbackHtml(rec.mixCheck),
 
       '<p style="margin:.75rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);border-top:1px solid var(--border,#333);padding-top:.5rem;">',
         _esc(rec.caveats && rec.caveats[0] ? rec.caveats[0] : ''),

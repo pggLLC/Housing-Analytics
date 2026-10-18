@@ -38,6 +38,31 @@
     return Math.round((pct / 100) * totalUnits);
   }
 
+  // LIHTCDealPredictor.predictConcept() returns unit COUNTS per tier; older
+  // callers pass shares ('20%' or 0.2). Counts that add up to the project's
+  // unit count are counts; anything else is read as a share. Before
+  // 2026-10-18 the predictor's counts were read as percentages, so 26 of 44
+  // units at 30% AMI showed as 11.
+  function _mixToUnits(amiMix, totalUnits) {
+    var keys = ['ami30', 'ami40', 'ami50', 'ami60'];
+    var vals = keys.map(function (k) { return amiMix[k]; });
+    var allCounts = vals.every(function (v) { return v == null || (typeof v === 'number' && isFinite(v) && v >= 0 && Math.round(v) === v); });
+    var sum = vals.reduce(function (s, v) { return s + (typeof v === 'number' ? v : 0); }, 0);
+    var out = {};
+    keys.forEach(function (k, i) {
+      out[k] = allCounts && sum > 0 && Math.abs(sum - totalUnits) <= 1 ? (vals[i] || 0) : _pctToUnits(vals[i], totalUnits);
+    });
+    return out;
+  }
+
+  function _mixCheckLib() {
+    if (typeof self !== 'undefined' && self.MixCheck) return self.MixCheck;
+    if (typeof module !== 'undefined' && module.exports && typeof require === 'function') {
+      try { return require('../mix-check.js'); } catch (_) { return null; }
+    }
+    return null;
+  }
+
   function _n(v) {
     var n = parseFloat(v);
     return isFinite(n) && n >= 0 ? n : 0;
@@ -88,10 +113,11 @@
     var proposedUnits = opts.proposedUnits ||
       (unitMixTotal > 0 ? unitMixTotal : 60);
 
-    var ami30Units = _pctToUnits(amiMix.ami30, proposedUnits);
-    var ami40Units = _pctToUnits(amiMix.ami40, proposedUnits);
-    var ami50Units = _pctToUnits(amiMix.ami50, proposedUnits);
-    var ami60Units = _pctToUnits(amiMix.ami60, proposedUnits);
+    var mixUnits   = _mixToUnits(amiMix, proposedUnits);
+    var ami30Units = mixUnits.ami30;
+    var ami40Units = mixUnits.ami40;
+    var ami50Units = mixUnits.ami50;
+    var ami60Units = mixUnits.ami60;
 
     var need30 = _n(afGap.ami30UnitsNeeded || afGap.ami30Needed || 0);
     var need50 = _n(afGap.ami50UnitsNeeded || afGap.ami50Needed || 0);
@@ -169,8 +195,29 @@
       gaps.push(need60 + ' units needed at 60% AMI \u2014 current AMI mix leaves this tier unaddressed');
     }
 
+    // Need the homes-short counts miss (HUD CHAS cost burden by band) and the
+    // 15-year pencil test, from js/mix-check.js via the predictor and the bridge.
+    var mc      = rec.mixCheck || null;
+    var M       = _mixCheckLib();
+    var burden  = (mc && mc.burden) || afGap.burden || null;
+    var b3150   = burden && burden['31to50'];
+    if (M && M.material(b3150) && ami40Units + ami50Units === 0) {
+      gaps.push(b3150.burdened + ' renter households at 31\u201350% AMI pay more than 30% of income, and this mix has no 40\u201350% AMI units for them');
+    }
+    var workforce = (mc && mc.workforce) || needProfile.workforce || null;
+    if (workforce) {
+      gaps.push('Workforce need above 80% AMI is outside any tax-credit mix; it needs a separate middle-income deal');
+    }
+    var pencil = mc && mc.pencil && mc.pencil.ok && mc.pencil.mix && !mc.pencil.mix.reason ? mc.pencil.mix : null;
+    if (pencil && pencil.firstShortYear) {
+      gaps.push('At CHFA\u2019s minimum underwriting assumptions this mix runs short of its operating costs in year ' + pencil.firstShortYear + ' and needs rental subsidy or operating support');
+    }
+    var needNotes = (mc && mc.notes && mc.notes.length ? mc.notes : needProfile.needNotes) || [];
+
     return {
       geography:        geo,
+      needNotes:        needNotes,
+      paysItsWay:       pencil ? !pencil.firstShortYear : null,
       prioritySegments: targeted,
       needCoverage:     { ami30: cov30, ami50: cov50, ami60: cov60, total: covTot },
       alignment:        alignment,

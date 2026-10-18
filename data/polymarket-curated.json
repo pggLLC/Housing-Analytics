@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "The curated Polymarket events shown on economic-dashboard.html and fetched by .github/workflows/fetch-polymarket-data.yml. This file is the single list of markets; neither the page nor the workflow names a market itself.",
-    "how_to_add": "Add one entry. `slug` is the Polymarket event slug. `section` is one of the dashboard sections below. `role` picks how the event is rendered (see ROLES in economic-dashboard.html). `key` names the element ids (pm-<key>, pm-<key>-detail, ...) and must be unique. `kpi` is optional and adds a headline tile.",
+    "how_to_add": "Add one entry. `slug` is the Polymarket event slug. `section` is one of the dashboard sections below. `role` picks how the event is rendered (see ROLES in economic-dashboard.html). `key` names the element ids (pm-<key>, pm-<key>-detail, ...) and must be unique. `kpi` is optional and adds a headline tile. `prefix` is optional for the brackets role and is put before each line's label (\"Reaches \" + \"5.5%\").",
     "settled_markets": "A market that settles is dropped from data/polymarket-data.json by the fetcher and listed in dropped_settled; the page then stops rendering its card. Removing the entry from this file afterwards is housekeeping, not a fix.",
     "sections": ["fed", "mortgage", "growth", "labor"],
     "roles": ["recession", "fed-decision", "fed-decision-pair", "fed-cuts", "inflation", "gdp", "brackets", "up-down"]
@@ -30,6 +30,17 @@
       "kpi": "Most Likely Rate Cuts 2026"
     },
     {
+      "slug": "fed-decision-in-december-20260729232808632",
+      "key": "fed-dec",
+      "role": "fed-decision",
+      "section": "fed",
+      "badge": "Fed Policy",
+      "color": "#1a73e8",
+      "label": "Fed Decision — December 2026",
+      "description": "FOMC meeting December 8-9, the last of the year. Sets the short-term rate that construction loans and variable-rate debt carry into 2027.",
+      "kpi": "Fed Holds in December"
+    },
+    {
       "slug": "fed-decision-in-january-20260729233815502",
       "key": "fed-jan",
       "role": "fed-decision-pair",
@@ -38,6 +49,28 @@
       "color": "#1a73e8",
       "label": "Fed Decision — January 2027",
       "description": "Next major decision point. Rate trajectory affects permanent debt terms and LIHTC equity pricing."
+    },
+    {
+      "slug": "how-high-will-10-year-treasury-yield-go-before-2027",
+      "key": "t10-high",
+      "role": "brackets",
+      "section": "fed",
+      "badge": "Treasury",
+      "color": "#2e7d32",
+      "label": "10-Year Treasury Yield: How High Before 2027",
+      "description": "Permanent loans and tax-exempt bond deals are priced off the 10-year yield. Odds it reaches each level at any point before 2027.",
+      "prefix": "Reaches "
+    },
+    {
+      "slug": "how-low-will-10-year-treasury-yield-get-before-2027",
+      "key": "t10-low",
+      "role": "brackets",
+      "section": "fed",
+      "badge": "Treasury",
+      "color": "#2e7d32",
+      "label": "10-Year Treasury Yield: How Low Before 2027",
+      "description": "The other side of the same rate: odds the 10-year falls below each level at any point before 2027, which would lower permanent debt costs.",
+      "prefix": "Falls "
     },
     {
       "slug": "will-the-30-year-mortgage-rate-hit-in-2026",
@@ -59,6 +92,16 @@
       "label": "US Recession by End of 2026?",
       "description": "Two consecutive negative GDP quarters or NBER announcement. A recession would sharply curtail new CO construction starts and LIHTC deal flow.",
       "kpi": "US Recession by 2026"
+    },
+    {
+      "slug": "us-recession-by-end-of-2027-20260807185409760",
+      "key": "recession-2027",
+      "role": "recession",
+      "section": "growth",
+      "badge": "Recession",
+      "color": "#c62828",
+      "label": "US Recession by End of 2027?",
+      "description": "Two consecutive negative GDP quarters or an NBER announcement covering 2025 through 2027. Carries the recession read past the 2026 market, which settles at year end."
     },
     {
       "slug": "gdp-growth-in-2026",
