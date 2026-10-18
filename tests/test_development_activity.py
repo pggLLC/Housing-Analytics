@@ -810,7 +810,8 @@ def test_an_application_with_an_unknown_county_in_a_county_spanning_city_stays_u
     got = {p['name']: p['county_fips'] for p in dev.finish(L)}
     assert got == {'Hazelbrook HUB': None, 'Other Place': '08005'}
     # the committed file agrees with the applications list, row for row
-    apps = json.load(open(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')))
+    with open(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')) as fh:
+        apps = json.load(fh)
     spans = dev.apps_mod.city_spans(dev.apps_mod.load_places())
     unknown = {(a['name'], a['city']) for a in apps['applications']
                if not a.get('award_only') and not a.get('county_fips') and (a.get('year') or 0) >= dev.FIRST_YEAR
