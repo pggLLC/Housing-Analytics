@@ -417,6 +417,9 @@
     var order = loans.slice().sort(function (a, b) { return a.priority - b.priority; });
     var balances = loans.map(function (loan) { return loan.amount; });
     var years = [];
+    // An asset management fee that cash cannot cover accrues and is paid first
+    // from later years' cash, never dropped (DOH PR 4).
+    var assetOwed = 0;
     annualNoi.forEach(function (noi, index) {
       var year = index + 1;
       var available = known(noi) ? Math.max(0, noi) : null;
@@ -429,12 +432,16 @@
         // DOH PR 4: bridge-loan debt service, then the asset management fee,
         // come out of cash after the must-pay loans and before cash-flow loans.
         var d = contingent && deductions ? deductions[index] : null;
-        if (d && known(available)) {
+        if (d && known(available) && known(assetOwed)) {
           bridgeDue = d.bridge;
           available = Math.max(0, available - bridgeDue);
-          assetDue = d.assetFee;
+          assetDue = d.assetFee + assetOwed;
           assetPaid = Math.min(available, assetDue);
           available -= assetPaid;
+          assetOwed = assetDue - assetPaid;
+        } else if (d) {
+          assetOwed = null;
+          reason = reason || 'The asset management fee owed from earlier years is unknown.';
         }
         order.forEach(function (loan) {
           if ((loan.type === 'cash_flow') !== contingent) return;
@@ -485,6 +492,7 @@
         seniorCoverage: reason ? null : coverageRatio(noi, seniorDue),
         allMustPayCoverage: reason ? null : coverageRatio(noi, mustPayDue),
         bridgeDebtService: reason ? null : bridgeDue,
+        // Owed at year end, carried into next year's fee.
         assetMgmtFee: reason ? null : assetPaid, assetMgmtUnpaid: reason ? null : assetDue - assetPaid,
         cashFlow: reason ? null : noi - mustPayDue - bridgeDue - assetPaid - contingentPaid,
         unavailableReason: reason });
@@ -523,7 +531,7 @@
         cashFlow: cashFlow, dscr: obligation.allMustPayCoverage, cumCF: cumCF,
         seniorDscr: obligation.seniorCoverage, seniorDebtService: obligation.seniorDebtService,
         maturityDue: obligation.maturityDue, contingentPaid: obligation.contingentPaid,
-        bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee,
+        bridgeDebtService: obligation.bridgeDebtService, assetMgmtFee: obligation.assetMgmtFee, assetMgmtUnpaid: obligation.assetMgmtUnpaid,
         unavailableReason: obligation.unavailableReason });
     }
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
@@ -1040,9 +1048,11 @@
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
     var annualDebtService = firstLoanYear ? firstLoanYear.seniorDebtService : null;
-    var breakEvenOcc = known(allMustPayDebtService) && annualRents > 0
+    // Year-1 bridge-loan debt service is a required payment too (DOH PR 4).
+    var firstYearBridge = firstLoanYear ? firstLoanYear.bridgeDebtService : null;
+    var breakEvenOcc = known(allMustPayDebtService) && known(firstYearBridge) && annualRents > 0
       ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService) / (annualRents + otherIncomeForMath), 1)
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + allMustPayDebtService + firstYearBridge) / (annualRents + otherIncomeForMath), 1)
           : null)
       : null;
 
@@ -1409,7 +1419,7 @@
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
-      if (cashPayments.reason && /^(coverage|obligations|allMustPay|projection|waterfall|exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
+      if (cashPayments.reason && /^(coverage|obligations|allMustPay|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       // #2160: basis and credit depend on the itemized costs; figures that also

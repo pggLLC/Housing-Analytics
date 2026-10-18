@@ -184,6 +184,27 @@ test('an invalid payment entry is unknown, not $0: the schedule and everything a
   assert.match(computeDeal(withTranches([], { 'dc-asset-mgmt-growth': '12' })).unavailable.projection, /0% to 10%/);
 });
 
+test('an asset management fee cash cannot cover accrues and is paid from later cash, never dropped', () => {
+  const y = loanObligations([], [10000, 10000, 50000], [0, 1, 2].map(() => ({ bridge: 0, assetFee: 20000 }))).years;
+  assert.deepEqual(y.map(x => x.assetMgmtFee), [10000, 10000, 40000], 'short years pay what cash allows; year 3 catches up');
+  assert.deepEqual(y.map(x => x.assetMgmtUnpaid), [10000, 20000, 0], 'the shortfall is carried, not lost');
+  assert.deepEqual(y.map(x => x.cashFlow), [0, 0, 10000]);
+  const r = computeDeal(withTranches([], { 'dc-asset-mgmt-fee': '200000', 'dc-asset-mgmt-growth': '0' }));
+  const f = ds.fifteenYear(r);
+  assert(f.assetMgmt.unpaidAfter > 0, 'a fee larger than cash leaves a balance owed after year 15');
+  close(f.assetMgmt.total + f.assetMgmt.unpaidAfter, 200000 * 15, 'paid plus owed is every year\'s fee');
+});
+
+test('break-even occupancy counts year-1 bridge-loan debt service', () => {
+  const base = computeDeal(withTranches([]));
+  const r = computeDeal(withTranches([], { 'dc-bridge-ds': '40000', 'dc-bridge-years': '3' }));
+  assert(base.breakEvenOcc < 1 && r.breakEvenOcc < 1, 'neither is capped at 100%');
+  close((r.breakEvenOcc - base.breakEvenOcc) * (r.annualRents + (r.annualOtherIncome || 0)), 40000, 'the bridge payment raises break-even by its share of income');
+  const bad = computeDeal(withTranches([], { 'dc-bridge-ds': '' }));
+  assert.equal(bad.breakEvenOcc, null);
+  assert.equal(bad.unavailable.breakEvenOcc, 'Enter bridge-loan debt service as $0 or more a year.');
+});
+
 test('loanObligations without payments is unchanged for callers that pass none', () => {
   const loans = [{ id: 'a', senior: true, loanType: 'amortizing', amount: 1000000, rate: 6, term: 30, maturity: 30 },
     { id: 'b', loanType: 'cash_flow', amount: 200000, rate: 2, term: 30, maturity: 30, cashflowPayPct: 50, priority: 6 }];

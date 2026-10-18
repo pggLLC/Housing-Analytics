@@ -4219,7 +4219,7 @@
       ['Year-15 cash after payments', money(y15.availableAfterPayments), 'cash15'],
       ['Deferred developer fee repaid', df.paybackYear ? 'Year ' + df.paybackYear : df.amount === 0 ? 'No deferred fee' : _escHtml(df.reason || '—'), 'payback'],
       ['Deferred fee unpaid after year 15', money(df.unpaidAfter), 'unpaid']
-    ].map(function (p) { return '<dt style="color:var(--muted);">' + _escHtml(p[0]) + '</dt><dd data-doh15="' + p[2] + '" style="margin:0;text-align:right;font-weight:700;">' + p[1] + '</dd>'; }).join('');
+    ].concat(f.assetMgmt.unpaidAfter !== 0 ? [['Asset management fee owed after year 15', money(f.assetMgmt.unpaidAfter), 'asset-unpaid']] : []).map(function (p) { return '<dt style="color:var(--muted);">' + _escHtml(p[0]) + '</dt><dd data-doh15="' + p[2] + '" style="margin:0;text-align:right;font-weight:700;">' + p[1] + '</dd>'; }).join('');
     var c = 'padding:0.25rem 0.4rem;text-align:right;border-bottom:1px solid var(--border);text-transform:none;letter-spacing:normal;';
     // A narrow, wrapping label column that stays put while the years scroll.
     var lc = c + 'text-align:left;position:sticky;left:0;background:var(--card);white-space:normal;min-width:7rem;max-width:8.5rem;font-size:var(--tiny);';

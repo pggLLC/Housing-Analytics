@@ -87,6 +87,11 @@ async function test(name, fn) {
     assert(f.deferredFee.unpaidAfter > 0);
     assert.equal(p.d.querySelector('[data-doh15="unpaid"]').textContent, money(f.deferredFee.unpaidAfter));
     assert.equal(p.d.getElementById('dc-exit-defyr').textContent, '> 15y', 'the exit panel agrees');
+    assert.equal(p.d.querySelector('[data-doh15="asset-unpaid"]'), null, 'a fee cash covers owes nothing after year 15');
+    setField(p, 'dc-asset-mgmt-fee', '900000');
+    const owed = ds.fifteenYear(p.w.__DealCalc.getResult()).assetMgmt.unpaidAfter;
+    assert(owed > 0);
+    assert.equal(p.d.querySelector('[data-doh15="asset-unpaid"]').textContent, money(owed), 'a fee cash cannot cover shows what is still owed');
     setField(p, 'dc-asset-mgmt-fee', '0'); setField(p, 'dc-bridge-ds', '5000'); setField(p, 'dc-bridge-years', '1');
     const r2 = p.w.__DealCalc.getResult();
     assert(r2.exit.dfYr >= before, 'a small bridge payment repays no sooner');

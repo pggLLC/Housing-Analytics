@@ -11,7 +11,7 @@
  *
  * 15-year pro forma: the engine's projection and loan schedule in DOH's rows.
  * Cash after the must-pay loans and the bridge loan pays the asset management
- * fee, then cash-flow loans, then the deferred developer fee. The engine
+ * fee (any part cash cannot cover accrues to later years), then cash-flow loans, then the deferred developer fee. The engine
  * already allocates the first two; the deferred fee is paid from the
  * cumulative cash flow, so its payback year is the engine's.
  * An unknown figure is null with a reason, never 0.
@@ -162,7 +162,7 @@
         expenses: sum([p.opex, p.repReserve, p.propTax]), noi: p.noi, debtService: ds, bridge: bridge,
         cashFlowAvailable: cfAvailable,
         dcr: known(ds) && known(bridge) && ds + bridge > 0 ? p.noi / (ds + bridge) : null,
-        deferredFee: deferred, assetMgmtFee: p.assetMgmtFee, cashFlowLoans: loanPaid,
+        deferredFee: deferred, assetMgmtFee: p.assetMgmtFee, assetMgmtUnpaid: p.assetMgmtUnpaid, cashFlowLoans: loanPaid,
         // The engine's cash flow is after the asset fee and cash-flow loans.
         availableAfterPayments: known(p.cashFlow) && known(deferred) ? p.cashFlow - deferred : null,
         reason: reason
@@ -191,7 +191,9 @@
         unpaidAfter: fee !== null && known(feeTotal) ? Math.max(0, fee - feeTotal) : null,
         reason: fee === null ? (unavailable.deferredDevFee || 'The deferred developer fee is unavailable.')
           : fee > 0 && paybackYear === null && known(feeTotal) ? 'Cash flow does not repay the deferred fee within 15 years.' : null },
-      assetMgmt: window3(rows.map(function (x) { return x.assetMgmtFee; })),
+      // An asset fee cash could not cover accrues; what is still owed after year 15 is disclosed.
+      assetMgmt: Object.assign(window3(rows.map(function (x) { return x.assetMgmtFee; })), {
+        unpaidAfter: known(rows[rows.length - 1].assetMgmtUnpaid) ? rows[rows.length - 1].assetMgmtUnpaid : null }),
       bridge: window3(rows.map(function (x) { return x.bridge; })),
       reason: null
     };
