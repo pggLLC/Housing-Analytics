@@ -11,7 +11,7 @@
   var BANNER = 'SCREENING DRAFT — not a completed market study';
   var G2 = "CHAS cannot see above 100% HAMFI, so the 100–120% band's measured pool is structurally zero pending an above-100% income source.";
   var COMPETITIVE = 'Capture scenarios do not account for competing for-sale inventory or pipeline; no supply data source exists yet. A professional market study must supply the competitive set.';
-  var HUMILITY = 'Even professionally delineated market areas captured only 44% of actual applicants at the Fruita Mews benchmark; outside-area demand of 9–56% is documented. Treat capture scenarios as screening arithmetic, not achievable-sales claims.';
+  var HUMILITY = 'A market area, even one drawn by a professional, never holds all of the demand: buyers also come from outside it, and a share of those inside will look elsewhere. Treat capture scenarios as screening arithmetic, not achievable-sales claims.';
   var BUYER_POOL = 'potential buyer pool (moderate-income renter households) - not committed demand';
   // The "not the same agency" caveat is about a named local housing authority,
   // so it exists only when the report names one. It used to be a fixed line

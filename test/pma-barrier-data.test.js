@@ -20,7 +20,7 @@ function geoidOf(feature) {
 
 const barriers = readJson('data/market/natural_barriers_co.geojson');
 const display = readJson('data/market/pma_tract_display_geometry.geojson');
-const fixture = readJson('test/fixtures/pma/fruita-mews-calibration.json');
+const fixture = readJson('test/fixtures/pma/pma-calibration-site.json');
 const tractCentroids = readJson('data/market/tract_centroids_co.json');
 
 function loadPmaEngine() {
@@ -87,8 +87,10 @@ for (const feature of display.features) {
 }
 
 assert.equal(fixture.production_use, false, 'Fruita calibration fixture is explicitly non-production');
-assert.equal(fixture.source_doc, 'docs/benchmarks/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md',
-  'Fruita fixture points to the calibration doc');
+// The calibration studies are the owner's and unpublished, so their note is
+// kept out of this public repo; the fixture must not point back into it.
+assert(!/^docs\//.test(fixture.source_doc) && /not in the public repo/.test(fixture.source_doc),
+  'calibration fixture names where its source note is kept');
 
 const professionalSet = new Set(fixture.professional_pma.tract_geoids_2020);
 assert(professionalSet.size >= 8, 'Fruita professional PMA fixture is non-vacuous');
