@@ -92,7 +92,19 @@
     'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
     'dc-state-annual': 'Annual state housing tax credit for the project.',
     'dc-state-standard-annual': 'Annual standard state credit paired with a Round Two accelerated credit.',
-    'dc-state-price': 'Dollars of investor equity per dollar of state credit.'
+    'dc-state-price': 'Dollars of investor equity per dollar of state credit.',
+    'dc-state-fees': 'Total investor fees on the state credit; they come out of its equity. Blank means none.',
+    'dc-add-kind': 'A credit added to the stack: Transit Zone, another location- or designation-based credit, or another credit.',
+    'dc-add-evidence': 'Evidence that the site qualifies for a location- or designation-based credit; without it, eligibility is unknown.',
+    'dc-add-annual': 'Annual amount of the added credit.',
+    'dc-add-years': 'Number of years the added credit is claimed, in equal annual amounts.',
+    'dc-add-price': 'Dollars of investor equity per dollar of the added credit.',
+    'dc-add-fees': 'New investor fees on the added credit, which come out of its net new equity. Enter $0 if none.',
+    'dc-add-program-year': 'Program year of the added credit award.',
+    'dc-add-mode': 'Whether the added credit adds to the other credits or replaces part of one.',
+    'dc-add-displaces': 'The credit the added credit replaces.',
+    'dc-add-displaced-annual': 'Annual amount of the credit the added credit replaces.',
+    'dc-add-fed-cut': 'Annual federal credit the allocator cuts because of the added credit, if any. Blank means no cut.'
   };
   Object.keys(definitions).forEach(function (id) { add(id, definitions[id]); });
   ['dc-tdc', 'dc-units', 'dc-noi'].forEach(function (id) {
@@ -141,9 +153,9 @@
   tranche.status = 'Whether this source is committed or still pending approval.';
   tranche.state = 'Whether this source is a request for state funds; DOLA HTF and Prop 123 start as yes.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
-  ['fed', 'state'].forEach(function (src) {
+  ['fed', 'state', 'add'].forEach(function (src) {
     ['closing', 'completion', 'stabilization'].forEach(function (stage) {
-      add('dc-' + src + '-payin-' + stage, 'Share of ' + (src === 'fed' ? 'federal' : 'state') + ' credit equity paid in at ' + stage + ', in percent.');
+      add('dc-' + src + '-payin-' + stage, 'Share of ' + ({ fed: 'federal', state: 'state', add: 'added' })[src] + ' credit equity paid in at ' + stage + ', in percent.');
     });
   });
   ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-pf-appraised'].forEach(function (id) {
