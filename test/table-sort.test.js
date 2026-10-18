@@ -34,6 +34,9 @@ const html = `<!doctype html><body>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="optout" data-no-sort><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>5</td><td>6</td></tr></tbody></table>
 <table id="ownaria"><thead><tr><th data-sort="a" aria-sort="descending">A</th><th data-sort="b">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
+<table id="dates"><thead><tr><th>Date</th><th>Action</th></tr></thead><tbody>
+<tr><td>3 Mar 2025</td><td>a</td></tr><tr><td>10 Aug 2026</td><td>b</td></tr><tr><td>10 Dec 2025</td><td>c</td></tr><tr><td>14 Jan 2026</td><td>d</td></tr></tbody></table>
+<table id="iconown"><thead><tr><th class="pres-th sortable" aria-sort="none">Expiration <span class="sort-icon">↑</span></th><th class="pres-th sortable" aria-sort="none">Property</th></tr></thead><tbody><tr><td>1</td><td>x</td></tr><tr><td>2</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 <table id="own"><thead><tr><th data-col="a">A</th><th data-col="b">B</th></tr></thead><tbody><tr><td>2</td><td>x</td></tr><tr><td>1</td><td>y</td></tr><tr><td>3</td><td>z</td></tr></tbody></table>
 </body>`;
 
@@ -108,6 +111,26 @@ const touchTap = (el) => {
   assert.deepEqual(key(cell('−3')), { n: -3 });
   assert.deepEqual(key(cell('Not published')), { blank: true });
   assert.deepEqual(key(cell('2025')), { n: 2025 });
+  assert.deepEqual(key(cell('3 Mar 2025')), { n: Date.UTC(2025, 2, 3) });
+  assert.deepEqual(key(cell('Mar 3, 2025')), { n: Date.UTC(2025, 2, 3) });
+  assert.deepEqual(key(cell('October 2026')), { n: Date.UTC(2026, 9, 1) });
+  assert.deepEqual(key(cell('Apr–Jun 2026')), { n: Date.UTC(2026, 3, 1) }, 'a month range sorts by its start');
+  assert.deepEqual(key(cell('2026-10-18')), { n: Date.UTC(2026, 9, 18) });
+  assert.deepEqual(key(cell('10/18/2026')), { n: Date.UTC(2026, 9, 18) });
+  assert.deepEqual(key(cell('5 years')), { n: 5 });
+  assert.deepEqual(key(cell('4-5 weeks')), { n: 4 }, 'a range sorts by its start');
+  assert.deepEqual(key(cell('384 (36%)')), { n: 384 });
+  assert.deepEqual(key(cell('$35.04/hr')), { n: 35.04 });
+  assert.deepEqual(key(cell('+105 bp')), { n: 105 });
+  assert.deepEqual(key(cell('2.1 MB')), { n: 2.1e6 });
+  assert.ok(key(cell('7.5 KB')).n < key(cell('2.1 MB')).n, 'file sizes compare across units');
+  assert.ok(key(cell('3 weeks were spent reviewing the application package')).s, 'prose that starts with a number stays text');
+  assert.deepEqual(key(cell('May fund rehab')), { s: 'may fund rehab' }, 'a label with a month name stays text');
+  const dth = document.querySelector('#dates th');
+  mouse(dth);
+  assert.deepEqual(col('dates', 0), ['3 Mar 2025', '10 Dec 2025', '14 Jan 2026', '10 Aug 2026'], 'displayed dates sort by time');
+  assert.equal(document.querySelector('#iconown th .th-sort').getAttribute('aria-label'), 'Sort by Expiration',
+    'a renderer\'s direction glyph is left out of the arrow\'s name');
 
   // 2. Not data tables.
   for (const id of ['short', 'merged', 'optout']) {

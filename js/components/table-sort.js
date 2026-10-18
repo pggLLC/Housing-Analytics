@@ -16,8 +16,10 @@
  *     arrow) for ascending, again for descending, a third time for the
  *     original order — some tables have a meaningful order (steps, years,
  *     ranks) and readers need a way back to it. Numbers sort as numbers
- *     ($, %, commas and K/M/B stripped); blanks and dashes go last either
- *     way; rows marked .total stay at the bottom; <tfoot> is never touched.
+ *     ($, %, commas and K/M/B stripped, and a number followed by a short
+ *     unit such as "5 years" or "7.5 KB"), displayed dates by time; blanks
+ *     and dashes go last either way; rows marked .total stay at the bottom;
+ *     <tfoot> is never touched.
  *     A page opts a table out with data-no-sort on the <table>: the Deal
  *     Calculator's financial statements (sources and uses, pro forma,
  *     depreciation schedules) and the resale settlement steps do, because
@@ -73,6 +75,32 @@
     return true;
   }
 
+  // Displayed dates sort by time, not by their text ("3 Mar 2025" before
+  // "10 Aug 2026"). Only whole-cell dates in the formats the site prints
+  // are read; anything else stays text, so a label that merely contains a
+  // month name is never mistaken for a date.
+  var MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  var MON = '(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\\.?';
+  var DATE_FORMATS = [
+    [new RegExp('^(\\d{1,2}) ' + MON + ',? (\\d{4})$', 'i'), function (m) { return [m[3], m[2], m[1]]; }],
+    [new RegExp('^' + MON + ' (\\d{1,2}),? (\\d{4})$', 'i'), function (m) { return [m[3], m[1], m[2]]; }],
+    [new RegExp('^' + MON + ',? (\\d{4})$', 'i'), function (m) { return [m[2], m[1], 1]; }],
+    // A month range ("Apr–Jun 2026") sorts by where it starts.
+    [new RegExp('^' + MON + ' ?[–-] ?' + MON + ',? (\\d{4})$', 'i'), function (m) { return [m[3], m[1], 1]; }],
+    [/^(\d{4})-(\d{2})(?:-(\d{2}))?$/, function (m) { return [m[1], Number(m[2]) - 1, m[3] || 1]; }],
+    [/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/, function (m) { return [m[3], Number(m[1]) - 1, m[2]]; }]
+  ];
+  function dateKey(txt) {
+    for (var i = 0; i < DATE_FORMATS.length; i++) {
+      var m = DATE_FORMATS[i][0].exec(txt);
+      if (!m) continue;
+      var ymd = DATE_FORMATS[i][1](m);
+      var mon = typeof ymd[1] === 'string' ? MONTHS[ymd[1].slice(0, 3).toLowerCase()] : ymd[1];
+      return Date.UTC(Number(ymd[0]), mon, Number(ymd[2]));
+    }
+    return null;
+  }
+
   function key(cell) {
     var txt = cell ? (cell.getAttribute('data-sort-value') || cell.textContent) : '';
     txt = txt.replace(/\s+/g, ' ').trim();
@@ -83,6 +111,20 @@
       var suf = num.slice(-1).toLowerCase();
       if (suf === 'k') v *= 1e3; else if (suf === 'm') v *= 1e6; else if (suf === 'b') v *= 1e9;
       return { n: v };
+    }
+    var d = dateKey(txt);
+    if (d !== null) return { n: d };
+    // A number with a short unit or note after it sorts by the number:
+    // "5 years", "4-5 weeks", "384 (36%)", "$35.04/hr", "+105 bp",
+    // "60% AMI", "7.5 KB" next to "2.1 MB". Prose that happens to start
+    // with a number stays text.
+    var lead = /^[~≈<>]?\s*([+−–-])?\s*\$?(\d[\d,]*\.?\d*)\s*%?\s*(.*)$/.exec(txt);
+    if (lead && lead[3].length <= 24) {
+      var lv = parseFloat(lead[2].replace(/,/g, ''));
+      var unit = /^([kmg])b\b/i.exec(lead[3]);
+      if (unit) lv *= { k: 1e3, m: 1e6, g: 1e9 }[unit[1].toLowerCase()];
+      if (lead[1] && lead[1] !== '+') lv = -lv;
+      if (isFinite(lv)) return { n: lv };
     }
     return { s: txt.toLowerCase() };
   }
@@ -120,9 +162,14 @@
     movable.concat(pinned).forEach(function (r) { tb.appendChild(r); });
   }
 
+  // The header's name without any direction glyph: renderers' own
+  // indicators (hidden by CSS, but still in the text) would otherwise give
+  // the arrow a name like "Sort by Expiration ↑" that goes stale.
+  var INDICATORS = '.sort-icon, .aff-sort-indicator, .mhc-sort-indicator, .th-sort, .th-tip__pop';
   function label(th) {
-    var l = th.querySelector('.th-tip__label');
-    return (l || th).textContent.replace(/\s+/g, ' ').trim();
+    var c = (th.querySelector('.th-tip__label') || th).cloneNode(true);
+    Array.prototype.forEach.call(c.querySelectorAll(INDICATORS), function (n) { n.parentNode.removeChild(n); });
+    return c.textContent.replace(/[⇅↑↓▲▼↕]/g, '').replace(/\s+/g, ' ').trim();
   }
 
   function addArrow(th, onSort) {
