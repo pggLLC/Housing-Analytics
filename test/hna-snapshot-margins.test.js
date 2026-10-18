@@ -184,9 +184,11 @@ const line = (id) => document.getElementById(id);
           }
         }
         if (el.dataset.acsTier !== (e.t || 'no_margin')) problems.push(`${geoid} ${c.id}: data-acs-tier ${el.dataset.acsTier}, file ${e.t}`);
-        // The raw home value keeps its own source text; every other line is
-        // labelled and linked from the figure's own year and series.
-        if (c.id === 'statHomeValueSrc' && U.homeValueInfo(profile).display) continue;
+        // The raw ACS home value keeps the cascade's caveat, with its confidence.
+        const hv = c.id === 'statHomeValueSrc' && U.homeValueInfo(profile).display;
+        if (hv && !text.includes(`${hv.confidence} confidence`)) problems.push(`${geoid} ${c.id}: caveat lost: ${text}`);
+        // Every line, the raw home value's included, is labelled and linked
+        // from the figure's own year and series.
         const label = `ACS ${e.y} ${e.s === 'acs1' ? '1-year' : '5-year'} ${c.table}`;
         if (!text.includes(label)) problems.push(`${geoid} ${c.id}: label should say "${label}": ${text}`);
         const want = `https://data.census.gov/table/${prefix}${series}${e.y}.${c.table}`;

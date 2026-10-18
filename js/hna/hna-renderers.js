@@ -518,7 +518,7 @@
    * in each snapshot card's source line, with the year and series the figure
    * actually came from (data/hna/acs-reliability.json). A card is left as it
    * is when its number is not the estimate the file describes.
-   * @param {Array<{id:string, field:string, value:?number, unit:string, table:string, sourceText?:string}>} cards
+   * @param {Array<{id:string, field:string, value:?number, unit:string, table:string, caveat?:string}>} cards
    * @returns {Promise<number>} how many cards were annotated
    */
   async function applySnapshotReliability(geoid, geoType, cards, token) {
@@ -532,23 +532,18 @@
       const e = R.forValue(geoid, c.field, c.value);
       if (!el || !e) return;
       const margin = R.describe(e, c.unit);
-      // A figure already shown with its own source text (the raw ACS home
-      // value floor) keeps that text; the margin goes above it. Otherwise the
-      // label is the link. It may break after the year on a narrow card, but
-      // never inside "5-year DP04". Links here are inline-flex 44px tap
-      // targets (css/responsive.css), which drop the space between the two
-      // parts, so the gap and the wrap are set on the link itself.
-      let source;
-      if (c.sourceText != null) {
-        source = escHtml(c.sourceText);
-      } else {
-        const url = U().censusSourceUrl(e.y, e.s, c.table, geoType, geoid);
-        const nowrap = (t) => `<span style="white-space:nowrap">${escHtml(t)}</span>`;
-        const label = `${nowrap(`ACS ${e.y}`)} ${nowrap(`${R.seriesLabel(e)} ${c.table}`)}`;
-        source = url
-          ? `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;flex-wrap:wrap;column-gap:.3em" title="View the source table on data.census.gov">${label}</a>`
-          : label;
-      }
+      // The label is the link, from the figure's own year and series. It may
+      // break after the year on a narrow card, but never inside "5-year DP04".
+      // Links here are inline-flex 44px tap targets (css/responsive.css),
+      // which drop the space between the two parts, so the gap and the wrap
+      // are set on the link itself. A caveat (the raw ACS home value floor)
+      // follows the label.
+      const url = U().censusSourceUrl(e.y, e.s, c.table, geoType, geoid);
+      const nowrap = (t) => `<span style="white-space:nowrap">${escHtml(t)}</span>`;
+      const label = `${nowrap(`ACS ${e.y}`)} ${nowrap(`${R.seriesLabel(e)} ${c.table}`)}`;
+      const source = (url
+        ? `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;flex-wrap:wrap;column-gap:.3em" title="View the source table on data.census.gov">${label}</a>`
+        : label) + (c.caveat ? ' · ' + escHtml(c.caveat) : '');
       el.innerHTML = (margin ? `<span class="acs-moe" style="display:block">${escHtml(margin)}</span>` : '') + source;
       el.dataset.acsTier = e.t || (e.m == null ? 'no_margin' : '');
       n += 1;
@@ -699,7 +694,14 @@
 
     // Margins of error. Home value has one only when the card shows the raw
     // ACS figure; a Zillow-based or county-adjusted value is not that estimate.
+    // The cascade's own "as of" is not used for the label: it says 2020-2024
+    // 5-year for figures that are 2019-2023 or 1-year.
     const homeIsAcs = !homeInfo.display || homeInfo.display.source === 'acs_raw';
+    const homeCaveat = homeInfo.display
+      ? ['raw floor', homeInfo.confidence ? `${homeInfo.confidence} confidence` : null,
+        homeInfo.lowConfidence ? 'no current city index' : null,
+        homeInfo.display.review_flag ? homeInfo.display.review_flag.note : null].filter(Boolean).join(' · ')
+      : null;
     const cards = [
       { id: 'statPopSrc', field: 'DP05_0001E', value: pop, unit: 'count', table: 'DP05' },
       { id: 'statMhiSrc', field: 'DP03_0062E', value: mhi, unit: 'money', table: 'DP03' },
@@ -711,7 +713,7 @@
     if (homeIsAcs) {
       cards.push({
         id: 'statHomeValueSrc', field: 'DP04_0089E', value: homeVal, unit: 'money', table: 'DP04',
-        sourceText: homeInfo.display ? (U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText) : null,
+        caveat: homeCaveat,
       });
     }
     return applySnapshotReliability(geoid, geoType, cards, token).catch(() => 0);
