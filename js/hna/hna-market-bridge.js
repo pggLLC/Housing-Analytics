@@ -22,7 +22,8 @@
  * @property {Object}   pma                — method, score, confidence
  * @property {Object}   demandSignals      — householdGrowth, projectedUnitsNeeded, etc.
  * @property {Object}   affordabilityGap   — ami30/50/60 units needed, totalUndersupply, vacancy
- * @property {Array}    prioritySegments   — ranked AMI tiers with rationale
+ * @property {Array}    prioritySegments   — ranked AMI tiers with rationale, plus CHAS cost-burdened bands
+ * @property {string[]} needNotes          — js/mix-check.js need notes (burden by band, workforce, 20-year need)
  * @property {string}   confidence         — 'high' | 'medium' | 'low'
  * @property {string[]} caveats            — data limitations
  */
@@ -100,14 +101,36 @@
       };
     }
 
-    var ami30 = _num(hnaData.ami30UnitsNeeded || hnaData.gap_30ami, null);
-    var ami50 = _num(hnaData.ami50UnitsNeeded || hnaData.gap_50ami, null);
-    var ami60 = _num(hnaData.ami60UnitsNeeded || hnaData.gap_60ami, null);
+    // ami30/50/60UnitsNeeded are non-overlapping bands (≤30, 31–50, 51–60), the
+    // contract js/hna/hna-renderers.js writes. When the cumulative "at or below"
+    // shortfalls are on hand (ami30Cumulative…), the bands are derived from them
+    // here instead, so a caller holding cumulative figures cannot have them summed:
+    // each band adds only what its threshold's shortfall exceeds every lower one.
+    var cum = null;
+    var c30 = _num(hnaData.ami30Cumulative, null), c50 = _num(hnaData.ami50Cumulative, null), c60 = _num(hnaData.ami60Cumulative, null);
+    var ami30, ami50, ami60;
+    if (!_missing(c30) || !_missing(c50) || !_missing(c60)) {
+      cum = { '30': c30, '50': c50, '60': c60 };
+      // A band is only known when every lower threshold is known too.
+      var top30 = _missing(c30) ? null : c30;
+      var top50 = (top30 === null || _missing(c50)) ? null : Math.max(top30, c50);
+      ami30 = c30;
+      ami50 = (_missing(c50) || top30 === null) ? null : Math.max(0, c50 - top30);
+      ami60 = (_missing(c60) || top50 === null) ? null : Math.max(0, c60 - top50);
+    } else {
+      ami30 = _num(hnaData.ami30UnitsNeeded || hnaData.gap_30ami, null);
+      ami50 = _num(hnaData.ami50UnitsNeeded || hnaData.gap_50ami, null);
+      ami60 = _num(hnaData.ami60UnitsNeeded || hnaData.gap_60ami, null);
+    }
     var total = _num(hnaData.totalUndersupply, null);
     var vacancy = _num(hnaData.vacancyRate || hnaData.vacancy, null);
 
-    // Compute total if not provided
-    if (_missing(total) && (!_missing(ami30) || !_missing(ami50) || !_missing(ami60))) {
+    // Compute total if not provided: the bands do not overlap, so they add.
+    if (_missing(total) && cum) {
+      // The largest known "at or below" shortfall is the whole gap through that level.
+      var known = [c30, c50, c60].filter(function (v) { return !_missing(v); });
+      total = Math.max.apply(null, known);
+    } else if (_missing(total) && (!_missing(ami30) || !_missing(ami50) || !_missing(ami60))) {
       total = _num(ami30, 0) + _num(ami50, 0) + _num(ami60, 0);
     }
 
@@ -122,9 +145,35 @@
       ami50UnitsNeeded:         ami50,
       ami60UnitsNeeded:         ami60,
       totalUndersupply:         total,
+      amiGapCumulative:         cum,
       deepAffordabilityPressure: deepPressure,
       vacancy:                  vacancy
     };
+  }
+
+  /* ── Cost burden by band (HUD CHAS) ──────────────────────────────── */
+
+  function _mixCheckLib() {
+    if (typeof window !== 'undefined' && window.MixCheck) return window.MixCheck;
+    if (typeof module !== 'undefined' && module.exports && typeof require === 'function') {
+      try { return require('../mix-check.js'); } catch (_) { return null; }
+    }
+    return null;
+  }
+
+  var BAND_LABELS = { '31to50': '31–50% AMI', '51to80': '51–80% AMI', '81to100': '81–100% AMI' };
+
+  // Renter cost burden by band from a CHAS record's renter_hh_by_ami
+  // (data/market/chas_co.json or data/hna/place-chas.json), or null.
+  function _burdenFromChas(chas) {
+    var M = _mixCheckLib();
+    var by = chas && chas.renter_hh_by_ami;
+    if (!M || !by) return null;
+    return M.burdenByBand(Object.keys(BAND_LABELS).map(function (k) {
+      var b = by[k];
+      var share = b ? _num(b.pct_cost_burdened_30, null) : null;
+      return { key: k, label: BAND_LABELS[k], households: b ? _num(b.total, null) : null, burdenedPct: _missing(share) ? null : share * 100 };
+    }));
   }
 
   /* ── Priority segment identification ────────────────────────────── */
@@ -172,6 +221,23 @@
       var prio60 = 'moderate';
       var rat60  = ['Near-market affordability gap at 60% AMI'];
       segments.push({ ami: 60, priority: prio60, unitsNeeded: Math.round(gap60), rationale: rat60.join(' + ') });
+    }
+
+    // Renters paying more than 30% of income by band (HUD CHAS). The homes-short
+    // counts can read 0 at a band whose renters still pay too much, because
+    // higher-income households occupy the cheaper homes; this is that need.
+    var burden = affordabilityGap.burden || null;
+    var M = _mixCheckLib();
+    if (burden && M) {
+      [['31to50', '40–50% AMI units serve this band'], ['51to80', '60% AMI units, and 70–80% AMI units under income averaging, serve this band']].forEach(function (pair) {
+        var b = burden[pair[0]];
+        if (!M.material(b)) return;
+        segments.push({
+          ami: b.label, band: pair[0], priority: b.pct >= 50 ? 'high' : 'moderate', unitsNeeded: null,
+          burdenedHouseholds: b.burdened,
+          rationale: b.burdened + ' renter households (' + Math.round(b.pct) + '%) pay more than 30% of income; ' + pair[1]
+        });
+      });
     }
 
     // Sort by priority
@@ -246,9 +312,21 @@
     var caveats = [];
     var demandSignals    = _extractDemandSignals(hnaData);
     var affordabilityGap = _extractAffordabilityGap(hnaData);
+    // CHAS burden by band: options.chas, or the HNA record's own renter_hh_by_ami.
+    affordabilityGap.burden = _burdenFromChas(options.chas || hnaData);
     var pma              = _normalizePma(pmaResult);
     var prioritySegments = _buildPrioritySegments(affordabilityGap, pma);
     var confidence       = _computeConfidence(hnaData, pmaResult, caveats);
+    var M = _mixCheckLib();
+    var cum = affordabilityGap.amiGapCumulative;
+    // The ranking index's 20-year need (future_units_needed_20yr), one unsplit total.
+    var need20yr = hnaData ? _num(hnaData.need20yr != null ? hnaData.need20yr : hnaData.future_units_needed_20yr, null) : null;
+    var needNotes = M ? M.needNotes({
+      burden: affordabilityGap.burden, gap50: cum ? cum['50'] : null,
+      lim70: options.lim70, lim80: options.lim80, rentRange: options.rentRange || null,
+      ruralResort: !!options.ruralResort, mihtc: options.mihtc || null,
+      need20yr: need20yr
+    }) : { notes: [], workforce: null };
 
     if (!hnaData)   caveats.push('No HNA data provided — need profile uses structural estimates only');
     if (!pmaResult) caveats.push('No PMA result provided — market signals unavailable');
@@ -263,6 +341,9 @@
       demandSignals:    demandSignals,
       affordabilityGap: affordabilityGap,
       prioritySegments: prioritySegments,
+      needNotes:        needNotes.notes,
+      need20yr:         need20yr,
+      workforce:        needNotes.workforce,
       confidence:       confidence,
       caveats:          caveats
     };
@@ -289,6 +370,8 @@
       ami50UnitsNeeded:     gap.ami50UnitsNeeded,
       ami60UnitsNeeded:     gap.ami60UnitsNeeded,
       totalUndersupply:     gap.totalUndersupply,
+      amiGapCumulative:     gap.amiGapCumulative || undefined,
+      need20yr:             needProfile.need20yr == null ? undefined : needProfile.need20yr,
       marketVacancy:        gap.vacancy
     }, overrides || {});
   }

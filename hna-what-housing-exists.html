@@ -231,6 +231,9 @@
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
   <!-- New modules: projections, neighborhood context, educational callouts, export -->
+  <!-- Shared need and 15-year pencil check; before the recommenders that use it. -->
+  <script defer src="js/mix-check.js"></script>
+  <script defer src="js/mix-check-inputs.js"></script>
   <script defer src="js/housing-need-projector.js"></script>
   <!-- Need by Housing Type — 6-category data-driven ranking. Pure read of state
        (ACS profile, CHAS, HUD income limits, LIHTC inventory). Must load BEFORE
@@ -1895,7 +1898,11 @@
       if (pill) { pill.style.display = ''; pill.textContent = geoLabel; }
       HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData,
         { geoType: geoType, countyName: _projCountyLabel || undefined });
-      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
+      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData, {
+        countyFips: countyFips,
+        placeGeoid: (geoType === 'place' || geoType === 'cdp') ? geoid : undefined,
+        placeName: (geoType === 'place' || geoType === 'cdp') ? geoLabel.split(' — ')[0] : undefined
+      });
     }
 
     // Neighborhood context card. Surface the containing-county name in the

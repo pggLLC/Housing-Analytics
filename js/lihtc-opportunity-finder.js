@@ -808,7 +808,10 @@
       loadSoft('data/policy/local-support.json'),
       loadSoft('data/policy/fee-reductions.json'),
       loadSoft('data/policy/local-housing-funds.json'),
-      loadSoft('data/policy/incentive-coverage.json')
+      loadSoft('data/policy/incentive-coverage.json'),
+      // parts[31]: CHFA's minimum pro forma assumptions for the detail panel's
+      // 15-year rent check (js/mix-check.js). Soft load: missing hides the check.
+      loadSoft('data/policy/lihtc-underwriting-rules.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -1073,6 +1076,9 @@
         ? window.LocalSupportData.build({ support: parts[27], fees: parts[28], funds: parts[29], coverage: parts[30] })
         : null;
       state.fundingGuide = parts[25] || null;
+      // The 15-year rent check reads the CHFA limits, the underwriting rules and
+      // the funding guide already loaded above. Display only; no score uses it.
+      state.mixFiles = { limits: parts[26] || null, rules: parts[31] || null };
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -1907,10 +1913,23 @@
     if (Number.isFinite(market.captureAdvantage)) {
       var ca = market.captureAdvantage;
       html += ' · capture advantage <strong>' + (ca > 0 ? '+' : ca < 0 ? '−' : '') + '$' + Math.abs(ca).toLocaleString() + '/mo</strong>' +
-        (ca > 0 ? ' · LIHTC undercuts market — easy lease-up' : ca === 0 ? ' · narrow margin — review unit mix carefully' : ' · LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil');
+        (ca > 0 ? ' · LIHTC undercuts market — easy lease-up' : ca === 0 ? ' · narrow margin — review unit mix carefully' : ' · LIHTC above market: 60% units may not lease at their limit, and deeper units lease but carry less debt (see the 15-year rent check)');
     }
     if (market.fmrAreaName) html += '<br>FMR area: ' + escHtml(market.fmrAreaName) + ' · source: ' + escHtml(_fmrVintageLabel(market));
     return html;
+  }
+
+  // 15-year rent check for the selected place's county: what one unit at each
+  // CHFA two-bedroom rent nets in years 1 and 15 at CHFA's minimum underwriting
+  // (js/mix-check.js). Shown beside the capture facts; it never feeds a score.
+  function _mixPencilFacts(fips, files) {
+    if (!window.MixCheck || !window.MixCheckInputs || !fips) return null;
+    var inputs = window.MixCheckInputs.build(files || {}, { countyFips: fips }, window.MixCheck);
+    var r = window.MixCheckInputs.check(window.MixCheck, inputs, {});
+    if (!r.pencil.ok) return '<span style="color:var(--muted)">Not available: ' + escHtml(r.reason) + '</span>';
+    return 'What one unit at each CHFA two-bedroom rent nets, and the yearly debt service it can carry. Deeper units lease more easily where tax-credit rents sit above market, but each one carries less debt, so the funding gap grows.' +
+      '<ul class="lof-nearest-list">' + r.tierLines.map(function (l) { return '<li>' + escHtml(l) + '</li>'; }).join('') + '</ul>' +
+      '<span style="color:var(--muted);font-size:.78rem">' + escHtml(r.assumptions) + ' ' + escHtml(window.MixCheckInputs.sourceLine(inputs)) + '</span>';
   }
 
   function _zoriCaptureForMarket(market, fips, placeName) {
@@ -2255,7 +2274,7 @@
     var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (' + _fmrVintageLabel(m) + ', lagged rent data)' +
               ' · FMR 2BR: $' + m.fmr2br.toLocaleString() +
               ' · ' + _chfaRentLabel(m) +
-              (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
+              (ca < 0 ? ' · LIHTC above market: deeper units lease but carry less debt; see the 15-year rent check'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
                       : ' · LIHTC undercuts market — easy lease-up') +
               acsLine +
@@ -3460,7 +3479,7 @@
   function _opActionWarning(op) {
     if (op.captureAdvantage != null && op.captureAdvantage < 0) {
       return 'CHFA 60% AMI 2BR max gross rent is $' + Math.abs(op.captureAdvantage) +
-        '/mo ABOVE market FMR here — deal won\'t pencil at 60% AMI without a deeper-AMI mix (40-50%) or extra soft debt.';
+        '/mo ABOVE market FMR here, so 60% AMI units may not lease at their limit. A deeper mix (40-50% AMI) leases, but each deeper unit carries less debt; the 15-year rent check in the detail panel shows how much.';
     }
     if (op.type === 'cdp') {
       return 'This is a CDP (unincorporated) — no local government to file Prop 123 or issue building permits. Mesa/Adams/etc. County serves the area; expect longer permit + letter-of-support timelines.';
@@ -3777,6 +3796,10 @@
       '<dt>Market capture (2BR)</dt><dd>' +
         _marketCaptureFacts(op.market) +
       '</dd>' +
+      (function () {
+        var mp = _mixPencilFacts(op.containingCounty, state.mixFiles);
+        return mp ? '<dt>15-year rent check (2BR)</dt><dd>' + mp + '</dd>' : '';
+      })() +
       '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
         (op.nearestLihtc.length === 0
           ? '<span style="color:var(--muted)">No LIHTC properties anywhere in CO have lat/lng data — cannot compute nearest.</span>'
@@ -5150,6 +5173,8 @@
       loadAll: loadAll,
       loadedMarket: function (fips) { return state.marketByCounty[fips]; },
       marketCaptureFacts: _marketCaptureFacts,
+      mixPencilFacts: _mixPencilFacts,
+      opActionWarning: _opActionWarning,
       actionReasons: _opActionReasons,
       passesCaptureRequirement: _passesCaptureRequirement,
       zoriCaptureForMarket: _zoriCaptureForMarket,
