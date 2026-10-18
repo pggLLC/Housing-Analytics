@@ -93,6 +93,9 @@ def test_an_unread_story_stays_queued_after_the_review_date():
 def test_an_unread_entry_without_its_story_date_is_skipped():
     lead = {'geoid': '0812045', 'title': 'Undated lead', 'link': 'https://news.localhost/u', 'status': 'unread'}
     assert rows(bnq.build(TODAY, [CARBONDALE], [], [], COUNTIES, {'entries': [lead]}))['0812045']['stories'] == []
+    for bad in ('2026-02-30', '2026-13-01', 'Sept. 3'):
+        got = rows(bnq.build(TODAY, [CARBONDALE], [], [], COUNTIES, {'entries': [{**lead, 'date': bad}]}))
+        assert got['0812045']['stories'] == [], f'unread lead with impossible date {bad!r} was kept'
 
 
 def test_events_match_by_name_and_past_ones_drop():

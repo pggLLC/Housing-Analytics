@@ -116,6 +116,17 @@ def ledger_keys(ledger: dict | None) -> dict[str, set]:
     return keys
 
 
+def _calendar_date(value) -> bool:
+    """True for a real YYYY-MM-DD date (not 2026-02-30 or 2026-13-01)."""
+    if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(value or '')):
+        return False
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
+
+
 def unread_leads(ledger: dict | None) -> dict[str, list]:
     """geoid → stories a reviewer could not read (status "unread"). They stay queued whatever the
     brief's last review date, until someone reads them and marks them used or dismissed."""
@@ -123,7 +134,7 @@ def unread_leads(ledger: dict | None) -> dict[str, list]:
     for e in (ledger or {}).get('entries') or []:
         if e.get('status') != 'unread' or not e.get('geoid') or not e.get('title'):
             continue
-        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(e.get('date') or '')):
+        if not _calendar_date(e.get('date')):
             print(f"⚠ unread entry without its story date skipped: {e['geoid']} {e['title']!r}", file=sys.stderr)
             continue
         out.setdefault(e['geoid'], []).append(e)
