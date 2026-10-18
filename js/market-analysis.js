@@ -4298,17 +4298,20 @@
 
     // Amenity distances — already in straight-line miles when available
     var a = result.amenities || {};
-    var transitRail = a.transit_rail;
-    var transitBus  = a.transit_bus;
+    // The statewide stop file carries no rail/bus mode, so this is the
+    // nearest stop of any kind. It said "rural fallback" at every site,
+    // downtown Greeley included, because transit_rail/transit_bus are never
+    // flattened onto result.amenities. The OpenStreetMap-only caveat now
+    // comes from the stop's own basis (OsmAmenities.transitSelection).
     var transitAny  = a.transit;
+    var transitBasis = a._detail && a._detail.transit ? a._detail.transit.transitStopBasis : null;
     var transitStr;
-    if (transitRail != null || transitBus != null) {
-      transitStr = (transitRail != null ? 'Rail: ' + fmtMi(transitRail) : 'Rail: not in buffer')
-        + ' · ' + (transitBus != null ? 'Bus: ' + fmtMi(transitBus) : 'Bus: not in buffer');
-    } else if (transitAny != null) {
-      transitStr = fmtMi(transitAny) + ' (rural fallback — see methodology)';
+    if (transitAny != null) {
+      transitStr = fmtMi(transitAny) + (transitBasis === 'openstreetmap_unconfirmed'
+        ? ' (mapped only in OpenStreetMap; confirm service with the agency)'
+        : '');
     } else {
-      transitStr = 'No transit stop in OSM data';
+      transitStr = 'No transit stop found';
     }
     setSum('pmaSumTransit', transitStr);
     setSum('pmaSumGrocery',    fmtMi(a.grocery));
