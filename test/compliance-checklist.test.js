@@ -210,6 +210,10 @@ test('initComplianceChecklist: a box ticked under the old meaning does not carry
     'items whose meaning is unchanged carry over');
   assert(state.items.dola.checked === false, 'the old annual DOLA notice does not count as the Nov 1 commitment');
   assert(state.items.report.checked === false, 'the old annual report does not count as the end-of-cycle report');
+  CC.updateChecklistItem('report', true);
+  const saved = JSON.parse(global.localStorage.getItem(CC._storageKey('county', '08077')));
+  assert(saved.items.baseline.checked === true && saved.items.report.checked === true,
+    'the first change after migration keeps the carried items');
 });
 
 // ── updateChecklistItem ──────────────────────────────────────────────────────

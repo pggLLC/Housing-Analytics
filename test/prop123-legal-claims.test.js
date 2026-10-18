@@ -103,12 +103,18 @@ ok(/PROP123_FAST_TRACK_REQUIRED_FROM/.test(ftCard) && !/'-day decision<\/div>'/.
   'the fast-track card headlines the 2027 requirement, not a 90-day decision for this jurisdiction');
 
 console.log('\n[baseline estimate]');
-// The panel's estimate is ~6% of all housing units (DP04_0001E); the copy
-// must not describe it as a rental count or say which way it errs.
-ok(/DP04_0001E[\s\S]{0,400}\* 0\.06/.test(rend), 'the baseline panel estimates 6% of total housing units');
+// The panel's estimate is a share of total housing units (DP04_0001E).
+// Every description of it, in the panel and in the checklist note, must
+// state that same share and that same basis.
+const est = rend.match(/safeNum\(profile && profile\.(DP04_\d+E)\)[\s\S]{0,400}?Math\.round\(totalUnits \* (0\.\d+)\)/);
+ok(est && est[1] === 'DP04_0001E', 'the baseline panel estimates from DP04_0001E, total housing units');
+const pct = est ? Math.round(Number(est[2]) * 100) : NaN;
+const panel = (rend.match(/Directional estimate[\s\S]{0,200}/) || [''])[0];
+ok(panel.includes('~' + pct + '% of') && /total housing units/.test(panel), `the panel describes it as ~${pct}% of total housing units`);
 withSection.forEach((p) => {
   const t = text(section(read(p)));
-  ok(!/counts rentals only|understates the official baseline/.test(t), `${p}: does not call the total-unit proxy a rental count`);
+  const note = (t.match(/estimate in the panel above[^;.]*/) || [''])[0];
+  ok(note.includes(pct + '% of all housing units'), `${p}: the checklist note describes the estimate as ${pct}% of all housing units`);
 });
 
 console.log('\n[commitment deadline]');

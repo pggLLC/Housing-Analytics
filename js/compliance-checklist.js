@@ -204,6 +204,8 @@
         CARRIED_FROM_V1.forEach(function (id) {
           if (legacy.items[id]) state.items[id] = legacy.items[id];
         });
+        // Save now, so the first checkbox change builds on the carried items.
+        lsWrite(key, state);
       }
     }
 
