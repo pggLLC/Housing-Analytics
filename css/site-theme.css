@@ -1197,35 +1197,49 @@ table tr:last-child td { border-bottom: none; }
 table tr:hover td { background: var(--accent-dim); }
 .table-container { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
 
-/* Column-header definitions (js/components/table-header-tips.js). The "?"
-   is the visible affordance a native title never gave; the popover is the
-   definition, shown on hover, keyboard focus, or tap. The header itself is
-   uppercase/letterspaced by the rule above, so the popover resets both. */
-th.th-tip { position: relative; }
+/* Column-header definitions (js/components/table-header-tips.js). The
+   label itself is the trigger: a dotted underline (the signal glossary
+   terms use in body text) says a definition exists, and the popover shows
+   on hover, keyboard focus, or a tap on touch. The header is uppercase and
+   letterspaced by the rule above, so the popover resets both. */
+th.th-tip { position: relative; height: 44px; }
 /* Headers in one row share a bottom edge, so a two-line label and a
    one-line label end on the same baseline at every window width. */
 table th { vertical-align: bottom; }
-/* The label's last word and the glyph wrap as one unit. */
-.th-tip__tail { white-space: nowrap; }
-/* The glyph is text-sized and sits on the label's baseline. Its touch
-   target is still 44 x 44 (copilot-instructions Rule 14), but drawn by
-   ::before, which takes no layout space, rather than by the button's own
-   box: the global 44px minimum in css/responsive.css is moved onto the
-   pseudo-element so it stops pushing the label around. A tip header is
-   at least 44px tall so that target sits inside its own cell. */
-th.th-tip { height: 44px; }
-.th-tip__btn {
+.th-tip__label { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; }
+th.th-tip:not(.th-sortable) { cursor: help; }
+th.th-tip:hover .th-tip__label, th.th-tip:focus-visible .th-tip__label, th.th-tip.is-open .th-tip__label { text-decoration-color: var(--accent); }
+th.th-tip:focus-visible, th.th-sortable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* Sort arrow (js/components/table-sort.js): a quiet two-way arrow until a
+   column is sorted, then a solid up or down arrow in the accent colour.
+   The glyph is text-sized; its touch target is 44 x 44 (copilot-instructions
+   Rule 14), drawn by ::before so it takes no layout space, and a sortable
+   header is at least 44px tall so the target sits inside its own cell. The
+   target starts just left of the glyph and runs right, into the cell's
+   padding, so it does not cover the label (a tap there opens the tip). */
+th.th-sortable { position: relative; height: 44px; cursor: pointer; }
+th.th-sortable:hover { background: var(--accent-dim) !important; }
+.th-sort {
   position: relative; display: inline-block;
-  min-width: 0; min-height: 0; width: auto; height: auto;
-  margin: 0 0 0 .3em; padding: 0;
-  font: inherit; font-size: .95em; line-height: 1; text-transform: none; letter-spacing: 0;
-  color: var(--muted); background: none; border: 0; border-radius: 50%;
-  cursor: help; vertical-align: -.12em;
+  min-width: 0; min-height: 0; width: 1.4em; height: 1.4em;
+  margin: 0 0 0 .15em; padding: 0;
+  font: inherit; font-size: 1em; line-height: 1.4em; text-align: center;
+  text-transform: none; letter-spacing: 0;
+  color: var(--muted); background: none; border: 0; border-radius: 4px;
+  cursor: pointer; vertical-align: -.3em;
 }
-.th-tip__btn svg { display: block; }
-.th-tip__btn::before { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
-.th-tip__btn:hover, th.th-tip.is-open .th-tip__btn { color: var(--accent); }
-.th-tip__btn:focus-visible { color: var(--accent); outline: 2px solid var(--accent); outline-offset: 2px; }
+.th-sort::before { content: ''; position: absolute; left: -4px; top: 50%; width: 44px; height: 44px; transform: translateY(-50%); }
+.th-sort span::before { content: '\2195'; opacity: .6; }
+th[aria-sort="ascending"] .th-sort span::before, th.sort-asc .th-sort span::before { content: '\25B2'; opacity: 1; font-size: .8em; }
+th[aria-sort="descending"] .th-sort span::before, th.sort-desc .th-sort span::before { content: '\25BC'; opacity: 1; font-size: .8em; }
+th[aria-sort="ascending"] .th-sort, th[aria-sort="descending"] .th-sort, th.sort-asc .th-sort, th.sort-desc .th-sort, .th-sort:hover { color: var(--accent); }
+.th-sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* Tables a page's own renderer sorts: the shared arrow replaces each
+   renderer's own indicator (↑↓ after the label, ▲▼ spans, ⇅ icons), so
+   every sortable table on the site reads the same way. */
+table.th-own-sort th.th-sortable::after { content: none !important; }
+table.th-own-sort th.th-sortable .sort-icon { display: none !important; }
 .th-tip__pop {
   display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 60;
   min-width: 14rem; max-width: 22rem; padding: .55rem .7rem;
@@ -1240,7 +1254,7 @@ th.th-tip:hover .th-tip__pop, th.th-tip:focus-within .th-tip__pop, th.th-tip.is-
 .th-tip__pop--placed { position: fixed; right: auto !important; }
 /* Right-aligned numeric headers near the table edge: open the popover leftward. */
 th.th-tip.cc-num .th-tip__pop, th.th-tip.right .th-tip__pop, th.th-tip:last-child .th-tip__pop { left: auto; right: 0; }
-@media print { .th-tip__btn, .th-tip__pop { display: none !important; } }
+@media print { .th-sort, .th-tip__pop { display: none !important; } .th-tip__label { text-decoration: none; } }
 
 /* ================================================================
    11. FORM CONTROLS

@@ -100,6 +100,7 @@
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
   <script defer src="js/config/table-export-registry.js"></script>
   <script defer src="js/components/table-export.js"></script>
 </head>
@@ -245,11 +246,11 @@
         <table data-export="la-regions">
           <thead>
             <tr>
-              <th data-sort="region" data-tip="U.S. Census region (Northeast, Midwest, South, West).">Region</th>
-              <th class="right" data-sort="states">States</th>
-              <th class="right" data-sort="alloc">Total allocation</th>
-              <th class="right" data-sort="share">% of national</th>
-              <th class="right" data-sort="percap">Per-capita</th>
+              <th data-tip="U.S. Census region (Northeast, Midwest, South, West).">Region</th>
+              <th class="right">States</th>
+              <th class="right">Total allocation</th>
+              <th class="right">% of national</th>
+              <th class="right">Per-capita</th>
             </tr>
           </thead>
           <tbody id="region-summary-body"></tbody>
@@ -262,11 +263,11 @@
           <thead>
             <tr>
               <th>#</th>
-              <th data-sort="name">State</th>
-              <th data-sort="abbr">Abbr</th>
-              <th class="right" data-sort="allocation">Allocation</th>
-              <th class="right" data-sort="perCapita">Per-capita</th>
-              <th class="right" data-sort="share">% of national</th>
+              <th>State</th>
+              <th>Abbr</th>
+              <th class="right">Allocation</th>
+              <th class="right">Per-capita</th>
+              <th class="right">% of national</th>
             </tr>
           </thead>
           <tbody id="top10-body"></tbody>

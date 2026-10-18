@@ -2,7 +2,8 @@
 // definition a reader can actually reach: either the header carries its own
 // title / data-tip, or its normalized text has an entry in
 // data/table-header-tips.json, which js/components/table-header-tips.js
-// turns into a visible "?" control with an accessible popover.
+// shows from the header itself (dotted underline; hover, focus or tap)
+// in an accessible popover.
 //
 // Guards three things:
 //   1. the definitions map is well-formed and every entry is a real sentence;
@@ -116,7 +117,7 @@ assert.ok(touchRule, 'found the touch-target rule in css/responsive.css');
 const touchMin = touchRule && /min-height:\s*(\d+)px/.exec(touchRule[2]);
 assert.ok(touchMin, 'the touch-target rule in css/responsive.css sets a pixel min-height');
 const minPx = Number(touchMin[1]);
-const GLYPHS = ['.th-tip__btn', '.info-tooltip > summary', '.methodology-popover__summary'];
+const GLYPHS = ['.th-sort', '.info-tooltip > summary', '.methodology-popover__summary'];
 for (const sel of GLYPHS) {
   const body = ruleBody(themeCss, sel);
   assert.ok(body, `site-theme.css has a rule for ${sel}`);
@@ -132,18 +133,23 @@ for (const sel of GLYPHS) {
 }
 assert.ok(/th\.th-tip\s*\{[^}]*height:\s*(\d+)px/.test(themeCss) && Number(/th\.th-tip\s*\{[^}]*height:\s*(\d+)px/.exec(themeCss)[1]) >= minPx,
   'a tip header is tall enough to hold the glyph\'s touch target');
-// The glyph never goes inside a child element a renderer rewrites
-// (preservation.js resets .sort-icon textContent on every sort).
-assert.ok(componentSrc.includes('th.insertBefore(tail') && !/last\.parentNode\.insertBefore/.test(componentSrc),
-  'the glyph is inserted as a direct child of the header');
+// The header label is the trigger (paul, 2026-10-18): no circled "i"
+// glyph, a dotted underline on the label, and on touch a tap on the header
+// opens the definition before any sort handler sees it. The sort arrow is
+// left out of the label so a renderer's or table-sort.js's arrow stays a
+// direct child of the header.
+assert.ok(!componentSrc.includes("'th-tip__btn'"), 'no separate glyph control');
+assert.ok(componentSrc.includes("'th-tip__label'") && /\.th-tip__label\s*\{[^}]*underline dotted/.test(themeCss),
+  'the label carries a dotted underline');
+assert.ok(/stopImmediatePropagation\(\)[\s\S]{0,200}?\}, true\);/.test(componentSrc),
+  'a tap on the header opens the definition in the capture phase, before sort handlers');
+assert.ok(componentSrc.includes("contains('th-sort')"), 'the sort arrow is kept out of the label');
 assert.ok(/table th\s*\{[^}]*vertical-align:\s*bottom/.test(themeCss), 'header cells share a bottom edge');
-assert.ok(/\.th-tip__tail\s*\{[^}]*white-space:\s*nowrap/.test(themeCss) && componentSrc.includes("'th-tip__tail'"),
-  'the glyph wraps together with the label\'s last word');
 
 // A header that already carries a link (a footnote reference) gets no
 // glyph, since two 44px targets side by side would overlap; its definition
 // stays on the header as a title for hover and for the export dictionary.
 assert.ok(/th\.querySelector\('a\[href\]'\)\)\s*\{[\s\S]{0,400}?setAttribute\('title'[\s\S]{0,80}?return;/.test(componentSrc),
-  'headers that already link to their explanation are left without a second control');
+  'headers that already link to their explanation keep the link as their one control');
 
 console.log(`table-header-tips: PASS — ${tablePages.length} table pages wired, ${Object.keys(tips).length} definitions, every static header covered`);
