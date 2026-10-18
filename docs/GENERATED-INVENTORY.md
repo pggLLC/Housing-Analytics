@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T13:47:30.227Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T14:18:47.610Z. Do not edit by hand.
 
 ---
 
@@ -1637,7 +1637,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 756.5 KB | ✅ | — |
+| `data/market/market-direction.json` | 756.6 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -2280,7 +2280,7 @@
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
-| `test/ripeness.test.mjs` | 9.6 KB |
+| `test/ripeness.test.mjs` | 12.9 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
@@ -2418,7 +2418,7 @@
 | `tests/test_chfa_qap_watch.py` | 23.0 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
-| `tests/test_development_activity.py` | 43.6 KB |
+| `tests/test_development_activity.py` | 45.2 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
@@ -2433,7 +2433,7 @@
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_housing_events.py` | 6.4 KB |
-| `tests/test_lihtc_applications.py` | 13.6 KB |
+| `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
 | `tests/test_market_construction.py` | 13.3 KB |
