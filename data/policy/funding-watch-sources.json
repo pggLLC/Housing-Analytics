@@ -203,6 +203,11 @@
   "covered_elsewhere": [
     {
       "host": "www.rd.usda.gov",
+      "pages": [
+        "usda-rd-colorado",
+        "guide:usda-515",
+        "guide:usda-538"
+      ],
       "by": [
         "federalregister.gov|rhs-multifamily",
         "federalregister.gov|rural-housing-service",

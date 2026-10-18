@@ -567,16 +567,19 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                 merged.append(p)
     notices = sorted(merged, key=lambda n: n['key'])
 
-    # A host that blocks every automated read (USDA RD answers 403 to all of them) can be
-    # covered by a federal search that carries the same notices. While that search answers,
-    # its pages are not "check by hand"; they say what covers them. If the search fails too,
-    # or the host's pages come back, the usual rules apply.
+    # A page on a host that blocks every automated read (USDA RD answers 403 to all of them)
+    # can be covered by federal searches that carry the same notices. Only the pages named
+    # are covered, so a new page on that host for a program the searches do not carry is
+    # still check-by-hand (Codex, 2026-10-18). While every covering search answers, a named
+    # page is not "check by hand"; it says what covers it. If a search fails, or the page
+    # comes back, the usual rules apply.
     for cov in sources.get('covered_elsewhere') or []:
         by = [cov['by']] if isinstance(cov.get('by'), str) else list(cov.get('by') or [])
         if not by or not set(by) <= answered_queries:
             continue
+        named = set(cov.get('pages') or [])
         for p in pages:
-            if p.get('unverifiable') and urllib.parse.urlsplit(p['url']).netloc == cov.get('host'):
+            if p.get('unverifiable') and p['id'] in named:
                 p['unverifiable'] = False
                 p['covered_by'] = by
     unverifiable = [{'id': p['id'], 'url': p['url'], 'error': p.get('error'),

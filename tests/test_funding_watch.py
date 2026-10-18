@@ -1032,7 +1032,7 @@ def test_a_daily_ecfr_stamp_is_not_a_change():
 
 RHS_SEARCH = {"id": "rhs-mf", "agency": "rural-housing-service", "term": "\"Section 538\"",
               "types": ["NOTICE", "RULE"], "title_pattern": r"section 538|multi-?family housing"}
-COVERED = dict(SOURCES, covered_elsewhere=[{"host": "dlg.localhost",
+COVERED = dict(SOURCES, covered_elsewhere=[{"host": "dlg.localhost", "pages": ["dlg-eiaf"],
                                             "by": ["federalregister.gov|rhs-mf", "federalregister.gov|hud"]}])
 COVERED["federal"] = dict(SOURCES["federal"], federal_register=dict(SOURCES["federal"]["federal_register"],
                                                                      program_searches=[RHS_SEARCH]))
@@ -1082,11 +1082,14 @@ def test_a_new_program_search_starts_with_a_silent_baseline():
 def test_a_blocked_host_covered_by_answering_searches_is_not_check_by_hand():
     prev = run_covered(rhs_site())
     for i, day in enumerate(("2026-10-16", "2026-10-17", "2026-10-18", "2026-10-19")):
-        prev = run_covered(rhs_site(blocked=(EIAF,)), previous=prev, now=f"{day}T05:34:00Z")
+        prev = run_covered(rhs_site(blocked=(EIAF, GRANT)), previous=prev, now=f"{day}T05:34:00Z")
     p = next(p for p in prev["pages"] if p["id"] == "dlg-eiaf")
     assert p["ok"] is False and p["unverifiable"] is False
+    # A blocked page that is not named stays check-by-hand, whatever its host.
+    other = next(p for p in prev["pages"] if p["id"] == "guide:doh-grant")
+    assert other["unverifiable"] is True and "covered_by" not in other
     assert p["covered_by"] == ["federalregister.gov|rhs-mf", "federalregister.gov|hud"]
-    assert prev["unverifiable"] == [] and prev["changes"]["newly_unverifiable"] == []
+    assert [u["id"] for u in prev["unverifiable"]] == ["guide:doh-grant"]
     # The covering search fails too: the blocked page is check-by-hand again.
     down = run_covered(rhs_site(blocked=(EIAF,), rhs_down=True), previous=prev, now="2026-10-20T05:34:00Z")
     assert [u["id"] for u in down["unverifiable"]] == ["dlg-eiaf"]
@@ -1099,3 +1102,8 @@ def test_the_usda_rd_pages_are_covered_by_searches_that_exist():
     ids = {f"federalregister.gov|{q}" for q in watch.federal_register_queries(fr)}
     [cov] = [c for c in cfg["covered_elsewhere"] if c["host"] == "www.rd.usda.gov"]
     assert cov["by"] and set(cov["by"]) <= ids, "every covering search must be one the watch runs"
+    guide = json.loads((ROOT / "data" / "policy" / "co-developer-funding-guide.json").read_text(encoding="utf-8"))
+    soft = json.loads((ROOT / "data" / "policy" / "soft-funding-status.json").read_text(encoding="utf-8"))
+    targets = {t["id"]: t["url"] for t in watch.watch_targets(guide, soft, cfg)}
+    assert cov["pages"] and all(urlsplit(targets[p]).netloc == cov["host"] for p in cov["pages"]), \
+        "every covered page is a watched page on the covered host"
