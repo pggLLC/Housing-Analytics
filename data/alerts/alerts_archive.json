@@ -1,11 +1,20 @@
 {
   "meta": {
-    "generated": "2026-10-17T11:09:55Z",
+    "generated": "2026-10-18T11:35:23Z",
     "feed_count": 29,
-    "alert_count": 476,
+    "alert_count": 481,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Hunt Capital Partners Syndicates LIHTC for Supportive Housing Redevelopment and Rehab Project in Dallas - Yield PRO",
+      "date": "2026-10-17T16:01:44Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE0xR1pXZ1pMOWdQYlRtU0JUU0hUTk5rcXAzUnlId1VNRDJkdVdPTW5VN2tDdktDSnBUdzVYTmFsVE5EN0c5YTFaVVIxSTJWbzkwTGpjR05fLWJGNzF5amFyYU1CVjZ5Zw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Hunt Capital Partners Syndicates LIHTC for Supportive Housing Redevelopment and Rehab Project in Dallas \u00a0\u00a0 Yield PRO"
+    },
     {
       "title": "Affording Colorado: Childcare a costly challenge for families - Colorado Politics",
       "date": "2026-10-17T11:00:00Z",
@@ -275,6 +284,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Housing is slightly more affordable in Colorado, a report shows. You may not have noticed. \u00a0\u00a0 The Colorado Sun"
+    },
+    {
+      "title": "4846 Northern Lights Dr Unit D, Fort Collins, CO 80528 - Realtor.com",
+      "date": "2026-10-14T06:22:03Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPRDFmWkhaOWNFbXU5N0xYWXZ4eFJmWEZ6ZHE1VlhXVmxUSXNkdzhGYjc0MDRXTEhQTVFhcmpwVnd2NzlLNkY4bmF4WFhZWEh2aEo3TVNDNXpxTjZUYms5QU5IMHVuQWVxZVpCZ2FxTDJFNkxwRElQNC1JM1NZZkFoR0V0TU1HR1VFSUVlSnhzbEQ5ZnBXZVNFUm5sb2xBUDNuaGJ4MDZGLXY?oc=5",
+      "topic": "general",
+      "region": "Fort Collins",
+      "summary": "4846 Northern Lights Dr Unit D, Fort Collins, CO 80528 \u00a0\u00a0 Realtor.com"
     },
     {
       "title": "1030 # D09 and 2601 Davidson Dr, Fort Collins, CO 80526 - Realtor.com",
@@ -835,6 +853,15 @@
       "summary": "3400 Stanford Rd Unit A111, Fort Collins, CO 80525 \u00a0\u00a0 Realtor.com"
     },
     {
+      "title": "1967 Crested Lark St Unit 3, Fort Collins, CO 80528 - Realtor.com",
+      "date": "2026-10-03T09:51:10Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPZXZ3eVJNNGVGdnNSWVBBNlEyTFFWYWppSWhjWjlsN2hwSnJLcXQ3NUxZZWdXVVBMYUE5cjQtMUVMU1lJYWFXeXpGVVlZc1R3WFN5b0dfZ1Yzek04ZTBLVHRZVVFqeXZxdUlHVzI5X0dGOUVEdE44VVZVU0lMdUhMMWRRN2ZwQV9iQlFaVWtFV0IwMWZTYkZKejZoby1scXE0VXZxXw?oc=5",
+      "topic": "general",
+      "region": "Fort Collins",
+      "summary": "1967 Crested Lark St Unit 3, Fort Collins, CO 80528 \u00a0\u00a0 Realtor.com"
+    },
+    {
       "title": "Denver realtor says housing market shifting in buyers' favor, but interest rates won't go down - CBS News",
       "date": "2026-10-03T07:00:00Z",
       "source": "CBS News",
@@ -1159,6 +1186,15 @@
       "summary": "Grid Talk: Rural Colorado Pioneers Affordable, Green Homes \u00a0\u00a0 Department of Energy (.gov)"
     },
     {
+      "title": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park - Post Independent",
+      "date": "2026-09-24T07:00:00Z",
+      "source": "Post Independent",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQVlVobTIxeklMc1owck5Oak1jM2dqcEF3ZkdvdThLalkwQ2JEdm5qd3J2UWduVGtUbzhKVEJDTVl6eXBDZl9XV0RsSU1fYi1KWHZ4dHlvWDVNT2hhNTFQMG1XTUJncFFBRzBaVjRYMnZQU095QVF0dVZVcEhNWWsyd3dFVHl4LVdpTE5tMks2d0hiNWxORzMzTEcxcWhhTV9kM3BIQVpaVHdZYkhfZjhjQXZFcFlETkZLX2g2dDM0ZlFNZ2RhdlRGSGRyNzlPUQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park \u00a0\u00a0 Post Independent"
+    },
+    {
       "title": "Development-fee debate reveals no easy answer to Steamboat Springs\u2019 housing challenge - SteamboatToday.com",
       "date": "2026-09-24T07:00:00Z",
       "source": "SteamboatToday.com",
@@ -1265,6 +1301,15 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Governor Hochul Announces Revitalization of 341 Units of Affordable Public Housing in Troy \u00a0\u00a0 Homes and Community Renewal (.gov)"
+    },
+    {
+      "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery - Pueblo Chieftain",
+      "date": "2026-09-22T07:00:00Z",
+      "source": "Pueblo Chieftain",
+      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
+      "topic": "general",
+      "region": "Pueblo",
+      "summary": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery \u00a0\u00a0 Pueblo Chieftain"
     },
     {
       "title": "New affordable housing coming to southeast Colorado Springs - KOAA News 5",
@@ -1517,6 +1562,15 @@
       "topic": "affordable_housing",
       "region": "Pueblo",
       "summary": "What to know about a 98-unit affordable housing project in Pueblo \u00a0\u00a0 Pueblo Chieftain"
+    },
+    {
+      "title": "Colorado\u2019s Largest Data Center Could Rise Next to Homes \u2014 Without a Public Hearing - Capital & Main",
+      "date": "2026-09-16T07:00:00Z",
+      "source": "Capital & Main",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNbWJxbTJWVkY1c1FKbkJxQ05CRW0xbjd4Q3ltNGs5ZUpELS12bGZXYlEwbWZIRUdHZFQwZUxDM1V4VzRReXhJRnN5NkgwQjZzelh2c2d1OExKNkxqODVTdndnZHZ6ZC1GT25FZEhLUlI4dEh4clVJX1pfaF94QlhfemxTZzZrWjN0UGdmTlNoc21qc1c0MzNCNzJaWmE5RUJQc1ZuTnphdmc2UQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado\u2019s Largest Data Center Could Rise Next to Homes \u2014 Without a Public Hearing \u00a0\u00a0 Capital & Main"
     },
     {
       "title": "Colorado public school employees can get help with home down payments through new program - Denver7",
@@ -2093,6 +2147,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Colorado awards $13.9M for affordable housing in 8 communities \u00a0\u00a0 KKTV"
+    },
+    {
+      "title": "Hungry bears wander into US West homes, shops in record numbers - Reuters",
+      "date": "2026-08-31T07:00:00Z",
+      "source": "Reuters",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcU5IX3Yzc05iZ3RZa1NRb21rRnhCeEZ4akF5OHdHTE5rc0V2UEl6aWVZb21wcXg5cEx3Qjdib1BxYnJCQXFMa3JXbXYwRzE1NklZaU5WeXZZTTltZ2xMOWJDZ01ibndWR0k4c2gtQmdoUGJsdVBScDRkUjI5VzJnLWRLa1RyWndwTF9jR0hMWUFJUGRSaHdqUGVoZW1PVlFOU05Pa0lwdw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Hungry bears wander into US West homes, shops in record numbers \u00a0\u00a0 Reuters"
     },
     {
       "title": "Housing Needs Assessment Preliminary Results Highlight Struggle to Afford Life in Buena Vista - by Carly Winchell - Ark Valley Voice",
@@ -2842,6 +2905,15 @@
       "summary": "Affordable Housing Often Costs More To Build Than Market\u2011Rate Housing. Colorado Is Closing the Gap. \u00a0\u00a0 Next City"
     },
     {
+      "title": "Water bills set to rise for many after firms permitted extra funding - BBC",
+      "date": "2026-08-13T07:00:00Z",
+      "source": "BBC",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBia0c4d2xPV2xwVklRTmZ0N3ZFazYtQmFMVDhyRU1sZWRZU0dzeFdYdHRuTVdhdDM4NGFYalk5YWZ6M3dXNEFDMkRBalZIcV9kY0VoTzVzTFZ5TEZV?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Water bills set to rise for many after firms permitted extra funding \u00a0\u00a0 BBC"
+    },
+    {
       "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team - Axios",
       "date": "2026-08-12T22:00:02Z",
       "source": "Axios",
@@ -3319,6 +3391,15 @@
       "summary": "Pinnacle Advances Senior Housing Development \u00a0\u00a0 Affordable Housing Finance"
     },
     {
+      "title": "Real estate brokerage moving into new home in downtown Colorado Springs - Colorado Springs Gazette",
+      "date": "2026-08-05T07:00:00Z",
+      "source": "Colorado Springs Gazette",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPN2tFRkc2My1QSjlrT2dIS3J5eGV4VjBfY3kzQjVyeHdRNVRkcG02WEZ6aWF3cXlsV3R1VVJ4eGtFNzRQT2N3SS1oT09SeWJLUzQ2VE1vZERsQjZ1TjUxRi0wSmFUNVczdnhFUEpEQ2lvb2VxM1pFMmJRdDU3a0F3eW5OcUhxQlk0NGpGV0NjRkhqZklwSmRVQ1B0RFVZOUFSaldRcE9B?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "Real estate brokerage moving into new home in downtown Colorado Springs \u00a0\u00a0 Colorado Springs Gazette"
+    },
+    {
       "title": "Hear what Sen. John Hickenlooper said about affordable housing - The Coloradoan",
       "date": "2026-08-05T07:00:00Z",
       "source": "The Coloradoan",
@@ -3425,6 +3506,15 @@
       "topic": "general",
       "region": "Denver",
       "summary": "427 S Washington St, Denver, CO 80209 \u00a0\u00a0 Realtor.com"
+    },
+    {
+      "title": "Colorado Town Declared Abandoned Amid Water Crisis: What It Means - Newsweek",
+      "date": "2026-07-31T07:00:00Z",
+      "source": "Newsweek",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPX2xXQzVNNk5maENxTUVLOG1zaEtzVnFYczlrU3lOZGp6MTBkYWNVNFB4UG54T1hjWmR5YlBrYWVCOW82TkprdVFLdUlfN1gxUkRadHcyYWRNUGxXaVFSUXhKa2hjN2s4d3B3VkEtSFAtc0pDOTJhMGZrV2U1NHI3MlNxZHV0akhpMkVuUjBFd1VxWmxwMEZnRmV6cnRzUmc?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado Town Declared Abandoned Amid Water Crisis: What It Means \u00a0\u00a0 Newsweek"
     },
     {
       "title": "Colorado Officially Abandons Hartman: Town Erased After Government Collapse, Water Crisis - Tech Times",
@@ -4244,51 +4334,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "An Affordable Housing Owner\u2019s Guide to Hurricane Season \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Banning Lewis Ranch development plan could reshape Colorado Springs' eastern growth corridor - KOAA News 5",
-      "date": "2026-07-20T07:00:00Z",
-      "source": "KOAA News 5",
-      "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQOWZIczdZZTBnd1JBVEU0clgyY1RPbVowUWFwNFRDMzBqcFBJcy1IZzZnd0pVN1BMYklGalhNeE91OUZzVDhaOWlGUFEzVzB0bnE0dWRIdENqazF6RW9Da2lHUkZYak1CS1dlU1ZyRWdxUDVLTWs5dzhHb0RkLTdGTzZHaUNDb200dTFTNEx5eDFwU0o3Qmt6SWlyWWRxeXcxLTRRTTFqeGFCVzhVQmhpOXV3ODl4VWcxYTQ5Z2VEQVZsX25iWElnSUNzemZlR21Od3FUcC1HYTVYbmZweTVfekVuaWJ4ZDY0VVFySQ?oc=5",
-      "topic": "construction",
-      "region": "Colorado Springs",
-      "summary": "Banning Lewis Ranch development plan could reshape Colorado Springs' eastern growth corridor \u00a0\u00a0 KOAA News 5"
-    },
-    {
-      "title": "Apartment conversions are expensive and tricky. This old Denver Tech Center building pulled it off. - Colorado Public Radio",
-      "date": "2026-07-20T07:00:00Z",
-      "source": "Colorado Public Radio",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOck9aZklkX0k5djZXLTFZMnVPdUI1TXJNbUMtUlZuanQ1WURqbnMzQVloRXRIQmxNQ3E4a1NXRDA3NGxRNmFTb2RxSnc1VlJIeHZsZFhqU0p1QmtGVjFycG1UNEwzejRTNWF4dTYxWjdYb3VyRmNobG1kWVBXMWlVZHI5RDVUc0hFN1NjR2cwS0NGVGFOQlE?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Apartment conversions are expensive and tricky. This old Denver Tech Center building pulled it off. \u00a0\u00a0 Colorado Public Radio"
-    },
-    {
-      "title": "Wanna feel poor? Check out these million dollar Nothern Colorado homes - Fort Collins Country Radio",
-      "date": "2026-07-20T07:00:00Z",
-      "source": "Fort Collins Country Radio",
-      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBNT0t4NlNxVVlZeV9TLVJKWm01QUo2amxBZzRpaXliVHA3bmhrYTFRRk9LbUR2YjhrMnNSYUxsczdaaGp6c2JBWlU4dHB3T284NnZ1eE9UdDJSb3Nham5oTFBjeVN2VmlU?oc=5",
-      "topic": "general",
-      "region": "Fort Collins",
-      "summary": "Wanna feel poor? Check out these million dollar Nothern Colorado homes \u00a0\u00a0 Fort Collins Country Radio"
-    },
-    {
-      "title": "How AI is Transforming the LIHTC Equity Market - Tax Credit Advisor",
-      "date": "2026-07-20T07:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPZ0s0d0xMb3k2aG03Rmh1YUtBY2pPVHFjbEh5OXNIMmR1MV9GT0ZIMVp0VzlmWTJBeVg3eDJKeFFsYThlZXdaTDFROWJkTV92NHF6WGw3VUd2ZlBwbUdZaTRDRkZXUjExNUtfa2V1eHpHZEtQNmJsbVJ0NURyTzZzMFpsaS1DZEJnRWRwT1V4VzJnUQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "How AI is Transforming the LIHTC Equity Market \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Rep. Case introduces bill to boost transit-oriented affordable housing - Maui Now",
-      "date": "2026-07-19T18:00:00Z",
-      "source": "Maui Now",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNZTBKU1RDV1FmWUkxMHg0SWRDZVVITm9CXzJCaVdRdzFuNWhsYVl2RkEtMEhTYkpWaFpSMGlvRE5xV09DVG55dzljQ09zMFkybUwzWlVrT0ZFM0ZFZUNpS0lVRlpQWnpJTFdzUlRoeGtkdWdGZ1d2ZHl2a2hkckJEQVV5dDVlOE51R2hqcndEaTlQSDdOaXRHS2QzU2pld2xIMzg4?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Rep. Case introduces bill to boost transit-oriented affordable housing \u00a0\u00a0 Maui Now"
     }
   ]
 }
