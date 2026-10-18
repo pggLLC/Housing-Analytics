@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:33:18Z",
+  "generated_at": "2026-10-18T10:50:03Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",
@@ -243,8 +243,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 24,
-    "homes": 2394,
+    "projects": 25,
+    "homes": 2586,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -269,8 +269,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 1,
-      "homes": 50,
+      "projects": 2,
+      "homes": 242,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -3037,8 +3037,8 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 26,
-    "homes": 1961,
+    "projects": 25,
+    "homes": 1769,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
@@ -3063,8 +3063,8 @@
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 3,
-      "homes": 298,
+      "projects": 2,
+      "homes": 106,
       "projects_without_homes": 0
      }
     }

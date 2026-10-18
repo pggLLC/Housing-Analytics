@@ -338,13 +338,15 @@ def test_in_a_city_that_spans_counties_the_address_decides_or_the_county_is_unkn
 
 def test_every_committed_county_agrees_with_the_rows_own_city():
     """Each county a row is filed under is one its city is in: the county the
-    place table gives the city, or one the CHFA feed puts properties of that
-    city in (Westminster spans Adams and Jefferson, Aurora Adams and Arapahoe).
+    place table gives the city, one the Census cross-county list puts part of
+    it in, or one the CHFA feed puts properties of that city in (Westminster
+    spans Adams and Jefferson, Aurora Adams and Arapahoe).
     A county from neither is a namesake's, and puts the row on the wrong
     county's brief."""
     awards = apps_mod.awards
     data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
     _, county_places = awards.load_geo()
+    spans = apps_mod.city_spans(apps_mod.load_places())
     feed_counties: dict = {}
     for f in awards.read_json(awards.LIHTC_FEED)['features']:
         pr = f.get('properties') or {}
@@ -356,7 +358,7 @@ def test_every_committed_county_agrees_with_the_rows_own_city():
             continue
         allowed = set()
         for city in (awards.norm(c) for c in r['city'].split(',') if c.strip()):
-            allowed |= county_places.get(city, set()) | feed_counties.get(city, set())
+            allowed |= county_places.get(city, set()) | feed_counties.get(city, set()) | spans.get(city, set())
         if not allowed:
             continue
         for fips in r['county_fips_all']:
@@ -371,8 +373,9 @@ def test_an_application_in_a_city_that_spans_counties_is_filed_under_one_county_
     it does not belong to; with no county found, the row is on no county's."""
     awards = apps_mod.awards
     data = json.loads((ROOT / 'data' / 'jurisdiction-briefs' / '_lihtc-applications.json').read_text())
-    spans = apps_mod.feed_city_spans()
-    assert {'westminster', 'aurora'} <= set(spans)
+    spans = apps_mod.city_spans(apps_mod.load_places())
+    # the Census cross-county list (Arvada, Longmont) and the feed (Englewood)
+    assert {'westminster', 'aurora', 'arvada', 'longmont', 'englewood'} <= set(spans)
     checked = 0
     for r in data['applications']:
         cities = [c for c in (r.get('city') or '').split(',') if c.strip()]

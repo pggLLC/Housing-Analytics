@@ -304,12 +304,31 @@ def feed_name_cities() -> dict[str, set]:
     return out
 
 
+CROSS_COUNTY = os.path.join(ROOT, 'data', 'hna', 'cross-county-places.json')
+
+
+def city_spans(places: dict[str, str]) -> dict[str, set]:
+    """Normalized city → the counties it spans. The place table names one
+    containing county per city, which is wrong for any project on the other
+    side of the line. Two sources: the Census cross-county place list
+    (Westminster in Adams and Jefferson, Arvada, Longmont, ...), and cities
+    the LIHTC feed puts properties of in more than one county, each holding at
+    least a tenth of them, which catches a mailing city whose addresses cross
+    a line the city itself does not (Englewood)."""
+    out = feed_city_spans()
+    try:
+        cross = awards.read_json(CROSS_COUNTY)['places']
+    except (OSError, KeyError, ValueError):
+        cross = {}
+    for city, geoid in places.items():
+        entry = cross.get(geoid)
+        if entry and len(entry.get('all_counties') or []) > 1:
+            out[city] = out.get(city, set()) | {c['fips'] for c in entry['all_counties']}
+    return out
+
+
 def feed_city_spans() -> dict[str, set]:
-    """Normalized city → the counties it spans, for cities the LIHTC feed puts
-    properties of in more than one county (each holding at least a tenth of
-    them: Westminster in Adams and Jefferson, Aurora in Adams and Arapahoe).
-    The place table names one containing county per city, which is wrong for
-    any project on the other side of the line."""
+    """Cities the LIHTC feed puts properties of in more than one county."""
     tally: dict[str, dict] = {}
     try:
         for f in awards.read_json(awards.LIHTC_FEED)['features']:
@@ -628,12 +647,13 @@ def build_document(doc: dict, rows: list[list[str]], texts: list[str], ctx: dict
 
 def context() -> dict:
     counties, county_places = awards.load_geo()
+    places = load_places()
     try:
         excluded = {e['sha256'] for e in awards.read_json(EXCLUDED).get('excluded', [])}
     except (OSError, ValueError):
         excluded = set()
     return {'counties': counties, 'county_places': county_places, 'names': awards.lihtc_names(),
-            'places': load_places(), 'name_cities': feed_name_cities(), 'city_spans': feed_city_spans(),
+            'places': places, 'name_cities': feed_name_cities(), 'city_spans': city_spans(places),
             'geocode': functools.lru_cache(maxsize=None)(geocode_county),
             'sensitive': awards.sensitive_patterns(), 'excluded': excluded}
 

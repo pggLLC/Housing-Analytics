@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:33:18Z",
+  "generated_at": "2026-10-18T10:50:03Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
@@ -2803,7 +2803,7 @@
    "mihtc_credit_requested": null,
    "pab_requested": null,
    "county_fips": null,
-   "county_unavailable_reason": "Aurora spans 2 counties and the report gives no street address the Census geocoder can place",
+   "county_unavailable_reason": "Aurora spans 3 counties and the report gives no street address the Census geocoder can place",
    "place_geoids": [
     "0804000"
    ],
@@ -7544,12 +7544,12 @@
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
    "pab_requested": 51500000,
-   "county_fips": "08059",
+   "county_fips": "08001",
    "place_geoids": [
     "0803455"
    ],
    "county_fips_all": [
-    "08059"
+    "08001"
    ],
    "quote": "Bldg. Type: N; Pop Type: F; Name: W. 64th Apartments; Address: 3680 W. 64th Avenue; City: Arvada; Total Units: 192; LI Units: 192; Federal 4% Credit Amount Requested: $4,510,344; PAB Issuer: CHFA; PAB Amount Requested: $51,500,000; State Credit Amount Requested*: $1,800,000; Sponsor: Devco Preservation LLC",
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",

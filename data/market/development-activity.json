@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T10:33:18Z",
+  "generated_at": "2026-10-18T10:50:03Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_development_activity.py",
   "title": "Significant affordable-housing development activity in Colorado",
@@ -43,8 +43,8 @@
  "county_summary": {
   "08001": {
    "name": "Adams County",
-   "projects": 24,
-   "homes": 2394,
+   "projects": 25,
+   "homes": 2586,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -69,8 +69,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 1,
-     "homes": 50,
+     "projects": 2,
+     "homes": 242,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -1213,8 +1213,8 @@
   },
   "08059": {
    "name": "Jefferson County",
-   "projects": 26,
-   "homes": 1961,
+   "projects": 25,
+   "homes": 1769,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1239,8 +1239,8 @@
      "projects_without_homes": 0
     },
     "not_funded": {
-     "projects": 3,
-     "homes": 298,
+     "projects": 2,
+     "homes": 106,
      "projects_without_homes": 0
     },
     "letter_of_intent": {
@@ -11926,6 +11926,36 @@
    ]
   },
   {
+   "id": "west-64th-08001",
+   "name": "W. 64th Apartments",
+   "city": "Arvada",
+   "county_fips": "08001",
+   "county_fips_all": null,
+   "county": "Adams County",
+   "place_geoid": "0803455",
+   "stage": "not_funded",
+   "first_year": 2024,
+   "latest_year": 2024,
+   "total_units": 192,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 192,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "not_funded",
+     "year": 2024,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 4510344,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
+     "quote": "Bldg. Type: N; Pop Type: F; Name: W. 64th Apartments; Address: 3680 W. 64th Avenue; City: Arvada; Total Units: 192; LI Units: 192; Federal 4% Credit Amount Requested: $4,510,344; PAB Issuer: CHFA; PAB Amount Requested: $51,500,000; State Credit Amount Requested*: $1,800,000",
+     "round": "2024 Round Two",
+     "as_of": "2024-08-15"
+    }
+   ]
+  },
+  {
    "id": "3575-cherokee-08005",
    "name": "3575 South Cherokee Street",
    "city": "Englewood",
@@ -13638,36 +13668,6 @@
      "amount_label": "awarded",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/06/Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
      "quote": "Project Name: Teller Street Apartments; Location: Arvada; Proposition 123 Funds Requested: $6,750,000; Proposition 123 Funds Awarded: $6,500,000; Projected Units: 54; Equity Option Election: Affordability-Driven Investment"
-    }
-   ]
-  },
-  {
-   "id": "west-64th-08059",
-   "name": "W. 64th Apartments",
-   "city": "Arvada",
-   "county_fips": "08059",
-   "county_fips_all": null,
-   "county": "Jefferson County",
-   "place_geoid": "0803455",
-   "stage": "not_funded",
-   "first_year": 2024,
-   "latest_year": 2024,
-   "total_units": 192,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 192,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "not_funded",
-     "year": 2024,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 4510344,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
-     "quote": "Bldg. Type: N; Pop Type: F; Name: W. 64th Apartments; Address: 3680 W. 64th Avenue; City: Arvada; Total Units: 192; LI Units: 192; Federal 4% Credit Amount Requested: $4,510,344; PAB Issuer: CHFA; PAB Amount Requested: $51,500,000; State Credit Amount Requested*: $1,800,000",
-     "round": "2024 Round Two",
-     "as_of": "2024-08-15"
     }
    ]
   },
