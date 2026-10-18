@@ -47,6 +47,12 @@ test('substitute: the replaced state credit\'s equity comes off, and net can be 
   assert.equal(r.displaces, 'Colorado state credit');
 });
 
+test('a replaced credit counts only its equity after its own investor fees (netShare)', () => {
+  const c = fx.cases.substitute;
+  const r = cb.addedCredit(added({ mode: c.mode, displaced: Object.assign(stateDisplaced(c.displacedStateAnnual), { netShare: 0.5 }) }));
+  assert.equal(r.displaced, c.expected.displaced / 2);
+});
+
 test('resized federal: a federal cut is priced at the federal years and price', () => {
   const c = fx.cases.resizedFederal;
   const r = cb.addedCredit(added({ mode: c.mode, federalCut: fedCut(c.federalCutAnnual) }));

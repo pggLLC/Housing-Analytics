@@ -53,6 +53,11 @@ function enterAdded(p, over) {
     assert.equal(r.gapBeforeDeferred, gapBefore, 'the added credit is reported beside the stack, not in it');
     assert.equal(r.costBasis.addedCredit.gapAfter, gapBefore - c.net);
     assert.equal(rowText(p, 'Funding gap before deferred fee, with this credit'), money(gapBefore - c.net));
+    // The added credit's results export with the other outputs, which come from the same result.
+    const snap = p.w.__DealCalcShare.buildSnapshot();
+    assert.equal(snap.outputs.addedCreditGrossEquity.value, r.costBasis.addedCredit.gross);
+    assert.equal(snap.outputs.addedCreditNetNewEquity.value, r.costBasis.addedCredit.net);
+    assert.equal(snap.outputs.fundingGapWithAddedCredit.value, r.costBasis.addedCredit.gapAfter);
     // The cut needs a known federal credit; the default deal has one only once the gap method runs.
     setField(p, 'dc-credit-awarded', fx.federal.annual);
     setField(p, 'dc-equity-price', fx.federal.price);
@@ -101,6 +106,21 @@ function enterAdded(p, over) {
     p.w.__DealCalc.setTransitZoneContext(Object.assign({}, inside, { program: Object.assign({}, inside.program, { qualified: false }) }));
     assert.equal(ac().eligibility, 'not in a zone');
     assert.equal(rowText(p, 'Net new equity'), 'Not available');
+    assert.deepEqual(p.errors, []);
+  });
+
+  await test('replacing a state credit that has investor fees takes off its net equity, as the stack counts it', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-rate-4', true);
+    setField(p, 'dc-state-path', fx.state.path);
+    setField(p, 'dc-state-annual', fx.state.annual); setField(p, 'dc-state-price', fx.state.price); setField(p, 'dc-state-awarded', true);
+    setField(p, 'dc-state-fees', 20000);
+    // An identical credit with no fees replacing all of it gains exactly the fees it avoids.
+    enterAdded(p, { 'dc-add-annual': fx.state.annual, 'dc-add-years': 6, 'dc-add-price': fx.state.price, 'dc-add-fees': 0,
+      'dc-add-mode': 'substitute', 'dc-add-displaces': 'state', 'dc-add-displaced-annual': fx.state.annual });
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.costBasis.addedCredit.displaced, r.stateEquity, 'the displaced equity is the state equity in the stack');
+    assert(Math.abs(r.costBasis.addedCredit.net - 20000) < 0.01, 'net ' + r.costBasis.addedCredit.net);
     assert.deepEqual(p.errors, []);
   });
 

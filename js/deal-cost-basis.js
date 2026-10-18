@@ -836,7 +836,8 @@
       if (d.maxAnnual !== null && d.maxAnnual !== undefined && da > d.maxAnnual) {
         out.reason = 'It cannot replace more ' + d.label.toLowerCase() + ' than the ' + money(d.maxAnnual) + ' a year in this deal.'; out.displaced = null; return out;
       }
-      out.displaced = da * d.years * d.price;
+      // netShare: the part of the replaced credit's equity left after its own investor fees.
+      out.displaced = da * d.years * d.price * (typeof d.netShare === 'number' ? d.netShare : 1);
     }
     var cut = num(args.federalCut && args.federalCut.annual);
     if (cut === null) cut = 0; // no cut entered: the federal award stands as entered

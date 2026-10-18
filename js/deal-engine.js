@@ -1183,7 +1183,9 @@
     if (chfaRegime && fields['dc-add-kind']) {
       var displacedChoice = fields['dc-add-displaces'] || null, displaced = null;
       if (displacedChoice === 'state') {
+        // State equity in the stack is net of its investor fees, so the replaced share is too.
         displaced = { label: 'Colorado state credit', annual: fields['dc-add-displaced-annual'], years: stateCredit.years, price: stateCredit.price,
+          netShare: stateCredit.equity === null || !stateCredit.grossEquity ? 1 : stateCredit.equity / stateCredit.grossEquity,
           maxAnnual: stateCredit.equity === null ? null : stateCredit.allowedAnnual,
           reason: !stateCredit.entered ? 'no state credit is entered.' : stateCredit.equity === null ? stateCredit.reason : null };
       } else if (displacedChoice === 'federal') {
