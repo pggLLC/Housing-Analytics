@@ -398,6 +398,11 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       ['monthly',   '47 4 1 * *',  720],
       ['quarterly', '41 7 1 */3 *', 2160],
       ['annual',    '29 7 15 10 *', 8760],
+      // Lists are judged by their longest gap (Codex on #2316): fetch-bps-monthly
+      // runs on the 1st and 16th, so it is a ~15-day cadence, not a monthly one.
+      ['twice a month', '22 6 1,16 * *', 360],
+      ['weekdays',  '23 6 * * 1-5',  72],
+      ['twice daily', '23 6,18 * * *', 12],
     ];
     let cadenceBad = 0;
     for (const [label, expr, want] of cadences) {
@@ -949,6 +954,11 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       } else {
         ok('monitor runs serialize per watched workflow, so one outage opens one tracker');
       }
+      if (m && /run_id/.test(m[1])) {
+        fail('staleness sweeps fall back to github.run_id, so a dispatch overlapping the schedule could open a second tracker');
+      } else {
+        ok('scheduled and dispatched staleness sweeps share one concurrency group');
+      }
       if (!/^\s{2}queue:\s*max\s*$/m.test(wfCode)) {
         fail('monitor concurrency keeps GitHub\'s one-pending default — a newer event can silently displace an older one');
       } else {
@@ -1003,6 +1013,7 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       const put = (f, cron) => fs.writeFileSync(path.join(dir, f), `on:\n  schedule:\n    - cron: '${cron}'\n`);
       put('build-hna-data.yml', '23 7 * * 6'); put('fetch-fred-data.yml', '23 6 * * *');
       put('old-off.yml', '23 6 * * *'); put('brand-new.yml', '23 6 * * *');
+      put('workflow-outcome-monitor.yml', '31 9 * * *');
       fs.writeFileSync(path.join(dir, 'push-only.yml'), 'on:\n  push:\n');
       const NOW = Date.parse('2026-10-18T12:00:00Z');
       const ago = (h) => new Date(NOW - h * 3600000).toISOString();
@@ -1015,7 +1026,8 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
             { path: '.github/workflows/build-hna-data.yml', state: 'active' },
             { path: '.github/workflows/fetch-fred-data.yml', state: 'active' },
             { path: '.github/workflows/old-off.yml', state: 'disabled_manually' },
-            { path: '.github/workflows/brand-new.yml', state: 'active' }] });
+            { path: '.github/workflows/brand-new.yml', state: 'active' },
+            { path: '.github/workflows/workflow-outcome-monitor.yml', state: 'active' }] });
           const run = /\/actions\/workflows\/([^/]+)\/runs\?(.*)$/.exec(url);
           if (run) {
             const q = new URLSearchParams(run[2]);
@@ -1032,7 +1044,9 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         workflowsDir: dir, fetchImpl: api.fetchImpl, now: NOW, mutate, log: () => {} });
       const writes = (api) => api.calls.filter((c) => c.method !== 'GET');
 
-      const silent = { 'build-hna-data.yml': 15 * 24, 'fetch-fred-data.yml': 20 };
+      // The monitor's own last success is a month old, as in the live dry run;
+      // it must not flag itself.
+      const silent = { 'build-hna-data.yml': 15 * 24, 'fetch-fred-data.yml': 20, 'workflow-outcome-monitor.yml': 783 };
       const a1 = makeApi({ lastSuccess: silent });
       const r1 = await sweep(a1);
       const ids = r1.stale.map((x) => x.workflowId);
@@ -1040,7 +1054,7 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       if (JSON.stringify(ids) !== '["build-hna-data"]') fail(`#1556 sweep flagged ${JSON.stringify(ids)}, expected only build-hna-data`);
       else if (r1.checked !== 3 || JSON.stringify(r1.unknown) !== '["brand-new"]') fail(`sweep checked ${r1.checked} / unknown ${JSON.stringify(r1.unknown)}; the disabled and push-only files must be skipped and brand-new reported unknown`);
       else if (!opened || !JSON.parse(opened.body).title.includes(m.STALE_MARKER)) fail('a stale workflow did not open the [workflow-stale] tracker');
-      else ok('#1556 end to end: the weekly job silent 15 days opens one tracker; fresh, disabled and new jobs do not');
+      else ok('#1556 end to end: the weekly job silent 15 days opens one tracker; fresh, disabled, new and self do not');
 
       const openBody = JSON.parse(opened.body).body;
       const trusted = (body) => [{ number: 77, state: 'open', title: m.STALE_TITLE, body, user: { login: 'github-actions[bot]' } }];
@@ -1052,8 +1066,12 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
 
       const a3 = makeApi({ lastSuccess: { ...silent, 'fetch-fred-data.yml': 72 }, openIssues: trusted(openBody) });
       await sweep(a3);
-      if (!writes(a3).some((c) => c.method === 'POST' && /comments$/.test(c.url))) fail('a newly stale workflow did not add a comment to the open tracker');
-      else ok('a change in the stale list adds one comment');
+      const w3 = writes(a3);
+      const commentAt = w3.findIndex((c) => c.method === 'POST' && /comments$/.test(c.url));
+      const patchAt = w3.findIndex((c) => c.method === 'PATCH');
+      if (commentAt < 0) fail('a newly stale workflow did not add a comment to the open tracker');
+      else if (patchAt < commentAt) fail('the body (and its stale-ids) is rewritten before the comment, so a failed comment is never retried');
+      else ok('a change in the stale list adds one comment, written before the body so a failed comment is retried');
 
       const a4 = makeApi({ lastSuccess: { 'build-hna-data.yml': 2, 'fetch-fred-data.yml': 2 }, openIssues: trusted(openBody) });
       await sweep(a4);

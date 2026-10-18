@@ -90,7 +90,9 @@ permissions:
 # cancel-in-progress stays false on purpose: the second run must still execute,
 # because by then it will see the tracker the first opened and comment instead.
 concurrency:
-  group: workflow-outcome-monitor-${{ github.event.workflow_run.path || github.run_id }}
+  # Staleness sweeps (schedule and dispatch) share ONE group: two overlapping
+  # sweeps would each find no tracker and each open one.
+  group: workflow-outcome-monitor-${{ github.event.workflow_run.path || 'staleness-sweep' }}
   cancel-in-progress: false
   # The default queue keeps only one pending run and silently displaces the
   # previous pending event. Every completed outcome must remain observable.

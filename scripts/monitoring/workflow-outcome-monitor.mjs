@@ -152,7 +152,41 @@ export function requireToken(env = process.env) {
  * quarterly.
  */
 
-/** Expected interval between scheduled runs, in hours, from a 5-field cron. */
+/**
+ * The values a cron field selects within [lo, hi], or null for `*`. Handles
+ * lists, ranges and steps (`1,16`, `1-5`, every-6 steps, `0-12/3`); null on anything
+ * else, so an unparsed field is never guessed at.
+ */
+function cronValues(field, lo, hi) {
+  if (field === '*') return null;
+  const out = new Set();
+  for (const part of field.split(',')) {
+    const m = /^(\*|\d+)(?:-(\d+))?(?:\/(\d+))?$/.exec(part);
+    if (!m) return null;
+    const start = m[1] === '*' ? lo : Number(m[1]);
+    const end = m[2] != null ? Number(m[2]) : (m[1] === '*' || m[3] ? hi : start);
+    const step = m[3] ? Number(m[3]) : 1;
+    if (!(step > 0) || start < lo || end > hi || start > end) return null;
+    for (let v = start; v <= end; v += step) out.add(v);
+  }
+  return [...out].sort((a, b) => a - b);
+}
+
+/** Longest wait between selected values on a cycle of `period` units. */
+function longestGap(values, period) {
+  if (!values || !values.length) return null;
+  let gap = values[0] + period - values[values.length - 1];
+  for (let i = 1; i < values.length; i += 1) gap = Math.max(gap, values[i] - values[i - 1]);
+  return gap;
+}
+
+/**
+ * Expected interval between scheduled runs, in hours, from a 5-field cron.
+ *
+ * The LONGEST gap between runs, so a list such as `1,16` (fetch-bps-monthly,
+ * twice a month) is judged as ~15 days rather than as monthly, and the
+ * two-missed-runs rule keeps its meaning without alerting inside a normal gap.
+ */
 export function cronIntervalHours(expr) {
   if (typeof expr !== 'string') return null;
   const f = expr.trim().split(/\s+/);
@@ -169,13 +203,18 @@ export function cronIntervalHours(expr) {
   if (monthStep) return monthStep * 30 * 24;
   if (month !== '*') return 365 * 24;            // a fixed month = annual
 
-  if (dom !== '*') return 30 * 24;               // day-of-month set = monthly
-  if (dow !== '*') return 7 * 24;                // day-of-week set = weekly
+  if (dom !== '*') {                             // day-of-month set: monthly, or more often for a list
+    const gap = longestGap(cronValues(dom, 1, 31), 30);
+    return gap == null ? 30 * 24 : Math.min(gap, 30) * 24;
+  }
+  if (dow !== '*') {                             // day-of-week set: weekly, or more often for a list
+    const gap = longestGap(cronValues(dow.replace(/\b7\b/g, '0'), 0, 6), 7);
+    return gap == null ? 7 * 24 : gap * 24;
+  }
 
-  const hourStep = step(hour);
-  if (hourStep) return hourStep;                 // */6 → every 6 hours
   if (hour === '*') return step(min) ? step(min) / 60 : 1;
-  return 24;                                     // fixed hour, every day
+  const hourGap = longestGap(cronValues(hour, 0, 23), 24);
+  return hourGap == null ? 24 : hourGap;         // */6 → 6, `6,18` → 12, fixed hour → 24
 }
 
 /**
@@ -529,6 +568,7 @@ export async function latestRelevantRun(repo, workflowFile, branch, { token, fet
  * notification, not one a day.
  */
 export const STALE_MARKER = '[workflow-stale]';
+export const SELF_WORKFLOW_FILE = 'workflow-outcome-monitor.yml';
 export const STALE_TITLE = `⚠️ ${STALE_MARKER} scheduled workflows have stopped succeeding`;
 
 /** The cron expressions a workflow file declares (comments stripped). */
@@ -643,6 +683,10 @@ export async function runStaleness({ repo, token, branch, workflowsDir, fetchImp
     const cadence = workflowCadenceHours(scheduledCrons(fs.readFileSync(path.join(workflowsDir, file), 'utf8')));
     if (cadence == null) continue;
     const id = workflowIdFromPath(file);
+    // The sweep never judges itself: a monitor that has stopped cannot report
+    // that, and on its first scheduled run its only prior success is an old
+    // manual dispatch, which flagged it in the live dry run on 2026-10-18.
+    if (file === SELF_WORKFLOW_FILE) continue;
     if (states.get(file) !== 'active') {
       log(`[monitor] staleness: ${id} skipped — workflow state is ${states.get(file) || 'unknown to the API'}`);
       continue;
@@ -659,6 +703,7 @@ export async function runStaleness({ repo, token, branch, workflowsDir, fetchImp
 
   log(`[monitor] staleness: checked ${checked} scheduled workflows, ${stale.length} stale, `
     + `${unknown.length} without a successful run on record`);
+  if (unknown.length) log(`[monitor]   not judged (no success on record): ${unknown.join(', ')}`);
   for (const s of stale) log(`[monitor]   stale: ${s.workflowId} — ${Math.round(s.hoursSinceLastCompletedRun)} h since last success (limit ${s.limitHours} h)`);
 
   const body = staleBody(stale, { checked, unknown });
@@ -670,11 +715,15 @@ export async function runStaleness({ repo, token, branch, workflowsDir, fetchImp
     const created = await ghRequest(`/repos/${repo}/issues`, { token, fetchImpl, method: 'POST', body: { title: STALE_TITLE, body } });
     log(`[monitor] staleness tracker: opened #${created.number} — ${decided.reason}`);
   } else if (decided.action === 'refresh' || decided.action === 'update') {
-    await ghRequest(`/repos/${repo}/issues/${tracker.number}`, { token, fetchImpl, method: 'PATCH', body: { body } });
+    // Comment BEFORE rewriting the body: the body's stale-ids are what the next
+    // sweep compares against, so writing them first and then failing the
+    // comment would make tomorrow's run see "unchanged" and drop the
+    // notification for good. This order can at worst notify twice.
     if (decided.action === 'update') {
       await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, { token, fetchImpl, method: 'POST',
         body: { body: `The stale list changed; it now names ${stale.length}: ${stale.map((s) => `\`${s.workflowId}\``).join(', ')}.` } });
     }
+    await ghRequest(`/repos/${repo}/issues/${tracker.number}`, { token, fetchImpl, method: 'PATCH', body: { body } });
     log(`[monitor] staleness tracker: ${decided.action}d #${tracker.number} — ${decided.reason}`);
   } else if (decided.action === 'close') {
     await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, { token, fetchImpl, method: 'POST',
