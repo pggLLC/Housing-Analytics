@@ -101,6 +101,9 @@
     return null;
   }
 
+  var AGO = /^(\d+\.?\d*)\s*(mins?|minutes?|hrs?|hours?|days?|wks?|weeks?|mos?|months?|yrs?|years?)\s+ago$/i;
+  var AGO_DAYS = { min: 1 / 1440, minute: 1 / 1440, hr: 1 / 24, hour: 1 / 24, day: 1, wk: 7, week: 7, mo: 30, month: 30, yr: 365, year: 365 };
+
   function key(cell) {
     var txt = cell ? (cell.getAttribute('data-sort-value') || cell.textContent) : '';
     txt = txt.replace(/\s+/g, ' ').trim();
@@ -114,6 +117,12 @@
     }
     var d = dateKey(txt);
     if (d !== null) return { n: d };
+    // Relative ages ("today", "3 days ago", "2 mo ago", "1 yr ago") sort by
+    // age, oldest first, the same direction as dates.
+    var ago = AGO.exec(txt);
+    if (/^(today|just now)$/i.test(txt)) return { n: 0 };
+    if (/^yesterday$/i.test(txt)) return { n: -1 };
+    if (ago) return { n: -parseFloat(ago[1]) * AGO_DAYS[ago[2].toLowerCase().replace(/s$/, '')] };
     // A number with a short unit or note after it sorts by the number:
     // "5 years", "4-5 weeks", "384 (36%)", "$35.04/hr", "+105 bp",
     // "60% AMI", "7.5 KB" next to "2.1 MB". Prose that happens to start
@@ -136,6 +145,15 @@
     return a.s.localeCompare(b.s, undefined, { numeric: true });
   }
 
+  // Total rows stay at the bottom: a .total class, or a first cell that
+  // reads "Total …" / "Grand total" (the stakeholder guide's TOTAL SOURCES,
+  // TOTAL USES and TOTAL POSSIBLE rows are marked only by their label).
+  function isTotal(r) {
+    if (r.classList.contains('total')) return true;
+    var first = r.cells[0];
+    return !!first && /^(grand\s+|sub)?total\b/i.test(first.textContent.replace(/\s+/g, ' ').trim());
+  }
+
   function sortBy(t, th, col) {
     var head = headerRow(t);
     var tb = t.tBodies[0];
@@ -149,11 +167,14 @@
     });
     th.setAttribute('aria-sort', next);
     var orig = function (r) { return Number(r.dataset.sortOrig); };
-    var pinned = rows.filter(function (r) { return r.classList.contains('total'); });
-    var movable = rows.filter(function (r) { return !r.classList.contains('total'); });
+    if (next === 'none') {
+      rows.sort(function (ra, rb) { return orig(ra) - orig(rb); }).forEach(function (r) { tb.appendChild(r); });
+      return;
+    }
+    var pinned = rows.filter(isTotal);
+    var movable = rows.filter(function (r) { return !isTotal(r); });
     var dir = next === 'descending' ? -1 : 1;
     movable.sort(function (ra, rb) {
-      if (next === 'none') return orig(ra) - orig(rb);
       var a = key(ra.cells[col]);
       var b = key(rb.cells[col]);
       if (a.blank || b.blank) return a.blank && b.blank ? orig(ra) - orig(rb) : (a.blank ? 1 : -1);

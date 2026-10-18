@@ -30,6 +30,9 @@ const html = `<!doctype html><body>
 <tr><td>Delta</td><td>1,050</td><td>(5)</td></tr>
 <tr class="total"><td>Total</td><td>1,214</td><td>—</td></tr>
 </tbody></table>
+<table id="stack"><thead><tr><th>Source</th><th>Amount</th></tr></thead><tbody>
+<tr><td><strong>Tax Credit Equity</strong></td><td>$15.0M</td></tr><tr><td><strong>Permanent Loan</strong></td><td>$7.0M</td></tr><tr><td><strong>Gap Funds</strong></td><td>$3.0M</td></tr>
+<tr style="border-top:2px solid"><td><strong>TOTAL SOURCES</strong></td><td><strong>$25.0M</strong></td></tr></tbody></table>
 <table id="short"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="merged"><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td colspan="2">x</td></tr><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>
 <table id="optout" data-no-sort><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>5</td><td>6</td></tr></tbody></table>
@@ -125,6 +128,13 @@ const touchTap = (el) => {
   assert.deepEqual(key(cell('2.1 MB')), { n: 2.1e6 });
   assert.ok(key(cell('7.5 KB')).n < key(cell('2.1 MB')).n, 'file sizes compare across units');
   assert.ok(key(cell('3 weeks were spent reviewing the application package')).s, 'prose that starts with a number stays text');
+  assert.ok(key(cell('today')).n > key(cell('1 day ago')).n && key(cell('1 day ago')).n > key(cell('2 mo ago')).n && key(cell('2 mo ago')).n > key(cell('1 yr ago')).n, 'relative ages sort by age');
+  const stack = document.querySelectorAll('#stack thead th');
+  mouse(stack[1]); mouse(stack[1]);
+  assert.deepEqual(col('stack', 1), ['$15.0M', '$7.0M', '$3.0M', '$25.0M'], 'a row labelled TOTAL stays at the bottom without a .total class');
+  mouse(stack[0]);
+  assert.deepEqual(col('stack', 0).slice(-1), ['TOTAL SOURCES'], 'and when sorting its label column');
+  assert.match(fs.readFileSync(path.join(ROOT, 'js/data-explorer.js'), 'utf8'), /'data-sort-value': Number\.isFinite\(mtimeMs\)/, 'data explorer sorts Modified by timestamp');
   assert.deepEqual(key(cell('May fund rehab')), { s: 'may fund rehab' }, 'a label with a month name stays text');
   const dth = document.querySelector('#dates th');
   mouse(dth);
