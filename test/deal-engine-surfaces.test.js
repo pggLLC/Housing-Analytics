@@ -35,6 +35,8 @@ async function capture(page) {
       projection: [...document.querySelectorAll('#pf-table-wrap tbody tr:first-child td')].map(n => n.textContent.trim()),
       projectionColumns: document.querySelectorAll('#pf-table-wrap thead th').length,
       waterfall: [...document.querySelectorAll('#dcWaterfallTable tbody tr')].map(n => n.querySelectorAll('td')[1].textContent.trim()),
+      stackKey: [...document.querySelectorAll('#dcCapitalStackDiagram .dg-stack__key li')].map(n => n.textContent.trim()),
+      ladder: [...document.querySelectorAll('#dcWaterfallLadder .dg-ladder__amt')].map(n => n.textContent.trim()),
       scroll: { viewport: innerWidth, document: document.documentElement.scrollWidth } };
   });
 }
@@ -92,6 +94,13 @@ async function run() {
       assert(Math.abs(r.waterfall.inputs.defFeeRemaining - (r.deferredDevFee - feePaidInHold)) < 0.01, 'the sale pays the fee operations left unpaid, not the whole fee again');
       assert.equal(view.text['dc-wf-lp-equity-auto'], compact(r.equity + r.stateEquity));
       for (let i = 0; i < r.waterfall.tiers.length; i++) assert.equal(view.waterfall[i], compact(r.waterfall.tiers[i].amount), 'waterfall tier ' + i);
+      // The capital stack bar and the waterfall ladder draw the same figures.
+      for (const [label, v] of [['First mortgage', r.mortgage], ['Federal credit equity', r.creditStack.federal],
+        ['Soft funding', r.totalSoftSourceAmt], ['Deferred developer fee', r.deferredDevFee], ['Gap still to fill', r.gap]]) {
+        assert(view.stackKey.some(t => t.startsWith(label + ' ' + compact(v))), 'capital stack shows ' + label + ' ' + compact(v) + ': ' + view.stackKey.join(' | '));
+      }
+      assert.equal(view.ladder.length, r.waterfall.tiers.length, 'one ladder step per waterfall tier');
+      r.waterfall.tiers.forEach((t, i) => { if (t.amount > 0) assert.equal(view.ladder[i], compact(t.amount), 'ladder step ' + i); });
       assert.equal(r.fundingGap, Math.max(0, r.gap), 'guidance includes all Sources & Uses');
       assert(r.gap > 0 && view.text['dc-adjust-guidance-list'].includes(money(r.fundingGap)), 'guidance names the same remaining gap');
       surfaces += 7;

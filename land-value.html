@@ -177,23 +177,41 @@
           The second valuation approach starts from the other end of the deal: what's the <em>maximum a
           developer can afford to pay</em> for this land given the project's feasibility envelope?
         </p>
-        <pre style="background:var(--bg2);padding:1rem;border-radius:6px;font-size:.9rem;line-height:1.6;overflow-x:auto;">
-Residual = (Equity + Debt + Soft Sources + Deferred Fee)
-           − (Total Development Cost excluding land)
-
-Where "Equity + Debt" is whatever combination actually funds your deal, e.g.:
-  LIHTC          = 9% or 4% credit × 10 years × syndicator price + first mortgage
-  Workforce/NOAH = conventional acquisition debt + soft loans, no tax-credit equity
-  Public/CLT     = PHA or land-trust capital + philanthropic/program-related investment
-  Debt (any path)= NOI ÷ DSCR ÷ mortgage constant
-
-  Soft Sources  = CHFA HTF, HOME, DOLA HTF, local trust fund, employer contribution, etc.
-  Deferred Fee  = ~50% of developer fee, paid from cash flow yrs 8-15 (LIHTC deals) — enter $0 if your
-                  structure doesn't defer a fee
-  TDC           = Hard + soft + developer fee (ex-land)
-
-The tool itself just takes one "equity + debt" number — use whatever capital stack actually applies.
-</pre>
+        <!-- Residual land value as two bars. The example's figures are checked
+             by test/explanatory-diagrams.test.js: the parts add to each total
+             and the residual is sources minus costs. -->
+        <figure class="diagram dg-residual" id="residualDiagram" aria-labelledby="residualTitle"
+          data-scale="21.3">
+          <p class="diagram__title" id="residualTitle">Residual land value: what is left for land once the building is paid for</p>
+          <div class="dg-stack" data-total="20.8">
+            <p class="dg-stack__label"><strong>What the project can raise</strong> <span class="dg-math">$20.8M</span></p>
+            <div class="dg-stack__bar" aria-hidden="true">
+              <span class="dg-seg dg-seg--src1" style="width:84.5%"></span><span class="dg-seg dg-seg--src2" style="width:9.4%"></span><span class="dg-seg dg-seg--src3" style="width:3.8%"></span>
+            </div>
+            <ul class="dg-stack__key">
+              <li data-part="18.0"><i class="dg-seg--src1"></i>Equity and debt <span class="dg-math">$18.0M</span></li>
+              <li data-part="2.0"><i class="dg-seg--src2"></i>Soft sources <span class="dg-math">$2.0M</span></li>
+              <li data-part="0.8"><i class="dg-seg--src3"></i>Deferred developer fee <span class="dg-math">$0.8M</span></li>
+            </ul>
+          </div>
+          <div class="dg-stack" data-total="19.3">
+            <p class="dg-stack__label"><strong>What it costs to build, without land</strong> <span class="dg-math">$19.3M</span></p>
+            <div class="dg-stack__bar" aria-hidden="true">
+              <span class="dg-seg dg-seg--use1" style="width:65.7%"></span><span class="dg-seg dg-seg--use2" style="width:14.1%"></span><span class="dg-seg dg-seg--use3" style="width:10.8%"></span><span class="dg-seg dg-seg--residual" style="width:7.0%"></span><span class="dg-askbox" style="left:90.6%;width:9.4%" title="Seller asks $2.0M"></span>
+            </div>
+            <ul class="dg-stack__key">
+              <li data-part="14.0"><i class="dg-seg--use1"></i>Hard costs <span class="dg-math">$14.0M</span></li>
+              <li data-part="3.0"><i class="dg-seg--use2"></i>Soft costs <span class="dg-math">$3.0M</span></li>
+              <li data-part="2.3"><i class="dg-seg--use3"></i>Developer fee <span class="dg-math">$2.3M</span></li>
+            </ul>
+          </div>
+          <div class="dg-equation">
+            <p><strong>Residual = what the project can raise &minus; what it costs to build without land</strong></p>
+            <p class="dg-math" id="residualExample"><span class="dg-residual-key"></span>$20.8M &minus; $19.3M = <span id="dgResidual">$1.5M</span>, the most this project can pay for land.</p>
+            <p class="dg-math" id="residualAsk"><span class="dg-ask-key"></span>The seller asks <span id="dgAsk">$2.0M</span>, so the deal is <span id="dgShort">$0.5M</span> short: it needs a land discount, a public land contribution, a seller carry-back note or more soft money.</p>
+          </div>
+          <figcaption>Example numbers, not a real deal. "Equity and debt" is whatever funds your deal: tax-credit equity (annual credit &times; 10 years &times; price per credit) plus a first mortgage for a tax-credit deal; conventional or acquisition debt and soft loans for workforce housing or NOAH; housing-authority or land-trust capital for a public or community land trust deal. A first mortgage is sized as net operating income &divide; debt-coverage ratio &divide; mortgage constant. Soft sources are grants and soft loans such as CHFA, DOLA, HOME or a local trust fund. A deferred fee is the part of the developer fee paid later from cash flow (about half in a tax-credit deal); enter $0 if yours defers none. The tool above takes one "equity and debt" number, so use whatever stack applies.</figcaption>
+        </figure>
         <p style="line-height:1.7;">
           If the seller's asking price is below your residual value, the deal has <strong>margin</strong> — room
           to negotiate and still close. If asking price is above residual, you need a public-land contribution,

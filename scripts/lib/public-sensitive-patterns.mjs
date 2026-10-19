@@ -12,7 +12,9 @@ export const SENSITIVE_PATTERNS = [
   { label: 'network contact fields', regex: /\bphone,last_talked,relationship_tier\b/i },
   { label: 'legacy developer password', regex: /\bsalida2026\b/i },
   { label: 'legacy gate hash', regex: /\b029fb5d4a8a29de1c16bcb718162284a45adf69fc12916613f28b2d037a19119\b/i },
-  { label: 'legacy IndiBuild brand text', regex: /\bindibuild\b/i }
+  // One public mention is allowed: the exact credit "Fruita. Photo: indiBuild LLC." on the
+  // owner's photo of The Fruita Mews (paul, 2026-10-19). Any other IndiBuild text still fails.
+  { label: 'legacy IndiBuild brand text', regex: /(?<!Fruita\. Photo: )\bindibuild\b|\bindibuild\b(?! LLC\.)/i }
 ];
 
 export function isSensitive(text) {

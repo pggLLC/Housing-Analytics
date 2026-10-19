@@ -31,9 +31,14 @@ const json = (f) => JSON.parse(read(f));
 
 let failures = 0;
 let checks = 0;
+const pending = [];
 function test(name, fn) {
-  try { fn(); console.log('  ✓ ' + name); }
-  catch (e) { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); }
+  const fail = (e) => { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); };
+  try {
+    const r = fn();
+    if (r && typeof r.then === 'function') { pending.push(r.then(() => console.log('  ✓ ' + name), fail)); return; }
+    console.log('  ✓ ' + name);
+  } catch (e) { fail(e); }
 }
 
 console.log('\nExplanatory diagrams agree with what they explain');
@@ -231,12 +236,233 @@ test('every Table 3 weight appears in the score tree on its own factor', () => {
   }
 });
 
+/* 5 ── residual land value ─────────────────────────────────────────────── */
+const landDoc = new JSDOM(read('land-value.html')).window.document;
+const money1 = (n) => '$' + n.toFixed(1) + 'M';
+test('residual diagram: parts add to each bar, residual is sources minus costs, widths follow one scale', () => {
+  const fig = landDoc.getElementById('residualDiagram');
+  assert.ok(fig, 'land-value.html has no #residualDiagram');
+  const scale = Number(fig.getAttribute('data-scale'));
+  const stacks = fig.querySelectorAll('.dg-stack');
+  assert.strictEqual(stacks.length, 2);
+  const totals = [...stacks].map((st) => {
+    const total = Number(st.getAttribute('data-total'));
+    const parts = [...st.querySelectorAll('.dg-stack__key li')].map((li) => Number(li.getAttribute('data-part')));
+    assert.ok(Math.abs(parts.reduce((a, b) => a + b, 0) - total) < 1e-9, `parts ${parts} do not add to ${total}`);
+    assert.ok(st.querySelector('.dg-stack__label').textContent.includes(money1(total)), `the bar label does not print ${money1(total)}`);
+    st.querySelectorAll('.dg-stack__key li').forEach((li) => assert.ok(li.textContent.includes(money1(Number(li.getAttribute('data-part'))))));
+    const segs = [...st.querySelectorAll('.dg-stack__bar .dg-seg:not(.dg-seg--residual)')].map((x) => parseFloat(x.style.width));
+    parts.forEach((pt, i) => assert.ok(Math.abs(segs[i] - pt / scale * 100) < 0.1, `segment ${i} is ${segs[i]}%, ${pt} of ${scale} is ${(pt / scale * 100).toFixed(1)}%`));
+    checks += 3 + parts.length * 2;
+    return total;
+  });
+  const residual = totals[0] - totals[1];
+  const ask = Number(landDoc.getElementById('dgAsk').textContent.replace(/[^0-9.]/g, ''));
+  assert.strictEqual(landDoc.getElementById('dgResidual').textContent, money1(residual));
+  assert.strictEqual(landDoc.getElementById('dgShort').textContent, money1(ask - residual));
+  assert.ok(Math.abs(scale - (totals[1] + ask)) < 1e-9, 'the scale is cost plus the asking price');
+  const res = parseFloat(fig.querySelector('.dg-seg--residual').style.width);
+  assert.ok(Math.abs(res - residual / scale * 100) < 0.1, 'the residual segment is drawn to scale');
+  const box = fig.querySelector('.dg-askbox').style;
+  assert.ok(Math.abs(parseFloat(box.left) - totals[1] / scale * 100) < 0.1 && Math.abs(parseFloat(box.width) - ask / scale * 100) < 0.1, 'the asking-price box starts where costs end');
+  assert.ok(/Example numbers, not a real deal/.test(fig.textContent), 'the example says it is an example');
+  checks += 6;
+});
+
+/* 6 ── 4% or 9% ─────────────────────────────────────────────────────────── */
+test('credit path tree quotes the 4% vs 9% table it sits above', () => {
+  const tree = guide.getElementById('creditPathDiagram');
+  assert.ok(tree, 'the guide has no #creditPathDiagram');
+  const table = tree.parentElement.querySelector('.table-wrap table').textContent.replace(/\s+/g, ' ');
+  for (const k of ['awards', 'value4', 'value9']) {
+    const v = tree.querySelector(`[data-dg="${k}"]`).textContent.trim();
+    const want = k === 'awards' ? v : v.replace('/yr', '');
+    assert.ok(table.includes(want), `the table does not carry "${want}"`);
+    checks += 1;
+  }
+});
+
+/* 7 ── building types ───────────────────────────────────────────────────── */
+const hnaDocs = ['housing-needs-assessment.html', 'hna-what-to-do.html'].map((f) => [f, new JSDOM(read(f)).window.document]);
+test('building types: each range bar is drawn from its printed range on one 0-70 scale', () => {
+  for (const [f, doc] of hnaDocs) {
+    const fig = doc.getElementById('buildingTypesDiagram');
+    assert.ok(fig, `${f} has no #buildingTypesDiagram`);
+    const rows = fig.querySelectorAll('.dg-btype');
+    assert.strictEqual(rows.length, 4);
+    rows.forEach((li) => {
+      const lo = Number(li.dataset.min), hi = Number(li.dataset.max);
+      assert.ok(li.textContent.includes(`${lo}\u2013${hi} homes per acre`), `${li.dataset.type}: printed range is not ${lo}-${hi}`);
+      const fill = li.querySelector('.dg-range__fill').style;
+      assert.ok(Math.abs(parseFloat(fill.left) - lo / 70 * 100) < 0.1 && Math.abs(parseFloat(fill.width) - (hi - lo) / 70 * 100) < 0.1, `${li.dataset.type}: bar is not ${lo}-${hi}`);
+      const marks = [...li.querySelectorAll('.dg-range__mark')].map((m) => parseFloat(m.style.left));
+      assert.deepStrictEqual(marks.map((m) => Math.round(m / 100 * 70)), [15, 40], 'the Colorado marks sit at 15 and 40');
+      checks += 3;
+    });
+    assert.ok(/15 homes per acre/.test(fig.textContent) && /40 homes per acre/.test(fig.textContent) && /HB24-1313/.test(fig.textContent));
+    assert.ok(fig.querySelector('a[href="https://missingmiddlehousing.com/types"]'), 'the ranges name their source');
+    assert.strictEqual(fig.querySelectorAll('svg[role="img"]').length, 0, 'the drawings are decoration, not charts');
+    checks += 3;
+  }
+});
+
+/* ── 6b. the 9% round counts come from the applicant and award reports ─── */
+const RoundOdds = require('../js/components/chfa-round-odds.js');
+const oddsData = [json(RoundOdds.APPLICATIONS), json(RoundOdds.LEDGER)];
+
+test('the printed 9% round counts are the latest three years in the data files', () => {
+  const want = RoundOdds.phrase(RoundOdds.rounds(oddsData[0], oddsData[1], 3));
+  const spans = guide.querySelectorAll('[data-dg="awards"]');
+  assert.strictEqual(spans.length, 2, 'the tree and the table each carry the counts');
+  spans.forEach((sp) => assert.strictEqual(sp.textContent.trim(), want,
+    'printed counts drifted from the data files; run the page and copy what it shows'));
+  checks += 2;
+});
+
+test('"roughly half funded" is still true of every year shown', () => {
+  RoundOdds.rounds(oddsData[0], oddsData[1], 3).forEach((r) => {
+    const share = r.awarded / r.applied;
+    assert.ok(share >= 0.35 && share <= 0.65, `${r.year}: ${r.awarded} of ${r.applied} is not roughly half`);
+    checks += 1;
+  });
+});
+
+test('a year without both reports is left out, and the page fills from the files', async () => {
+  const apps = { meta: { documents: [{ round_label: '2030 Round One', credit_type: '9%', status: 'ok', rows: 20 },
+    { round_label: '2031 Round One', credit_type: '9%', status: 'mismatch', rows: 30 }] } };
+  const ledger = { awards: [{ agency: 'CHFA', federal_credit_type: '9%', year: 2030 }, { agency: 'CHFA', federal_credit_type: '9%', year: 2031 }] };
+  assert.strictEqual(RoundOdds.phrase(RoundOdds.rounds(apps, ledger, 3)), '1 of 20 in 2030');
+  const doc = new JSDOM(read('lihtc-guide-for-stakeholders.html')).window.document;
+  global.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(u === RoundOdds.LEDGER ? ledger : apps) });
+  try { await RoundOdds.fill(doc); } finally { delete global.fetch; }
+  doc.querySelectorAll('[data-dg="awards"]').forEach((sp) => assert.strictEqual(sp.textContent, '1 of 20 in 2030'));
+  checks += 2;
+});
+
+test('every building-type photo is on disk and credits its author and license', () => {
+  for (const [file, doc] of hnaDocs) {
+    const figs = doc.querySelectorAll('#buildingTypesDiagram .dg-btype__photo');
+    assert.strictEqual(figs.length, 4, `${file}: one photo per building type`);
+    figs.forEach((fig) => {
+      const img = fig.querySelector('img');
+      assert.ok(fs.existsSync(path.join(ROOT, img.getAttribute('src'))), `${file}: ${img.getAttribute('src')} is missing`);
+      assert.ok(img.getAttribute('alt').length > 20, `${file}: photo needs a description`);
+      const links = [...fig.querySelectorAll('figcaption a')].map((a) => a.getAttribute('href'));
+      if (fig.dataset.credit === 'own') {
+        // The owner's own photo: the caption names the place and the credit instead of a license.
+        assert.ok(/Photo: indiBuild LLC\.$/.test(fig.querySelector('figcaption').textContent.trim()), `${file}: own photo needs its credit`);
+        assert.strictEqual(links.length, 0);
+      } else {
+        assert.ok(links.some((h) => h.startsWith('https:' + '//commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
+        assert.ok(links.some((h) => /^https:\/\/creativecommons\.org\/licenses\//.test(h)), `${file}: no license link`);
+      }
+      checks += 4;
+    });
+  }
+});
+
+/* ── 8. Deal Calculator capital stack and waterfall ladder ──────────────── */
+const DealDiagrams = require('../js/components/deal-diagrams.js');
+const deal = (o) => Object.assign({ tdc: 20e6, mortgage: 3e6, creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false },
+  totalSoftSourceAmt: 1.5e6, deferredDevFee: 0.5e6, gap: 2e6, unavailable: {} }, o);
+
+test('the capital stack pieces are the Sources & Uses figures and fill the cost exactly', () => {
+  const m = DealDiagrams.stackModel(deal());
+  assert.deepStrictEqual(m.segments.map((s) => s.label),
+    ['First mortgage', 'Federal credit equity', 'State credit equity', 'Soft funding', 'Deferred developer fee', 'Gap still to fill']);
+  assert.deepStrictEqual(m.segments.map((s) => s.amount), [3e6, 12e6, 1e6, 1.5e6, 0.5e6, 2e6]);
+  const total = m.segments.reduce((a, s) => a + s.width, 0);
+  assert.ok(Math.abs(total - 1) < 1e-9, `widths add to ${total}, not the whole bar`);
+  assert.strictEqual(m.segments[5].gap, true);
+  assert.ok(DealDiagrams.renderStack(m).includes('gap of $2.00M, 10% of the cost'));
+  checks += 4;
+});
+
+test('an unknown mortgage is unavailable with its reason, never $0', () => {
+  const m = DealDiagrams.stackModel(deal({ mortgage: NaN, gap: NaN, unavailable: { mortgage: 'Rents are missing.', gap: 'Rents are missing.' } }));
+  assert.ok(!m.segments.some((s) => s.label === 'First mortgage'), 'an unknown mortgage is drawn');
+  const rest = m.segments.find((s) => s.unknown);
+  assert.ok(rest && Math.abs(rest.amount - 5e6) < 1e-6, 'the uncovered cost is shown as not yet known');
+  const html = DealDiagrams.renderStack(m);
+  assert.ok(html.includes('First mortgage: unavailable. Rents are missing.'));
+  assert.ok(!/First mortgage <strong>\$0/.test(html));
+  assert.ok(html.includes('The gap cannot be worked out yet.'));
+  checks += 5;
+});
+
+test('a chosen added credit that cannot be counted is unavailable, never $0', () => {
+  const m = DealDiagrams.stackModel(deal({ creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false,
+    label: 'Middle-income credit', reason: 'Its basis is missing.' } }));
+  assert.ok(!m.segments.some((s) => s.label === 'Middle-income credit equity'));
+  assert.ok(m.missing.some((x) => x.label === 'Middle-income credit equity' && x.reason === 'Its basis is missing.'));
+  assert.ok(DealDiagrams.renderStack(m).includes('Middle-income credit equity: unavailable. Its basis is missing.'));
+  checks += 3;
+});
+
+test('screen readers hear one summary of both diagrams', () => {
+  const sm = DealDiagrams.stackModel(deal());
+  const lm = DealDiagrams.ladderModel({ grossProceeds: 5e6, tiers: [{ name: 'Mortgage payoff', recipient: 'Lender', amount: 3e6 }, { name: 'LP return', recipient: 'LP investor', amount: 2e6 }] });
+  const said = DealDiagrams.summary(sm, lm);
+  assert.ok(said.startsWith('The sources leave a gap of $2.00M, 10% of the cost.'), said);
+  assert.ok(said.endsWith('Sale proceeds of $5.00M reach the LP return step.'), said);
+  const src = fs.readFileSync(path.join(ROOT, 'js/components/deal-diagrams.js'), 'utf8');
+  assert.ok(/'aria-live', 'polite'/.test(src) && /'aria-atomic', 'true'/.test(src));
+  checks += 3;
+});
+
+test('a surplus runs past the cost line instead of drawing a gap', () => {
+  const m = DealDiagrams.stackModel(deal({ gap: -1e6, mortgage: 6e6 }));
+  assert.ok(!m.segments.some((s) => s.gap));
+  assert.ok(m.costLine < 1 && Math.abs(m.costLine - 20 / 21) < 1e-9);
+  assert.ok(DealDiagrams.renderStack(m).includes('run $1.00M past the cost'));
+  assert.strictEqual(DealDiagrams.stackModel(deal({ tdc: 0 })).unavailable, 'Total development cost is missing.');
+  checks += 4;
+});
+
+test('each ladder step starts where the one above it ended', () => {
+  const wf = { grossProceeds: 10e6, tiers: [
+    { name: '1. Hard debt payoff (1st mortgage)', amount: 4e6, recipient: 'Lender' },
+    { name: '2. Soft debt payoff (priority order)', amount: 0, recipient: 'Soft lenders' },
+    { name: '3. Deferred developer fee', amount: 1e6, recipient: 'Developer (GP)' },
+    { name: '4a. LP return of capital', amount: 5e6, recipient: 'LP investor' },
+    { name: '4b. LP preferred return', amount: 0, recipient: 'LP investor' }] };
+  const m = DealDiagrams.ladderModel(wf);
+  assert.deepStrictEqual(m.steps.map((s) => s.left), [0, 0.4, 0.4, 0.5, 1]);
+  assert.deepStrictEqual(m.steps.map((s) => s.width), [0.4, 0, 0.1, 0.5, 0]);
+  assert.deepStrictEqual(m.steps.map((s) => s.empty), [null, 'None owed', null, null, 'Nothing left']);
+  assert.strictEqual(DealDiagrams.ladderModel(null), null);
+  checks += 4;
+});
+
+test('the residual split shares are drawn as one band paid at the same time', () => {
+  const wf = { grossProceeds: 10e6, tiers: [
+    { name: '1. Hard debt payoff (1st mortgage)', amount: 6e6, recipient: 'Lender' },
+    { name: '6a. Residual split — GP (10%)', amount: 0.4e6, recipient: 'GP sponsor' },
+    { name: '6b. Residual split — LP (90%)', amount: 3.6e6, recipient: 'LP investor' }] };
+  const m = DealDiagrams.ladderModel(wf);
+  assert.deepStrictEqual(m.steps.map((s) => s.split), [false, true, true]);
+  assert.ok(Math.abs(m.steps[1].left - 0.6) < 1e-9 && Math.abs(m.steps[2].left - 0.64) < 1e-9);
+  const html = DealDiagrams.renderLadder(m);
+  assert.ok(html.includes('a share of the residual paid at the same time as the other share'));
+  assert.ok(DealDiagrams.summary(DealDiagrams.stackModel(deal()), m).endsWith('reach the residual split step.'));
+  checks += 4;
+});
+
+test('the Deal Calculator loads the diagrams before the calculator publishes a result', () => {
+  const html = read('deal-calculator.html');
+  const at = html.indexOf('js/components/deal-diagrams.js'), calc = html.indexOf('src="js/deal-calculator.js"');
+  assert.ok(at > 0 && at < calc);
+  checks += 1;
+});
+
 /* ── none of them is a chart the axes audit would fail ─────────────────── */
 test('no diagram is an svg[role=img] inside .chart-card', () => {
   const pages = {
     'lihtc-guide-for-stakeholders.html': guide,
     'methods.html': methods,
     'select-jurisdiction.html': new JSDOM(sjHtml).window.document,
+    'land-value.html': landDoc,
+    'hna-what-to-do.html': hnaDocs[1][1],
   };
   for (const [file, doc] of Object.entries(pages)) {
     const figs = doc.querySelectorAll('figure.diagram, #sjRouteMap');
@@ -249,9 +475,11 @@ test('no diagram is an svg[role=img] inside .chart-card', () => {
   }
 });
 
-console.log(`\n${checks} checks`);
-if (failures) {
-  console.log(`${failures} failed\n`);
-  process.exit(1);
-}
-console.log('all passed\n');
+Promise.all(pending).then(() => {
+  console.log(`\n${checks} checks`);
+  if (failures) {
+    console.log(`${failures} failed\n`);
+    process.exit(1);
+  }
+  console.log('all passed\n');
+});
