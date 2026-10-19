@@ -267,7 +267,10 @@
       }
 
       var bounds = layer.getBounds();
-      map.fitBounds(bounds, { padding: [4, 4] });
+      // On touch screens, leave a finger's reach (the 22px hit radius) around
+      // the state so border dots keep their whole target inside the map.
+      var FIT_PAD = window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches ? [22, 22] : [4, 4];
+      map.fitBounds(bounds, { padding: FIT_PAD });
       // A tap just outside the state line can still be meant for a border
       // dot, so an invisible frame around the counties catches those taps.
       window.L.rectangle(bounds.pad(0.1), { stroke: false, fillOpacity: 0, className: 'cra-map__frame' })
@@ -276,11 +279,11 @@
       var t = null;
       window.addEventListener('resize', function () {
         clearTimeout(t);
-        t = setTimeout(function () { map.invalidateSize(); map.fitBounds(bounds, { padding: [4, 4] }); }, 150);
+        t = setTimeout(function () { map.invalidateSize(); map.fitBounds(bounds, { padding: FIT_PAD }); }, 150);
       });
       // A popup near the edge pans the map to fit; the map can't be dragged
       // back, so put the whole state back in view when the popup closes.
-      map.on('popupclose', function () { map.fitBounds(bounds, { padding: [4, 4], animate: false }); });
+      map.on('popupclose', function () { map.fitBounds(bounds, { padding: FIT_PAD, animate: false }); });
 
       Object.keys(names).sort(function (a, b) { return names[a].localeCompare(names[b]); }).forEach(function (g) {
         var o = document.createElement('option');
