@@ -504,8 +504,11 @@ def build():
             lehd_out["flows_source"]    = "block-od"
             used_block_flows += 1
             # Use block-OD jobs as C000 too, and rescale CNS sectors to match.
+            # A block record saying 0 jobs is the exact count too: 24 small
+            # places (Goldfield, Two Buttes, ...) have no job located inside
+            # their boundary, and the tract estimate must not stand in.
             jobs_b = int(block.get("jobs") or 0)
-            if jobs_b > 0:
+            if jobs_b >= 0:
                 lehd_out["C000"] = jobs_b
                 cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
                 if cns_prev > 0:
@@ -536,7 +539,11 @@ def build():
         # else tract), and rescale the yearly series to that total so the
         # trend keeps its shape without the county's magnitude.
         jobs_here = int(lehd_out.get("C000") or 0)
-        if flows_from_tracts and jobs_here > 0:
+        if jobs_here == 0 and lehd_out.get("flows_source") == "block-od":
+            lehd_out["CE01"] = lehd_out["CE02"] = lehd_out["CE03"] = 0
+            lehd_out["annualEmployment"] = {}
+            lehd_out["annualWages"] = {}
+        elif flows_from_tracts and jobs_here > 0:
             mix_total = f_low + f_mid + f_high
             if mix_total > 0 and f_high > 0:
                 mix = (f_low / mix_total, f_mid / mix_total, f_high / mix_total)
