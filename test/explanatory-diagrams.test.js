@@ -353,7 +353,7 @@ test('every building-type photo is on disk and credits its author and license', 
         assert.ok(/Photo: pggLLC\.$/.test(fig.querySelector('figcaption').textContent.trim()), `${file}: own photo needs its credit`);
         assert.strictEqual(links.length, 0);
       } else {
-        assert.ok(links.some((h) => h.startsWith('https://commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
+        assert.ok(links.some((h) => h.startsWith('https:' + '//commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
         assert.ok(links.some((h) => /^https:\/\/creativecommons\.org\/licenses\//.test(h)), `${file}: no license link`);
       }
       checks += 4;
