@@ -91,10 +91,11 @@
     if (/zon(e|ing)|entitle|annex|code|comp(rehensive)? plan|pud|plat|inclusionary|density/.test(t)) add('zoning');
     if (/land|site|parcel|rfp|rfq|land.?bank|ground lease|lots?\b|acre/.test(t)) add('land', 'housing-authority');
     var funding = /fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t);
-    var vote = /council|vote|board|trustee|election|approv/.test(t);
+    var vote = /council|vote|board|trustee|election/.test(t);
     if (funding) add('funding');
-    // A funding vote goes to the manager or council, as the Methodology says.
-    if (funding && vote) add('management');
+    // A funding vote or approval goes to the manager or council, as the
+    // Methodology says; an approval alone is not a council vote.
+    if (funding && (vote || /approv/.test(t))) add('management');
     if (/housing authority|ihs|housing director|housing program/.test(t)) add('housing-authority');
     if (vote) add('council');
     // A role the step names outright.
@@ -252,6 +253,17 @@
   }
 
   // opts: { name, geoid, pipeline (row or null), network, researched, signals, ripeness, anti }
+  // What the project is, from the place's research file. Shown only with at
+  // least one public source, so nothing reads as fact without one.
+  function aboutHtml(a) {
+    if (!a || !a.text) return '';
+    var src = (a.sources || []).filter(function (x) { return x && /^https:\/\//.test(x.url || ''); });
+    if (!src.length) return '';
+    return '<h3>About this project</h3><p>' + esc(a.text) + '</p><p class="ib-muted">Sources: ' +
+      src.map(function (x) { return ext(x.label || 'public source', x.url); }).join('; ') +
+      (a.checked ? '. Checked ' + esc(a.checked) : '') + '.</p>';
+  }
+
   function render(opts) {
     var p = opts.pipeline || null;
     var sites = sitesFor(opts.ripeness, opts.geoid);
@@ -279,6 +291,7 @@
     h += '<p class="pc-head"><span class="pc-badge pc-' + esc(reading) + '">' + esc(LABEL[reading]) + '</span> ' + esc(why) + '</p>';
     if (opts.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(opts.anti.date_dropped) + ': ' + esc(opts.anti.reason) + (opts.anti.revisit_date ? ' Revisit ' + esc(opts.anti.revisit_date) + '.' : '') + '</p>';
 
+    h += aboutHtml(opts.about);
     h += '<h3>Next step</h3>' + (next
       ? '<p>' + esc(next) + (fromPipe ? (p.next_action_due ? ' <span class="ib-muted">(due ' + esc(p.next_action_due) + ')</span>' : '') : ' <span class="ib-muted">(' + esc(cardNext.date) + ', from the dossier)</span>') + '</p>'
       : '<p class="ib-muted">' + (p ? 'No next step set on the pipeline row.' : 'No next step set. Add the place to the pipeline from Working tools below.') + '</p>');
