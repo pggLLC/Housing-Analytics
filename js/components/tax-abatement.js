@@ -236,7 +236,7 @@
       '.ta-item__head { display:flex; flex-wrap:wrap; gap:.4rem; align-items:baseline; }',
       '.ta-item__name { font-weight:700; font-size:.92rem; }',
       '.ta-item__cat {',
-      '  font-size:.68rem; font-weight:700; padding:1px 7px; border-radius:9px;',
+      '  font-size:.8125rem; font-weight:700; padding:1px 7px; border-radius:9px;',
       '  background:rgba(245,158,11,.15); color:#b45309;',
       '  border:1px solid rgba(245,158,11,.4);',
       '  text-transform:uppercase; letter-spacing:.03em;',
@@ -244,17 +244,17 @@
       '.dark-mode .ta-item__cat { background:rgba(245,158,11,.2); color:#fbbf24; }',
       '.ta-item__summary { font-size:.82rem; margin-top:.3rem; line-height:1.45; }',
       '.ta-item__mag {',
-      '  font-size:.78rem; margin-top:.25rem; padding:.2rem .5rem;',
+      '  font-size:.8125rem; margin-top:.25rem; padding:.2rem .5rem;',
       '  background:rgba(16,185,129,.12); color:#047857;',
       '  border-left:3px solid #16a34a; border-radius:0 4px 4px 0;',
       '  display:inline-block; font-weight:600;',
       '}',
       '.dark-mode .ta-item__mag { background:rgba(16,185,129,.18); color:#34d399; }',
       '.ta-empty { color:var(--muted); font-size:.85rem; padding:.5rem 0; }',
-      '.ta-item__meta { font-size:.76rem; color:var(--muted); margin-top:.2rem; line-height:1.4; }',
+      '.ta-item__meta { font-size:.8125rem; color:var(--muted); margin-top:.2rem; line-height:1.4; }',
       '.ta-subhead { font-size:.86rem; margin:.6rem 0 .2rem; }',
-      '.ta-item__unverified { font-size:.68rem; font-weight:700; padding:1px 7px; border-radius:9px; border:1px dashed var(--muted); color:var(--muted); }',
-      '.ta-baseline { font-size:.78rem; color:var(--muted); margin:.5rem 0 0; padding-left:.4rem; border-left:3px solid rgba(0,0,0,.1); }'
+      '.ta-item__unverified { font-size:.8125rem; font-weight:700; padding:1px 7px; border-radius:9px; border:1px dashed var(--muted); color:var(--muted); }',
+      '.ta-baseline { font-size:.8125rem; color:var(--muted); margin:.5rem 0 0; padding-left:.4rem; border-left:3px solid rgba(0,0,0,.1); }'
     ].join('\n');
     document.head.appendChild(st);
   }

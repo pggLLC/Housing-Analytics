@@ -61,18 +61,18 @@
       '}',
       '.cp-item__head { display:flex; flex-wrap:wrap; gap:.4rem; align-items:baseline; }',
       '.cp-item__name { font-weight:700; font-size:.92rem; }',
-      '.cp-item__cat { font-size:.7rem; padding:1px 7px; border-radius:9px;',
+      '.cp-item__cat { font-size:.8125rem; padding:1px 7px; border-radius:9px;',
       '                background:rgba(99,102,241,.12); color:#4338ca;',
       '                border:1px solid rgba(99,102,241,.3); font-weight:700; }',
       '.dark-mode .cp-item__cat { background:rgba(99,102,241,.18); color:#a5b4fc; }',
-      '.cp-item__area { font-size:.78rem; color:var(--muted); }',
+      '.cp-item__area { font-size:.8125rem; color:var(--muted); }',
       '.cp-item__deal-types { display:flex; flex-wrap:wrap; gap:.25rem; margin-top:.25rem; }',
-      '.cp-deal-tag { font-size:.68rem; padding:1px 6px; border-radius:9px;',
+      '.cp-deal-tag { font-size:.8125rem; padding:1px 6px; border-radius:9px;',
       '               background:rgba(16,185,129,.12); color:var(--good, #036549);',
       '               border:1px solid rgba(16,185,129,.3); font-weight:600; }',
       '.dark-mode .cp-deal-tag { background:rgba(16,185,129,.18); color:#34d399; }',
-      '.cp-item__notes { font-size:.78rem; margin-top:.3rem; line-height:1.4; }',
-      '.cp-item__contact { font-size:.74rem; color:var(--muted); margin-top:.2rem; }'
+      '.cp-item__notes { font-size:.8125rem; margin-top:.3rem; line-height:1.4; }',
+      '.cp-item__contact { font-size:.8125rem; color:var(--muted); margin-top:.2rem; }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -182,7 +182,7 @@
     st.textContent = [
       '.cp-filter-row { display:flex; flex-wrap:wrap; gap:.3rem; margin:.4rem 0 .6rem; }',
       '.cp-filter {',
-      '  font:inherit; font-size:.78rem; padding:.25rem .65rem;',
+      '  font:inherit; font-size:.8125rem; padding:.25rem .65rem;',
       '  background: var(--bg2, #f3f4f6); color: var(--text);',
       '  border:1px solid var(--border, rgba(0,0,0,.15)); border-radius:14px;',
       '  cursor:pointer; transition: background .12s, border-color .12s;',

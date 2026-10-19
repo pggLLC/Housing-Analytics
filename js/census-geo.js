@@ -189,7 +189,7 @@
       const url = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.72rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
+      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.8125rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
       grid.appendChild(card);
     });
 
@@ -326,7 +326,7 @@
       const url  = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.72rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
+      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.8125rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
       grid.appendChild(card);
     });
   }

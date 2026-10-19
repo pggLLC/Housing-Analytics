@@ -3,7 +3,7 @@
 .lbm { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3); }
 .lbm h2 { margin:0 0 .3rem; font-size:1.1rem !important; }
 .lbm > p { margin:0 0 .6rem; font-size:var(--small); color:var(--muted); line-height:1.55; max-width:75ch; }
-.lbm label { display:block; font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:700; margin-bottom:.3rem; }
+.lbm label { display:block; font-size:.8125rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:700; margin-bottom:.3rem; }
 .lbm input[type=search] { width:100%; max-width:22rem; min-height:44px; padding:.5rem .7rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font-size:var(--small); }
 .lbm-count { font-size:var(--small); font-weight:700; margin:.6rem 0; }
 #lbmMap { height:440px; border:1px solid var(--border); border-radius:var(--radius-sm); }
@@ -13,7 +13,7 @@
 .lbm-popup ul { margin:0 0 .4rem; padding-left:1rem; font-size:var(--small); line-height:1.45; }
 .lbm-popup li { margin-bottom:.35rem; }
 .lbm-note { color:var(--muted); }
-.lbm-tag { display:inline-block; padding:0 6px; border-radius:9999px; font-size:.68rem; font-weight:700; background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); }
+.lbm-tag { display:inline-block; padding:0 6px; border-radius:9999px; font-size:.8125rem; font-weight:700; background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); }
 /* Leaflet's zoom buttons are 30px; the repo's touch-target minimum is 44px. */
 #lbmMap .leaflet-control-zoom a { width:44px; height:44px; line-height:44px; font-size:22px; }
 .lbm-choice { list-style:none; margin:.3rem 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.4rem; }

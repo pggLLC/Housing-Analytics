@@ -326,7 +326,7 @@
                     ? 'Nearby places are unavailable: ' + esc(placesUnavailableReason)
                     : 'Nearby places are still loading.') + '</p>') +
         state.food +
-        '<p style="margin:.5rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.4;">' +
+        '<p style="margin:.5rem 0 0;color:var(--muted);font-size:.8125rem;line-height:1.4;">' +
           'Distances are straight-line miles. Places: © OpenStreetMap contributors; CDPHE hospitals; ' +
           'Colorado licensed child care; HRSA health center sites; statewide transit stops. ' +
           'Jobs: U.S. Census Bureau LEHD LODES. Shown for detail only; the site score does not use these counts.' +

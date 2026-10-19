@@ -173,7 +173,7 @@
       div.setAttribute('role', isWarning ? 'alert' : 'note');
       div.style.cssText = 'max-width:260px;background:var(--card,#fff);color:var(--text,#111);' +
         'border:1px solid var(--border,#d1d5db);border-left:4px solid ' + (isWarning ? '#d97706' : '#2563eb') + ';' +
-        'border-radius:6px;padding:.5rem .6rem;font-size:.75rem;line-height:1.35;box-shadow:0 2px 10px rgba(0,0,0,.16);';
+        'border-radius:6px;padding:.5rem .6rem;font-size:.8125rem;line-height:1.35;box-shadow:0 2px 10px rgba(0,0,0,.16);';
       div.textContent = text || LEGEND_TEXT;
       if (L.DomEvent) {
         L.DomEvent.disableClickPropagation(div);

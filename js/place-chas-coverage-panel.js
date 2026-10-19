@@ -156,7 +156,7 @@
       '<div class="dq-card pc-cov-card" title="' + _esc(tooltip) + '" ' +
       'style="background:' + bg + ';border:1px solid ' + border + ';' +
       'padding:.7rem;border-radius:6px;">' +
-      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem;">' + _esc(label) + '</div>' +
+      '<div style="font-size:.8125rem;color:var(--muted);margin-bottom:.3rem;">' + _esc(label) + '</div>' +
       '<div style="font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums;">' + count + '</div>' +
       '<div style="font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;">' + pct + '</div>' +
       '</div>'

@@ -60,7 +60,7 @@
     }
     .hna-decision-label {
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .8125rem;
       font-weight: 800;
       line-height: 1.2;
       text-transform: uppercase;
@@ -73,7 +73,7 @@
     }
     .hna-decision-tile span:last-child {
       color: var(--muted);
-      font-size: .8rem;
+      font-size: .8125rem;
       line-height: 1.25;
       overflow-wrap: anywhere;
     }
@@ -361,7 +361,7 @@
             Combine jurisdictions
           </label>
           <div id="combinedGeosPanel" hidden style="grid-column:1 / -1;border:1px solid var(--border);border-radius:6px;padding:.55rem;background:var(--card);">
-            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div id="combinedGeosHint" style="font-size:.8125rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
             <div role="radiogroup" aria-label="Combined jurisdiction mode" style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem;font-size:.82rem;color:var(--muted);">
               <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
                 <input type="radio" name="combinedGeoMode" value="blended" checked>
@@ -590,7 +590,7 @@
 
           <div class="stat"><div class="k">Renter-occupied (tenure)</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0047 (renter share; owner share is 0046) · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
-          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.68rem;opacity:.85">—</div></div>
+          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.8125rem;opacity:.85">—</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801 mean travel time (min) · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
         <!-- Affordability Gap Coverage — 7 AMI bands sourced from ACS-derived
@@ -604,7 +604,7 @@
           <p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need an affordable home</strong> at each income level. Both rows below count households, not buildings. The first row adds up everyone at or below each level; the second counts only the households inside that one band, so the bands do not overlap. Neither row subtracts the affordable homes that already exist &mdash; the <em>Net of existing affordable supply</em> box further down does that, and is the one that estimates how many still need building. Owners are not counted here; this is about competition for rentals.</p>
           <p data-methodology-key="ami-chas-acs-difference" style="font-size:1rem;color:var(--muted);margin:.2rem 0 .6rem;">ACS 2020–2024 households under the unadjusted county 30% AMI cutoff; the CHAS tier table below uses HUD's size-adjusted limits and an older window, so its counts run lower. See methodology.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">(≤ this AMI; includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -615,7 +615,7 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
-          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
+          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
           <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
             <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
             <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
@@ -626,11 +626,11 @@
             <div class="stat"><div class="k">81–100%</div><div class="v" id="statTierGap100">—</div><div class="s">near AMI</div></div>
           </div>
 
-          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
-          <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
-          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
+          <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
+          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
 
-          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
+          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">— each band's share of the ≤100% total</span></h4>
           <div id="hnaGapCoverageBar" style="margin-top:.35rem;"></div>
         </div>
       </div>
@@ -1200,7 +1200,7 @@
       <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
-          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
+          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.8125rem;font-weight:800;">Screening estimate</span>
         </div>
         <!-- The answer, before the framing. Filled by hna-renderers.js. -->
         <div id="hnaOwnershipAnswer"></div>
@@ -1993,7 +1993,7 @@
     // executives / websites change. Force the user to verify before
     // cold-calling.
     var verifyBanner =
-      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.74rem;color:var(--text);line-height:1.4">' +
+      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.8125rem;color:var(--text);line-height:1.4">' +
         '\u26a0 <strong>Verify before contacting:</strong> phone numbers, URLs, and roles below are curated from HUD PIH\u2019s Contact List but are NOT live-refreshed. Confirm each entry via the current <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener">HUD PHA Finder</a> before calling.' +
       '</div>';
 
@@ -2007,9 +2007,9 @@
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
             '<div>' +
               nameCell +
-              '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
             '</div>' +
-            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
+            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.8125rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
           '</div>' +
         '</li>';
       }).join('') +
@@ -2435,9 +2435,9 @@
     /* Jurisdiction banner */
     '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
     '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
-    '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
-    '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
-    '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+    '.hna-jurisdiction-banner__label{font-size:.8125rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+    '.hna-jurisdiction-banner__sub{font-size:.8125rem;color:var(--muted);margin-left:8px;}',
+    '.hna-jurisdiction-banner__change{font-size:.8125rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
     '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
     /* Continue panel */
     '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',

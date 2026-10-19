@@ -468,7 +468,7 @@
     // Note bar — capped previews, etc.
     const note = el('div', {
       class: 'dex-mtime',
-      style: 'margin-bottom:.5rem;color:var(--muted);font-size:.78rem',
+      style: 'margin-bottom:.5rem;color:var(--muted);font-size:.8125rem',
     }, 'Loading map…');
     body.appendChild(note);
     // Map host needs an explicit height. Sized to fill the rest of the
@@ -527,7 +527,7 @@
               const rows = Object.entries(props).slice(0, 12)
                 .map(([k, v]) => `<div><strong>${escHtml(k)}:</strong> ${escHtml(String(v))}</div>`)
                 .join('');
-              lyr.bindPopup(`<div style="font-size:.78rem;max-width:260px">${rows || '<em>no properties</em>'}</div>`);
+              lyr.bindPopup(`<div style="font-size:.8125rem;max-width:260px">${rows || '<em>no properties</em>'}</div>`);
             }
           },
         }).addTo(map);
@@ -553,7 +553,7 @@
             .filter(([, v]) => v == null || typeof v !== 'object')
             .map(([k, v]) => `<div><strong>${escHtml(k)}:</strong> ${escHtml(String(v))}</div>`)
             .join('');
-          m.bindPopup(`<div style="font-size:.78rem;max-width:260px">${rows || ''}</div>`);
+          m.bindPopup(`<div style="font-size:.8125rem;max-width:260px">${rows || ''}</div>`);
         }
         return m;
       })).addTo(map);
@@ -615,7 +615,7 @@
       display = lines.slice(0, RAW_PREVIEW_LINES).join('\n');
       body.innerHTML = '';
       if (truncated) {
-        body.appendChild(el('div', { class: 'dex-mtime', style: 'margin-bottom:.5rem;color:var(--muted);font-size:.78rem' },
+        body.appendChild(el('div', { class: 'dex-mtime', style: 'margin-bottom:.5rem;color:var(--muted);font-size:.8125rem' },
           `Showing first ${RAW_PREVIEW_LINES} lines · open the raw file to see the rest`));
       }
       body.appendChild(el('pre', {}, display));

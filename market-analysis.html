@@ -159,7 +159,7 @@
            be justified by municipal/county/tract boundaries,
            natural barriers, school districts, and socioeconomic
            characteristics. -->
-      <p class="pma-chfa-rule" style="max-width:none;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.5;color:var(--text)">
+      <p class="pma-chfa-rule" style="max-width:none;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.8125rem;line-height:1.5;color:var(--text)">
         <strong>CHFA Market Study Guide — Appendix A, 2025-26 QAP:</strong> <em>"Radius boundaries are not allowed. The market boundary must include entire census tracts."</em>
         This tool uses a radius as a first-pass screening proxy. For an actual CHFA submittal, the Primary Market Area must be justified by municipal/county/tract boundaries, natural barriers, physical features such as interstate highways, socioeconomic characteristics, and school district boundaries.
         <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">Read the QAP →</a>
@@ -185,7 +185,7 @@
       <summary style="cursor:pointer;padding:.55rem .75rem;font-size:.82rem;font-weight:600;color:var(--text);user-select:none;display:flex;align-items:center;gap:.5rem">
         <span aria-hidden="true" style="display:inline-block;width:.5rem;height:.5rem;background:var(--accent,#3a8);border-radius:50%"></span>
         Data quality, sources &amp; integrations
-        <span style="font-weight:400;color:var(--muted);font-size:.74rem;margin-left:.35rem">— click to expand provenance for this analysis</span>
+        <span style="font-weight:400;color:var(--muted);font-size:.8125rem;margin-left:.35rem">— click to expand provenance for this analysis</span>
       </summary>
       <div style="padding:.5rem .75rem .75rem">
 
@@ -343,37 +343,37 @@
                style="margin:.4rem 0 .2rem;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.82rem;line-height:1.5;color:var(--text)">
             <strong>Selected tracts: <span id="pmaSelectedTractCount">0</span></strong>
             <button type="button" id="pmaTractClearBtn"
-                    style="margin-left:.6rem;padding:.15rem .5rem;font-size:.72rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:3px;cursor:pointer">
+                    style="margin-left:.6rem;padding:.15rem .5rem;font-size:.8125rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:3px;cursor:pointer">
               Clear all
             </button>
-            <div id="pmaTractGeoidList" style="margin-top:.35rem;font-size:.72rem;color:var(--muted);word-break:break-all"></div>
+            <div id="pmaTractGeoidList" style="margin-top:.35rem;font-size:.8125rem;color:var(--muted);word-break:break-all"></div>
             <div id="pmaTractUncuratedBanner" role="note" hidden
-                 style="margin-top:.5rem;padding:.4rem .6rem;border-left:3px solid #d97706;background:rgba(217,119,6,.10);color:var(--text);font-size:.78rem;line-height:1.45">
+                 style="margin-top:.5rem;padding:.4rem .6rem;border-left:3px solid #d97706;background:rgba(217,119,6,.10);color:var(--text);font-size:.8125rem;line-height:1.45">
               <strong>Auto-selection ring (4 mi).</strong> No tracts added or removed yet. CHFA review expects a boundary justified by natural barriers, school districts, jurisdictional lines, or commute sheds — not a radius snapped to tract edges. Adjust the selection, write a rationale below, or both.
             </div>
             <div id="pmaNaturalFeatures" style="margin-top:.55rem;padding-top:.5rem;border-top:1px solid var(--border)">
-              <label for="pmaNfToggle" style="display:flex;gap:.45rem;align-items:center;min-height:44px;font-size:.8rem;font-weight:600;color:var(--text);cursor:pointer">
+              <label for="pmaNfToggle" style="display:flex;gap:.45rem;align-items:center;min-height:44px;font-size:.8125rem;font-weight:600;color:var(--text);cursor:pointer">
                 <input type="checkbox" id="pmaNfToggle" style="width:20px;height:20px;margin:0;flex:none">
                 <span>Use natural features to limit the market area</span>
               </label>
-              <p id="pmaNfSupported" style="margin:.2rem 0 0 1.4rem;font-size:.74rem;line-height:1.45;color:var(--muted)">
+              <p id="pmaNfSupported" style="margin:.2rem 0 0 1.4rem;font-size:.8125rem;line-height:1.45;color:var(--muted)">
                 Checks <span id="pmaNfSupportedList">interstates, rivers, and named lakes and reservoirs</span>. Not ridges or mountains: COHO has no data for them. A tract is proposed when the straight line from the site to the tract's centre crosses one of these.
               </p>
               <div id="pmaNfStatus" role="status" aria-live="polite" hidden
-                   style="margin:.4rem 0 0 1.4rem;font-size:.76rem;line-height:1.45;color:var(--text)"></div>
-              <ul id="pmaNfList" hidden style="list-style:none;margin:.35rem 0 0 1.4rem;padding:0;font-size:.76rem;line-height:1.4"></ul>
+                   style="margin:.4rem 0 0 1.4rem;font-size:.8125rem;line-height:1.45;color:var(--text)"></div>
+              <ul id="pmaNfList" hidden style="list-style:none;margin:.35rem 0 0 1.4rem;padding:0;font-size:.8125rem;line-height:1.4"></ul>
               <button type="button" id="pmaNfApply" hidden
-                      style="margin:.4rem 0 0 1.4rem;padding:.3rem 1rem;min-height:44px;min-width:44px;font-size:.78rem;border:1px solid var(--accent);background:var(--card);color:var(--accent);font-weight:600;border-radius:4px;cursor:pointer">
+                      style="margin:.4rem 0 0 1.4rem;padding:.3rem 1rem;min-height:44px;min-width:44px;font-size:.8125rem;border:1px solid var(--accent);background:var(--card);color:var(--accent);font-weight:600;border-radius:4px;cursor:pointer">
                 Apply
               </button>
             </div>
             <label for="pmaTractRationale"
-                   style="display:block;margin:.55rem 0 .2rem;font-size:.78rem;font-weight:600;color:var(--text)">
+                   style="display:block;margin:.55rem 0 .2rem;font-size:.8125rem;font-weight:600;color:var(--text)">
               PMA boundary rationale <span style="font-weight:400;color:var(--muted)">(included verbatim in the CHFA justification narrative)</span>
             </label>
             <textarea id="pmaTractRationale" rows="3" maxlength="2000"
                       placeholder="e.g., excluded tracts north of I-70 (highway barrier); included Carbondale RE-1 school district; followed Garfield County jurisdictional line on the west; PMA captures ~80% of LODES commute shed."
-                      style="width:100%;padding:.4rem .55rem;font-size:.78rem;line-height:1.4;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);resize:vertical;font-family:inherit"></textarea>
+                      style="width:100%;padding:.4rem .55rem;font-size:.8125rem;line-height:1.4;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);resize:vertical;font-family:inherit"></textarea>
           </div>
         </div>
       </div>
@@ -392,7 +392,7 @@
             <option value="15">15 mi · remote rural</option>
           </select>
           <label for="pmaIsochroneToggle" class="pma-iso-toggle"
-                 style="display:inline-flex;align-items:center;gap:.4rem;margin-left:.9rem;font-size:.78rem;color:var(--muted);cursor:pointer"
+                 style="display:inline-flex;align-items:center;gap:.4rem;margin-left:.9rem;font-size:.8125rem;color:var(--muted);cursor:pointer"
                  title="Show concentric rings around the placed site at walking and biking radii">
             <input type="checkbox" id="pmaIsochroneToggle" aria-label="Show walking and biking isochrone rings">
             <span>Walking + biking rings</span>
@@ -403,7 +403,7 @@
              Uses free Census Geocoder (no API key) + restricts to Colorado. -->
         <div class="pma-address-search" role="search"
              style="display:flex;align-items:center;gap:.5rem;margin:.6rem 0 .4rem;padding:.5rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);flex-wrap:wrap">
-          <label for="pmaAddressInput" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap">
+          <label for="pmaAddressInput" style="font-size:.8125rem;font-weight:600;color:var(--muted);white-space:nowrap">
             Find a Colorado address or pin:
           </label>
           <input id="pmaAddressInput" type="search"
@@ -412,12 +412,12 @@
                  autocomplete="street-address"
                  style="flex:1 1 240px;min-width:220px;padding:.35rem .5rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.85rem">
           <button id="pmaAddressSearchBtn" type="button"
-                  style="padding:.35rem .85rem;font-size:.8rem;font-weight:700;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent,#fff);border-radius:4px;cursor:pointer"
+                  style="padding:.35rem .85rem;font-size:.8125rem;font-weight:700;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent,#fff);border-radius:4px;cursor:pointer"
                   aria-label="Geocode address and drop site marker">
             Find &amp; drop pin
           </button>
           <span id="pmaAddressStatus" role="status" aria-live="polite"
-                style="font-size:.74rem;color:var(--muted);flex-basis:100%"></span>
+                style="font-size:.8125rem;color:var(--muted);flex-basis:100%"></span>
         </div>
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
         <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Uses the free US Census Geocoder (no API key required).</div>
@@ -548,12 +548,12 @@
             <div class="pma-score-circle" id="pmaScoreCircle" data-score-role="primary" aria-label="PMA score, the primary result">—</div>
             <div class="pma-score-meta">
               <div class="pma-score-label">PMA score (0–100) — the primary result</div>
-              <div class="pma-score-scale" id="pmaScoreScale" style="font-size:.75rem;color:var(--muted);margin-top:2px;"></div>
-              <div class="pma-score-note" style="font-size:.75rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
-              <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.75rem;margin-top:2px;" hidden></div>
+              <div class="pma-score-scale" id="pmaScoreScale" style="font-size:.8125rem;color:var(--muted);margin-top:2px;"></div>
+              <div class="pma-score-note" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
+              <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.8125rem;margin-top:2px;" hidden></div>
               <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
               <!-- #1937: HB26-1065 zone gate. Beside the score, not part of it. -->
-              <div class="pma-tz-gate" id="pmaTransitZoneGate" data-tz-state="none" aria-live="polite" style="font-size:.78rem;margin-top:6px;line-height:1.4;" hidden></div>
+              <div class="pma-tz-gate" id="pmaTransitZoneGate" data-tz-state="none" aria-live="polite" style="font-size:.8125rem;margin-top:6px;line-height:1.4;" hidden></div>
               <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
             </div>
           </div>
@@ -601,7 +601,7 @@
         -->
         <div class="pma-card" id="pmaSiteSummary" style="display:none" data-source="ACS DP04 tract metrics · TIGER place boundaries · OpenStreetMap amenities · RTD/CDOT GTFS transit">
           <h2 style="margin-bottom:6px">PMA Site Summary</h2>
-          <p style="font-size:.78rem;color:var(--muted);margin:0 0 .6rem">
+          <p style="font-size:.8125rem;color:var(--muted);margin:0 0 .6rem">
             Snapshot of what the PMA boundary contains. Use this card to sanity-check the analysis before reading scores.
           </p>
           <dl class="pma-summary-dl" style="display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0;overflow-wrap:anywhere">
@@ -638,7 +638,7 @@
           <!-- K — Tract-level breakdown table. Surfaces the polygon-clip
                shares that drive demand apportionment (now real after C). -->
           <div id="pmaTractBreakdown" style="margin-top:14px;"></div>
-          <details style="margin-top:.6rem;font-size:.76rem;color:var(--muted);line-height:1.5;">
+          <details style="margin-top:.6rem;font-size:.8125rem;color:var(--muted);line-height:1.5;">
             <summary style="cursor:pointer;font-weight:600;color:var(--text)">Methodology &amp; rural-area fallback</summary>
             <div style="margin-top:.4rem">
               <p style="margin:0 0 .35rem"><strong>Boundary:</strong> A circular buffer around the placed site marker. Industry-standard PMA studies use commuting-shed + barrier analysis; the circular buffer is a screening simplification, not a substitute for a NH&amp;RA/Novogradac delineation.</p>
@@ -661,7 +661,7 @@
             Transit-Oriented Development
             <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">CHFA 3 pts (5 proposed)</small>
           </h2>
-          <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">
+          <p style="font-size:.8125rem;color:var(--muted);margin-bottom:8px">
             CHFA awards 3 QAP points (2025–26 QAP, §5.B.2.b) to sites at an existing or planned TOD site, within a ½-mile walk of transit; the 2027–28 Third Draft proposes 5 and adds TOC sites.
             The blue dashed circle on the map shows a straight-line ½ mile, so confirm the walking route.
           </p>
@@ -726,13 +726,13 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaAffordableCount">—</div>
               <div class="pma-stat-label">Existing affordable projects</div>
-              <div class="pma-stat-label" id="pmaAffordableBreakdown" style="font-size:.72rem"></div>
+              <div class="pma-stat-label" id="pmaAffordableBreakdown" style="font-size:.8125rem"></div>
               <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · CHFA preservation</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
               <div class="pma-stat-label">Existing affordable units (LIHTC + HUD MF, USDA RD, PBV)</div>
-              <div class="pma-stat-label" id="pmaAffordableUnitsBreakdown" style="font-size:.72rem"></div>
+              <div class="pma-stat-label" id="pmaAffordableUnitsBreakdown" style="font-size:.8125rem"></div>
               <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · local PBV · CHFA preservation</div>
             </div>
             <div class="pma-stat">
@@ -757,7 +757,7 @@
               <div class="kpi-source">CHFA award year (YR_ALLOC)</div>
             </div>
           </div>
-          <p class="pma-stat-note" id="pmaAffordableUnitsNote" role="note" style="font-size:.78rem;color:var(--warn);margin:.4rem 0 0" hidden></p>
+          <p class="pma-stat-note" id="pmaAffordableUnitsNote" role="note" style="font-size:.8125rem;color:var(--warn);margin:.4rem 0 0" hidden></p>
         </div>
 
         <div class="pma-card" id="pmaFundingContextCard" data-funding-context-surface="pma" hidden></div>
@@ -777,7 +777,7 @@
              Card stays hidden until Run Analysis populates a county FIPS. -->
         <div class="pma-card" id="pmaChfaAwardHistoryCard" hidden>
           <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px">
-            <h2 style="display:inline-block;margin:0;">Recent CHFA LIHTC awards <span id="pmaChfaAwardHistoryScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
+            <h2 style="display:inline-block;margin:0;">Recent CHFA LIHTC awards <span id="pmaChfaAwardHistoryScope" style="font-weight:400;font-size:.8125rem;color:var(--muted)"></span></h2>
           </div>
           <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
             Per-jurisdiction award timeline pulled from the deduped CHFA HousingTaxCreditProperties feed. Each property links to a chfainfo.com lookup.
@@ -793,7 +793,7 @@
         <div class="pma-card">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
             <h2 style="display:inline-block;margin:0;">Nearby LIHTC outside the PMA</h2>
-            <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)">
+            <div style="display:flex;align-items:center;gap:6px;font-size:.8125rem;color:var(--muted)">
               within
               <select id="pmaNearbyRadius" aria-label="Outer search radius" style="padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.82rem">
                 <option value="15">15 mi</option>
@@ -810,7 +810,7 @@
           </p>
           <div id="pmaNearbyLihtcWrap" tabindex="0" role="region" aria-label="Nearby LIHTC properties — scroll horizontally to see all columns" style="overflow-x:auto;border:1px solid var(--border);border-radius:6px">
             <table id="pmaNearbyLihtc" style="width:100%;border-collapse:collapse;font-size:.85rem">
-              <thead style="background:var(--card2);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)">
+              <thead style="background:var(--card2);font-size:.8125rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)">
                 <tr>
                   <th style="text-align:left;padding:6px 8px">Project</th>
                   <th style="text-align:left;padding:6px 8px">City</th>
@@ -914,7 +914,7 @@
                 <dt>State benchmark</dt><dd>delta vs CO statewide (pp for rates, % for amounts)</dd>
                 <dt>Cross-county disclosure</dt><dd>when the buffer spans multiple counties, both counties' rates are summarized so you can see which side the parcel sits on matters for HUD AMI tier rents</dd>
               </dl>
-              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages <span data-hmda-vintage>as listed in the data file</span>.</p>
+              <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages <span data-hmda-vintage>as listed in the data file</span>.</p>
             </div>
           </details>
           <div id="pmaHmdaResult" style="margin-top:0.5rem;">
@@ -936,7 +936,7 @@
                 <dt>Breakdowns</dt><dd>market-type (urban / suburban / rural / resort), credit-type (4% PAB / 9% competitive), unit-count band</dd>
                 <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA scores applications under its own <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">Qualified Allocation Plan</a>. This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
               </dl>
-              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
+              <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
             </div>
           </details>
           <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to ~50 known Colorado LIHTC projects.</p>
@@ -1362,7 +1362,7 @@
       <summary style="cursor:pointer;padding:.85rem 1.25rem;font-weight:600;user-select:none;display:flex;align-items:center;gap:.5rem;color:var(--text)">
         <span aria-hidden="true" style="display:inline-block;width:.5rem;height:.5rem;background:var(--accent,#3a8);border-radius:50%"></span>
         Methodology &amp; Data Sources
-        <span style="font-weight:400;color:var(--muted);font-size:.74rem;margin-left:.35rem">— click to expand source list</span>
+        <span style="font-weight:400;color:var(--muted);font-size:.8125rem;margin-left:.35rem">— click to expand source list</span>
       </summary>
       <div style="padding:.4rem 1.25rem 1rem">
       <p style="font-size:var(--tiny);margin-bottom:.8rem">
@@ -1383,7 +1383,7 @@
         <div><strong>FEMA Flood Zones</strong> — <a href="https://www.fema.gov/flood-maps" target="_blank" rel="noopener">National Flood Hazard Layer</a></div>
         <div><strong>Opportunity Zones</strong> — <a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener">CDFI Fund</a></div>
       </div>
-      <p style="margin-top:.8rem;font-size:.8rem;color:var(--muted)">
+      <p style="margin-top:.8rem;font-size:.8125rem;color:var(--muted)">
         Data refreshes automatically via GitHub Actions.
         <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
         <a href="data-status.html">Data freshness status</a>
@@ -1751,8 +1751,8 @@
       /* Sticky below the site header — see housing-needs-assessment.html. */
       '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
       '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
-      '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
-      '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;}',
+      '.hna-jurisdiction-banner__label{font-size:.8125rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+      '.hna-jurisdiction-banner__change{font-size:.8125rem;color:var(--accent);text-decoration:none;font-weight:700;}',
       '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
       '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
       '.hna-continue-panel__text{flex:1;min-width:200px;}',
@@ -1911,10 +1911,10 @@
         var maxPct = industries[0] && industries[0].pct ? industries[0].pct : 1;
         industryHtml =
           '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
-            '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px">Industry mix (top employers)</div>' +
+            '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px">Industry mix (top employers)</div>' +
             industries.map(function (ind) {
               var pctW = Math.max(2, Math.round((ind.pct / maxPct) * 100));
-              return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:.8rem">' +
+              return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:.8125rem">' +
                        '<div style="flex:0 0 38%;color:var(--text)">' + (ind.label || ind.naics) + '</div>' +
                        '<div style="flex:1;height:10px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden">' +
                          '<div style="height:100%;width:' + pctW + '%;background:#0b6e6d"></div>' +
@@ -1933,22 +1933,22 @@
         wageHtml =
           '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:6px">' +
-              '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700">' +
                 'Worker wage tiers (LODES CE01–CE03)</div>' +
               (lihtcWageShare != null
-                ? '<div style="font-size:.72rem;color:var(--muted)">LIHTC wage-aligned: <strong style="color:var(--text)">' +
+                ? '<div style="font-size:.8125rem;color:var(--muted)">LIHTC wage-aligned: <strong style="color:var(--text)">' +
                     lihtcWageShare + '%</strong> (CE01+CE02)</div>'
                 : '') +
             '</div>' +
             '<div style="display:flex;height:18px;border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
-              '<div style="width:' + w1 + '%;background:#c1442f;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:600">' +
+              '<div style="width:' + w1 + '%;background:#c1442f;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#fff;font-weight:600">' +
                 (w1 >= 8 ? w1 + '%' : '') + '</div>' +
-              '<div style="width:' + w2 + '%;background:#e9a800;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#0d1f35;font-weight:600">' +
+              '<div style="width:' + w2 + '%;background:#e9a800;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#0d1f35;font-weight:600">' +
                 (w2 >= 8 ? w2 + '%' : '') + '</div>' +
-              '<div style="width:' + w3 + '%;background:#0b6e6d;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:600">' +
+              '<div style="width:' + w3 + '%;background:#0b6e6d;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#fff;font-weight:600">' +
                 (w3 >= 8 ? w3 + '%' : '') + '</div>' +
             '</div>' +
-            '<div style="display:flex;justify-content:space-between;margin-top:3px;font-size:.7rem;color:var(--muted);flex-wrap:wrap;gap:4px">' +
+            '<div style="display:flex;justify-content:space-between;margin-top:3px;font-size:.8125rem;color:var(--muted);flex-wrap:wrap;gap:4px">' +
               '<span><span style="display:inline-block;width:8px;height:8px;background:#c1442f;margin-right:4px;vertical-align:middle"></span>' +
                 '≤$1,250/mo · ' + fmt(ce1) + '</span>' +
               '<span><span style="display:inline-block;width:8px;height:8px;background:#e9a800;margin-right:4px;vertical-align:middle"></span>' +
@@ -1961,28 +1961,28 @@
       host.innerHTML =
         '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px">' +
           '<div>' +
-            '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:2px">Jurisdiction labor market</div>' +
+            '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:2px">Jurisdiction labor market</div>' +
             '<div style="font-size:.86rem;font-weight:600">' + (lehd.flows_source === 'block-od' ? 'Block-OD flows' : 'LEHD flows') + ' for the selected jurisdiction</div>' +
           '</div>' +
           '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
             '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
-              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live & work here</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live & work here</div>' +
               '<div style="font-size:.95rem;font-weight:700">' + fmt(within) + '</div></div>' +
             '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
-              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
               '<div style="font-size:.95rem;font-weight:700">' + fmt(inflow) + '</div></div>' +
             '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
-              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
               '<div style="font-size:.95rem;font-weight:700">' + fmt(outflow) + '</div></div>' +
             '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
-              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs</div>' +
               '<div style="font-size:.95rem;font-weight:700">' + fmt(jobsAt) + '</div></div>' +
           '</div>' +
         '</div>' +
         (character ? '<div style="margin-top:6px;font-size:.83rem;line-height:1.4">' + character + '</div>' : '') +
         industryHtml +
         wageHtml +
-        '<div style="margin-top:6px;font-size:.7rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character, industry mix, and wage distribution.</div>';
+        '<div style="margin-top:6px;font-size:.8125rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character, industry mix, and wage distribution.</div>';
       host.hidden = false;
     }
     if (window.PlaceLehd && window.PlaceLehd.init) {

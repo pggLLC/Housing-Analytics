@@ -32,11 +32,15 @@
   // tokens are the site's general UI colors and are NOT these severity
   // colors, e.g. --accent is teal). Change a color here, change it there —
   // test/home-need-map-legend-colors.test.js checks the two stay in sync.
+  //
+  // Design pass (2026-10-19): one teal from light (lower need) to dark
+  // (highest). The old green/blue/orange/red did not read as an order and
+  // red against green fails for color-blind visitors.
   var BANDS = [
-    { min: 70, color: '#dc2626', label: 'Highest' },
-    { min: 50, color: '#d97706', label: 'Elevated' },
-    { min: 30, color: '#1d4ed8', label: 'Moderate' },
-    { min: -Infinity, color: '#16a34a', label: 'Lower' },
+    { min: 70, color: '#0b4f48', label: 'Highest' },
+    { min: 50, color: '#2f8f83', label: 'Elevated' },
+    { min: 30, color: '#7dbcb2', label: 'Moderate' },
+    { min: -Infinity, color: '#c4e2dd', label: 'Lower' },
   ];
 
   function bandFor(score) {
@@ -109,10 +113,10 @@
             var score = geoid != null ? scoreByGeoid[geoid] : null;
             var band = score != null ? bandFor(score) : null;
             return {
-              color: '#fff',
-              weight: 1,
+              color: '#5f7d79',
+              weight: 0.6,
               fillColor: band ? band.color : '#ccc',
-              fillOpacity: band ? 0.75 : 0.25,
+              fillOpacity: band ? 0.9 : 0.25,
             };
           },
           onEachFeature: function (feature, featureLayer) {

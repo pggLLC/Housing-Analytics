@@ -63,7 +63,7 @@
       '.pab-btn--inpipe { background: var(--good, #16a34a); }',
       '.pab-btn--draft { background: var(--warn, #d97706); }',
       '.pab-state {',
-      '  font-size: .78rem; color: var(--muted); margin-left: .55rem;',
+      '  font-size: .8125rem; color: var(--muted); margin-left: .55rem;',
       '}',
       '.pab-form {',
       '  margin-top: .6rem; padding: .8rem;',
@@ -76,7 +76,7 @@
       '}',
       '.pab-form__field { display: flex; flex-direction: column; gap: .15rem; }',
       '.pab-form__label {',
-      '  font-size: .72rem; font-weight: 700; color: var(--muted);',
+      '  font-size: .8125rem; font-weight: 700; color: var(--muted);',
       '  text-transform: uppercase; letter-spacing: .04em;',
       '}',
       '.pab-form__input, .pab-form__select, .pab-form__textarea {',
@@ -94,7 +94,7 @@
       '}',
       '.pab-form__cancel { background: var(--bg2, #f3f4f6); color: var(--text, #111); }',
       '.pab-form__save { background: var(--accent, #096e65); color: var(--on-accent, #fff); border-color: var(--accent, #096e65); }',
-      '.pab-msg { font-size: .78rem; color: var(--muted); margin-top: .3rem; }',
+      '.pab-msg { font-size: .8125rem; color: var(--muted); margin-top: .3rem; }',
       '.pab-msg--ok { color: var(--good, #16a34a); }'
     ].join('\n');
     document.head.appendChild(st);
@@ -205,7 +205,7 @@
     opts = opts || {};
     _ensureStyles();
     if (!window.PipelineStore) {
-      container.innerHTML = '<p style="font-size:.78rem;color:var(--muted)">' +
+      container.innerHTML = '<p style="font-size:.8125rem;color:var(--muted)">' +
         'Deal tracker store not loaded — include js/components/pipeline-store.js first.</p>';
       return;
     }

@@ -33,14 +33,14 @@
     style.id = 'jurisdictionSelectSearchStyles';
     style.textContent =
       '.jurisdiction-select-search{position:relative;display:flex;flex-direction:column;gap:4px;min-width:220px;max-width:360px;}' +
-      '.jurisdiction-select-search__label{font-size:.78rem;font-weight:700;color:var(--muted,#5f6b76);}' +
+      '.jurisdiction-select-search__label{font-size:.8125rem;font-weight:700;color:var(--muted,#5f6b76);}' +
       '.jurisdiction-select-search__input{box-sizing:border-box;width:100%;min-height:44px;padding:.5rem .7rem;border:1px solid var(--border,#cbd5e1);border-radius:8px;background:var(--card,#fff);color:var(--text,#17202a);font:inherit;}' +
       '.jurisdiction-select-search__input:focus-visible{outline:3px solid var(--focus-ring,var(--accent,#096e65));outline-offset:2px;}' +
       '.jurisdiction-select-search__list{position:absolute;top:100%;left:0;right:0;z-index:1000;max-height:280px;overflow-y:auto;margin:4px 0 0;padding:4px 0;list-style:none;border:1px solid var(--border,#cbd5e1);border-radius:8px;background:var(--card,#fff);box-shadow:var(--shadow,0 8px 24px rgba(0,0,0,.14));}' +
       '.jurisdiction-select-search__option{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;cursor:pointer;}' +
       '.jurisdiction-select-search__option[aria-selected="true"]{background:var(--bg2,#eef4f3);}' +
-      '.jurisdiction-select-search__type{color:var(--muted,#5f6b76);font-size:.78rem;white-space:nowrap;}' +
-      '.jurisdiction-select-search__selected{min-height:1em;font-size:.76rem;color:var(--muted,#5f6b76);}' +
+      '.jurisdiction-select-search__type{color:var(--muted,#5f6b76);font-size:.8125rem;white-space:nowrap;}' +
+      '.jurisdiction-select-search__selected{min-height:1em;font-size:.8125rem;color:var(--muted,#5f6b76);}' +
       '.jurisdiction-select-search__empty{padding:8px 12px;color:var(--muted,#5f6b76);font-style:italic;}';
     (doc.head || doc.documentElement).appendChild(style);
   }

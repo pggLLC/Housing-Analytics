@@ -29,7 +29,7 @@
     '.ib-section-nav a{color:var(--muted);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;padding:.35rem .7rem;border-radius:var(--radius-sm,6px)}' +
     '.ib-section-nav a[aria-current="page"]{color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%)}' +
     '.ib-section-nav a:hover{color:var(--accent)}.ib-section-nav .spacer{flex:1}' +
-    '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.7rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}';
+    '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.8125rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}';
 
   function current(path) {
     var file = String(path || '').split('/').pop() || 'developer.html';

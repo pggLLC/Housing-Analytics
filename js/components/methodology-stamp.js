@@ -85,7 +85,7 @@
     }
 
     var style = 'display:inline-block;padding:1px 6px;border-radius:3px;' +
-      'font-size:.66rem;font-weight:600;line-height:1.3;letter-spacing:.02em;' +
+      'font-size:.8125rem;font-weight:600;line-height:1.3;letter-spacing:.02em;' +
       'background:var(--surface-2,#1e293b);color:var(--muted,#94a3b8);' +
       'border:1px solid var(--border,#334155);font-family:ui-monospace,monospace;';
     if (opts.inline) style += 'margin-left:.4rem;vertical-align:middle;';

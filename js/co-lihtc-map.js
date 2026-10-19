@@ -352,7 +352,7 @@
         note = document.createElement('span');
         note.className = 'overlay-unavailable';
         note.setAttribute('role', 'status');
-        note.style.cssText = 'margin-left:.35rem;font-size:.75rem;font-weight:600;';
+        note.style.cssText = 'margin-left:.35rem;font-size:.8125rem;font-weight:600;';
         label.appendChild(note);
       }
       note.textContent = '(unavailable \u2014 not drawn)';

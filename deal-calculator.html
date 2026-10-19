@@ -224,7 +224,7 @@
            style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;
                   margin:0 0 12px;padding:8px 10px;background:var(--bg2);
                   border:1px solid var(--border);border-radius:var(--radius);">
-        <span style="font-size:.78rem;color:var(--muted);align-self:center;margin-right:auto;">
+        <span style="font-size:.8125rem;color:var(--muted);align-self:center;margin-right:auto;">
           <strong>Share this scenario:</strong> URL carries every input + tranche; partners open the link and see the same deal.
         </span>
         <button id="dc-share-copy" type="button"
@@ -462,7 +462,7 @@
                 <strong id="dc-stress-equity-price-label" style="color:var(--accent);">$0.90</strong>/credit
               </label>
               <input id="dc-stress-equity-price" type="range" min="0.70" max="1.10" step="0.01" value="0.90" style="width:100%;">
-              <div id="dc-stress-equity-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+              <div id="dc-stress-equity-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">—</div>
             </div>
             <!-- 2. TDC construction cost overrun -->
             <div>
@@ -471,7 +471,7 @@
                 <strong id="dc-stress-tdc-overrun-label" style="color:var(--accent);">+0%</strong> of TDC
               </label>
               <input id="dc-stress-tdc-overrun" type="range" min="0" max="25" step="1" value="0" style="width:100%;">
-              <div id="dc-stress-tdc-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+              <div id="dc-stress-tdc-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">—</div>
             </div>
             <!-- 3. Per-AMI-tier rent stress -->
             <div>
@@ -480,7 +480,7 @@
                 <strong id="dc-stress-rent-low-label" style="color:var(--accent);">0%</strong>
               </label>
               <input id="dc-stress-rent-low" type="range" min="0" max="20" step="1" value="0" style="width:100%;">
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">% haircut on rents at deep-income tiers (most subject to subsidy cliffs).</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">% haircut on rents at deep-income tiers (most subject to subsidy cliffs).</div>
             </div>
             <!-- 4. Lease-up ramp -->
             <div>
@@ -489,7 +489,7 @@
                 <strong id="dc-stress-leaseup-label" style="color:var(--accent);">12 months</strong>
               </label>
               <input id="dc-stress-leaseup" type="range" min="6" max="36" step="3" value="12" style="width:100%;">
-              <div id="dc-stress-leaseup-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+              <div id="dc-stress-leaseup-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">—</div>
             </div>
             <!-- 5. DSCR floor -->
             <div>
@@ -498,7 +498,7 @@
                 <strong id="dc-stress-dscr-floor-label" style="color:var(--accent);">1.15</strong>x
               </label>
               <input id="dc-stress-dscr-floor" type="range" min="1.10" max="1.40" step="0.05" value="1.15" style="width:100%;">
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Lender's minimum debt service coverage. CHFA = 1.15; conventional 4% bond = 1.20–1.25.</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Lender's minimum debt service coverage. CHFA = 1.15; conventional 4% bond = 1.20–1.25.</div>
             </div>
           </div>
           <div id="dcStressSummary" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>
@@ -528,7 +528,7 @@
               </label>
               <input id="dc-wf-lp-equity" type="number" min="0" step="50000" placeholder="auto from LIHTC equity"
                      style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Auto-fills from <strong id="dc-wf-lp-equity-auto">—</strong>; override to model a different LP buy-in.</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Auto-fills from <strong id="dc-wf-lp-equity-auto">—</strong>; override to model a different LP buy-in.</div>
             </div>
             <div>
               <label for="dc-wf-pref" style="display:block;font-weight:600;margin-bottom:2px;">
@@ -536,7 +536,7 @@
                 <strong id="dc-wf-pref-label" style="color:var(--accent);">8.0</strong>%
               </label>
               <input id="dc-wf-pref" type="range" min="0" max="15" step="0.25" value="8.0" style="width:100%;">
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Annual pref accrues until paid. Typical LIHTC: 0% (yield is the credits) to 8% (workforce/mixed-income).</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Annual pref accrues until paid. Typical LIHTC: 0% (yield is the credits) to 8% (workforce/mixed-income).</div>
             </div>
             <div>
               <label for="dc-wf-gp-residual" style="display:block;font-weight:600;margin-bottom:2px;">
@@ -544,7 +544,7 @@
                 <strong id="dc-wf-gp-residual-label" style="color:var(--accent);">30</strong>%
               </label>
               <input id="dc-wf-gp-residual" type="range" min="0" max="100" step="5" value="30" style="width:100%;">
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">GP share of residual after all priority tiers paid. LP gets the complement. Typical LIHTC: 20–50% to GP.</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">GP share of residual after all priority tiers paid. LP gets the complement. Typical LIHTC: 20–50% to GP.</div>
             </div>
             <div>
               <label for="dc-wf-catchup" style="display:block;font-weight:600;margin-bottom:2px;">
@@ -555,7 +555,7 @@
                 <option value="none" selected>No catch-up (LP keeps gross pref)</option>
                 <option value="full">Full GP catch-up (100% until balanced)</option>
               </select>
-              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Most LIHTC deals skip catch-up because the LP's return is the tax credits, not cash.</div>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Most LIHTC deals skip catch-up because the LP's return is the tax credits, not cash.</div>
             </div>
           </div>
           <div id="dcWaterfallTable" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>
@@ -593,7 +593,7 @@
         <div id="hosScoreDisplay" style="text-align:center;padding:1rem 0;">
           <div style="font-size:2.5rem;font-weight:800;line-height:1;" id="hosScoreValue">—</div>
           <div style="font-size:.85rem;font-weight:700;margin-top:4px;" id="hosGrade">—</div>
-          <div style="font-size:.78rem;color:var(--muted);margin-top:2px;" id="hosDataComplete">—</div>
+          <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;" id="hosDataComplete">—</div>
         </div>
         <div id="hosDimensions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px, 100%),1fr));gap:12px;"></div>
         <p id="hosSummary" style="font-size:.82rem;color:var(--muted);margin-top:.75rem;line-height:1.5;"></p>
@@ -840,7 +840,7 @@
     .dc-cra-card__tag {
       display: inline-block;
       margin-top: 8px;
-      font-size: .72rem;
+      font-size: .8125rem;
       font-weight: 700;
       padding: 2px 8px;
       border-radius: 4px;
@@ -923,7 +923,7 @@
       align-items: center; margin-bottom: 14px; padding-bottom: 12px;
       border-bottom: 2px solid var(--border);
     }
-    .dc-cp-names__label { font-size: .78rem; font-weight: 600; color: var(--muted); }
+    .dc-cp-names__label { font-size: .8125rem; font-weight: 600; color: var(--muted); }
     .dc-cp-names__a { font-weight: 700; font-size: .95rem; color: var(--accent); }
     .dc-cp-names__b { font-weight: 700; font-size: .95rem; color: var(--info, #2563eb); }
     .dc-cp-names__vs { text-align: center; font-weight: 700; font-size: .82rem; color: var(--muted); }
@@ -947,7 +947,7 @@
     .dc-cp-row__bar { height: 100%; border-radius: 3px; transition: width .4s ease; }
     .dc-cp-row__bar--a { background: var(--accent); }
     .dc-cp-row__bar--b { background: var(--info, #2563eb); }
-    .dc-cp-row__delta { text-align: center; font-size: .75rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .dc-cp-row__delta { text-align: center; font-size: .8125rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
     .dc-cp-row__delta--better { color: var(--good, #16a34a); }
     .dc-cp-row__delta--worse { color: var(--bad, #dc2626); }
 
@@ -983,9 +983,9 @@
       '.hna-jurisdiction-banner{max-width:1400px;margin:12px auto 0;padding:0 18px;}',
       '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
       '.hna-jurisdiction-banner__info{display:flex;align-items:baseline;gap:4px;flex-wrap:wrap;}',
-      '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
-      '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
-      '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+      '.hna-jurisdiction-banner__label{font-size:.8125rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+      '.hna-jurisdiction-banner__sub{font-size:.8125rem;color:var(--muted);margin-left:8px;}',
+      '.hna-jurisdiction-banner__change{font-size:.8125rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
       '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
       '.hna-continue-panel{max-width:1400px;margin:32px auto 0;padding:0 18px 48px;}',
       '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',

@@ -289,12 +289,12 @@ html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
   letter-spacing: 0.06em;
 }
 .stat-card .stat-unit {
-  font-size: 0.68rem;
+  font-size: .8125rem;
   color: var(--faint);
   margin-top: 2px;
 }
 .stat-card .stat-delta {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   font-weight: 700;
   margin-top: 5px;
   color: var(--muted);
@@ -303,7 +303,7 @@ html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
 .stat-card .stat-delta.negative { color: var(--bad); }
 .stat-card .stat-delta.flat { color: var(--faint); }
 .stat-card .stat-source {
-  font-size: 0.68rem;
+  font-size: .8125rem;
   color: var(--faint);
   margin-top: 4px;
 }
@@ -929,7 +929,7 @@ mark {
   margin-top: 0.2rem;
   padding: 0 0.32rem;
   border-radius: 3px;
-  font-size: 0.63rem;
+  font-size: .8125rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: lowercase;
@@ -967,7 +967,7 @@ mark {
 .diagram__title { font-weight: 700; font-size: .95rem; margin: 0 0 .75rem; color: var(--text); }
 .dg-node { border: 1.5px solid var(--border-strong); border-radius: 6px; padding: .55rem .7rem; background: var(--bg2); color: var(--text); min-width: 0; line-height: 1.35; }
 .dg-node strong { display: block; font-size: .92rem; }
-.dg-node > span { display: block; font-size: .8rem; color: var(--muted); }
+.dg-node > span { display: block; font-size: .8125rem; color: var(--muted); }
 .dg-node--accent { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
 .dg-node--accent > span { color: var(--on-accent, #fff); opacity: .9; }
 .dg-node--accent2 { background: var(--accent2-dim); border-color: var(--accent2); }
@@ -1001,7 +1001,7 @@ mark {
 .dg-tree { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr); gap: 1rem 1.6rem; align-items: center; }
 .dg-tree__col { display: grid; gap: .5rem; min-width: 0; }
 .dg-tree__group { display: grid; gap: .35rem; }
-.dg-tree__label { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.dg-tree__label { font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 .dg-tree__join { position: relative; }
 .dg-tree__join::before { content: "→"; position: absolute; left: -1.25rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 700; }
 
@@ -1018,9 +1018,9 @@ mark {
 .dg-route > li[data-optional="true"][data-routed="true"] .dg-route__num { background: var(--card); border: 2px dashed var(--accent2); }
 .dg-route__label, .dg-route__also, .dg-tile a { display: flex; align-items: center; justify-content: flex-start; text-align: left; min-height: 44px; min-width: 44px; }
 .dg-route__label { font-weight: 700; font-size: .86rem; line-height: 1.25; overflow-wrap: anywhere; }
-.dg-route__answers { font-size: .78rem; color: var(--muted); line-height: 1.35; }
-.dg-route__also { font-size: .76rem; padding: .2rem .4rem; border-radius: 4px; background: var(--accent2-dim); border-left: 3px solid var(--accent2); }
-.dg-legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .78rem; color: var(--muted); margin-top: .7rem; }
+.dg-route__answers { font-size: .8125rem; color: var(--muted); line-height: 1.35; }
+.dg-route__also { font-size: .8125rem; padding: .2rem .4rem; border-radius: 4px; background: var(--accent2-dim); border-left: 3px solid var(--accent2); }
+.dg-legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .8125rem; color: var(--muted); margin-top: .7rem; }
 .dg-legend i { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; vertical-align: -.1rem; margin-right: .3rem; background: var(--accent); }
 .dg-legend i.is-optional { background: var(--card); border: 2px dashed var(--accent); }
 .dg-legend i.is-routed { background: var(--accent2-dim); border: 2px solid var(--accent2); }
@@ -1032,10 +1032,10 @@ mark {
 .dg-tile[data-status="not_run"] { border-style: dashed; }
 .dg-tile--verdict { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
 .dg-tile--verdict[data-state="insufficient"] { background: var(--bg2); border-color: var(--border-strong); color: var(--text); }
-.dg-tile__step { font-size: .7rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 700; opacity: .85; }
+.dg-tile__step { font-size: .8125rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 700; opacity: .85; }
 .dg-tile__value { font-weight: 700; font-size: .95rem; overflow-wrap: anywhere; }
-.dg-tile__what { font-size: .76rem; opacity: .85; }
-.dg-tile__state { font-size: .76rem; }
+.dg-tile__what { font-size: .8125rem; opacity: .85; }
+.dg-tile__state { font-size: .8125rem; }
 
 @container (max-width: 640px) {
   .dg-chain { grid-template-columns: minmax(0, 1fr); gap: 1.3rem; }
@@ -1058,7 +1058,7 @@ mark {
 /* "Which document do you need?" — the same guide on the white paper, the
    working paper and the methods page (test/document-guide.test.mjs). */
 .doc-guide { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.2rem; margin: 1.6rem 0; max-width: 72ch; }
-.doc-guide__title { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--muted); margin: 0 0 .7rem; }
+.doc-guide__title { font-size: .8125rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--muted); margin: 0 0 .7rem; }
 .doc-guide__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
 .doc-guide__list > li { margin: 0; padding-left: .8rem; border-left: 3px solid var(--border); }
 .doc-guide__list > li.is-current { border-left-color: var(--accent); }
@@ -1067,7 +1067,7 @@ mark {
 .doc-guide p.doc-guide__title { margin: 0 0 .7rem; }
 .doc-guide__name { font-weight: 700; }
 .doc-guide__name a[aria-current="page"] { color: var(--text-strong); text-decoration: none; }
-.doc-guide__here { font-size: .72rem; font-weight: 600; color: var(--muted); margin-left: .4rem; }
+.doc-guide__here { font-size: .8125rem; font-weight: 600; color: var(--muted); margin-left: .4rem; }
 .doc-guide__for { font-size: .95rem; color: var(--text); }
 .doc-guide__about { font-size: .85rem; color: var(--muted); }
 @media print { .doc-guide { display: none; } }

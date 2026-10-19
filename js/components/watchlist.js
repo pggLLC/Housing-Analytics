@@ -166,7 +166,7 @@
         '#coho-watchlist-panel > details:not([open]) > summary > .coho-wl-caret { display: none; }' +
         '#coho-watchlist-panel > details[open] > summary { padding: 8px 14px; }' +
         '#coho-watchlist-panel > details:not([open]) > summary {' +
-          ' padding: 6px 10px; font-size: .78rem;' +
+          ' padding: 6px 10px; font-size: .8125rem;' +
         '}' +
         '@media (max-width: 700px) {' +
           // Clear the wrapped mobile footer CTA; auto-shrink the
@@ -181,7 +181,7 @@
             // 44x44 is the site's touch-target floor (copilot-instructions
             // Rule 14, css/responsive.css); the summary is the tap target.
             ' padding: 0 10px; min-width: 44px; min-height: 44px; justify-content: center;' +
-            ' border-radius: 999px; font-size: .8rem; gap: .2rem;' +
+            ' border-radius: 999px; font-size: .8125rem; gap: .2rem;' +
           '}' +
           // A site-wide details rule adds 10px/12px padding and a margin;
           // on the collapsed chip that doubled its height.
@@ -206,10 +206,10 @@
         '<summary aria-label="Watchlist, 0 saved" style="cursor:pointer;font-weight:700;color:var(--accent);' +
                          'list-style:none;display:flex;align-items:center;justify-content:space-between;gap:.5rem;">' +
           '<span><span aria-hidden="true">★</span> <span class="coho-wl-label">Watchlist</span> <span id="coho-watchlist-count" style="opacity:.7;font-weight:400;">(0)</span></span>' +
-          '<span class="coho-wl-caret" style="opacity:.5;font-size:.78rem;">▸</span>' +
+          '<span class="coho-wl-caret" style="opacity:.5;font-size:.8125rem;">▸</span>' +
         '</summary>' +
         '<div id="coho-watchlist-body" style="padding:6px 12px 12px;max-height:60vh;overflow:auto;font-size:.85rem;min-width:240px;">' +
-          '<p style="color:var(--muted);font-size:.78rem;margin:0;">No saved jurisdictions yet. Click "Save to watchlist" on any HNA/OF/PMA detail panel to add one.</p>' +
+          '<p style="color:var(--muted);font-size:.8125rem;margin:0;">No saved jurisdictions yet. Click "Save to watchlist" on any HNA/OF/PMA detail panel to add one.</p>' +
         '</div>' +
       '</details>';
     document.body.appendChild(root);
@@ -286,7 +286,7 @@
       var addCurrentHtml = _addCurrentBtn();
       if (!arr.length) {
         bodyEl.innerHTML = addCurrentHtml +
-          '<p style="color:var(--muted);font-size:.78rem;margin:0;">No saved jurisdictions yet. ' +
+          '<p style="color:var(--muted);font-size:.8125rem;margin:0;">No saved jurisdictions yet. ' +
           (addCurrentHtml ? 'Click above to save the current one.' : 'Open an HNA/OF/PMA page to start saving.') +
           '</p>';
         _wireAddCurrent();
@@ -301,7 +301,7 @@
         return '<div style="padding:6px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:.4rem;">' +
           '<div style="min-width:0;flex:1;">' +
             '<div style="font-weight:600;color:var(--text);">' + _esc(entry.name) + '</div>' +
-            '<div style="display:flex;gap:.5rem;flex-wrap:wrap;font-size:.74rem;margin-top:2px;">' +
+            '<div style="display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8125rem;margin-top:2px;">' +
               '<a href="' + hnaUrl + '" style="color:var(--accent);text-decoration:none;">HNA</a>' +
               '<a href="' + ofUrl  + '" style="color:var(--accent);text-decoration:none;">OF</a>' +
               '<a href="' + pmaUrl + '" style="color:var(--accent);text-decoration:none;">PMA</a>' +

@@ -73,12 +73,12 @@
     var badge = doc.getElementById(id);
     if (!badge) {
       badge = doc.createElement('button'); badge.type = 'button'; badge.id = id;
-      badge.style.cssText = 'cursor:pointer;font:inherit;font-size:.68rem;white-space:normal;max-width:100%;' +
+      badge.style.cssText = 'cursor:pointer;font:inherit;font-size:.8125rem;white-space:normal;max-width:100%;' +
         'border:1px solid var(--border,#cbd5e1);border-radius:4px;padding:2px 5px;margin:2px 0;' +
         'background:var(--bg2,#f1f5f9);color:var(--muted,#475569);';
       var pop = doc.createElement('span'); pop.id = id + '-detail'; pop.hidden = true;
       pop.style.cssText = 'position:fixed;z-index:1100;width:20rem;max-width:calc(100vw - 2rem);max-height:calc(100vh - 2rem);overflow:auto;' +
-        'padding:.65rem;font-size:.78rem;line-height:1.4;font-weight:400;background:var(--card,#fff);' +
+        'padding:.65rem;font-size:.8125rem;line-height:1.4;font-weight:400;background:var(--card,#fff);' +
         'color:var(--text,#0f172a);border:1px solid var(--border,#cbd5e1);border-radius:4px;' +
         'box-shadow:0 3px 12px #0002;';
       pop.style.display = 'none';

@@ -275,7 +275,7 @@ async function testHnaComparison() {
   assert(setup.innerHTML.includes(ESCAPED), 'HNA selectors escape data-derived labels');
   assert.strictEqual(
     dom.window.HNAComparison._scopeBadge('county'),
-    '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:3px;background:var(--info-dim, #dbeafe);color:var(--info, #2563eb);margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: County">County</span>',
+    '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.8125rem;font-weight:700;padding:1px 6px;border-radius:3px;background:var(--info-dim, #dbeafe);color:var(--info, #2563eb);margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: County">County</span>',
     'normal scope badge renders byte-identically'
   );
   const hostileBadge = dom.window.HNAComparison._scopeBadge(HOSTILE);

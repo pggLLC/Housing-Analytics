@@ -61,7 +61,7 @@
       '.rw-portfolio {',
       '  display:inline-block; padding:.18rem .55rem; margin-left:.5rem;',
       '  background:rgba(16,185,129,.18); color:#047857; border:1px solid rgba(16,185,129,.4);',
-      '  border-radius:9px; font-size:.78rem; font-weight:700;',
+      '  border-radius:9px; font-size:.8125rem; font-weight:700;',
       '}',
       '.dark-mode .rw-portfolio { background:rgba(16,185,129,.2); color:#34d399; }',
       '.rw-programs { list-style:none; padding-left:0; margin:.4rem 0; }',
@@ -73,7 +73,7 @@
       '.rw-program__head { display:flex; flex-wrap:wrap; gap:.4rem; align-items:baseline; }',
       '.rw-program__name { font-weight:700; font-size:.92rem; }',
       '.rw-program__type {',
-      '  font-size:.66rem; font-weight:700; padding:1px 7px; border-radius:9px;',
+      '  font-size:.8125rem; font-weight:700; padding:1px 7px; border-radius:9px;',
       '  background:rgba(245,158,11,.15); color:#b45309;',
       '  border:1px solid rgba(245,158,11,.4);',
       '  text-transform:uppercase; letter-spacing:.03em;',
@@ -81,7 +81,7 @@
       '.dark-mode .rw-program__type { background:rgba(245,158,11,.2); color:#fbbf24; }',
       '.rw-program__summary { font-size:.82rem; margin-top:.3rem; line-height:1.45; }',
       '.rw-program__mag {',
-      '  font-size:.78rem; margin-top:.25rem; padding:.2rem .5rem;',
+      '  font-size:.8125rem; margin-top:.25rem; padding:.2rem .5rem;',
       '  background:rgba(220,38,38,.1); color:#b91c1c;',
       '  border-left:3px solid #dc2626; border-radius:0 4px 4px 0;',
       '  display:inline-block; font-weight:600;',
@@ -91,8 +91,8 @@
       '.rw-actions__head { font-weight:700; font-size:.82rem; margin-bottom:.25rem; }',
       '.rw-actions ul { list-style:disc; padding-left:1.5rem; margin:0; font-size:.82rem; }',
       '.rw-actions li { margin-bottom:.2rem; line-height:1.4; }',
-      '.rw-program__restriction { font-size:.8rem; font-weight:600; margin-top:.25rem; }',
-      '.rw-program__src { font-size:.76rem; color:var(--muted); margin-top:.25rem; }'
+      '.rw-program__restriction { font-size:.8125rem; font-weight:600; margin-top:.25rem; }',
+      '.rw-program__src { font-size:.8125rem; color:var(--muted); margin-top:.25rem; }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -173,7 +173,7 @@
                  : _esc(a.name)) +
                _inventory(a.inventory) +
              '</h4>' +
-             (a.service_area ? '<div style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem">' + _esc(a.service_area) + '</div>' : '') +
+             (a.service_area ? '<div style="font-size:.8125rem;color:var(--muted);margin-bottom:.3rem">' + _esc(a.service_area) + '</div>' : '') +
              programsHtml +
              open +
            '</div>';

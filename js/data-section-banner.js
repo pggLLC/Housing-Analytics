@@ -66,7 +66,7 @@
       var bg = isActive ? 'var(--accent-dim)' : 'var(--bg2)';
       var weight = isActive ? '700' : '600';
       var marker = isActive
-        ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:0 6px;border-radius:9px;font-size:.62rem;font-weight:700;margin-left:6px;letter-spacing:.04em">YOU ARE HERE</span>'
+        ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:0 6px;border-radius:9px;font-size:.8125rem;font-weight:700;margin-left:6px;letter-spacing:.04em">YOU ARE HERE</span>'
         : '';
       var inner =
         '<div style="display:flex;align-items:baseline;gap:.4rem">' +
@@ -74,7 +74,7 @@
           '<strong style="font-weight:' + weight + ';font-size:.92rem">' + _esc(p.label) + '</strong>' +
           marker +
         '</div>' +
-        '<div style="margin-top:3px;font-size:.76rem;color:var(--muted);line-height:1.35">' + _esc(p.role) + '</div>';
+        '<div style="margin-top:3px;font-size:.8125rem;color:var(--muted);line-height:1.35">' + _esc(p.role) + '</div>';
       if (isActive) {
         return '<div style="border:1px solid ' + border + ';background:' + bg + ';border-radius:8px;padding:.6rem .75rem">' + inner + '</div>';
       }
@@ -84,15 +84,15 @@
     function _secondaryLink(p) {
       var isActive = p.href === current;
       if (isActive) {
-        return '<span style="font-size:.78rem;color:var(--accent);font-weight:700">' + _esc(p.label) + ' · <span style="color:var(--muted);font-weight:400">you are here</span></span>';
+        return '<span style="font-size:.8125rem;color:var(--accent);font-weight:700">' + _esc(p.label) + ' · <span style="color:var(--muted);font-weight:400">you are here</span></span>';
       }
-      return '<a href="' + _esc(p.href) + '" style="font-size:.78rem;color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted)">' + _esc(p.label) + '</a>' +
-        ' <span style="font-size:.7rem;color:var(--muted);opacity:.7">· ' + _esc(p.role) + '</span>';
+      return '<a href="' + _esc(p.href) + '" style="font-size:.8125rem;color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted)">' + _esc(p.label) + '</a>' +
+        ' <span style="font-size:.8125rem;color:var(--muted);opacity:.7">· ' + _esc(p.role) + '</span>';
     }
 
     var secondaryFooter = secondary.length
       ? '<div style="margin-top:.75rem;padding-top:.6rem;border-top:1px dashed var(--border);display:flex;flex-wrap:wrap;gap:1rem;align-items:baseline">' +
-          '<span style="font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Pipeline diagnostics:</span>' +
+          '<span style="font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Pipeline diagnostics:</span>' +
           secondary.map(_secondaryLink).join(' &nbsp;·&nbsp; ') +
         '</div>'
       : '';
@@ -101,7 +101,7 @@
       '<section aria-label="Data section navigation" style="margin:0 0 var(--sp4,1.25rem);padding:.85rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:10px">' +
         '<div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.65rem">' +
           '<strong style="font-size:.95rem">Data section · 3 places to look</strong>' +
-          '<span style="font-size:.72rem;color:var(--muted)">Pick a card to switch views</span>' +
+          '<span style="font-size:.8125rem;color:var(--muted)">Pick a card to switch views</span>' +
         '</div>' +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(220px, 100%), 1fr));gap:.5rem">' +
           primary.map(_card).join('') +

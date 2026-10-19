@@ -35,7 +35,7 @@
   margin-bottom: 1.5rem;
 }
 .ipp-hero__kicker {
-  font-size: 0.75rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -68,7 +68,7 @@
   padding: 0.9rem 1rem;
 }
 .ipp-stat__label {
-  font-size: 0.7rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -82,13 +82,13 @@
   color: var(--text);
 }
 .ipp-stat__sub {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin-top: 0.35rem;
   line-height: 1.45;
 }
 .ipp-stat__source {
-  font-size: 0.7rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin-top: 0.35rem;
   font-style: italic;
@@ -152,7 +152,7 @@
 }
 .ipp-ami-table th {
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: .8125rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--muted);
@@ -170,7 +170,7 @@
   margin: 0.75rem 0 0;
 }
 .ipp-ami-vintage {
-  font-size: 0.72rem;
+  font-size: .8125rem;
   color: var(--muted);
   font-style: italic;
   margin: 0 0 0.35rem;
@@ -225,7 +225,7 @@
 }
 .ipp-block:first-of-type { border-top: 0; padding-top: 0; margin-top: 0.5rem; }
 .ipp-block__label {
-  font-size: 0.72rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -277,7 +277,7 @@
 }
 .ipp-sources th {
   font-weight: 700;
-  font-size: 0.7rem;
+  font-size: .8125rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--muted);
@@ -295,7 +295,7 @@
   gap: 0.35rem;
   padding: 0.18rem 0.6rem;
   border-radius: 9999px;
-  font-size: 0.7rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -378,7 +378,7 @@
 }
 .ipp-bucket__loading,
 .ipp-bucket__empty {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   color: var(--muted);
   font-style: italic;
   padding: 0.25rem 0;
@@ -410,7 +410,7 @@
 }
 .ipp-bucket__meta {
   display: flex; align-items: center; gap: 0.4rem;
-  font-size: 0.72rem;
+  font-size: .8125rem;
   color: var(--muted);
   flex-shrink: 0;
 }
@@ -423,21 +423,21 @@
   padding: 0.05rem 0.4rem;
   background: var(--bg2);
   border-radius: 999px;
-  font-size: 0.68rem;
+  font-size: .8125rem;
   white-space: nowrap;
   max-width: 8rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .ipp-bucket-source {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin: 0.5rem 0 0;
   line-height: 1.5;
 }
 .ipp-bucket-source a { color: var(--accent); }
 @media (max-width: 640px) {
-  .ipp-bucket__meta { font-size: 0.68rem; }
+  .ipp-bucket__meta { font-size: .8125rem; }
   .ipp-bucket__product { max-width: 6rem; }
 }
 
@@ -461,7 +461,7 @@
 }
 .ipp-level__n {
   font-weight: 800;
-  font-size: 0.8rem;
+  font-size: .8125rem;
   color: var(--accent);
   white-space: nowrap;
 }
@@ -683,7 +683,7 @@
   .ipp-step__head { flex-direction: column; gap: 0.5rem; }
   .ipp-step__n { width: 1.85rem; height: 1.85rem; font-size: 0.85rem; }
   .ipp-boundary-grid { grid-template-columns: 1fr; }
-  .ipp-ami-table { font-size: 0.78rem; }
+  .ipp-ami-table { font-size: .8125rem; }
   .ipp-ami-table th, .ipp-ami-table td { padding: 0.4rem 0.5rem; }
   .ipp-teaser { flex-direction: column; align-items: flex-start; }
   .ipp-teaser__cta { width: 100%; text-align: center; }

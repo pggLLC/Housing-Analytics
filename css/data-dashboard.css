@@ -51,7 +51,7 @@
 }
 
 .dd-stat-label {
-  font-size: .72rem;
+  font-size: .8125rem;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted, #476080);
@@ -66,7 +66,7 @@
 }
 
 .dd-stat-sub {
-  font-size: .72rem;
+  font-size: .8125rem;
   color: var(--muted, #476080);
   margin-top: .15rem;
 }
@@ -148,7 +148,7 @@
   padding: .4rem .85rem;
   border: 1px solid var(--border, #dde3ec);
   border-radius: 6px;
-  font-size: .8rem;
+  font-size: .8125rem;
   font-weight: 600;
   background: var(--card, #fff);
   color: var(--text, #1a1a2e);
@@ -179,7 +179,7 @@
   gap: .3rem;
   padding: .2rem .55rem;
   border-radius: 999px;
-  font-size: .73rem;
+  font-size: .8125rem;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -205,7 +205,7 @@
 .dd-table th {
   background: var(--bg2);
   color: var(--muted, #476080);
-  font-size: .75rem;
+  font-size: .8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -263,7 +263,7 @@
 }
 
 .dd-expand-label {
-  font-size: .7rem;
+  font-size: .8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -280,7 +280,7 @@
 }
 
 .dd-sidebar-title {
-  font-size: .72rem;
+  font-size: .8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .05em;
@@ -334,7 +334,7 @@
 }
 
 .dd-timeline-meta {
-  font-size: .75rem;
+  font-size: .8125rem;
   color: var(--muted, #476080);
 }
 
@@ -372,7 +372,7 @@
 .dd-gauge-fill.stale  { background: var(--bad); }
 
 .dd-gauge-pct {
-  font-size: .77rem;
+  font-size: .8125rem;
   font-weight: 700;
   min-width: 34px;
   text-align: right;
@@ -384,7 +384,7 @@
 }
 
 .dd-matrix-table {
-  font-size: .75rem;
+  font-size: .8125rem;
   border-collapse: collapse;
 }
 
@@ -437,7 +437,7 @@
 .dd-feed-dot--error  { background: var(--bad); }
 
 .dd-feed-text { color: var(--text, #1a1a2e); }
-.dd-feed-time { font-size: .72rem; color: var(--muted, #476080); margin-top: .1rem; }
+.dd-feed-time { font-size: .8125rem; color: var(--muted, #476080); margin-top: .1rem; }
 
 /* ── Audit Panel ─────────────────────────────────────────────────── */
 .dd-audit-section {

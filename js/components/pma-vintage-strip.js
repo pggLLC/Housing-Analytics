@@ -38,7 +38,7 @@
       'gap:.4rem .8rem',
       'align-items:baseline',
       'margin:.15rem 0 .55rem',
-      'font-size:.7rem',
+      'font-size:.8125rem',
       'color:var(--muted)',
       'line-height:1.4'
     ].join(';');
@@ -48,7 +48,7 @@
     if (sourceType) {
       var t = String(sourceType).toLowerCase();
       var badge = t === 'modeled' ? 'Modeled' : (t === 'derived' ? 'Derived' : 'Primary');
-      pieces.push('<span style="padding:1px 6px;border:1px solid var(--border);border-radius:3px;font-size:.65rem;letter-spacing:.03em;text-transform:uppercase">' + badge + '</span>');
+      pieces.push('<span style="padding:1px 6px;border:1px solid var(--border);border-radius:3px;font-size:.8125rem;letter-spacing:.03em;text-transform:uppercase">' + badge + '</span>');
     }
     if (source) {
       var label = url
