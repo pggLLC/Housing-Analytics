@@ -244,6 +244,27 @@
   min-width: 0;
 }
 
+.home-need-measure {
+  display: flex;
+  align-items: center;
+  gap: var(--sp2);
+  margin: 0 0 var(--sp2);
+  font-size: var(--small);
+  color: var(--muted);
+}
+
+.home-need-measure select {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0 var(--sp2);
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
 #homeNeedMap {
   height: 340px;
   border: 1px solid var(--border);
@@ -314,6 +335,19 @@
   border-radius: 2px;
   /* Ring keeps the darkest swatch visible on the dark-mode background. */
   box-shadow: 0 0 0 1px var(--border);
+}
+
+.home-need-legend-nodata {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: var(--sp1, 4px) 0 0;
+  font-size: var(--tiny);
+  color: var(--muted);
+}
+
+.home-need-legend-nodata[hidden] {
+  display: none;
 }
 
 /* F2.3: Job-routing rail under the jurisdiction-first CTA. The detailed
