@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-19T01:05:44.139391Z",
+  "generated": "2026-10-19T03:18:59.474173Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 858856
+      "bytes": 859236
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -300,6 +300,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 13097
+    },
+    "data/cra/co-bank-branches.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 76602
     },
     "data/dda-colorado.json": {
       "featureCount": 10,
