@@ -90,7 +90,7 @@
     function add() { for (var i = 0; i < arguments.length; i++) if (out.indexOf(arguments[i]) === -1) out.push(arguments[i]); }
     if (/zon(e|ing)|entitle|annex|code|comp(rehensive)? plan|pud|plat|inclusionary|density/.test(t)) add('zoning');
     if (/land|site|parcel|rfp|rfq|land.?bank|ground lease|lots?\b|acre/.test(t)) add('land', 'housing-authority');
-    if (/fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t)) add('funding');
+    if (/fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t)) add('funding', 'management');
     if (/housing authority|ihs|housing director|housing program/.test(t)) add('housing-authority');
     if (/council|vote|board|trustee|election/.test(t)) add('council');
     return out;
@@ -196,7 +196,8 @@
       }
       if (talked) why.push('You last talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('Your network file marks a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
-      else why.push('No conversation is logged yet');
+      else if (Array.isArray(notes)) why.push('No conversation is logged yet');
+      else why.push('The discussion log has not loaded, so past talks are not known here');
       why.push(c.phone && c.email ? 'A phone and an email are listed' : c.phone ? 'A phone number is listed; no email found' : c.email ? 'An email is listed; no phone found' : 'No phone or email has been found yet');
       return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, tier: tier, fit: fit, why: why.join('. ') });
     }).sort(function (a, b) {

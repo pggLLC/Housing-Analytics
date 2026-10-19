@@ -299,7 +299,7 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(!/next step needs that/.test(grant[0].why) && /not what the next step needs/.test(grant[0].why), 'a planner on a grant step is not said to be what the step needs');
   ok(/next step needs that/.test(P.rankContacts([], pd, 'Ask for a zoning letter')[0].why), 'a planner on a zoning step is');
   ok(/does not name who decides it/.test(P.rankContacts([], pd, 'Draft outreach email')[0].why), 'a step that names no role says the planner is a first call');
-  ok(P.needsFromAction('Apply for a grant').join() === 'funding,housing-authority,zoning,management', 'ranking still uses the fallbacks');
+  ok(P.needsFromAction('Apply for a grant').join() === 'funding,management,housing-authority,zoning', 'ranking still uses the fallbacks');
 }
 
 // Codex round 4: only a fitting related contact is called the nearest lead.
@@ -310,6 +310,15 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   const r = P.rankContacts([], rel, 'Ask for a zoning letter');
   ok(/nearest lead/.test(r.find((c) => c.name === 'Cy Planner').why), 'the related planner on a zoning step is the nearest lead');
   ok(!/nearest lead/.test(r.find((c) => c.name === 'Fi Finance').why) && /No contact for this place itself/.test(r.find((c) => c.name === 'Fi Finance').why), 'the related finance director is not');
+}
+
+// Codex round 5: a manager fits a funding vote; an unloaded log claims nothing.
+{
+  const mgr = [{ name: 'Mo Manager', role: 'Town Manager', org: 'Town of T', source_url: 'https://example.org/t' }];
+  ok(/next step needs that/.test(P.rankContacts([], mgr, 'Ask the council to vote on fee waivers', [])[0].why), 'a manager on a funding vote is what the step needs');
+  ok(/No conversation is logged yet/.test(P.rankContacts([], mgr, 'Draft outreach email', [])[0].why), 'a loaded empty log says no talk is logged');
+  const unloaded = P.rankContacts([], mgr, 'Draft outreach email', null)[0].why;
+  ok(!/No conversation is logged/.test(unloaded) && /has not loaded/.test(unloaded), 'a log that has not loaded makes no claim about past talks');
 }
 
 console.log('place-card: ' + checks + ' checks passed');
