@@ -434,6 +434,20 @@ test('each ladder step starts where the one above it ended', () => {
   checks += 4;
 });
 
+test('the residual split shares are drawn as one band paid at the same time', () => {
+  const wf = { grossProceeds: 10e6, tiers: [
+    { name: '1. Hard debt payoff (1st mortgage)', amount: 6e6, recipient: 'Lender' },
+    { name: '6a. Residual split — GP (10%)', amount: 0.4e6, recipient: 'GP sponsor' },
+    { name: '6b. Residual split — LP (90%)', amount: 3.6e6, recipient: 'LP investor' }] };
+  const m = DealDiagrams.ladderModel(wf);
+  assert.deepStrictEqual(m.steps.map((s) => s.split), [false, true, true]);
+  assert.ok(Math.abs(m.steps[1].left - 0.6) < 1e-9 && Math.abs(m.steps[2].left - 0.64) < 1e-9);
+  const html = DealDiagrams.renderLadder(m);
+  assert.ok(html.includes('a share of the residual paid at the same time as the other share'));
+  assert.ok(DealDiagrams.summary(DealDiagrams.stackModel(deal()), m).endsWith('reach the residual split step.'));
+  checks += 4;
+});
+
 test('the Deal Calculator loads the diagrams before the calculator publishes a result', () => {
   const html = read('deal-calculator.html');
   const at = html.indexOf('js/components/deal-diagrams.js'), calc = html.indexOf('src="js/deal-calculator.js"');

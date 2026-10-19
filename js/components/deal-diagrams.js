@@ -108,26 +108,30 @@
 
   function ladderModel(wf) {
     if (!wf || !known(wf.grossProceeds)) return null;
-    var gross = wf.grossProceeds, start = 0, reached = null;
+    var gross = wf.grossProceeds, start = 0, reached = null, splitStart = null;
     var steps = wf.tiers.map(function (t, i) {
       var amt = known(t.amount) ? Math.max(0, t.amount) : 0;
       // A tier paid nothing either had nothing owed or came after the money ran out.
-      var s = { name: t.name, recipient: t.recipient, amount: amt, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7',
-        empty: amt > 0 ? null : gross - start > 0.5 ? 'None owed' : 'Nothing left',
+      // The residual split steps (6a GP, 6b LP) are shares of one balance paid at the
+      // same time, not one after the other, so they sit side by side in one band.
+      var split = /Residual split/i.test(t.name);
+      if (split && splitStart === null) splitStart = start;
+      var s = { name: t.name, recipient: t.recipient, amount: amt, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7', split: split,
+        empty: amt > 0 ? null : gross - (split && splitStart !== null ? splitStart : start) > 0.5 ? 'None owed' : 'Nothing left',
         left: gross > 0 ? start / gross : 0, width: gross > 0 ? amt / gross : 0 };
       start += amt;
       if (amt > 0) reached = i;
       return s;
     });
     var last = reached === null ? null : steps[reached].name;
-    return { gross: gross, steps: steps, lastPaid: last };
+    return { gross: gross, steps: steps, lastPaid: last, lastSplit: reached !== null && steps[reached].split };
   }
 
   function renderLadder(m) {
     var rows = m.steps.map(function (s) {
       var paid = s.amount > 0;
       return '<li class="dg-ladder__step"' + (paid ? '' : ' data-empty="true"') + '>' +
-        '<span class="dg-ladder__name">' + esc(s.name) + '<span class="dg-ladder__who">' + esc(s.recipient) + '</span></span>' +
+        '<span class="dg-ladder__name">' + esc(s.name) + '<span class="dg-ladder__who">' + esc(s.recipient) + (s.split ? ', a share of the residual paid at the same time as the other share' : '') + '</span></span>' +
         '<span class="dg-ladder__track" aria-hidden="true"><span class="dg-ladder__bar ' + s.cls + '" style="left:' + (s.left * 100).toFixed(2) + '%;width:' + (s.width * 100).toFixed(2) + '%"></span></span>' +
         '<span class="dg-ladder__amt">' + (paid ? money(s.amount) : s.empty) + '</span>' +
       '</li>';
@@ -140,7 +144,7 @@
   // One spoken line for both diagrams, read out politely when it changes.
   function summary(sm, lm) {
     var parts = [stackVerdict(sm)];
-    if (lm) parts.push(lm.lastPaid ? 'Sale proceeds of ' + money(lm.gross) + ' reach the ' + lm.lastPaid + ' step.' : 'The sale proceeds pay no waterfall step.');
+    if (lm) parts.push(lm.lastPaid ? 'Sale proceeds of ' + money(lm.gross) + ' reach the ' + (lm.lastSplit ? 'residual split' : lm.lastPaid) + ' step.' : 'The sale proceeds pay no waterfall step.');
     return parts.join(' ');
   }
 
@@ -186,6 +190,7 @@
         lad.hidden = !lm;
         if (lm) lad.innerHTML = renderLadder(lm) +
           '<figcaption>Each step is paid in full before the next gets anything, so each bar starts where the one above it ended. ' +
+          'The two residual split steps are the exception: they divide what is left at the same time, side by side. ' +
           'The amounts are the tiers in the table below.</figcaption>';
       }
     }
