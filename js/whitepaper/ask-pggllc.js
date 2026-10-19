@@ -46,13 +46,15 @@
       '</li>';
   }
 
-  // opts: {questions (array or null when the site can't save), canAnswer (the
-  // site says this sign-in is pggLLC's), place, page, limit, form}
+  // opts: {questions (array or null when the site can't save), failed (the
+  // site is there but the list did not load), canAnswer (the site says this
+  // sign-in is pggLLC's), place, page, limit, form}
   function render(opts) {
     opts = opts || {};
     var list = opts.questions;
     var saving = Array.isArray(list);
     var shown = order(list).slice(0, opts.limit || 500);
+    if (opts.failed) return '<p class="ask-note">Questions did not load. Check you are still signed in, then reload the page.</p>';
     var form = opts.form === false ? '' : saving
       ? '<form id="askForm" class="ask-form">' +
         '<label for="askQuestion">What should pggLLC clarify?</label>' +
@@ -86,7 +88,7 @@
     }
     function draw(res) {
       var list = res && Array.isArray(res.questions) ? res.questions : null;
-      body.innerHTML = render(Object.assign({}, opts, { questions: list, canAnswer: !!(res && res.can_answer) }));
+      body.innerHTML = render(Object.assign({}, opts, { questions: list, failed: res === 'error', canAnswer: !!(res && res.can_answer) }));
       var f = body.querySelector('#askForm');
       if (f) f.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -111,9 +113,11 @@
         });
       });
     }
-    fetch(URL).then(function (r) { return r.ok ? r.json() : null; })
+    // 404: a copy of the page with no questions behind it. Any other failure
+    // (signed out, network) says so instead of hiding the section.
+    fetch(URL).then(function (r) { return r.status === 404 ? null : r.ok ? r.json() : 'error'; })
       .then(function (res) { draw(res); })
-      .catch(function () { draw(null); });
+      .catch(function () { draw('error'); });
   }
 
   var STYLE = '.ask-form{display:grid;gap:.4rem;max-width:44rem}.ask-form textarea,.ask-form input,.ask-answer-form textarea{width:100%;box-sizing:border-box;min-height:44px;padding:.6rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--bg2);color:var(--text);font:inherit}' +

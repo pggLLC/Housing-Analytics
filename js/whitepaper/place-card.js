@@ -155,18 +155,20 @@
       var fit = needs.filter(function (n) { return c.covers.indexOf(n) !== -1; });
       var fitScore = fit.reduce(function (s, n) { return s + (needs.length - needs.indexOf(n)); }, 0);
       var reach = c.phone || c.email ? 1 : 0;
-      var talked = c.last_talked ? 3 : (c.tier === '1' ? 2 : c.tier === '2' ? 1 : 0);
+      var talked = c.last_talked ? 1 : 0;
+      var tier = c.tier === '1' ? 2 : c.tier === '2' ? 1 : 0;
       var why = [];
       if (c.elsewhere) why.push('researched for ' + c.elsewhere + ', not this place');
       if (fit.length) why.push((c.elsewhere ? 'handles ' : 'decides ') + fit.slice(0, 2).map(function (n) { return COVERS[n]; }).join(' and ') + (c.elsewhere ? ' there' : ''));
-      if (talked && c.last_talked) why.push('you talked on ' + c.last_talked);
+      if (talked) why.push('you talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
       why.push(c.phone && c.email ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
-      return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, fit: fit, why: why.join('; ') });
+      return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, tier: tier, fit: fit, why: why.join('; ') });
     }).sort(function (a, b) {
       // In order, as the Methodology page says: fit to the next step decides;
-      // a phone or email breaks ties; a past talk breaks what is left.
-      return b.score - a.score || b.reach - a.reach || b.talked - a.talked || a.name.localeCompare(b.name);
+      // a phone or email breaks ties; a logged talk breaks what is left; then
+      // the relationship you marked in your network file.
+      return b.score - a.score || b.reach - a.reach || b.talked - a.talked || b.tier - a.tier || a.name.localeCompare(b.name);
     });
   }
 
@@ -183,13 +185,17 @@
 
   function phoneLink(p) { return '<a href="tel:' + esc(String(p).replace(/\(.*?\)/g, '').replace(/[^0-9+]/g, '')) + '">' + esc(p) + '</a>'; }
 
+  var UNCHECKED = 'No developer check on file yet; treat as unclear.';
   function siteHtml(s) {
     var c = s.card, o = s.opening;
     var line = c
       ? LABEL[c.reading] + ' (dossier, checked ' + c.checked + '). What would change it: ' + c.trigger
       : [s.program, s.agency].filter(Boolean).join(', ') + (s.program || s.agency ? ', ' : '') + (STAGE[s.stage] || s.stage) + (s.year ? ' (' + s.year + ')' : '') + '.';
     var h = '<li><strong>' + esc(s.name) + '</strong>' + (s.homes ? ' · ' + esc(s.homes) + ' homes' : '') + '<br>' + esc(line);
-    if (o && OPENING[o.status]) {
+    // No check on file sorts as unclear (openRank), so it says so rather than
+    // leave a suggested site looking cleared.
+    if (!(o && OPENING[o.status])) h += '<br><span class="pc-unchecked ib-muted">' + esc(UNCHECKED) + '</span>';
+    else {
       h += '<br><span class="pc-open pc-open-' + esc(o.status) + '">' + esc(OPENING[o.status].label) + '</span> ' + esc(o.why || '') +
         (o.developer ? ' Developer: ' + esc(o.developer) + '.' : '') + (o.next_window ? ' Next: ' + esc(o.next_window) + '.' : '') +
         ((o.sources || []).length ? ' ' + o.sources.slice(0, 2).map(function (src, i) { return ext('source' + (o.sources.length > 1 ? ' ' + (i + 1) : ''), src.url); }).join(' ') : '');
@@ -271,7 +277,7 @@
   function notesHtml(notes, contacts, state) {
     var h = '<h3 id="discussions">Discussions</h3>';
     if (notes === null || notes === undefined) {
-      return h + '<p class="ib-muted">' + (state === 'loading' ? 'Loading the discussion log…' : 'The discussion log is saved on the developer site and opens there.') + '</p>';
+      return h + '<p class="ib-muted">' + (state === 'loading' ? 'Loading the discussion log…' : state === 'error' ? 'The discussion log did not load. Check you are still signed in, then reload the page.' : 'The discussion log is saved on the developer site and opens there.') + '</p>';
     }
     h += notes.length ? '<ul class="pc-notes">' + notes.map(function (n) {
       return '<li><strong>' + esc(n.date) + '</strong>' + (n.contact ? ' with ' + esc(n.contact) : '') + (n.by ? ' <span class="ib-muted">logged by ' + esc(n.by) + '</span>' : '') +

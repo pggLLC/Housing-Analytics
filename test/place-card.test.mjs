@@ -56,6 +56,23 @@ ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a la
   ok(P.rankContacts([one], [both], 'Ask for a zoning letter')[0].name === 'Z Talked', 'phone and email together count the same as one; a past talk breaks the tie');
 }
 
+{
+  // A logged talk is one key; the relationship tier only breaks what is left.
+  const tierOnly = { name: 'A Tier', role: 'Planning Director', phone: '1', tier: '1' };
+  const logged = { name: 'Z Logged', role: 'Planning Director', phone: '2', last_talked: '2026-10-01' };
+  const plain = { name: 'B Plain', role: 'Planning Director', phone: '3' };
+  const r = P.rankContacts([tierOnly, logged, plain], [], 'Ask for a zoning letter').map((c) => c.name);
+  ok(r.join() === 'Z Logged,A Tier,B Plain', 'a logged talk outranks a marked relationship, which outranks none');
+  ok(/relationship you marked/.test(read('developer-methods.html')), 'the Methodology page lists the relationship as the last tie-break');
+}
+{
+  const err = P.render({ name: 'T', geoid: '0800001', notes: null, notesState: 'error' });
+  ok(/did not load/.test(err) && !/opens there/.test(err), 'a failed log load says so instead of pointing elsewhere');
+  ok(/r\.status === 404 \? 'off'/.test(read('developer-brief.html')), 'only a missing log endpoint counts as off-site');
+  const A = (await import('../js/whitepaper/ask-pggllc.js')).default;
+  ok(/did not load/.test(A.render({ questions: null, failed: true, form: false })), 'a failed question load says so, even with no form');
+}
+
 // Codex round 2: a related place's contacts are a fallback, marked as such.
 const own = { name: 'Town of T', contacts: [{ name: 'Town Planner', role: 'Planning Director', source_url: 'https://example.org/t' }] };
 const county = { name: 'T County', contacts: [{ name: 'County Planner', role: 'Planning Director', source_url: 'https://example.org/c' }] };
@@ -120,7 +137,17 @@ for (const k of statuses) {
   const one = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: k, why: 'w' } }] } });
   ok(one.includes('pc-open-' + k + '">' + P.OPENING[k].label) && statuses.filter((j) => j !== k).every((j) => !one.includes(P.OPENING[j].label)), k + ' renders its own label and no other');
 }
-ok(!P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: 'made-up', why: 'w' } }] } }).includes('pc-open'), 'an unknown status shows no developer check');
+{
+  const unk = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: 'made-up', why: 'w' } }] } });
+  const none = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded' }] } });
+  ok(!unk.includes('pc-open') && statuses.every((k) => !unk.includes(P.OPENING[k].label)), 'an unknown status shows none of the check labels');
+  ok([unk, none].every((h) => h.includes('No developer check on file yet; treat as unclear.')), 'a site with no check, or an unknown one, says so on the card');
+  ok(/No developer check on file yet; treat as unclear/.test(read('developer-methods.html')), 'the Methodology page explains the no-check line');
+}
+{
+  const R2 = require(path.join(ROOT, 'js/whitepaper/ripeness.js'));
+  ok(/No developer check on file yet; treat as unclear\./.test(R2.siteLine({ name: 'L', stage: 'not_funded' })), 'Ready to build says the same for an unchecked site');
+}
 ok(html.indexOf(P.OPENING.open.label) < html.indexOf(P.OPENING.taken.label), 'the open site is listed before the taken one');
 ok(html.includes('&lt;now&gt;') && !html.includes('<now>'), 'the card escapes what it shows');
 ok(html.includes('Talked about fees.') && html.includes('id="pcNoteForm"'), 'the log and its form show when the site can save');

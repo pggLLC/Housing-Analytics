@@ -488,9 +488,11 @@
     redrawPlaceCard = () => { PIPE = pipelineRows(); draw(); };
     draw();
     fetch('api/notes?geoid=' + encodeURIComponent(geoid), { cache: 'no-cache' })
-      .then(r => r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : null)
-      .catch(() => null)
-      .then(list => { notes = Array.isArray(list) ? list : null; state = 'off'; draw(); });
+      // 404: a copy of the page with no log behind it. Anything else that
+      // fails (signed out, network) is an error the reader should see.
+      .then(r => r.status === 404 ? 'off' : r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : 'error')
+      .catch(() => 'error')
+      .then(res => { notes = Array.isArray(res) ? res : null; state = notes ? 'ok' : res === 'off' ? 'off' : 'error'; draw(); });
   }
   function saveNote(body) {
     return fetch('api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })

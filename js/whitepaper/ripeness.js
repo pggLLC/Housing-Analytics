@@ -69,7 +69,7 @@
   };
   var OPEN_RANK = { open: 0, rfp: 1, opening: 2, unclear: 3, taken: 4 };
   function openRank(s) { return s.opening && s.opening.status in OPEN_RANK ? OPEN_RANK[s.opening.status] : 3; }
-  function openingLine(s) { return s.opening && OPEN[s.opening.status] ? ' ' + OPEN[s.opening.status] : ''; }
+  function openingLine(s) { return s.opening && OPEN[s.opening.status] ? ' ' + OPEN[s.opening.status] : ' No developer check on file yet; treat as unclear.'; }
 
   function siteLine(s) {
     return siteBase(s) + openingLine(s);
