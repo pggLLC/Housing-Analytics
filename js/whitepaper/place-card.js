@@ -90,9 +90,17 @@
     function add() { for (var i = 0; i < arguments.length; i++) if (out.indexOf(arguments[i]) === -1) out.push(arguments[i]); }
     if (/zon(e|ing)|entitle|annex|code|comp(rehensive)? plan|pud|plat|inclusionary|density/.test(t)) add('zoning');
     if (/land|site|parcel|rfp|rfq|land.?bank|ground lease|lots?\b|acre/.test(t)) add('land', 'housing-authority');
-    if (/fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t)) add('funding', 'management');
+    var funding = /fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t);
+    var vote = /council|vote|board|trustee|election|approv/.test(t);
+    if (funding) add('funding');
+    // A funding vote goes to the manager or council, as the Methodology says.
+    if (funding && vote) add('management');
     if (/housing authority|ihs|housing director|housing program/.test(t)) add('housing-authority');
-    if (/council|vote|board|trustee|election/.test(t)) add('council');
+    if (vote) add('council');
+    // A role the step names outright.
+    if (/\b(town|city|county) manager|administrator\b/.test(t)) add('management');
+    if (/planner|planning/.test(t)) add('zoning');
+    if (/finance/.test(t)) add('funding');
     return out;
   }
 
@@ -190,7 +198,7 @@
       } else if (fit.length && !named.length) {
         why.push((as || '') + (as ? 'they ' : 'They ') + what + '. The next step does not name who decides it, so the housing lead, planning and the manager are the first calls');
       } else if (fit.length) {
-        why.push((as || '') + (as ? 'they ' : 'They ') + what + '. That is not what the next step needs' + (anyFit ? '' : ', but no one closer to it is on file, so they can point you to who decides it'));
+        why.push((as || '') + (as ? 'they ' : 'They ') + what + (anyFit ? '' : '. No one on file covers the next step directly, so they can point you to who does'));
       } else {
         why.push((as ? as + 'they ' : 'They ') + 'do not decide what the next step needs' + (anyFit ? '' : ', but no one closer to it is on file'));
       }

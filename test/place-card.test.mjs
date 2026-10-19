@@ -296,10 +296,10 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
 {
   const pd = [{ name: 'Pat Planner', role: 'Planning Director', org: 'Town of T', source_url: 'https://example.org/t' }];
   const grant = P.rankContacts([], pd, 'Apply for a grant');
-  ok(!/next step needs that/.test(grant[0].why) && /not what the next step needs/.test(grant[0].why), 'a planner on a grant step is not said to be what the step needs');
+  ok(!/next step needs that/.test(grant[0].why), 'a planner on a grant step is not said to be what the step needs');
   ok(/next step needs that/.test(P.rankContacts([], pd, 'Ask for a zoning letter')[0].why), 'a planner on a zoning step is');
   ok(/does not name who decides it/.test(P.rankContacts([], pd, 'Draft outreach email')[0].why), 'a step that names no role says the planner is a first call');
-  ok(P.needsFromAction('Apply for a grant').join() === 'funding,management,housing-authority,zoning', 'ranking still uses the fallbacks');
+  ok(P.needsFromAction('Apply for a grant').join() === 'funding,housing-authority,zoning,management', 'ranking still uses the fallbacks');
 }
 
 // Codex round 4: only a fitting related contact is called the nearest lead.
@@ -325,6 +325,13 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
 {
   const r = P.rankContacts([{ name: 'Cy Clerk', role: 'Records Officer' }, { name: 'Pat Plan', role: 'Planning Director' }], [], 'Draft outreach email', []);
   ok(!/no one closer/.test(r.find((c) => c.name === 'Cy Clerk').why), 'an unclassified contact beside a planner does not claim no one closer');
+}
+
+// Codex round 7: a role the step names outright fits; a grant alone is not a vote.
+{
+  const mgr = [{ name: 'Mo Manager', role: 'Town Manager', org: 'Town of T', source_url: 'https://example.org/t' }];
+  ok(/next step needs that/.test(P.rankContacts([], mgr, 'Call the town manager about zoning', [])[0].why), 'a manager the step names is what it needs');
+  ok(!/next step needs that/.test(P.rankContacts([], mgr, 'Apply for a grant', [])[0].why), 'a grant application alone does not call for the manager');
 }
 
 console.log('place-card: ' + checks + ' checks passed');
