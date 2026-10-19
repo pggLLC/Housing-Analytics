@@ -357,7 +357,7 @@
       svg.innerHTML = '';
       svg.style.display = 'none';
       $('[data-hm-flow-legend]').innerHTML = '';
-      $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' prints a home count, so there is nothing to draw.';
+      $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' has a home count recorded in these lists, so there is nothing to draw.';
       $('[data-hm-flow-text]').textContent = '';
       return;
     }
@@ -419,7 +419,7 @@
       'Band width is the income-restricted homes the awards name' + where + ', ' + yearsText() + ', ' + count(f.homes) + ' in all. ' +
       'A project paid for by two programs is counted under each, so this adds up homes named in awards, not separate buildings.' +
       (f.estimated ? ' Land banking counts are the estimates the awards print.' : '') +
-      (f.withoutHomes ? ' ' + count(f.withoutHomes) + ' award' + (f.withoutHomes === 1 ? ' prints' : 's print') + ' no home count and ' + (f.withoutHomes === 1 ? 'is' : 'are') + ' left out.' : '') +
+      (f.withoutHomes ? ' ' + count(f.withoutHomes) + ' award' + (f.withoutHomes === 1 ? ' has' : 's have') + ' no home count recorded in these lists and ' + (f.withoutHomes === 1 ? 'is' : 'are') + ' left out.' : '') +
       ' Federal grants are HOME, CDBG and the Housing Trust Fund, passed through DOLA.' +
       ' Sources: CHFA award reports, Prop 123 fund selection lists, DOLA announcements.';
     $('[data-hm-flow-text]').innerHTML = '<p>Homes named in ' + esc(who) + ' awards' + esc(where) + ', ' + esc(yearsText()) + ', by program and by region.</p><ul>' +
