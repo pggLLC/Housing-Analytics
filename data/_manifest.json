@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T04:40:24.026Z",
+    "generated_at": "2026-10-19T04:54:10.008Z",
     "root": "data/",
     "file_count": 1753,
-    "total_size_bytes": 191973320,
+    "total_size_bytes": 192125361,
     "kinds": {
       "json": 1707,
       "geojson": 34,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-19T04:40:19.956Z",
+      "mtime": "2026-10-19T04:54:06.934Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1319,18 +1319,27 @@
     {
       "path": "cra/co-bank-branches.json",
       "kind": "json",
-      "size_bytes": 76602,
-      "mtime": "2026-10-19T03:17:24.218Z",
+      "size_bytes": 228641,
+      "mtime": "2026-10-19T04:52:44.185Z",
       "shape": "object",
       "keys": [
         "meta",
         "banks",
-        "counties"
+        "counties",
+        "offices"
       ],
-      "key_count": 3,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
+      "key_count": 4,
+      "primary_array_key": "offices",
+      "primary_array_length": 1363,
+      "primary_array_first_keys": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ]
     },
     {
       "path": "dda-colorado.json",
@@ -32724,8 +32733,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16094,
-      "mtime": "2026-10-19T04:40:22.102Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-19T04:54:08.513Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32749,7 +32758,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-19T04:40:21.628Z",
+      "mtime": "2026-10-19T04:54:08.101Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
