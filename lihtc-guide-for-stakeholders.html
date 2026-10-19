@@ -47,6 +47,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script src="js/components/lihtc-credits-to-cash.js"></script>
+  <script defer src="js/components/chfa-round-odds.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
 </head>
@@ -160,6 +161,10 @@
 <li><strong>Closing Timeline:</strong> Coordinate all funding sources</li>
 </ul>
 <div class="data-source" id="lihtcGuidePricingBlock">Pricing reflects Novogradac's <span id="lihtcGuideVintage">2026-Q2</span> equity-pricing benchmarks: national average <strong>9% = <span id="lihtcGuideNat9">$0.82</span></strong>, <strong>4% = <span id="lihtcGuideNat4">$0.83</span></strong>; Colorado median <strong><span id="lihtcGuideCo">$0.81</span></strong> and North Central region median <strong><span id="lihtcGuideRegion">$0.80</span></strong>, each across 9% and 4% credits together. Novogradac does not publish Denver, rural or resort figures for Colorado. <strong>Directional only — confirm the current letter-of-intent range with your syndicator before sizing a capital stack.</strong> <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener" style="color:var(--mcm-teal);">Source: Novogradac regional and state equity pricing ↗</a>
+<script>
+/* The 9% round counts follow the applicant and award reports in the data files. */
+document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRoundOdds) window.ChfaRoundOdds.fill(document); });
+</script>
 <script>
 /* F247 — Wire LIHTC Guide pricing to live Novogradac data file so the
    numbers don't drift as the data refreshes. Falls back to the static
@@ -401,7 +406,7 @@
 </tr>
 <tr>
 <td><strong>Allocation process</strong></td>
-<td>Competitive annual QAP round at CHFA; roughly half of applications funded in recent rounds (13 of 23 in 2024, 12 of 24 in 2025, 14 of 32 in 2026, per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards">applicant and award reports</a>)</td>
+<td>Competitive annual QAP round at CHFA; roughly half of applications funded in recent rounds (<span data-dg="awards">13 of 23 in 2024, 12 of 24 in 2025, 14 of 32 in 2026</span>, per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards">applicant and award reports</a>)</td>
 <td>Non-competitive if PAB cap available — automatic if project passes the 50% test, or the 25% test for buildings placed in service after 2025 where bonds issued after 2025 finance at least 5% of the aggregate basis of the building and its land, with both tests measured on that building-and-land basis (Public Law 119-21 §70422)</td>
 </tr>
 <tr>

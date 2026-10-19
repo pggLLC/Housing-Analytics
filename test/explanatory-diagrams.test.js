@@ -31,9 +31,14 @@ const json = (f) => JSON.parse(read(f));
 
 let failures = 0;
 let checks = 0;
+const pending = [];
 function test(name, fn) {
-  try { fn(); console.log('  ✓ ' + name); }
-  catch (e) { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); }
+  const fail = (e) => { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); };
+  try {
+    const r = fn();
+    if (r && typeof r.then === 'function') { pending.push(r.then(() => console.log('  ✓ ' + name), fail)); return; }
+    console.log('  ✓ ' + name);
+  } catch (e) { fail(e); }
 }
 
 console.log('\nExplanatory diagrams agree with what they explain');
@@ -301,6 +306,39 @@ test('building types: each range bar is drawn from its printed range on one 0-70
   }
 });
 
+/* ── 6b. the 9% round counts come from the applicant and award reports ─── */
+const RoundOdds = require('../js/components/chfa-round-odds.js');
+const oddsData = [json(RoundOdds.APPLICATIONS), json(RoundOdds.LEDGER)];
+
+test('the printed 9% round counts are the latest three years in the data files', () => {
+  const want = RoundOdds.phrase(RoundOdds.rounds(oddsData[0], oddsData[1], 3));
+  const spans = guide.querySelectorAll('[data-dg="awards"]');
+  assert.strictEqual(spans.length, 2, 'the tree and the table each carry the counts');
+  spans.forEach((sp) => assert.strictEqual(sp.textContent.trim(), want,
+    'printed counts drifted from the data files; run the page and copy what it shows'));
+  checks += 2;
+});
+
+test('"roughly half funded" is still true of every year shown', () => {
+  RoundOdds.rounds(oddsData[0], oddsData[1], 3).forEach((r) => {
+    const share = r.awarded / r.applied;
+    assert.ok(share >= 0.35 && share <= 0.65, `${r.year}: ${r.awarded} of ${r.applied} is not roughly half`);
+    checks += 1;
+  });
+});
+
+test('a year without both reports is left out, and the page fills from the files', async () => {
+  const apps = { meta: { documents: [{ round_label: '2030 Round One', credit_type: '9%', status: 'ok', rows: 20 },
+    { round_label: '2031 Round One', credit_type: '9%', status: 'mismatch', rows: 30 }] } };
+  const ledger = { awards: [{ agency: 'CHFA', federal_credit_type: '9%', year: 2030 }, { agency: 'CHFA', federal_credit_type: '9%', year: 2031 }] };
+  assert.strictEqual(RoundOdds.phrase(RoundOdds.rounds(apps, ledger, 3)), '1 of 20 in 2030');
+  const doc = new JSDOM(read('lihtc-guide-for-stakeholders.html')).window.document;
+  global.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(u === RoundOdds.LEDGER ? ledger : apps) });
+  try { await RoundOdds.fill(doc); } finally { delete global.fetch; }
+  doc.querySelectorAll('[data-dg="awards"]').forEach((sp) => assert.strictEqual(sp.textContent, '1 of 20 in 2030'));
+  checks += 2;
+});
+
 /* ── 8. Deal Calculator capital stack and waterfall ladder ──────────────── */
 const DealDiagrams = require('../js/components/deal-diagrams.js');
 const deal = (o) => Object.assign({ tdc: 20e6, mortgage: 3e6, creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false },
@@ -381,9 +419,11 @@ test('no diagram is an svg[role=img] inside .chart-card', () => {
   }
 });
 
-console.log(`\n${checks} checks`);
-if (failures) {
-  console.log(`${failures} failed\n`);
-  process.exit(1);
-}
-console.log('all passed\n');
+Promise.all(pending).then(() => {
+  console.log(`\n${checks} checks`);
+  if (failures) {
+    console.log(`${failures} failed\n`);
+    process.exit(1);
+  }
+  console.log('all passed\n');
+});
