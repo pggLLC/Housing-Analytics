@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
   <style>
     .dt-lead { font-size: 1.05rem; line-height: 1.65; max-width: 760px; }
     .dt-section { margin: var(--sp6) 0 var(--sp5); }
@@ -28,6 +29,18 @@
     .dt-card h3 { margin: 0 0 var(--sp2); font-size: 1rem; }
     .dt-card p { margin: var(--sp1) 0; line-height: 1.55; }
     .dt-quote { margin: var(--sp2) 0; padding-left: var(--sp3); border-left: 3px solid var(--border); font-size: var(--small); }
+    .cra-map__modes { display: flex; flex-wrap: wrap; gap: var(--sp2); margin: var(--sp3) 0 var(--sp2); }
+    .cra-map__modes button { min-height: 44px; padding: 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius, 8px); background: var(--card, var(--bg2)); color: var(--text); font: inherit; cursor: pointer; }
+    .cra-map__modes button[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); font-weight: 600; }
+    .cra-map__canvas { height: 340px; max-width: 760px; background: transparent; }
+    .cra-map__legend { display: flex; flex-wrap: wrap; gap: var(--sp1) var(--sp3); font-size: var(--small); margin: var(--sp2) 0; max-width: 760px; }
+    .cra-map__key i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; border: 1px solid var(--border); }
+    .cra-map__pick { margin: var(--sp2) 0; }
+    .cra-map__pick select { min-height: 44px; font: inherit; margin-left: var(--sp1); width: 22rem; max-width: 100%; }
+    .cra-map__panel h4 { margin: var(--sp3) 0 var(--sp1); }
+    .cra-map__panel tr[hidden] { display: none !important; }
+    .cra-map__showall { min-height: 44px; margin-top: var(--sp2); padding: 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius, 8px); background: var(--card, var(--bg2)); color: var(--text); font: inherit; cursor: pointer; }
+    @media (max-width: 640px) { .cra-map__canvas { height: 260px; } }
     /* Phones: stack each table row so every cell stays readable. */
     @media (max-width: 640px) {
       .dt-stack table, .dt-stack tbody, .dt-stack tr, .dt-stack th, .dt-stack td { display: block; width: auto; }
@@ -313,6 +326,22 @@
             </div>
           </div>
 
+          <h3>Map: which banks could count an investment in each county</h3>
+          <p>The map applies both readings to every FDIC-insured bank and savings institution with a Colorado office. Credit unions are not covered by the CRA. Shading shows banks with a branch in each county; that is a screen for a bank's assessment area, not the area itself, so confirm the project's tract before you rely on it. The expansive list follows the 1995 rules that examiners apply today, not the 2023 rule a court stopped; it says which banks may get credit, not which will.</p>
+          <div id="craMap" class="cra-map">
+            <div class="cra-map__modes" role="group" aria-label="Reading">
+              <button type="button" data-cra-mode="conservative" aria-pressed="true">Conservative: a branch in the county</button>
+              <button type="button" data-cra-mode="expansive" aria-pressed="false">Expansive: anywhere in Colorado</button>
+            </div>
+            <div class="cra-map__canvas" role="img" aria-label="Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information."></div>
+            <div class="cra-map__legend" aria-hidden="true"></div>
+            <div class="cra-map__pick"><label for="craCounty">County</label> <select id="craCounty"><option value="">Choose a county</option></select></div>
+            <p class="cra-map__status sr-only" role="status" aria-atomic="true"></p>
+            <div class="cra-map__panel" aria-live="polite" aria-atomic="true"></div>
+            <p class="dt-source" data-cra-asof></p>
+          </div>
+          <p class="dt-source">Source: FDIC <a href="https://banks.data.fdic.gov/bankfind-suite/SOD" rel="noopener">Summary of Deposits</a> (branches and deposits as of June 30), and FDIC BankFind institution and financial data (each bank's examiner, and total assets on December 31 of the two prior years, which set its CRA size under the 2026 thresholds above); for the expansive list, <a href="https://www.ecfr.gov/on/2024-03-29/title-12/chapter-II/subchapter-A/part-228" rel="noopener">12 CFR 228.23(a) and 228.26</a> and the <a href="https://www.federalreserve.gov/frrs/regulations/interagency-questions-and-answers-regarding-community-reinvestment.htm" rel="noopener">Interagency Questions and Answers, §__.12(h)–6</a>.</p>
+
           <h3>Where to look up any bank</h3>
           <ul>
             <li><strong>Its assessment areas and past tax credit investments:</strong> the bank's latest CRA performance evaluation, through the <a href="https://www.ffiec.gov/craratings/" rel="noopener">FFIEC Interagency CRA Rating Search</a>, or the agency's own search: <a href="https://crapes.fdic.gov/" rel="noopener">FDIC</a>, <a href="https://www.federalreserve.gov/apps/CRAPubWeb/CRA/BankRating" rel="noopener">Federal Reserve</a>, or <a href="https://www.occ.gov/topics/consumers-and-communities/cra/index-cra.html" rel="noopener">OCC</a>. Evaluations come every few years, so they can be dated.</li>
@@ -337,6 +366,8 @@
     </article>
   </main>
 
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/components/cra-coverage-map.js"></script>
   <script src="js/contrast-guard.js"></script>
   <footer id="site-footer"></footer>
 </body>
