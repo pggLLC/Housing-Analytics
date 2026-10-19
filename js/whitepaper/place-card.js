@@ -42,14 +42,16 @@
     unclear: { label: 'Unclear: no developer named in public records', rank: 3 },
     taken: { label: 'Taken: a developer is still on it', rank: 4 }
   };
-  var COVERS = {
-    zoning: 'zoning and entitlements',
-    land: 'the land',
-    funding: 'local money',
-    'housing-authority': 'the housing authority',
-    council: 'the council vote',
-    management: 'the staff'
+  // What each kind of contact does, for the card's "Why call" sentence.
+  var DOES = {
+    zoning: 'decide zoning and entitlements',
+    land: 'control the land',
+    funding: 'steer local money',
+    'housing-authority': 'run the housing authority',
+    council: 'vote on the council',
+    management: 'run the staff'
   };
+  function joinAnd(list) { return list.length > 1 ? list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1] : list.join(''); }
 
   function esc(v) {
     return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
@@ -157,13 +159,24 @@
       var reach = c.phone || c.email ? 1 : 0;
       var talked = c.last_talked ? 1 : 0;
       var tier = c.tier === '1' ? 2 : c.tier === '2' ? 1 : 0;
+      // Whole sentences: a reader who has never met this person should know
+      // what they do, why that matters for the next step, and how to reach them.
+      var as = c.role ? 'As ' + c.role + (c.org ? ' at ' + c.org : '') + ', ' : '';
+      var what = joinAnd(fit.slice(0, 2).map(function (n) { return DOES[n]; }));
       var why = [];
-      if (c.elsewhere) why.push('researched for ' + c.elsewhere + ', not this place');
-      if (fit.length) why.push((c.elsewhere ? 'handles ' : 'decides ') + fit.slice(0, 2).map(function (n) { return COVERS[n]; }).join(' and ') + (c.elsewhere ? ' there' : ''));
-      if (talked) why.push('you talked on ' + c.last_talked);
-      else if (c.tier === '1' || c.tier === '2') why.push('a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
-      why.push(c.phone && c.email ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
-      return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, tier: tier, fit: fit, why: why.join('; ') });
+      if (c.elsewhere) {
+        why.push('This person was researched for ' + c.elsewhere + ', not this place' + (fit.length ? ', where they ' + what : '') +
+          '. No contact for this place itself is on file yet, so they are the nearest lead');
+      } else if (fit.length) {
+        why.push((as || '') + (as ? 'they ' : 'They ') + what + ', and the next step needs that');
+      } else {
+        why.push((as ? as + 'they ' : 'They ') + 'do not decide what the next step needs, but no one closer to it is on file');
+      }
+      if (talked) why.push('You last talked on ' + c.last_talked);
+      else if (c.tier === '1' || c.tier === '2') why.push('Your network file marks a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
+      else why.push('No conversation is logged yet');
+      why.push(c.phone && c.email ? 'A phone and an email are listed' : c.phone ? 'A phone number is listed; no email found' : c.email ? 'An email is listed; no phone found' : 'No phone or email has been found yet');
+      return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, tier: tier, fit: fit, why: why.join('. ') });
     }).sort(function (a, b) {
       // In order, as the Methodology page says: fit to the next step decides;
       // a phone or email breaks ties; a logged talk breaks what is left; then
@@ -244,8 +257,8 @@
       h += '<ol class="pc-call">' + top.map(function (c) {
         return '<li><strong>' + esc(c.name) + '</strong>, ' + esc(c.role) + (c.org ? ' (' + esc(c.org) + ')' : '') + '<br>' +
           [c.phone ? phoneLink(c.phone) : '', c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : ''].filter(Boolean).join(' · ') +
-          (c.phone || c.email ? '<br>' : '') + '<span class="ib-muted">Why: ' + esc(c.why) + '.' +
-          (c.source_url ? ' ' + ext(c.source_label || 'Public source', c.source_url) : c.mine ? ' From your network file.' : '') + '</span></li>';
+          (c.phone || c.email ? '<br>' : '') + '<span class="ib-muted">Why call: ' + esc(c.why) + '.' +
+          (c.source_url ? ' Where this comes from: ' + ext(c.source_label || 'public source', c.source_url) + '.' : c.mine ? ' Where this comes from: your network file.' : '') + '</span></li>';
       }).join('') + '</ol>';
       if (ranked.length > 3) h += '<p class="ib-muted">' + (ranked.length - 3) + ' more below in Your contacts and in the report\'s Who to contact.</p>';
       if (!top.some(function (c) { return c.phone || c.email; })) h += '<p class="ib-muted">No phone or email on file for anyone here yet.</p>';

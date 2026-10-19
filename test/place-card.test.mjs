@@ -45,7 +45,7 @@ ok(merged.find((c) => c.name === 'Pat Planner').phone === '970-555-0101 (Plannin
 
 let ranked = P.rankContacts(network, researched, 'Ask for a zoning letter');
 ok(ranked[0].name === 'Pat Planner', 'the planning director comes first for a zoning step');
-ok(/zoning and entitlements/.test(ranked[0].why) && /phone on file/.test(ranked[0].why), 'the pick says why');
+ok(/zoning and entitlements/.test(ranked[0].why) && /A phone number is listed/.test(ranked[0].why), 'the pick says why');
 ranked = P.rankContacts(network, researched, 'Respond to the land RFP');
 ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a land step');
 
@@ -79,7 +79,7 @@ const own = { name: 'Town of T', contacts: [{ name: 'Town Planner', role: 'Plann
 const county = { name: 'T County', contacts: [{ name: 'County Planner', role: 'Planning Director', source_url: 'https://example.org/c' }] };
 ok(P.researchedFor(own, [county]).map((c) => c.name).join() === 'Town Planner', 'the place\'s own contacts are ranked, not its county\'s');
 const fallback = P.rankContacts([], P.researchedFor({ contacts: [] }, [county]), 'Ask for a zoning letter');
-ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/decides/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
+ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/next step needs that/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
 ok(/researchedFor\(contacts, relatedContacts\)/.test(read('developer-brief.html')), 'the report page ranks with the place\'s own contacts first');
 
 const sameName = P.mergeContacts([{ name: 'Pat Planner', role: 'Planning Director', phone: '' }],
@@ -93,7 +93,7 @@ const notes = [{ id: 'a', date: '2026-10-18', contact: 'mo manager', said: 'Talk
 ok(P.lastTalked(notes)['mo manager'] === '2026-10-18', 'the log records the latest talk per person');
 ranked = P.rankContacts(network, researched, 'Draft outreach email', notes);
 const mo = ranked.find((c) => c.name === 'Mo Manager');
-ok(mo.last_talked === '2026-10-18' && /you talked on 2026-10-18/.test(mo.why), 'a logged talk shows as last talked');
+ok(mo.last_talked === '2026-10-18' && /You last talked on 2026-10-18/.test(mo.why), 'a logged talk shows as last talked');
 const twins = [
   { name: 'Mo Manager', role: 'Town Manager', email: 'mo@example.org', phone: '1', last_talked: 'never' },
   { name: 'Al Manager', role: 'Town Manager', email: 'al@example.org', phone: '2', last_talked: 'never' }
