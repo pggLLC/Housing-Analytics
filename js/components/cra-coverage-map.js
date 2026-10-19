@@ -366,6 +366,7 @@
         layer.setStyle(style);
         drawLegend();
         drawPanel();
+        setLabel();
         if (status) {
           status.textContent = focusBank ? 'Showing only ' + banks[focusBank].name + ': ' + shownDots.length +
             ' branches in ' + banks[focusBank].co_counties.length + ' counties.' : 'Showing all banks.';
@@ -383,7 +384,7 @@
           layer.setStyle(style);
           drawLegend();
           drawPanel();
-          mount.setAttribute('aria-label', mode === 'conservative' ? CONS_LABEL : EXP_LABEL);
+          setLabel();
           var msg = mode === 'conservative'
             ? 'Conservative reading: counties shaded by the number of banks with a branch there.'
             : 'Expansive reading: every county shaded, since a large or intermediate small bank with a Colorado branch may get credit anywhere in the state, if it has served its own areas first.';
@@ -392,10 +393,26 @@
       });
 
       function choose(g) {
+        // A county's table lists every bank, so picking one ends the
+        // one-bank view rather than mixing the two.
+        if (g && focusBank) {
+          focusBank = null;
+          bankSelect.value = '';
+          drawOffices();
+          drawLegend();
+          setLabel();
+        }
         selected = g;
         select.value = g || '';
         layer.setStyle(style);
         drawPanel();
+      }
+
+      function setLabel() {
+        mount.setAttribute('aria-label', focusBank
+          ? 'Map of Colorado with the counties where ' + banks[focusBank].name + ' has a branch shaded, and a dot at each of its ' +
+            shownDots.length + ' branch offices. Its counties and addresses are listed below the map.'
+          : mode === 'conservative' ? CONS_LABEL : EXP_LABEL);
       }
 
       function drawLegend() {
