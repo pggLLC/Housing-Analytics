@@ -238,15 +238,34 @@
           });
         }
 
+        // The map is role="img": its label names the measure shown, and a
+        // polite live region says when a picked measure has drawn.
+        var NEED_ARIA = mount.getAttribute('aria-label') || '';
+        var status = wrap ? wrap.querySelector('.home-need-status') : null;
+        function announce(key) {
+          var label = NEED_ARIA;
+          if (key !== 'need' && picker) {
+            var opt = picker.querySelector('option[value="' + key + '"]');
+            label = 'Map of Colorado counties shaded by ' + (opt ? opt.textContent.toLowerCase() : 'the selected measure');
+          }
+          mount.setAttribute('aria-label', label);
+          if (status) status.textContent = label.replace(/^Map of/, 'Showing a map of') + '.';
+        }
+
+        // Projection and inventory measures load slowly; a later pick wins.
+        var request = 0;
         function setMode(next) {
+          var mine = ++request;
           if (next === 'need' || !INDICATORS[next]) {
             mode = 'need';
             layer.setStyle(function (f) { return needStyle(f.properties && f.properties.GEOID); });
             setLegend(NEED_LABELS);
             showText('need');
+            announce('need');
             return;
           }
           loadIndicators(next).then(function () {
+            if (mine !== request) return;
             mode = next;
             var b = computeBreaks(next);
             breaks = b.slice(0, 3);
@@ -257,9 +276,12 @@
             setLegend([range(b[3], b[0]), range(b[0], b[1]), range(b[1], b[2]), range(b[2], b[4])]);
             layer.setStyle(function (feat) { return indicatorStyle(feat.properties && feat.properties.GEOID); });
             showText(next);
+            announce(next);
           }).catch(function () {
+            if (mine !== request) return;
             if (picker) picker.value = 'need';
             setMode('need');
+            if (status) status.textContent = 'That measure could not load; showing the housing need score.';
           });
         }
 

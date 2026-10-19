@@ -14,7 +14,7 @@
  * Sources:
  *   ACS 5-year figures: data/co-county-demographics.json (scripts/build_co_demographics.py)
  *   Permits: Census Building Permits Survey counts in data/hna/permits.json
- *   Ratios: the need ranking's own metrics (data/hna/ranking-index.json)
+ *   Ratios: the same ACS five-year medians (rent and value against income)
  *   Lowest-income shortfall: HUD CHAS 2018–2022 (data/hna/chas_affordable_available.json)
  *   Projections: State Demography Office county forecast (data/hna/projections/<fips>.json)
  *   Margins: data/hna/acs-reliability.json
@@ -24,7 +24,6 @@
 
   var PATHS = {
     boundaries: 'data/co-county-boundaries.json',
-    ranking: 'data/hna/ranking-index.json',
     demographics: 'data/co-county-demographics.json',
     permits: 'data/hna/permits.json',
     chas: 'data/hna/chas_affordable_available.json',
@@ -131,15 +130,14 @@
     var get = fetchJson || defaultFetch;
     var optional = function (p) { return get(p).catch(function () { return null; }); };
     pending = Promise.all([
-      get(PATHS.boundaries), get(PATHS.ranking), get(PATHS.demographics),
+      get(PATHS.boundaries), get(PATHS.demographics),
       optional(PATHS.permits), optional(PATHS.chas), optional(PATHS.reliability),
     ]).then(function (res) {
       var boundaries = res[0];
-      var ranking = res[1];
-      var demo = res[2] && res[2].counties;
-      var permits = res[3] && res[3].counties;
-      var chas = res[4] && res[4].counties;
-      var reliability = res[5] && res[5].geos;
+      var demo = res[1] && res[1].counties;
+      var permits = res[2] && res[2].counties;
+      var chas = res[3] && res[3].counties;
+      var reliability = res[4] && res[4].geos;
       if (!boundaries || !Array.isArray(boundaries.features) || !demo) throw new Error('no county data');
 
       var values = {};
@@ -172,12 +170,15 @@
         }
       });
 
-      (ranking && Array.isArray(ranking.rankings) ? ranking.rankings : []).forEach(function (r) {
-        if (!r || r.type !== 'county' || !r.geoid || !r.metrics) return;
-        ['home_value_to_income', 'rent_to_income'].forEach(function (k) {
-          var v = Number(r.metrics[k]);
-          if (r.metrics[k] != null && Number.isFinite(v)) values[k][r.geoid] = v;
-        });
+      // Ratios from the same five-year medians the other measures show, so
+      // every ACS figure on the map shares one vintage.
+      Object.keys(values.median_hh_income).forEach(function (geoid) {
+        var inc = values.median_hh_income[geoid];
+        if (!(inc > 0)) return;
+        var rent = values.median_gross_rent[geoid];
+        var value = values.median_home_value[geoid];
+        if (Number.isFinite(rent)) values.rent_to_income[geoid] = rent * 12 / inc * 100;
+        if (Number.isFinite(value)) values.home_value_to_income[geoid] = value / inc;
       });
 
       if (chas) {
@@ -275,12 +276,21 @@
           var n = Number(p.assisted_units);
           if (!(n > 0)) return;
           // The same building can appear twice under two names (a CHFA and
-          // a HUD or USDA record): same street number, ZIP and unit count.
+          // a HUD or USDA record): same street number, ZIP and unit count,
+          // and within about 150 m of each other. Two buildings that share a
+          // number on different streets are farther apart than that.
           var num = String(p.address || '').trim().split(/\s+/)[0];
-          if (num && p.zip) {
+          if (num && p.zip && Number.isFinite(p.lat) && Number.isFinite(p.lng)) {
             var key = num + '|' + p.zip + '|' + n;
-            if (seen[key]) return;
-            seen[key] = true;
+            var prior = seen[key] || [];
+            var dup = prior.some(function (q) {
+              var dy = (q[0] - p.lat) * 111320;
+              var dx = (q[1] - p.lng) * 111320 * Math.cos(p.lat * Math.PI / 180);
+              return dx * dx + dy * dy < 150 * 150;
+            });
+            if (dup) return;
+            prior.push([p.lat, p.lng]);
+            seen[key] = prior;
           }
           var geoid = p.county_fips;
           if (!geoid && Number.isFinite(p.lat) && Number.isFinite(p.lng)) {
