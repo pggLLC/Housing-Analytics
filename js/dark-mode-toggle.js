@@ -108,6 +108,13 @@
     var mq = window.matchMedia('(max-width: 700px)');
     function place() {
       var slot = document.querySelector('footer.site-footer .footer-tools');
+      // A page with its own footer (no js/navigation.js) gets the row too.
+      var footer = !slot && mq.matches && document.querySelector('footer.site-footer');
+      if (footer) {
+        slot = document.createElement('div');
+        slot.className = 'footer-tools';
+        footer.appendChild(slot);
+      }
       if (mq.matches && slot) {
         if (el.parentNode !== slot) slot.appendChild(el);
         el.classList.add('is-docked');
