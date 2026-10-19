@@ -39,6 +39,10 @@ git commit -q -m "$subject"
 # (PR merges are not in the data-commits queue). On a refusal, take the
 # manifests back out of the commit and go round again from the fetch.
 MANIFESTS=(data/_manifest.json data/manifest.json)
+# A step before this one may have rewritten a manifest without staging it
+# (refresh-data-pipeline.js writes data/manifest.json). Both are rebuilt
+# below, so drop that copy: an unstaged change makes the rebase refuse.
+git checkout -- "${MANIFESTS[@]}"
 for attempt in 1 2 3; do
   git fetch origin "$branch"
   # No -X theirs and no || true: a conflict here means another commit changed
