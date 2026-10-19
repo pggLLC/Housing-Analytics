@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T03:18:28.473Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T04:37:19.870Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-73 pages found.
+75 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -35,11 +35,13 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.0 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.2 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 47.4 KB |
+| `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.4 KB |
+| `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
-| `developer.html` | Developer Home — COHO Analytics | 18.4 KB |
+| `developer.html` | Developer Home — COHO Analytics | 19.3 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 98.2 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.0 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
@@ -92,7 +94,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 838.7 KB | ✅ | — |
+| `data/_manifest.json` | 839.1 KB | ✅ | — |
 | `data/_qa-status.json` | 9.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1605,7 +1607,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 216.6 KB | ✅ | — |
+| `data/manifest.json` | 216.8 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1805,7 +1807,7 @@
 
 ## Test Files
 
-668 test files found.
+669 test files found.
 
 | File | Size |
 |------|------|
@@ -1819,7 +1821,7 @@
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
-| `test/agency-funding.test.mjs` | 14.0 KB |
+| `test/agency-funding.test.mjs` | 15.8 KB |
 | `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2200,6 +2202,7 @@
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
+| `test/place-card.test.mjs` | 23.1 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 7.1 KB |
 | `test/place-chas-method-honesty.test.js` | 8.3 KB |
