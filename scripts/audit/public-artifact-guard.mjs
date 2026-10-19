@@ -61,6 +61,7 @@ const FORBIDDEN_PATHS = [
   'data/co-housing-costs/qcew_construction_county.parquet',
   'data/co-housing-costs/drivers_ranking.csv',
   'data/co-housing-costs/README.md',
+  'data/co-housing-costs/qcew_construction_state.json',
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
   'js/components/pipeline-store.js',

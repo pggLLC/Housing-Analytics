@@ -121,6 +121,7 @@ const BLOCKED_PATHS = [
   'data/url-health.json',
   'data/co-housing-costs/drivers_ranking.csv',
   'data/co-housing-costs/README.md',
+  'data/co-housing-costs/qcew_construction_state.json',
   'js/indibuild-gate.js',
   'js/developer-gate.js',
   'js/components/jurisdiction-brief.js',

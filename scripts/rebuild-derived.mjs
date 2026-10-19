@@ -177,9 +177,6 @@ export const NOT_DERIVED = {
   'scripts/build_rent_burden_crosscheck.mjs': 'fetches ACS B25070 from the Census API',
   'scripts/fetch-pab-allocations.mjs': 'fetches PAB allocations from the network',
 
-  // Own pipeline, own workflow (update-co-housing-costs.yml).
-  'scripts/build_article_full_indicators.py': 'part of the co-housing-costs pipeline; reads its parquet caches',
-
   // Deploy artifact rather than a data derivation.
   'scripts/build-public-site.mjs': 'builds dist/ for deploy; not a data artifact',
 
