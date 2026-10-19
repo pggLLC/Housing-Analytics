@@ -1066,7 +1066,7 @@ mark {
 .dg-seg--use3 { background: var(--chart-7); }
 .dg-seg--residual { background: repeating-linear-gradient(135deg, var(--chart-3) 0 4px, transparent 4px 8px); border: 2px solid var(--chart-3); box-sizing: border-box; }
 .dg-askbox { position: absolute; top: -4px; bottom: -4px; border: 2px dashed var(--chart-1); border-radius: 3px; box-sizing: border-box; pointer-events: none; }
-.dg-stack__key { list-style: none; margin: .45rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .8rem; color: var(--muted); }
+.dg-stack__key { list-style: none; margin: .45rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .8125rem; color: var(--muted); }
 .dg-stack__key i, .dg-residual-key, .dg-ask-key { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; vertical-align: -.1rem; margin-right: .3rem; }
 .dg-residual-key { background: repeating-linear-gradient(135deg, var(--chart-3) 0 3px, transparent 3px 6px); border: 2px solid var(--chart-3); box-sizing: border-box; }
 .dg-ask-key { border: 2px dashed var(--chart-1); box-sizing: border-box; }
@@ -1080,25 +1080,25 @@ mark {
 .dg-decide .dg-node > span { display: block; }
 @container (max-width: 640px) { .dg-decide__branches { grid-template-columns: minmax(0, 1fr); } }
 /* Building types on one homes-per-acre scale (HNA "What to do"). */
-.dg-btypes__scale { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin: 0 0 .3rem calc(96px + .9rem); }
-.diagram p.dg-btypes__scale { font-size: .72rem !important; line-height: 1.2; }
+.dg-btypes__scale { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--muted); margin: 0 0 .3rem calc(96px + .9rem); }
+.diagram p.dg-btypes__scale { font-size: .8125rem !important; line-height: 1.2; }
 .dg-btypes:has(.dg-btype__photo) .dg-btypes__scale { margin-right: calc(168px + .9rem); }
 .dg-btypes__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
 .dg-btype { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: .9rem; align-items: center; }
 .dg-btype:has(.dg-btype__photo) { grid-template-columns: 96px minmax(0, 1fr) 168px; }
 .diagram .dg-btype__photo { margin: 0; min-width: 0; }
 .dg-btype__photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 4px; }
-.diagram .dg-btype__photo figcaption { margin: .25rem 0 0; font-size: .7rem; line-height: 1.3; color: var(--muted); }
+.diagram .dg-btype__photo figcaption { margin: .25rem 0 0; font-size: .8125rem; line-height: 1.3; color: var(--muted); }
 .dg-btype__art { width: 96px; height: 64px; color: var(--text-strong); }
 .dg-btype__text { display: grid; gap: .15rem; min-width: 0; font-size: .9rem; }
 .dg-btype__text > strong { display: inline; }
-.dg-btype__what { font-size: .8rem; color: var(--muted); }
+.dg-btype__what { font-size: .8125rem; color: var(--muted); }
 .dg-range { position: relative; display: block; height: .7rem; margin-top: .25rem; background: var(--bg2); border-radius: 999px; }
 .dg-range__fill { position: absolute; top: 0; bottom: 0; background: var(--chart-3); border-radius: 999px; }
 .dg-range__mark { position: absolute; top: -3px; bottom: -3px; width: 0; border-left: 2px dashed var(--chart-1); }
 .dg-range__keymark { display: inline-block; width: 0; height: .9rem; border-left: 2px dashed var(--chart-1); margin-right: .4rem; vertical-align: -.15rem; }
-.dg-btypes__legend { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .3rem; font-size: .8rem; color: var(--muted); line-height: 1.4; }
-.dg-btypes__legend li { margin: 0; font-size: .8rem; }
+.dg-btypes__legend { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .3rem; font-size: .8125rem; color: var(--muted); line-height: 1.4; }
+.dg-btypes__legend li { margin: 0; font-size: .8125rem; }
 @container (max-width: 640px) {
   .dg-btype:has(.dg-btype__photo) { grid-template-columns: 96px minmax(0, 1fr); }
   .dg-btype__photo { grid-column: 1 / -1; max-width: 360px; }
@@ -1121,13 +1121,13 @@ mark {
 .dg-seg--unknown, .dg-unknown-key { border: 2px dashed var(--chart-4); box-sizing: border-box; background: transparent; }
 .dg-stack__key i.dg-gap-key, .dg-stack__key i.dg-unknown-key { background-color: transparent; }
 .dg-costline { position: absolute; top: -5px; bottom: -5px; width: 0; border-left: 2px solid var(--chart-1); }
-.dg-stack__missing { margin: .45rem 0 0; padding-left: 1.1rem; font-size: .8rem; color: var(--muted); }
+.dg-stack__missing { margin: .45rem 0 0; padding-left: 1.1rem; font-size: .8125rem; color: var(--muted); }
 .diagram .dg-verdict { margin: .25rem 0 0; font-size: .9rem; font-weight: 600; }
 .dg-ladder__gross { margin: 0 0 .5rem; font-size: .9rem; }
 .dg-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
 .dg-ladder__step { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 5.5rem; gap: .25rem .75rem; align-items: center; font-size: .82rem; margin: 0; }
 .dg-ladder__name { min-width: 0; }
-.dg-ladder__who { display: block; font-size: .74rem; color: var(--muted); }
+.dg-ladder__who { display: block; font-size: .8125rem; color: var(--muted); }
 .dg-ladder__track { position: relative; display: block; height: .9rem; background: var(--bg2); border-radius: 3px; }
 .dg-ladder__bar { position: absolute; top: 0; bottom: 0; border-radius: 2px; min-width: 2px; }
 .dg-ladder__step[data-empty="true"] .dg-ladder__bar { display: none; }
