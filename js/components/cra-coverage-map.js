@@ -176,6 +176,7 @@
       // 44px target for fingers; a mouse is precise, so it gets a small one
       // and a click between dots still picks the county.
       var HIT_PX = window.matchMedia && window.matchMedia('(pointer: coarse)').matches ? 22 : 6;
+      var OVERLAP_PX = 4, MAX_POP = 6;
       var officeLayer = window.L.layerGroup();
       var officeDots = [];
       (data.offices || []).forEach(function (o) {
@@ -188,15 +189,25 @@
         officeDots.push({ o: o, ll: ll });
       });
 
-      function officePopup(o) {
-        var b = banks[o[0]];
-        return '<strong>' + bankLink(o[0], b.name) + '</strong><br>' +
-          esc(o[3]) + '<br>' + esc(o[4]) + ', CO ' + esc(o[5]) + '<br>' +
-          'CRA size: ' + esc(SIZE_LABEL[b.cra_size] || 'Unknown') +
+      // list: every office under the tapped dot; g: the tapped office's county.
+      function officePopup(list, g) {
+        var county = names[g] ? '<br><button type="button" class="cra-map__popcounty" data-g="' + esc(g) +
+          '"' + (list.length > MAX_POP ? ' data-open="1">List the branches in ' : '>All banks in ') +
+          esc(names[g]) + '</button>' : '';
+        // A city center at statewide scale is dozens of dots in one spot, too
+        // many for a popup; the county's address list has them all.
+        if (list.length > MAX_POP) {
+          return '<strong>' + list.length + ' branches are too close together to pick one at this scale.</strong>' + county;
+        }
+        return (list.length > 1 ? '<strong>' + list.length + ' branches at this spot</strong><hr>' : '') + list.map(function (o) {
+          var b = banks[o[0]];
+          return '<strong>' + bankLink(o[0], b.name) + '</strong><br>' +
+            esc(o[3]) + '<br>' + esc(o[4]) + ', CO ' + esc(o[5]) + '<br>' +
+            'CRA size: ' + esc(SIZE_LABEL[b.cra_size] || 'Unknown');
+        }).join('<hr>') +
           // The tap that opened this may have been meant for the county, which
           // dots crowd on a phone, so offer the county too.
-          (names[o[6]] ? '<br><button type="button" class="cra-map__popcounty" data-g="' + esc(o[6]) +
-            '">All banks in ' + esc(names[o[6]]) + '</button>' : '');
+          county;
       }
 
       mount.addEventListener('click', function (e) {
@@ -204,7 +215,9 @@
         if (!btn) return;
         map.closePopup();
         choose(btn.getAttribute('data-g'));
-        panel.scrollIntoView({ block: 'nearest' });
+        var list = btn.getAttribute('data-open') && panel.querySelector('.cra-map__addresses');
+        if (list) list.open = true;
+        (list || panel).scrollIntoView({ block: 'nearest' });
       });
 
       function openNearestOffice(pt) {
@@ -215,7 +228,19 @@
           if (dist <= bestD) { bestD = dist; best = d; }
         });
         if (!best) return false;
-        window.L.popup().setLatLng(best.ll).setContent(officePopup(best.o)).openOn(map);
+        // Dots drawn on top of one another (a shared building, or a dense
+        // downtown at statewide scale) are one dot to the eye, so the popup
+        // lists every office under it. Some banks report two offices (say, a
+        // lobby and a drive-up) at one address; name each once.
+        var at = map.latLngToContainerPoint(best.ll);
+        var seen = {};
+        var here = officeDots.filter(function (d) {
+          var k = d.o[0] + '|' + d.o[3];
+          if (seen[k] || map.latLngToContainerPoint(d.ll).distanceTo(at) > OVERLAP_PX) return false;
+          seen[k] = true;
+          return true;
+        }).map(function (d) { return d.o; });
+        window.L.popup({ maxHeight: 200 }).setLatLng(best.ll).setContent(officePopup(here, best.o[6])).openOn(map);
         return true;
       }
       var showOffices = root.querySelector('#craOffices');
@@ -238,6 +263,9 @@
         clearTimeout(t);
         t = setTimeout(function () { map.invalidateSize(); map.fitBounds(bounds, { padding: [4, 4] }); }, 150);
       });
+      // A popup near the edge pans the map to fit; the map can't be dragged
+      // back, so put the whole state back in view when the popup closes.
+      map.on('popupclose', function () { map.fitBounds(bounds, { padding: [4, 4], animate: false }); });
 
       Object.keys(names).sort(function (a, b) { return names[a].localeCompare(names[b]); }).forEach(function (g) {
         var o = document.createElement('option');
