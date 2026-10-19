@@ -197,13 +197,20 @@
 
       // list: every office under the tapped dot; g: the tapped office's county.
       function officePopup(list, g) {
-        var county = names[g] ? '<br><button type="button" class="cra-map__popcounty" data-g="' + esc(g) +
-          '"' + (list.length > MAX_POP ? ' data-open="1">List the branches in ' : '>All banks in ') +
-          esc(names[g]) + '</button>' : '';
+        function button(c, many) {
+          return names[c] ? '<br><button type="button" class="cra-map__popcounty" data-g="' + esc(c) +
+            '"' + (many ? ' data-open="1">List the branches in ' : '>All banks in ') +
+            esc(names[c]) + '</button>' : '';
+        }
+        var county = button(g, false);
         // A city center at statewide scale is dozens of dots in one spot, too
-        // many for a popup; the county's address list has them all.
+        // many for a popup; the county address lists have them all, so offer
+        // one for each county in the cluster, the tapped one first.
         if (list.length > MAX_POP) {
-          return '<strong>' + list.length + ' branches are too close together to pick one at this scale.</strong>' + county;
+          var gs = [g];
+          list.forEach(function (o) { if (gs.indexOf(o[6]) < 0) gs.push(o[6]); });
+          return '<strong>' + list.length + ' branches are too close together to pick one at this scale.</strong>' +
+            gs.map(function (c) { return button(c, true); }).join('');
         }
         return (list.length > 1 ? '<strong>' + list.length + ' branches at this spot</strong><hr>' : '') + list.map(function (o) {
           var b = banks[o[0]];
