@@ -411,7 +411,7 @@
    ================================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { color-scheme: light dark; scroll-behavior: smooth; font-size: 16px; }
+html { color-scheme: light dark; scroll-behavior: smooth; font-size: 100%; }
 
 /* Design pass (2026-10-19): the root stays at 16px. This rule used to
    set font-size on html too, which shrank the root to 15px and every
