@@ -210,8 +210,9 @@
     var place = (opts.ripeness && opts.ripeness.places && opts.ripeness.places[opts.geoid]) || null;
     // The pipeline's own next step first; the dossier's dated step when the row has none.
     var cardNext = best && best.card && best.card.next ? best.card.next : null;
-    var fromPipe = !!(p && p.next_action);
-    var next = fromPipe ? p.next_action : cardNext ? cardNext.what : '';
+    var pipeNext = p && p.next_action ? String(p.next_action).trim() : '';
+    var fromPipe = !!pipeNext;
+    var next = fromPipe ? pipeNext : cardNext ? cardNext.what : '';
     var ranked = rankContacts(opts.network, opts.researched, next, opts.notes);
     var top = ranked.slice(0, 3);
     var sig = (opts.signals || []).slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
@@ -285,15 +286,24 @@
       '<label>What was said <textarea name="said" rows="3" required maxlength="4000"></textarea></label>' +
       '<label>Next step <input type="text" name="next" maxlength="400"></label>' +
       '<label>By when <input type="date" name="next_date"></label>' +
-      '<button type="submit" class="btn">Save to the log</button> <span class="pc-note-status" role="status"></span>' +
+      '<button type="submit" class="btn">Save to the log</button> <span class="pc-note-status" role="status" aria-live="polite" tabindex="-1"></span>' +
       '<p class="ib-muted">Everyone you let into the developer site can read this log.</p></fieldset></form>';
   }
 
   // Wires the form and remove buttons inside a rendered card. save(body) posts
   // to the site and resolves to the new list; done(list) re-renders.
+  // root outlives the redraw, so the new card's status line announces the save
+  // and takes focus in place of the button that was replaced.
   function wireNotes(root, geoid, save, done) {
     var form = root.querySelector('#pcNoteForm');
     var busy = false;
+    function saved(msg) {
+      return function (list) {
+        done(list);
+        var s = root.querySelector('.pc-note-status');
+        if (s) { s.textContent = msg; s.focus(); }
+      };
+    }
     if (form) form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (busy) return;
@@ -302,7 +312,7 @@
       if (!body.said) return;
       busy = true; btn.disabled = true;
       status.textContent = 'Saving…';
-      save(body).then(done, function () {
+      save(body).then(saved('Saved to the log.'), function () {
         busy = false; btn.disabled = false;
         status.textContent = 'Not saved. Check you are still signed in, then try again.';
       });
@@ -311,7 +321,7 @@
       b.addEventListener('click', function () {
         if (b.disabled || !window.confirm('Remove this entry from the log for everyone?')) return;
         b.disabled = true;
-        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(done, function () { b.disabled = false; });
+        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(saved('Removed from the log.'), function () { b.disabled = false; });
       });
     });
   }

@@ -188,6 +188,27 @@ const askSrc = read('js/whitepaper/ask-pggllc.js');
   handler({ preventDefault() {} }); handler({ preventDefault() {} });
   ok(posts === 1 && btn.disabled, 'the log form ignores a second submit while saving');
 }
+const spaceNext = P.render({ name: 'T', geoid: '0800009', pipeline: { stage: 'Signal', next_action: '   ' },
+  ripeness: { sites: [{ id: 'd', geoid: '0800009', name: 'Lot', stage: 'dossier', card: { reading: 'ripening', checked: '2026-10-19', trigger: 'x', next: { date: '2027-05-05', what: 'Plat lapses' } } }] } });
+ok(spaceNext.includes('Plat lapses') && spaceNext.includes('from the dossier'), 'a whitespace-only pipeline action counts as blank');
+{
+  // A save redraws the card; the new status line announces it and takes focus.
+  let handler = null, focused = false;
+  const field = (v) => ({ value: v });
+  const form = {
+    elements: { date: field('2026-10-19'), contact: field(''), said: field('Hi'), next: field(''), next_date: field('') },
+    addEventListener: (t, fn) => { handler = fn; },
+    querySelector: (q) => (q === '.pc-note-status' ? { textContent: '' } : { disabled: false })
+  };
+  const fresh = { textContent: '', focus() { focused = true; } };
+  let drawn = false;
+  const root = { querySelector: (q) => (q === '#pcNoteForm' ? form : drawn ? fresh : null), querySelectorAll: () => [] };
+  P.wireNotes(root, '0800001', () => Promise.resolve([]), () => { drawn = true; });
+  handler({ preventDefault() {} });
+  await new Promise((r) => setTimeout(r, 0));
+  ok(drawn && fresh.textContent === 'Saved to the log.' && focused, 'a saved discussion is announced on the redrawn card and focus lands there');
+}
+ok(/class="pc-note-status" role="status" aria-live="polite" tabindex="-1"/.test(read('js/whitepaper/place-card.js')), 'the log status line is a live region that can take focus');
 ok(/class="ask-status" role="status" aria-live="polite"/.test(askSrc) && /body\.innerHTML = render/.test(askSrc) && /saved\('Sent to pggLLC/.test(askSrc), 'a save is announced in a status line that is not redrawn, and focus moves there or back to the form');
 ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');
 ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
