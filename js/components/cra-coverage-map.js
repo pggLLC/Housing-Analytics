@@ -36,6 +36,7 @@
   ];
   var EXPANSIVE_COLOR = '#6baed6';
   var OFFICE_COLOR = '#d94801'; // orange, apart from the blue county shades
+  var OFFICE_RING = '#111';
   var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each, with a dot at each branch office. Choose a county from the list below the map for the same information.';
   var EXP_LABEL = 'Map of Colorado with every county shaded the same, with a dot at each branch office: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
 
@@ -186,13 +187,22 @@
       var officeLayer = window.L.layerGroup();
       var officeDots = [];
       (data.offices || []).forEach(function (o) {
-        if (!banks[o[0]]) return;
-        var ll = window.L.latLng(o[1], o[2]);
-        window.L.circleMarker(ll, {
-          radius: 3, weight: 1, color: '#fff', interactive: false,
-          fillColor: OFFICE_COLOR, fillOpacity: 0.9,
+        if (banks[o[0]]) officeDots.push({ o: o, ll: window.L.latLng(o[1], o[2]) });
+      });
+      // No one edge color stands out on every county shade, so each dot gets
+      // a white ring inside a dark one: the white clears 3:1 on the darker
+      // blues, the dark on the lighter ones. All dark rings go first so none
+      // covers a neighbor's dot.
+      officeDots.forEach(function (d) {
+        window.L.circleMarker(d.ll, {
+          radius: 5, stroke: false, interactive: false, fillColor: OFFICE_RING, fillOpacity: 1,
         }).addTo(officeLayer);
-        officeDots.push({ o: o, ll: ll });
+      });
+      officeDots.forEach(function (d) {
+        window.L.circleMarker(d.ll, {
+          radius: 3, weight: 1.5, color: '#fff', opacity: 1, interactive: false,
+          fillColor: OFFICE_COLOR, fillOpacity: 1,
+        }).addTo(officeLayer);
       });
 
       // list: every office under the tapped dot; g: the tapped office's county.
