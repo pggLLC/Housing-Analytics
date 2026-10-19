@@ -4984,7 +4984,8 @@
       if (generated && typeof window.__formatFreshnessDate === 'function') {
         tsEl.textContent = 'Data as of ' + window.__formatFreshnessDate(generated);
       } else {
-        tsEl.textContent = 'Data as of ' + new Date().toLocaleDateString();
+        // No build stamp: say nothing rather than print today's date as the data date.
+        tsEl.textContent = '';
       }
     }
 
