@@ -696,6 +696,15 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 }
 .footer-wrap a { color: var(--muted) !important; text-decoration: none; }
 .footer-wrap a:hover { color: var(--text) !important; }
+/* Theme and watchlist buttons, moved into the footer on phones by
+   js/dark-mode-toggle.js and js/components/watchlist.js so they never sit
+   over body text. The row is empty (and hidden) on wider screens. */
+.footer-tools {
+  grid-column: 1 / -1; flex-basis: 100%;
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px;
+}
+.footer-tools:empty { display: none; }
+.footer-tools > .is-docked { position: static !important; inset: auto !important; z-index: auto !important; }
 
 /* ================================================================
    7. CARDS & SURFACES

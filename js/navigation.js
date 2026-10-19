@@ -483,6 +483,10 @@
           <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
           <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
+        <!-- On phones, js/dark-mode-toggle.js and js/components/watchlist.js
+             move their corner buttons into this row so they never sit over
+             the page's text. -->
+        <div class="footer-tools"></div>
         <div class="footer-disclaimer">
           <small>This site is a public-data reference. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA, DOLA). Not financial or legal advice.</small>
         </div>
