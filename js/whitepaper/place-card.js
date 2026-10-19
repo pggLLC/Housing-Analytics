@@ -151,7 +151,10 @@
   function rankContacts(network, researched, nextAction, notes) {
     var needs = needsFromAction(nextAction);
     var logged = lastTalked(notes);
-    return mergeContacts(network, researched).map(function (c) {
+    var all = mergeContacts(network, researched);
+    // "No one closer" is only true when nobody on the list fits the step.
+    var anyFit = all.some(function (c) { return needs.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
+    return all.map(function (c) {
       var k = nameKey(c.name);
       if (logged[k] && (!c.last_talked || logged[k] > c.last_talked)) c = Object.assign({}, c, { last_talked: logged[k] });
       var fit = needs.filter(function (n) { return c.covers.indexOf(n) !== -1; });
@@ -170,7 +173,7 @@
       } else if (fit.length) {
         why.push((as || '') + (as ? 'they ' : 'They ') + what + ', and the next step needs that');
       } else {
-        why.push((as ? as + 'they ' : 'They ') + 'do not decide what the next step needs, but no one closer to it is on file');
+        why.push((as ? as + 'they ' : 'They ') + 'do not decide what the next step needs' + (anyFit ? '' : ', but no one closer to it is on file'));
       }
       if (talked) why.push('You last talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('Your network file marks a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');

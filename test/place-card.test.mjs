@@ -276,4 +276,12 @@ ok(/class="ask-status" role="status" aria-live="polite"/.test(askSrc) && /body\.
 ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');
 ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
 
+// "No one closer" only when nobody listed fits the step.
+{
+  const r = P.rankContacts([{ name: 'Fi Finance', role: 'Finance Director' }, { name: 'Pat Plan', role: 'Planning Director' }], [], 'Rezone the parcel', []);
+  const fin = r.find((c) => c.name === 'Fi Finance');
+  ok(!/no one closer/.test(fin.why), 'a non-fitting contact does not claim no one closer when another contact fits');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
+
