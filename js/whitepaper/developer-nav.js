@@ -18,6 +18,8 @@
     { href: 'developer-where.html', label: 'Where to build' },
     { href: 'developer-pipeline.html', label: 'Pipeline' }
   ];
+  // Served only by the private site (coho-backend), so there is no file for it here.
+  var PRIVATE = [{ href: 'dossiers/', label: 'Dossiers' }];
   var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
 
   var STYLE =
@@ -39,6 +41,8 @@
     var here = current(path);
     return PAGES.map(function (p) {
       return '<a href="' + p.href + '"' + (p.href === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
+    }).join('') + PRIVATE.map(function (p) {
+      return '<a href="' + p.href + '"' + (/\/dossiers\//.test(String(path || '')) ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
     }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span>';
   }
 
@@ -56,7 +60,7 @@
     nav.innerHTML = html(doc.location ? doc.location.pathname : '');
   }
 
-  var api = { PAGES: PAGES, html: html, mount: mount };
+  var api = { PAGES: PAGES, PRIVATE: PRIVATE, html: html, mount: mount };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else {
     root.DeveloperNav = api;

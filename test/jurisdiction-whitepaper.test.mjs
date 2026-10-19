@@ -306,6 +306,7 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(gated.every((f) => listed.includes(f)), 'the menu lists every gated page');
   ok(listed.every((h) => existsSync(join(ROOT, h))), 'every menu entry exists');
   ok(/aria-current="page"[^>]*>Jurisdiction reports/.test(Nav.html('/developer-whitepaper.html')), 'the old white paper address marks the reports entry');
+  ok(Nav.html('/developer.html').includes('<a href="dossiers/">Dossiers</a>'), 'the menu links the private dossier list');
 }
 
 // ---- 10. Codex review of #2232: multi-county cities, income universes, blank cells.
