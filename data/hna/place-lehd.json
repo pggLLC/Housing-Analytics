@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T22:41:44.099537+00:00",
+    "generated_at": "2026-10-19T23:34:55.745517+00:00",
     "source_tract_metrics": "data/market/acs_tract_metrics_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_summary": "data/hna/summary/{place_geoid}.json",
@@ -63115,9 +63115,9 @@
       "coverage_confidence": "high",
       "lehd": {
         "C000": 93,
-        "CE01": 19,
-        "CE02": 23,
-        "CE03": 51,
+        "CE01": null,
+        "CE02": null,
+        "CE03": null,
         "CNS01": 0,
         "CNS02": 0,
         "CNS03": 0,
@@ -63149,33 +63149,7 @@
           "2022": 91,
           "2023": 93
         },
-        "annualWages": {
-          "2019": {
-            "low": 17,
-            "medium": 19,
-            "high": 44
-          },
-          "2020": {
-            "low": 16,
-            "medium": 19,
-            "high": 42
-          },
-          "2021": {
-            "low": 17,
-            "medium": 20,
-            "high": 46
-          },
-          "2022": {
-            "low": 19,
-            "medium": 22,
-            "high": 50
-          },
-          "2023": {
-            "low": 19,
-            "medium": 23,
-            "high": 51
-          }
-        },
+        "annualWages": {},
         "residentWorkers": 14,
         "jobs": 93,
         "flows_source": "block-od",

@@ -199,8 +199,6 @@ test("a town's wage tiers count its own jobs, not its county's", () => {
     const l = p.lehd || {};
     if (!(l.C000 > 0) || l.CE01 == null) continue;
     const tiers = l.CE01 + l.CE02 + l.CE03;
-    // No wage mix at all (Hartsel: population 0, so no tract weight) is a
-    // separate gap, not a county number dressed as a local one.
     if (tiers === 0 && Object.values(l.annualEmployment || {}).every((v) => !v)) continue;
     if (Math.abs(tiers - l.C000) > 2) off.push(`${p.name} (${geoid}): tiers ${tiers} vs jobs ${l.C000}`);
     const ae = l.annualEmployment || {};
@@ -210,4 +208,51 @@ test("a town's wage tiers count its own jobs, not its county's", () => {
     }
   }
   assert.deepEqual(off.slice(0, 10), [], `${off.length} places disagree with their own job count`);
+});
+
+test('small places keep an honest history: one wage mix, no zero-job inventions, no county stand-in', () => {
+  // Three cases Codex found on #2385, pinned so they cannot come back.
+  const lehd = read('data/hna/place-lehd.json').places;
+  const od = read('data/hna/place-od-flows.json');
+  const odPlaces = od.places || od;
+  const problems = [];
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    const ae = l.annualEmployment || {};
+    const aw = l.annualWages || {};
+    // 1. Every year splits its jobs with the same wage mix. Rescaling counts
+    //    that were already rounded turned Lakeside's 2020-22 into {0, 0, 530}
+    //    and then switched to the local mix in 2023: a wage shift that never
+    //    happened.
+    const years = Object.keys(aw).sort();
+    if (years.length && l.C000 > 0) {
+      const latest = aw[years[years.length - 1]];
+      const latestTotal = latest.low + latest.medium + latest.high;
+      for (const y of years) {
+        const t = aw[y];
+        const total = t.low + t.medium + t.high;
+        if (Math.abs(total - (ae[y] || 0)) > 2) problems.push(`${p.name} ${y}: tiers ${total} vs jobs ${ae[y]}`);
+        if (total >= 100 && latestTotal >= 100) {
+          const share = t.low / total;
+          const latestShare = latest.low / latestTotal;
+          if (Math.abs(share - latestShare) > 0.02) {
+            problems.push(`${p.name} ${y}: low-wage share ${share.toFixed(3)} vs ${latestShare.toFixed(3)} in ${years[years.length - 1]}`);
+          }
+        }
+      }
+    }
+    // 2. A block count of zero jobs is a count, not a gap to fill with the
+    //    tract estimate (Goldfield read 106 jobs against a block count of 0).
+    const b = odPlaces[geoid];
+    if (b && b.jobs === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
+      problems.push(`${p.name}: block count is 0 jobs but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
+    }
+  }
+  // 3. No local wage mix means unknown, not the county's mix (Hartsel,
+  //    population 0, read 19/23/51 from Park County's split).
+  const hartsel = lehd['0834630'];
+  assert.ok(hartsel, 'Hartsel left place-lehd.json; repoint this case at another place with no tract weight');
+  assert.strictEqual(hartsel.lehd.CE01, null, `Hartsel CE01 is ${hartsel.lehd.CE01}; with no local wage mix it must be unknown`);
+  assert.deepEqual(hartsel.lehd.annualWages, {}, 'Hartsel carries a yearly wage split it has no local source for');
+  assert.deepEqual(problems.slice(0, 10), [], `${problems.length} small-place history problems`);
 });

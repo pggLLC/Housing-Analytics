@@ -545,18 +545,17 @@ def build():
             lehd_out["annualWages"] = {}
         elif flows_from_tracts and jobs_here > 0:
             mix_total = f_low + f_mid + f_high
-            if mix_total > 0 and f_high > 0:
-                mix = (f_low / mix_total, f_mid / mix_total, f_high / mix_total)
-            else:
-                latest_tiers = annual_wages_raw.get(
-                    max(annual_wages_raw), {}) if annual_wages_raw else {}
-                tier_total = sum(float(latest_tiers.get(t) or 0) for t in ("low", "medium", "high"))
-                mix = tuple(float(latest_tiers.get(t) or 0) / tier_total
-                            for t in ("low", "medium", "high")) if tier_total > 0 else None
+            # No tract wage mix (Hartsel: population 0, so no tract weight)
+            # means the place's wage split is unknown. The county's mix must
+            # not stand in for it, the same rule _local_low_wage_jobs keeps.
+            mix = ((f_low / mix_total, f_mid / mix_total, f_high / mix_total)
+                   if mix_total > 0 and f_high > 0 else None)
             if mix:
                 ce = [int(round(jobs_here * m)) for m in mix]
                 ce[2] = jobs_here - ce[0] - ce[1]
                 lehd_out["CE01"], lehd_out["CE02"], lehd_out["CE03"] = ce
+            else:
+                lehd_out["CE01"] = lehd_out["CE02"] = lehd_out["CE03"] = None
             if annual_emp_raw:
                 latest_year = max(annual_emp_raw)
                 if annual_emp_raw[latest_year] > 0:
@@ -570,7 +569,9 @@ def build():
             # One wage mix for every year: the place's own. Mixing the
             # county's mix in earlier years with the place's in the latest
             # drew a wage shift that never happened.
-            if lehd_out["annualWages"] and mix:
+            if not mix:
+                lehd_out["annualWages"] = {}
+            elif lehd_out["annualWages"]:
                 for y, total in lehd_out["annualEmployment"].items():
                     t = [int(round(total * m)) for m in mix]
                     t[2] = total - t[0] - t[1]
