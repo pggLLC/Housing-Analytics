@@ -5,7 +5,8 @@
 //   2. a contact from the research file needs a public https source to show;
 //   3. a logged discussion counts as "last talked" and moves the person up;
 //   4. sites show their developer check, open sites first;
-//   5. the card escapes what it shows, and the page mounts it outside the report.
+//   5. the card escapes what it shows, and the page mounts it outside the report;
+//   6. Ask pggLLC, How it works and About on the developer site.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -90,5 +91,28 @@ const page = read('developer-brief.html');
 ok(page.includes('<script src="js/whitepaper/place-card.js"></script>'), 'the report page loads the card');
 ok(/privateSection\(name, geoid, related, researched\) \+\s*'<iframe id="reportFrame"/.test(page) && (page.match(/<div id="placeCardMount"><\/div>/g) || []).length === 2, 'the card sits in the private block, above the report frame');
 ok(page.includes("fetch('api/notes?geoid="), 'the log is read from the site');
+
+// 6. Ask pggLLC: the card links to the question form for its place; the
+// developer site has Methods and About pages in its menu and outside the public build.
+ok(html.includes('developer-about.html?place=Testtown#ask'), 'the card links to Ask pggLLC for its place');
+const A = require(path.join(ROOT, 'js/whitepaper/ask-pggllc.js'));
+const qs = [
+  { id: '1', asked: '2026-10-01', question: 'Old answered', answer: 'Yes.', answered: '2026-10-02' },
+  { id: '2', asked: '2026-10-03', question: 'Why <ripening>?', answer: '' }
+];
+ok(A.order(qs)[0].id === '2', 'unanswered questions come first');
+const ask = A.render({ questions: qs, place: 'Buena Vista' });
+ok(ask.includes('id="askForm"') && ask.includes('value="Buena Vista"') && ask.includes('ask-answer-form'), 'the form fills the place and open questions can be answered');
+ok(ask.includes('&lt;ripening&gt;') && !ask.includes('<ripening>'), 'questions are escaped');
+ok(/Nothing is emailed/.test(ask), 'the form says nothing is emailed');
+ok(!A.render({ questions: null }).includes('askForm'), 'off the developer site the form says where questions are kept');
+ok(!A.render({ questions: qs, form: false }).includes('ask-answer-form'), 'the home page list is read-only');
+const nav = read('js/whitepaper/developer-nav.js'), build = read('scripts/build-public-site.mjs');
+for (const pg of ['developer-methods.html', 'developer-about.html']) {
+  ok(fs.existsSync(path.join(ROOT, pg)) && nav.includes("'" + pg + "'") && build.includes("'" + pg + "'"), pg + ' is in the menu and kept out of the public build');
+  ok(read(pg).includes('noindex') && read(pg).includes('js/developer-gate.js') && read(pg).includes('id="devNav"'), pg + ' is a gated developer page');
+}
+ok(read('developer.html').includes('<h1>Start here</h1>') && read('developer.html').includes('id="askMount"'), 'developer home opens with Start here and shows the questions');
+ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
 
 console.log('place-card: ' + checks + ' checks passed');

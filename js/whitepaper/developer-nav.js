@@ -16,7 +16,9 @@
     { href: 'developer.html', label: 'Home' },
     { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
     { href: 'developer-where.html', label: 'Where to build' },
-    { href: 'developer-pipeline.html', label: 'Pipeline' }
+    { href: 'developer-pipeline.html', label: 'Pipeline' },
+    { href: 'developer-methods.html', label: 'Methodology' },
+    { href: 'developer-about.html', label: 'About' }
   ];
   // Served only by the private site (coho-backend), so there is no file for it here.
   var PRIVATE = [{ href: 'dossiers/', label: 'Dossiers' }];

@@ -228,6 +228,7 @@
       }).join('') + '</ul>';
     }
     h += notesHtml(opts.notes, ranked, opts.notesState);
+    h += '<p class="pc-ask">Something unclear about ' + esc(opts.name) + '? <a href="developer-about.html?place=' + encodeURIComponent(opts.name || '') + '#ask">Ask pggLLC</a></p>';
     return h + '<p><a href="developer-pipeline.html#readyToBuild">Pipeline and Ready to build</a> · <a href="dossiers/">All dossiers</a></p></div>';
   }
 

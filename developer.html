@@ -30,6 +30,9 @@
   }
   .ib-hero h1 { margin: 0 0 .4rem; }
   .ib-hero p { margin: 0; color: var(--muted); line-height: 1.55; }
+  .ib-start { margin: .6rem 0 1rem; padding-left: 1.3rem; line-height: 1.55; }
+  .ib-start li { margin-bottom: .35rem; }
+  .ib-start a, .ib-ask a { padding-block: .75rem; }
 
   .ib-stat-row {
     display: grid;
@@ -152,15 +155,18 @@
   <nav id="devNav" class="ib-section-nav"></nav>
 
   <div class="ib-hero">
-    <h1>Developer home</h1>
-    <p>
-      Start with a place: the jurisdiction report covers who lives there, the housing that exists, need, rents, tax-credit history, who is already working on housing and how a deal comes together. The pipeline below tracks partnership conversations with Colorado communities.
-    </p>
+    <h1>Start here</h1>
+    <p>Three steps take you from a town's name to a first call:</p>
+    <ol class="ib-start">
+      <li><strong>Pick a place.</strong> Type a town or county below, or choose one from the <a href="developer-pipeline.html">Pipeline</a> or <a href="developer-where.html">Where to build</a>.</li>
+      <li><strong>Read its place card.</strong> The top of the report says how ready the place is, who to call first and why, and which sites are open.</li>
+      <li><strong>Log the talk, or ask pggLLC.</strong> Note what was said in Discussions on the card. If anything is unclear, <a href="developer-about.html#ask">ask pggLLC</a>.</li>
+    </ol>
     <form action="developer-brief.html" method="get" class="ib-find" role="search">
       <label for="findPlace">Find a town or county</label>
       <div class="ib-find-row">
         <input id="findPlace" name="q" required autocomplete="off" placeholder="e.g. Gunnison">
-        <button type="submit">Open report</button>
+        <button type="submit">Open the place card</button>
       </div>
     </form>
   </div>
@@ -280,6 +286,11 @@
     </div>
   </div>
 
+  <section class="ib-section-card ib-ask" id="questions">
+    <h2>Questions for pggLLC <span class="meta"><a href="developer-about.html#ask">Ask or answer</a></span></h2>
+    <div id="askMount"></div>
+  </section>
+
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted);">
     Pipeline data (signal log, kanban, anti-targets, network) lives in your private files and is never published in this repository.
     <a href="docs/CLOUDFLARE-SETUP.md" target="_blank">Cloudflare auth setup →</a>
@@ -321,6 +332,8 @@
   });
 })();
 </script>
+<script src="js/whitepaper/ask-pggllc.js"></script>
+<script>AskPggllc.mount(document.getElementById('askMount'), { form: false, limit: 3, page: 'developer.html' });</script>
 <script src="js/navigation.js"></script>
 <script src="js/whitepaper/developer-nav.js"></script>
 </body>
