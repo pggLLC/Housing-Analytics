@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T10:45:41.730Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T11:08:21.137Z. Do not edit by hand.
 
 ---
 
@@ -50,21 +50,21 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.4 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.0 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.8 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 166.9 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.1 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.3 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.8 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 41.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 791 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.4 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.4 KB |
-| `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.6 KB |
+| `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.4 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 61.3 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 63.7 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 134.7 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.2 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 151.4 KB |
@@ -1936,7 +1936,7 @@
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 7.9 KB |
-| `test/deal-engine-surfaces.test.js` | 13.0 KB |
+| `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 7.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
@@ -1968,7 +1968,7 @@
 | `test/equity-pricing-watch.test.mjs` | 6.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
-| `test/explanatory-diagrams.test.js` | 13.2 KB |
+| `test/explanatory-diagrams.test.js` | 27.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fee-reductions-surfaces.test.js` | 11.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
