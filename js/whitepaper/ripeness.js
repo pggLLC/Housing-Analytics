@@ -26,8 +26,8 @@
   var DATA_URL = 'data/ripeness.json';
   var ORDER_URL = 'api/ready-order';
   var LOCAL_KEY = 'coho-ready-order';
-  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, none: 4 };
-  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', none: 'No site on file' };
+  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, all_taken: 4, none: 5 };
+  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', all_taken: 'No open site', none: 'No site on file' };
   var QUESTIONS = [
     ['need', 'Is there need?'],
     ['control', 'Is there a path to site control?'],
@@ -106,7 +106,8 @@
       var sites = byGeoid[r.geoid] || [];
       // A site another developer is on is listed, never suggested.
       var best = sites.filter(function (s) { return !(s.opening && s.opening.status === 'taken'); })[0] || null;
-      var reading = best ? siteReading(best) : 'none';
+      // Sites on file but every one taken is not the same as no site on file.
+      var reading = best ? siteReading(best) : sites.length ? 'all_taken' : 'none';
       var sig = (signals || []).filter(function (s) { return s.geoid === r.geoid; })
         .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })[0] || null;
       var why = [

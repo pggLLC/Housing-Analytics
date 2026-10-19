@@ -24,8 +24,8 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', none: 'No site on file' };
-  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, none: 4 };
+  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', all_taken: 'No open site', none: 'No site on file' };
+  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, all_taken: 4, none: 5 };
   var STAGE = {
     land_funded: 'land funded, no tax credit yet',
     applied: 'applied, decision pending',
@@ -212,7 +212,8 @@
     var sites = sitesFor(opts.ripeness, opts.geoid);
     // A site another developer is on is listed, never suggested.
     var best = sites.filter(function (s) { return !(s.opening && s.opening.status === 'taken'); })[0] || null;
-    var reading = best ? siteReading(best) : 'none';
+    // Sites on file but every one taken is not the same as no site on file.
+      var reading = best ? siteReading(best) : sites.length ? 'all_taken' : 'none';
     var place = (opts.ripeness && opts.ripeness.places && opts.ripeness.places[opts.geoid]) || null;
     // The pipeline's own next step first; the dossier's dated step when the row has none.
     var cardNext = best && best.card && best.card.next ? best.card.next : null;

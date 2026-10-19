@@ -58,11 +58,12 @@ ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a la
 
 {
   // A logged talk is one key; the relationship tier only breaks what is left.
-  const tierOnly = { name: 'A Tier', role: 'Planning Director', phone: '1', tier: '1' };
+  // Names run against the expected order, so only the keys can produce it.
+  const tierOnly = { name: 'Y Tier', role: 'Planning Director', phone: '1', relationship_tier: '1' };
   const logged = { name: 'Z Logged', role: 'Planning Director', phone: '2', last_talked: '2026-10-01' };
-  const plain = { name: 'B Plain', role: 'Planning Director', phone: '3' };
+  const plain = { name: 'A Plain', role: 'Planning Director', phone: '3' };
   const r = P.rankContacts([tierOnly, logged, plain], [], 'Ask for a zoning letter').map((c) => c.name);
-  ok(r.join() === 'Z Logged,A Tier,B Plain', 'a logged talk outranks a marked relationship, which outranks none');
+  ok(r.join() === 'Z Logged,Y Tier,A Plain', 'a logged talk outranks a marked relationship, which outranks none');
   ok(/relationship you marked/.test(read('developer-methods.html')), 'the Methodology page lists the relationship as the last tie-break');
 }
 {
@@ -142,6 +143,8 @@ for (const k of statuses) {
   const none = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded' }] } });
   ok(!unk.includes('pc-open') && statuses.every((k) => !unk.includes(P.OPENING[k].label)), 'an unknown status shows none of the check labels');
   ok([unk, none].every((h) => h.includes('No developer check on file yet; treat as unclear.')), 'a site with no check, or an unknown one, says so on the card');
+  const taken = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: 'taken', why: 'w' } }] } });
+  ok(taken.includes('No open site') && !taken.includes('No site on file<') && taken.includes('Every site on file has a developer on it'), 'a place whose sites are all taken reads "No open site", not "No site on file"');
   ok(/No developer check on file yet; treat as unclear/.test(read('developer-methods.html')), 'the Methodology page explains the no-check line');
 }
 {
@@ -174,7 +177,7 @@ const takenCard = P.render({ name: 'T', geoid: '0800003', ripeness: onlyTaken })
 ok(!takenCard.includes('Best site') && takenCard.includes('Every site on file has a developer on it'), 'a taken site is never the best site');
 const built = R.build(mixed, [{ geoid: '0800003', jurisdiction: 'T', stage: 'Signal' }], []);
 ok(built.sites[0].name === 'Ripening And Open' && /Best site: Ripening And Open/.test(built.communities[0].why), 'Ready to build orders and suggests the same way');
-ok(R.build(onlyTaken, [{ geoid: '0800003', jurisdiction: 'T', stage: 'Signal' }], []).communities[0].reading === 'none', 'a place whose only site is taken has no suggested site');
+ok(R.build(onlyTaken, [{ geoid: '0800003', jurisdiction: 'T', stage: 'Signal' }], []).communities[0].reading === 'all_taken', 'a place whose only site is taken has no suggested site and reads No open site');
 ok(/onChange: \(\) => redrawPlaceCard\(\)/.test(read('developer-brief.html')) && /opts\.onChange\(\)/.test(read('js/components/pipeline-add-button.js')), 'a pipeline edit from Working tools redraws the card');
 
 // 5. The page mounts the card in the private block, outside the report frame.
