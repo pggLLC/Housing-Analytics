@@ -32,6 +32,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/vendor/leaflet.js"></script>
+  <script defer src="js/county-measures.js"></script>
   <script defer src="js/components/home-need-map.js"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://cohoanalytics.com/#organization","name":"COHO Analytics","url":"https://cohoanalytics.com/"},{"@type":"WebSite","@id":"https://cohoanalytics.com/#website","url":"https://cohoanalytics.com/","name":"COHO Analytics","publisher":{"@id":"https://cohoanalytics.com/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://cohoanalytics.com/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}]}</script>
 </head>
@@ -124,7 +125,38 @@
            into that county's Needs Assessment, the same report the town
            answer card above links to. -->
       <div class="home-opening__map">
+        <!-- Measure picker: the need score (default) or one of the county
+             housing-cost indicators also shown on data-map-browser.html.
+             js/components/home-need-map.js restyles the same county map and
+             swaps the legend labels and the caption text below. -->
+        <p class="home-need-measure">
+          <label for="homeNeedMeasure">Show</label>
+          <select id="homeNeedMeasure">
+            <option value="need" selected>Housing need score</option>
+            <optgroup label="Gap between incomes and housing costs">
+              <option value="missing_per_100_lte30">Homes missing, lowest incomes</option>
+              <option value="short_per_100_lte50">Homes still short, low incomes</option>
+              <option value="home_value_to_income">Home price to income</option>
+              <option value="rent_to_income">Rent as a share of income</option>
+            </optgroup>
+            <optgroup label="Affordable homes and the next 20 years">
+              <option value="subsidized_per_100_lte80">Subsidized homes</option>
+              <option value="build_pace_vs_need">Building pace against need</option>
+              <option value="dola_pop_change_20yr">Population change by 2044</option>
+              <option value="dola_new_homes_per_1k">New homes needed by 2044</option>
+            </optgroup>
+            <optgroup label="Housing and incomes">
+            <option value="median_gross_rent">Median rent</option>
+            <option value="cost_burden_share">Renters paying 30%+ on rent</option>
+            <option value="vacancy_rate">Vacant homes</option>
+            <option value="median_hh_income">Median household income</option>
+            <option value="median_home_value">Median home value</option>
+            <option value="permits_per_1k">New homes permitted</option>
+            </optgroup>
+          </select>
+        </p>
         <div id="homeNeedMap" role="img" aria-label="Map of Colorado counties shaded by housing need severity"></div>
+        <p class="home-need-status sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
         <!-- Literal hex, not var(--good)/var(--accent)/etc: those tokens are
              the site's general-purpose UI colors (e.g. --accent is teal,
              #096e65/#0fd4cf, not blue) and do not equal this severity
@@ -138,20 +170,49 @@
           <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:#2f8f83"></span>Elevated</span>
           <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:#0b4f48"></span>Highest</span>
         </div>
+        <p class="home-need-legend-nodata" hidden><span class="home-need-legend__swatch" style="background:#d5dad9"></span>Too uncertain to rank</p>
         <p class="home-opening__map-caption">
-          <span>Overall housing-need score by county</span>
+          <span data-measure-text="need">Overall housing-need score by county</span>
+          <span data-measure-text="missing_per_100_lte30" hidden>Homes missing per 100 renters at or below 30% of area median income</span>
+          <span data-measure-text="home_value_to_income" hidden>Median home value as a multiple of median income</span>
+          <span data-measure-text="rent_to_income" hidden>A year of median rent as a share of median income</span>
+          <span data-measure-text="short_per_100_lte50" hidden>Renters at or below 50% of area median income still without an affordable home, per 100</span>
+          <span data-measure-text="subsidized_per_100_lte80" hidden>Subsidized homes per 100 renters at or below 80% of area median income</span>
+          <span data-measure-text="build_pace_vs_need" hidden>Homes permitted each year against the homes needed each year</span>
+          <span data-measure-text="dola_pop_change_20yr" hidden>Projected population change, 2024 to 2044</span>
+          <span data-measure-text="dola_new_homes_per_1k" hidden>New homes needed by 2044 per 1,000 residents today</span>
+          <span data-measure-text="median_gross_rent" hidden>Median gross rent by county, 2020–2024</span>
+          <span data-measure-text="cost_burden_share" hidden>Renters paying 30% or more on rent, 2020–2024</span>
+          <span data-measure-text="vacancy_rate" hidden>Share of homes vacant, 2020–2024</span>
+          <span data-measure-text="median_hh_income" hidden>Median household income by county, 2020–2024</span>
+          <span data-measure-text="median_home_value" hidden>Median home value by county, 2020–2024</span>
+          <span data-measure-text="permits_per_1k" hidden>New homes permitted per 1,000 residents, 2021–2025</span>
           <a href="hna-comparative-analysis.html">Explore all 546 Colorado jurisdictions →</a>
           <!-- Inputs named here are the five sub-scores that make up
                community_need_core in scripts/hna/build_ranking_index.py
                (gap, cost burden, affordability, future pressure,
                overcrowding) — keep this sentence in step with that list. -->
-          <span class="home-opening__map-explainer">
+          <span class="home-opening__map-explainer" data-measure-text="need">
             One 0–100 score per county, combining how many affordable homes it is short, how many
             households pay more than they can afford, how rents and prices compare to local incomes,
             expected growth pressure, and overcrowding. Darker means more need. The same score ranks all 546 Colorado
             geographies (counties, places, and CDPs) on the comparison page. Click any county to
             open its full assessment.
           </span>
+          <span class="home-opening__map-explainer" data-measure-text="missing_per_100_lte30" hidden>For every 100 renter households earning 30% of area median income or less, how many lack a home they can afford that is not already taken by a higher-income household. From HUD’s CHAS data (2018–2022), the newest HUD has published. Darker means more homes missing. Grey counties have fewer than 100 such households, or most of their “available” homes are empty units (often seasonal), so a count there would mislead. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="home_value_to_income" hidden>Median home value divided by median household income, both from the American Community Survey (2020–2024 five-year estimates). Lenders’ rule of thumb is about three times income; 8× or more is far out of reach for a typical household. Darker means a wider gap. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="rent_to_income" hidden>Twelve months of median rent as a share of median household income, from the American Community Survey (2020–2024). Households paying more than 30% count as cost burdened. Darker means rent takes more of a typical income. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="short_per_100_lte50" hidden>Where the problem is least addressed. HUD counts every rental home by what it actually rents for, so this already counts subsidized homes and market-rate homes that happen to be cheap (naturally affordable). What is left is the shortfall: for every 100 renter households at or below 50% of area median income, how many still have no affordable home that a higher-income household is not already in. HUD CHAS, 2018–2022, the newest HUD has published. Darker means more still short. Grey counties have fewer than 100 such households or more vacant than occupied affordable rentals. Each shade holds about a quarter of the counties shown. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="subsidized_per_100_lte80" hidden>Income-restricted homes on record with CHFA (tax credit and preservation), HUD multifamily and USDA Rural Development, for every 100 renter households at or below 80% of area median income (HUD CHAS, 2018–2022). Most of these programs serve households up to 60% or 80% of median income, and some homes count in two programs, so read it as a rough share. Lighter means little subsidized housing for the households who need it. Grey counties have too few such households to compare, or more homes on record than households counted. Each shade holds about a quarter of the counties shown. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="build_pace_vs_need" hidden>Homes authorized by building permits each year (2021–2025 average, Census Building Permits Survey) divided by the homes needed each year over the next ten years to keep up with household growth (State Demography Office forecast). Below 1× means the county is falling behind. In resort counties many new homes are second homes, so a high figure there does not mean residents are housed. Lighter means further behind. Blank counties are projected to need no new homes for growth; grey ones need fewer than 10 a year, too few to compare. Each shade holds about a quarter of the counties shown. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="dola_pop_change_20yr" hidden>The State Demography Office’s county forecast of population change from 2024 to 2044, the forecast published with a 2024 base year. The office issues a new forecast each fall; this map will move to it once it is out. Darker means faster growth. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="dola_new_homes_per_1k" hidden>New homes needed by 2044 to house the State Demography Office’s projected household growth at a healthy vacancy rate, per 1,000 residents today. It counts growth only, not homes lost to age or the existing shortfall. Counties projected to shrink show 0. Darker means more homes needed. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="median_gross_rent" hidden>Median monthly rent including utilities, from the Census Bureau’s American Community Survey (2020–2024 five-year estimates). Darker means higher rent. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="cost_burden_share" hidden>Share of renter households paying 30% or more of their income on rent and utilities, the federal measure of cost burden. American Community Survey, 2020–2024. Darker means more renters are burdened. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="vacancy_rate" hidden>Share of all homes that stood empty, including seasonal and second homes, so mountain resort counties read high. American Community Survey, 2020–2024. Darker means more vacant homes. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="median_hh_income" hidden>Median household income, from the American Community Survey (2020–2024). Darker means higher income. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="median_home_value" hidden>Median value of owner-occupied homes, as owners report it to the American Community Survey (2020–2024). Darker means higher values. Grey counties have survey margins too wide to rank. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
+          <span class="home-opening__map-explainer" data-measure-text="permits_per_1k" hidden>Homes authorized by building permits each year, averaged over 2021–2025, per 1,000 residents, from the Census Bureau’s Building Permits Survey. Darker means more new homes. Each shade holds about a quarter of Colorado’s 64 counties. Click any county to open its full assessment.</span>
         </p>
       </div>
       </div>
