@@ -215,6 +215,18 @@ ok(spaceNext.includes('Plat lapses') && spaceNext.includes('from the dossier'), 
   await new Promise((r) => setTimeout(r, 0));
   ok(drawn && fresh.textContent === 'Saved to the log.' && focused, 'a saved discussion is announced on the redrawn card and focus lands there');
 }
+{
+  // A failed removal says so in the status line.
+  let click = null;
+  const status = { textContent: '', focus() {} };
+  const rm = { disabled: false, getAttribute: () => 'n1', addEventListener: (t, fn) => { click = fn; } };
+  const root = { querySelector: (q) => (q === '.pc-note-status' ? status : null), querySelectorAll: (q) => (q === '.pc-note-remove' ? [rm] : []) };
+  globalThis.window = Object.assign(globalThis.window || {}, { confirm: () => true });
+  P.wireNotes(root, '0800001', () => Promise.reject(new Error('x')), () => {});
+  click();
+  await new Promise((r) => setTimeout(r, 0));
+  ok(/Not removed/.test(status.textContent) && !rm.disabled, 'a failed removal is reported and the button comes back');
+}
 ok(/class="pc-note-status" role="status" aria-live="polite" tabindex="-1"/.test(read('js/whitepaper/place-card.js')), 'the log status line is a live region that can take focus');
 ok(/class="ask-status" role="status" aria-live="polite"/.test(askSrc) && /body\.innerHTML = render/.test(askSrc) && /saved\('Sent to pggLLC/.test(askSrc), 'a save is announced in a status line that is not redrawn, and focus moves there or back to the form');
 ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');

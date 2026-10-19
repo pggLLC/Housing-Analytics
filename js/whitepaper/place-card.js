@@ -321,7 +321,11 @@
       b.addEventListener('click', function () {
         if (b.disabled || !window.confirm('Remove this entry from the log for everyone?')) return;
         b.disabled = true;
-        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(saved('Removed from the log.'), function () { b.disabled = false; });
+        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(saved('Removed from the log.'), function () {
+          b.disabled = false;
+          var s = root.querySelector('.pc-note-status');
+          if (s) { s.textContent = 'Not removed. Check you are still signed in, then try again.'; s.focus(); }
+        });
       });
     });
   }
