@@ -78,6 +78,8 @@
     "  <figure class=\"diagram hm-flow\">",
     "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"img\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
     "    <ul class=\"dg-legend hm-flow-legend\" data-hm-flow-legend></ul>",
+    "    <p class=\"hm-flow-maptitle\" id=\"hm-flow-map-h\">Where each region is</p>",
+    "    <svg class=\"hm-flow-map\" data-hm-flow-map role=\"img\" aria-labelledby=\"hm-flow-map-h\"></svg>",
     "    <figcaption data-hm-flow-cap></figcaption>",
     "  </figure>",
     "  <div id=\"hm-flow-desc\" class=\"sr-only\" data-hm-flow-text></div>",
@@ -357,6 +359,7 @@
       svg.innerHTML = '';
       svg.style.display = 'none';
       $('[data-hm-flow-legend]').innerHTML = '';
+      if ($('[data-hm-flow-map]')) $('[data-hm-flow-map]').style.display = 'none';
       $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' has a home count recorded in these lists, so there is nothing to draw.';
       $('[data-hm-flow-text]').textContent = '';
       return;
@@ -366,17 +369,21 @@
     var cs = global.getComputedStyle ? global.getComputedStyle(fig) : null;
     var pad = cs ? (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0) : 32;
     var W = Math.min(880, Math.max(260, Math.floor((fig.clientWidth || 720) - pad)));
-    var BAR = 10, GAP = 6, SLOT = 34, TOP = 4;
+    var BAR = 10, GAP = 10, SLOT = 34, TOP = 4;
     var rows = Math.max(f.left.length, f.right.length);
     // Pixels per home: the taller column fills about 22px a row on top of its label slots.
     var k = (rows * 22) / f.homes;
     function place(nodes) {
       var y = TOP;
       nodes.forEach(function (n) {
+        // Each node sits in the middle of its slot, with its label beside
+        // its middle, so a label never sits next to another node's bands.
         n.h = Math.max(2, n.homes * k);
+        n.slot = Math.max(n.h, SLOT);
         n.y = y;
-        n.next = y;
-        y += Math.max(n.h, SLOT) + GAP;
+        n.top = y + (n.slot - n.h) / 2;
+        n.next = n.top;
+        y += n.slot + GAP;
       });
       return y;
     }
@@ -397,13 +404,14 @@
         '" stroke-width="' + h.toFixed(1) + '"><title>' + esc(label) + '</title></path>';
     }).join('');
     function label(n, x, anchor) {
-      return '<text class="hm-flow-label" x="' + x + '" y="' + (n.y + 12) + '" text-anchor="' + anchor + '">' + esc(n.label) + '</text>' +
-        '<text class="hm-flow-value" x="' + x + '" y="' + (n.y + 26) + '" text-anchor="' + anchor + '">' + esc(count(n.homes) + ' homes' + (n.estimated ? ', some est.' : '')) + '</text>';
+      var mid = n.y + n.slot / 2;
+      return '<text class="hm-flow-label" x="' + x + '" y="' + (mid - 2).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(n.label) + '</text>' +
+        '<text class="hm-flow-value" x="' + x + '" y="' + (mid + 12).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(count(n.homes) + ' homes' + (n.estimated ? ', some est.' : '')) + '</text>';
     }
     var nodes = f.left.map(function (n) {
-      return '<rect class="hm-flow-node ' + FLOW_CLASS[n.agency] + '" x="' + x0 + '" y="' + n.y.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x0 + BAR + 6, 'start');
+      return '<rect class="hm-flow-node ' + FLOW_CLASS[n.agency] + '" x="' + x0 + '" y="' + n.top.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x0 + BAR + 6, 'start');
     }).concat(f.right.map(function (n) {
-      return '<rect class="hm-flow-node is-region" x="' + x1 + '" y="' + n.y.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x1 - 6, 'end');
+      return '<rect class="hm-flow-node is-region" x="' + x1 + '" y="' + n.top.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x1 - 6, 'end');
     })).join('');
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     svg.setAttribute('width', String(W));
@@ -415,6 +423,7 @@
     $('[data-hm-flow-legend]').innerHTML = agencies.map(function (a) {
       return '<li><i class="' + FLOW_CLASS[a] + '"></i>' + esc(legendText[a]) + '</li>';
     }).join('');
+    renderRegionMap(f);
     $('[data-hm-flow-cap]').textContent = 'Left: the program that paid, colored by agency. Right: the region of the county printed on the award. ' +
       'Band width is the income-restricted homes the awards name' + where + ', ' + yearsText() + ', ' + count(f.homes) + ' in all. ' +
       'A project paid for by two programs is counted under each, so this adds up homes named in awards, not separate buildings.' +
@@ -732,6 +741,56 @@
       state.sort = { key: k, dir: k === 'label' ? 1 : -1 };
       renderTable();
     });
+  }
+
+  // The regions on the flow's right side, as a map: each county shaded by its
+  // region, each region labelled with the homes the flow gives it.
+  // Neighbouring regions get different hues.
+  var REGION_CLASS = {
+    'Front Range': 'rg-1', 'Mountains': 'rg-5', 'Western Slope': 'rg-4',
+    'Southwest': 'rg-2', 'San Luis Valley': 'rg-7', 'Eastern Plains': 'rg-6',
+  };
+  // Each label sits on one county inside its region (El Paso, Grand, Mesa,
+  // La Plata, Alamosa, Kit Carson), so the labels never stack on a phone.
+  var REGION_LABEL_AT = {
+    'Front Range': '08041', 'Mountains': '08049', 'Western Slope': '08077',
+    'Southwest': '08067', 'San Luis Valley': '08003', 'Eastern Plains': '08063',
+  };
+  function renderRegionMap(f) {
+    var svg = $('[data-hm-flow-map]');
+    if (!svg) return;
+    if (!data.geo || !global.d3) { svg.style.display = 'none'; return; }
+    var d3 = global.d3;
+    var W = Math.min(560, parseFloat(svg.parentNode.clientWidth) || 560);
+    var H = Math.round(W * 0.74);
+    var projection = d3.geoMercator().fitExtent([[4, 4], [W - 4, H - 4]], data.geo);
+    var path = d3.geoPath(projection);
+    var homes = {};
+    f.right.forEach(function (n) { homes[n.key] = n.homes; });
+    var centre = {};
+    var counties = data.geo.features.map(function (feat) {
+      var region = data.regionOf[feat.properties.GEOID] || null;
+      if (region && REGION_LABEL_AT[region] === feat.properties.GEOID) {
+        var c = path.centroid(feat);
+        centre[region] = { x: c[0], y: c[1] };
+      }
+      return '<path d="' + path(feat) + '" class="hm-region ' + (REGION_CLASS[region] || '') + '"><title>' +
+        esc(feat.properties.NAMELSAD + (region ? ': ' + region : '')) + '</title></path>';
+    }).join('');
+    var labels = Object.keys(centre).map(function (r) {
+      var t = centre[r];
+      var v = homes[r] ? count(homes[r]) + ' homes' : 'no homes';
+      // Keep a label inside the map at its edges (about 7px a character at 12px bold).
+      var half = Math.max(r.length, v.length) * 3.6 + 4;
+      var x = Math.min(W - half, Math.max(half, t.x)), y = t.y;
+      return '<text class="hm-flow-label" x="' + x.toFixed(1) + '" y="' + (y - 2).toFixed(1) + '" text-anchor="middle">' + esc(r) + '</text>' +
+        '<text class="hm-flow-value" x="' + x.toFixed(1) + '" y="' + (y + 12).toFixed(1) + '" text-anchor="middle">' + esc(v) + '</text>';
+    }).join('');
+    svg.style.display = '';
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('width', String(W));
+    svg.setAttribute('height', String(H));
+    svg.innerHTML = '<g>' + counties + '</g><g>' + labels + '</g>';
   }
 
   // The flow is drawn at the figure's width, so it redraws when that changes.

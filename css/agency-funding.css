@@ -68,3 +68,12 @@
 .hm-flow-value { font-size: 11px; fill: var(--muted); }
 .hm-flow-legend { list-style: none; padding: 0; margin-left: 0; }
 .hm-flow-legend li::marker { content: none; }
+.hm-flow-maptitle { font-weight: 700; font-size: .9rem; margin: var(--sp3) 0 var(--sp1); color: var(--text-strong); }
+.hm-flow-map { display: block; max-width: 100%; height: auto; }
+.hm-region { stroke: var(--card); stroke-width: .8; fill-opacity: .42; }
+.hm-region.rg-1 { fill: var(--chart-1); }
+.hm-region.rg-2 { fill: var(--chart-2); }
+.hm-region.rg-4 { fill: var(--chart-4); }
+.hm-region.rg-5 { fill: var(--chart-5); }
+.hm-region.rg-6 { fill: var(--chart-6); }
+.hm-region.rg-7 { fill: var(--chart-7); }
