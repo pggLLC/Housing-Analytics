@@ -43,7 +43,8 @@
     applied: 'applied, decision pending',
     letter_of_intent: 'letter of intent filed',
     not_funded: 'applied, not funded',
-    dossier: 'studied in a site dossier'
+    dossier: 'studied in a site dossier',
+    public_land: 'land held by a public owner'
   };
 
   function esc(v) {
@@ -58,7 +59,22 @@
 
   function siteReading(s) { return s.card ? s.card.reading : 'on_file'; }
 
+  // The developer check on a site, from the backend's site research.
+  var OPEN = {
+    open: 'Open: land held, no developer chosen.',
+    rfp: 'Open: developer search under way or coming.',
+    opening: 'Opening: the last applicant appears to have moved on.',
+    unclear: 'Unclear: no developer named in public records.',
+    taken: 'Taken: a developer is still on it.'
+  };
+  var OPEN_RANK = { open: 0, rfp: 1, opening: 2, unclear: 3, taken: 4 };
+  function openRank(s) { return s.opening && s.opening.status in OPEN_RANK ? OPEN_RANK[s.opening.status] : 3; }
+  function openingLine(s) { return s.opening && OPEN[s.opening.status] ? ' ' + OPEN[s.opening.status] : ''; }
+
   function siteLine(s) {
+    return siteBase(s) + openingLine(s);
+  }
+  function siteBase(s) {
     if (s.card) {
       return LABEL[s.card.reading] + ' (dossier, checked ' + s.card.checked + '). What would change it: ' + s.card.trigger +
         (s.card.next ? ' Next date: ' + s.card.next.date + ', ' + s.card.next.what + '.' : '');
@@ -79,7 +95,7 @@
     var byGeoid = {};
     (data.sites || []).forEach(function (s) { (byGeoid[s.geoid] = byGeoid[s.geoid] || []).push(s); });
     function siteSort(a, b) {
-      return RANK[siteReading(a)] - RANK[siteReading(b)] || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
+      return RANK[siteReading(a)] - RANK[siteReading(b)] || openRank(a) - openRank(b) || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
     }
     Object.keys(byGeoid).forEach(function (g) { byGeoid[g].sort(siteSort); });
     var rows = (pipeline || []).filter(function (r) { return r && r.geoid && r.stage !== 'Anti'; });
@@ -107,7 +123,7 @@
       var c = byPlace[s.geoid] || null;
       return { key: s.id, report: reportId(s), name: s.name, geoid: s.geoid, place: s.place, site: s, reading: siteReading(s), community: c, why: siteLine(s) };
     }).sort(function (a, b) {
-      return RANK[a.reading] - RANK[b.reading] ||
+      return RANK[a.reading] - RANK[b.reading] || openRank(a.site) - openRank(b.site) ||
         (num(b.community && b.community.ioi_score) || 0) - (num(a.community && a.community.ioi_score) || 0) ||
         (num(b.site.homes) || 0) - (num(a.site.homes) || 0) || a.name.localeCompare(b.name);
     });
@@ -282,7 +298,7 @@
       (c.row.notes ? '<li><strong>Your note:</strong> ' + esc(c.row.notes) + '</li>' : '') +
       (c.signal ? '<li><strong>Latest signal:</strong> ' + esc(c.signal.summary || '') + ' ' + link('(source)', c.signal.source_url) + '</li>' : '') +
       (c.place && c.place.prop123 ? '<li><strong>' + esc(prop123Line(c.place)) + '</strong>, from DOLA commitment filings.</li>' : '') +
-      '</ul><p><a href="developer-brief.html?geoid=' + encodeURIComponent(c.geoid) + '">Open the jurisdiction report</a></p>';
+      '</ul><p><a href="developer-brief.html?geoid=' + encodeURIComponent(c.geoid) + '">Open the place card</a></p>';
   }
 
   function mount(el, ctx) {
