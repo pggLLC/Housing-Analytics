@@ -162,10 +162,10 @@
     var all = mergeContacts(network, researched);
     // "No one closer" is only true when nobody on the list fits the step.
     var hasOwn = all.some(function (c) { return !c.elsewhere; });
-    var anyFit = all.some(function (c) { return named.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
-    // A related contact fits when it covers what the step names, or, for a
-    // step that names no role, any of the first calls.
+    // A contact fits when it covers what the step names, or, for a step that
+    // names no role, any of the first calls.
     function fits(c) { return (named.length ? named : needs).some(function (n) { return c.covers.indexOf(n) !== -1; }); }
+    var anyFit = all.some(fits);
     var anyRelatedFit = all.some(function (c) { return c.elsewhere && fits(c); });
     return all.map(function (c) {
       var k = nameKey(c.name);

@@ -321,5 +321,11 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(!/No conversation is logged/.test(unloaded) && /has not loaded/.test(unloaded), 'a log that has not loaded makes no claim about past talks');
 }
 
+// Codex round 6: on a step that names no role, a planner on the list is closer.
+{
+  const r = P.rankContacts([{ name: 'Cy Clerk', role: 'Records Officer' }, { name: 'Pat Plan', role: 'Planning Director' }], [], 'Draft outreach email', []);
+  ok(!/no one closer/.test(r.find((c) => c.name === 'Cy Clerk').why), 'an unclassified contact beside a planner does not claim no one closer');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
 
