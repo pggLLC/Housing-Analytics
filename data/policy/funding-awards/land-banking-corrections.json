@@ -1,6 +1,6 @@
 {
-  "description": "Corrections to the Prop 123 Land Banking rows of ledger.json, keyed by fiscal year and the ledger's own (wrong) project name. scripts/funding/build_land_banking_awards.py applies them and stops if any corrected value is missing from the round's PDF text or if a key matches no ledger row. printed_as gives the pieces of a cell that the PDF prints on separate lines, joined by ' | '. An entry with only a note leaves the row as the ledger read it and adds the note.",
-  "checked": "2026-10-15",
+  "description": "Corrections to the Prop 123 Land Banking rows of ledger.json, keyed by fiscal year and the ledger's own (wrong) project name. scripts/funding/build_land_banking_awards.py applies them and stops if any corrected value is missing from the round's PDF text or if a key matches no ledger row. printed_as gives the pieces of a cell that the PDF prints on separate lines, joined by ' | '. An entry with only a note leaves the row as the ledger read it and adds the note. Two optional fields change only what readers see: show_project / show_sponsor give the name as it should read when the printed one has a typo or a shortened name (the printed row stays in source_quote), and since gives one dated, sourced line on what has happened to the site after the award.",
+  "checked": "2026-10-19",
   "corrections": {
     "FY23-24|Aurora Walden 35 Phase II": {
       "name": "Walden 35 Phase II",
@@ -10,7 +10,9 @@
     },
     "FY23-24|Five Points Historic Cultural Distrcit Affordable": {
       "name": "Five Points Historic Cultural Distrcit Affordable Homes",
-      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "show_project": "Five Points Historic Cultural District Affordable Homes",
+      "note": "CHFA's list spells \"District\" as \"Distrcit\"; this page shows the corrected spelling."
     },
     "FY24-25|Affordable Housing Phase 4, Bonita": {
       "name": "Affordable Housing Phase 4, Bonita Dr.",
@@ -109,7 +111,25 @@
       "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
     },
     "FY24-25|Loretto Commons": {
-      "note": "CHFA prints the sponsor as \"Commun Denver\"; the name may be cut short in the award list."
+      "show_sponsor": "Commún",
+      "note": "CHFA prints the grantee as \"Commun Denver\". It is the Denver nonprofit Commún, which used Prop 123 money to buy the Administration Building on the Loretto Heights campus (Barton Institute, \"Commún Purchases Administration Building On Loretto Heights Campus\": https://www.bartoninstitute.org/blog/commn-purchases-administration-building-on-loretto-heights-campus)."
+    },
+    "FY24-25|The Fruita Commons": {
+      "since": {
+        "text": "The site is 1130 and 1138 18 1/2 Road in Fruita. CHFA committed the grant on May 16, 2025, and the city closed on the land in November 2025. The city says it plans mostly entry-level single-family homes for sale, with some apartments, and has ten years to build.",
+        "quote": "for the acquisition of land for the development of The Fruita Commons, located at 1138 18 1/2 Rd. and 1130 18 1/2 Rd., Fruita, Mesa County, CO, 81521 ... we closed on the purchase of the Fruita Commons property in the northeast part of Fruita ... The focus of the property will be to provide entry-level single-family detached workforce housing units for sale, with some multifamily units as well.",
+        "sources": [
+          {
+            "title": "CHFA grant commitment, May 16, 2025 (City of Fruita Resolution 2025-22, Attachment 1)",
+            "url": "https://www.fruita.org/DocumentCenter/View/3807/Resolution-2025-22-Attachment-1-PDF"
+          },
+          {
+            "title": "City of Fruita Weekly Information Update, November 7, 2025",
+            "url": "https://www.fruita.org/DocumentCenter/View/4101/Weekly-Information-Update---November-7-2025"
+          }
+        ],
+        "checked": "2026-10-19"
+      }
     }
   }
 }

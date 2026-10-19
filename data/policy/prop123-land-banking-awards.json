@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-15",
+    "generated": "2026-10-19",
     "generator": "scripts/funding/build_land_banking_awards.py",
     "program": "Proposition 123 Land Banking (Affordable Housing Financing Fund)",
     "administrator": "CHFA, on behalf of the Colorado Office of Economic Development and International Trade (OEDIT)",
@@ -110,7 +110,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Town of Frisco | 101 West Main Street | Frisco | $5,000,000 | Rental | 52",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-affordable-home-ownership-in-evergreen",
@@ -141,7 +144,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Blue Spruce Habitat For Humanity | Affordable Home Ownership in Evergreen | Evergreen | $50,000 | Homeownership | 14",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-alpine-west",
@@ -172,7 +178,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Chaffee Housing Authority | Alpine West | Buena Vista | $1,320,000 | Rental | 81",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-aurora-family-apartments",
@@ -203,7 +212,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Langston Hughes Affordable Housing | Aurora Family Apartments | Aurora | $5,000,000 | Rental | 264",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-city-of-grand-junction-salt-flats",
@@ -234,7 +246,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "City of Grand Junction | City of Grand Junction Salt Flats | Grand Junction | $2,200,000 | Rental and Homeownership | 400",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-dignified-housing-village-for-at-risk-young-adults",
@@ -265,7 +280,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "WeFortify | Dignified Housing Village for At-Risk Young Adults | Colorado Springs | $470,000 | Rental | 18",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-five-points-historic-cultural-distrcit-affordable-homes",
@@ -296,7 +314,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Denver Cultural Property Trust | Five Points Historic Cultural Distrcit Affordable Homes | Denver | $1,975,000 | Homeownership | 62",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": "CHFA's list spells \"District\" as \"Distrcit\"; this page shows the corrected spelling.",
+      "show_project": "Five Points Historic Cultural District Affordable Homes",
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-gates-family-housing",
@@ -327,7 +348,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Archway Investment Corporation | Gates Family Housing | Denver | $2,000,000 | Rental | 178",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-habitat-morris-project",
@@ -358,7 +382,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Habitat for Humanity (Grand County) | Habitat Morris Project | Granby | $1,600,000 | Rental | 24",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-northlands-subdivision-of-the-huajatolla-hills",
@@ -389,7 +416,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Huerfano County Economic Development | Northlands Subdivision of the Huajatolla Hills | Walsenburg | $225,000 | Homeownership | 15",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-rural-southern-colorado-homeownership-portfolio-1",
@@ -438,7 +468,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Elevation Community Land Trust | Rural Southern Colorado Homeownership Portfolio 1 | Trinidad, Walsenburg, Fort Garland | $750,000 | Homeownership | 28",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-safer-colorado",
@@ -469,7 +502,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "SAFER Colorado | SAFER Colorado | Centennial | $700,000 | Rental | 54",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-sagewood-west-affordable-housing",
@@ -500,7 +536,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Town of Rangely | Sagewood West Affordable Housing | Rangely | $240,000 | Homeownership | 6",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-salida-eastside-senior-living-apartments",
@@ -531,7 +570,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "City of Salida | Salida Eastside Senior Living Apartments | Salida | $750,000 | Rental and Homeownership | 36",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-village-on-eastbrook",
@@ -562,7 +604,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "Housing Catalyst | Village on Eastbrook | Fort Collins | $1,610,000 | Rental | 73",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy23-24-walden-35-phase-ii",
@@ -593,7 +638,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
       "source_quote": "The Housing Authority of The City of Aurora | Walden 35 Phase II | Aurora | $1,450,000 | Rental | 75",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-11795-colmans-way",
@@ -624,7 +672,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Broomfield Housing Alliance | 11795 Colmans Way | Broomfield | $3,500,000 | Rental | 72",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-1350-n-logan",
@@ -655,7 +706,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Boulder Housing Coalition | 1350 N Logan | Denver | $430,000 | Rental | 19",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-1886-hover",
@@ -686,7 +740,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "The Inn Between of Longmont | 1886 Hover | Longmont | $1,750,000 | Rental | 40",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-affordable-housing-phase-4-bonita-dr",
@@ -717,7 +774,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Pagosa Springs Community Development Corporation | Affordable Housing Phase 4, Bonita Dr. | Pagosa Springs | $200,000 | Rental and Homeownership | 11",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-bloom-cottages-habitat",
@@ -748,7 +808,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Habitat for Humanity Fort Collins | Bloom Cottages - Habitat | Fort Collins | $600,000 | Homeownership | 8",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-bradley-ridge-apartments",
@@ -779,7 +842,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Pikes Peak Real Estate Foundation | Bradley Ridge Apartments | Colorado Springs | $4,850,000 | Rental | 336",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-brighton-blvd-gesc",
@@ -810,7 +876,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "GES Coalition, Inc. | Brighton Blvd-GESC | Denver | $3,571,429 | Rental and Homeownership | 60",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-calvary-flats-affordable-homes",
@@ -841,7 +910,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Habitat for Humanity of Metro Denver, Inc. | Calvary Flats Affordable Homes | Golden | $1,200,000 | Homeownership | 40",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-fairways-phase-ii",
@@ -872,7 +944,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Thistle Community Housing | Fairways Phase II | Boulder | $2,600,000 | Rental and Homeownership | 48",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-flats-at-harlan",
@@ -903,7 +978,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "West Colfax Lampstand | Flats at Harlan | Lakewood | $400,000 | Homeownership | 9",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-flats-at-sand-creek",
@@ -934,7 +1012,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Fairview Housing Partners Ltd | Flats at Sand Creek | Colorado Springs | $4,050,000 | Rental | 144",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-habitat-15th-and-terry-street-neighborhood",
@@ -965,7 +1046,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Habitat for Humanity of the St. Vrain Valley | Habitat 15th and Terry Street Neighborhood | Longmont | $1,558,333 | Homeownership | 35",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-liberty-house",
@@ -996,7 +1080,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Urban Land Conservancy II | Liberty House | Denver | $2,450,000 | Rental | 66",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-liora",
@@ -1027,7 +1114,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "The NHP Foundation | Liora | Denver | $3,850,000 | Rental | 158",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-loretto-commons",
@@ -1058,7 +1148,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Commun Denver | Loretto Commons | Denver | $2,500,000 | Rental and Homeownership | 173",
       "corrected_from_ledger": null,
-      "note": "CHFA prints the sponsor as \"Commun Denver\"; the name may be cut short in the award list."
+      "note": "CHFA prints the grantee as \"Commun Denver\". It is the Denver nonprofit Commún, which used Prop 123 money to buy the Administration Building on the Loretto Heights campus (Barton Institute, \"Commún Purchases Administration Building On Loretto Heights Campus\": https://www.bartoninstitute.org/blog/commn-purchases-administration-building-on-loretto-heights-campus).",
+      "show_project": null,
+      "show_sponsor": "Commún",
+      "since": null
     },
     {
       "id": "fy24-25-metro-caring-affordable-housing",
@@ -1089,7 +1182,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Metro Caring | Metro Caring Affordable Housing | Denver | $3,485,000 | Rental | 139",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-miners-haus",
@@ -1120,7 +1216,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Elevation Community Land Trust II | Miners Haus | Golden | $1,400,000 | Homeownership | 44",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-ridge-road",
@@ -1151,7 +1250,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Foothills Regional Housing | Ridge Road | Wheat Ridge | $2,100,000 | Rental | 220",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-tbd-hilltop-apartments",
@@ -1182,7 +1284,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Community Options Inc. | TBD Hilltop Apartments | Montrose | $1,250,000 | Rental | 50",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-the-foundry",
@@ -1213,7 +1318,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "Commerce City Housing Authority | The Foundry | Commerce City | $4,750,000 | Rental and Homeownership | 120",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy24-25-the-fruita-commons",
@@ -1244,7 +1352,24 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
       "source_quote": "The City of Fruita | The Fruita Commons | Fruita | $1,500,000 | Rental and Homeownership | 100",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": {
+        "text": "The site is 1130 and 1138 18 1/2 Road in Fruita. CHFA committed the grant on May 16, 2025, and the city closed on the land in November 2025. The city says it plans mostly entry-level single-family homes for sale, with some apartments, and has ten years to build.",
+        "quote": "for the acquisition of land for the development of The Fruita Commons, located at 1138 18 1/2 Rd. and 1130 18 1/2 Rd., Fruita, Mesa County, CO, 81521 ... we closed on the purchase of the Fruita Commons property in the northeast part of Fruita ... The focus of the property will be to provide entry-level single-family detached workforce housing units for sale, with some multifamily units as well.",
+        "sources": [
+          {
+            "title": "CHFA grant commitment, May 16, 2025 (City of Fruita Resolution 2025-22, Attachment 1)",
+            "url": "https://www.fruita.org/DocumentCenter/View/3807/Resolution-2025-22-Attachment-1-PDF"
+          },
+          {
+            "title": "City of Fruita Weekly Information Update, November 7, 2025",
+            "url": "https://www.fruita.org/DocumentCenter/View/4101/Weekly-Information-Update---November-7-2025"
+          }
+        ],
+        "checked": "2026-10-19"
+      }
     },
     {
       "id": "fy25-26-rural-fort-morgan-mixed-income-housing-development",
@@ -1275,7 +1400,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "United Way of Morgan County | Fort Morgan Mixed-income Housing Development | Fort Morgan | $700,000 | Rental | 45",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-gunnison-workforce-housing-project",
@@ -1306,7 +1434,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Valley Housing Fund | Gunnison Workforce Housing Project | Gunnison | $1,000,000 | Rental and Homeownership | 107",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-high-country-haven-phase-ii",
@@ -1337,7 +1468,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Elevation Community Land Trust | High Country Haven Phase II | Cripple Creek | $756,000 | Homeownership | 18",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-lakeview-flats",
@@ -1368,7 +1502,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Town of Georgetown | Lakeview Flats | Georgetown | $1,820,000 | Homeownership | 52",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-leadville-railyards",
@@ -1399,7 +1536,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Advocates of Lake County | Leadville Railyards | Leadville | $1,250,000 | Rental | 44",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-rivergate-lot-5-workforce-housing-development",
@@ -1430,7 +1570,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "City of Durango | Rivergate Lot 5 Workforce Housing Development | Durango | $1,550,000 | Homeownership | 27",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-silt-riverfront-homes",
@@ -1461,7 +1604,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Mooney Family Foundation | Silt Riverfront Homes | Silt | $4,280,000 | Rental and Homeownership | 144",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-rural-the-riverly",
@@ -1492,7 +1638,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_quote": "Archway Communities | The Riverly | Pueblo | $2,500,000 | Rental | 98",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-375-logan",
@@ -1523,7 +1672,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Urban Land Conservancy | 375 Logan | Denver | $3,480,000 | Rental | 100",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-830-moraine-development",
@@ -1554,7 +1706,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Estes Park Housing Authority | 830 Moraine Development | Estes Park | $3,350,000 | Rental and Homeownership | 140",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-9151-n-pearl-street",
@@ -1585,7 +1740,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Cordon Development Group Inc. | 9151 N. Pearl Street | Thornton | $3,960,000 | Rental | 180",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-basecamp-woodland-park",
@@ -1616,7 +1774,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Tri-County Housing, Inc. dba Total Concept | Basecamp Woodland Park | Woodland Park | $1,900,000 | Rental and Homeownership | 122",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-bimson",
@@ -1647,7 +1808,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Berthoud Habitat for Humanity | Bimson | Berthoud | $290,000 | Homeownership | 12",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-brighton-bridge-telluride",
@@ -1678,7 +1842,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Brighton Housing Authority (Searles) | Brighton - Bridge & Telluride | Brighton | $2,125,000 | Rental | 250",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-cherokee-place",
@@ -1709,7 +1876,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Innovative Housing Concepts | Cherokee Place | Englewood | $1,250,000 | Rental | 50",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-legacy-terrace-apartments",
@@ -1740,7 +1910,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "City of Wheat Ridge | Legacy Terrace Apartments | Wheat Ridge | $2,000,000 | Rental | 50",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-mada-kinikin-affordable-housing-childcare-community",
@@ -1771,7 +1944,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Mexican American Development Association | MADA Kinikin Affordable Housing & Childcare Community | Montrose | $475,000 | Rental and Homeownership | 62",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-midland-affordable-homes",
@@ -1802,7 +1978,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Sharing Connexion | Midland Affordable Homes | Glenwood Springs | $720,000 | Homeownership | 36",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-mountain-view-apartments",
@@ -1833,7 +2012,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Leadville & Lake County Regional Housing Authority | Mountain View Apartments | Leadville | $1,650,000 | Rental | 74",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-mountair-townhomes",
@@ -1864,7 +2046,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Mile High Ministries | Mountair Townhomes | Lakewood | $1,100,000 | Homeownership | 13",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-nazarene-townhomes",
@@ -1895,7 +2080,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Elevation Community Land Trust | Nazarene Townhomes | Golden | $1,300,000 | Homeownership | 47",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-pumpkin-ridge-apartments",
@@ -1926,7 +2114,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "CARE Communities | Pumpkin Ridge Apartments | Greeley | $1,790,000 | Rental | 102",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-rio-grande-community-trust-monte-vista-scattered-site-homeownership-project",
@@ -1957,7 +2148,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "Rio Grande Community Trust | Rio Grande Community Trust Monte Vista Scattered Site Homeownership Project | Monte Vista | $60,000 | Homeownership | 3",
       "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-tailwind-residences",
@@ -1988,7 +2182,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "First Light Community Development | Tailwind Residences | Breckenridge | $2,050,000 | Homeownership | 40",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-york-street-townhomes",
@@ -2019,7 +2216,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "GES Coalition | York Street Townhomes | Denver | $2,340,000 | Rental and Homeownership | 22",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     },
     {
       "id": "fy25-26-statewide-yosemite-street",
@@ -2050,7 +2250,10 @@
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
       "source_quote": "East Colfax Community Collective | Yosemite Street | Aurora | $2,820,000 | Rental | 152",
       "corrected_from_ledger": null,
-      "note": null
+      "note": null,
+      "show_project": null,
+      "show_sponsor": null,
+      "since": null
     }
   ]
 }

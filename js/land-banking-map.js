@@ -50,7 +50,7 @@
     var s = String(q || '').toLowerCase().trim();
     if (!s) return (awards || []).slice();
     return (awards || []).filter(function (a) {
-      var hay = [a.project, a.sponsor, a.location].concat((a.places || []).map(function (p) { return p.name + ' ' + (p.county || ''); }))
+      var hay = [a.project, a.sponsor, a.show_project, a.show_sponsor, a.location].concat((a.places || []).map(function (p) { return p.name + ' ' + (p.county || ''); }))
         .join(' ').toLowerCase();
       return hay.indexOf(s) !== -1;
     });
@@ -81,6 +81,22 @@
       .sort(function (x, y) { return y.awards.length - x.awards.length || x.name.localeCompare(y.name); });
   }
 
+  // The name as readers should see it: CHFA's printed name unless the data gives a
+  // corrected one (a typo or a shortened name in the award list).
+  function projectName(a) { return a.show_project || a.project; }
+  function sponsorName(a) { return a.show_sponsor || a.sponsor; }
+
+  // One dated, sourced line on what has happened to the site since the award.
+  function sinceHtml(a) {
+    var s = a && a.since;
+    if (!s || !s.text) return '';
+    var links = (s.sources || []).map(function (x) {
+      var u = safeUrl(x.url);
+      return u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
+    }).join('; ');
+    return '<span class="lbm-since">Since the award: ' + esc(s.text) + (links ? ' <span class="lbm-note">(' + links + ')</span>' : '') + '</span>';
+  }
+
   function roundLabel(data, id) {
     var r = ((data.meta || {}).rounds || []).find(function (x) { return x.id === id; });
     return r ? r.label : id;
@@ -106,7 +122,7 @@
   // Public pages name no person: the grantee organisation, then CHFA's program contact.
   function publicContactHtml(a, data) {
     var programEmail = safeEmail((data.meta || {}).program_email);
-    return 'ask ' + esc(a.sponsor) + (programEmail
+    return 'ask ' + esc(sponsorName(a)) + (programEmail
       ? ', or CHFA\'s land banking team at <a href="mailto:' + esc(programEmail) + '">' + esc(programEmail) + '</a>.'
       : '.');
   }
@@ -125,8 +141,10 @@
     var mode = opts.mode;
     return '<div class="lbm-popup"><h4>' + esc(town.name) + (town.county ? ' <span class="lbm-note">(' + esc(town.county) + ')</span>' : '') + '</h4><ul>' +
       town.awards.map(function (a) {
-        return '<li><strong>' + esc(a.project) + '</strong>: ' + esc(a.sponsor) + ', ' + money(a.amount_awarded) + ', about ' +
+        var since = sinceHtml(a);
+        return '<li><strong>' + esc(projectName(a)) + '</strong>: ' + esc(sponsorName(a)) + ', ' + money(a.amount_awarded) + ', about ' +
           int(a.estimated_units) + ' ' + esc(PURPOSE_TEXT[a.purpose] || String(a.purpose || '').toLowerCase()) + ' homes (' + esc(roundLabel(data, a.round)) + ').' +
+          (since ? '<br>' + since : '') +
           (mode === 'gated' ? '<br>Contact: ' + contactHtml((contacts || {})[a.id], data, contactsMissing)
             : '<br>Questions: ' + publicContactHtml(a, data)) + '</li>';
       }).join('') + '</ul>' + reportLink(town, opts) + '</div>';
@@ -147,11 +165,13 @@
     } catch (e) { return fallback; }
   }
 
+  var CO_BOUNDS = [[36.99, -109.06], [41.0, -102.04]];
+
   function initMap(el) {
     var L = global.L;
     if (!L || !el) return null;
     var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25 });
-    map.fitBounds([[36.99, -109.06], [41.0, -102.04]], { padding: [8, 8] });
+    map.fitBounds(CO_BOUNDS, { padding: [8, 8] });
     var dark = global.document.documentElement.getAttribute('data-theme') === 'dark';
     var base = global.COHOBasemaps ? (dark ? global.COHOBasemaps.dark() : global.COHOBasemaps.light()) : null;
     if (base) base.addTo(map);
@@ -256,6 +276,21 @@
       }).join('');
   }
 
+  // A search moves the map to what it found, so a town's pin is read against its own
+  // name on the base map rather than a bigger neighbour's (Fruita's pin sits beside the
+  // "Grand Junction" label at state zoom). An empty search goes back to the whole state.
+  function fitToSearch(state, q) {
+    if (!state.mapState) return;
+    var map = state.mapState.map;
+    var towns = state.towns || [];
+    var town = townForSearch(towns, q);
+    try {
+      if (!String(q || '').trim() || !towns.length) map.fitBounds(CO_BOUNDS, { padding: [8, 8], animate: false });
+      else if (town) map.setView([town.lat, town.lng], 11, { animate: false });
+      else map.fitBounds(towns.map(function (t) { return [t.lat, t.lng]; }), { padding: [30, 30], maxZoom: 10, animate: false });
+    } catch (e) { /* the map keeps its view */ }
+  }
+
   function render(state) {
     var doc = global.document;
     var q = doc.getElementById('lbmSearch').value;
@@ -272,6 +307,9 @@
     if (list) list.innerHTML = townListHtml(state.towns);
     var listCount = doc.querySelector('[data-lbm-towns-count]');
     if (listCount) listCount.textContent = String(state.towns.length);
+    var listLabel = doc.querySelector('[data-lbm-towns-word]');
+    if (listLabel) listLabel.textContent = state.towns.length === 1 ? 'town' : 'towns';
+    fitToSearch(state, q);
     // A search that names a town, or narrows to one, opens it; otherwise the panel waits for a tap.
     showTown(state, townForSearch(state.towns, q));
   }
@@ -360,5 +398,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
+    popupHtml: popupHtml, sinceHtml: sinceHtml, projectName: projectName, sponsorName: sponsorName, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
 }));

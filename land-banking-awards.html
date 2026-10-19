@@ -27,6 +27,8 @@
     /* Touch targets: every control below the map is at least 44px tall. */
     a[data-lb-csv] { display: inline-flex; align-items: center; min-height: 44px; }
     button[data-lb-more] { min-height: 44px; }
+    button[data-lb-more][hidden] { display: none; }
+    .lb-since { margin: 4px 0 0; font-size: var(--small); line-height: 1.5; max-width: 420px; }
     .lb-quote blockquote { margin: var(--sp1) 0; padding-left: var(--sp2); border-left: 3px solid var(--border); font-size: var(--small); overflow-wrap: anywhere; }
     .lb-note { font-size: var(--small); color: var(--muted); }
     .lb-means { max-width: 760px; line-height: 1.6; }
@@ -92,7 +94,7 @@
           <div id="lbmMap" role="region" aria-label="Map of Prop 123 land banking awards by town"></div>
           <div class="lbm-detail" data-lbm-detail aria-live="polite" tabindex="-1" hidden></div>
           <details class="lbm-list">
-            <summary><span>List the <span data-lbm-towns-count></span> towns instead</span></summary>
+            <summary><span>List the <span data-lbm-towns-count></span> <span data-lbm-towns-word>towns</span> instead</span></summary>
             <ul data-lbm-towns></ul>
           </details>
           <p class="lbm-foot"><span data-lbm-note></span> Program: <span data-lbm-program></span>.</p>
@@ -104,7 +106,16 @@
           <p><a href="#" data-lb-csv download="prop123-land-banking-awards.csv">Download these awards (CSV)</a></p>
           <div class="lb-table-wrap">
             <table class="data-table lb-table">
-              <thead><tr><th>Round</th><th>Project</th><th>Received by</th><th>Town</th><th>Homes planned</th><th>Awarded</th><th>Est. homes</th><th>Source</th></tr></thead>
+              <thead><tr>
+                <th data-tip="The yearly award round the list comes from. Colorado's fiscal year runs July to June, so the 2024-25 round was awarded in 2025.">Round</th>
+                <th data-tip="The project name as printed in CHFA's award list. A dated note under a name says what has happened to the site since, with its source.">Project</th>
+                <th data-tip="The organization CHFA's award list names as receiving the money.">Received by</th>
+                <th data-tip="The town CHFA's list gives for the site. The list names a town, not an address.">Town</th>
+                <th data-tip="Whether the homes planned on the land are to rent, to buy, or both, as the award list says.">Homes planned</th>
+                <th data-tip="The dollars awarded to buy the land, as printed in CHFA's award list.">Awarded</th>
+                <th data-tip="The grantee's estimate of how many homes the land will hold. These are plans, not homes built.">Est. homes</th>
+                <th data-tip="CHFA's award list for the round, with the row exactly as printed.">Source</th>
+              </tr></thead>
               <tbody data-lb-rows><tr><td colspan="8">Loading…</td></tr></tbody>
             </table>
           </div>
