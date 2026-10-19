@@ -223,7 +223,12 @@
         });
       }
 
-      return { values: values, unreliable: unreliable, names: names, boundaries: boundaries, detail: detail };
+      // A source that failed to load is retried on the next call, and the
+      // measures built on it refuse to draw (see loadField) rather than
+      // showing blank counties as if they were data.
+      var missing = { permits: !permits, chas: !chas, reliability: !reliability };
+      if (missing.permits || missing.chas || missing.reliability) pending = null;
+      return { values: values, unreliable: unreliable, names: names, boundaries: boundaries, detail: detail, missing: missing };
     });
     pending.catch(function () { pending = null; });
     return pending;
@@ -239,8 +244,12 @@
     pendingProjections = load(fetchJson).then(function (res) {
       var geoids = Object.keys(res.names);
       return Promise.all(geoids.map(function (geoid) {
-        return get('data/hna/projections/' + geoid + '.json').catch(function () { return null; });
+        return get('data/hna/projections/' + geoid + '.json');
       })).then(function (files) {
+        // Every county has a projection file; a missing one fails the load.
+        if (files.some(function (d) { return !d || !Array.isArray(d.population_dola); })) {
+          throw new Error('projection files incomplete');
+        }
         files.forEach(function (d, i) {
           var geoid = geoids[i];
           var pop = d && d.population_dola;
@@ -319,11 +328,24 @@
   }
 
   // Values for one measure, loading the projection files when it needs them.
+  var NEEDS = {
+    permits_per_1k: 'permits', build_pace_vs_need: 'permits',
+    missing_per_100_lte30: 'chas', short_per_100_lte50: 'chas', subsidized_per_100_lte80: 'chas',
+  };
+  Object.keys(CV_FIELDS).forEach(function (k) { NEEDS[k] = 'reliability'; });
+
   function loadField(field, fetchJson) {
     var f = FIELDS[field] || {};
-    if (f.projection) return loadProjections(fetchJson);
-    if (f.inventory) return loadInventory(fetchJson);
-    return load(fetchJson);
+    var loaded = f.projection ? loadProjections(fetchJson) : f.inventory ? loadInventory(fetchJson) : load(fetchJson);
+    return loaded.then(function (res) {
+      var source = NEEDS[field];
+      if (source && res.missing && res.missing[source]) {
+        pendingProjections = null;
+        pendingInventory = null;
+        throw new Error(source + ' did not load');
+      }
+      return res;
+    });
   }
 
   window.CountyMeasures = { load: load, loadField: loadField, FIELDS: FIELDS, format: format };
