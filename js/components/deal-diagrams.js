@@ -73,6 +73,14 @@
     return { tdc: tdc, scale: scale, costLine: tdc / scale, segments: segs, missing: missing, gap: known(gap) ? gap : null, surplus: surplus };
   }
 
+  function stackVerdict(m) {
+    if (m.unavailable) return 'Capital stack unavailable: ' + m.unavailable;
+    return m.gap === null ? 'The gap cannot be worked out yet.'
+      : m.gap > 0 ? 'The sources leave a gap of ' + money(m.gap) + ', ' + pct(m.gap / m.tdc) + ' of the cost.'
+      : m.surplus > 0 ? 'The sources run ' + money(m.surplus) + ' past the cost, so there is no gap.'
+      : 'The sources cover the cost exactly.';
+  }
+
   function renderStack(m) {
     if (m.unavailable) return '<p class="diagram__title">Capital stack</p><p data-dg="unavailable">Unavailable: ' + esc(m.unavailable) + '</p>';
     var bar = m.segments.map(function (s) {
@@ -83,10 +91,7 @@
       return '<li><i class="' + (s.gap ? 'dg-gap-key' : s.unknown ? 'dg-unknown-key' : s.cls) + '"></i>' + esc(s.label) + ' <strong>' + money(s.amount) + '</strong> (' + pct(s.amount / m.tdc) + ')</li>';
     }).join('');
     var missing = m.missing.map(function (x) { return '<li data-dg="missing">' + esc(x.label) + ': unavailable. ' + esc(x.reason || '') + '</li>'; }).join('');
-    var verdict = m.gap === null ? 'The gap cannot be worked out yet.'
-      : m.gap > 0 ? 'The sources leave a gap of ' + money(m.gap) + ', ' + pct(m.gap / m.tdc) + ' of the cost.'
-      : m.surplus > 0 ? 'The sources run ' + money(m.surplus) + ' past the cost, so there is no gap.'
-      : 'The sources cover the cost exactly.';
+    var verdict = stackVerdict(m);
     return '<p class="diagram__title">Capital stack</p>' +
       '<div class="dg-stack">' +
         '<p class="dg-stack__label"><span>Total development cost</span><strong>' + money(m.tdc) + '</strong></p>' +
@@ -132,10 +137,19 @@
       '<ol class="dg-ladder">' + rows + '</ol>';
   }
 
+  // One spoken line for both diagrams, read out politely when it changes.
+  function summary(sm, lm) {
+    var parts = [stackVerdict(sm)];
+    if (lm) parts.push(lm.lastPaid ? 'Sale proceeds of ' + money(lm.gross) + ' reach the ' + lm.lastPaid + ' step.' : 'The sale proceeds pay no waterfall step.');
+    return parts.join(' ');
+  }
+
   function mount(doc) {
     function refresh(result) {
       var su = doc.getElementById('dc-su-table');
       var fs = su && su.closest('fieldset');
+      var sm = stackModel(result);
+      var lm = ladderModel(result && result.waterfall);
       if (fs) {
         var fig = doc.getElementById('dcCapitalStackDiagram');
         if (!fig) {
@@ -144,7 +158,19 @@
           fig.id = 'dcCapitalStackDiagram';
           fs.parentNode.insertBefore(fig, fs);
         }
-        fig.innerHTML = renderStack(stackModel(result)) +
+        var live = doc.getElementById('dcDealDiagramsStatus');
+        if (!live) {
+          live = doc.createElement('p');
+          live.id = 'dcDealDiagramsStatus';
+          live.className = 'sr-only no-glossary';
+          live.setAttribute('role', 'status');
+          live.setAttribute('aria-live', 'polite');
+          live.setAttribute('aria-atomic', 'true');
+          fig.parentNode.insertBefore(live, fig);
+        }
+        var said = summary(sm, lm);
+        if (live.textContent !== said) live.textContent = said;
+        fig.innerHTML = renderStack(sm) +
           '<figcaption>Each piece is a figure from the Sources &amp; Uses table below, drawn to scale against the total development cost. ' +
           'A hatched piece is the gap the listed sources do not cover.</figcaption>';
       }
@@ -157,7 +183,6 @@
           lad.id = 'dcWaterfallLadder';
           table.parentNode.insertBefore(lad, table);
         }
-        var lm = ladderModel(result && result.waterfall);
         lad.hidden = !lm;
         if (lm) lad.innerHTML = renderLadder(lm) +
           '<figcaption>Each step is paid in full before the next gets anything, so each bar starts where the one above it ended. ' +
@@ -169,5 +194,5 @@
 
   if (typeof document !== 'undefined') mount(document);
 
-  return { stackModel: stackModel, renderStack: renderStack, ladderModel: ladderModel, renderLadder: renderLadder, money: money };
+  return { stackModel: stackModel, renderStack: renderStack, summary: summary, ladderModel: ladderModel, renderLadder: renderLadder, money: money };
 }));

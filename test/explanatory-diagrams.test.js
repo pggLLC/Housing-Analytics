@@ -399,6 +399,17 @@ test('a chosen added credit that cannot be counted is unavailable, never $0', ()
   checks += 3;
 });
 
+test('screen readers hear one summary of both diagrams', () => {
+  const sm = DealDiagrams.stackModel(deal());
+  const lm = DealDiagrams.ladderModel({ grossProceeds: 5e6, tiers: [{ name: 'Mortgage payoff', recipient: 'Lender', amount: 3e6 }, { name: 'LP return', recipient: 'LP investor', amount: 2e6 }] });
+  const said = DealDiagrams.summary(sm, lm);
+  assert.ok(said.startsWith('The sources leave a gap of $2.00M, 10% of the cost.'), said);
+  assert.ok(said.endsWith('Sale proceeds of $5.00M reach the LP return step.'), said);
+  const src = fs.readFileSync(path.join(ROOT, 'js/components/deal-diagrams.js'), 'utf8');
+  assert.ok(/'aria-live', 'polite'/.test(src) && /'aria-atomic', 'true'/.test(src));
+  checks += 3;
+});
+
 test('a surplus runs past the cost line instead of drawing a gap', () => {
   const m = DealDiagrams.stackModel(deal({ gap: -1e6, mortgage: 6e6 }));
   assert.ok(!m.segments.some((s) => s.gap));

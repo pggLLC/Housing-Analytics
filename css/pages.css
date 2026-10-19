@@ -1118,7 +1118,7 @@ mark {
 .dg-seg--cs6 { background: var(--chart-6); }
 .dg-seg--cs7 { background: var(--chart-7); }
 .dg-seg--gap, .dg-gap-key { background: repeating-linear-gradient(135deg, var(--chart-7) 0 4px, transparent 4px 8px); border: 2px solid var(--chart-7); box-sizing: border-box; }
-.dg-seg--unknown, .dg-unknown-key { border: 2px dashed var(--muted); box-sizing: border-box; background: transparent; }
+.dg-seg--unknown, .dg-unknown-key { border: 2px dashed var(--chart-4); box-sizing: border-box; background: transparent; }
 .dg-stack__key i.dg-gap-key, .dg-stack__key i.dg-unknown-key { background-color: transparent; }
 .dg-costline { position: absolute; top: -5px; bottom: -5px; width: 0; border-left: 2px solid var(--chart-1); }
 .dg-stack__missing { margin: .45rem 0 0; padding-left: 1.1rem; font-size: .8rem; color: var(--muted); }
