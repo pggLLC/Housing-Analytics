@@ -1107,7 +1107,7 @@ html.dark-mode .hca-type-cdp    { color: var(--accent2); }
 .hca-cp-ami__side-label--b { color: var(--info, #2563eb); }
 .hca-cp-ami__stack {
   display: flex;
-  height: 28px;
+  min-height: 1.75rem;
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 6px;
