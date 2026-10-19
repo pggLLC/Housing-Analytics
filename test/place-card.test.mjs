@@ -45,7 +45,7 @@ ok(merged.find((c) => c.name === 'Pat Planner').phone === '970-555-0101 (Plannin
 
 let ranked = P.rankContacts(network, researched, 'Ask for a zoning letter');
 ok(ranked[0].name === 'Pat Planner', 'the planning director comes first for a zoning step');
-ok(/zoning and entitlements/.test(ranked[0].why) && /phone on file/.test(ranked[0].why), 'the pick says why');
+ok(/zoning and entitlements/.test(ranked[0].why) && /A phone number is listed/.test(ranked[0].why), 'the pick says why');
 ranked = P.rankContacts(network, researched, 'Respond to the land RFP');
 ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a land step');
 
@@ -79,7 +79,7 @@ const own = { name: 'Town of T', contacts: [{ name: 'Town Planner', role: 'Plann
 const county = { name: 'T County', contacts: [{ name: 'County Planner', role: 'Planning Director', source_url: 'https://example.org/c' }] };
 ok(P.researchedFor(own, [county]).map((c) => c.name).join() === 'Town Planner', 'the place\'s own contacts are ranked, not its county\'s');
 const fallback = P.rankContacts([], P.researchedFor({ contacts: [] }, [county]), 'Ask for a zoning letter');
-ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/decides/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
+ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/next step needs that/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
 ok(/researchedFor\(contacts, relatedContacts\)/.test(read('developer-brief.html')), 'the report page ranks with the place\'s own contacts first');
 
 const sameName = P.mergeContacts([{ name: 'Pat Planner', role: 'Planning Director', phone: '' }],
@@ -93,7 +93,7 @@ const notes = [{ id: 'a', date: '2026-10-18', contact: 'mo manager', said: 'Talk
 ok(P.lastTalked(notes)['mo manager'] === '2026-10-18', 'the log records the latest talk per person');
 ranked = P.rankContacts(network, researched, 'Draft outreach email', notes);
 const mo = ranked.find((c) => c.name === 'Mo Manager');
-ok(mo.last_talked === '2026-10-18' && /you talked on 2026-10-18/.test(mo.why), 'a logged talk shows as last talked');
+ok(mo.last_talked === '2026-10-18' && /You last talked on 2026-10-18/.test(mo.why), 'a logged talk shows as last talked');
 const twins = [
   { name: 'Mo Manager', role: 'Town Manager', email: 'mo@example.org', phone: '1', last_talked: 'never' },
   { name: 'Al Manager', role: 'Town Manager', email: 'al@example.org', phone: '2', last_talked: 'never' }
@@ -276,4 +276,63 @@ ok(/class="ask-status" role="status" aria-live="polite"/.test(askSrc) && /body\.
 ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');
 ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
 
+// "No one closer" only when nobody listed fits the step.
+{
+  const r = P.rankContacts([{ name: 'Fi Finance', role: 'Finance Director' }, { name: 'Pat Plan', role: 'Planning Director' }], [], 'Rezone the parcel', []);
+  const fin = r.find((c) => c.name === 'Fi Finance');
+  ok(!/no one closer/.test(fin.why), 'a non-fitting contact does not claim no one closer when another contact fits');
+}
+
+// "No contact for this place" only when none of the place's own is on file.
+{
+  const rel = [{ name: 'Cy County', role: 'Planning Director', source_url: 'https://example.org/c', elsewhere: 'T County' }];
+  const withMine = P.rankContacts([{ name: 'Tia Town', role: 'Town Planner' }], rel, 'Rezone the parcel', []);
+  ok(!/No contact for this place itself/.test(withMine.find((c) => c.name === 'Cy County').why), 'a related contact does not claim none of the place\'s own exist when the network has one');
+  const alone = P.rankContacts([], rel, 'Rezone the parcel', []);
+  ok(/No contact for this place itself/.test(alone[0].why), 'with no contact of its own, the related contact says it is the nearest lead');
+}
+
+// Codex round 4: the fallback roles are never called a need of a named step.
+{
+  const pd = [{ name: 'Pat Planner', role: 'Planning Director', org: 'Town of T', source_url: 'https://example.org/t' }];
+  const grant = P.rankContacts([], pd, 'Apply for a grant');
+  ok(!/next step needs that/.test(grant[0].why), 'a planner on a grant step is not said to be what the step needs');
+  ok(/next step needs that/.test(P.rankContacts([], pd, 'Ask for a zoning letter')[0].why), 'a planner on a zoning step is');
+  ok(/does not name who decides it/.test(P.rankContacts([], pd, 'Draft outreach email')[0].why), 'a step that names no role says the planner is a first call');
+  ok(P.needsFromAction('Apply for a grant').join() === 'funding,housing-authority,zoning,management', 'ranking still uses the fallbacks');
+}
+
+// Codex round 4: only a fitting related contact is called the nearest lead.
+{
+  const rel = P.researchedFor({ contacts: [] }, [{ name: 'T County', contacts: [
+    { name: 'Cy Planner', role: 'Planning Director', source_url: 'https://example.org/c' },
+    { name: 'Fi Finance', role: 'Finance Director', source_url: 'https://example.org/c' }] }]);
+  const r = P.rankContacts([], rel, 'Ask for a zoning letter');
+  ok(/nearest lead/.test(r.find((c) => c.name === 'Cy Planner').why), 'the related planner on a zoning step is the nearest lead');
+  ok(!/nearest lead/.test(r.find((c) => c.name === 'Fi Finance').why) && /No contact for this place itself/.test(r.find((c) => c.name === 'Fi Finance').why), 'the related finance director is not');
+}
+
+// Codex round 5: a manager fits a funding vote; an unloaded log claims nothing.
+{
+  const mgr = [{ name: 'Mo Manager', role: 'Town Manager', org: 'Town of T', source_url: 'https://example.org/t' }];
+  ok(/next step needs that/.test(P.rankContacts([], mgr, 'Ask the council to vote on fee waivers', [])[0].why), 'a manager on a funding vote is what the step needs');
+  ok(/No conversation is logged yet/.test(P.rankContacts([], mgr, 'Draft outreach email', [])[0].why), 'a loaded empty log says no talk is logged');
+  const unloaded = P.rankContacts([], mgr, 'Draft outreach email', null)[0].why;
+  ok(!/No conversation is logged/.test(unloaded) && /has not loaded/.test(unloaded), 'a log that has not loaded makes no claim about past talks');
+}
+
+// Codex round 6: on a step that names no role, a planner on the list is closer.
+{
+  const r = P.rankContacts([{ name: 'Cy Clerk', role: 'Records Officer' }, { name: 'Pat Plan', role: 'Planning Director' }], [], 'Draft outreach email', []);
+  ok(!/no one closer/.test(r.find((c) => c.name === 'Cy Clerk').why), 'an unclassified contact beside a planner does not claim no one closer');
+}
+
+// Codex round 7: a role the step names outright fits; a grant alone is not a vote.
+{
+  const mgr = [{ name: 'Mo Manager', role: 'Town Manager', org: 'Town of T', source_url: 'https://example.org/t' }];
+  ok(/next step needs that/.test(P.rankContacts([], mgr, 'Call the town manager about zoning', [])[0].why), 'a manager the step names is what it needs');
+  ok(!/next step needs that/.test(P.rankContacts([], mgr, 'Apply for a grant', [])[0].why), 'a grant application alone does not call for the manager');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
+
