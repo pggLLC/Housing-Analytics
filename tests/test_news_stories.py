@@ -236,3 +236,13 @@ def test_headlines_that_are_not_about_housing_are_left_out(geos):
         'JB Matteson Acquires Vantage at Loveland in Colorado for $72.3M',
         "'Off the Street' breakfast highlights The Place's mission to house and support local youth",
     }
+
+
+def test_an_indirect_housing_headline_stays(geos):
+    stories, _ = gpb.build_stories([
+        alert("Hope is at the core of organization\u2019s purpose | NONPROFIT REGISTER", 'Colorado Politics'),
+        alert('Denver Mayor Mike Johnston unveils Mile High Line project at State of the City', 'Rocky Mountain PBS'),
+        alert("Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado", 'Morningstar'),
+        alert("Denver's Javier Mabrey eyes Colorado House leadership", 'State Affairs Pro'),
+    ], geos)
+    assert len(stories) == 4

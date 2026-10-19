@@ -422,27 +422,31 @@ COLORADO_STREET_RE = re.compile(
 # Housing News is housing news. The searches return the rest of a paper too:
 # on 2026-10-18 the page listed a murder bail ruling, "This Denver house
 # inspired a famous horror film" and a congressional fundraising record. A
-# headline is kept when it names housing, land, building or a housing program,
-# or when it comes from a housing or real-estate trade outlet (an acquisition
-# headline there rarely says "housing"). Bare "house" is not a housing word:
-# it is also the state House and the U.S. House.
+# headline is left out only when it says nothing about housing AND names
+# something plainly off topic (crime, a campaign, traffic, a film). A headline
+# that is merely indirect stays: "Hope is at the core of organization's
+# purpose" is about 240 affordable homes, and the Mile High Line is a 20,000
+# home plan, though neither headline says so (Codex review of #2372). Bare
+# "house" is not a housing word: it is also the state House and the U.S. House.
 HOUSING_TITLE_RE = re.compile(
-    r'\b(housing|houses|homes?|to house|house (?:and|people|residents|workers|families)|homeless\w*|home ?own\w*|home ?buy\w*|home (?:sales?|prices?|values?|loans?|builders?)|'
-    r'rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|(?:re)?zon(?:e|es|ed|ing)|land|lots?|'
-    r'parcels?|develop\w*|units?|afford\w*|lihtc|tax credits?|chfa|prop(?:osition)?\s*123|hud|section 8|'
-    r'vouchers?|real estate|condo\w*|townhom\w*|densit\w*|adus?|accessory dwelling|permit\w*|construct\w*|'
-    r'builders?|buildings?|shelters?|property tax\w*|propert(?:y|ies)|subdivision\w*|annex\w*|infill|workforce|'
-    r'dwellings?|residential|neighborhoods?|displace\w*|gentrif\w*|fha|fhfa|fannie|freddie|bonds?|tap fees?|'
-    r'water|sewer|infrastructure|grants?|mixed.income|multifamily|growth|ground|groundbreaking|community land trust)\b',
-    re.I)
-HOUSING_SOURCE_RE = re.compile(
-    r'\b(Multifamily|Affordable Housing|Housing Finance|HousingWire|Mile High CRE|Multi-Housing|Novogradac|'
-    r'NCSHA|CoStar|Bisnow|BusinessDen|Real Estate Journal|CREJ|Commercial Observer|GlobeSt|Connect CRE|'
-    r'Builder|NAHB|NLIHC|Shelterforce|Planetizen)\b', re.I)
+    r'\b(housing|houses|homes?|to house|house (?:and|people|residents|workers|families)|homeless\w*|'
+    r'home ?own\w*|home ?buy\w*|rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|'
+    r'(?:re)?zon(?:e|es|ed|ing)|land|lots?|parcels?|develop\w*|units?|afford\w*|lihtc|tax credits?|chfa|'
+    r'prop(?:osition)?\s*123|hud|section 8|vouchers?|real estate|condo\w*|townhom\w*|densit\w*|adus?|'
+    r'accessory dwelling|permit\w*|construct\w*|builders?|buildings?|shelters?|propert(?:y|ies)|'
+    r'subdivision\w*|annex\w*|infill|workforce|dwellings?|residential|neighborhoods?|displace\w*|'
+    r'gentrif\w*|fha|fhfa|bonds?|tap fees?|water|sewer|infrastructure|grants?|mixed.income|multifamily|'
+    r'growth|groundbreaking|community land trust)\b', re.I)
+OFF_TOPIC_RE = re.compile(
+    r'\b(murder\w*|homicide|bail|convict\w*|sentenced|arrest\w*|shooting|stabbing|citizenship|'
+    r'fundrais\w*|house race|q&a|candidates? (?:for|running)|running for|'
+    r'horror|film|movie|interstate|i-70|closes again|road closure|flooding|mud and debris|ash borer|'
+    r'pest|fitness|rideshare|ice facility|wealthiest|photos of)\b', re.I)
 
 
 def is_housing_headline(title: str, source: str = '') -> bool:
-    return bool(HOUSING_TITLE_RE.search(title or '') or HOUSING_SOURCE_RE.search(source or ''))
+    title = title or ''
+    return bool(HOUSING_TITLE_RE.search(title)) or not OFF_TOPIC_RE.search(title)
 
 
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
