@@ -292,5 +292,15 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(/No contact for this place itself/.test(alone[0].why), 'with no contact of its own, the related contact says it is the nearest lead');
 }
 
+// Codex round 4: the fallback roles are never called a need of a named step.
+{
+  const pd = [{ name: 'Pat Planner', role: 'Planning Director', org: 'Town of T', source_url: 'https://example.org/t' }];
+  const grant = P.rankContacts([], pd, 'Apply for a grant');
+  ok(!/next step needs that/.test(grant[0].why) && /not what the next step needs/.test(grant[0].why), 'a planner on a grant step is not said to be what the step needs');
+  ok(/next step needs that/.test(P.rankContacts([], pd, 'Ask for a zoning letter')[0].why), 'a planner on a zoning step is');
+  ok(/does not name who decides it/.test(P.rankContacts([], pd, 'Draft outreach email')[0].why), 'a step that names no role says the planner is a first call');
+  ok(P.needsFromAction('Apply for a grant').join() === 'funding,housing-authority,zoning,management', 'ranking still uses the fallbacks');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
 

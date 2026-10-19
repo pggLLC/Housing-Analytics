@@ -80,14 +80,19 @@
   // What the next step needs, most important first. Plain outreach goes to the
   // housing lead, then planning, then the manager.
   function needsFromAction(text) {
+    var out = namedByAction(text).slice();
+    ['housing-authority', 'zoning', 'management'].forEach(function (n) { if (out.indexOf(n) === -1) out.push(n); });
+    return out;
+  }
+  // Only what the next step's own words ask for, without the fallbacks.
+  function namedByAction(text) {
     var t = String(text || '').toLowerCase(), out = [];
     function add() { for (var i = 0; i < arguments.length; i++) if (out.indexOf(arguments[i]) === -1) out.push(arguments[i]); }
-    if (/zoning|entitle|annex|code|comp(rehensive)? plan|pud|plat|inclusionary|density/.test(t)) add('zoning');
+    if (/zon(e|ing)|entitle|annex|code|comp(rehensive)? plan|pud|plat|inclusionary|density/.test(t)) add('zoning');
     if (/land|site|parcel|rfp|rfq|land.?bank|ground lease|lots?\b|acre/.test(t)) add('land', 'housing-authority');
     if (/fund|grant|fee|money|budget|prop(osition)? ?123|arpa|waiver|tax/.test(t)) add('funding');
     if (/housing authority|ihs|housing director|housing program/.test(t)) add('housing-authority');
     if (/council|vote|board|trustee|election/.test(t)) add('council');
-    add('housing-authority', 'zoning', 'management');
     return out;
   }
 
@@ -150,11 +155,14 @@
   // Contacts ranked against the next step, each with a score and a reason.
   function rankContacts(network, researched, nextAction, notes) {
     var needs = needsFromAction(nextAction);
+    // Only roles the step itself names are called a need of that step; the
+    // fallbacks order the list but are described as a first call.
+    var named = namedByAction(nextAction);
     var logged = lastTalked(notes);
     var all = mergeContacts(network, researched);
     // "No one closer" is only true when nobody on the list fits the step.
     var hasOwn = all.some(function (c) { return !c.elsewhere; });
-    var anyFit = all.some(function (c) { return needs.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
+    var anyFit = all.some(function (c) { return named.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
     return all.map(function (c) {
       var k = nameKey(c.name);
       if (logged[k] && (!c.last_talked || logged[k] > c.last_talked)) c = Object.assign({}, c, { last_talked: logged[k] });
@@ -167,12 +175,17 @@
       // what they do, why that matters for the next step, and how to reach them.
       var as = c.role ? 'As ' + c.role + (c.org ? ' at ' + c.org : '') + ', ' : '';
       var what = joinAnd(fit.slice(0, 2).map(function (n) { return DOES[n]; }));
+      var namedFit = fit.filter(function (n) { return named.indexOf(n) !== -1; });
       var why = [];
       if (c.elsewhere) {
         why.push('This person was researched for ' + c.elsewhere + ', not this place' + (fit.length ? ', where they ' + what : '') +
           (hasOwn ? '' : '. No contact for this place itself is on file yet, so they are the nearest lead'));
+      } else if (namedFit.length) {
+        why.push((as || '') + (as ? 'they ' : 'They ') + joinAnd(namedFit.slice(0, 2).map(function (n) { return DOES[n]; })) + ', and the next step needs that');
+      } else if (fit.length && !named.length) {
+        why.push((as || '') + (as ? 'they ' : 'They ') + what + '. The next step does not name who decides it, so the housing lead, planning and the manager are the first calls');
       } else if (fit.length) {
-        why.push((as || '') + (as ? 'they ' : 'They ') + what + ', and the next step needs that');
+        why.push((as || '') + (as ? 'they ' : 'They ') + what + '. That is not what the next step needs' + (anyFit ? '' : ', but no one closer to it is on file, so they can point you to who decides it'));
       } else {
         why.push((as ? as + 'they ' : 'They ') + 'do not decide what the next step needs' + (anyFit ? '' : ', but no one closer to it is on file'));
       }
