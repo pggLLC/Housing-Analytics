@@ -103,7 +103,11 @@ def main():
     except Exception as e:  # network or API failure: keep the committed file
         sys.exit(f"FDIC download failed: {e}")
 
-    banks, counties = {}, {}
+    banks = {}
+    # Seed all 64 counties so a county with no branch is present with no banks.
+    geo = json.loads((ROOT / "data" / "hna" / "geo-config.json").read_text())
+    counties = {c["geoid"]: {"name": c["label"].replace(" County", ""), "banks": {}}
+                for c in geo["counties"]}
     for b in branches:
         c = b["CERT"]
         fips = f"{int(b['STCNTYBR']):05d}"

@@ -271,6 +271,8 @@
         }
       }
 
+      // Capture phase: the shared sort arrow stops propagation, so a bubbling
+      // listener would miss it.
       panel.addEventListener('click', function (e) {
         // Sorting a half-shown list would mix shown and hidden rows, so a
         // header click shows them all first.
@@ -278,7 +280,7 @@
         Array.prototype.forEach.call(panel.querySelectorAll('.cra-map__more'), function (tr) { tr.hidden = false; });
         var btn = panel.querySelector('.cra-map__showall');
         if (btn) btn.remove();
-      });
+      }, true);
 
       drawLegend();
       drawPanel();
