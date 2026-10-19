@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T13:27:23.740Z",
+    "generated_at": "2026-10-19T13:42:39.410Z",
     "root": "data/",
-    "file_count": 1753,
-    "total_size_bytes": 192163252,
+    "file_count": 1754,
+    "total_size_bytes": 192178965,
     "kinds": {
-      "json": 1707,
+      "json": 1708,
       "geojson": 34,
       "csv": 12
     }
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-19T13:27:20.946Z",
+      "mtime": "2026-10-19T13:42:35.486Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1180,6 +1180,22 @@
         "source"
       ],
       "column_count": 3
+    },
+    {
+      "path": "co-housing-costs/qcew_construction_state.json",
+      "kind": "json",
+      "size_bytes": 253,
+      "mtime": "2026-10-19T13:40:54.568Z",
+      "shape": "object",
+      "keys": [
+        "source",
+        "url",
+        "avg_annual_pay"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "co-place-boundaries.geojson",
@@ -32734,7 +32750,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-19T13:27:22.343Z",
+      "mtime": "2026-10-19T13:42:37.474Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32758,7 +32774,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-19T13:27:21.939Z",
+      "mtime": "2026-10-19T13:42:36.940Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35803,8 +35819,8 @@
     {
       "path": "processed/co_county_housing_indicators.geojson",
       "kind": "geojson",
-      "size_bytes": 440204,
-      "mtime": "2026-09-25T12:55:19.123Z",
+      "size_bytes": 455664,
+      "mtime": "2026-10-19T13:40:55.031Z",
       "shape": "geojson",
       "feature_count": 64,
       "property_keys": [
@@ -35820,8 +35836,8 @@
         "acs_year",
         "indicator_county_name",
         "fhfa_hpi_change_10y",
-        "qcew_avg_annual_wage",
-        "qcew_year"
+        "fhfa_base_year",
+        "fhfa_latest_year"
       ],
       "geometry_type": "Polygon"
     },

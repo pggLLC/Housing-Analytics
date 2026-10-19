@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T13:27:00.352Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T13:42:05.757Z. Do not edit by hand.
 
 ---
 
@@ -15,7 +15,7 @@
 | `about.html` | About | COHO Analytics | 19.5 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.1 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.9 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.0 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.2 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.6 KB |
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.1 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 70.2 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 71.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.1 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.3 KB |
@@ -90,7 +90,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1708 JSON files found.
+1709 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -139,6 +139,7 @@
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
+| `data/co-housing-costs/qcew_construction_state.json` | 253 B | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 100.6 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 729.4 KB | ✅ | — |
@@ -1807,7 +1808,7 @@
 
 ## Test Files
 
-669 test files found.
+670 test files found.
 
 | File | Size |
 |------|------|
@@ -1882,6 +1883,7 @@
 | `test/cost-per-sf-absence.test.js` | 7.0 KB |
 | `test/county-demographics-contract.test.js` | 19.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
+| `test/county-housing-indicators-sourced.test.mjs` | 12.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 10.7 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 28.1 KB |
@@ -2339,7 +2341,7 @@
 | `test/test-reachability.test.js` | 6.8 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
-| `test/test_bps_and_status_freshness.py` | 9.4 KB |
+| `test/test_bps_and_status_freshness.py` | 10.8 KB |
 | `test/test_environmental_screening.js` | 19.7 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
 | `test/test_fetch_fred_data.py` | 4.2 KB |
@@ -2349,7 +2351,7 @@
 | `test/test_legislative_tracker.js` | 10.7 KB |
 | `test/test_lihtc_deal_predictor.js` | 21.6 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
-| `test/test_qcew_annual_slice.py` | 8.0 KB |
+| `test/test_qcew_annual_slice.py` | 8.9 KB |
 | `test/test_soft_funding_tracker.js` | 13.5 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.6 KB |
@@ -2563,7 +2565,7 @@
 | `.github/workflows/sync-data-mtimes.yml` | 7.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 5.6 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 6.8 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
