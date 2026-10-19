@@ -51,6 +51,9 @@
     @media (max-width: 640px) { .cra-map__canvas { height: 260px; } }
     /* Phones: the site turns pointer events off on maps so the page scrolls; the popup still needs its button. */
     .cra-map__canvas .leaflet-popup { pointer-events: auto; }
+    /* 44px close target; the content keeps clear of it. */
+    .cra-map__canvas.leaflet-container a.leaflet-popup-close-button { width: 44px; height: 44px; font-size: 20px; line-height: 44px; }
+    .cra-map__canvas .leaflet-popup-content { margin-right: 44px; }
     /* Phones: stack each table row so every cell stays readable. */
     @media (max-width: 640px) {
       .dt-stack table, .dt-stack tbody, .dt-stack tr, .dt-stack th, .dt-stack td { display: block; width: auto; }
