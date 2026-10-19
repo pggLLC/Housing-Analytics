@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T15:45:07.851Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T16:04:18.640Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.1 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 71.1 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 82.2 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.1 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.3 KB |
@@ -57,7 +57,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 52.8 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 47.9 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 791 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.4 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.4 KB |
