@@ -170,12 +170,18 @@
         },
       }).addTo(map);
       // One dot per branch office. The dots themselves take no clicks: a tap
-      // within HIT_PX of a dot opens the nearest one, which gives each dot a
+      // within hitPx() of a dot opens the nearest one, which gives each dot a
       // 44px target without covering the counties. The county panel lists the
       // same addresses for keyboard and screen-reader users.
       // 44px target for fingers; a mouse is precise, so it gets a small one
-      // and a click between dots still picks the county.
-      var HIT_PX = window.matchMedia && window.matchMedia('(pointer: coarse)').matches ? 22 : 6;
+      // and a click between dots still picks the county. Read per tap, since
+      // a touchscreen laptop has both.
+      var lastPointer = '';
+      mount.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || ''; }, true);
+      function hitPx() {
+        if (lastPointer) return lastPointer === 'mouse' ? 6 : 22;
+        return window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches ? 22 : 6;
+      }
       var OVERLAP_PX = 4, MAX_POP = 6;
       var officeLayer = window.L.layerGroup();
       var officeDots = [];
@@ -222,7 +228,7 @@
 
       function openNearestOffice(pt) {
         if (!pt || !map.hasLayer(officeLayer)) return false;
-        var best = null, bestD = HIT_PX;
+        var best = null, bestD = hitPx();
         officeDots.forEach(function (d) {
           var dist = map.latLngToContainerPoint(d.ll).distanceTo(pt);
           if (dist <= bestD) { bestD = dist; best = d; }
