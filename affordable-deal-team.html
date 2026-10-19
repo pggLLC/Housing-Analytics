@@ -35,6 +35,9 @@
     .cra-map__canvas { height: 340px; max-width: 760px; background: transparent; }
     .cra-map__legend { display: flex; flex-wrap: wrap; gap: var(--sp1) var(--sp3); font-size: var(--small); margin: var(--sp2) 0; max-width: 760px; }
     .cra-map__key i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; border: 1px solid var(--border); }
+    .cra-map__key i.cra-map__dot { width: 10px; height: 10px; border-radius: 50%; border-color: #fff; vertical-align: 0; }
+    .cra-map__offices { display: inline-flex; align-items: center; gap: 6px; font-size: var(--small); margin: var(--sp2) 0 0; min-height: 44px; }
+    .cra-map__offices input { width: 18px; height: 18px; }
     .cra-map__pick { margin: var(--sp2) 0; }
     .cra-map__pick select { min-height: 44px; font: inherit; margin-left: var(--sp1); width: 22rem; max-width: 100%; }
     .cra-map__panel h4 { margin: var(--sp3) 0 var(--sp1); }
@@ -327,20 +330,21 @@
           </div>
 
           <h3>Map: which banks could count an investment in each county</h3>
-          <p>The map applies both readings to every FDIC-insured bank and savings institution with a Colorado office. Credit unions are not covered by the CRA. Shading shows banks with a branch in each county; that is a screen for a bank's assessment area, not the area itself, so confirm the project's tract before you rely on it. The expansive list follows the 1995 rules that examiners apply today, not the 2023 rule a court stopped; it says which banks may get credit, not which will.</p>
+          <p>The map applies both readings to every FDIC-insured bank and savings institution with a Colorado office. Credit unions are not covered by the CRA. Shading shows banks with a branch in each county, and orange dots mark each branch office; that is a screen for a bank's assessment area, not the area itself, so confirm the project's tract before you rely on it. The expansive list follows the 1995 rules that examiners apply today, not the 2023 rule a court stopped; it says which banks may get credit, not which will.</p>
           <div id="craMap" class="cra-map">
             <div class="cra-map__modes" role="group" aria-label="Reading">
               <button type="button" data-cra-mode="conservative" aria-pressed="true">Conservative: a branch in the county</button>
               <button type="button" data-cra-mode="expansive" aria-pressed="false">Expansive: anywhere in Colorado</button>
             </div>
-            <div class="cra-map__canvas" role="img" aria-label="Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information."></div>
+            <div class="cra-map__canvas" role="img" aria-label="Map of Colorado counties shaded by the number of banks with a branch in each, with a dot at each branch office. Choose a county from the list below the map for the same information."></div>
+            <label class="cra-map__offices"><input type="checkbox" id="craOffices" checked> Show bank branch locations</label>
             <div class="cra-map__legend" aria-hidden="true"></div>
             <div class="cra-map__pick"><label for="craCounty">County</label> <select id="craCounty"><option value="">Choose a county</option></select></div>
             <p class="cra-map__status sr-only" role="status" aria-atomic="true"></p>
             <div class="cra-map__panel" aria-live="polite" aria-atomic="true"></div>
             <p class="dt-source" data-cra-asof></p>
           </div>
-          <p class="dt-source">Source: FDIC <a href="https://banks.data.fdic.gov/bankfind-suite/SOD" rel="noopener">Summary of Deposits</a> (branches and deposits as of June 30), and FDIC BankFind institution and financial data (each bank's examiner, and total assets on December 31 of the two prior years, which set its CRA size under the 2026 thresholds above); for the expansive list, <a href="https://www.ecfr.gov/on/2024-03-29/title-12/chapter-II/subchapter-A/part-228" rel="noopener">12 CFR 228.23(a) and 228.26</a> and the <a href="https://www.federalreserve.gov/frrs/regulations/interagency-questions-and-answers-regarding-community-reinvestment.htm" rel="noopener">Interagency Questions and Answers, §__.12(h)–6</a>.</p>
+          <p class="dt-source">Source: FDIC <a href="https://banks.data.fdic.gov/bankfind-suite/SOD" rel="noopener">Summary of Deposits</a> (branches, deposits and each office's address and map location as of June 30), and FDIC BankFind institution and financial data (each bank's examiner, and total assets on December 31 of the two prior years, which set its CRA size under the 2026 thresholds above); for the expansive list, <a href="https://www.ecfr.gov/on/2024-03-29/title-12/chapter-II/subchapter-A/part-228" rel="noopener">12 CFR 228.23(a) and 228.26</a> and the <a href="https://www.federalreserve.gov/frrs/regulations/interagency-questions-and-answers-regarding-community-reinvestment.htm" rel="noopener">Interagency Questions and Answers, §__.12(h)–6</a>.</p>
 
           <h3>Where to look up any bank</h3>
           <ul>

@@ -35,8 +35,9 @@
     { min: 0, color: '#f1f1f1', label: 'No bank branch' },
   ];
   var EXPANSIVE_COLOR = '#6baed6';
-  var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information.';
-  var EXP_LABEL = 'Map of Colorado with every county shaded the same: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
+  var OFFICE_COLOR = '#d94801'; // orange, apart from the blue county shades
+  var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each, with a dot at each branch office. Choose a county from the list below the map for the same information.';
+  var EXP_LABEL = 'Map of Colorado with every county shaded the same, with a dot at each branch office: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
 
   var SIZE_LABEL = {
     large: 'Large (investment test)',
@@ -147,6 +148,9 @@
         };
       }
 
+      // Counties and branch dots share Leaflet's one SVG layer: dots, added
+      // later, draw on top, and a click off a dot still reaches the county.
+      // (Not canvas: the site's global canvas width rule distorts it.)
       var layer = window.L.geoJSON(boundaries, {
         style: style,
         onEachFeature: function (feature, fl) {
@@ -162,6 +166,34 @@
           });
         },
       }).addTo(map);
+      // One dot per branch office. The county list below the map stays the
+      // accessible way to the banks.
+      var officeLayer = window.L.layerGroup();
+      (data.offices || []).forEach(function (o) {
+        var b = banks[o[0]];
+        if (!b) return;
+        window.L.circleMarker([o[1], o[2]], {
+          radius: 3, weight: 1, color: '#fff',
+          fillColor: OFFICE_COLOR, fillOpacity: 0.9,
+        }).bindPopup(function () {
+          return '<strong>' + bankLink(o[0], b.name) + '</strong><br>' +
+            esc(o[3]) + '<br>' + esc(o[4]) + ', CO ' + esc(o[5]) + '<br>' +
+            'CRA size: ' + esc(SIZE_LABEL[b.cra_size] || 'Unknown');
+        }).addTo(officeLayer);
+      });
+      var showOffices = root.querySelector('#craOffices');
+      if (data.offices && data.offices.length) {
+        officeLayer.addTo(map);
+        if (showOffices) {
+          showOffices.addEventListener('change', function () {
+            if (showOffices.checked) officeLayer.addTo(map); else map.removeLayer(officeLayer);
+            drawLegend();
+          });
+        }
+      } else if (showOffices) {
+        showOffices.closest('label').hidden = true;
+      }
+
       var bounds = layer.getBounds();
       map.fitBounds(bounds, { padding: [4, 4] });
       var t = null;
@@ -203,14 +235,20 @@
       }
 
       function drawLegend() {
+        var html;
         if (mode === 'conservative') {
-          legend.innerHTML = BINS.map(function (b) {
+          html = BINS.map(function (b) {
             return '<span class="cra-map__key"><i style="background:' + b.color + '"></i>' + esc(b.label) + '</span>';
           }).join('');
         } else {
-          legend.innerHTML = '<span class="cra-map__key"><i style="background:' + EXPANSIVE_COLOR +
+          html = '<span class="cra-map__key"><i style="background:' + EXPANSIVE_COLOR +
             '"></i>Every county: a large or intermediate small bank with a Colorado branch may get credit here, if it has served its own areas first</span>';
         }
+        if (map.hasLayer(officeLayer)) {
+          html += '<span class="cra-map__key"><i class="cra-map__dot" style="background:' + OFFICE_COLOR +
+            '"></i>Bank branch (click a dot for its bank and address)</span>';
+        }
+        legend.innerHTML = html;
       }
 
       // cells: [[label, html], ...]; labels show on phones, where rows stack.
