@@ -62,7 +62,8 @@
   }
 
   function money(k) {
-    var d = (k || 0) * 1000;
+    if (k === null || k === undefined) return 'Not reported';
+    var d = k * 1000;
     if (d >= 1e9) return '$' + (d / 1e9).toFixed(1) + 'B';
     if (d >= 1e6) return '$' + Math.round(d / 1e6) + 'M';
     if (d > 0) return '$' + Math.round(d / 1e3) + 'K';
@@ -242,7 +243,7 @@
             panel.innerHTML = '<h4>' + name + '</h4><p>No FDIC-insured bank reports a branch here. Switch to the expansive reading to see banks that could still count an investment here.</p>';
             return;
           }
-          hereCerts.sort(function (a, b) { return here[b].deposits_k - here[a].deposits_k; });
+          hereCerts.sort(function (a, b) { return (here[b].deposits_k || 0) - (here[a].deposits_k || 0); });
           panel.innerHTML = '<h4>' + name + ': ' + hereCerts.length + (hereCerts.length === 1 ? ' bank' : ' banks') + ' with a branch</h4>' +
             '<p>Each is a first call, once you confirm the project\'s census tract is inside its assessment area (its performance evaluation or public file shows the area).</p>' +
             '<div class="dt-table-wrap dt-stack"><table class="data-table"><thead><tr>' +

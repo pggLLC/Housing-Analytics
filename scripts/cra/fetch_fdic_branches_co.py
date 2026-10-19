@@ -43,6 +43,9 @@ API = "https://api.fdic.gov/banks"
 # at least the lower figure on both years but not large; otherwise small.
 THRESHOLDS = {2026: (1_649_000, 412_000)}  # thousands of dollars
 
+# Colorado has about 1,360 FDIC-insured offices; far fewer means a bad pull.
+MIN_BRANCHES = 1000
+
 
 def get(endpoint, params):
     url = f"{API}/{endpoint}?" + urllib.parse.urlencode(params)
@@ -61,7 +64,12 @@ def fetch_branches(year):
         rows += [x["data"] for x in d["data"]]
         offset += 1000
         if offset >= d["meta"]["total"]:
-            return rows
+            break
+    # A successful but empty or tiny answer (survey year not out yet, a changed
+    # filter) must not replace the file with a branchless Colorado.
+    if len(rows) < MIN_BRANCHES:
+        raise RuntimeError(f"only {len(rows)} Colorado offices returned for {year}")
+    return rows
 
 
 def fetch_by_cert(endpoint, certs, fields, extra=""):
@@ -131,7 +139,13 @@ def main():
         cty = counties.setdefault(fips, {"name": b["CNTYNAMB"], "banks": {}})
         e = cty["banks"].setdefault(str(c), {"branches": 0, "deposits_k": 0})
         e["branches"] += 1
-        e["deposits_k"] += b.get("DEPSUMBR") or 0
+        # An office with no reported deposits makes the county total unknown
+        # (None), not smaller.
+        dep = b.get("DEPSUMBR")
+        if dep is None or e["deposits_k"] is None:
+            e["deposits_k"] = None
+        else:
+            e["deposits_k"] += dep
 
     for bk in banks.values():
         bk["co_counties"].sort()
