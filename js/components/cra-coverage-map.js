@@ -8,9 +8,11 @@
  *     (FDIC Summary of Deposits). A branch county is a screen for the bank's
  *     assessment area, not the area itself; the panel says so.
  *   - Expansive: every bank with a Colorado branch has a Colorado assessment
- *     area, so a large or intermediate small bank may count an investment
- *     anywhere in the state under the "broader statewide or regional area"
- *     rule, if it has served its own areas first. The map is one shade and
+ *     area. A large bank may count an investment anywhere in the state under
+ *     the "broader statewide or regional area" text of 12 CFR 228.23(a); an
+ *     intermediate small bank may too, under the agencies' Q&A 12(h)-6 (its
+ *     own test's rule text names no area). Both only if the bank has served
+ *     its own areas first. The map is one shade and
  *     the panel lists those banks for the chosen county.
  *
  * Pick a county by clicking it or from the list under the map (the list is
@@ -198,7 +200,7 @@
           }).join('');
         } else {
           legend.innerHTML = '<span class="cra-map__key"><i style="background:' + EXPANSIVE_COLOR +
-            '"></i>Every county: any bank with a Colorado branch may count it, if it has served its own areas first</span>';
+            '"></i>Every county: a large or intermediate small bank with a Colorado branch may get credit here, if it has served its own areas first</span>';
         }
       }
 
@@ -251,11 +253,14 @@
               banks[b].co_branches - banks[a].co_branches;
           });
           var large = others.filter(function (c) { return banks[c].cra_size === 'large'; }).length;
-          panel.innerHTML = '<h4>' + name + ': ' + others.length + ' more banks could count an investment here</h4>' +
-            '<p>These ' + large + ' large and ' + (others.length - large) + ' intermediate small banks have Colorado branches but none in ' + name +
-            '. Under the broader statewide area rule, an investment here can count for them only if they have met their own areas\' needs; their latest performance evaluation says whether examiners found that. ' +
-            (hereCerts.length ? 'The ' + hereCerts.length + ' banks with a branch here are under the conservative reading. ' : '') +
-            'Small banks are left out because they are not graded on investments.</p>' +
+          var isb = others.length - large;
+          panel.innerHTML = '<h4>' + name + ': ' + others.length + ' more banks may be able to count an investment here</h4>' +
+            '<p>These banks have Colorado branches but none in ' + name + '. Under the 1995 CRA rules examiners apply today:</p><ul>' +
+            '<li>The ' + large + ' large banks are graded on an investment test that counts investments benefiting \u201ca broader statewide or regional area that includes the bank\u2019s assessment area(s)\u201d (12 CFR 228.23(a)).</li>' +
+            '<li>The ' + isb + ' intermediate small banks have a community development test whose rule text names no area; the agencies\u2019 guidance says a retail institution \u201cwill receive consideration\u201d for activity in that broader area, so it may count for them too.</li>' +
+            '<li>Either way, only \u201cas long as the institution has been responsive to community development needs and opportunities in its assessment area(s)\u201d (Interagency Q&amp;A \u00a7__.12(h)\u20136). The bank\u2019s latest performance evaluation says whether examiners found that.</li></ul>' +
+            '<p>' + (hereCerts.length ? 'The ' + hereCerts.length + (hereCerts.length === 1 ? ' bank' : ' banks') + ' with a branch here ' + (hereCerts.length === 1 ? 'is' : 'are') + ' under the conservative reading. ' : '') +
+            'Small banks are left out: their examiners weigh investments only as an optional part of a lending test (12 CFR 228.26(b)).</p>' +
             '<div class="dt-table-wrap dt-stack"><table class="data-table"><thead><tr>' +
             '<th scope="col">Bank</th>' +
             '<th scope="col" data-tip="All offices this bank reports in Colorado.">Colorado branches</th>' +
