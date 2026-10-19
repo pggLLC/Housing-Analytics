@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-18T12:11:04.146Z",
+  "generated_at": "2026-10-19T14:58:04.825Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
     "freshness": "pass",
-    "plausibility": "fail"
+    "plausibility": "pass"
   },
   "layers": {
     "schema": {
@@ -20,7 +20,7 @@
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4341 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-10-09 age 9 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 27/27 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4341 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-10-09 age 10 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 27/27 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
       "error": null
     },
     "freshness": {
@@ -28,49 +28,49 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.1,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 0.2,
           "slaDays": 10,
           "source": "field:updated",
           "file": "data/fred-data.json"
         },
         {
           "status": "OK",
-          "ageDays": 4.4,
+          "ageDays": 1.1,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 1.5,
+          "ageDays": 2.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 4.4,
+          "ageDays": 5.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 161.4,
+          "ageDays": 162.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 95,
           "source": "field:fetchedAt",
           "file": "data/market/hud_lihtc_co.geojson"
@@ -91,56 +91,56 @@
         },
         {
           "status": "OK",
-          "ageDays": 17.1,
+          "ageDays": 18.2,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/cdphe_county_boundaries_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 95,
           "source": "field:meta.generated",
           "file": "data/market/transit_routes_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/amenities/transit_stops_statewide_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/market/transit_stops_coverage_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/hna/transit-zone-by-geography.json"
         },
         {
           "status": "OK",
-          "ageDays": 7.5,
+          "ageDays": 8.6,
           "slaDays": 14,
           "source": "field:last_checked",
           "file": "data/policy/thiz-map-status.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 9,
           "source": "field:fetchedAt",
           "file": "data/chfa-lihtc.json"
         },
         {
           "status": "OK",
-          "ageDays": 150.5,
+          "ageDays": 151.6,
           "slaDays": 200,
           "source": "field:2026-round-one.json",
           "file": "announcement_date"
@@ -151,12 +151,12 @@
       "missing": 0
     },
     "plausibility": {
-      "status": "fail",
-      "passed": 20,
-      "failed": 1,
-      "output_tail": "..................F..                                                    [100%]\n=================================== FAILURES ===================================\n____________________ test_transit_includes_major_co_systems ____________________\n\n    def test_transit_includes_major_co_systems():\n        \"\"\"Sanity: the major CO transit agencies are all present in the data.\"\"\"\n        transit = _load('data/market/transit_routes_co.geojson')\n        agencies = {f.get('properties', {}).get('agency', '') for f in transit.get('features', [])}\n        expected_substrings = [\n            'RTD',\n            'Mountain Metropolitan',\n            'Pueblo',\n            'Roaring Fork',\n            'Transfort',\n        ]\n        missing = []\n        for needle in expected_substrings:\n            if not any(needle.lower() in a.lower() for a in agencies):\n                missing.append(needle)\n>       assert not missing, (\n            f'Expected agencies missing from transit_routes_co.geojson: {missing}. '\n            f'Actual agencies: {sorted(agencies)[:15]}...'\n        )\nE       AssertionError: Expected agencies missing from transit_routes_co.geojson: ['Transfort']. Actual agencies: ['All Points Transit', 'Avon Transit', 'Baca Area Transportation', 'Bent County Transit', 'Blackhawk and Central City Tramway', 'Boulder County', 'Breckenridge Free Ride', 'Bustang Outrider', 'City of Fountain Transit', 'Clear Creek County Transit', 'Colorado Mountain Express', 'Colorado School Of Mines', 'Cripple Creek Transportation', 'Durango Transit', 'ECO Transit']...\nE       assert not ['Transfort']\n\ntests/test_data_plausibility.py:473: AssertionError\nWCAG COMPLIANCE SCORE: 95%\n=========================== short test summary info ============================\nFAILED tests/test_data_plausibility.py::test_transit_includes_major_co_systems - AssertionError: Expected agencies missing from transit_routes_co.geojson: ['Transfort']. Actual agencies: ['All Points Transit', 'Avon Transit', 'Baca Area Transportation', 'Bent County Transit', 'Blackhawk and Central City Tramway', 'Boulder County', 'Breckenridge Free Ride', 'Bustang Outrider', 'City of Fountain Transit', 'Clear Creek County Transit', 'Colorado Mountain Express', 'Colorado School Of Mines', 'Cripple Creek Transportation', 'Durango Transit', 'ECO Transit']...\nassert not ['Transfort']\n1 failed, 20 passed, 1258 deselected in 2.79s\n"
+      "status": "pass",
+      "passed": 21,
+      "failed": 0,
+      "output_tail": ".....................                                                    [100%]\nWCAG COMPLIANCE SCORE: 100%\n21 passed, 1314 deselected in 3.01s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "warn"
+  "overall": "ok"
 }
