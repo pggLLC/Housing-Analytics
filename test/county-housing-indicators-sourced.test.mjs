@@ -11,7 +11,10 @@
  * figures marked "unconfirmed" that were each wrong once checked.
  *
  * Each assertion names the file the value must agree with, so a refresh of
- * either side without the other fails here.
+ * either side without the other fails here. update-co-housing-costs.yml runs
+ * this file before it commits, because data commits skip CI: a new FHFA or
+ * QCEW year moves the map's window, and the refresh holds until the article
+ * moves with it.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -151,14 +154,15 @@ test('the article states the statewide figures its sources give', () => {
   assert.equal(((wVals[1] / wVals[0] - 1) * 100).toFixed(1), wPct[1], 'stated wage change follows from the two values');
 });
 
-test('the monthly refresh rebuilds the map layers before it commits', () => {
+test('the monthly refresh rebuilds and checks the map layers before it commits', () => {
   const wf = read('.github/workflows/update-co-housing-costs.yml');
   const pipeline = wf.indexOf('build_co_housing_costs_insight.py --refresh');
   const csv = wf.indexOf('python scripts/build_article_full_indicators.py');
   const geo = wf.indexOf('node scripts/build_article_indicator_geojson.mjs');
+  const check = wf.indexOf('node --test test/county-housing-indicators-sourced.test.mjs');
   const commit = wf.indexOf('scripts/commit-with-derived-chain.sh');
-  assert.ok(pipeline > 0 && csv > pipeline && geo > csv && commit > geo,
-    'refresh caches, then the CSV, then the GeoJSON, then commit');
+  assert.ok(pipeline > 0 && csv > pipeline && geo > csv && check > geo && commit > check,
+    'refresh caches, then the CSV, then the GeoJSON, then this check, then commit');
   assert.ok(wf.slice(commit).includes('data/processed/co_county_housing_indicators.geojson'),
     'the commit step names the GeoJSON');
 });

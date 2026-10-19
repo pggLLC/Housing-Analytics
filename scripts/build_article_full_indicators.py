@@ -24,10 +24,11 @@ $69,000 against $94,718). Idempotent.
 Population for the per-capita permit rate comes from
 data/co-county-demographics.json (Census API, ACS 5-year), and only when its
 vintage matches the ACS cache: mixing vintages would divide one year's permits
-by another survey's population. The same file is the check on the ACS
-fields: for a matching vintage every county's rent, income, vacancy and rent
+by another survey's population, so a mismatch stops the build. The same file
+is the check on the ACS fields: every county's rent, income, vacancy and rent
 burden must agree with it, or the build stops rather than publish a map that
-disagrees with the rest of the site.
+disagrees with the rest of the site. Either stop fails the monthly workflow,
+which opens an issue and leaves the published layer as it was.
 """
 from __future__ import annotations
 
@@ -175,15 +176,21 @@ def build() -> pd.DataFrame:
     acs_year = int(acs["acs_year"].max())
     census = _load_demographics(acs_year)
 
-    if census:
-        problems = _check_against_census(acs, census)
-        if problems:
-            sys.exit("ACS cache disagrees with the Census API file:\n  " + "\n  ".join(problems))
-        pops = {f: _positive(r.get("population")) for f, r in census.items()}
-    else:
-        print(f"[warn] {DEMOGRAPHICS.name} has no ACS {acs_year} counties; "
-              "the ACS fields are unchecked and permits per 1,000 are left blank.")
-        pops = {}
+    if not census:
+        # fetch-county-demographics.js moves to a new ACS release on its own;
+        # this pipeline's cohorts are pinned in Config.ACS_COHORTS. Publishing
+        # anyway would blank all 64 permit rates and leave the ACS fields
+        # unchecked, so stop and keep the layer already published.
+        found = sorted({r.get("acs_year") for r in
+                        (json.loads(DEMOGRAPHICS.read_text()).get("counties") or {}).values()},
+                       key=str)
+        sys.exit(f"{DEMOGRAPHICS.name} holds ACS {found}, the housing-cost caches ACS {acs_year}. "
+                 "Move Config.ACS_COHORTS in scripts/build_co_housing_costs_insight.py to the "
+                 "Census file's vintage (and the article's Key Findings with it), then re-run.")
+    problems = _check_against_census(acs, census)
+    if problems:
+        sys.exit("ACS cache disagrees with the Census API file:\n  " + "\n  ".join(problems))
+    pops = {f: _positive(r.get("population")) for f, r in census.items()}
     base = acs.copy()
     base["population"] = base["county_fips"].map(pops)
 
