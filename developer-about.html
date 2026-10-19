@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About the developer site — COHO Analytics</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
+  .skip-link:focus { top: var(--sp3); }
+  .dv-page { max-width: 900px; margin: 0 auto; padding: var(--sp3); }
+  .dv-page h1 { margin: 0 0 .4rem; }
+  .dv-lede { color: var(--muted); line-height: 1.55; margin: 0 0 var(--sp4); }
+  .dv-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp3); margin-bottom: var(--sp3); }
+  .dv-card h2 { margin: 0 0 var(--sp2); font-size: 1.1rem; }
+  .dv-card p, .dv-card li { line-height: 1.55; }
+  .dv-card p { margin: 0 0 .6rem; }
+  .dv-card ol, .dv-card ul { padding-left: 1.4rem; margin: 0 0 .6rem; }
+  .dv-card a { padding-block: .75rem; }
+  .dv-card table { border-collapse: collapse; width: 100%; font-size: var(--small); }
+  .dv-card th, .dv-card td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header id="siteHeader"></header>
+<main class="dv-page" id="main-content">
+  <nav id="devNav" class="ib-section-nav"></nav>
+
+  <h1>About the developer site</h1>
+  <p class="dv-lede">This is pggLLC's working space for turning COHO's public housing data into homes. The open site is an invitation to shared knowledge about housing in Colorado; this site adds the parts a developer or partner needs to act on it.</p>
+
+  <section class="dv-card">
+    <h2>Who runs it</h2>
+    <p>pggLLC, the developer of COHO Analytics. 4884 Briar Ridge Court, Boulder, Colorado 80301.</p>
+  </section>
+
+  <section class="dv-card">
+    <h2>What's here</h2>
+    <ul>
+      <li><a href="developer.html">Home</a>: where to start, what's coming up, and recent signals.</li>
+      <li><a href="developer-brief.html">Jurisdiction reports</a>: one report per town or county, with its place card: readiness, who to call first, sites and the developer check, and a shared log of conversations.</li>
+      <li><a href="developer-where.html">Where to build</a>: places ranked for a tax-credit deal.</li>
+      <li><a href="developer-pipeline.html">Pipeline</a>: the places pggLLC is working, and which are ready to build.</li>
+      <li><a href="dossiers/">Dossiers</a>: full site studies with comparables maps.</li>
+      <li><a href="developer-methods.html">Methodology</a>: what each reading means and where it comes from.</li>
+    </ul>
+  </section>
+
+  <section class="dv-card">
+    <h2>Who can see what</h2>
+    <p>Only people pggLLC has invited can open this site. Everyone signed in sees the same pages, the same Discussions log and the same questions and answers below. Nothing here is published on the open site.</p>
+  </section>
+
+  <section class="dv-card" id="ask">
+    <h2>Ask pggLLC</h2>
+    <p>Ask for a clarification on any report, reading or site. pggLLC answers here, so everyone signed in sees the answer.</p>
+    <div id="askMount"></div>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="js/whitepaper/ask-pggllc.js"></script>
+<script>
+  (function () {
+    var place = new URLSearchParams(location.search).get('place') || '';
+    AskPggllc.mount(document.getElementById('askMount'), { place: place, page: 'developer-about.html' });
+  })();
+</script>
+<script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
+</body>
+</html>

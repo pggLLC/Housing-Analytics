@@ -26,8 +26,8 @@
   var DATA_URL = 'data/ripeness.json';
   var ORDER_URL = 'api/ready-order';
   var LOCAL_KEY = 'coho-ready-order';
-  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, none: 4 };
-  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', none: 'No site on file' };
+  var RANK = { ripe: 0, ripening: 1, on_file: 2, not_yet: 3, all_taken: 4, none: 5 };
+  var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', all_taken: 'No open site', none: 'No site on file' };
   var QUESTIONS = [
     ['need', 'Is there need?'],
     ['control', 'Is there a path to site control?'],
@@ -43,7 +43,8 @@
     applied: 'applied, decision pending',
     letter_of_intent: 'letter of intent filed',
     not_funded: 'applied, not funded',
-    dossier: 'studied in a site dossier'
+    dossier: 'studied in a site dossier',
+    public_land: 'land held by a public owner'
   };
 
   function esc(v) {
@@ -58,7 +59,22 @@
 
   function siteReading(s) { return s.card ? s.card.reading : 'on_file'; }
 
+  // The developer check on a site, from the backend's site research.
+  var OPEN = {
+    open: 'Open: land held, no developer chosen.',
+    rfp: 'Open: developer search under way or coming.',
+    opening: 'Opening: the last applicant appears to have moved on.',
+    unclear: 'Unclear: no developer named in public records.',
+    taken: 'Taken: a developer is still on it.'
+  };
+  var OPEN_RANK = { open: 0, rfp: 1, opening: 2, unclear: 3, taken: 4 };
+  function openRank(s) { return s.opening && s.opening.status in OPEN_RANK ? OPEN_RANK[s.opening.status] : 3; }
+  function openingLine(s) { return s.opening && OPEN[s.opening.status] ? ' ' + OPEN[s.opening.status] : ' No developer check on file yet; treat as unclear.'; }
+
   function siteLine(s) {
+    return siteBase(s) + openingLine(s);
+  }
+  function siteBase(s) {
     if (s.card) {
       return LABEL[s.card.reading] + ' (dossier, checked ' + s.card.checked + '). What would change it: ' + s.card.trigger +
         (s.card.next ? ' Next date: ' + s.card.next.date + ', ' + s.card.next.what + '.' : '');
@@ -79,7 +95,7 @@
     var byGeoid = {};
     (data.sites || []).forEach(function (s) { (byGeoid[s.geoid] = byGeoid[s.geoid] || []).push(s); });
     function siteSort(a, b) {
-      return RANK[siteReading(a)] - RANK[siteReading(b)] || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
+      return openRank(a) - openRank(b) || RANK[siteReading(a)] - RANK[siteReading(b)] || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
     }
     Object.keys(byGeoid).forEach(function (g) { byGeoid[g].sort(siteSort); });
     var rows = (pipeline || []).filter(function (r) { return r && r.geoid && r.stage !== 'Anti'; });
@@ -88,14 +104,16 @@
 
     var communities = rows.map(function (r) {
       var sites = byGeoid[r.geoid] || [];
-      var best = sites[0] || null;
-      var reading = best ? siteReading(best) : 'none';
+      // A site another developer is on is listed, never suggested.
+      var best = sites.filter(function (s) { return !(s.opening && s.opening.status === 'taken'); })[0] || null;
+      // Sites on file but every one taken is not the same as no site on file.
+      var reading = best ? siteReading(best) : sites.length ? 'all_taken' : 'none';
       var sig = (signals || []).filter(function (s) { return s.geoid === r.geoid; })
         .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })[0] || null;
       var why = [
         r.ioi_score ? 'Pipeline score ' + r.ioi_score + [r.classification ? 'class ' + r.classification : '', r.confidence ? r.confidence + ' confidence' : ''].filter(Boolean).map(function (x) { return ', ' + x; }).join('') : '',
         prop123Line((data.places || {})[r.geoid]),
-        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : 'No site on file in public program records',
+        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in public program records',
         sig ? 'Latest signal: ' + [sig.signal_type, sig.strength, sig.date].filter(Boolean).join(', ') : ''
       ].filter(Boolean).join('. ') + '.';
       return { key: r.geoid, report: r.geoid, name: r.jurisdiction || r.geoid, geoid: r.geoid, row: r, sites: sites, reading: reading, signal: sig, place: (data.places || {})[r.geoid] || null, why: why };
@@ -107,7 +125,7 @@
       var c = byPlace[s.geoid] || null;
       return { key: s.id, report: reportId(s), name: s.name, geoid: s.geoid, place: s.place, site: s, reading: siteReading(s), community: c, why: siteLine(s) };
     }).sort(function (a, b) {
-      return RANK[a.reading] - RANK[b.reading] ||
+      return openRank(a.site) - openRank(b.site) || RANK[a.reading] - RANK[b.reading] ||
         (num(b.community && b.community.ioi_score) || 0) - (num(a.community && a.community.ioi_score) || 0) ||
         (num(b.site.homes) || 0) - (num(a.site.homes) || 0) || a.name.localeCompare(b.name);
     });
@@ -282,7 +300,7 @@
       (c.row.notes ? '<li><strong>Your note:</strong> ' + esc(c.row.notes) + '</li>' : '') +
       (c.signal ? '<li><strong>Latest signal:</strong> ' + esc(c.signal.summary || '') + ' ' + link('(source)', c.signal.source_url) + '</li>' : '') +
       (c.place && c.place.prop123 ? '<li><strong>' + esc(prop123Line(c.place)) + '</strong>, from DOLA commitment filings.</li>' : '') +
-      '</ul><p><a href="developer-brief.html?geoid=' + encodeURIComponent(c.geoid) + '">Open the jurisdiction report</a></p>';
+      '</ul><p><a href="developer-brief.html?geoid=' + encodeURIComponent(c.geoid) + '">Open the place card</a></p>';
   }
 
   function mount(el, ctx) {
@@ -423,5 +441,5 @@
     });
   }
 
-  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, syncReports: syncReports, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
+  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, syncReports: syncReports, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS, OPEN: OPEN, OPEN_RANK: OPEN_RANK };
 });
