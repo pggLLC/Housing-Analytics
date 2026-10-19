@@ -1053,6 +1053,52 @@ mark {
   .dg-route__num { grid-row: 1 / span 3; }
   .dg-route > li + li::before { display: none; }
 }
+/* Residual land value: two stacked bars on one scale (land-value.html). */
+.dg-stack { margin: 0 0 1rem; }
+.dg-stack__label { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; margin: 0 0 .35rem; font-size: .9rem; }
+.dg-stack__bar { position: relative; display: flex; height: 1.6rem; background: var(--bg2); border-radius: 4px; }
+.dg-seg { display: block; height: 100%; }
+.dg-seg--src1 { background: var(--chart-3); }
+.dg-seg--src2 { background: var(--chart-5); }
+.dg-seg--src3 { background: var(--chart-2); }
+.dg-seg--use1 { background: var(--chart-4); }
+.dg-seg--use2 { background: var(--chart-6); }
+.dg-seg--use3 { background: var(--chart-7); }
+.dg-seg--residual { background: repeating-linear-gradient(135deg, var(--chart-3) 0 4px, transparent 4px 8px); border: 2px solid var(--chart-3); box-sizing: border-box; }
+.dg-askbox { position: absolute; top: -4px; bottom: -4px; border: 2px dashed var(--text-strong); border-radius: 3px; box-sizing: border-box; pointer-events: none; }
+.dg-stack__key { list-style: none; margin: .45rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .8rem; color: var(--muted); }
+.dg-stack__key i, .dg-residual-key, .dg-ask-key { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; vertical-align: -.1rem; margin-right: .3rem; }
+.dg-residual-key { background: repeating-linear-gradient(135deg, var(--chart-3) 0 3px, transparent 3px 6px); border: 2px solid var(--chart-3); box-sizing: border-box; }
+.dg-ask-key { border: 2px dashed var(--text-strong); box-sizing: border-box; }
+/* Decision tree: a question, then its two answers side by side
+   (stacked on a phone). lihtc-guide-for-stakeholders.html. */
+.dg-decide { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+.dg-decide__step { display: grid; gap: .5rem; }
+.dg-decide__step > .dg-node { margin: 0; }
+.dg-decide__branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; padding-left: 1.2rem; border-left: 2px solid var(--muted); margin-left: .6rem; }
+.dg-decide__branches > .dg-node { margin: 0; }
+.dg-decide .dg-node > span { display: block; }
+@container (max-width: 640px) { .dg-decide__branches { grid-template-columns: minmax(0, 1fr); } }
+/* Building types on one homes-per-acre scale (HNA "What to do"). */
+.dg-btypes__scale { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin: 0 0 .3rem calc(96px + .9rem); }
+.diagram p.dg-btypes__scale { font-size: .72rem !important; line-height: 1.2; }
+.dg-btypes__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.dg-btype { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: .9rem; align-items: center; }
+.dg-btype__art { width: 96px; height: 64px; color: var(--text-strong); }
+.dg-btype__text { display: grid; gap: .15rem; min-width: 0; font-size: .9rem; }
+.dg-btype__text > strong { display: inline; }
+.dg-btype__what { font-size: .8rem; color: var(--muted); }
+.dg-range { position: relative; display: block; height: .7rem; margin-top: .25rem; background: var(--bg2); border-radius: 999px; }
+.dg-range__fill { position: absolute; top: 0; bottom: 0; background: var(--chart-3); border-radius: 999px; }
+.dg-range__mark { position: absolute; top: -3px; bottom: -3px; width: 0; border-left: 2px dashed var(--text-strong); }
+.dg-range__keymark { display: inline-block; width: 0; height: .9rem; border-left: 2px dashed var(--text-strong); margin-right: .4rem; vertical-align: -.15rem; }
+.dg-btypes__legend { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .3rem; font-size: .8rem; color: var(--muted); line-height: 1.4; }
+.dg-btypes__legend li { margin: 0; font-size: .8rem; }
+@container (max-width: 420px) {
+  .dg-btype { grid-template-columns: 64px minmax(0, 1fr); gap: .6rem; }
+  .dg-btype__art { width: 64px; height: 43px; }
+  .dg-btypes__scale { margin-left: calc(64px + .6rem); }
+}
 @media print { .diagram { break-inside: avoid; } }
 
 /* "Which document do you need?" — the same guide on the white paper, the

@@ -231,12 +231,84 @@ test('every Table 3 weight appears in the score tree on its own factor', () => {
   }
 });
 
+/* 5 ── residual land value ─────────────────────────────────────────────── */
+const landDoc = new JSDOM(read('land-value.html')).window.document;
+const money1 = (n) => '$' + n.toFixed(1) + 'M';
+test('residual diagram: parts add to each bar, residual is sources minus costs, widths follow one scale', () => {
+  const fig = landDoc.getElementById('residualDiagram');
+  assert.ok(fig, 'land-value.html has no #residualDiagram');
+  const scale = Number(fig.getAttribute('data-scale'));
+  const stacks = fig.querySelectorAll('.dg-stack');
+  assert.strictEqual(stacks.length, 2);
+  const totals = [...stacks].map((st) => {
+    const total = Number(st.getAttribute('data-total'));
+    const parts = [...st.querySelectorAll('.dg-stack__key li')].map((li) => Number(li.getAttribute('data-part')));
+    assert.ok(Math.abs(parts.reduce((a, b) => a + b, 0) - total) < 1e-9, `parts ${parts} do not add to ${total}`);
+    assert.ok(st.querySelector('.dg-stack__label').textContent.includes(money1(total)), `the bar label does not print ${money1(total)}`);
+    st.querySelectorAll('.dg-stack__key li').forEach((li) => assert.ok(li.textContent.includes(money1(Number(li.getAttribute('data-part'))))));
+    const segs = [...st.querySelectorAll('.dg-stack__bar .dg-seg:not(.dg-seg--residual)')].map((x) => parseFloat(x.style.width));
+    parts.forEach((pt, i) => assert.ok(Math.abs(segs[i] - pt / scale * 100) < 0.1, `segment ${i} is ${segs[i]}%, ${pt} of ${scale} is ${(pt / scale * 100).toFixed(1)}%`));
+    checks += 3 + parts.length * 2;
+    return total;
+  });
+  const residual = totals[0] - totals[1];
+  const ask = Number(landDoc.getElementById('dgAsk').textContent.replace(/[^0-9.]/g, ''));
+  assert.strictEqual(landDoc.getElementById('dgResidual').textContent, money1(residual));
+  assert.strictEqual(landDoc.getElementById('dgShort').textContent, money1(ask - residual));
+  assert.ok(Math.abs(scale - (totals[1] + ask)) < 1e-9, 'the scale is cost plus the asking price');
+  const res = parseFloat(fig.querySelector('.dg-seg--residual').style.width);
+  assert.ok(Math.abs(res - residual / scale * 100) < 0.1, 'the residual segment is drawn to scale');
+  const box = fig.querySelector('.dg-askbox').style;
+  assert.ok(Math.abs(parseFloat(box.left) - totals[1] / scale * 100) < 0.1 && Math.abs(parseFloat(box.width) - ask / scale * 100) < 0.1, 'the asking-price box starts where costs end');
+  assert.ok(/Example numbers, not a real deal/.test(fig.textContent), 'the example says it is an example');
+  checks += 6;
+});
+
+/* 6 ── 4% or 9% ─────────────────────────────────────────────────────────── */
+test('credit path tree quotes the 4% vs 9% table it sits above', () => {
+  const tree = guide.getElementById('creditPathDiagram');
+  assert.ok(tree, 'the guide has no #creditPathDiagram');
+  const table = tree.parentElement.querySelector('.table-wrap table').textContent.replace(/\s+/g, ' ');
+  for (const k of ['awards', 'value4', 'value9']) {
+    const v = tree.querySelector(`[data-dg="${k}"]`).textContent.trim();
+    const want = k === 'awards' ? v : v.replace('/yr', '');
+    assert.ok(table.includes(want), `the table does not carry "${want}"`);
+    checks += 1;
+  }
+});
+
+/* 7 ── building types ───────────────────────────────────────────────────── */
+const hnaDocs = ['housing-needs-assessment.html', 'hna-what-to-do.html'].map((f) => [f, new JSDOM(read(f)).window.document]);
+test('building types: each range bar is drawn from its printed range on one 0-70 scale', () => {
+  for (const [f, doc] of hnaDocs) {
+    const fig = doc.getElementById('buildingTypesDiagram');
+    assert.ok(fig, `${f} has no #buildingTypesDiagram`);
+    const rows = fig.querySelectorAll('.dg-btype');
+    assert.strictEqual(rows.length, 4);
+    rows.forEach((li) => {
+      const lo = Number(li.dataset.min), hi = Number(li.dataset.max);
+      assert.ok(li.textContent.includes(`${lo}\u2013${hi} homes per acre`), `${li.dataset.type}: printed range is not ${lo}-${hi}`);
+      const fill = li.querySelector('.dg-range__fill').style;
+      assert.ok(Math.abs(parseFloat(fill.left) - lo / 70 * 100) < 0.1 && Math.abs(parseFloat(fill.width) - (hi - lo) / 70 * 100) < 0.1, `${li.dataset.type}: bar is not ${lo}-${hi}`);
+      const marks = [...li.querySelectorAll('.dg-range__mark')].map((m) => parseFloat(m.style.left));
+      assert.deepStrictEqual(marks.map((m) => Math.round(m / 100 * 70)), [15, 40], 'the Colorado marks sit at 15 and 40');
+      checks += 3;
+    });
+    assert.ok(/15 homes per acre/.test(fig.textContent) && /40 homes per acre/.test(fig.textContent) && /HB24-1313/.test(fig.textContent));
+    assert.ok(fig.querySelector('a[href="https://missingmiddlehousing.com/types"]'), 'the ranges name their source');
+    assert.strictEqual(fig.querySelectorAll('svg[role="img"]').length, 0, 'the drawings are decoration, not charts');
+    checks += 3;
+  }
+});
+
 /* ── none of them is a chart the axes audit would fail ─────────────────── */
 test('no diagram is an svg[role=img] inside .chart-card', () => {
   const pages = {
     'lihtc-guide-for-stakeholders.html': guide,
     'methods.html': methods,
     'select-jurisdiction.html': new JSDOM(sjHtml).window.document,
+    'land-value.html': landDoc,
+    'hna-what-to-do.html': hnaDocs[1][1],
   };
   for (const [file, doc] of Object.entries(pages)) {
     const figs = doc.querySelectorAll('figure.diagram, #sjRouteMap');

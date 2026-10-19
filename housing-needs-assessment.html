@@ -1818,6 +1818,50 @@
           new development. Combines Census ACS unit-type data with affordability metrics to project
           feasible construction types for LIHTC and workforce housing.
         </p>
+        <!-- Building types and how many homes each fits on an acre. Ranges are
+             Opticos Design's Missing Middle Housing figures (net density, front-
+             and alley-loaded lots together); the two marks are Colorado figures.
+             test/explanatory-diagrams.test.js holds the bars to the ranges. -->
+        <figure class="diagram dg-btypes" id="buildingTypesDiagram" aria-labelledby="buildingTypesTitle">
+          <p class="diagram__title" id="buildingTypesTitle">What each building type fits on an acre</p>
+          <p class="dg-btypes__scale" aria-hidden="true"><span>0</span><span>70 homes per acre</span></p>
+          <ul class="dg-btypes__list">
+            <li class="dg-btype" data-type="duplex" data-min="8" data-max="19">
+              <svg class="dg-btype__art" viewBox="0 0 120 80" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 74V38L60 14 100 38V74Z"/><path d="M60 14V74"/><rect x="34" y="52" width="10" height="22"/><rect x="76" y="52" width="10" height="22"/><rect x="30" y="40" width="12" height="9"/><rect x="78" y="40" width="12" height="9"/><path d="M6 74H114"/></g></svg>
+              <div class="dg-btype__text">
+                <strong>Side-by-side duplex</strong> <span class="dg-math">8&ndash;19 homes per acre</span>
+                <span class="dg-btype__what">Two homes that read as one house.</span>
+                <span class="dg-range" aria-hidden="true"><span class="dg-range__fill" style="left:11.4%;width:15.7%"></span><span class="dg-range__mark" style="left:21.4%"></span><span class="dg-range__mark" style="left:57.1%"></span></span>
+              </div>
+            </li>
+            <li class="dg-btype" data-type="townhouse" data-min="11" data-max="25">
+              <svg class="dg-btype__art" viewBox="0 0 120 80" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 74V26L22 16 36 26V74M36 74V26L50 16 64 26V74M64 74V26L78 16 92 26V74M92 74V26L106 16 120 26V74" transform="translate(-4 0)"/><rect x="14" y="58" width="8" height="16"/><rect x="42" y="58" width="8" height="16"/><rect x="70" y="58" width="8" height="16"/><rect x="98" y="58" width="8" height="16"/><rect x="14" y="34" width="10" height="9"/><rect x="42" y="34" width="10" height="9"/><rect x="70" y="34" width="10" height="9"/><rect x="98" y="34" width="10" height="9"/><path d="M2 74H118"/></g></svg>
+              <div class="dg-btype__text">
+                <strong>Townhouses</strong> <span class="dg-math">11&ndash;25 homes per acre</span>
+                <span class="dg-btype__what">2 to 16 multi-story homes side by side, each with its own door.</span>
+                <span class="dg-range" aria-hidden="true"><span class="dg-range__fill" style="left:15.7%;width:20.0%"></span><span class="dg-range__mark" style="left:21.4%"></span><span class="dg-range__mark" style="left:57.1%"></span></span>
+              </div>
+            </li>
+            <li class="dg-btype" data-type="fourplex" data-min="18" data-max="35">
+              <svg class="dg-btype__art" viewBox="0 0 120 80" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M22 74V30L60 10 98 30V74Z"/><path d="M22 52H98"/><rect x="54" y="58" width="12" height="16"/><rect x="32" y="34" width="14" height="10"/><rect x="74" y="34" width="14" height="10"/><rect x="32" y="58" width="14" height="10"/><rect x="74" y="58" width="14" height="10"/><path d="M6 74H114"/></g></svg>
+              <div class="dg-btype__text">
+                <strong>Fourplex</strong> <span class="dg-math">18&ndash;35 homes per acre</span>
+                <span class="dg-btype__what">Four homes, two up and two down, on a typical house lot.</span>
+                <span class="dg-range" aria-hidden="true"><span class="dg-range__fill" style="left:25.7%;width:24.3%"></span><span class="dg-range__mark" style="left:21.4%"></span><span class="dg-range__mark" style="left:57.1%"></span></span>
+              </div>
+            </li>
+            <li class="dg-btype" data-type="courtyard" data-min="26" data-max="70">
+              <svg class="dg-btype__art" viewBox="0 0 120 80" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 74V20H38V74M82 74V20H114V74M38 34H82"/><path d="M38 34V74M82 34V74" stroke-dasharray="3 3"/><path d="M50 74V62H70V74"/><path d="M12 30h8M26 30h8M12 44h8M26 44h8M12 58h8M26 58h8M86 30h8M100 30h8M86 44h8M100 44h8M86 58h8M100 58h8M46 44h8M66 44h8"/><path d="M2 74H118"/></g></svg>
+              <div class="dg-btype__text">
+                <strong>Courtyard apartments</strong> <span class="dg-math">26&ndash;70 homes per acre</span>
+                <span class="dg-btype__what">Homes around a shared courtyard, up to about three stories.</span>
+                <span class="dg-range" aria-hidden="true"><span class="dg-range__fill" style="left:37.1%;width:62.9%"></span><span class="dg-range__mark" style="left:21.4%"></span><span class="dg-range__mark" style="left:57.1%"></span></span>
+              </div>
+            </li>
+          </ul>
+          <ul class="dg-btypes__legend"><li><i class="dg-range__keymark"></i><strong>15 homes per acre</strong>: the least a housing component can have in the state&rsquo;s Transit Oriented Communities infrastructure grant</li><li><i class="dg-range__keymark"></i><strong>40 homes per acre</strong>: the average zoned density HB24-1313 sets as the goal in transit areas</li></ul>
+          <figcaption>Ranges are net density (homes per acre of lot) from Opticos Design&rsquo;s <a href="https://missingmiddlehousing.com/types" target="_blank" rel="noopener">Missing Middle Housing</a> type pages, covering lots with and without alleys. Colorado marks: <a href="https://leg.colorado.gov/bills/hb24-1313" target="_blank" rel="noopener">HB24-1313</a> and the Department of Local Affairs&rsquo; Transit Oriented Communities infrastructure grant guidelines. Local zoning sets what is allowed on any one site.</figcaption>
+        </figure>
         <div id="htfContainer">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
