@@ -1082,8 +1082,13 @@ mark {
 /* Building types on one homes-per-acre scale (HNA "What to do"). */
 .dg-btypes__scale { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin: 0 0 .3rem calc(96px + .9rem); }
 .diagram p.dg-btypes__scale { font-size: .72rem !important; line-height: 1.2; }
+.dg-btypes:has(.dg-btype__photo) .dg-btypes__scale { margin-right: calc(168px + .9rem); }
 .dg-btypes__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
 .dg-btype { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: .9rem; align-items: center; }
+.dg-btype:has(.dg-btype__photo) { grid-template-columns: 96px minmax(0, 1fr) 168px; }
+.diagram .dg-btype__photo { margin: 0; min-width: 0; }
+.dg-btype__photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 4px; }
+.diagram .dg-btype__photo figcaption { margin: .25rem 0 0; font-size: .7rem; line-height: 1.3; color: var(--muted); }
 .dg-btype__art { width: 96px; height: 64px; color: var(--text-strong); }
 .dg-btype__text { display: grid; gap: .15rem; min-width: 0; font-size: .9rem; }
 .dg-btype__text > strong { display: inline; }
@@ -1094,8 +1099,13 @@ mark {
 .dg-range__keymark { display: inline-block; width: 0; height: .9rem; border-left: 2px dashed var(--text-strong); margin-right: .4rem; vertical-align: -.15rem; }
 .dg-btypes__legend { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .3rem; font-size: .8rem; color: var(--muted); line-height: 1.4; }
 .dg-btypes__legend li { margin: 0; font-size: .8rem; }
+@container (max-width: 640px) {
+  .dg-btype:has(.dg-btype__photo) { grid-template-columns: 96px minmax(0, 1fr); }
+  .dg-btype__photo { grid-column: 1 / -1; max-width: 360px; }
+  .dg-btypes:has(.dg-btype__photo) .dg-btypes__scale { margin-right: 0; }
+}
 @container (max-width: 420px) {
-  .dg-btype { grid-template-columns: 64px minmax(0, 1fr); gap: .6rem; }
+  .dg-btype, .dg-btype:has(.dg-btype__photo) { grid-template-columns: 64px minmax(0, 1fr); gap: .6rem; }
   .dg-btype__art { width: 64px; height: 43px; }
   .dg-btypes__scale { margin-left: calc(64px + .6rem); }
 }

@@ -339,6 +339,22 @@ test('a year without both reports is left out, and the page fills from the files
   checks += 2;
 });
 
+test('every building-type photo is on disk and credits its author and license', () => {
+  for (const [file, doc] of hnaDocs) {
+    const figs = doc.querySelectorAll('#buildingTypesDiagram .dg-btype__photo');
+    assert.strictEqual(figs.length, 4, `${file}: one photo per building type`);
+    figs.forEach((fig) => {
+      const img = fig.querySelector('img');
+      assert.ok(fs.existsSync(path.join(ROOT, img.getAttribute('src'))), `${file}: ${img.getAttribute('src')} is missing`);
+      assert.ok(img.getAttribute('alt').length > 20, `${file}: photo needs a description`);
+      const links = [...fig.querySelectorAll('figcaption a')].map((a) => a.getAttribute('href'));
+      assert.ok(links.some((h) => h.startsWith('https://commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
+      assert.ok(links.some((h) => /^https:\/\/creativecommons\.org\/licenses\//.test(h)), `${file}: no license link`);
+      checks += 4;
+    });
+  }
+});
+
 /* ── 8. Deal Calculator capital stack and waterfall ladder ──────────────── */
 const DealDiagrams = require('../js/components/deal-diagrams.js');
 const deal = (o) => Object.assign({ tdc: 20e6, mortgage: 3e6, creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false },
