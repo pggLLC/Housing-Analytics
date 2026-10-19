@@ -345,7 +345,7 @@
       var here = STEP_URLS[currentStep];
       // The needs assessment opens on statewide figures, so "nothing to show"
       // is false there: say what is on screen instead.
-      if (here && /housing-needs-assessment|^hna-/.test(String(here).split(/[?#]/)[0])) {
+      if (currentStep === 'hsa') {
         heading = 'Showing statewide figures';
         body    = 'Pick a county or town to see its own numbers. You\'ll come straight back here.';
       }

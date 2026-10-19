@@ -80,6 +80,12 @@ run('the needs assessment says it is showing statewide figures, not that it has 
   assert.ok(!/nothing to show/.test(r.text), r.text);
 });
 
+run('the scenario builder, which opens empty, still asks for a jurisdiction', () => {
+  const r = render('hna-scenario-builder.html', ['opportunity']);
+  assert.ok(!/Showing statewide figures/.test(r.text), r.text);
+  assert.match(r.text, /Choose a jurisdiction first/, r.text);
+});
+
 run('Select Jurisdiction gives one next step: the banner agrees with the page button', () => {
   // Codex review 2026-10-15: the banner said "Go on to Opportunity Finder"
   // while the page's main button said "Begin Housing Needs Assessment (step 3)"
