@@ -47,6 +47,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script src="js/components/lihtc-credits-to-cash.js"></script>
+  <script defer src="js/components/chfa-round-odds.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
 </head>
@@ -160,6 +161,10 @@
 <li><strong>Closing Timeline:</strong> Coordinate all funding sources</li>
 </ul>
 <div class="data-source" id="lihtcGuidePricingBlock">Pricing reflects Novogradac's <span id="lihtcGuideVintage">2026-Q2</span> equity-pricing benchmarks: national average <strong>9% = <span id="lihtcGuideNat9">$0.82</span></strong>, <strong>4% = <span id="lihtcGuideNat4">$0.83</span></strong>; Colorado median <strong><span id="lihtcGuideCo">$0.81</span></strong> and North Central region median <strong><span id="lihtcGuideRegion">$0.80</span></strong>, each across 9% and 4% credits together. Novogradac does not publish Denver, rural or resort figures for Colorado. <strong>Directional only — confirm the current letter-of-intent range with your syndicator before sizing a capital stack.</strong> <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener" style="color:var(--mcm-teal);">Source: Novogradac regional and state equity pricing ↗</a>
+<script>
+/* The 9% round counts follow the applicant and award reports in the data files. */
+document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRoundOdds) window.ChfaRoundOdds.fill(document); });
+</script>
 <script>
 /* F247 — Wire LIHTC Guide pricing to live Novogradac data file so the
    numbers don't drift as the data refreshes. Falls back to the static
@@ -358,6 +363,28 @@
   and follow the same compliance rules — but their allocation mechanics, economics, and timelines differ
   enough that the wrong election can make a feasible project infeasible.
 </p>
+<!-- Decision tree. Every figure in it is the table's own figure below,
+     held to it by test/explanatory-diagrams.test.js. -->
+<figure class="diagram" id="creditPathDiagram" aria-labelledby="creditPathTitle">
+  <p class="diagram__title" id="creditPathTitle">Which credit applies: two questions</p>
+  <ol class="dg-decide">
+    <li class="dg-decide__step">
+      <p class="dg-node"><strong>1. Will tax-exempt private activity bonds finance at least half of the building and its land?</strong><span>Or at least 25% for a building placed in service after 2025, when bonds issued after 2025 finance at least 5% of that basis.</span></p>
+      <div class="dg-decide__branches">
+        <p class="dg-node dg-node--accent"><strong>Yes: 4% credit</strong><span>Not competitive when bond cap is available. About <span data-dg="value4">$40K/yr</span> per $1M of eligible basis, so soft money usually fills 30&ndash;50% of the stack.</span></p>
+        <p class="dg-node dg-node--soft"><strong>No: go to question 2</strong><span>Without bonds, the 9% round is the only way to the credit.</span></p>
+      </div>
+    </li>
+    <li class="dg-decide__step">
+      <p class="dg-node"><strong>2. Can the project win CHFA&rsquo;s competitive 9% round?</strong><span>Roughly half of applications are funded: <span data-dg="awards">13 of 23 in 2024, 12 of 24 in 2025, 14 of 32 in 2026</span>.</span></p>
+      <div class="dg-decide__branches">
+        <p class="dg-node dg-node--accent"><strong>Funded: 9% credit</strong><span>About <span data-dg="value9">$90K/yr</span> per $1M of eligible basis, so equity covers more of the cost and less gap money is needed.</span></p>
+        <p class="dg-node dg-node--accent2"><strong>Not funded</strong><span>Reapply next round, or switch to bonds and the 4% path, which typically costs about 6 months.</span></p>
+      </div>
+    </li>
+  </ol>
+  <figcaption>Thresholds are from IRC &sect;42(h)(4)(B) and Public Law 119-21 &sect;70422; award counts are from CHFA&rsquo;s applicant and award reports. The table below has the detail and sources.</figcaption>
+</figure>
 <div class="table-wrap" role="region" tabindex="0" aria-label="4% vs 9% Credits: Which Path? table"><table>
 <thead>
 <tr>
@@ -379,7 +406,7 @@
 </tr>
 <tr>
 <td><strong>Allocation process</strong></td>
-<td>Competitive annual QAP round at CHFA; roughly half of applications funded in recent rounds (13 of 23 in 2024, 12 of 24 in 2025, 14 of 32 in 2026, per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards">applicant and award reports</a>)</td>
+<td>Competitive annual QAP round at CHFA; roughly half of applications funded in recent rounds (<span data-dg="awards">13 of 23 in 2024, 12 of 24 in 2025, 14 of 32 in 2026</span>, per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards">applicant and award reports</a>)</td>
 <td>Non-competitive if PAB cap available — automatic if project passes the 50% test, or the 25% test for buildings placed in service after 2025 where bonds issued after 2025 finance at least 5% of the aggregate basis of the building and its land, with both tests measured on that building-and-land basis (Public Law 119-21 §70422)</td>
 </tr>
 <tr>
