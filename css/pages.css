@@ -1155,3 +1155,10 @@ mark {
 .doc-guide__for { font-size: .95rem; color: var(--text); }
 .doc-guide__about { font-size: .85rem; color: var(--muted); }
 @media print { .doc-guide { display: none; } }
+
+/* HNA "Why it matters for a project" fold (js/hna/hna-dev-context.js).
+   The summary takes the site's standard details > summary row and chevron. */
+.hna-dev-context { margin: .55rem 0 .8rem; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; overflow: hidden; font-size: .875rem; line-height: 1.5; }
+.hna-dev-context > summary { min-height: 44px; padding: .5rem .85rem; font-weight: 600; }
+.hna-dev-context > p { margin: .6rem .85rem 0; }
+.hna-dev-context > p:last-child { margin-bottom: .75rem; }
