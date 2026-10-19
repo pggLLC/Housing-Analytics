@@ -46,7 +46,8 @@
       '</li>';
   }
 
-  // opts: {questions (array or null when the site can't save), place, page, limit, form}
+  // opts: {questions (array or null when the site can't save), canAnswer (the
+  // site says this sign-in is pggLLC's), place, page, limit, form}
   function render(opts) {
     opts = opts || {};
     var list = opts.questions;
@@ -62,7 +63,7 @@
         '<p class="ask-note">Saved on this site for everyone signed in. Nothing is emailed.</p></form>'
       : '<p class="ask-note">Questions are saved on the developer site; open this page there to ask one.</p>';
     var none = saving && !shown.length ? '<p class="ask-note">No questions yet.</p>' : '';
-    return form + none + (shown.length ? '<ul class="ask-list">' + shown.map(function (q) { return item(q, opts.form !== false); }).join('') + '</ul>' : '');
+    return form + none + (shown.length ? '<ul class="ask-list">' + shown.map(function (q) { return item(q, opts.form !== false && opts.canAnswer === true); }).join('') + '</ul>' : '');
   }
 
   function post(body) {
@@ -74,8 +75,10 @@
   function mount(el, opts) {
     if (!el) return;
     opts = opts || {};
-    function draw(list) {
-      el.innerHTML = render(Object.assign({}, opts, { questions: list }));
+    // The site answers {questions, can_answer}; only pggLLC's sign-ins may answer.
+    function draw(res) {
+      var list = res && Array.isArray(res.questions) ? res.questions : null;
+      el.innerHTML = render(Object.assign({}, opts, { questions: list, canAnswer: !!(res && res.can_answer) }));
       var f = el.querySelector('#askForm');
       if (f) f.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -97,7 +100,7 @@
       });
     }
     fetch(URL).then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (list) { draw(Array.isArray(list) ? list : null); })
+      .then(function (res) { draw(res); })
       .catch(function () { draw(null); });
   }
 

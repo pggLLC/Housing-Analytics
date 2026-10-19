@@ -61,7 +61,19 @@ ok(P.lastTalked(notes)['mo manager'] === '2026-10-18', 'the log records the late
 ranked = P.rankContacts(network, researched, 'Draft outreach email', notes);
 const mo = ranked.find((c) => c.name === 'Mo Manager');
 ok(mo.last_talked === '2026-10-18' && /you talked on 2026-10-18/.test(mo.why), 'a logged talk shows as last talked');
-ok(ranked.indexOf(mo) < ranked.findIndex((c) => c.name === 'Pat Planner'), 'someone you have talked to rises above a cold contact');
+const twins = [
+  { name: 'Mo Manager', role: 'Town Manager', email: 'mo@example.org', phone: '1', last_talked: 'never' },
+  { name: 'Al Manager', role: 'Town Manager', email: 'al@example.org', phone: '2', last_talked: 'never' }
+];
+ok(P.rankContacts(twins, [], 'Draft outreach email', notes)[0].name === 'Mo Manager' && P.rankContacts(twins, [], 'Draft outreach email', [])[0].name === 'Al Manager',
+  'between two people who fit the step equally and are equally reachable, the one you have talked to comes first');
+
+// Codex round 4: fit to the next step outranks reach and a past talk.
+const lex = P.rankContacts(
+  [{ name: 'Reachable Manager', role: 'Town Manager', email: 'm@example.org', phone: '1', last_talked: '2026-10-01', relationship_tier: '1' }],
+  [{ name: 'Quiet Planner', role: 'Planning Director', source_url: 'https://example.org/p' }],
+  'Ask for a zoning letter');
+ok(lex[0].name === 'Quiet Planner', 'the person who handles the step comes first, even with no phone on file and no past talk');
 
 // 4. Sites, best first, with the developer check.
 const ripeness = {
@@ -138,12 +150,13 @@ const qs = [
   { id: '2', asked: '2026-10-03', question: 'Why <ripening>?', answer: '' }
 ];
 ok(A.order(qs)[0].id === '2', 'unanswered questions come first');
-const ask = A.render({ questions: qs, place: 'Buena Vista' });
+const ask = A.render({ questions: qs, place: 'Buena Vista', canAnswer: true });
 ok(ask.includes('id="askForm"') && ask.includes('value="Buena Vista"') && ask.includes('ask-answer-form'), 'the form fills the place and open questions can be answered');
 ok(ask.includes('&lt;ripening&gt;') && !ask.includes('<ripening>'), 'questions are escaped');
 ok(/Nothing is emailed/.test(ask), 'the form says nothing is emailed');
 ok(!A.render({ questions: null }).includes('askForm'), 'off the developer site the form says where questions are kept');
-ok(!A.render({ questions: qs, form: false }).includes('ask-answer-form'), 'the home page list is read-only');
+ok(!A.render({ questions: qs, form: false, canAnswer: true }).includes('ask-answer-form'), 'the home page list is read-only');
+ok(!A.render({ questions: qs }).includes('ask-answer-form') && A.render({ questions: qs }).includes('Waiting for an answer'), 'only pggLLC\'s sign-ins see the answer form; everyone else sees the question waiting');
 const nav = read('js/whitepaper/developer-nav.js'), build = read('scripts/build-public-site.mjs');
 for (const pg of ['developer-methods.html', 'developer-about.html']) {
   ok(fs.existsSync(path.join(ROOT, pg)) && nav.includes("'" + pg + "'") && build.includes("'" + pg + "'"), pg + ' is in the menu and kept out of the public build');

@@ -156,9 +156,11 @@
       if (talked && c.last_talked) why.push('you talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
       why.push(reach === 2 ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
-      return Object.assign({}, c, { score: fitScore * 2 + reach + talked, fit: fit, why: why.join('; ') });
+      return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, fit: fit, why: why.join('; ') });
     }).sort(function (a, b) {
-      return b.score - a.score || (b.phone || b.email ? 1 : 0) - (a.phone || a.email ? 1 : 0) || a.name.localeCompare(b.name);
+      // In order, as the Methodology page says: fit to the next step decides;
+      // a phone or email breaks ties; a past talk breaks what is left.
+      return b.score - a.score || b.reach - a.reach || b.talked - a.talked || a.name.localeCompare(b.name);
     });
   }
 
