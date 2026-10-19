@@ -40,6 +40,7 @@ const JSON_COUNT_PATHS = {
   'acs-tract-metrics': 'tracts',
   'tract-centroids-co': 'tracts',
   'lodes-co': 'tracts',
+  'fdic-sod-co-branches': 'banks',
   'cde-schools-co': 'districts',
   'cdle-job-postings-co': 'counties',
   'cdot-traffic-co': 'stations',

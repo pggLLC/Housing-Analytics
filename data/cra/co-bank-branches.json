@@ -1,0 +1,4623 @@
+{
+ "meta": {
+  "source": "FDIC BankFind Suite API: Summary of Deposits, Institutions, Financials",
+  "source_url": "https://api.fdic.gov/banks/docs/",
+  "sod_as_of": "2026-06-30",
+  "assets_as_of": [
+   "2024-12-31",
+   "2025-12-31"
+  ],
+  "cra_thresholds_k": {
+   "large": 1649000,
+   "intermediate": 412000
+  },
+  "generated": "2026-10-19",
+  "note": "Branch counties are a screen for CRA assessment areas, not the areas themselves. Credit unions are not covered by the CRA.",
+  "branch_count": 1363,
+  "bank_count": 124
+ },
+ "banks": {
+  "628": {
+   "name": "JPMorgan Chase Bank, National Association",
+   "hq": "Columbus, OH",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 3459261000,
+    "2025": 3752662000
+   },
+   "cra_size": "large",
+   "co_branches": 107,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08059",
+    "08069",
+    "08097",
+    "08113",
+    "08117",
+    "08123"
+   ]
+  },
+  "913": {
+   "name": "The Northern Trust Company",
+   "hq": "Chicago, IL",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 154947706,
+    "2025": 176396321
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "1105": {
+   "name": "First Interstate Bank",
+   "hq": "Billings, MT",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 29065552,
+    "2025": 26568494
+   },
+   "cra_size": "large",
+   "co_branches": 19,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08041",
+    "08043",
+    "08059",
+    "08069",
+    "08123"
+   ]
+  },
+  "1141": {
+   "name": "The Colorado Bank and Trust Company of La Junta",
+   "hq": "La Junta, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 242810,
+    "2025": 316199
+   },
+   "cra_size": "small",
+   "co_branches": 5,
+   "co_counties": [
+    "08015",
+    "08089",
+    "08099",
+    "08101"
+   ]
+  },
+  "1779": {
+   "name": "The Citizens State Bank of Ouray",
+   "hq": "Ouray, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 205362,
+    "2025": 215319
+   },
+   "cra_size": "small",
+   "co_branches": 7,
+   "co_counties": [
+    "08085",
+    "08091",
+    "08111",
+    "08113"
+   ]
+  },
+  "1780": {
+   "name": "Farmers State Bank of Calhan",
+   "hq": "Calhan, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 390921,
+    "2025": 417918
+   },
+   "cra_size": "small",
+   "co_branches": 4,
+   "co_counties": [
+    "08039",
+    "08041"
+   ]
+  },
+  "2228": {
+   "name": "RNB STATE BANK",
+   "hq": "Rawlins, WY",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 262027,
+    "2025": 286923
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08013"
+   ]
+  },
+  "2270": {
+   "name": "Zions Bancorporation, N.A.",
+   "hq": "Salt Lake City, UT",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 88774720,
+    "2025": 88989689
+   },
+   "cra_size": "large",
+   "co_branches": 33,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08059",
+    "08067",
+    "08077",
+    "08083",
+    "08085",
+    "08097",
+    "08101",
+    "08107",
+    "08119"
+   ]
+  },
+  "3017": {
+   "name": "High Plains Bank",
+   "hq": "Flagler, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 410774,
+    "2025": 441434
+   },
+   "cra_size": "small",
+   "co_branches": 9,
+   "co_counties": [
+    "08001",
+    "08013",
+    "08063",
+    "08065",
+    "08073",
+    "08087",
+    "08123"
+   ]
+  },
+  "3018": {
+   "name": "The First National Bank of Fleming",
+   "hq": "Fleming, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 28594,
+    "2025": 30078
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08075"
+   ]
+  },
+  "3019": {
+   "name": "Rocky Mountain Bank & Trust",
+   "hq": "Florence, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 121769,
+    "2025": 123514
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08041",
+    "08043"
+   ]
+  },
+  "3031": {
+   "name": "Points West Community Bank",
+   "hq": "Windsor, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 814262,
+    "2025": 833844
+   },
+   "cra_size": "intermediate",
+   "co_branches": 10,
+   "co_counties": [
+    "08069",
+    "08095",
+    "08115",
+    "08123"
+   ]
+  },
+  "3034": {
+   "name": "First National Bank Colorado",
+   "hq": "Las Animas, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 606106,
+    "2025": 637270
+   },
+   "cra_size": "intermediate",
+   "co_branches": 7,
+   "co_counties": [
+    "08011",
+    "08025",
+    "08041",
+    "08089"
+   ]
+  },
+  "3063": {
+   "name": "First Pioneer National Bank",
+   "hq": "Wray, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 241923,
+    "2025": 249319
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08095",
+    "08125"
+   ]
+  },
+  "3335": {
+   "name": "Bank19",
+   "hq": "Memphis, TX",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 67305,
+    "2025": 134356
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08041"
+   ]
+  },
+  "3510": {
+   "name": "Bank of America, National Association",
+   "hq": "Charlotte, NC",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 2589060000,
+    "2025": 2636823000
+   },
+   "cra_size": "large",
+   "co_branches": 36,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08041",
+    "08059",
+    "08069",
+    "08123"
+   ]
+  },
+  "3511": {
+   "name": "Wells Fargo Bank, National Association",
+   "hq": "Sioux Falls, SD",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 1705538000,
+    "2025": 1822693000
+   },
+   "cra_size": "large",
+   "co_branches": 117,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08007",
+    "08013",
+    "08014",
+    "08029",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08043",
+    "08045",
+    "08049",
+    "08051",
+    "08059",
+    "08067",
+    "08069",
+    "08075",
+    "08077",
+    "08085",
+    "08097",
+    "08101",
+    "08107",
+    "08117",
+    "08123"
+   ]
+  },
+  "4063": {
+   "name": "MidFirst Bank",
+   "hq": "Oklahoma City, OK",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 39086938,
+    "2025": 41367487
+   },
+   "cra_size": "large",
+   "co_branches": 5,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08031",
+    "08037"
+   ]
+  },
+  "4214": {
+   "name": "BOKF, National Association",
+   "hq": "Tulsa, OK",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 49465723,
+    "2025": 52005221
+   },
+   "cra_size": "large",
+   "co_branches": 14,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08031",
+    "08035",
+    "08059"
+   ]
+  },
+  "4660": {
+   "name": "FirstOak Bank",
+   "hq": "Independence, KS",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 241279,
+    "2025": 241030
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08101"
+   ]
+  },
+  "4666": {
+   "name": "Armed Forces Bank, National Association",
+   "hq": "Fort Leavenworth, KS",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 1392914,
+    "2025": 1424990
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08041"
+   ]
+  },
+  "4673": {
+   "name": "GNBank, National Association",
+   "hq": "Girard, KS",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 984392,
+    "2025": 1022737
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08061",
+    "08099"
+   ]
+  },
+  "4767": {
+   "name": "Sunflower Bank, National Association",
+   "hq": "Dallas, TX",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 8085206,
+    "2025": 8473383
+   },
+   "cra_size": "large",
+   "co_branches": 11,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08043",
+    "08059",
+    "08101",
+    "08105"
+   ]
+  },
+  "5394": {
+   "name": "Waypoint Bank",
+   "hq": "Cozad, NE",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 367409,
+    "2025": 411340
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08041",
+    "08069"
+   ]
+  },
+  "5434": {
+   "name": "MNB BANK",
+   "hq": "Mccook, NE",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 569885,
+    "2025": 594966
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08063"
+   ]
+  },
+  "5452": {
+   "name": "First National Bank of Omaha",
+   "hq": "Omaha, NE",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 31985717,
+    "2025": 34573634
+   },
+   "cra_size": "large",
+   "co_branches": 22,
+   "co_counties": [
+    "08001",
+    "08013",
+    "08014",
+    "08069",
+    "08123"
+   ]
+  },
+  "5568": {
+   "name": "Herring Bank",
+   "hq": "Amarillo, TX",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 490953,
+    "2025": 487454
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08041"
+   ]
+  },
+  "6384": {
+   "name": "PNC Bank, National Association",
+   "hq": "Wilmington, DE",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 556138962,
+    "2025": 568338163
+   },
+   "cra_size": "large",
+   "co_branches": 121,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08045",
+    "08059",
+    "08069",
+    "08097",
+    "08117",
+    "08123"
+   ]
+  },
+  "6548": {
+   "name": "U.S. Bank National Association",
+   "hq": "Cincinnati, OH",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 662906418,
+    "2025": 676125227
+   },
+   "cra_size": "large",
+   "co_branches": 102,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08029",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08043",
+    "08045",
+    "08049",
+    "08059",
+    "08069",
+    "08077",
+    "08085",
+    "08089",
+    "08097",
+    "08101",
+    "08113",
+    "08117",
+    "08123"
+   ]
+  },
+  "6560": {
+   "name": "The Huntington National Bank",
+   "hq": "Columbus, OH",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 203427533,
+    "2025": 224047234
+   },
+   "cra_size": "large",
+   "co_branches": 40,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08041",
+    "08059"
+   ]
+  },
+  "7946": {
+   "name": "BNY Mellon, National Association",
+   "hq": "Pittsburgh, PA",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 30536000,
+    "2025": 31329000
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "8273": {
+   "name": "UMB Bank, National Association",
+   "hq": "Kansas City, MO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 50150137,
+    "2025": 72780016
+   },
+   "cra_size": "large",
+   "co_branches": 25,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08031",
+    "08037",
+    "08041",
+    "08049",
+    "08059",
+    "08123"
+   ]
+  },
+  "8321": {
+   "name": "Stockmens Bank",
+   "hq": "Colorado Springs, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 539437,
+    "2025": 566651
+   },
+   "cra_size": "intermediate",
+   "co_branches": 4,
+   "co_counties": [
+    "08027",
+    "08041",
+    "08073",
+    "08121"
+   ]
+  },
+  "9659": {
+   "name": "State Bank of Downs",
+   "hq": "Downs, KS",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 137828,
+    "2025": 140343
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "10407": {
+   "name": "The Farmers State Bank of Brush",
+   "hq": "Brush, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 114487,
+    "2025": 113355
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08087",
+    "08121"
+   ]
+  },
+  "11063": {
+   "name": "First-Citizens Bank & Trust Company",
+   "hq": "Raleigh, NC",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 223543000,
+    "2025": 229332000
+   },
+   "cra_size": "large",
+   "co_branches": 5,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08031",
+    "08035"
+   ]
+  },
+  "11259": {
+   "name": "The Gunnison Bank and Trust Company",
+   "hq": "Gunnison, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 231091,
+    "2025": 250032
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08051"
+   ]
+  },
+  "11261": {
+   "name": "McClave State Bank",
+   "hq": "Mcclave, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 78777,
+    "2025": 84431
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08011",
+    "08099"
+   ]
+  },
+  "11492": {
+   "name": "InBank",
+   "hq": "Raton, NM",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 1314197,
+    "2025": 1410775
+   },
+   "cra_size": "intermediate",
+   "co_branches": 11,
+   "co_counties": [
+    "08005",
+    "08013",
+    "08031",
+    "08041",
+    "08043",
+    "08071",
+    "08101"
+   ]
+  },
+  "12372": {
+   "name": "Fowler State Bank",
+   "hq": "Fowler, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 137601,
+    "2025": 149938
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08089"
+   ]
+  },
+  "12594": {
+   "name": "PB&T Bank",
+   "hq": "Pueblo, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 616730,
+    "2025": 663023
+   },
+   "cra_size": "intermediate",
+   "co_branches": 17,
+   "co_counties": [
+    "08001",
+    "08013",
+    "08015",
+    "08031",
+    "08035",
+    "08041",
+    "08043",
+    "08065",
+    "08089",
+    "08101"
+   ]
+  },
+  "12633": {
+   "name": "The Central Trust Bank",
+   "hq": "Jefferson City, MO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 19230483,
+    "2025": 20799746
+   },
+   "cra_size": "large",
+   "co_branches": 6,
+   "co_counties": [
+    "08005",
+    "08041",
+    "08059",
+    "08067",
+    "08085"
+   ]
+  },
+  "13421": {
+   "name": "Union Bank and Trust Company",
+   "hq": "Lincoln, NE",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 8757386,
+    "2025": 9093084
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08069"
+   ]
+  },
+  "13947": {
+   "name": "Alamosa State Bank",
+   "hq": "Alamosa, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 336012,
+    "2025": 338190
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08003"
+   ]
+  },
+  "13986": {
+   "name": "Transact Bank, National Association",
+   "hq": "Denver, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 6539,
+    "2025": 6598
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "14420": {
+   "name": "FNB Bank",
+   "hq": "Goodland, KS",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 258909,
+    "2025": 272944
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08001",
+    "08125"
+   ]
+  },
+  "14584": {
+   "name": "The First National Bank in Trinidad",
+   "hq": "Trinidad, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 254781,
+    "2025": 258951
+   },
+   "cra_size": "small",
+   "co_branches": 4,
+   "co_counties": [
+    "08055",
+    "08071"
+   ]
+  },
+  "14712": {
+   "name": "First National Bank",
+   "hq": "Fort Pierre, SD",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 1687096,
+    "2025": 2073342
+   },
+   "cra_size": "large",
+   "co_branches": 4,
+   "co_counties": [
+    "08005",
+    "08069",
+    "08123"
+   ]
+  },
+  "14730": {
+   "name": "Frontier Bank",
+   "hq": "Lamar, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 410613,
+    "2025": 424944
+   },
+   "cra_size": "small",
+   "co_branches": 8,
+   "co_counties": [
+    "08003",
+    "08009",
+    "08063",
+    "08099",
+    "08101"
+   ]
+  },
+  "16125": {
+   "name": "The Eastern Colorado Bank",
+   "hq": "Cheyenne Wells, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 673237,
+    "2025": 705038
+   },
+   "cra_size": "intermediate",
+   "co_branches": 7,
+   "co_counties": [
+    "08017",
+    "08041",
+    "08063",
+    "08073"
+   ]
+  },
+  "16450": {
+   "name": "Busey Bank",
+   "hq": "Champaign, IL",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 12011325,
+    "2025": 18052735
+   },
+   "cra_size": "large",
+   "co_branches": 3,
+   "co_counties": [
+    "08031",
+    "08041"
+   ]
+  },
+  "16571": {
+   "name": "BMO Bank National Association",
+   "hq": "Chicago, IL",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 263653406,
+    "2025": 252074150
+   },
+   "cra_size": "large",
+   "co_branches": 68,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08015",
+    "08029",
+    "08031",
+    "08035",
+    "08039",
+    "08049",
+    "08051",
+    "08059",
+    "08063",
+    "08069",
+    "08071",
+    "08075",
+    "08077",
+    "08085",
+    "08087",
+    "08095",
+    "08107",
+    "08117",
+    "08123"
+   ]
+  },
+  "16980": {
+   "name": "Bank of Colorado",
+   "hq": "Fort Collins, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 7230434,
+    "2025": 7710086
+   },
+   "cra_size": "large",
+   "co_branches": 49,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08007",
+    "08013",
+    "08029",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08045",
+    "08059",
+    "08067",
+    "08069",
+    "08075",
+    "08077",
+    "08081",
+    "08085",
+    "08087",
+    "08095",
+    "08121",
+    "08123",
+    "08125"
+   ]
+  },
+  "17266": {
+   "name": "Columbia Bank",
+   "hq": "Roseburg, OR",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 51566291,
+    "2025": 66821352
+   },
+   "cra_size": "large",
+   "co_branches": 2,
+   "co_counties": [
+    "08031",
+    "08041"
+   ]
+  },
+  "17411": {
+   "name": "Mountain Valley Bank",
+   "hq": "Walden, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 571946,
+    "2025": 562231
+   },
+   "cra_size": "intermediate",
+   "co_branches": 7,
+   "co_counties": [
+    "08057",
+    "08069",
+    "08103",
+    "08107",
+    "08123"
+   ]
+  },
+  "17478": {
+   "name": "FirsTier Bank",
+   "hq": "Kimball, NE",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 912555,
+    "2025": 1082291
+   },
+   "cra_size": "intermediate",
+   "co_branches": 5,
+   "co_counties": [
+    "08013",
+    "08014",
+    "08035",
+    "08069",
+    "08123"
+   ]
+  },
+  "17534": {
+   "name": "KeyBank National Association",
+   "hq": "Cleveland, OH",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 184461420,
+    "2025": 181707510
+   },
+   "cra_size": "large",
+   "co_branches": 56,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08014",
+    "08031",
+    "08035",
+    "08041",
+    "08059",
+    "08069"
+   ]
+  },
+  "17782": {
+   "name": "Pikes Peak National Bank",
+   "hq": "Colorado Springs, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 101830,
+    "2025": 109908
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08041"
+   ]
+  },
+  "17872": {
+   "name": "First National Bank, Cortez",
+   "hq": "Cortez, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 141269,
+    "2025": 152333
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08083"
+   ]
+  },
+  "17959": {
+   "name": "The Dolores State Bank",
+   "hq": "Dolores, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 417831,
+    "2025": 447718
+   },
+   "cra_size": "intermediate",
+   "co_branches": 4,
+   "co_counties": [
+    "08083"
+   ]
+  },
+  "18100": {
+   "name": "CoreFirst Bank & Trust",
+   "hq": "Topeka, KS",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 1237982,
+    "2025": 1291227
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "18489": {
+   "name": "Adams Bank & Trust",
+   "hq": "Ogallala, NE",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 1391200,
+    "2025": 1340848
+   },
+   "cra_size": "intermediate",
+   "co_branches": 10,
+   "co_counties": [
+    "08013",
+    "08041",
+    "08069",
+    "08123"
+   ]
+  },
+  "18609": {
+   "name": "American Bank of Commerce",
+   "hq": "Wolfforth, TX",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 1453438,
+    "2025": 1691788
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08041",
+    "08101"
+   ]
+  },
+  "18710": {
+   "name": "North Valley Bank",
+   "hq": "Thornton, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 250536,
+    "2025": 260409
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08001",
+    "08014"
+   ]
+  },
+  "19220": {
+   "name": "ANB Bank",
+   "hq": "Denver, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 2964088,
+    "2025": 2991873
+   },
+   "cra_size": "large",
+   "co_branches": 23,
+   "co_counties": [
+    "08013",
+    "08031",
+    "08035",
+    "08037",
+    "08041",
+    "08045",
+    "08059",
+    "08069",
+    "08077",
+    "08097",
+    "08113"
+   ]
+  },
+  "19351": {
+   "name": "Bank of Estes Park",
+   "hq": "Estes Park, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 153594,
+    "2025": 157317
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08013",
+    "08069"
+   ]
+  },
+  "19381": {
+   "name": "Park State Bank & Trust",
+   "hq": "Woodland Park, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 141215,
+    "2025": 161461
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08119"
+   ]
+  },
+  "19600": {
+   "name": "Academy Bank, National Association",
+   "hq": "Kansas City, MO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 2925032,
+    "2025": 3320167
+   },
+   "cra_size": "large",
+   "co_branches": 28,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08031",
+    "08041",
+    "08059",
+    "08069",
+    "08101",
+    "08123"
+   ]
+  },
+  "20156": {
+   "name": "Kirkpatrick Bank",
+   "hq": "Edmond, OK",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 993133,
+    "2025": 1038067
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08005",
+    "08041"
+   ]
+  },
+  "22447": {
+   "name": "Wray State Bank",
+   "hq": "Wray, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 266909,
+    "2025": 308913
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08087",
+    "08123",
+    "08125"
+   ]
+  },
+  "23091": {
+   "name": "Alpine Bank",
+   "hq": "Glenwood Springs, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 6521366,
+    "2025": 6850257
+   },
+   "cra_size": "large",
+   "co_branches": 44,
+   "co_counties": [
+    "08001",
+    "08013",
+    "08029",
+    "08031",
+    "08037",
+    "08041",
+    "08045",
+    "08067",
+    "08069",
+    "08077",
+    "08085",
+    "08091",
+    "08097",
+    "08107",
+    "08113",
+    "08117"
+   ]
+  },
+  "23210": {
+   "name": "Bankers' Bank of the West",
+   "hq": "Denver, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 431504,
+    "2025": 441940
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "23404": {
+   "name": "Evergreen National Bank",
+   "hq": "Evergreen, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 137643,
+    "2025": 135202
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08019",
+    "08059"
+   ]
+  },
+  "23473": {
+   "name": "First Fidelity Bank",
+   "hq": "Oklahoma City, OK",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 2809175,
+    "2025": 2929264
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "23498": {
+   "name": "TBK BANK, SSB",
+   "hq": "Dallas, TX",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 5946055,
+    "2025": 6376892
+   },
+   "cra_size": "large",
+   "co_branches": 38,
+   "co_counties": [
+    "08001",
+    "08007",
+    "08009",
+    "08015",
+    "08031",
+    "08041",
+    "08059",
+    "08063",
+    "08067",
+    "08075",
+    "08089",
+    "08093",
+    "08099",
+    "08101",
+    "08121",
+    "08123",
+    "08125"
+   ]
+  },
+  "23764": {
+   "name": "FMS Bank",
+   "hq": "Fort Morgan, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 322782,
+    "2025": 338567
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08087",
+    "08123"
+   ]
+  },
+  "24045": {
+   "name": "Banc of California",
+   "hq": "Los Angeles, CA",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 33458298,
+    "2025": 34710463
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "24922": {
+   "name": "Grand Valley Bank",
+   "hq": "Heber City, UT",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 578052,
+    "2025": 586478
+   },
+   "cra_size": "intermediate",
+   "co_branches": 5,
+   "co_counties": [
+    "08077"
+   ]
+  },
+  "24998": {
+   "name": "Commerce Bank",
+   "hq": "Kansas City, MO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 31808311,
+    "2025": 32722351
+   },
+   "cra_size": "large",
+   "co_branches": 3,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08031"
+   ]
+  },
+  "27010": {
+   "name": "Young Americans Bank",
+   "hq": "Denver, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 17265,
+    "2025": 15763
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08031",
+    "08059"
+   ]
+  },
+  "27026": {
+   "name": "Native American Bank, National Association",
+   "hq": "Denver, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 404104,
+    "2025": 392959
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "28208": {
+   "name": "San Luis Valley Federal Bank",
+   "hq": "Alamosa, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 379250,
+    "2025": 393078
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08003",
+    "08105"
+   ]
+  },
+  "28315": {
+   "name": "RG Bank, A Savings and Loan Association",
+   "hq": "Monte Vista, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 140147,
+    "2025": 136029
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08003",
+    "08007",
+    "08105"
+   ]
+  },
+  "28735": {
+   "name": "Golden Belt Bank, FSA",
+   "hq": "Hays, KS",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 337520,
+    "2025": 365240
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08087"
+   ]
+  },
+  "28860": {
+   "name": "Century Savings and Loan Association",
+   "hq": "Trinidad, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 74595,
+    "2025": 75664
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08071"
+   ]
+  },
+  "29066": {
+   "name": "Del Norte Bank",
+   "hq": "Del Norte, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 140781,
+    "2025": 150741
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08079",
+    "08105"
+   ]
+  },
+  "29566": {
+   "name": "United Fidelity Bank, fsb",
+   "hq": "Evansville, IN",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 6353072,
+    "2025": 6295144
+   },
+   "cra_size": "large",
+   "co_branches": 2,
+   "co_counties": [
+    "08005",
+    "08031"
+   ]
+  },
+  "29783": {
+   "name": "High Country Bank",
+   "hq": "Salida, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 499482,
+    "2025": 532976
+   },
+   "cra_size": "intermediate",
+   "co_branches": 5,
+   "co_counties": [
+    "08013",
+    "08015",
+    "08043"
+   ]
+  },
+  "30388": {
+   "name": "Gunnison Savings and Loan Association",
+   "hq": "Gunnison, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 101511,
+    "2025": 101955
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08051"
+   ]
+  },
+  "30707": {
+   "name": "Equitable Savings and Loan Association",
+   "hq": "Sterling, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 161698,
+    "2025": 170327
+   },
+   "cra_size": "small",
+   "co_branches": 10,
+   "co_counties": [
+    "08063",
+    "08069",
+    "08073",
+    "08075",
+    "08087",
+    "08115",
+    "08121",
+    "08125"
+   ]
+  },
+  "30788": {
+   "name": "Glacier Bank",
+   "hq": "Kalispell, MT",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 27886112,
+    "2025": 31955659
+   },
+   "cra_size": "large",
+   "co_branches": 22,
+   "co_counties": [
+    "08005",
+    "08007",
+    "08015",
+    "08031",
+    "08041",
+    "08043",
+    "08067",
+    "08069",
+    "08077",
+    "08081",
+    "08101",
+    "08103",
+    "08107"
+   ]
+  },
+  "33111": {
+   "name": "Colorado Federal Savings Bank",
+   "hq": "Greenwood Village, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 2317950,
+    "2025": 2723291
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "33555": {
+   "name": "SouthState Bank, National Association",
+   "hq": "Winter Haven, FL",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 46369727,
+    "2025": 67179734
+   },
+   "cra_size": "large",
+   "co_branches": 31,
+   "co_counties": [
+    "08001",
+    "08005",
+    "08013",
+    "08031",
+    "08035",
+    "08041",
+    "08059",
+    "08069",
+    "08123"
+   ]
+  },
+  "34040": {
+   "name": "First American State Bank",
+   "hq": "Greenwood Village, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 293687,
+    "2025": 288224
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "34401": {
+   "name": "Fortis Bank",
+   "hq": "Denver, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 1301059,
+    "2025": 1364455
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "34562": {
+   "name": "ENCORE BANK",
+   "hq": "Little Rock, AR",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 3735333,
+    "2025": 3625025
+   },
+   "cra_size": "large",
+   "co_branches": 2,
+   "co_counties": [
+    "08013",
+    "08031"
+   ]
+  },
+  "34719": {
+   "name": "Farmers & Merchants Bank of Colby",
+   "hq": "Colby, KS",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 569825,
+    "2025": 639861
+   },
+   "cra_size": "intermediate",
+   "co_branches": 3,
+   "co_counties": [
+    "08001",
+    "08017",
+    "08063"
+   ]
+  },
+  "35407": {
+   "name": "Yampa Valley Bank",
+   "hq": "Steamboat Springs, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 631671,
+    "2025": 684430
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08081",
+    "08107"
+   ]
+  },
+  "35441": {
+   "name": "Four Corners Community Bank",
+   "hq": "Farmington, NM",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 541319,
+    "2025": 630238
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08067",
+    "08083"
+   ]
+  },
+  "57031": {
+   "name": "Champion Bank",
+   "hq": "Parker, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 44114,
+    "2025": 46329
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08035"
+   ]
+  },
+  "57038": {
+   "name": "Nicolet National Bank",
+   "hq": "Green Bay, WI",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 8784372,
+    "2025": 9170369
+   },
+   "cra_size": "large",
+   "co_branches": 3,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "57280": {
+   "name": "FlatIrons Bank",
+   "hq": "Boulder, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 340063,
+    "2025": 359778
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08013"
+   ]
+  },
+  "57295": {
+   "name": "AMG National Trust Bank",
+   "hq": "Boulder, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 723180,
+    "2025": 741001
+   },
+   "cra_size": "intermediate",
+   "co_branches": 2,
+   "co_counties": [
+    "08005",
+    "08013"
+   ]
+  },
+  "57335": {
+   "name": "Farmers Bank",
+   "hq": "Ault, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 293138,
+    "2025": 291178
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08069",
+    "08123"
+   ]
+  },
+  "57470": {
+   "name": "Members Trust Company",
+   "hq": "Tampa, FL",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 38197,
+    "2025": 34525
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "57512": {
+   "name": "Western Alliance Bank",
+   "hq": "Phoenix, AZ",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 80862067,
+    "2025": 92735703
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "57587": {
+   "name": "Integrity Bank & Trust",
+   "hq": "Monument, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 383222,
+    "2025": 445277
+   },
+   "cra_size": "small",
+   "co_branches": 5,
+   "co_counties": [
+    "08041"
+   ]
+  },
+  "57607": {
+   "name": "First Western Trust Bank",
+   "hq": "Denver, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 2913562,
+    "2025": 3151853
+   },
+   "cra_size": "large",
+   "co_branches": 8,
+   "co_counties": [
+    "08013",
+    "08014",
+    "08031",
+    "08037",
+    "08069",
+    "08097"
+   ]
+  },
+  "57716": {
+   "name": "United Business Bank",
+   "hq": "Walnut Creek, CA",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 2646302,
+    "2025": 2576971
+   },
+   "cra_size": "large",
+   "co_branches": 11,
+   "co_counties": [
+    "08005",
+    "08027",
+    "08029",
+    "08041",
+    "08049"
+   ]
+  },
+  "57741": {
+   "name": "First Southwest Bank",
+   "hq": "Durango, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 565768,
+    "2025": 663549
+   },
+   "cra_size": "intermediate",
+   "co_branches": 6,
+   "co_counties": [
+    "08003",
+    "08007",
+    "08067",
+    "08083",
+    "08105",
+    "08109"
+   ]
+  },
+  "57833": {
+   "name": "Beal Bank USA",
+   "hq": "Las Vegas, NV",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 16215605,
+    "2025": 14512815
+   },
+   "cra_size": "large",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "57857": {
+   "name": "Timberline Bank",
+   "hq": "Grand Junction, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 776587,
+    "2025": 819481
+   },
+   "cra_size": "intermediate",
+   "co_branches": 3,
+   "co_counties": [
+    "08077",
+    "08085",
+    "08097"
+   ]
+  },
+  "58025": {
+   "name": "Verus Bank of Commerce",
+   "hq": "Fort Collins, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 192264,
+    "2025": 191626
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08069"
+   ]
+  },
+  "58115": {
+   "name": "Oakstar Bank",
+   "hq": "Springfield, MO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 2828640,
+    "2025": 3039440
+   },
+   "cra_size": "large",
+   "co_branches": 4,
+   "co_counties": [
+    "08029",
+    "08041",
+    "08077"
+   ]
+  },
+  "58203": {
+   "name": "NewBank",
+   "hq": "Flushing, NY",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 660047,
+    "2025": 637134
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08005"
+   ]
+  },
+  "58508": {
+   "name": "First FarmBank",
+   "hq": "Greeley, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 359803,
+    "2025": 380097
+   },
+   "cra_size": "small",
+   "co_branches": 5,
+   "co_counties": [
+    "08009",
+    "08075",
+    "08123",
+    "08125"
+   ]
+  },
+  "58534": {
+   "name": "Solera National Bank",
+   "hq": "Lakewood, CO",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 1171127,
+    "2025": 1552203
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08059"
+   ]
+  },
+  "58732": {
+   "name": "Community State Bank",
+   "hq": "Lamar, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 189985,
+    "2025": 199493
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08009",
+    "08099"
+   ]
+  },
+  "58796": {
+   "name": "Parkside Financial Bank & Trust",
+   "hq": "Clayton, MO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 1118316,
+    "2025": 1041185
+   },
+   "cra_size": "intermediate",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  },
+  "58826": {
+   "name": "Redstone Bank",
+   "hq": "Centennial, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 235910,
+    "2025": 296211
+   },
+   "cra_size": "small",
+   "co_branches": 3,
+   "co_counties": [
+    "08005",
+    "08035"
+   ]
+  },
+  "59052": {
+   "name": "NBH Bank",
+   "hq": "Greenwood Village, CO",
+   "regulator": "FED",
+   "assets_k": {
+    "2024": 9771263,
+    "2025": 9836878
+   },
+   "cra_size": "large",
+   "co_branches": 32,
+   "co_counties": [
+    "08003",
+    "08005",
+    "08021",
+    "08031",
+    "08033",
+    "08035",
+    "08037",
+    "08039",
+    "08041",
+    "08051",
+    "08053",
+    "08055",
+    "08059",
+    "08065",
+    "08067",
+    "08069",
+    "08085",
+    "08089",
+    "08097",
+    "08105",
+    "08113",
+    "08119",
+    "08123"
+   ]
+  },
+  "90040": {
+   "name": "Home Loan State Bank",
+   "hq": "Grand Junction, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 201468,
+    "2025": 234020
+   },
+   "cra_size": "small",
+   "co_branches": 2,
+   "co_counties": [
+    "08077",
+    "08085"
+   ]
+  },
+  "91005": {
+   "name": "5Star Bank",
+   "hq": "Colorado Springs, CO",
+   "regulator": "FDIC",
+   "assets_k": {
+    "2024": 369801,
+    "2025": 376735
+   },
+   "cra_size": "small",
+   "co_branches": 5,
+   "co_counties": [
+    "08005",
+    "08041",
+    "08071"
+   ]
+  },
+  "91325": {
+   "name": "CIBC National Trust Company",
+   "hq": "Atlanta, GA",
+   "regulator": "OCC",
+   "assets_k": {
+    "2024": 380398,
+    "2025": 397240
+   },
+   "cra_size": "small",
+   "co_branches": 1,
+   "co_counties": [
+    "08031"
+   ]
+  }
+ },
+ "counties": {
+  "08001": {
+   "name": "Adams",
+   "banks": {
+    "11063": {
+     "branches": 1,
+     "deposits_k": 93877
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 7743
+    },
+    "14420": {
+     "branches": 1,
+     "deposits_k": 52255
+    },
+    "16571": {
+     "branches": 7,
+     "deposits_k": 423024
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 154179
+    },
+    "17534": {
+     "branches": 5,
+     "deposits_k": 181461
+    },
+    "18710": {
+     "branches": 1,
+     "deposits_k": 195699
+    },
+    "19600": {
+     "branches": 5,
+     "deposits_k": 137928
+    },
+    "2270": {
+     "branches": 3,
+     "deposits_k": 208958
+    },
+    "23091": {
+     "branches": 2,
+     "deposits_k": 12325
+    },
+    "23498": {
+     "branches": 4,
+     "deposits_k": 228779
+    },
+    "24998": {
+     "branches": 1,
+     "deposits_k": 113449
+    },
+    "3017": {
+     "branches": 1,
+     "deposits_k": 52848
+    },
+    "33555": {
+     "branches": 3,
+     "deposits_k": 191446
+    },
+    "34719": {
+     "branches": 1,
+     "deposits_k": 38315
+    },
+    "3510": {
+     "branches": 3,
+     "deposits_k": 35232
+    },
+    "3511": {
+     "branches": 10,
+     "deposits_k": 1446492
+    },
+    "5452": {
+     "branches": 1,
+     "deposits_k": 67989
+    },
+    "628": {
+     "branches": 7,
+     "deposits_k": 943275
+    },
+    "6384": {
+     "branches": 12,
+     "deposits_k": 887367
+    },
+    "6548": {
+     "branches": 7,
+     "deposits_k": 548082
+    },
+    "6560": {
+     "branches": 5,
+     "deposits_k": 126023
+    }
+   }
+  },
+  "08003": {
+   "name": "Alamosa",
+   "banks": {
+    "13947": {
+     "branches": 1,
+     "deposits_k": 297839
+    },
+    "14730": {
+     "branches": 1,
+     "deposits_k": 11304
+    },
+    "28208": {
+     "branches": 2,
+     "deposits_k": 237017
+    },
+    "28315": {
+     "branches": 1,
+     "deposits_k": 34728
+    },
+    "57741": {
+     "branches": 1,
+     "deposits_k": 245028
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 50644
+    }
+   }
+  },
+  "08005": {
+   "name": "Arapahoe",
+   "banks": {
+    "1105": {
+     "branches": 1,
+     "deposits_k": 44784
+    },
+    "11063": {
+     "branches": 1,
+     "deposits_k": 54798
+    },
+    "11492": {
+     "branches": 1,
+     "deposits_k": 254521
+    },
+    "12633": {
+     "branches": 2,
+     "deposits_k": 49800
+    },
+    "14712": {
+     "branches": 1,
+     "deposits_k": 231845
+    },
+    "16571": {
+     "branches": 9,
+     "deposits_k": 426576
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 222845
+    },
+    "17534": {
+     "branches": 12,
+     "deposits_k": 389459
+    },
+    "18100": {
+     "branches": 1,
+     "deposits_k": 14294
+    },
+    "19600": {
+     "branches": 3,
+     "deposits_k": 160947
+    },
+    "20156": {
+     "branches": 1,
+     "deposits_k": 39075
+    },
+    "2270": {
+     "branches": 2,
+     "deposits_k": 122764
+    },
+    "23473": {
+     "branches": 1,
+     "deposits_k": 36017
+    },
+    "24998": {
+     "branches": 1,
+     "deposits_k": 47814
+    },
+    "29566": {
+     "branches": 1,
+     "deposits_k": 71007
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 164595
+    },
+    "33111": {
+     "branches": 1,
+     "deposits_k": 1609855
+    },
+    "33555": {
+     "branches": 3,
+     "deposits_k": 268724
+    },
+    "34040": {
+     "branches": 1,
+     "deposits_k": 207141
+    },
+    "3510": {
+     "branches": 5,
+     "deposits_k": 473257
+    },
+    "3511": {
+     "branches": 18,
+     "deposits_k": 4470431
+    },
+    "4063": {
+     "branches": 1,
+     "deposits_k": 0
+    },
+    "4214": {
+     "branches": 4,
+     "deposits_k": 417388
+    },
+    "4767": {
+     "branches": 1,
+     "deposits_k": 191075
+    },
+    "57295": {
+     "branches": 1,
+     "deposits_k": 7669
+    },
+    "57470": {
+     "branches": 1,
+     "deposits_k": 0
+    },
+    "57716": {
+     "branches": 1,
+     "deposits_k": 6666
+    },
+    "58203": {
+     "branches": 1,
+     "deposits_k": 1783
+    },
+    "58826": {
+     "branches": 2,
+     "deposits_k": 195363
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 2098873
+    },
+    "628": {
+     "branches": 17,
+     "deposits_k": 2758200
+    },
+    "6384": {
+     "branches": 18,
+     "deposits_k": 3099436
+    },
+    "6548": {
+     "branches": 11,
+     "deposits_k": 1393825
+    },
+    "6560": {
+     "branches": 5,
+     "deposits_k": 190293
+    },
+    "8273": {
+     "branches": 4,
+     "deposits_k": 356340
+    },
+    "91005": {
+     "branches": 1,
+     "deposits_k": 58856
+    }
+   }
+  },
+  "08007": {
+   "name": "Archuleta",
+   "banks": {
+    "16980": {
+     "branches": 1,
+     "deposits_k": 108727
+    },
+    "23498": {
+     "branches": 2,
+     "deposits_k": 77126
+    },
+    "28315": {
+     "branches": 1,
+     "deposits_k": 21957
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 93277
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 121390
+    },
+    "57741": {
+     "branches": 1,
+     "deposits_k": 46488
+    }
+   }
+  },
+  "08009": {
+   "name": "Baca",
+   "banks": {
+    "14730": {
+     "branches": 2,
+     "deposits_k": 61015
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 22930
+    },
+    "58508": {
+     "branches": 1,
+     "deposits_k": 12758
+    },
+    "58732": {
+     "branches": 1,
+     "deposits_k": 58172
+    }
+   }
+  },
+  "08011": {
+   "name": "Bent",
+   "banks": {
+    "11261": {
+     "branches": 1,
+     "deposits_k": 56197
+    },
+    "3034": {
+     "branches": 1,
+     "deposits_k": 128353
+    }
+   }
+  },
+  "08013": {
+   "name": "Boulder",
+   "banks": {
+    "1105": {
+     "branches": 6,
+     "deposits_k": 240913
+    },
+    "11063": {
+     "branches": 1,
+     "deposits_k": 40166
+    },
+    "11492": {
+     "branches": 1,
+     "deposits_k": 110229
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 13860
+    },
+    "16571": {
+     "branches": 6,
+     "deposits_k": 243411
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 138676
+    },
+    "17478": {
+     "branches": 1,
+     "deposits_k": 29747
+    },
+    "17534": {
+     "branches": 4,
+     "deposits_k": 123567
+    },
+    "18489": {
+     "branches": 1,
+     "deposits_k": 39200
+    },
+    "19220": {
+     "branches": 1,
+     "deposits_k": 61145
+    },
+    "19351": {
+     "branches": 1,
+     "deposits_k": 11323
+    },
+    "2228": {
+     "branches": 1,
+     "deposits_k": 49215
+    },
+    "2270": {
+     "branches": 3,
+     "deposits_k": 218757
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 100862
+    },
+    "29783": {
+     "branches": 1,
+     "deposits_k": 7922
+    },
+    "3017": {
+     "branches": 2,
+     "deposits_k": 149942
+    },
+    "33555": {
+     "branches": 4,
+     "deposits_k": 447315
+    },
+    "34562": {
+     "branches": 1,
+     "deposits_k": 28130
+    },
+    "3510": {
+     "branches": 3,
+     "deposits_k": 381131
+    },
+    "3511": {
+     "branches": 9,
+     "deposits_k": 1970692
+    },
+    "4063": {
+     "branches": 1,
+     "deposits_k": 80082
+    },
+    "4214": {
+     "branches": 1,
+     "deposits_k": 367022
+    },
+    "4767": {
+     "branches": 2,
+     "deposits_k": 99080
+    },
+    "5452": {
+     "branches": 4,
+     "deposits_k": 573457
+    },
+    "57280": {
+     "branches": 2,
+     "deposits_k": 336129
+    },
+    "57295": {
+     "branches": 1,
+     "deposits_k": 583903
+    },
+    "57607": {
+     "branches": 1,
+     "deposits_k": 188936
+    },
+    "628": {
+     "branches": 10,
+     "deposits_k": 2696274
+    },
+    "6384": {
+     "branches": 8,
+     "deposits_k": 1455109
+    },
+    "6548": {
+     "branches": 5,
+     "deposits_k": 654759
+    },
+    "6560": {
+     "branches": 3,
+     "deposits_k": 59509
+    },
+    "8273": {
+     "branches": 1,
+     "deposits_k": 53811
+    }
+   }
+  },
+  "08014": {
+   "name": "Broomfield",
+   "banks": {
+    "1105": {
+     "branches": 1,
+     "deposits_k": 25172
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 44163
+    },
+    "17478": {
+     "branches": 1,
+     "deposits_k": 53624
+    },
+    "17534": {
+     "branches": 1,
+     "deposits_k": 32733
+    },
+    "18710": {
+     "branches": 1,
+     "deposits_k": 19507
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 48836
+    },
+    "3510": {
+     "branches": 1,
+     "deposits_k": 30116
+    },
+    "3511": {
+     "branches": 2,
+     "deposits_k": 637837
+    },
+    "4767": {
+     "branches": 1,
+     "deposits_k": 40286
+    },
+    "5452": {
+     "branches": 1,
+     "deposits_k": 108099
+    },
+    "57607": {
+     "branches": 1,
+     "deposits_k": 37902
+    },
+    "628": {
+     "branches": 3,
+     "deposits_k": 571116
+    },
+    "6384": {
+     "branches": 2,
+     "deposits_k": 286120
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 164015
+    },
+    "6560": {
+     "branches": 1,
+     "deposits_k": 32979
+    }
+   }
+  },
+  "08015": {
+   "name": "Chaffee",
+   "banks": {
+    "1141": {
+     "branches": 1,
+     "deposits_k": 14753
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 35893
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 38534
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 41866
+    },
+    "29783": {
+     "branches": 3,
+     "deposits_k": 375910
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 321809
+    }
+   }
+  },
+  "08017": {
+   "name": "Cheyenne",
+   "banks": {
+    "16125": {
+     "branches": 2,
+     "deposits_k": 232510
+    },
+    "34719": {
+     "branches": 1,
+     "deposits_k": 13750
+    }
+   }
+  },
+  "08019": {
+   "name": "Clear Creek",
+   "banks": {
+    "23404": {
+     "branches": 1,
+     "deposits_k": 32293
+    }
+   }
+  },
+  "08021": {
+   "name": "Conejos",
+   "banks": {
+    "59052": {
+     "branches": 1,
+     "deposits_k": 75847
+    }
+   }
+  },
+  "08023": {
+   "name": "Costilla",
+   "banks": {}
+  },
+  "08025": {
+   "name": "Crowley",
+   "banks": {
+    "3034": {
+     "branches": 1,
+     "deposits_k": 64449
+    }
+   }
+  },
+  "08027": {
+   "name": "Custer",
+   "banks": {
+    "57716": {
+     "branches": 1,
+     "deposits_k": 45976
+    },
+    "8321": {
+     "branches": 1,
+     "deposits_k": 43625
+    }
+   }
+  },
+  "08029": {
+   "name": "Delta",
+   "banks": {
+    "16571": {
+     "branches": 1,
+     "deposits_k": 36525
+    },
+    "16980": {
+     "branches": 3,
+     "deposits_k": 218861
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 124304
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 104417
+    },
+    "57716": {
+     "branches": 4,
+     "deposits_k": 116072
+    },
+    "58115": {
+     "branches": 2,
+     "deposits_k": 81517
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 83768
+    }
+   }
+  },
+  "08031": {
+   "name": "Denver",
+   "banks": {
+    "1105": {
+     "branches": 2,
+     "deposits_k": 150759
+    },
+    "11063": {
+     "branches": 1,
+     "deposits_k": 82291
+    },
+    "11492": {
+     "branches": 1,
+     "deposits_k": 107242
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 46451
+    },
+    "13986": {
+     "branches": 1,
+     "deposits_k": 5102
+    },
+    "16450": {
+     "branches": 2,
+     "deposits_k": 162616
+    },
+    "16571": {
+     "branches": 8,
+     "deposits_k": 1099910
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 292449
+    },
+    "17266": {
+     "branches": 1,
+     "deposits_k": 178423
+    },
+    "17534": {
+     "branches": 8,
+     "deposits_k": 3203672
+    },
+    "19220": {
+     "branches": 2,
+     "deposits_k": 585786
+    },
+    "19600": {
+     "branches": 3,
+     "deposits_k": 79774
+    },
+    "2270": {
+     "branches": 6,
+     "deposits_k": 1390965
+    },
+    "23091": {
+     "branches": 3,
+     "deposits_k": 452516
+    },
+    "23210": {
+     "branches": 1,
+     "deposits_k": 249516
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 20945
+    },
+    "24045": {
+     "branches": 1,
+     "deposits_k": 236373
+    },
+    "24998": {
+     "branches": 1,
+     "deposits_k": 24804
+    },
+    "27010": {
+     "branches": 1,
+     "deposits_k": 12291
+    },
+    "27026": {
+     "branches": 1,
+     "deposits_k": 264780
+    },
+    "29566": {
+     "branches": 1,
+     "deposits_k": 60453
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 119371
+    },
+    "33555": {
+     "branches": 3,
+     "deposits_k": 717869
+    },
+    "34401": {
+     "branches": 1,
+     "deposits_k": 1032972
+    },
+    "34562": {
+     "branches": 1,
+     "deposits_k": 115576
+    },
+    "3510": {
+     "branches": 7,
+     "deposits_k": 4031165
+    },
+    "3511": {
+     "branches": 12,
+     "deposits_k": 12187911
+    },
+    "4063": {
+     "branches": 2,
+     "deposits_k": 673992
+    },
+    "4214": {
+     "branches": 4,
+     "deposits_k": 2358434
+    },
+    "4767": {
+     "branches": 2,
+     "deposits_k": 64568
+    },
+    "57038": {
+     "branches": 3,
+     "deposits_k": 387942
+    },
+    "57512": {
+     "branches": 1,
+     "deposits_k": 189026
+    },
+    "57607": {
+     "branches": 3,
+     "deposits_k": 1515613
+    },
+    "57833": {
+     "branches": 1,
+     "deposits_k": 68652
+    },
+    "58796": {
+     "branches": 1,
+     "deposits_k": 33097
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 164953
+    },
+    "628": {
+     "branches": 19,
+     "deposits_k": 9571042
+    },
+    "6384": {
+     "branches": 18,
+     "deposits_k": 4543411
+    },
+    "6548": {
+     "branches": 14,
+     "deposits_k": 9967533
+    },
+    "6560": {
+     "branches": 9,
+     "deposits_k": 244571
+    },
+    "7946": {
+     "branches": 1,
+     "deposits_k": 0
+    },
+    "8273": {
+     "branches": 7,
+     "deposits_k": 4123719
+    },
+    "91325": {
+     "branches": 1,
+     "deposits_k": 0
+    },
+    "913": {
+     "branches": 1,
+     "deposits_k": 207522
+    },
+    "9659": {
+     "branches": 1,
+     "deposits_k": 52799
+    }
+   }
+  },
+  "08033": {
+   "name": "Dolores",
+   "banks": {
+    "59052": {
+     "branches": 1,
+     "deposits_k": 36139
+    }
+   }
+  },
+  "08035": {
+   "name": "Douglas",
+   "banks": {
+    "11063": {
+     "branches": 1,
+     "deposits_k": 67332
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 18117
+    },
+    "16571": {
+     "branches": 3,
+     "deposits_k": 110640
+    },
+    "16980": {
+     "branches": 1,
+     "deposits_k": 5255
+    },
+    "17478": {
+     "branches": 1,
+     "deposits_k": 75829
+    },
+    "17534": {
+     "branches": 7,
+     "deposits_k": 229888
+    },
+    "19220": {
+     "branches": 1,
+     "deposits_k": 73409
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 56732
+    },
+    "33555": {
+     "branches": 2,
+     "deposits_k": 303988
+    },
+    "3510": {
+     "branches": 4,
+     "deposits_k": 154973
+    },
+    "3511": {
+     "branches": 7,
+     "deposits_k": 2053924
+    },
+    "4214": {
+     "branches": 3,
+     "deposits_k": 164250
+    },
+    "57031": {
+     "branches": 1,
+     "deposits_k": 25281
+    },
+    "58826": {
+     "branches": 1,
+     "deposits_k": 67343
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 77196
+    },
+    "628": {
+     "branches": 9,
+     "deposits_k": 1229198
+    },
+    "6384": {
+     "branches": 11,
+     "deposits_k": 1307746
+    },
+    "6548": {
+     "branches": 8,
+     "deposits_k": 1040998
+    },
+    "6560": {
+     "branches": 3,
+     "deposits_k": 259480
+    }
+   }
+  },
+  "08037": {
+   "name": "Eagle",
+   "banks": {
+    "16980": {
+     "branches": 1,
+     "deposits_k": 48284
+    },
+    "19220": {
+     "branches": 3,
+     "deposits_k": 69708
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 40284
+    },
+    "23091": {
+     "branches": 7,
+     "deposits_k": 787452
+    },
+    "3511": {
+     "branches": 2,
+     "deposits_k": 274462
+    },
+    "4063": {
+     "branches": 1,
+     "deposits_k": 60683
+    },
+    "57607": {
+     "branches": 1,
+     "deposits_k": 64582
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 42349
+    },
+    "628": {
+     "branches": 2,
+     "deposits_k": 138130
+    },
+    "6384": {
+     "branches": 5,
+     "deposits_k": 1110453
+    },
+    "6548": {
+     "branches": 3,
+     "deposits_k": 229333
+    },
+    "8273": {
+     "branches": 1,
+     "deposits_k": 50844
+    }
+   }
+  },
+  "08039": {
+   "name": "Elbert",
+   "banks": {
+    "16571": {
+     "branches": 1,
+     "deposits_k": 43961
+    },
+    "1780": {
+     "branches": 1,
+     "deposits_k": 52097
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 81595
+    }
+   }
+  },
+  "08041": {
+   "name": "El Paso",
+   "banks": {
+    "1105": {
+     "branches": 2,
+     "deposits_k": 76183
+    },
+    "11492": {
+     "branches": 2,
+     "deposits_k": 58399
+    },
+    "12594": {
+     "branches": 2,
+     "deposits_k": 59266
+    },
+    "12633": {
+     "branches": 1,
+     "deposits_k": 157997
+    },
+    "16125": {
+     "branches": 3,
+     "deposits_k": 95172
+    },
+    "16450": {
+     "branches": 1,
+     "deposits_k": 151747
+    },
+    "16980": {
+     "branches": 3,
+     "deposits_k": 154040
+    },
+    "17266": {
+     "branches": 1,
+     "deposits_k": 0
+    },
+    "17534": {
+     "branches": 5,
+     "deposits_k": 137683
+    },
+    "17782": {
+     "branches": 3,
+     "deposits_k": 93082
+    },
+    "1780": {
+     "branches": 3,
+     "deposits_k": 284209
+    },
+    "18489": {
+     "branches": 3,
+     "deposits_k": 117225
+    },
+    "18609": {
+     "branches": 1,
+     "deposits_k": 31710
+    },
+    "19220": {
+     "branches": 4,
+     "deposits_k": 346152
+    },
+    "19600": {
+     "branches": 7,
+     "deposits_k": 174241
+    },
+    "20156": {
+     "branches": 1,
+     "deposits_k": 146481
+    },
+    "2270": {
+     "branches": 2,
+     "deposits_k": 130476
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 26794
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 9540
+    },
+    "3019": {
+     "branches": 1,
+     "deposits_k": 60918
+    },
+    "3034": {
+     "branches": 2,
+     "deposits_k": 143477
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 44207
+    },
+    "3335": {
+     "branches": 1,
+     "deposits_k": 56969
+    },
+    "33555": {
+     "branches": 3,
+     "deposits_k": 204233
+    },
+    "3510": {
+     "branches": 6,
+     "deposits_k": 171934
+    },
+    "3511": {
+     "branches": 10,
+     "deposits_k": 1993069
+    },
+    "4666": {
+     "branches": 2,
+     "deposits_k": 85961
+    },
+    "5394": {
+     "branches": 1,
+     "deposits_k": 60369
+    },
+    "5568": {
+     "branches": 1,
+     "deposits_k": 52263
+    },
+    "57587": {
+     "branches": 5,
+     "deposits_k": 372598
+    },
+    "57716": {
+     "branches": 1,
+     "deposits_k": 14523
+    },
+    "58115": {
+     "branches": 1,
+     "deposits_k": 16928
+    },
+    "59052": {
+     "branches": 3,
+     "deposits_k": 178268
+    },
+    "628": {
+     "branches": 10,
+     "deposits_k": 1603480
+    },
+    "6384": {
+     "branches": 8,
+     "deposits_k": 821791
+    },
+    "6548": {
+     "branches": 12,
+     "deposits_k": 1206641
+    },
+    "6560": {
+     "branches": 8,
+     "deposits_k": 187636
+    },
+    "8273": {
+     "branches": 4,
+     "deposits_k": 430398
+    },
+    "8321": {
+     "branches": 1,
+     "deposits_k": 185551
+    },
+    "91005": {
+     "branches": 3,
+     "deposits_k": 248522
+    }
+   }
+  },
+  "08043": {
+   "name": "Fremont",
+   "banks": {
+    "1105": {
+     "branches": 1,
+     "deposits_k": 34035
+    },
+    "11492": {
+     "branches": 1,
+     "deposits_k": 25857
+    },
+    "12594": {
+     "branches": 1,
+     "deposits_k": 65728
+    },
+    "29783": {
+     "branches": 1,
+     "deposits_k": 66652
+    },
+    "3019": {
+     "branches": 1,
+     "deposits_k": 48988
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 156808
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 130917
+    },
+    "4767": {
+     "branches": 1,
+     "deposits_k": 181453
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 58814
+    }
+   }
+  },
+  "08045": {
+   "name": "Garfield",
+   "banks": {
+    "16980": {
+     "branches": 2,
+     "deposits_k": 214779
+    },
+    "19220": {
+     "branches": 3,
+     "deposits_k": 144691
+    },
+    "23091": {
+     "branches": 9,
+     "deposits_k": 1214138
+    },
+    "3511": {
+     "branches": 3,
+     "deposits_k": 309752
+    },
+    "6384": {
+     "branches": 2,
+     "deposits_k": 138114
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 161926
+    }
+   }
+  },
+  "08047": {
+   "name": "Gilpin",
+   "banks": {}
+  },
+  "08049": {
+   "name": "Grand",
+   "banks": {
+    "16571": {
+     "branches": 2,
+     "deposits_k": 53061
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 85682
+    },
+    "57716": {
+     "branches": 4,
+     "deposits_k": 129142
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 82480
+    },
+    "8273": {
+     "branches": 1,
+     "deposits_k": 74954
+    }
+   }
+  },
+  "08051": {
+   "name": "Gunnison",
+   "banks": {
+    "11259": {
+     "branches": 2,
+     "deposits_k": 209805
+    },
+    "16571": {
+     "branches": 2,
+     "deposits_k": 134067
+    },
+    "30388": {
+     "branches": 1,
+     "deposits_k": 83448
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 92542
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 143099
+    }
+   }
+  },
+  "08053": {
+   "name": "Hinsdale",
+   "banks": {
+    "59052": {
+     "branches": 1,
+     "deposits_k": 21420
+    }
+   }
+  },
+  "08055": {
+   "name": "Huerfano",
+   "banks": {
+    "14584": {
+     "branches": 1,
+     "deposits_k": 51753
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 62810
+    }
+   }
+  },
+  "08057": {
+   "name": "Jackson",
+   "banks": {
+    "17411": {
+     "branches": 1,
+     "deposits_k": 75285
+    }
+   }
+  },
+  "08059": {
+   "name": "Jefferson",
+   "banks": {
+    "1105": {
+     "branches": 1,
+     "deposits_k": 21087
+    },
+    "12633": {
+     "branches": 1,
+     "deposits_k": 45933
+    },
+    "16571": {
+     "branches": 11,
+     "deposits_k": 568447
+    },
+    "16980": {
+     "branches": 1,
+     "deposits_k": 130195
+    },
+    "17534": {
+     "branches": 10,
+     "deposits_k": 396439
+    },
+    "19220": {
+     "branches": 1,
+     "deposits_k": 19328
+    },
+    "19600": {
+     "branches": 3,
+     "deposits_k": 66765
+    },
+    "2270": {
+     "branches": 2,
+     "deposits_k": 155511
+    },
+    "23404": {
+     "branches": 2,
+     "deposits_k": 89698
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 21048
+    },
+    "27010": {
+     "branches": 1,
+     "deposits_k": 1146
+    },
+    "33555": {
+     "branches": 2,
+     "deposits_k": 138141
+    },
+    "3510": {
+     "branches": 3,
+     "deposits_k": 55682
+    },
+    "3511": {
+     "branches": 14,
+     "deposits_k": 3283435
+    },
+    "4214": {
+     "branches": 2,
+     "deposits_k": 215809
+    },
+    "4767": {
+     "branches": 1,
+     "deposits_k": 24234
+    },
+    "58534": {
+     "branches": 1,
+     "deposits_k": 1291233
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 71803
+    },
+    "628": {
+     "branches": 14,
+     "deposits_k": 2243688
+    },
+    "6384": {
+     "branches": 21,
+     "deposits_k": 5071338
+    },
+    "6548": {
+     "branches": 13,
+     "deposits_k": 2091118
+    },
+    "6560": {
+     "branches": 6,
+     "deposits_k": 173549
+    },
+    "8273": {
+     "branches": 6,
+     "deposits_k": 394330
+    }
+   }
+  },
+  "08061": {
+   "name": "Kiowa",
+   "banks": {
+    "4673": {
+     "branches": 1,
+     "deposits_k": 60581
+    }
+   }
+  },
+  "08063": {
+   "name": "Kit Carson",
+   "banks": {
+    "14730": {
+     "branches": 1,
+     "deposits_k": 85655
+    },
+    "16125": {
+     "branches": 1,
+     "deposits_k": 127164
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 17095
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 46325
+    },
+    "3017": {
+     "branches": 1,
+     "deposits_k": 96101
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 15572
+    },
+    "34719": {
+     "branches": 1,
+     "deposits_k": 54008
+    },
+    "5434": {
+     "branches": 1,
+     "deposits_k": 39122
+    }
+   }
+  },
+  "08065": {
+   "name": "Lake",
+   "banks": {
+    "12594": {
+     "branches": 1,
+     "deposits_k": 28850
+    },
+    "3017": {
+     "branches": 1,
+     "deposits_k": 39500
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 102281
+    }
+   }
+  },
+  "08067": {
+   "name": "La Plata",
+   "banks": {
+    "12633": {
+     "branches": 1,
+     "deposits_k": 33805
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 420831
+    },
+    "2270": {
+     "branches": 2,
+     "deposits_k": 91018
+    },
+    "23091": {
+     "branches": 2,
+     "deposits_k": 308075
+    },
+    "23498": {
+     "branches": 5,
+     "deposits_k": 371992
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 229753
+    },
+    "3511": {
+     "branches": 2,
+     "deposits_k": 393341
+    },
+    "35441": {
+     "branches": 1,
+     "deposits_k": 26087
+    },
+    "57741": {
+     "branches": 1,
+     "deposits_k": 93183
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 122744
+    }
+   }
+  },
+  "08069": {
+   "name": "Larimer",
+   "banks": {
+    "1105": {
+     "branches": 3,
+     "deposits_k": 113922
+    },
+    "13421": {
+     "branches": 1,
+     "deposits_k": 39506
+    },
+    "14712": {
+     "branches": 2,
+     "deposits_k": 101465
+    },
+    "16571": {
+     "branches": 3,
+     "deposits_k": 99973
+    },
+    "16980": {
+     "branches": 9,
+     "deposits_k": 841494
+    },
+    "17411": {
+     "branches": 1,
+     "deposits_k": 24924
+    },
+    "17478": {
+     "branches": 1,
+     "deposits_k": 10894
+    },
+    "17534": {
+     "branches": 4,
+     "deposits_k": 198226
+    },
+    "18489": {
+     "branches": 3,
+     "deposits_k": 169183
+    },
+    "19220": {
+     "branches": 2,
+     "deposits_k": 73342
+    },
+    "19351": {
+     "branches": 2,
+     "deposits_k": 144077
+    },
+    "19600": {
+     "branches": 2,
+     "deposits_k": 40364
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 29316
+    },
+    "3031": {
+     "branches": 3,
+     "deposits_k": 57653
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 7679
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 28375
+    },
+    "33555": {
+     "branches": 9,
+     "deposits_k": 990098
+    },
+    "3510": {
+     "branches": 2,
+     "deposits_k": 56059
+    },
+    "3511": {
+     "branches": 7,
+     "deposits_k": 1511202
+    },
+    "5394": {
+     "branches": 1,
+     "deposits_k": 21996
+    },
+    "5452": {
+     "branches": 11,
+     "deposits_k": 2252558
+    },
+    "57335": {
+     "branches": 1,
+     "deposits_k": 38900
+    },
+    "57607": {
+     "branches": 1,
+     "deposits_k": 548321
+    },
+    "58025": {
+     "branches": 1,
+     "deposits_k": 162856
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 47731
+    },
+    "628": {
+     "branches": 7,
+     "deposits_k": 1294574
+    },
+    "6384": {
+     "branches": 7,
+     "deposits_k": 943360
+    },
+    "6548": {
+     "branches": 6,
+     "deposits_k": 544703
+    }
+   }
+  },
+  "08071": {
+   "name": "Las Animas",
+   "banks": {
+    "11492": {
+     "branches": 1,
+     "deposits_k": 69863
+    },
+    "14584": {
+     "branches": 3,
+     "deposits_k": 182547
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 36514
+    },
+    "28860": {
+     "branches": 1,
+     "deposits_k": 61993
+    },
+    "91005": {
+     "branches": 1,
+     "deposits_k": 4743
+    }
+   }
+  },
+  "08073": {
+   "name": "Lincoln",
+   "banks": {
+    "16125": {
+     "branches": 1,
+     "deposits_k": 80020
+    },
+    "3017": {
+     "branches": 2,
+     "deposits_k": 112957
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 17319
+    },
+    "8321": {
+     "branches": 1,
+     "deposits_k": 19156
+    }
+   }
+  },
+  "08075": {
+   "name": "Logan",
+   "banks": {
+    "16571": {
+     "branches": 1,
+     "deposits_k": 32789
+    },
+    "16980": {
+     "branches": 1,
+     "deposits_k": 329493
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 9433
+    },
+    "3018": {
+     "branches": 1,
+     "deposits_k": 24954
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 29347
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 73284
+    },
+    "58508": {
+     "branches": 1,
+     "deposits_k": 76914
+    }
+   }
+  },
+  "08077": {
+   "name": "Mesa",
+   "banks": {
+    "16571": {
+     "branches": 3,
+     "deposits_k": 117580
+    },
+    "16980": {
+     "branches": 3,
+     "deposits_k": 277083
+    },
+    "19220": {
+     "branches": 4,
+     "deposits_k": 280203
+    },
+    "2270": {
+     "branches": 2,
+     "deposits_k": 100072
+    },
+    "23091": {
+     "branches": 5,
+     "deposits_k": 779062
+    },
+    "24922": {
+     "branches": 5,
+     "deposits_k": 367365
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 156152
+    },
+    "3511": {
+     "branches": 3,
+     "deposits_k": 735532
+    },
+    "57857": {
+     "branches": 1,
+     "deposits_k": 428645
+    },
+    "58115": {
+     "branches": 1,
+     "deposits_k": 40990
+    },
+    "6548": {
+     "branches": 4,
+     "deposits_k": 353728
+    },
+    "90040": {
+     "branches": 1,
+     "deposits_k": 132299
+    }
+   }
+  },
+  "08079": {
+   "name": "Mineral",
+   "banks": {
+    "29066": {
+     "branches": 1,
+     "deposits_k": 22168
+    }
+   }
+  },
+  "08081": {
+   "name": "Moffat",
+   "banks": {
+    "16980": {
+     "branches": 1,
+     "deposits_k": 192730
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 44936
+    },
+    "35407": {
+     "branches": 1,
+     "deposits_k": 176857
+    }
+   }
+  },
+  "08083": {
+   "name": "Montezuma",
+   "banks": {
+    "17872": {
+     "branches": 1,
+     "deposits_k": 137246
+    },
+    "17959": {
+     "branches": 4,
+     "deposits_k": 357326
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 167099
+    },
+    "35441": {
+     "branches": 1,
+     "deposits_k": 91698
+    },
+    "57741": {
+     "branches": 1,
+     "deposits_k": 35537
+    }
+   }
+  },
+  "08085": {
+   "name": "Montrose",
+   "banks": {
+    "12633": {
+     "branches": 1,
+     "deposits_k": 1
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 106332
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 198795
+    },
+    "1779": {
+     "branches": 2,
+     "deposits_k": 77708
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 62609
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 325568
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 284947
+    },
+    "57857": {
+     "branches": 1,
+     "deposits_k": 119181
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 45634
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 86859
+    },
+    "90040": {
+     "branches": 1,
+     "deposits_k": 83560
+    }
+   }
+  },
+  "08087": {
+   "name": "Morgan",
+   "banks": {
+    "10407": {
+     "branches": 2,
+     "deposits_k": 69393
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 35241
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 340049
+    },
+    "22447": {
+     "branches": 1,
+     "deposits_k": 50412
+    },
+    "23764": {
+     "branches": 1,
+     "deposits_k": 176121
+    },
+    "28735": {
+     "branches": 1,
+     "deposits_k": 90015
+    },
+    "3017": {
+     "branches": 1,
+     "deposits_k": 76472
+    },
+    "30707": {
+     "branches": 2,
+     "deposits_k": 29061
+    }
+   }
+  },
+  "08089": {
+   "name": "Otero",
+   "banks": {
+    "1141": {
+     "branches": 1,
+     "deposits_k": 96462
+    },
+    "12372": {
+     "branches": 1,
+     "deposits_k": 123776
+    },
+    "12594": {
+     "branches": 4,
+     "deposits_k": 77099
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 31939
+    },
+    "3034": {
+     "branches": 3,
+     "deposits_k": 196166
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 26299
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 47709
+    }
+   }
+  },
+  "08091": {
+   "name": "Ouray",
+   "banks": {
+    "1779": {
+     "branches": 2,
+     "deposits_k": 82902
+    },
+    "23091": {
+     "branches": 2,
+     "deposits_k": 125237
+    }
+   }
+  },
+  "08093": {
+   "name": "Park",
+   "banks": {
+    "23498": {
+     "branches": 1,
+     "deposits_k": 40145
+    }
+   }
+  },
+  "08095": {
+   "name": "Phillips",
+   "banks": {
+    "16571": {
+     "branches": 1,
+     "deposits_k": 14172
+    },
+    "16980": {
+     "branches": 1,
+     "deposits_k": 66387
+    },
+    "3031": {
+     "branches": 1,
+     "deposits_k": 55379
+    },
+    "3063": {
+     "branches": 1,
+     "deposits_k": 84849
+    }
+   }
+  },
+  "08097": {
+   "name": "Pitkin",
+   "banks": {
+    "19220": {
+     "branches": 1,
+     "deposits_k": 85615
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 173691
+    },
+    "23091": {
+     "branches": 3,
+     "deposits_k": 790668
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 290834
+    },
+    "57607": {
+     "branches": 1,
+     "deposits_k": 26710
+    },
+    "57857": {
+     "branches": 1,
+     "deposits_k": 151729
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 95251
+    },
+    "628": {
+     "branches": 1,
+     "deposits_k": 113548
+    },
+    "6384": {
+     "branches": 1,
+     "deposits_k": 37709
+    },
+    "6548": {
+     "branches": 1,
+     "deposits_k": 121564
+    }
+   }
+  },
+  "08099": {
+   "name": "Prowers",
+   "banks": {
+    "11261": {
+     "branches": 1,
+     "deposits_k": 9291
+    },
+    "1141": {
+     "branches": 2,
+     "deposits_k": 45414
+    },
+    "14730": {
+     "branches": 2,
+     "deposits_k": 194684
+    },
+    "23498": {
+     "branches": 3,
+     "deposits_k": 67060
+    },
+    "4673": {
+     "branches": 1,
+     "deposits_k": 78106
+    },
+    "58732": {
+     "branches": 1,
+     "deposits_k": 119429
+    }
+   }
+  },
+  "08101": {
+   "name": "Pueblo",
+   "banks": {
+    "1141": {
+     "branches": 1,
+     "deposits_k": 123791
+    },
+    "11492": {
+     "branches": 4,
+     "deposits_k": 167711
+    },
+    "12594": {
+     "branches": 4,
+     "deposits_k": 364627
+    },
+    "14730": {
+     "branches": 2,
+     "deposits_k": 36251
+    },
+    "18609": {
+     "branches": 1,
+     "deposits_k": 42637
+    },
+    "19600": {
+     "branches": 3,
+     "deposits_k": 62061
+    },
+    "2270": {
+     "branches": 3,
+     "deposits_k": 241651
+    },
+    "23498": {
+     "branches": 2,
+     "deposits_k": 55932
+    },
+    "30788": {
+     "branches": 4,
+     "deposits_k": 208006
+    },
+    "3511": {
+     "branches": 2,
+     "deposits_k": 399434
+    },
+    "4660": {
+     "branches": 1,
+     "deposits_k": 72132
+    },
+    "4767": {
+     "branches": 2,
+     "deposits_k": 88526
+    },
+    "6548": {
+     "branches": 5,
+     "deposits_k": 379911
+    }
+   }
+  },
+  "08103": {
+   "name": "Rio Blanco",
+   "banks": {
+    "17411": {
+     "branches": 1,
+     "deposits_k": 73930
+    },
+    "30788": {
+     "branches": 2,
+     "deposits_k": 182533
+    }
+   }
+  },
+  "08105": {
+   "name": "Rio Grande",
+   "banks": {
+    "28208": {
+     "branches": 1,
+     "deposits_k": 80920
+    },
+    "28315": {
+     "branches": 1,
+     "deposits_k": 64666
+    },
+    "29066": {
+     "branches": 1,
+     "deposits_k": 104997
+    },
+    "4767": {
+     "branches": 1,
+     "deposits_k": 58517
+    },
+    "57741": {
+     "branches": 1,
+     "deposits_k": 50326
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 42353
+    }
+   }
+  },
+  "08107": {
+   "name": "Routt",
+   "banks": {
+    "16571": {
+     "branches": 1,
+     "deposits_k": 37098
+    },
+    "17411": {
+     "branches": 3,
+     "deposits_k": 190430
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 94323
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 203603
+    },
+    "30788": {
+     "branches": 1,
+     "deposits_k": 37380
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 315922
+    },
+    "35407": {
+     "branches": 1,
+     "deposits_k": 437213
+    }
+   }
+  },
+  "08109": {
+   "name": "Saguache",
+   "banks": {
+    "57741": {
+     "branches": 1,
+     "deposits_k": 21113
+    }
+   }
+  },
+  "08111": {
+   "name": "San Juan",
+   "banks": {
+    "1779": {
+     "branches": 1,
+     "deposits_k": 25795
+    }
+   }
+  },
+  "08113": {
+   "name": "San Miguel",
+   "banks": {
+    "1779": {
+     "branches": 2,
+     "deposits_k": 25881
+    },
+    "19220": {
+     "branches": 1,
+     "deposits_k": 34969
+    },
+    "23091": {
+     "branches": 1,
+     "deposits_k": 356655
+    },
+    "59052": {
+     "branches": 1,
+     "deposits_k": 51549
+    },
+    "628": {
+     "branches": 1,
+     "deposits_k": 16375
+    },
+    "6548": {
+     "branches": 2,
+     "deposits_k": 119052
+    }
+   }
+  },
+  "08115": {
+   "name": "Sedgwick",
+   "banks": {
+    "3031": {
+     "branches": 1,
+     "deposits_k": 96739
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 13143
+    }
+   }
+  },
+  "08117": {
+   "name": "Summit",
+   "banks": {
+    "16571": {
+     "branches": 2,
+     "deposits_k": 91729
+    },
+    "23091": {
+     "branches": 4,
+     "deposits_k": 269885
+    },
+    "3511": {
+     "branches": 1,
+     "deposits_k": 232819
+    },
+    "628": {
+     "branches": 1,
+     "deposits_k": 6391
+    },
+    "6384": {
+     "branches": 2,
+     "deposits_k": 579169
+    },
+    "6548": {
+     "branches": 2,
+     "deposits_k": 130721
+    }
+   }
+  },
+  "08119": {
+   "name": "Teller",
+   "banks": {
+    "19381": {
+     "branches": 1,
+     "deposits_k": 145670
+    },
+    "2270": {
+     "branches": 1,
+     "deposits_k": 112051
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 46835
+    }
+   }
+  },
+  "08121": {
+   "name": "Washington",
+   "banks": {
+    "10407": {
+     "branches": 1,
+     "deposits_k": 23716
+    },
+    "16980": {
+     "branches": 1,
+     "deposits_k": 63631
+    },
+    "23498": {
+     "branches": 2,
+     "deposits_k": 31804
+    },
+    "30707": {
+     "branches": 1,
+     "deposits_k": 4708
+    },
+    "8321": {
+     "branches": 1,
+     "deposits_k": 10961
+    }
+   }
+  },
+  "08123": {
+   "name": "Weld",
+   "banks": {
+    "1105": {
+     "branches": 2,
+     "deposits_k": 101346
+    },
+    "14712": {
+     "branches": 1,
+     "deposits_k": 114098
+    },
+    "16571": {
+     "branches": 1,
+     "deposits_k": 49808
+    },
+    "16980": {
+     "branches": 5,
+     "deposits_k": 1217723
+    },
+    "17411": {
+     "branches": 1,
+     "deposits_k": 80823
+    },
+    "17478": {
+     "branches": 1,
+     "deposits_k": 90467
+    },
+    "18489": {
+     "branches": 3,
+     "deposits_k": 92442
+    },
+    "19600": {
+     "branches": 2,
+     "deposits_k": 27413
+    },
+    "22447": {
+     "branches": 1,
+     "deposits_k": 43660
+    },
+    "23498": {
+     "branches": 10,
+     "deposits_k": 332361
+    },
+    "23764": {
+     "branches": 1,
+     "deposits_k": 115704
+    },
+    "3017": {
+     "branches": 1,
+     "deposits_k": 39200
+    },
+    "3031": {
+     "branches": 5,
+     "deposits_k": 145569
+    },
+    "33555": {
+     "branches": 2,
+     "deposits_k": 228284
+    },
+    "3510": {
+     "branches": 2,
+     "deposits_k": 8745
+    },
+    "3511": {
+     "branches": 6,
+     "deposits_k": 822956
+    },
+    "5452": {
+     "branches": 5,
+     "deposits_k": 878423
+    },
+    "57335": {
+     "branches": 1,
+     "deposits_k": 236967
+    },
+    "58508": {
+     "branches": 2,
+     "deposits_k": 152339
+    },
+    "59052": {
+     "branches": 2,
+     "deposits_k": 186684
+    },
+    "628": {
+     "branches": 6,
+     "deposits_k": 598987
+    },
+    "6384": {
+     "branches": 6,
+     "deposits_k": 592412
+    },
+    "6548": {
+     "branches": 2,
+     "deposits_k": 160361
+    },
+    "8273": {
+     "branches": 1,
+     "deposits_k": 55619
+    }
+   }
+  },
+  "08125": {
+   "name": "Yuma",
+   "banks": {
+    "14420": {
+     "branches": 1,
+     "deposits_k": 16020
+    },
+    "16980": {
+     "branches": 2,
+     "deposits_k": 209596
+    },
+    "22447": {
+     "branches": 1,
+     "deposits_k": 183769
+    },
+    "23498": {
+     "branches": 1,
+     "deposits_k": 35922
+    },
+    "3063": {
+     "branches": 1,
+     "deposits_k": 120626
+    },
+    "30707": {
+     "branches": 2,
+     "deposits_k": 11366
+    },
+    "58508": {
+     "branches": 1,
+     "deposits_k": 33511
+    }
+   }
+  }
+ }
+}
