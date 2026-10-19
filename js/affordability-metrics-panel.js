@@ -313,7 +313,7 @@
     });
     html += '</tbody></table>';
     html += '</div>';
-    html += '<p style="font-size:.72rem;color:var(--muted);margin-top:.5rem;">' +
+    html += '<p style="font-size:.8125rem;color:var(--muted);margin-top:.5rem;">' +
       'Home value source: place-aware calculations use <code>data/hna/home-value-cascade.json</code> ' +
       '(' + _esc(HOME_VALUE_METRIC.label) + ' for places; modeled ACS/FHFA for counties) when present; otherwise falls back to ' +
       '<a href="https://data.census.gov/" target="_blank" rel="noopener">ACS 5-year DP04</a>. ' +

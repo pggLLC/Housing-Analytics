@@ -19,8 +19,8 @@
       '.workflow-progress__steps{display:flex;align-items:flex-start;gap:0;counter-reset:step;}',
       '.wf-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;}',
       '.wf-step:not(:last-child)::after{content:"";position:absolute;top:16px;left:calc(50% + 16px);right:calc(-50% + 16px);height:2px;background:var(--border);z-index:0;}',
-      '.wf-step__num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;position:relative;}',
-      '.wf-step__label{font-size:.7rem;color:var(--muted);margin-top:5px;line-height:1.2;}',
+      '.wf-step__num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8125rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;position:relative;}',
+      '.wf-step__label{font-size:.8125rem;color:var(--muted);margin-top:5px;line-height:1.2;}',
       '.wf-step--active .wf-step__num{background:var(--accent);color: var(--on-accent, #fff);border-color:var(--accent);}',
       '.wf-step--active .wf-step__label{color:var(--accent);font-weight:600;}',
       '.wf-step--done .wf-step__num{background:var(--good);color:#fff;border-color:var(--good);}',
@@ -44,7 +44,7 @@
 
       /* Divider */
       '.sj-divider{display:flex;align-items:center;justify-content:center;padding-top:60px;}',
-      '.sj-divider span{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600;color:var(--muted);background:var(--bg2);border:1px solid var(--border);}',
+      '.sj-divider span{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8125rem;font-weight:600;color:var(--muted);background:var(--bg2);border:1px solid var(--border);}',
 
       /* Form fields */
       '.sj-field-group{margin-bottom:20px;position:relative;}',

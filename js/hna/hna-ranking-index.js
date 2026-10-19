@@ -611,7 +611,7 @@
     }).join('');
     const summary = sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed';
     var cta = sc.knownDimensions < 7
-      ? '<p style="margin-top:.5rem;font-size:.78rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
+      ? '<p style="margin-top:.5rem;font-size:.8125rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
       : '';
     return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><div class="hca-scorecard-grid">' + items + '</div><div class="hca-scorecard-summary">' + summary + '</div>' + cta + '</div>';
   }
@@ -649,12 +649,12 @@
       ? entry.dataQuality.approximated_fields : [];
     const hasApprox = approxFields.length > 0;
     const approxNoticeHtml = hasApprox ? `
-      <div class="hca-detail-approx-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.3);color:var(--text);font-size:.78rem;line-height:1.5;">
+      <div class="hca-detail-approx-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.3);color:var(--text);font-size:.8125rem;line-height:1.5;">
         <strong>Approximation:</strong> CHAS cost-burden tiers, AMI gap counts, in-commuters, and the 20-year projection for this ${typeLabel(entry.type).toLowerCase()} are scaled from its containing county. Actual values at this geography may differ — particularly if the ${typeLabel(entry.type).toLowerCase()}'s renter AMI mix or commute pattern diverges from the county as a whole. Cost-burden % and rent are from this geography's own ACS data.
       </div>` : '';
     const vacancyDisclosure = getSeasonalVacancyDisclosure(entry);
     const vacancyNoticeHtml = vacancyDisclosure ? `
-      <div class="hca-detail-approx-note hca-detail-vacancy-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(9,110,101,.08);border:1px solid rgba(9,110,101,.3);color:var(--text);font-size:.78rem;line-height:1.5;">
+      <div class="hca-detail-approx-note hca-detail-vacancy-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(9,110,101,.08);border:1px solid rgba(9,110,101,.3);color:var(--text);font-size:.8125rem;line-height:1.5;">
         <strong>${vacancyDisclosure.kind === 'seasonal' ? 'Seasonal vacancy context' : 'Vacancy sample context'}:</strong> ${vacancyDisclosure.note}
       </div>` : '';
 
@@ -662,7 +662,7 @@
     const hasDemog = metrics.pct_burdened_lte30 > 0 || metrics.pct_burdened_31to50 > 0 || metrics.pct_burdened_51to80 > 0;
     const demogHtml = hasDemog ? `
       <div class="hca-detail-demog">
-        <div class="hca-detail-demog-label">Cost-burden by AMI tier (CHAS)${hasApprox ? ' <span style="color:var(--muted);font-weight:400;font-size:.78rem;">(county-approx)</span>' : ''}</div>
+        <div class="hca-detail-demog-label">Cost-burden by AMI tier (CHAS)${hasApprox ? ' <span style="color:var(--muted);font-weight:400;font-size:.8125rem;">(county-approx)</span>' : ''}</div>
         <div class="hca-detail-demog-row">
           <span class="hca-detail-demog-tier">≤30% AMI</span>
           <div class="hca-detail-demog-bar-wrap" aria-label="${fmt(metrics.pct_burdened_lte30,'percent')} of renters at ≤30% AMI are cost-burdened">

@@ -52,7 +52,7 @@
     '}',
     '.edu-callout__audience-tabs{display:flex;gap:4px;flex-shrink:0;}',
     '.edu-callout__tab{',
-      'padding:3px 8px;font-size:.7rem;border-radius:999px;',
+      'padding:3px 8px;font-size:.8125rem;border-radius:999px;',
       'border:1px solid var(--border,#e2e8f0);',
       'background:none;cursor:pointer;',
       'color:var(--muted,#64748b);',
@@ -77,7 +77,7 @@
       'color:var(--text,#1e293b);',
     '}',
     '.edu-callout__link{',
-      'font-size:.8rem;color:var(--accent,#2563eb);text-decoration:none;',
+      'font-size:.8125rem;color:var(--accent,#2563eb);text-decoration:none;',
     '}',
     '.edu-callout__link:hover{text-decoration:underline;}'
   ].join('');

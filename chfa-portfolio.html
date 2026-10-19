@@ -75,14 +75,14 @@
       color: var(--text-strong);
     }
     .kpi-label {
-      font-size: 0.72rem;
+      font-size: .8125rem;
       color: var(--muted);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .kpi-unit   { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
-    .kpi-source { font-size: 0.7rem; margin-top: 0.25rem; }
+    .kpi-unit   { font-size: .8125rem; color: var(--muted); margin-top: 0.15rem; }
+    .kpi-source { font-size: .8125rem; margin-top: 0.25rem; }
     .kpi-source a { color: var(--link, var(--accent)); text-decoration: none; }
     .kpi-source a:hover { text-decoration: underline; }
     .portfolio-table-wrap {
@@ -98,7 +98,7 @@
     .portfolio-table th {
       padding: 0.6rem 0.75rem;
       text-align: left;
-      font-size: 0.73rem;
+      font-size: .8125rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -124,7 +124,7 @@
       display: inline-block;
       padding: 0.15rem 0.45rem;
       border-radius: 999px;
-      font-size: 0.7rem;
+      font-size: .8125rem;
       font-weight: 700;
       background: var(--accent-dim);
       color: var(--accent);
@@ -142,7 +142,7 @@
     /* Absence is not a badge. It gets the muted, un-pill treatment so it can
        never be mistaken at a glance for a measured "no". */
     .portfolio-unpublished {
-      font-size: 0.72rem;
+      font-size: .8125rem;
       font-style: italic;
       color: var(--muted);
       white-space: nowrap;
@@ -156,13 +156,13 @@
     .portfolio-note-ref:focus-visible { text-decoration: underline; }
     #ddaQctNote { scroll-margin-top: 5rem; }
     .status-bar {
-      font-size: 0.8rem;
+      font-size: .8125rem;
       color: var(--muted);
       margin-bottom: 0.5rem;
     }
     .status-bar.error { color: var(--bad); }
     .data-note {
-      font-size: 0.78rem;
+      font-size: .8125rem;
       color: var(--faint);
       margin-top: 0.75rem;
       border-top: 1px solid var(--border);
@@ -668,7 +668,7 @@
           ? '<span title="Neither a Difficult Development Area nor a Qualified Census Tract">No</span>'
           : '<span class="portfolio-unpublished" title="CHFA does not publish DDA or QCT status in this dataset. An empty cell here would read as &quot;no&quot;, which is not what the source says.">Not published</span>';
       return `<tr>
-        <td style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
+        <td style="font-weight:600;min-width:10rem;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
         <td>${r.PROJ_CTY || '—'}</td>
         <td>${r._county || '—'}</td>
         <td style="text-align:right;">${fmt(r.N_UNITS)}</td>
@@ -852,10 +852,10 @@
             if (a.toc_credit)          credits.push('TOC: $' + (+a.toc_credit).toLocaleString());
             return '<div style="padding:.5rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:6px;">' +
               '<strong>' + (a.name || '') + '</strong> · ' + (a.city || '—') +
-              '<div style="font-size:.74rem;color:var(--muted);margin-top:.15rem;">' +
+              '<div style="font-size:.8125rem;color:var(--muted);margin-top:.15rem;">' +
                 (a.total_units || '—') + 'u · ' + (a.sponsor || 'sponsor TBD') +
               '</div>' +
-              (credits.length ? '<div style="font-size:.7rem;color:var(--muted);margin-top:.15rem;">' + credits.join(' · ') + '</div>' : '') +
+              (credits.length ? '<div style="font-size:.8125rem;color:var(--muted);margin-top:.15rem;">' + credits.join(' · ') + '</div>' : '') +
               '</div>';
           }).join('');
         }

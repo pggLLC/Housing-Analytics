@@ -39,10 +39,10 @@
       '.cah-item__name { flex:1 1 200px; }',
       '.cah-item__name a { color:inherit; text-decoration:underline dotted; text-underline-offset:2px; }',
       '.cah-item__name a:hover { color:var(--accent,#096e65); text-decoration-style:solid; }',
-      '.cah-item__juris { color:var(--muted); font-size:.74rem; white-space:nowrap; }',
+      '.cah-item__juris { color:var(--muted); font-size:.8125rem; white-space:nowrap; }',
       '.cah-item__units { font-weight:600; color:var(--muted); }',
       '.cah-item__credit {',
-      '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
+      '  font-size:.8125rem; font-weight:700; padding:1px 6px; border-radius:9px;',
       '  background:rgba(99,102,241,.12); color:#4338ca;',
       '  border:1px solid rgba(99,102,241,.3); white-space:nowrap;',
       '}',
@@ -122,7 +122,7 @@
                '</li>';
       }).join('') + '</ul>';
       var truncated = rows.length > 20
-        ? '<p style="font-size:.78rem;color:var(--muted);margin:.2rem 0 0">Showing 20 of ' + rows.length + ' — see CHFA Tax Credit Property Portfolio for the full list.</p>'
+        ? '<p style="font-size:.8125rem;color:var(--muted);margin:.2rem 0 0">Showing 20 of ' + rows.length + ' — see CHFA Tax Credit Property Portfolio for the full list.</p>'
         : '';
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
         source:    'data/affordable-housing/properties.json (deduped from CHFA LIHTC)',

@@ -295,7 +295,7 @@
       '  border: 1px solid var(--border, #2a2a2a);',
       '  border-radius: 6px;',
       '  padding: 0.55rem 0.7rem;',
-      '  font-size: 0.78rem;',
+      '  font-size: .8125rem;',
       '  line-height: 1.45;',
       '  font-weight: 400;',
       '  z-index: 1500;',

@@ -345,7 +345,7 @@
                   // (e.g. "Pipeline diagnostics" below the main 3 Data
                   // entries) without forcing a sub-menu component.
                   if (l.isHeader) {
-                    return `<div class="nav-dd-header" role="presentation" style="padding:6px 14px 4px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                    return `<div class="nav-dd-header" role="presentation" style="padding:6px 14px 4px;font-size:.8125rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
                   }
                   // Child entries (isSub:true) are indented and rendered a step
                   // down from their parent. The five Housing Needs Assessment
@@ -410,7 +410,7 @@
             <div class="mobile-nav-section-items" hidden>
               ${renderItems(g.items, 'm' + g.label.replace(/\W+/g, '').toLowerCase(), (l) => {
                 if (l.isHeader) {
-                  return `<div class="mobile-nav-subheader" role="presentation" style="padding:8px 14px 4px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                  return `<div class="mobile-nav-subheader" role="presentation" style="padding:8px 14px 4px;font-size:.8125rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
                 }
                 if (l.isSub) {
                   return `<a class="${activeClass(l.href)} nav-link-sub" href="${normalizeHref(l.href)}" style="padding-left:30px">${l.label}</a>`;

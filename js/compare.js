@@ -643,7 +643,7 @@
       fn: function (r) { return r && r.placeGeoid ? r.placeGeoid : '—'; },
       fmt: function (v) {
         if (!v || v === '—') return '<span style="color:var(--muted)">—</span>';
-        return '<span data-cmp-reliability="' + escHtml(v) + '" style="color:var(--muted);font-size:.78rem">…</span>';
+        return '<span data-cmp-reliability="' + escHtml(v) + '" style="color:var(--muted);font-size:.8125rem">…</span>';
       }, raw: true },
 
     { group: 'Designations + Capacity' },
@@ -681,7 +681,7 @@
       fmt: function (v) {
         if (!v) return '<span style="color:var(--muted)">—</span>';
         var color = v === 'high' ? '#dc2626' : (v === 'medium' ? '#f59e0b' : '#0891b2');
-        return '<span style="background:' + color + '22;color:' + color + ';padding:1px 8px;border-radius:9px;font-size:.78rem;font-weight:600">' + escHtml(v) + '</span>';
+        return '<span style="background:' + color + '22;color:' + color + ';padding:1px 8px;border-radius:9px;font-size:.8125rem;font-weight:600">' + escHtml(v) + '</span>';
       }, raw: true },
     // F116 — Recent CHFA activity (live feed + 2026 R1 bridge) per place.
     // Combines two freshness signals so a stale ArcGIS feed doesn't make
@@ -699,7 +699,7 @@
         }
         if (r.lastAwardYear || r.lastYear) {
           var ly = r.lastAwardYear || r.lastYear;
-          parts.push('<span style="color:var(--muted);font-size:.78rem;">live feed: ' + ly + '</span>');
+          parts.push('<span style="color:var(--muted);font-size:.8125rem;">live feed: ' + ly + '</span>');
         }
         if (!parts.length) return '<span style="color:var(--muted)">— never funded on record</span>';
         return parts.join('<br>');
@@ -812,15 +812,15 @@
     function item(r, where) {
       var p = r.program;
       return '<li style="margin:.15rem 0"><a href="' + escHtml(F.guideUrl({ program: p.id })) + '">' + escHtml(p.name) + '</a>' +
-        ' <span style="color:var(--muted);font-size:.74rem">· ' + escHtml(F.AVAILABILITY_LABELS[r.availability]) +
+        ' <span style="color:var(--muted);font-size:.8125rem">· ' + escHtml(F.AVAILABILITY_LABELS[r.availability]) +
         (where ? ' · ' + escHtml(where) : '') + '</span></li>';
     }
     host.innerHTML =
       '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.35rem">' +
         '<strong style="font-size:.92rem">Funding programs that fit' + (exec ? ' a ' + escHtml(F.executionLabel(exec)) + ' deal' : '') + ' · open or with a published round</strong>' +
-        '<a style="font-size:.78rem" href="' + escHtml(F.guideUrl({ execution: exec, openOnly: true })) + '">Compare their terms in Funding Sources →</a>' +
+        '<a style="font-size:.8125rem" href="' + escHtml(F.guideUrl({ execution: exec, openOnly: true })) + '">Compare their terms in Funding Sources →</a>' +
       '</div>' +
-      '<p style="margin:0 0 .35rem;font-size:.78rem;color:var(--muted)">From the verified funding guide; each program\'s round dates and terms are on its card. This screens eligibility from published terms and does not predict an award.</p>' +
+      '<p style="margin:0 0 .35rem;font-size:.8125rem;color:var(--muted)">From the verified funding guide; each program\'s round dates and terms are on its card. This screens eligibility from published terms and does not predict an award.</p>' +
       '<details><summary style="cursor:pointer;font-size:.85rem">' + statewide.length + ' statewide or regional programs</summary>' +
         '<ul style="margin:.35rem 0 0 1rem;padding:0;font-size:.82rem">' + statewide.map(function (r) { return item(r); }).join('') + '</ul></details>' +
       (local.length

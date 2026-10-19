@@ -421,7 +421,7 @@
     const sourceStrip = el('div', {
       role: 'note',
       class: 'ta-source-strip',
-      style: 'margin: 0 0 1rem; padding: .55rem .8rem; background: var(--bg2, #f5f5f5); border-left: 3px solid var(--accent, #1a73e8); border-radius: 0 4px 4px 0; color: var(--text); font-size: .8rem; line-height: 1.5;'
+      style: 'margin: 0 0 1rem; padding: .55rem .8rem; background: var(--bg2, #f5f5f5); border-left: 3px solid var(--accent, #1a73e8); border-radius: 0 4px 4px 0; color: var(--text); font-size: .8125rem; line-height: 1.5;'
     });
     const vintageStr = _dataMeta && _dataMeta.generated_at
       ? new Date(_dataMeta.generated_at).toISOString().slice(0, 10)

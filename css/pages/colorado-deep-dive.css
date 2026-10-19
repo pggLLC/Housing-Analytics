@@ -288,7 +288,7 @@
 
   .tab-btn {
     padding: 8px 12px;
-    font-size: 0.8rem;
+    font-size: .8125rem;
   }
 }
 
@@ -320,7 +320,7 @@
 /* F76: opacity:.75 was stacked on inherited muted text and dropped to
    below 4:1 in dark mode. Set the color explicitly. */
 .data-sources-small {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--faint);
   line-height: 1.5;
 }
@@ -377,7 +377,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.75rem;
+  font-size: .8125rem;
   color: var(--muted, #476080);
   background: var(--bg2, #e4ecf4);
   border: 1px solid var(--border, rgba(13, 31, 53, .12));
@@ -388,7 +388,7 @@
 
 .freshness-badge::before {
   content: '🕐';
-  font-size: 0.7rem;
+  font-size: .8125rem;
 }
 
 /* ----------------------------------------------------------------
@@ -485,7 +485,7 @@
 }
 
 .tab-guide-desc {
-  font-size: 0.8rem;
+  font-size: .8125rem;
   color: var(--muted, #476080);
   line-height: 1.5;
   margin: 0;
@@ -531,7 +531,7 @@
 
 /* Small, readable attribution text */
 .data-sources-small{
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   opacity: .82;
 }

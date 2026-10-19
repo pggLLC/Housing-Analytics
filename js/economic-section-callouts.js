@@ -163,7 +163,7 @@
         'background:color-mix(in oklab,var(--accent,#096e65) 5%,var(--card,#ffffff) 95%);' +
         'border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.55;color:var(--text,#1a1a2e)';
       aside.innerHTML =
-        '<div style="font-size:.66rem;color:var(--muted,#5a6a7a);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:.3rem">Why this matters for housing</div>' +
+        '<div style="font-size:.8125rem;color:var(--muted,#5a6a7a);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:.3rem">Why this matters for housing</div>' +
         '<p style="margin:0 0 .4rem">' + entry.why + '</p>' +
         (entry.watch
           ? '<p style="margin:0;font-size:.84rem;color:var(--muted,#5a6a7a)"><strong style="color:var(--accent,#096e65)">What to watch:</strong> ' + entry.watch + '</p>'

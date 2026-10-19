@@ -130,7 +130,7 @@
       var icon = r.status === 'working' ? '✓' : '✕';
       var rCls = r.status === 'working' ? 'dqs-ok' : (r.critical ? 'dqs-error' : 'dqs-warn');
       var speed = r.status === 'working' ? ' (' + r.ms + 'ms)' : '';
-      var crit = r.critical ? ' <em style="font-size:.7rem">(critical)</em>' : '';
+      var crit = r.critical ? ' <em style="font-size:.8125rem">(critical)</em>' : '';
       return '<div class="apih-row ' + rCls + '">' +
         '<span class="apih-icon">' + icon + '</span> ' +
         r.name + crit + speed +
@@ -139,7 +139,7 @@
 
     el.innerHTML =
       '<details class="apih-panel">' +
-        '<summary class="dqs-summary ' + cls + '" style="font-size:.78rem;">' +
+        '<summary class="dqs-summary ' + cls + '" style="font-size:.8125rem;">' +
           '<span class="dqs-status-dot ' + cls + '"></span> ' + label +
         '</summary>' +
         '<div class="apih-body">' + detailRows + '</div>' +

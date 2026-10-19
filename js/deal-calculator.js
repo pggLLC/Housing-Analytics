@@ -857,14 +857,14 @@
     var normalized = normalizeMinimumSetAsideElection(election);
     if (isLihtcCreditEligiblePct(pct, normalized)) {
       if (normalized === 'average-income' && Number(pct) > 60) {
-        return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(AIT designation; counted only when the designated average is ≤60% AMI)</span>';
+        return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(AIT designation; counted only when the designated average is ≤60% AMI)</span>';
       }
       return pct + '% AMI';
     }
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
-      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: Colorado Middle Income Housing Tax Credit (MIHTC) + Prop 123; not LIHTC-credit-eligible)</span>';
+      return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: Colorado Middle Income Housing Tax Credit (MIHTC) + Prop 123; not LIHTC-credit-eligible)</span>';
     }
-    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
+    return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
   }
 
   function renderMinimumSetAsideStatus(result) {
@@ -1110,13 +1110,13 @@
       banner.style.cssText = 'padding:.55rem .7rem;margin:0 0 .5rem;border-radius:6px;' +
         'background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);border-left:4px solid #047857;font-size:.82rem;line-height:1.4';
       var btn = suggestedPct == null
-        ? '<div style="margin-top:.35rem;font-size:.78rem;font-weight:700">Set Tax Exemption below to your project\'s low-income share.</div>'
+        ? '<div style="margin-top:.35rem;font-size:.8125rem;font-weight:700">Set Tax Exemption below to your project\'s low-income share.</div>'
         : '<button type="button" id="dc-apply-abatement" ' +
-          'style="margin-top:.35rem;padding:.25rem .65rem;font-size:.78rem;font-weight:700;' +
+          'style="margin-top:.35rem;padding:.25rem .65rem;font-size:.8125rem;font-weight:700;' +
           'background:#047857;color:white;border:0;border-radius:5px;cursor:pointer">' +
           'Apply ' + suggestedPct + '% to Tax Exemption ↓</button>';
       banner.innerHTML = '<div>🏛️ ' + headline + '</div>' +
-        '<div style="margin-top:.2rem;color:var(--muted);font-size:.78rem">' + summary + '</div>' +
+        '<div style="margin-top:.2rem;color:var(--muted);font-size:.8125rem">' + summary + '</div>' +
         btn;
       label.parentNode.insertBefore(banner, label);
       __dcAbatementBanner = banner;
@@ -1155,7 +1155,7 @@
       hit.fees = hit.fees.filter(function (e) { return (e.kind || 'program') === 'program'; });
       var box = document.createElement('div');
       box.dataset.dcFeeContext = '1';
-      box.style.cssText = 'margin-top:.4rem;padding-top:.35rem;border-top:1px dashed rgba(4,120,87,.35);font-size:.78rem;color:var(--muted)';
+      box.style.cssText = 'margin-top:.4rem;padding-top:.35rem;border-top:1px dashed rgba(4,120,87,.35);font-size:.8125rem;color:var(--muted)';
       if (!hit.fees.length) {
         box.textContent = 'Local fee waivers: none verified yet for this jurisdiction (not the same as none). Nothing is applied to your numbers.';
       } else {
@@ -1899,7 +1899,7 @@
 
     <!-- Inputs column -->
     <div id="dc-inputs-col" style="min-width:0;">
-      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
         Deal Assumptions
       </h3>
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
@@ -2034,7 +2034,7 @@
                  Allocates totalUnits proportionally to the gap counts at the
                  LIHTC-eligible tiers (≤60% AMI). -->
             <button id="dc-ami-prefill" type="button"
-              style="padding:.3rem .65rem;font-size:.78rem;font-weight:600;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:6px;cursor:pointer;"
+              style="padding:.3rem .65rem;font-size:.8125rem;font-weight:600;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:6px;cursor:pointer;"
               title="Allocate the LIHTC-eligible tiers proportional to the documented gap at 30/50/60% AMI for the selected jurisdiction"
             >Pre-fill from local need</button>
           </div>
@@ -2048,7 +2048,7 @@
             See live calculation below.
           </div>
           <div id="dc-ami-prefill-meta" hidden
-            style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);line-height:1.45;"></div>
+            style="font-size:.8125rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);line-height:1.45;"></div>
           <!-- P7: per-tier BR-type selector. Each AMI tier now has a BR
                type (Studio/1BR/2BR/3BR/4BR). Rent ceiling per row is
                computed using §42 imputed household size (1.5 × BR count).
@@ -2614,7 +2614,7 @@
         <!-- Perm-rate hint: FRED 10-year Treasury + a stated spread, wired by
              _initFreddieBenchmark() at module init. Outside the label above so
              its own spread input is not a second control of that label. -->
-        <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
+        <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:.8125rem;color:var(--muted);line-height:1.4;"></div>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Amortization (years)</span>
@@ -2668,7 +2668,7 @@
          Sources & Uses + Year-15 Exit live in the Capital Stack column
          to the right at desktop widths. -->
     <div id="dc-pro-forma-col" style="min-width:0;">
-      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
         <span data-dc-mode="rental">LIHTC Pro Forma</span><span data-dc-mode="ownership" hidden>Ownership Feasibility</span>
       </h3>
 
@@ -2754,7 +2754,7 @@
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;margin-bottom:0.35rem;">
               senior_DSCR = NOI ÷ senior_service; all_must_pay_DSCR = NOI ÷ total_required_service
             </code>
-            <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
+            <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8125rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
               stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
             </div>
             <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:0.5rem;">
@@ -3249,7 +3249,7 @@
          Performance → Capital Stack left-to-right. On narrower screens
          it stacks below Pro Forma. -->
     <div id="dc-capital-stack-col" data-dc-mode="rental" style="min-width:0;">
-      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
         Capital Stack &amp; Exit
       </h3>
 
@@ -3459,7 +3459,7 @@
           <p style="margin:.4rem 0;">Review benchmarks in <a data-workflow-link="deal-equity" href="article-pricing.html">Tax Credit Equity Markets</a>.</p>
           <!-- F230 — Novogradac equity pricing benchmark button. Populated
                by _initNovogradacBenchmark() below from data/market/novogradac-equity-pricing.json -->
-          <div id="dc-novogradac-benchmark" style="margin-top:.3rem;font-size:.72rem;line-height:1.4;color:var(--muted);"></div>
+          <div id="dc-novogradac-benchmark" style="margin-top:.3rem;font-size:.8125rem;line-height:1.4;color:var(--muted);"></div>
         </label>
         <div>
           <span style="color:var(--muted);display:block;margin-bottom:0.25rem;">Debt Coverage Ratio (DCR)</span>
@@ -6940,7 +6940,7 @@
             'deep-tier rents -' + (rentHaircutPct * 100).toFixed(0) + '% · ' +
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
-            '<br><span style="color:var(--muted);font-size:.78rem">' +
+            '<br><span style="color:var(--muted);font-size:.8125rem">' +
             'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
             'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';
@@ -7021,7 +7021,7 @@
           '<td style="padding:3px 6px;color:' + color + ';">' + _escHtml(t.name) + '</td>' +
           '<td style="padding:3px 6px;text-align:right;font-weight:600;color:' + color + ';">' + _fmtMoney(t.amount) + '</td>' +
           '<td style="padding:3px 6px;text-align:right;color:var(--muted);">' + pctStr + '</td>' +
-          '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + _escHtml(t.recipient) + '</td>' +
+          '<td style="padding:3px 6px;color:var(--muted);font-size:.8125rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
       // Tier order is the payout order, so this table never sorts.
@@ -7035,7 +7035,7 @@
         '<tfoot><tr style="border-top:2px solid var(--border);">' +
         '<td style="padding:6px;font-weight:700;">Gross proceeds (sale)</td>' +
         '<td style="padding:6px;text-align:right;font-weight:700;color:var(--accent);">' + _fmtMoney(wf.grossProceeds) + '</td>' +
-        '<td colspan="2" style="padding:6px;color:var(--muted);font-size:.78rem;">Sale value before the payoff tiers above</td>' +
+        '<td colspan="2" style="padding:6px;color:var(--muted);font-size:.8125rem;">Sale value before the payoff tiers above</td>' +
         '</tr></tfoot>' +
         '</table>' +
         // Bottom-line summary
@@ -7045,7 +7045,7 @@
         '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : 'Unavailable — ' + _escHtml(unavailable['waterfall.lpCashIrr'])) + '</span></div>' +
         '<div><strong style="color:var(--muted);">GP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.gpTotal) + '</span></div>' +
         '</div>' +
-        '<p style="margin:.5rem 0 0;font-size:.76rem;color:var(--faint);line-height:1.4;">' +
+        '<p style="margin:.5rem 0 0;font-size:.8125rem;color:var(--faint);line-height:1.4;">' +
         '<strong>LP IRR caveat:</strong> the LP\'s primary return on a LIHTC deal is the tax credits ($' +
         (wf.annualCredits != null ? wf.annualCredits.toLocaleString('en-US') : 'unavailable') +
         '/yr × 10 yrs, undiscounted), not cash. This panel models ONLY the cash side of the deal at exit. ' +
@@ -7082,7 +7082,7 @@
           '</tr>';
       });
       // Year-by-year schedule: kept in year order like the other statements.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
+      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +
@@ -7091,7 +7091,7 @@
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">GP cumulative</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody></table>' +
-        '<p style="margin:.5rem .5rem 0;font-size:.72rem;color:var(--faint);line-height:1.4;">' +
+        '<p style="margin:.5rem .5rem 0;font-size:.8125rem;color:var(--faint);line-height:1.4;">' +
         'Annual cash: surplus (NOI − DS) split 99.99% LP / 0.01% GP per standard LIHTC ops convention. ' +
         'Exit-year row adds the waterfall lump-sum from above. Excludes tax credit deliveries (which are LP\'s primary return).' +
         '</p>';
@@ -7349,7 +7349,7 @@
           var pill = document.createElement('div');
           pill.id = pillId;
           pill.className = 'dc-sanity-pill';
-          pill.style.cssText = 'margin-top:4px;padding:4px 10px;font-size:.74rem;line-height:1.4;border-radius:var(--radius-sm);background:' + bg + ';color:' + fg + ';border:1px solid currentColor;font-weight:600;';
+          pill.style.cssText = 'margin-top:4px;padding:4px 10px;font-size:.8125rem;line-height:1.4;border-radius:var(--radius-sm);background:' + bg + ';color:' + fg + ';border:1px solid currentColor;font-weight:600;';
           pill.textContent = result.text;
           // Insert right after the input's parent label (so the pill sits
           // under the field group, not floating in the grid).
@@ -7637,13 +7637,13 @@
                 options.map(function (o, index) {
                   if (!o.price) return '';
                   return '<button type="button" class="dc-novo-apply" data-option="' + index + '" data-price="' + o.price + '" ' +
-                          'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                          'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.8125rem;font-weight:700;cursor:pointer;">' +
                     'Use ' + o.label + ' ($' + o.price.toFixed(2) + ')' +
                   '</button>';
                 }).join('') +
               '</div>' +
             '</div>' +
-            '<div style="margin-top:.25rem;font-size:.68rem;color:var(--faint);">' +
+            '<div style="margin-top:.25rem;font-size:.8125rem;color:var(--faint);">' +
               'Source: <a href="' + _escHtml((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
               'Vintage ' + _escHtml((j.meta && j.meta.vintage) || '—') + ' · ' +
               'Verify against current Novogradac publication before quoting in IC memo.' +
@@ -7719,15 +7719,15 @@
             '<span><strong style="color:var(--accent);">🏦 Perm-rate hint:</strong> ' +
               '10Y Treasury ' + t10.value.toFixed(2) + '% (FRED, ' + _escHtml(t10.date || '—') + ') + ' +
               '<label>spread <input type="number" id="dc-perm-spread" min="0" max="5" step="0.05" value="' + spread.toFixed(2) + '" ' +
-                'style="width:4.2em;font-size:.7rem;" aria-label="Assumed perm-loan spread over the 10-year Treasury, percentage points"> pts</label> = ' +
+                'style="width:4.2em;font-size:.8125rem;" aria-label="Assumed perm-loan spread over the 10-year Treasury, percentage points"> pts</label> = ' +
               '<strong id="dc-perm-hint">' + (t10.value + spread).toFixed(2) + '%</strong>' +
             '</span>' +
             '<button type="button" id="dc-freddie-apply" ' +
-                    'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                    'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.8125rem;font-weight:700;cursor:pointer;">' +
               'Use this rate' +
             '</button>' +
           '</div>' +
-          '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
+          '<div style="margin-top:.2rem;font-size:.8125rem;color:var(--faint);">' +
             'Source: <a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener" style="color:var(--accent);">FRED DGS10</a>. ' +
             'The spread is ' + _escHtml(a.note || 'a COHO assumption') + ' Get a lender rate sheet before an LOI.' +
           '</div>';

@@ -63,7 +63,7 @@
       '.lihtc-cc-caveat{margin:.75rem 0 0;padding:.5rem .75rem;',
       '  background:var(--warning-bg,rgba(243,156,18,.1));',
       '  border-left:3px solid var(--warning-accent,#f39c12);',
-      '  font-size:.8rem;color:var(--text-muted,#aaa);}',
+      '  font-size:.8125rem;color:var(--text-muted,#aaa);}',
       /* HNA section */
       '.lihtc-cc-hna{margin:.75rem 0 0;padding:.5rem .75rem;',
       '  background:var(--card-alt,rgba(9,110,101,.08));',
@@ -76,14 +76,14 @@
       '  vertical-align:middle;}',
       '.lihtc-cc-hna-fill{display:block;height:100%;',
       '  background:var(--accent,#096e65);border-radius:3px;}',
-      '.lihtc-cc-hna-tier{font-size:.78rem;min-width:90px;}',
+      '.lihtc-cc-hna-tier{font-size:.8125rem;min-width:90px;}',
       /* Mix check */
       '.lihtc-cc-mixcheck{margin:.75rem 0 0;font-size:.85rem;line-height:1.45;overflow-wrap:anywhere;}',
       '.lihtc-cc-mixcheck h4{margin:.6rem 0 .3rem;font-size:.85rem;font-weight:600;}',
       '.lihtc-cc-mixcheck ul{margin:.25rem 0;padding-left:1.2rem;}',
       '.lihtc-cc-mixcheck li{margin:.2rem 0;}',
       '.lihtc-cc-mixcheck p{margin:.3rem 0;}',
-      '.lihtc-cc-mixcheck .lihtc-cc-small{font-size:.75rem;color:var(--text-muted,var(--muted,#666));}',
+      '.lihtc-cc-mixcheck .lihtc-cc-small{font-size:.8125rem;color:var(--text-muted,var(--muted,#666));}',
       '.lihtc-cc-badge-strong{color:#096e65;}',
       '.lihtc-cc-badge-partial{color:#f39c12;}',
       '.lihtc-cc-badge-weak{color:#c0392b;}',
@@ -93,10 +93,10 @@
       '.lihtc-cc-constraint h4{margin:.15rem 0 .4rem;font-size:.84rem;display:flex;',
       '  align-items:center;gap:.4rem;cursor:pointer;}',
       '.lihtc-cc-constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem;',
-      '  margin:.35rem 0;font-size:.81rem;}',
+      '  margin:.35rem 0;font-size:.8125rem;}',
       '.lihtc-cc-constraint-grid dt{color:var(--text-muted,#aaa);margin:0;}',
       '.lihtc-cc-constraint-grid dd{margin:0;font-weight:600;}',
-      '.lihtc-cc-constraint-narrative{margin:.35rem 0 0;font-size:.8rem;',
+      '.lihtc-cc-constraint-narrative{margin:.35rem 0 0;font-size:.8125rem;',
       '  color:var(--text-muted,#aaa);font-style:italic;}',
       /* Actions */
       '.lihtc-cc-actions{margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap;}',
@@ -162,7 +162,7 @@
       { label: '60% AMI', pct: hnsFit.needCoverage.ami60 }
     ].filter(function (t) { return t.pct > 0; }).map(function (t) {
       return '<div class="lihtc-cc-hna-tier">' +
-        '<span style="font-size:.75rem;">' + _esc(t.label) + ' — ' + t.pct + '% coverage</span>' +
+        '<span style="font-size:.8125rem;">' + _esc(t.label) + ' — ' + t.pct + '% coverage</span>' +
         '<span class="lihtc-cc-hna-bar" role="img" aria-label="' + _esc(t.label) + ' coverage ' + t.pct + '%">' +
         '<span class="lihtc-cc-hna-fill" style="width:' + t.pct + '%"></span></span>' +
         '</div>';
@@ -173,7 +173,7 @@
     }).join('');
 
     var gapsList = hnsFit.gaps && hnsFit.gaps.length > 0
-      ? '<p style="margin:.4rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);">' +
+      ? '<p style="margin:.4rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);">' +
         '<strong>Un-addressed gaps:</strong> ' +
         _esc(hnsFit.gaps.join(' · ')) + '</p>'
       : '';
@@ -208,7 +208,7 @@
           _trow('Deferred Dev Fee',_fmtM(stack.deferredFee)),
           (stack.gap == null || parseFloat(stack.gap) > 0 ? _trow('Remaining Gap', _fmtM(stack.gap)) : ''),
         '</table>',
-        '<p style="margin:.4rem 0 0;font-size:.75rem;color:var(--text-muted,#aaa);">',
+        '<p style="margin:.4rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);">',
           'Rough order-of-magnitude estimate only. Engage a LIHTC syndicator for current equity pricing.',
         '</p>',
       '</details>'
@@ -274,7 +274,7 @@
             '<dt>Opportunity</dt><dd>' + _esc(oppBadge) + '</dd>',
           '</dl>',
           land.financialBenefit && land.financialBenefit.subsidy > 0 ? [
-            '<p style="margin:.35rem 0 0;font-size:.81rem;">',
+            '<p style="margin:.35rem 0 0;font-size:.8125rem;">',
               '<strong>Est. subsidy advantage:</strong> ' +
               _esc(_fmtM(land.financialBenefit.subsidy)),
             '</p>',
@@ -306,10 +306,10 @@
               : '—') + '</dd>',
             '<dt>Competition</dt><dd>' + _esc(compBadge) + '</dd>',
           '</dl>',
-          '<p style="margin:.35rem 0 0;font-size:.72rem;color:var(--muted);line-height:1.45;">' +
+          '<p style="margin:.35rem 0 0;font-size:.8125rem;color:var(--muted);line-height:1.45;">' +
             'Current balance not shown — verify with the program admin before modelling a specific source.' +
           '</p>',
-          fund.warning ? '<p style="margin:.35rem 0 0;font-size:.8rem;color:var(--warning,#c0392b);">⚠ ' + _esc(fund.warning) + '</p>' : '',
+          fund.warning ? '<p style="margin:.35rem 0 0;font-size:.8125rem;color:var(--warning,#c0392b);">⚠ ' + _esc(fund.warning) + '</p>' : '',
           fund.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(fund.narrative) + '</p>' : '',
           fund.lastUpdated ? '<p class="lihtc-cc-constraint-narrative">Catalog last updated: ' + _esc(fund.lastUpdated) + '</p>' : '',
         '</details>'
@@ -333,7 +333,7 @@
     _injectStyle();
     // Inline sizes: host pages style bare <p> more specifically than this card does.
     var P = ' style="margin:.3rem 0;font-size:.85rem;line-height:1.45;"';
-    var SMALL = ' class="lihtc-cc-small" style="margin:.3rem 0;font-size:.75rem;line-height:1.4;color:var(--text-muted,var(--muted,#666));"';
+    var SMALL = ' class="lihtc-cc-small" style="margin:.3rem 0;font-size:.8125rem;line-height:1.4;color:var(--text-muted,var(--muted,#666));"';
     var h = '<section class="lihtc-cc-mixcheck" aria-label="Need the homes-short counts miss, and whether the mix pays its way">';
     if (mc.notes && mc.notes.length) {
       h += '<h4>Renters the homes-short counts miss</h4><ul>' +

@@ -64,8 +64,8 @@
 .hm-flow-node { stroke: none !important; }
 .hm-flow-node.is-region { fill: var(--text-strong); }
 .hm-flow-label, .hm-flow-value { paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
-.hm-flow-label { font-size: 12px; font-weight: 700; fill: var(--text-strong); }
-.hm-flow-value { font-size: 11px; fill: var(--muted); }
+.hm-flow-label { font-size: 13px; font-weight: 700; fill: var(--text-strong); }
+.hm-flow-value { font-size: 13px; fill: var(--muted); }
 .hm-flow-legend { list-style: none; padding: 0; margin-left: 0; }
 .hm-flow-legend li::marker { content: none; }
 .hm-flow-maptitle { font-weight: 700; font-size: .9rem; margin: var(--sp3) 0 var(--sp1); color: var(--text-strong); }

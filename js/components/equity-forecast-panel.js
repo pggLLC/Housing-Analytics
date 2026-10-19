@@ -270,7 +270,7 @@
         var s = marketCtx[i];
         var bg = s.type === 'warn' ? 'var(--warn-dim,#fef3c7)' : 'var(--info-dim,#dbeafe)';
         var clr = s.type === 'warn' ? 'var(--warn,#d97706)' : 'var(--info,#2563eb)';
-        ctxHtml += '<div style="padding:4px 10px;background:' + bg + ';border-radius:3px;font-size:.72rem;color:' + clr + ';margin-bottom:4px;">' + s.text + '</div>';
+        ctxHtml += '<div style="padding:4px 10px;background:' + bg + ';border-radius:3px;font-size:.8125rem;color:' + clr + ';margin-bottom:4px;">' + s.text + '</div>';
       }
       ctxHtml += '</div>';
     }
@@ -283,7 +283,7 @@
       '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px;">' +
         '<div>' +
           '<strong style="font-size:.88rem;">Equity Pricing Trend Extension</strong>' +
-          '<span style="font-size:.72rem;color:var(--muted);margin-left:8px;">' + creditType + ' Credits · ARIMA(2,1,1) on ' + history.length + ' quarters · 95% band</span>' +
+          '<span style="font-size:.8125rem;color:var(--muted);margin-left:8px;">' + creditType + ' Credits · ARIMA(2,1,1) on ' + history.length + ' quarters · 95% band</span>' +
         '</div>' +
         '<span style="font-size:.82rem;font-weight:700;color:' + dirColor + ';">' + dirIcon + ' ' + dirText + '</span>' +
       '</div>' +
@@ -294,24 +294,24 @@
       // Stats row
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px, 100%),1fr));gap:8px;margin-top:10px;">' +
         '<div style="text-align:center;padding:6px;border-radius:4px;background:var(--bg2);">' +
-          '<div style="font-size:.68rem;color:var(--muted);">Current</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">Current</div>' +
           '<div style="font-size:1rem;font-weight:800;">$' + current.toFixed(2) + '</div>' +
-          '<div style="font-size:.66rem;color:var(--muted);">' + lastHist.quarter + '</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">' + lastHist.quarter + '</div>' +
         '</div>' +
         '<div style="text-align:center;padding:6px;border-radius:4px;background:var(--bg2);">' +
-          '<div style="font-size:.68rem;color:var(--muted);">+2 Qtrs</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">+2 Qtrs</div>' +
           '<div style="font-size:1rem;font-weight:800;color:var(--accent);">$' + q2Fcast.point.toFixed(2) + '</div>' +
-          '<div style="font-size:.66rem;color:var(--muted);">[$' + q2Fcast.lower.toFixed(2) + '–$' + q2Fcast.upper.toFixed(2) + ']</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">[$' + q2Fcast.lower.toFixed(2) + '–$' + q2Fcast.upper.toFixed(2) + ']</div>' +
         '</div>' +
         '<div style="text-align:center;padding:6px;border-radius:4px;background:var(--bg2);">' +
-          '<div style="font-size:.68rem;color:var(--muted);">+4 Qtrs</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">+4 Qtrs</div>' +
           '<div style="font-size:1rem;font-weight:800;color:var(--accent);">$' + q4Fcast.point.toFixed(2) + '</div>' +
-          '<div style="font-size:.66rem;color:var(--muted);">[$' + q4Fcast.lower.toFixed(2) + '–$' + q4Fcast.upper.toFixed(2) + ']</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">[$' + q4Fcast.lower.toFixed(2) + '–$' + q4Fcast.upper.toFixed(2) + ']</div>' +
         '</div>' +
         '<div style="text-align:center;padding:6px;border-radius:4px;background:var(--bg2);">' +
-          '<div style="font-size:.68rem;color:var(--muted);">+8 Qtrs</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">+8 Qtrs</div>' +
           '<div style="font-size:1rem;font-weight:800;color:var(--accent);">$' + lastFcast.point.toFixed(2) + '</div>' +
-          '<div style="font-size:.66rem;color:var(--muted);">[$' + lastFcast.lower.toFixed(2) + '–$' + lastFcast.upper.toFixed(2) + ']</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);">[$' + lastFcast.lower.toFixed(2) + '–$' + lastFcast.upper.toFixed(2) + ']</div>' +
         '</div>' +
       '</div>' +
 
@@ -319,7 +319,7 @@
       ctxHtml +
 
       // Disclaimer
-      '<p style="font-size:.68rem;color:var(--muted);margin:8px 0 0;line-height:1.4;">' +
+      '<p style="font-size:.8125rem;color:var(--muted);margin:8px 0 0;line-height:1.4;">' +
         'ARIMA(2,1,1) fitted on only ' + _history.length + ' quarters of national pricing, so this mostly extends the recent trend; it is not a forecast. ' +
         'No interest-rate series predicted pricing over this period: see <a href="article-pricing.html#tceDrivers">what moves LIHTC pricing</a>. ' +
         'Actual pricing depends on investor appetite, CRA demand, credit supply, legislative changes, and macro conditions. ' +

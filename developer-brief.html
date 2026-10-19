@@ -20,19 +20,19 @@
   .ib-brief-meta { display:flex;flex-wrap:wrap;gap:var(--sp2) var(--sp3);margin-top:var(--sp3); }
   .ib-brief-meta-item { font-size:var(--small); cursor: help; }
   .ib-brief-meta-item[title]:hover .label { color: var(--accent); }
-  .ib-brief-meta-item .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block;transition: color .15s; }
+  .ib-brief-meta-item .label { font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block;transition: color .15s; }
   .ib-brief-meta-item .value { font-weight:700;color:var(--text); }
 
   .ib-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
   .ib-card h2 { margin:0 0 .25rem;font-size:.95rem !important;padding-bottom:0;border-bottom:none;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem; }
-  .ib-card h2 .meta { font-size:.72rem;color:var(--muted);font-weight:400; }
+  .ib-card h2 .meta { font-size:.8125rem;color:var(--muted);font-weight:400; }
   /* Source attribution under each card title — required for trust */
   .ib-card-source {
     display:block;
     padding:.25rem 0 .55rem;
     border-bottom:1px solid var(--border);
     margin-bottom:.7rem;
-    font-size:.7rem;
+    font-size:.8125rem;
     color:var(--muted);
     line-height:1.5;
   }
@@ -44,9 +44,9 @@
   /* Stat grid */
   .ib-stat-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px, 100%),1fr));gap:var(--sp2);margin-top:.4rem; }
   .ib-stat-tile { background:var(--bg2);border-radius:var(--radius-sm);padding:.65rem .8rem;border-left:3px solid var(--accent); }
-  .ib-stat-tile .label { font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.2rem; }
+  .ib-stat-tile .label { font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.2rem; }
   .ib-stat-tile .value { font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.1; }
-  .ib-stat-tile .sub { font-size:.7rem;color:var(--muted);margin-top:.15rem; }
+  .ib-stat-tile .sub { font-size:.8125rem;color:var(--muted);margin-top:.15rem; }
   .ib-stat-tile.good { border-left-color:var(--good); }
   .ib-stat-tile.warn { border-left-color:var(--warn); }
   .ib-stat-tile.bad  { border-left-color:var(--bad); }
@@ -55,9 +55,9 @@
   /* Policy progress pills */
   .ib-progress-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:var(--sp2);margin-top:var(--sp2); }
   .ib-progress-pill { padding:.6rem .8rem;border-radius:var(--radius);border:1px solid var(--border);display:block;text-decoration:none;color:inherit; }
-  .ib-progress-pill .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.25rem; }
+  .ib-progress-pill .label { font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.25rem; }
   .ib-progress-pill .status { font-weight:700;font-size:.9rem; }
-  .ib-progress-pill .detail { font-size:.75rem;color:var(--muted);margin-top:.2rem;line-height:1.4; }
+  .ib-progress-pill .detail { font-size:.8125rem;color:var(--muted);margin-top:.2rem;line-height:1.4; }
   .ib-progress-pill[data-status="active"]      { border-left:4px solid var(--good); }
   .ib-progress-pill[data-status="in_progress"] { border-left:4px solid var(--warn); }
   .ib-progress-pill[data-status="planning"]    { border-left:4px solid var(--accent); }
@@ -69,7 +69,7 @@
   /* Rent table */
   .ib-rent-table { width:100%;border-collapse:collapse;font-size:var(--small);margin-top:.4rem; }
   .ib-rent-table th, .ib-rent-table td { padding:.4rem .5rem;border-bottom:1px solid var(--border);text-align:left; }
-  .ib-rent-table th { font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em; }
+  .ib-rent-table th { font-size:.8125rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em; }
   .ib-rent-table td.num { text-align:right;font-variant-numeric:tabular-nums; }
   .ib-rent-table tr.highlight td { background:color-mix(in oklab,var(--accent) 6%,transparent 94%);font-weight:700; }
 
@@ -81,13 +81,13 @@
   .ib-prop-list li[aria-expanded="true"] { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
   .ib-prop-list li:hover { background:color-mix(in oklab,var(--accent) 2%,transparent 98%); }
   .ib-prop-name { font-weight:600;color:var(--text); }
-  .ib-prop-meta { font-size:.7rem;color:var(--muted); }
+  .ib-prop-meta { font-size:.8125rem;color:var(--muted); }
 
   /* Signal rows */
   .ib-signal-row { padding:.6rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
   .ib-signal-row:last-child { border-bottom:none; }
-  .ib-signal-meta { font-size:.7rem;color:var(--muted);margin-bottom:.15rem; }
-  .ib-chip { display:inline-block;padding:1px 7px;border-radius:9999px;font-size:.65rem;font-weight:700;margin-left:.3rem; }
+  .ib-signal-meta { font-size:.8125rem;color:var(--muted);margin-bottom:.15rem; }
+  .ib-chip { display:inline-block;padding:1px 7px;border-radius:9999px;font-size:.8125rem;font-weight:700;margin-left:.3rem; }
   .ib-chip-strong { background:color-mix(in oklab,var(--good) 26%,var(--card) 74%);color:var(--good); }
   .ib-chip-moderate { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%);color:var(--warn); }
   .ib-chip-weak { background:var(--bg2);color:var(--muted);border:1px solid var(--border); }
@@ -100,7 +100,7 @@
 
   /* Local resources list */
   .ib-res-section { margin-top:.7rem; }
-  .ib-res-section h3 { font-size:.78rem !important;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 .35rem; }
+  .ib-res-section h3 { font-size:.8125rem !important;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 .35rem; }
   .ib-res-section ul { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.6; }
 
   /* Checklist */
@@ -192,7 +192,7 @@
         <button id="reportDownload" type="button" disabled>Download file</button>
       </div>
     </div>
-    <div id="pickerStatus" role="status" style="font-size:.78rem;color:var(--muted);margin-top:.4rem;">Loading the jurisdiction list…</div>
+    <div id="pickerStatus" role="status" style="font-size:.8125rem;color:var(--muted);margin-top:.4rem;">Loading the jurisdiction list…</div>
   </div>
 
   <div id="briefContent">
@@ -587,13 +587,13 @@
       </p>`;
 
     const status = !hasKey
-      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.8125rem;">
            <div id="lbDeferredReason">Regrid access is not funded (#1612); no cached scan is available.</div>
            If you hold your own Regrid key, add it via the Data Quality Dashboard;
            it is stored only in this browser.
          </div>`
       : !haveCoords
-      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.8125rem;">
            No centroid available for this jurisdiction — can't scan.
          </div>`
       : '';
@@ -601,12 +601,12 @@
     const controls = (hasKey && haveCoords) ? `
       <div style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;margin:.5rem 0 .65rem;font-size:.82rem;">
         <label style="display:flex;flex-direction:column;gap:.15rem;">
-          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Min acres</span>
+          <span style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Min acres</span>
           <input type="number" id="lbMinAcres" min="1" step="0.5" value="5"
             style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
         </label>
         <label style="display:flex;flex-direction:column;gap:.15rem;">
-          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Radius (miles)</span>
+          <span style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Radius (miles)</span>
           <input type="number" id="lbRadius" min="1" max="25" step="0.5" value="3"
             style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
         </label>
@@ -615,10 +615,10 @@
           🏞 Scan for vacant parcels
         </button>
         ${cached ? `<button id="lbReuseBtn" type="button"
-          style="background:var(--bg2);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius-sm);font-size:.78rem;cursor:pointer;">
+          style="background:var(--bg2);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius-sm);font-size:.8125rem;cursor:pointer;">
           Use cached (${new Date(cached.ts).toLocaleDateString()})
         </button>` : ''}
-        <span id="lbCost" style="font-size:.7rem;color:var(--muted);margin-left:auto;">
+        <span id="lbCost" style="font-size:.8125rem;color:var(--muted);margin-left:auto;">
           Estimated cost: <strong>1 Regrid API call</strong>
         </span>
       </div>
@@ -659,23 +659,23 @@
           <td style="text-align:right">${pr.acres != null ? Number(pr.acres).toFixed(1) : '—'}</td>
           <td>${esc(pr.zoning || '—')}</td>
           <td>${esc(pr.landUseCode || '—')}</td>
-          <td><a href="https://regrid.com/us/co/${pr.parcelId || ''}" target="_blank" rel="noopener" style="font-size:.7rem;">Regrid ↗</a></td>
+          <td><a href="https://regrid.com/us/co/${pr.parcelId || ''}" target="_blank" rel="noopener" style="font-size:.8125rem;">Regrid ↗</a></td>
         </tr>`;
     }).join('');
     // F246 — Source provenance badge so users see whether they're reading
     // from the weekly server-side scan (no quota cost) or a live API call.
     const srcBadge = opts.dataSource === 'cache'
-      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Loaded from the server-side scan generated on the date shown. No scheduled refresh while Regrid is deferred (#1612).">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
+      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.8125rem;font-weight:700;margin-right:.4rem;" title="Loaded from the server-side scan generated on the date shown. No scheduled refresh while Regrid is deferred (#1612).">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
       : (opts.dataSource === 'live'
-          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call against your own key (billable).">⚡ LIVE</span>`
+          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.8125rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call against your own key (billable).">⚡ LIVE</span>`
           : '');
     return `
-      <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted);">
+      <div style="margin-top:.4rem;font-size:.8125rem;color:var(--muted);">
         ${srcBadge}<strong>${parcels.length}</strong> parcels matched
         (≥ ${opts.minAcres} ac, ${opts.radius} mi radius, private + vacant/agricultural)
       </div>
       <div style="overflow-x:auto;margin-top:.4rem;">
-        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:.8125rem;">
           <thead>
             <tr style="background:var(--bg2);text-align:left;">
               <th style="padding:.3rem .4rem;">#</th>
@@ -691,7 +691,7 @@
         </table>
       </div>
       <button id="lbCsvBtn" type="button"
-        style="margin-top:.5rem;background:var(--bg2);border:1px solid var(--border);padding:.3rem .7rem;border-radius:var(--radius-sm);font-size:.72rem;cursor:pointer;">
+        style="margin-top:.5rem;background:var(--bg2);border:1px solid var(--border);padding:.3rem .7rem;border-radius:var(--radius-sm);font-size:.8125rem;cursor:pointer;">
         Download CSV
       </button>`;
   }
@@ -806,7 +806,7 @@
         _lbSaveCache(geoid, { parcels: filtered, opts });
         renderAndWireResults(filtered, opts);
       } catch (e) {
-        resultsEl.innerHTML = '<div style="background:color-mix(in oklab, var(--bad) 8%, var(--card) 92%);border-left:3px solid var(--bad);padding:.55rem .75rem;font-size:.78rem;">Scan failed: ' + esc(e.message || String(e)) + '</div>';
+        resultsEl.innerHTML = '<div style="background:color-mix(in oklab, var(--bad) 8%, var(--card) 92%);border-left:3px solid var(--bad);padding:.55rem .75rem;font-size:.8125rem;">Scan failed: ' + esc(e.message || String(e)) + '</div>';
       } finally {
         btn.disabled = false;
         btn.textContent = '🏞 Re-scan';
@@ -842,7 +842,7 @@
             </li>
           `).join('')}
         </ul>
-        <p style="font-size:.7rem;color:var(--muted);margin:.6rem 0 0;">Persists in your browser only — not synced.</p>
+        <p style="font-size:.8125rem;color:var(--muted);margin:.6rem 0 0;">Persists in your browser only — not synced.</p>
       </div>
     `;
   }

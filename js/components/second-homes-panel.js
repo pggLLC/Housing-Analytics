@@ -165,9 +165,9 @@
       '.shp-caution { color: var(--warn, inherit); }',
       '.shp-list { list-style:none; padding:0; margin:.2rem 0; }',
       '.shp-item { padding:.45rem .6rem; margin-bottom:.4rem; border:1px solid var(--border); border-radius:6px; font-size:.9rem; line-height:1.45; }',
-      '.shp-item__src { font-size:.8rem; color: var(--muted); margin-top:.2rem; }',
-      '.shp-badge { font-size:.75rem; font-weight:700; padding:1px 7px; border-radius:9px; border:1px solid var(--border-strong, var(--border)); }',
-      '.shp-scope { font-size:.78rem; color: var(--muted); }'
+      '.shp-item__src { font-size:.8125rem; color: var(--muted); margin-top:.2rem; }',
+      '.shp-badge { font-size:.8125rem; font-weight:700; padding:1px 7px; border-radius:9px; border:1px solid var(--border-strong, var(--border)); }',
+      '.shp-scope { font-size:.8125rem; color: var(--muted); }'
     ].join('\n');
     document.head.appendChild(st);
   }

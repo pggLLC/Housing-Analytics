@@ -789,7 +789,7 @@
       el.style.cssText =
         'position:absolute;z-index:9999;display:none;max-width:320px;' +
         'padding:.55rem .75rem;border-radius:8px;background:#1f2937;color:#f9fafb;' +
-        'font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
+        'font-size:.8125rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
         'pointer-events:none;font-family:system-ui,-apple-system,sans-serif';
       document.body.appendChild(el);
       return el;
@@ -848,7 +848,7 @@
       legend.className = 'lihtc-trend-event-legend';
       legend.style.cssText =
         'display:flex;flex-wrap:wrap;gap:.45rem .65rem;margin-top:.4rem;' +
-        'padding:.35rem .15rem;font-size:.7rem;line-height:1.3;' +
+        'padding:.35rem .15rem;font-size:.8125rem;line-height:1.3;' +
         'border-top:1px dashed var(--border);';
       trendLegendEvents.forEach(function (evt) {
         var chip = document.createElement('span');
