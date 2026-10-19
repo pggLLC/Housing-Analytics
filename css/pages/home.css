@@ -251,6 +251,12 @@
   background: var(--bg2);
 }
 
+@media (max-width: 600px) {
+  #homeNeedMap {
+    height: 260px;
+  }
+}
+
 /* Leaflet needs an explicit stacking context or its panes can bleed above
    the site header on some browsers. */
 #homeNeedMap .leaflet-container {
@@ -303,9 +309,11 @@
 
 .home-need-legend__swatch {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 2px;
+  /* Ring keeps the darkest swatch visible on the dark-mode background. */
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 /* F2.3: Job-routing rail under the jurisdiction-first CTA. The detailed

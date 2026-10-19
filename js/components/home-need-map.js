@@ -87,6 +87,9 @@
         var map = window.L.map(mount, {
           zoomControl: false,
           attributionControl: false,
+          // Fractional zoom so fitBounds fills the box instead of snapping
+          // down to the next whole zoom level (which left the state small).
+          zoomSnap: 0.1,
           dragging: false,
           touchZoom: false,
           scrollWheelZoom: false,

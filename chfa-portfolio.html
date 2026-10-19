@@ -668,7 +668,7 @@
           ? '<span title="Neither a Difficult Development Area nor a Qualified Census Tract">No</span>'
           : '<span class="portfolio-unpublished" title="CHFA does not publish DDA or QCT status in this dataset. An empty cell here would read as &quot;no&quot;, which is not what the source says.">Not published</span>';
       return `<tr>
-        <td style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
+        <td style="font-weight:600;min-width:10rem;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
         <td>${r.PROJ_CTY || '—'}</td>
         <td>${r._county || '—'}</td>
         <td style="text-align:right;">${fmt(r.N_UNITS)}</td>

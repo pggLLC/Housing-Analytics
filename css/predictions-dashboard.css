@@ -159,9 +159,8 @@
 .hp-prob-label {
   font-size: 0.82rem;
   color: var(--text2, #444);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .hp-bar-wrap {
