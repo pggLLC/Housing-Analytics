@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-18T23:56:38.922Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T00:59:10.882Z. Do not edit by hand.
 
 ---
 
@@ -1904,7 +1904,7 @@
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 21.8 KB |
-| `test/deal-calc-credit-stack-page.test.js` | 9.0 KB |
+| `test/deal-calc-credit-stack-page.test.js` | 13.8 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 11.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
@@ -1930,7 +1930,7 @@
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 54.5 KB |
-| `test/deal-credit-stack.test.js` | 8.4 KB |
+| `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 7.9 KB |
 | `test/deal-engine-surfaces.test.js` | 13.0 KB |
@@ -2017,7 +2017,7 @@
 | `test/guided-path-product-routes.test.js` | 15.4 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
-| `test/helpers/deal-engine-b1-expected.cjs` | 3.1 KB |
+| `test/helpers/deal-engine-b1-expected.cjs` | 3.7 KB |
 | `test/helpers/deal-engine-inputs.cjs` | 1.4 KB |
 | `test/helpers/deal-engine-l1-expected.cjs` | 1.2 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
@@ -2353,7 +2353,7 @@
 | `test/tract-point-placement.test.js` | 2.2 KB |
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.4 KB |
-| `test/transit-zone-funding-line.test.js` | 26.5 KB |
+| `test/transit-zone-funding-line.test.js` | 26.8 KB |
 | `test/transit-zone.test.js` | 39.7 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
