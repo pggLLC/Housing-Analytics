@@ -376,7 +376,7 @@
       $('reportPdf').disabled = $('reportDownload').disabled = !current;
       $('pickerStatus').textContent = model.error || ('Report for ' + model.name + ', built ' + model.generated + ' from the current data.');
       wireTools(geoid, name, pipe, brief);
-      mountPlaceCard(geoid, name, related, window.PlaceCard ? window.PlaceCard.researchedFor(contacts, relatedContacts) : []);
+      mountPlaceCard(geoid, name, related, window.PlaceCard ? window.PlaceCard.researchedFor(contacts, relatedContacts) : [], contacts && contacts.about);
     }).catch(e => { $('briefContent').innerHTML = '<div class="ib-prompt">Could not build the report: ' + esc(e.message) + '</div>'; });
   }
 
@@ -473,14 +473,14 @@
   // discussion log (saved on the site through api/notes).
   // Redraws the card from the current pipeline (after a Working tools edit).
   let redrawPlaceCard = () => {};
-  function mountPlaceCard(geoid, name, related, researched) {
+  function mountPlaceCard(geoid, name, related, researched, about) {
     const mount = $('placeCardMount');
     if (!mount || !window.PlaceCard) return;
     let notes = null, state = 'loading';
     const draw = () => {
       const mine = PW && WS ? PW.forPlace(WS, PIPE_ROWS, geoid, related) : { own: { network: [], signals: [], pipeline: PIPE[geoid] || null, anti: null } };
       mount.innerHTML = window.PlaceCard.render({
-        name, geoid, pipeline: mine.own.pipeline || PIPE[geoid] || null, network: mine.own.network, researched,
+        name, geoid, about, pipeline: mine.own.pipeline || PIPE[geoid] || null, network: mine.own.network, researched,
         signals: mine.own.signals, ripeness: RIPENESS, anti: mine.own.anti, notes, notesState: state
       });
       if (notes) window.PlaceCard.wireNotes(mount, geoid, saveNote, list => { notes = list; draw(); });
