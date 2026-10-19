@@ -66,7 +66,8 @@ def fetch_branches(year):
     while True:
         d = get("sod", {
             "filters": f"STALPBR:CO AND YEAR:{year}",
-            "fields": "CERT,NAMEFULL,STCNTYBR,CNTYNAMB,CITYBR,BRNUM,DEPSUMBR,STALP",
+            "fields": ("CERT,NAMEFULL,STCNTYBR,CNTYNAMB,CITYBR,BRNUM,DEPSUMBR,STALP,"
+                       "ADDRESBR,ZIPBR,SIMS_LATITUDE,SIMS_LONGITUDE"),
             "limit": 1000, "offset": offset,
         })
         rows += [x["data"] for x in d["data"]]
@@ -125,6 +126,7 @@ def main():
         sys.exit(f"FDIC download failed: {e}")
 
     banks = {}
+    offices = []
     # Seed all 64 counties so a county with no branch is present with no banks.
     geo = json.loads((ROOT / "data" / "hna" / "geo-config.json").read_text())
     counties = {c["geoid"]: {"name": c["label"].replace(" County", ""), "banks": {}}
@@ -154,11 +156,22 @@ def main():
         e["branches"] += 1
         # An office with no reported deposits makes the county total unknown
         # (None), not smaller.
+        # One map point per office; the FDIC geocodes each one (SIMS_*).
+        lat, lon = b.get("SIMS_LATITUDE"), b.get("SIMS_LONGITUDE")
+        if lat is not None and lon is not None:
+            offices.append([str(c), round(lat, 5), round(lon, 5),
+                            b.get("ADDRESBR") or "", b.get("CITYBR") or "",
+                            str(b.get("ZIPBR") or ""), fips])
         dep = b.get("DEPSUMBR")
         if dep is None or e["deposits_k"] is None:
             e["deposits_k"] = None
         else:
             e["deposits_k"] += dep
+
+    # Same guard as the pulls: a reply that drops the coordinates would wipe
+    # the branch dots while the page still says every branch is shown.
+    if len(offices) < MIN_COVERAGE * len(branches):
+        sys.exit(f"FDIC download failed: only {len(offices)} of {len(branches)} offices have a location")
 
     for bk in banks.values():
         bk["co_counties"].sort()
@@ -174,14 +187,17 @@ def main():
                      "areas themselves. Credit unions are not covered by the CRA."),
             "branch_count": len(branches),
             "bank_count": len(banks),
+            "office_points": len(offices),
         },
         "banks": {str(k): v for k, v in sorted(banks.items())},
         "counties": dict(sorted(counties.items())),
+        # [cert, lat, lon, street, city, zip, county fips] for each office with a location.
+        "offices": sorted(offices),
     }
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUT_FILE.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
     print(f"wrote {OUT_FILE.relative_to(ROOT)}: {len(branches)} branches, "
-          f"{len(banks)} banks, {len(counties)} counties")
+          f"{len(banks)} banks, {len(counties)} counties, {len(offices)} mapped")
 
 
 if __name__ == "__main__":

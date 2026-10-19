@@ -35,8 +35,9 @@
     { min: 0, color: '#f1f1f1', label: 'No bank branch' },
   ];
   var EXPANSIVE_COLOR = '#6baed6';
-  var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information.';
-  var EXP_LABEL = 'Map of Colorado with every county shaded the same: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
+  var OFFICE_COLOR = '#d94801'; // orange, apart from the blue county shades
+  var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each, with a dot at each branch office. Choose a county from the list below the map for the same information.';
+  var EXP_LABEL = 'Map of Colorado with every county shaded the same, with a dot at each branch office: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
 
   var SIZE_LABEL = {
     large: 'Large (investment test)',
@@ -147,6 +148,9 @@
         };
       }
 
+      // Counties and branch dots share Leaflet's one SVG layer: dots, added
+      // later, draw on top, and a click off a dot still reaches the county.
+      // (Not canvas: the site's global canvas width rule distorts it.)
       var layer = window.L.geoJSON(boundaries, {
         style: style,
         onEachFeature: function (feature, fl) {
@@ -155,20 +159,138 @@
             var n = countIn(g);
             return esc(names[g]) + ': ' + n + (n === 1 ? ' bank' : ' banks') + ' with a branch';
           }, { sticky: true });
-          fl.on('click', function () { choose(g); });
+          fl.on('click', function (e) {
+            if (openNearestOffice(e.containerPoint)) return;
+            choose(g);
+          });
           fl.on('add', function () {
             var el = fl.getElement && fl.getElement();
             if (el) el.style.cursor = 'pointer';
           });
         },
       }).addTo(map);
+      // One dot per branch office. The dots themselves take no clicks: a tap
+      // within hitPx() of a dot opens the nearest one, which gives each dot a
+      // 44px target without covering the counties. The county panel lists the
+      // same addresses for keyboard and screen-reader users.
+      // 44px target for fingers; a mouse is precise, so it gets a small one
+      // and a click between dots still picks the county. Read per tap, since
+      // a touchscreen laptop has both.
+      var lastPointer = '';
+      mount.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || ''; }, true);
+      function hitPx() {
+        if (lastPointer) return lastPointer === 'mouse' ? 6 : 22;
+        return window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches ? 22 : 6;
+      }
+      var OVERLAP_PX = 4, MAX_POP = 6;
+      var officeLayer = window.L.layerGroup();
+      var officeDots = [];
+      (data.offices || []).forEach(function (o) {
+        if (!banks[o[0]]) return;
+        var ll = window.L.latLng(o[1], o[2]);
+        window.L.circleMarker(ll, {
+          radius: 3, weight: 1, color: '#fff', interactive: false,
+          fillColor: OFFICE_COLOR, fillOpacity: 0.9,
+        }).addTo(officeLayer);
+        officeDots.push({ o: o, ll: ll });
+      });
+
+      // list: every office under the tapped dot; g: the tapped office's county.
+      function officePopup(list, g) {
+        function button(c, many) {
+          return names[c] ? '<br><button type="button" class="cra-map__popcounty" data-g="' + esc(c) +
+            '"' + (many ? ' data-open="1">List the branches in ' : '>All banks in ') +
+            esc(names[c]) + '</button>' : '';
+        }
+        var county = button(g, false);
+        // A city center at statewide scale is dozens of dots in one spot, too
+        // many for a popup; the county address lists have them all, so offer
+        // one for each county in the cluster, the tapped one first.
+        if (list.length > MAX_POP) {
+          var gs = [g];
+          list.forEach(function (o) { if (gs.indexOf(o[6]) < 0) gs.push(o[6]); });
+          return '<strong>' + list.length + ' branches are too close together to pick one at this scale.</strong>' +
+            gs.map(function (c) { return button(c, true); }).join('');
+        }
+        return (list.length > 1 ? '<strong>' + list.length + ' branches at this spot</strong><hr>' : '') + list.map(function (o) {
+          var b = banks[o[0]];
+          return '<strong>' + bankLink(o[0], b.name) + '</strong><br>' +
+            esc(o[3]) + '<br>' + esc(o[4]) + ', CO ' + esc(o[5]) + '<br>' +
+            'CRA size: ' + esc(SIZE_LABEL[b.cra_size] || 'Unknown');
+        }).join('<hr>') +
+          // The tap that opened this may have been meant for the county, which
+          // dots crowd on a phone, so offer the county too.
+          county;
+      }
+
+      mount.addEventListener('click', function (e) {
+        var btn = e.target.closest && e.target.closest('.cra-map__popcounty');
+        if (!btn) return;
+        map.closePopup();
+        // "All banks in X" means the banks with a branch there, which is the
+        // conservative view; the expansive one lists the others.
+        var cons = root.querySelector('[data-cra-mode="conservative"]');
+        if (mode !== 'conservative' && cons) cons.click();
+        choose(btn.getAttribute('data-g'));
+        var list = btn.getAttribute('data-open') && panel.querySelector('.cra-map__addresses');
+        if (list) list.open = true;
+        (list || panel).scrollIntoView({ block: 'nearest' });
+      });
+
+      function openNearestOffice(pt) {
+        if (!pt || !map.hasLayer(officeLayer)) return false;
+        var best = null, bestD = hitPx();
+        officeDots.forEach(function (d) {
+          var dist = map.latLngToContainerPoint(d.ll).distanceTo(pt);
+          if (dist <= bestD) { bestD = dist; best = d; }
+        });
+        if (!best) return false;
+        // Dots drawn on top of one another (a shared building, or a dense
+        // downtown at statewide scale) are one dot to the eye, so the popup
+        // lists every office under it. Some banks report two offices (say, a
+        // lobby and a drive-up) at one address; name each once.
+        var at = map.latLngToContainerPoint(best.ll);
+        var seen = {};
+        var here = officeDots.filter(function (d) {
+          var k = d.o[0] + '|' + d.o[3];
+          if (seen[k] || map.latLngToContainerPoint(d.ll).distanceTo(at) > OVERLAP_PX) return false;
+          seen[k] = true;
+          return true;
+        }).map(function (d) { return d.o; });
+        window.L.popup({ maxHeight: 200 }).setLatLng(best.ll).setContent(officePopup(here, best.o[6])).openOn(map);
+        return true;
+      }
+      var showOffices = root.querySelector('#craOffices');
+      if (data.offices && data.offices.length) {
+        officeLayer.addTo(map);
+        if (showOffices) {
+          showOffices.addEventListener('change', function () {
+            if (showOffices.checked) officeLayer.addTo(map); else map.removeLayer(officeLayer);
+            drawLegend();
+          });
+        }
+      } else if (showOffices) {
+        showOffices.closest('label').hidden = true;
+      }
+
       var bounds = layer.getBounds();
-      map.fitBounds(bounds, { padding: [4, 4] });
+      // On touch screens, leave a finger's reach (the 22px hit radius) around
+      // the state so border dots keep their whole target inside the map.
+      var FIT_PAD = window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches ? [22, 22] : [4, 4];
+      map.fitBounds(bounds, { padding: FIT_PAD });
+      // A tap just outside the state line can still be meant for a border
+      // dot, so an invisible frame around the counties catches those taps.
+      window.L.rectangle(bounds.pad(0.1), { stroke: false, fillOpacity: 0, className: 'cra-map__frame' })
+        .on('click', function (e) { openNearestOffice(e.containerPoint); })
+        .addTo(map).bringToBack();
       var t = null;
       window.addEventListener('resize', function () {
         clearTimeout(t);
-        t = setTimeout(function () { map.invalidateSize(); map.fitBounds(bounds, { padding: [4, 4] }); }, 150);
+        t = setTimeout(function () { map.invalidateSize(); map.fitBounds(bounds, { padding: FIT_PAD }); }, 150);
       });
+      // A popup near the edge pans the map to fit; the map can't be dragged
+      // back, so put the whole state back in view when the popup closes.
+      map.on('popupclose', function () { map.fitBounds(bounds, { padding: FIT_PAD, animate: false }); });
 
       Object.keys(names).sort(function (a, b) { return names[a].localeCompare(names[b]); }).forEach(function (g) {
         var o = document.createElement('option');
@@ -203,14 +325,20 @@
       }
 
       function drawLegend() {
+        var html;
         if (mode === 'conservative') {
-          legend.innerHTML = BINS.map(function (b) {
+          html = BINS.map(function (b) {
             return '<span class="cra-map__key"><i style="background:' + b.color + '"></i>' + esc(b.label) + '</span>';
           }).join('');
         } else {
-          legend.innerHTML = '<span class="cra-map__key"><i style="background:' + EXPANSIVE_COLOR +
+          html = '<span class="cra-map__key"><i style="background:' + EXPANSIVE_COLOR +
             '"></i>Every county: a large or intermediate small bank with a Colorado branch may get credit here, if it has served its own areas first</span>';
         }
+        if (map.hasLayer(officeLayer)) {
+          html += '<span class="cra-map__key"><i class="cra-map__dot" style="background:' + OFFICE_COLOR +
+            '"></i>Bank branch (click a dot for its bank and address)</span>';
+        }
+        legend.innerHTML = html;
       }
 
       // cells: [[label, html], ...]; labels show on phones, where rows stack.
@@ -229,6 +357,20 @@
       var TAIL_HEAD = '<th scope="col" data-tip="Set by total assets on December 31 of the two prior years. Only large banks are graded on an investment test; intermediate small banks on a community development test that includes investments; small banks on lending only.">CRA size</th>' +
         '<th scope="col" data-tip="The federal agency that examines the bank for CRA. Its performance evaluation search has the bank\'s assessment areas.">Examiner</th>' +
         '<th scope="col" data-tip="Main office city and state, from the FDIC.">Headquarters</th>';
+
+      // Every office in the county, as text: the keyboard route to what the
+      // map's dots show.
+      function officesHtml(g) {
+        var list = officeDots.filter(function (d) { return d.o[6] === g; }).map(function (d) { return d.o; });
+        if (!list.length) return '';
+        list.sort(function (a, b) {
+          return banks[a[0]].name.localeCompare(banks[b[0]].name) || a[3].localeCompare(b[3]);
+        });
+        return '<details class="cra-map__addresses"><summary>Branch addresses in ' + esc(names[g]) +
+          ' (' + list.length + ')</summary><ul>' + list.map(function (o) {
+            return '<li>' + bankLink(o[0], banks[o[0]].name) + ': ' + esc(o[3]) + ', ' + esc(o[4]) + ' ' + esc(o[5]) + '</li>';
+          }).join('') + '</ul></details>';
+      }
 
       function drawPanel() {
         if (!selected) {
@@ -252,7 +394,7 @@
             '<th scope="col" data-tip="Deposits booked at this bank\'s offices in the county, as of June 30.">Deposits here</th>' +
             TAIL_HEAD + '</tr></thead><tbody>' +
             rowsHtml(hereCerts, function (c) { return row(c, [['Branches here', here[c].branches], ['Deposits here', money(here[c].deposits_k)]]); }) +
-            '</tbody></table></div>' + moreButton(hereCerts.length);
+            '</tbody></table></div>' + moreButton(hereCerts.length) + officesHtml(selected);
         } else {
           var others = Object.keys(banks).filter(function (c) {
             return !here[c] && (banks[c].cra_size === 'large' || banks[c].cra_size === 'intermediate');
@@ -278,7 +420,7 @@
             '<th scope="col" data-tip="Colorado counties where this bank has at least one branch.">Colorado counties</th>' +
             TAIL_HEAD + '</tr></thead><tbody>' +
             rowsHtml(others, function (c) { return row(c, [['Colorado branches', banks[c].co_branches], ['Colorado counties', banks[c].co_counties.length]]); }) +
-            '</tbody></table></div>' + moreButton(others.length);
+            '</tbody></table></div>' + moreButton(others.length) + officesHtml(selected);
         }
       }
 
