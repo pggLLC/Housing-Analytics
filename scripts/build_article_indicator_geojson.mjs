@@ -7,15 +7,17 @@
  *
  * Inputs:
  *   data/co-county-boundaries.json
- *   assets/co-housing-costs/snapshots/acs_county_latest.csv
+ *   assets/co-housing-costs/snapshots/co_county_indicators_full.csv
+ *     (falls back to acs_county_latest.csv, the 4-indicator ACS snapshot)
  *
  * Output:
  *   data/processed/co_county_housing_indicators.geojson
  *
  * Each feature carries the standard TIGER properties (NAME, GEOID, ...)
- * PLUS the indicator columns from the CSV (median_gross_rent,
- * median_hh_income, vacancy_rate, rent_burden_30_plus). The map browser
- * renders one layer per indicator using a choropleth tint.
+ * PLUS the indicator columns from the CSV (the four ACS fields, FHFA HPI
+ * 10-year change, QCEW construction wage, BPS permits per 1,000) and the
+ * years each covers. The map browser renders one layer per indicator using
+ * a choropleth tint and reads the years from these properties.
  *
  * Idempotent: run as often as the article CSV is regenerated.
  */
@@ -120,30 +122,67 @@ async function main() {
     // legacy 4-indicator CSV is the input — downstream choropleth code
     // already handles missing values gracefully.
     props.fhfa_hpi_change_10y         = num(row.fhfa_hpi_change_10y);
+    props.fhfa_base_year              = num(row.fhfa_base_year);
+    props.fhfa_latest_year            = num(row.fhfa_latest_year);
     props.qcew_avg_annual_wage        = num(row.qcew_avg_annual_wage);
     props.qcew_year                   = num(row.qcew_year);
     props.bps_permits_per_1k_5yr_avg  = num(row.bps_permits_per_1k_5yr_avg);
+    props.bps_first_year              = num(row.bps_first_year);
+    props.bps_last_year               = num(row.bps_last_year);
+    props.renter_households           = num(row.renter_households);
+    props.renters_burdened_30_plus    = num(row.renters_burdened_30_plus);
+    props.population                  = num(row.population);
     return { ...f, properties: props };
   });
+
+  // Vintages come from the rows, never from this file: the layer labels and
+  // the article both read them, and a year written here goes stale on the
+  // next refresh. One value per field, or the build stops.
+  const rows = Object.values(byFips);
+  const only = (key) => {
+    const seen = [...new Set(rows.map(r => num(r[key])).filter(v => v != null))];
+    if (seen.length > 1) throw new Error(`${key} differs between counties: ${seen.join(", ")}`);
+    return seen.length ? seen[0] : null;
+  };
+  const acsYear = only("acs_year");
+  const hpiBase = only("fhfa_base_year"), hpiLatest = only("fhfa_latest_year");
+  const qcewYear = only("qcew_year");
+  const bpsFirst = only("bps_first_year"), bpsLast = only("bps_last_year");
+  const acsLabel = acsYear ? `ACS ${acsYear - 4}–${acsYear} 5-year` : "ACS 5-year";
+
+  // Statewide renter burden from the county counts. ACS county counts sum to
+  // the state's, so this is the state figure, not an average of rates.
+  const sum = (key) => rows.reduce((t, r) => (t == null || num(r[key]) == null ? null : t + num(r[key])), 0);
+  const renters = sum("renter_households"), burdened = sum("renters_burdened_30_plus");
 
   const out = {
     type: "FeatureCollection",
     meta: {
-      generated_at: "2026-06-09",
       generated_by: "scripts/build_article_indicator_geojson.mjs",
       source_boundaries: "data/co-county-boundaries.json",
       source_indicators: csvSource,
+      vintages: {
+        acs: acsYear,
+        fhfa_hpi: hpiBase && hpiLatest ? { base: hpiBase, latest: hpiLatest } : null,
+        qcew: qcewYear,
+        bps_permits: bpsFirst && bpsLast ? { first: bpsFirst, last: bpsLast } : null,
+      },
+      statewide: {
+        renter_households: renters,
+        renters_burdened_30_plus: burdened,
+        rent_burden_30_plus: renters && burdened != null ? Math.round(burdened / renters * 10000) / 10000 : null,
+      },
       indicators: [
-        { key: "median_gross_rent",          label: "Median gross rent ($/mo)",            source: "ACS B25064 (2020–2024)",        format: "currency" },
-        { key: "rent_burden_30_plus",        label: "Rent burden ≥30% (share)",            source: "ACS B25070 (2020–2024)",        format: "share" },
-        { key: "vacancy_rate",               label: "Housing vacancy rate (share)",        source: "ACS B25002 (2020–2024)",        format: "share" },
-        { key: "median_hh_income",           label: "Median household income ($)",         source: "ACS B19013 (2020–2024)",        format: "currency" },
-        { key: "fhfa_hpi_change_10y",        label: "FHFA HPI 10-year change (decimal)",   source: "FHFA HPI (2014→2024)",          format: "ratio" },
-        { key: "qcew_avg_annual_wage",       label: "QCEW avg annual construction wage",   source: "BLS QCEW NAICS 23 (latest)",    format: "currency" },
-        { key: "bps_permits_per_1k_5yr_avg", label: "BPS permits per 1k people (5-yr avg)", source: "Census BPS + ACS (5-yr avg)",   format: "ratio" },
+        { key: "median_gross_rent",          label: "Median gross rent ($/mo)",            source: `${acsLabel}, B25064`, format: "currency" },
+        { key: "rent_burden_30_plus",        label: "Rent burden ≥30% (share)",            source: `${acsLabel}, B25070`, format: "share" },
+        { key: "vacancy_rate",               label: "Housing vacancy rate (share)",        source: `${acsLabel}, B25002`, format: "share" },
+        { key: "median_hh_income",           label: "Median household income ($)",         source: `${acsLabel}, B19013`, format: "currency" },
+        { key: "fhfa_hpi_change_10y",        label: "FHFA HPI 10-year change (decimal)",   source: `FHFA All-Transactions HPI, county, ${hpiBase}→${hpiLatest}`, format: "ratio" },
+        { key: "qcew_avg_annual_wage",       label: "QCEW avg annual construction wage",   source: `BLS QCEW, NAICS 23, private, ${qcewYear}`, format: "currency" },
+        { key: "bps_permits_per_1k_5yr_avg", label: "BPS permits per 1k people (5-yr avg)", source: `Census BPS ${bpsFirst}–${bpsLast} ÷ ${acsLabel} population`, format: "ratio" },
       ],
       join_stats: { matched: joined, unmatched: missing, total: features.length },
-      note: "Re-run after the article pipeline (build_co_housing_costs_insight.py) regenerates the CSV.",
+      note: "Rebuilt by update-co-housing-costs.yml after build_article_full_indicators.py regenerates the CSV. A null is a value the source does not publish (FHFA has no index where sales are few; BLS suppresses small counties), never a zero.",
     },
     features,
   };

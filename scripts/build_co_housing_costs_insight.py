@@ -760,6 +760,13 @@ def fetch_bls_ppi(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame"
 # ---------------------------------------------------------------------------
 
 QCEW_OUTPUT_COLUMNS = ["county_fips", "qcew_year", "avg_annual_wage", "avg_weekly_wage"]
+QCEW_CHANGE_YEARS = 10  # the statewide pay change the article states
+
+
+def _qcew_column(df_raw: "pd.DataFrame", name: str) -> "pd.Series":
+    if name in df_raw.columns:
+        return df_raw[name].fillna("").astype(str).str.strip()
+    return pd.Series([""] * len(df_raw), index=df_raw.index, dtype=str)
 
 
 def _parse_qcew_annual_slice(
@@ -773,9 +780,7 @@ def _parse_qcew_annual_slice(
     sector aggregation level.
     """
     def col(name: str) -> "pd.Series":
-        if name in df_raw.columns:
-            return df_raw[name].fillna("").astype(str).str.strip()
-        return pd.Series([""] * len(df_raw), index=df_raw.index, dtype=str)
+        return _qcew_column(df_raw, name)
 
     area = col("area_fips")
     mask = (
@@ -816,6 +821,59 @@ def _parse_qcew_annual_slice(
         }
     )
     return out.sort_values("county_fips").reset_index(drop=True)[QCEW_OUTPUT_COLUMNS]
+
+
+def _qcew_state_pay(df_raw: "pd.DataFrame", cfg: Config) -> Optional[int]:
+    """Colorado's statewide private construction pay from an annual slice.
+
+    The state row is area ``08000`` at the state-by-NAICS-sector level
+    (agglvl 54). A suppressed or zero figure is unknown, not $0.
+    """
+    def col(name: str) -> "pd.Series":
+        return _qcew_column(df_raw, name)
+
+    mask = (
+        (col("area_fips") == f"{cfg.QCEW_STATE_FIPS}000")
+        & (col("industry_code") == cfg.QCEW_INDUSTRY_CODE)
+        & (col("qtr").str.upper() == "A")
+        & (col("agglvl_code") == "54")
+        & (col("own_code") == "5")
+        & (col("disclosure_code") == "")
+    )
+    pay = pd.to_numeric(col("avg_annual_pay")[mask], errors="coerce")
+    pay = pay[pay > 0]
+    return int(pay.iloc[0]) if len(pay) == 1 else None
+
+
+def _write_qcew_state_series(cfg: Config, latest_year: int, latest_raw: "pd.DataFrame") -> None:
+    """Persist statewide pay at both ends of the article's ten-year window.
+
+    article-co-housing-costs.html states Colorado's private construction pay
+    for these two years, and test/county-housing-indicators-sourced.test.mjs
+    compares the article with this file. A failed download leaves the file
+    as it was rather than writing a partial series.
+    """
+    import io
+
+    base_year = latest_year - QCEW_CHANGE_YEARS
+    url = cfg.QCEW_INDUSTRY_URL.format(year=base_year, industry=cfg.QCEW_INDUSTRY_CODE)
+    try:
+        base_raw = pd.read_csv(io.BytesIO(_fetch_url_with_retry(url, timeout=120, retries=3)), dtype=str)
+    except Exception as exc:
+        log.warning("QCEW %d statewide download failed: %s — statewide series unchanged", base_year, exc)
+        return
+    pay = {base_year: _qcew_state_pay(base_raw, cfg), latest_year: _qcew_state_pay(latest_raw, cfg)}
+    if any(v is None for v in pay.values()):
+        log.warning("QCEW statewide pay missing for %s — statewide series unchanged",
+                    [y for y, v in pay.items() if v is None])
+        return
+    path = DATA_DIR / "qcew_construction_state.json"
+    path.write_text(json.dumps({
+        "source": "BLS QCEW annual averages, NAICS 23 (Construction), Colorado (area 08000), private ownership",
+        "url": cfg.QCEW_INDUSTRY_URL,
+        "avg_annual_pay": {str(y): v for y, v in sorted(pay.items())},
+    }, indent=2) + "\n")
+    log.info("Saved QCEW statewide pay %s to %s", pay, path)
 
 
 def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame"]:
@@ -882,6 +940,7 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
             year, len(parsed), usable,
         )
         df = parsed
+        _write_qcew_state_series(cfg, year, df_raw)
         break
 
     if df is None or df.empty:
@@ -899,6 +958,7 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
 # ---------------------------------------------------------------------------
 
 BPS_OUTPUT_COLUMNS = ["county_fips", "bps_year", "total_units"]
+BPS_YEARS = 5  # survey years kept in permits_county.parquet
 
 # Census BPS county files carry two header rows: a group row ("1-unit",
 # "2-units", "3-4 units", "5+ units", then the same four as "rep" revisions)
@@ -975,11 +1035,18 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
         log.info("BPS: loading from cache")
         return pd.read_parquet(cache_path)
 
+    # Census publishes last year's county file in the spring, so from January
+    # until then the newest year is missing. One more year back keeps the
+    # cache at five years; four would leave the data map's five-year permit
+    # average with no complete window for any county.
     now = datetime.datetime.now(datetime.timezone.utc)
-    candidate_years = list(range(now.year - 1, now.year - 6, -1))
+    candidate_years = list(range(now.year - 1, now.year - 2 - BPS_YEARS, -1))
 
     rows: List[Dict[str, Any]] = []
+    years_fetched = 0
     for year in candidate_years:
+        if years_fetched == BPS_YEARS:
+            break
         url = cfg.BPS_BASE_URL.format(year=year)
         log.info("Fetching BPS %d permits from %s …", year, url)
         try:
@@ -998,6 +1065,7 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
             continue
 
         rows.extend(parsed)
+        years_fetched += 1
         log.info(
             "BPS %d: %d counties, %d total units",
             year, len(parsed), sum(r["total_units"] for r in parsed),
@@ -1550,6 +1618,7 @@ Generated by `scripts/build_co_housing_costs_insight.py`.
 | `fhfa_hpi_county_raw.parquet` | FHFA All-Transactions HPI raw annual values + 10y/15y change |
 | `bls_series.parquet` | BLS PPI series observations for construction input commodities |
 | `qcew_construction_county.parquet` | BLS QCEW county-level avg wages for NAICS 23 (Construction) |
+| `qcew_construction_state.json` | BLS QCEW statewide private construction pay at both ends of a 10-year window |
 | `permits_county.parquet` | Census BPS annual residential permit totals by Colorado county |
 | `drivers_ranking.csv` | ElasticNetCV feature coefficients ranked by absolute value |
 

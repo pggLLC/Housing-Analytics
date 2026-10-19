@@ -138,6 +138,22 @@ check(by_fips.loc["08001", "avg_annual_wage"] == 86501,
 check(by_fips.loc["08001", "avg_weekly_wage"] == 1663,
       "reads annual_avg_wkly_wage as the weekly wage")
 
+# The statewide row the article's wage finding is checked against: area 08000
+# at the state-by-sector level. The "08" row above is not a real area code.
+state = pd.DataFrame([
+    annual_row("08000", agglvl="54", pay="85235"),            # keep
+    annual_row("08000", agglvl="54", own="2", pay="82766"),   # state government
+    annual_row("08000", agglvl="54", industry="10", pay="70000"),
+    annual_row("35000", agglvl="54", pay="60000"),            # New Mexico
+], dtype=str)
+check(mod._qcew_state_pay(state, cfg) == 85235,
+      "statewide pay is the private-ownership 08000 row")
+check(mod._qcew_state_pay(state.iloc[1:], cfg) is None,
+      "no private statewide row means unknown, not another ownership's pay")
+suppressed_state = pd.DataFrame([annual_row("08000", agglvl="54", disclosure="N", pay="0")], dtype=str)
+check(mod._qcew_state_pay(suppressed_state, cfg) is None,
+      "a suppressed statewide row is unknown, never $0")
+
 
 # ── 3. Suppressed counties are missing, never zero ──────────────────────────
 # BLS publishes withheld rows with a disclosure_code and a literal 0. Stored as
