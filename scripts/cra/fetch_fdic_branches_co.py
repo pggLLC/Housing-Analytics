@@ -45,6 +45,8 @@ THRESHOLDS = {2026: (1_649_000, 412_000)}  # thousands of dollars
 
 # Colorado has about 1,360 FDIC-insured offices; far fewer means a bad pull.
 MIN_BRANCHES = 1000
+# Share of those banks the institutions and financials lookups must return.
+MIN_COVERAGE = 0.95
 
 
 def get(endpoint, params):
@@ -108,6 +110,11 @@ def main():
         y1, y2 = f"{year - 2}1231", f"{year - 1}1231"
         fin = fetch_by_cert("financials", certs, "CERT,REPDTE,ASSET",
                             f" AND REPDTE:({y1} OR {y2})")
+        # Same guard for the lookups: an empty or partial answer would leave
+        # most banks with no size or examiner.
+        for label, got in (("institutions", inst), ("financials", fin)):
+            if len(set(got) & certs) < MIN_COVERAGE * len(certs):
+                raise RuntimeError(f"{label} covered {len(set(got) & certs)} of {len(certs)} banks")
     except Exception as e:  # network or API failure: keep the committed file
         sys.exit(f"FDIC download failed: {e}")
 
