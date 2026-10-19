@@ -260,7 +260,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Garfield County at #175 with an overall housing-need score of 55.6. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Garfield County at #181 with an overall housing-need score of 55.6. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -560,8 +560,36 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s28",
+      "label": "Nearly 100 homes proposed west of Glenwood Springs — Post Independent",
+      "url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s29",
+      "label": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s30",
+      "label": "Garfield County Housing Summit discusses rising costs, barriers to building — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-housing-summit-discusses-rising-costs-barriers-to-building/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s31",
+      "label": "Roberts Resorts & Communities Acquires King’s Crown in Rifle, Colorado — PR Newswire via Morningstar",
+      "url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -570,7 +598,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -705,7 +733,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -714,7 +742,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -723,7 +751,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -756,34 +784,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s28",
-      "label": "Nearly 100 homes proposed west of Glenwood Springs — Post Independent",
-      "url": "https://www.postindependent.com/news/nearly-100-homes-proposed-west-of-glenwood-springs/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s29",
-      "label": "Garfield County commissioners support tax exemption request for Cavern Springs Mobile Home Park — Post Independent",
-      "url": "https://www.postindependent.com/news/garfield-county-commissioners-support-tax-exemption-request-for-cavern-springs-mobile-home-park/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s30",
-      "label": "Garfield County Housing Summit discusses rising costs, barriers to building — Post Independent",
-      "url": "https://www.postindependent.com/news/garfield-county-housing-summit-discusses-rising-costs-barriers-to-building/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s31",
-      "label": "Roberts Resorts & Communities Acquires King’s Crown in Rifle, Colorado — PR Newswire via Morningstar",
-      "url": "https://www.morningstar.com/news/pr-newswire/20260722da07360/roberts-resorts-communities-acquires-kings-crown-in-rifle-colorado",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ],
   "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."

@@ -455,22 +455,6 @@ def build():
                 lehd_out["CE01"] = int(round(f_low))
                 lehd_out["CE02"] = int(round(f_mid))
                 lehd_out["CE03"] = int(round(f_high))
-                # F101 — Data fix (2026-06-01): data/market/lodes_co.json
-                # had high_wage = 0 for all 1,447 CO tracts (fetch_lodes.py
-                # read the WAC sex columns as wage tiers; fixed 2026-10-18).
-                # Still prefer annualWages[latest] for the CE0X scalars,
-                # since that pipeline aggregates correctly. Drop back to
-                # the tract-LODES values only when annualWages is missing.
-                if annual_wages_acc:
-                    latest_year = sorted(annual_wages_acc.keys())[-1]
-                    latest = annual_wages_acc[latest_year]
-                    aw_low  = latest.get("low",    0) or 0
-                    aw_mid  = latest.get("medium", 0) or 0
-                    aw_high = latest.get("high",   0) or 0
-                    if aw_high > 0 and (aw_low + aw_mid + aw_high) > 0:
-                        lehd_out["CE01"] = int(round(aw_low))
-                        lehd_out["CE02"] = int(round(aw_mid))
-                        lehd_out["CE03"] = int(round(aw_high))
                 cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
                 if cns_prev > 0:
                     scale = f_jobs / cns_prev
@@ -532,6 +516,47 @@ def build():
                 lehd_out["industries"] = rebuilt
                 lehd_out["wac_source"] = "block-scaled"
 
+        # ── Wage tiers and yearly series at the place's own job count ──────
+        # annualEmployment / annualWages above are county totals scaled by
+        # the place's share of county POPULATION, and until 2026-10-19 the
+        # CE01–03 scalars were copied from them. A bedroom town then reported
+        # its county's jobs per resident: Fruita showed 5,645 jobs (2,713 of
+        # them low/middle wage) against 3,087 actually located there, and the
+        # workforce reading counted the difference as homes needed. Keep the
+        # place's own wage mix (tract WAC) and its own job total (block OD,
+        # else tract), and rescale the yearly series to that total so the
+        # trend keeps its shape without the county's magnitude.
+        jobs_here = int(lehd_out.get("C000") or 0)
+        if flows_from_tracts and jobs_here > 0:
+            mix_total = f_low + f_mid + f_high
+            if mix_total > 0 and f_high > 0:
+                mix = (f_low / mix_total, f_mid / mix_total, f_high / mix_total)
+            else:
+                latest_tiers = (lehd_out["annualWages"] or {}).get(
+                    max(lehd_out["annualWages"]), {}) if lehd_out["annualWages"] else {}
+                tier_total = sum(float(latest_tiers.get(t) or 0) for t in ("low", "medium", "high"))
+                mix = tuple(float(latest_tiers.get(t) or 0) / tier_total
+                            for t in ("low", "medium", "high")) if tier_total > 0 else None
+            if mix:
+                ce = [int(round(jobs_here * m)) for m in mix]
+                ce[2] = jobs_here - ce[0] - ce[1]
+                lehd_out["CE01"], lehd_out["CE02"], lehd_out["CE03"] = ce
+            ae = lehd_out["annualEmployment"]
+            if ae:
+                latest_year = max(ae)
+                if ae[latest_year] > 0:
+                    k = jobs_here / ae[latest_year]
+                    lehd_out["annualEmployment"] = {
+                        y: int(round(v * k)) for y, v in ae.items()}
+                    lehd_out["annualEmployment"][latest_year] = jobs_here
+                    lehd_out["annualWages"] = {
+                        y: {t: int(round(v * k)) for t, v in tiers.items()}
+                        for y, tiers in lehd_out["annualWages"].items()}
+            if lehd_out["annualWages"] and mix:
+                lehd_out["annualWages"][max(lehd_out["annualWages"])] = {
+                    "low": lehd_out["CE01"], "medium": lehd_out["CE02"],
+                    "high": lehd_out["CE03"]}
+
         # Coverage: how much of the place is covered by the tract
         # overlaps we know about? Re-uses the place-CHAS convention.
         coverage_share = sum(
@@ -559,8 +584,11 @@ def build():
             "source_place_summary": "data/hna/summary/{place_geoid}.json",
             "source_county_lehd":   "data/hna/lehd/{county}.json",
             "method":
-                "WAC scalars (CE01–03, CNS01–20, C000, annualEmployment, annualWages) "
-                "are county totals apportioned by place_pop_in_county / county_total_pop. "
+                "C000 is the place's own job count (block-level LODES OD, else tract "
+                "LODES weighted by place_pop_in_tract / tract_pop). CE01–03 apply the "
+                "place's tract WAC wage mix to that count. CNS01–20 and the "
+                "annualEmployment / annualWages trend are county totals apportioned by "
+                "population share, then rescaled so their latest year equals C000. "
                 "Commute FLOWS (within/inflow/outflow + residentWorkers/jobs) are instead "
                 "aggregated from tract-level LODES (data/market/lodes_co.json), weighted "
                 "by place_pop_in_tract / tract_pop — flows are NOT proportional to "

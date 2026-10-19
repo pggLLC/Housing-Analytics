@@ -256,7 +256,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Aspen at #46 with an overall housing-need score of 75.7. It identifies 510 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 76.1% of <=30% AMI households. 67.6% of renter households are cost burdened, and 1.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Aspen at #46 with an overall housing-need score of 76.3. It identifies 510 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 76.1% of <=30% AMI households. 67.6% of renter households are cost burdened, and 1.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -276,7 +276,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 6,756. LEHD-based commuting signals show 7,028 in-commuters and a commute ratio of 73.5%. The digest's county-context projection shows 2,855 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 6,756. LEHD-based commuting signals show 7,412 in-commuters and a commute ratio of 74.3%. The digest's county-context projection shows 4,073 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -292,7 +292,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $783,090 and a rent affordability gap of $28,240. The county-context service-sector employment share is 38.2%, and county-context ACS cohorts show median gross rent changed 120.2% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $783,090 and a rent affordability gap of $28,240. The county-context service-sector employment share is 38.2%, and county-context ACS cohorts show median gross rent changed 120.2% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -629,8 +629,22 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s26",
+      "label": "Aspen’s Lumberyard project receives $2.89 million in tax credits — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspens-lumberyard-project-receives-2-89-million-in-tax-credits/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s27",
+      "label": "Aspen One’s creative solution to housing goes live for upcoming season — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspen-ones-creative-solution-to-housing-goes-live-for-upcoming-season/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -639,7 +653,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -774,7 +788,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -783,7 +797,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -792,7 +806,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -825,20 +839,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s26",
-      "label": "Aspen’s Lumberyard project receives $2.89 million in tax credits — Aspen Times",
-      "url": "https://www.aspentimes.com/news/aspens-lumberyard-project-receives-2-89-million-in-tax-credits/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s27",
-      "label": "Aspen One’s creative solution to housing goes live for upcoming season — Aspen Times",
-      "url": "https://www.aspentimes.com/news/aspen-ones-creative-solution-to-housing-goes-live-for-upcoming-season/",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ]
 }

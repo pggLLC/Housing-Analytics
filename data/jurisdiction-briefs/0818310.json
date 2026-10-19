@@ -119,7 +119,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Crested Butte at #196 with an overall housing-need score of 53.1. It identifies 68 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 100% of <=30% AMI households. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Crested Butte at #176 with an overall housing-need score of 56.2. It identifies 68 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 100% of <=30% AMI households. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -139,7 +139,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 1,229. LEHD-based commuting signals show 1,682 in-commuters and a commute ratio of 87.7%. The digest's county-context projection shows 120 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 1,229. LEHD-based commuting signals show 1,554 in-commuters and a commute ratio of 86.6%. The digest's county-context projection shows 846 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -155,7 +155,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.8. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $335,973 and a rent affordability gap of $27,100. The county-context service-sector employment share is 35.6%, and county-context ACS cohorts show median gross rent changed 90.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $335,973 and a rent affordability gap of $27,100. The county-context service-sector employment share is 35.6%, and county-context ACS cohorts show median gross rent changed 90.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -305,8 +305,15 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s4",
+      "label": "34-Unit Affordable Housing Community Opens in Crested Butte — Mile High CRE",
+      "url": "https://milehighcre.com/34-unit-affordable-housing-community-opens-in-crested-butte/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -315,7 +322,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -450,7 +457,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -459,7 +466,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -468,7 +475,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -501,13 +508,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s4",
-      "label": "34-Unit Affordable Housing Community Opens in Crested Butte — Mile High CRE",
-      "url": "https://milehighcre.com/34-unit-affordable-housing-community-opens-in-crested-butte/",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 1229

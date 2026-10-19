@@ -146,7 +146,10 @@ test('the metric discriminates — it did not just raise everything', () => {
   // destroying the metric's ability to separate places. A real zero has to
   // still be reachable, and the top must not be saturated.
   const vals = rows.map((r) => m(r).workforce_gap_pct).filter((v) => typeof v === 'number');
-  assert.ok(vals.length >= 400, `only ${vals.length} usable values; check went vacuous`);
+  // 354 of 546 on 2026-10-19. It was 406 while each town's wage tiers were
+  // its county's jobs scaled by population, which gave small bedroom towns
+  // more low-wage jobs than they host; now under 50 is suppressed for real.
+  assert.ok(vals.length >= 300, `only ${vals.length} usable values; check went vacuous`);
   const zero = vals.filter((v) => v === 0).length;
   const maxed = vals.filter((v) => v === 100).length;
   assert.ok(zero >= 10,
@@ -183,4 +186,28 @@ test('the new metrics are documented in the index catalogue', () => {
     'workforce_gap_units', 'workforce_gap_pct', 'workforce_gap_basis']) {
     assert.ok(ids.has(id), `${id} is published on every row but absent from the metric catalogue`);
   }
+});
+
+test("a town's wage tiers count its own jobs, not its county's", () => {
+  // Fruita read 2,735 low- and middle-wage jobs located there against 3,087
+  // jobs in total: the tiers were Mesa County's, scaled by Fruita's share of
+  // the county's people, and the workforce reading turned the excess into
+  // "2,302 homes needed". The tiers must add up to the place's own job count.
+  const lehd = read('data/hna/place-lehd.json').places;
+  const off = [];
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    if (!(l.C000 > 0) || l.CE01 == null) continue;
+    const tiers = l.CE01 + l.CE02 + l.CE03;
+    // No wage mix at all (Hartsel: population 0, so no tract weight) is a
+    // separate gap, not a county number dressed as a local one.
+    if (tiers === 0 && Object.values(l.annualEmployment || {}).every((v) => !v)) continue;
+    if (Math.abs(tiers - l.C000) > 2) off.push(`${p.name} (${geoid}): tiers ${tiers} vs jobs ${l.C000}`);
+    const ae = l.annualEmployment || {};
+    const yrs = Object.keys(ae).sort();
+    if (yrs.length && ae[yrs[yrs.length - 1]] !== l.C000) {
+      off.push(`${p.name} (${geoid}): latest yearly jobs ${ae[yrs[yrs.length - 1]]} vs jobs ${l.C000}`);
+    }
+  }
+  assert.deepEqual(off.slice(0, 10), [], `${off.length} places disagree with their own job count`);
 });

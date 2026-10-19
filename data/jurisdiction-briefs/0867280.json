@@ -235,7 +235,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Salida at #151 with an overall housing-need score of 60.0. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Salida at #151 with an overall housing-need score of 59.4. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -255,7 +255,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 5,861. LEHD-based commuting signals show 2,361 in-commuters and a commute ratio of 60.9%. The digest's county-context projection shows 629 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 5,861. LEHD-based commuting signals show 2,575 in-commuters and a commute ratio of 64.3%. The digest's county-context projection shows 1,152 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -271,7 +271,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 75.4. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $147,437 and a rent affordability gap of $24,180. The county-context service-sector employment share is 43.4%, and county-context ACS cohorts show median gross rent changed 81% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 76.0. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $147,437 and a rent affordability gap of $24,180. The county-context service-sector employment share is 43.4%, and county-context ACS cohorts show median gross rent changed 81% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -493,8 +493,43 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s31",
+      "label": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-seeks-six-housing-credits-from-buena-vista-to-meet-proposition-123-commitment/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s32",
+      "label": "After Artspace Exits, Salida Seeks New Path For 1st and D Affordable Housing Project — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/after-artspace-exits-salida-seeks-new-path-for-1st-and-d-affordable-housing-project/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s33",
+      "label": "Salida City Council to Consider Stricter Short-Term Rental Rules — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-to-hear-str-requirements-hot-springs-pool-liner-repair-financial-monitoring-policy/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s34",
+      "label": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/chaffee-county-needs-more-than-1000-new-homes-over-next-decade-preliminary-study-finds/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s35",
+      "label": "Salida City Council Hears Housing Needs Assessment Presentation — Ark Valley Voice",
+      "url": "https://arkvalleyvoice.com/salida-city-council-hears-housing-needs-assessment-presentation-salida-data/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -503,7 +538,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -638,7 +673,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -647,7 +682,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -656,7 +691,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -689,41 +724,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s31",
-      "label": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment — Ark Valley Voice",
-      "url": "https://arkvalleyvoice.com/salida-city-council-seeks-six-housing-credits-from-buena-vista-to-meet-proposition-123-commitment/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s32",
-      "label": "After Artspace Exits, Salida Seeks New Path For 1st and D Affordable Housing Project — Ark Valley Voice",
-      "url": "https://arkvalleyvoice.com/after-artspace-exits-salida-seeks-new-path-for-1st-and-d-affordable-housing-project/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s33",
-      "label": "Salida City Council to Consider Stricter Short-Term Rental Rules — Ark Valley Voice",
-      "url": "https://arkvalleyvoice.com/salida-city-council-to-hear-str-requirements-hot-springs-pool-liner-repair-financial-monitoring-policy/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s34",
-      "label": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds — Ark Valley Voice",
-      "url": "https://arkvalleyvoice.com/chaffee-county-needs-more-than-1000-new-homes-over-next-decade-preliminary-study-finds/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s35",
-      "label": "Salida City Council Hears Housing Needs Assessment Presentation — Ark Valley Voice",
-      "url": "https://arkvalleyvoice.com/salida-city-council-hears-housing-needs-assessment-presentation-salida-data/",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ]
 }

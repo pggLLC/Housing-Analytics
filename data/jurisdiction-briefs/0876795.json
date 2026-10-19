@@ -121,7 +121,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Telluride at #34 with an overall housing-need score of 77.6. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Telluride at #41 with an overall housing-need score of 77.3. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -140,7 +140,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 2,160. LEHD-based commuting signals show 2,151 in-commuters and a commute ratio of 82%. The digest's county-context projection shows 958 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 2,160. LEHD-based commuting signals show 2,073 in-commuters and a commute ratio of 79.6%. The digest's county-context projection shows 1,474 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -156,7 +156,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.8. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $511,412 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 113.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.4. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $511,412 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 113.5% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -306,8 +306,15 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s4",
+      "label": "Council discusses hiring consultants to review Telluride housing policies — The Telluride Times",
+      "url": "https://www.telluridenews.com/news/article_faa3af4b-23c1-445b-a6c6-80541f470b37.html",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -316,7 +323,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -442,7 +449,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -451,7 +458,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -460,7 +467,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T21:53:03Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -493,13 +500,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s4",
-      "label": "Council discusses hiring consultants to review Telluride housing policies — The Telluride Times",
-      "url": "https://www.telluridenews.com/news/article_faa3af4b-23c1-445b-a6c6-80541f470b37.html",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ],
   "_meta_population_at_draft": 2160
