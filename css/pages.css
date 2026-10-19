@@ -1099,6 +1099,34 @@ mark {
   .dg-btype__art { width: 64px; height: 43px; }
   .dg-btypes__scale { margin-left: calc(64px + .6rem); }
 }
+/* Deal Calculator: capital stack bar and waterfall ladder (js/components/deal-diagrams.js). */
+.dg-seg--cs1 { background: var(--chart-1); }
+.dg-seg--cs2 { background: var(--chart-2); }
+.dg-seg--cs3 { background: var(--chart-3); }
+.dg-seg--cs4 { background: var(--chart-4); }
+.dg-seg--cs5 { background: var(--chart-5); }
+.dg-seg--cs6 { background: var(--chart-6); }
+.dg-seg--cs7 { background: var(--chart-7); }
+.dg-seg--gap, .dg-gap-key { background: repeating-linear-gradient(135deg, var(--chart-7) 0 4px, transparent 4px 8px); border: 2px solid var(--chart-7); box-sizing: border-box; }
+.dg-seg--unknown, .dg-unknown-key { border: 2px dashed var(--muted); box-sizing: border-box; background: transparent; }
+.dg-stack__key i.dg-gap-key, .dg-stack__key i.dg-unknown-key { background-color: transparent; }
+.dg-costline { position: absolute; top: -5px; bottom: -5px; width: 0; border-left: 2px solid var(--text-strong); }
+.dg-stack__missing { margin: .45rem 0 0; padding-left: 1.1rem; font-size: .8rem; color: var(--muted); }
+.diagram .dg-verdict { margin: .25rem 0 0; font-size: .9rem; font-weight: 600; }
+.dg-ladder__gross { margin: 0 0 .5rem; font-size: .9rem; }
+.dg-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.dg-ladder__step { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 5.5rem; gap: .25rem .75rem; align-items: center; font-size: .82rem; margin: 0; }
+.dg-ladder__name { min-width: 0; }
+.dg-ladder__who { display: block; font-size: .74rem; color: var(--muted); }
+.dg-ladder__track { position: relative; display: block; height: .9rem; background: var(--bg2); border-radius: 3px; }
+.dg-ladder__bar { position: absolute; top: 0; bottom: 0; border-radius: 2px; min-width: 2px; }
+.dg-ladder__step[data-empty="true"] .dg-ladder__bar { display: none; }
+.dg-ladder__step[data-empty="true"] .dg-ladder__name, .dg-ladder__step[data-empty="true"] .dg-ladder__amt { color: var(--muted); }
+.dg-ladder__amt { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+@container (max-width: 520px) {
+  .dg-ladder__step { grid-template-columns: minmax(0, 1fr) auto; }
+  .dg-ladder__track { grid-column: 1 / -1; grid-row: 2; }
+}
 @media print { .diagram { break-inside: avoid; } }
 
 /* "Which document do you need?" — the same guide on the white paper, the

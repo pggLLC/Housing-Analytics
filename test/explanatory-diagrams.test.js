@@ -301,6 +301,66 @@ test('building types: each range bar is drawn from its printed range on one 0-70
   }
 });
 
+/* ── 8. Deal Calculator capital stack and waterfall ladder ──────────────── */
+const DealDiagrams = require('../js/components/deal-diagrams.js');
+const deal = (o) => Object.assign({ tdc: 20e6, mortgage: 3e6, creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false },
+  totalSoftSourceAmt: 1.5e6, deferredDevFee: 0.5e6, gap: 2e6, unavailable: {} }, o);
+
+test('the capital stack pieces are the Sources & Uses figures and fill the cost exactly', () => {
+  const m = DealDiagrams.stackModel(deal());
+  assert.deepStrictEqual(m.segments.map((s) => s.label),
+    ['First mortgage', 'Federal credit equity', 'State credit equity', 'Soft funding', 'Deferred developer fee', 'Gap still to fill']);
+  assert.deepStrictEqual(m.segments.map((s) => s.amount), [3e6, 12e6, 1e6, 1.5e6, 0.5e6, 2e6]);
+  const total = m.segments.reduce((a, s) => a + s.width, 0);
+  assert.ok(Math.abs(total - 1) < 1e-9, `widths add to ${total}, not the whole bar`);
+  assert.strictEqual(m.segments[5].gap, true);
+  assert.ok(DealDiagrams.renderStack(m).includes('gap of $2.00M, 10% of the cost'));
+  checks += 4;
+});
+
+test('an unknown mortgage is unavailable with its reason, never $0', () => {
+  const m = DealDiagrams.stackModel(deal({ mortgage: NaN, gap: NaN, unavailable: { mortgage: 'Rents are missing.', gap: 'Rents are missing.' } }));
+  assert.ok(!m.segments.some((s) => s.label === 'First mortgage'), 'an unknown mortgage is drawn');
+  const rest = m.segments.find((s) => s.unknown);
+  assert.ok(rest && Math.abs(rest.amount - 5e6) < 1e-6, 'the uncovered cost is shown as not yet known');
+  const html = DealDiagrams.renderStack(m);
+  assert.ok(html.includes('First mortgage: unavailable. Rents are missing.'));
+  assert.ok(!/First mortgage <strong>\$0/.test(html));
+  assert.ok(html.includes('The gap cannot be worked out yet.'));
+  checks += 5;
+});
+
+test('a surplus runs past the cost line instead of drawing a gap', () => {
+  const m = DealDiagrams.stackModel(deal({ gap: -1e6, mortgage: 6e6 }));
+  assert.ok(!m.segments.some((s) => s.gap));
+  assert.ok(m.costLine < 1 && Math.abs(m.costLine - 20 / 21) < 1e-9);
+  assert.ok(DealDiagrams.renderStack(m).includes('run $1.00M past the cost'));
+  assert.strictEqual(DealDiagrams.stackModel(deal({ tdc: 0 })).unavailable, 'Total development cost is missing.');
+  checks += 4;
+});
+
+test('each ladder step starts where the one above it ended', () => {
+  const wf = { grossProceeds: 10e6, tiers: [
+    { name: '1. Hard debt payoff (1st mortgage)', amount: 4e6, recipient: 'Lender' },
+    { name: '2. Soft debt payoff (priority order)', amount: 0, recipient: 'Soft lenders' },
+    { name: '3. Deferred developer fee', amount: 1e6, recipient: 'Developer (GP)' },
+    { name: '4a. LP return of capital', amount: 5e6, recipient: 'LP investor' },
+    { name: '4b. LP preferred return', amount: 0, recipient: 'LP investor' }] };
+  const m = DealDiagrams.ladderModel(wf);
+  assert.deepStrictEqual(m.steps.map((s) => s.left), [0, 0.4, 0.4, 0.5, 1]);
+  assert.deepStrictEqual(m.steps.map((s) => s.width), [0.4, 0, 0.1, 0.5, 0]);
+  assert.deepStrictEqual(m.steps.map((s) => s.empty), [null, 'None owed', null, null, 'Nothing left']);
+  assert.strictEqual(DealDiagrams.ladderModel(null), null);
+  checks += 4;
+});
+
+test('the Deal Calculator loads the diagrams before the calculator publishes a result', () => {
+  const html = read('deal-calculator.html');
+  const at = html.indexOf('js/components/deal-diagrams.js'), calc = html.indexOf('src="js/deal-calculator.js"');
+  assert.ok(at > 0 && at < calc);
+  checks += 1;
+});
+
 /* ── none of them is a chart the axes audit would fail ─────────────────── */
 test('no diagram is an svg[role=img] inside .chart-card', () => {
   const pages = {
