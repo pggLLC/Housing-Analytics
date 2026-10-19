@@ -356,6 +356,8 @@
       });
       bankSelect.addEventListener('change', function () { chooseBank(bankSelect.value || null); });
       function chooseBank(cert) {
+        // An open popup may list banks the new filter hides.
+        map.closePopup();
         focusBank = cert && banks[cert] ? cert : null;
         bankSelect.value = focusBank || '';
         selected = null;
@@ -567,7 +569,12 @@
       panel.addEventListener('click', function (e) {
         // Sorting a half-shown list would mix shown and hidden rows, so a
         // header click shows them all first.
-        if (e.target.closest && e.target.closest('.cra-map__allbanks')) { chooseBank(null); return; }
+        if (e.target.closest && e.target.closest('.cra-map__allbanks')) {
+          // The button goes with the panel, so keep keyboard focus nearby.
+          chooseBank(null);
+          bankSelect.focus();
+          return;
+        }
         if (!e.target.closest || !e.target.closest('.cra-map__showall, thead')) return;
         Array.prototype.forEach.call(panel.querySelectorAll('.cra-map__more'), function (tr) { tr.hidden = false; });
         var btn = panel.querySelector('.cra-map__showall');
