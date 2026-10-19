@@ -360,6 +360,14 @@
         bankSelect.value = focusBank || '';
         selected = null;
         select.value = '';
+        // A bank's branch counties are the conservative reading, so the
+        // reading buttons say so.
+        if (focusBank && mode !== 'conservative') {
+          mode = 'conservative';
+          Array.prototype.forEach.call(modeBtns, function (b) {
+            b.setAttribute('aria-pressed', String(b.getAttribute('data-cra-mode') === 'conservative'));
+          });
+        }
         // The dots are the bank's footprint, so show them even if they were off.
         if (focusBank && showOffices && !showOffices.checked) { showOffices.checked = true; officeLayer.addTo(map); }
         drawOffices();
