@@ -882,6 +882,27 @@
       tags: ['amenities', 'healthcare', 'health-centers', 'gis'],
       apiEndpoint: 'https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv'
     },
+    {
+      id: 'fdic-sod-co-branches',
+      name: 'Colorado Bank Branches and CRA Size (FDIC)',
+      category: 'Finance / CRA',
+      format: 'JSON',
+      provider: 'FDIC (Federal Deposit Insurance Corporation)',
+      url: 'https://banks.data.fdic.gov/bankfind-suite/SOD',
+      localFile: 'data/cra/co-bank-branches.json',
+      lastUpdated: '2026-10-19',
+      // Refreshed by hand: python3 scripts/cra/fetch_fdic_branches_co.py
+      // (no workflow runs it yet; the FDIC publishes new branch data each fall).
+      maintenance: 'curated',
+      maintenanceNote: 'Pulled by hand from the FDIC BankFind API (Summary of Deposits, Institutions, Financials) with scripts/cra/fetch_fdic_branches_co.py; no scheduled job refreshes it.',
+      updateFrequency: 'Curated \u2014 no automated refresh',
+      geoUnit: 'County',
+      coverage: 'Colorado statewide',
+      features: 124,
+      description: 'Every FDIC-insured bank and savings institution office in Colorado as of June 30, 2026, grouped by county, with each bank\u2019s federal examiner and its 2026 CRA size class from total assets on December 31, 2024 and 2025. Drives the bank and CRA coverage map on Who Does What in a Colorado Affordable Deal.',
+      tags: ['banks', 'cra', 'finance', 'branches'],
+      apiEndpoint: 'https://api.fdic.gov/banks/sod'
+    },
     // ── NHPD ─────────────────────────────────────────────────────
     {
       id: 'nhpd-co',
