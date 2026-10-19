@@ -73,7 +73,20 @@ const html = P.render({
   ripeness, notes, notesState: 'off'
 });
 ok(html.includes('id="place-card"') && html.includes('Call first') && html.includes('Sites here') && html.includes('Discussions'), 'the card has its parts');
-ok(html.includes('Open: land held, no developer chosen') && html.includes('Taken: a developer is still on it'), 'each site shows its developer check');
+// The developer check has one contract: the statuses and labels the card uses
+// are the ones Ready to build uses (and the Methodology page explains), in the
+// same order. Each status renders its own label, and an unknown status shows none.
+const R = require(path.join(ROOT, 'js/whitepaper/ripeness.js'));
+const statuses = Object.keys(P.OPENING);
+ok(statuses.join() === Object.keys(R.OPEN).join(), 'the card and Ready to build know the same developer-check statuses');
+ok(statuses.every((k) => R.OPEN[k] === P.OPENING[k].label + '.' && R.OPEN_RANK[k] === P.OPENING[k].rank), 'each status means the same thing, and sorts the same, on both pages');
+ok(statuses.every((k) => read('developer-methods.html').includes('<td>' + P.OPENING[k].label + '</td>')), 'the Methodology page explains every label the card shows');
+for (const k of statuses) {
+  const one = P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: k, why: 'w' } }] } });
+  ok(one.includes('pc-open-' + k + '">' + P.OPENING[k].label) && statuses.filter((j) => j !== k).every((j) => !one.includes(P.OPENING[j].label)), k + ' renders its own label and no other');
+}
+ok(!P.render({ name: 'T', geoid: '0800001', ripeness: { sites: [{ id: 'x', geoid: '0800001', name: 'L', stage: 'not_funded', opening: { status: 'made-up', why: 'w' } }] } }).includes('pc-open'), 'an unknown status shows no developer check');
+ok(html.indexOf(P.OPENING.open.label) < html.indexOf(P.OPENING.taken.label), 'the open site is listed before the taken one');
 ok(html.includes('&lt;now&gt;') && !html.includes('<now>'), 'the card escapes what it shows');
 ok(html.includes('Talked about fees.') && html.includes('id="pcNoteForm"'), 'the log and its form show when the site can save');
 ok(P.render({ name: 'T', geoid: '0800001', notes: null, notesState: 'off' }).includes('saved on the developer site'), 'without the site, the log says where it lives');
@@ -113,6 +126,24 @@ for (const pg of ['developer-methods.html', 'developer-about.html']) {
   ok(read(pg).includes('noindex') && read(pg).includes('js/developer-gate.js') && read(pg).includes('id="devNav"'), pg + ' is a gated developer page');
 }
 ok(read('developer.html').includes('<h1>Start here</h1>') && read('developer.html').includes('id="askMount"'), 'developer home opens with Start here and shows the questions');
+// Codex round 2: a slow save can't be sent twice.
+const askSrc = read('js/whitepaper/ask-pggllc.js');
+{
+  // A fake form: two submits before the save settles post once.
+  let handler = null, posts = 0;
+  const field = (v) => ({ value: v });
+  const btn = { disabled: false };
+  const form = {
+    elements: { date: field('2026-10-19'), contact: field('Mo'), said: field('Hi'), next: field(''), next_date: field('') },
+    addEventListener: (t, fn) => { handler = fn; },
+    querySelector: (q) => (q === '.pc-note-status' ? { textContent: '' } : btn)
+  };
+  const root = { querySelector: () => form, querySelectorAll: () => [] };
+  P.wireNotes(root, '0800001', () => { posts++; return new Promise(() => {}); }, () => {});
+  handler({ preventDefault() {} }); handler({ preventDefault() {} });
+  ok(posts === 1 && btn.disabled, 'the log form ignores a second submit while saving');
+}
+ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');
 ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
 
 console.log('place-card: ' + checks + ' checks passed');

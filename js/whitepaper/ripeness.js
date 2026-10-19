@@ -439,5 +439,5 @@
     });
   }
 
-  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, syncReports: syncReports, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS };
+  return { build: build, arrange: arrange, move: move, toggle: toggle, cleanState: cleanState, reportId: reportId, isReported: isReported, toggleReport: toggleReport, syncReports: syncReports, loadState: loadState, saveState: saveState, siteLine: siteLine, mount: mount, RANK: RANK, LABEL: LABEL, QUESTIONS: QUESTIONS, OPEN: OPEN, OPEN_RANK: OPEN_RANK };
 });

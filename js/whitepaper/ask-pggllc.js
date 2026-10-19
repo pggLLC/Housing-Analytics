@@ -79,15 +79,20 @@
       var f = el.querySelector('#askForm');
       if (f) f.addEventListener('submit', function (e) {
         e.preventDefault();
-        var btn = f.querySelector('button'); btn.disabled = true;
+        var btn = f.querySelector('button');
+        if (btn.disabled) return;
+        btn.disabled = true;
         post({ question: f.question.value, place: f.place.value, page: opts.page || '' })
           .then(draw).catch(function () { btn.disabled = false; btn.textContent = 'Not saved. Try again'; });
       });
       Array.prototype.forEach.call(el.querySelectorAll('.ask-answer-form'), function (af) {
         af.addEventListener('submit', function (e) {
           e.preventDefault();
+          var b = af.querySelector('button');
+          if (b.disabled) return;
+          b.disabled = true;
           var id = af.closest('.ask-q').getAttribute('data-id');
-          post({ answer: id, text: af.text.value }).then(draw).catch(function () { af.querySelector('button').textContent = 'Not saved. Try again'; });
+          post({ answer: id, text: af.text.value }).then(draw).catch(function () { b.disabled = false; b.textContent = 'Not saved. Try again'; });
         });
       });
     }

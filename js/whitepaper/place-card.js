@@ -268,18 +268,25 @@
   // to the site and resolves to the new list; done(list) re-renders.
   function wireNotes(root, geoid, save, done) {
     var form = root.querySelector('#pcNoteForm');
+    var busy = false;
     if (form) form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var f = form.elements, status = form.querySelector('.pc-note-status');
+      if (busy) return;
+      var f = form.elements, status = form.querySelector('.pc-note-status'), btn = form.querySelector('button[type=submit]');
       var body = { geoid: geoid, date: f.date.value, contact: f.contact.value.trim(), said: f.said.value.trim(), next: f.next.value.trim(), next_date: f.next_date.value };
       if (!body.said) return;
+      busy = true; btn.disabled = true;
       status.textContent = 'Saving…';
-      save(body).then(done, function () { status.textContent = 'Not saved. Check you are still signed in, then try again.'; });
+      save(body).then(done, function () {
+        busy = false; btn.disabled = false;
+        status.textContent = 'Not saved. Check you are still signed in, then try again.';
+      });
     });
     Array.prototype.forEach.call(root.querySelectorAll('.pc-note-remove'), function (b) {
       b.addEventListener('click', function () {
-        if (!window.confirm('Remove this entry from the log for everyone?')) return;
-        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(done);
+        if (b.disabled || !window.confirm('Remove this entry from the log for everyone?')) return;
+        b.disabled = true;
+        save({ geoid: geoid, remove: b.getAttribute('data-note') }).then(done, function () { b.disabled = false; });
       });
     });
   }
