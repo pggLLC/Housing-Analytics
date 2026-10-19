@@ -302,5 +302,15 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(P.needsFromAction('Apply for a grant').join() === 'funding,housing-authority,zoning,management', 'ranking still uses the fallbacks');
 }
 
+// Codex round 4: only a fitting related contact is called the nearest lead.
+{
+  const rel = P.researchedFor({ contacts: [] }, [{ name: 'T County', contacts: [
+    { name: 'Cy Planner', role: 'Planning Director', source_url: 'https://example.org/c' },
+    { name: 'Fi Finance', role: 'Finance Director', source_url: 'https://example.org/c' }] }]);
+  const r = P.rankContacts([], rel, 'Ask for a zoning letter');
+  ok(/nearest lead/.test(r.find((c) => c.name === 'Cy Planner').why), 'the related planner on a zoning step is the nearest lead');
+  ok(!/nearest lead/.test(r.find((c) => c.name === 'Fi Finance').why) && /No contact for this place itself/.test(r.find((c) => c.name === 'Fi Finance').why), 'the related finance director is not');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
 

@@ -163,6 +163,10 @@
     // "No one closer" is only true when nobody on the list fits the step.
     var hasOwn = all.some(function (c) { return !c.elsewhere; });
     var anyFit = all.some(function (c) { return named.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
+    // A related contact fits when it covers what the step names, or, for a
+    // step that names no role, any of the first calls.
+    function fits(c) { return (named.length ? named : needs).some(function (n) { return c.covers.indexOf(n) !== -1; }); }
+    var anyRelatedFit = all.some(function (c) { return c.elsewhere && fits(c); });
     return all.map(function (c) {
       var k = nameKey(c.name);
       if (logged[k] && (!c.last_talked || logged[k] > c.last_talked)) c = Object.assign({}, c, { last_talked: logged[k] });
@@ -179,7 +183,8 @@
       var why = [];
       if (c.elsewhere) {
         why.push('This person was researched for ' + c.elsewhere + ', not this place' + (fit.length ? ', where they ' + what : '') +
-          (hasOwn ? '' : '. No contact for this place itself is on file yet, so they are the nearest lead'));
+          (hasOwn ? '' : '. No contact for this place itself is on file yet' +
+            (fits(c) || !anyRelatedFit ? ', so they are the nearest lead' : '')));
       } else if (namedFit.length) {
         why.push((as || '') + (as ? 'they ' : 'They ') + joinAnd(namedFit.slice(0, 2).map(function (n) { return DOES[n]; })) + ', and the next step needs that');
       } else if (fit.length && !named.length) {
