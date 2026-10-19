@@ -100,6 +100,27 @@
    * which axe-core flagged as button-name (critical) on 14/14 pages.
    * Fixing here closes those 14 violations in one place.
    */
+  /* On a phone the corner button sat over body text on every page. There it
+     moves into the footer's tools row (built by js/navigation.js) and
+     returns to its corner on wider screens. */
+  function dockOnPhone(el) {
+    if (!window.matchMedia) return;
+    var mq = window.matchMedia('(max-width: 700px)');
+    function place() {
+      var slot = document.querySelector('footer.site-footer .footer-tools');
+      if (mq.matches && slot) {
+        if (el.parentNode !== slot) slot.appendChild(el);
+        el.classList.add('is-docked');
+      } else if (el.classList.contains('is-docked')) {
+        document.body.appendChild(el);
+        el.classList.remove('is-docked');
+      }
+    }
+    place();
+    if (mq.addEventListener) mq.addEventListener('change', place);
+    document.addEventListener('nav:rendered', place);
+  }
+
   function injectToggleButton() {
     if (document.querySelector('.dark-mode-toggle')) return;
     var btn = document.createElement('button');
@@ -108,6 +129,7 @@
     btn.setAttribute('aria-live', 'polite');
     btn.addEventListener('click', toggle);
     document.body.appendChild(btn);
+    dockOnPhone(btn);
     // Populate accessible name + icon based on the current scheme
     // (applyScheme already ran by this point; we just propagate the
     // result into the newly-created button).

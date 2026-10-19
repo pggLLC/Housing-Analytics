@@ -138,6 +138,27 @@
     return btn;
   }
 
+  /* On a phone the corner button sat over body text on every page. There it
+     moves into the footer's tools row (built by js/navigation.js) and
+     returns to its corner on wider screens. */
+  function dockOnPhone(el) {
+    if (!window.matchMedia) return;
+    var mq = window.matchMedia('(max-width: 700px)');
+    function place() {
+      var slot = document.querySelector('footer.site-footer .footer-tools');
+      if (mq.matches && slot) {
+        if (el.parentNode !== slot) slot.appendChild(el);
+        el.classList.add('is-docked');
+      } else if (el.classList.contains('is-docked')) {
+        document.body.appendChild(el);
+        el.classList.remove('is-docked');
+      }
+    }
+    place();
+    if (mq.addEventListener) mq.addEventListener('change', place);
+    document.addEventListener('nav:rendered', place);
+  }
+
   // ── Floating corner panel (works site-wide) ───────────────────────────
   /**
    * Mount a small fixed corner panel that shows the saved jurisdictions.
@@ -213,6 +234,7 @@
         '</div>' +
       '</details>';
     document.body.appendChild(root);
+    dockOnPhone(root);
     var bodyEl = root.querySelector('#coho-watchlist-body');
     var countEl = root.querySelector('#coho-watchlist-count');
     /**
