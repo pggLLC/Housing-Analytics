@@ -19,6 +19,15 @@
 
   var BOUNDARIES_PATH = 'data/co-county-boundaries.json';
   var RANKING_PATH = 'data/hna/ranking-index.json';
+  // County measures the map can switch to (rent, burden, vacancy, income,
+  // home value, permits, and three gaps between incomes and housing costs).
+  // Figures, sources and the grey-out rules for counties too uncertain to
+  // rank live in js/county-measures.js, shared with the data map. Each
+  // measure is cut into four equal-count groups (quartiles) and drawn in the
+  // same four teal shades as the need bands, darkest = highest value.
+  var CM = window.CountyMeasures;
+  var INDICATORS = CM ? CM.FIELDS : {};
+  var formatValue = CM ? CM.format : function () { return 'no data'; };
 
   // Literal hex, not CSS var() — matches the codebase's existing convention
   // for Leaflet layer styles (see OVERLAY_STYLES in js/market-analysis.js).
@@ -110,28 +119,73 @@
           zoom: 7,
         });
 
+        var COLORS_LOW_TO_HIGH = BANDS.map(function (b) { return b.color; }).reverse();
+        var countyNames = {};
+        var mode = 'need';
+        var indicatorValues = null; // { field: { geoid: value } }
+        var unreliable = {};        // { field: { geoid: true } }
+        var breaks = null;          // three cut points for the current field
+
+        function needStyle(geoid) {
+          var score = geoid != null ? scoreByGeoid[geoid] : null;
+          var band = score != null ? bandFor(score) : null;
+          return {
+            color: '#5f7d79',
+            weight: 0.6,
+            fillColor: band ? band.color : '#ccc',
+            fillOpacity: band ? 0.9 : 0.25,
+          };
+        }
+
+        function quartileIndex(v) {
+          if (v == null || !breaks) return -1;
+          if (v < breaks[0]) return 0;
+          if (v < breaks[1]) return 1;
+          if (v < breaks[2]) return 2;
+          return 3;
+        }
+
+        var GREY_STYLE = { color: '#5f7d79', weight: 0.6, fillColor: '#d5dad9', fillOpacity: 0.7 };
+
+        function isUnreliable(geoid) {
+          return !!(unreliable[mode] && unreliable[mode][geoid]);
+        }
+
+        function indicatorStyle(geoid) {
+          if (isUnreliable(geoid)) return GREY_STYLE;
+          var v = indicatorValues && indicatorValues[mode] ? indicatorValues[mode][geoid] : null;
+          var i = quartileIndex(v);
+          return {
+            color: '#5f7d79',
+            weight: 0.6,
+            fillColor: i >= 0 ? COLORS_LOW_TO_HIGH[i] : '#ccc',
+            fillOpacity: i >= 0 ? 0.9 : 0.25,
+          };
+        }
+
+        function tooltipFor(geoid) {
+          var name = countyNames[geoid] || 'County';
+          if (mode === 'need') {
+            var score = scoreByGeoid[geoid];
+            return name + (score != null
+              ? ': ' + score + '/100 need — ' + bandFor(score).label
+              : ': not scored');
+          }
+          var ind = INDICATORS[mode];
+          var v = indicatorValues && indicatorValues[mode] ? indicatorValues[mode][geoid] : null;
+          if (isUnreliable(geoid)) return name + ': ' + formatValue(v, ind.fmt, ind.suffix) + ' — too uncertain to rank';
+          return name + ': ' + formatValue(v, ind.fmt, ind.suffix);
+        }
+
         var layer = window.L.geoJSON(boundaries, {
           style: function (feature) {
-            var geoid = feature.properties && feature.properties.GEOID;
-            var score = geoid != null ? scoreByGeoid[geoid] : null;
-            var band = score != null ? bandFor(score) : null;
-            return {
-              color: '#5f7d79',
-              weight: 0.6,
-              fillColor: band ? band.color : '#ccc',
-              fillOpacity: band ? 0.9 : 0.25,
-            };
+            return needStyle(feature.properties && feature.properties.GEOID);
           },
           onEachFeature: function (feature, featureLayer) {
             var props = feature.properties || {};
             var geoid = props.GEOID;
-            var name = props.NAMELSAD || props.NAME || 'County';
-            var score = geoid != null ? scoreByGeoid[geoid] : null;
-            var band = score != null ? bandFor(score) : null;
-            var tooltip = name + (score != null
-              ? ': ' + score + '/100 need — ' + band.label
-              : ': not scored');
-            featureLayer.bindTooltip(tooltip, { sticky: true });
+            countyNames[geoid] = props.NAMELSAD || props.NAME || 'County';
+            featureLayer.bindTooltip(function () { return tooltipFor(geoid); }, { sticky: true });
             if (geoid) {
               featureLayer.on('click', function () {
                 window.location.href = 'hna-what-housing-exists.html?geoType=county&geoid=' + encodeURIComponent(geoid);
@@ -143,6 +197,75 @@
             }
           },
         }).addTo(map);
+
+        // Measure values load on first use (js/county-measures.js caches them).
+        function loadIndicators(field) {
+          if (!CM) return Promise.reject(new Error('county measures unavailable'));
+          return CM.loadField(field, fetcher).then(function (res) {
+            indicatorValues = res.values;
+            unreliable = res.unreliable;
+            return res.values;
+          });
+        }
+
+        function computeBreaks(field) {
+          var skip = unreliable[field] || {};
+          var vals = Object.keys(indicatorValues[field]).filter(function (g) { return !skip[g]; })
+            .map(function (g) { return indicatorValues[field][g]; })
+            .sort(function (x, y) { return x - y; });
+          var q = function (f) { return vals[Math.min(vals.length - 1, Math.floor(f * vals.length))]; };
+          return [q(0.25), q(0.5), q(0.75), vals[0], vals[vals.length - 1]];
+        }
+
+        var wrap = mount.closest('.home-opening__map');
+        var picker = wrap ? wrap.querySelector('#homeNeedMeasure') : null;
+        var legendItems = wrap ? wrap.querySelectorAll('.home-need-legend__item') : [];
+        var NEED_LABELS = BANDS.map(function (b) { return b.label; }).reverse();
+
+        function setLegend(labels) {
+          Array.prototype.forEach.call(legendItems, function (item, i) {
+            var node = item.lastChild;
+            if (node && node.nodeType === 3) node.textContent = labels[i];
+          });
+        }
+
+        function showText(key) {
+          if (!wrap) return;
+          var greyNote = wrap.querySelector('.home-need-legend-nodata');
+          if (greyNote) greyNote.hidden = !(key !== 'need' && unreliable[key] && Object.keys(unreliable[key]).length);
+          Array.prototype.forEach.call(wrap.querySelectorAll('[data-measure-text]'), function (el) {
+            el.hidden = el.getAttribute('data-measure-text') !== key;
+          });
+        }
+
+        function setMode(next) {
+          if (next === 'need' || !INDICATORS[next]) {
+            mode = 'need';
+            layer.setStyle(function (f) { return needStyle(f.properties && f.properties.GEOID); });
+            setLegend(NEED_LABELS);
+            showText('need');
+            return;
+          }
+          loadIndicators(next).then(function () {
+            mode = next;
+            var b = computeBreaks(next);
+            breaks = b.slice(0, 3);
+            var ind = INDICATORS[next];
+            var f = function (v) { return formatValue(v, ind.fmt); };
+            // A range whose ends round alike (many counties at 0) reads as one value.
+            var range = function (lo, hi) { return f(lo) === f(hi) ? f(lo) : f(lo) + '–' + f(hi); };
+            setLegend([range(b[3], b[0]), range(b[0], b[1]), range(b[1], b[2]), range(b[2], b[4])]);
+            layer.setStyle(function (feat) { return indicatorStyle(feat.properties && feat.properties.GEOID); });
+            showText(next);
+          }).catch(function () {
+            if (picker) picker.value = 'need';
+            setMode('need');
+          });
+        }
+
+        if (picker) {
+          picker.addEventListener('change', function () { setMode(picker.value); });
+        }
 
         var bounds = layer.getBounds();
         map.fitBounds(bounds, { padding: [6, 6] });
