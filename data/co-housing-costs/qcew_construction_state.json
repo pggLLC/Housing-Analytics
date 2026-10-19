@@ -1,0 +1,8 @@
+{
+  "source": "BLS QCEW annual averages, NAICS 23 (Construction), Colorado (area 08000), private ownership",
+  "url": "https://data.bls.gov/cew/data/api/{year}/a/industry/{industry}.csv",
+  "avg_annual_pay": {
+    "2015": 55347,
+    "2025": 85235
+  }
+}

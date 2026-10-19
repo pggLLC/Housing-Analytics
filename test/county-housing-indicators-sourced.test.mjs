@@ -147,7 +147,8 @@ test('the article states the statewide figures its sources give', () => {
   assert.equal(Number(q4(y1).value), v1, `COSTHPI Q4 ${y1} = ${v1}`);
   assert.equal(((v1 / v0 - 1) * 100).toFixed(1), hpiPct[1], 'stated change follows from the two values');
 
-  // QCEW: the county wage map's year ends the window, and the change follows.
+  // QCEW: the county wage map's year ends the window, and both amounts are
+  // the statewide figures the monthly refresh saves from the same BLS slices.
   const w = finding('Construction Wages');
   const wYears = w.head.match(/(\d{4})\D+(\d{4})\)/);
   const wPct = w.body.match(/(\d+\.\d)%/);
@@ -155,7 +156,34 @@ test('the article states the statewide figures its sources give', () => {
   assert.ok(wYears && wPct && wVals.length === 2, 'the wage finding states its window, change and both values');
   assert.equal(Number(wYears[2]), GEO.meta.vintages.qcew, 'window ends at the county wage map year');
   assert.equal(Number(wYears[2]) - Number(wYears[1]), 10, 'a ten-year window, like the price index');
+  const statePay = json('data/co-housing-costs/qcew_construction_state.json').avg_annual_pay;
+  assert.equal(wVals[0], statePay[wYears[1]], `statewide QCEW pay ${wYears[1]} (saved ${statePay[wYears[1]]})`);
+  assert.equal(wVals[1], statePay[wYears[2]], `statewide QCEW pay ${wYears[2]} (saved ${statePay[wYears[2]]})`);
   assert.equal(((wVals[1] / wVals[0] - 1) * 100).toFixed(1), wPct[1], 'stated wage change follows from the two values');
+});
+
+test('every ACS window a reader sees is the vintage the layers are built from', () => {
+  // The pipeline's cohorts are pinned in Config.ACS_COHORTS; moving them is
+  // the only way the layers change ACS vintage, and every label must move too.
+  const cfg = read('scripts/build_co_housing_costs_insight.py').match(/ACS_COHORTS: List\[int\] = \[([\d, ]+)\]/);
+  assert.ok(cfg, 'Config.ACS_COHORTS is readable');
+  const cohorts = cfg[1].split(',').map(Number);
+  const acs = GEO.meta.vintages.acs;
+  assert.equal(Math.max(...cohorts), acs, 'the layers carry the newest pinned cohort');
+  const windows = new Set(cohorts.map((y) => `${y - 4}–${y}`));
+
+  // An "e.g." aside illustrates overlapping windows; it is not a claim.
+  const article = read('article-co-housing-costs.html').replace(/\(e\.g\.,[^)]*\)/g, '');
+  const seen = [...article.matchAll(/\b(\d{4})–(\d{4})\b/g)].map((m) => m[0])
+    .filter((r) => Number(r.slice(5)) - Number(r.slice(0, 4)) === 4);
+  assert.ok(seen.length >= 10, `the article's ACS windows were found (${seen.length})`);
+  for (const r of seen) assert.ok(windows.has(r), `article window ${r} is one of the pinned ACS cohorts`);
+  assert.ok(seen.includes(`${acs - 4}–${acs}`), 'the article names the current cohort');
+
+  const page = read('data-map-browser.html');
+  const labels = [...page.matchAll(/key: 'ind-(?:rent|burden|vacancy|income)', name: '([^']*)'/g)].map((m) => m[1]);
+  assert.equal(labels.length, 4, 'the four ACS layer names were found');
+  for (const l of labels) assert.ok(l.includes(`${acs} ACS`), `"${l}" names ACS ${acs}`);
 });
 
 test('the monthly refresh rebuilds and checks the map layers before it commits', () => {
