@@ -35,6 +35,8 @@
     { min: 0, color: '#f1f1f1', label: 'No bank branch' },
   ];
   var EXPANSIVE_COLOR = '#6baed6';
+  var CONS_LABEL = 'Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information.';
+  var EXP_LABEL = 'Map of Colorado with every county shaded the same: under the expansive reading, a large or intermediate small bank with a Colorado branch may get credit in any county. Choose a county from the list below the map for the banks.';
 
   var SIZE_LABEL = {
     large: 'Large (investment test)',
@@ -97,6 +99,7 @@
     var root = document.getElementById('craMap');
     if (!root || !window.L) return;
     var mount = root.querySelector('.cra-map__canvas');
+    var status = root.querySelector('.cra-map__status');
     var panel = root.querySelector('.cra-map__panel');
     var select = root.querySelector('#craCounty');
     var legend = root.querySelector('.cra-map__legend');
@@ -183,6 +186,11 @@
           layer.setStyle(style);
           drawLegend();
           drawPanel();
+          mount.setAttribute('aria-label', mode === 'conservative' ? CONS_LABEL : EXP_LABEL);
+          var msg = mode === 'conservative'
+            ? 'Conservative reading: counties shaded by the number of banks with a branch there.'
+            : 'Expansive reading: every county shaded, since a large or intermediate small bank with a Colorado branch may get credit anywhere in the state, if it has served its own areas first.';
+          if (status) status.textContent = msg;
         });
       });
 
@@ -246,8 +254,9 @@
             '</tbody></table></div>' + moreButton(hereCerts.length);
         } else {
           var others = Object.keys(banks).filter(function (c) {
-            return !here[c] && banks[c].cra_size !== 'small';
+            return !here[c] && (banks[c].cra_size === 'large' || banks[c].cra_size === 'intermediate');
           });
+          var unknown = Object.keys(banks).filter(function (c) { return !here[c] && !banks[c].cra_size; }).length;
           others.sort(function (a, b) {
             return (banks[a].cra_size === 'large' ? 0 : 1) - (banks[b].cra_size === 'large' ? 0 : 1) ||
               banks[b].co_branches - banks[a].co_branches;
@@ -260,7 +269,8 @@
             '<li>The ' + isb + ' intermediate small banks have a community development test whose rule text names no area; the agencies\u2019 guidance says a retail institution \u201cwill receive consideration\u201d for activity in that broader area, so it may count for them too.</li>' +
             '<li>Either way, only \u201cas long as the institution has been responsive to community development needs and opportunities in its assessment area(s)\u201d (Interagency Q&amp;A \u00a7__.12(h)\u20136). The bank\u2019s latest performance evaluation says whether examiners found that.</li></ul>' +
             '<p>' + (hereCerts.length ? 'The ' + hereCerts.length + (hereCerts.length === 1 ? ' bank' : ' banks') + ' with a branch here ' + (hereCerts.length === 1 ? 'is' : 'are') + ' under the conservative reading. ' : '') +
-            'Small banks are left out: their examiners weigh investments only as an optional part of a lending test (12 CFR 228.26(b)).</p>' +
+            'Small banks are left out: their examiners weigh investments only as an optional part of a lending test (12 CFR 228.26(b)).' +
+            (unknown ? ' ' + unknown + (unknown === 1 ? ' bank is' : ' banks are') + ' also left out because the FDIC has not reported both year-end asset totals that set its size class.' : '') + '</p>' +
             '<div class="dt-table-wrap dt-stack"><table class="data-table"><thead><tr>' +
             '<th scope="col">Bank</th>' +
             '<th scope="col" data-tip="All offices this bank reports in Colorado.">Colorado branches</th>' +

@@ -336,7 +336,8 @@
             <div class="cra-map__canvas" role="img" aria-label="Map of Colorado counties shaded by the number of banks with a branch in each. Choose a county from the list below the map for the same information."></div>
             <div class="cra-map__legend" aria-hidden="true"></div>
             <div class="cra-map__pick"><label for="craCounty">County</label> <select id="craCounty"><option value="">Choose a county</option></select></div>
-            <div class="cra-map__panel" aria-live="polite"></div>
+            <p class="cra-map__status sr-only" role="status" aria-atomic="true"></p>
+            <div class="cra-map__panel" aria-live="polite" aria-atomic="true"></div>
             <p class="dt-source" data-cra-asof></p>
           </div>
           <p class="dt-source">Source: FDIC <a href="https://banks.data.fdic.gov/bankfind-suite/SOD" rel="noopener">Summary of Deposits</a> (branches and deposits as of June 30), and FDIC BankFind institution and financial data (each bank's examiner, and total assets on December 31 of the two prior years, which set its CRA size under the 2026 thresholds above); for the expansive list, <a href="https://www.ecfr.gov/on/2024-03-29/title-12/chapter-II/subchapter-A/part-228" rel="noopener">12 CFR 228.23(a) and 228.26</a> and the <a href="https://www.federalreserve.gov/frrs/regulations/interagency-questions-and-answers-regarding-community-reinvestment.htm" rel="noopener">Interagency Questions and Answers, §__.12(h)–6</a>.</p>
