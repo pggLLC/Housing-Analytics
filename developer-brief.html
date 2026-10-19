@@ -134,6 +134,23 @@
     .ib-stack td:empty { display:none; }
   }
   .ib-muted { color:var(--muted); }
+  /* Place card */
+  .pc-card { font-size:var(--small);line-height:1.55; }
+  .pc-head { margin:0 0 var(--sp2); }
+  .pc-badge { display:inline-block;padding:.1rem .55rem;border-radius:999px;font-weight:700;border:1px solid var(--border);background:var(--bg2); }
+  .pc-badge.pc-ripe { border-color:var(--good);color:var(--good); }
+  .pc-badge.pc-ripening { border-color:var(--accent);color:var(--accent); }
+  .pc-call, .pc-sites, .pc-sig, .pc-notes { margin:0;padding-left:1.2rem; }
+  .pc-call li, .pc-sites li, .pc-notes li { margin-bottom:.6rem; }
+  .pc-card a { display:inline-flex;align-items:center;min-height:44px; }
+  .pc-open { font-weight:700; }
+  .pc-open-open, .pc-open-rfp, .pc-open-opening { color:var(--good); }
+  .pc-open-taken { color:var(--muted); }
+  .pc-note-form fieldset { border:1px solid var(--border);border-radius:var(--radius-sm);padding:var(--sp2);display:grid;gap:.5rem; }
+  .pc-note-form label { display:grid;gap:.2rem;font-weight:600; }
+  .pc-note-form input, .pc-note-form textarea { font:inherit;padding:.45rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);min-height:44px;max-width:100%; }
+  .pc-note-form button, .pc-note-remove { min-height:44px;cursor:pointer; }
+  .pc-note-remove { background:none;border:0;color:var(--muted);text-decoration:underline;padding:0 .4rem; }
   .ib-pipe-line { font-size:var(--small);line-height:1.55;margin:0 0 var(--sp2); }
   .ib-anti-flag { border-left:3px solid var(--warn);padding:.35rem .6rem;font-size:var(--small); }
   .ib-sig-list { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.55; }
@@ -201,6 +218,7 @@
 <script src="js/funding-fit.js"></script>
 <script src="js/mix-check.js"></script>
 <script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
+<script src="js/whitepaper/place-card.js"></script>
 <script>
 (function () {
   'use strict';
@@ -217,7 +235,7 @@
   const WP = window.JurisdictionWhitepaper;
   const $ = (id) => document.getElementById(id);
   const PW = window.PrivateWorkspace;
-  let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {}, WS = null, PIPE_ROWS = [];
+  let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {}, WS = null, PIPE_ROWS = [], RIPENESS = null;
   let html = null, current = null, isSensitive = null;
 
   // The same guard the CLI and the public build use. Without it the page builds
@@ -259,10 +277,12 @@
     softJson('data/alerts/brief-news-queue.json'),
     (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve(),
     guardReady,
-    PW ? PW.load(PW.browserFetchText) : Promise.resolve(null)
-  ]).then(([s, centroids, localRes, news, _ready, _guard, ws]) => {
+    PW ? PW.load(PW.browserFetchText) : Promise.resolve(null),
+    softJson('data/ripeness.json')
+  ]).then(([s, centroids, localRes, news, _ready, _guard, ws, ripeness]) => {
     SOURCES = s;
     WS = ws;
+    RIPENESS = ripeness;
     CENTROIDS = (centroids && centroids.byGeoid) || {};
     LOCAL_RES = localRes || {};
     NEWS = news;
@@ -356,6 +376,7 @@
       $('reportPdf').disabled = $('reportDownload').disabled = !current;
       $('pickerStatus').textContent = model.error || ('Report for ' + model.name + ', built ' + model.generated + ' from the current data.');
       wireTools(geoid, name, pipe, brief);
+      mountPlaceCard(geoid, name, related, window.PlaceCard ? window.PlaceCard.researchedFor(contacts, relatedContacts) : []);
     }).catch(e => { $('briefContent').innerHTML = '<div class="ib-prompt">Could not build the report: ' + esc(e.message) + '</div>'; });
   }
 
@@ -374,7 +395,7 @@
       const mount = $('ibPipelineAddMount');
       if (mount && window.PipelineAddButton) {
         window.PipelineAddButton.attach(mount, {
-          jurisdiction: name, geoid,
+          jurisdiction: name, geoid, onChange: () => redrawPlaceCard(),
           defaults: {
             stage: pipe.stage || 'Signal', ioi_score: pipe.ioi_score || '', confidence: pipe.confidence || '',
             classification: pipe.classification || '', product_type: pipe.product_type || '',
@@ -433,15 +454,13 @@
       (p.notes ? '<br><span class="ib-muted">' + esc(p.notes) + '</span>' : '') + '</p>';
   }
   function privateSection(name, geoid, related, researched) {
-    let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">Your notes on ' + esc(name) + '</h2>';
+    let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">' + esc(name) + ': place card</h2>';
     if (!WS || !WS.reachable) {
-      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '</section>';
+      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '<div id="placeCardMount"></div></section>';
     }
     const mine = PW.forPlace(WS, PIPE_ROWS, geoid, related);
-    h += '<p>From your private files on the gated site. Not in the report, the PDF or the downloaded file. <a href="developer-pipeline.html#network">All contacts and the pipeline →</a></p>';
-    if (mine.own.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(mine.own.anti.date_dropped) + ': ' + esc(mine.own.anti.reason) + (mine.own.anti.revisit_date ? ' Revisit ' + esc(mine.own.anti.revisit_date) + '.' : '') + '</p>';
-    h += mine.own.pipeline ? pipelineLine(mine.own.pipeline) : '<p class="ib-muted">Not in your pipeline. Add it from Working tools below.</p>';
-    h += '<h3>Your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network, researched) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet.</p>') +
+    h += '<p>Everything on file for ' + esc(name) + ' in one place. Not in the report, the PDF or the downloaded file.</p><div id="placeCardMount"></div>';
+    h += '<h3>All your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network, researched) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet.</p>') +
       (researched.length ? '<p>The report\'s <strong>Who to contact</strong> section below lists ' + researched.length + ' researched public contacts with their phones, emails and sources.</p>' : '');
     if (mine.own.signals.length) h += '<h3>Signals you logged</h3>' + signalList(mine.own.signals);
     mine.related.forEach(r => {
@@ -449,6 +468,35 @@
         (r.network.length ? networkTable(r.network, researched) : '') + (r.signals.length ? signalList(r.signals) : '');
     });
     return h + '</section>';
+  }
+  // The place card: reading, call first, sites, next step and the shared
+  // discussion log (saved on the site through api/notes).
+  // Redraws the card from the current pipeline (after a Working tools edit).
+  let redrawPlaceCard = () => {};
+  function mountPlaceCard(geoid, name, related, researched) {
+    const mount = $('placeCardMount');
+    if (!mount || !window.PlaceCard) return;
+    let notes = null, state = 'loading';
+    const draw = () => {
+      const mine = PW && WS ? PW.forPlace(WS, PIPE_ROWS, geoid, related) : { own: { network: [], signals: [], pipeline: PIPE[geoid] || null, anti: null } };
+      mount.innerHTML = window.PlaceCard.render({
+        name, geoid, pipeline: mine.own.pipeline || PIPE[geoid] || null, network: mine.own.network, researched,
+        signals: mine.own.signals, ripeness: RIPENESS, anti: mine.own.anti, notes, notesState: state
+      });
+      if (notes) window.PlaceCard.wireNotes(mount, geoid, saveNote, list => { notes = list; draw(); });
+    };
+    redrawPlaceCard = () => { PIPE = pipelineRows(); draw(); };
+    draw();
+    fetch('api/notes?geoid=' + encodeURIComponent(geoid), { cache: 'no-cache' })
+      // 404: a copy of the page with no log behind it. Anything else that
+      // fails (signed out, network) is an error the reader should see.
+      .then(r => r.status === 404 ? 'off' : r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : 'error')
+      .catch(() => 'error')
+      .then(res => { notes = Array.isArray(res) ? res : null; state = notes ? 'ok' : res === 'off' ? 'off' : 'error'; draw(); });
+  }
+  function saveNote(body) {
+    return fetch('api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(r => { if (!r.ok) throw new Error('not saved'); return r.json(); });
   }
   function draftNote(geoid) {
     const p = PIPE[geoid];

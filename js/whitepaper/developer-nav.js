@@ -16,7 +16,9 @@
     { href: 'developer.html', label: 'Home' },
     { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
     { href: 'developer-where.html', label: 'Where to build' },
-    { href: 'developer-pipeline.html', label: 'Pipeline' }
+    { href: 'developer-pipeline.html', label: 'Pipeline' },
+    { href: 'developer-methods.html', label: 'Methodology' },
+    { href: 'developer-about.html', label: 'About' }
   ];
   // Served only by the private site (coho-backend), so there is no file for it here.
   var PRIVATE = [{ href: 'dossiers/', label: 'Dossiers' }];
@@ -24,7 +26,7 @@
 
   var STYLE =
     '.ib-section-nav{display:flex;flex-wrap:wrap;gap:.25rem .5rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3,1rem);border-bottom:1px solid var(--border);font-size:var(--small,.9rem)}' +
-    '.ib-section-nav a{color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm,6px)}' +
+    '.ib-section-nav a{color:var(--muted);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;padding:.35rem .7rem;border-radius:var(--radius-sm,6px)}' +
     '.ib-section-nav a[aria-current="page"]{color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%)}' +
     '.ib-section-nav a:hover{color:var(--accent)}.ib-section-nav .spacer{flex:1}' +
     '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.7rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}';

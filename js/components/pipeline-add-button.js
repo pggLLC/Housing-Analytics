@@ -235,7 +235,8 @@
           var form = wrap.querySelector('[data-pab-form]');
           if (form) { form.remove(); return; }
           wrap.insertAdjacentHTML('beforeend', _buildForm(opts, status));
-          _wireForm(wrap, opts, status, _render);
+          // opts.onChange: the page redraws whatever shows this place's pipeline row.
+          _wireForm(wrap, opts, status, function () { _render(); if (typeof opts.onChange === 'function') opts.onChange(); });
         });
       });
     }
