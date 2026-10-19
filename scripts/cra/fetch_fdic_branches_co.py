@@ -161,12 +161,17 @@ def main():
         if lat is not None and lon is not None:
             offices.append([str(c), round(lat, 5), round(lon, 5),
                             b.get("ADDRESBR") or "", b.get("CITYBR") or "",
-                            str(b.get("ZIPBR") or "")])
+                            str(b.get("ZIPBR") or ""), fips])
         dep = b.get("DEPSUMBR")
         if dep is None or e["deposits_k"] is None:
             e["deposits_k"] = None
         else:
             e["deposits_k"] += dep
+
+    # Same guard as the pulls: a reply that drops the coordinates would wipe
+    # the branch dots while the page still says every branch is shown.
+    if len(offices) < MIN_COVERAGE * len(branches):
+        sys.exit(f"FDIC download failed: only {len(offices)} of {len(branches)} offices have a location")
 
     for bk in banks.values():
         bk["co_counties"].sort()
@@ -186,7 +191,7 @@ def main():
         },
         "banks": {str(k): v for k, v in sorted(banks.items())},
         "counties": dict(sorted(counties.items())),
-        # [cert, lat, lon, street, city, zip] for each office with a location.
+        # [cert, lat, lon, street, city, zip, county fips] for each office with a location.
         "offices": sorted(offices),
     }
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)

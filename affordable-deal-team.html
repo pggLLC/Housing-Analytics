@@ -38,12 +38,19 @@
     .cra-map__key i.cra-map__dot { width: 10px; height: 10px; border-radius: 50%; border-color: #fff; vertical-align: 0; }
     .cra-map__offices { display: inline-flex; align-items: center; gap: 6px; font-size: var(--small); margin: var(--sp2) 0 0; min-height: 44px; }
     .cra-map__offices input { width: 18px; height: 18px; }
+    .cra-map__popcounty { margin-top: 6px; min-height: 44px; padding: 0 12px; font: inherit; cursor: pointer; }
+    .cra-map__addresses { margin: var(--sp3) 0; }
+    .cra-map__addresses summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; }
+    .cra-map__addresses ul { margin: var(--sp2) 0 0; padding-left: 1.2em; font-size: var(--small); }
+    .cra-map__addresses li { margin: 4px 0; }
     .cra-map__pick { margin: var(--sp2) 0; }
     .cra-map__pick select { min-height: 44px; font: inherit; margin-left: var(--sp1); width: 22rem; max-width: 100%; }
     .cra-map__panel h4 { margin: var(--sp3) 0 var(--sp1); }
     .cra-map__panel tr[hidden] { display: none !important; }
     .cra-map__showall { min-height: 44px; margin-top: var(--sp2); padding: 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius, 8px); background: var(--card, var(--bg2)); color: var(--text); font: inherit; cursor: pointer; }
     @media (max-width: 640px) { .cra-map__canvas { height: 260px; } }
+    /* Phones: the site turns pointer events off on maps so the page scrolls; the popup still needs its button. */
+    .cra-map__canvas .leaflet-popup { pointer-events: auto; }
     /* Phones: stack each table row so every cell stays readable. */
     @media (max-width: 640px) {
       .dt-stack table, .dt-stack tbody, .dt-stack tr, .dt-stack th, .dt-stack td { display: block; width: auto; }
