@@ -153,6 +153,7 @@
     var logged = lastTalked(notes);
     var all = mergeContacts(network, researched);
     // "No one closer" is only true when nobody on the list fits the step.
+    var hasOwn = all.some(function (c) { return !c.elsewhere; });
     var anyFit = all.some(function (c) { return needs.some(function (n) { return c.covers.indexOf(n) !== -1; }); });
     return all.map(function (c) {
       var k = nameKey(c.name);
@@ -169,7 +170,7 @@
       var why = [];
       if (c.elsewhere) {
         why.push('This person was researched for ' + c.elsewhere + ', not this place' + (fit.length ? ', where they ' + what : '') +
-          '. No contact for this place itself is on file yet, so they are the nearest lead');
+          (hasOwn ? '' : '. No contact for this place itself is on file yet, so they are the nearest lead'));
       } else if (fit.length) {
         why.push((as || '') + (as ? 'they ' : 'They ') + what + ', and the next step needs that');
       } else {

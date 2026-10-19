@@ -283,5 +283,14 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(!/no one closer/.test(fin.why), 'a non-fitting contact does not claim no one closer when another contact fits');
 }
 
+// "No contact for this place" only when none of the place's own is on file.
+{
+  const rel = [{ name: 'Cy County', role: 'Planning Director', source_url: 'https://example.org/c', elsewhere: 'T County' }];
+  const withMine = P.rankContacts([{ name: 'Tia Town', role: 'Town Planner' }], rel, 'Rezone the parcel', []);
+  ok(!/No contact for this place itself/.test(withMine.find((c) => c.name === 'Cy County').why), 'a related contact does not claim none of the place\'s own exist when the network has one');
+  const alone = P.rankContacts([], rel, 'Rezone the parcel', []);
+  ok(/No contact for this place itself/.test(alone[0].why), 'with no contact of its own, the related contact says it is the nearest lead');
+}
+
 console.log('place-card: ' + checks + ' checks passed');
 
