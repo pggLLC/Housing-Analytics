@@ -220,6 +220,10 @@
         var btn = e.target.closest && e.target.closest('.cra-map__popcounty');
         if (!btn) return;
         map.closePopup();
+        // "All banks in X" means the banks with a branch there, which is the
+        // conservative view; the expansive one lists the others.
+        var cons = root.querySelector('[data-cra-mode="conservative"]');
+        if (mode !== 'conservative' && cons) cons.click();
         choose(btn.getAttribute('data-g'));
         var list = btn.getAttribute('data-open') && panel.querySelector('.cra-map__addresses');
         if (list) list.open = true;
@@ -264,6 +268,11 @@
 
       var bounds = layer.getBounds();
       map.fitBounds(bounds, { padding: [4, 4] });
+      // A tap just outside the state line can still be meant for a border
+      // dot, so an invisible frame around the counties catches those taps.
+      window.L.rectangle(bounds.pad(0.1), { stroke: false, fillOpacity: 0, className: 'cra-map__frame' })
+        .on('click', function (e) { openNearestOffice(e.containerPoint); })
+        .addTo(map).bringToBack();
       var t = null;
       window.addEventListener('resize', function () {
         clearTimeout(t);
