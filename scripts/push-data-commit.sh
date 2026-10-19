@@ -34,19 +34,33 @@ if git diff --cached --quiet; then
 fi
 git commit -q -m "$subject"
 
-git fetch origin "$branch"
-# No -X theirs and no || true: a conflict here means another commit changed
-# this workflow's own files, which needs a person, not a silent pick.
-git rebase "origin/$branch"
+# A push is refused when anything lands on the branch between the fetch and
+# the push: a PR merged at 11:09Z failed Polymarket's 2026-10-19 run that way
+# (PR merges are not in the data-commits queue). On a refusal, take the
+# manifests back out of the commit and go round again from the fetch.
+MANIFESTS=(data/_manifest.json data/manifest.json)
+for attempt in 1 2 3; do
+  git fetch origin "$branch"
+  # No -X theirs and no || true: a conflict here means another commit changed
+  # this workflow's own files, which needs a person, not a silent pick.
+  git rebase "origin/$branch"
 
-# Two manifests, in this order: data/manifest.json records the byte count of
-# data/_manifest.json (AGENTS.md, two-manifest trap).
-npm run -s audit:file-manifest
-python3 scripts/rebuild_manifest.py
-node scripts/validate-schemas.js
-git add data/_manifest.json data/manifest.json
-if ! git diff --cached --quiet; then
-  git commit -q --amend --no-edit
-fi
-git push origin "HEAD:$branch"
-echo "pushed=true" >> "$out"
+  # Two manifests, in this order: data/manifest.json records the byte count of
+  # data/_manifest.json (AGENTS.md, two-manifest trap).
+  npm run -s audit:file-manifest
+  python3 scripts/rebuild_manifest.py
+  node scripts/validate-schemas.js
+  git add "${MANIFESTS[@]}"
+  if ! git diff --cached --quiet; then
+    git commit -q --amend --no-edit
+  fi
+  if git push origin "HEAD:$branch"; then
+    echo "pushed=true" >> "$out"
+    exit 0
+  fi
+  echo "::warning::push attempt $attempt refused; $branch moved, rebasing again."
+  git checkout HEAD~1 -- "${MANIFESTS[@]}"
+  git commit -q --amend --no-edit --allow-empty
+done
+echo "::error::push refused three times; $branch keeps moving." >&2
+exit 1

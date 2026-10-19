@@ -184,10 +184,25 @@ test('the shared push script commits before it builds the manifests', () => {
   const src = fs.readFileSync(path.join(ROOT, 'scripts', 'push-data-commit.sh'), 'utf8');
   const at = (re) => src.search(re);
   assert.ok(at(/^git commit -q -m/m) > 0, 'the script commits the workflow paths');
-  assert.ok(at(/^git rebase /m) > at(/^git commit -q -m/m), 'it rebases after that commit');
-  assert.ok(at(/^python3 scripts\/rebuild_manifest\.py/m) > at(/^git rebase /m), 'and builds the manifests after the rebase');
-  assert.ok(at(/^npm run -s audit:file-manifest/m) < at(/^python3 scripts\/rebuild_manifest\.py/m),
+  assert.ok(at(/^\s*git rebase /m) > at(/^git commit -q -m/m), 'it rebases after that commit');
+  assert.ok(at(/^\s*python3 scripts\/rebuild_manifest\.py/m) > at(/^\s*git rebase /m), 'and builds the manifests after the rebase');
+  assert.ok(at(/^\s*npm run -s audit:file-manifest/m) < at(/^\s*python3 scripts\/rebuild_manifest\.py/m),
     'data/_manifest.json first, then data/manifest.json (two-manifest trap)');
+});
+
+test('a refused push fetches, rebases and rebuilds the manifests again', () => {
+  // A PR merged between the fetch and the push refused Polymarket's single
+  // push on 2026-10-19. The retry must start from the fetch, and take the
+  // manifests back out of the commit first, or the next rebase conflicts on them.
+  const src = fs.readFileSync(path.join(ROOT, 'scripts', 'push-data-commit.sh'), 'utf8');
+  const loop = (src.match(/^for attempt in [^\n]*\n([\s\S]*?)^done$/m) || [])[1];
+  assert.ok(loop, 'the push runs inside a retry loop');
+  const order = [/git fetch origin/, /git rebase /, /audit:file-manifest/, /rebuild_manifest\.py/, /if git push origin/, /git checkout HEAD~1 -- "\$\{MANIFESTS\[@\]\}"/]
+    .map((re) => loop.search(re));
+  assert.ok(order.every((i) => i >= 0), 'fetch, rebase, both manifests, push and manifest reset are all in the loop: ' + order);
+  assert.deepStrictEqual([...order].sort((a, b) => a - b), order, 'in that order');
+  assert.ok(!/^git push/m.test(src), 'no push outside the loop');
+  assert.match(src, /done\n[^\n]*::error::[^\n]*\nexit 1/, 'a branch that keeps moving fails the run');
 });
 
 test('Rebuild BPS Permits checks the data bounds on the tree it commits', () => {
