@@ -72,6 +72,14 @@ run('a step that completes itself on read still asks for the missing jurisdictio
   assert.match(r.html, /href="select-jurisdiction\.html\?next=hna-what-housing-exists\.html"/, 'the prompt must carry the reader back here');
 });
 
+run('the needs assessment says it is showing statewide figures, not that it has nothing to show', () => {
+  // It opens on State of Colorado figures, so "nothing to show until you pick
+  // one" contradicted the numbers right below it (live check 2026-10-19).
+  const r = render('hna-what-housing-exists.html', ['hsa']);
+  assert.match(r.text, /Showing statewide figures/, r.text);
+  assert.ok(!/nothing to show/.test(r.text), r.text);
+});
+
 run('Select Jurisdiction gives one next step: the banner agrees with the page button', () => {
   // Codex review 2026-10-15: the banner said "Go on to Opportunity Finder"
   // while the page's main button said "Begin Housing Needs Assessment (step 3)"

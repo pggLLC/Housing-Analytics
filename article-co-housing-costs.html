@@ -130,7 +130,7 @@
 
         <!-- ── Interactive Maps ── -->
         <h2>Interactive County Maps</h2>
-        <p>Maps are generated monthly from the Python pipeline and embedded below. If a map file is not yet available (first run), a placeholder is shown until the next monthly update creates it.</p>
+        <p>These maps are rebuilt each month from the sources listed above.</p>
 
         <h3>Current Housing Cost Indicators (2020–2024 ACS)</h3>
 
@@ -147,7 +147,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated. Run the pipeline script to create interactive maps.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">This choropleth map shows median gross rent across all 64 Colorado counties using 2020–2024 ACS 5-year estimates. Darker shades indicate higher median rents. Resort counties such as Pitkin, Eagle, and Summit show the highest rents.</p>
@@ -166,7 +166,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">This map shows the share of renter households spending 30 percent or more of household income on gross rent. Higher values indicate greater affordability stress.</p>
@@ -185,7 +185,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">This map displays the housing vacancy rate across Colorado counties. Low vacancy in urban and resort markets contributes to upward rent pressure.</p>
@@ -207,7 +207,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">This map shows proportional change in median gross rent between the 2010–2014 and 2020–2024 ACS 5-year cohorts. Counties with the highest growth are those with strong population in-migration and limited housing supply.</p>
@@ -226,7 +226,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">15-year rent change captures the long-run trajectory from the pre-recession period through the post-pandemic era. Mountain resort counties show the highest long-run appreciation.</p>
@@ -248,7 +248,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">FHFA HPI 10-year change highlights which counties have seen the greatest home price appreciation over the past decade, using repeat-sales methodology. Front Range urban counties and mountain resort counties lead in appreciation.</p>
@@ -291,7 +291,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">This map shows average annual wages for construction workers (NAICS 23) by Colorado county using QCEW data. Higher wages in the Front Range and resort counties reflect both market rates and union density.</p>
@@ -313,7 +313,7 @@
               style="border:none;"
               loading="lazy"
               onload="hideMapSpinner(this)"
-              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>This map could not load. Please refresh the page.</p>'">
             </iframe>
           </div>
           <p class="sr-only">Permits per capita measures how quickly each county is adding new housing relative to its population. Counties with low permit rates and high demand typically show the strongest rent growth.</p>
@@ -392,7 +392,7 @@
             <dd style="margin:.15rem 0 .25rem 0;">ElasticNetCV with 5-fold cross-validation. In plain terms: <em>the algorithm tries many possible weightings of the five inputs, throws out the ones that don't generalize when tested on counties it hasn't seen yet, and reports the weighting that best explains HPI growth across the held-out counties.</em> The penalty strength (α) is tuned by leaving one county out, refitting, and picking the value that produces the smallest prediction error.</dd>
 
             <dt style="font-weight:700;margin-top:.5rem;">Which counties are included</dt>
-            <dd style="margin:.15rem 0 .25rem 0;">All counties with non-missing values for every input. In practice this is <strong>52–58 of Colorado's 64 counties</strong> — the smallest rural counties are dropped when FHFA HPI or BLS QCEW suppresses their figures due to disclosure rules. The dropped counties are listed in the pipeline log.</dd>
+            <dd style="margin:.15rem 0 .25rem 0;">All counties with non-missing values for every input. In practice this is <strong>52–58 of Colorado's 64 counties</strong> — the smallest rural counties are dropped when FHFA HPI or BLS QCEW suppresses their figures due to disclosure rules. Those counties are left out of the ranking.</dd>
           </dl>
           <p style="margin:.75rem 0 0;font-size:.8125rem;color:var(--muted);">
             <strong>Technical spec for reproducibility:</strong> Target = FHFA HPI 10-year % change. Features = ACS B19013 (income growth), ACS B25002 (vacancy), ACS B25070 (rent burden), Census BPS (permits/capita), BLS QCEW NAICS 23 (wages). Method = elastic-net linear regression (scikit-learn ElasticNetCV), with the penalty strength α chosen by 5-fold cross-validation as the value with the lowest mean squared error. Inputs are z-score standardized before fitting.
@@ -422,7 +422,7 @@
               </tr>
             </thead>
             <tbody id="drivers-table-body">
-              <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Loading driver ranking from latest pipeline run…</td></tr>
+              <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Loading driver ranking…</td></tr>
             </tbody>
           </table>
           <p id="drivers-table-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">
@@ -524,9 +524,9 @@
             const coefDisplay = isFinite(coef) ? (coef >= 0 ? '+' : '') + coef.toFixed(4) : (c[1] || '');
             return '<tr><td>' + (i + 1) + '</td><td>' + (c[0] || '') + '</td><td>' + coefDisplay + '</td><td>' + (c[2] || '') + '</td></tr>';
           }).join('');
-          if (noteEl) noteEl.textContent = 'Showing live data from the latest pipeline run. Coefficients are standardized (z-score inputs); rows sorted by absolute magnitude.';
+          if (noteEl) noteEl.textContent = 'Showing the latest monthly update. Coefficients are standardized (z-score inputs); rows sorted by absolute magnitude.';
           const liveEl = document.getElementById('map-status-live');
-          if (liveEl) liveEl.textContent = 'Driver ranking table updated from latest pipeline output.';
+          if (liveEl) liveEl.textContent = 'Driver ranking table updated from the latest monthly update.';
         })
         .catch(function () {
           // F119 — explicit no-data state instead of dressing up fabricated
@@ -555,18 +555,18 @@
             msgs.push(missing + ' of ' + status.maps_total + ' maps could not be generated.');
           }
           if (stale) {
-            msgs.push(stale + ' of ' + status.maps_total + ' maps show data from an earlier run because their source did not refresh.');
+            msgs.push(stale + ' of ' + status.maps_total + ' maps show last month’s data because their source did not refresh.');
           }
           if (!missing && !stale && !status.maps_complete) {
-            msgs.push('Interactive maps incomplete (' + status.maps_generated + '/' + status.maps_total + ' generated).');
+            msgs.push('Some maps are incomplete (' + status.maps_generated + ' of ' + status.maps_total + ' ready).');
           }
           if (!status.drivers_csv_available) {
-            msgs.push('Driver ranking CSV not regenerated by the latest run.');
+            msgs.push('The driver ranking was not refreshed this month.');
           }
           if (msgs.length) {
             var banner = document.getElementById('pipeline-status-banner');
             if (banner) {
-              banner.textContent = '⚠ Pipeline notice: ' + msgs.join(' ') + ' The next monthly data update will try to regenerate them.';
+              banner.textContent = '⚠ Data notice: ' + msgs.join(' ') + ' The next monthly data update will try to regenerate them.';
               banner.hidden = false;
             }
           }
