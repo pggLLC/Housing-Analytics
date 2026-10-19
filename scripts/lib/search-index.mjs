@@ -5,6 +5,8 @@
 // Record fields: t title, u URL relative to the site root, d description, k headings,
 // a aliases (old names that now redirect here), b the page's other visible words, each once.
 
+import { isSensitive } from './public-sensitive-patterns.mjs';
+
 const STOP_WORDS = new Set(('a an and are as at be by for from has have in is it its of on or ' +
   'that the this to was were will with you your').split(' '));
 const MAX_BODY_WORDS = 1500;
@@ -33,7 +35,9 @@ export function wordBag(text, exclude = '') {
   const skip = new Set(String(exclude).toLowerCase().split(/[^a-z0-9]+/));
   const seen = new Set();
   for (const word of String(text).toLowerCase().split(/[^a-z0-9]+/)) {
-    if (word.length < 2 || STOP_WORDS.has(word) || skip.has(word) || seen.has(word)) continue;
+    // A word the public guard forbids on its own (the one allowed photo credit's brand name)
+    // stays out of the bag, where it would lose the words around it that make it allowed.
+    if (word.length < 2 || STOP_WORDS.has(word) || skip.has(word) || seen.has(word) || isSensitive(word)) continue;
     seen.add(word);
     if (seen.size >= MAX_BODY_WORDS) break;
   }
