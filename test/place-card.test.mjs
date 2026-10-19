@@ -334,5 +334,16 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(!/next step needs that/.test(P.rankContacts([], mgr, 'Apply for a grant', [])[0].why), 'a grant application alone does not call for the manager');
 }
 
+// The project intro shows only with a public source.
+{
+  const about = { text: 'A 40-acre town parcel.', checked: '2026-10-19', sources: [{ label: 'Town page', url: 'https://example.org/a' }] };
+  const card = P.render({ name: 'T', geoid: '0800001', about });
+  ok(/About this project/.test(card) && /A 40-acre town parcel/.test(card) && /Checked 2026-10-19/.test(card), 'the intro shows with its source and date');
+  ok(!/About this project/.test(P.render({ name: 'T', geoid: '0800001', about: { text: 'Unsourced.', sources: [] } })), 'an intro with no public source is left out');
+  ok(/contacts && contacts\.about/.test(read('developer-brief.html')), 'the report page passes the place\'s intro to the card');
+}
+
+ok(P.needsFromAction('Get planning department approval').indexOf('council') === -1, 'an approval alone is not a council vote');
+
 console.log('place-card: ' + checks + ' checks passed');
 
