@@ -31,8 +31,8 @@
     { min: 11, color: '#08306b', label: '11 or more banks' },
     { min: 6, color: '#2171b5', label: '6 to 10' },
     { min: 3, color: '#6baed6', label: '3 to 5' },
-    { min: 1, color: '#bad6ed', label: '1 or 2' },
-    { min: 0, color: '#f2eee4', label: 'No bank branch' },
+    { min: 1, color: '#c6dbef', label: '1 or 2' },
+    { min: 0, color: '#fbf3df', label: 'No bank branch' },
   ];
   var EXPANSIVE_COLOR = '#6baed6';
   var OFFICE_COLOR = '#d94801'; // orange, apart from the blue county shades
