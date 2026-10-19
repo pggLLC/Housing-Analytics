@@ -899,6 +899,7 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
 # ---------------------------------------------------------------------------
 
 BPS_OUTPUT_COLUMNS = ["county_fips", "bps_year", "total_units"]
+BPS_YEARS = 5  # survey years kept in permits_county.parquet
 
 # Census BPS county files carry two header rows: a group row ("1-unit",
 # "2-units", "3-4 units", "5+ units", then the same four as "rep" revisions)
@@ -975,11 +976,18 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
         log.info("BPS: loading from cache")
         return pd.read_parquet(cache_path)
 
+    # Census publishes last year's county file in the spring, so from January
+    # until then the newest year is missing. One more year back keeps the
+    # cache at five years; four would leave the data map's five-year permit
+    # average with no complete window for any county.
     now = datetime.datetime.now(datetime.timezone.utc)
-    candidate_years = list(range(now.year - 1, now.year - 6, -1))
+    candidate_years = list(range(now.year - 1, now.year - 2 - BPS_YEARS, -1))
 
     rows: List[Dict[str, Any]] = []
+    years_fetched = 0
     for year in candidate_years:
+        if years_fetched == BPS_YEARS:
+            break
         url = cfg.BPS_BASE_URL.format(year=year)
         log.info("Fetching BPS %d permits from %s …", year, url)
         try:
@@ -998,6 +1006,7 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
             continue
 
         rows.extend(parsed)
+        years_fetched += 1
         log.info(
             "BPS %d: %d counties, %d total units",
             year, len(parsed), sum(r["total_units"] for r in parsed),

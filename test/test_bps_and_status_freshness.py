@@ -118,6 +118,38 @@ check(mod._parse_bps_county_file(shuffled, "08") == [],
 check(mod._parse_bps_county_file("not,a,bps,file\n1,2,3", "08") == [],
       "unrelated CSV content yields no rows")
 
+# ── 3b. Five survey years, even before last year's file is out ───────────────
+# Census publishes the prior year's county file in the spring. From January
+# until then the newest year 404s; the fetcher must reach one year further back
+# rather than cache four years, which leaves no county a five-year window.
+print("\n  BPS five-year window")
+import datetime
+import tempfile
+newest = datetime.datetime.now(datetime.timezone.utc).year - 1
+requested = []
+
+
+def fake_fetch(url, timeout=60, retries=3):
+    year = int(url.rsplit("co", 1)[1][:4])
+    requested.append(year)
+    if year == newest:
+        raise OSError("HTTP 404")
+    return "\n".join([HEADER_1, HEADER_2, "",
+                      row("08", "001", 1, 0, 0, 0).replace("2024,", f"{year},", 1)]).encode()
+
+
+real_fetch, real_data_dir = mod._fetch_url_with_retry, mod.DATA_DIR
+mod._fetch_url_with_retry = fake_fetch
+mod.DATA_DIR = pathlib.Path(tempfile.mkdtemp())
+try:
+    got = mod.fetch_building_permits(cfg, refresh=True)
+finally:
+    mod._fetch_url_with_retry, mod.DATA_DIR = real_fetch, real_data_dir
+got_years = sorted(int(y) for y in got["bps_year"].unique())
+check(got_years == list(range(newest - 5, newest)),
+      f"with {newest} unpublished, the cache holds {newest - 5}–{newest - 1} (saw {got_years})")
+check(len(requested) == 6, f"it asks for one extra year and stops at five (asked {requested})")
+
 # ── 4. A left-behind map must not count as complete ─────────────────────────
 print("\n  status freshness")
 import tempfile

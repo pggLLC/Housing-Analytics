@@ -75,6 +75,10 @@ test('an unpublished value stays null, never zero', () => {
   const wageGaps = props.filter((p) => p.qcew_avg_annual_wage == null).length;
   assert.ok(hpiGaps > 0 && hpiGaps < 64, `some counties have no FHFA index (${hpiGaps})`);
   assert.ok(wageGaps > 0 && wageGaps < 64, `some counties have no published QCEW wage (${wageGaps})`);
+  // A survey year missing from the cache blanks every county at once; the
+  // builder stops on that, and this holds the refresh if it ever gets through.
+  const permitRates = props.filter((p) => p.bps_permits_per_1k_5yr_avg != null).length;
+  assert.ok(permitRates > 0, `the permits layer is not blank (${permitRates} of 64 counties)`);
 });
 
 test('the layer years come from the features, and the features agree on them', () => {

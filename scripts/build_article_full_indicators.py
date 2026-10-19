@@ -152,7 +152,15 @@ def _permits(permits: pd.DataFrame) -> tuple[pd.DataFrame, int, int]:
         complete = years == set(range(first, last + 1)) and g["total_units"].notna().all()
         rows.append({"county_fips": fips,
                      "bps_permits_5yr_avg_units": round(g["total_units"].mean(), 1) if complete else None})
-    return pd.DataFrame(rows), first, last
+    out = pd.DataFrame(rows)
+    if out.empty or out["bps_permits_5yr_avg_units"].isna().all():
+        # A year missing from the cache blanks every county; publishing that
+        # would erase the layer, so stop and keep the one already published.
+        held = sorted(int(y) for y in permits["bps_year"].dropna().unique())
+        sys.exit(f"permits_county.parquet has no county with all of BPS {first}–{last} "
+                 f"(it holds {held}). fetch_building_permits() in "
+                 "scripts/build_co_housing_costs_insight.py should keep five published years.")
+    return out, first, last
 
 
 def _check_against_census(base: pd.DataFrame, census: dict[str, dict]) -> list[str]:
