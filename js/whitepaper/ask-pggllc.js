@@ -71,31 +71,43 @@
       .then(function (r) { if (!r.ok) throw new Error('save failed'); return r.json(); });
   }
 
-  // Draw into `el` and keep it live. opts as render(), minus questions.
+  // Draw into `el` and keep it live. opts as render(), minus questions. The list
+  // redraws inside its own box; the status line beside it stays put, so a save
+  // is announced and focus lands somewhere that still exists.
   function mount(el, opts) {
     if (!el) return;
     opts = opts || {};
-    // The site answers {questions, can_answer}; only pggLLC's sign-ins may answer.
+    el.innerHTML = '<div class="ask-body"></div><p class="ask-status" role="status" aria-live="polite" tabindex="-1"></p>';
+    var body = el.querySelector('.ask-body'), status = el.querySelector('.ask-status');
+    function saved(msg, focusAsk) {
+      status.textContent = msg;
+      var q = focusAsk && body.querySelector('#askQuestion');
+      (q || status).focus();
+    }
     function draw(res) {
       var list = res && Array.isArray(res.questions) ? res.questions : null;
-      el.innerHTML = render(Object.assign({}, opts, { questions: list, canAnswer: !!(res && res.can_answer) }));
-      var f = el.querySelector('#askForm');
+      body.innerHTML = render(Object.assign({}, opts, { questions: list, canAnswer: !!(res && res.can_answer) }));
+      var f = body.querySelector('#askForm');
       if (f) f.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = f.querySelector('button');
         if (btn.disabled) return;
         btn.disabled = true;
+        status.textContent = 'Sending…';
         post({ question: f.question.value, place: f.place.value, page: opts.page || '' })
-          .then(draw).catch(function () { btn.disabled = false; btn.textContent = 'Not saved. Try again'; });
+          .then(function (r) { draw(r); saved('Sent to pggLLC. It is listed below for everyone signed in.', true); })
+          .catch(function () { btn.disabled = false; btn.textContent = 'Not saved. Try again'; status.textContent = 'Not saved. Check you are still signed in, then try again.'; });
       });
-      Array.prototype.forEach.call(el.querySelectorAll('.ask-answer-form'), function (af) {
+      Array.prototype.forEach.call(body.querySelectorAll('.ask-answer-form'), function (af) {
         af.addEventListener('submit', function (e) {
           e.preventDefault();
           var b = af.querySelector('button');
           if (b.disabled) return;
           b.disabled = true;
           var id = af.closest('.ask-q').getAttribute('data-id');
-          post({ answer: id, text: af.text.value }).then(draw).catch(function () { b.disabled = false; b.textContent = 'Not saved. Try again'; });
+          post({ answer: id, text: af.text.value })
+            .then(function (r) { draw(r); saved('Answer saved.', false); })
+            .catch(function () { b.disabled = false; b.textContent = 'Not saved. Try again'; status.textContent = 'Answer not saved. Try again.'; });
         });
       });
     }
@@ -107,7 +119,7 @@
   var STYLE = '.ask-form{display:grid;gap:.4rem;max-width:44rem}.ask-form textarea,.ask-form input,.ask-answer-form textarea{width:100%;box-sizing:border-box;min-height:44px;padding:.6rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--bg2);color:var(--text);font:inherit}' +
     '.ask-form button,.ask-answer-form button{justify-self:start;min-height:44px;padding:.6rem 1rem;border-radius:var(--radius-sm,6px);border:1px solid var(--accent);background:var(--accent);color:var(--on-accent,#fff);font-weight:700;cursor:pointer}' +
     '.ask-note,.ask-meta{color:var(--muted);font-size:var(--small,.9rem);margin:.2rem 0}.ask-list{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.75rem}' +
-    '.ask-q{border:1px solid var(--border);border-radius:var(--radius,8px);padding:.75rem 1rem;background:var(--card)}.ask-text{margin:0 0 .25rem;font-weight:600}.ask-answer{margin:.5rem 0 0}.ask-open{margin:.4rem 0;color:var(--warn)}.ask-answer-form{display:grid;gap:.4rem;margin-top:.4rem}';
+    '.ask-q{border:1px solid var(--border);border-radius:var(--radius,8px);padding:.75rem 1rem;background:var(--card)}.ask-text{margin:0 0 .25rem;font-weight:600}.ask-answer{margin:.5rem 0 0}.ask-open{margin:.4rem 0;color:var(--warn)}.ask-answer-form{display:grid;gap:.4rem;margin-top:.4rem}.ask-status{margin:.5rem 0 0;color:var(--muted)}.ask-status:empty{display:none}';
 
   function style(doc) {
     doc = doc || (typeof document !== 'undefined' ? document : null);

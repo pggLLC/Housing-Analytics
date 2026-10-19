@@ -61,7 +61,7 @@ const sameName = P.mergeContacts([{ name: 'Pat Planner', role: 'Planning Directo
   P.researchedFor({ contacts: [] }, [{ name: 'T County', contacts: [{ name: 'Pat Planner', role: 'County Planner', phone: '970-555-9999', source_url: 'https://example.org/c' }] }]));
 ok(sameName.length === 1 && sameName[0].phone === '' && !sameName[0].source_url, 'a related place\'s contact never fills your own record by name');
 ok(P.render({ name: 'T', geoid: '0800001', anti: { date_dropped: '2026-01-01', reason: 'No land', revisit_date: '2027-01-01' } }).includes('Revisit 2027-01-01'), 'a set-aside place shows when to revisit');
-for (const pg of ['developer-methods.html', 'developer-about.html']) ok(read(pg).includes('href="#main-content"') && read(pg).includes('id="main-content"'), pg + ' has a skip link');
+for (const pg of ['developer-methods.html', 'developer-about.html']) ok(read(pg).includes('href="#main-content"') && read(pg).includes('id="main-content"') && read(pg).includes('<footer id="site-footer"></footer>'), pg + ' has a skip link and a footer landmark');
 
 // 3. A logged discussion moves the person up.
 const notes = [{ id: 'a', date: '2026-10-18', contact: 'mo manager', said: 'Talked about fees.' }];
@@ -188,6 +188,7 @@ const askSrc = read('js/whitepaper/ask-pggllc.js');
   handler({ preventDefault() {} }); handler({ preventDefault() {} });
   ok(posts === 1 && btn.disabled, 'the log form ignores a second submit while saving');
 }
+ok(/class="ask-status" role="status" aria-live="polite"/.test(askSrc) && /body\.innerHTML = render/.test(askSrc) && /saved\('Sent to pggLLC/.test(askSrc), 'a save is announced in a status line that is not redrawn, and focus moves there or back to the form');
 ok((askSrc.match(/if \(b(tn)?\.disabled\) return;/g) || []).length === 2, 'the question and answer forms ignore a second submit while saving');
 ok(read('developer-about.html').includes('id="ask"') && read('developer-about.html').includes('ask-pggllc.js'), 'the About page carries the form');
 
