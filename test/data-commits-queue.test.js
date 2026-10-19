@@ -55,7 +55,6 @@ const NOT_MAIN = {
 // Moving each to scripts/push-data-commit.sh is the follow-up; the list may
 // only shrink.
 const MANIFESTS_BEFORE_REBASE = {
-  'data-refresh.yml': 'Commit refreshed data', // rebuilds only data/manifest.json after
   'data-source-monitoring.yml': 'Commit discovery report',
   'discover-local-resources-weekly.yml': 'Commit updated candidates file',
   'fetch-cdphe-boundaries.yml': 'Commit and push',
