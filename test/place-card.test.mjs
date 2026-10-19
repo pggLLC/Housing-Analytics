@@ -77,6 +77,14 @@ ok(html.includes('&lt;now&gt;') && !html.includes('<now>'), 'the card escapes wh
 ok(html.includes('Talked about fees.') && html.includes('id="pcNoteForm"'), 'the log and its form show when the site can save');
 ok(P.render({ name: 'T', geoid: '0800001', notes: null, notesState: 'off' }).includes('saved on the developer site'), 'without the site, the log says where it lives');
 
+// Codex round 1: the dossier's step fills a blank pipeline action; the form's
+// date is the local calendar day; card links are 44px tall.
+const blankNext = P.render({ name: 'T', geoid: '0800009', pipeline: { stage: 'Signal', next_action: '' },
+  ripeness: { sites: [{ id: 'd', geoid: '0800009', name: 'Lot', stage: 'dossier', card: { reading: 'ripening', checked: '2026-10-19', trigger: 'x', next: { date: '2027-05-05', what: 'Plat lapses' } } }] } });
+ok(blankNext.includes('Plat lapses') && blankNext.includes('from the dossier') && !blankNext.includes('Add the place to the pipeline'), 'a blank pipeline action falls back to the dossier step');
+ok(P.localToday(new Date(2026, 9, 19, 23, 30)) === '2026-10-19', 'the default date is the local day, not UTC');
+ok(/\.pc-card a \{[^}]*min-height:44px/.test(read('developer-brief.html')), 'place card links are 44px tall');
+
 // 5. The page mounts the card in the private block, outside the report frame.
 const page = read('developer-brief.html');
 ok(page.includes('<script src="js/whitepaper/place-card.js"></script>'), 'the report page loads the card');

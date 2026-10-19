@@ -183,7 +183,10 @@
     var best = sites[0] || null;
     var reading = best ? siteReading(best) : 'none';
     var place = (opts.ripeness && opts.ripeness.places && opts.ripeness.places[opts.geoid]) || null;
-    var next = p ? p.next_action : (best && best.card && best.card.next ? best.card.next.what : '');
+    // The pipeline's own next step first; the dossier's dated step when the row has none.
+    var cardNext = best && best.card && best.card.next ? best.card.next : null;
+    var fromPipe = !!(p && p.next_action);
+    var next = fromPipe ? p.next_action : cardNext ? cardNext.what : '';
     var ranked = rankContacts(opts.network, opts.researched, next, opts.notes);
     var top = ranked.slice(0, 3);
     var sig = (opts.signals || []).slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
@@ -199,8 +202,8 @@
     if (opts.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(opts.anti.date_dropped) + ': ' + esc(opts.anti.reason) + '</p>';
 
     h += '<h3>Next step</h3>' + (next
-      ? '<p>' + esc(next) + (p && p.next_action_due ? ' <span class="ib-muted">(due ' + esc(p.next_action_due) + ')</span>' : best && best.card && best.card.next ? ' <span class="ib-muted">(' + esc(best.card.next.date) + ')</span>' : '') + '</p>'
-      : '<p class="ib-muted">No next step set. Add the place to the pipeline from Working tools below.</p>');
+      ? '<p>' + esc(next) + (fromPipe ? (p.next_action_due ? ' <span class="ib-muted">(due ' + esc(p.next_action_due) + ')</span>' : '') : ' <span class="ib-muted">(' + esc(cardNext.date) + ', from the dossier)</span>') + '</p>'
+      : '<p class="ib-muted">' + (p ? 'No next step set on the pipeline row.' : 'No next step set. Add the place to the pipeline from Working tools below.') + '</p>');
 
     h += '<h3>Call first</h3>';
     if (top.length) {
@@ -228,6 +231,14 @@
     return h + '<p><a href="developer-pipeline.html#readyToBuild">Pipeline and Ready to build</a> · <a href="dossiers/">All dossiers</a></p></div>';
   }
 
+  // Today's date on the viewer's own calendar (toISOString is UTC, a day ahead
+  // in a Colorado evening).
+  function localToday(d) {
+    d = d || new Date();
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
   // The discussion log: every talk about this place, newest first, and a form
   // to add one. notes is null when the site has nowhere to save them.
   function notesHtml(notes, contacts, state) {
@@ -240,7 +251,7 @@
         '<br>' + esc(n.said) + (n.next ? '<br><strong>Next:</strong> ' + esc(n.next) + (n.next_date ? ' (' + esc(n.next_date) + ')' : '') : '') +
         ' <button type="button" class="pc-note-remove" data-note="' + esc(n.id) + '">Remove</button></li>';
     }).join('') + '</ul>' : '<p class="ib-muted">No discussions logged yet.</p>';
-    var today = new Date().toISOString().slice(0, 10);
+    var today = localToday();
     return h + '<form class="pc-note-form" id="pcNoteForm"><fieldset><legend>Log a discussion</legend>' +
       '<label>Date <input type="date" name="date" value="' + today + '" required></label>' +
       '<label>Who <input type="text" name="contact" list="pcContactList" autocomplete="off" maxlength="120"></label>' +
@@ -274,6 +285,6 @@
 
   return {
     coversFromRole: coversFromRole, needsFromAction: needsFromAction, mergeContacts: mergeContacts,
-    rankContacts: rankContacts, lastTalked: lastTalked, sitesFor: sitesFor, render: render, wireNotes: wireNotes, OPENING: OPENING
+    rankContacts: rankContacts, lastTalked: lastTalked, localToday: localToday, sitesFor: sitesFor, render: render, wireNotes: wireNotes, OPENING: OPENING
   };
 });
