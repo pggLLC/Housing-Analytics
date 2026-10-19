@@ -15,6 +15,11 @@
  *     it last updated;
  *   - a source the fetcher could not read is named as unavailable, never left
  *     to look like a quiet calendar.
+ *
+ * Past events are kept (from 2026-10-19) under their own heading, newest
+ * first: an ended event in the upcoming list moves there, and the file's
+ * `past` list is shown even when the file has stopped updating, since what
+ * already happened does not go out of date.
  */
 (function (root, factory) {
   'use strict';
@@ -82,7 +87,7 @@
    */
   function read(doc, now) {
     now = now || new Date();
-    var empty = { stale: false, updated: '', events: [], unavailable: [], categories: {} };
+    var empty = { stale: false, updated: '', events: [], past: [], unavailable: [], categories: {} };
     if (!doc || !doc.meta || !Array.isArray(doc.events)) return empty;
     var generated = Date.parse(doc.meta.generated || '');
     var stale = !isFinite(generated) || (now.getTime() - generated) > STALE_DAYS * DAY;
@@ -92,6 +97,17 @@
     }).sort(function (x, y) {
       return x.start < y.start ? -1 : x.start > y.start ? 1 : String(x.time || '').localeCompare(String(y.time || ''));
     });
+    var seen = {};
+    var past = doc.events.concat(Array.isArray(doc.past) ? doc.past : []).filter(function (e) {
+      if (!e || !e.title || !e.start || (e.end || e.start) >= today) return false;
+      var k = [e.organizer, e.title, e.start].join('|');
+      if (seen[k]) return false;
+      seen[k] = true;
+      return true;
+    }).sort(function (x, y) {
+      var a = x.end || x.start, b = y.end || y.start;
+      return a < b ? 1 : a > b ? -1 : (x.start < y.start ? 1 : x.start > y.start ? -1 : 0);
+    });
     var unavailable = (doc.sources || []).filter(function (s) {
       return s && s.status && s.status !== 'ok';
     }).map(function (s) { return s.name; });
@@ -99,17 +115,19 @@
       stale: stale,
       updated: isFinite(generated) ? new Date(generated).toISOString().slice(0, 10) : '',
       events: events,
+      past: past,
       unavailable: unavailable,
       categories: doc.meta.categories || {}
     };
   }
 
-  function rowHtml(e, categories) {
+  function rowHtml(e, categories, isPast) {
     var url = safeUrl(e.url);
     var title = url
       ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(e.title) + '</a>'
       : esc(e.title);
-    var when = dateRange(e.start, e.end) + (e.time ? ' · ' + clock(e.time) : '');
+    var p = parts(e.start);
+    var when = dateRange(e.start, e.end) + (isPast && p ? ', ' + p.y : '') + (e.time && !isPast ? ' · ' + clock(e.time) : '');
     var meta = [e.organizer, e.location].filter(Boolean).map(esc).join(' · ');
     return '<li class="event-row" data-category="' + esc(e.category || '') + '">' +
       '<span class="event-row__when">' + esc(when) + '</span>' +
@@ -117,6 +135,8 @@
       (meta ? '<span class="event-row__meta">' + meta + '</span>' : '') +
       '</li>';
   }
+
+  function pastRowHtml(e, categories) { return rowHtml(e, categories, true); }
 
   function longDay(iso) {
     var p = parts(iso);
@@ -142,6 +162,7 @@
     STALE_DAYS: STALE_DAYS,
     read: read,
     rowHtml: rowHtml,
+    pastRowHtml: pastRowHtml,
     noteText: noteText,
     dateRange: dateRange,
     clock: clock,

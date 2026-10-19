@@ -128,6 +128,11 @@
     .event-row__title a { color: var(--text); text-decoration: none; }
     .event-row__title a:hover { color: var(--link); text-decoration: underline; }
     .event-row__meta { font-size: .8125rem; color: var(--faint); }
+    details.events-past { border: 0; border-radius: 0; margin: .6rem 0 0; padding: 0; overflow: visible; }
+    details.events-past > summary { display: inline-flex; align-items: center; min-height: 44px; padding: 0; background: none; font-size: .85rem; font-weight: 600; color: var(--link) !important; }
+    details.events-past[open] > summary { background: none; border-bottom: 0; }
+    details.events-past > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    details.events-past .event-row__when { color: var(--faint); }
     .news-panel__more a { color: var(--link); font-weight: 600; }
     .news-note { margin: 0 0 .4rem; font-size: .8125rem; color: var(--faint); line-height: 1.45; }
     /* One quiet disclosure under the header, not a card: the site's default
@@ -169,7 +174,7 @@
       <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed daily, including one search for each jurisdiction that has a brief. Stories that are only about other states are left out.</p>
       <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
       <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
-      <p><strong>Upcoming events</strong> come from CHFA's public calendar (chfareach trainings, board meetings, lender and homebuyer classes) and Housing Colorado's events page, read daily, plus a short list checked by hand against each organizer's own page (conferences no feed lists). Ended events are not shown. If a calendar cannot be read, the panel says so instead of showing an old list.</p>
+      <p><strong>Upcoming events</strong> come from CHFA's public calendar (chfareach trainings, board meetings, lender and homebuyer classes) and Housing Colorado's events page, read daily, plus a short list checked by hand against each organizer's own page (conferences no feed lists). Ended events move to Past events, newest first, and stay there for a year. If a calendar cannot be read, the panel says so instead of showing an old list.</p>
       <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results. This page shows a summary; each row opens the page that lists those entries in full.</p>
       <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
       <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research. Each opens in a reader that lists its sources.</p>
@@ -222,6 +227,11 @@
           <div class="event-chips" id="eventChips" role="group" aria-label="Filter events by type"></div>
           <ul id="eventsList" class="event-rows no-glossary"></ul>
           <button type="button" class="news-linkbtn" id="eventsMore" hidden></button>
+          <details class="events-past" id="eventsPast" hidden>
+            <summary id="eventsPastLabel">Past events</summary>
+            <ul id="eventsPastList" class="event-rows no-glossary"></ul>
+            <button type="button" class="news-linkbtn" id="eventsPastMore" hidden></button>
+          </details>
         </section>
         <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
           <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>
@@ -669,6 +679,26 @@
         draw();
       });
       more.addEventListener('click', function () { expanded = !expanded; draw(); });
+      draw();
+      renderPastEvents(st);
+    }
+
+    // Past events: kept, newest first, behind one disclosure so they never
+    // read as upcoming. Ten rows, then ten more per click.
+    var PAST_STEP = 10;
+    function renderPastEvents(st) {
+      var HE = window.HousingEvents;
+      var box = $('eventsPast'), list = $('eventsPastList'), more = $('eventsPastMore');
+      if (!box || !st.past.length) return;
+      var n = PAST_STEP;
+      $('eventsPastLabel').textContent = 'Past events (' + st.past.length + ')';
+      function draw() {
+        list.innerHTML = st.past.slice(0, n).map(function (e) { return HE.pastRowHtml(e, st.categories); }).join('');
+        more.hidden = st.past.length <= n;
+        more.textContent = 'Show ' + Math.min(PAST_STEP, st.past.length - n) + ' more past events';
+      }
+      more.addEventListener('click', function () { n += PAST_STEP; draw(); });
+      box.hidden = false;
       draw();
     }
 
