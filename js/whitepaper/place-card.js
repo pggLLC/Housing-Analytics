@@ -62,10 +62,13 @@
   function nameKey(s) { return String(s || '').toLowerCase().replace(/[^a-z]+/g, ' ').trim(); }
 
   // What a role decides, read from its title when the contact file does not say.
-  function coversFromRole(role) {
-    var r = String(role || '').toLowerCase(), out = [];
+  // A bare "Executive Director" counts as the housing lead only when the
+  // organization is a housing authority or housing body.
+  function coversFromRole(role, org) {
+    var r = String(role || '').toLowerCase(), o = String(org || '').toLowerCase(), out = [];
     if (/planning|community development|zoning|land use|building/.test(r)) out.push('zoning');
-    if (/housing authority|housing (director|manager|program|coordinator|specialist|division)|executive director/.test(r)) out.push('housing-authority', 'land');
+    if (/housing authority|housing (director|manager|program|coordinator|specialist|division)/.test(r) ||
+        (/executive director/.test(r) && /housing|land trust/.test(o))) out.push('housing-authority', 'land');
     if (/finance|budget|grants?/.test(r)) out.push('funding');
     if (/mayor|council|trustee|commissioner/.test(r)) out.push('council', 'funding');
     if (/manager|administrator|clerk/.test(r) && !/housing|program/.test(r)) out.push('management');
@@ -106,13 +109,16 @@
       if (!c || !c.name) return;
       var row = { name: c.name, role: c.role || '', org: c.org || '', email: c.email || '', phone: c.phone || '',
         last_talked: c.last_talked && c.last_talked !== 'never' ? c.last_talked : '', tier: c.relationship_tier || '',
-        covers: coversFromRole(c.role), source_url: '', source_label: '', mine: true };
+        covers: coversFromRole(c.role, c.org), source_url: '', source_label: '', mine: true };
       byName[nameKey(c.name)] = row; out.push(row);
     });
     (researched || []).forEach(function (c) {
       if (!c || !c.name || !/^https:\/\//.test(c.source_url || '')) return;
       var have = byName[nameKey(c.name)];
-      var covers = Array.isArray(c.covers) && c.covers.length ? c.covers : coversFromRole(c.role);
+      var covers = Array.isArray(c.covers) && c.covers.length ? c.covers : coversFromRole(c.role, c.org);
+      // A contact researched for a related place never fills in your own
+      // record by name: the county directory number is not the town's.
+      if (have && c.elsewhere) return;
       if (have) {
         have.email = have.email || c.email || '';
         have.phone = have.phone || c.phone || '';
@@ -218,7 +224,7 @@
 
     var h = '<div class="pc-card" id="place-card">';
     h += '<p class="pc-head"><span class="pc-badge pc-' + esc(reading) + '">' + esc(LABEL[reading]) + '</span> ' + esc(why) + '</p>';
-    if (opts.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(opts.anti.date_dropped) + ': ' + esc(opts.anti.reason) + '</p>';
+    if (opts.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(opts.anti.date_dropped) + ': ' + esc(opts.anti.reason) + (opts.anti.revisit_date ? ' Revisit ' + esc(opts.anti.revisit_date) + '.' : '') + '</p>';
 
     h += '<h3>Next step</h3>' + (next
       ? '<p>' + esc(next) + (fromPipe ? (p.next_action_due ? ' <span class="ib-muted">(due ' + esc(p.next_action_due) + ')</span>' : '') : ' <span class="ib-muted">(' + esc(cardNext.date) + ', from the dossier)</span>') + '</p>'

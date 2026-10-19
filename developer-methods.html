@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
 <style>
+  .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
+  .skip-link:focus { top: var(--sp3); }
   .dv-page { max-width: 900px; margin: 0 auto; padding: var(--sp3); }
   .dv-page h1 { margin: 0 0 .4rem; }
   .dv-lede { color: var(--muted); line-height: 1.55; margin: 0 0 var(--sp4); }
@@ -24,8 +26,9 @@
   <script defer src="js/components/table-sort.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header id="siteHeader"></header>
-<main class="dv-page">
+<main class="dv-page" id="main-content">
   <nav id="devNav" class="ib-section-nav"></nav>
 
   <h1>Methodology</h1>

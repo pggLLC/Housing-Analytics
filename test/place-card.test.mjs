@@ -27,6 +27,8 @@ ok(P.needsFromAction('Draft outreach email')[0] === 'housing-authority', 'plain 
 ok(P.coversFromRole('Community Development Director').includes('zoning'), 'community development decides zoning');
 ok(P.coversFromRole('Executive Director, Chaffee Housing Authority').includes('land'), 'a housing authority holds land');
 ok(P.coversFromRole('City Manager').includes('management'), 'a manager runs the staff');
+ok(P.coversFromRole('Executive Director', 'Chamber of Commerce').length === 0 && P.coversFromRole('Executive Director', 'Archuleta County Housing Authority').includes('land'),
+  'a bare executive director is the housing lead only at a housing body');
 
 const network = [
   { name: 'Pat Planner', role: 'Planning Director', org: 'Town', email: '', phone: '', last_talked: 'never', relationship_tier: '3' },
@@ -54,6 +56,12 @@ ok(P.researchedFor(own, [county]).map((c) => c.name).join() === 'Town Planner', 
 const fallback = P.rankContacts([], P.researchedFor({ contacts: [] }, [county]), 'Ask for a zoning letter');
 ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/decides/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
 ok(/researchedFor\(contacts, relatedContacts\)/.test(read('developer-brief.html')), 'the report page ranks with the place\'s own contacts first');
+
+const sameName = P.mergeContacts([{ name: 'Pat Planner', role: 'Planning Director', phone: '' }],
+  P.researchedFor({ contacts: [] }, [{ name: 'T County', contacts: [{ name: 'Pat Planner', role: 'County Planner', phone: '970-555-9999', source_url: 'https://example.org/c' }] }]));
+ok(sameName.length === 1 && sameName[0].phone === '' && !sameName[0].source_url, 'a related place\'s contact never fills your own record by name');
+ok(P.render({ name: 'T', geoid: '0800001', anti: { date_dropped: '2026-01-01', reason: 'No land', revisit_date: '2027-01-01' } }).includes('Revisit 2027-01-01'), 'a set-aside place shows when to revisit');
+for (const pg of ['developer-methods.html', 'developer-about.html']) ok(read(pg).includes('href="#main-content"') && read(pg).includes('id="main-content"'), pg + ' has a skip link');
 
 // 3. A logged discussion moves the person up.
 const notes = [{ id: 'a', date: '2026-10-18', contact: 'mo manager', said: 'Talked about fees.' }];
