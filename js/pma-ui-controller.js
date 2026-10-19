@@ -60,7 +60,7 @@
       '#pmaProgressFill{will-change:width;}',
       '.pma-restored-banner{padding:.4rem .75rem;background:var(--card-alt,rgba(9,110,101,.12));',
       '  border-left:3px solid var(--accent,#096e65);border-radius:4px;font-size:.82rem;margin:.5rem 0;}',
-      '.pma-restored-banner__dismiss{margin-left:.5rem;font-size:.8rem;background:none;',
+      '.pma-restored-banner__dismiss{margin-left:.5rem;font-size:.8125rem;background:none;',
       '  border:1px solid var(--accent,#096e65);border-radius:3px;',
       '  color:var(--accent,#096e65);cursor:pointer;}'
     ].join('');
@@ -75,7 +75,7 @@
       return window.DataScope.scopeBadge(scope, options || {});
     }
     return scope === 'county'
-      ? '<span class="ds-pill ds-pill--county" style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:.68rem;font-weight:600;line-height:1.3;background:var(--warn-dim,#3f2a1a);color:var(--warn,#fbbf24);border:1px solid var(--warn,#fbbf24);">county-scope</span>'
+      ? '<span class="ds-pill ds-pill--county" style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:.8125rem;font-weight:600;line-height:1.3;background:var(--warn-dim,#3f2a1a);color:var(--warn,#fbbf24);border:1px solid var(--warn,#fbbf24);">county-scope</span>'
       : '';
   }
 
@@ -347,7 +347,7 @@
     if (!parts.length) return;
     var note = document.createElement('p');
     note.className = 'pma-deal-handoff-scope-note';
-    note.style.cssText = 'margin:.5rem 0 0;font-size:.76rem;color:var(--text-muted,#aaa);line-height:1.4;';
+    note.style.cssText = 'margin:.5rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);line-height:1.4;';
     note.innerHTML = '<strong>Deal handoff inputs:</strong> ' + _esc(parts.join(' and ')) + ' ' +
       _dataScopeBadge('county', { inline: true }) +
       ' <span style="color:var(--text-muted,#aaa)">County-scope context; not site- or place-specific.</span>';
@@ -358,7 +358,7 @@
   // renderer is not loaded; LIHTCConceptCardRenderer.mixCheckHtml is the full form.
   function _mixCheckFallbackHtml(mc) {
     if (!mc) return '';
-    var small = 'margin:.35rem 0 0;font-size:.75rem;color:var(--text-muted,#aaa);';
+    var small = 'margin:.35rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);';
     return '<section aria-label="Need the homes-short counts miss, and whether the mix pays its way" style="margin:.75rem 0 0;font-size:.85rem;overflow-wrap:anywhere;">' +
       (mc.notes && mc.notes.length ? '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Renters the homes-short counts miss</h4><ul style="margin:0;padding-left:1.25rem;">' +
         mc.notes.map(function (n) { return '<li>' + _esc(n) + '</li>'; }).join('') + '</ul>' : '') +
@@ -476,8 +476,8 @@
           '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Unit Allocation by AMI × Bedroom</h4>',
           (matrix && matrix.tiers && matrix.tiers.length
             ? _renderAmiMatrix(matrix)
-            : '<p style="color:var(--text-muted,#aaa);font-size:.8rem;">Matrix unavailable for this concept.</p>'),
-          '<p style="margin:.35rem 0 0;font-size:.72rem;color:var(--text-muted,#aaa);line-height:1.35;">' +
+            : '<p style="color:var(--text-muted,#aaa);font-size:.8125rem;">Matrix unavailable for this concept.</p>'),
+          '<p style="margin:.35rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);line-height:1.35;">' +
             'Cells are starting allocations using CHFA-preference skew (deeper AMI → larger units). ' +
             'Refine for QAP scoring categories (e.g. minimum unit counts at specific AMI × bedroom combinations).' +
           '</p>',
@@ -515,7 +515,7 @@
 
       _mixCheckFallbackHtml(rec.mixCheck),
 
-      '<p style="margin:.75rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);border-top:1px solid var(--border,#333);padding-top:.5rem;">',
+      '<p style="margin:.75rem 0 0;font-size:.8125rem;color:var(--text-muted,#aaa);border-top:1px solid var(--border,#333);padding-top:.5rem;">',
         _esc(rec.caveats && rec.caveats[0] ? rec.caveats[0] : ''),
       '</p>',
 
@@ -1220,7 +1220,7 @@
       reason.placeholder = 'e.g., bridge at 22 Rd';
       reason.setAttribute('aria-label', 'Crossing that connects tract ' + t.geoid);
       reason.value = t.keepReason || '';
-      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;min-height:44px;margin-top:.2rem;padding:.25rem .4rem;font-size:.76rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
+      reason.style.cssText = (box.checked ? 'display:block;' : 'display:none;') + 'width:100%;min-height:44px;margin-top:.2rem;padding:.25rem .4rem;font-size:.8125rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text)';
       li.appendChild(reason);
       box.addEventListener('change', function () {
         picker.setNaturalFeatureKeep(t.geoid, box.checked, reason.value);

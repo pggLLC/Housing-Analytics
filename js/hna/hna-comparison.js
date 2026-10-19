@@ -571,7 +571,7 @@
       if (approx.indexOf(metricId) >= 0) fromCounty = true;
       if (!fromCounty) return '';
       return ' <span title="No published place-level value for this metric — Compare is showing the containing county\'s value." ' +
-             'style="display:inline-block;font-size:.62rem;padding:1px 5px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:4px;vertical-align:middle;">' +
+             'style="display:inline-block;font-size:.8125rem;padding:1px 5px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:4px;vertical-align:middle;">' +
              '(county)</span>';
     }
 
@@ -625,7 +625,7 @@
     var srcA = (burdenA && burdenA.source) || 'none';
     var srcB = (burdenB && burdenB.source) || 'none';
     html += '<div class="hca-cp-row hca-cp-row--compact" style="margin-bottom:.4rem;align-items:center;">' +
-      '<div class="hca-cp-row__label" style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Data source</div>' +
+      '<div class="hca-cp-row__label" style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Data source</div>' +
       '<div class="hca-cp-row__val">' + _chasSourcePill(srcA) + '</div>' +
       '<div class="hca-cp-row__delta"></div>' +
       '<div class="hca-cp-row__val">' + _chasSourcePill(srcB) + '</div>' +
@@ -643,7 +643,7 @@
       html += '<div class="hca-cp-burden__county-note" role="note" style="' +
         'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--warn,#d97706);' +
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
-        'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+        'font-size:.8125rem;line-height:1.4;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ Tier burden rates are county-level.</strong> ' +
         fallbackSummary + ' because no place-CHAS coverage is available ' +
         '— two places in the same county will show identical tier rates.' +
@@ -689,7 +689,7 @@
     };
     var c = cfg[source] || cfg.none;
     return '<span class="hca-cp-source-pill" title="' + c.title + '" ' +
-      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.8125rem;font-weight:700;' +
       'background:' + c.bg + ';border:1px solid ' + c.border + ';color:' + c.color + ';">' +
       c.text + '</span>';
   }
@@ -846,7 +846,7 @@
     html += '<div class="hca-cp-owner-fallback-note" role="note" style="' +
       'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--accent);' +
       'border-radius:0 4px 4px 0;background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%);' +
-      'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+      'font-size:.8125rem;line-height:1.4;color:var(--text);">' +
       '<strong>Home value source:</strong> A=' + _esc(homeInfoA && homeInfoA.sourceText ? homeInfoA.sourceText : 'unavailable') +
       ' · B=' + _esc(homeInfoB && homeInfoB.sourceText ? homeInfoB.sourceText : 'unavailable') + '.' +
     '</div>';
@@ -872,7 +872,7 @@
       };
       var c = cfg[s] || cfg.none;
       return '<span class="hca-cp-source-pill" title="' + c.title + '" ' +
-        'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+        'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.8125rem;font-weight:700;' +
         'background:' + c.bg + ';border:1px solid ' + c.border + ';color:' + c.color + ';">' +
         c.text + '</span>';
     };
@@ -881,7 +881,7 @@
     // a CHAS fallback, AND which CHAS vintage backs it. Always render so
     // even ACS-direct pairs get the vintage label visible.
     html += '<div class="hca-cp-row hca-cp-row--compact" style="margin-bottom:.4rem;align-items:center;">' +
-      '<div class="hca-cp-row__label" style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Owner-burden source</div>' +
+      '<div class="hca-cp-row__label" style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Owner-burden source</div>' +
       '<div class="hca-cp-row__val">' + ownerSrcPill(ownerA.source) + '</div>' +
       '<div class="hca-cp-row__delta"></div>' +
       '<div class="hca-cp-row__val">' + ownerSrcPill(ownerB.source) + '</div>' +
@@ -891,7 +891,7 @@
       html += '<div class="hca-cp-owner-fallback-note" role="note" style="' +
         'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--accent);' +
         'border-radius:0 4px 4px 0;background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%);' +
-        'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+        'font-size:.8125rem;line-height:1.4;color:var(--text);">' +
         '<strong>% Owners Cost-Burdened source:</strong> ' +
         'A=' + ownerSrcLabel(ownerA.source) + ' · B=' + ownerSrcLabel(ownerB.source) + '. ' +
         'CHAS fallback fires when ACS DP04 SMOCAPI bins are suppressed ' +
@@ -1099,7 +1099,7 @@
       html += '<div class="hca-cp-ami__proxy-note" role="note" style="' +
         'margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
-        'font-size:.78rem;line-height:1.45;color:var(--text);">' +
+        'font-size:.8125rem;line-height:1.45;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ One or both places use county-scaled AMI mix.</strong> ' +
         'Per-place ACS B25118/B25063 distributions weren’t available for at least one selection ' +
         '(typically a very small CDP), so its tier mix is approximated by scaling the county aggregate ' +
@@ -1236,7 +1236,7 @@
     else if (t === 'town')   { label = 'Town';   bg = 'var(--good-dim, #d1fae5)'; fg = 'var(--good, #047857)'; }
     else                     { label = (type || 'Other'); bg = 'var(--bg2, #f4f4f4)'; fg = 'var(--muted, #555)'; }
     var safeLabel = _esc(label);
-    return '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:3px;background:' + bg + ';color:' + fg + ';margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: ' + safeLabel + '">' + safeLabel + '</span>';
+    return '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.8125rem;font-weight:700;padding:1px 6px;border-radius:3px;background:' + bg + ';color:' + fg + ';margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: ' + safeLabel + '">' + safeLabel + '</span>';
   }
 
   // CDP-specific advisory: the user should know CDPs are statistical
@@ -1270,7 +1270,7 @@
     if (!typesMatch && typeA && typeB) {
       var labelA = (typeA === 'place' ? 'city' : typeA);
       var labelB = (typeB === 'place' ? 'city' : typeB);
-      html += '<div role="note" class="hca-cp-scope-warning" style="margin-bottom:.75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.78rem;line-height:1.45;color:var(--text);">' +
+      html += '<div role="note" class="hca-cp-scope-warning" style="margin-bottom:.75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.8125rem;line-height:1.45;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ Mixed-scope comparison.</strong> ' +
         'You\u2019re comparing a ' + _esc(labelA) + ' to a ' + _esc(labelB) + '. ACS values are at different population scales; labor stats may be unavailable for sub-county geographies; percentage metrics can be misleading across scopes. ' +
         'Use the absolute counts and treat the comparison as directional.' +
@@ -1284,12 +1284,12 @@
       '<div class="hca-cp-names__label"></div>' +
       '<div class="hca-cp-names__a">' + _esc(entryA.name) + _scopeBadge(entryA.type) +
         '<div class="hca-cp-rank">#' + entryA.rank + ' of ' + total + ' · ' + entryA.percentileRank + 'th pctile</div>' +
-        (noteA ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteA + '</div>' : '') +
+        (noteA ? '<div class="hca-cp-scope-note" style="font-size:.8125rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteA + '</div>' : '') +
       '</div>' +
       '<div class="hca-cp-names__vs">vs</div>' +
       '<div class="hca-cp-names__b">' + _esc(entryB.name) + _scopeBadge(entryB.type) +
         '<div class="hca-cp-rank">#' + entryB.rank + ' of ' + total + ' · ' + entryB.percentileRank + 'th pctile</div>' +
-        (noteB ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteB + '</div>' : '') +
+        (noteB ? '<div class="hca-cp-scope-note" style="font-size:.8125rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteB + '</div>' : '') +
       '</div>' +
     '</div>';
 
@@ -1333,11 +1333,11 @@
         '</div>' +
       '</div>';
     });
-    html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);line-height:1.5;">' +
+    html += '<p style="margin:.4rem 0 0;font-size:.8125rem;color:var(--muted);line-height:1.5;">' +
       '<strong>Adjusted active-market vacancy:</strong> ranking inputs start from ACS rental vacancy, apply the seasonal/short-term-rental adjustment used in the ranking index, and floor implausibly low active-market readings before comparison.' +
       '</p>';
     if (sawSuppressedVacancy || sawLowVacancy) {
-      html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);line-height:1.5;">';
+      html += '<p style="margin:.4rem 0 0;font-size:.8125rem;color:var(--muted);line-height:1.5;">';
       if (sawSuppressedVacancy) {
         html += '<strong>Vacancy Rate "—":</strong> ACS publishes no rental-vacancy figure when ' +
           'the estimated rental sample is too small (under ~50 units) — counties have the most ' +

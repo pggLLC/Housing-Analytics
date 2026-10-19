@@ -352,7 +352,7 @@
 
       html += '<div class="dc-cp-row">' +
         '<div class="dc-cp-row__label">' + row.label +
-          '<div style="font-size:.72rem;color:var(--muted);font-weight:400">Gap: ' + _fmtInt(row.gap) + ' units</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);font-weight:400">Gap: ' + _fmtInt(row.gap) + ' units</div>' +
         '</div>' +
         '<div class="dc-cp-row__val">' +
           '<span class="dc-cp-row__num">' + _fmtInt(row.unitsA) + ' <small style="color:var(--muted);font-weight:400">(' + pctA.toFixed(1) + '% of gap)</small></span>' +

@@ -514,7 +514,7 @@
           : escHtml(e.name);
         var note = e.note ? ' <span class="ic-muted">— ' + escHtml(e.note) + '</span>' : '';
         var wh = e.workforce_housing_url
-          ? ' <a href="' + escHtml(e.workforce_housing_url) + '" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700">[↳ WFH]</a>'
+          ? ' <a href="' + escHtml(e.workforce_housing_url) + '" target="_blank" rel="noopener" style="font-size:.8125rem;font-weight:700">[↳ WFH]</a>'
           : '';
         return '<li>' + name + wh + note + '</li>';
       }).join('') + (fromCounty ? '<li class="ic-muted" style="margin-top:4px"><em>County-level fallback.</em></li>' : '');
@@ -610,7 +610,7 @@
                  '<td><strong>' + name + '</strong><br><span class="ic-muted">' + city + '</span></td>' +
                  '<td class="num">' + units + '</td>' +
                  '<td class="num">' + year + '</td>' +
-                 '<td>' + credit + (fact ? '<br><span class="ic-muted" style="font-size:.78rem">' + fact + '</span>' : '') + '</td>' +
+                 '<td>' + credit + (fact ? '<br><span class="ic-muted" style="font-size:.8125rem">' + fact + '</span>' : '') + '</td>' +
                '</tr>';
       }).join('');
       mount.innerHTML =

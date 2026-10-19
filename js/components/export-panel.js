@@ -65,7 +65,7 @@
         'opacity:.9;',
       '}',
       '.ep-status{',
-        'font-size:.8rem;',
+        'font-size:.8125rem;',
         'color:var(--muted);',
         'margin-top:8px;',
       '}'

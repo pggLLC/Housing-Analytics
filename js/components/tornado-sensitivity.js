@@ -171,8 +171,8 @@
       '.tornado-row__label { font-size: .82rem; font-weight: 700; color: var(--text); grid-row: 1; grid-column: 1; }' +
       '.tornado-row__bar-wrap { grid-row: 1; grid-column: 2; display: flex; align-items: center; gap: 8px; }' +
       '.tornado-row__bar { height: 20px; border-radius: 3px; min-width: 10px; transition: width .4s ease; }' +
-      '.tornado-row__low, .tornado-row__high { font-size: .75rem; font-weight: 600; color: var(--muted); white-space: nowrap; }' +
-      '.tornado-row__note { grid-row: 2; grid-column: 2; font-size: .72rem; color: var(--faint); }' +
+      '.tornado-row__low, .tornado-row__high { font-size: .8125rem; font-weight: 600; color: var(--muted); white-space: nowrap; }' +
+      '.tornado-row__note { grid-row: 2; grid-column: 2; font-size: .8125rem; color: var(--faint); }' +
       '@media (max-width: 600px) { .tornado-row { grid-template-columns: 1fr; } .tornado-row__label { margin-bottom: 2px; } }';
     document.head.appendChild(style);
   }

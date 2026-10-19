@@ -17,20 +17,20 @@
 @media (max-width: 640px) {
   /* ── Capital Partners ─────────────────────────────────────────── */
   .cp-filter-row { gap: .25rem; }
-  .cp-filter { font-size: .72rem; padding: .2rem .55rem; }
+  .cp-filter { font-size: .8125rem; padding: .2rem .55rem; }
   .cp-item__head { flex-direction: column; align-items: flex-start; gap: .15rem; }
   .cp-item__cat,
-  .cp-item__area { font-size: .68rem; }
-  .cp-item__notes { font-size: .76rem; }
+  .cp-item__area { font-size: .8125rem; }
+  .cp-item__notes { font-size: .8125rem; }
   .cp-item__deal-types { gap: .2rem; }
-  .cp-deal-tag { font-size: .62rem; padding: 0 5px; }
+  .cp-deal-tag { font-size: .8125rem; padding: 0 5px; }
 
   /* ── Tax Abatement ────────────────────────────────────────────── */
   .ta-item__head { flex-direction: column; align-items: flex-start; gap: .15rem; }
-  .ta-item__summary { font-size: .78rem; }
+  .ta-item__summary { font-size: .8125rem; }
   .ta-item__mag {
     display: block;            /* full width on mobile */
-    font-size: .74rem;
+    font-size: .8125rem;
     margin-top: .35rem;
   }
 
@@ -41,16 +41,16 @@
   .qc-item { padding: .35rem .5rem; gap: .25rem; }
   .qc-item__date { min-width: 0; font-size: .82rem; }
   .qc-item__name { flex-basis: 100%; font-size: .82rem; }
-  .qc-item__details { font-size: .74rem; }
+  .qc-item__details { font-size: .8125rem; }
 
   /* ── Resort WFH ───────────────────────────────────────────────── */
   .rw-headline { padding: .55rem .65rem; font-size: .85rem; }
   .rw-program { padding: .4rem .55rem; }
   .rw-program__head { flex-direction: column; align-items: flex-start; gap: .15rem; }
-  .rw-program__summary { font-size: .78rem; }
+  .rw-program__summary { font-size: .8125rem; }
   .rw-program__mag {
     display: block;
-    font-size: .74rem;
+    font-size: .8125rem;
     margin-top: .35rem;
   }
   .rw-actions { padding: .45rem; }
@@ -67,17 +67,17 @@
 
   /* ── Method Footer ────────────────────────────────────────────── */
   .mf-footer { gap: .25rem .55rem; padding: .35rem .55rem; }
-  .mf-label { font-size: .7rem; }
-  .mf-method { font-size: .7rem; }
-  .mf-badge { font-size: .6rem; padding: 0 5px; }
+  .mf-label { font-size: .8125rem; }
+  .mf-method { font-size: .8125rem; }
+  .mf-badge { font-size: .8125rem; padding: 0 5px; }
 
   /* ── CHFA Award History ───────────────────────────────────────── */
-  .cah-item { gap: .2rem .35rem; font-size: .78rem; }
+  .cah-item { gap: .2rem .35rem; font-size: .8125rem; }
   .cah-item__year { min-width: 50px; }
   .cah-item__name { flex-basis: 100%; }
 
   /* ── HNA legend (affordable-housing-layer) ────────────────────── */
-  .ahl-legend { max-width: 180px !important; font-size: 10px !important; }
+  .ahl-legend { max-width: 180px !important; font-size: 13px !important; }
   .ahl-legend .ahl-row { gap: 4px; }
 }
 

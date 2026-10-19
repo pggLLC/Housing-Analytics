@@ -54,7 +54,7 @@
       '  display: inline-block;',
       '  padding: 4px 10px;',
       '  border-radius: 999px;',
-      '  font-size: .75rem;',
+      '  font-size: .8125rem;',
       '  font-weight: 700;',
       '  line-height: 1.4;',
       '  background: var(--bg2, #f4f6f9);',
@@ -114,7 +114,7 @@
       /* Design tip label */
       '.nc-design-tip__label {',
       '  display: block;',
-      '  font-size: .7rem;',
+      '  font-size: .8125rem;',
       '  font-weight: 700;',
       '  text-transform: uppercase;',
       '  letter-spacing: .05em;',
@@ -125,7 +125,7 @@
       /* Section headers inside card */
       '.nc-section-label {',
       '  display: block;',
-      '  font-size: .7rem;',
+      '  font-size: .8125rem;',
       '  font-weight: 700;',
       '  text-transform: uppercase;',
       '  letter-spacing: .05em;',

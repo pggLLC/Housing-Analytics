@@ -74,7 +74,7 @@
             return '<option value="' + esc(u) + '"' + (u === selectedGeoUnit ? ' selected' : '') + '>' + esc(u) + '</option>';
           }).join('') +
         '</select>' +
-        '<span style="font-size:.75rem;color:var(--text-secondary,#888)">Showing top 20 sources × 20 counties</span>' +
+        '<span style="font-size:.8125rem;color:var(--text-secondary,#888)">Showing top 20 sources × 20 counties</span>' +
       '</div>' +
       '<table class="dd-matrix-table" aria-label="Geographic coverage matrix">' +
         '<thead><tr><th>Source</th>' +
@@ -94,7 +94,7 @@
     });
 
     html += '</tbody></table>' +
-      '<div style="margin-top:.5rem;font-size:.75rem;color:var(--text-secondary,#888)">' +
+      '<div style="margin-top:.5rem;font-size:.8125rem;color:var(--text-secondary,#888)">' +
         '<span style="margin-right:1rem">● Full coverage</span>' +
         '<span style="margin-right:1rem">◐ Partial coverage</span>' +
         '<span>○ Not covered</span>' +
@@ -121,7 +121,7 @@
       var fullPct = c.total ? Math.round(c.full * 100 / c.total) : 0;
       html += '<div class="dd-stat-card">' +
         '<div class="dd-stat-label">' + esc(cat) + '</div>' +
-        '<div style="display:flex;gap:.5rem;margin:.3rem 0;font-size:.8rem">' +
+        '<div style="display:flex;gap:.5rem;margin:.3rem 0;font-size:.8125rem">' +
           /* #2038 — fixed Material hexes were 2.7:1 (orange) on the light card
              and 3.0-3.3:1 on the dark one; the theme's status tokens follow the mode. */
           '<span style="color:var(--good,#036549)">● Full: ' + c.full + '</span>' +
@@ -208,7 +208,7 @@
     var fullCount = sources.filter(function (s) { return getCoverage(s) === 'full'; }).length;
     var partialCount = sources.filter(function (s) { return getCoverage(s) === 'partial'; }).length;
 
-    var infoHtml = '<div style="padding:.5rem;font-size:.78rem"><strong>Coverage Summary</strong><br>' +
+    var infoHtml = '<div style="padding:.5rem;font-size:.8125rem"><strong>Coverage Summary</strong><br>' +
       'Full: ' + fullCount + ' sources<br>Partial: ' + partialCount + ' sources</div>';
     L.control.attribution({ prefix: false }).addTo(map);
 
@@ -217,7 +217,7 @@
       var div = L.DomUtil.create('div', 'leaflet-control');
       // #2038 — the box was always near-white, so in dark mode it held the
       // page's light text at 1.06:1. Background and text now follow the theme.
-      div.style.cssText = 'background:var(--card,#fff);color:var(--text,#0d1f35);border-radius:6px;padding:6px 10px;font-size:.78rem;box-shadow:0 1px 4px rgba(0,0,0,.15)';
+      div.style.cssText = 'background:var(--card,#fff);color:var(--text,#0d1f35);border-radius:6px;padding:6px 10px;font-size:.8125rem;box-shadow:0 1px 4px rgba(0,0,0,.15)';
       div.innerHTML = '<strong>Coverage</strong><br>' +
         '<span style="color:var(--good,#036549)">Full: ' + fullCount + '</span><br>' +
         '<span style="color:var(--warn,#a84608)">Partial: ' + partialCount + '</span>';

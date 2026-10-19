@@ -145,7 +145,7 @@
   border-radius: 50%;
   background: var(--accent);
   color: var(--on-accent, #fff);
-  font-size: 0.78rem;
+  font-size: .8125rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -170,7 +170,7 @@
 
 /* Tips section */
 .help-tips-heading {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;

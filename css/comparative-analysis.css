@@ -176,7 +176,7 @@
   padding: 10px 14px;
   background: var(--bg2);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: .8125rem;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--muted);
@@ -256,7 +256,7 @@
 }
 
 .bm-kpi-label {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -273,7 +273,7 @@
   background: var(--bg2);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: .8125rem;
   color: var(--muted);
   line-height: 1.7;
 }

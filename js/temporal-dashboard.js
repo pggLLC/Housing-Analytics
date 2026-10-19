@@ -117,7 +117,7 @@
         (count > 0 ? count : '') + '</td>';
     });
     html += '</tr></tbody></table></div>' +
-      '<p style="font-size:.75rem;color:var(--text-secondary,#888);margin-top:.4rem">Numbers indicate sources due for update that day.</p>';
+      '<p style="font-size:.8125rem;color:var(--text-secondary,#888);margin-top:.4rem">Numbers indicate sources due for update that day.</p>';
 
     containerEl.innerHTML = html;
   }

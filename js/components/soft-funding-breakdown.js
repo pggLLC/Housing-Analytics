@@ -51,15 +51,15 @@
     };
     var c = colors[comp] || colors.moderate;
     return '<span style="display:inline-block;padding:1px 6px;border-radius:3px;' +
-      'font-size:.68rem;font-weight:600;background:' + c.bg + ';color:' + c.text + ';">' +
+      'font-size:.8125rem;font-weight:600;background:' + c.bg + ';color:' + c.text + ';">' +
       c.label + '</span>';
   }
 
   function _deadlineBadge(days) {
     if (days === null || days === undefined) return '';
-    if (days <= 0) return '<span style="color:var(--bad,#dc2626);font-size:.72rem;font-weight:600;">⚠ Past deadline</span>';
-    if (days < 45) return '<span style="color:var(--warn,#d97706);font-size:.72rem;font-weight:600;">' + days + 'd remaining</span>';
-    if (days < 90) return '<span style="color:var(--muted);font-size:.72rem;">' + days + 'd remaining</span>';
+    if (days <= 0) return '<span style="color:var(--bad,#dc2626);font-size:.8125rem;font-weight:600;">⚠ Past deadline</span>';
+    if (days < 45) return '<span style="color:var(--warn,#d97706);font-size:.8125rem;font-weight:600;">' + days + 'd remaining</span>';
+    if (days < 90) return '<span style="color:var(--muted);font-size:.8125rem;">' + days + 'd remaining</span>';
     return '';
   }
 
@@ -121,10 +121,10 @@
     }
 
     mount.style.cssText = 'margin-top:8px;padding:8px 12px;border-left:3px solid var(--info, #2563eb)' +
-      ';border-radius:0 4px 4px 0;background:var(--info-dim, #dbeafe);font-size:.78rem;';
+      ';border-radius:0 4px 4px 0;background:var(--info-dim, #dbeafe);font-size:.8125rem;';
     mount.innerHTML =
       '<strong style="color:var(--info, #2563eb);">PAB Volume Cap — verify current availability</strong>' +
-      '<p style="font-size:.72rem;color:var(--muted);margin:4px 0 0;line-height:1.5;">' +
+      '<p style="font-size:.8125rem;color:var(--muted);margin:4px 0 0;line-height:1.5;">' +
         '4% deals require Private Activity Bond (PAB) allocation before LIHTC determination. ' +
         'Colorado\u2019s state PAB ceiling is set annually and commitments accrue through the year — ' +
         'apply early, and when the cap is exhausted 4% deals cannot proceed until the next calendar year. ' +
@@ -163,7 +163,7 @@
     }
 
     if (!countyFips) {
-      mount.innerHTML = '<p style="font-size:.78rem;color:var(--muted);margin:0;">Select a county to see eligible soft-funding programs.</p>';
+      mount.innerHTML = '<p style="font-size:.8125rem;color:var(--muted);margin:0;">Select a county to see eligible soft-funding programs.</p>';
       return;
     }
 
@@ -177,7 +177,7 @@
     var guideLink = '<a href="' + _escape(guideHref) + '">Funding Sources</a>';
 
     if (!programs || programs.length === 0) {
-      mount.innerHTML = '<p style="font-size:.78rem;color:var(--muted);margin:0;">No program in this list has confirmed current terms for this county and credit type. ' +
+      mount.innerHTML = '<p style="font-size:.8125rem;color:var(--muted);margin:0;">No program in this list has confirmed current terms for this county and credit type. ' +
         guideLink + ' lists every Colorado program that fits, with its terms and next round.</p>';
       return;
     }
@@ -196,7 +196,7 @@
     for (var i = 0; i < programs.length; i++) {
       var p = programs[i];
       var maxNote = p.maxPerProject ? ' (published max ' + _fmtDollars(p.maxPerProject) + '/project)' : '';
-      var amiNote = p.amiTargeting ? '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:.66rem;font-weight:600;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-left:4px;">' + p.amiTargeting + '</span>' : '';
+      var amiNote = p.amiTargeting ? '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:.8125rem;font-weight:600;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-left:4px;">' + p.amiTargeting + '</span>' : '';
 
       // Restrictions — rendered as collapsible <details> inside the program
       // cell so the table stays scannable but the user can expand any row
@@ -205,10 +205,10 @@
       if (Array.isArray(p.restrictions) && p.restrictions.length) {
         restrictionsHtml =
           '<details style="margin-top:3px;">' +
-            '<summary style="cursor:pointer;font-size:.68rem;color:var(--link,#054a42);font-weight:600;list-style:none;">' +
+            '<summary style="cursor:pointer;font-size:.8125rem;color:var(--link,#054a42);font-weight:600;list-style:none;">' +
               '▸ Restrictions &amp; eligibility (' + p.restrictions.length + ')' +
             '</summary>' +
-            '<ul style="margin:4px 0 0 16px;padding:0;font-size:.72rem;color:var(--muted);line-height:1.5;">' +
+            '<ul style="margin:4px 0 0 16px;padding:0;font-size:.8125rem;color:var(--muted);line-height:1.5;">' +
               p.restrictions.map(function (r) {
                 return '<li style="margin-bottom:2px;">' + _escape(r) + '</li>';
               }).join('') +
@@ -218,14 +218,14 @@
 
       rows +=
         '<tr style="border-bottom:1px solid var(--border);">' +
-          '<td style="padding:5px 4px;font-size:.78rem;line-height:1.4;">' +
+          '<td style="padding:5px 4px;font-size:.8125rem;line-height:1.4;">' +
             '<strong>' + p.name + '</strong>' + amiNote + maxNote +
-            (p.adminEntity ? '<br><span style="font-size:.68rem;color:var(--muted);">Admin: ' + p.adminEntity + '</span>' : '') +
-            (p.warning ? '<br><span style="font-size:.68rem;color:var(--warn,#d97706);">' + p.warning + '</span>' : '') +
+            (p.adminEntity ? '<br><span style="font-size:.8125rem;color:var(--muted);">Admin: ' + p.adminEntity + '</span>' : '') +
+            (p.warning ? '<br><span style="font-size:.8125rem;color:var(--warn,#d97706);">' + p.warning + '</span>' : '') +
             restrictionsHtml +
           '</td>' +
           '<td style="text-align:center;padding:5px 4px;">' + _competBadge(p.competitiveness) + '</td>' +
-          '<td style="text-align:right;padding:5px 4px;font-size:.75rem;white-space:nowrap;">' +
+          '<td style="text-align:right;padding:5px 4px;font-size:.8125rem;white-space:nowrap;">' +
             (p.deadline ? p.deadline : '—') +
             '<br>' + _deadlineBadge(p.daysRemaining) +
           '</td>' +
@@ -237,23 +237,23 @@
       '<details style="margin-top:4px;">' +
         '<summary style="font-size:.82rem;font-weight:700;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:4px;padding:4px 0;">' +
           '<span>&#9660;</span> Eligible Soft-Funding Sources (' + programs.length + ' programs)' +
-          '<span style="font-size:.68rem;font-weight:400;color:var(--muted);margin-left:auto;">Last catalog update ' + (updated || '—') + '</span>' +
+          '<span style="font-size:.8125rem;font-weight:400;color:var(--muted);margin-left:auto;">Last catalog update ' + (updated || '—') + '</span>' +
         '</summary>' +
         // Policy banner explaining the missing dollar column.
-        '<div role="note" style="margin:4px 0 8px;padding:6px 10px;border-left:3px solid var(--info,#2563eb);border-radius:0 4px 4px 0;background:var(--info-dim,#dbeafe);font-size:.72rem;line-height:1.45;color:var(--text);">' +
+        '<div role="note" style="margin:4px 0 8px;padding:6px 10px;border-left:3px solid var(--info,#2563eb);border-radius:0 4px 4px 0;background:var(--info-dim,#dbeafe);font-size:.8125rem;line-height:1.45;color:var(--text);">' +
           '<strong style="color:var(--info,#2563eb);">Balances not shown.</strong> ' +
           'Dollar-level availability for these programs drifts quarterly and is best confirmed directly with the admin entity. ' +
           'This catalog shows eligibility, deadline, and competition level only — call CHFA, DOLA, or the listed admin before modelling a specific source.' +
         '</div>' +
-        '<table style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
+        '<table style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
           '<thead><tr style="border-bottom:2px solid var(--border);">' +
-            '<th style="text-align:left;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Program</th>' +
-            '<th style="text-align:center;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Competition</th>' +
-            '<th style="text-align:right;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Deadline</th>' +
+            '<th style="text-align:left;padding:4px;color:var(--muted);font-weight:600;font-size:.8125rem;">Program</th>' +
+            '<th style="text-align:center;padding:4px;color:var(--muted);font-weight:600;font-size:.8125rem;">Competition</th>' +
+            '<th style="text-align:right;padding:4px;color:var(--muted);font-weight:600;font-size:.8125rem;">Deadline</th>' +
           '</tr></thead>' +
           '<tbody>' + rows + '</tbody>' +
         '</table>' +
-        '<p style="font-size:.68rem;color:var(--muted);margin:6px 0 0;">' +
+        '<p style="font-size:.8125rem;color:var(--muted);margin:6px 0 0;">' +
           'Catalog only — verify availability with CHFA, DOH, or county housing offices before advising clients. ' +
           'Programs may have additional eligibility criteria not shown here. ' +
           'Only programs whose current terms were confirmed are listed; ' + guideLink + ' has every program that fits this deal, with its terms side by side.' +
@@ -293,15 +293,15 @@
     mount.style.cssText = 'margin-top:10px;padding:10px 14px;border-left:3px solid var(--accent,#096e65);border-radius:0 4px 4px 0;background:color-mix(in oklab, var(--card,#fff) 90%, var(--accent,#096e65) 10%);';
     mount.innerHTML =
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
-        '<span style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:.72rem;font-weight:700;background:var(--accent,#096e65);color:var(--on-accent,#fff);">OZ</span>' +
+        '<span style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:.8125rem;font-weight:700;background:var(--accent,#096e65);color:var(--on-accent,#fff);">OZ</span>' +
         '<strong style="font-size:.82rem;color:var(--text);">Opportunity Zone Equity Potential</strong>' +
       '</div>' +
-      '<p style="font-size:.78rem;color:var(--muted);margin:0 0 4px;line-height:1.5;">' +
+      '<p style="font-size:.8125rem;color:var(--muted);margin:0 0 4px;line-height:1.5;">' +
         'This site is in a designated Qualified Opportunity Zone (QOZ). Investors with unrealized capital gains ' +
         'may defer taxes by investing in QOZ projects under IRC §1400Z-2. OZ equity can layer with LIHTC but ' +
         'requires complex dual-structure legal arrangements.' +
       '</p>' +
-      '<p style="font-size:.72rem;color:var(--muted);margin:0;line-height:1.4;">' +
+      '<p style="font-size:.8125rem;color:var(--muted);margin:0;line-height:1.4;">' +
         '<strong>Note:</strong> The current 2018 OZ layer runs through 12/31/2028; OZ 2.0 creates decennial designation rounds. ' +
         'Rural sites may warrant QROF review under Public Law 119-21 §70421. Consult specialized OZ legal counsel before structuring; OZ equity is market-dependent and not a guaranteed source.' +
       '</p>';

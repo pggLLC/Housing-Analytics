@@ -141,7 +141,7 @@ html.dark-mode .crp-region--mountains { --crp-label: #ef9a9a; }
 
 .crp-region-label {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: .8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -174,7 +174,7 @@ html.dark-mode .crp-region--mountains { --crp-label: #ef9a9a; }
 }
 
 .crp-metric-name {
-  font-size: 0.75rem;
+  font-size: .8125rem;
   color: var(--muted, #666);
   margin: 0 0 0.2rem;
   line-height: 1.3;
@@ -194,12 +194,12 @@ html.dark-mode .crp-region--mountains { --crp-label: #ef9a9a; }
 }
 
 .crp-metric-change {
-  font-size: 0.78rem;
+  font-size: .8125rem;
   font-weight: 600;
 }
 
 .crp-metric-range {
-  font-size: 0.7rem;
+  font-size: .8125rem;
   color: var(--muted, #888);
   margin: 0.1rem 0 0;
 }
@@ -217,7 +217,7 @@ html.dark-mode .crp-region--mountains { --crp-label: #ef9a9a; }
    ================================================================ */
 
 .crp-sources {
-  font-size: 0.72rem;
+  font-size: .8125rem;
   color: var(--muted, #888);
   border-top: 1px solid var(--border, #e0e0e0);
   padding-top: 0.5rem;

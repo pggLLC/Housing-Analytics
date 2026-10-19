@@ -166,7 +166,7 @@
           </select>
           <button class="dd-btn dd-btn--primary" id="ddExportTableCsv">⬇ CSV</button>
           <button class="dd-btn" id="ddViewOnMap" style="display:inline-flex;align-items:center;gap:.3rem">🗺️ View on Map</button>
-          <span id="ddTableCount" style="font-size:.8rem;color:var(--text-secondary,#888);align-self:center"></span>
+          <span id="ddTableCount" style="font-size:.8125rem;color:var(--text-secondary,#888);align-self:center"></span>
         </div>
         <div class="dd-table-wrap">
           <table class="dd-table" id="ddSourcesTable" aria-label="Data sources inventory">
@@ -373,20 +373,20 @@
       var isExpanded = expandedId === s.id;
       html += '<tr id="' + rowId + '" class="' + (isExpanded ? 'expanded' : '') + '">' +
         '<td><strong>' + esc(s.name) + '</strong></td>' +
-        '<td><span style="font-size:.78rem">' + esc(s.category) + '</span></td>' +
-        '<td><code style="font-size:.75rem">' + esc(s.format) + '</code></td>' +
+        '<td><span style="font-size:.8125rem">' + esc(s.category) + '</span></td>' +
+        '<td><code style="font-size:.8125rem">' + esc(s.format) + '</code></td>' +
         '<td>' + (s.lastUpdated ? esc(s.lastUpdated) : '<span style="color:var(--text-secondary,#888)">—</span>') + '</td>' +
         '<td>' + badgeHtml(s.status) + '</td>' +
         '<td>' + gaugeHtml(s.freshnessScore, s.status) + '</td>' +
-        '<td style="font-size:.78rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(s.coverage) + '">' + esc(s.coverage) + '</td>' +
+        '<td style="font-size:.8125rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(s.coverage) + '">' + esc(s.coverage) + '</td>' +
         '<td style="white-space:nowrap">' +
-          '<button class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" ' +
+          '<button class="dd-btn" style="padding:.2rem .5rem;font-size:.8125rem" ' +
             'data-action="expand" data-id="' + esc(s.id) + '" ' +
             'aria-expanded="' + isExpanded + '" aria-controls="' + expandId + '">' +
             (isExpanded ? '▲ Hide' : '▼ Details') +
           '</button>' +
-          (s.apiEndpoint ? ' <button class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" data-action="check-api" data-id="' + esc(s.id) + '">🔌 API</button>' : '') +
-          (s.url ? ' <a href="' + esc(s.url) + '" target="_blank" rel="noopener" class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" aria-label="Open source">🔗</a>' : '') +
+          (s.apiEndpoint ? ' <button class="dd-btn" style="padding:.2rem .5rem;font-size:.8125rem" data-action="check-api" data-id="' + esc(s.id) + '">🔌 API</button>' : '') +
+          (s.url ? ' <a href="' + esc(s.url) + '" target="_blank" rel="noopener" class="dd-btn" style="padding:.2rem .5rem;font-size:.8125rem" aria-label="Open source">🔗</a>' : '') +
         '</td>' +
         '</tr>' +
         '<tr id="' + expandId + '" class="dd-expand-row ' + (isExpanded ? 'open' : '') + '" aria-hidden="' + !isExpanded + '">' +
@@ -400,15 +400,15 @@
                 '<div class="dd-expand-field"><div class="dd-expand-label">Features / Records</div><div class="dd-expand-val">' + (s.features ? s.features.toLocaleString() : '—') + '</div></div>' +
                 '<div class="dd-expand-field"><div class="dd-expand-label">Max Age (days)</div><div class="dd-expand-val">' + (s.maxAgeDays || '—') + '</div></div>' +
                 '<div class="dd-expand-field"><div class="dd-expand-label">Days Since Update</div><div class="dd-expand-val">' + (s.daysSinceUpdate !== null ? s.daysSinceUpdate + ' days' : '—') + '</div></div>' +
-                (s.localFile ? '<div class="dd-expand-field"><div class="dd-expand-label">Local File</div><div class="dd-expand-val"><code style="font-size:.77rem">' + esc(s.localFile) + '</code></div></div>' : '') +
-                (s.tags && s.tags.length ? '<div class="dd-expand-field"><div class="dd-expand-label">Tags</div><div class="dd-expand-val">' + s.tags.map(function (t) { return '<span style="background:var(--accent-light,#e6f0ef);color:var(--accent,#096e65);border-radius:4px;padding:.1rem .4rem;font-size:.72rem;margin-right:.2rem">' + esc(t) + '</span>'; }).join('') + '</div></div>' : '') +
+                (s.localFile ? '<div class="dd-expand-field"><div class="dd-expand-label">Local File</div><div class="dd-expand-val"><code style="font-size:.8125rem">' + esc(s.localFile) + '</code></div></div>' : '') +
+                (s.tags && s.tags.length ? '<div class="dd-expand-field"><div class="dd-expand-label">Tags</div><div class="dd-expand-val">' + s.tags.map(function (t) { return '<span style="background:var(--accent-light,#e6f0ef);color:var(--accent,#096e65);border-radius:4px;padding:.1rem .4rem;font-size:.8125rem;margin-right:.2rem">' + esc(t) + '</span>'; }).join('') + '</div></div>' : '') +
               '</div>' +
               (s.alternatives && s.alternatives.length ? (
                 '<div style="margin-top:.75rem;border-top:1px solid var(--border,#dde3ec);padding-top:.6rem">' +
-                '<div style="font-size:.78rem;font-weight:600;color:var(--text-secondary,#666);margin-bottom:.4rem">Alternative Resources</div>' +
+                '<div style="font-size:.8125rem;font-weight:600;color:var(--text-secondary,#666);margin-bottom:.4rem">Alternative Resources</div>' +
                 '<div style="display:flex;flex-direction:column;gap:.4rem">' +
                 s.alternatives.map(function (alt) {
-                  return '<div style="background:var(--bg-alt,#f8f9fb);border-radius:4px;padding:.4rem .6rem;font-size:.8rem">' +
+                  return '<div style="background:var(--bg-alt,#f8f9fb);border-radius:4px;padding:.4rem .6rem;font-size:.8125rem">' +
                     '<strong>' + esc(alt.title) + '</strong>' +
                     (alt.description ? ' — ' + esc(alt.description) : '') +
                     (alt.url ? ' <a href="' + esc(alt.url) + '" target="_blank" rel="noopener" style="color:var(--accent,#096e65)">→ Visit</a>' : '') +
@@ -550,10 +550,10 @@
     var el = document.getElementById('ddCategoryFilters');
     if (!el) return;
     var total = allSources.length;
-    var html = '<button class="dd-filter-btn active" data-filter="category" data-value="all">All <span style="opacity:.6;font-size:.7rem">(' + total + ')</span></button>';
+    var html = '<button class="dd-filter-btn active" data-filter="category" data-value="all">All <span style="opacity:.6;font-size:.8125rem">(' + total + ')</span></button>';
     Object.keys(cats).sort().forEach(function (cat) {
       html += '<button class="dd-filter-btn" data-filter="category" data-value="' + esc(cat) + '">' +
-        esc(cat) + ' <span style="opacity:.6;font-size:.7rem">(' + cats[cat] + ')</span></button>';
+        esc(cat) + ' <span style="opacity:.6;font-size:.8125rem">(' + cats[cat] + ')</span></button>';
     });
     el.innerHTML = html;
 
@@ -660,7 +660,7 @@
         return '<div class="dd-alert-item dd-alert-item--ok" style="background:var(--card-bg,#fff)">' +
           '<span>🔌</span>' +
           '<div><strong>' + esc(s.name) + '</strong><br>' +
-            '<code style="font-size:.72rem;word-break:break-all">' + esc(s.apiEndpoint) + '</code></div>' +
+            '<code style="font-size:.8125rem;word-break:break-all">' + esc(s.apiEndpoint) + '</code></div>' +
           '</div>';
       }).join('');
     }

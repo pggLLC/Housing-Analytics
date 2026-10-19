@@ -95,12 +95,12 @@
           '<div style="font-weight:600;color:' + color.fg + ';margin-bottom:.15rem;">' +
             'Couldn\'t load ' + _escHtml(source) +
           '</div>' +
-          '<div style="color:var(--muted);font-size:.78rem;">' +
+          '<div style="color:var(--muted);font-size:.8125rem;">' +
             _escHtml(errMsg) +
           '</div>';
 
     if (opts.lastKnownValue != null || opts.lastKnownDate) {
-      html += '<div style="margin-top:.4rem;padding-top:.4rem;border-top:1px dashed var(--border);font-size:.78rem;">' +
+      html += '<div style="margin-top:.4rem;padding-top:.4rem;border-top:1px dashed var(--border);font-size:.8125rem;">' +
         '<strong>Last known value' +
         (opts.lastKnownDate ? ' (as of ' + _escHtml(opts.lastKnownDate) + ')' : '') +
         ':</strong> ';
@@ -116,12 +116,12 @@
     if (opts.retryFn) {
       actions.push('<button type="button" class="fes-retry" ' +
         'style="background:transparent;border:1px solid ' + color.border + ';' +
-        'color:' + color.fg + ';padding:2px 8px;border-radius:4px;font-size:.72rem;' +
+        'color:' + color.fg + ';padding:2px 8px;border-radius:4px;font-size:.8125rem;' +
         'font-weight:600;cursor:pointer;">Retry</button>');
     }
     if (opts.url) {
       actions.push('<a href="' + _escHtml(opts.url) + '" target="_blank" rel="noopener" ' +
-        'style="color:' + color.fg + ';font-size:.72rem;text-decoration:underline;">' +
+        'style="color:' + color.fg + ';font-size:.8125rem;text-decoration:underline;">' +
         'View raw file →</a>');
     }
     if (actions.length) {

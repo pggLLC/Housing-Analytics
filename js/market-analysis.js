@@ -1651,7 +1651,7 @@
       if (tierEl && tierEl.parentNode) {
         fallbackNoteEl = document.createElement('div');
         fallbackNoteEl.id = 'pmaFallbackNote';
-        fallbackNoteEl.style.cssText = 'margin-top:.4rem;font-size:.78rem;line-height:1.4;padding:.35rem .5rem;border-radius:4px;display:none';
+        fallbackNoteEl.style.cssText = 'margin-top:.4rem;font-size:.8125rem;line-height:1.4;padding:.35rem .5rem;border-radius:4px;display:none';
         tierEl.parentNode.insertBefore(fallbackNoteEl, tierEl.nextSibling);
       }
     }
@@ -1722,7 +1722,7 @@
           driverEl = document.createElement('div');
           driverEl.id = 'pmaScoreDrivers';
           driverEl.className = 'pma-score-drivers';
-          driverEl.style.cssText = 'margin-top:.4rem;font-size:.78rem;line-height:1.45;' +
+          driverEl.style.cssText = 'margin-top:.4rem;font-size:.8125rem;line-height:1.45;' +
             'color:var(--muted, #6b7280);font-style:italic';
           anchor.parentNode.insertBefore(driverEl, anchor.nextSibling);
         }
@@ -1797,10 +1797,10 @@
           ' <span style="font-size:.7em;color:var(--warn,#c0392b);font-weight:600;margin-left:.25rem" ' +
           'title="Score based on fallback defaults — real data not available">(estimated)</span>';
         var verifyHint = (hasData && dimVerify[k])
-          ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.68rem">' + dimVerify[k] + '</span>'
+          ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.8125rem">' + dimVerify[k] + '</span>'
           : '';
         if (k === 'captureRisk' && result.captureDenominator && result.captureDenominator.source === 'chas_lihtc_eligible') {
-          verifyHint += '<span class="kpi-source kpi-scope" style="display:block;margin-top:.2rem;font-size:.68rem">' +
+          verifyHint += '<span class="kpi-source kpi-scope" style="display:block;margin-top:.2rem;font-size:.8125rem">' +
             'CHAS denominator scope ' + _scopeBadge('county', { inline: true }) +
             ' county income mix scaled to PMA buffer.</span>';
         }
@@ -1827,7 +1827,7 @@
         '</li>';
       }).join('') +
       '<li style="margin-top:.5rem;padding:.5rem .3rem;border-top:1px solid var(--border)">' +
-        '<details style="font-size:.75rem;color:var(--muted)">' +
+        '<details style="font-size:.8125rem;color:var(--muted)">' +
           '<summary style="cursor:pointer;font-weight:600;color:var(--text)">What do these scores mean?</summary>' +
           '<dl style="margin:.4rem 0 0;display:flex;flex-direction:column;gap:.35rem">' +
             dimNames.map(function (k, i) {
@@ -1859,7 +1859,7 @@
           dimDriverEl.id = 'pmaDimDrivers';
           dimDriverEl.className = 'pma-dim-drivers';
           dimDriverEl.style.cssText = 'margin-top:.5rem;padding:.4rem .55rem;' +
-            'border-top:1px dashed var(--border);font-size:.78rem;line-height:1.45;' +
+            'border-top:1px dashed var(--border);font-size:.8125rem;line-height:1.45;' +
             'color:var(--muted, #6b7280);font-style:italic';
           if (listEl.parentNode) {
             listEl.parentNode.insertBefore(dimDriverEl, listEl.nextSibling);
@@ -1891,14 +1891,14 @@
         } else {
           var tierColor = lc.tier === 'low' ? 'var(--good)' : lc.tier === 'high' ? 'var(--bad)' : 'var(--accent)';
           bridgeCardEl.innerHTML =
-            '<div style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
+            '<div style="font-size:.8125rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
             '<div style="display:flex;gap:.75rem;flex-wrap:wrap">' +
-              (hasRealLand ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
-              (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
-              (hasRealVel ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
-              (lc.isRural ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
+              (hasRealLand ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.8125rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
+              (lc.regionName ? '<span style="font-size:.8125rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
+              (hasRealVel ? '<span style="font-size:.8125rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
+              (lc.isRural ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:2px 7px;border-radius:10px;font-size:.8125rem;font-weight:600">Rural market</span>' : '') +
             '</div>' +
-            (hasRealLand && lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
+            (hasRealLand && lc.note ? '<div style="font-size:.8125rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
           bridgeCardEl.style.display = '';
         }
       }
@@ -2097,7 +2097,7 @@
         '<td style="padding:6px 8px">' + esc(r.credit) + '</td>' +
       '</tr>';
     }).join('') +
-    (rows.length > MAX ? '<tr><td colspan="6" style="padding:6px 8px;color:var(--muted);font-size:.78rem">+' +
+    (rows.length > MAX ? '<tr><td colspan="6" style="padding:6px 8px;color:var(--muted);font-size:.8125rem">+' +
       (rows.length - MAX) + ' more within ' + outer + ' mi (showing nearest ' + MAX + ').</td></tr>' : '');
   }
   // Wire the radius selector — recompute on change without re-running the
@@ -3578,7 +3578,7 @@
     }
     div.innerHTML =
       '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
-               'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
+               'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8125rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
         '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
         '<span>Legend</span>' +
       '</button>' +
@@ -4095,7 +4095,7 @@
                   if (p.has_hna)               pills.push('HNA');
                   if (p.has_housing_nonprofits) pills.push('Nonprofits');
                   var pillsHtml = pills.length > 0
-                    ? pills.map(function (l) { return '<span style="display:inline-block;padding:1px 5px;border-radius:3px;background:#e0f2fe;color:#0369a1;font-size:.72rem;margin:1px">' + l + '</span>'; }).join(' ')
+                    ? pills.map(function (l) { return '<span style="display:inline-block;padding:1px 5px;border-radius:3px;background:#e0f2fe;color:#0369a1;font-size:.8125rem;margin:1px">' + l + '</span>'; }).join(' ')
                     : '<span style="color:#94a3b8;font-size:.8em">No policy data</span>';
                   var izDetail = '';
                   if (p.iz_type) {
@@ -4348,7 +4348,7 @@
       } else {
         var hasJobs = details.some(function (d) { return d.jobs != null; });
         var totals = result.bufferTotals || {};
-        var thStyle = 'text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;';
+        var thStyle = 'text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;';
         var tdStyle = 'padding:5px 8px;border-bottom:1px solid color-mix(in oklab, var(--border) 50%, transparent 50%);font-size:.85rem;';
         var numStyle = tdStyle + 'text-align:right;font-variant-numeric:tabular-nums;';
         var barrierState = result.barrierAware || {};
@@ -4359,31 +4359,31 @@
           });
         };
         if (barrierState.enabled && barrierState.warning) {
-          barrierChip = '<span role="alert" style="font-size:.76rem;color:var(--warn,#d97706);border:1px solid var(--warn,#d97706);border-radius:999px;padding:2px 7px;">' +
+          barrierChip = '<span role="alert" style="font-size:.8125rem;color:var(--warn,#d97706);border:1px solid var(--warn,#d97706);border-radius:999px;padding:2px 7px;">' +
             escMini(barrierState.warning) + '</span>';
         } else if (barrierState.enabled) {
-          barrierChip = '<span style="font-size:.76rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Barrier-aware beta</span>';
+          barrierChip = '<span style="font-size:.8125rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Barrier-aware beta</span>';
         }
         var shapedState = result.commuteShapedPma || {};
         var shapedChip = shapedState.enabled
-          ? '<span style="font-size:.76rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Commute-shaped PMA beta</span>'
+          ? '<span style="font-size:.8125rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Commute-shaped PMA beta</span>'
           : '';
         var rows = details.slice(0, 30).map(function (d) {
           var sharePct = (d.share * 100).toFixed(0) + '%';
           var bboxBadge = d.bboxSource === 'tiger2020'
-            ? '<span title="TIGER tract geometry available" style="font-size:.7rem;color:var(--good,#047857);">●</span>'
-            : '<span title="Centroid fallback — coarser estimate" style="font-size:.7rem;color:var(--warn,#d97706);">●</span>';
+            ? '<span title="TIGER tract geometry available" style="font-size:.8125rem;color:var(--good,#047857);">●</span>'
+            : '<span title="Centroid fallback — coarser estimate" style="font-size:.8125rem;color:var(--warn,#d97706);">●</span>';
           var barrierBadge = d.barrierBadge
-            ? '<div style="margin-top:3px;font-size:.74rem;color:var(--warn,#d97706);">' + escMini(d.barrierBadge) + '</div>'
+            ? '<div style="margin-top:3px;font-size:.8125rem;color:var(--warn,#d97706);">' + escMini(d.barrierBadge) + '</div>'
             : '';
           var commuteBadge = d.commuteShapedBadge
-            ? '<div style="margin-top:3px;font-size:.74rem;color:var(--accent,#2563eb);">' +
+            ? '<div style="margin-top:3px;font-size:.8125rem;color:var(--accent,#2563eb);">' +
               escMini(d.commuteShapedBadge) +
               (d.commuteDriveMinutes != null ? ' · nearest hub ' + (+d.commuteDriveMinutes).toFixed(0) + ' min' : '') +
               '</div>'
             : '';
           return '<tr>' +
-            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span>' + barrierBadge + commuteBadge + '</td>' +
+            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.8125rem;">' + (d.countyName || '') + '</span>' + barrierBadge + commuteBadge + '</td>' +
             '<td style="' + numStyle + '">' + sharePct + '</td>' +
             '<td style="' + numStyle + '">' + (d.pop != null ? fmtInt(d.pop) : '—') + '</td>' +
             '<td style="' + numStyle + '">' + (d.households != null ? fmtInt(d.households) : '—') + '</td>' +
@@ -4394,15 +4394,15 @@
         }).join('');
         var isTractPicker = result.boundaryMethod === 'tract-picker';
         var moreNote = details.length > 30
-          ? '<p style="font-size:.78rem;color:var(--muted);margin:6px 0 0;">Showing top 30 of ' + details.length + ' tracts (sorted by ' + (isTractPicker ? 'selected GEOID' : 'buffer share') + ').</p>'
+          ? '<p style="font-size:.8125rem;color:var(--muted);margin:6px 0 0;">Showing top 30 of ' + details.length + ' tracts (sorted by ' + (isTractPicker ? 'selected GEOID' : 'buffer share') + ').</p>'
           : '';
         bufferHost.innerHTML =
           '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
             '<h4 style="margin:0;font-size:.95rem;font-weight:700;">Tract-level breakdown</h4>' +
-            '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.78rem;color:var(--muted);">' +
+            '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.8125rem;color:var(--muted);">' +
               barrierChip + shapedChip + '<span>Real polygon ●  ·  centroid fallback ●</span></span>' +
           '</div>' +
-          '<p style="font-size:.8rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
+          '<p style="font-size:.8125rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
             (shapedState.enabled
               ? 'Commute-shaped PMA beta starts with the circular-buffer tracts and adds whole tracts supported by LODES 2023 OD flow evidence. '
               : isTractPicker
@@ -5020,7 +5020,7 @@
           'analysis for escalation triggers.' +
         '</p>' +
         '<div style="display:flex;gap:.5rem;justify-content:flex-end;align-items:center;">' +
-          '<span style="font-size:.74rem;color:var(--faint,#888);margin-right:auto;">' +
+          '<span style="font-size:.8125rem;color:var(--faint,#888);margin-right:auto;">' +
             'Shown once every 30 days per browser.' +
           '</span>' +
           '<button type="button" id="pmaAckAccept" ' +

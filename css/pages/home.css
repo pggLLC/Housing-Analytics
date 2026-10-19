@@ -251,6 +251,12 @@
   background: var(--bg2);
 }
 
+@media (max-width: 600px) {
+  #homeNeedMap {
+    height: 260px;
+  }
+}
+
 /* Leaflet needs an explicit stacking context or its panes can bleed above
    the site header on some browsers. */
 #homeNeedMap .leaflet-container {
@@ -303,9 +309,11 @@
 
 .home-need-legend__swatch {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 2px;
+  /* Ring keeps the darkest swatch visible on the dark-mode background. */
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 /* F2.3: Job-routing rail under the jurisdiction-first CTA. The detailed
@@ -530,7 +538,7 @@
 
 .home-step__num {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: .8125rem;
   font-weight: 500;
   color: var(--muted);
   padding-top: 3px;
@@ -578,7 +586,7 @@
   display: inline-block;
   margin-left: 8px;
   padding: 1px 8px;
-  font-size: 0.62rem;
+  font-size: .8125rem;
   font-weight: 800;
   letter-spacing: 0.05em;
   border-radius: 9999px;
@@ -760,7 +768,7 @@
 
 .home-snapshot__note {
   display: block;
-  font-size: 0.7rem;
+  font-size: .8125rem;
   color: var(--faint);
 }
 
@@ -825,7 +833,7 @@
 }
 
 .home-insight__tag {
-  font-size: 0.68rem;
+  font-size: .8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -846,7 +854,7 @@
 }
 
 .home-insight__meta {
-  font-size: 0.72rem;
+  font-size: .8125rem;
   color: var(--faint);
   white-space: nowrap;
 }
@@ -863,7 +871,7 @@
 }
 
 .home-sources p {
-  font-size: 0.7rem;
+  font-size: .8125rem;
   color: var(--faint);
   letter-spacing: 0.02em;
   margin: 0;

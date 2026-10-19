@@ -52,9 +52,9 @@
    all 7 in a single row; collapse progressively below. */
 .stats--ami { grid-template-columns: repeat(7, minmax(0, 1fr)); }
 .stats--ami .stat { padding: 8px 6px; }
-.stats--ami .stat .k { font-size: .78rem; }
+.stats--ami .stat .k { font-size: .8125rem; }
 .stats--ami .stat .v { font-size: 1rem; }
-.stats--ami .stat .s { font-size: .72rem; line-height: 1.25; }
+.stats--ami .stat .s { font-size: .8125rem; line-height: 1.25; }
 @media (max-width: 1280px) {
   .stats--ami { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
@@ -352,7 +352,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .metric-card .mc-label { font-size: .84rem; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
 .metric-card .mc-value { font-size: 1.3rem; font-weight: 900; color: var(--text); }
 .metric-card .mc-value--text { font-size: 1rem; line-height: 1.25; }
-.metric-card .mc-sub { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+.metric-card .mc-sub { font-size: .8125rem; color: var(--muted); margin-top: 2px; }
 /* F132 — var(--accent2) in light mode is #c86f0d → 3.2:1 on white. Use a
    darker bronze in light mode; dark-mode keeps the brighter accent2. */
 .metric-card .mc-sub a.hna-source-link { color: #7c3d00; text-decoration: none; border-bottom: 1px dotted currentColor; }
@@ -480,7 +480,7 @@ details.lr-section--collapsible > .lr-section__summary::-webkit-details-marker {
 details.lr-section--collapsible > .lr-section__summary::before { content: "▸"; color: var(--muted); font-size: .9rem; transition: transform .15s ease; flex-shrink: 0; }
 details.lr-section--collapsible[open] > .lr-section__summary::before { transform: rotate(90deg); }
 details.lr-section--collapsible > .lr-section__summary h4 { margin: 0; font-size: 1rem; font-weight: 700; display: inline; }
-details.lr-section--collapsible .lr-section__hint { margin-left: auto; font-size: .76rem; color: var(--muted); font-weight: 400; }
+details.lr-section--collapsible .lr-section__hint { margin-left: auto; font-size: .8125rem; color: var(--muted); font-weight: 400; }
 details.lr-section--collapsible > div { padding: 0 16px 16px; }
 details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1px solid var(--border); margin-bottom: 12px; }
 .checklist-item.done {
@@ -508,7 +508,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 
 /* Completed-on timestamp */
 .checklist-date-completed {
-  font-size: .8rem;
+  font-size: .8125rem;
   color: var(--muted);
   font-style: italic;
   margin-top: 2px;
@@ -769,7 +769,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   text-align: center;
 }
 .pma-workflow-step strong { display: block; font-size: .9rem; margin-bottom: 4px; }
-.pma-workflow-step p { margin: 0; font-size: .8rem; color: var(--muted); }
+.pma-workflow-step p { margin: 0; font-size: .8125rem; color: var(--muted); }
 .pma-step-num {
   display: inline-flex;
   align-items: center;
@@ -872,11 +872,11 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   overflow-wrap: break-word;
   word-break: break-word;
 }
-.chfa-checklist-note { display: block; font-size: .8rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.chfa-checklist-note { display: block; font-size: .8125rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 .chfa-checklist-item--done .chfa-checklist-content label { text-decoration: line-through; color: var(--muted); }
 .chfa-checklist-item--done .chfa-checklist-note { display: none; }
 .chfa-capture-rate-badge {
-  font-size: .75rem;
+  font-size: .8125rem;
   font-weight: 900;
   padding: 1px 8px;
   border-radius: 10px;
@@ -920,7 +920,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 /* ── Scenario comparison enhancements ───────────────────── */
 .scenario-freshness-badge {
   display: inline-block;
-  font-size: .75rem;
+  font-size: .8125rem;
   font-weight: 600;
   padding: 1px 7px;
   border-radius: 10px;
@@ -954,7 +954,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   background: rgba(255,255,255,.04);
 }
 .scenario-summary-col .sc-label {
-  font-size: .78rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin: 0 0 2px;
 }
@@ -966,7 +966,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 }
 .scenario-data-quality {
   margin: 6px 0 0;
-  font-size: .8rem;
+  font-size: .8125rem;
   color: var(--muted);
   font-style: italic;
 }
@@ -1023,7 +1023,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   padding: .1rem .4rem;
   border-radius: 4px;
   border: 1px solid;
-  font-size: .68rem;
+  font-size: .8125rem;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: .01em;
@@ -1085,7 +1085,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   border: 1px solid var(--border, rgba(13, 31, 53, .11));
   border-radius: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 10px 30px -18px rgba(0, 0, 0, .35);
-  font-size: .78rem;
+  font-size: .8125rem;
 }
 
 .hna-rail__toggle {
@@ -1103,7 +1103,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   font-weight: 700;
   letter-spacing: .04em;
   text-transform: uppercase;
-  font-size: .68rem;
+  font-size: .8125rem;
   cursor: pointer;
 }
 .hna-rail__count {
@@ -1254,12 +1254,12 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .cc-scroll { overflow-x: auto; }
 .cc-table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: .88rem; }
 .cc-caption {
-  caption-side: bottom; text-align: left; font-size: .75rem; color: var(--muted);
+  caption-side: bottom; text-align: left; font-size: .8125rem; color: var(--muted);
   padding-top: .6rem; line-height: 1.5;
 }
 .cc-table th, .cc-table td { padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
 .cc-table thead th {
-  font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  font-size: .8125rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
   color: var(--muted); border-bottom: 1px solid var(--border);
 }
 .cc-table th[scope="row"] { text-align: left; font-weight: 600; color: var(--text); }
@@ -1267,7 +1267,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .cc-table td.cc-county { color: var(--muted); }
 .cc-delta { font-weight: 700; white-space: nowrap; }
 .cc-reading {
-  display: block; font-size: .68rem; font-weight: 600; letter-spacing: .03em;
+  display: block; font-size: .8125rem; font-weight: 600; letter-spacing: .03em;
   text-transform: uppercase; margin-top: .1rem;
 }
 .cc-table tr[data-tone="worse"] th[scope="row"] { border-left: 3px solid var(--bad, #991b1b); padding-left: .45rem; }
@@ -1276,7 +1276,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .cc-table tr[data-tone="better"] .cc-delta { color: var(--good, #047857); }
 .cc-table tr[data-tone="neutral"] .cc-delta,
 .cc-table tr[data-tone="same"] .cc-delta { color: var(--muted); }
-.cc-skipped, .cc-empty { font-size: .78rem; color: var(--muted); margin: .7rem 0 0; line-height: 1.5; }
+.cc-skipped, .cc-empty { font-size: .8125rem; color: var(--muted); margin: .7rem 0 0; line-height: 1.5; }
 
 /* ── Mobile usability ─────────────────────────────────────────────────────
    Two measured defects on a 390px viewport. */
@@ -1341,7 +1341,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   background: color-mix(in srgb, var(--accent, #096e65) 6%, var(--card, #fff));
 }
 .hna-rail__path-head {
-  font-size: .68rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -1349,7 +1349,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 }
 .hna-rail__path-sub {
   margin: .15rem 0 .45rem;
-  font-size: .7rem;
+  font-size: .8125rem;
   line-height: 1.4;
   color: var(--muted, #374151);
 }
@@ -1369,12 +1369,12 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   border-radius: 4px;
   color: var(--text, #0d1f35);
   text-decoration: none;
-  font-size: .78rem;
+  font-size: .8125rem;
   line-height: 1.35;
 }
 .hna-rail__path-link::before {
   content: counter(rp);
-  font-size: .65rem;
+  font-size: .8125rem;
   font-weight: 700;
   color: var(--accent, #096e65);
   font-variant-numeric: tabular-nums;
@@ -1483,7 +1483,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .hna-view-step {
   max-width: none;
   margin: 0 0 .15rem;
-  font-size: .72rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: .09em;
   text-transform: uppercase;
@@ -1544,7 +1544,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   background: var(--card);
 }
 .hna-handoff__title {
-  font-size: .78rem;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -1600,7 +1600,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .hna-recon-line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .hna-recon-label { font-weight: 600; color: var(--text); }
 .hna-recon-value { font-weight: 700; color: var(--text); white-space: nowrap; }
-.hna-recon-badge { display: inline-block; margin-top: 2px; font-size: .75rem; font-weight: 700; color: var(--accent); }
+.hna-recon-badge { display: inline-block; margin-top: 2px; font-size: .8125rem; font-weight: 700; color: var(--accent); }
 .hna-recon-counts { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
 .hna-recon-used, .hna-recon-permits, .hna-recon-households {
   margin: 8px 0 0; color: var(--muted); font-size: .9rem;

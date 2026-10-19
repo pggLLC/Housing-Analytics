@@ -60,7 +60,7 @@
     }
     .hna-decision-label {
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .8125rem;
       font-weight: 800;
       line-height: 1.2;
       text-transform: uppercase;
@@ -73,7 +73,7 @@
     }
     .hna-decision-tile span:last-child {
       color: var(--muted);
-      font-size: .8rem;
+      font-size: .8125rem;
       line-height: 1.25;
       overflow-wrap: anywhere;
     }
@@ -382,7 +382,7 @@
             Combine jurisdictions
           </label>
           <div id="combinedGeosPanel" hidden style="grid-column:1 / -1;border:1px solid var(--border);border-radius:6px;padding:.55rem;background:var(--card);">
-            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div id="combinedGeosHint" style="font-size:.8125rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
             <div role="radiogroup" aria-label="Combined jurisdiction mode" style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem;font-size:.82rem;color:var(--muted);">
               <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
                 <input type="radio" name="combinedGeoMode" value="blended" checked>
@@ -611,7 +611,7 @@
 
           <div class="stat"><div class="k">Renter-occupied (tenure)</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0047 (renter share; owner share is 0046) · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
-          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.68rem;opacity:.85">—</div></div>
+          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.8125rem;opacity:.85">—</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801 mean travel time (min) · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
         <!-- Affordability Gap Coverage — 7 AMI bands sourced from ACS-derived
@@ -625,7 +625,7 @@
           <p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need an affordable home</strong> at each income level. Both rows below count households, not buildings. The first row adds up everyone at or below each level; the second counts only the households inside that one band, so the bands do not overlap. Neither row subtracts the affordable homes that already exist &mdash; the <em>Net of existing affordable supply</em> box further down does that, and is the one that estimates how many still need building. Owners are not counted here; this is about competition for rentals.</p>
           <p data-methodology-key="ami-chas-acs-difference" style="font-size:1rem;color:var(--muted);margin:.2rem 0 .6rem;">ACS 2020–2024 households under the unadjusted county 30% AMI cutoff; the CHAS tier table below uses HUD's size-adjusted limits and an older window, so its counts run lower. See methodology.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">(≤ this AMI; includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -636,7 +636,7 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
-          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
+          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
           <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
             <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
             <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
@@ -647,11 +647,11 @@
             <div class="stat"><div class="k">81–100%</div><div class="v" id="statTierGap100">—</div><div class="s">near AMI</div></div>
           </div>
 
-          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
-          <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
-          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
+          <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
+          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8125rem;color:var(--text);"></div>
 
-          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
+          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.8125rem;">— each band's share of the ≤100% total</span></h4>
           <div id="hnaGapCoverageBar" style="margin-top:.35rem;"></div>
         </div>
       </div>
@@ -782,7 +782,7 @@
             <a href="#" data-r="15" class="lihtc-pma-r">15&#8202;mi</a> ·
             <a href="#" data-r="25" class="lihtc-pma-r">25&#8202;mi</a>
           </span>
-          <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Market-area competition — LIHTC projects within the chosen radius of the jurisdiction. <a href="market-analysis.html">Refine with a delineated PMA →</a></div>
+          <div style="margin-top:3px;font-size:.8125rem;color:var(--muted)">Market-area competition — LIHTC projects within the chosen radius of the jurisdiction. <a href="market-analysis.html">Refine with a delineated PMA →</a></div>
         </div>
       </div>
 
@@ -813,7 +813,7 @@
           <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why use HUD MTSP income limits?</summary>
           <div style="margin-top:.4rem;line-height:1.55;color:var(--text);">
             <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula shown here:</p>
-            <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8rem;margin:.3rem 0;">
+            <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8125rem;margin:.3rem 0;">
               LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier% × 30% ÷ 12
             </code>
             <ul style="margin:.4rem 0 .4rem 1.2rem;padding:0;">
@@ -900,7 +900,7 @@
                See PR-C3 / PR-C4 / PR-this for the methodology arc. -->
           <span id="chasProvenanceBadge" hidden
             style="display:inline-block;margin-left:.5rem;padding:.1rem .5rem;
-                   font-size:.7rem;font-weight:600;border-radius:9999px;
+                   font-size:.8125rem;font-weight:600;border-radius:9999px;
                    line-height:1.4;vertical-align:middle;"></span>
           <!-- Legacy hint kept for backward-compat with comparative-analysis
                panel; new provenance badge above is the preferred surface. -->
@@ -1251,7 +1251,7 @@
       <div class="chart-card span-12" id="scenario-projections-section">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <h2 style="margin:0;">Scenario-based demographic projections</h2>
-          <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.78rem;">
+          <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.8125rem;">
             <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:var(--on-accent,#fff);border:none;cursor:pointer;font-weight:600;">10-Year</button>
             <button type="button" class="horizon-btn" data-horizon="20" style="padding:4px 12px;background:var(--bg2);color:var(--muted);border:none;cursor:pointer;">20-Year</button>
           </div>
@@ -1364,7 +1364,7 @@
           Workplace-area employment estimates from LEHD LODES. Job totals, wage distribution, and top industries
           display when the LEHD WAC cache is populated; commuting flows are available now from the OD summary.
         </p>
-        <div id="laborScopeNote" style="font-size:.78rem;color:var(--muted);margin:-2px 0 10px"></div>
+        <div id="laborScopeNote" style="font-size:.8125rem;color:var(--muted);margin:-2px 0 10px"></div>
         <div id="jobMetrics" class="metric-cards">
           <!-- populated by JS -->
         </div>
@@ -1762,7 +1762,7 @@
       <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
-          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
+          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.8125rem;font-weight:800;">Screening estimate</span>
         </div>
         <!-- The answer, before the framing. Filled by hna-renderers.js. -->
         <div id="hnaOwnershipAnswer"></div>
@@ -1795,11 +1795,11 @@
       <!-- ── Neighborhood & Architectural Context ── -->
       <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
-          <h2 style="margin:0">Neighborhood &amp; Architectural Context <span id="ncContextScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
+          <h2 style="margin:0">Neighborhood &amp; Architectural Context <span id="ncContextScope" style="font-weight:400;font-size:.8125rem;color:var(--muted)"></span></h2>
         </div>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
-          <span style="display:block;margin-top:.4rem;font-size:.78rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
+          <span style="display:block;margin-top:.4rem;font-size:.8125rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
         </p>
         <!-- Neighborhood context card — rendered by NeighborhoodContext -->
         <div id="ncContextContainer">
@@ -1966,14 +1966,14 @@
     if (tl === 'low') { bg = 'var(--good)'; }
     else if (tl === 'moderate') { bg = 'var(--warn)'; }
     else if (tl === 'high') { bg = 'var(--bad)'; }
-    return '<span style="display:inline-block;background:' + bg + ';color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;margin-left:.35rem;vertical-align:middle">' + label + '</span>';
+    return '<span style="display:inline-block;background:' + bg + ';color:#fff;font-size:.8125rem;padding:.15rem .45rem;border-radius:4px;margin-left:.35rem;vertical-align:middle">' + label + '</span>';
   }
 
   function dataBadge(available) {
     if (available) {
-      return '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">data</span>';
+      return '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.8125rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">data</span>';
     }
-    return '<span style="display:inline-block;background:var(--muted);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
+    return '<span style="display:inline-block;background:var(--muted);color:#fff;font-size:.8125rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
   }
 
   function renderBridgeMarketSection(summary) {
@@ -1990,15 +1990,15 @@
         html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
         html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (r.region_name || 'Region') + '</strong> ' + dataBadge(avail) + '</div>';
         if (avail) {
-          html += '<div style="font-size:.78rem;color:var(--muted)">';
+          html += '<div style="font-size:.8125rem;color:var(--muted)">';
           html += '<div>Median assessed: <strong style="color:var(--text)">' + fmtK(r.median_assessed_value) + '</strong>' + tierBadge(r.land_cost_tier) + '</div>';
           html += '<div>Transactions (12mo): ' + (r.transaction_count_12mo != null ? r.transaction_count_12mo.toLocaleString() : 'N/A') + '</div>';
           if (r.is_rural) {
-            html += '<div><span style="display:inline-block;background:var(--accent);color:var(--on-accent,#fff);font-size:.7rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
+            html += '<div><span style="display:inline-block;background:var(--accent);color:var(--on-accent,#fff);font-size:.8125rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
           }
           html += '</div>';
         } else {
-          html += '<div style="font-size:.78rem;color:var(--muted)">Awaiting first data run.</div>';
+          html += '<div style="font-size:.8125rem;color:var(--muted)">Awaiting first data run.</div>';
         }
         html += '</div>';
       }
@@ -2013,7 +2013,7 @@
       var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
       rHtml += '<p style="font-size:1rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets, making it a priority for affordable housing investment.</p>';
       if (ruralRegions.length) {
-        rHtml += '<ul style="margin:.4rem 0;padding-left:1.1rem;font-size:.8rem;color:var(--muted)">';
+        rHtml += '<ul style="margin:.4rem 0;padding-left:1.1rem;font-size:.8125rem;color:var(--muted)">';
         for (var j = 0; j < ruralRegions.length; j++) {
           var rr = ruralRegions[j];
           rHtml += '<li><strong style="color:var(--text)">' + rr.region_name + '</strong> — ' + fmtK(rr.median_assessed_value) + tierBadge(rr.land_cost_tier) + '</li>';
@@ -2036,7 +2036,7 @@
         swHtml += '<div style="margin-bottom:.3rem">Statewide median assessed value: <strong style="color:var(--text)">' + fmtK(sw.median_assessed_value) + '</strong>' + tierBadge(sw.land_cost_tier) + '</div>';
         swHtml += '<div style="margin-bottom:.3rem">Total transactions (12mo): <strong style="color:var(--text)">' + (sw.transaction_count_12mo != null ? sw.transaction_count_12mo.toLocaleString() : 'N/A') + '</strong></div>';
         if (sw.data_generated) {
-          swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Data generated: ' + sw.data_generated + '</div>';
+          swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.8125rem">Data generated: ' + sw.data_generated + '</div>';
         }
         swHtml += '</div>';
         swEl.innerHTML = swHtml;
@@ -2114,8 +2114,8 @@
       if (countyRow && countySf) {
         html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
         html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + escHtml(countyRow.name || 'Selected county') + '</strong> ';
-        html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR county</span></div>';
-        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.8125rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR county</span></div>';
+        html += '<div style="font-size:.8125rem;color:var(--muted)">';
         html += '<div>Single-family median sale price: <strong style="color:var(--text)">' + priceMarkup(countySf, carScopes.counties, true) + '</strong></div>';
         html += '<div>Closed sales: ' + fmtWhole(countySf.closed_sales) + '</div>';
         html += '<div>New listings: ' + fmtWhole(countySf.new_listings) + '</div>';
@@ -2126,8 +2126,8 @@
         var m = metros[metroKeys[i]];
         html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
         html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (m.name || metroKeys[i]) + '</strong> ';
-        html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
-        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.8125rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
+        html += '<div style="font-size:.8125rem;color:var(--muted)">';
         html += '<div>Median sale price: <strong style="color:var(--text)">' + priceMarkup(m, carScopes.metro, false) + '</strong></div>';
         html += '<div>Days on market: ' + (m.median_days_on_market != null ? m.median_days_on_market : 'N/A') + '</div>';
         html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
@@ -2156,7 +2156,7 @@
       swHtml += '<div style="margin-bottom:.3rem">Months of supply: <strong style="color:var(--text)">' + (sw.months_of_supply != null ? sw.months_of_supply : 'N/A') + '</strong></div>';
       swHtml += '<div style="margin-bottom:.3rem">Active listings: <strong style="color:var(--text)">' + (sw.active_listings != null ? sw.active_listings.toLocaleString() : 'N/A') + '</strong></div>';
       if (car.month) {
-        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Report period: ' + car.month + '</div>';
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.8125rem">Report period: ' + car.month + '</div>';
       }
       swHtml += '</div>';
       swEl.innerHTML = swHtml;
@@ -3079,7 +3079,7 @@
     // executives / websites change. Force the user to verify before
     // cold-calling.
     var verifyBanner =
-      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.74rem;color:var(--text);line-height:1.4">' +
+      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.8125rem;color:var(--text);line-height:1.4">' +
         '\u26a0 <strong>Verify before contacting:</strong> phone numbers, URLs, and roles below are curated from HUD PIH\u2019s Contact List but are NOT live-refreshed. Confirm each entry via the current <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener">HUD PHA Finder</a> before calling.' +
       '</div>';
 
@@ -3093,9 +3093,9 @@
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
             '<div>' +
               nameCell +
-              '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
+              '<div style="font-size:.8125rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
             '</div>' +
-            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
+            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.8125rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
           '</div>' +
         '</li>';
       }).join('') +
@@ -3521,9 +3521,9 @@
     /* Jurisdiction banner */
     '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
     '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
-    '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
-    '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
-    '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+    '.hna-jurisdiction-banner__label{font-size:.8125rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+    '.hna-jurisdiction-banner__sub{font-size:.8125rem;color:var(--muted);margin-left:8px;}',
+    '.hna-jurisdiction-banner__change{font-size:.8125rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
     '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
     /* Continue panel */
     '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
