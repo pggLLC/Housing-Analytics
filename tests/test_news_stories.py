@@ -208,3 +208,41 @@ def test_a_colorado_headline_naming_another_state_stays_in_briefs_and_stories(ge
     assert 'Oregon lawmakers pass zoning reforms' not in s
     assert 'Aurora, Illinois approves housing plan' not in s
     assert gpb.in_scope_alerts([kept, dropped, town_elsewhere], geos) == [kept]
+
+
+def test_a_colorado_street_elsewhere_is_not_colorado_news(geos):
+    stories, _ = gpb.build_stories([
+        alert('Hearing on Up to $42 Million in Bonds for East Colorado Housing Project Pulled From Council Agenda',
+              'Pasadena Now'),
+        alert('Affordable housing secures financing at 1756 Colorado Blvd. in Pasadena', 'Urbanize LA'),
+        alert('Eastern Colorado county weighs housing grant', 'Sterling Journal-Advocate'),
+    ], geos)
+    assert set(by_title(stories)) == {'Eastern Colorado county weighs housing grant'}
+
+
+def test_headlines_that_are_not_about_housing_are_left_out(geos):
+    stories, _ = gpb.build_stories([
+        alert('Deborah Nicholls denied bail after murder convictions overturned', 'The Denver Post'),
+        alert('This Denver house inspired a famous horror film', 'Denver Gazette'),
+        alert('Manny Rutinel smashes Colorado House race fundraising record in 8th CD', 'Denver Gazette'),
+        alert('Colorado home sellers are cutting prices more than people in other states', 'Colorado Public Radio'),
+        alert('JB Matteson Acquires Vantage at Loveland in Colorado for $72.3M',
+              'Multifamily & Affordable Housing Business'),
+        alert("'Off the Street' breakfast highlights The Place's mission to house and support local youth",
+              'KOAA News 5'),
+    ], geos)
+    assert set(by_title(stories)) == {
+        'Colorado home sellers are cutting prices more than people in other states',
+        'JB Matteson Acquires Vantage at Loveland in Colorado for $72.3M',
+        "'Off the Street' breakfast highlights The Place's mission to house and support local youth",
+    }
+
+
+def test_an_indirect_housing_headline_stays(geos):
+    stories, _ = gpb.build_stories([
+        alert("Hope is at the core of organization\u2019s purpose | NONPROFIT REGISTER", 'Colorado Politics'),
+        alert('Denver Mayor Mike Johnston unveils Mile High Line project at State of the City', 'Rocky Mountain PBS'),
+        alert("Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado", 'Morningstar'),
+        alert("Denver's Javier Mabrey eyes Colorado House leadership", 'State Affairs Pro'),
+    ], geos)
+    assert len(stories) == 4

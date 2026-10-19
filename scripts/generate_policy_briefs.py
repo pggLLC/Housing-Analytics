@@ -410,8 +410,48 @@ def norm_title(t: str) -> str:
     return re.sub(r'\s+', ' ', t).strip()
 
 
+# "E. Colorado Blvd." is a street in Pasadena, not the state: on 2026-10-18
+# Housing News led its Statewide list with two Pasadena stories ("Hearing on Up
+# to $42 Million in Bonds for East Colorado Housing Project", Pasadena Now;
+# "1976 E. Colorado Blvd.", Urbanize LA). A street or directional use of the
+# word does not make a headline Colorado news.
+COLORADO_STREET_RE = re.compile(
+    r'\b(?:E|W|N|S|East|West|North|South)\.?\s+Colorado(?:\s+(?:Blvd|Boulevard|Ave|Avenue|St|Street|Road|Rd)\b\.?)?'
+    r'|\bColorado\s+(?:Blvd|Boulevard|Ave|Avenue|Street)\b\.?')
+
+# Housing News is housing news. The searches return the rest of a paper too:
+# on 2026-10-18 the page listed a murder bail ruling, "This Denver house
+# inspired a famous horror film" and a congressional fundraising record. A
+# headline is left out only when it says nothing about housing AND names
+# something plainly off topic (crime, a campaign, traffic, a film). A headline
+# that is merely indirect stays: "Hope is at the core of organization's
+# purpose" is about 240 affordable homes, and the Mile High Line is a 20,000
+# home plan, though neither headline says so (Codex review of #2372). Bare
+# "house" is not a housing word: it is also the state House and the U.S. House.
+HOUSING_TITLE_RE = re.compile(
+    r'\b(housing|houses|homes?|to house|house (?:and|people|residents|workers|families)|homeless\w*|'
+    r'home ?own\w*|home ?buy\w*|rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|'
+    r'(?:re)?zon(?:e|es|ed|ing)|land|lots?|parcels?|develop\w*|units?|afford\w*|lihtc|tax credits?|chfa|'
+    r'prop(?:osition)?\s*123|hud|section 8|vouchers?|real estate|condo\w*|townhom\w*|densit\w*|adus?|'
+    r'accessory dwelling|permit\w*|construct\w*|builders?|buildings?|shelters?|propert(?:y|ies)|'
+    r'subdivision\w*|annex\w*|infill|workforce|dwellings?|residential|neighborhoods?|displace\w*|'
+    r'gentrif\w*|fha|fhfa|bonds?|tap fees?|water|sewer|infrastructure|grants?|mixed.income|multifamily|'
+    r'growth|groundbreaking|community land trust)\b', re.I)
+OFF_TOPIC_RE = re.compile(
+    r'\b(murder\w*|homicide|bail|convict\w*|sentenced|arrest\w*|shooting|stabbing|citizenship|'
+    r'fundrais\w*|house race|q&a|candidates? (?:for|running)|running for|'
+    r'horror|film|movie|interstate|i-70|closes again|road closure|flooding|mud and debris|ash borer|'
+    r'pest|fitness|rideshare|ice facility|wealthiest|photos of)\b', re.I)
+
+
+def is_housing_headline(title: str, source: str = '') -> bool:
+    title = title or ''
+    return bool(HOUSING_TITLE_RE.search(title)) or not OFF_TOPIC_RE.search(title)
+
+
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     """'colorado', 'federal', or None (another state's news, or not housing policy)."""
+    title = COLORADO_STREET_RE.sub(' ', title or '')
     hay = f'{title} {source}'
     # A headline that says Colorado outright is Colorado news even when it names
     # another state ("Colorado lawmakers borrow Oregon zoning reforms"). Only the
@@ -468,6 +508,8 @@ def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
     places, distinct = find_places(title, geos, source)
     scope = story_scope(title, source, distinct)
     if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
+        scope = None
+    if not is_housing_headline(title, source):
         scope = None
     return scope, title, source, places
 

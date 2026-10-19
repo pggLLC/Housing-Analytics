@@ -133,3 +133,34 @@ def test_the_committed_file_holds_no_past_event():
     as_of = doc['meta']['as_of']
     assert doc['events'], 'the committed events file is empty'
     assert all((e.get('end') or e['start']) >= as_of for e in doc['events'])
+
+
+def test_ended_events_are_kept_in_past_newest_first():
+    previous = {'events': [
+        {'title': 'Spooky Bingo', 'start': '2026-10-10', 'end': None, 'organizer': 'Housing Colorado',
+         'source': 'housing_colorado', 'category': 'networking', 'url': 'https://hc.localhost/b'},
+        {'title': 'Still ahead', 'start': '2026-10-30', 'end': None, 'organizer': 'CHFA',
+         'source': 'chfa', 'category': 'board', 'url': 'https://chfa.localhost/s'},
+    ], 'past': [
+        {'title': 'Long ago', 'start': '2025-01-05', 'end': None, 'organizer': 'CHFA',
+         'source': 'chfa', 'category': 'board', 'url': 'https://chfa.localhost/l'},
+    ]}
+    ended = fhe.past(fhe.parse_chfa(CHFA), previous, TODAY)
+    titles = [e['title'] for e in ended]
+    assert 'Spooky Bingo' in titles, "yesterday's upcoming event that has ended carries forward"
+    assert 'Still ahead' not in titles
+    assert 'Long ago' not in titles and 'Training Webinar: Fair Housing 101' not in titles, 'older than a year'
+    assert 'chfareach: HOTMA for Tax Credit Properties, Online Workshop' not in titles, 'still running'
+    ends = [e.get('end') or e['start'] for e in ended]
+    assert ends == sorted(ends, reverse=True)
+
+
+def test_build_writes_past_events_and_keeps_upcoming_current():
+    def fetch(url):
+        return json.dumps(CHFA).encode() if 'chfainfo' in url else HC_PAGE.encode()
+    prev = {'events': [{'title': 'Ended last week', 'start': '2026-10-07', 'end': None, 'organizer': 'CHFA',
+                        'source': 'chfa', 'category': 'board', 'url': 'https://chfa.localhost/e'}]}
+    doc = fhe.build(TODAY, fetch=fetch, previous=prev)
+    assert [e['title'] for e in doc['past']] == ['Ended last week']
+    assert all((e.get('end') or e['start']) >= TODAY.isoformat() for e in doc['events'])
+    assert all((e.get('end') or e['start']) < TODAY.isoformat() for e in doc['past'])
