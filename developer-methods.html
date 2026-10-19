@@ -20,6 +20,8 @@
   .dv-card table { border-collapse: collapse; width: 100%; font-size: var(--small); }
   .dv-card th, .dv-card td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
 </style>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
 </head>
 <body>
 <header id="siteHeader"></header>
@@ -54,7 +56,7 @@
     <h2>3. The developer check on each site</h2>
     <p>Before a site is suggested, public records are checked for who is already on it:</p>
     <table>
-      <thead><tr><th>Label on the site</th><th>What it means</th></tr></thead>
+      <thead><tr><th title="The words shown beside each site on the place card and in Ready to build.">Label on the site</th><th title="What the public record shows about who, if anyone, is developing the site.">What it means</th></tr></thead>
       <tbody>
         <tr><td>Open: land held, no developer chosen</td><td>A public owner (a town, county or housing authority) holds the land and hasn't chosen a developer.</td></tr>
         <tr><td>Open: developer search under way or coming</td><td>A request for proposals is open or announced.</td></tr>

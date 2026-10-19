@@ -95,7 +95,7 @@
     var byGeoid = {};
     (data.sites || []).forEach(function (s) { (byGeoid[s.geoid] = byGeoid[s.geoid] || []).push(s); });
     function siteSort(a, b) {
-      return RANK[siteReading(a)] - RANK[siteReading(b)] || openRank(a) - openRank(b) || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
+      return openRank(a) - openRank(b) || RANK[siteReading(a)] - RANK[siteReading(b)] || (num(b.homes) || 0) - (num(a.homes) || 0) || String(a.name).localeCompare(String(b.name));
     }
     Object.keys(byGeoid).forEach(function (g) { byGeoid[g].sort(siteSort); });
     var rows = (pipeline || []).filter(function (r) { return r && r.geoid && r.stage !== 'Anti'; });
@@ -104,14 +104,15 @@
 
     var communities = rows.map(function (r) {
       var sites = byGeoid[r.geoid] || [];
-      var best = sites[0] || null;
+      // A site another developer is on is listed, never suggested.
+      var best = sites.filter(function (s) { return !(s.opening && s.opening.status === 'taken'); })[0] || null;
       var reading = best ? siteReading(best) : 'none';
       var sig = (signals || []).filter(function (s) { return s.geoid === r.geoid; })
         .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })[0] || null;
       var why = [
         r.ioi_score ? 'Pipeline score ' + r.ioi_score + [r.classification ? 'class ' + r.classification : '', r.confidence ? r.confidence + ' confidence' : ''].filter(Boolean).map(function (x) { return ', ' + x; }).join('') : '',
         prop123Line((data.places || {})[r.geoid]),
-        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : 'No site on file in public program records',
+        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in public program records',
         sig ? 'Latest signal: ' + [sig.signal_type, sig.strength, sig.date].filter(Boolean).join(', ') : ''
       ].filter(Boolean).join('. ') + '.';
       return { key: r.geoid, report: r.geoid, name: r.jurisdiction || r.geoid, geoid: r.geoid, row: r, sites: sites, reading: reading, signal: sig, place: (data.places || {})[r.geoid] || null, why: why };
@@ -123,7 +124,7 @@
       var c = byPlace[s.geoid] || null;
       return { key: s.id, report: reportId(s), name: s.name, geoid: s.geoid, place: s.place, site: s, reading: siteReading(s), community: c, why: siteLine(s) };
     }).sort(function (a, b) {
-      return RANK[a.reading] - RANK[b.reading] || openRank(a.site) - openRank(b.site) ||
+      return openRank(a.site) - openRank(b.site) || RANK[a.reading] - RANK[b.reading] ||
         (num(b.community && b.community.ioi_score) || 0) - (num(a.community && a.community.ioi_score) || 0) ||
         (num(b.site.homes) || 0) - (num(a.site.homes) || 0) || a.name.localeCompare(b.name);
     });

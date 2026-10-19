@@ -107,6 +107,22 @@ ok(blankNext.includes('Plat lapses') && blankNext.includes('from the dossier') &
 ok(P.localToday(new Date(2026, 9, 19, 23, 30)) === '2026-10-19', 'the default date is the local day, not UTC');
 ok(/\.pc-card a \{[^}]*min-height:44px/.test(read('developer-brief.html')), 'place card links are 44px tall');
 
+// Codex round 3: who holds a site outranks its readiness, and a taken site is
+// never the suggested one; a pipeline edit redraws the card.
+const mixed = { sites: [
+  { id: 't', geoid: '0800003', name: 'Ripe But Taken', homes: 80, stage: 'dossier', card: { reading: 'ripe', next: null }, opening: { status: 'taken', why: 'x' } },
+  { id: 'o', geoid: '0800003', name: 'Ripening And Open', homes: 30, stage: 'dossier', card: { reading: 'ripening', next: null }, opening: { status: 'open', why: 'y' } }
+] };
+ok(P.sitesFor(mixed, '0800003')[0].name === 'Ripening And Open', 'an open site leads a ripe site another developer holds');
+ok(P.render({ name: 'T', geoid: '0800003', ripeness: mixed }).includes('Best site: Ripening And Open'), 'the card suggests the open site');
+const onlyTaken = { sites: [mixed.sites[0]] };
+const takenCard = P.render({ name: 'T', geoid: '0800003', ripeness: onlyTaken });
+ok(!takenCard.includes('Best site') && takenCard.includes('Every site on file has a developer on it'), 'a taken site is never the best site');
+const built = R.build(mixed, [{ geoid: '0800003', jurisdiction: 'T', stage: 'Signal' }], []);
+ok(built.sites[0].name === 'Ripening And Open' && /Best site: Ripening And Open/.test(built.communities[0].why), 'Ready to build orders and suggests the same way');
+ok(R.build(onlyTaken, [{ geoid: '0800003', jurisdiction: 'T', stage: 'Signal' }], []).communities[0].reading === 'none', 'a place whose only site is taken has no suggested site');
+ok(/onChange: \(\) => redrawPlaceCard\(\)/.test(read('developer-brief.html')) && /opts\.onChange\(\)/.test(read('js/components/pipeline-add-button.js')), 'a pipeline edit from Working tools redraws the card');
+
 // 5. The page mounts the card in the private block, outside the report frame.
 const page = read('developer-brief.html');
 ok(page.includes('<script src="js/whitepaper/place-card.js"></script>'), 'the report page loads the card');

@@ -395,7 +395,7 @@
       const mount = $('ibPipelineAddMount');
       if (mount && window.PipelineAddButton) {
         window.PipelineAddButton.attach(mount, {
-          jurisdiction: name, geoid,
+          jurisdiction: name, geoid, onChange: () => redrawPlaceCard(),
           defaults: {
             stage: pipe.stage || 'Signal', ioi_score: pipe.ioi_score || '', confidence: pipe.confidence || '',
             classification: pipe.classification || '', product_type: pipe.product_type || '',
@@ -471,22 +471,26 @@
   }
   // The place card: reading, call first, sites, next step and the shared
   // discussion log (saved on the site through api/notes).
+  // Redraws the card from the current pipeline (after a Working tools edit).
+  let redrawPlaceCard = () => {};
   function mountPlaceCard(geoid, name, related, researched) {
     const mount = $('placeCardMount');
     if (!mount || !window.PlaceCard) return;
-    const mine = PW && WS ? PW.forPlace(WS, PIPE_ROWS, geoid, related) : { own: { network: [], signals: [], pipeline: PIPE[geoid] || null, anti: null } };
-    const draw = (notes, state) => {
+    let notes = null, state = 'loading';
+    const draw = () => {
+      const mine = PW && WS ? PW.forPlace(WS, PIPE_ROWS, geoid, related) : { own: { network: [], signals: [], pipeline: PIPE[geoid] || null, anti: null } };
       mount.innerHTML = window.PlaceCard.render({
         name, geoid, pipeline: mine.own.pipeline || PIPE[geoid] || null, network: mine.own.network, researched,
         signals: mine.own.signals, ripeness: RIPENESS, anti: mine.own.anti, notes, notesState: state
       });
-      if (notes) window.PlaceCard.wireNotes(mount, geoid, saveNote, list => draw(list));
+      if (notes) window.PlaceCard.wireNotes(mount, geoid, saveNote, list => { notes = list; draw(); });
     };
-    draw(null, 'loading');
+    redrawPlaceCard = () => { PIPE = pipelineRows(); draw(); };
+    draw();
     fetch('api/notes?geoid=' + encodeURIComponent(geoid), { cache: 'no-cache' })
       .then(r => r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : null)
       .catch(() => null)
-      .then(list => draw(Array.isArray(list) ? list : null, 'off'));
+      .then(list => { notes = Array.isArray(list) ? list : null; state = 'off'; draw(); });
   }
   function saveNote(body) {
     return fetch('api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })

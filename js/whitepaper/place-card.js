@@ -164,11 +164,12 @@
 
   function siteReading(s) { return s.card ? s.card.reading : 'on_file'; }
 
-  // The place's sites, best first: a readiness reading, then an open site, then size.
+  // The place's sites, best first: who holds it (open land first, taken last;
+  // a site with no check sorts as unclear), then the readiness reading, then size.
+  function openRank(s) { var o = s.opening && OPENING[s.opening.status]; return o ? o.rank : OPENING.unclear.rank; }
   function sitesFor(ripeness, geoid) {
     return ((ripeness && ripeness.sites) || []).filter(function (s) { return s.geoid === geoid; }).sort(function (a, b) {
-      var oa = a.opening && OPENING[a.opening.status], ob = b.opening && OPENING[b.opening.status];
-      return RANK[siteReading(a)] - RANK[siteReading(b)] || (oa ? oa.rank : 9) - (ob ? ob.rank : 9) || (b.homes || 0) - (a.homes || 0);
+      return openRank(a) - openRank(b) || RANK[siteReading(a)] - RANK[siteReading(b)] || (b.homes || 0) - (a.homes || 0);
     });
   }
 
@@ -195,7 +196,8 @@
   function render(opts) {
     var p = opts.pipeline || null;
     var sites = sitesFor(opts.ripeness, opts.geoid);
-    var best = sites[0] || null;
+    // A site another developer is on is listed, never suggested.
+    var best = sites.filter(function (s) { return !(s.opening && s.opening.status === 'taken'); })[0] || null;
     var reading = best ? siteReading(best) : 'none';
     var place = (opts.ripeness && opts.ripeness.places && opts.ripeness.places[opts.geoid]) || null;
     // The pipeline's own next step first; the dossier's dated step when the row has none.
@@ -209,7 +211,7 @@
     var why = [
       p && p.ioi_score ? 'Pipeline score ' + p.ioi_score + (p.stage ? ', stage ' + p.stage : '') : (p ? 'In the pipeline at ' + (p.stage || 'no stage') : 'Not in your pipeline'),
       place && place.prop123 ? 'Prop 123 ' + String(place.prop123).toLowerCase() + (place.prop123_units ? ' (' + place.prop123_units + ' homes)' : '') : '',
-      best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') : 'No site on file in public program records'
+      best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in public program records'
     ].filter(Boolean).join('. ') + '.';
 
     var h = '<div class="pc-card" id="place-card">';
