@@ -51,3 +51,29 @@
 @media (max-width: 640px) {
   .hm-table th, .hm-table td { padding: 6px 6px; }
 }
+
+/* Flow diagram: which program paid (left) and the region of the homes (right).
+   A figure.diagram, not a .chart-card, so the chart-axes audit leaves it be. */
+.hm-flow-svg { display: block; max-width: 100%; height: auto; overflow: visible; }
+.hm-flow-link { fill: none; stroke-opacity: .32; }
+.hm-flow-link:hover { stroke-opacity: .6; }
+.hm-flow-link.is-chfa, .hm-flow-node.is-chfa, .hm-flow-legend i.is-chfa { stroke: var(--chart-3); fill: var(--chart-3); background: var(--chart-3); }
+.hm-flow-link.is-oedit, .hm-flow-node.is-oedit, .hm-flow-legend i.is-oedit { stroke: var(--chart-4); fill: var(--chart-4); background: var(--chart-4); }
+.hm-flow-link.is-dola, .hm-flow-node.is-dola, .hm-flow-legend i.is-dola { stroke: var(--chart-1); fill: var(--chart-1); background: var(--chart-1); }
+.hm-flow-link { fill: none !important; }
+.hm-flow-node { stroke: none !important; }
+.hm-flow-node.is-region { fill: var(--text-strong); }
+.hm-flow-label, .hm-flow-value { paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
+.hm-flow-label { font-size: 12px; font-weight: 700; fill: var(--text-strong); }
+.hm-flow-value { font-size: 11px; fill: var(--muted); }
+.hm-flow-legend { list-style: none; padding: 0; margin-left: 0; }
+.hm-flow-legend li::marker { content: none; }
+.hm-flow-maptitle { font-weight: 700; font-size: .9rem; margin: var(--sp3) 0 var(--sp1); color: var(--text-strong); }
+.hm-flow-map { display: block; max-width: 100%; height: auto; }
+.hm-region { stroke: var(--card); stroke-width: .8; fill-opacity: .42; }
+.hm-region.rg-1 { fill: var(--chart-1); }
+.hm-region.rg-2 { fill: var(--chart-2); }
+.hm-region.rg-4 { fill: var(--chart-4); }
+.hm-region.rg-5 { fill: var(--chart-5); }
+.hm-region.rg-6 { fill: var(--chart-6); }
+.hm-region.rg-7 { fill: var(--chart-7); }

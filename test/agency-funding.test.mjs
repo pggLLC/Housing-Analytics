@@ -136,6 +136,22 @@ const sumDollars = awards.reduce((t, a) => t + (a.dollars || 0), 0);
 ok(s.dollars === sumDollars, 'summarised dollars equal the sum of award dollars (no credits mixed in)');
 ok(M.perResident(100, 0) === null && M.perResident(null, 10) === null, 'per resident is null, not 0, with no population or no value');
 
+// ── flow diagram: program to region, in homes ───────────────────────────────
+const regionOf = Object.fromEntries(json('data/derived/funding-vs-need.json').counties.map((c) => [c.fips, c.region]));
+ok(Object.keys(regionOf).length === 64, 'the flow reads a region for each of the 64 counties');
+const fl = M.flows(awards, regionOf);
+const drawn = awards.filter((a) => a.homes !== null && a.homes > 0);
+const sum = (xs) => xs.reduce((t, x) => t + x.homes, 0);
+ok(fl.homes === sum(drawn) && fl.homes === s.homes, 'the flow draws every home the awards name, and the answer sentence counts the same total');
+ok(sum(fl.left) === fl.homes && sum(fl.right) === fl.homes && sum(fl.links) === fl.homes, 'each column and the bands add to the same homes');
+ok(fl.withoutHomes === awards.length - drawn.length, 'awards with no home count are counted as left out, not dropped silently');
+ok(fl.left.every((n) => n.agency in M.AGENCIES), 'every program node belongs to an agency');
+ok(drawn.every((a) => M.programOf(a) !== null), 'every drawn award falls in a program group');
+ok(M.programOf({ agency: 'DOLA', program: 'HOME (federal)' }).key === 'dola-federal', 'HOME (federal) is a federal grant, not a homeownership program');
+ok(M.programOf({ agency: 'DOLA', program: 'Prop 123 homeownership (AHOP)' }).key === 'dola-123', 'AHOP is the Prop 123 support fund');
+const boulder = M.flows([{ agency: 'CHFA', program: 'LIHTC 9% + state', homes: 10, countyFips: '08013' }, { agency: 'OEDIT', program: 'Prop 123 Modular Finance', homes: 5, countyFips: null }], regionOf);
+ok(boulder.right.map((r) => r.key).join() === 'Front Range,_none', 'a county lands in its region and no county lands in "No single county printed", last');
+
 // ── developer names ─────────────────────────────────────────────────────────
 ok(M.developerKey('Gorman & Company, LLC') === M.developerKey('Gorman & Company'), 'a legal suffix does not split a developer');
 ok(M.developerKey('Gorman & Company') !== M.developerKey('Gorman'), 'only a trailing legal form is dropped');
