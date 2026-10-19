@@ -109,7 +109,8 @@
       // Only an explicit $0 is left out; unknown equity (null) stays and makes the total unknown.
       tc.nine === 0 ? null : { id: 'lihtc9', name: '9% LIHTC proceeds', amount: tc.nine },
       tc.four === 0 ? null : { id: 'lihtc4', name: '4% LIHTC proceeds', amount: tc.four },
-      tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state }
+      tc.state === 0 ? null : { id: 'state_credit', name: 'Colorado state credit proceeds', amount: tc.state },
+      !tc.added ? null : { id: 'added_credit', name: (tc.addedLabel || 'Added credit') + ' proceeds', amount: tc.added }
     ].concat(
       // Historic credit equity is tax credit equity too: it pays for the whole
       // project. Each source keeps its own status and state-request choice; an

@@ -2,7 +2,8 @@
 'use strict';
 // #2161 (K1) on the real Deal Calculator page (jsdom, page scripts in order): the
 // added credit's net new equity table agrees with js/deal-cost-basis.js and the
-// INVENTED fixture, and an unproven Transit Zone credit never reads as eligible.
+// INVENTED fixture, the sources and uses count it once it is known, and an unproven
+// Transit Zone credit never reads as eligible or enters the sources.
 const assert = require('node:assert/strict');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
 const fx = require('./fixtures/credit-stack/invented.json');
@@ -13,6 +14,7 @@ async function test(name, fn) {
   try { await fn(); passed++; console.log('  PASS ' + name); }
   catch (err) { failed++; console.error('  FAIL ' + name + '\n' + (err && err.stack || err)); }
 }
+const suText = (p, id) => p.d.getElementById(id).textContent.trim();
 const rowText = (p, label) => {
   const row = [...p.d.querySelectorAll('#dc-add-rows tr')].find((tr) => tr.querySelector('th').firstChild.textContent === label);
   assert(row, 'row "' + label + '" renders');
@@ -31,11 +33,15 @@ function enterAdded(p, over) {
   await test('no added credit: the table is hidden and the stack is unchanged', async () => {
     const p = await openPage('');
     assert.equal(p.d.getElementById('dc-add-result').hidden, true);
-    assert.equal(p.w.__DealCalc.getResult().costBasis.addedCredit, null);
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.costBasis.addedCredit, null);
+    assert.equal(r.creditStack.counted, false);
+    assert.equal(r.creditStack.added, 0);
+    assert.equal(p.d.getElementById('dc-su-added-row').hidden, true);
     assert.deepEqual(p.errors, []);
   });
 
-  await test('supplement and resized federal: the table shows gross, the cut, fees and net; the stack does not move', async () => {
+  await test('supplement and resized federal: the table shows gross, the cut, fees and net, and the sources count it', async () => {
     const p = await openPage('');
     // With a county the first mortgage and CHFA's gap method run, so the gap is known.
     setField(p, 'dc-county-select', '08001');
@@ -50,9 +56,31 @@ function enterAdded(p, over) {
     assert.equal(rowText(p, 'Net new equity'), money(c.net));
     assert.equal(rowText(p, 'Possible cut to another award'), 'rule not sourced');
     const r = p.w.__DealCalc.getResult();
-    assert.equal(r.gapBeforeDeferred, gapBefore, 'the added credit is reported beside the stack, not in it');
-    assert.equal(r.costBasis.addedCredit.gapAfter, gapBefore - c.net);
-    assert.equal(rowText(p, 'Funding gap before deferred fee, with this credit'), money(gapBefore - c.net));
+    // The sources count the credit's equity after its fees, so the gap falls by the net new equity.
+    assert(Math.abs(r.gapBeforeDeferred - (gapBefore - c.net)) < 0.01, 'gap ' + r.gapBeforeDeferred);
+    assert.equal(r.costBasis.addedCredit.gapBefore, gapBefore);
+    assert.equal(r.costBasis.addedCredit.gapAfter, r.gapBeforeDeferred);
+    assert.equal(rowText(p, 'Funding gap before deferred fee, without this credit'), money(gapBefore));
+    assert.equal(rowText(p, 'Funding gap before deferred fee, with this credit'), money(r.gapBeforeDeferred));
+    // The sources and uses table, DOH permanent financing and the LP's equity all agree with the result.
+    assert.equal(r.creditStack.added, c.gross - fx.added.fees);
+    assert.equal(p.d.getElementById('dc-su-added-row').hidden, false);
+    assert.equal(suText(p, 'dc-su-added'), money(r.creditStack.added));
+    assert.equal(suText(p, 'dc-su-equity'), money(r.equity), 'a supplement leaves federal equity whole');
+    const pfAdded = p.d.querySelector('[data-pf-row="added"] [data-pf-amount]');
+    assert(pfAdded, 'DOH permanent financing lists the added credit');
+    assert.equal(pfAdded.textContent.trim(), money(r.creditStack.added));
+    const pfCredits = p.d.querySelector('[data-pf-row="tax_credits"] [data-pf-amount]').textContent.trim();
+    assert.equal(pfCredits, money(r.creditStack.federal + r.creditStack.state + r.creditStack.added), 'DOH tax credit equity includes it');
+    assert.equal(p.w.DealEngine.creditStackTotal(r), r.creditStack.federal + r.creditStack.state + r.creditStack.added);
+    // The pay-in schedule is a share of the credit's gross equity, as its heading says.
+    setField(p, 'dc-add-payin-closing', 100); setField(p, 'dc-add-payin-completion', 0); setField(p, 'dc-add-payin-stabilization', 0);
+    assert.match(p.d.getElementById('dc-add-payin-h').textContent, /gross equity/);
+    assert.equal(p.w.__DealCalc.getResult().costBasis.payIn.added.installments[0].amount, c.gross);
+    // The investor's automatic equity in the waterfall is what it pays in: the credit equity
+    // the sources count plus the added credit's investor fees.
+    assert(r.waterfall, 'non-vacuous: the waterfall runs for this deal');
+    assert(Math.abs(r.waterfall.lpEquity - (p.w.DealEngine.creditStackTotal(r) + fx.added.fees)) < 0.01, 'LP equity ' + r.waterfall.lpEquity);
     // The added credit's results export with the other outputs, which come from the same result.
     const snap = p.w.__DealCalcShare.buildSnapshot();
     assert.equal(snap.outputs.addedCreditGrossEquity.value, r.costBasis.addedCredit.gross);
@@ -66,6 +94,19 @@ function enterAdded(p, over) {
     assert.equal(ac.reason, null, ac.reason);
     assert.equal(ac.resizedFederal, fx.cases.resizedFederal.expected.resizedFederal);
     assert.equal(rowText(p, 'Net new equity'), money(fx.cases.resizedFederal.expected.net));
+    const cut = p.w.__DealCalc.getResult();
+    assert.equal(cut.creditStack.federal, cut.equity - ac.resizedFederal, 'the cut comes off federal equity in the sources');
+    assert.equal(suText(p, 'dc-su-equity'), money(cut.creditStack.federal));
+    assert.match(suText(p, 'dc-su-credit-note'), /federal credit cut/);
+    // With its fees blank the net is unknown, so the sources leave the credit out and the gap returns.
+    setField(p, 'dc-add-fed-cut', '');
+    setField(p, 'dc-add-fees', '');
+    const blank = p.w.__DealCalc.getResult();
+    assert.equal(blank.costBasis.addedCredit.gross, c.gross, 'non-vacuous: the gross is known');
+    assert.equal(blank.creditStack.counted, false);
+    assert.equal(blank.gapBeforeDeferred, blank.costBasis.addedCredit.gapBefore);
+    assert.equal(p.d.getElementById('dc-su-added-row').hidden, true);
+    assert.match(suText(p, 'dc-su-credit-note'), /not counted in the sources: Enter the investor fees/);
     assert.deepEqual(p.errors, []);
   });
 
@@ -83,6 +124,11 @@ function enterAdded(p, over) {
     assert.equal(rowText(p, 'Net new equity before fees'), money(c.expected.netBeforeFees));
     assert.equal(rowText(p, 'Net new equity'), money(c.expected.net));
     assert.match(p.d.getElementById('dc-add-rows').textContent, /less than it displaces/);
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.stateEquity, fx.state.expectedEquity, 'the awarded state equity is unchanged');
+    assert.equal(r.creditStack.state, fx.state.expectedEquity - c.expected.displaced, 'the replaced equity comes off the state line');
+    assert.equal(suText(p, 'dc-su-state'), money(r.creditStack.state));
+    assert.match(suText(p, 'dc-su-credit-note'), /Colorado state credit equity is .* less/);
     assert.deepEqual(p.errors, []);
   });
 
@@ -95,6 +141,10 @@ function enterAdded(p, over) {
     assert.equal(rowText(p, 'Eligibility'), 'Eligibility unknown');
     assert.equal(rowText(p, 'Net new equity'), 'Not available');
     assert.match(p.d.getElementById('dc-add-reason').textContent, /^Transit Zone credit eligibility unknown/);
+    // An unproven credit stays out of the sources, and the table says why.
+    assert.equal(p.w.__DealCalc.getResult().creditStack.counted, false);
+    assert.equal(p.d.getElementById('dc-su-added-row').hidden, true);
+    assert.match(suText(p, 'dc-su-credit-note'), /not counted in the sources: Transit Zone credit eligibility unknown/);
     // The reason sends the user to Market Analysis; that page must load both the zone check and this calculator.
     assert.match(p.d.getElementById('dc-add-reason').textContent, /Market Analysis page/);
     const ma = require('fs').readFileSync(require('path').join(__dirname, '../market-analysis.html'), 'utf8');
@@ -125,6 +175,12 @@ function enterAdded(p, over) {
     const r = p.w.__DealCalc.getResult();
     assert.equal(r.costBasis.addedCredit.displaced, r.stateEquity, 'the displaced equity is the state equity in the stack');
     assert(Math.abs(r.costBasis.addedCredit.net - 20000) < 0.01, 'net ' + r.costBasis.addedCredit.net);
+    // Fully replaced, the state credit's investor pays nothing in, even when its fees take all its equity.
+    assert.equal(r.creditStack.investorFees, 0);
+    setField(p, 'dc-state-fees', fx.state.expectedEquity);
+    const all = p.w.__DealCalc.getResult();
+    assert.equal(all.stateEquity, 0, 'non-vacuous: fees equal to the gross leave $0 state equity');
+    assert.equal(all.creditStack.investorFees, 0);
     assert.deepEqual(p.errors, []);
   });
 
@@ -136,6 +192,11 @@ function enterAdded(p, over) {
     setField(p, 'dc-state-fees', 20000);
     assert.equal(p.w.__DealCalc.getResult().stateEquity, fx.state.expectedEquity - 20000);
     assert.match(p.d.getElementById('dc-cb-detail').textContent, /less \$20,000 investor fees/);
+    // The investor pays in the gross state equity, fees included.
+    const r = p.w.__DealCalc.getResult();
+    assert.equal(r.creditStack.investorFees, 20000);
+    const stack = Object.assign({}, r.creditStack, { federal: 1000000 });
+    assert.equal(p.w.DealEngine.investorCapital({ creditStack: stack }), p.w.DealEngine.creditStackTotal({ creditStack: stack }) + 20000);
     assert.deepEqual(p.errors, []);
   });
 

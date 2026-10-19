@@ -174,18 +174,23 @@
     }
     function amounts(list) { return sum(list.map(function (i) { return i.amount; })); }
     var creditType = r.creditType === '4' ? '4' : '9';
-    var federal = known(r.equity) ? r.equity : null;
+    // Credit equity as the sources count it: an added credit (#2161) brings its own
+    // line and takes off the equity of any credit it replaces or cuts.
+    var cs = r.creditStack || { federal: r.equity, state: r.stateEquity, added: 0 };
+    var federal = known(cs.federal) ? cs.federal : null;
     out.taxCredit = {
       nine: creditType === '9' ? federal : 0,
       four: creditType === '4' ? federal : 0,
       historic: amounts(out.historic),
-      state: known(r.stateEquity) ? r.stateEquity : null
+      state: known(cs.state) ? cs.state : null,
+      added: known(cs.added) ? cs.added : null,
+      addedLabel: cs.label || null
     };
     var deferred = known(r.deferredDevFee) ? r.deferredDevFee : null;
     out.deferredDevFee = deferred;
     var t = {
       conventional: principals('C'), taxExempt: principals('T'), federalFinancing: principals('F'),
-      taxCredits: sum([out.taxCredit.nine, out.taxCredit.four, out.taxCredit.historic, out.taxCredit.state]),
+      taxCredits: sum([out.taxCredit.nine, out.taxCredit.four, out.taxCredit.historic, out.taxCredit.state, out.taxCredit.added]),
       government: amounts(out.government), otherGrants: amounts(out.other),
       ownerEquity: sum([deferred].concat(out.owner.map(function (i) { return i.amount; }))),
       unclassified: amounts(out.unclassified)

@@ -579,9 +579,19 @@
       baseTdc: result.tdc, tdc: cost, overrun: known(cost) ? cost - result.tdc : null,
       baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
   }
+  // Federal, state and any counted added credit equity, as the sources count them.
+  function creditStackTotal(result) {
+    var cs = result.creditStack || { federal: result.equity, state: result.stateEquity, added: 0 };
+    return known(cs.federal) && known(cs.state) && known(cs.added) ? cs.federal + cs.state + cs.added : null;
+  }
+  // What the investor pays in for those credits: their equity plus the investor fees taken from it.
+  function investorCapital(result) {
+    var total = creditStackTotal(result), fees = result.creditStack ? result.creditStack.investorFees : 0;
+    return known(total) && known(fees) ? total + fees : null;
+  }
   function capitalWaterfall(result, fields) {
-    // The investor buys both credits, so the automatic LP amount is federal plus state equity.
-    var autoLpEquity = known(result.equity) && known(result.stateEquity) ? result.equity + result.stateEquity : null;
+    // The investor buys the credits, so the automatic LP amount is what it pays in for them.
+    var autoLpEquity = investorCapital(result);
     if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
         result.exit.assetMgmtOwed, autoLpEquity, result.deferredDevFee].every(known)) return null;
     var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
@@ -1178,8 +1188,12 @@
     // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
     if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
     // #2161: a credit added on top of the federal and state credits, with the net new
-    // equity it brings. It is reported beside the stack, which it does not change.
+    // equity it brings. Once every figure it needs is known and its eligibility is
+    // shown, it is counted in the sources: its equity after its own investor fees is
+    // a source, and the equity of any credit it replaces or cuts comes off that
+    // credit's line. Federal and state equity above stay the amounts awarded.
     var addedCredit = null;
+    var creditStack = { federal: equity, state: stateEquity, added: 0, label: null, counted: false, reason: null };
     if (chfaRegime && fields['dc-add-kind']) {
       var displacedChoice = fields['dc-add-displaces'] || null, displaced = null;
       if (displacedChoice === 'state') {
@@ -1199,8 +1213,27 @@
         displaced: displaced, rules: costRules,
         federalCut: { annual: fields['dc-add-fed-cut'], years: CREDIT_YEARS, price: equityPrice, maxAnnual: Number.isFinite(annualCredits) ? annualCredits : null } });
       addedCredit.gapBefore = Number.isFinite(gapBeforeDeferred) ? gapBeforeDeferred : null;
-      addedCredit.gapAfter = addedCredit.net !== null && addedCredit.gapBefore !== null ? addedCredit.gapBefore - addedCredit.net : null;
+      creditStack.label = addedCredit.label;
+      if (addedCredit.net !== null) {
+        var replacedFederal = displacedChoice === 'federal' && addedCredit.mode === 'substitute' ? addedCredit.displaced : 0;
+        var replacedState = displacedChoice === 'state' && addedCredit.mode === 'substitute' ? addedCredit.displaced : 0;
+        creditStack.federal = equity - replacedFederal - addedCredit.resizedFederal;
+        creditStack.state = stateEquity - replacedState;
+        creditStack.added = addedCredit.gross - addedCredit.fees;
+        creditStack.counted = true;
+        gapBeforeDeferred = tdc - creditStack.federal - creditStack.state - creditStack.added - mortgage - impactGrant - totalLoanPrincipal;
+        if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
+      } else {
+        creditStack.reason = addedCredit.label + ' is not counted in the sources: ' + addedCredit.reason;
+      }
+      addedCredit.gapAfter = creditStack.counted && Number.isFinite(gapBeforeDeferred) ? gapBeforeDeferred : null;
     }
+    // Investors pay in the gross equity; their fees come out before the project gets it.
+    // The state credit's fees follow the share of its annual credit still in the sources.
+    var stateFees = stateCreditApplies && stateCredit.equity !== null ? stateCredit.fees || 0 : 0;
+    var stateShare = creditStack.counted && displacedChoice === 'state' && addedCredit.mode === 'substitute' && stateCredit.allowedAnnual > 0
+      ? 1 - parseFloat(fields['dc-add-displaced-annual']) / stateCredit.allowedAnnual : 1;
+    creditStack.investorFees = stateFees * stateShare + (creditStack.counted ? addedCredit.fees : 0);
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -1355,6 +1388,7 @@
       creditType: creditType,
       basisUnknownReason: basisUnknownReason,
       stateEquity: stateEquity,
+      creditStack: creditStack,
       equityPrice: equityPrice,
       totalGrant: totalGrant,
       totalLoanPrincipal: totalLoanPrincipal,
@@ -1457,14 +1491,14 @@
     var ruleKeys = ['grant_basis_treatment', 'applicable_fraction', 'basis_boost', 'contractor_fee_limit', 'developer_fee_limit',
       'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard',
         'credit_cap_state_with_4pct', 'acquisition_credit_rate', 'credit_reservation_methods', 'min_debt_coverage', 'high_coverage_credit_reduction'];
-    var federalEquity = basis.creditForEquity === null ? null : equity;
+    var federalEquity = basis.creditForEquity === null ? null : creditStack.federal;
     result.costBasis = {
       summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
       feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit, addedCredit: addedCredit,
       underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
       payIn: {
         federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
-        state: stateCredit.entered ? cbm.payIn(stateCredit.equity, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null,
+        state: stateCredit.entered ? cbm.payIn(stateCredit.equity === null ? null : creditStack.state, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null,
         added: addedCredit ? cbm.payIn(addedCredit.gross, { closing: fields['dc-add-payin-closing'], completion: fields['dc-add-payin-completion'], stabilization: fields['dc-add-payin-stabilization'] }) : null
       },
       costPerSf: cbm.costPerSf({ contract: costSummary.reason ? null : costSummary.contract, total: tdc,
@@ -1549,7 +1583,7 @@
     return cleaned;
   }
 
-  return { computeDeal: computeDeal, costPerGrossSf: costPerGrossSf,
+  return { computeDeal: computeDeal, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
     computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
     isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };

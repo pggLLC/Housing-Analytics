@@ -857,6 +857,7 @@
     out.resizedFederal = cut * args.federalCut.years * args.federalCut.price;
     out.netBeforeFees = out.gross - out.displaced - out.resizedFederal;
     if (out.fees === null || !Number.isFinite(out.fees) || out.fees < 0) { out.reason = 'Enter the investor fees on the ' + out.label.toLowerCase() + ' ($0 if none).'; return out; }
+    if (out.fees > out.gross) { out.reason = out.label + ' investor fees of ' + money(out.fees) + ' are more than its ' + money(out.gross) + ' of equity.'; return out; }
     out.net = out.netBeforeFees - out.fees;
     return out;
   }

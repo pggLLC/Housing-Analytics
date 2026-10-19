@@ -14,7 +14,10 @@
 // Credit equity then leaves exactly 760,000 (3.8%) for the deferral, the gap is
 // $0, and $1,140,000 of fee is paid at closing. The payback year and sponsor IRR
 // on that 760,000 come from L1's unchanged exit code: Year 6, 25.4% (A) / 24.2% (B).
-const SOURCES_ROW = '\n            \n            \n              State credit equity\n              $0\n              —';
+const SOURCES_ROW = '\n            \n            \n              State credit equity\n              $0\n              —'
+  // #2161: the added credit's row and the credit note row, both hidden with no added credit.
+  + '\n            \n            \n              Added credit equity, after its investor fees\n              $0\n              —'
+  + '\n            \n            \n              ';
 module.exports = function expectedFigures(scenario, figures) {
   const out = { ...figures };
   const gap = ['$0', '—'];
@@ -26,7 +29,10 @@ module.exports = function expectedFigures(scenario, figures) {
     'dc-r-devfee': '$1,900,000', 'dc-r-deferred': '$760,000', 'dc-r-devfee-closing': '$1,140,000',
     'dc-su-equity': equity[0], 'dc-su-equity-pct': equity[1], 'dc-su-deferred': '$760,000', 'dc-su-deferred-pct': '3.8%',
     'dc-su-gap': gap[0], 'dc-su-gap-pct': gap[1],
-    'dc-su-state': '$0', 'dc-su-state-pct': '—', 'dc-su-state-row': 'State credit equity\n              $0\n              —'
+    'dc-su-state': '$0', 'dc-su-state-pct': '—', 'dc-su-state-row': 'State credit equity\n              $0\n              —',
+    'dc-su-added': '$0', 'dc-su-added-pct': '—', 'dc-su-added-label': 'Added credit equity, after its investor fees',
+    'dc-su-added-row': 'Added credit equity, after its investor fees\n              $0\n              —',
+    'dc-su-credit-note': '', 'dc-su-credit-note-row': ''
   });
   const t = out['dc-su-table'];
   out['dc-su-table'] = t

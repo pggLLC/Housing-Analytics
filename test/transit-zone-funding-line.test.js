@@ -215,7 +215,9 @@ test('the line shows only for supported site eligibility, and states no amount f
   const { w, note } = dealCalc();
   w.__DealCalc.setTransitZoneContext(PASS);
   assert.equal(note.hidden, false);
-  assert.match(note.textContent, /not added to this stack/);
+  // The note points at the added credit block, which must offer a Transit Zone credit.
+  assert.match(note.textContent, /not in this stack unless entered as an added credit/);
+  assert.match(read('js/deal-calculator.js'), /<select id="dc-add-kind"[\s\S]*?<option value="tz">[\s\S]*?<\/select>/, 'the added credit block offers a Transit Zone credit');
   // The legislation file has not loaded (fetch is offline here): no amount.
   assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), 'unavailable');
   assert.match(note.textContent, /per-project amounts could not be loaded, so none is shown/);
@@ -322,7 +324,7 @@ test('a 9% deal shows the fixed pairing from the data, one allowance, not added 
   assert.match(t, /annual amounts, claimed in each credit year, not a project total/);
   assert.match(t, /§3\.L, not yet adopted/);
   assert.match(t, /replaces standard state credit, it does not add to it/);
-  assert.match(t, /not added to this stack/);
+  assert.match(t, /not in this stack unless entered as an added credit/);
   assert.doesNotMatch(t, /round two/i, 'a 9% deal was shown the 4% pairing');
 });
 
