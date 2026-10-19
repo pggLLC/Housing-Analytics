@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T16:04:18.640Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T16:11:33.545Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 19.5 KB |
-| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.1 KB |
+| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.3 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.9 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.2 KB |
@@ -1891,7 +1891,7 @@
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
-| `test/data-commits-queue.test.js` | 11.0 KB |
+| `test/data-commits-queue.test.js` | 12.1 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
