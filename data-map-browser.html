@@ -27,6 +27,7 @@
   <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
 
   <script src="js/site-state.js"></script>
+  <script src="js/county-measures.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/data-section-banner.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -829,6 +830,145 @@
         ];
       } },
 
+    /* Gaps between incomes and housing costs — the same county figures
+       and grey-out rules as the home page map (js/county-measures.js).
+       Counties too uncertain to rank are drawn grey and left out of the
+       quintile breaks. */
+    { key: 'gap-missing-lte30', name: 'Homes missing per 100 renters at or below 30% AMI (HUD CHAS 2018–2022)', group: 'Gap between incomes and housing costs',
+      sourceLabel: 'hna/chas_affordable_available.json',
+      loader: function () { return _countyMeasureFeatures('missing_per_100_lte30'); },
+      kind: 'choropleth', tintBy: 'missing_per_100_lte30', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Homes missing per 100', v: _measureText(p, 'missing_per_100_lte30') },
+          { k: 'What it means', v: 'For every 100 renter households earning 30% of area median income or less, this many have no affordable home that is vacant or held by a household at that income.' },
+          { k: 'Grey counties', v: 'Fewer than 100 such households, or more vacant-for-rent homes (often seasonal) than occupied ones.' },
+          { k: 'Source', v: 'HUD CHAS 2018–2022' },
+        ];
+      } },
+    { key: 'gap-home-value', name: 'Median home value (ACS 2020–2024)', group: 'Gap between incomes and housing costs',
+      sourceLabel: 'co-county-demographics.json · median home value',
+      loader: function () { return _countyMeasureFeatures('median_home_value'); },
+      kind: 'choropleth', tintBy: 'median_home_value', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Median home value', v: _measureText(p, 'median_home_value') },
+          { k: 'What it means', v: 'The middle value owners put on their homes in the Census survey. Read it with home value ÷ income, which shows how far that price sits from local pay.' },
+          { k: 'Grey counties', v: 'Survey margins too wide to rank.' },
+          { k: 'Source', v: 'ACS 5-year 2020–2024' },
+        ];
+      } },
+    { key: 'gap-value-income', name: 'Home value ÷ household income (ACS 2020–2024)', group: 'Gap between incomes and housing costs',
+      sourceLabel: 'co-county-demographics.json · median value ÷ income',
+      loader: function () { return _countyMeasureFeatures('home_value_to_income'); },
+      kind: 'choropleth', tintBy: 'home_value_to_income', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Home value ÷ income', v: _measureText(p, 'home_value_to_income') },
+          { k: 'What it means', v: 'How many years of the median household income the median home costs. Lenders treat about 3 to 4 years as within reach.' },
+          { k: 'Grey counties', v: 'Survey margins too wide to rank.' },
+          { k: 'Source', v: 'ACS 5-year 2020–2024, median home value and household income' },
+        ];
+      } },
+    { key: 'gap-rent-income', name: 'A year of rent as a share of household income (ACS 2020–2024)', group: 'Gap between incomes and housing costs',
+      sourceLabel: 'co-county-demographics.json · median rent × 12 ÷ income',
+      loader: function () { return _countyMeasureFeatures('rent_to_income'); },
+      kind: 'choropleth', tintBy: 'rent_to_income', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Rent ÷ income', v: _measureText(p, 'rent_to_income') },
+          { k: 'What it means', v: 'Twelve months of median gross rent as a share of median household income. Above 30% means the typical household would be cost-burdened renting the typical home.' },
+          { k: 'Grey counties', v: 'Survey margins too wide to rank.' },
+          { k: 'Source', v: 'ACS 5-year 2020–2024, median gross rent and household income' },
+        ];
+      } },
+
+    { key: 'gap-short-lte50', name: 'Renters at or below 50% AMI still without an affordable home, per 100 (HUD CHAS 2018–2022)', group: 'Gap between incomes and housing costs',
+      sourceLabel: 'hna/chas_affordable_available.json · tier 50',
+      loader: function () { return _countyMeasureFeatures('short_per_100_lte50'); },
+      tintBy: 'short_per_100_lte50',
+      kind: 'choropleth', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Still short per 100', v: _measureText(p, 'short_per_100_lte50') },
+          { k: 'Renter households ≤50% AMI', v: _num(p._renters_lte50) },
+          { k: 'Affordable homes open to them', v: _num(p._affordable_lte50) },
+          { k: 'What it means', v: 'HUD counts every rental by its actual rent, so subsidized and naturally affordable market homes are both already counted. What is left is the shortfall no existing home covers.' },
+          { k: 'Grey counties', v: 'Fewer than 100 such households, or more vacant-for-rent homes (often seasonal) than occupied ones.' },
+          { k: 'Source', v: 'HUD CHAS 2018–2022' },
+        ];
+      } },
+    { key: 'aff-subsidized', name: 'Subsidized homes per 100 renters at or below 80% AMI', group: 'Affordable homes and projections',
+      sourceLabel: 'affordable-housing/properties.json + CHAS',
+      loader: function () { return _countyMeasureFeatures('subsidized_per_100_lte80'); },
+      tintBy: 'subsidized_per_100_lte80',
+      kind: 'choropleth', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Subsidized per 100', v: _measureText(p, 'subsidized_per_100_lte80') },
+          { k: 'Subsidized homes on record', v: _num(p._subsidized) },
+          { k: 'Renter households ≤80% AMI', v: _num(p._renters_lte80) },
+          { k: 'What it means', v: 'Income-restricted homes on record with CHFA, HUD multifamily, USDA Rural Development and a local housing authority roster. Most serve households up to 60% or 80% of median income. A building listed by two programs counts once.' },
+          { k: 'Grey counties', v: 'Too few such households to compare, or more homes on record than households counted.' },
+          { k: 'Source', v: 'CHFA, HUD, USDA and housing authority records; HUD CHAS 2018–2022' },
+        ];
+      } },
+    { key: 'aff-pace', name: 'Building pace against projected need (permits ÷ annual need)', group: 'Affordable homes and projections',
+      sourceLabel: 'hna/permits.json · production_vs_need',
+      loader: function () { return _countyMeasureFeatures('build_pace_vs_need'); },
+      tintBy: 'build_pace_vs_need',
+      kind: 'choropleth', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Pace', v: _measureText(p, 'build_pace_vs_need') },
+          { k: 'What it means', v: 'Homes permitted each year (2021–2025 average) divided by homes needed each year over the next ten years for household growth. Below 1× is falling behind. Resort counties build many second homes, so a high figure there does not mean residents are housed.' },
+          { k: 'Grey counties', v: 'No growth need projected, or need under 10 homes a year, too few to compare.' },
+          { k: 'Source', v: 'Census Building Permits Survey; State Demography Office forecast' },
+        ];
+      } },
+    { key: 'aff-pop-change', name: 'Projected population change, 2024 to 2044 (State Demography Office)', group: 'Affordable homes and projections',
+      sourceLabel: 'hna/projections/<county>.json',
+      loader: function () { return _countyMeasureFeatures('dola_pop_change_20yr'); },
+      tintBy: 'dola_pop_change_20yr',
+      kind: 'choropleth', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'Population change', v: _measureText(p, 'dola_pop_change_20yr') },
+          { k: 'Vintage', v: 'Forecast with a 2024 base year; the office publishes a new one each fall.' },
+          { k: 'Source', v: 'Colorado State Demography Office' },
+        ];
+      } },
+    { key: 'aff-new-homes', name: 'New homes needed by 2044 per 1,000 residents today', group: 'Affordable homes and projections',
+      sourceLabel: 'hna/projections/<county>.json',
+      loader: function () { return _countyMeasureFeatures('dola_new_homes_per_1k'); },
+      tintBy: 'dola_new_homes_per_1k',
+      kind: 'choropleth', color: '#0b4f48',
+      tintRamp: ['#f0fdfa', '#c4e2dd', '#7dbcb2', '#2f8f83', '#0b4f48'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD },
+          { k: 'New homes per 1,000', v: _measureText(p, 'dola_new_homes_per_1k') },
+          { k: 'What it means', v: 'Homes needed to house projected household growth at a healthy vacancy rate. Growth only: it leaves out homes lost to age and today’s shortfall. Shrinking counties show 0.' },
+          { k: 'Source', v: 'Colorado State Demography Office forecast, 2024 base year' },
+        ];
+      } },
+
     { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
       propertiesJson: true, programType: 'preservation-candidate',
       // Filter out records that are ALSO in chfa LIHTC — those already
@@ -1097,7 +1237,7 @@
   function _popupHtml(layer, props) {
     const rows = (layer.popupRows ? layer.popupRows(props) : Object.keys(props || {}).slice(0, 6).map(k => ({ k: k, v: props[k] })))
       .filter(r => r.v != null && r.v !== '');
-    const sourceLabel = layer.propertiesJson
+    const sourceLabel = layer.sourceLabel ? layer.sourceLabel : layer.propertiesJson
       ? 'affordable-housing/properties.json (filtered to ' + layer.programType + ')'
       : layer.arcgisDynamic
         ? layer.url + ' · layer ' + (layer.layerIds || [0]).join(',')
@@ -1123,7 +1263,7 @@
         var ramp = layer.tintRamp || ['#e0f2fe', '#7dd3fc', '#0ea5e9', '#0369a1', '#0c4a6e'];
         var br = layer.tintQuintiles;
         var fill;
-        if (v == null || !isFinite(v) || !br) {
+        if (v == null || !isFinite(v) || !br || props._unreliable) {
           fill = '#cbd5e1';
         } else if (v < br[0]) fill = ramp[0];
         else if (v < br[1]) fill = ramp[1];
@@ -1163,6 +1303,7 @@
   function _hydrateChoroplethBins(layer, feats) {
     if (layer.kind !== 'choropleth' || !layer.tintBy) return;
     var values = feats
+      .filter(function (f) { return !(f.properties && f.properties._unreliable); })
       .map(function (f) { return f.properties && f.properties[layer.tintBy]; })
       .filter(function (v) { return v != null && isFinite(v); })
       .sort(function (a, b) { return a - b; });
@@ -1205,6 +1346,38 @@
     _propsJsonCache = (j.properties || []).filter(p =>
       Number.isFinite(p.lat) && Number.isFinite(p.lng));
     return _propsJsonCache;
+  }
+
+  /* County boundaries carrying one shared county measure
+     (js/county-measures.js). _unreliable marks a county too uncertain to
+     rank: drawn grey and left out of the quintile breaks. */
+  async function _countyMeasureFeatures(field) {
+    if (!window.CountyMeasures) throw new Error('county measures not loaded');
+    const res = await window.CountyMeasures.loadField(field);
+    const vals = res.values[field] || {};
+    const skip = res.unreliable[field] || {};
+    return res.boundaries.features.map(function (f) {
+      const geoid = f.properties && f.properties.GEOID;
+      const props = { GEOID: geoid, NAMELSAD: res.names[geoid] || (f.properties && f.properties.NAME) };
+      props[field] = vals[geoid] != null ? vals[geoid] : null;
+      props._unreliable = !!skip[geoid];
+      const d = res.detail && res.detail[geoid];
+      if (d) {
+        props._renters_lte50 = d.renters_lte50;
+        props._affordable_lte50 = d.affordable_lte50;
+        props._renters_lte80 = d.renters_lte80;
+        props._subsidized = d.subsidized;
+      }
+      return { type: 'Feature', geometry: f.geometry, properties: props };
+    });
+  }
+  function _num(v) {
+    return v != null && isFinite(v) ? Math.round(v).toLocaleString('en-US') : null;
+  }
+  function _measureText(p, field) {
+    const def = window.CountyMeasures.FIELDS[field];
+    const txt = window.CountyMeasures.format(p[field], def.fmt, def.suffix);
+    return p._unreliable ? txt + ' (too uncertain to rank)' : txt;
   }
 
   async function _loadLayer(layer) {
@@ -1273,6 +1446,8 @@
         geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
         properties: p,
       }));
+    } else if (layer.loader) {
+      feats = await layer.loader();
     } else {
       const r = await fetch(layer.url, { cache: 'no-store' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1356,7 +1531,7 @@
       html += '<div class="dmb-group" data-group="' + _esc(g) + '">';
       html += '<div class="dmb-group-label">' + _esc(g) + '</div>';
       groups[g].forEach(layer => {
-        const sourceCode = layer.propertiesJson
+        const sourceCode = layer.sourceLabel ? layer.sourceLabel : layer.propertiesJson
           ? 'affordable-housing/properties.json · ' + layer.programType
           : layer.arcgisDynamic
             ? 'FEMA NFHL · layer ' + (layer.layerIds || [0]).join(',')
