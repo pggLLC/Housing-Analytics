@@ -280,6 +280,77 @@
     });
   }
 
+  // The flow diagram: which program paid for the homes (left) and the region
+  // of the county printed on the award (right). Measured in homes, the one
+  // thing every agency prints, so credits and dollars are never added.
+  // DOLA prints many program names; they fold into three groups.
+  var PROGRAMS = [
+    { key: 'chfa-4', agency: 'CHFA', label: '4% tax credits', test: /4%/ },
+    { key: 'chfa-9', agency: 'CHFA', label: '9% tax credits', test: /9%/ },
+    { key: 'chfa-mi', agency: 'CHFA', label: 'Middle-income tax credits', test: /MIHTC|middle/i },
+    { key: 'chfa-other', agency: 'CHFA', label: 'Other CHFA tax credits', test: /./ },
+    { key: 'oedit-land', agency: 'OEDIT', label: 'Prop 123 land banking', test: /land bank/i },
+    { key: 'oedit-debt', agency: 'OEDIT', label: 'Prop 123 low-interest loans', test: /concessionary|debt/i },
+    { key: 'oedit-modular', agency: 'OEDIT', label: 'Prop 123 modular', test: /modular/i },
+    { key: 'oedit-equity', agency: 'OEDIT', label: 'Prop 123 equity', test: /equity/i },
+    { key: 'oedit-other', agency: 'OEDIT', label: 'Other Prop 123 fund awards', test: /./ },
+    { key: 'dola-state', agency: 'DOLA', label: 'State grants and loans', test: null },
+    { key: 'dola-123', agency: 'DOLA', label: 'Prop 123 support fund', test: /prop\s*123|AHOP/i },
+    { key: 'dola-federal', agency: 'DOLA', label: 'Federal grants', long: 'Federal HOME, CDBG and Housing Trust Fund grants', test: /\((federal)\)|^HOME\b|CDBG|Housing Trust Fund/ },
+  ];
+  var NO_REGION = { key: '_none', label: 'No single county printed' };
+
+  function programOf(a) {
+    var p = String(a.program || '');
+    var own = PROGRAMS.filter(function (g) { return g.agency === a.agency; });
+    if (a.agency === 'DOLA') {
+      // Federal first: "HOME (federal)" is not a homeownership program.
+      var fed = own.filter(function (g) { return g.key === 'dola-federal'; })[0];
+      if (fed.test.test(p)) return fed;
+      var p123 = own.filter(function (g) { return g.key === 'dola-123'; })[0];
+      return p123.test.test(p) ? p123 : own.filter(function (g) { return g.key === 'dola-state'; })[0];
+    }
+    for (var i = 0; i < own.length; i++) if (own[i].test.test(p)) return own[i];
+    return null;
+  }
+
+  // regionOf: county FIPS -> region label. Awards with no home count are
+  // counted, not drawn, so a reader sees how many are missing.
+  function flows(awards, regionOf, regionOrder) {
+    var left = {}, right = {}, links = {};
+    var out = { left: [], right: [], links: [], homes: 0, withoutHomes: 0, estimated: false };
+    awards.forEach(function (a) {
+      if (a.homes === null || a.homes <= 0) { out.withoutHomes += 1; return; }
+      var g = programOf(a);
+      if (!g) { out.withoutHomes += 1; return; }
+      var rLabel = a.countyFips && regionOf[a.countyFips];
+      var r = rLabel ? { key: rLabel, label: rLabel } : NO_REGION;
+      if (!left[g.key]) left[g.key] = { key: g.key, label: g.label, agency: g.agency, homes: 0, estimated: false };
+      if (!right[r.key]) right[r.key] = { key: r.key, label: r.label, homes: 0 };
+      var lk = g.key + '>' + r.key;
+      if (!links[lk]) links[lk] = { from: g.key, to: r.key, agency: g.agency, homes: 0 };
+      left[g.key].homes += a.homes;
+      right[r.key].homes += a.homes;
+      links[lk].homes += a.homes;
+      if (a.homesEstimated) { left[g.key].estimated = true; out.estimated = true; }
+      out.homes += a.homes;
+    });
+    // Programs in a fixed order, grouped by agency; regions largest first,
+    // with "no single county" last.
+    out.left = PROGRAMS.filter(function (g) { return left[g.key]; }).map(function (g) { return left[g.key]; });
+    var order = regionOrder || [];
+    out.right = Object.keys(right).map(function (k) { return right[k]; }).sort(function (x, y) {
+      return (x.key === '_none') - (y.key === '_none') || y.homes - x.homes || order.indexOf(x.key) - order.indexOf(y.key);
+    });
+    var li = {}, ri = {};
+    out.left.forEach(function (n, i) { li[n.key] = i; });
+    out.right.forEach(function (n, i) { ri[n.key] = i; });
+    out.links = Object.keys(links).map(function (k) { return links[k]; }).sort(function (x, y) {
+      return li[x.from] - li[y.from] || ri[x.to] - ri[y.to];
+    });
+    return out;
+  }
+
   function perResident(value, population) {
     if (value === null || !population || population <= 0) return null;
     return value / population;
@@ -316,6 +387,9 @@
     measureOf: measureOf,
     group: group,
     perResident: perResident,
+    PROGRAMS: PROGRAMS,
+    programOf: programOf,
+    flows: flows,
     csv: csv,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
