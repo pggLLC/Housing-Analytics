@@ -92,8 +92,8 @@
         <h2 style="margin:0 0 var(--sp3);">Why LIHTC Matters</h2>
         <p style="color:var(--muted);line-height:1.8;margin-bottom:var(--sp2);">
           The Low-Income Housing Tax Credit program is the federal government's primary tool for
-          encouraging private investment in affordable rental housing. Since 1986, LIHTC has financed
-          approximately 3.6 million affordable rental units across all 50 states.
+          encouraging private investment in affordable rental housing, and has been since Congress
+          created it in 1986. In Colorado, CHFA's records list 926 tax-credit projects through 2025.
         </p>
         <p style="color:var(--muted);line-height:1.8;">
           While federally authorized, LIHTC operates through a state-level allocation system. Each
@@ -154,7 +154,7 @@
       <section class="chart-card" aria-label="Methodology" style="margin-bottom:var(--sp4);">
         <h2 style="margin:0 0 var(--sp3);">Methodology</h2>
         <div style="display:flex;flex-direction:column;gap:var(--sp3);color:var(--muted);font-size:var(--small);line-height:1.8;">
-          <p><strong style="color:var(--text-strong);">Data Aggregation:</strong> Data is consolidated from authoritative public sources and validated against multiple references to ensure accuracy.</p>
+          <p><strong style="color:var(--text-strong);">Data Aggregation:</strong> Data is drawn from public agency sources, and each page names the sources and data years behind its figures.</p>
           <p><strong style="color:var(--text-strong);">Colorado LIHTC Data Provenance:</strong> For Colorado-specific LIHTC analyses, the primary data source is the CHFA (Colorado Housing and Finance Authority) ArcGIS FeatureServer, which provides the most current Colorado project data. If CHFA's endpoint is unreachable or returns an empty result, the system automatically falls back to the HUD LIHTC ArcGIS service. For all other states, HUD is the live source. An embedded Colorado fallback dataset is used when both live APIs are unavailable. The active data source is clearly labeled (Source: CHFA / Source: HUD) on LIHTC project listings and in each project popup.</p>
           <p><strong style="color:var(--text-strong);">State Allocations:</strong> Per-capita calculations use Census Bureau population estimates (ACS population or Census estimates as used on the page). Allocation tiers are based on total dollar amounts, not adjusted for cost of living or construction costs. Rankings are sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
           <p><strong style="color:var(--text-strong);">Market Analysis:</strong> Pricing data reflects secondary market transactions and may vary by deal structure, investor type, and state-specific factors.</p>
@@ -197,8 +197,8 @@
       <section class="chart-card" style="margin-bottom:var(--sp5);">
         <h2 style="margin:0 0 var(--sp3);">Updates &amp; Maintenance</h2>
         <div style="display:flex;flex-direction:column;gap:var(--sp2);font-size:var(--small);color:var(--muted);line-height:1.8;">
-          <p><strong style="color:var(--text-strong);">Data Refresh:</strong> Data updates are automated via GitHub Actions where configured; refresh cadence varies by source/series. Some datasets update daily/weekly/monthly; others update when agencies publish new releases.</p>
-          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> FRED series are fetched daily by a scheduled workflow and cached in <code>data/fred-data.json</code>; individual series update on FRED's own publication schedule.</p>
+          <p><strong style="color:var(--text-strong);">Data Refresh:</strong> Most datasets update automatically when the source agency publishes; refresh cadence varies by source and series. Some datasets update daily/weekly/monthly; others update when agencies publish new releases.</p>
+          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> FRED series are fetched daily; individual series update on FRED's own publication schedule.</p>
           <p><strong style="color:var(--text-strong);">Policy Changes:</strong> QAP updates tracked as state agencies publish new allocation plans.</p>
           <p><strong style="color:var(--text-strong);">Last Update:</strong> Q1 2026</p>
         </div>

@@ -1099,12 +1099,12 @@
         </div>
 
         <p class="dq-detail" style="color:var(--muted);font-size:1rem;margin:.5rem 0 0">
-          Data: Bridge Data Output public assessments &amp; transactions · Updated weekly via GitHub Actions · <a href="dashboard-data-quality.html">Data Quality Dashboard</a>
+          Data: Bridge Data Output public assessments &amp; transactions · Updated weekly · <a href="dashboard-data-quality.html">Data Quality Dashboard</a>
         </p>
 
         <!-- Data pending banner (hidden until needed) -->
         <div id="bridgeDataStatus" style="display:none;margin-top:.75rem;padding:.6rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.85rem;color:var(--muted)">
-          Market data pending. The weekly workflow has not yet run.
+          Market data is not available yet.
         </div>
 
         <script>
@@ -1193,7 +1193,7 @@
         }
         rHtml += '</ul>';
       } else {
-        rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.25rem 0">Rural region data pending first workflow run.</p>';
+        rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.25rem 0">Rural region data is not available yet.</p>';
       }
       rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.5rem 0 0;border-top:1px solid var(--border);padding-top:.4rem">Note: The <strong>Eastern Plains</strong> and <strong>San Luis Valley</strong> show particularly strong LIHTC eligibility indicators — low land costs combined with persistent housing cost burden.</p>';
       ruralEl.innerHTML = rHtml;
@@ -1227,11 +1227,11 @@
     var statusEl = document.getElementById('bridgeDataStatus');
     if (statusEl) {
       statusEl.style.display = 'block';
-      statusEl.innerHTML = 'Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a>';
+      statusEl.innerHTML = 'Market data is not available yet. <a href="dashboard-data-quality.html">Check status &rarr;</a>';
     }
     var grid = document.getElementById('bridgeRegionGrid');
     if (grid) {
-      grid.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;grid-column:1/-1">Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
+      grid.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;grid-column:1/-1">Market data is not available yet. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
     }
     var ruralEl = document.getElementById('bridgeRuralHighlight');
     if (ruralEl) {
@@ -1556,7 +1556,7 @@
             <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb-map-service.html" target="_blank" rel="noopener">Geographic Boundaries</a></div>
           </div>
           <p style="margin-top:.8rem;font-size:1.133rem;color:var(--muted)">
-            Data refreshes automatically via GitHub Actions.
+            Figures update automatically when the source agencies publish new data.
             <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
             <a href="data-status.html">Data freshness status</a>
           </p>
