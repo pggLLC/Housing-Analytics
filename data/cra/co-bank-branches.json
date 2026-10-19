@@ -1,7 +1,7 @@
 {
  "meta": {
   "source": "FDIC BankFind Suite API: Summary of Deposits, Institutions, Financials",
-  "source_url": "https://api.fdic.gov/banks",
+  "source_url": "https://api.fdic.gov/banks/docs/",
   "sod_as_of": "2026-06-30",
   "assets_as_of": [
    "2024-12-31",

@@ -36,7 +36,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 OUT_FILE = ROOT / "data" / "cra" / "co-bank-branches.json"
-API = "https://api.fdic.gov/banks"
+# Full endpoint URLs: the bare API root returns 404, so the repo's link
+# sweep would flag it.
+ENDPOINTS = {
+    "sod": "https://api.fdic.gov/banks/sod",
+    "institutions": "https://api.fdic.gov/banks/institutions",
+    "financials": "https://api.fdic.gov/banks/financials",
+}
 
 # 2026 CRA asset-size thresholds (Federal Reserve, FDIC and OCC, Dec 30 2025):
 # large = at least this on Dec 31 of BOTH prior years; intermediate small =
@@ -50,7 +56,7 @@ MIN_COVERAGE = 0.95
 
 
 def get(endpoint, params):
-    url = f"{API}/{endpoint}?" + urllib.parse.urlencode(params)
+    url = ENDPOINTS[endpoint] + "?" + urllib.parse.urlencode(params)
     with urllib.request.urlopen(url, timeout=60) as r:
         return json.load(r)
 
@@ -159,7 +165,7 @@ def main():
     out = {
         "meta": {
             "source": "FDIC BankFind Suite API: Summary of Deposits, Institutions, Financials",
-            "source_url": "https://api.fdic.gov/banks",
+            "source_url": "https://api.fdic.gov/banks/docs/",
             "sod_as_of": f"{year}-06-30",
             "assets_as_of": [f"{year - 2}-12-31", f"{year - 1}-12-31"],
             "cra_thresholds_k": {"large": THRESHOLDS[year][0], "intermediate": THRESHOLDS[year][1]},
