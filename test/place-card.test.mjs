@@ -207,7 +207,21 @@ for (const pg of ['developer-methods.html', 'developer-about.html']) {
   ok(fs.existsSync(path.join(ROOT, pg)) && nav.includes("'" + pg + "'") && build.includes("'" + pg + "'"), pg + ' is in the menu and kept out of the public build');
   ok(read(pg).includes('noindex') && read(pg).includes('js/developer-gate.js') && read(pg).includes('id="devNav"'), pg + ' is a gated developer page');
 }
-ok(read('developer.html').includes('<h1>Start here</h1>') && read('developer.html').includes('id="askMount"'), 'developer home opens with Start here and shows the questions');
+{
+  // The home page's opening is a heading, then numbered steps whose links all
+  // go to pages in the developer menu, then a search that opens the report page.
+  const menu = [...nav.matchAll(/href: '([^']+)'/g)].map((m) => m[1]);
+  const home = read('developer.html');
+  const hero = (home.match(/<div class="ib-hero">([\s\S]*?)<\/form>/) || [])[1] || '';
+  const steps = (hero.match(/<ol class="ib-start">([\s\S]*?)<\/ol>/) || [])[1] || '';
+  const links = [...steps.matchAll(/href="([^"#]+)/g)].map((m) => m[1]);
+  ok(/^\s*<h1>[^<]+<\/h1>/.test(hero) && (steps.match(/<li>/g) || []).length >= 3, 'developer home opens with a heading and numbered steps');
+  ok(links.length && links.every((h) => menu.includes(h)), 'every step links to a page in the developer menu');
+  ok(/<form action="([^"]+)"/.test(hero) && menu.includes(hero.match(/<form action="([^"]+)"/)[1]), 'the opening search goes to a page in the menu');
+  ok(home.includes('id="askMount"'), 'developer home shows the questions');
+}
+ok(/tel:9705550101"/.test(P.render({ name: 'T', geoid: '0800001', network: [{ name: 'Area Code', role: 'Planning Director', phone: '(970) 555-0101' }], researched: [] }))
+  && /tel:9705550102"/.test(P.render({ name: 'T', geoid: '0800001', network: [{ name: 'Noted', role: 'Planning Director', phone: '970-555-0102 (Planning)' }], researched: [] })), 'phone links keep an area code in brackets and drop a worded note');
 // Codex round 2: a slow save can't be sent twice.
 const askSrc = read('js/whitepaper/ask-pggllc.js');
 {

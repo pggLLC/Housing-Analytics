@@ -183,7 +183,8 @@
     });
   }
 
-  function phoneLink(p) { return '<a href="tel:' + esc(String(p).replace(/\(.*?\)/g, '').replace(/[^0-9+]/g, '')) + '">' + esc(p) + '</a>'; }
+  // Drops a worded note such as "(Planning)" but keeps an area code "(970)".
+  function phoneLink(p) { return '<a href="tel:' + esc(String(p).replace(/\([^)]*[A-Za-z][^)]*\)/g, '').replace(/[^0-9+]/g, '')) + '">' + esc(p) + '</a>'; }
 
   var UNCHECKED = 'No developer check on file yet; treat as unclear.';
   function siteHtml(s) {
