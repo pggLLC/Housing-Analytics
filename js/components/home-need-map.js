@@ -139,9 +139,11 @@
 
         function quartileIndex(v) {
           if (v == null || !breaks) return -1;
-          if (v < breaks[0]) return 0;
-          if (v < breaks[1]) return 1;
-          if (v < breaks[2]) return 2;
+          // A value equal to a cut belongs to the lower band, as the
+          // legend's ranges ("0–35", then "35–96") read.
+          if (v <= breaks[0]) return 0;
+          if (v <= breaks[1]) return 1;
+          if (v <= breaks[2]) return 2;
           return 3;
         }
 

@@ -275,21 +275,24 @@
         (j && Array.isArray(j.properties) ? j.properties : []).forEach(function (p) {
           var n = Number(p.assisted_units);
           if (!(n > 0)) return;
-          // The same building can appear twice under two names (a CHFA and
-          // a HUD or USDA record): same street number, ZIP and unit count,
-          // and within about 150 m of each other. Two buildings that share a
-          // number on different streets are farther apart than that.
+          // The same building can appear twice under two names (a CHFA tax
+          // credit record and a HUD, USDA or preservation record): same
+          // street number, ZIP and unit count, within about 150 m, and from
+          // different record sets. Two records from the same set are separate
+          // projects, such as phases I and II at one address.
+          var set = String(p.property_id || '').split(':')[0];
           var num = String(p.address || '').trim().split(/\s+/)[0];
           if (num && p.zip && Number.isFinite(p.lat) && Number.isFinite(p.lng)) {
             var key = num + '|' + p.zip + '|' + n;
             var prior = seen[key] || [];
             var dup = prior.some(function (q) {
+              if (q[2] === set) return false;
               var dy = (q[0] - p.lat) * 111320;
               var dx = (q[1] - p.lng) * 111320 * Math.cos(p.lat * Math.PI / 180);
               return dx * dx + dy * dy < 150 * 150;
             });
             if (dup) return;
-            prior.push([p.lat, p.lng]);
+            prior.push([p.lat, p.lng, set]);
             seen[key] = prior;
           }
           var geoid = p.county_fips;
