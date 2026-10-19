@@ -307,7 +307,7 @@
         ? '<p style="margin:0 0 .4rem;"><strong>Caveats:</strong> ' + _esc(entry.caveats) + '</p>'
         : '') +
       (entry.source
-        ? '<p style="margin:0;font-size:.74rem;color:var(--muted);"><strong>Source:</strong> <code>' + _esc(entry.source) + '</code></p>'
+        ? '<p style="margin:0;font-size:.8125rem;color:var(--muted);"><strong>Source:</strong> <code>' + _esc(entry.source) + '</code></p>'
         : '') +
     '</div>';
   }
@@ -346,7 +346,7 @@
         'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;box-sizing:border-box;' +
         'border:1px solid var(--accent,#096e65);border-radius:50%;' +
         'background:rgba(9,110,101,.08);color:var(--accent,#096e65);' +
-        'font-size:.72rem;font-weight:700;';
+        'font-size:.8125rem;font-weight:700;';
       glyph.textContent = 'ℹ';
       icon.appendChild(glyph);
 

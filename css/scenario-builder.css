@@ -109,7 +109,7 @@
 
 .sb-scenario-btn small {
   display: block;
-  font-size: 0.75rem;
+  font-size: .8125rem;
   font-weight: 400;
   color: var(--muted);
   margin-top: 2px;
@@ -152,7 +152,7 @@
 }
 
 .sb-slider-help {
-  font-size: 0.75rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin-top: 3px;
 }
@@ -217,7 +217,7 @@
 }
 
 .sb-saved-meta {
-  font-size: 0.75rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin-top: 2px;
 }
@@ -279,7 +279,7 @@
   padding: 10px 12px;
   background: var(--bg2);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: .8125rem;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--muted);
@@ -311,7 +311,7 @@
   background: var(--bg2);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: .8125rem;
   color: var(--muted);
   line-height: 1.6;
 }
@@ -355,6 +355,6 @@
 
 .btn-sm {
   padding: 4px 10px;
-  font-size: 0.8rem;
+  font-size: .8125rem;
   min-height: 32px;
 }

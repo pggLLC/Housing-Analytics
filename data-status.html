@@ -69,7 +69,7 @@
         line-height: 1.4;
       }
       .status-card__age {
-        font-size: 0.78rem;
+        font-size: .8125rem;
         color: var(--faint);
         margin-top: 0.2rem;
       }
@@ -123,7 +123,7 @@
         border-bottom: 2px solid var(--border);
         color: var(--muted);
         font-weight: 600;
-        font-size: 0.78rem;
+        font-size: .8125rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
@@ -141,7 +141,7 @@
         border-radius: 1rem;
         background: var(--good-dim);
         color: var(--good);
-        font-size: 0.78rem;
+        font-size: .8125rem;
         font-weight: 700;
       }
       .badge-warn {
@@ -150,7 +150,7 @@
         border-radius: 1rem;
         background: var(--warn-dim);
         color: var(--warn);
-        font-size: 0.78rem;
+        font-size: .8125rem;
         font-weight: 700;
       }
       .badge-error {
@@ -159,7 +159,7 @@
         border-radius: 1rem;
         background: var(--bad-dim);
         color: var(--bad);
-        font-size: 0.78rem;
+        font-size: .8125rem;
         font-weight: 700;
       }
       .badge-loading {
@@ -168,7 +168,7 @@
         border-radius: 1rem;
         background: var(--bg2);
         color: var(--muted);
-        font-size: 0.78rem;
+        font-size: .8125rem;
         font-weight: 700;
       }
       @media (max-width: 600px) {
@@ -234,7 +234,7 @@
             id="refreshBtn"
             class="btn secondary"
             type="button"
-            style="font-size: 0.8rem; padding: 0.3rem 0.8rem"
+            style="font-size: .8125rem; padding: 0.3rem 0.8rem"
           >
             Re-check now
           </button>
@@ -244,7 +244,7 @@
              AND freshness fresh/aging/stale, both axes. -->
         <div
           id="dataStatusRollup"
-          style="margin-top:.6rem;display:flex;gap:.4rem;flex-wrap:wrap;font-size:.78rem"
+          style="margin-top:.6rem;display:flex;gap:.4rem;flex-wrap:wrap;font-size:.8125rem"
         ></div>
       </section>
 
@@ -398,7 +398,7 @@
               stale: "var(--bad, #dc2626)",
             }[freshness] || "var(--muted)";
             freshBadge =
-              '<div style="font-size:.75rem;font-weight:600;color:' +
+              '<div style="font-size:.8125rem;font-weight:600;color:' +
               freshColor + ';margin-top:.25rem;">' + freshLabel + "</div>";
           }
 
@@ -415,7 +415,7 @@
             var sourceText = report.sourceLabel || "Source";
             sourceLine =
               '<br><a href="' + _esc(report.sourceUrl) +
-              '" target="_blank" rel="noopener" style="font-size:.72rem;color:var(--link,#054a42);">' +
+              '" target="_blank" rel="noopener" style="font-size:.8125rem;color:var(--link,#054a42);">' +
               _esc(sourceText) + " ↗</a>";
           }
 

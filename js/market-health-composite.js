@@ -177,7 +177,7 @@
     });
     html += '</tr></thead><tbody></tbody></table>';
     html += '</div>';
-    html += '<p style="font-size:.72rem;color:var(--muted);margin-top:.5rem;">' +
+    html += '<p style="font-size:.8125rem;color:var(--muted);margin-top:.5rem;">' +
       'Sources: <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">BLS QCEW</a> (jobs) · ' +
       '<a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> (unemp) · ' +
       '<a href="https://data.census.gov/" target="_blank" rel="noopener">ACS</a>/' +

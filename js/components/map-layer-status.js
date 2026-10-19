@@ -57,9 +57,9 @@
 
     el.innerHTML =
       '<div class="mls-panel">' +
-        '<div style="font-weight:600;margin-bottom:.3rem;font-size:.78rem;">Data Layer Integration</div>' +
+        '<div style="font-weight:600;margin-bottom:.3rem;font-size:.8125rem;">Data Layer Integration</div>' +
         rows +
-        '<div style="margin-top:.4rem;font-size:.68rem;color:var(--faint);">' +
+        '<div style="margin-top:.4rem;font-size:.8125rem;color:var(--faint);">' +
           '● Map + Report + Scoring &nbsp; ▲ Report + Scoring &nbsp; ◆ Map only &nbsp; ○ Not loaded' +
         '</div>' +
       '</div>';

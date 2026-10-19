@@ -25,13 +25,13 @@
     border-bottom: 2px solid var(--ic-accent); padding-bottom: 8px; margin-bottom: 14px;
   }
   .ic-header h1 { margin: 0; font-size: 1.55rem; line-height: 1.15; }
-  .ic-header .ic-eyebrow { font-size: .72rem; letter-spacing: .08em;
+  .ic-header .ic-eyebrow { font-size: .8125rem; letter-spacing: .08em;
     text-transform: uppercase; color: var(--muted); }
-  .ic-header .ic-meta { font-size: .76rem; color: var(--muted); text-align: right; }
+  .ic-header .ic-meta { font-size: .8125rem; color: var(--muted); text-align: right; }
 
   .ic-section { margin: 12px 0 14px; }
   .ic-section h2 {
-    font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+    font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase;
     color: var(--muted); margin: 0 0 6px; font-weight: 700;
     border-bottom: 1px solid var(--border); padding-bottom: 3px;
   }
@@ -45,14 +45,14 @@
   @media (max-width: 600px) { .ic-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .ic-card { background: var(--bg2); border: 1px solid var(--border);
     border-radius: 6px; padding: 7px 9px; }
-  .ic-card .ic-k { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .ic-card .ic-k { font-size: .8125rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
   .ic-card .ic-v { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-top: 2px; }
-  .ic-card .ic-s { font-size: .68rem; color: var(--muted); }
+  .ic-card .ic-s { font-size: .8125rem; color: var(--muted); }
 
   /* AMI tier mini-table */
   .ic-tier-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: .85rem; }
   .ic-tier-row > div { text-align: center; background: var(--bg2); border-radius: 4px; padding: 4px 0; }
-  .ic-tier-row > div .ic-tier-k { font-size: .68rem; color: var(--muted); }
+  .ic-tier-row > div .ic-tier-k { font-size: .8125rem; color: var(--muted); }
   .ic-tier-row > div .ic-tier-v { font-weight: 700; }
 
   .ic-flowline { display: flex; flex-wrap: wrap; gap: 14px; }
@@ -72,7 +72,7 @@
   table.ic-peers { width: 100%; border-collapse: collapse; font-size: .82rem; }
   table.ic-peers th, table.ic-peers td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
   table.ic-peers th {
-    font-weight: 700; color: var(--muted); font-size: .72rem;
+    font-weight: 700; color: var(--muted); font-size: .8125rem;
     text-transform: uppercase; letter-spacing: .06em;
     /* Stay visible if the section grows scrollable. */
     position: sticky; top: 0; z-index: 2;
@@ -83,7 +83,7 @@
 
   .ic-footer {
     margin-top: 16px; padding-top: 8px; border-top: 1px dashed var(--border);
-    font-size: .7rem; color: var(--muted);
+    font-size: .8125rem; color: var(--muted);
   }
   .ic-footer a { color: var(--muted); }
 
@@ -172,7 +172,7 @@
         <div>
           <p><strong>QCT tracts:</strong> <span id="icQct">—</span></p>
           <p><strong>DDA status:</strong> <span id="icDda">—</span></p>
-          <p id="icDdaNote" class="ic-muted" style="font-size:.78rem;margin-top:4px"></p>
+          <p id="icDdaNote" class="ic-muted" style="font-size:.8125rem;margin-top:4px"></p>
         </div>
       </div>
     </div>
@@ -209,7 +209,7 @@
           <ul class="ic-list" id="icEmployers"><li>—</li></ul>
         </div>
       </div>
-      <p class="ic-muted" style="font-size:.78rem;margin:6px 0 0">
+      <p class="ic-muted" style="font-size:.8125rem;margin:6px 0 0">
         Top employers determine the AMI band you should design for. Hospital systems (Vail Health, Aspen Valley, Valley View), ski resorts (Vail Resorts, Aspen Skiing Co), and big universities (CU, CSU) all run published workforce-housing programs a developer can master-lease into.
       </p>
     </div>
@@ -293,13 +293,13 @@
         </tr></thead>
         <tbody><tr><td colspan="6" class="ic-muted">Loading…</td></tr></tbody>
       </table></div>
-      <p class="ic-muted" style="font-size:.72rem;margin-top:6px">Source: CHFA LIHTC feed (statewide CO snapshot, awards 2015 onward). Year is the credit award year, not the year the property opened. Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
+      <p class="ic-muted" style="font-size:.8125rem;margin-top:6px">Source: CHFA LIHTC feed (statewide CO snapshot, awards 2015 onward). Year is the credit award year, not the year the property opened. Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
     </div>
 
     <div class="ic-footer">
       Generated <span id="icGen">—</span> from COHO Analytics. Sources: U.S. Census ACS 5-year, HUD CHAS &amp; LIHTC database, LEHD LODES (block-classified for places), DOLA Prop 123 filings, CHFA portfolio. Methodology: <a href="housing-needs-assessment.html?geoid=" id="icMethodLink">HNA</a> · <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>.
       <span class="ic-print-hide" style="float:right">
-        <button type="button" id="icPrintBtn" style="padding:4px 10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);border-radius:4px;cursor:pointer;font-size:.78rem">Print / Save PDF</button>
+        <button type="button" id="icPrintBtn" style="padding:4px 10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);border-radius:4px;cursor:pointer;font-size:.8125rem">Print / Save PDF</button>
       </span>
     </div>
   </div>
@@ -307,7 +307,7 @@
   <div id="icErr" class="ic-err" style="display:none;max-width:880px;margin:24px auto"></div>
 </main>
 
-<footer class="site-footer ic-print-hide" style="text-align:center;padding:14px;color:var(--muted);font-size:.78rem">
+<footer class="site-footer ic-print-hide" style="text-align:center;padding:14px;color:var(--muted);font-size:.8125rem">
   © pgg LLC · COHO Analytics
 </footer>
 

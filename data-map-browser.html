@@ -61,7 +61,7 @@
     }
     .dmb-group { margin-bottom: 14px; }
     .dmb-group-label {
-      font-size: .68rem;
+      font-size: .8125rem;
       font-weight: 700;
       letter-spacing: .08em;
       text-transform: uppercase;
@@ -88,7 +88,7 @@
     }
     .dmb-layer-body { flex: 1; min-width: 0; }
     .dmb-layer-name { font-size: .86rem; font-weight: 600; line-height: 1.25; }
-    .dmb-layer-meta { font-size: .7rem; color: var(--muted); line-height: 1.3; margin-top: 1px; }
+    .dmb-layer-meta { font-size: .8125rem; color: var(--muted); line-height: 1.3; margin-top: 1px; }
     .dmb-layer-meta .dmb-count { font-weight: 600; color: var(--text); }
     .dmb-layer.loading .dmb-layer-name::after { content: " · loading…"; color: var(--muted); font-weight: 400; }
     .dmb-layer.err .dmb-layer-name::after { content: " · load error"; color: var(--bad, #dc2626); font-weight: 400; }
@@ -120,7 +120,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
-      font-size: .76rem;
+      font-size: .8125rem;
       color: var(--muted);
       padding: 6px 12px;
       border-top: 1px solid var(--border);
@@ -129,7 +129,7 @@
     .dmb-statusbar strong { color: var(--text); font-weight: 600; }
 
     .dmb-popup {
-      font-size: .8rem;
+      font-size: .8125rem;
       max-width: 280px;
     }
     .dmb-popup .dmb-popup-title { font-weight: 700; margin-bottom: 4px; font-size: .9rem; }
@@ -147,7 +147,7 @@
       margin-top: 6px;
       padding-top: 6px;
       border-top: 1px solid var(--border);
-      font-size: .7rem;
+      font-size: .8125rem;
       color: var(--muted);
     }
     .dmb-popup .dmb-popup-source code { background: var(--bg2); padding: 1px 4px; border-radius: 3px; font-size: .9em; }
@@ -190,7 +190,7 @@
         <input type="search" id="dmbLayerFilter"
           placeholder="Filter layers…"
           autocomplete="off"
-          style="width:100%;padding:.4rem .55rem;font-size:.8rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text)" />
+          style="width:100%;padding:.4rem .55rem;font-size:.8125rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text)" />
       </div>
       <div id="dmbLayersList">
         <!-- Populated by JS below -->
@@ -227,7 +227,7 @@
     if (host && !host.querySelector('.dmb-boot-error')) {
       var div = document.createElement('div');
       div.className = 'dmb-boot-error';
-      div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4;font-family:monospace';
+      div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.8125rem;line-height:1.4;font-family:monospace';
       div.textContent = msg;
       host.appendChild(div);
     }
@@ -951,7 +951,7 @@
       const container = L.DomUtil.create('div', 'leaflet-bar dmb-legend');
       container.style.cssText =
         'padding:.5rem .65rem;background:var(--bg);border:1px solid var(--border);' +
-        'border-radius:8px;font-size:.78rem;line-height:1.4;max-width:280px;' +
+        'border-radius:8px;font-size:.8125rem;line-height:1.4;max-width:280px;' +
         'box-shadow:0 4px 12px rgba(0,0,0,.18);max-height:50vh;overflow-y:auto;' +
         'transition:max-height .2s ease,padding .2s ease';
       container.id = 'dmbLegend';
@@ -973,8 +973,8 @@
              '<button type="button" id="dmbLegendToggle" aria-label="' + aria + '" ' +
                  'style="display:flex;align-items:center;gap:.4rem;background:none;border:none;padding:0;cursor:pointer;' +
                  'color:var(--text);font:inherit;flex:1;text-align:left">' +
-               '<span style="font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Legend</span>' +
-               (activeCount != null ? '<span style="font-size:.7rem;color:var(--muted);font-weight:normal">' + activeCount + ' active</span>' : '') +
+               '<span style="font-weight:700;font-size:.8125rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Legend</span>' +
+               (activeCount != null ? '<span style="font-size:.8125rem;color:var(--muted);font-weight:normal">' + activeCount + ' active</span>' : '') +
                '<span style="margin-left:auto;color:var(--muted);display:inline-flex;align-items:center">' + chev + '</span>' +
              '</button>' +
            '</div>';
@@ -1062,7 +1062,7 @@
         swatchSvg(l) +
         '<span style="flex:1;min-width:0;line-height:1.3">' +
           '<span style="font-weight:600">' + l.name.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' +
-          '<span style="color:var(--muted);font-size:.7rem;display:block">' +
+          '<span style="color:var(--muted);font-size:.8125rem;display:block">' +
             geomLabel(l) + ' · ' + countTxt + ' features' +
           '</span>' +
         '</span>' +
@@ -1425,7 +1425,7 @@
       const html = '<div style="position:absolute;left:0;right:0;top:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden;z-index:1000">' +
         hits.map(p => '<button type="button" class="dmb-place-pick" data-lat="' + p.lat + '" data-lng="' + p.lng + '" data-name="' + _esc(p.name) + '" style="display:block;width:100%;padding:.45rem .65rem;border:none;background:none;text-align:left;cursor:pointer;font-size:.82rem;color:var(--text);border-bottom:1px solid var(--border)" onmouseover="this.style.background=\'var(--bg2)\'" onmouseout="this.style.background=\'none\'">' +
           '<strong>' + _esc(p.name) + '</strong> ' +
-          '<span style="color:var(--muted);font-size:.7rem">' + p.geoid + '</span>' +
+          '<span style="color:var(--muted);font-size:.8125rem">' + p.geoid + '</span>' +
         '</button>').join('') +
         '</div>';
       sug.innerHTML = html;
@@ -1441,7 +1441,7 @@
         map.flyTo([lat, lng], 12, { duration: 0.8 });
         L.popup({ closeButton: true, autoClose: true })
           .setLatLng([lat, lng])
-          .setContent('<div style="font-weight:700">' + _esc(name) + '</div><div style="color:var(--muted);font-size:.72rem">map centroid</div>')
+          .setContent('<div style="font-weight:700">' + _esc(name) + '</div><div style="color:var(--muted);font-size:.8125rem">map centroid</div>')
           .openOn(map);
       }
       sug.innerHTML = '';
@@ -1486,7 +1486,7 @@
       if (host && !host.querySelector('.dmb-boot-error')) {
         var div = document.createElement('div');
         div.className = 'dmb-boot-error';
-        div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4';
+        div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.8125rem;line-height:1.4';
         div.textContent = 'Map step "' + name + '" failed: ' + (err && err.message ? err.message : String(err));
         host.appendChild(div);
       }

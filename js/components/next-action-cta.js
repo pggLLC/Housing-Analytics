@@ -136,7 +136,7 @@
       '  .naca-strip[data-naca-hidden="true"] { transform: none; } }',
       '@media (max-width: 700px) { .naca-strip { padding: 8px 12px; }',
       '  :root, html.dark-mode { --workflow-mobile-bottom-cta-offset: 156px; }',
-      '  .naca-strip__inner { gap: 6px; } .naca-btn { padding: 4px 8px; font-size: .78rem; } }'
+      '  .naca-strip__inner { gap: 6px; } .naca-btn { padding: 4px 8px; font-size: .8125rem; } }'
     ].join('\n');
     document.head.appendChild(s);
   }

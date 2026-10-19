@@ -139,7 +139,7 @@
     var opts = options || {};
     if (!scope || scope === 'place') return '';
 
-    var styleBase = 'display:inline-block;padding:1px 6px;border-radius:3px;font-size:.68rem;' +
+    var styleBase = 'display:inline-block;padding:1px 6px;border-radius:3px;font-size:.8125rem;' +
       'font-weight:600;line-height:1.3;letter-spacing:.02em;background:var(--warn-dim,#3f2a1a);' +
       'color:var(--warn,#fbbf24);border:1px solid var(--warn,#fbbf24);';
     if (opts.inline) styleBase += 'margin-left:.4rem;';

@@ -1120,8 +1120,8 @@
                 'title="' + escHtml(tip) + '" ' +
                 'style="display:inline-flex;align-items:baseline;gap:.3rem;padding:.22rem .55rem;border-radius:6px;background:var(--card);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.82rem;">' +
                 '<strong>' + escHtml(label) + '</strong>' +
-                '<span style="color:var(--muted);font-size:.75rem;">' + sigTxt + '</span>' +
-                '<span style="color:var(--muted);font-size:.75rem;">· ' + lastYrTxt + '</span>' +
+                '<span style="color:var(--muted);font-size:.8125rem;">' + sigTxt + '</span>' +
+                '<span style="color:var(--muted);font-size:.8125rem;">· ' + lastYrTxt + '</span>' +
                 '</a></li>';
             }).join('');
             listEl.innerHTML = items;
@@ -1929,7 +1929,7 @@
     if (!r.pencil.ok) return '<span style="color:var(--muted)">Not available: ' + escHtml(r.reason) + '</span>';
     return 'What one unit at each CHFA two-bedroom rent nets, and the yearly debt service it can carry. Deeper units lease more easily where tax-credit rents sit above market, but each one carries less debt, so the funding gap grows.' +
       '<ul class="lof-nearest-list">' + r.tierLines.map(function (l) { return '<li>' + escHtml(l) + '</li>'; }).join('') + '</ul>' +
-      '<span style="color:var(--muted);font-size:.78rem">' + escHtml(r.assumptions) + ' ' + escHtml(window.MixCheckInputs.sourceLine(inputs)) + '</span>';
+      '<span style="color:var(--muted);font-size:.8125rem">' + escHtml(r.assumptions) + ' ' + escHtml(window.MixCheckInputs.sourceLine(inputs)) + '</span>';
   }
 
   function _zoriCaptureForMarket(market, fips, placeName) {
@@ -2096,7 +2096,7 @@
     // is selected, so users understand why the filter shows un-checked.
     var autoStr = '';
     if (state._autoRelaxedCapture && state.filters.region === state._autoRelaxedCapture && !f.requireCapture) {
-      autoStr = '<br><span style="font-size:.78rem;color:var(--accent);">' +
+      autoStr = '<br><span style="font-size:.8125rem;color:var(--accent);">' +
         '↻ Rent-advantage filter auto-relaxed for ' + escHtml(state._autoRelaxedCapture) +
         ' — rural CO FMRs sit at or below LIHTC 60% AMI rents, so the filter would screen out every jurisdiction. ' +
         'Re-enable it in the filter panel to require positive capture.</span>';
@@ -2104,7 +2104,7 @@
     var zoriCityCount = state.zoriByCity ? Object.keys(state.zoriByCity).length : 0;
     var zoriCountyCount = state.zoriByCounty ? Object.keys(state.zoriByCounty).length : 0;
     var zoriCoverage = zoriCityCount || zoriCountyCount
-      ? '<br><span style="font-size:.78rem;color:var(--muted);">Capture uses HUD FMR as the sortable baseline. Zillow ZORI current-market context covers ' +
+      ? '<br><span style="font-size:.8125rem;color:var(--muted);">Capture uses HUD FMR as the sortable baseline. Zillow ZORI current-market context covers ' +
         zoriCityCount.toLocaleString() + ' CO places and ' + zoriCountyCount.toLocaleString() +
         ' counties; rows outside county ZORI coverage use FMR-only capture.</span>'
       : '';
@@ -2189,7 +2189,7 @@
         '<div class="v">' + n + '</div>' +
         '<div class="s">' + withQctAndDda + ' with QCT + DDA</div></div>' +
       '<div class="lof-summary-card"><div class="k">Avg opportunity score</div>' +
-        '<div class="v">' + avgScore + '<span style="font-size:.7rem;color:var(--muted)">/100</span></div></div>' +
+        '<div class="v">' + avgScore + '<span style="font-size:.8125rem;color:var(--muted)">/100</span></div></div>' +
       '<div class="lof-summary-card"><div class="k">Never-funded jurisdictions</div>' +
         '<div class="v">' + neverFunded + '</div>' +
         '<div class="s">no LIHTC project on record</div></div>';
@@ -2363,7 +2363,7 @@
     if (p123) {
       var dateTxt = p123.filing_date ? ' · ' + escHtml(p123.filing_date) : '';
       var fastTrack = p123.fast_track
-        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700" title="Eligible for Prop 123 fast-track approval of affordable housing">fast-track</span>'
+        ? ' <span style="font-size:.8125rem;color:var(--accent);font-weight:700" title="Eligible for Prop 123 fast-track approval of affordable housing">fast-track</span>'
         : '';
       return '<span class="lof-prop123-pill lof-prop123-yes" ' +
         'title="Filed with DOLA' + (p123.filing_date ? ' on ' + p123.filing_date : '') +
@@ -2381,7 +2381,7 @@
 
   function _civicCell(op) {
     if (op.civicScore == null) {
-      return '<span style="color:var(--muted);font-size:.78rem">—</span>';
+      return '<span style="color:var(--muted);font-size:.8125rem">—</span>';
     }
     var dims = (op.civic && op.civic.dimensions) || {};
     var prop123 = dims.prop123_committed ? '✓' : '·';
@@ -2405,12 +2405,12 @@
       tipBits.push('URA: ' + op.uraMatch.name + ' (+10 cap-stack boost)');
     }
     var uraBadge = boosted != null
-      ? ' <span style="font-size:.66rem;color:var(--good);font-weight:700" title="Urban Renewal Authority match adds 10pt cap-stack boost">URA+10</span>'
+      ? ' <span style="font-size:.8125rem;color:var(--good);font-weight:700" title="Urban Renewal Authority match adds 10pt cap-stack boost">URA+10</span>'
       : '';
     return '<span class="lof-civic-cell lof-civic-' + band + '" ' +
       'title="' + escHtml(tipBits.join(' · ')) + '">' +
-      displayScore + '<span style="font-size:.7rem;color:var(--muted)">/100</span> ' +
-      '<span style="font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.05em">' +
+      displayScore + '<span style="font-size:.8125rem;color:var(--muted)">/100</span> ' +
+      '<span style="font-family:ui-monospace,monospace;font-size:.8125rem;letter-spacing:.05em">' +
       prop123 + hna + plan +
       '</span>' + uraBadge +
       '</span>';
@@ -2706,7 +2706,7 @@
                          '). COHO shows county activity alongside in-town activity for a regional supply review; this is not a CHFA award limit.';
         lastFundedText += ' <span class="lof-county-recency" ' +
           'title="' + escHtml(_ctxTitle).replace(/"/g, '&quot;') + '" ' +
-          'style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 5px;' +
+          'style="display:inline-block;font-size:.8125rem;font-weight:700;padding:1px 5px;' +
           'border-radius:8px;margin-left:4px;vertical-align:middle;' +
           'background:var(--warn,#d97706);color:var(--on-warn,#fff);cursor:help">' +
           '↗ co ' + op.countyLastYear + ' (' + _ctxYearsSince + 'y)' +
@@ -2722,7 +2722,7 @@
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
       var topDriversText = _rowTopDrivers(op);
       var topDriversHtml = topDriversText
-        ? '<div class="lof-row-drivers" style="margin-top:.15rem;font-size:.66rem;' +
+        ? '<div class="lof-row-drivers" style="margin-top:.15rem;font-size:.8125rem;' +
           'line-height:1.25;color:var(--muted,#6b7280);font-style:italic;' +
           'font-weight:400;letter-spacing:.01em">Top drivers: ' + escHtml(topDriversText) + '</div>'
         : '';
@@ -2761,11 +2761,11 @@
             'aria-label="Open Housing Needs Assessment for ' + escHtml(op.name) + ' in new tab" ' +
             'onclick="event.stopPropagation()">→ HNA</a>' +
           jurisSubtitle + '</td>' +
-        '<td data-priority="tertiary">' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.7rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
+        '<td data-priority="tertiary">' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.8125rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
         '<td data-priority="secondary">' + escHtml(op.countyName) + '</td>' +
         '<td data-priority="tertiary">' + lastFundedText + '</td>' +
-        '<td data-priority="tertiary">' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
-        '<td data-priority="tertiary">' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span>' +
+        '<td data-priority="tertiary">' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.8125rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
+        '<td data-priority="tertiary">' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.8125rem;color:var(--muted)">p</span>' +
           // F223 — Disclosure pill when need came from the containing county
           // rather than place-level CHAS. Helps users know two places in the
           // same county aren't being scored as if they're literally identical.
@@ -2773,7 +2773,7 @@
           // ops are sub-county jurisdictions — needSource alone is the gate.
           // The original `op.type === 'place'` guard made this pill dead code.
           (op.needSource === 'county'
-            ? ' <span style="display:inline-block;font-size:.62rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="No place-level CHAS available — this jurisdiction\'s need score is the containing county\'s CHAS composite, applied to every place in the county.">scaled</span>'
+            ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="No place-level CHAS available — this jurisdiction\'s need score is the containing county\'s CHAS composite, applied to every place in the county.">scaled</span>'
             : '') +
         '</td>' +
         '<td data-priority="tertiary">' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
@@ -2781,7 +2781,7 @@
         '<td data-priority="secondary">' + _civicCell(op) + '</td>' +
         '<td data-priority="secondary">' + _prop123Cell(op) + '</td>' +
         '<td data-priority="secondary" class="lof-td-progress">' + _progressCell(op) + '</td>' +
-        '<td data-priority="tertiary" style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
+        '<td data-priority="tertiary" style="font-size:.8125rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
       '</tr>';
     }).join('');
     tbody.innerHTML = rows;
@@ -3087,24 +3087,24 @@
     return '<h4 class="lof-section-h" style="margin-top:14px;">Labor market &amp; commute</h4>' +
       '<div class="lof-labor-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px, 100%),1fr));gap:8px;margin:6px 0">' +
         '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
-          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live &amp; work here</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live &amp; work here</div>' +
           '<div style="font-size:1.05rem;font-weight:700">' + fmt(within) + '</div>' +
         '</div>' +
         '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
-          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
           '<div style="font-size:1.05rem;font-weight:700">' + fmt(inflow) + '</div>' +
         '</div>' +
         '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
-          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
           '<div style="font-size:1.05rem;font-weight:700">' + fmt(outflow) + '</div>' +
         '</div>' +
         '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
-          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs (C000)</div>' +
+          '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs (C000)</div>' +
           '<div style="font-size:1.05rem;font-weight:700">' + fmt(jobsAt) + '</div>' +
         '</div>' +
       '</div>' +
       (lead ? '<p style="margin:6px 0 4px;font-size:.84rem;line-height:1.4">' + lead + '</p>' : '') +
-      '<p style="margin:2px 0 0;font-size:.72rem;color:var(--muted);line-height:1.4">' + sourceNote + '</p>';
+      '<p style="margin:2px 0 0;font-size:.8125rem;color:var(--muted);line-height:1.4">' + sourceNote + '</p>';
   }
 
   function _renderNewsPanel(op) {
@@ -3123,7 +3123,7 @@
     var broadUrl   = SL ? SL.build({ jurisdictionName: op.name, context: 'news-broad'   }).url : urls.googleNews;
     var archiveUrl = SL ? SL.build({ jurisdictionName: op.name, context: 'news-archive' }).url : urls.googleNews;
     return '<h4 class="lof-section-h">Housing news &amp; research</h4>' +
-      '<p style="margin:0 0 .5rem;font-size:.78rem;color:var(--muted);">' +
+      '<p style="margin:0 0 .5rem;font-size:.8125rem;color:var(--muted);">' +
         '<strong>Recent news = last 12 months on 12 CO press sites.</strong> ' +
         'Small jurisdictions like Fruita or Silt often return 0 hits with the focused query — try the broader / archive buttons below the first row.' +
       '</p>' +
@@ -3280,7 +3280,7 @@
         }
       });
       return '<h4 class="lof-section-h">🏗️ Downtown redevelopment opportunities</h4>' +
-        '<div style="font-size:.78rem;color:var(--muted);padding:.5rem 0;">Loading URA + Opportunity Zone + adaptive-reuse references…</div>';
+        '<div style="font-size:.8125rem;color:var(--muted);padding:.5rem 0;">Loading URA + Opportunity Zone + adaptive-reuse references…</div>';
     }
 
     var countyFips5 = op.containingCounty || '';
@@ -3291,7 +3291,7 @@
     var patterns = (_redev.reuse && _redev.reuse.patterns) || {};
 
     var html = '<h4 class="lof-section-h">🏗️ Downtown redevelopment opportunities</h4>' +
-      '<p style="margin:0 0 .6rem;font-size:.78rem;color:var(--muted);line-height:1.5;">' +
+      '<p style="margin:0 0 .6rem;font-size:.8125rem;color:var(--muted);line-height:1.5;">' +
         'Downtown infill — old hotels, vacant offices, surface parking lots, underutilized commercial — ' +
         'stacks 4-5 LIHTC cap-stack tools (basis boost · URA TIF · OZ deferral · Historic Tax Credit · brownfield grants) that greenfield sites can\'t access.' +
       '</p>';
@@ -3306,18 +3306,18 @@
       var plans = (ura.active_plans && ura.active_plans.length)
         ? ura.active_plans.slice(0, 4).join(' · ')
         : 'plan areas not published';
-      html += '<div style="font-size:.78rem;line-height:1.5;">' +
+      html += '<div style="font-size:.8125rem;line-height:1.5;">' +
         '<strong><a href="' + ura.url + '" target="_blank" rel="noopener" style="color:var(--brand);">' +
           escHtml(ura.name) + '</a></strong> — ' + tifText + '.<br>' +
         '<span style="color:var(--muted);"><strong>Active plan areas:</strong> ' + escHtml(plans) + '</span>';
       if (ura.lihtc_track_record) {
-        html += '<div style="margin-top:.3rem;font-size:.76rem;color:var(--muted);font-style:italic;">' +
+        html += '<div style="margin-top:.3rem;font-size:.8125rem;color:var(--muted);font-style:italic;">' +
           '<strong style="font-style:normal;color:var(--text);">LIHTC track record:</strong> ' + escHtml(ura.lihtc_track_record) +
         '</div>';
       }
       html += '</div>';
     } else {
-      html += '<div style="font-size:.78rem;color:var(--muted);">' +
+      html += '<div style="font-size:.8125rem;color:var(--muted);">' +
         'No active URA on file for ' + escHtml(op.name) + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly.' +
       '</div>';
     }
@@ -3327,7 +3327,7 @@
     html += '<div style="margin:.6rem 0;padding:.6rem .7rem;border-radius:6px;background:var(--surface-2,#f7f7f9);">' +
       '<div style="font-weight:600;font-size:.84rem;margin-bottom:.3rem;">Opportunity Zone overlap</div>';
     if (ozCount > 0) {
-      html += '<div style="font-size:.78rem;line-height:1.5;">' +
+      html += '<div style="font-size:.8125rem;line-height:1.5;">' +
         '<strong>' + ozCount + ' designated OZ tract' + (ozCount === 1 ? '' : 's') + '</strong> in ' +
         escHtml(op.countyName || 'this county') + '. ' +
         'Property within these tracts qualifies for federal capital-gains deferral via Qualified Opportunity Fund equity — stacks with LIHTC + state credit. ' +
@@ -3335,7 +3335,7 @@
         '<a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener" style="color:var(--brand);">HUD CDFI OZ map ↗</a>' +
       '</div>';
     } else {
-      html += '<div style="font-size:.78rem;color:var(--muted);">' +
+      html += '<div style="font-size:.8125rem;color:var(--muted);">' +
         'No 2018 Opportunity Zones are designated in ' + escHtml(op.countyName || 'this county') + '. OZ 2.0 creates future decennial designation rounds; verify any post-2026 state designations before underwriting OZ equity.' +
       '</div>';
     }
@@ -3345,7 +3345,7 @@
     html += '<details style="margin:.6rem 0;padding:.5rem .7rem;border-radius:6px;background:var(--surface-2,#f7f7f9);">' +
       '<summary style="cursor:pointer;font-weight:600;font-size:.84rem;">' +
         'Adaptive-reuse patterns to evaluate ' +
-        '<span style="color:var(--muted);font-weight:400;font-size:.78rem;">(' +
+        '<span style="color:var(--muted);font-weight:400;font-size:.8125rem;">(' +
           Object.keys(patterns).length + ' patterns · cost · timeline · CO examples)</span>' +
       '</summary>' +
       '<div style="margin-top:.5rem;display:grid;gap:.5rem;">';
@@ -3358,7 +3358,7 @@
     Object.keys(patterns).forEach(function (key) {
       var p = patterns[key];
       var pmeta = PATTERN_LABELS[key] || { icon: '🏗️', label: key.replace(/_/g, ' ') };
-      html += '<div style="padding:.5rem .6rem;border:1px solid var(--border);border-radius:5px;background:var(--surface);font-size:.78rem;line-height:1.5;">' +
+      html += '<div style="padding:.5rem .6rem;border:1px solid var(--border);border-radius:5px;background:var(--surface);font-size:.8125rem;line-height:1.5;">' +
         '<div style="font-weight:600;margin-bottom:.25rem;">' + pmeta.icon + ' ' + escHtml(pmeta.label) + '</div>' +
         '<div style="color:var(--muted);">' +
           '<strong style="color:var(--text);">Cost:</strong> $' + escHtml(p.typical_cost_per_unit_K || '—') + 'K/unit · ' +
@@ -3366,13 +3366,13 @@
         '</div>' +
         '<div style="margin-top:.25rem;color:var(--muted);">' + escHtml(p.what_it_is || '') + '</div>';
       if (p.colorado_examples && p.colorado_examples.length) {
-        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.74rem;">' +
+        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.8125rem;">' +
           '<strong style="color:var(--text);">CO examples:</strong> ' +
           escHtml(p.colorado_examples.slice(0, 2).join(' · ')) +
         '</div>';
       }
       if (p.financing_tools && p.financing_tools.length) {
-        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.74rem;">' +
+        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.8125rem;">' +
           '<strong style="color:var(--text);">Cap stack:</strong> ' +
           escHtml(p.financing_tools.slice(0, 3).join(' + ')) +
         '</div>';
@@ -3380,21 +3380,21 @@
       html += '</div>';
     });
     html += '</div>';
-    html += '<div style="margin-top:.5rem;font-size:.74rem;color:var(--muted);">' +
+    html += '<div style="margin-top:.5rem;font-size:.8125rem;color:var(--muted);">' +
       '<a href="data/market/co-adaptive-reuse-references.json" target="_blank" rel="noopener" style="color:var(--brand);">' +
         'Full reference + 12-item site evaluation checklist →</a>' +
     '</div>';
     html += '</details>';
 
     // 4. Tools row
-    html += '<div style="margin:.6rem 0 .25rem;font-size:.76rem;color:var(--muted);">' +
+    html += '<div style="margin:.6rem 0 .25rem;font-size:.8125rem;color:var(--muted);">' +
       '<strong>Environmental + acquisition tools:</strong> ' +
       '<a href="https://www.epa.gov/brownfields" target="_blank" rel="noopener" style="color:var(--brand);">EPA Brownfields ↗</a> · ' +
       '<a href="https://cdphe.colorado.gov/hm/voluntary-cleanup" target="_blank" rel="noopener" style="color:var(--brand);">CO Voluntary Cleanup ↗</a> · ' +
       '<a href="https://cdphe.colorado.gov/hm/brownfields" target="_blank" rel="noopener" style="color:var(--brand);">CO Brownfields RLF ↗</a> · ' +
       '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--brand);">Federal Historic Tax Credit ↗</a>' +
     '</div>';
-    html += '<div style="font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +
+    html += '<div style="font-size:.8125rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +
       'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); adaptive-reuse reference data (CHFA + Novogradac case studies). ' +
       'URA active plans + TIF capacity change frequently — confirm with the URA executive director before pitching.' +
     '</div>';
@@ -3537,7 +3537,7 @@
         ' pop / $1M minimum) — which is the norm, not a gap. Local cap isn’t how 4% deals here get funded anyway.';
     }
 
-    var caveat = '<br><span style="color:var(--muted);font-size:.74rem">' +
+    var caveat = '<br><span style="color:var(--muted);font-size:.8125rem">' +
       'Local direct allocation is an issuing-authority signal, not a deal cap or ceiling. ' +
       'Federal 50% bond-test → 25% for placements after 2025-12-31 (stretches cap). Source: Colorado DOLA ' + year + '.</span>';
 
@@ -3735,11 +3735,11 @@
         (geoContext.length ? '<br><span style="margin-top:4px;display:inline-block">' + geoContext.join(' ') + '</span>' : '') +
       '</dd>' +
       '<dt>9% Competitive score</dt><dd>' + op.score9 + '/100  ' +
-        '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
+        '<span style="color:var(--muted);font-size:.8125rem">(rec ' + op.recencyScore +
         ' · need ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ')</span></dd>' +
       '<dt>4% Bond score</dt><dd>' + op.score4 + '/100  ' +
-        '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
+        '<span style="color:var(--muted);font-size:.8125rem">(rec ' + op.recencyScore +
         ' · need ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ', re-weighted 25/25/15/35)</span></dd>' +
       '<dt>4% bond cap (PAB)</dt><dd>' + pabHtml + '</dd>' +
@@ -3752,7 +3752,7 @@
         // when present so the underwriter sees the regional pipeline.
         (op.countyLastYear != null
           ? '<div style="margin-top:.25rem;padding:.3rem .5rem;background:rgba(217,119,6,.10);' +
-            'border-left:3px solid #d97706;border-radius:0 4px 4px 0;font-size:.78rem">' +
+            'border-left:3px solid #d97706;border-radius:0 4px 4px 0;font-size:.8125rem">' +
               '<strong>Regional context:</strong> the most recent LIHTC anywhere in this county is ' +
               '<strong>' + op.countyLastYear + '</strong>' +
               (op.countyLastYearProject ? ' (' + escHtml(op.countyLastYearProject) + ')' : '') +
@@ -3768,7 +3768,7 @@
           ? '<br><span class="lof-pill lof-pill--accent" style="margin-top:6px;display:inline-block;" title="CHFA 2026 Round One — announced 2026-05-21. Not yet in the live HousingTaxCreditProperties ArcGIS feed (latest record dated 2025-12-16).">🏷 RECENT 2026 R1 AWARD' +
               (op.r1Awards.length > 1 ? ' (' + op.r1Awards.length + ')' : '') +
             '</span>' +
-            '<div style="margin-top:6px;font-size:.78rem;line-height:1.55;">' +
+            '<div style="margin-top:6px;font-size:.8125rem;line-height:1.55;">' +
               op.r1Awards.map(function (a) {
                 var credits = [];
                 if (a.federal_9pct_credit) credits.push('9%: $' + fmtInt(a.federal_9pct_credit));
@@ -3779,11 +3779,11 @@
                   '<strong>' + escHtml(a.name) + '</strong> — ' +
                   (a.total_units || '—') + 'u · ' +
                   escHtml(a.sponsor || 'sponsor TBD') +
-                  (credits.length ? ' <span style="color:var(--muted);font-size:.72rem;">· ' + escHtml(credits.join(' · ')) + '</span>' : '') +
+                  (credits.length ? ' <span style="color:var(--muted);font-size:.8125rem;">· ' + escHtml(credits.join(' · ')) + '</span>' : '') +
                   '</div>';
               }).join('') +
               (state.chfa2026R1Meta
-                ? '<div style="margin-top:4px;font-size:.72rem;color:var(--muted);">Source: <a href="' + escHtml(state.chfa2026R1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit') + '" target="_blank" rel="noopener">CHFA 2026 R1 award descriptions ↗</a> · bridge data until ArcGIS feed catches up.</div>'
+                ? '<div style="margin-top:4px;font-size:.8125rem;color:var(--muted);">Source: <a href="' + escHtml(state.chfa2026R1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit') + '" target="_blank" rel="noopener">CHFA 2026 R1 award descriptions ↗</a> · bridge data until ArcGIS feed catches up.</div>'
                 : '') +
             '</div>'
           : '') +
@@ -3819,23 +3819,23 @@
             (op.preservationSoon10y > op.preservationUrgent5y
               ? ' · <span class="lof-pill">' + (op.preservationSoon10y - op.preservationUrgent5y) + ' expire 5–10y</span>'
               : '') +
-            '<br><span style="color:var(--muted);font-size:.78rem">Sources: CHFA Preservation (subsidy not detailed) · HUD MF Assisted (' +
+            '<br><span style="color:var(--muted);font-size:.8125rem">Sources: CHFA Preservation (subsidy not detailed) · HUD MF Assisted (' +
               (op.preservation202_811 + op.preservationFha + op.preservationSec8 + op.preservationOther) +
               ' here — incl. ' + op.preservation202_811 + ' HUD §202/811, ' + op.preservationFha + ' FHA) · USDA RD (' +
               op.preservationUsdaRd + ' here)</span>'
           : '<span style="color:var(--muted)">None on file</span>') +
       '</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
-        '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ')</span>' +
+        '<span style="color:var(--muted);font-size:.8125rem">(CO percentile rank: ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ')</span>' +
         // F223 follow-up — the list row discloses county-sourced need with a
         // "scaled" pill; mirror it here so the detail panel doesn't present
         // the county CHAS composite as place data. Fires for places whose
         // place-CHAS record is missing or low_confidence (needCompositeFor).
         (op.needSource === 'county'
-          ? ' <span style="display:inline-block;font-size:.62rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);" title="No reliable place-level CHAS available — this jurisdiction\'s need composite is the containing county\'s CHAS composite, applied to every place in the county.">county CHAS (place data unavailable)</span>'
+          ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);" title="No reliable place-level CHAS available — this jurisdiction\'s need composite is the containing county\'s CHAS composite, applied to every place in the county.">county CHAS (place data unavailable)</span>'
           : '') +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
-          'style="font-size:.78rem;font-weight:600">View full HNA →</a>' +
+          'style="font-size:.8125rem;font-weight:600">View full HNA →</a>' +
         // F207c — CHAS reliability badge slot. Async-filled after the
         // detail panel renders; stays hidden if the cross-check returns
         // 'chas_only' (precompute pipeline pending).
@@ -3843,7 +3843,7 @@
       '</dd>' +
       '<dt>Population (ACS)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
       (op.qctCount > 0 ?
-        '<dt>QCT tracts in jurisdiction</dt><dd style="font-family:ui-monospace,monospace;font-size:.78rem">' +
+        '<dt>QCT tracts in jurisdiction</dt><dd style="font-family:ui-monospace,monospace;font-size:.8125rem">' +
           op.qctTracts.map(function (t) { return t.tract_geoid; }).join(', ') +
         '</dd>' : '');
 
@@ -3891,7 +3891,7 @@
       }
       var driversFooter = '<div class="lof-score-drivers" ' +
         'style="margin-top:.5rem;padding:.4rem .55rem;border-top:1px dashed var(--border);' +
-        'font-size:.78rem;line-height:1.45;color:var(--muted,#6b7280);font-style:italic">' +
+        'font-size:.8125rem;line-height:1.45;color:var(--muted,#6b7280);font-style:italic">' +
         html + '</div>';
       facts.insertAdjacentHTML('beforeend', driversFooter);
     })();
@@ -4055,26 +4055,26 @@
       var lineFn = k === 'incentives' ? incentiveLine : itemLine;
       var inCivic = part.creditedInCivic || [];
       var list = (counted.length
-        ? '<ul style="margin:.2rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5">' +
+        ? '<ul style="margin:.2rem 0 0 1rem;padding:0;font-size:.8125rem;line-height:1.5">' +
             counted.map(lineFn).join('') + '</ul>'
-        : '<div style="font-size:.78rem;color:var(--muted)">' +
+        : '<div style="font-size:.8125rem;color:var(--muted)">' +
             escHtml(LOCAL_SUPPORT_STATE_TEXT[part.state] || part.state) +
             (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>') +
         (inCivic.length
-          ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem">Credited in Civic Readiness, not counted again:</div>' +
-            '<ul style="margin:.1rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5;color:var(--muted)">' +
+          ? '<div style="font-size:.8125rem;color:var(--muted);margin-top:.15rem">Credited in Civic Readiness, not counted again:</div>' +
+            '<ul style="margin:.1rem 0 0 1rem;padding:0;font-size:.8125rem;line-height:1.5;color:var(--muted)">' +
             inCivic.map(lineFn).join('') + '</ul>'
           : '');
       return '<div class="lof-ls-row" data-ls-part="' + k + '" style="margin-top:.4rem">' +
         '<div style="font-size:.85rem;font-weight:700">' + escHtml(part.label) + ' +' + part.points + '</div>' + list + '</div>';
     }).join('');
     var denials = (ls.denials || []).length
-      ? '<div style="margin-top:.4rem;font-size:.78rem"><strong>Recorded denials (shown, not scored)</strong>' +
+      ? '<div style="margin-top:.4rem;font-size:.8125rem"><strong>Recorded denials (shown, not scored)</strong>' +
           '<ul style="margin:.2rem 0 0 1rem;padding:0">' + ls.denials.map(itemLine).join('') + '</ul></div>'
       : '';
     host.innerHTML =
       '<h4 style="margin:.75rem 0 .25rem;font-size:1rem">Local support bonus: <span data-ls-bonus>+' + ls.bonus + '</span> of +' + LSD.MAX_BONUS + '</h4>' +
-      '<div style="font-size:.78rem;color:var(--muted);line-height:1.45">' +
+      '<div style="font-size:.8125rem;color:var(--muted);line-height:1.45">' +
         'Added to every deal-type score. Each part is worth +' + LSD.POINTS_PER_PART +
         ' when there is dated, sourced evidence: an adopted housing plan within ' + LSD.PLAN_WINDOW_YEARS +
         ' years, a standing incentive or local fund, and a council or planning commission approval within ' +
@@ -4119,21 +4119,21 @@
       var p = r.program;
       return '<li style="padding:.4rem .65rem;border-bottom:1px solid var(--border)">' +
         '<a href="' + esc(F.guideUrl({ program: p.id })) + '"><strong>' + esc(p.name) + '</strong></a>' +
-        '<div style="font-size:.76rem;color:var(--muted)">' + esc(p.administrator) + ' · ' + esc(F.AVAILABILITY_LABELS[r.availability]) +
+        '<div style="font-size:.8125rem;color:var(--muted)">' + esc(p.administrator) + ' · ' + esc(F.AVAILABILITY_LABELS[r.availability]) +
           (r.notes.length ? ' · ' + esc(r.notes.join(' ')) : '') + '</div>' +
       '</li>';
     }).join('');
 
     host.innerHTML =
       '<h4 style="margin:14px 0 4px">Funding programs that fit · ' + esc(rows.length) + ' open or with a published round</h4>' +
-      '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.78rem">' +
+      '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.8125rem">' +
         esc(scope.charAt(0).toUpperCase() + scope.slice(1)) + ' a project in ' + esc(op.countyName || 'this county') +
         ' can apply to, from the verified funding guide (' + esc(all.length - rows.length) + ' more are closed or have no published round). ' +
         'This screens eligibility from each program\'s published terms; it does not predict an award.</p>' +
       (rows.length
         ? '<ul style="list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:6px;overflow:hidden">' + bodyHtml + '</ul>'
         : '<p style="margin:0;color:var(--muted);font-size:.85rem">No program in the guide is open for this deal type here right now.</p>') +
-      '<p style="margin:.4rem 0 0;font-size:.8rem"><a href="' + esc(guideAll) + '">' +
+      '<p style="margin:.4rem 0 0;font-size:.8125rem"><a href="' + esc(guideAll) + '">' +
         (rows.length > SHOW ? 'See all ' + esc(rows.length) + ' and compare their terms' : 'Compare these programs\' terms') + ' in Funding Sources →</a></p>';
   }
 
@@ -4229,7 +4229,7 @@
                    '<span style="opacity:.75">· ' + city + ' · ' + units + 'u · ' + year + '</span>' +
                    pmaBadge +
                  '</div>' +
-                 '<div style="font-size:.78rem;margin-top:.15rem">' +
+                 '<div style="font-size:.8125rem;margin-top:.15rem">' +
                    '<span style="opacity:.65">Credit:</span> ' + credit +
                    (fact ? ' &nbsp; <span style="opacity:.65">·</span> ' + fact : '') +
                  '</div>' +

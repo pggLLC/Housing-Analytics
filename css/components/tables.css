@@ -149,7 +149,7 @@
   display: inline-block;
   padding: 0.2em 0.6em;
   border-radius: var(--radius-sm, 6px);
-  font-size: 0.75rem;
+  font-size: .8125rem;
   font-weight: 600;
 }
 .table .badge-good    { background: var(--good-dim,  rgba(5,150,105,.10)); color: var(--good,  #059669); }

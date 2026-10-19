@@ -51,7 +51,7 @@
       '  background: color-mix(in oklab, var(--bg2, #f3f4f6) 70%, transparent);',
       '  border:1px solid var(--border, rgba(0,0,0,.08));',
       '  border-radius:6px;',
-      '  font-size:.74rem; line-height:1.4;',
+      '  font-size:.8125rem; line-height:1.4;',
       '  color: var(--muted, #475569);',
       '}',
       '.mf-label { font-weight:700; color: var(--text, inherit); opacity:.75; margin-right:.15rem; }',
@@ -60,7 +60,7 @@
       '.mf-badge {',
       '  display:inline-flex; align-items:center; gap:.25rem;',
       '  padding:1px 7px; border-radius:10px;',
-      '  font-size:.66rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;',
+      '  font-size:.8125rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;',
       '  cursor:help;',
       '}',
       /* #2038 — #047857 was 4.27:1 on its own .15 wash, and #b45309 is

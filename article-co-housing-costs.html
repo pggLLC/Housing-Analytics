@@ -118,7 +118,7 @@
             <li><strong>Construction Wages (QCEW NAICS 23, 2015 to 2025):</strong> Average annual pay in private construction statewide rose 54.0%, from $55,347 to $85,235 (BLS QCEW annual averages, Colorado, checked 2026-10-19)</li>
             <li><strong>Top Driver of HPI Change:</strong> In the 2026-10-02 ElasticNetCV run, vacancy rate and rent-burden share carried the largest coefficients, followed by permits per capita (negative), income growth and construction wages (ranking table below)</li>
           </ul>
-          <p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;margin-bottom:0;">
+          <p style="font-size:.8125rem;color:var(--muted);margin-top:.5rem;margin-bottom:0;">
             Sources: U.S. Census Bureau ACS 5-year estimates (table IDs shown above) · FHFA House Price Index ·
             BLS QCEW construction wages. Verify specific figures against the underlying tables before citing.
           </p>
@@ -321,11 +321,11 @@
 
         <!-- ── Drivers of Change ── -->
         <h2 style="margin-top:var(--sp5);">What Best Predicts Home-Price Growth?
-          <span style="font-size:.78rem;font-weight:400;color:var(--muted);display:block;margin-top:.15rem;">A driver-ranking model across all 64 Colorado counties</span>
+          <span style="font-size:.8125rem;font-weight:400;color:var(--muted);display:block;margin-top:.15rem;">A driver-ranking model across all 64 Colorado counties</span>
           <span class="enet-help-icon" tabindex="0" role="button"
                 aria-label="What is an ElasticNetCV model? Click for plain-English explanation."
                 title="ElasticNetCV is a regression model that ranks which county-level housing inputs (income growth, permits, wages, vacancy, rent burden) explain the largest share of variation in 10-year home price growth. The 'CV' = cross-validation: the model is re-fit on rotating subsets of counties so the ranking generalizes rather than memorizing the data. ElasticNet's penalty term shrinks weak predictors toward zero and handles correlated features (income growth + construction wages move together) without picking arbitrary winners. The output is a ranked list of standardized coefficients: bigger absolute number = stronger driver, sign tells you direction."
-                style="display:inline-flex;align-items:center;justify-content:center;width:1.4rem;height:1.4rem;border:1px solid var(--accent);border-radius:50%;background:var(--bg2);color:var(--accent);font-size:.7rem;font-weight:700;margin-left:.5rem;cursor:help;vertical-align:middle;"
+                style="display:inline-flex;align-items:center;justify-content:center;width:1.4rem;height:1.4rem;border:1px solid var(--accent);border-radius:50%;background:var(--bg2);color:var(--accent);font-size:.8125rem;font-weight:700;margin-left:.5rem;cursor:help;vertical-align:middle;"
                 onclick="document.getElementById('enet-plain-english')?.toggleAttribute('open')">?</span>
         </h2>
 
@@ -372,7 +372,7 @@
         </details>
 
         <div class="callout callout-info">
-          <h3>Model Specification <span style="font-size:.78rem;font-weight:400;color:var(--muted);">(plain English)</span></h3>
+          <h3>Model Specification <span style="font-size:.8125rem;font-weight:400;color:var(--muted);">(plain English)</span></h3>
           <dl style="margin:.25rem 0;">
             <dt style="font-weight:700;margin-top:.5rem;">What we're predicting</dt>
             <dd style="margin:.15rem 0 .25rem 0;">How much home prices grew (or shrank) in each Colorado county over the past 10 years, measured by the FHFA House Price Index. <em>Higher number = faster appreciation.</em></dd>
@@ -394,7 +394,7 @@
             <dt style="font-weight:700;margin-top:.5rem;">Which counties are included</dt>
             <dd style="margin:.15rem 0 .25rem 0;">All counties with non-missing values for every input. In practice this is <strong>52–58 of Colorado's 64 counties</strong> — the smallest rural counties are dropped when FHFA HPI or BLS QCEW suppresses their figures due to disclosure rules. The dropped counties are listed in the pipeline log.</dd>
           </dl>
-          <p style="margin:.75rem 0 0;font-size:.78rem;color:var(--muted);">
+          <p style="margin:.75rem 0 0;font-size:.8125rem;color:var(--muted);">
             <strong>Technical spec for reproducibility:</strong> Target = FHFA HPI 10-year % change. Features = ACS B19013 (income growth), ACS B25002 (vacancy), ACS B25070 (rent burden), Census BPS (permits/capita), BLS QCEW NAICS 23 (wages). Method = elastic-net linear regression (scikit-learn ElasticNetCV), with the penalty strength α chosen by 5-fold cross-validation as the value with the lowest mean squared error. Inputs are z-score standardized before fitting.
           </p>
         </div>

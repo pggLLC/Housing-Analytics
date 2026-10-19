@@ -137,7 +137,7 @@
     if (_scoreOrNull(val) === null) {
       var why = reason || 'Not measured for this site.';
       return '<td class="sc-dim--unavailable" data-unavailable="true" title="' + _esc(why) + '">&mdash;' +
-        '<div class="sc-unavailable-reason" style="font-size:.7rem;color:var(--muted)">' + _esc(why) + '</div></td>';
+        '<div class="sc-unavailable-reason" style="font-size:.8125rem;color:var(--muted)">' + _esc(why) + '</div></td>';
     }
     return '<td>' + _esc(_fmtScore(val)) + _dimBar(val) + '</td>';
   }

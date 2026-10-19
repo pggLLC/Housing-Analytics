@@ -423,7 +423,7 @@
       .ps-card--active { border-color: var(--ps-accent, #1a73e8); box-shadow: 0 0 0 3px rgba(26,115,232,.18); }
       .ps-card:focus-visible { outline: 2px solid var(--color-primary, #1a73e8); outline-offset: 2px; }
       .ps-badge {
-        display: inline-block; font-size: .78rem; font-weight: 700; padding: .2rem .6rem;
+        display: inline-block; font-size: .8125rem; font-weight: 700; padding: .2rem .6rem;
         border-radius: 12px; background: var(--ps-accent, #546e7a); color: #fff; margin-bottom: .5rem;
         /* #2038 — white on the raw accent was 3.3:1 (green) and 2.4:1 (orange).
            The badge is drawn on the accent darkened to 65%, >= 5.1:1 for all five. */
@@ -434,9 +434,9 @@
       .ps-metric-item { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--bg2, #f5f5f5); border-radius: 6px; padding: .4rem .3rem; }
       .ps-metric-icon { font-size: 1.1rem; }
       .ps-metric-value { font-size: .95rem; font-weight: 700; color: var(--text, #222); }
-      .ps-metric-label { font-size: .7rem; color: var(--muted, #666); }
+      .ps-metric-label { font-size: .8125rem; color: var(--muted, #666); }
       .ps-ami-row { display: flex; align-items: center; gap: .5rem; }
-      .ps-ami-label { font-size: .75rem; color: var(--muted, #666); white-space: nowrap; }
+      .ps-ami-label { font-size: .8125rem; color: var(--muted, #666); white-space: nowrap; }
       .ps-ami-bar { flex: 1; height: 8px; background: var(--border, #ddd); border-radius: 4px; overflow: hidden; }
       .ps-ami-fill { height: 100%; background: var(--ps-accent, #1a73e8); border-radius: 4px; }
       .ps-charts-section { margin-top: 1.5rem; }
@@ -444,7 +444,7 @@
       .ps-bar-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 1rem; margin-bottom: 1rem; }
       .ps-chart-card { background: var(--card, #fff); border: 1px solid var(--border, #e0e0e0); border-radius: var(--radius-lg, 8px); padding: 1rem; }
       .ps-chart-card--wide { width: 100%; max-width: 720px; }
-      .ps-methodology { font-size: .8rem; color: var(--muted, #777); background: var(--bg2, #f9f9f9); border-left: 3px solid var(--border, #ccc); padding: .75rem 1rem; border-radius: 0 6px 6px 0; margin-top: 1rem; line-height: 1.5; }
+      .ps-methodology { font-size: .8125rem; color: var(--muted, #777); background: var(--bg2, #f9f9f9); border-left: 3px solid var(--border, #ccc); padding: .75rem 1rem; border-radius: 0 6px 6px 0; margin-top: 1rem; line-height: 1.5; }
     `;
     document.head.appendChild(style);
   }

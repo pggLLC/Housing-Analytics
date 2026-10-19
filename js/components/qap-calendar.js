@@ -62,12 +62,12 @@
       '.dark-mode .qc-next { background: linear-gradient(135deg, rgba(248,113,113,.15), rgba(248,113,113,.04)); border-color:rgba(248,113,113,.4); border-left-color:#f87171; }',
       '.qc-next__days { font-size:2rem; font-weight:800; color: var(--bad); line-height:1; }',
       '.dark-mode .qc-next__days { color:#f87171; }',
-      '.qc-next__label { font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }',
+      '.qc-next__label { font-size:.8125rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }',
       '.qc-next__event { flex:1 1 240px; font-size:.92rem; font-weight:600; }',
       '.qc-next__date  { font-size:.82rem; color:var(--muted); }',
       // F178 — LOI prerequisite subline. Past LOI = critical (red-tint);
       // upcoming LOI = highlight (amber-tint, the operative gate).
-      '.qc-next__loi { margin-top:.4rem; padding:.45rem .55rem; border-radius:5px; font-size:.78rem; font-weight:500; line-height:1.4; }',
+      '.qc-next__loi { margin-top:.4rem; padding:.45rem .55rem; border-radius:5px; font-size:.8125rem; font-weight:500; line-height:1.4; }',
       '.qc-next__loi strong { font-weight:700; }',
       '.qc-next__loi--past { background:rgba(220,38,38,.1); border:1px solid rgba(220,38,38,.3); color:#991b1b; }',
       '.dark-mode .qc-next__loi--past { background:rgba(248,113,113,.15); color:#fecaca; border-color:rgba(248,113,113,.4); }',
@@ -84,7 +84,7 @@
       '.qc-item__date { font-weight:700; font-size:.86rem; min-width:90px; }',
       '.qc-item__name { flex:1 1 250px; font-size:.86rem; }',
       '.qc-item__cat {',
-      '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
+      '  font-size:.8125rem; font-weight:700; padding:1px 6px; border-radius:9px;',
       '  text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;',
       '}',
       /* F132 — pill text colors paint over light-tint backgrounds. Add
@@ -99,15 +99,15 @@
       'html.dark-mode .qc-item__cat--9pct-r1-awards,html.dark-mode .qc-item__cat--9pct-r2-awards,html.dark-mode .qc-item__cat--4pct-r2-awards { color:#6ee7b7; }',
       'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment,html.dark-mode .qc-item__cat--qap-hearing { color:#fcd34d; }',
       'html.dark-mode .qc-item__cat--qap-adoption { color:#a5b4fc; }',
-      '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
+      '.qc-item__est { font-size:.8125rem; font-style:italic; color:var(--muted); }',
       // Draft-QAP badge: a date taken from a QAP CHFA has not adopted yet.
-      '.qc-draft { display:inline-block; font-size:.7rem; font-weight:700; padding:1px 6px; border-radius:4px; background:rgba(245,158,11,.14); color:#7c3d00; border:1px dashed rgba(180,83,9,.6); white-space:normal; }',
+      '.qc-draft { display:inline-block; font-size:.8125rem; font-weight:700; padding:1px 6px; border-radius:4px; background:rgba(245,158,11,.14); color:#7c3d00; border:1px dashed rgba(180,83,9,.6); white-space:normal; }',
       'html.dark-mode .qc-draft, .dark-mode .qc-draft { background:rgba(251,191,36,.15); color:#fde68a; border-color:rgba(251,191,36,.55); }',
-      '.qc-next__source { margin-top:.3rem; font-size:.74rem; color:var(--muted); }',
-      '.qc-item__details { width:100%; font-size:.78rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
+      '.qc-next__source { margin-top:.3rem; font-size:.8125rem; color:var(--muted); }',
+      '.qc-item__details { width:100%; font-size:.8125rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
       '.qc-rolling { margin-top:.7rem; padding:.6rem; background: color-mix(in oklab, var(--bg2, #f3f4f6) 50%, transparent); border-radius:6px; }',
       '.qc-rolling__head { font-weight:700; font-size:.82rem; margin-bottom:.3rem; }',
-      '.qc-rolling__item { font-size:.78rem; margin-bottom:.25rem; }'
+      '.qc-rolling__item { font-size:.8125rem; margin-bottom:.25rem; }'
     ].join('\n');
     document.head.appendChild(st);
   }
