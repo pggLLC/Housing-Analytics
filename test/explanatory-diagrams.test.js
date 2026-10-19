@@ -348,8 +348,14 @@ test('every building-type photo is on disk and credits its author and license', 
       assert.ok(fs.existsSync(path.join(ROOT, img.getAttribute('src'))), `${file}: ${img.getAttribute('src')} is missing`);
       assert.ok(img.getAttribute('alt').length > 20, `${file}: photo needs a description`);
       const links = [...fig.querySelectorAll('figcaption a')].map((a) => a.getAttribute('href'));
-      assert.ok(links.some((h) => h.startsWith('https://commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
-      assert.ok(links.some((h) => /^https:\/\/creativecommons\.org\/licenses\//.test(h)), `${file}: no license link`);
+      if (fig.dataset.credit === 'own') {
+        // pggLLC's own photo: the caption names the place and the photographer instead of a license.
+        assert.ok(/Photo: pggLLC\.$/.test(fig.querySelector('figcaption').textContent.trim()), `${file}: own photo needs its credit`);
+        assert.strictEqual(links.length, 0);
+      } else {
+        assert.ok(links.some((h) => h.startsWith('https://commons.wikimedia.org/wiki/File:')), `${file}: no link to the photo's file page`);
+        assert.ok(links.some((h) => /^https:\/\/creativecommons\.org\/licenses\//.test(h)), `${file}: no license link`);
+      }
       checks += 4;
     });
   }
