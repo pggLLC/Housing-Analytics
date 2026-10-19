@@ -28,6 +28,7 @@
     aliases: 'data/policy/funding-awards/developer-aliases.json',
     demographics: 'data/co-county-demographics.json',
     boundaries: 'data/boundaries/counties_co.geojson',
+    regions: 'data/derived/funding-vs-need.json',
   };
   // One hue, light to dark, so the order reads without colour vision.
   var RAMP = ['#e8f3f1', '#c3e1dc', '#8fc6bd', '#4fa597', '#1f7f72', '#0b5a50'];
@@ -71,6 +72,18 @@
     "    </span>",
     "  </div>",
     "</div>",
+    "",
+    "<section aria-labelledby=\"hm-flow-h\" style=\"margin:var(--sp4) 0;\">",
+    "  <h2 id=\"hm-flow-h\" style=\"font-size:1.15rem;\">Which programs paid, and where the homes are</h2>",
+    "  <figure class=\"diagram hm-flow\">",
+    "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"img\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
+    "    <ul class=\"dg-legend hm-flow-legend\" data-hm-flow-legend></ul>",
+    "    <p class=\"hm-flow-maptitle\" id=\"hm-flow-map-h\">Where each region is</p>",
+    "    <svg class=\"hm-flow-map\" data-hm-flow-map role=\"img\" aria-labelledby=\"hm-flow-map-h\"></svg>",
+    "    <figcaption data-hm-flow-cap></figcaption>",
+    "  </figure>",
+    "  <div id=\"hm-flow-desc\" class=\"sr-only\" data-hm-flow-text></div>",
+    "</section>",
     "",
     "<section aria-labelledby=\"hm-map-h\" style=\"margin:var(--sp4) 0;\">",
     "  <h2 id=\"hm-map-h\" style=\"font-size:1.15rem;\" data-hm-map-title>By county</h2>",
@@ -125,6 +138,7 @@
     "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete.</li>",
     "      <li><strong>Tax credits are not dollars.</strong> CHFA prints the credit each project can claim per year (the federal credit runs ten years). Developers sell credits to investors, usually for less than a dollar each. So credits are shown on their own and never added to grants and loans. \"All three\" is measured in homes, the one thing every agency reports.</li>",
     "      <li><strong>Homes</strong> are the income-restricted homes each award prints, or all homes where it prints only that. Land banking awards print an estimate, marked \"est.\". A project funded by two agencies is counted under each, so \"All three\" counts homes named in awards, not separate buildings.</li>",
+    "      <li><strong>Regions</strong> in the flow diagram follow the Department of Local Affairs\' planning and management regions, folded into six (<code>data/derived/funding-vs-need.json</code>). Awards that print no county, or several, sit under \"No single county printed\"; that includes every Prop 123 modular award.</li>",
     "      <li><strong>Prop 123 preliminary selections</strong> print only the amount requested; those rows say \"requested\".</li>",
     "      <li><strong>Per resident</strong> divides by county population from the Census Bureau\'s American Community Survey, 2020-2024 five-year estimates (<code>data/co-county-demographics.json</code>). Small counties swing hard: one large award in a county of 15,000 people reads as a big number per resident.</li>",
     "      <li><strong>Years:</strong> CHFA awards are by award year; Prop 123 awards by the fiscal year they were made in (FY24-25 counts as 2024).</li>",
@@ -331,6 +345,99 @@
       '<span>More (top: ' + esc(fmtMeasure(max || null)) + ')</span>';
   }
 
+  // ── flow: program to region, in homes ───────────────────────────────────
+  // A two-column flow (Sankey) drawn at the figure's own width, so its 12px
+  // labels stay 12px on a phone instead of shrinking with a viewBox.
+  var FLOW_CLASS = { CHFA: 'is-chfa', OEDIT: 'is-oedit', DOLA: 'is-dola' };
+  function renderFlow() {
+    var svg = $('[data-hm-flow]');
+    var f = M.flows(scoped(), data.regionOf, data.regionOrder);
+    var who = state.agency === 'ALL' ? 'CHFA, OEDIT and DOLA' : M.AGENCIES[state.agency].label;
+    var where = state.place ? ' for ' + state.place.label : '';
+    if (!f.homes) {
+      svg.setAttribute('viewBox', '0 0 10 1');
+      svg.innerHTML = '';
+      svg.style.display = 'none';
+      $('[data-hm-flow-legend]').innerHTML = '';
+      if ($('[data-hm-flow-map]')) $('[data-hm-flow-map]').style.display = 'none';
+      $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' has a home count recorded in these lists, so there is nothing to draw.';
+      $('[data-hm-flow-text]').textContent = '';
+      return;
+    }
+    svg.style.display = '';
+    var fig = svg.parentNode;
+    var cs = global.getComputedStyle ? global.getComputedStyle(fig) : null;
+    var pad = cs ? (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0) : 32;
+    var W = Math.min(880, Math.max(260, Math.floor((fig.clientWidth || 720) - pad)));
+    var BAR = 10, GAP = 10, SLOT = 34, TOP = 4;
+    var rows = Math.max(f.left.length, f.right.length);
+    // Pixels per home: the taller column fills about 22px a row on top of its label slots.
+    var k = (rows * 22) / f.homes;
+    function place(nodes) {
+      var y = TOP;
+      nodes.forEach(function (n) {
+        // Each node sits in the middle of its slot, with its label beside
+        // its middle, so a label never sits next to another node's bands.
+        n.h = Math.max(2, n.homes * k);
+        n.slot = Math.max(n.h, SLOT);
+        n.y = y;
+        n.top = y + (n.slot - n.h) / 2;
+        n.next = n.top;
+        y += n.slot + GAP;
+      });
+      return y;
+    }
+    var H = Math.ceil(Math.max(place(f.left), place(f.right))) + TOP;
+    var byL = {}, byR = {};
+    f.left.forEach(function (n) { byL[n.key] = n; });
+    f.right.forEach(function (n) { byR[n.key] = n; });
+    var x0 = 0, x1 = W - BAR;
+    var ribbons = f.links.map(function (l) {
+      var a = byL[l.from], b = byR[l.to];
+      var h = Math.max(1, l.homes * k);
+      var ya = a.next + h / 2, yb = b.next + h / 2;
+      a.next += l.homes * k;
+      b.next += l.homes * k;
+      var mx = (x0 + BAR + x1) / 2;
+      var label = byL[l.from].label + ' (' + M.AGENCIES[l.agency].label + ') to ' + byR[l.to].label + ': ' + count(l.homes) + ' homes';
+      return '<path class="hm-flow-link ' + FLOW_CLASS[l.agency] + '" d="M' + (x0 + BAR) + ',' + ya.toFixed(1) + ' C' + mx + ',' + ya.toFixed(1) + ' ' + mx + ',' + yb.toFixed(1) + ' ' + x1 + ',' + yb.toFixed(1) +
+        '" stroke-width="' + h.toFixed(1) + '"><title>' + esc(label) + '</title></path>';
+    }).join('');
+    function label(n, x, anchor) {
+      var mid = n.y + n.slot / 2;
+      return '<text class="hm-flow-label" x="' + x + '" y="' + (mid - 2).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(n.label) + '</text>' +
+        '<text class="hm-flow-value" x="' + x + '" y="' + (mid + 12).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(count(n.homes) + ' homes' + (n.estimated ? ', some est.' : '')) + '</text>';
+    }
+    var nodes = f.left.map(function (n) {
+      return '<rect class="hm-flow-node ' + FLOW_CLASS[n.agency] + '" x="' + x0 + '" y="' + n.top.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x0 + BAR + 6, 'start');
+    }).concat(f.right.map(function (n) {
+      return '<rect class="hm-flow-node is-region" x="' + x1 + '" y="' + n.top.toFixed(1) + '" width="' + BAR + '" height="' + n.h.toFixed(1) + '"></rect>' + label(n, x1 - 6, 'end');
+    })).join('');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('width', String(W));
+    svg.setAttribute('height', String(H));
+    svg.innerHTML = '<g>' + ribbons + '</g><g>' + nodes + '</g>';
+
+    var agencies = ['CHFA', 'OEDIT', 'DOLA'].filter(function (a) { return f.left.some(function (n) { return n.agency === a; }); });
+    var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA Division of Housing' };
+    $('[data-hm-flow-legend]').innerHTML = agencies.map(function (a) {
+      return '<li><i class="' + FLOW_CLASS[a] + '"></i>' + esc(legendText[a]) + '</li>';
+    }).join('');
+    renderRegionMap(f);
+    $('[data-hm-flow-cap]').textContent = 'Left: the program that paid, colored by agency. Right: the region of the county printed on the award. ' +
+      'Band width is the income-restricted homes the awards name' + where + ', ' + yearsText() + ', ' + count(f.homes) + ' in all. ' +
+      'A project paid for by two programs is counted under each, so this adds up homes named in awards, not separate buildings.' +
+      (f.estimated ? ' Land banking counts are the estimates the awards print.' : '') +
+      (f.withoutHomes ? ' ' + count(f.withoutHomes) + ' award' + (f.withoutHomes === 1 ? ' has' : 's have') + ' no home count recorded in these lists and ' + (f.withoutHomes === 1 ? 'is' : 'are') + ' left out.' : '') +
+      ' Federal grants are HOME, CDBG and the Housing Trust Fund, passed through DOLA.' +
+      ' Sources: CHFA award reports, Prop 123 fund selection lists, DOLA announcements.';
+    $('[data-hm-flow-text]').innerHTML = '<p>Homes named in ' + esc(who) + ' awards' + esc(where) + ', ' + esc(yearsText()) + ', by program and by region.</p><ul>' +
+      f.left.map(function (n) {
+        var to = f.links.filter(function (l) { return l.from === n.key; }).map(function (l) { return byR[l.to].label + ' ' + count(l.homes); });
+        return '<li>' + esc(n.label + ' (' + M.AGENCIES[n.agency].label + '): ' + count(n.homes) + ' homes. ' + to.join(', ') + '.') + '</li>';
+      }).join('') + '</ul>';
+  }
+
   // ── matrix ────────────────────────────────────────────────────────────────
   function renderMatrix() {
     var awards = M.filter(data.awards, { from: state.from, to: state.to });
@@ -488,6 +595,7 @@
   function render() {
     renderControls();
     renderAnswer();
+    renderFlow();
     renderMap();
     renderMatrix();
     renderTable();
@@ -635,6 +743,69 @@
     });
   }
 
+  // The regions on the flow's right side, as a map: each county shaded by its
+  // region, each region labelled with the homes the flow gives it.
+  // Neighbouring regions get different hues.
+  var REGION_CLASS = {
+    'Front Range': 'rg-1', 'Mountains': 'rg-5', 'Western Slope': 'rg-4',
+    'Southwest': 'rg-2', 'San Luis Valley': 'rg-7', 'Eastern Plains': 'rg-6',
+  };
+  // Each label sits on one county inside its region (El Paso, Grand, Mesa,
+  // La Plata, Alamosa, Kit Carson), so the labels never stack on a phone.
+  var REGION_LABEL_AT = {
+    'Front Range': '08041', 'Mountains': '08049', 'Western Slope': '08077',
+    'Southwest': '08067', 'San Luis Valley': '08003', 'Eastern Plains': '08063',
+  };
+  function renderRegionMap(f) {
+    var svg = $('[data-hm-flow-map]');
+    if (!svg) return;
+    if (!data.geo || !global.d3) { svg.style.display = 'none'; return; }
+    var d3 = global.d3;
+    var W = Math.min(560, parseFloat(svg.parentNode.clientWidth) || 560);
+    var H = Math.round(W * 0.74);
+    var projection = d3.geoMercator().fitExtent([[4, 4], [W - 4, H - 4]], data.geo);
+    var path = d3.geoPath(projection);
+    var homes = {};
+    f.right.forEach(function (n) { homes[n.key] = n.homes; });
+    var centre = {};
+    var counties = data.geo.features.map(function (feat) {
+      var region = data.regionOf[feat.properties.GEOID] || null;
+      if (region && REGION_LABEL_AT[region] === feat.properties.GEOID) {
+        var c = path.centroid(feat);
+        centre[region] = { x: c[0], y: c[1] };
+      }
+      return '<path d="' + path(feat) + '" class="hm-region ' + (REGION_CLASS[region] || '') + '"><title>' +
+        esc(feat.properties.NAMELSAD + (region ? ': ' + region : '')) + '</title></path>';
+    }).join('');
+    var labels = Object.keys(centre).map(function (r) {
+      var t = centre[r];
+      var v = homes[r] ? count(homes[r]) + ' homes' : 'no homes';
+      // Keep a label inside the map at its edges (about 7px a character at 12px bold).
+      var half = Math.max(r.length, v.length) * 3.6 + 4;
+      var x = Math.min(W - half, Math.max(half, t.x)), y = t.y;
+      return '<text class="hm-flow-label" x="' + x.toFixed(1) + '" y="' + (y - 2).toFixed(1) + '" text-anchor="middle">' + esc(r) + '</text>' +
+        '<text class="hm-flow-value" x="' + x.toFixed(1) + '" y="' + (y + 12).toFixed(1) + '" text-anchor="middle">' + esc(v) + '</text>';
+    }).join('');
+    svg.style.display = '';
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('width', String(W));
+    svg.setAttribute('height', String(H));
+    svg.innerHTML = '<g>' + counties + '</g><g>' + labels + '</g>';
+  }
+
+  // The flow is drawn at the figure's width, so it redraws when that changes.
+  var flowWidth = 0, flowTimer = null;
+  function watchWidth() {
+    global.addEventListener('resize', function () {
+      clearTimeout(flowTimer);
+      flowTimer = setTimeout(function () {
+        var fig = $('[data-hm-flow]');
+        var w = fig && fig.parentNode.clientWidth;
+        if (w && w !== flowWidth) { flowWidth = w; renderFlow(); }
+      }, 150);
+    });
+  }
+
   function download() {
     var csv = M.csv(scoped());
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -664,6 +835,13 @@
         var demo = d.demographics.counties[name] || {};
         data.counties[f.properties.GEOID] = { name: name, population: demo.population > 0 ? demo.population : null };
       });
+      data.regionOf = {};
+      data.regionOrder = [];
+      ((d.regions && d.regions.counties) || []).forEach(function (c) {
+        if (!c.region) return;
+        data.regionOf[c.fips] = c.region;
+        if (data.regionOrder.indexOf(c.region) === -1) data.regionOrder.push(c.region);
+      });
       data.statePopulation = Object.keys(data.counties).reduce(function (t, k) { return t + (data.counties[k].population || 0); }, 0) || null;
       data.geo = d.boundaries;
       data.awards = M.normalise({ ledger: d.ledger, documents: d.documents, rows: d.rows, dola: d.dola, aliases: d.aliases, counties: data.counties });
@@ -685,6 +863,7 @@
       if (state.place) state.groupBy = state.place.type === 'county' ? 'town' : state.place.type === 'developer' ? 'county' : 'developer';
       $('[data-hm-group]').value = state.groupBy;
       wire();
+      watchWidth();
       render();
     }).catch(function (err) {
       $('[data-hm-answer]').innerHTML = '<p>The award lists could not be loaded (' + esc(err.message) + '). Reload the page to try again.</p>';
