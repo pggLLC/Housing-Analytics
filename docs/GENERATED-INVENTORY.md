@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T12:09:11.794Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T12:49:35.790Z. Do not edit by hand.
 
 ---
 
@@ -2202,7 +2202,7 @@
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
-| `test/place-card.test.mjs` | 23.1 KB |
+| `test/place-card.test.mjs` | 27.4 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 7.1 KB |
 | `test/place-chas-method-honesty.test.js` | 8.3 KB |
