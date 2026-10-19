@@ -154,14 +154,14 @@
       if (logged[k] && (!c.last_talked || logged[k] > c.last_talked)) c = Object.assign({}, c, { last_talked: logged[k] });
       var fit = needs.filter(function (n) { return c.covers.indexOf(n) !== -1; });
       var fitScore = fit.reduce(function (s, n) { return s + (needs.length - needs.indexOf(n)); }, 0);
-      var reach = (c.phone ? 1 : 0) + (c.email ? 1 : 0);
+      var reach = c.phone || c.email ? 1 : 0;
       var talked = c.last_talked ? 3 : (c.tier === '1' ? 2 : c.tier === '2' ? 1 : 0);
       var why = [];
       if (c.elsewhere) why.push('researched for ' + c.elsewhere + ', not this place');
       if (fit.length) why.push((c.elsewhere ? 'handles ' : 'decides ') + fit.slice(0, 2).map(function (n) { return COVERS[n]; }).join(' and ') + (c.elsewhere ? ' there' : ''));
       if (talked && c.last_talked) why.push('you talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
-      why.push(reach === 2 ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
+      why.push(c.phone && c.email ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
       return Object.assign({}, c, { score: fitScore, reach: reach, talked: talked, fit: fit, why: why.join('; ') });
     }).sort(function (a, b) {
       // In order, as the Methodology page says: fit to the next step decides;

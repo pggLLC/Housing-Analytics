@@ -49,6 +49,13 @@ ok(/zoning and entitlements/.test(ranked[0].why) && /phone on file/.test(ranked[
 ranked = P.rankContacts(network, researched, 'Respond to the land RFP');
 ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a land step');
 
+{
+  // Phone or email is one key: two methods never outrank a logged talk.
+  const both = { name: 'A Both', role: 'Planning Director', phone: '1', email: 'a@x.org', source_url: 'https://example.org/a' };
+  const one = { name: 'Z Talked', role: 'Planning Director', phone: '2', last_talked: '2026-10-01' };
+  ok(P.rankContacts([one], [both], 'Ask for a zoning letter')[0].name === 'Z Talked', 'phone and email together count the same as one; a past talk breaks the tie');
+}
+
 // Codex round 2: a related place's contacts are a fallback, marked as such.
 const own = { name: 'Town of T', contacts: [{ name: 'Town Planner', role: 'Planning Director', source_url: 'https://example.org/t' }] };
 const county = { name: 'T County', contacts: [{ name: 'County Planner', role: 'Planning Director', source_url: 'https://example.org/c' }] };
