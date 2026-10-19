@@ -47,7 +47,7 @@
     .cra-map__pick select { min-height: 44px; font: inherit; margin-left: var(--sp1); width: 22rem; max-width: 100%; }
     .cra-map__panel h4 { margin: var(--sp3) 0 var(--sp1); }
     .cra-map__panel tr[hidden] { display: none !important; }
-    .cra-map__showall { min-height: 44px; margin-top: var(--sp2); padding: 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius, 8px); background: var(--card, var(--bg2)); color: var(--text); font: inherit; cursor: pointer; }
+    .cra-map__showall, .cra-map__allbanks { min-height: 44px; margin-top: var(--sp2); padding: 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius, 8px); background: var(--card, var(--bg2)); color: var(--text); font: inherit; cursor: pointer; }
     @media (max-width: 640px) { .cra-map__canvas { height: 260px; } }
     /* Phones: the site turns pointer events off on maps so the page scrolls; the popup still needs its button. */
     .cra-map__canvas .leaflet-popup { pointer-events: auto; }
@@ -349,6 +349,7 @@
             <div class="cra-map__canvas" role="img" aria-label="Map of Colorado counties shaded by the number of banks with a branch in each, with a dot at each branch office. Choose a county from the list below the map for the same information."></div>
             <label class="cra-map__offices"><input type="checkbox" id="craOffices" checked> Show bank branch locations</label>
             <div class="cra-map__legend" aria-hidden="true"></div>
+            <div class="cra-map__pick"><label for="craBank">Bank</label> <select id="craBank"><option value="">All banks</option></select></div>
             <div class="cra-map__pick"><label for="craCounty">County</label> <select id="craCounty"><option value="">Choose a county</option></select></div>
             <p class="cra-map__status sr-only" role="status" aria-atomic="true"></p>
             <div class="cra-map__panel" aria-live="polite" aria-atomic="true"></div>
