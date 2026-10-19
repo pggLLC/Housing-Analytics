@@ -204,6 +204,19 @@ test('a refused push fetches, rebases and rebuilds the manifests again', () => {
   assert.match(src, /done\n[^\n]*::error::[^\n]*\nexit 1/, 'a branch that keeps moving fails the run');
 });
 
+test('an unstaged manifest from an earlier step cannot stop the rebase', () => {
+  // refresh-data-pipeline.js rewrites data/manifest.json and data-refresh
+  // stages only its three data files, so a plain rebase refused on the dirty
+  // manifest (Codex review of #2384). The helper drops both manifests after
+  // its own commit and before the first rebase; they are rebuilt anyway.
+  const src = fs.readFileSync(path.join(ROOT, 'scripts', 'push-data-commit.sh'), 'utf8');
+  const commit = src.search(/^git commit -q -m/m);
+  const reset = src.search(/^git checkout -- "\$\{MANIFESTS\[@\]\}"$/m);
+  const rebase = src.search(/git rebase /);
+  assert.ok(commit >= 0 && reset >= 0 && rebase >= 0, 'commit, manifest reset and rebase found: ' + [commit, reset, rebase]);
+  assert.ok(commit < reset && reset < rebase, 'the reset runs after the commit and before the first rebase');
+});
+
 test('Rebuild BPS Permits checks the data bounds on the tree it commits', () => {
   // validate-critical-data.js checks the ranking-index metric bounds. Before
   // the move to the shared script it ran after the chain; a check that only
