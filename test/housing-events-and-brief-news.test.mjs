@@ -140,6 +140,37 @@ test('the committed events file renders: every event it holds in the window is s
   assert.deepEqual(titles(doc), st.events.map((e) => e.title));
 });
 
+test('ended events move to Past events, newest first, and stay even when the file is old', async () => {
+  const d = eventsDoc(EV, { past: [
+    { title: 'Spooky Bingo', start: day(-20), category: 'networking', organizer: 'Housing Colorado', url: 'https://hc.localhost/b' },
+    { title: 'Ended yesterday', start: day(-3), end: day(-1), category: 'compliance', organizer: 'CHFA', url: 'https://chfa.localhost/a' },
+  ] });
+  const doc = await runNewsPage(d);
+  const past = () => [...doc.querySelectorAll('#eventsPastList .event-row__title')].map((el) => el.textContent);
+  assert.equal(doc.getElementById('eventsPast').hidden, false);
+  assert.equal(doc.getElementById('eventsPastLabel').textContent, 'Past events (2)', 'an event listed twice was counted twice');
+  assert.deepEqual(past(), ['Ended yesterday', 'Spooky Bingo']);
+  assert.match(doc.querySelector('#eventsPastList .event-row__when').textContent, /, 2026$/);
+  assert.ok(!titles(doc).includes('Ended yesterday'), 'an ended event is still in the upcoming list');
+  d.meta.generated = '2026-09-30T09:00:00Z';
+  const stale = await runNewsPage(d);
+  assert.deepEqual([...stale.querySelectorAll('#eventsPastList .event-row__title')].map((el) => el.textContent),
+    ['Ended yesterday', 'Spooky Bingo'], 'past events are history; an old file still has them');
+});
+
+test('past events page in tens', async () => {
+  const many = Array.from({ length: 23 }, (_, i) => ({ title: 'Past ' + i, start: day(-2 - i), category: 'board', organizer: 'CHFA' }));
+  const doc = await runNewsPage(eventsDoc(EV, { past: many }));
+  const count = () => doc.querySelectorAll('#eventsPastList .event-row').length;
+  assert.equal(count(), 10);
+  doc.getElementById('eventsPastMore').click();
+  assert.equal(count(), 20);
+  assert.equal(doc.getElementById('eventsPastMore').textContent, 'Show 4 more past events');
+  doc.getElementById('eventsPastMore').click();
+  assert.equal(count(), 24);
+  assert.equal(doc.getElementById('eventsPastMore').hidden, true);
+});
+
 // ── The brief page's news panel ────────────────────────────────────────────
 
 function briefDom() {

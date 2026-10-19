@@ -20,8 +20,14 @@ Three sources, each read every day by weekly_housing_brief.yml:
     Each entry names the page it was checked against and the date.
 
 A source that cannot be read is recorded as unreachable and contributes
-nothing. Its previous events are not kept: a list that silently stops
-updating is the failure this file exists to avoid. Past events are dropped.
+nothing. Its previous upcoming events are not kept: a list that silently stops
+updating is the failure this file exists to avoid.
+
+Past events are kept in their own list (`past`, newest first) because paul
+asked on 2026-10-19 to keep them: a record of what CHFA and Housing Colorado
+ran is useful, and it never reads as current. Each is an event a source listed
+while it was still upcoming or as it ended; CHFA's feed also lists its own past
+events. Kept for PAST_DAYS.
 
 Usage:
   python3 scripts/news/fetch_housing_events.py              # fetch and write
@@ -49,6 +55,7 @@ CHFA_PAGE = 'https://www.chfainfo.com/events'
 HC_PAGE = 'https://housingcolorado.org/events/'
 
 HORIZON_DAYS = 120
+PAST_DAYS = 365
 TIMEOUT = 30
 BROWSER_HEADERS = {
     'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
@@ -217,7 +224,7 @@ def upcoming(events: list[dict], today: date, horizon_days: int = HORIZON_DAYS) 
     for e in sorted(events, key=lambda x: (x['start'], x.get('time') or '', x['title'])):
         if (e.get('end') or e['start']) < first or e['start'] > last:
             continue
-        key = (e['organizer'], re.sub(r'\W+', ' ', e['title'].lower()).strip(), e['start'])
+        key = _key(e)
         if key in seen:
             continue
         seen.add(key)
@@ -225,7 +232,43 @@ def upcoming(events: list[dict], today: date, horizon_days: int = HORIZON_DAYS) 
     return out
 
 
-def build(today: date, offline: bool = False, fetch=http_get) -> dict:
+def _key(e: dict) -> tuple:
+    return (e['organizer'], re.sub(r'\W+', ' ', e['title'].lower()).strip(), e['start'])
+
+
+def past(events: list[dict], previous: dict | None, today: date, past_days: int = PAST_DAYS) -> list[dict]:
+    """Events that have ended within past_days, newest first, once each.
+
+    `events` are what the sources list today; `previous` is yesterday's file,
+    whose upcoming events that have since ended, and whose past list, carry
+    forward. Today's listing wins over a carried-forward copy of one event.
+    """
+    first, today_iso = (today - timedelta(days=past_days)).isoformat(), today.isoformat()
+    prev = previous if isinstance(previous, dict) else {}
+    carried = [e for e in (prev.get('events') or []) + (prev.get('past') or [])
+               if isinstance(e, dict) and e.get('title') and e.get('start') and e.get('organizer')]
+    seen, out = set(), []
+    for e in list(events) + carried:
+        ended = e.get('end') or e['start']
+        if ended >= today_iso or ended < first:
+            continue
+        k = _key(e)
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(e)
+    return sorted(out, key=lambda x: (x.get('end') or x['start'], x['start'], x.get('time') or '', x['title']),
+                  reverse=True)
+
+
+def load_previous(path: Path = OUT_FILE) -> dict | None:
+    try:
+        return json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+
+
+def build(today: date, offline: bool = False, fetch=http_get, previous: dict | None = None) -> dict:
     events: list[dict] = []
     sources = []
     readers = [
@@ -251,6 +294,7 @@ def build(today: date, offline: bool = False, fetch=http_get) -> dict:
     sources.append({'id': 'curated', 'name': 'Events checked by hand', 'url': None,
                     'status': 'ok', 'listed': len(curated)})
     shown = upcoming(events, today)
+    ended = past(events, previous, today)
     for s in sources:
         s['upcoming'] = sum(1 for e in shown if e['source'] == s['id'])
     return {
@@ -258,14 +302,17 @@ def build(today: date, offline: bool = False, fetch=http_get) -> dict:
             'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
             'as_of': today.isoformat(),
             'horizon_days': HORIZON_DAYS,
+            'past_days': PAST_DAYS,
             'categories': CATEGORIES,
             'method': ('Read daily from CHFA\'s calendar feed and Housing Colorado\'s events page, '
                        'plus events checked by hand in data/policy/housing-events-curated.json. '
-                       'Past events are dropped. A source that cannot be read contributes nothing '
-                       'and is marked unreachable; its earlier events are not kept.'),
+                       'Ended events move to `past` and are kept for a year. A source that cannot be '
+                       'read contributes nothing and is marked unreachable; its earlier upcoming '
+                       'events are not kept.'),
         },
         'sources': sources,
         'events': shown,
+        'past': ended,
     }
 
 
@@ -275,12 +322,12 @@ def main() -> int:
     ap.add_argument('--today', help='YYYY-MM-DD (tests)')
     args = ap.parse_args()
     today = date.fromisoformat(args.today) if args.today else datetime.now(timezone.utc).date()
-    doc = build(today, offline=args.offline)
+    doc = build(today, offline=args.offline, previous=load_previous())
     OUT_FILE.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     for s in doc['sources']:
         print(f"  {s['id']:<17} {s['status']:<12} {s.get('upcoming', 0)} upcoming"
               + (f" — {s['note']}" if s.get('note') else ''))
-    print(f'✓ {len(doc["events"])} upcoming events → {OUT_FILE.relative_to(ROOT)}')
+    print(f'✓ {len(doc["events"])} upcoming and {len(doc["past"])} past events → {OUT_FILE.relative_to(ROOT)}')
     return 0
 
 

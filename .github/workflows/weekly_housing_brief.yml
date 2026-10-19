@@ -37,7 +37,12 @@ name: Daily Housing News Update
 
 on:
   schedule:
-    - cron: '29 6 * * *'   # daily 06:29 UTC (GitHub starts ~3h late, so lands ~03:00 MT)
+    - cron: '29 6 * * *'   # daily 06:29 UTC; GitHub has been starting it ~5h late (11:00-11:50 UTC)
+    # Backup. On 2026-10-19 the 06:29 run had not started by 12:18 UTC, so
+    # Housing News still showed the day before's headlines. A scheduled run
+    # finds out first (gate job) whether today's refresh already landed and
+    # stops if so, so the two never both fetch and summarize.
+    - cron: '17 15 * * *'
   workflow_dispatch:
 
 permissions:
@@ -53,7 +58,35 @@ concurrency:
   queue: max
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Checkout the news file only
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: data/policy_briefs.json
+          sparse-checkout-cone-mode: false
+      - name: Run unless a scheduled run already refreshed today
+        id: check
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          today=$(date -u +%F)
+          generated=$(python3 -c "import json; print(json.load(open('data/policy_briefs.json'))['meta']['generated'][:10])" 2>/dev/null || echo none)
+          if [ "$EVENT" = "schedule" ] && [ "$generated" = "$today" ]; then
+            echo "News already refreshed today ($generated); nothing to do."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Last refresh: $generated; running."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
   refresh-policy-briefs:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 

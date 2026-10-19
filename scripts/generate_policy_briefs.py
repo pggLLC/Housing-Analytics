@@ -410,8 +410,44 @@ def norm_title(t: str) -> str:
     return re.sub(r'\s+', ' ', t).strip()
 
 
+# "E. Colorado Blvd." is a street in Pasadena, not the state: on 2026-10-18
+# Housing News led its Statewide list with two Pasadena stories ("Hearing on Up
+# to $42 Million in Bonds for East Colorado Housing Project", Pasadena Now;
+# "1976 E. Colorado Blvd.", Urbanize LA). A street or directional use of the
+# word does not make a headline Colorado news.
+COLORADO_STREET_RE = re.compile(
+    r'\b(?:E|W|N|S|East|West|North|South)\.?\s+Colorado(?:\s+(?:Blvd|Boulevard|Ave|Avenue|St|Street|Road|Rd)\b\.?)?'
+    r'|\bColorado\s+(?:Blvd|Boulevard|Ave|Avenue|Street)\b\.?')
+
+# Housing News is housing news. The searches return the rest of a paper too:
+# on 2026-10-18 the page listed a murder bail ruling, "This Denver house
+# inspired a famous horror film" and a congressional fundraising record. A
+# headline is kept when it names housing, land, building or a housing program,
+# or when it comes from a housing or real-estate trade outlet (an acquisition
+# headline there rarely says "housing"). Bare "house" is not a housing word:
+# it is also the state House and the U.S. House.
+HOUSING_TITLE_RE = re.compile(
+    r'\b(housing|houses|homes?|to house|house (?:and|people|residents|workers|families)|homeless\w*|home ?own\w*|home ?buy\w*|home (?:sales?|prices?|values?|loans?|builders?)|'
+    r'rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|(?:re)?zon(?:e|es|ed|ing)|land|lots?|'
+    r'parcels?|develop\w*|units?|afford\w*|lihtc|tax credits?|chfa|prop(?:osition)?\s*123|hud|section 8|'
+    r'vouchers?|real estate|condo\w*|townhom\w*|densit\w*|adus?|accessory dwelling|permit\w*|construct\w*|'
+    r'builders?|buildings?|shelters?|property tax\w*|propert(?:y|ies)|subdivision\w*|annex\w*|infill|workforce|'
+    r'dwellings?|residential|neighborhoods?|displace\w*|gentrif\w*|fha|fhfa|fannie|freddie|bonds?|tap fees?|'
+    r'water|sewer|infrastructure|grants?|mixed.income|multifamily|growth|ground|groundbreaking|community land trust)\b',
+    re.I)
+HOUSING_SOURCE_RE = re.compile(
+    r'\b(Multifamily|Affordable Housing|Housing Finance|HousingWire|Mile High CRE|Multi-Housing|Novogradac|'
+    r'NCSHA|CoStar|Bisnow|BusinessDen|Real Estate Journal|CREJ|Commercial Observer|GlobeSt|Connect CRE|'
+    r'Builder|NAHB|NLIHC|Shelterforce|Planetizen)\b', re.I)
+
+
+def is_housing_headline(title: str, source: str = '') -> bool:
+    return bool(HOUSING_TITLE_RE.search(title or '') or HOUSING_SOURCE_RE.search(source or ''))
+
+
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     """'colorado', 'federal', or None (another state's news, or not housing policy)."""
+    title = COLORADO_STREET_RE.sub(' ', title or '')
     hay = f'{title} {source}'
     # A headline that says Colorado outright is Colorado news even when it names
     # another state ("Colorado lawmakers borrow Oregon zoning reforms"). Only the
@@ -468,6 +504,8 @@ def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
     places, distinct = find_places(title, geos, source)
     scope = story_scope(title, source, distinct)
     if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
+        scope = None
+    if not is_housing_headline(title, source):
         scope = None
     return scope, title, source, places
 
