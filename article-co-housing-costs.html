@@ -555,7 +555,7 @@
             msgs.push(missing + ' of ' + status.maps_total + ' maps could not be generated.');
           }
           if (stale) {
-            msgs.push(stale + ' of ' + status.maps_total + ' maps show last month’s data because their source did not refresh.');
+            msgs.push(stale + ' of ' + status.maps_total + ' maps show data from an earlier update because their source did not refresh.');
           }
           if (!missing && !stale && !status.maps_complete) {
             msgs.push('Some maps are incomplete (' + status.maps_generated + ' of ' + status.maps_total + ' ready).');
