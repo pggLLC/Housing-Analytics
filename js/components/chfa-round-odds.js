@@ -29,7 +29,7 @@
     });
     var awarded = {};
     ((ledger && ledger.awards) || []).forEach(function (a) {
-      if (a.agency === 'CHFA' && a.federal_credit_type === '9%' && a.year) awarded[a.year] = (awarded[a.year] || 0) + 1;
+      if (a.federal_credit_type === '9%' && a.year) awarded[a.year] = (awarded[a.year] || 0) + 1;
     });
     return Object.keys(applied).filter(function (y) { return awarded[y]; }).sort()
       .slice(-(count || 3))

@@ -390,6 +390,15 @@ test('an unknown mortgage is unavailable with its reason, never $0', () => {
   checks += 5;
 });
 
+test('a chosen added credit that cannot be counted is unavailable, never $0', () => {
+  const m = DealDiagrams.stackModel(deal({ creditStack: { federal: 12e6, state: 1e6, added: 0, counted: false,
+    label: 'Middle-income credit', reason: 'Its basis is missing.' } }));
+  assert.ok(!m.segments.some((s) => s.label === 'Middle-income credit equity'));
+  assert.ok(m.missing.some((x) => x.label === 'Middle-income credit equity' && x.reason === 'Its basis is missing.'));
+  assert.ok(DealDiagrams.renderStack(m).includes('Middle-income credit equity: unavailable. Its basis is missing.'));
+  checks += 3;
+});
+
 test('a surplus runs past the cost line instead of drawing a gap', () => {
   const m = DealDiagrams.stackModel(deal({ gap: -1e6, mortgage: 6e6 }));
   assert.ok(!m.segments.some((s) => s.gap));

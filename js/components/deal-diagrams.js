@@ -47,7 +47,8 @@
       { key: 'mortgage', label: 'First mortgage', amount: result.mortgage, cls: 'dg-seg--cs1', reason: reasonOf('mortgage') },
       { key: 'federal', label: 'Federal credit equity', amount: cs.federal, cls: 'dg-seg--cs3', reason: result.basisUnknownReason || reasonOf('equity') },
       { key: 'state', label: 'State credit equity', amount: cs.state, cls: 'dg-seg--cs2', reason: reasonOf('stateEquity'), optional: true },
-      { key: 'added', label: (cs.label || 'Added credit') + ' equity', amount: cs.counted ? cs.added : 0, cls: 'dg-seg--cs4', reason: cs.reason, optional: true },
+      // An added credit that is chosen but not counted is unknown, never $0.
+      { key: 'added', label: (cs.label || 'Added credit') + ' equity', amount: cs.counted ? cs.added : cs.label ? NaN : 0, cls: 'dg-seg--cs4', reason: cs.reason || 'Its equity cannot be worked out yet.', optional: true },
       { key: 'soft', label: 'Soft funding', amount: result.totalSoftSourceAmt, cls: 'dg-seg--cs5', reason: reasonOf('totalSoftSourceAmt'), optional: true },
       { key: 'deferred', label: 'Deferred developer fee', amount: result.deferredDevFee, cls: 'dg-seg--cs6', reason: reasonOf('deferredDevFee'), optional: true }
     ];
