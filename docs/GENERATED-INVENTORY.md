@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T14:23:40.361Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T15:45:07.851Z. Do not edit by hand.
 
 ---
 
@@ -95,7 +95,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 839.6 KB | ✅ | — |
-| `data/_qa-status.json` | 9.8 KB | ✅ | — |
+| `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -153,7 +153,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 260.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 261.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -2204,7 +2204,7 @@
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
-| `test/place-card.test.mjs` | 27.4 KB |
+| `test/place-card.test.mjs` | 28.2 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 7.1 KB |
 | `test/place-chas-method-honesty.test.js` | 8.3 KB |

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T14:24:03.953Z",
+    "generated_at": "2026-10-19T15:45:41.298Z",
     "root": "data/",
     "file_count": 1754,
-    "total_size_bytes": 192167930,
+    "total_size_bytes": 192166617,
     "kinds": {
       "json": 1708,
       "geojson": 34,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 9992,
-      "mtime": "2026-10-18T12:56:59.670Z",
+      "size_bytes": 7712,
+      "mtime": "2026-10-19T15:44:46.118Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-19T14:24:00.808Z",
+      "mtime": "2026-10-19T15:45:36.870Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1490,8 +1490,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 266313,
-      "mtime": "2026-10-18T12:56:59.741Z",
+      "size_bytes": 267280,
+      "mtime": "2026-10-19T15:44:46.217Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1506,7 +1506,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1722,
+      "primary_array_length": 1728,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -31190,7 +31190,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 222094,
-      "mtime": "2026-10-19T13:45:47.903Z",
+      "mtime": "2026-10-19T15:44:46.449Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32750,7 +32750,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-19T14:24:02.443Z",
+      "mtime": "2026-10-19T15:45:38.882Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32774,7 +32774,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-19T14:24:01.751Z",
+      "mtime": "2026-10-19T15:45:38.346Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
