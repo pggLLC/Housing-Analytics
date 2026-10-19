@@ -356,6 +356,13 @@ def build():
         annual_wages_acc: dict[str, dict[str, float]] = defaultdict(
             lambda: defaultdict(float)
         )
+        # Unrounded twins of the two accumulators above. The rescale to the
+        # place's own job count below works from these: scaling counts that
+        # were already rounded turns a tiny share's {0, 0, 1} into {0, 0, 530}.
+        annual_emp_raw: dict[str, float] = defaultdict(float)
+        annual_wages_raw: dict[str, dict[str, float]] = defaultdict(
+            lambda: defaultdict(float)
+        )
 
         for c_fips, share in place_share_of_counties.items():
             blob = county_lehd.get(c_fips)
@@ -371,6 +378,7 @@ def build():
                     contrib = _apportion_scalar(total, share)
                     if contrib is not None:
                         annual_emp_acc[year] += contrib
+                        annual_emp_raw[year] += float(total) * share
             aw = blob.get("annualWages")
             if isinstance(aw, dict):
                 for year, tiers in aw.items():
@@ -380,6 +388,7 @@ def build():
                         contrib = _apportion_scalar(count, share)
                         if contrib is not None:
                             annual_wages_acc[year][tier_name] += contrib
+                            annual_wages_raw[year][tier_name] += float(count) * share
 
         # Re-derive industries[] from apportioned CNS totals so all
         # downstream consumers see a single source of truth.
@@ -532,8 +541,8 @@ def build():
             if mix_total > 0 and f_high > 0:
                 mix = (f_low / mix_total, f_mid / mix_total, f_high / mix_total)
             else:
-                latest_tiers = (lehd_out["annualWages"] or {}).get(
-                    max(lehd_out["annualWages"]), {}) if lehd_out["annualWages"] else {}
+                latest_tiers = annual_wages_raw.get(
+                    max(annual_wages_raw), {}) if annual_wages_raw else {}
                 tier_total = sum(float(latest_tiers.get(t) or 0) for t in ("low", "medium", "high"))
                 mix = tuple(float(latest_tiers.get(t) or 0) / tier_total
                             for t in ("low", "medium", "high")) if tier_total > 0 else None
@@ -541,19 +550,26 @@ def build():
                 ce = [int(round(jobs_here * m)) for m in mix]
                 ce[2] = jobs_here - ce[0] - ce[1]
                 lehd_out["CE01"], lehd_out["CE02"], lehd_out["CE03"] = ce
-            ae = lehd_out["annualEmployment"]
-            if ae:
-                latest_year = max(ae)
-                if ae[latest_year] > 0:
-                    k = jobs_here / ae[latest_year]
+            if annual_emp_raw:
+                latest_year = max(annual_emp_raw)
+                if annual_emp_raw[latest_year] > 0:
+                    k = jobs_here / annual_emp_raw[latest_year]
                     lehd_out["annualEmployment"] = {
-                        y: int(round(v * k)) for y, v in ae.items()}
+                        y: int(round(v * k)) for y, v in sorted(annual_emp_raw.items())}
                     lehd_out["annualEmployment"][latest_year] = jobs_here
                     lehd_out["annualWages"] = {
                         y: {t: int(round(v * k)) for t, v in tiers.items()}
-                        for y, tiers in lehd_out["annualWages"].items()}
+                        for y, tiers in sorted(annual_wages_raw.items())}
+            # One wage mix for every year: the place's own. Mixing the
+            # county's mix in earlier years with the place's in the latest
+            # drew a wage shift that never happened.
             if lehd_out["annualWages"] and mix:
-                lehd_out["annualWages"][max(lehd_out["annualWages"])] = {
+                for y, total in lehd_out["annualEmployment"].items():
+                    t = [int(round(total * m)) for m in mix]
+                    t[2] = total - t[0] - t[1]
+                    lehd_out["annualWages"][y] = {"low": t[0], "medium": t[1], "high": t[2]}
+                latest = max(lehd_out["annualWages"])
+                lehd_out["annualWages"][latest] = {
                     "low": lehd_out["CE01"], "medium": lehd_out["CE02"],
                     "high": lehd_out["CE03"]}
 
