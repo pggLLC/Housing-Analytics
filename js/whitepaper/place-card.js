@@ -87,6 +87,19 @@
   }
 
   // Every contact for the place from both sources, the same person once.
+  // The researched contacts the card ranks: this place's own file; only when it
+  // has none, the related places' (a town's county, a county's towns), each
+  // marked with the place it was researched for so the card never says a
+  // county planner decides a town's zoning.
+  function researchedFor(own, related) {
+    var mine = own && Array.isArray(own.contacts) ? own.contacts : [];
+    if (mine.length) return mine.slice();
+    return (related || []).reduce(function (all, f) {
+      if (!f || !Array.isArray(f.contacts)) return all;
+      return all.concat(f.contacts.map(function (c) { return Object.assign({}, c, { elsewhere: f.name || f.geoid || 'another place' }); }));
+    }, []);
+  }
+
   function mergeContacts(network, researched) {
     var byName = {}, out = [];
     (network || []).forEach(function (c) {
@@ -109,7 +122,8 @@
         return;
       }
       var row = { name: c.name, role: c.role || '', org: c.org || '', email: c.email || '', phone: c.phone || '',
-        last_talked: '', tier: '', covers: covers, source_url: c.source_url, source_label: c.source_label || '', mine: false };
+        last_talked: '', tier: '', covers: covers, source_url: c.source_url, source_label: c.source_label || '', mine: false,
+        elsewhere: c.elsewhere || '' };
       byName[nameKey(c.name)] = row; out.push(row);
     });
     return out;
@@ -137,7 +151,8 @@
       var reach = (c.phone ? 1 : 0) + (c.email ? 1 : 0);
       var talked = c.last_talked ? 3 : (c.tier === '1' ? 2 : c.tier === '2' ? 1 : 0);
       var why = [];
-      if (fit.length) why.push('decides ' + fit.slice(0, 2).map(function (n) { return COVERS[n]; }).join(' and '));
+      if (c.elsewhere) why.push('researched for ' + c.elsewhere + ', not this place');
+      if (fit.length) why.push((c.elsewhere ? 'handles ' : 'decides ') + fit.slice(0, 2).map(function (n) { return COVERS[n]; }).join(' and ') + (c.elsewhere ? ' there' : ''));
       if (talked && c.last_talked) why.push('you talked on ' + c.last_talked);
       else if (c.tier === '1' || c.tier === '2') why.push('a ' + (c.tier === '1' ? 'strong' : 'warm') + ' relationship');
       why.push(reach === 2 ? 'phone and email on file' : c.phone ? 'phone on file' : c.email ? 'email on file' : 'no phone or email yet');
@@ -292,7 +307,7 @@
   }
 
   return {
-    coversFromRole: coversFromRole, needsFromAction: needsFromAction, mergeContacts: mergeContacts,
+    coversFromRole: coversFromRole, researchedFor: researchedFor, needsFromAction: needsFromAction, mergeContacts: mergeContacts,
     rankContacts: rankContacts, lastTalked: lastTalked, localToday: localToday, sitesFor: sitesFor, render: render, wireNotes: wireNotes, OPENING: OPENING
   };
 });

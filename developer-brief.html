@@ -376,7 +376,7 @@
       $('reportPdf').disabled = $('reportDownload').disabled = !current;
       $('pickerStatus').textContent = model.error || ('Report for ' + model.name + ', built ' + model.generated + ' from the current data.');
       wireTools(geoid, name, pipe, brief);
-      mountPlaceCard(geoid, name, related, researched);
+      mountPlaceCard(geoid, name, related, window.PlaceCard ? window.PlaceCard.researchedFor(contacts, relatedContacts) : []);
     }).catch(e => { $('briefContent').innerHTML = '<div class="ib-prompt">Could not build the report: ' + esc(e.message) + '</div>'; });
   }
 

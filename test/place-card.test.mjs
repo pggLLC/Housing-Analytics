@@ -47,6 +47,14 @@ ok(/zoning and entitlements/.test(ranked[0].why) && /phone on file/.test(ranked[
 ranked = P.rankContacts(network, researched, 'Respond to the land RFP');
 ok(ranked[0].name === 'Hal Housing', 'the housing authority comes first for a land step');
 
+// Codex round 2: a related place's contacts are a fallback, marked as such.
+const own = { name: 'Town of T', contacts: [{ name: 'Town Planner', role: 'Planning Director', source_url: 'https://example.org/t' }] };
+const county = { name: 'T County', contacts: [{ name: 'County Planner', role: 'Planning Director', source_url: 'https://example.org/c' }] };
+ok(P.researchedFor(own, [county]).map((c) => c.name).join() === 'Town Planner', 'the place\'s own contacts are ranked, not its county\'s');
+const fallback = P.rankContacts([], P.researchedFor({ contacts: [] }, [county]), 'Ask for a zoning letter');
+ok(fallback.length === 1 && /researched for T County, not this place/.test(fallback[0].why) && !/decides/.test(fallback[0].why), 'with none of its own, the county\'s contacts show and say where they were researched');
+ok(/researchedFor\(contacts, relatedContacts\)/.test(read('developer-brief.html')), 'the report page ranks with the place\'s own contacts first');
+
 // 3. A logged discussion moves the person up.
 const notes = [{ id: 'a', date: '2026-10-18', contact: 'mo manager', said: 'Talked about fees.' }];
 ok(P.lastTalked(notes)['mo manager'] === '2026-10-18', 'the log records the latest talk per person');
