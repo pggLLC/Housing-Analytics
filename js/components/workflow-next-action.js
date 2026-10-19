@@ -343,6 +343,12 @@
               + 'nothing to show until you pick one. You\'ll come straight back here.';
       actionUrl   = STEP_URLS[priorKey];
       var here = STEP_URLS[currentStep];
+      // The needs assessment opens on statewide figures, so "nothing to show"
+      // is false there: say what is on screen instead.
+      if (currentStep === 'hsa') {
+        heading = 'Showing statewide figures';
+        body    = 'Pick a county or town to see its own numbers. You\'ll come straight back here.';
+      }
       if (priorKey === 'jurisdiction' && here) {
         actionUrl += (actionUrl.indexOf('?') === -1 ? '?' : '&')
           + 'next=' + encodeURIComponent(here);
