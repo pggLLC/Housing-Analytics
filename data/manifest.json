@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T23:38:56.942104Z",
+  "generated": "2026-10-20T02:44:08.994154Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7964,7 +7964,7 @@
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4435192
+      "bytes": 4435135
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -8019,7 +8019,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16097
+      "bytes": 16095
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
