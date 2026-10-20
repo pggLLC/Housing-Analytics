@@ -15,9 +15,8 @@
  *   methods.html          insights.html
  *   sitemap.html          linked from NOTHING — a sitemap nobody can find
  *
- * Two others looked orphaned and are not: colorado-market.html and
- * indibuild-pipeline-public.html are redirect stubs (1006 and 394 bytes)
- * pointing at colorado-deep-dive.html and pipeline.html, both of which exist.
+ * Another looked orphaned and is not: colorado-market.html is a redirect
+ * stub (1006 bytes) pointing at colorado-deep-dive.html, which exists.
  * Adding a redirect to the nav would have been the wrong fix, which is why
  * this guard checks reachability rather than nav membership.
  *
@@ -59,9 +58,6 @@ const UNLINKED_BY_DESIGN = {
   'developer-whitepaper.html':
     'redirect stub to developer-brief.html since the white paper and the brief became '
     + 'one Jurisdiction Report; catches old links and bookmarks',
-  'indibuild-pipeline-public.html':
-    'redirect stub (394 bytes) to pipeline.html, which returns 200 in production; '
-    + 'same reason — it catches old links rather than being navigated to',
 };
 
 test('the scan sees the whole site', () => {
