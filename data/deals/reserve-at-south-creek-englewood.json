@@ -5,7 +5,7 @@
  "county": "Arapahoe",
  "award": "2026 Federal 4% housing tax credit (rolling list)",
  "researched_on": "2026-10-20",
- "headline": "April Housing (Blackstone) plans to resyndicate and rehab Reserve at South Creek, a 168-unit 2001 family complex in unincorporated Arapahoe County (Dove Valley), turning 99 market-rate units affordable so that 166 of 168 are income-restricted at 60% AMI; it is on CHFA's 2026 Federal 4% award list.",
+ "headline": "April Housing plans to resyndicate and rehab Reserve at South Creek, a 168-unit family complex in unincorporated Arapahoe County (Dove Valley), turning 99 market-rate units affordable so that 166 of 168 are income-restricted at 60% AMI; it is on CHFA's 2026 Federal 4% award list.",
  "why_it_matters": "It is a template for using a county housing authority special limited partnership (for a property tax exemption) plus county bond cap to convert market-rate units in an expiring tax credit property to permanent affordability, at no county cash cost.",
  "status": {
   "label": "Credits awarded; closing and rehab start not confirmed",
@@ -46,10 +46,12 @@
    ]
   },
   {
-   "value": "About $85M total development cost",
-   "meaning": "April Housing's January 2026 estimate, about $506,000 per unit (my calculation).",
+   "value": "$7,005,092 of county bond cap",
+   "meaning": "Arapahoe County assigned this share of its 2026 private activity bond cap to CHFA for the deal, raised from $4,005,092 in August.",
    "src": [
-    "arap-archa-presentation"
+    "arap-res26-193-res",
+    "arap-api-5325",
+    "arap-res26-075-res"
    ]
   }
  ],
@@ -98,13 +100,6 @@
    ]
   },
   {
-   "item": "Buildings",
-   "value": "7 three-story residential buildings plus 1 community building; built 2001",
-   "src": [
-    "arap-archa-presentation"
-   ]
-  },
-  {
    "item": "Units",
    "value": "168 total, 166 income-restricted (CHFA); county: 48 one-bedroom, 72 two-bedroom, 48 three-bedroom",
    "src": [
@@ -114,9 +109,8 @@
   },
   {
    "item": "Current restriction",
-   "value": "69 units at 60% AMI under a LURA that expires in 2030; 99 market rate",
+   "value": "69 units at 60% AMI; 99 market rate",
    "src": [
-    "arap-archa-presentation",
     "arap-pab-bsr-feb"
    ]
   },
@@ -125,13 +119,6 @@
    "value": "No (CHFA)",
    "src": [
     "chfa-4pct-award"
-   ]
-  },
-  {
-   "item": "Property manager",
-   "value": "Cirrus Property Management",
-   "src": [
-    "arap-archa-presentation"
    ]
   },
   {
@@ -196,22 +183,6 @@
     "arap-api-5112",
     "arap-api-5325"
    ]
-  },
-  {
-   "source": "Property tax exemption via Arapahoe County Housing Authority special limited partnership",
-   "amount": "Not stated",
-   "note": "April Housing proposed paying ArCHA either about $225,000 upfront plus a 40% residual share (about $173,000 in year 18), or $25,000 upfront plus $25,000 a year rising 3% (described as 13% of the 2024 tax bill) plus residual (about $187,000). Which option was chosen is not public.",
-   "src": [
-    "arap-archa-presentation"
-   ]
-  },
-  {
-   "source": "Total development cost (estimate)",
-   "amount": "About $85,000,000",
-   "note": "April Housing presentation, January 2026.",
-   "src": [
-    "arap-archa-presentation"
-   ]
   }
  ],
  "parties": [
@@ -220,13 +191,6 @@
    "name": "April Housing",
    "src": [
     "chfa-4pct-award"
-   ]
-  },
-  {
-   "role": "Current owner",
-   "name": "April Housing lists the property in its own Arapahoe County portfolio (with Centennial East I and II); April Housing describes itself as a wholly owned Blackstone portfolio company",
-   "src": [
-    "arap-archa-presentation"
    ]
   },
   {
@@ -244,27 +208,20 @@
     "chfa-4pct-award",
     "arap-res26-075-res"
    ]
-  },
-  {
-   "role": "Property manager",
-   "name": "Cirrus Property Management",
-   "src": [
-    "arap-archa-presentation"
-   ]
   }
  ],
  "background": [
   {
-   "text": "This is a resyndication: the property was built in 2001 with 69 units restricted at 60% AMI and 99 market-rate units; its LURA expires in 2030, and April Housing marked it 'resyndication eligible' in 2026.",
+   "text": "This is a resyndication of an existing property: today 69 units are restricted at 60% AMI and 99 are market rate; the deal converts the 99 market-rate units so all restricted units serve households under 60% AMI.",
    "src": [
-    "arap-archa-presentation"
+    "arap-pab-bsr-feb",
+    "arap-news-partnerships"
    ]
   },
   {
    "text": "April Housing presented the special limited partnership to the county commissioners sitting as the ArCHA board at the 2026 ArCHA annual meeting (study session, 2026-01-12).",
    "src": [
-    "arap-archa-bsr",
-    "arap-archa-presentation"
+    "arap-archa-bsr"
    ]
   },
   {
@@ -273,12 +230,6 @@
     "arap-res26-034-bsr",
     "arap-res26-034-res",
     "arap-api-5060"
-   ]
-  },
-  {
-   "text": "Planned rehab (12 to 16 months): unit upgrades (appliances, countertops, cabinets, lighting, HVAC, flooring), sitework (security, landscaping, paving, amenity and accessibility upgrades) and exterior work (finishes, doors, lighting, roofing).",
-   "src": [
-    "arap-archa-presentation"
    ]
   },
   {
@@ -296,9 +247,8 @@
    ]
   },
   {
-   "text": "Prior sale history: April Housing already owns the property, so the acquisition is most likely a related-party sale into a new tax credit partnership; no price is public (inferred).",
+   "text": "Prior sale history: April Housing is the sponsor and the existing owner is not named in the county records used here; no acquisition price is public.",
    "src": [
-    "arap-archa-presentation",
     "chfa-4pct-award"
    ]
   },
@@ -317,18 +267,10 @@
  ],
  "timeline": [
   {
-   "date": "2001",
-   "event": "Built (69 restricted units, 99 market rate)",
-   "src": [
-    "arap-archa-presentation"
-   ]
-  },
-  {
    "date": "2026-01-12",
    "event": "April Housing presents the partnership at the ArCHA annual meeting (BOCC study session)",
    "src": [
-    "arap-archa-bsr",
-    "arap-archa-presentation"
+    "arap-archa-bsr"
    ]
   },
   {
@@ -377,29 +319,11 @@
    "src": [
     "chfa-4pct-award"
    ]
-  },
-  {
-   "date": "2030",
-   "event": "Current LURA on the 69 restricted units would expire",
-   "src": [
-    "arap-archa-presentation"
-   ]
   }
  ],
- "pictures": [
-  {
-   "title": "Property photos (pool, fitness room, kitchen, living room)",
-   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/7b2c8a2a-c3a9-4795-b63e-28823c591510.pdf",
-   "kind": "photo",
-   "made_by": "April Housing (presentation in Arapahoe County packet)",
-   "note": "PDF page 18; 1- and 2-bedroom floor plans on page 19; property summary on page 17",
-   "src": [
-    "arap-archa-presentation"
-   ]
-  }
- ],
+ "pictures": [],
  "discrepancies": [
-  "Address: CHFA, the county bond reports and CHFA's LIHTC list say 15611 E Jamison Drive (Census geocodes it), while April Housing's presentation and the RES 26-034 staff report and resolution say 14611 E. Jamison Drive; 15611 looks right and 14611 a typo (inferred).",
+  "Address: CHFA, the county bond reports and CHFA's LIHTC list say 15611 E Jamison Drive (Census geocodes it), while the RES 26-034 staff report and resolution say 14611 E. Jamison Drive; 15611 looks right and 14611 a typo (inferred).",
   "City: CHFA prints Englewood and RES 26-034 says 'Centennial, Colorado in unincorporated Arapahoe County'; county bond reports and the Census put it in unincorporated Arapahoe County (Dove Valley CDP), so both city names are mailing names only.",
   "Bedroom mix as relayed in the task brief (Studio 48, 1BR 72, 2BR 46) is off by one column: CHFA's table reads Studio 0, 1BR 48, 2BR 72, 3BR 46, which matches the county (48/72/48 for all 168 units) if the 2 unrestricted units are three-bedrooms (inferred, e.g. staff units).",
   "Bond cap: county staff said the project needs $23,500,000 of bond cap; CHFA lists $21,029,987 of PAB.",
@@ -407,8 +331,8 @@
   "County 2026 bond cap total: the 2026-03-31 staff report says $8,233,226; the draft resolution says $8,223,226."
  ],
  "open_questions": [
-  "Which ArCHA fee option was chosen and the final partnership terms; length of the new affordability covenant.",
-  "Prior acquisition by Blackstone/April Housing (date and price) and the related-party sale price into the new partnership.",
+  "Total development cost, year built, the current owner's purchase date and price, and the rehab scope are not in the public county or CHFA records used here.",
+  "Final partnership terms with the housing authority and the length of the new affordability covenant.",
   "Equity investor and price, bond buyer or lender, GC, rehab cost per unit, relocation plan for current market-rate tenants who may not income-qualify.",
   "Source of the remaining roughly $14.0M of bond cap beyond the county's $7,005,092."
  ],
@@ -433,13 +357,6 @@
    "publisher": "Arapahoe County",
    "date": "2026-01-12",
    "url": "https://arapahoe.legistar1.com/arapahoe/attachments/a477a5a9-062f-4b38-94f1-5be4c375431e.pdf"
-  },
-  {
-   "id": "arap-archa-presentation",
-   "title": "ArCHA annual meeting presentation, incl. April Housing 'Special Liability Partnership Presentation: Reserve at South Creek' (January 2026)",
-   "publisher": "Arapahoe County (packet for File 26-011)",
-   "date": "2026-01-12",
-   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/7b2c8a2a-c3a9-4795-b63e-28823c591510.pdf"
   },
   {
    "id": "arap-res26-034-bsr",
