@@ -560,6 +560,12 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
    The dropdown is wide enough that a description wraps to two lines at most
    instead of three or four in the old 220px column. */
 .nav-dropdown { min-width: 340px; }
+/* On narrow desktop windows the wider menus would run off the right edge:
+   open every group but the first leftwards from its button. */
+.nav-dropdown { max-width: calc(100vw - 24px); }
+@media (max-width: 1100px) {
+  .nav-group:nth-of-type(n+2) .nav-dropdown { left: auto; right: 0; }
+}
 .nav-link-step {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 1.35em; height: 1.35em; margin-right: 8px; border-radius: 999px;
