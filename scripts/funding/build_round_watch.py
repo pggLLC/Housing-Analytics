@@ -27,7 +27,8 @@ State money counts only for projects of 15+ homes (the smallest round
 application 2023-2026) that are not mobile home parks.
 
 High 50+, Medium 25-49, Watch 10-24. A project leaves the list once CHFA
-awards it credit, and while an application of its is still undecided.
+awards it credit, and while an application of its is still undecided,
+in a round or on CHFA's rolling 4% list.
 
 The same rules are backtested on every past round with two earlier rounds of
 its type: score each project as it stood the day the round's applicant
@@ -197,6 +198,10 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
     for a in D.round_apps:
         if (a['year'], a['round']) in prior:
             apps_by[a['_entity']].append(a)
+    # CHFA's rolling 4% list: a deal on it, awarded or still undecided, is already pursuing credit
+    on_rolling = {a['_entity'] for a in D.rolling
+                  if (a['outcome'] == 'awarded' or a['outcome'] in UNDECIDED)
+                  and (live or (a.get('source_as_of') or '%d-12-31' % a['year']) <= cutoff)}
     sponsor_rounds = defaultdict(dict)  # sponsor -> {round: first application printed}
     for a in D.round_apps:
         if (a['year'], a['round']) in prior[-4:] and a.get('sponsor'):
@@ -208,6 +213,8 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
         if any(a['outcome'] == 'awarded' for a in apps):
             continue
         if apps and apps[-1]['outcome'] in UNDECIDED:
+            continue
+        if key in on_rolling:
             continue
         events = [e for e in (p['events'] if p else []) if live or public_before(e, cutoff)]
         if any(e['agency'] == 'CHFA' and e['stage'] in ('funded', 'under_construction') for e in events):
@@ -438,7 +445,7 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
                        'it suits the other round or its size is not printed yet), not funded in the other round type 10, a sponsor that applied in '
                        '2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch '
                        '10-24. A project leaves the list once CHFA awards it credit or while its application is '
-                       'undecided. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks '
+                       'undecided, in a round or on CHFA\'s rolling 4% list. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks '
                        'do not count as state-money signals: none has applied for credits.'),
             'points': POINTS, 'bands': dict(BANDS), 'big_project_homes': BIG,
             'limits': [

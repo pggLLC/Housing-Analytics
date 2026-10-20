@@ -3,7 +3,7 @@
   "generated_at": "2026-10-18",
   "generator": "scripts/funding/build_round_watch.py",
   "title": "Next round watch",
-  "method": "Each CHFA round is scored on its own credit type (Round One 9%, Round Two 4% plus state, as every round from 2023 to 2026 was). Points for public evidence a project still needs credits: not funded a year earlier in the same round type 50, in an older round of that type 10, recent DOLA or Prop 123 rental money with a size that suits the round 25 (10 if it suits the other round or its size is not printed yet), not funded in the other round type 10, a sponsor that applied in 2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch 10-24. A project leaves the list once CHFA awards it credit or while its application is undecided. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks do not count as state-money signals: none has applied for credits.",
+  "method": "Each CHFA round is scored on its own credit type (Round One 9%, Round Two 4% plus state, as every round from 2023 to 2026 was). Points for public evidence a project still needs credits: not funded a year earlier in the same round type 50, in an older round of that type 10, recent DOLA or Prop 123 rental money with a size that suits the round 25 (10 if it suits the other round or its size is not printed yet), not funded in the other round type 10, a sponsor that applied in 2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch 10-24. A project leaves the list once CHFA awards it credit or while its application is undecided, in a round or on CHFA's rolling 4% list. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks do not count as state-money signals: none has applied for credits.",
   "points": {
    "lost_last_same": 50,
    "lost_older_same": 10,
@@ -195,7 +195,7 @@
    "note": null,
    "counts": {
     "High": 16,
-    "Medium": 11,
+    "Medium": 10,
     "Watch": 46
    },
    "items": [
@@ -1114,34 +1114,6 @@
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
          "quote": "Project Name: Idaho Springs Affordable Senior Housing Project; Location: Idaho Springs; Proposition 123 Funds Requested: $75,000; Proposition 123 Funds Awarded: $75,000; Projected Units: 24; Loan Option: LIHTC Predevelopment"
-        }
-       ]
-      }
-     ],
-     "applications": [],
-     "deal_summary": null
-    },
-    {
-     "id": "ingraham-wright-08101",
-     "name": "Ingraham Wright Apartments",
-     "city": "Pueblo",
-     "county": "Pueblo County",
-     "place_geoid": "0862000",
-     "homes": 53,
-     "sponsor": null,
-     "award_orgs": [
-      "Housing Center Archway Communities"
-     ],
-     "band": "Medium",
-     "score": 25,
-     "why": [
-      {
-       "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
-       "sources": [
-        {
-         "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
-         "quote": "Project Name: Ingraham Wright Apartments; Location: Pueblo; Proposition 123 Funds Requested: $10,036,571; Projected Units: 41; Equity Option Election: Affordability-Driven Investment"
         }
        ]
       }
@@ -2776,7 +2748,7 @@
    "counts": {
     "High": 0,
     "Medium": 17,
-    "Watch": 56
+    "Watch": 55
    },
    "items": [
     {
@@ -4731,34 +4703,6 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
-    },
-    {
-     "id": "ingraham-wright-08101",
-     "name": "Ingraham Wright Apartments",
-     "city": "Pueblo",
-     "county": "Pueblo County",
-     "place_geoid": "0862000",
-     "homes": 53,
-     "sponsor": null,
-     "award_orgs": [
-      "Housing Center Archway Communities"
-     ],
-     "band": "Watch",
-     "score": 10,
-     "why": [
-      {
-       "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. At 53 homes it suits the other round better (5 of 55 deals like this applied here).",
-       "sources": [
-        {
-         "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
-         "quote": "Project Name: Ingraham Wright Apartments; Location: Pueblo; Proposition 123 Funds Requested: $10,036,571; Projected Units: 41; Equity Option Election: Affordability-Driven Investment"
-        }
-       ]
-      }
-     ],
-     "applications": [],
      "deal_summary": null
     },
     {

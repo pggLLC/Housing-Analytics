@@ -179,7 +179,7 @@
     var undecided = data.rounds.reduce(function (n, r) { return n + (r.undecided_last_round || 0); }, 0);
     return '<div class="rw-stats">' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(r1.counts.High) + '</div><div>High-likelihood deals for ' + esc(r1.round) + ' (' + esc(r1.credit) + '), applications due in ' + esc(r1.applications_due) + '.</div></div>' +
-      '<div class="rw-stat"><div class="rw-stat-v">' + esc(pct(hi.applied, hi.listed)) + '</div><div>of past High picks applied (' + esc(hi.applied) + ' of ' + esc(hi.listed) + ', four rounds tested).</div></div>' +
+      '<div class="rw-stat"><div class="rw-stat-v">' + esc(pct(hi.applied, hi.listed)) + '</div><div>of past High picks applied (' + esc(hi.applied) + ' of ' + esc(hi.listed) + ', ' + esc(bt.rounds.length) + ' rounds tested).</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(bt.caught) + ' of ' + esc(bt.applicants) + '</div><div>past applicants were on the list before their round; ' + esc(bt.below_list) + ' had a weaker sign and ' + esc(bt.no_sign_before) + ' showed no sign we score.</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(undecided) + '</div><div>applications still waiting on CHFA; any not funded join the next list.</div></div>' +
       '</div>';

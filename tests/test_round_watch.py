@@ -248,3 +248,17 @@ def test_unknown_size_is_its_own_signal():
     l['projects'].append(p)
     i = items(build(a, l, e), 1)['No Size Deal']
     assert i['why'][0]['kind'] == 'soft_size_unknown' and 'could suit either round' in i['why'][0]['text']
+
+
+def test_rolling_application_takes_a_deal_off_the_list_from_its_date():
+    a, l, e = base()
+    rolling = dict(app('Ingraham Test', 'Longmont', 2026, 2, 'letter_of_intent', units=120),
+                   rolling=True, round=None, source_as_of='2026-10-12')
+    a['applications'] += [app('Ingraham Test', 'Longmont', 2026, 1, 'not_awarded'), rolling]
+    out = build(a, l, e)
+    assert 'Ingraham Test' not in items(out, 1) and 'Ingraham Test' not in items(out, 2)
+    # no look-ahead: a rolling list printed in October does not reach back to an earlier backtest cutoff
+    D = rw.Data(a, l, set(), (), ())
+    ent = D.rolling[0]['_entity']
+    assert ent in rw.score_round(D, (2026, 2), '2026-08-11')
+    assert ent not in rw.score_round(D, (2027, 1), '2026-10-12')

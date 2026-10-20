@@ -56,7 +56,8 @@ ok((folded.match(/<th [^>]*data-tip="[^"]{20,}"/g) || []).length === 5, 'every l
 const sorted = RW.sortItems([{ name: 'B', band: 'Medium', score: 30, homes: 10 }, { name: 'A', band: 'High', score: 50, homes: 90 }], 'homes', 'desc');
 ok(sorted[0].name === 'A', 'the list sorts by homes');
 const stats = RW.statsHtml({ rounds: [{ round: '2027 Round One', credit: '9%', applications_due: 'February 2027', counts: { High: 3 }, undecided_last_round: 0 }],
-  backtest: { bands: { High: { listed: 4, applied: 2 } }, caught: 5, applicants: 10, below_list: 1, no_sign_before: 4 } });
+  backtest: { bands: { High: { listed: 4, applied: 2 } }, caught: 5, applicants: 10, below_list: 1, no_sign_before: 4, rounds: [{}, {}, {}] } });
+ok(stats.includes('3 rounds tested'), 'the stats count the rounds the backtest ran');
 ok(stats.includes('5 of 10') && stats.includes('1 had a weaker sign and 4 showed no sign we score'), 'the stats split weak signs from no sign');
 
 // 4. Gating.
