@@ -1652,7 +1652,7 @@
       provider: 'COHO Analytics, from DOLA, Census BPS and LEHD, FHFA, Zillow, HUD and CHFA',
       url: null,
       localFile: 'data/market/market-direction.json',
-      lastUpdated: '2026-10-18',
+      lastUpdated: '2026-10-20',
       updateFrequency: 'When any input refreshes (the derived chain rebuilds it)',
       maxAgeDays: 45,
       geoUnit: 'County and place',
