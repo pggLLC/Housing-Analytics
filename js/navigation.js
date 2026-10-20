@@ -37,39 +37,38 @@
       label: "Scoping a Project",
       items: [
         { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "Eight stages from housing need to housing built", isNew: true },
-        { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
+        { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics. Start here" },
         { label: "— Rental (LIHTC) —", isHeader: true },
-        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 1: Pick your target county / city" },
-        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 2 (optional): Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
-        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence — full report, all 54 sections" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 1: Pick a county or town" },
+        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 2 (optional): Rank places for 4% and 9% credits", isNew: true },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Local housing need, full report" },
         { label: "What housing exists", href: "hna-what-housing-exists.html", isSub: true, desc: "What housing is here, and what shape is it in?" },
         { label: "Who lives here", href: "hna-who-lives-here.html", isSub: true, desc: "Who lives here, and how is that changing?" },
         { label: "What households can afford", href: "hna-what-households-can-afford.html", isSub: true, desc: "What can households here actually afford, and where is the gap?" },
         { label: "Where it's heading", href: "hna-where-its-heading.html", isSub: true, desc: "What does demand look like in 5, 10 and 20 years?" },
         { label: "What to do about it", href: "hna-what-to-do.html", isSub: true, desc: "How much of what, for whom, and what is already available?" },
-        { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
+        { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Score a site and its market area" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
-        { label: "Funding Sources",         href: "colorado-deep-dive.html#tab-funding", desc: "Every Colorado funding program, narrowed to what fits your project" },
+        { label: "Funding Sources",         href: "colorado-deep-dive.html#tab-funding", desc: "Colorado programs that fit your project" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
-        { label: "Recommendation",          href: "recommendation.html",            desc: "Step 7: what the seven steps add up to" },
+        { label: "Recommendation",          href: "recommendation.html",            desc: "Step 7: What the steps add up to" },
         { label: "— For-Sale / Ownership —", isHeader: true },
         { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
         { label: "For-Sale Market Study",    href: "for-sale-market-study.html",     desc: "Demand, capture, absorption, land disposition" },
-        { label: "For-Sale Feasibility",     href: "deal-calculator.html?mode=ownership",           desc: "Per-unit subsidy gap for deed-restricted homes (Deal Calculator, ownership mode)" },
-        { label: "Land Value & Negotiation", href: "land-value.html",                desc: "Site economics — serves both tracks" },
+        { label: "For-Sale Feasibility",     href: "deal-calculator.html?mode=ownership",           desc: "Per-unit subsidy gap for deed-restricted homes" },
+        { label: "Land Value & Negotiation", href: "land-value.html",                desc: "Comps and a land bid, for rental or for-sale" },
       ]
     },
     {
       label: "Explore",
       items: [
-        { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "Side-by-side 2–6 jurisdictions across every LIHTC score dimension", isNew: true },
+        { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "2 to 6 places side by side", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
-        { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, on a map and in a table", isNew: true },
+        { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },
         { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
         { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
@@ -95,16 +94,16 @@
       // internal/docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
-        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Start here · sources, freshness, how we check the data, and discovery" },
+        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
-        { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
+        { label: "Data Map",              href: "data-map-browser.html",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
       ]
     },
     {
       label: "Insights",
       items: [
         { label: "— Current —", isHeader: true },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Check the linked source" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Headlines; check the linked source" },
         { label: "Policy & Legislation",   href: "housing-legislation-2026.html",  desc: "Laws and rules we track" },
         { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
         { label: "— Research —", isHeader: true },
@@ -364,9 +363,14 @@
                     <span class="nav-link-label" style="font-weight:500"><span aria-hidden="true" style="opacity:.4;margin-right:7px">└</span>${l.label}</span>
                   </a>`;
                   }
+                  // The step number is a badge before the label, so the
+                  // description no longer repeats "Step N:" in front of it.
+                  const step = /^Step (\d+)(\s*\(optional\))?:\s*/.exec(l.desc || '');
+                  const rest = step ? l.desc.slice(step[0].length) : (l.desc || '');
+                  const desc = (step && step[2] ? 'Optional. ' : '') + rest.charAt(0).toUpperCase() + rest.slice(1);
                   return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
-                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
-                    <span class="nav-link-desc">${l.desc}</span>
+                    <span class="nav-link-label">${step ? `<span class="nav-link-step"><span class="sr-only">Step </span>${step[1]}</span>` : ''}${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                    <span class="nav-link-desc">${desc}</span>
                   </a>`;
                 })}
               </div>
@@ -464,24 +468,39 @@
           <strong>COHO Analytics</strong>
           <p>A public-data reference for Colorado affordable housing — HUD, Census, CHFA, and DOLA sources drawn together for reference.</p>
           <p>Developed and maintained by <a href="https://pggllc.org" target="_blank" rel="noopener">pggLLC</a>.</p>
+          <p class="footer-about-links">
+            <a href="${normalizeHref('about.html')}">About this site</a>
+            <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
+            <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
+            <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
+          </p>
         </div>
         <div class="footer-col">
           <strong>Scoping a Project</strong>
           <a href="${normalizeHref('select-jurisdiction.html')}">Select Jurisdiction</a>
+          <a href="${normalizeHref('lihtc-opportunity-finder.html')}">Opportunity Finder</a>
           <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
           <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
           <a href="${normalizeHref('deal-calculator.html')}">Deal Calculator</a>
+          <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
         </div>
         <div class="footer-col">
-          <strong>Explore &amp; Learn</strong>
+          <strong>Explore</strong>
           <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
-          <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
-          <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
+          <a href="${normalizeHref('colorado-deep-dive.html')}">Colorado Deep Dive</a>
+          <a href="${normalizeHref('where-housing-money-goes.html')}">Where Colorado's Housing Money Goes</a>
+        </div>
+        <div class="footer-col">
+          <strong>Data</strong>
+          <a href="${normalizeHref('data-review-hub.html')}">Data Trust Center</a>
+          <a href="${normalizeHref('data-explorer.html')}">File Browser</a>
+          <a href="${normalizeHref('data-map-browser.html')}">Data Map</a>
+        </div>
+        <div class="footer-col">
+          <strong>Insights</strong>
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
-          <a href="${normalizeHref('about.html')}">About this site</a>
-          <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
-          <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
-          <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
+          <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
+          <a href="${normalizeHref('methods.html')}">Methods</a>
         </div>
         <!-- On phones, js/dark-mode-toggle.js and js/components/watchlist.js
              move their corner buttons into this row so they never sit over

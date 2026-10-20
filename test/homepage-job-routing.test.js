@@ -65,10 +65,46 @@ assert(
   index.includes('freshness, sources, how we check the data, and limitations'),
   'homepage Data Trust Center route must use public wording for data checks'
 );
-assert(
-  navigation.includes('Start here · sources, freshness, how we check the data, and discovery'),
-  'navigation Data Trust Center description must avoid maintainer QA vocabulary'
-);
+// The menu description promises what the Data Trust Center covers. Each topic
+// it names must also be named in the page's visible text, so the two agree
+// whatever words either one uses. A topic is matched by any of its phrasings.
+{
+  const TOPICS = {
+    sources: /\bsources?\b|where (?:the |every )?(?:data|number)s? comes? from/i,
+    freshness: /freshness|how current|update timing|last updated/i,
+    checks: /\bchecks?\b|\bcheck the data\b|validation|\bQA\b/i,
+  };
+  const visibleText = (html) => html
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<head\b[\s\S]*?<\/head>/i, ' ')
+    .replace(/<[^>]+>/g, ' ');
+  const agreement = (desc, hubHtml) => {
+    const promised = Object.keys(TOPICS).filter((t) => TOPICS[t].test(desc));
+    const text = visibleText(hubHtml);
+    return { promised, missing: promised.filter((t) => !TOPICS[t].test(text)) };
+  };
+
+  const entry = navigation.match(/label:\s*"Data Trust Center",[^}]*desc:\s*"([^"]+)"/);
+  assert(entry, 'navigation has no Data Trust Center entry with a description');
+  const hub = fs.readFileSync(path.join(ROOT, 'data-review-hub.html'), 'utf8');
+  const real = agreement(entry[1], hub);
+  // Non-vacuity on the scan: the description must promise something checkable.
+  assert(real.promised.length > 0, 'Data Trust Center menu description names no topic this guard can check');
+  assert.deepEqual(real.missing, [],
+    `Data Trust Center menu promises ${real.missing.join(', ')} but data-review-hub.html no longer shows it`);
+
+  // Sabotage, both ways, each mutation proved to have applied.
+  const reworded = 'Where the data comes from, how current it is, and validation';
+  assert.notEqual(reworded, entry[1]);
+  assert.equal(agreement(reworded, hub).missing.length, 0, 'a synonymous menu rewording must stay green');
+  const promisedReworded = agreement(reworded, hub).promised;
+  assert.deepEqual(promisedReworded.sort(), Object.keys(TOPICS).sort(), 'reworded menu text must still promise every topic');
+  const strippedHub = visibleText(hub).replace(new RegExp(TOPICS.freshness.source, 'gi'), '');
+  assert.notEqual(strippedHub, visibleText(hub), 'freshness-removal mutation did not change the page');
+  assert(agreement(entry[1], strippedHub).missing.includes('freshness'),
+    'a page that stops showing freshness must fail the guard');
+}
 assert(
   navigation.includes('Browse every dataset with previews'),
   'navigation File Browser description must use public dataset-browsing language'
