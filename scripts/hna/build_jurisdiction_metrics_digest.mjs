@@ -24,6 +24,7 @@ const PLACE_CHAS_PATH = path.join(ROOT, 'data', 'hna', 'place-chas.json');
 const COUNTY_CHAS_PATH = path.join(ROOT, 'data', 'hna', 'chas_affordability_gap.json');
 const AMI_GAP_PLACE_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_place.json');
 const AMI_GAP_COUNTY_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_county.json');
+const WORKFORCE_NEED_PATH = path.join(ROOT, 'data', 'hna', 'workforce-need.json');
 const OWNERSHIP_JS = path.join(ROOT, 'js', 'hna', 'hna-ownership-need.js');
 const OWNERSHIP_OUT_PATH = path.join(ROOT, 'data', 'hna', 'ownership-need.json');
 const HOME_VALUE_CASCADE_PATH = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
@@ -64,6 +65,9 @@ function readVintages() {
   const countyChas = read(COUNTY_CHAS_PATH)?.meta || {};
   const amiPlace = read(AMI_GAP_PLACE_PATH)?.meta || {};
   const amiCounty = read(AMI_GAP_COUNTY_PATH)?.meta || {};
+  const wfSources = read(WORKFORCE_NEED_PATH)?.meta?.sources || {};
+  const lodesYear = (String(wfSources.lodes_od || '').match(/_(\d{4})\.csv/) || [])[1];
+  const b08202Years = wfSources.acs_release && wfSources.acs_release.years;
   const vintages = {
     // The fallback for a summary with no stamp of its own. Most geographies
     // are 5-year; the state itself is 1-year, so its series is not the default.
@@ -74,6 +78,8 @@ function readVintages() {
     // B25063); acs_year is the endpoint year of that 5-year series.
     amiGapPlace: acsVintageLabel(amiPlace.acs_year, 'acs5'),
     amiGapCounty: acsVintageLabel(amiCounty.acs_year, 'acs5'),
+    // data/hna/workforce-need.json records both of its sources' vintages.
+    workforceNeed: lodesYear && b08202Years ? `LEHD LODES ${lodesYear} and ACS ${b08202Years} 5-year (B08202)` : null,
   };
   for (const [k, v] of Object.entries(vintages)) {
     if (!v) throw new Error(`[metric-digest] no vintage field for ${k}; refusing to label metrics with a guessed vintage`);
@@ -407,7 +413,25 @@ function sourceForMetric(metric, entry, summary) {
       confidence: home?.confidence || m.home_value_confidence || 'medium',
     };
   }
-  // future_units_growth_20yr is the resident-growth half of
+  // Today's in-commuters who would move closer: LODES in-commuters over ACS
+  // B08202 workers per working household (data/hna/workforce-need.json).
+  if (metric === 'incommuter_need_units' || metric === 'incommuter_need_units_high') {
+    return {
+      source_id: 'lodes-incommuters-acs-b08202',
+      geography_level: localLevel(entry),
+      as_of: VINTAGES.workforceNeed,
+    };
+  }
+  // The 20-year figure adds that in-commuter part to resident growth, so it
+  // names both sources rather than DOLA's alone.
+  if (metric === 'future_units_needed_20yr' && m.future_units_reading === 'resident_growth_plus_incommuters') {
+    return {
+      source_id: 'dola-projections-plus-lodes-incommuters',
+      geography_level: contextLevel(entry, entry.type === 'county' ? 'county' : 'county_context'),
+      as_of: 'DOLA projection cache; ' + VINTAGES.workforceNeed,
+    };
+  }
+  // future_units_growth_20yr is the resident-growth part of
   // future_units_needed_20yr -- DOLA's incremental units (or the place ledger
   // built on it), not an ACS figure. It fell through to the acs-profile default.
   if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr' || metric === 'future_units_growth_20yr' || metric === 'future_pressure_score' || metric === 'senior_share_growth_pp') {

@@ -142,7 +142,7 @@
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "need-inputs",
-          "sha": "53aee4cd6dadef3e"
+          "sha": "b003fe6e28191299"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
@@ -155,7 +155,7 @@
           "sha": "8e2aa94c65522627"
         }
       ],
-      "reviewed": "2026-10-17"
+      "reviewed": "2026-10-20"
     },
     {
       "section": "m-absence",
@@ -202,7 +202,7 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "buildNeedReconciliation",
-          "sha": "9e4085713497e88a"
+          "sha": "1a9488c3a10306b9"
         },
         {
           "file": "js/hna/hna-controller.js",
@@ -220,7 +220,7 @@
           "sha": "fbac3f3616e061af"
         }
       ],
-      "reviewed": "2026-10-17"
+      "reviewed": "2026-10-20"
     },
     {
       "section": "m-alternatives",

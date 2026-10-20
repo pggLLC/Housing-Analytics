@@ -4082,8 +4082,16 @@
     };
     let rows = '';
     if (trace.mode === 'place') {
-      rows += row('Result used by the headline', num(trace.incrementalUnits),
+      const incP = trace.incommuterUnits;
+      const hasIncP = incP !== null && incP !== undefined && Number.isFinite(Number(incP));
+      rows += row('Resident growth', num(trace.growthUnits != null ? trace.growthUnits : trace.incrementalUnits),
         'Read directly from data/hna/projections/places.json for ' + trace.endYear + '.');
+      if (hasIncP) {
+        rows += row('In-commuters moving closer', num(incP),
+          'A quarter of today\u2019s lower- and middle-wage in-commuters, in households (data/hna/workforce-need.json).');
+      }
+      rows += row('Result used by the headline', num(trace.incrementalUnits),
+        hasIncP ? 'Resident growth + in-commuters moving closer.' : 'Resident growth; no in-commuter figure for this geography.');
       rows += row('ACS household share', pct(trace.householdShare, 3), 'ACS DP02 household counts.');
       if (trace.permitShare == null) {
         rows += row('Census BPS permit share', 'not available',
@@ -4105,11 +4113,20 @@
       rows += row('Projected households', num(trace.projectedHouseholds, 1),
         trace.householdsNote || 'Projected population × headship rate.');
       rows += row('Target vacancy', pct(trace.targetVacancy, 3), 'Screening assumption selected above.');
+      const incD = trace.incommuterUnits;
+      const hasIncD = incD !== null && incD !== undefined && Number.isFinite(Number(incD));
       rows += row('Total housing units required', num(trace.totalUnitsRequired, 1),
         'Projected households ÷ (1 − target vacancy).');
-      rows += row('Existing housing stock', num(trace.existingHousingUnits), 'ACS DP04 value used by the calculation.');
+      rows += row('Homes required in the base year', num(trace.baseUnitsRequired, 1),
+        'Base-year households (' + num(trace.baseHouseholds) + ') ÷ (1 − target vacancy), read the same way.');
+      rows += row('Resident growth', num(trace.growthUnits),
+        'Total housing units required − homes required in the base year.');
+      if (hasIncD) {
+        rows += row('In-commuters moving closer', num(incD),
+          'A quarter of today\u2019s lower- and middle-wage in-commuters, in households (data/hna/workforce-need.json).');
+      }
       rows += row('Incremental units used by the headline', num(trace.incrementalUnits),
-        'Total housing units required − existing housing stock.');
+        hasIncD ? 'Resident growth + in-commuters moving closer.' : 'Resident growth; no in-commuter figure for this geography.');
     }
     el.innerHTML = '<p style="margin:0 0 8px"><strong>Screening-grade estimate.</strong> ' +
       'This trace documents the current public-data calculation; it is not a commissioned market study.</p>' +

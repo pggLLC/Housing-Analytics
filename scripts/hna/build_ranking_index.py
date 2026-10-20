@@ -583,6 +583,41 @@ def load_place_projections() -> dict:
     return _PLACE_PROJECTIONS
 
 
+_WORKFORCE_NEED: dict | None = None
+
+
+def load_workforce_need() -> dict:
+    """Present in-commuter need by geoid, from data/hna/workforce-need.json.
+
+    scripts/hna/build_workforce_need.py builds it: the lower- and middle-wage
+    people who commute in (LEHD LODES), divided by workers per working
+    household (ACS B08202), at two stated shares who would move closer, 25%
+    and 50%. No statewide source measures that share, so both are kept.
+    Counties and places share one id space (5- and 7-digit geoids).
+    """
+    global _WORKFORCE_NEED
+    if _WORKFORCE_NEED is None:
+        doc = _load_json(os.path.join(ROOT, "data", "hna", "workforce-need.json")) or {}
+        merged = {}
+        merged.update(doc.get("counties") or {})
+        merged.update(doc.get("places") or {})
+        _WORKFORCE_NEED = merged
+    return _WORKFORCE_NEED
+
+
+def incommuter_need(geoid: str | None) -> tuple[int | None, int | None]:
+    """(25% scenario, 50% scenario) homes for today's in-commuters, or
+    (None, None) when the geography has no record. Never 0 for unknown."""
+    rec = load_workforce_need().get(geoid) if geoid else None
+    n = (rec or {}).get("present_incommuter_need") or {}
+    low, high = n.get("move_closer_25"), n.get("move_closer_50")
+    if not isinstance(low, (int, float)) or isinstance(low, bool):
+        return None, None
+    if not isinstance(high, (int, float)) or isinstance(high, bool):
+        high = None
+    return int(low), (int(high) if high is not None else None)
+
+
 def load_sya(county_fips5: str) -> dict | None:
     """Load DOLA single-year-age projection for a county."""
     path = os.path.join(ROOT, "data", "hna", "dola_sya", f"{county_fips5}.json")
@@ -1572,44 +1607,41 @@ def compute_metrics(
                         future_units_needed_20yr = round_like_math_round(safe_float(future_units[-1]) * share)
                         projection_basis = "county_population_share"
 
-    # ── The workforce reading, applied to the published figure ────────────
+    # ── Today's in-commuters, added to resident growth ────────────────────
     #
-    # future_units_needed_20yr is the answer step 7 gives to "How many homes
-    # are needed?" and is pure resident-household growth. A jurisdiction that
-    # has already priced out the people who work there shows no growth,
-    # because they are not residents — boundary-bounded demand reads
-    # displacement as adequacy.
+    # Resident growth cannot see a workforce that has already been priced out:
+    # they are not residents, so they are not projected households. Pitkin
+    # County's resident figure was -3 while 9,682 people commuted in.
     #
-    # workforce_gap_units is computed twenty lines above this, from the same
-    # inputs, and the two never met. Pitkin County's digest carried
-    # future_units_needed_20yr = -3 and workforce_gap_units = 7554 as adjacent
-    # keys, and the Recommendation page published "-3 homes over 20 years" for
-    # Aspen while the HNA page published 7,554 for the same county.
+    # Until 2026-10 the fix was max(resident growth, workforce_gap_units), and
+    # for most places the jobs reading won. That reading counts one low-wage
+    # job as one home, includes jobs held by residents who already have a
+    # home, and is a present shortfall in a 20-year slot: Aspen published
+    # 4,447 homes against 73 of growth. It stays in the community-need score
+    # (gap pressure), where it was built to sit, and leaves this figure.
     #
-    # max(), never a blend — a blend lets a place average away a need it is
-    # already exporting. This mirrors _productionNeed in js/hna/hna-controller.js
-    # so the two surfaces cannot disagree again; a guard asserts they match.
+    # The figure is now the two parts a practitioner needs assessment adds:
+    # homes for household growth, plus homes for the in-commuters who would
+    # move closer today (data/hna/workforce-need.json: households, not jobs,
+    # at a quarter of lower- and middle-wage in-commuters; the half scenario is
+    # published beside it as incommuter_need_units_high). A place with no
+    # in-commuter record keeps resident growth alone and says so in
+    # future_units_reading; a place with no growth projection gets no figure,
+    # because a sum with an unknown part is unknown.
+    #
     # Keep the growth-only figure as its own metric. test:hna-projection-
     # integrity asserts the index and data/hna/projections/places.json agree on
-    # the 20-year number for 400+ places, and that check is load-bearing: the
-    # ledger IS the place-level producer. Once the published figure became a
-    # max it stopped being the same quantity, and the guard fired on 303
-    # places. The right repair is to preserve the quantity the guard compares,
-    # not to relax the guard — so the ledger is still checked against growth,
-    # and the max is asserted on top of it.
+    # the 20-year growth number for 400+ places: the ledger IS the place-level
+    # producer, so the ledger is checked against growth and the sum on top.
     future_units_growth_20yr = future_units_needed_20yr
-    future_units_basis_reading = "resident_growth"
-    if workforce_gap_units is not None and workforce_gap_units > 0:
-        if future_units_needed_20yr is None or workforce_gap_units > future_units_needed_20yr:
-            future_units_needed_20yr = int(workforce_gap_units)
-            future_units_basis_reading = "workforce"
-            # Five tiny places (Wolcott, Leyner, Carbonate, Fulford, Lynn) have
-            # no projection at all, so projection_basis was never set — and the
-            # workforce reading has now given them a figure. A published number
-            # with no stated basis is exactly what test:hna-projection-integrity
-            # refuses, and rightly: it is where the figure came from. Name it.
-            if not projection_basis:
-                projection_basis = "workforce_gap_lodes_wac"
+    incommuter_need_units, incommuter_need_units_high = incommuter_need(geoid)
+    future_units_basis_reading = None
+    if future_units_growth_20yr is not None:
+        if incommuter_need_units is not None:
+            future_units_needed_20yr = int(future_units_growth_20yr + incommuter_need_units)
+            future_units_basis_reading = "resident_growth_plus_incommuters"
+        else:
+            future_units_basis_reading = "resident_growth"
 
     # methods-spec:end need-inputs
 
@@ -1842,15 +1874,18 @@ def compute_metrics(
         # Which apportionment produced the figure above. Two methods existed
         # for years and nothing on the row said which one you were reading.
         "future_units_basis": projection_basis,
-        # Which of the two readings produced the figure. A number this size is
-        # not actionable without knowing what it counts: "resident_growth"
-        # answers how many more households are projected, "workforce" answers
-        # how many homes the jobs already here have no one to live in.
+        # What the figure counts. A number this size is not actionable without
+        # it: "resident_growth_plus_incommuters" is household growth plus homes
+        # for a quarter of today's lower- and middle-wage in-commuters;
+        # "resident_growth" is growth alone, where no in-commuter record exists.
         "future_units_reading": future_units_basis_reading,
-        # The resident-growth component, before the workforce max. This is the
-        # quantity data/hna/projections/places.json produces, and what
-        # test:hna-projection-integrity compares against.
+        # The resident-growth component, before today's in-commuters are added.
+        # This is the quantity data/hna/projections/places.json produces, and
+        # what test:hna-projection-integrity compares against.
         "future_units_growth_20yr": future_units_growth_20yr,
+        # The in-commuter component (25% move closer) and its 50% scenario.
+        "incommuter_need_units": incommuter_need_units,
+        "incommuter_need_units_high": incommuter_need_units_high,
         "senior_share_growth_pp": senior_share_growth_pp,
         "overcrowding_rate_pct": overcrowding_rate,
         "population": population,

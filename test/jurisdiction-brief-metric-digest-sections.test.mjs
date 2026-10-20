@@ -48,3 +48,37 @@ test('available housing-gap rates still render the percent narrative', () => {
   // sentence form, so both branches now match.
   assert.ok(section.paragraphs[0].text.includes('The deep-affordability gap rate is 65.7% of <=30% AMI households.'));
 });
+
+// Codex review on #2401: the 20-year figure adds projected resident growth
+// (county context for a place) to today's in-commuters to the place itself.
+// The brief must name each part with the digest's own numbers, and must not
+// call the whole total a county-context projection.
+test('where the 20-year figure has two parts, each brief names both with the digest numbers', () => {
+  const briefsDir = path.join(ROOT, 'data/jurisdiction-briefs');
+  const files = fs.readdirSync(briefsDir).filter((f) => /^08\d{3}(\d{2})?\.json$/.test(f));
+  let checked = 0;
+  for (const file of files) {
+    const geoid = file.replace('.json', '');
+    const brief = readJson(`data/jurisdiction-briefs/${file}`);
+    const digest = readJson(`data/hna/jurisdiction-metrics-digest/${geoid}.json`);
+    const m = digest.metrics;
+    if (!m.future_units_reading || m.future_units_reading.value !== 'resident_growth_plus_incommuters') continue;
+    const text = sectionFor(brief, digest).paragraphs[2].text;
+    const total = m.future_units_needed_20yr.value;
+    const growth = m.future_units_growth_20yr.value;
+    const inc = m.incommuter_need_units.value;
+    assert.strictEqual(total, growth + inc, `${geoid}: digest total is not growth + in-commuters`);
+    // The numbers said after "20-year" must be the digest's total and both parts.
+    const said = (text.slice(text.indexOf('20-year')).match(/\d[\d,]*/g) || []).map((x) => Number(x.replace(/,/g, '')));
+    for (const [name, v] of [['total', total], ['growth', growth], ['in-commuter', inc]]) {
+      assert.ok(said.includes(Math.abs(v)), `${geoid}: ${name} part ${v} not said: ${text}`);
+    }
+    if (total < 0) assert.ok(/surplus/.test(text), `${geoid}: a total below zero is not called a surplus: ${text}`);
+    assert.ok(!/county-context projection shows/.test(text), `${geoid}: the whole total is called county context: ${text}`);
+    if (m.future_units_growth_20yr.geography_level === 'county_context') {
+      assert.ok(/county context, not a place trend/.test(text), `${geoid}: county-context growth is not framed as such: ${text}`);
+    }
+    checked++;
+  }
+  assert.ok(checked >= 10, `only ${checked} briefs with a two-part figure were checked`);
+});
