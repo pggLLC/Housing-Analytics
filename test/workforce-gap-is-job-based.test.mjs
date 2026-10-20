@@ -210,6 +210,27 @@ test("a town's wage tiers count its own jobs, not its county's", () => {
   assert.deepEqual(off.slice(0, 10), [], `${off.length} places disagree with their own job count`);
 });
 
+test('a place\'s job count, wage mix and yearly series are one LODES year', () => {
+  // The OD flows can be rebuilt for any year; rescaling another year's count
+  // into the latest year of the series would publish it under the wrong year.
+  const wacYear = String(read('data/market/lodes_co.json').meta.vintage);
+  const odYear = String((read('data/hna/place-od-flows.json').meta || {}).year);
+  const lehd = read('data/hna/place-lehd.json').places;
+  let checked = 0;
+  const bad = [];
+  for (const p of Object.values(lehd)) {
+    const years = Object.keys((p.lehd || {}).annualEmployment || {}).sort();
+    if (!years.length) continue;
+    checked++;
+    if (years[years.length - 1] !== wacYear) bad.push(`${p.name}: series ends ${years[years.length - 1]}, wage mix is ${wacYear}`);
+    if (p.lehd.flows_source === 'block-od' && p.lehd.wac_source === 'block-scaled' && odYear !== wacYear) {
+      bad.push(`${p.name}: block count from ${odYear} used with ${wacYear} wages`);
+    }
+  }
+  assert.ok(checked > 400, `only ${checked} places carry a yearly series`);
+  assert.deepEqual(bad, []);
+});
+
 test('small places keep an honest history: one wage mix, no zero-job inventions, no county stand-in', () => {
   // Three cases Codex found on #2385, pinned so they cannot come back.
   const lehd = read('data/hna/place-lehd.json').places;

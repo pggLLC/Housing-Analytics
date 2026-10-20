@@ -207,6 +207,15 @@ def _load_lodes_tracts() -> dict[str, dict]:
     return out
 
 
+def _meta_year(path: Path, key: str):
+    """The LODES year a file's meta declares, as a string, or None."""
+    try:
+        v = (_load_json(path).get("meta") or {}).get(key)
+    except Exception:  # noqa: BLE001 — absent file, same as no year
+        return None
+    return str(v) if v not in (None, "") else None
+
+
 def _load_county_lehd() -> dict[str, dict]:
     """Return {county_fips: lehd_blob} for every cache file present."""
     out = {}
@@ -284,6 +293,13 @@ def build():
     county_lehd = _load_county_lehd()
     lodes_tracts = _load_lodes_tracts()
     place_od_flows = _load_place_od_flows()
+    # The place's job count, its wage mix and its yearly series are only
+    # combined when they are the same LODES year. The OD flows can be rebuilt
+    # for any year (rebuild-place-od-flows.yml), and an older count rescaled
+    # into the latest year would publish it under the wrong year.
+    wac_year = _meta_year(LODES_TRACT, "vintage")
+    od_year = _meta_year(PLACE_OD_FLOWS, "year")
+    od_same_year = od_year is not None and od_year == wac_year
 
     places_out = {}
     used_tract_flows = 0
@@ -508,7 +524,7 @@ def build():
             # places (Goldfield, Two Buttes, ...) have no job located inside
             # their boundary, and the tract estimate must not stand in.
             jobs_b = int(block.get("jobs") or 0)
-            if jobs_b >= 0:
+            if od_same_year and jobs_b >= 0:
                 lehd_out["C000"] = jobs_b
                 cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
                 if cns_prev > 0:
@@ -556,8 +572,13 @@ def build():
                 lehd_out["CE01"], lehd_out["CE02"], lehd_out["CE03"] = ce
             else:
                 lehd_out["CE01"] = lehd_out["CE02"] = lehd_out["CE03"] = None
-            if annual_emp_raw:
-                latest_year = max(annual_emp_raw)
+            latest_year = max(annual_emp_raw) if annual_emp_raw else None
+            if latest_year is not None and latest_year != wac_year:
+                # The series ends in another year than the job count: no
+                # trend is better than one stretched across two vintages.
+                lehd_out["annualEmployment"] = {}
+                lehd_out["annualWages"] = {}
+            elif latest_year is not None:
                 if annual_emp_raw[latest_year] > 0:
                     k = jobs_here / annual_emp_raw[latest_year]
                     lehd_out["annualEmployment"] = {
