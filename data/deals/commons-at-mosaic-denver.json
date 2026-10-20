@@ -1,0 +1,562 @@
+{
+ "slug": "commons-at-mosaic-denver",
+ "name": "Commons at Mosaic",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 58,
+ "researched_on": "2026-10-20",
+ "headline": "Archway is turning Gaebe and Triangolo Halls, two vacant former Johnson & Wales dorms on Denver's Mosaic Community Campus in South Park Hill, into 58 apartments on Denver Housing Authority land: 31 supportive homes with vouchers for people leaving homelessness and 27 family homes at 40% to 60% AMI. It won 2026 Round One federal 9%, state and TOC credits.",
+ "why_it_matters": "It is a model for supportive housing on housing-authority land. DHA bought the buildings with city D3 money and sells them to Archway for a nominal price on a 99-year ground lease. A seller carryback note covers the full building value, which also earns acquisition credits, alongside federal and state historic credits.",
+ "status": {
+  "label": "Credits awarded; closing and construction start not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30. The applicant aimed to close in fall 2026 and start construction in 2026; an earlier Archway/DHA release said renovations would begin in early 2027. There is no public closing, permit or groundbreaking record.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-narratives",
+   "mhcre-2025-09-23"
+  ]
+ },
+ "next_step": "Watch for the financing closing and the Denver building permit, and for the DHA board's approval of the final ground lease and building transfer.",
+ "key_numbers": [
+  {
+   "value": "58 homes, all income-restricted",
+   "meaning": "31 supportive housing units at 30% AMI with project-based vouchers, and 27 family units at 40% to 60% AMI.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18M over 10 years, plus $500,000 state credit and $116,000 TOC credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "About $45M development cost",
+   "meaning": "BusinessDen's figure, roughly $776,000 per unit (inferred). The applicant says the building value inflates it, and a seller note offsets that value.",
+   "src": [
+    "bden-2025-12-04",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$2M CDOH + $2M HOST",
+   "meaning": "Conditional gap awards from the state Division of Housing and Denver HOST, each depending on the tax credit award.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1740 & 1790 Pontiac Street, Denver (South Park Hill, near Quebec St. and 17th Ave.)",
+   "src": [
+    "chfa-2026-r1-award",
+    "bden-2025-12-04"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "A/R, I/F, SH: acquisition/rehab, individual/family, supportive housing",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Gaebe Hall (supportive housing, 31 units) and Triangolo Hall (family, 27 units), the last two vacant dorms on the campus",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "58 total, 58 low-income",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Rental subsidy",
+   "value": "Project-based vouchers on the 31 supportive housing units. Referrals come from WellPower and the Metro Denver Homeless Initiative's Coordinated Entry System",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Owned by the Denver Housing Authority. Archway buys the buildings and takes a 99-year ground lease at nominal cost",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chhsm-2025-11-13"
+   ]
+  },
+  {
+   "item": "Accessibility and parking",
+   "value": "9 mobility-accessible units (13.8%); 136 parking spaces",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 73 on Quebec Street, about 0.1 to 0.2 miles away. It runs every 15 minutes on weekdays and links to Central Park Station",
+   "src": [
+    "chfa-2026-r1-toc-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 31
+  },
+  {
+   "level": "40% AMI",
+   "units": 3
+  },
+  {
+   "level": "50% AMI",
+   "units": 14
+  },
+  {
+   "level": "60% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 36
+  },
+  {
+   "type": "2BR",
+   "units": 14
+  },
+  {
+   "type": "3BR",
+   "units": 8
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives",
+  "chfa-2026-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Same amount requested at the letter-of-intent and application stages.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicants",
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$116,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$2,000,000",
+   "note": "Conditional on the tax credit award.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Denver HOST gap funding",
+   "amount": "$2,000,000",
+   "note": "Conditional on the tax credit award. HOST also committed services funding.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Seller carryback note",
+   "amount": "Not public (full building value)",
+   "note": "DHA sells the buildings for a nominal value, which allows a seller carryback for the full building value. The narrative also calls it a seller carryback note from Archway.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Federal and state historic tax credits",
+   "amount": "Not public",
+   "note": "The applicant expected a state historic credit reservation from OEDIT within 90 days of applying and had begun federal Part II review.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "DHA Delivers for Denver (D3) land acquisition",
+   "amount": "$10,900,000",
+   "note": "D3 money DHA used in 2021 to buy the campus's South Campus property, which includes these buildings.",
+   "src": [
+    "chhsm-2025-11-13",
+    "mhcre-2025-09-23"
+   ]
+  },
+  {
+   "source": "Services funding",
+   "amount": "Not public",
+   "note": "Medicaid, HOST services funding, a supportive housing developer fee boost, cash flow and Archway fundraising.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Archway Investment Corporation (Archway Communities, Lakewood-based nonprofit)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chhsm-2025-11-13"
+   ]
+  },
+  {
+   "role": "Land owner, ground lessor and seller of the buildings",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Lead clinical service provider (supportive housing units)",
+   "name": "Mental Health Center of Denver d/b/a WellPower",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial advisor",
+   "name": "S.B. Clark Companies",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Supportive housing consultant",
+   "name": "Beaux Simone PSH Consulting",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Historic consultant",
+   "name": "Miniello Consulting",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Archway (in-house property management; inferred from the narrative's description of Archway's management division)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In June 2021 the Urban Land Conservancy, Denver Public Schools and DHA bought the 25-acre former Johnson & Wales campus at Montview Boulevard and Quebec Street. It is now the Mosaic Community Campus.",
+   "src": [
+    "westword-2022-12-12",
+    "chhsm-2025-11-13"
+   ]
+  },
+  {
+   "text": "Phase one: Archway converted four other dorms into 154 affordable family units, opened in fall 2024 and fully leased. For that phase, a $3.85M HOST loan carrying a 60-year covenant went to a Denver City Council vote set for 2022-12-19.",
+   "src": [
+    "mhcre-2025-09-23",
+    "westword-2022-12-12"
+   ]
+  },
+  {
+   "text": "DHA used D3 resources to buy the South Campus buildings for future supportive housing. D3 rules require at least 40% of the units to be supportive housing with vouchers, and this project has 31 of 58.",
+   "src": [
+    "chhsm-2025-11-13",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Site control is an Agreement for Building Transfer and Ground Lease with DHA. Archway buys the buildings for a nominal value and takes a 99-year ground lease at nominal cost.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Unit plan: Gaebe Hall has 20 one-bedroom, 7 two-bedroom and 4 three-bedroom units, all at 30% AMI or below. Triangolo Hall has 17 one-bedroom, 6 two-bedroom and 4 three-bedroom units: 3 at 40%, 14 at 50% and 10 at 60% AMI.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Rehab scope: interior conversion of the 1930s-era masonry dorms with exteriors unaltered. Work includes new stretcher-size elevators in rebuilt cores, extensive asbestos abatement and new plumbing and electrical. The project follows Enterprise Green Communities.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The buildings are vacant, so no one needs to be relocated. The applicant says DHA's D3 acquisition is the only prior public investment in the property.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Archway submitted its development proposal to the city in November 2025. At application, design development drawings were 100% done and the project was in review with Denver's affordable housing review team (AHRT).",
+   "src": [
+    "bden-2025-12-04",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Archway and DHA held a community meeting on the campus on 2025-11-05, where the District 8 council member spoke in support.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study put the overall capture rate at 29.2%, with 74.3% for the 60% AMI units. Archway plans to discount the 60% AMI rents to help lease-up.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-06",
+   "event": "ULC, DPS and DHA buy the former Johnson & Wales campus",
+   "src": [
+    "westword-2022-12-12"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "Phase one (154 units) completed by Archway",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "mhcre-2025-09-23"
+   ]
+  },
+  {
+   "date": "2025-09-23",
+   "event": "Archway and DHA announce their phase two partnership and plan to apply for 9% credits in 2026",
+   "src": [
+    "mhcre-2025-09-23"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Development proposal submitted to the City of Denver",
+   "src": [
+    "bden-2025-12-04"
+   ]
+  },
+  {
+   "date": "2025-11-05",
+   "event": "Community meeting on campus",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letters-of-intent report",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-05-29",
+   "event": "BusinessDen reports the Park Hill dorm conversion among 14 Round One awards",
+   "src": [
+    "bden-2026-05-29"
+   ]
+  },
+  {
+   "date": "2026-07-13",
+   "event": "Archway announcement of its CHFA award reposted by CHHSM",
+   "src": [
+    "chhsm-2026-07-13"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photo of one of the two residence halls to be converted",
+   "url": "https://businessden.com/last-2-dorms-at-former-johnson-wales-campus-poised-for-remodel/",
+   "kind": "photo",
+   "made_by": "Archway Communities, via BusinessDen",
+   "note": "Lead photo of the article",
+   "src": [
+    "bden-2025-12-04"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "An Archway announcement reposted by CHHSM says the project received $2.72 million in housing tax credits, including federal 4% credits, while CHFA's award report lists $1,800,000 federal 9%, $500,000 state and $116,000 TOC credit (together $2,416,000), with no 4% award.",
+   "src": [
+    "chhsm-2026-07-13",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "text": "The 2026 application narrative targets closing and construction start in 2026 (closing in fall 2026), while the 2025 Archway and DHA announcement aimed to begin renovations in early 2027.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "mhcre-2025-09-23",
+    "chhsm-2025-11-13"
+   ]
+  },
+  {
+   "text": "CHFA's award description lists 36 one-bedroom and 14 two-bedroom units; the application narrative's building-by-building plan adds up to 37 one-bedroom and 13 two-bedroom. The bedroom mix shown uses the award description.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final closing date, construction lender, tax credit syndicator and equity price.",
+  "The amount of the seller carryback note and the appraised building value.",
+  "The DHA board resolution approving the building transfer and ground lease. There is no public board record of it.",
+  "Any Denver City Council action on the $2M HOST loan; none found yet.",
+  "Rents, and the length of the CHFA affordability period and the ground lease covenant.",
+  "Amounts of the federal and state historic tax credits and of the OEDIT state historic credit reservation."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One application narratives (The Commons at Mosaic, PDF pages 36-40)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-toc-narratives",
+   "title": "2026 Round One TOC credit narratives (The Commons at Mosaic, PDF page 9)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/b0cba85d-49b2-42d5-be59-6c61e7f0f9a5/2026-Round-One-TOC-Credit-Narratives.pdf"
+  },
+  {
+   "id": "mhcre-2025-09-23",
+   "title": "Archway Communities Announces Partnership with DHA",
+   "publisher": "Mile High CRE",
+   "date": "2025-09-23",
+   "url": "https://milehighcre.com/archway-communities-announces-partnership-with-dha/"
+  },
+  {
+   "id": "chhsm-2025-11-13",
+   "title": "Archway Communities Rolls Out Phase Two of Mosaic Community Campus Affordable Housing Development",
+   "publisher": "Council for Health and Human Service Ministries (UCC)",
+   "date": "2025-11-13",
+   "url": "https://www.chhsm.org/news/archway-communities-rolls-out-phase-two-of-mosaic-community-campus-affordable-housing-development/"
+  },
+  {
+   "id": "chhsm-2026-07-13",
+   "title": "Archway Communities Moves Forward with Next Phase of its Commons at Mosaic",
+   "publisher": "Council for Health and Human Service Ministries (UCC)",
+   "date": "2026-07-13",
+   "url": "https://www.chhsm.org/news/archway-communities-moves-forward-with-next-phase-of-its-commons-at-mosaic/"
+  },
+  {
+   "id": "bden-2025-12-04",
+   "title": "Last 2 dorms at former Johnson & Wales campus poised for remodel",
+   "publisher": "BusinessDen",
+   "date": "2025-12-04",
+   "url": "https://businessden.com/last-2-dorms-at-former-johnson-wales-campus-poised-for-remodel/"
+  },
+  {
+   "id": "bden-2026-05-29",
+   "title": "Park Hill, Montbello housing projects among 14 awarded tax credits",
+   "publisher": "BusinessDen",
+   "date": "2026-05-29",
+   "url": "https://old.businessden.com/2026/05/29/park-hill-montbello-housing-projects-among-14-awarded-tax-credits/"
+  },
+  {
+   "id": "westword-2022-12-12",
+   "title": "Former campus dorms in Denver could become affordable family housing",
+   "publisher": "Westword",
+   "date": "2022-12-12",
+   "url": "https://www.westword.com/news/former-campus-dorms-in-denver-could-become-affordable-family-housing-15628592/"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  }
+ ]
+}

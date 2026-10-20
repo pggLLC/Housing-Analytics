@@ -350,10 +350,34 @@
   }
  ],
  "discrepancies": [
-  "Studios: 42 on CHFA's award report, 44 on Brikwell's project page.",
-  "Address: 500 N 28th Street (CHFA) vs 450 28 Road (city parent parcel).",
-  "Completion: Winter 2027 on Brikwell's page vs Q3 2028 on the city's page.",
-  "Average income: 59.0% from CHFA's unit counts vs 58% in the city ordinance."
+  {
+   "text": "Studios: 42 on CHFA's award report, 44 on Brikwell's project page.",
+   "src": [
+    "chfa-4pct-award",
+    "engage-gj-brikwell"
+   ]
+  },
+  {
+   "text": "Address: 500 N 28th Street on CHFA's award report vs 450 28 Road (the city's parent parcel) in the city's lease ordinance.",
+   "src": [
+    "chfa-4pct-award",
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "text": "Completion: Winter 2027 on Brikwell's page vs Q3 2028 on the city's project page.",
+   "src": [
+    "engage-gj-brikwell",
+    "engage-gj"
+   ]
+  },
+  {
+   "text": "Average income: 59.0% from CHFA's unit counts vs 58% in the city ordinance.",
+   "src": [
+    "chfa-4pct-award",
+    "gj-ord-5275"
+   ]
+  }
  ],
  "open_questions": [
   "Total development cost, the equity investor and price, lenders, general contractor and architect, rents and operating budget.",
