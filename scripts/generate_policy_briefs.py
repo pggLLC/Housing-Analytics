@@ -456,7 +456,7 @@ NATIONAL_SOURCE_RE = re.compile(
     r'Joint Center for Housing Studies|Harvard Joint Center for Housing Studies|Urban Institute|'
     r'Brookings|Terner Center(?: for Housing Innovation)?|Eye On Housing|NAHB|Freddie Mac|Fannie Mae|'
     r'National Low Income Housing Coalition|Pew Research Center|The Pew Charitable Trusts|'
-    r'Federal Reserve(?: Bank of [A-Za-z. ]+)?|Federal Reserve Board)$', re.I)
+    r'Federal Reserve(?: Bank of [A-Za-z. ]+)?|[A-Za-z. ]+ Federal Reserve Bank|Federal Reserve Board)$', re.I)
 # A trend headline names the housing market itself: building, lending, prices,
 # rents, supply. "It's a great time to buy a house — if you can stomach a 7%
 # rate" is advice and "Inflation Accelerated in September" is not housing.
@@ -465,13 +465,21 @@ NATIONAL_TREND_RE = re.compile(
     r'home (?:prices|sales|values)|(?:new|existing)[- ]homes?|building permits|construction|'
     r'multifamily|rental market|apartment (?:supply|construction|market)|single-family)\b', re.I)
 # Left out even from those outlets: opinion and commentary, first-person or
-# advice pieces, and other countries' housing news.
+# advice pieces, and other countries' housing news. The searches are global,
+# so the country list is long (Codex review of #2404: "Dutch home prices").
 NATIONAL_SKIP_RE = re.compile(
     r'^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
-    r'\b(?:china|chinese|u\.?k\.?|britain|british|england|london|canada|canadian|toronto|vancouver|'
-    r'australia\w*|new zealand|ireland|irish|europe\w*|germany|german|france|french|spain|spanish|'
-    r'portugal|portuguese|lisbon|italy|japan\w*|india|mexico|brazil|hong kong|dubai|israel\w*|'
-    r'lebanon|hezbollah|gaza|ukrain\w*|russia\w*|sweden|swedish|korea\w*|singapore|vietnam\w*)\b', re.I)
+    r'\b(?:china|chinese|beijing|shanghai|u\.?k\.?|britain|british|england|english|scotland|scottish|'
+    r'wales|welsh|london|canada|canadian|toronto|vancouver|montreal|ontario|australia\w*|sydney|'
+    r'melbourne|new zealand|ireland|irish|dublin|europe\w*|euro ?zone|eu|germany|german|berlin|france|'
+    r'french|paris|spain|spanish|madrid|barcelona|portugal|portuguese|lisbon|italy|italian|netherlands|'
+    r'dutch|amsterdam|belgi\w+|swiss|switzerland|austria\w*|sweden|swedish|norway|norwegian|denmark|'
+    r'danish|finland|finnish|poland|polish|greece|greek|turkey|turkish|japan\w*|tokyo|india|indian|'
+    r'pakistan\w*|bangladesh\w*|mexico|mexican|brazil\w*|argentin\w+|chile\w*|colombia\w*|peru\w*|'
+    r'hong kong|taiwan\w*|singapore\w*|malaysia\w*|indonesia\w*|philippine\w*|thai\w*|vietnam\w*|'
+    r'korea\w*|seoul|dubai|uae|emirati|saudi\w*|qatar\w*|egypt\w*|israel\w*|lebanon|lebanese|'
+    r'hezbollah|gaza|iran\w*|iraq\w*|syria\w*|ukrain\w*|russia\w*|moscow|africa\w*|nigeria\w*|'
+    r'kenya\w*|ghana\w*)\b', re.I)
 
 
 def is_national_trend(title: str, source: str) -> bool:
@@ -653,7 +661,10 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
             'regions': regions,
             'also': [],
         })
-    raw.sort(key=lambda s: s['date'], reverse=True)
+    # Newest first; on the same date a Colorado or federal copy of a headline
+    # comes before a national outlet's, so the story keeps its Colorado scope
+    # whatever order the feeds returned it in (Codex review of #2404).
+    raw.sort(key=lambda s: (s['date'], s['scope'] != 'national'), reverse=True)
     by_key: dict[str, dict] = {}
     stories: list[dict] = []
     for s in raw:

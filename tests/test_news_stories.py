@@ -351,3 +351,28 @@ def test_a_common_phrase_alone_does_not_merge_national_stories(geos):
         alert('US housing market inventory improves for buyers', 'Bloomberg.com', date='2026-10-20'),
     ], geos)
     assert len(stories) == 2
+
+
+def test_foreign_housing_news_from_listed_outlets_is_left_out(geos):
+    stories, _ = gpb.build_stories([
+        alert('Dutch home prices rise for a tenth month', 'Reuters'),
+        alert('South African housing construction slows', 'Reuters'),
+        alert('Canadian housing starts jump in September', 'Bloomberg.com'),
+    ], geos)
+    assert stories == []
+
+
+def test_a_headline_in_both_colorado_and_national_news_stays_colorado(geos):
+    # Same headline, same day, from a Colorado outlet and a national one:
+    # the feed order must not decide which list it lands in.
+    for order in (1, -1):
+        stories, _ = gpb.build_stories([
+            alert('US housing starts fall to a five-year low', 'Reuters'),
+            alert('US housing starts fall to a five-year low', 'Denver Post'),
+        ][::order], geos)
+        assert [(s['scope'], s['source']) for s in stories] == [('colorado', 'Denver Post')]
+        assert [a['source'] for a in stories[0]['also']] == ['Reuters']
+
+def test_regional_federal_reserve_banks_are_listed():
+    assert gpb.NATIONAL_SOURCE_RE.match('Atlanta Federal Reserve Bank')
+    assert gpb.NATIONAL_SOURCE_RE.match('Federal Reserve Bank of Kansas City')
