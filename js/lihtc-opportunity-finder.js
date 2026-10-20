@@ -455,6 +455,16 @@
     });
     return Object.keys(zips).sort();
   }
+  // QCT tracts that overlap this place inside any of its Small Area DDA ZIPs.
+  function _ddaQctTractsForPlace(placeGeoid) {
+    var tracts = {};
+    state.ddaZipFeatures.forEach(function (f) {
+      var byPlace = (f.properties || {}).PLACE_QCT_TRACTS;
+      var list = _ddaZip(f) && byPlace && byPlace[placeGeoid];
+      if (Array.isArray(list)) list.forEach(function (t) { tracts[t] = true; });
+    });
+    return Object.keys(tracts);
+  }
   // { inQct, tract, year } for a project feature, or null when its point or
   // the QCT map is missing (unknown, never "not in a QCT").
   function _qctMapStatus(feature, qctMap) {
@@ -1372,12 +1382,11 @@
       var ddaZips = hasDdaCounty ? [] : _ddaZipsForPlace(placeGeoid);
       var hasDda = hasDdaCounty || ddaZips.length > 0;
       // Both on the same ground: every QCT in a DDA county, or a QCT tract
-      // whose internal point lies inside one of the place's DDA ZIPs.
+      // that shares ground with this place inside one of its DDA ZIPs
+      // (PLACE_QCT_TRACTS, from scripts/normalize-dda.js).
+      var zipQcts = _ddaQctTractsForPlace(placeGeoid);
       var hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(function (t) {
-        var c = state.tractCentroids[t.tract_geoid];
-        return c && state.ddaZipFeatures.some(function (f) {
-          return ddaZips.indexOf(_ddaZip(f)) !== -1 && _pointInGeometry(c.lon, c.lat, f.geometry);
-        });
+        return zipQcts.indexOf(t.tract_geoid) !== -1;
       })));
 
       // Note: we no longer pre-filter to basis-boost-eligible jurisdictions

@@ -15336,7 +15336,8 @@
         "PLACE_GEOIDS": [
           "0803455",
           "0875640"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -15814,7 +15815,8 @@
         "PLACE_GEOIDS": [
           "0800620",
           "0804000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -16798,7 +16800,8 @@
           "0846410",
           "0866197",
           "0873943"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -17243,7 +17246,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0836410"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -17485,7 +17489,8 @@
         "PLACE_GEOIDS": [
           "0836410",
           "0845255"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -17882,7 +17887,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0836410"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -18829,7 +18835,8 @@
           "0851800",
           "0857025",
           "0886117"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -19080,7 +19087,12 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0820000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {
+          "0820000": [
+            "08031002604"
+          ]
+        }
       }
     },
     {
@@ -19409,7 +19421,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0820000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -19456,7 +19469,8 @@
         "GEOID": null,
         "COUNTYFP": null,
         "STATEFP": "08",
-        "PLACE_GEOIDS": []
+        "PLACE_GEOIDS": [],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -20900,7 +20914,8 @@
           "0838810",
           "0843000",
           "0852075"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -21367,7 +21382,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0824950"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -21582,7 +21598,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0809280"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -22155,7 +22172,8 @@
           "0819080",
           "0824950",
           "0828360"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -22289,7 +22307,8 @@
         "PLACE_GEOIDS": [
           "0826600",
           "0828360"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -23058,7 +23077,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0883230"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -23195,7 +23215,8 @@
         "GEOID": null,
         "COUNTYFP": null,
         "STATEFP": "08",
-        "PLACE_GEOIDS": []
+        "PLACE_GEOIDS": [],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -23978,7 +23999,8 @@
           "0808675",
           "0877290",
           "0877757"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -24215,7 +24237,8 @@
         "GEOID": null,
         "COUNTYFP": null,
         "STATEFP": "08",
-        "PLACE_GEOIDS": []
+        "PLACE_GEOIDS": [],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -24825,7 +24848,8 @@
         "PLACE_GEOIDS": [
           "0816000",
           "0858675"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -25199,7 +25223,8 @@
         "PLACE_GEOIDS": [
           "0800870",
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -25734,7 +25759,13 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0827370"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {
+          "0827370": [
+            "08041004405",
+            "08041004406"
+          ]
+        }
       }
     },
     {
@@ -26300,7 +26331,13 @@
         "PLACE_GEOIDS": [
           "0827370",
           "0827865"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {
+          "0827370": [
+            "08041004405",
+            "08041004406"
+          ]
+        }
       }
     },
     {
@@ -26633,7 +26670,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -28029,7 +28067,8 @@
           "0816000",
           "0830420",
           "0851800"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -28203,7 +28242,8 @@
         "PLACE_GEOIDS": [
           "0814587",
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -28548,7 +28588,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -28709,7 +28750,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -29128,7 +29170,8 @@
           "0816000",
           "0827865",
           "0868847"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -29269,7 +29312,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -29555,7 +29599,8 @@
         "PLACE_GEOIDS": [
           "0814587",
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -29742,7 +29787,8 @@
         "GEOID": null,
         "COUNTYFP": null,
         "STATEFP": "08",
-        "PLACE_GEOIDS": []
+        "PLACE_GEOIDS": [],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -29991,7 +30037,8 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     },
     {
@@ -30312,12 +30359,13 @@
         "STATEFP": "08",
         "PLACE_GEOIDS": [
           "0816000"
-        ]
+        ],
+        "PLACE_QCT_TRACTS": {}
       }
     }
   ],
   "fetchedAt": "2026-10-19T23:51:00.639Z",
   "designationYear": 2026,
   "source": "HUD ArcGIS Difficult_Development_Areas_2026 FeatureServer — services.arcgis.com",
-  "normalizedAt": "2026-10-20T01:30:20.896Z"
+  "normalizedAt": "2026-10-20T04:27:53.920Z"
 }

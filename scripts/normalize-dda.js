@@ -40,6 +40,7 @@ const DDA_FILE   = path.join(DATA_DIR, 'dda-colorado.json');
 const CO_STATEFP = '08';
 const CO_ZIP     = /^8[01]\d{3}$/;   // Colorado ZIPs
 const PLACE_FILE = path.join(DATA_DIR, 'co-place-boundaries.geojson');
+const QCT_FILE   = path.join(DATA_DIR, 'qct-colorado.json');
 
 /* ── Which places each ZIP DDA reaches into ─────────────────────────────
  * A metro Small Area DDA only helps a site inside its ZIP, so a place is
@@ -91,6 +92,48 @@ function placesInZip(zipGeometry, places) {
     }
   }
   return Object.keys(counts).filter((g) => counts[g] >= MIN_CELLS).sort();
+}
+/* ── Which QCTs share ground with a place inside each ZIP DDA ──────────
+ * A tract's internal point is not enough: a QCT can cross into a DDA ZIP
+ * with its internal point outside. A tract counts for a place when at least
+ * QCT_MIN_SHARE of the tract lies inside both the place and the ZIP, the
+ * same 5% floor the finder uses for a QCT's share of a place. Measured on a
+ * finer grid (about 50 m) over the tract, since tracts are small. */
+const QCT_GRID = 0.0005;
+const QCT_MIN_SHARE = 0.05;
+const overlaps = (a, b) => a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
+function qctsInZip(zipGeometry, placeIds, places, qcts) {
+  const zp = polygons(zipGeometry);
+  const zb = bboxOf(zp);
+  const mine = places.filter((pl) => placeIds.indexOf(pl.geoid) !== -1);
+  const out = {};
+  qcts.filter((t) => overlaps(t.bbox, zb)).forEach((t) => {
+    const near = mine.filter((pl) => overlaps(pl.bbox, t.bbox));
+    if (!near.length) return;
+    let inTract = 0;
+    const both = {};
+    for (let y = t.bbox[1] + QCT_GRID / 2; y < t.bbox[3]; y += QCT_GRID) {
+      for (let x = t.bbox[0] + QCT_GRID / 2; x < t.bbox[2]; x += QCT_GRID) {
+        if (!pointInGeometry(x, y, t.polys)) continue;
+        inTract++;
+        if (!pointInGeometry(x, y, zp)) continue;
+        near.forEach((pl) => { if (pointInGeometry(x, y, pl.polys)) both[pl.geoid] = (both[pl.geoid] || 0) + 1; });
+      }
+    }
+    Object.keys(both).forEach((g) => {
+      if (inTract && both[g] / inTract >= QCT_MIN_SHARE) (out[g] = out[g] || []).push(t.geoid);
+    });
+  });
+  Object.keys(out).forEach((g) => out[g].sort());
+  return out;
+}
+function loadQcts() {
+  if (!fs.existsSync(QCT_FILE)) return null;
+  const fc = JSON.parse(fs.readFileSync(QCT_FILE, 'utf8'));
+  return (fc.features || []).map((f) => {
+    const polys = polygons(f.geometry);
+    return { geoid: String((f.properties || {}).GEOID || ''), polys, bbox: bboxOf(polys) };
+  }).filter((t) => /^08\d{9}$/.test(t.geoid) && t.polys.length);
 }
 function loadPlaces() {
   if (!fs.existsSync(PLACE_FILE)) return null;
@@ -194,7 +237,16 @@ function sortKey(feature) {
     console.error(`ERROR: ${PLACE_FILE} not found; cannot match ZIP DDAs to places.`);
     process.exit(1);
   }
-  zipRows.forEach((f) => { f.properties.PLACE_GEOIDS = placesInZip(f.geometry, places); });
+  const qcts = loadQcts();
+  if (!qcts) {
+    console.error(`ERROR: ${QCT_FILE} not found; cannot match QCTs to ZIP DDAs.`);
+    process.exit(1);
+  }
+  zipRows.forEach((f) => {
+    f.properties.PLACE_GEOIDS = placesInZip(f.geometry, places);
+    // QCT tracts sharing ground with each listed place inside this ZIP.
+    f.properties.PLACE_QCT_TRACTS = qctsInZip(f.geometry, f.properties.PLACE_GEOIDS, places, qcts);
+  });
 
   const output = {
     ...raw,

@@ -423,7 +423,9 @@ function renderInventory(record, inv) {
   const grid = $("inventory-grid");
   if (!inv) {
     grid.innerHTML = `<p class="mf-empty">No affordable-housing inventory for ${record.name}.</p>`;
-    $("pis-chart").style.display = "none";
+    destroyChart("pis-chart");
+    const emptyBox = $("pis-chart").parentElement;
+    if (emptyBox) emptyBox.style.display = "none";
     $("lihtc-siting").innerHTML = `<p class="mf-empty">—</p>`;
     return;
   }

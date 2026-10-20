@@ -257,12 +257,20 @@
       var knownUrl = known && safeUrl(known.source && known.source.url);
       var applies = known
         ? ' ' + esc(subject) + ' is covered: ' + esc(known.basis) + (knownUrl ? ' (<a href="' + esc(knownUrl) + '" target="_blank" rel="noopener">' + esc(known.source.label) + '</a>)' : '') + ' It must already allow ADUs this way; this is not a local option. '
-        : ' If ' + esc(subject) + ' meets that definition, it must already allow them this way; it is not a local option. ';
+        : ' If ' + esc(subject) + ' meets that definition, it must already allow them this way; it is not a local option. If it does not, allowing ADUs this way remains a local choice it can still make. ';
       return '<li><strong>' + esc(t.label) + '</strong> <span class="tag tag-ghost">' + esc(STATUS_TEXT[t.colorado_status]) + '</span><br>' +
         esc(requiredText(t)) + applies +
         (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">HB24-1152 signed act</a>' : '') + '</li>';
     }).join('');
-    return '<section class="li-block" aria-labelledby="li-req-h"><h3 id="li-req-h">Required by state law</h3><ul class="li-alt">' + items + '</ul></section>';
+    // Coverage is confirmed only for jurisdictions on the known list; for
+    // the rest the heading says the requirement is conditional.
+    var subjectId = global.LocalIncentivesData.canonicalGeoid(p.inheritsFrom || p.geoid);
+    var allKnown = alt.required.every(function (r) {
+      return (r.tool.known_subject_jurisdictions || []).some(function (k) { return k.geoid === subjectId; });
+    });
+    return '<section class="li-block" aria-labelledby="li-req-h"><h3 id="li-req-h">' +
+      (allKnown ? 'Required by state law' : 'Required by state law where it applies') +
+      '</h3><ul class="li-alt">' + items + '</ul></section>';
   }
 
   function renderAlternatives(model, geoid) {
@@ -334,7 +342,7 @@
           return '<a href="#j=' + esc(id) + '" data-li-jump="' + esc(id) + '">' + esc(nameOf(model, id)) + '</a>';
         }).join(', ');
         if (a.tool.colorado_status === 'required_for_subject_jurisdictions') {
-          return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>Required by state law</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status]) + '</td><td>' + esc(requiredText(a.tool)) + '</td></tr>';
+          return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>Required where state law applies</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status]) + '</td><td>' + esc(requiredText(a.tool)) + '</td></tr>';
         }
         return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>' + a.adopters.length + '</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status] || a.tool.colorado_status) + '</td><td>' + (ex || '<span class="li-muted">No verified record yet</span>') + (a.adopters.length > 5 ? ', and others' : '') + '</td></tr>';
       }).join('');

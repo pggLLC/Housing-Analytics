@@ -240,6 +240,15 @@ function ddaZipsForPlace(zipFeatures, placeGeoid) {
   return [...zips].sort();
 }
 
+function ddaQctTractsForPlace(zipFeatures, placeGeoid) {
+  const tracts = new Set();
+  zipFeatures.forEach(f => {
+    const list = ddaZip(f) && f?.properties?.PLACE_QCT_TRACTS?.[placeGeoid];
+    if (Array.isArray(list)) list.forEach(t => tracts.add(t));
+  });
+  return tracts;
+}
+
 function recencyScore(lastYear) {
   if (lastYear == null) return 100;
   const years = Math.max(0, CURRENT_YEAR - lastYear);
@@ -434,10 +443,8 @@ async function buildOpportunities() {
     const hasDdaCounty = !!(containingCounty && ddaFips.has(containingCounty));
     const ddaZips = hasDdaCounty ? [] : ddaZipsForPlace(ddaZipFeatures, geoid);
     const hasDda = hasDdaCounty || ddaZips.length > 0;
-    const hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(t => {
-      const c = tractPoints[t.tract_geoid];
-      return c && ddaZipFeatures.some(f => ddaZips.includes(ddaZip(f)) && pointInGeometry(c.lon, c.lat, f.geometry));
-    })));
+    const zipQcts = ddaQctTractsForPlace(ddaZipFeatures, geoid);
+    const hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(t => zipQcts.has(t.tract_geoid))));
     // Note: do not pre-filter to basis-eligible (production code allows the
     // user to opt into all 482 jurisdictions via the 'no requirement' basis
     // option). Harness still asserts the basis-eligible counts below.
@@ -617,7 +624,8 @@ async function main() {
   const defaultView = ops
     .filter(o => o.hasBoth)
     .filter(o => o.type !== 'cdp');
-  const defaultExpectedCount = 5;
+  // Denver: QCT 08031002604 overlaps Small Area DDA ZIP 80202 inside the city.
+  const defaultExpectedCount = 6;
   results.push(defaultView.length === defaultExpectedCount
     ? pass(`Default view = ${defaultExpectedCount} jurisdictions`, defaultView.map(x => x.name).join(', '))
     : (failures++, fail(`Default view count`, `Got ${defaultView.length}, expected ${defaultExpectedCount} (${defaultView.map(x => x.name).join(', ')})`)));

@@ -130,7 +130,7 @@ for (const tool of docs.alternatives.tools) {
   assert(row, `toolkit has no row for ${tool.label}`);
   if (tool.colorado_status === 'required_for_subject_jurisdictions') {
     // A state mandate is not counted as local adoption, and never reads as "no record".
-    assert.equal(row.querySelectorAll('td')[0].textContent, 'Required by state law', `${tool.label}: mandate row`);
+    assert.equal(row.querySelectorAll('td')[0].textContent, 'Required where state law applies', `${tool.label}: mandate row`);
     assert(!/No verified record/.test(row.textContent), `${tool.label}: a mandate must not read as unused`);
     continue;
   }
