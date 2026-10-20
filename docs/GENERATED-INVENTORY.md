@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T11:12:35.941Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T12:36:31.928Z. Do not edit by hand.
 
 ---
 
@@ -2125,7 +2125,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 35.9 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 37.2 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 25.5 KB |
@@ -2164,7 +2164,7 @@
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.4 KB |
-| `test/mix-check-recommenders.test.mjs` | 14.9 KB |
+| `test/mix-check-recommenders.test.mjs` | 15.7 KB |
 | `test/mix-check.test.mjs` | 7.0 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
