@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 6
+  "count": 7
  },
  "deals": [
   {
@@ -88,6 +88,23 @@
     "year": 2026,
     "names": [
      "Gregory"
+    ]
+   }
+  },
+  {
+   "slug": "lumberyard-apartments-aspen",
+   "name": "Lumberyard Apartments (Phase B)",
+   "city": "Aspen",
+   "county": "Pitkin",
+   "award": "2026 Middle-income Housing Tax Credit (MIHTC), CHFA",
+   "year": 2026,
+   "units": 173,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "Lumberyard Apartments"
     ]
    }
   },

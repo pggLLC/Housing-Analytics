@@ -1,0 +1,700 @@
+{
+ "slug": "lumberyard-apartments-aspen",
+ "name": "Lumberyard Apartments (Phase B)",
+ "city": "Aspen",
+ "county": "Pitkin",
+ "award": "2026 Middle-income Housing Tax Credit (MIHTC), CHFA",
+ "researched_on": "2026-10-20",
+ "headline": "Lumberyard Apartments is the 173-unit second phase (Buildings 2 and 3) of the City of Aspen's 277-unit, permanently deed-restricted workforce rental neighborhood on city land, developed by Gorman & Company; it won CHFA's only 2026 Middle-income Housing Tax Credit award, $2,890,000 for 118 middle-income units.",
+ "why_it_matters": "It shows how a resort town can stack Colorado's new middle-income credit onto a city-financed, city-owned-land deal. The city funds about $250 million from its housing fund and a voter-approved bond and keeps the land under a ground lease. APCHA joins as special limited partner for the property tax exemption. MIHTC adds about $10.5 million of equity for units at 90% to 130% AMI.",
+ "status": {
+  "label": "Phase A under construction; MIHTC-funded Phase B awaits closing \"B\" (planned May 2027)",
+  "detail": "Closing \"A\" for the infrastructure and Building 1 (104 units) was completed on 2026-03-31, and the city reports construction started on 2026-04-01. The MIHTC award applies to Phase B (Buildings 2 and 3, 173 units). Phase B needs Council approval and a second financial closing, planned for May 2027, with occupancy in late 2028 and 2029.",
+  "src": [
+   "aspen-lumberyard-page",
+   "aspen-sources-uses",
+   "gorman-pr-2026-04",
+   "chfa-mihtc-award"
+  ]
+ },
+ "next_step": "Watch for the Aspen City Council resolution approving the closing \"B\" documents (planned May 2027) and the final Phase B sources and uses showing MIHTC equity, the first mortgage and Gorman funds.",
+ "key_numbers": [
+  {
+   "value": "173 homes, 118 with MIHTC",
+   "meaning": "Phase B (Buildings 2 and 3) of a 277-unit, 100% deed-restricted project. 118 units at 90% or 130% AMI carry the credit; 55 more are deed-restricted at 50%, 205% or 240% AMI.",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-desc",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "value": "$2,890,000 MIHTC",
+   "meaning": "Colorado's state middle-income credit, claimed over five years. The city expects about $10.5M of equity from it.",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-flyer",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "value": "About $250M from the City of Aspen",
+   "meaning": "$118.8M at closing A plus $131.2M projected for Phase B, from the city's housing fund and a $70M voter-approved revenue bond.",
+   "src": [
+    "aspen-sources-uses",
+    "aspen-res042"
+   ]
+  },
+  {
+   "value": "City keeps the land",
+   "meaning": "Ground lease of 40 years plus a 20-year option at nominal rent ($10 a year in the development agreement). The city may buy the improvements after 15 years, and they revert to the city at lease end.",
+   "src": [
+    "aspen-res042",
+    "aspen-mda"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Name",
+   "value": "Lumberyard Apartments (CHFA); the city's \"Lumberyard Affordable Housing\" project",
+   "src": [
+    "chfa-mihtc-award",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "item": "Address",
+   "value": "300 Woodward Lane, Aspen (CHFA); the site is on Colorado Highway 82 next to the Aspen Airport Business Center",
+   "src": [
+    "chfa-mihtc-award",
+    "gorman-pr-2026-04"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 11 acres (11.3 acres per the city's project manager), owned by the City of Aspen; final plat \"Lumberyard Affordable Housing Subdivision\" recorded December 2024 (Reception 706473)",
+   "src": [
+    "aspen-lumberyard-page",
+    "at-2025-11-17",
+    "aspen-plat"
+   ]
+  },
+  {
+   "item": "Type",
+   "value": "I/F (individuals and families), N (new construction); modular construction, all-electric, photovoltaic system",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-desc"
+   ]
+  },
+  {
+   "item": "Units (this award)",
+   "value": "173 total, 118 MIHTC units (CHFA); Phase B is Building 2 (91 units) and Building 3 (82 units)",
+   "src": [
+    "chfa-mihtc-award",
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "item": "Whole project",
+   "value": "277 units in three four-story buildings (129 one-bedroom, 106 two-bedroom, 42 three-bedroom); up to 435 parking spaces, more than 200 underground",
+   "src": [
+    "aspen-ord10",
+    "aspen-mda",
+    "at-2025-11-17"
+   ]
+  },
+  {
+   "item": "Affordability",
+   "value": "All units permanently deed-restricted under Aspen/Pitkin County Housing Authority (APCHA) regulations. The deed restriction survives foreclosure; the MIHTC statutory term is 15 years.",
+   "src": [
+    "aspen-res042",
+    "chfa-mihtc-flyer"
+   ]
+  },
+  {
+   "item": "Income range (whole project)",
+   "value": "50% to 240% AMI",
+   "src": [
+    "gorman-pr-2026-04",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "item": "Tenant selection",
+   "value": "APCHA-governed lottery with priorities: mobility-disabled for accessible units and emergency workers first, then Employer Partnership Program and owner-to-rental transfers (up to 10 units proposed), then all other qualifying applicants",
+   "src": [
+    "aspen-mar9",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Designed for 75% net energy offset and Enterprise Green Communities certification",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "item": "Entitlements",
+   "value": "Ordinance 10, Series of 2023 (Planned Development, major subdivision, rezoning, growth management), approved 2023-09-19",
+   "src": [
+    "aspen-ord10",
+    "aspen-lumberyard-page"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "50% AMI (non-MIHTC, deed-restricted)",
+   "units": 27
+  },
+  {
+   "level": "90% AMI (MIHTC)",
+   "units": 60
+  },
+  {
+   "level": "130% AMI (MIHTC)",
+   "units": 58
+  },
+  {
+   "level": "205% AMI (non-MIHTC, deed-restricted)",
+   "units": 20
+  },
+  {
+   "level": "240% AMI (non-MIHTC, deed-restricted)",
+   "units": 8
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 77
+  },
+  {
+   "type": "2BR",
+   "units": 70
+  },
+  {
+   "type": "3BR",
+   "units": 26
+  }
+ ],
+ "mix_src": [
+  "chfa-mihtc-desc"
+ ],
+ "money": [
+  {
+   "source": "Colorado Middle-income Housing Tax Credit (MIHTC)",
+   "amount": "$2,890,000",
+   "note": "The award report heads this column \"MIHTC Amount Requested\" (same figure on the June applicant report). CHFA's award description says \"MIHTC Awarded: $2,890,000\". The city expects about $10.5M of equity for Buildings 2 and 3. The credit is claimed over five years. Since $10.5M is more than $2.89M, the figure appears to be an annual amount (my inference).",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-applicant",
+    "chfa-mihtc-desc",
+    "aspen-lumberyard-page",
+    "chfa-mihtc-flyer"
+   ]
+  },
+  {
+   "source": "City of Aspen capital contribution, Phase B (projected)",
+   "amount": "$131,155,235",
+   "note": "Building 2 $68,989,170 and Building 3 $62,166,065. Mortgage and Gorman sources for closing B are TBD.",
+   "src": [
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "source": "City of Aspen capital contribution, closing A (Phase 0 infrastructure + Building 1)",
+   "amount": "$118,792,765",
+   "note": "$10,594,968 paid at closing on 2026-03-31; the rest is paid as work progresses. Closing A total sources were $141,545,928.",
+   "src": [
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "source": "Gorman-procured sources, closing A",
+   "amount": "$22,753,163",
+   "note": "First mortgage $10.7M plus other sources $12,053,163 (city summary after closing). The March staff report showed a $15.7M first mortgage, $3,787,063 equity and $3,266,100 Gorman equity.",
+   "src": [
+    "aspen-sources-uses",
+    "aspen-res042"
+   ]
+  },
+  {
+   "source": "City funding plan (whole project)",
+   "amount": "About $250M",
+   "note": "$110M in 2026 from Housing Fund 150. $95M in 2027 ($70M revenue bond plus $25M cash). $15M a year in 2028-2030.",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "source": "Lumberyard revenue bond (Ballot Issue 2B)",
+   "amount": "Up to $70,000,000",
+   "note": "Total repayment cost capped at $152,550,000, payable from the city's affordable housing fund with no tax increase. Passed 2025-11-04 with 1,404 yes (62.04%) to 859 no.",
+   "src": [
+    "aspen-election-2b"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "City-owned; ground lease at nominal rent",
+   "note": "Development agreement terms: $10 a year or paid up front; 40-year term plus a 20-year option.",
+   "src": [
+    "aspen-mda",
+    "aspen-res042"
+   ]
+  },
+  {
+   "source": "Developer fee (Phase 1 only)",
+   "amount": "$5,900,000",
+   "note": "Fixed fee, with part structured as equity. The Phase B fee is not yet public.",
+   "src": [
+    "aspen-res042",
+    "aspen-mar9"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Gorman & Company (\"Gorman & Company, LLC\" on the applicant report and award description)",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-applicant",
+    "chfa-mihtc-desc"
+   ]
+  },
+  {
+   "role": "Developer, owner (leasehold) and property manager",
+   "name": "Gorman & Company (Wisconsin-based); Gorman Property Management for day-to-day operations",
+   "src": [
+    "aspen-mda",
+    "at-2025-11-17"
+   ]
+  },
+  {
+   "role": "Land owner / ground lessor / capital partner",
+   "name": "City of Aspen (94.4% member of the Phase 1 entity)",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "role": "Phase 1 owner entity",
+   "name": "Lumberyard Apartments 1, LLC (Wisconsin LLC); the Phase B entity is not yet named publicly",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "role": "Special limited partner (property tax exemption)",
+   "name": "Aspen/Pitkin County Housing Authority (APCHA)",
+   "src": [
+    "aspen-res042",
+    "aspen-mar9"
+   ]
+  },
+  {
+   "role": "Deed restriction parties / enforcement",
+   "name": "City of Aspen and APCHA",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "role": "General contractor (Phase 1)",
+   "name": "Deneuve Construction",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "role": "Architect / MEP (Planned Development plan set)",
+   "name": "Cushing Terrell",
+   "src": [
+    "aspen-pdset"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "What MIHTC is: Colorado's Middle-income Housing Tax Credit was created by House Bill 24-1316 (2024) as a five-year pilot (2025-2029). It funds rental housing for households at 80% to 120% AMI, and up to 140% AMI in rural resort counties. It is a stand-alone state credit, not paired with the federal credit, and is claimed over five years. The statutory affordability term is 15 years. CHFA may award $5M in each of 2025 and 2026 and $10M a year in 2027-2029.",
+   "src": [
+    "chfa-mihtc-flyer",
+    "coloradobiz-2026-07-30"
+   ]
+  },
+  {
+   "text": "Competition: CHFA's 2026 MIHTC applicant report (as of 2026-06-02) lists two applicants totaling $4,540,000, Lumberyard and an Exodus Development project in Denver. Lumberyard was the only award, for $2,890,000.",
+   "src": [
+    "chfa-mihtc-applicant",
+    "chfa-mihtc-award"
+   ]
+  },
+  {
+   "text": "Land: the city has owned about a quarter of the site since the late 1990s, bought a large portion in 2008, and added the final piece in 2020 to assemble the roughly 11-acre site south of the Aspen Airport Business Center. The former lumberyard and mini-storage uses are named in Ordinance 10.",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-ord10"
+   ]
+  },
+  {
+   "text": "Site prep: in 2024-2025 the city abated asbestos in 2 structures, demolished 11 commercial buildings and removed contaminated soil (finished by end of August 2025). It applied to CDPHE's Voluntary Cleanup program and says it will be eligible for partial reimbursement through the Colorado Brownfields Tax Credit.",
+   "src": [
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "text": "Process: a community design process ran from 2019 to 2022, and the land use application was filed in November 2022. Council approved entitlements on 2023-09-19 (Ordinance 10, Series of 2023: 277 units in three buildings, 435 parking spaces). The PD plan set was approved on 2025-07-02 and recorded.",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-ord10",
+    "aspen-pdset"
+   ]
+  },
+  {
+   "text": "Developer selection: twelve pre-qualified developers submitted proposals. Council approved a Master Development Agreement with Gorman & Company on 2025-07-14 (Resolution 100 of 2025). Gorman will build, own (leasehold) and manage the project under APCHA rules.",
+   "src": [
+    "aspen-mda",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "text": "City investment terms (MDA): $210,000,000 of primary financing plus infrastructure expense, subject to annual appropriation, mainly as a capital contribution. Any part made as a loan would be 0% interest for at least 50 years, paid from cash flow. Where other funding programs impose restrictions (typically a 15-year compliance plus 15-year extended use), the most stringent of APCHA and CHFA/HUD rules applies.",
+   "src": [
+    "aspen-mda"
+   ]
+  },
+  {
+   "text": "Closing A: on 2026-03-24 Council adopted Resolution 042, Series of 2026, approving the deed restriction, ground lease, operating agreement, development services agreement, APCHA special limited partner addendum and construction license. APCHA's board approved the SLP agreement on 2026-03-18. Closing A was completed on 2026-03-31.",
+   "src": [
+    "aspen-res042",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "text": "APCHA as special limited partner lets the project qualify for property tax exemption and certain sales tax benefits, lowering operating costs. APCHA has no day-to-day management role.",
+   "src": [
+    "aspen-mar9",
+    "aspen-res042"
+   ]
+  },
+  {
+   "text": "Cost: the whole project was estimated at $360M in November 2025 (about $1.3M per unit including roads, utilities, underground parking, a transit station and a trail underpass). Gorman agreed to raise about $110M from outside sources and invest about $7M of its own.",
+   "src": [
+    "at-2025-11-17"
+   ]
+  },
+  {
+   "text": "Design changes for Building 1 (within PD flexibility): 7% less gross floor area, optimized for double-loaded modular, elevators cut from 4 to 2, and sound walls replaced with trees after CDOT rejected them in its right-of-way.",
+   "src": [
+    "aspen-mar9"
+   ]
+  },
+  {
+   "text": "What the MIHTC levels mean in Pitkin County (CHFA 2026 limits, rural resort county). At 90% AMI: maximum rent $2,398 (1BR), $2,877 (2BR), $3,325 (3BR); income limit $89,550 (1 person), $127,890 (4 people). At 130% AMI: $3,464, $4,156 and $4,803; $129,350 and $184,730. Actual rents follow APCHA rent categories and are not published in the records I found.",
+   "src": [
+    "chfa-limits",
+    "aspen-mda"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-09-19",
+   "event": "Aspen City Council approves Lumberyard entitlements (Ordinance 10, Series of 2023)",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-ord10"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Final plat, Lumberyard Affordable Housing Subdivision, recorded (Reception 706473)",
+   "src": [
+    "aspen-plat"
+   ]
+  },
+  {
+   "date": "2025-07-14",
+   "event": "Council approves Master Development Agreement with Gorman & Company (Resolution 100 of 2025)",
+   "src": [
+    "aspen-mda",
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "date": "2025-08-12",
+   "event": "Council refers the $70M Lumberyard bond question to the ballot (Resolution 113 of 2025)",
+   "src": [
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "date": "2025-11-04",
+   "event": "Voters approve Ballot Issue 2B, up to $70M of debt for the Lumberyard (62.04% yes)",
+   "src": [
+    "aspen-election-2b"
+   ]
+  },
+  {
+   "date": "2026-03-18",
+   "event": "APCHA board approves the special limited partner agreement",
+   "src": [
+    "aspen-lumberyard-page"
+   ]
+  },
+  {
+   "date": "2026-03-24",
+   "event": "Council adopts Resolution 042, Series of 2026, approving the closing A documents",
+   "src": [
+    "aspen-res042"
+   ]
+  },
+  {
+   "date": "2026-03-31",
+   "event": "Financial closing A completed (Phase 0 infrastructure + Building 1, 104 units)",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "date": "2026-04-01",
+   "event": "Construction started (city project page); Gorman announces the start on 2026-04-23",
+   "src": [
+    "aspen-lumberyard-page",
+    "gorman-pr-2026-04"
+   ]
+  },
+  {
+   "date": "2026-06-02",
+   "event": "Lumberyard listed on CHFA's 2026 MIHTC applicant report",
+   "src": [
+    "chfa-mihtc-applicant"
+   ]
+  },
+  {
+   "date": "2026-07-24",
+   "event": "CHFA 2026 MIHTC Award Report: $2,890,000 to Lumberyard Apartments (Phase B)",
+   "src": [
+    "chfa-mihtc-award"
+   ]
+  },
+  {
+   "date": "2027-05",
+   "event": "Planned closing B and Council consideration of Phase B (Buildings 2 and 3, 173 units)",
+   "src": [
+    "aspen-lumberyard-page",
+    "gorman-pr-2026-04"
+   ]
+  },
+  {
+   "date": "2028",
+   "event": "Building 1 occupancy planned (June 2028 in Gorman's March schedule)",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-mar9"
+   ]
+  },
+  {
+   "date": "2029",
+   "event": "Buildings 2 and 3 planned complete (late 2028 to 2029; January and June 2029 in Gorman's March schedule)",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-mar9"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Illustrative site plan (sheet EX000), Lumberyard Planned Development plan set",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/70994/download",
+   "kind": "site plan",
+   "made_by": "Connect One Design / Cushing Terrell for the City of Aspen; recorded with Pitkin County (Reception 710308)",
+   "note": "Page 3 of 74 (sheet index on page 1). Large file, about 51 MB.",
+   "src": [
+    "aspen-pdset"
+   ]
+  },
+  {
+   "title": "Phasing exhibit (sheet EX001)",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/70994/download",
+   "kind": "site plan",
+   "made_by": "Connect One Design / Cushing Terrell for the City of Aspen",
+   "note": "Page 4 of 74; shows the building phases.",
+   "src": [
+    "aspen-pdset"
+   ]
+  },
+  {
+   "title": "Final plat, Lumberyard Affordable Housing Subdivision",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/62640/download",
+   "kind": "plat",
+   "made_by": "True North Colorado LLC for the City of Aspen",
+   "note": "4 sheets; sheet 2 shows the overall boundary, lots and easements.",
+   "src": [
+    "aspen-plat"
+   ]
+  },
+  {
+   "title": "Architect's renderings (plaza entry, first-floor patios, Building 2 west facade, trail underpass; sheets EX104-EX107)",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/70994/download",
+   "kind": "rendering",
+   "made_by": "Cushing Terrell and Connect One Design for the City of Aspen (recorded PD plan set)",
+   "note": "Pages 10-13 of 74 (page 11 is EX105, page 13 is EX107).",
+   "src": [
+    "aspen-pdset"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "MIHTC column: CHFA's award report heads the $2,890,000 column \"MIHTC Amount Requested\"; CHFA's award description page says \"MIHTC Awarded: $2,890,000\". The figures match. [chfa-mihtc-award; chfa-mihtc-desc]",
+  "Building 1 size: the Aspen Times (2026-03-11) reported a 109-unit first building; the city's staff reports and sources-and-uses say 104 units. [at-2026-03-11; aspen-res042; aspen-sources-uses]",
+  "Closing A city funds: the 2026-03-16 staff report labels $39,948,000 as \"City Phase 0 Funds\" and $78,844,765 as \"City Phase 1 Funds\". The city's post-closing summary assigns $78,844,765 to infrastructure and $39,948,000 to Building #1. [aspen-res042; aspen-sources-uses]",
+  "Closing A first mortgage: $15,700,000 in the March staff reports versus $10,700,000 (plus $12,053,163 other sources) in the April 2026 post-closing summary; both total $22,753,163 of non-city sources. [aspen-res042; aspen-mar9; aspen-sources-uses]",
+  "Income range: the city's project page says \"below 50% AMI up to 240% AMI\"; Gorman's release and CHFA's Phase B mix say 50% to 240%. [aspen-lumberyard-page; gorman-pr-2026-04; chfa-mihtc-desc]",
+  "Site area: \"11-acre\" (Gorman, city) versus 11.3 acres (Aspen Times, quoting the city's project manager). [gorman-pr-2026-04; at-2025-11-17]",
+  "Construction start: the city page says construction started 2026-04-01; Gorman's March schedule put Phase 0 mobilization in April/May 2026 and the Building 1 vertical start in September 2026. [aspen-lumberyard-page; aspen-mar9]"
+ ],
+ "open_questions": [
+  "Phase B final budget: first mortgage, MIHTC equity investor and price, Gorman funds and developer fee are TBD until closing B.",
+  "Whether $2,890,000 is the annual or the total MIHTC amount is not stated outright. The city's $10.5M equity estimate implies an annual figure (inference).",
+  "Actual rents and APCHA rent categories for each AMI tier are not published in the records reviewed.",
+  "The Phase B owner entity (presumably a Lumberyard Apartments 2/3, LLC) and the city's percentage interest in it are not public.",
+  "The Employer Partnership Program terms (share of units, pricing) were still being set; a Council work session was set for 2026-11-02.",
+  "Whether the Colorado Brownfields Tax Credit reimbursement has been received is not public.",
+  "The share of the $78.8M closing A infrastructure spend that serves Phase B is not broken out in the city summaries."
+ ],
+ "sources": [
+  {
+   "id": "chfa-mihtc-award",
+   "title": "CHFA, 2026 Award Report, Middle-income Housing Tax Credit (MIHTC), as of 7/24/2026",
+   "publisher": "CHFA",
+   "date": "2026-07-24",
+   "url": "https://www.chfainfo.com/getattachment/743ba3e4-5c64-4b1a-84d5-85d209bd1990/2026-MIHTC-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-mihtc-applicant",
+   "title": "CHFA, 2026 Applicant Report, Middle-income Housing Tax Credit (MIHTC), as of 6/2/2026",
+   "publisher": "CHFA",
+   "date": "2026-06-02",
+   "url": "https://www.chfainfo.com/getattachment/3ccf8430-1d3a-4189-89dc-e58acefc3b1b/2026-MIHTC-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-mihtc-desc",
+   "title": "CHFA, 2026 MIHTC Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-mihtc-award-descriptions"
+  },
+  {
+   "id": "chfa-mihtc-flyer",
+   "title": "CHFA, Middle-income Housing Tax Credit overview flyer (08/24.v1)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://chfainfo.com/getattachment/db9984ca-638e-4014-8ec4-c8878d18ac8c/StateHousingTaxCreditOverviewFlyers-Middle-incomeHousingTaxCredit.pdf"
+  },
+  {
+   "id": "chfa-limits",
+   "title": "CHFA, 2026 Income Limit and Maximum Rent Tables for All Colorado Counties",
+   "publisher": "CHFA",
+   "date": "2026-05-01",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  },
+  {
+   "id": "coloradobiz-2026-07-30",
+   "title": "CHFA Awards $2.9m for Lumberyard Apartments in Aspen",
+   "publisher": "ColoradoBiz",
+   "date": "2026-07-30",
+   "url": "https://coloradobiz.com/chfa-awards-2-9m-lumberyard-apartments-aspen/"
+  },
+  {
+   "id": "aspen-lumberyard-page",
+   "title": "City of Aspen, Aspen Lumberyard Affordable Housing project page (Aspen Community Voice)",
+   "publisher": "City of Aspen",
+   "date": "2026-10",
+   "url": "https://www.aspencommunityvoice.com/lumberyard"
+  },
+  {
+   "id": "aspen-sources-uses",
+   "title": "City of Aspen, Lumberyard Summary Sources and Uses as of April 2026 (after closing A)",
+   "publisher": "City of Aspen",
+   "date": "2026-04",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/103982/documents/79866/download"
+  },
+  {
+   "id": "aspen-res042",
+   "title": "City of Aspen, March 24, 2026 staff report and Resolution #042, Series of 2026 (closing A documents)",
+   "publisher": "City of Aspen",
+   "date": "2026-03-24",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/90993/documents/79877/download"
+  },
+  {
+   "id": "aspen-mar9",
+   "title": "City of Aspen, March 9, 2026 work session memo: Preparation for Lumberyard Financial Closing #1",
+   "publisher": "City of Aspen",
+   "date": "2026-03-02",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/90993/documents/79874/download"
+  },
+  {
+   "id": "aspen-mda",
+   "title": "City of Aspen, July 14, 2025 special meeting packet: Resolution #100 of 2025, Lumberyard Master Development Agreement with Gorman & Company",
+   "publisher": "City of Aspen",
+   "date": "2025-07-14",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/90993/documents/70377/download"
+  },
+  {
+   "id": "aspen-election-2b",
+   "title": "Pitkin County, November 4, 2025 Coordinated Election canvassed results, City of Aspen Ballot Issue 2B",
+   "publisher": "Pitkin County Clerk and Recorder (posted by City of Aspen)",
+   "date": "2025-11-26",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/90993/documents/79869/download"
+  },
+  {
+   "id": "aspen-ord10",
+   "title": "City of Aspen, Ordinance #10, Series of 2023 (Lumberyard development approvals), recorded Pitkin County Reception 698196",
+   "publisher": "City of Aspen",
+   "date": "2023-10-19",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/62638/download"
+  },
+  {
+   "id": "aspen-plat",
+   "title": "Final Plat, Lumberyard Affordable Housing Subdivision, Pitkin County Reception 706473",
+   "publisher": "City of Aspen / True North Colorado",
+   "date": "2024-12",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/62640/download"
+  },
+  {
+   "id": "aspen-pdset",
+   "title": "Lumberyard Affordable Housing Planned Development plan set (approved 2025-07-02), Pitkin County Reception 710308",
+   "publisher": "City of Aspen / Cushing Terrell",
+   "date": "2025-07-02",
+   "url": "https://www.aspencommunityvoice.com/3995/widgets/62121/documents/70994/download"
+  },
+  {
+   "id": "gorman-pr-2026-04",
+   "title": "Construction Begins for Lumberyard Affordable Housing Project (media release)",
+   "publisher": "Gorman & Company",
+   "date": "2026-04-23",
+   "url": "https://www.gormanusa.com/wp-content/uploads/2026/06/Gorman-Company-Properties-Lumberyard-Construction-Begins-Press-Release-2026-0513.pdf"
+  },
+  {
+   "id": "at-2026-03-11",
+   "title": "Aspen almost ready to greenlight Lumberyard construction",
+   "publisher": "The Aspen Times",
+   "date": "2026-03-11",
+   "url": "https://www.aspentimes.com/news/aspen-poised-to-greenlight-lumberyard-construction/"
+  },
+  {
+   "id": "at-2025-11-17",
+   "title": "Lumberyard affordable housing project's $360 million price tag explained",
+   "publisher": "The Aspen Times",
+   "date": "2025-11-17",
+   "url": "https://www.aspentimes.com/news/lumberyard-affordable-housing-projects-360-million-price-tag-explained/"
+  }
+ ]
+}
