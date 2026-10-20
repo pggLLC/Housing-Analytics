@@ -12,7 +12,11 @@
  *     never a number (and the scan finds at least one);
  *   - the town table shows every town by default and every place with CDPs included;
  *   - a county's project list is exactly the ledger projects placed in that county;
- *   - the tab button controls the panel and the toggle script draws the tab.
+ *   - the tab button controls the panel and the toggle script draws the tab;
+ *   - the Realtor.com columns (homes for sale, days on market, price cuts) show the
+ *     listings file's figures, mark the counties it flags, and name its month; a county
+ *     the month's file leaves out, or a listings file that will not load, shows
+ *     "No reading" with the reason while the rest of the table still renders.
  * The second half serves sabotaged copies of the tab's script, proves each
  * mutation changed the file, and proves the checks catch it.
  */
@@ -27,12 +31,16 @@ const ORIGIN = 'http://example.org';
 const JS = 'js/market-direction.js';
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const BASE = readJson('data/market/market-direction.json');
+const LISTINGS = readJson('data/market/realtor_inventory_co.json');
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthName = (ym) => { const [y, m] = ym.split('-'); return `${MONTHS[Number(m) - 1]} ${y}`; };
 const LEDGER = readJson('data/market/development-activity.json');
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 // Eagle: it has towns and a scattered-site project the ledger places in two counties.
 const PICK = '08037';
 
-async function render(browser, script, md = null) {
+// listings: undefined serves the committed file, null answers 404, an object is served in its place.
+async function render(browser, script, md = null, listings = undefined) {
   const tab = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const errors = [];
   tab.on('pageerror', (e) => errors.push(e.message));
@@ -42,12 +50,16 @@ async function render(browser, script, md = null) {
     const rel = decodeURIComponent(u.pathname.slice(1));
     if (rel === JS && script != null) return route.fulfill({ body: script, contentType: 'text/javascript' });
     if (rel === 'data/market/market-direction.json' && md) return route.fulfill({ body: JSON.stringify(md), contentType: 'application/json' });
+    if (rel === 'data/market/realtor_inventory_co.json' && listings !== undefined) {
+      return listings === null ? route.fulfill({ status: 404, body: '' }) : route.fulfill({ body: JSON.stringify(listings), contentType: 'application/json' });
+    }
     const file = path.resolve(ROOT, rel);
     if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
   });
   await tab.goto(`${ORIGIN}/colorado-deep-dive.html#tab-direction`, { waitUntil: 'load', timeout: 90000 });
   await tab.waitForFunction(() => document.querySelectorAll('#mdCountyBody tr').length > 1, null, { timeout: 30000 }).catch(() => {});
+  await tab.waitForFunction(() => ((document.getElementById('mdListingsNote') || {}).textContent || '').trim().length > 0, null, { timeout: 15000 }).catch(() => {});
   const view = await tab.evaluate(async (pick) => {
     const rows = (id) => [...document.querySelectorAll(`#${id} tr`)].map((tr) => [...tr.cells].map((c) => {
       const k = c.cloneNode(true);
@@ -64,6 +76,7 @@ async function render(browser, script, md = null) {
       kpis: [...document.querySelectorAll('#mdKpis .mi-kpi')].map((k) => ({ value: k.querySelector('.mi-kpi-value').textContent.trim(), label: k.querySelector('.mi-kpi-label').textContent.trim() })),
       heads,
       counties: rows('mdCountyBody'),
+      listingsNote: (document.getElementById('mdListingsNote') || {}).textContent || '',
       townHeads: [...document.querySelectorAll('#mdTownHead th')].map((th) => th.textContent.trim()),
       towns: rows('mdTownBody').length,
       defs: [...document.querySelectorAll('#mdCalls li')].map((li) => { const c = li.cloneNode(true); c.querySelectorAll('.gl-tooltip-popup').forEach((x) => x.remove()); return { call: li.getAttribute('data-md-call'), text: c.textContent }; }),
@@ -102,7 +115,7 @@ function agrees(clause, k, thresholds) {
 }
 const int = (s) => Number(String(s).replace(/[^\d]/g, ''));
 
-function checks({ view, errors }, MD = BASE) {
+function checks({ view, errors }, MD = BASE, LI = LISTINGS) {
   const fails = [];
   const fail = (m) => fails.push(m);
   if (errors.length) fail(`page errors: ${errors.join('; ')}`);
@@ -156,6 +169,36 @@ function checks({ view, errors }, MD = BASE) {
     } else if (r[iPrice] && /No reading/.test(r[iPrice].text)) fail(`${c.name}: price ${p.value} shown as no reading`);
   }
   if (!absent) fail('no county lacks a price reading: the absent-value check scanned nothing');
+
+  // Realtor.com listings: the file's figures, its flag, its month; a gap reads "No reading" with why
+  const iSale = col('Homes for sale'), iDom = col('Days on market'), iCut = col('Listings with a price cut');
+  if (iSale < 0 || iDom < 0 || iCut < 0) fail(`county table lacks a listings column: ${view.heads.join(' | ')}`);
+  else {
+    const month = LI ? monthName(LI.meta.month) : null;
+    const why = LI ? `Not in Realtor.com’s file for ${month}` : 'The Realtor.com listings file could not be loaded';
+    let missing = 0, flagged = 0;
+    for (const [fips, c] of counties) {
+      const r = byName.get(c.name);
+      if (!r) continue;
+      const l = LI && LI.counties[fips];
+      if (!l) {
+        missing++;
+        for (const i of [iSale, iDom, iCut]) if (r[i].text !== 'No reading' || r[i].note !== why) fail(`${c.name}: absent listing shows "${r[i].text}" (${r[i].note})`);
+        continue;
+      }
+      const mark = l.quality_flag === 1 ? ' †' : '';
+      if (mark) flagged++;
+      const sale = `${l.active_listings.toLocaleString('en-US')} (`;
+      if (!r[iSale].text.startsWith(sale) || !r[iSale].text.endsWith(')' + mark)) fail(`${c.name}: homes for sale shown ${r[iSale].text}, the file ${l.active_listings}${mark}`);
+      if (r[iDom].text !== `${l.median_days_on_market} days${mark}`) fail(`${c.name}: days on market shown ${r[iDom].text}, the file ${l.median_days_on_market}${mark}`);
+      if (r[iCut].text !== `${l.price_reduced_share_pct.toFixed(0)}%${mark}`) fail(`${c.name}: price cuts shown ${r[iCut].text}, the file ${l.price_reduced_share_pct}${mark}`);
+    }
+    if (LI) {
+      if (!view.listingsNote.includes(`Realtor.com listings for ${month}`)) fail(`the listings note does not name ${month}: ${view.listingsNote}`);
+      if (flagged && !view.listingsNote.includes(`flags ${flagged} ${flagged === 1 ? 'county' : 'counties'}`)) fail(`the listings note does not count the ${flagged} flagged counties: ${view.listingsNote}`);
+      if (missing && !view.listingsNote.includes(`${missing} ${missing === 1 ? 'county is' : 'counties are'} not in`)) fail(`the listings note does not count the ${missing} counties missing: ${view.listingsNote}`);
+    } else if (!/could not be loaded/.test(view.listingsNote)) fail(`the listings note does not say the file failed: ${view.listingsNote}`);
+  }
 
   // the introduction names the demand readings each rule uses: jobs only where the file has a jobs threshold
   const [countyLine, townLine] = view.intro.split(/(?=A town call)/);
@@ -221,6 +264,29 @@ try {
   const gapFails = checks(await render(browser, null, gap), gap);
   assert.deepEqual(gapFails, [], gapFails.join('\n'));
   console.log(`  a county with not enough data (${gap.counties[moved].name}) is counted in the tiles, headline, legend and map text`);
+
+  // A month's listings file without one county, and no listings file at all: the gap reads
+  // "No reading" with the reason, and the calls, permits and projects still render.
+  const thin = structuredClone(LISTINGS);
+  const dropped = Object.keys(thin.counties).find((f) => f !== PICK);
+  delete thin.counties[dropped];
+  const thinFails = checks(await render(browser, null, null, thin), BASE, thin);
+  assert.deepEqual(thinFails, [], thinFails.join('\n'));
+  console.log(`  a county missing from the listings file (${LISTINGS.counties[dropped].name}) shows no reading, with the reason`);
+  const goneFails = checks(await render(browser, null, null, null), BASE, null);
+  assert.deepEqual(goneFails, [], goneFails.join('\n'));
+  console.log('  a listings file that will not load leaves the rest of the table intact');
+  for (const [name, from, to, expect, li] of [
+    ['a county missing from the listings shown as zero', "return { text: NONE, title: l.why || 'Realtor.com publishes no figure for this county this month', sort: null };", "return { text: '0', title: '', sort: 0 };", /absent listing shows/, thin],
+    ['the Realtor.com flag dropped', "(l.row.quality_flag === 1 ? ' †' : '')", "''", /shown .* the file .*†/, undefined],
+    ['the listings month misnamed', "listings for ' + escapeHtml(monthName(listings.meta.month))", "listings for this month' + ''", /does not name/, undefined],
+  ]) {
+    assert.ok(src.includes(from), `sabotage "${name}": the target text is in the script`);
+    const bad = src.replace(from, to);
+    const f = checks(await render(browser, bad, null, li), BASE, li === undefined ? LISTINGS : li);
+    assert.ok(f.some((m) => expect.test(m)), `sabotage "${name}" was not caught: ${f.join(' / ') || 'no failures'}`);
+    console.log(`  sabotage caught: ${name}`);
+  }
   const fixed = "  var COUNTY_ORDER = [];";
   assert.ok(src.includes(fixed), 'sabotage "the county calls hard-coded": the target text is in the script');
   const hard = src.replace(fixed, "  var COUNTY_ORDER = ['emerging', 'steady', 'softening', 'falling_demand'];").replace('      COUNTY_ORDER = countyOrder(d);\n', '');

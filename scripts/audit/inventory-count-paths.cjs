@@ -50,6 +50,7 @@ const JSON_COUNT_PATHS = {
   'hud-income-limits': 'counties',
   'zillow-zhvi': 'zhvi_metro',
   'zillow-zori': 'zori_metro',
+  'realtor-inventory': 'counties',
   'bls-laus': 'counties',
   'market-reference-projects': 'projects',
   'fred-cpi': 'series.CPIAUCSL.observations',

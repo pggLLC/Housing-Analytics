@@ -1,7 +1,9 @@
 name: Fetch CO Market Rents
 
 # Monthly: Zillow ZORI (data/market/zori_rents_co.json) and Apartment List
-# (data/market/apartment_list_co.json) for Colorado cities. Both build scripts
+# (data/market/apartment_list_co.json) for Colorado cities, and Realtor.com's
+# county and ZIP listing summary (data/market/realtor_inventory_co.json),
+# which the Market Direction tab shows beside each county's call. Both build scripts
 # existed with no workflow, so the files sat at their May 2026 fetch while the
 # Deal Calculator, Opportunity Finder and Deep Dive read them as current.
 #
@@ -69,6 +71,13 @@ jobs:
         continue-on-error: true
         run: python3 scripts/build_apartment_list_co.py
 
+      # Realtor.com posts the previous month's inventory files early in the month.
+      # Context only: no derived-chain script reads this file.
+      - name: Build Realtor.com listings snapshot
+        id: realtor
+        continue-on-error: true
+        run: python3 scripts/build_realtor_inventory_co.py
+
       - name: Validate output
         run: node scripts/validate-schemas.js
 
@@ -83,7 +92,7 @@ jobs:
           DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
           scripts/commit-with-derived-chain.sh "chore: update CO market rents (ZORI, Apartment List) [$(date -u '+%Y-%m-%d')]" -- \
-            data/market/zori_rents_co.json data/market/apartment_list_co.json
+            data/market/zori_rents_co.json data/market/apartment_list_co.json data/market/realtor_inventory_co.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'
@@ -91,9 +100,9 @@ jobs:
         uses: ./.github/actions/dispatch-pages-deploy
 
       - name: Fail if a source failed
-        if: steps.zori.outcome == 'failure' || steps.apartment_list.outcome == 'failure'
+        if: steps.zori.outcome == 'failure' || steps.apartment_list.outcome == 'failure' || steps.realtor.outcome == 'failure'
         run: |
-          echo "::error::ZORI: ${{ steps.zori.outcome }}, Apartment List: ${{ steps.apartment_list.outcome }}"
+          echo "::error::ZORI: ${{ steps.zori.outcome }}, Apartment List: ${{ steps.apartment_list.outcome }}, Realtor.com: ${{ steps.realtor.outcome }}"
           exit 1
 
   aamd-watch:

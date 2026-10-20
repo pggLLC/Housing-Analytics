@@ -674,6 +674,25 @@
       tags: ['zillow', 'zori', 'rent'],
       apiEndpoint: null
     },
+    // ── Realtor.com ─────────────────────────────────────────────
+    {
+      id: 'realtor-inventory',
+      name: 'Realtor.com Listings — County and ZIP',
+      category: 'Market',
+      format: 'JSON',
+      provider: 'Realtor.com',
+      url: 'https://www.realtor.com/research/data/',
+      localFile: 'data/market/realtor_inventory_co.json',
+      lastUpdated: '2026-10-20',
+      updateFrequency: 'Monthly',
+      maxAgeDays: 45,
+      geoUnit: 'County, ZIP',
+      coverage: 'Colorado — 64 counties, 473 ZIP codes',
+      features: 64,
+      description: 'Realtor.com monthly listing summary: homes for sale, new and pending listings, median list price, days on market and the share of listings with a price cut. Shown beside each county on the Market Direction tab; context only.',
+      tags: ['realtor', 'listings', 'for-sale', 'days-on-market'],
+      apiEndpoint: null
+    },
     // ── LEHD / Employment ────────────────────────────────────────
     {
       id: 'lehd-wac',
