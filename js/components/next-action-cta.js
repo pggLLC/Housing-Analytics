@@ -116,14 +116,17 @@
   // auto-running, and the rest take fips/geoType/auto=1.
   function _withJurisdiction(href, jurisdiction, noAuto) {
     if (!jurisdiction) return href;
+    var hash = '';
+    var h = href.indexOf('#');
+    if (h !== -1) { hash = href.slice(h); href = href.slice(0, h); }
     var sep = href.indexOf('?') === -1 ? '?' : '&';
     var fips = encodeURIComponent(jurisdiction.fips);
     var geoType = encodeURIComponent(jurisdiction.geoType);
     if (/hna-scenario-builder\.html/.test(href)) {
-      return href + sep + 'geoType=' + geoType + '&geoid=' + fips + '&auto=1';
+      return href + sep + 'geoType=' + geoType + '&geoid=' + fips + '&auto=1' + hash;
     }
     return href + sep + 'fips=' + fips + '&geoType=' + geoType +
-      ((noAuto || /recommendation\.html/.test(href)) ? '' : '&auto=1');
+      ((noAuto || /recommendation\.html/.test(href)) ? '' : '&auto=1') + hash;
   }
 
   function _buildHref(pageDef, jurisdiction) {
@@ -145,7 +148,12 @@
     var keys = Object.keys(PAGES).filter(function (k) {
       return k !== fromPage && !(next && !next.routed && nextPage === k);
     });
-    var links = keys.map(function (k) {
+    // A mixed project's step has a second page (the for-sale study beside
+    // Market Analysis); it leads the "also" links.
+    var companion = next && next.companion
+      ? '<a class="naca-btn" href="' + _withJurisdiction(next.companion.href, jurisdiction) + '">' + next.companion.label + '</a>'
+      : '';
+    var links = companion + keys.map(function (k) {
       var def = PAGES[k];
       return '<a class="naca-btn" href="' + _buildHref(def, jurisdiction) + '">' + def.label + '</a>';
     }).join('');
