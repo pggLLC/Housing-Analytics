@@ -1,5 +1,14 @@
 /**
- * scenario-presets.js — canonical projection scenario preset definitions.
+ * scenario-presets.js — the Scenario Builder's preset scenarios.
+ *
+ * Each preset is a percentage of the State Demography Office's (SDO) own
+ * forecast for the place loaded: births, deaths and net migration. 100 on all
+ * three is SDO's forecast, the one the HNA page's 20-year figure uses. Because
+ * the percentages apply to each place's own forecast, a preset means the same
+ * thing in a small town as in Denver.
+ *
+ * The HNA page's low and high lines are not these presets: they scale the
+ * projected growth by 15% either way (js/hna/hna-utils.js).
  *
  * Exposes: window.ScenarioPresets
  */
@@ -9,46 +18,35 @@
   const PRESETS = [
     {
       key: 'baseline',
-      label: 'Baseline (illustrative)',
-      // D10 — These presets are one fixed set of inputs for every place, not
-      // a forecast fitted to the selected place. The text says so.
-      description: 'Illustrative assumption, the same for every place: fertility and mortality hold at current rates and 500 more people move in than move out each year. It is not fitted to this place; for a small town 500 people a year is far above its recent migration, so compare it with the DOLA forecast.',
+      label: 'SDO forecast',
+      short: 'All at 100%',
+      description: 'The State Demography Office’s forecast for this place, with births, deaths and migration as SDO projects them. It gives the HNA page’s 20-year figure.',
       color: '#4a90d9',
-      params: {
-        fertility_multiplier: 1.0,
-        mortality_multiplier: 1.0,
-        net_migration_annual: 500,
-      },
+      params: { births_pct: 100, deaths_pct: 100, migration_pct: 100 },
     },
     {
       key: 'low_growth',
-      label: 'Low growth (illustrative)',
-      description: 'Illustrative assumption, the same for every place: 250 more people move in than move out each year, fertility 10% below current rates and mortality 2% above. It is not fitted to this place.',
+      label: 'Half the migration',
+      short: 'Moving in at 50%',
+      description: 'SDO’s forecast with half as many net arrivals each year. Births and deaths follow SDO’s forecast.',
       color: '#e07b39',
-      params: {
-        fertility_multiplier: 0.90,
-        mortality_multiplier: 1.02,
-        net_migration_annual: 250,
-      },
+      params: { births_pct: 100, deaths_pct: 100, migration_pct: 50 },
     },
     {
       key: 'high_growth',
-      label: 'High growth (illustrative)',
-      description: 'Illustrative assumption, the same for every place: 1,000 more people move in than move out each year, fertility 5% above current rates and mortality 2% below. It is not fitted to this place.',
+      label: '1.5× the migration',
+      short: 'Moving in at 150%',
+      description: 'SDO’s forecast with one and a half times its net arrivals each year. Births and deaths follow SDO’s forecast.',
       color: '#4caf50',
-      params: {
-        fertility_multiplier: 1.05,
-        mortality_multiplier: 0.98,
-        net_migration_annual: 1000,
-      },
+      params: { births_pct: 100, deaths_pct: 100, migration_pct: 150 },
     },
   ];
 
   function cloneParams(params) {
     return {
-      fertility_multiplier: params.fertility_multiplier,
-      mortality_multiplier: params.mortality_multiplier,
-      net_migration_annual: params.net_migration_annual,
+      births_pct: params.births_pct,
+      deaths_pct: params.deaths_pct,
+      migration_pct: params.migration_pct,
     };
   }
 

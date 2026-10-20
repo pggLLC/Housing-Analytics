@@ -3,73 +3,87 @@
   "model": {
     "class": "modeled",
     "type": "cohort-component demographic projection",
-    "description": "COHO Analytics cohort-component model. Base population from DOLA 2024 SYA. Annual cohort progression with age-distributed migration.",
-    "methodology_url": "docs/PROJECTION-METHODOLOGY.md"
+    "description": "Single-year-of-age cohort-component model started from the State Demography Office (SDO) county forecast. With births, deaths and migration at 100% it reproduces SDO's population and households; each slider is a percentage of SDO's forecast.",
+    "methodology_url": "docs/PROJECTION-METHODOLOGY.md#scenario-builder",
+    "baseline_files": "data/hna/scenario-baseline/<county>.json (scripts/hna/build_scenario_baseline.py)"
   },
   "assumptions": {
-    "headship_rate": {
-      "value": 0.38,
-      "type": "fixed",
-      "source": "US ACS national estimate",
-      "notes": "Fixed at national level. Local rates may differ significantly, especially in rural or high-cost areas."
+    "base_population": {
+      "source": "SDO county forecast by single year of age and sex, Vintage 2024",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html"
+    },
+    "death_rates": {
+      "source": "NCHS, U.S. State Life Tables, 2021, NVSR vol. 73 no. 7, Tables CO-2 and CO-3",
+      "notes": "Colorado's age pattern, scaled each year so each county's deaths equal SDO's forecast."
+    },
+    "birth_rates": {
+      "source": "NCHS, Births: Final Data for 2023, NVSR vol. 74 no. 1, Table 8, Colorado",
+      "notes": "Colorado's age pattern, scaled each year so each county's births equal SDO's forecast."
+    },
+    "migration_by_age": {
+      "source": "SDO county forecast",
+      "notes": "The change in SDO's population by age that births and deaths do not explain."
+    },
+    "households": {
+      "source": "SDO household forecast by age of householder",
+      "notes": "Households per person in four age groups, by year, applied to the scenario's people."
     },
     "vacancy_target": {
-      "value": 0.05,
-      "type": "fixed",
-      "source": "Planning assumption",
-      "notes": "5% vacancy is a common planning-level assumption. Actual vacancy varies by market."
+      "source": "data/hna/projections/<county>.json housing_need.target_vacancy",
+      "notes": "Each county's target vacancy, the one the HNA page uses."
     },
-    "survival_rates": {
-      "source": "Approximate US life table",
-      "notes": "5-year survival rates interpolated to annual. Not county-calibrated."
-    },
-    "fertility_rates": {
-      "source": "Age-specific fertility rates (US national)",
-      "notes": "ASFRs per woman per 5-year period. Applied as multipliers in scenario presets."
-    },
-    "migration_distribution": {
-      "source": "National US age-distribution proportions",
-      "notes": "Migration distributed by age using national proportions. Not calibrated to specific counties."
+    "place_share": {
+      "source": "data/hna/projections/places.json shares.blended; population share where a place has no ledger row",
+      "notes": "The share of county growth the HNA page gives a town or CDP."
     }
   },
   "scenarios": {
     "baseline": {
-      "label": "Baseline (Moderate Growth)",
-      "params": { "fertility_multiplier": 1.0, "mortality_multiplier": 1.0, "net_migration_annual": 500 },
-      "attribution": "COHO preset using DOLA base population",
-      "notes": "Multipliers of 1.0 = no change from model defaults. Migration of 500/yr is a representative moderate-growth assumption, not derived from DOLA forecasts."
+      "label": "SDO forecast",
+      "params": { "births_pct": 100, "deaths_pct": 100, "migration_pct": 100 },
+      "attribution": "SDO county forecast",
+      "notes": "Reproduces SDO's forecast and the HNA page's 20-year figure."
     },
-    "low-growth": {
-      "label": "Low Growth",
-      "params": { "fertility_multiplier": 0.90, "mortality_multiplier": 1.02, "net_migration_annual": 250 },
-      "attribution": "COHO preset",
-      "notes": "Conservative scenario with lower fertility and net in-migration."
+    "low_growth": {
+      "label": "Half the migration",
+      "params": { "births_pct": 100, "deaths_pct": 100, "migration_pct": 50 },
+      "attribution": "COHO preset on the SDO forecast",
+      "notes": "Half SDO's net migration at every age."
     },
-    "high-growth": {
-      "label": "High Growth",
-      "params": { "fertility_multiplier": 1.05, "mortality_multiplier": 0.98, "net_migration_annual": 1000 },
-      "attribution": "COHO preset",
-      "notes": "Optimistic scenario with higher fertility and net in-migration."
+    "high_growth": {
+      "label": "1.5× the migration",
+      "params": { "births_pct": 100, "deaths_pct": 100, "migration_pct": 150 },
+      "attribution": "COHO preset on the SDO forecast",
+      "notes": "One and a half times SDO's net migration at every age."
     }
   },
   "widgets": [
     {
-      "id": "sbProjectionChart",
-      "label": "Housing Units Needed 2024–2050 (line chart)",
-      "source": "DOLA Single-Year-of-Age Estimates + COHO model",
+      "id": "sbKeyNumbers",
+      "label": "Key numbers: homes needed by 2044, population, people moving in a year",
+      "source": "SDO county forecast + cohort-component scenarios; in-commuter need from the ranking index",
       "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
-      "vintage": "DOLA 2024",
+      "vintage": "SDO Vintage 2024",
       "type": "modeled",
-      "notes": "Cohort-component projection from DOLA base population using COHO-defined scenario parameters."
+      "notes": "At 100% the homes figure equals the HNA page's 20-year figure (test/scenario-baseline-reproduces-sdo.test.js)."
+    },
+    {
+      "id": "sbProjectionChart",
+      "label": "Homes needed since 2024 for resident growth, 2024–2050 (line chart)",
+      "source": "SDO county forecast + cohort-component scenarios",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "SDO Vintage 2024",
+      "type": "modeled",
+      "notes": "Households added since 2024 ÷ (1 − county target vacancy), by scenario."
     },
     {
       "id": "sbResultsBody",
-      "label": "Detailed Annual Projections table",
-      "source": "DOLA Single-Year-of-Age Estimates + COHO model",
+      "label": "Year-by-year table",
+      "source": "SDO county forecast + cohort-component scenarios",
       "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
-      "vintage": "DOLA 2024",
+      "vintage": "SDO Vintage 2024",
       "type": "modeled",
-      "notes": "Annual population, households, and units-needed figures from cohort-component model."
+      "notes": "Population, households added and homes needed for resident growth, by year and scenario."
     }
   ]
 }

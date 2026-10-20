@@ -358,3 +358,93 @@
   font-size: .8125rem;
   min-height: 32px;
 }
+
+/* ---------------------------------------------------------------------------
+   Key numbers: the loaded scenario's answer, and the decision it points to,
+   before the controls (the home page's executive view, 2026-10-20).
+   --------------------------------------------------------------------------- */
+.sb-keys {
+  margin-bottom: var(--sp4);
+}
+
+.sb-keys[hidden] {
+  display: none;
+}
+
+.sb-keys__heading {
+  font-size: 1.05rem;
+  margin: 0 0 var(--sp2);
+}
+
+.sb-keys__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.sb-key {
+  padding: var(--sp3);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.sb-key__label {
+  display: block;
+  font-size: var(--small);
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: var(--sp1);
+}
+
+.sb-key__val {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.sb-key__line {
+  display: block;
+  font-size: var(--small);
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.sb-decide {
+  margin-top: var(--sp3);
+  padding: var(--sp3) var(--sp4);
+  border-left: 3px solid var(--accent);
+  background: var(--bg2);
+}
+
+.sb-decide p {
+  margin: 0 0 var(--sp2);
+  line-height: 1.5;
+}
+
+.sb-decide__next {
+  margin-bottom: 0 !important;
+  font-weight: 700;
+}
+
+.sb-decide__next a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.sb-table-note {
+  margin: 0 0 var(--sp2);
+  font-size: var(--small);
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .sb-keys__grid {
+    grid-template-columns: 1fr;
+  }
+}

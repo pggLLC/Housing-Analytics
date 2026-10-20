@@ -121,6 +121,7 @@ const DATA_FILES = [
     'data/hna/lehd',
     'data/hna/dola_sya',
     'data/hna/projections',
+    'data/hna/scenario-baseline',
     'data/hna/derived',
 ];
 

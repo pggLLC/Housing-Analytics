@@ -167,19 +167,35 @@ assert(regionalHtml.includes('$3.46'), 'regional first-paint fallback uses $3.46
   }
 }
 
-// Guided step 5: the scenario builder states its two housing assumptions in
-// plain numbers. They must be the numbers the projection uses.
+// Guided step 5: the scenario builder's housing assumptions are the HNA
+// page's own, county by county: SDO's household forecast and each county's
+// target vacancy. The page must not state one fixed household rate or vacancy
+// for every place (until 2026-10-20 it said "about 38 households for every
+// 100 residents" and "5% of homes standing empty" while the HNA page used
+// each county's own figures), and the vacancy the builder divides by must be
+// the one the HNA page's projection file carries.
 {
   const builderHtml = read('hna-scenario-builder.html');
-  const builderJs = read('js/projections/scenario-builder.js');
-  const headship = Number((builderJs.match(/headshipRate:\s*([\d.]+)/) || [])[1]);
-  const vacancy = Number((builderJs.match(/vacancyTarget:\s*([\d.]+)/) || [])[1]);
-  assert(Number.isFinite(headship) && Number.isFinite(vacancy), 'scenario-builder.js no longer sets headshipRate and vacancyTarget');
-  const hh = builderHtml.match(/about (\d+) households for every 100\s+residents/);
-  const vac = builderHtml.match(/(\d+)% of homes standing\s+empty/);
-  assert(hh && vac, 'the scenario builder no longer states its household and vacancy assumptions');
-  assert.equal(Number(hh[1]) / 100, headship, `page says ${hh[1]} households per 100 residents; the model uses ${headship} per person`);
-  assert.equal(Number(vac[1]) / 100, vacancy, `page says ${vac[1]}% of homes empty; the model targets ${vacancy}`);
+  assert(!/households for every 100\s+residents/.test(builderHtml), 'the scenario builder states one household rate for every place');
+  assert(!/(\d+)% of homes standing\s+empty/.test(builderHtml), 'the scenario builder states one vacancy for every place');
+  global.window = global;
+  global.document = { getElementById: () => null, addEventListener() {}, dispatchEvent() {}, querySelector: () => null, documentElement: {} };
+  global.CustomEvent = function CustomEvent() {};
+  require(path.join(ROOT, 'js/projections/cohort-component-model.js'));
+  require(path.join(ROOT, 'js/projections/scenario-presets.js'));
+  require(path.join(ROOT, 'js/projections/scenario-builder.js'));
+  let checkedVacancy = 0;
+  for (const row of rankingIndex.rankings.filter((r) => r.type === 'county')) {
+    const projection = readJson(`data/hna/projections/${row.geoid}.json`);
+    const ctx = global.ScenarioBuilder.contextFor({ geoid: row.geoid, name: row.name, type: 'county' }, {
+      baselines: { [row.geoid]: readJson(`data/hna/scenario-baseline/${row.geoid}.json`) },
+      projections: { [row.geoid]: projection },
+    });
+    assert.equal(ctx.counties[0].vacancy, projection.housing_need.target_vacancy,
+      `${row.name}: the builder's vacancy is the HNA projection's target vacancy`);
+    checkedVacancy += 1;
+  }
+  assert.equal(checkedVacancy, 64, 'checked the builder vacancy for every county');
 }
 
 console.log(`public-facing-numbers: PASS (${rankingCount} jurisdictions, ${lihtc.features.length} LIHTC features)`);

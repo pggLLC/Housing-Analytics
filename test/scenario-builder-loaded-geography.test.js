@@ -6,8 +6,9 @@
 // any geography loaded and after a failed load, under the selected place's
 // name, and a later failed load left the previous place's data in use.
 //
-// Every expected figure here comes from the DOLA file the page would load,
-// run through the same cohort model, not from pinned numbers.
+// Every expected figure here comes from the State Demography Office files the
+// page would load (data/hna/scenario-baseline/, data/hna/projections/), not
+// from pinned numbers.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -42,13 +43,15 @@ assert.equal(body().querySelectorAll('tr').length, 1, 'one explanatory row, not 
 assert(!/\d{1,3},\d{3}/.test(body().textContent), `no population figure before a geography loads: "${body().textContent}"`);
 assert.equal(states.at(-1).geography, null, 'the page is told nothing is loaded (save stays off)');
 
-// 2. A geography loads: the table's base population is that file's own total.
-const mesa = JSON.parse(read('data/hna/dola_sya/08077.json'));
-const expectedBase = Math.round(new w.CohortComponentModel({
-  basePopulation: w.CohortComponentModel.buildBasePopFromDola(mesa), baseYear: 2024, targetYear: 2050,
-  scenario: w.ScenarioPresets.list[0].params, headshipRate: 0.38, vacancyTarget: 0.05, baseUnits: 0,
-}).project()[0].totalPopulation);
-SB.init({ dolaData: mesa, geoid: '08077', displayName: 'Mesa County' });
+// 2. A geography loads: the table's base population is SDO's own 2024 total.
+const countyFiles = (g) => ({
+  baselines: { [g]: JSON.parse(read(`data/hna/scenario-baseline/${g}.json`)) },
+  projections: { [g]: JSON.parse(read(`data/hna/projections/${g}.json`)) },
+});
+const mesaData = countyFiles('08077');
+const mesa = SB.contextFor({ geoid: '08077', name: 'Mesa County', type: 'county' }, mesaData);
+const expectedBase = mesaData.baselines['08077'].sdo.population[0];
+SB.init(mesa);
 assert.equal(SB.hasProjection(), true, 'a loaded geography shows a projection');
 assert.equal(firstRowPop(), expectedBase, 'first-year population equals the loaded DOLA file run through the model');
 assert.notEqual(firstRowPop(), 36000, 'not the placeholder population');
@@ -69,7 +72,7 @@ w.document.getElementById('sbSaveScenario').click();
 const saved = w.ScenarioStorage.list();
 assert.equal(saved.length, 1, 'one click saves once after several init() calls');
 assert.equal(saved[0].geography, null, 'a scenario saved before loading names no place');
-SB.init({ dolaData: mesa, geoid: '08077', displayName: 'Mesa County' });
+SB.init(mesa);
 w.document.getElementById('sbScenarioName').value = 'Mesa test';
 w.document.getElementById('sbSaveScenario').click();
 assert.deepEqual(JSON.parse(JSON.stringify(w.ScenarioStorage.get(w.ScenarioStorage.list()[0].id).geography)), { geoid: '08077', name: 'Mesa County' },
@@ -99,8 +102,8 @@ assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim s
     'js/projections/scenario-storage.js', 'js/projections/scenario-builder.js']) pw.eval(read(f));
   const index = JSON.parse(read('data/hna/ranking-index.json'));
   const rows = Array.isArray(index.rankings) ? index.rankings : Object.values(index.rankings);
-  const counties = rows.filter((r) => r.type === 'county').slice(0, 2);
-  assert.equal(counties.length, 2, 'two counties to switch between');
+  const counties = rows.filter((r) => r.type === 'county').slice(0, 4);
+  assert.equal(counties.length, 4, 'four counties to switch between');
   const pending = {};
   pw.safeFetchJSON = (url) => {
     if (url.includes('ranking-index')) return Promise.resolve(index);
@@ -110,32 +113,44 @@ assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim s
   pw.document.dispatchEvent(new pw.Event('DOMContentLoaded'));
   await new Promise((r) => setTimeout(r, 0));
   const sel = pw.document.getElementById('sbGeoSelect');
-  const load = (geoid) => {
+  const tick = () => new Promise((r) => setTimeout(r, 0));
+  const load = async (geoid) => {
     sel.value = geoid; sel.dispatchEvent(new pw.Event('change'));
     pw.document.getElementById('sbLoadCounty').click();
-    return `data/hna/dola_sya/${geoid}.json`;
+    await tick();
   };
-  const tick = () => new Promise((r) => setTimeout(r, 0));
-  const fileFor = (g) => JSON.parse(read(`data/hna/dola_sya/${g}.json`));
-  const [a, b] = counties.map((c) => c.geoid);
+  // A county's load fetches its SDO baseline and its projections file.
+  const urlsFor = (g) => [`data/hna/scenario-baseline/${g}.json`, `data/hna/projections/${g}.json`];
+  const resolve = async (g) => {
+    for (const u of urlsFor(g)) pending[u].resolve(JSON.parse(read(u)));
+    await tick(); await tick();
+  };
+  const reject = async (g) => {
+    for (const u of urlsFor(g)) pending[u].reject(new Error('late failure'));
+    await tick(); await tick();
+  };
+  const [a, b, c, d] = counties.map((x) => x.geoid);
 
   // A loads, then the selection changes to B: A's projection is cleared.
-  const urlA = load(a); pending[urlA].resolve(fileFor(a)); await tick();
+  await load(a); await resolve(a);
   assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, a, 'A loaded');
+  assert.equal(pw.document.getElementById('sbResultsBody').querySelectorAll('tr').length > 20, true, 'A shows a year table');
   sel.value = b; sel.dispatchEvent(new pw.Event('change'));
   assert.equal(pw.ScenarioBuilder.loadedGeography(), null, 'changing the selection clears the earlier projection');
   assert.equal(pw.ScenarioBuilder.hasProjection(), false, 'no projection shown for an unloaded selection');
 
-  // Out of order: start A, then B; B succeeds, then the stale A fails or succeeds.
-  const urlA2 = load(a); const urlB = load(b);
-  pending[urlB].resolve(fileFor(b)); await tick();
+  // Out of order: start C, then B; B succeeds, then the stale C fails.
+  await load(c); await load(b);
+  await resolve(b);
   assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'B loaded');
-  pending[urlA2].reject(new Error('late failure')); await tick();
-  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late failure for A does not clear B');
-  const urlA3 = load(a); const urlB2 = load(b);
-  pending[urlB2].resolve(fileFor(b)); await tick();
-  pending[urlA3].resolve(fileFor(a)); await tick();
-  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late success for A does not replace B');
+  await reject(c);
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late failure for C does not clear B');
+  // Start D, then B again (already fetched, so it answers first); D's late
+  // success must not replace B.
+  await load(d); await load(b);
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'B reloaded from the files already fetched');
+  await resolve(d);
+  assert.equal(pw.ScenarioBuilder.loadedGeography().geoid, b, 'a late success for D does not replace B');
 
   // 7. The chart: before a place loads it is hidden behind the page's own
   //    explanation instead of drawing an empty 0-1 grid with no years, and it
@@ -155,7 +170,7 @@ assert(!/statewide defaults/i.test(html), 'the failed-load path does not claim s
   assert.equal(canvas.hidden, true, 'no chart before a place loads');
   assert.equal(note.hidden, false, 'the empty-state note shows instead');
   assert.equal(charts, 0, 'no empty chart is drawn');
-  cw.ScenarioBuilder.init({ dolaData: mesa, geoid: '08077', displayName: 'Mesa County' });
+  cw.ScenarioBuilder.init(mesa);
   assert.equal(canvas.hidden, false, 'the chart shows once a place loads');
   assert.equal(note.hidden, true, 'the note hides once a place loads');
   assert.equal(charts, 1, 'one chart drawn');
