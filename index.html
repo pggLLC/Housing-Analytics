@@ -82,18 +82,6 @@
           </div>
           <section id="homeAnswerCard" class="home-answer" aria-live="polite" hidden></section>
         </div>
-        <p class="home-opening__lead">
-          Across Colorado, roughly half of renters now spend more than 30% of every paycheck
-          on rent (<a href="https://data.census.gov/table/ACSDT5Y2024.B25070" target="_blank" rel="noopener">ACS 2020&ndash;2024</a>) &mdash; and counting homeowners
-          too, nearly 1 in 3 Colorado households, about <strong>694,000</strong>, carry that
-          same cost burden (<a href="data/hna/chas_affordability_gap.json">HUD CHAS 2018&ndash;2022</a>).
-          COHO is built for people who develop, plan, finance and govern housing &mdash;
-          developers, planners, housing authorities, local governments and lenders &mdash;
-          working from the same public sources (ACS, HUD CHAS, CHFA and DOLA) so everyone
-          looks at the same picture of where new homes will fit. If you are learning the
-          field, you are welcome too: each step explains its terms as you go.
-          Educational; not a substitute for lender underwriting or legal advice.
-        </p>
         <div class="home-opening__actions">
           <!-- #1620 §7 — One entry CTA, naming the thing the reader is starting
                rather than the mechanism. It is the only "start" button on the
@@ -116,6 +104,88 @@
             Browse local housing profiles →
           </a>
         </div>
+
+        <!-- Executive view (paul, 2026-10-20: "what's the information I need").
+             Four key numbers, one sentence each, then what they mean for a
+             decision and one next step. Every method note is kept, folded
+             under "How this is counted"; the other statewide figures are
+             folded in "More Colorado numbers" further down. The "only part"
+             sentence is pinned to the coverage ratio by
+             test/homepage-snapshot.test.js. -->
+        <section class="home-keys" aria-labelledby="keys-heading">
+          <h2 id="keys-heading" class="home-keys__heading">Colorado at a glance</h2>
+          <div class="home-keys__grid" role="list">
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Renters paying 30% or more of income</span>
+            <span class="home-snapshot__val" id="snapCostBurden">—</span>
+            <span class="home-key__line">The usual line for cost burden: rent and utilities take 30% or more of the household’s income.</span>
+            <details class="home-key__how">
+              <summary>How this is counted</summary>
+              <span class="home-snapshot__note"><a href="https://data.census.gov/table/ACSDT5Y2024.B25070" target="_blank" rel="noopener">ACS B25070</a> · % renters paying ≥30% of income</span>
+            </details>
+          </div>
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Homes short for renters ≤30% AMI</span>
+            <span class="home-snapshot__val" id="snapGap30">—</span>
+            <span class="home-key__line">Homes Colorado lacks for its lowest-income renters, counting only homes they can afford that higher earners don’t already rent.</span>
+            <details class="home-key__how">
+              <summary>How this is counted</summary>
+              <span class="home-snapshot__note"><a href="data/hna/chas_affordable_available.json">HUD CHAS <span id="snapGapVintage30">—</span></a> · a count of homes, not people. <span id="snapGap30Households">—</span> renter households earn up to 30% of area median income, and only <span id="snapGap30Homes">—</span> homes they can afford are vacant or rented by someone in that group: <span id="snapGap30Per100">—</span> for every 100 households. Cheap homes rented by higher-income households don't count, because no one in the group can move in.</span>
+            <span class="home-snapshot__note"><strong>2024 minimum: <span id="snapMin30">—</span> homes short</strong> (<a href="data/co_ami_gap_by_county.json">AMI Gap</a>, ACS <span id="snapMinYear30">—</span>). Renter households earning up to 30% of area median income, minus the homes that rent for what they can afford, and minus homes rented for no cash rent, whose occupants are counted among those households. It counts cheap homes even when higher-income households rent them, and measures everyone against one statewide AMI ($127,800 for a 4-person household, HUD FY2026), so it differs from HUD's count, which uses older survey years and each county's own limits.</span>
+            </details>
+          </div>
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Homes Colorado needs by 2044</span>
+            <span class="home-snapshot__val" id="snapUnits20">—</span>
+            <span class="home-key__line">New homes needed for 20 years of household growth, at all incomes. This is growth only, separate from today’s shortfall.</span>
+            <details class="home-key__how">
+              <summary>How this is counted</summary>
+              <span class="home-snapshot__note"><a href="data/hna/projections/08.json">DOLA projection</a> · additional homes Colorado needs by 2044 to house projected household growth at a healthy vacancy rate, all incomes · counts growth only: not today's shortfall, and not reduced by existing affordable or naturally affordable homes · base year 2024</span>
+            </details>
+          </div>
+          <!-- F108 / #1822 — Pace of NEW rental supply against projected
+               ≤60%-AMI RENTER household growth. Renter basis, because the
+               supply it is compared against is rental (the site's AMI-gap
+               methodology v2 made the same call); new construction only,
+               because acquisition/rehab preserves homes rather than adding
+               them. Published as a coverage ratio, not a net: a net of a few
+               hundred a year flips sign on a 10% input change. Derived in
+               scripts/build-home-snapshot.mjs (values.*, basis in
+               deficit_growth_basis); the standing shortfall is the ≤30% card
+               here and the ≤50% card under "More Colorado numbers". -->
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">New tax-credit homes against new low-income renters</span>
+            <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
+            <span class="home-key__line">How much of each year’s growth in renters at or below 60% AMI new tax-credit construction keeps up with.</span>
+            <details class="home-key__how">
+              <summary>How this is counted</summary>
+              <span class="home-snapshot__note">
+              New LIHTC construction (<span id="snapNewConstPerYr">—</span> units/yr, 10-yr average) covers this share of projected new ≤60%-AMI renter households (<span id="snapRenterGrowthPerYr">—</span>/yr: DOLA household growth × the share of all households that are renters at ≤60% AMI, from ACS 2020–2024), before any losses from the existing affordable stock, which no source here measures. Acquisition/rehab units (<span id="snapPreservationPerYr">—</span>/yr) preserve homes; they do not add to them. Today's standing shortfall is in the ≤30% and ≤50% AMI cards.
+              Sources: <a href="https://data.census.gov/table/ACSDT5Y2024.B25118" target="_blank" rel="noopener" style="color:var(--accent);">ACS 2020–2024 (B25118)</a>,
+              <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent);">DOLA SDO 2024 mid-projection</a>,
+              <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA HousingTaxCreditProperties</a>
+            </span>
+            </details>
+          </div>
+          </div>
+          <div class="home-decide">
+            <p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>
+            <p><strong>What to decide.</strong> Which income band a project should serve, and whether to add new homes or keep existing affordable ones. Statewide figures hide wide local differences, so check your town’s numbers before you decide.</p>
+            <p class="home-decide__next"><a href="#homeJurisdictionSearch">Next step: look up your town →</a></p>
+          </div>
+        </section>
+        <p class="home-opening__lead">
+          Across Colorado, roughly half of renters now spend more than 30% of every paycheck
+          on rent (<a href="https://data.census.gov/table/ACSDT5Y2024.B25070" target="_blank" rel="noopener">ACS 2020&ndash;2024</a>) &mdash; and counting homeowners
+          too, nearly 1 in 3 Colorado households, about <strong>694,000</strong>, carry that
+          same cost burden (<a href="data/hna/chas_affordability_gap.json">HUD CHAS 2018&ndash;2022</a>).
+          COHO is built for people who develop, plan, finance and govern housing &mdash;
+          developers, planners, housing authorities, local governments and lenders &mdash;
+          working from the same public sources (ACS, HUD CHAS, CHFA and DOLA) so everyone
+          looks at the same picture of where new homes will fit. If you are learning the
+          field, you are welcome too: each step explains its terms as you go.
+          Educational; not a substitute for lender underwriting or legal advice.
+        </p>
       </div>
 
       <!-- Homepage need-severity map — same overall_need_score composite
@@ -379,7 +449,9 @@
          applies unchanged. -->
     <section class="home-lihtc" aria-labelledby="paths-heading">
       <div class="home-container">
-        <h2 id="paths-heading">Paths to affordable housing &mdash; and how they differ</h2>
+        <details class="home-fold">
+        <summary><h2 id="paths-heading">Paths to affordable housing &mdash; and how they differ</h2>
+          <span class="home-fold__takeaway">Tax-credit rental, affordable ownership, preservation, and public routes: same questions, different capital and risks.</span></summary>
 
         <p>There is more than one conventional way to get an affordable home built or
            kept. The tools above ask the same questions of each; what changes is the
@@ -421,13 +493,16 @@
         <a href="for-sale-market-study.html" class="home-lihtc__link" style="margin-left:var(--sp4);">
           For-sale market study →
         </a>
+        </details>
       </div>
     </section>
 
     <!-- ── 6. Audience ── -->
     <section class="home-audience" aria-labelledby="audience-heading">
       <div class="home-container home-container--wide">
-        <h2 id="audience-heading">Built for the people doing the work.</h2>
+        <details class="home-fold">
+        <summary><h2 id="audience-heading">Built for the people doing the work.</h2>
+          <span class="home-fold__takeaway">What the site offers newly elected officials, first-time developers and financiers.</span></summary>
         <div class="home-audience__grid">
 
           <div class="home-audience__item">
@@ -460,15 +535,16 @@
           </div>
 
         </div>
+        </details>
       </div>
     </section>
 
     <!-- ── 7. Housing with Dignity ── -->
     <section class="home-dignity" aria-labelledby="dignity-heading">
       <div class="home-dignity__inner">
-        <p class="home-dignity__opening" id="dignity-heading">
-          Affordable housing is not just a real estate transaction.
-        </p>
+        <details class="home-fold">
+        <summary><span class="home-dignity__opening" id="dignity-heading">Affordable housing is not just a real estate transaction.</span>
+          <span class="home-fold__takeaway">Why stable homes matter for health, school and community, and why shared data helps.</span></summary>
         <p>It is a public health intervention. Research consistently links stable,
            affordable housing to lower rates of emergency room utilization, improved
            school attendance, reduced child welfare involvement, and greater long-term
@@ -483,13 +559,16 @@
            does. So an elected official has the words to advocate honestly. So a
            financier and a community member can read the same sources and reach the
            same conclusions.</p>
+        </details>
       </div>
     </section>
 
     <!-- ── 8. Data snapshot ── -->
     <section class="home-snapshot" role="region" aria-label="Colorado housing data at a glance">
       <div class="home-container home-container--wide">
-        <span class="home-snapshot__label">Colorado at a glance</span>
+        <details class="home-fold">
+        <summary><span class="home-fold__title">More Colorado numbers</span>
+          <span class="home-fold__takeaway">Households, the ≤50% AMI shortfall, tax-credit supply and the data date.</span></summary>
         <!-- F118/F2.3 — banner points readers to the Data Trust Center instead
              of overclaiming cross-surface reconciliation. Public stats should
              be sourced and monitored, with freshness and data limits visible. -->
@@ -509,12 +588,6 @@
             <span class="home-snapshot__note"><a href="data/hna/summary/08.json">ACS DP02_0001E</a> · statewide summary, ACS 2024</span>
           </div>
 
-          <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">CO homes short for renters ≤30% AMI</span>
-            <span class="home-snapshot__val" id="snapGap30">—</span>
-            <span class="home-snapshot__note"><a href="data/hna/chas_affordable_available.json">HUD CHAS <span id="snapGapVintage30">—</span></a> · a count of homes, not people. <span id="snapGap30Households">—</span> renter households earn up to 30% of area median income, and only <span id="snapGap30Homes">—</span> homes they can afford are vacant or rented by someone in that group: <span id="snapGap30Per100">—</span> for every 100 households. Cheap homes rented by higher-income households don't count, because no one in the group can move in.</span>
-            <span class="home-snapshot__note"><strong>2024 minimum: <span id="snapMin30">—</span> homes short</strong> (<a href="data/co_ami_gap_by_county.json">AMI Gap</a>, ACS <span id="snapMinYear30">—</span>). Renter households earning up to 30% of area median income, minus the homes that rent for what they can afford, and minus homes rented for no cash rent, whose occupants are counted among those households. It counts cheap homes even when higher-income households rent them, and measures everyone against one statewide AMI ($127,800 for a 4-person household, HUD FY2026), so it differs from HUD's count, which uses older survey years and each county's own limits.</span>
-          </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO homes short for renters ≤50% AMI (includes ≤30%)</span>
@@ -523,17 +596,7 @@
             <span class="home-snapshot__note"><strong>2024 minimum at ≤60% AMI: <span id="snapMin60">—</span> homes short</strong> (<a href="data/co_ami_gap_by_county.json">AMI Gap</a>, ACS <span id="snapMinYear60">—</span>). At least this many, including every household counted at ≤30% AMI. Each home counts only for households who can afford its rent, cheapest homes to the lowest incomes first, so homes renting between the 30% and 60% limits cannot offset the shortfall below 30%. Counted homes are renter-occupied, not necessarily vacant or available, and some are rented by higher-income households.</span>
           </div>
 
-          <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">20-yr Units Needed (Statewide)</span>
-            <span class="home-snapshot__val" id="snapUnits20">—</span>
-            <span class="home-snapshot__note"><a href="data/hna/projections/08.json">DOLA projection</a> · additional homes Colorado needs by 2044 to house projected household growth at a healthy vacancy rate, all incomes · counts growth only: not today's shortfall, and not reduced by existing affordable or naturally affordable homes · base year 2024</span>
-          </div>
 
-          <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">CO Renter Cost Burden</span>
-            <span class="home-snapshot__val" id="snapCostBurden">—</span>
-            <span class="home-snapshot__note"><a href="https://data.census.gov/table/ACSDT5Y2024.B25070" target="_blank" rel="noopener">ACS B25070</a> · % renters paying ≥30% of income</span>
-          </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CHFA Tax-Credit Properties</span>
@@ -551,26 +614,6 @@
             <span class="home-snapshot__note"><a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> · by award year</span>
           </div>
 
-          <!-- F108 / #1822 — Pace of NEW rental supply against projected
-               ≤60%-AMI RENTER household growth. Renter basis, because the
-               supply it is compared against is rental (the site's AMI-gap
-               methodology v2 made the same call); new construction only,
-               because acquisition/rehab preserves homes rather than adding
-               them. Published as a coverage ratio, not a net: a net of a few
-               hundred a year flips sign on a 10% input change. Derived in
-               scripts/build-home-snapshot.mjs (values.*, basis in
-               deficit_growth_basis); the standing shortfall is the two
-               deficit cards above. -->
-          <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">LIHTC new construction vs ≤60%-AMI renter growth</span>
-            <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
-            <span class="home-snapshot__note">
-              New LIHTC construction (<span id="snapNewConstPerYr">—</span> units/yr, 10-yr average) covers this share of projected new ≤60%-AMI renter households (<span id="snapRenterGrowthPerYr">—</span>/yr: DOLA household growth × the share of all households that are renters at ≤60% AMI, from ACS 2020–2024), before any losses from the existing affordable stock, which no source here measures. Acquisition/rehab units (<span id="snapPreservationPerYr">—</span>/yr) preserve homes; they do not add to them. Today's standing shortfall is the two deficit cards above.
-              Sources: <a href="https://data.census.gov/table/ACSDT5Y2024.B25118" target="_blank" rel="noopener" style="color:var(--accent);">ACS 2020–2024 (B25118)</a>,
-              <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent);">DOLA SDO 2024 mid-projection</a>,
-              <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA HousingTaxCreditProperties</a>
-            </span>
-          </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Data vintage</span>
@@ -579,6 +622,7 @@
           </div>
 
         </div>
+        </details>
       </div>
     </section>
 
@@ -589,7 +633,9 @@
          of which sources back the figures used across the site. -->
     <section style="max-width:1400px;margin:24px auto;padding:0 18px;">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.4rem;">
-        <h2 style="margin:0 0 .5rem;">Research sources cited on this site</h2>
+        <details class="home-fold">
+        <summary><h2 style="margin:0;">Research sources cited on this site</h2>
+          <span class="home-fold__takeaway">The twelve research groups and public datasets behind the figures, each linked.</span></summary>
         <p style="color:var(--muted);font-size:.88rem;margin:0 0 .75rem;">
           This reference draws from federal raw data (Census ACS/CHAS, HUD FMR/AMI, BLS LODES) and a curated layer of housing research commonly cited in affordable-housing planning and finance. Each source below links to the current authoritative reference.
         </p>
@@ -607,6 +653,7 @@
           <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>DOLA SDO</strong> · Colorado projections</a>
           <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>HUD CHAS</strong> · Cost burden by AMI</a>
         </div>
+        </details>
       </div>
     </section>
 

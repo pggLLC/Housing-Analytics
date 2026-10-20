@@ -258,8 +258,24 @@ async function testVintageSidecarAndFallback() {
   await testNullIsNotZero();
   await testStatewideNullYearStaysAbsent();
   await testVintageSidecarAndFallback();
+  testDecisionLineMatchesCoverage();
   console.log('homepage snapshot delivery: PASS');
 })().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+function testDecisionLineMatchesCoverage() {
+  // The decision text sits under the four key numbers. It says new tax-credit
+  // homes cover "only part" of new low-income renters; that is true only while
+  // the ratio the coverage card renders is below 1.
+  const index = require('node:fs').readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const decide = /<div class="home-decide">([\s\S]*?)<\/div>/.exec(index);
+  assert(decide, 'index.html has the "what to decide" block');
+  const coverage = require('../data/home-snapshot.json').values.lihtc_new_construction_coverage_of_le60_renter_growth;
+  assert(Number.isFinite(coverage) && coverage > 0, 'fixture: the snapshot carries a coverage ratio');
+  if (/cover only part/.test(decide[1])) {
+    assert(coverage < 1, `the decision line says "cover only part" but coverage is ${coverage}; reword it`);
+  }
+  assert(/cover only part|cover all|cover more than/.test(decide[1]), 'the decision line still states what the coverage ratio shows');
+}
