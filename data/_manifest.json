@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T17:56:27.663Z",
+    "generated_at": "2026-10-20T19:13:15.642Z",
     "root": "data/",
-    "file_count": 1754,
-    "total_size_bytes": 193040997,
+    "file_count": 1764,
+    "total_size_bytes": 193229476,
     "kinds": {
-      "json": 1708,
+      "json": 1718,
       "geojson": 34,
       "csv": 12
     }
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-20T17:56:24.400Z",
+      "mtime": "2026-10-20T19:13:12.701Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1380,6 +1380,324 @@
         "id",
         "geometry",
         "properties"
+      ]
+    },
+    {
+      "path": "deals/ascent-at-salt-flats-grand-junction.json",
+      "kind": "json",
+      "size_bytes": 12173,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "timeline",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/fairbrooke-heights-fort-collins.json",
+      "kind": "json",
+      "size_bytes": 18939,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 14,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/flocrit-decatur-place-denver.json",
+      "kind": "json",
+      "size_bytes": 14291,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "facts",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/greenbriar-apartments-fort-collins.json",
+      "kind": "json",
+      "size_bytes": 17225,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/gregory-highlands-ranch.json",
+      "kind": "json",
+      "size_bytes": 23148,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/index.json",
+      "kind": "json",
+      "size_bytes": 3879,
+      "mtime": "2026-10-20T19:09:06.766Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "deals"
+      ],
+      "key_count": 2,
+      "primary_array_key": "deals",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "year",
+        "units",
+        "researched_on",
+        "match"
+      ]
+    },
+    {
+      "path": "deals/lumberyard-apartments-aspen.json",
+      "kind": "json",
+      "size_bytes": 26842,
+      "mtime": "2026-10-20T19:09:06.767Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 18,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/mountain-view-plaza-longmont.json",
+      "kind": "json",
+      "size_bytes": 26964,
+      "mtime": "2026-10-20T19:09:06.767Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 26,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/parkside-apartments-longmont.json",
+      "kind": "json",
+      "size_bytes": 26533,
+      "mtime": "2026-10-20T19:09:06.767Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix",
+        "bedroom_mix"
+      ],
+      "key_count": 23,
+      "primary_array_key": "sources",
+      "primary_array_length": 26,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/reserve-at-south-creek-englewood.json",
+      "kind": "json",
+      "size_bytes": 17147,
+      "mtime": "2026-10-20T19:09:06.767Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
       ]
     },
     {
@@ -31191,8 +31509,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 222096,
-      "mtime": "2026-10-20T14:18:44.046Z",
+      "size_bytes": 223436,
+      "mtime": "2026-10-20T19:12:37.497Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32751,8 +33069,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16096,
-      "mtime": "2026-10-20T17:56:26.040Z",
+      "size_bytes": 16094,
+      "mtime": "2026-10-20T19:13:13.984Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32776,7 +33094,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-20T17:56:25.633Z",
+      "mtime": "2026-10-20T19:13:13.653Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

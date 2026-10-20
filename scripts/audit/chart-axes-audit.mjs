@@ -70,8 +70,15 @@ const PAGE_URLS = {
   'hna-scenario-builder.html': 'hna-scenario-builder.html?geoType=county&geoid=08077&auto=1',
   // A redirect stub since the merge; its slot audits the tab it now opens.
   'market-intelligence.html': 'colorado-deep-dive.html#tab-signals',
-  'historical-trends.html': 'colorado-deep-dive.html#tab-history'
+  'historical-trends.html': 'colorado-deep-dive.html#tab-history',
+  // The decade affordability chart renders only for a place (#2387), so the
+  // county slot above cannot see it; this slot keeps it under a floor.
+  'housing-needs-assessment.html#place': 'housing-needs-assessment.html?geoType=place&geoid=0831660&auto=1'
 };
+
+// Extra slots audited whenever their base page is: a second geography for a
+// page whose charts differ by geography type. Each has its own floor.
+const EXTRA_SLOTS = Object.keys(PAGE_URLS).filter((k) => k.includes('#'));
 
 // The chart this audit was written for. If the scan stops seeing it, the
 // scan is broken, not the chart fixed.
@@ -80,10 +87,13 @@ const MUST_CHECK = { page: 'article-pricing.html', chart: 'svg#tceHistoryChart' 
 const MUST_CHECK_LEGEND = { page: 'economic-dashboard.html', legend: '.fred-event-legend' };
 
 function listPages() {
-  if (process.env.AUDIT_PAGES) return process.env.AUDIT_PAGES.split(',').map((s) => s.trim()).filter(Boolean);
-  return fs.readdirSync(ROOT)
-    .filter((f) => f.endsWith('.html') && !f.startsWith('developer') && f !== '404.html')
-    .sort();
+  const base = process.env.AUDIT_PAGES
+    ? process.env.AUDIT_PAGES.split(',').map((s) => s.trim()).filter(Boolean)
+    : fs.readdirSync(ROOT)
+      .filter((f) => f.endsWith('.html') && !f.startsWith('developer') && f !== '404.html')
+      .sort();
+  const extra = EXTRA_SLOTS.filter((slot) => base.includes(slot.split('#')[0]) && !base.includes(slot));
+  return [...base, ...extra];
 }
 
 // Runs in the page. Returns { checked: [...ids], failures: [{chart, problem}] }.

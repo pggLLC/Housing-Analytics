@@ -1,0 +1,429 @@
+{
+ "slug": "ascent-at-salt-flats-grand-junction",
+ "name": "Ascent at Salt Flats",
+ "city": "Grand Junction",
+ "county": "Mesa",
+ "award": "2025 Federal 4% housing tax credit with noncompetitive state credit",
+ "researched_on": "2026-10-20",
+ "headline": "A 144-home, all income-restricted family rental community on city-owned land in Grand Junction, developed by Brikwell; CHFA lists it as a 2025 Federal 4% award.",
+ "why_it_matters": "It shows a 4% deal made to work in a mid-size Western Slope city: free city land on a 99-year lease, bonds plus state credit, and a Prop 123 gap loan.",
+ "status": {
+  "label": "Credits awarded; closing and construction start not confirmed",
+  "detail": "CHFA marks the credit amounts subject to change, and no public record found yet shows the financing closing or construction starting on the Ascent. The city's anticipated completion moved to Q3 2028.",
+  "src": [
+   "chfa-4pct-award",
+   "engage-gj"
+  ]
+ },
+ "next_step": "Watch for the City Council item approving final land agreements, which the city says follows the tax credit award.",
+ "key_numbers": [
+  {
+   "value": "144 homes, all income-restricted",
+   "meaning": "Studios to four-bedrooms for households at 30% to 70% of area median income, averaging about 58 to 59%.",
+   "src": [
+    "chfa-4pct-award",
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "value": "$2,114,729 a year in federal 4% credit",
+   "meaning": "About $21.1 million over the 10-year credit period; CHFA also issued $700,000 in noncompetitive state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$18,705,467 in private activity bonds",
+   "meaning": "Issued by CHFA; the city handed CHFA $12,750,115 of its own bond cap for the project.",
+   "src": [
+    "chfa-4pct-award",
+    "engage-gj"
+   ]
+  },
+  {
+   "value": "$2.52 million of city land for $100 a year",
+   "meaning": "A 99-year ground lease; the land would give the city an 11% equity stake, which the parties expect to make the project tax-exempt.",
+   "src": [
+    "gj-ord-5275",
+    "gj-res-51-25"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "500 N 28th Street, Grand Junction 81501 (CHFA); city documents use the parent parcel address, 450 28 Road",
+   "src": [
+    "chfa-4pct-award",
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "4.42 acres of the city's 21.78-acre Salt Flats parcel (Lot 4, Grand View Commons Subdivision); the ordinance title says 4.48 acres",
+   "src": [
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "item": "Construction and residents",
+   "value": "New construction; family",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Qualified Census Tract / DDA",
+   "value": "QCT yes; DDA no",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8 contract",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "On-site extra",
+   "value": "3,000 sq ft early childhood education center for 60 children, with outdoor play space",
+   "src": [
+    "engage-gj-brikwell"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 28
+  },
+  {
+   "level": "60% AMI",
+   "units": 71
+  },
+  {
+   "level": "70% AMI",
+   "units": 37
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 42
+  },
+  {
+   "type": "1 bedroom",
+   "units": 45
+  },
+  {
+   "type": "2 bedrooms",
+   "units": 21
+  },
+  {
+   "type": "3 bedrooms",
+   "units": 24
+  },
+  {
+   "type": "4 bedrooms",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,114,729 per year",
+   "note": "About $21.15 million over 10 years; subject to change",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Colorado noncompetitive state credit",
+   "amount": "$700,000",
+   "note": "CHFA does not say whether this is per year or total",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Private activity bonds (CHFA issuer)",
+   "amount": "$18,705,467",
+   "note": "Includes $12,750,115 of the city's 2023-2025 bond cap delegated to CHFA (Resolutions 40-25 and 41-25, 16 July 2025)",
+   "src": [
+    "chfa-4pct-award",
+    "engage-gj"
+   ]
+  },
+  {
+   "source": "Prop 123 concessionary debt",
+   "amount": "$1,950,000",
+   "note": "LIHTC gap finance loan, FY25-26 Round One",
+   "src": [
+    "prop123-cd-2526"
+   ]
+  },
+  {
+   "source": "City land (in-kind equity)",
+   "amount": "About $2,520,000",
+   "note": "Land value stated in the letter of intent; 11% equity interest for the city",
+   "src": [
+    "gj-res-51-25"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer and guarantor",
+   "name": "Brikwell (master planner for the whole Salt Flats site)",
+   "src": [
+    "gj-res-51-25",
+    "engage-gj-brikwell"
+   ]
+  },
+  {
+   "role": "Planned owner",
+   "name": "Salt Flats Housing Owner, LLC, managed by Salt Flats Housing Partners, LLC",
+   "src": [
+    "gj-res-51-25"
+   ]
+  },
+  {
+   "role": "Landowner and equity partner",
+   "name": "City of Grand Junction",
+   "src": [
+    "gj-ord-5275",
+    "gj-res-51-25"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The city bought the 21.78-acre Salt Flats parcel for $3.2 million, closing 9 January 2025: a $2.2 million Prop 123 land banking grant plus a $1 million city match.",
+   "src": [
+    "gj-council-2024-09-23",
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "text": "Because state land banking money bought the site, 70% of the homes across Salt Flats must meet an affordability standard.",
+   "src": [
+    "kkco-2025-08"
+   ]
+  },
+  {
+   "text": "Ordinance 5275 (adopted 20 August 2025) leases 4.42 acres to Brikwell for 99 years at $100 a year; Brikwell may end the lease if it lacks a tax credit award, site plan approval or construction funding within five years, and the buildings revert to the city at the end.",
+   "src": [
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "text": "Non-binding letters of intent (Resolutions 51-25 and 52-25) would convey the land as the city's in-kind equity once Brikwell wins tax credits, the land is subdivided and Council approves final agreements.",
+   "src": [
+    "gj-res-51-25",
+    "gj-res-52-25"
+   ]
+  },
+  {
+   "text": "Brikwell funds all development costs and guarantees debt, completion and compliance; the city gives no guarantees and receives quarterly reports. The developer fee follows CHFA's QAP: 12% of total cost less land, developer fee and reserves.",
+   "src": [
+    "gj-res-51-25"
+   ]
+  },
+  {
+   "text": "Infrastructure for the site: a $2 million DOLA More Housing Now grant, an $800,000 city match and a $1 million seller contribution.",
+   "src": [
+    "engage-gj"
+   ]
+  },
+  {
+   "text": "The city's preliminary plan marks Lots 400 (6.050 acres) and 500 (1.403 acres) for Brikwell apartments; a note says the site is mostly in FEMA flood zone X, with the southwest corner in zones X and AE.",
+   "src": [
+    "engage-gj"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-01-29",
+   "event": "City awarded a $2.2 million Prop 123 land banking grant",
+   "src": [
+    "gj-council-2024-09-23"
+   ]
+  },
+  {
+   "date": "2025-01-09",
+   "event": "City closes on the 21.78 acres",
+   "src": [
+    "gj-ord-5275"
+   ]
+  },
+  {
+   "date": "2025 (spring)",
+   "event": "City picks four development teams; Brikwell named master planner",
+   "src": [
+    "kkco-2025-08",
+    "gj-res-51-25"
+   ]
+  },
+  {
+   "date": "2025-07-16",
+   "event": "Council delegates $12,750,115 of city bond cap to CHFA for the Ascent",
+   "src": [
+    "engage-gj"
+   ]
+  },
+  {
+   "date": "2025-08-20",
+   "event": "Ordinance 5275 (99-year lease) and Resolutions 51-25 and 52-25 adopted",
+   "src": [
+    "gj-ord-5275",
+    "gj-res-51-25",
+    "gj-res-52-25"
+   ]
+  },
+  {
+   "date": "2026",
+   "event": "$1.95 million Prop 123 concessionary debt award",
+   "src": [
+    "prop123-cd-2526",
+    "engage-gj"
+   ]
+  },
+  {
+   "date": "2026-06-01",
+   "event": "City approves the Salt Flats preliminary plan (465 homes site-wide)",
+   "src": [
+    "engage-gj"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "CHFA Federal 4% award report (PDF date) lists the Ascent as a 2025-cycle award",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2028 (Q3)",
+   "event": "City's anticipated completion of Ascent Phase One",
+   "src": [
+    "engage-gj"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Ascent lease area drawings (Areas 1 and 2)",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159068/File/document",
+   "kind": "plat",
+   "made_by": "City of Grand Junction Engineering and Transportation",
+   "note": "Resolution 51-25, Exhibit A, pages 6 and 7",
+   "src": [
+    "gj-res-51-25"
+   ]
+  },
+  {
+   "title": "Salt Flats preliminary composite plan",
+   "url": "https://engagegj.org/salt-flats-project",
+   "kind": "site plan",
+   "made_by": "River City Consultants for the City of Grand Junction",
+   "note": "Sheet C5, issued 9 October 2025, posted on the project page",
+   "src": [
+    "engage-gj"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "Studios: 42 on CHFA's award report, 44 on Brikwell's project page.",
+  "Address: 500 N 28th Street (CHFA) vs 450 28 Road (city parent parcel).",
+  "Completion: Winter 2027 on Brikwell's page vs Q3 2028 on the city's page.",
+  "Average income: 59.0% from CHFA's unit counts vs 58% in the city ordinance."
+ ],
+ "open_questions": [
+  "Total development cost, the equity investor and price, lenders, general contractor and architect, rents and operating budget.",
+  "Whether the $700,000 state credit is annual or total.",
+  "Where the bonds beyond the city's $12.75 million of cap came from.",
+  "Whether final land agreements have been signed after the award."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "publisher": "CHFA",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "engage-gj",
+   "publisher": "City of Grand Junction",
+   "title": "Engage GJ: Salt Flats Project",
+   "date": "2026-10-20",
+   "url": "https://engagegj.org/salt-flats-project"
+  },
+  {
+   "id": "engage-gj-brikwell",
+   "publisher": "City of Grand Junction",
+   "title": "Engage GJ: Meet the Development Team: Brikwell",
+   "date": "",
+   "url": "https://engagegj.org/salt-flats-project/news_feed/meet-the-development-team-brikwell"
+  },
+  {
+   "id": "gj-ord-5275",
+   "publisher": "City of Grand Junction",
+   "title": "Ordinance No. 5275 and Lease Agreement",
+   "date": "2025-08-20",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159176/File/document"
+  },
+  {
+   "id": "gj-res-51-25",
+   "publisher": "City of Grand Junction",
+   "title": "Resolution No. 51-25 with Brikwell letter of intent",
+   "date": "2025-08-20",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159068/File/document"
+  },
+  {
+   "id": "gj-res-52-25",
+   "publisher": "City of Grand Junction",
+   "title": "Resolution No. 52-25",
+   "date": "2025-08-20",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159069/File/document"
+  },
+  {
+   "id": "prop123-cd-2526",
+   "publisher": "Colorado Affordable Housing Financing Fund",
+   "title": "FY25-26 Concessionary Debt Program Selections, Round One",
+   "date": "2026-04",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf"
+  },
+  {
+   "id": "gj-council-2024-09-23",
+   "publisher": "City of Grand Junction",
+   "title": "City Council agenda packet, Item 1.a (Salt Flats purchase)",
+   "date": "2024-09-23",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1156836/File/document"
+  },
+  {
+   "id": "kkco-2025-08",
+   "publisher": "KKCO 11 News",
+   "title": "Grand Junction holds community meeting about affordable housing project",
+   "date": "2025-08-28",
+   "url": "https://www.kkco11news.com/2025/08/29/grand-junction-holds-community-meeting-about-affordable-housing-project/"
+  }
+ ]
+}
