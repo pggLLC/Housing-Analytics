@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T22:22:03.549Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-19T23:38:25.249Z. Do not edit by hand.
 
 ---
 
@@ -1891,7 +1891,7 @@
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
-| `test/data-commits-queue.test.js` | 12.1 KB |
+| `test/data-commits-queue.test.js` | 12.9 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
@@ -1979,7 +1979,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
 | `test/figure-explanations.test.js` | 21.1 KB |
-| `test/file-manifest.test.js` | 9.5 KB |
+| `test/file-manifest.test.js` | 9.9 KB |
 | `test/financial-copy-agreement.test.js` | 10.9 KB |
 | `test/finder-and-narrative-agree.test.js` | 9.8 KB |
 | `test/finish-line-holds.test.mjs` | 15.7 KB |
@@ -2518,7 +2518,7 @@
 | `.github/workflows/daily-audit-system.yml` | 9.7 KB |
 | `.github/workflows/data-freshness-check.yml` | 8.1 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
-| `.github/workflows/data-refresh.yml` | 6.1 KB |
+| `.github/workflows/data-refresh.yml` | 5.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.7 KB |
 | `.github/workflows/deploy.yml` | 4.8 KB |

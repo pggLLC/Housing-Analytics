@@ -165,7 +165,12 @@ function readJson(rel) {
   }
 
   const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/data-refresh.yml'), 'utf8');
-  assert(workflow.includes('npm run audit:file-manifest'), 'daily data refresh regenerates data/_manifest.json');
+  // The refresh commits through the shared push script, which rebuilds
+  // data/_manifest.json on the rebased tree; either place satisfies this.
+  const pushScript = fs.readFileSync(path.join(ROOT, 'scripts/push-data-commit.sh'), 'utf8');
+  assert(workflow.includes('npm run audit:file-manifest')
+    || (workflow.includes('scripts/push-data-commit.sh') && /^\s*npm run -s audit:file-manifest/m.test(pushScript)),
+    'daily data refresh regenerates data/_manifest.json');
 
   const explorerHtml = fs.readFileSync(path.join(ROOT, 'data-explorer.html'), 'utf8');
   const explorerJs = fs.readFileSync(path.join(ROOT, 'js/data-explorer.js'), 'utf8');
