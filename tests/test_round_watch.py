@@ -7,7 +7,8 @@ Pins:
   3. no look-ahead: state money announced after the cutoff does not count;
   4. size decides which round recent state money points to;
   5. the owner's excluded project is dropped;
-  6. the committed file is current, deterministic, and holds no contact
+  6. a deal summary links only for the same town and development;
+  7. the committed file is current, deterministic, and holds no contact
      details (those live only on the private developer site).
 """
 import copy
@@ -138,3 +139,11 @@ def test_committed_file_is_current_and_has_no_contacts():
             for w in i['why']:
                 urls = [s['url'] for s in w.get('sources', [])] or ([w['source_url']] if w.get('source_url') else [])
                 assert all(u.startswith('https://') for u in urls)
+
+
+def test_deal_summary_link_needs_same_town_and_name():
+    deals = [{'slug': 'hover-place-longmont', 'name': 'Hover Place', 'city': 'Longmont', 'match': {'names': ['Hover Place']}},
+             {'slug': 'lumberyard-b', 'name': 'Lumberyard Apartments (Phase B)', 'city': 'Aspen', 'match': {'names': ['Lumberyard Apartments']}}]
+    assert rw.deal_summary({'name': 'Hover Place', 'city': 'Longmont'}, deals) == 'hover-place-longmont'
+    assert rw.deal_summary({'name': 'Hover Place', 'city': 'Denver'}, deals) is None
+    assert rw.deal_summary({'name': 'Lumberyard Apartments - Phase A (Building 1)', 'city': 'Aspen'}, deals) is None

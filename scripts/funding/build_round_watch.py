@@ -69,6 +69,7 @@ EXCLUDED = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-application
 LEDGER = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
 AWARD_LEDGER = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'ledger.json')
 DOLA = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'dola-awards.json')
+DEALS = os.path.join(ROOT, 'data', 'deals', 'index.json')
 OUT = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json')
 
 ROUND_CREDIT = {1: '9%', 2: '4%'}
@@ -342,12 +343,28 @@ def item(key, v, credit, bt, D):
     }
 
 
+def deal_summary(i, deals):
+    """The hand-researched deal summary for the same development, if one exists
+    (data/deals/, shown on deal-summary.html): same town, and one name equal to
+    or starting with the other."""
+    mine = dev.core_name(i['name'])
+    for d in deals:
+        if (d.get('city') or '').lower() != (i.get('city') or '').lower():
+            continue
+        for n in [d.get('name') or ''] + list((d.get('match') or {}).get('names') or []):
+            other = dev.core_name(n)
+            short, long_ = sorted((mine, other), key=len)
+            if short and (short == long_ or (len(short.split()) >= 2 and long_.startswith(short + ' '))):
+                return d['slug']
+    return None
+
+
 def next_round(D, rnd):
     latest = max((r for r in D.rounds if r[1] == rnd), default=None)
     return (latest[0] + 1, rnd) if latest else None
 
 
-def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=()):
+def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals=()):
     excluded = {e['sha256'] for e in excluded_doc.get('excluded', [])}
     D = Data(apps_doc, ledger_doc, excluded, award_rows, dola_rows)
     bt = backtest(D)
@@ -361,6 +378,8 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=()):
         pending = [a for a in D.round_apps if (a['year'], a['round']) == latest and a['outcome'] == 'pending']
         items = sorted((item(k, v, credit, bt, D) for k, v in listed.items()),
                        key=lambda i: (-i['score'], i['name'].lower()))
+        for i in items:
+            i['deal_summary'] = deal_summary(i, deals)
         rounds.append({
             'round': label(target), 'credit': credit,
             'applications_due': 'February' if rnd == 1 else 'August',
@@ -415,7 +434,8 @@ def main():
     args = ap.parse_args()
     dola = read(DOLA)
     out = build(read(APPLICATIONS), read(LEDGER), read(EXCLUDED), read(AWARD_LEDGER)['awards'],
-                dola['awards'] if isinstance(dola, dict) else dola)
+                dola['awards'] if isinstance(dola, dict) else dola,
+                read(DEALS)['deals'] if os.path.exists(DEALS) else [])
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
         same = os.path.exists(OUT) and open(OUT, encoding='utf-8').read() == text

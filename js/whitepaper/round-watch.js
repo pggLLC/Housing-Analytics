@@ -122,7 +122,9 @@
       return '<li>' + esc(a.round_label) + ' (' + esc(a.credit_type) + '): ' + esc(String(a.outcome).replace(/_/g, ' ')) +
         (u ? ' · <a href="' + esc(u) + '" target="_blank" rel="noopener">applicant report</a>' : '') + '</li>';
     }).join('');
-    return '<div class="rw-detail"><h3>Why it is here</h3><ul class="rw-why">' + why + '</ul>' +
+    var summary = i.deal_summary && /^[a-z0-9-]+$/.test(i.deal_summary)
+      ? '<p><a href="deal-summary.html?d=' + esc(i.deal_summary) + '">Deal summary for this development</a></p>' : '';
+    return '<div class="rw-detail"><h3>Why it is here</h3><ul class="rw-why">' + why + '</ul>' + summary +
       '<h3>First contact</h3>' + contactBlock +
       (apps ? '<h3>CHFA applications on file</h3><ul class="rw-apps">' + apps + '</ul>' : '') + '</div>';
   }
