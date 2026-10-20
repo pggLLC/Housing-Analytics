@@ -335,9 +335,19 @@ def test_the_same_national_release_is_one_story(geos):
     }
 
 
-def test_an_outlet_retitling_its_own_national_story_is_one_story(geos):
+def test_new_york_times_trend_stories_are_kept(geos):
+    # The publisher name contains "New York"; only the headline says where a
+    # story is (Codex review of #2404).
     stories, _ = gpb.build_stories([
-        alert('Luxury and Cash Fuel U.S. Housing Market', 'WSJ', date='2026-10-20'),
-        alert('America’s New Housing Market Is All About Luxury—and It Runs on Cash', 'WSJ', date='2026-10-19'),
+        alert('Rising Mortgage Rates Risk Plunging Housing Further Into Crisis', 'The New York Times'),
+        alert('Can Real Estate Out-Organize Tenants in New York? This Group Will Try.', 'The New York Times'),
     ], geos)
-    assert [s['title'] for s in stories] == ['Luxury and Cash Fuel U.S. Housing Market']
+    assert [s['title'] for s in stories] == ['Rising Mortgage Rates Risk Plunging Housing Further Into Crisis']
+
+
+def test_a_common_phrase_alone_does_not_merge_national_stories(geos):
+    stories, _ = gpb.build_stories([
+        alert('US housing market slows as mortgage rates rise', 'Reuters', date='2026-10-20'),
+        alert('US housing market inventory improves for buyers', 'Bloomberg.com', date='2026-10-20'),
+    ], geos)
+    assert len(stories) == 2

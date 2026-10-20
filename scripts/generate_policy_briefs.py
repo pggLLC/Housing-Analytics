@@ -501,6 +501,10 @@ def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     # outlet carrying another state's story still falls to OTHER_STATE_RE.
     if COLORADO_RE.search(title):
         return 'colorado'
+    # A national outlet's own name is not a place: "The New York Times" would
+    # otherwise read as New York news (Codex review of #2404).
+    if NATIONAL_SOURCE_RE.match((source or '').strip()):
+        hay = title
     if OTHER_STATE_RE.search(hay):
         return None
     if distinct_place or COLORADO_RE.search(hay):
@@ -579,12 +583,18 @@ def in_scope_alerts(alerts: list[dict], geos: dict) -> list[dict]:
 NATIONAL_STOPWORDS = {'us', 'u', 's', 'the', 'a', 'an', 'in', 'of', 'to', 'as', 'for', 'and', 'on', 'at',
                       'is', 'are', 'its', 'it', 'by', 'with', 'from', 'new', 'again', 'more', 'than',
                       'america', "america's", 'americans', "americans'", "nation's", 'national'}
+# Phrases every housing story uses; sharing one says nothing about being the
+# same story ("US housing market slows" and "US housing market inventory
+# improves", Codex review of #2404).
+NATIONAL_GENERIC_PHRASES = {('housing', 'market'), ('mortgage', 'rates'), ('home', 'prices'),
+                            ('housing', 'crisis'), ('housing', 'shortage'), ('affordable', 'housing'),
+                            ('housing', 'costs'), ('home', 'buyers'), ('rent', 'prices')}
 
 
 def _phrases(title: str) -> set[tuple[str, str]]:
     t = re.sub(r'\bhome[\s-]+builders?\b', 'homebuilder', (title or '').lower())
     words = [w for w in re.findall(r"[a-z0-9']+", t.replace('’', "'")) if w not in NATIONAL_STOPWORDS]
-    return set(zip(words, words[1:]))
+    return set(zip(words, words[1:])) - NATIONAL_GENERIC_PHRASES
 
 
 def same_national_story(s: dict, kept: list[dict]) -> dict | None:
@@ -604,10 +614,7 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # One phrase is enough on the same day ("housing starts"); across
         # days it takes two, so "build houses" alone does not fold the WSJ
         # immigration story into a Virginia subdivision story.
-        # The same outlet re-titling its own story over two days ("Luxury and
-        # Cash Fuel U.S. Housing Market", "America's New Housing Market Is All
-        # About Luxury", WSJ) takes one phrase too.
-        if (gap == 0 or k['source'] == s['source'] or shared >= 2) and gap <= 3 and shared:
+        if (gap == 0 or shared >= 2) and gap <= 3 and shared:
             return k
     return None
 
