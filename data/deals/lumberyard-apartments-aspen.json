@@ -188,7 +188,7 @@
   {
    "source": "Colorado Middle-income Housing Tax Credit (MIHTC)",
    "amount": "$2,890,000",
-   "note": "The award report heads this column \"MIHTC Amount Requested\" (same figure on the June applicant report). CHFA's award description says \"MIHTC Awarded: $2,890,000\". The city expects about $10.5M of equity for Buildings 2 and 3. The credit is claimed over five years. Since $10.5M is more than $2.89M, the figure appears to be an annual amount (my inference).",
+   "note": "The award report heads this column \"MIHTC Amount Requested\" (same figure on the June applicant report). CHFA's award description says \"MIHTC Awarded: $2,890,000\". The city expects about $10.5M of equity for Buildings 2 and 3. The credit is claimed over five years. Since $10.5M is more than $2.89M, the figure appears to be an annual amount (inferred).",
    "src": [
     "chfa-mihtc-award",
     "chfa-mihtc-applicant",
@@ -395,7 +395,7 @@
    ]
   },
   {
-   "text": "What the MIHTC levels mean in Pitkin County (CHFA 2026 limits, rural resort county). At 90% AMI: maximum rent $2,398 (1BR), $2,877 (2BR), $3,325 (3BR); income limit $89,550 (1 person), $127,890 (4 people). At 130% AMI: $3,464, $4,156 and $4,803; $129,350 and $184,730. Actual rents follow APCHA rent categories and are not published in the records I found.",
+   "text": "What the MIHTC levels mean in Pitkin County (CHFA 2026 limits, rural resort county). At 90% AMI: maximum rent $2,398 (1BR), $2,877 (2BR), $3,325 (3BR); income limit $89,550 (1 person), $127,890 (4 people). At 130% AMI: $3,464, $4,156 and $4,803; $129,350 and $184,730. Actual rents follow APCHA rent categories and are not published in the records checked.",
    "src": [
     "chfa-limits",
     "aspen-mda"
@@ -552,13 +552,58 @@
   }
  ],
  "discrepancies": [
-  "MIHTC column: CHFA's award report heads the $2,890,000 column \"MIHTC Amount Requested\"; CHFA's award description page says \"MIHTC Awarded: $2,890,000\". The figures match. [chfa-mihtc-award; chfa-mihtc-desc]",
-  "Building 1 size: the Aspen Times (2026-03-11) reported a 109-unit first building; the city's staff reports and sources-and-uses say 104 units. [at-2026-03-11; aspen-res042; aspen-sources-uses]",
-  "Closing A city funds: the 2026-03-16 staff report labels $39,948,000 as \"City Phase 0 Funds\" and $78,844,765 as \"City Phase 1 Funds\". The city's post-closing summary assigns $78,844,765 to infrastructure and $39,948,000 to Building #1. [aspen-res042; aspen-sources-uses]",
-  "Closing A first mortgage: $15,700,000 in the March staff reports versus $10,700,000 (plus $12,053,163 other sources) in the April 2026 post-closing summary; both total $22,753,163 of non-city sources. [aspen-res042; aspen-mar9; aspen-sources-uses]",
-  "Income range: the city's project page says \"below 50% AMI up to 240% AMI\"; Gorman's release and CHFA's Phase B mix say 50% to 240%. [aspen-lumberyard-page; gorman-pr-2026-04; chfa-mihtc-desc]",
-  "Site area: \"11-acre\" (Gorman, city) versus 11.3 acres (Aspen Times, quoting the city's project manager). [gorman-pr-2026-04; at-2025-11-17]",
-  "Construction start: the city page says construction started 2026-04-01; Gorman's March schedule put Phase 0 mobilization in April/May 2026 and the Building 1 vertical start in September 2026. [aspen-lumberyard-page; aspen-mar9]"
+  {
+   "text": "MIHTC column: CHFA's award report heads the $2,890,000 column \"MIHTC Amount Requested\"; CHFA's award description page says \"MIHTC Awarded: $2,890,000\". The figures match.",
+   "src": [
+    "chfa-mihtc-award",
+    "chfa-mihtc-desc"
+   ]
+  },
+  {
+   "text": "Building 1 size: the Aspen Times (2026-03-11) reported a 109-unit first building; the city's staff reports and sources-and-uses say 104 units.",
+   "src": [
+    "at-2026-03-11",
+    "aspen-res042",
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "text": "Closing A city funds: the city's 2026-03-16 staff report labels $39,948,000 as \"City Phase 0 Funds\" and $78,844,765 as \"City Phase 1 Funds\". The city's post-closing summary assigns $78,844,765 to infrastructure and $39,948,000 to Building #1.",
+   "src": [
+    "aspen-res042",
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "text": "Closing A first mortgage: $15,700,000 in the city's March staff reports versus $10,700,000 (plus $12,053,163 other sources) in the city's April 2026 post-closing summary; both total $22,753,163 of non-city sources.",
+   "src": [
+    "aspen-res042",
+    "aspen-mar9",
+    "aspen-sources-uses"
+   ]
+  },
+  {
+   "text": "Income range: the city's project page says \"below 50% AMI up to 240% AMI\"; Gorman's release and CHFA's Phase B mix say 50% to 240%.",
+   "src": [
+    "aspen-lumberyard-page",
+    "gorman-pr-2026-04",
+    "chfa-mihtc-desc"
+   ]
+  },
+  {
+   "text": "Site area: \"11-acre\" (Gorman, city) versus 11.3 acres (Aspen Times, quoting the city's project manager).",
+   "src": [
+    "gorman-pr-2026-04",
+    "at-2025-11-17"
+   ]
+  },
+  {
+   "text": "Construction start: the city page says construction started 2026-04-01; Gorman's March schedule in the city's staff materials put Phase 0 mobilization in April/May 2026 and the Building 1 vertical start in September 2026.",
+   "src": [
+    "aspen-lumberyard-page",
+    "aspen-mar9"
+   ]
+  }
  ],
  "open_questions": [
   "Phase B final budget: first mortgage, MIHTC equity investor and price, Gorman funds and developer fee are TBD until closing B.",

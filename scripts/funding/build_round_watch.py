@@ -469,7 +469,10 @@ def main():
                 read(DEALS)['deals'] if os.path.exists(DEALS) else [])
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
-        same = os.path.exists(OUT) and open(OUT, encoding='utf-8').read() == text
+        same = False
+        if os.path.exists(OUT):
+            with open(OUT, encoding='utf-8') as f:
+                same = f.read() == text
         print('round watch is %s' % ('current' if same else 'STALE: run python3 scripts/funding/build_round_watch.py'))
         return 0 if same else 1
     with open(OUT, 'w', encoding='utf-8') as f:

@@ -1,0 +1,551 @@
+{
+ "slug": "willoughby-corner-phase-2-lafayette",
+ "name": "Willoughby Corner Phase 2",
+ "city": "Lafayette",
+ "county": "Boulder",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-20",
+ "units": 32,
+ "headline": "Willoughby Corner Phase 2 (called Phase 2A in the application) is a planned 32-home, two-story building in Lafayette for adults with intellectual and developmental disabilities (IDD) and their caregivers; Boulder County Housing Authority won 2026 Round One federal 9%, state and TOC credits for it.",
+ "why_it_matters": "It is a rare neuro-inclusive tax-credit deal: $4.367M in Boulder County grants are already committed, so the 9% award should be the last big piece before closing, which BCHA said could follow seven to nine months after an award.",
+ "status": {
+  "label": "Credits awarded; site plan in city review; closing not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30. In March 2026 BCHA told a county advisory council that all site-plan (SPAR) materials had been submitted to Lafayette, but no public record found shows SPAR approval, a closing or a groundbreaking.",
+  "src": [
+   "chfa-2026-r1-award",
+   "bc-iddac-minutes-2026-03"
+  ]
+ },
+ "next_step": "Watch for Lafayette's SPAR (Site Plan and Architectural Review) decision on 678 Willoughby Drive and a BCHA board action approving the financing closing.",
+ "key_numbers": [
+  {
+   "value": "32 homes for adults with IDD",
+   "meaning": "16 one-bedroom and 16 two-bedroom units (two-bedroom units leave room for caregivers or roommates); all units serve people with a disability.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,582,767 a year in federal 9% credit",
+   "meaning": "About $15.8M over 10 years, plus $500,000 in state credit and $64,000 in TOC credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "Average 48.1% AMI",
+   "meaning": "6 units at 30% AMI, 6 at 40%, 8 at 50% and 12 at 60%.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$4.367M in county grants committed",
+   "meaning": "Covers about $136,000 per unit against a total cost the application puts at $654,458 per unit (about $20.9M in all, inferred).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "678 Willoughby Drive, Lafayette, CO 80026",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, SP: new construction, special populations",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "32 total, 32 low-income",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.27-acre parcel in Planning Area D of the Willoughby Corner PUD (R4/PUD zoning), inside a qualified census tract; multifamily allowed by right at 25 units per acre",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Two-story U-shaped building with an elevator, Type V-A wood frame, surface parking with EV chargers",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric; geothermal well field, a 129 kW rooftop solar array; targeting NGBS Silver and DOE Efficient New Homes certification",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "On-site RTD stop served by routes 225 and DASH, under 400 feet from the front door",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Boulder County Housing Department staff on site; IDD supports through a resident-chosen program approved service agency (PASA)",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bc-iddac-minutes-2026-03"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "KVG; capture rate 0.1%",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 8
+  },
+  {
+   "level": "60% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 16
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,582,767 per year",
+   "note": "Annual credit, runs 10 years. The December 2025 letters of intent report showed $1,800,000 requested.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado transit-oriented communities (TOC) credit",
+   "amount": "$64,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Boulder County IDD Mill Levy (IDD Advisory Council) grant",
+   "amount": "$2,000,000",
+   "note": "To design and build 32 homes for people with IDD, autism and brain injury. A separate $10,000 paid for an IDD design expert.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bc-iddac-minutes-2026-03",
+    "bc-idd-page"
+   ]
+  },
+  {
+   "source": "Boulder County Affordable and Attainable Housing Tax (2025)",
+   "amount": "$1,184,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Worthy Cause funds",
+   "amount": "$750,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bc-worthy-cause-2026-06"
+   ]
+  },
+  {
+   "source": "Boulder County Affordable and Attainable Housing Tax (2026)",
+   "amount": "$433,000",
+   "note": "Part of a $1.5M 2026 award; the rest is earmarked for Phase 3 for-sale homes.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Permanent debt and deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Resident services funding",
+   "amount": "$231,106 a year for staffing and training, plus $2,300 for program costs",
+   "note": "Funded from the county's Affordable and Attainable Housing Tax; committed for the first five years.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it); owner and manager of Willoughby Corner",
+   "name": "Boulder County Housing Authority (BCHA)",
+   "src": [
+    "chfa-2026-r1-award",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Boulder County Housing Department",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Design input partner",
+   "name": "Neuro-Inclusive Housing Solutions",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Advisory and funding body",
+   "name": "Boulder County Intellectual and Developmental Disabilities Advisory Council (IDDAC)",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bc-iddac-minutes-2026-03"
+   ]
+  },
+  {
+   "role": "Market analyst",
+   "name": "KVG",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Environmental consultant",
+   "name": "Smith Environmental (report dated 2025-11-20)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Lafayette, Boulder County and BCHA bought the 24-acre site at 120th and Emma streets in 2017 for $3.5 million under an intergovernmental agreement that dedicates the land to permanently affordable housing.",
+   "src": [
+    "bc-news-2022-05",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "text": "Under the agreement, 80% of homes must be permanently affordable, and the rentals serve households at or below 60% of AMI. BCHA says the IGA requires all affordable homes to stay affordable permanently.",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "text": "Lafayette rezoned the site from industrial (M1) to high-density residential (R4) in April 2022. The final PUD was recorded with Boulder County on 2022-11-30 (reception no. 03990483).",
+   "src": [
+    "bc-news-2022-05",
+    "bc-pud-2022"
+   ]
+  },
+  {
+   "text": "Phase 1 delivered 192 rental homes: Búho Place (63 units for ages 55+) and 129 family apartments. It held its grand opening on 2025-08-21, and the narrative says it was placed in service in November 2025. Phase 1's older-adult building won a 9% award worth about $13M over ten years in 2022.",
+   "src": [
+    "longmont-leader-2025-09",
+    "chfa-2026-r1-narratives",
+    "bc-news-2022-05",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "text": "The building was first planned as three stories with 48 units, 75% of them one-bedroom. After stakeholder sessions it was cut to two stories and 32 units with an even 1BR/2BR split, so it would feel less institutional and fit caregivers.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "BCHA told the county IDD advisory council in March 2026 that Phase 2A needed no PUD amendments, that all SPAR materials were in with Lafayette, and that rents would run about $800 to $1,400 depending on unit type and AMI.",
+   "src": [
+    "bc-iddac-minutes-2026-03"
+   ]
+  },
+  {
+   "text": "Costs run above CHFA's averages ($654,458 per unit against a $500,496 benchmark). The application ties the gap to IDD amenities (about $19,500 per unit), sustainability systems (about $50,119 per unit), and Phase 1 infrastructure reimbursement plus a Lafayette raw-water contribution (about $58,500 per unit).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Lafayette gave the Willoughby Corner neighborhood a 50% reduction in raw water cost (about $5.3M) and impact-fee reductions. The phase owes $1,024,000 (about $32,000 per unit) toward shared infrastructure built in Phase 1.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "BCHA sought a construction manager/general contractor for Phases IIA and IIB under RFP-219-25, with proposals due 2025-12-12. No award of that contract was found.",
+   "src": [
+    "bc-rfp-219-25"
+   ]
+  },
+  {
+   "text": "Willoughby Corner is not traditional Section 8 housing, but Housing Choice Voucher holders can use vouchers there. No project-based vouchers for this phase were found.",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2017",
+   "event": "Lafayette, Boulder County and BCHA buy the 24-acre site for $3.5M",
+   "src": [
+    "bc-news-2022-05"
+   ]
+  },
+  {
+   "date": "2022-04",
+   "event": "Lafayette rezones the site to R4 high-density residential",
+   "src": [
+    "bc-news-2022-05"
+   ]
+  },
+  {
+   "date": "2022-11-30",
+   "event": "Willoughby Corner final PUD recorded in Boulder County",
+   "src": [
+    "bc-pud-2022"
+   ]
+  },
+  {
+   "date": "2025-08-21",
+   "event": "Grand opening of Phase 1 (192 homes)",
+   "src": [
+    "longmont-leader-2025-09"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Listed on CHFA's 2026 Round One letters of intent report ($1,800,000 federal requested)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2025-12-12",
+   "event": "Proposals due for the Phase IIA/IIB construction manager/general contractor RFP",
+   "src": [
+    "bc-rfp-219-25"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "Listed on CHFA's 2026 Round One applicant report ($1,582,767 federal requested)",
+   "src": [
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "date": "2026-03-09",
+   "event": "BCHA briefs the county IDD advisory council: CHFA application filed, SPAR materials submitted to Lafayette",
+   "src": [
+    "bc-iddac-minutes-2026-03"
+   ]
+  },
+  {
+   "date": "2026-06-24",
+   "event": "Boulder County says the 32-unit IDD building is slated for completion in early 2027",
+   "src": [
+    "bc-worthy-cause-2026-06"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report: $1,582,767 federal 9%, $500,000 state, $64,000 TOC",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Front-entry concept sketch",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf",
+   "kind": "rendering",
+   "made_by": "BCHA application (hand-drawn sketch; architect not credited on the page)",
+   "note": "Page 156 of CHFA's 2026 Round One narratives PDF",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "title": "Willoughby Corner final PUD: overall site plan with planning areas, including Planning Area D",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2024/03/willoughby-corner-planned-unit-development.pdf",
+   "kind": "site plan",
+   "made_by": "Norris Design for BCHA (recorded PUD)",
+   "note": "Sheet 2 of 16; sheet 1 is the cover with land-use data",
+   "src": [
+    "bc-pud-2022"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Boulder County's June 2026 news item says the 32-unit building is slated for completion in early 2027 with move-ins in the first quarter, while BCHA's CHFA application says the deal could close seven to nine months after a credit award and the award is reported as of September 2026.",
+   "src": [
+    "bc-worthy-cause-2026-06",
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Lafayette SPAR approval date and any building permit for 678 Willoughby Drive.",
+  "Closing date, construction lender, permanent lender and loan amounts, equity investor and credit price.",
+  "General contractor for Phase 2A (the CM/GC RFP closed 2025-12-12; no award found).",
+  "Exact name and terms of the recorded PUD amendment the narrative cites: the March 2026 minutes say no PUD amendments were required, and no amendment document was found.",
+  "Whether the ownership entity is a BCHA-controlled partnership, and whether it gets a property-tax exemption through BCHA.",
+  "Whether any units will carry project-based vouchers.",
+  "Total development cost as a dollar figure (about $20.9M is inferred from $654,458 per unit times 32)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Willoughby Corner Phase 2A, pp. 156-160)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-toc-narratives",
+   "title": "2026 Round One TOC Credit Narratives (Willoughby Corner 2A, pp. 31-32)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/b0cba85d-49b2-42d5-be59-6c61e7f0f9a5/2026-Round-One-TOC-Credit-Narratives.pdf"
+  },
+  {
+   "id": "bc-willoughby-page",
+   "title": "Willoughby Corner (BCHA project page)",
+   "publisher": "Boulder County",
+   "date": "",
+   "url": "https://bouldercounty.gov/departments/housing/housing-developments/willoughby-corner/"
+  },
+  {
+   "id": "bc-worthy-cause-2026-06",
+   "title": "$4 Million in Worthy Cause Funding: Applications Now Open",
+   "publisher": "Boulder County",
+   "date": "2026-06-24",
+   "url": "https://bouldercounty.gov/news/4-million-in-worthy-cause-funding-applications-now-open/"
+  },
+  {
+   "id": "bc-iddac-minutes-2026-03",
+   "title": "IDD Mill Levy Advisory Council meeting minutes, March 9, 2026",
+   "publisher": "Boulder County Human Services",
+   "date": "2026-03-09",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2026/06/May-2026-IDDAC-Minutes_Allison-Joel.pdf"
+  },
+  {
+   "id": "bc-idd-page",
+   "title": "Intellectual and Developmental Disabilities (funded projects)",
+   "publisher": "Boulder County Human Services",
+   "date": "2026-03-26",
+   "url": "https://bouldercounty.gov/departments/human-services/intellectual-and-developmental-disabilities/"
+  },
+  {
+   "id": "bc-news-2022-05",
+   "title": "Willoughby Corner Receives Key Funding from the Colorado Housing and Finance Authority, Rezoning Approval from City of Lafayette",
+   "publisher": "Boulder County",
+   "date": "2022-05-25",
+   "url": "https://bouldercounty.gov/news/willoughby-corner-receives-key-funding-from-the-colorado-housing-and-finance-authority-rezoning-approval-from-city-of-lafayette/"
+  },
+  {
+   "id": "bc-rfp-219-25",
+   "title": "Willoughby Corner Phase II (IIA and IIB) Construction Manager/General Contractor (CM/GC), RFP-219-25",
+   "publisher": "Boulder County",
+   "date": "2025-12",
+   "url": "https://bouldercounty.gov/government/bids-and-purchasing/bid-opportunities/details/willoughby-corner-phase-ii-iia-and-iib-construction-manager-general-contractor-cm-gc/"
+  },
+  {
+   "id": "longmont-leader-2025-09",
+   "title": "Willoughby Corner Affordable Housing Community Opens in Boulder County With 192 Units",
+   "publisher": "Longmont Leader",
+   "date": "2025-09-03",
+   "url": "https://www.longmontleader.com/local-news/willoughby-corner-affordable-housing-community-opens-in-boulder-county-with-192-units-11160625"
+  },
+  {
+   "id": "bc-pud-2022",
+   "title": "Willoughby Corner Final Planned Unit Development (recorded 2022-11-30, reception 03990483)",
+   "publisher": "Boulder County (BCHA document library)",
+   "date": "2022-11-30",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2024/03/willoughby-corner-planned-unit-development.pdf"
+  }
+ ]
+}

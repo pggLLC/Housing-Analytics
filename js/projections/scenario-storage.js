@@ -55,7 +55,10 @@
      * Save a scenario. If a scenario with the same ID exists it will be replaced.
      * @param {Object} opts
      * @param {string} opts.name
-     * @param {Object} opts.parameters - {fertility_multiplier, mortality_multiplier, net_migration_annual}
+     * @param {Object} opts.parameters - {births_pct, deaths_pct, migration_pct}: percentages of
+     *   SDO's forecast, 100 = SDO. A record that carries only the fields saved before 2026-10-20
+     *   (fertility_multiplier, mortality_multiplier, net_migration_annual) keeps them as they are;
+     *   CohortComponentModel.paramsFromSaved() reads both.
      * @param {string} [opts.id]       - Omit to generate a new ID
      * @param {string} [opts.baselineSource]
      * @returns {Scenario} The saved scenario
@@ -72,13 +75,9 @@
         name:            opts.name,
         year:            new Date().getFullYear(),
         assumptions:     opts.assumptions || {},
-        parameters: {
-          fertility_multiplier:  opts.parameters.fertility_multiplier  ?? 1.0,
-          mortality_multiplier:  opts.parameters.mortality_multiplier  ?? 1.0,
-          net_migration_annual:  opts.parameters.net_migration_annual  ?? 500,
-        },
+        parameters:      _parameters(opts.parameters),
         createdAt:       opts.createdAt || now,
-        baselineSource:  opts.baselineSource || 'DOLA 2024',
+        baselineSource:  opts.baselineSource || 'SDO forecast',
         // The place whose population was loaded when this was saved, or null.
         geography:       opts.geography || null,
       };
@@ -147,6 +146,26 @@
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const ts   = Date.now().toString(36);
     return `custom-${slug}-${ts}`;
+  }
+
+  // Percentages of SDO's forecast (100 = SDO) unless the caller passes only
+  // the earlier fields, which are kept for paramsFromSaved() to convert.
+  function _parameters(p) {
+    const legacy = ['fertility_multiplier', 'mortality_multiplier', 'net_migration_annual'];
+    const isLegacy = legacy.some(k => p[k] != null) &&
+      p.births_pct == null && p.deaths_pct == null && p.migration_pct == null;
+    if (isLegacy) {
+      return {
+        fertility_multiplier:  p.fertility_multiplier  ?? 1.0,
+        mortality_multiplier:  p.mortality_multiplier  ?? 1.0,
+        net_migration_annual:  p.net_migration_annual  ?? null,
+      };
+    }
+    return {
+      births_pct:    p.births_pct    ?? 100,
+      deaths_pct:    p.deaths_pct    ?? 100,
+      migration_pct: p.migration_pct ?? 100,
+    };
   }
 
   function _normalizeLegacyKey(value) {

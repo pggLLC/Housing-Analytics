@@ -19,15 +19,19 @@ from the ledger's land-banking rows and adds what a map needs:
   * the row as printed, as the source quote.
 
 Contacts: the FY25-26 lists also print a contact name, phone and email for each
-award. Those are written to data/jurisdiction-briefs/_land-banking-contacts.json,
-which the public build leaves out (the developer-gated Jurisdiction Report reads
-it). Contacts researched by hand for the earlier rounds live in the same file
-under "researched" and are kept as they are on every run.
+award. Named people's contact details never go in this public repository: the
+contacts file lives only in the private developer-site repository, at
+gated/data/jurisdiction-briefs/_land-banking-contacts.json, and the gated pages
+read it from there. Pass --contacts-out with that file's path to refresh it;
+without the flag no contacts file is written. Contacts researched by hand for
+the earlier rounds sit in the same file under "researched" and are kept as they
+are on every run.
 
 Usage:
   python3 scripts/funding/build_land_banking_awards.py --pdf-dir DIR   # PDFs already downloaded
   python3 scripts/funding/build_land_banking_awards.py                 # downloads them
   python3 scripts/funding/build_land_banking_awards.py --check         # verify, write nothing
+  python3 scripts/funding/build_land_banking_awards.py --contacts-out ../coho-backend/gated/data/jurisdiction-briefs/_land-banking-contacts.json
 
 Requires poppler-utils (pdftotext).
 """
@@ -52,7 +56,6 @@ CORRECTIONS = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'land-banki
 GEO_CONFIG = os.path.join(ROOT, 'data', 'hna', 'geo-config.json')
 CENTROIDS = os.path.join(ROOT, 'data', 'co-place-centroids.json')
 OUT = os.path.join(ROOT, 'data', 'policy', 'prop123-land-banking-awards.json')
-CONTACTS = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_land-banking-contacts.json')
 
 PROGRAM = 'Prop 123 Land Banking'
 PROGRAM_URL = 'https://coloradoaffordablehousingfinancingfund.com/land-banking/'
@@ -275,6 +278,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument('--pdf-dir')
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--contacts-out', help='private contacts file to refresh (never a path in this repository)')
     args = ap.parse_args()
     rounds, awards, contacts = build(args.pdf_dir)
     today = dt.date.today().isoformat()
@@ -316,12 +320,16 @@ def main() -> int:
         },
         'awards': awards,
     }
-    prior = read_json(CONTACTS) if os.path.exists(CONTACTS) else {}
+    contacts_path = os.path.abspath(args.contacts_out) if args.contacts_out else None
+    if contacts_path and (contacts_path + os.sep).startswith(ROOT + os.sep):
+        print('--contacts-out must point outside this public repository', file=sys.stderr)
+        return 2
+    prior = read_json(contacts_path) if contacts_path and os.path.exists(contacts_path) else {}
     contact_out = {
         'meta': {
             'generated': today,
             'generator': 'scripts/funding/build_land_banking_awards.py',
-            'note': ('Developer-gated: the public build leaves data/jurisdiction-briefs/ out. "from_award_lists" is copied '
+            'note': ('Private: kept only in the developer-site repository. "from_award_lists" is copied '
                      'from the contact columns CHFA printed on the FY25-26 selection lists. "researched" holds a public '
                      'contact for each earlier award, found on the grantee\'s own site and kept by hand. People move; '
                      're-check before outreach.'),
@@ -334,8 +342,11 @@ def main() -> int:
         print(f'ok: {len(awards)} awards in {len(rounds)} rounds, {len(contacts)} printed contacts')
         return 0
     write_json(OUT, out)
-    write_json(CONTACTS, contact_out)
-    print(f'wrote {len(awards)} awards, {len(contacts)} printed contacts')
+    if contacts_path:
+        write_json(contacts_path, contact_out)
+        print(f'wrote {len(awards)} awards, {len(contacts)} printed contacts to {contacts_path}')
+    else:
+        print(f'wrote {len(awards)} awards (contacts not written; pass --contacts-out)')
     return 0
 
 

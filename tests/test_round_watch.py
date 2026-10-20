@@ -15,7 +15,6 @@ Pins:
   9. every reason, the sponsor's included, carries its source rows.
 """
 import copy
-import hashlib
 import importlib.util
 import json
 import os
@@ -130,7 +129,8 @@ def test_committed_file_is_current_and_has_no_contacts():
     res = subprocess.run([sys.executable, 'scripts/funding/build_round_watch.py', '--check'], cwd=ROOT,
                          capture_output=True, text=True)
     assert res.returncode == 0, res.stdout + res.stderr
-    text = open(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json'), encoding='utf-8').read()
+    with open(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json'), encoding='utf-8') as f:
+        text = f.read()
     assert not re.search(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}', text), 'no email addresses'
     assert not re.search(r'\(?\b\d{3}\)?[-. ]\d{3}[-. ]\d{4}\b', text), 'no phone numbers'
     assert not os.path.exists(os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch-contacts.json')), \

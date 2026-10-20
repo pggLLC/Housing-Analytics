@@ -86,7 +86,7 @@ test('save() returns a scenario with all required fields', function () {
   assert(sc.parameters.fertility_multiplier  === 1.1,               'fertility_multiplier preserved');
   assert(sc.parameters.mortality_multiplier  === 0.9,               'mortality_multiplier preserved');
   assert(sc.parameters.net_migration_annual  === 750,               'net_migration_annual preserved');
-  assert(sc.baselineSource     === 'DOLA 2024',                      'default baselineSource');
+  assert(sc.baselineSource     === 'SDO forecast',                   'default baselineSource');
 });
 
 // ── 3. Parameter defaults when fields omitted ────────────────────────────────
@@ -96,9 +96,15 @@ test('save() applies default parameter values for missing fields', function () {
     name: 'Defaults Test',
     parameters: {},
   });
-  assert(sc.parameters.fertility_multiplier === 1.0, 'fertility_multiplier defaults to 1.0');
-  assert(sc.parameters.mortality_multiplier === 1.0, 'mortality_multiplier defaults to 1.0');
-  assert(sc.parameters.net_migration_annual === 500, 'net_migration_annual defaults to 500');
+  // Percentages of SDO's forecast; 100 on all three is SDO's forecast. No
+  // place-blind default of people a year (it was 500 before 2026-10-20).
+  assert(sc.parameters.births_pct === 100, 'births_pct defaults to 100');
+  assert(sc.parameters.deaths_pct === 100, 'deaths_pct defaults to 100');
+  assert(sc.parameters.migration_pct === 100, 'migration_pct defaults to 100');
+  assert(!('net_migration_annual' in sc.parameters), 'no people-a-year default');
+  const legacy = SS.save({ name: 'Legacy', parameters: { fertility_multiplier: 1.1 } });
+  assert(legacy.parameters.fertility_multiplier === 1.1 && legacy.parameters.net_migration_annual === null,
+    'a record with only earlier fields keeps them, with no invented migration');
 });
 
 // ── 4. list() returns scenarios newest-first ─────────────────────────────────

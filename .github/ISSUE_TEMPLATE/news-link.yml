@@ -1,0 +1,18 @@
+name: News link
+description: Add a story to Housing News (owner and team only; other submissions are ignored).
+title: "News link"
+labels: ["news-link"]
+body:
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: The story's address. An Apple News or Google News link works too.
+      placeholder: Paste the story's address
+    validations:
+      required: true
+  - type: input
+    id: headline
+    attributes:
+      label: Headline
+      description: Optional. Used only when the page cannot be read (some papers block it).

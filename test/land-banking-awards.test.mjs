@@ -11,9 +11,9 @@
  *      and round, each round adds up to the total its PDF prints (as recorded in
  *      documents.json), and the headline totals are those sums;
  *   2. every location is the Census centre of a real geography in geo-config.json;
- *   3. the public file carries no contact details; the gated contacts file names
- *      only real awards, covers every award, and each contact is in the row or
- *      page it quotes;
+ *   3. the public file carries no contact details and this repository carries no
+ *      contacts file; the private contacts file names only real awards, covers
+ *      every award, and each contact is in the row or page it quotes;
  *   4. the plain open-round summary says what its quotes say;
  *   5. the Jurisdiction Report lists the awards in a place, and in a county,
  *      with their contacts, and says so when contacts are missing;
@@ -39,7 +39,26 @@ const ok = (cond, msg) => { assert.ok(cond, msg); checks++; };
 const DATA = json('data/policy/prop123-land-banking-awards.json');
 const LEDGER = json('data/policy/funding-awards/ledger.json').awards.filter((a) => a.program === 'Prop 123 Land Banking');
 const DOCS = json('data/policy/funding-awards/documents.json').documents.filter((d) => d.program === 'Prop 123 Land Banking');
-const CONTACTS = json('data/jurisdiction-briefs/_land-banking-contacts.json');
+// Named people's contacts live only in the private developer-site repository
+// (gated/data/jurisdiction-briefs/_land-banking-contacts.json). Point
+// COHO_LAND_BANKING_CONTACTS at that file to check the real one; otherwise a
+// made-up stand-in built from the awards file, naming no real person, runs the
+// same checks.
+function standInContacts(data) {
+  const printed = new Set(data.meta.rounds.filter((r) => r.prints_contacts).map((r) => r.id));
+  const fromLists = [], researched = [];
+  data.awards.forEach((a, i) => {
+    const n = String(i).padStart(4, '0');
+    const name = `Stand-in Person ${n}`, email = `person${n}@example.org`, phone = `555-010-${n}`;
+    const base = { award_id: a.id, project: a.project, org: a.sponsor, geoids: a.places.map((p) => p.geoid), county_fips: a.county_fips };
+    if (printed.has(a.round)) fromLists.push({ ...base, name, phone, email, source_quote: `${a.sponsor} ${a.project} ${name} ${phone} ${email}` });
+    else if (!researched.length) researched.push({ ...base, name: null, email: null, phone: null, status: 'not_found', confirmed: false });
+    else researched.push({ ...base, name, phone, email, source_url: 'https://example.org/staff', source_quote: `${name} ${phone} ${email}`, status: 'found', confirmed: false });
+  });
+  return { meta: { stand_in: true }, from_award_lists: fromLists, researched };
+}
+const CONTACTS_FILE = process.env.COHO_LAND_BANKING_CONTACTS || '';
+const CONTACTS = CONTACTS_FILE ? JSON.parse(readFileSync(CONTACTS_FILE, 'utf8')) : standInContacts(DATA);
 const GEO = json('data/hna/geo-config.json');
 const CENTROIDS = json('data/co-place-centroids.json').byGeoid;
 const { isSensitive } = await import(join(ROOT, 'scripts/lib/public-sensitive-patterns.mjs'));
@@ -111,8 +130,11 @@ ledgerAgreement(DATA);
   ok(pins >= DATA.awards.length, 'pin scan found pins');
 }
 
-// ---- 3. Contacts stay in the gated file.
+// ---- 3. Contacts stay out of this repository.
 {
+  ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_land-banking-contacts.json')), 'this public repository carries no contacts file');
+  ok(!read('scripts/funding/build_land_banking_awards.py').includes("'_land-banking-contacts.json')"), 'the builder has no in-repo contacts path');
+  ok(!/_land-banking-contacts/.test(read('.github/workflows/funding-awards.yml').split('\n').filter((l) => !l.trim().startsWith('#')).join('\n')), 'the weekly job commits no contacts file');
   const pub = read('data/policy/prop123-land-banking-awards.json');
   ok(!/"(email|phone|contact_name)"\s*:/.test(pub), 'the public award file has no contact fields');
   for (const c of CONTACTS.from_award_lists) ok(!pub.includes(c.email), `the public file does not carry ${c.email}`);
@@ -157,6 +179,8 @@ ledgerAgreement(DATA);
   const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
   const { loadSources } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
   const src = loadSources();
+  ok(!src.landBankingContacts, 'the public checkout loads no contacts');
+  src.landBankingContacts = CONTACTS;
   const leadvilleGeoid = DATA.awards.find((a) => a.places.some((p) => p.name === 'Leadville')).places[0].geoid;
   const m = WP.buildModel(src, leadvilleGeoid, { FundingFit, today: '2026-10-15' });
   const here = DATA.awards.filter((a) => a.places.some((p) => p.geoid === leadvilleGeoid));

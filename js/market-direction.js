@@ -16,6 +16,12 @@
 
   var FILE = 'market/market-direction.json';
   var PROJECTS_FILE = 'market/development-activity.json';
+  // Realtor.com's monthly listings summary: context beside the calls, never
+  // an input to them. Loaded on its own so a missing file costs three columns,
+  // not the tab.
+  var LISTINGS_FILE = 'market/realtor_inventory_co.json';
+  var listings = null;
+  var listingsFailed = false;
   var NONE = 'No reading';
   var started = false;
   var data = null;
@@ -107,6 +113,73 @@
   function ytdChange(p) {
     if (!p || !isNum(p.change_pct)) return { text: NONE, title: (p && p.unavailable_reason) || 'No change can be read', sort: null };
     return { text: signed(p.change_pct, 1), title: '', sort: p.change_pct };
+  }
+
+  function monthName(ym) {
+    var m = /^(\d{4})-(\d{2})$/.exec(ym || '');
+    return m ? MONTHS[Number(m[2]) - 1] + ' ' + m[1] : '';
+  }
+
+  // One county's Realtor.com row, or the reason there is none. A county the
+  // month's file leaves out reads "No reading"; it never breaks the table.
+  function listingRow(fips) {
+    if (!listings) return { row: null, why: listingsFailed ? 'The Realtor.com listings file could not be loaded' : 'Loading Realtor.com listings' };
+    var r = (listings.counties || {})[fips];
+    return r ? { row: r, why: '' } : { row: null, why: 'Not in Realtor.com’s file for ' + monthName(listings.meta.month) };
+  }
+
+  // † marks a county Realtor.com flags this month (quality_flag); the note under the table explains it.
+  function listingCell(fips, value, text, sort) {
+    var l = listingRow(fips);
+    if (!l.row || !isNum(l.row[value])) return { text: NONE, title: l.why || 'Realtor.com publishes no figure for this county this month', sort: null };
+    return { text: text(l.row) + (l.row.quality_flag === 1 ? ' †' : ''), title: '', sort: sort(l.row) };
+  }
+
+  function forSale(c) {
+    return listingCell(c.fips, 'active_listings', function (r) {
+      return fmtInt(r.active_listings) + (isNum(r.active_listings_yy_pct) ? ' (' + signed(r.active_listings_yy_pct, 1) + ' from a year before)' : '');
+    }, function (r) { return r.active_listings; });
+  }
+
+  function daysOnMarket(c) {
+    return listingCell(c.fips, 'median_days_on_market', function (r) { return fmtInt(r.median_days_on_market) + ' days'; },
+      function (r) { return r.median_days_on_market; });
+  }
+
+  function priceCuts(c) {
+    return listingCell(c.fips, 'price_reduced_share_pct', function (r) { return r.price_reduced_share_pct.toFixed(0) + '%'; },
+      function (r) { return r.price_reduced_share_pct; });
+  }
+
+  function renderListingsNote() {
+    var note = el('mdListingsNote');
+    if (!note) return;
+    if (!listings) {
+      note.textContent = listingsFailed ? 'The Realtor.com listings columns are empty because their file could not be loaded.' : '';
+      return;
+    }
+    var flagged = counties.filter(function (c) { var r = listings.counties[c.fips]; return r && r.quality_flag === 1; }).length;
+    var missing = counties.filter(function (c) { return !listings.counties[c.fips]; }).length;
+    note.innerHTML = 'Homes for sale, days on market and price cuts are from <a href="' + escapeHtml(listings.meta.url) +
+      '" target="_blank" rel="noopener">Realtor.com</a> listings for ' + escapeHtml(monthName(listings.meta.month)) +
+      '. They describe the for-sale market beside each call; no call reads them.' +
+      (flagged ? ' † Realtor.com flags ' + flagged + ' ' + (flagged === 1 ? 'county' : 'counties') +
+        ' this month because their figures fall outside their usual range, so read those with care.' : '') +
+      (missing ? ' ' + missing + ' ' + (missing === 1 ? 'county is' : 'counties are') + ' not in this month’s file.' : '');
+  }
+
+  function loadListings() {
+    return fetchJSON(LISTINGS_FILE).then(function (d) {
+      if (!d || !d.meta || !d.counties) throw new Error('unexpected shape');
+      listings = d;
+    }).catch(function (err) {
+      listingsFailed = true;
+      console.warn('[market-direction] Realtor.com listings failed:', err);
+    }).then(function () {
+      if (!data) return;
+      renderCountyTable();
+      renderListingsNote();
+    });
   }
 
   function through() {
@@ -218,6 +291,9 @@
     { key: 'rent', label: 'Rent, past year', title: 'Change in the Zillow Observed Rent Index over the latest 12 months', get: function (c) { return signal(c.signals.rent, 1); } },
     { key: 'ytd', label: 'Homes permitted this year vs last', title: 'Homes permitted this year to date against the same months last year, Census Building Permits Survey monthly files; context only, no call reads it', get: function (c) { return ytd(c.permits_ytd); } },
     { key: 'ytdpct', label: 'Change this year', title: 'Change in homes permitted this year to date; read only when each period has at least 50 homes', get: function (c) { return ytdChange(c.permits_ytd); } },
+    { key: 'forsale', label: 'Homes for sale', title: 'Homes listed for sale on Realtor.com in the month named under the table, and the change from a year earlier; context only, no call reads it', get: forSale },
+    { key: 'dom', label: 'Days on market', title: 'Median days a listing has been on Realtor.com, for the same month; context only', get: daysOnMarket },
+    { key: 'cuts', label: 'Listings with a price cut', title: 'Share of Realtor.com listings whose price was reduced during the month; context only', get: priceCuts },
     { key: 'edge', label: 'Tax-credit rent edge', title: 'How far the 60% AMI two-bedroom rent sits below HUD Fair Market Rent: clear (10% or more), thin (under 10%) or none', get: function (c) {
       var e = c.rent_edge;
       if (!e || !e.reading) return { text: NONE, title: (e && e.unavailable_reason) || '', sort: null };
@@ -424,7 +500,7 @@
     if (src) {
       src.innerHTML = ['population', 'jobs', 'permits', 'price', 'rent', 'permits_ytd', 'fmr', 'lihtc_rents'].filter(function (k) { return s[k] && s[k].url; }).map(function (k) {
         return '<li><a href="' + escapeHtml(s[k].url) + '" target="_blank" rel="noopener">' + escapeHtml(s[k].source) + '</a></li>';
-      }).join('');
+      }).join('') + '<li><a href="https://www.realtor.com/research/data/" target="_blank" rel="noopener">Realtor.com Residential Data, monthly inventory (homes for sale, days on market, price cuts)</a></li>';
     }
   }
 
@@ -453,6 +529,7 @@
   function init() {
     if (started) return;
     started = true;
+    loadListings();
     fetchJSON(FILE).then(function (d) {
       data = d;
       COUNTY_ORDER = countyOrder(d);
@@ -462,6 +539,7 @@
       renderMap();
       fillPickers();
       renderCountyTable();
+      renderListingsNote();
       renderTownTable();
       renderProjects('');
       renderMethod();
@@ -475,7 +553,8 @@
     });
   }
 
-  global.MarketDirection = { init: init, _why: why, _signal: signal, _calls: CALLS };
+  global.MarketDirection = { init: init, _why: why, _signal: signal, _calls: CALLS, _listingRow: listingRow,
+    _setListings: function (d, failed) { listings = d; listingsFailed = !!failed; } };
 
   // Opened straight onto the tab (#tab-direction): the tab script has already revealed it.
   function maybeInit() {

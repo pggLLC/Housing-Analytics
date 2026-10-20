@@ -1,0 +1,422 @@
+{
+ "slug": "cedar-creek-commons-montrose",
+ "name": "Cedar Creek Commons",
+ "city": "Montrose",
+ "county": "Montrose",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 36,
+ "researched_on": "2026-10-20",
+ "headline": "A 36-home, all income-restricted new-construction family rental building on Ogden Road in Montrose, with nine homes set aside for people with intellectual and developmental disabilities, developed by RealAmerica; it won 2026 Round One federal 9% credits.",
+ "why_it_matters": "It is a small rural 9% deal that targets 30% AMI and I/DD households by building on a developer's adjacent sites, with city fee waivers and a housing authority tax exemption standing in for cash subsidy.",
+ "status": {
+  "label": "Credits awarded; closing and construction start not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30. The application said construction could start in 2026 after an award, but no public record found shows a closing, permit or groundbreaking.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch for the City of Montrose administrative site plan approval and building permit, and for the parcel's conveyance from Black Canyon Flats, LLC to the project.",
+ "key_numbers": [
+  {
+   "value": "36 homes, all income-restricted",
+   "meaning": "9 at 30% AMI, 9 at 50% AMI and 18 at 60% AMI; 12 one-bedroom, 18 two-bedroom and 6 three-bedroom.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,589,628 a year in federal 9% credit",
+   "meaning": "About $15.9 million over the 10-year credit period (inferred); CHFA lists no state credit for this deal.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "9 homes for people with I/DD",
+   "meaning": "Community Integration units, with leasing help and services from Community Options Inc.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Fee waivers and a tax exemption",
+   "meaning": "The application says the city expects to waive permit, plan check and use-tax costs, and the Montrose County Housing Authority will provide a property and sales tax exemption.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "65890 Ogden Road, Montrose (CHFA award report); the application lists TBD Ogden Road, Montrose 81401",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction and residents",
+   "value": "New construction; individual/family",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story, wood-frame walk-up building with three stair cores, slab-on-grade foundation",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "All ground-floor units (25%) designed as Type A accessible units",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Silver planned; all-electric-ready and solar-ready design; six EV-ready parking spaces",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Excess acreage next to RealAmerica's Residences at Dry Cedar Creek and Black Canyon Flats, immediately east of the Montrose Recreation Center",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "QAP priorities claimed",
+   "value": "Special Populations (I/DD set-aside) and non-metro county of 180,000 or fewer people",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 9
+  },
+  {
+   "level": "60% AMI",
+   "units": 18
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 12
+  },
+  {
+   "type": "2BR",
+   "units": 18
+  },
+  {
+   "type": "3BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions",
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,589,628 per year",
+   "note": "Annual credit for 10 years; CHFA's award descriptions list no state credit.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Tax credit equity (syndicator)",
+   "amount": "Not public",
+   "note": "Application names RBC as the syndicator for federal and state equity.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent loan",
+   "amount": "Not public",
+   "note": "Application assumes NBH Bank for construction and permanent financing.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "35% of the developer fee",
+   "note": "Application also requested a 1.25% developer fee boost for serving Special Populations at or below 30% AMI.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Montrose",
+   "amount": "Not quantified",
+   "note": "Anticipated administrative waiver of building permit fees, plan check fees and city construction use tax upon award; help with sidewalk; city may explore lodging tax funds.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Montrose County Housing Authority",
+   "amount": "Not quantified",
+   "note": "Property and sales tax exemption, per the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "RealAmerica Development, LLC",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "General contractor and property manager (developer's own affiliates, per application)",
+   "name": "RealAmerica Construction; RealAmerica Management",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "I/DD service partner",
+   "name": "Community Options, Incorporated",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Current landowner (affiliate)",
+   "name": "Black Canyon Flats, LLC",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Tax exemption partner",
+   "name": "Montrose County Housing Authority",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Third-party cost estimator",
+   "name": "HD Construction Aspen",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: the parcel is owned by Black Canyon Flats, LLC, an affiliate formed for RealAmerica's earlier middle-income development next door, and is to be conveyed to RealAmerica Development, LLC under an executed purchase and sale agreement.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Neighbours: Residences at Dry Cedar Creek, RealAmerica's 48-unit 9% property on Ogden Road beside the recreation center (42 units at or below 60% AMI and six market-rate), broke ground in October 2023 and, per the application, opened in October 2024 with a 221-household waitlist.",
+   "src": [
+    "montrose-press-2023",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Black Canyon Flats, the adjacent RealAmerica development serving 80% to 100% AMI households, is described in the application as Proposition 123-supported and expected to open in fall 2026.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Approvals: zoning is already in place, and site plan approval and building permits go through the city's administrative review; no approval record for this project was found online.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application followed a CHFA concept meeting on 2026-01-13, after which the mix was revised to add one more 30% AMI unit; it was RealAmerica's first 9% application for this project.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study cited in the application: 25.6% overall capture rate, 28.1% capture rate for the I/DD units, six LIHTC properties (247 units) in the market area, all full with waitlists.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Supportive services: the operating budget includes $20,000 a year for service coordination and resident activities, tied in the application to the developer fee boost.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Letters of support listed: City of Montrose, Montrose Economic Development Corporation, Montrose Recreation Center, Montrose County Housing Authority and Community Options.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-10-12",
+   "event": "Montrose Press reports groundbreaking of the adjacent Residences at Dry Cedar Creek",
+   "src": [
+    "montrose-press-2023"
+   ]
+  },
+  {
+   "date": "2024-10",
+   "event": "Residences at Dry Cedar Creek opens (per application)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Listed on CHFA's 2026 Round One Letters of Intent report (PDF created 2025-12-08)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-01-13",
+   "event": "Concept meeting with CHFA",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "Application narrative published in CHFA's 2026 Round One narratives (PDF created 2026-02-09)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 14 Round One awards, including Cedar Creek Commons",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report with $1,589,628 federal 9% credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The CHFA award report gives the address as 65890 Ogden Road, the Letters of Intent report gives 65880 Ogden Road, and the application gives TBD Ogden Road.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The credit figures differ by stage: the Letters of Intent report shows $1,800,000 federal and $500,000 state requested, the application narrative says $1,354,379 federal and $500,000 state, and the award is $1,589,628 federal with no state credit.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The Letters of Intent report codes the deal as Special Populations as well as individual/family, but the award report codes it only as new construction, individual/family.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "text": "The application calls the neighbouring 9% property both Residences at Cedar Creek Commons and Residences at Dry Cedar Creek; Montrose Press calls it Residences at Dry Cedar Creek.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "montrose-press-2023"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Why the award has no state credit and a federal amount above the narrative's request is not explained publicly.",
+  "Total development cost, equity price, loan amount, land price and rents are not public.",
+  "No city site plan, permit or closing record for this project was found; no public site plan or rendering was found.",
+  "The Proposition 123 award behind Black Canyon Flats is stated only in the application and was not checked against an OEDIT/CHFA award list.",
+  "Affordability period and any project-based vouchers are not stated in public sources found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 Application Narratives - Round One (Cedar Creek Commons, PDF pages 31-35)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA announces 2026 Round One Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "montrose-press-2023",
+   "title": "Affordable apartments near rec center will be ready next summer",
+   "publisher": "Montrose Daily Press",
+   "date": "2023-10-12",
+   "url": "https://www.montrosepress.com/news/affordable-apartments-near-rec-center-will-be-ready-next-summer/article_2d432fe6-687b-11ee-aa4c-9f67f3596552.html"
+  }
+ ]
+}

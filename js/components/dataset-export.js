@@ -34,6 +34,7 @@
     'chfa-income-rent-limits': 'counties',
     'funding-vs-need': 'counties',
     'market-direction': ['counties', 'places'],
+    'realtor-inventory': ['counties', 'zips'],
     'development-activity': 'projects',
     'lihtc-state-allocations': 'states',
     'novogradac-equity-pricing': 'pricing.by_state'

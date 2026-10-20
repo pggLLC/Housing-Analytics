@@ -172,6 +172,16 @@ jobs:
             echo "⚠ OPENAI_API_KEY is NOT set — briefs will use rule-based mode"
           fi
 
+      # The owner's picks: his Google Alerts (data/alerts/owner-feeds.txt) wait
+      # in the "News picks to review" issue until ticked; links he pastes in the
+      # "News link" issue form are published. Before the briefs, which add the
+      # published picks to the stories. Reads issues only; the issue writes
+      # happen after the push (sync step below).
+      - name: Owner news picks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/news/owner_news_picks.py
+
       - name: Generate policy briefs
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -223,6 +233,7 @@ jobs:
           git add data/policy_briefs.json
           git add data/policy/housing-events.json
           git add data/alerts/brief-news-queue.json
+          git add data/alerts/owner-news.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
@@ -283,3 +294,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/news/update-brief-review-issue.mjs data/alerts/brief-news-queue.json
+
+      # After the push, so a link issue is closed only once its pick is on main.
+      - name: Close added news links and rewrite "News picks to review"
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/news/owner_news_picks.py --sync-issues

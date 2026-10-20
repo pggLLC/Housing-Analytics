@@ -222,6 +222,7 @@ function main() {
       'data/hna/lehd',
       'data/hna/lihtc',
       'data/hna/projections',
+      'data/hna/scenario-baseline',
       'data/hna/summary',
     ];
 
