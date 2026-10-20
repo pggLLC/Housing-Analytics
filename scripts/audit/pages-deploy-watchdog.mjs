@@ -51,8 +51,10 @@ export function evaluateDeployCoverage({
   // (run 39262504970, 2026-10-19): that one is reported, not failed on.
   const successes = [...deployRuns, ...(Array.isArray(branchRuns) ? branchRuns : [])]
     .filter((run) => run.status === 'completed' && run.conclusion === 'success');
+  // Compared on the success's finish and the stale run's start: a run that began
+  // after an earlier deploy finished is not one that later deploys got past.
   const superseded = (stale) => successes.some((run) => (
-    Date.parse(run.created_at) > Date.parse(stale.created_at || stale.run_started_at)
+    Date.parse(run.updated_at || run.created_at) > Date.parse(stale.run_started_at || stale.created_at)
   ));
   const staleActiveRuns = staleRuns.filter((run) => !superseded(run));
   const bypassed = staleRuns.filter(superseded).map((run) => (

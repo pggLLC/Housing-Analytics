@@ -97,6 +97,18 @@ function runFixture(overrides = {}) {
     assert.strictEqual(result.reason, 'stale-active-run');
   });
 
+  run('a stale run that started after the last success finished still fails', () => {
+    // Created 09:00 but only started 10:30, after a deploy created 09:30 finished at 10:00.
+    const late = runFixture({ head_sha: 'latesha', status: 'in_progress', conclusion: null, created_at: '2026-07-14T09:00:00Z', run_started_at: '2026-07-14T10:30:00Z' });
+    const earlier = runFixture({ head_sha: 'newsha', created_at: '2026-07-14T09:30:00Z', updated_at: '2026-07-14T10:00:00Z' });
+    const result = evaluateDeployCoverage({
+      headSha: 'newsha', headCommitDate: '2026-07-14T09:20:00Z',
+      runs: [earlier], activeRuns: [late], branchRuns: [earlier, late], now, staleActiveMinutes: 120,
+    });
+    assert.strictEqual(result.ok, false);
+    assert.strictEqual(result.reason, 'stale-active-run');
+  });
+
   run('fails when latest main is old enough and has only canceled deploys', () => {
     const result = evaluateDeployCoverage({
       headSha: 'abc123',
