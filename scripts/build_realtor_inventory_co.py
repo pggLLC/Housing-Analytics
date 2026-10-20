@@ -79,6 +79,14 @@ FIELDS = [
 ]
 
 
+REQUIRED_COLUMNS = {
+    geo: ["month_date_yyyymm", *keys, "quality_flag", *(col for _, col, _ in FIELDS)]
+    for geo, keys in (("county", ("county_fips", "county_name")), ("zip", ("postal_code", "zip_name")))
+}
+# The columns the page shows. Most counties must have each, or the extract is broken.
+SHOWN = ("active_listings", "median_days_on_market", "price_reduced_share_pct")
+
+
 def _fetch(url: str) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": "COHO-Analytics/1.0 (+market data)"})
     with urllib.request.urlopen(req, timeout=120) as r:
@@ -113,7 +121,13 @@ def _row(rec: dict) -> dict:
 
 def parse(text: str, geo: str) -> tuple[dict, set]:
     rows, months = {}, set()
-    for rec in csv.DictReader(io.StringIO(text)):
+    reader = csv.DictReader(io.StringIO(text))
+    # A renamed or dropped metric column would otherwise read as null in every
+    # row and pass the count and month checks.
+    missing = [c for c in REQUIRED_COLUMNS[geo] if c not in (reader.fieldnames or [])]
+    if missing:
+        raise ValueError(f"the {geo} file lacks columns {missing}")
+    for rec in reader:
         name = (rec.get("county_name") if geo == "county" else rec.get("zip_name")) or ""
         if not name.strip().lower().endswith(", co"):
             continue
@@ -145,8 +159,12 @@ def main() -> int:
         print(f"ERROR: could not read the Realtor.com files: {exc}", file=sys.stderr)
         return 1
 
-    counties, county_months = parse(county_text, "county")
-    zips, zip_months = parse(zip_text, "zip")
+    try:
+        counties, county_months = parse(county_text, "county")
+        zips, zip_months = parse(zip_text, "zip")
+    except ValueError as exc:
+        print(f"ERROR: {exc}; keeping the committed file.", file=sys.stderr)
+        return 1
 
     if len(counties) != CO_COUNTIES:
         print(f"ERROR: {len(counties)} Colorado counties in the file, not {CO_COUNTIES}; keeping the committed file.", file=sys.stderr)
@@ -157,6 +175,10 @@ def main() -> int:
     if len(county_months) != 1 or zip_months != county_months:
         print(f"ERROR: expected one month in both files, found county {sorted(county_months)}, "
               f"ZIP {sorted(zip_months)}; keeping the committed file.", file=sys.stderr)
+        return 1
+    empty = [k for k in SHOWN if sum(r[k] is not None for r in counties.values()) < len(counties) / 2]
+    if empty:
+        print(f"ERROR: most counties have no {', '.join(empty)}; keeping the committed file.", file=sys.stderr)
         return 1
     months = set(county_months)
 
