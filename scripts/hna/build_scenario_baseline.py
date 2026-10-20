@@ -158,9 +158,11 @@ def main():
     years = list(range(BASE_YEAR, END_YEAR + 1))
     gaps = [f'08{c:03d} {y} age {a}' for c in CO_COUNTIES for y in years for a in range(N_AGES)
             if rows_by_age.get((c, y, a), 0) != 1]
-    gaps += [f'08{c:03d} {y} age {a} ({n} rows)' for (c, y, a), n in rows_by_age.items() if n != 1 and a >= N_AGES]
+    # SDO's file runs from age 0 to 100 (100 and over); any other age would be
+    # added into the oldest or, below zero, the wrong cohort above.
+    gaps += [f'08{c:03d} {y} age {a} (outside 0-{N_AGES - 1})' for (c, y, a) in rows_by_age if not 0 <= a < N_AGES]
     if gaps:
-        raise SystemExit(f'SDO population file lacks or repeats {len(gaps)} county-year-age rows, e.g. {gaps[:3]}; nothing written')
+        raise SystemExit(f'SDO population file lacks, repeats or has out-of-range ages in {len(gaps)} county-year-age rows, e.g. {gaps[:3]}; nothing written')
 
     # Every county is checked and built before the first file is written, so a
     # short download of any of the three files writes nothing rather than

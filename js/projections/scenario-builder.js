@@ -768,11 +768,16 @@
 
   function _paramsText(p) {
     if (p && (p.births_pct != null || p.deaths_pct != null || p.migration_pct != null)) {
-      return `Births ${Number(p.births_pct)}% | Deaths ${Number(p.deaths_pct)}% | Moving in (net) ${Number(p.migration_pct)}% of SDO's forecast`;
+      // The settings the scenario loads with, so the list never names one the
+      // projection does not use (a missing setting loads as SDO's 100%).
+      const q = window.CohortComponentModel.paramsFromSaved(p);
+      return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of SDO's forecast`;
     }
-    const fm = Number(p && p.fertility_multiplier);
-    const mm = Number(p && p.mortality_multiplier);
-    const mig = Number(p && p.net_migration_annual);
+    // A value the record never set is shown as unset, not as 0.
+    const given = (v) => (v == null || v === '' ? NaN : Number(v));
+    const fm = given(p && p.fertility_multiplier);
+    const mm = given(p && p.mortality_multiplier);
+    const mig = given(p && p.net_migration_annual);
     return 'Saved with the earlier model: births ×' + (Number.isFinite(fm) ? fm.toFixed(2) : '1.00') +
       ' | deaths ×' + (Number.isFinite(mm) ? mm.toFixed(2) : '1.00') +
       (Number.isFinite(mig) ? ' | ' + Math.round(mig).toLocaleString('en-US') + ' people moving in a year' : '');

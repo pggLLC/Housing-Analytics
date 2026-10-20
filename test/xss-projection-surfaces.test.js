@@ -73,6 +73,7 @@ function testScenarioBuilder() {
     save: function (value) { return value; },
     exportAll: function () { return new dom.window.Blob(); }
   };
+  dom.window.eval(read('js/projections/cohort-component-model.js'));
   dom.window.eval(read('js/projections/scenario-builder.js'));
   dom.window.ScenarioBuilder.init();
 
@@ -102,8 +103,23 @@ function testScenarioBuilder() {
   dom.window.ScenarioBuilder.init();
   assert.strictEqual(container.querySelector('tag'), null, 'a hostile name or percentage does not become markup');
   assert(container.querySelector('.sb-saved-name').textContent === HOSTILE, 'the name shows as text');
-  assert(container.querySelector('.sb-saved-meta').textContent ===
-    "Births NaN% | Deaths 95% | Moving in (net) 50% of SDO's forecast", 'percentages are coerced to numbers');
+  // The line shows the settings the scenario loads with: a hostile births
+  // value is not a number, so it loads (and reads) as SDO's 100%.
+  const loads = dom.window.CohortComponentModel.paramsFromSaved(saved[0].parameters);
+  assert.strictEqual(container.querySelector('.sb-saved-meta').textContent,
+    `Births ${loads.births_pct}% | Deaths ${loads.deaths_pct}% | Moving in (net) ${loads.migration_pct}% of SDO's forecast`,
+    'percentages are coerced to the numbers the scenario loads with');
+  assert.deepStrictEqual([loads.births_pct, loads.deaths_pct, loads.migration_pct], [100, 95, 50], 'the hostile value is dropped, the others kept');
+
+  // A setting the record never had reads as what loads, never as 0.
+  saved = [
+    { id: 'partial', name: 'Partial', parameters: { births_pct: null, deaths_pct: 95, migration_pct: 50 } },
+    { id: 'legacy-partial', name: 'Legacy partial', parameters: { fertility_multiplier: null, mortality_multiplier: 1.1, net_migration_annual: null } },
+  ];
+  dom.window.ScenarioBuilder.init();
+  const metas = [...container.querySelectorAll('.sb-saved-meta')].map((n) => n.textContent);
+  assert.strictEqual(metas[0], "Births 100% | Deaths 95% | Moving in (net) 50% of SDO's forecast", 'a missing percentage reads as the 100% it loads with');
+  assert.strictEqual(metas[1], 'Saved with the earlier model: births ×1.00 | deaths ×1.10', 'a missing multiplier or migrant count is not shown as 0');
   dom.window.close();
 }
 
@@ -111,7 +127,8 @@ function assertSourceGuards() {
   const projector = read('js/housing-need-projector.js');
   const scenarios = read('js/projections/scenario-builder.js');
   assert(projector.includes("'<strong>' + _escHtml(countyName) + '</strong>"), 'projector keeps county-name escape');
-  assert(scenarios.includes('Births ${Number(p.births_pct)}%') && scenarios.includes('const mig = Number(p && p.net_migration_annual)'),
+  assert(scenarios.includes('const q = window.CohortComponentModel.paramsFromSaved(p);') && scenarios.includes('Births ${q.births_pct}%') &&
+    scenarios.includes("const given = (v) => (v == null || v === '' ? NaN : Number(v));") && scenarios.includes('const mig = given(p && p.net_migration_annual)'),
     'scenario builder keeps numeric coercion');
   assert(scenarios.includes('${_escHtml(_paramsText(s.parameters || {}))}'), 'scenario builder escapes the saved-parameter line');
 }
