@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T14:19:05.120Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T17:44:23.847Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.8 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 48.0 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 51.6 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.4 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 10.5 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.4 KB |
@@ -71,7 +71,7 @@
 | `methods.html` | Computational Methods | COHO Analytics | 76.0 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 46.4 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 48.8 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.3 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -1737,7 +1737,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 421.9 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 424.6 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
@@ -1774,7 +1774,7 @@
 | `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 44.4 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 44.8 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
@@ -2093,12 +2093,12 @@
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 15.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
-| `test/homepage-snapshot.test.js` | 14.8 KB |
+| `test/homepage-snapshot.test.js` | 16.0 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.3 KB |
-| `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 24.0 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
@@ -2192,7 +2192,7 @@
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 9.6 KB |
 | `test/pages-availability-check.js` | 19.0 KB |
-| `test/pages-deploy-watchdog.test.js` | 8.3 KB |
+| `test/pages-deploy-watchdog.test.js` | 10.7 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
 | `test/paper-names-its-author.test.mjs` | 5.7 KB |
 | `test/paper-typed-facts.test.mjs` | 8.4 KB |
@@ -2462,7 +2462,7 @@
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_market_direction.py` | 18.9 KB |
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
-| `tests/test_news_stories.py` | 13.7 KB |
+| `tests/test_news_stories.py` | 19.5 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
@@ -2571,7 +2571,7 @@
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 12.5 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 14.1 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 20.8 KB |

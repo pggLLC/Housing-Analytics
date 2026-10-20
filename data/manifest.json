@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20T14:19:43.451630Z",
+  "generated": "2026-10-20T17:44:55.700545Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8384,7 +8384,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 432051
+      "bytes": 434831
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
@@ -8569,7 +8569,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 45475
+      "bytes": 45867
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
