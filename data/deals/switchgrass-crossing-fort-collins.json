@@ -1,0 +1,561 @@
+{
+ "slug": "switchgrass-crossing-fort-collins",
+ "name": "Switchgrass Crossing",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 45,
+ "researched_on": "2026-10-20",
+ "headline": "Volunteers of America National Services is developing Switchgrass Crossing, a new 45-unit, four-story apartment building for adults 55+ earning 30% to 60% AMI, on a former parking lot at 3800 S. Mason St. by the MAX Horsetooth Station in Fort Collins. It won 2025 Round One federal 9%, state and TOC credits from CHFA.",
+ "why_it_matters": "It is a transit-site senior deal that stacked several small public pieces on top of the 9% credit: about $1.2M from the city's competitive process, a $792K state TOC infrastructure grant and a city fee credit. VOANS announced its financing closing in May 2026 and a $26M project.",
+ "status": {
+  "label": "Financing closed (announced May 2026); construction start not confirmed",
+  "detail": "VOANS announced on 2026-05-27 that it had closed the financing, with construction expected to begin in June 2026 and completion in summer 2027. No public building permit, groundbreaking record or construction photo was found to confirm that work has started.",
+  "src": [
+   "voans-2026-05-27",
+   "chfa-2025-r1-award"
+  ]
+ },
+ "next_step": "Look for a City of Fort Collins building permit for 3800 S. Mason St., or a VOANS or city groundbreaking notice, to confirm that construction started in mid-2026.",
+ "key_numbers": [
+  {
+   "value": "45 homes for adults 55+, all income-restricted",
+   "meaning": "39 one-bedroom and 6 two-bedroom units at 30% to 60% AMI (average 52% AMI, per the applicant).",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 state credit and $58,500 TOC credit.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "value": "$26M project",
+   "meaning": "VOANS's figure when it announced the financing closing in May 2026.",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "value": "About $2M in local and state gap money",
+   "meaning": "$1,215,574 from Fort Collins's 2025 competitive funding process and a $792K state Transit Oriented Communities infrastructure grant for site utilities and stormwater.",
+   "src": [
+    "fc-res-2025-065",
+    "fc-ais-2025-06-17",
+    "gov-toci-2026-02-26"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3800 S. Mason St., Fort Collins, CO 80525",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, OA: new construction, older adult",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "45 total, 45 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "Adults aged 55 and older",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "A 1.4-acre former parking lot along the South College Avenue corridor, a few miles south of downtown",
+   "src": [
+    "voans-2026-05-27",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "The applicant says the site is zoned for the project as a use by right, with no public hearing process",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story wood-frame building on a slab, with two elevators, surface parking, a courtyard, raised garden beds and a dog run",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About a 3-minute walk to the MAX bus rapid transit Horsetooth Station; Transfort service is free to riders",
+   "src": [
+    "chfa-2025-r1-toc-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with rooftop solar; designed for Enterprise Green Communities, DOE Efficient New Homes (Zero Energy Ready) and ENERGY STAR Multifamily New Construction. VOANS says it is its first all-electric building in Colorado",
+   "src": [
+    "voans-2026-05-27",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "13 percent accessible units",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "QCT/DDA",
+   "value": "The applicant says the site is in neither a QCT nor a DDA, so the deal works only as a 9%",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Average income election",
+   "value": "The applicant elected the Average Income test",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 25
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 39
+  },
+  {
+   "type": "2BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives",
+  "voans-2026-05-27"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$58,500",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "City of Fort Collins competitive process (affordable housing)",
+   "amount": "$1,215,574",
+   "note": "97% of a $1,250,000 request, ranked #5 of the housing proposals. It is on the 2025-06-17 Council consent calendar as Resolution 2025-065, which funds the spring cycle from CDBG, HOME and the city's Affordable Housing Fund. The packet does not show which program pays for this project.",
+   "src": [
+    "fc-res-2025-065",
+    "fc-ais-2025-06-17",
+    "fc-agenda-2025-06-17",
+    "fc-applicant-summaries-2025"
+   ]
+  },
+  {
+   "source": "Colorado Transit Oriented Communities Infrastructure (TOCI) grant",
+   "amount": "$792K",
+   "note": "Awarded to the City of Fort Collins in partnership with VOA for on-site utility connections, stormwater upgrades and a detention pond.",
+   "src": [
+    "gov-toci-2026-02-26"
+   ]
+  },
+  {
+   "source": "City tap and impact fee credit",
+   "amount": "$70,000",
+   "note": "Per the applicant, for the five 30% AMI units. Tap and impact fees run almost $30,000 per unit.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "VOA Capital Magnet Fund loan",
+   "amount": "Not public",
+   "note": "The applicant calls it a sizeable sponsor commitment.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Taxable construction/permanent loan",
+   "amount": "Not public",
+   "note": "VOANS thanks First Bank; that it is the lender is inferred.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "VOANS thanks Enterprise Partners; that it is the syndicator is inferred. The applicant also plans solar and 45L energy credits.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Volunteers of America National Services (VOANS)",
+   "src": [
+    "chfa-2025-r1-award",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "role": "Property manager and service provider",
+   "name": "Volunteers of America Colorado",
+   "src": [
+    "voans-2026-05-27",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Partner",
+   "name": "Housing Catalyst (the Fort Collins housing authority). VOANS calls this its second Fort Collins deal with Housing Catalyst; the terms of the partnership are not public",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-ahtc-2025-report",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (estimating at application)",
+   "name": "BC Builders",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Resident services partner",
+   "name": "Financial Health Institute (financial literacy)",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Funders thanked at closing",
+   "name": "Housing Catalyst, City of Fort Collins, State of Colorado, Enterprise Partners, First Bank",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "VOANS pitches the project as a follow-on to Cadence, its 2020 LIHTC senior building in Fort Collins, which has a waitlist of more than 300 people. Its other local senior property is Sanctuary, about 1.6 miles away.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "text": "The market study's overall capture rate is 26.3%, above CHFA's 25% guideline. The applicant argues that the true rate is lower because CHFA counts only renters 62+ while the building takes 55+. The study projects lease-up at 11.25 units a month and stabilization within four months.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I found no recognized environmental condition. Because the site was a parking lot, VOA committed to watch for soil staining or odors during work.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant requested a cost basis waiver (Attachment 6 of the application, which is not public).",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "At application the team expected a building permit in February 2026 and closing in March 2026. VOANS announced the closing on 2026-05-27.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "text": "The design team took part in the City of Fort Collins Integrated Design Assistance Program. Amenities include a fourth-floor resident lounge, community room, business center, covered porch, terrace and indoor bike storage at one space per resident.",
+   "src": [
+    "voans-2026-05-27",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "On-site staff will offer benefit and transportation navigation, technology classes and financial literacy. Residents can also use VOA's Fort Collins meals, veteran and older-adult programs.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Fort Collins's Human Services and Housing Funding Board describes the project as 45 new units for low-income seniors below 60% AMI.",
+   "src": [
+    "fc-applicant-summaries-2025"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-05-09",
+   "event": "CHFA announces the 2025 Round One awards",
+   "src": [
+    "chfa-news-2025-05-09"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Fort Collins City Council agenda, consent item Resolution 2025-065, funds $1,215,574 for Switchgrass Crossing",
+   "src": [
+    "fc-agenda-2025-06-17",
+    "fc-res-2025-065"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA state credit annual report lists the project among 2025 9% awards and shows a Shopworks rendering",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "date": "2026-02-26",
+   "event": "State announces a $792K TOC infrastructure grant to Fort Collins for the project's site work",
+   "src": [
+    "gov-toci-2026-02-26"
+   ]
+  },
+  {
+   "date": "2026-05-27",
+   "event": "VOANS announces it has closed the financing for the $26M project",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "date": "2026-06",
+   "event": "Construction expected to begin (not confirmed)",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected in summer 2027",
+   "src": [
+    "voans-2026-05-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Switchgrass Crossing",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Shopworks Architecture, via CHFA",
+   "note": "Printed page 16 (PDF page 18) of CHFA's 2025 state AHTC annual report; image credits are on the last page",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application narrative gives the site a walk score of 98, while the TOC narrative cites a walkability score of 76 from the market study.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The application narrative says Cadence opened in 2022, while the VOANS closing release says it opened in 2021.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "voans-2026-05-27"
+   ]
+  },
+  {
+   "text": "VOANS puts the top of the income range at about $62K (60% AMI), while the state TOCI announcement says about $54K for a one-person household.",
+   "src": [
+    "voans-2026-05-27",
+    "gov-toci-2026-02-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether construction actually started in June 2026: no building permit, groundbreaking notice or site photo was found.",
+  "Housing Catalyst's role (ownership, a property tax exemption or financing) is not described in any public record found.",
+  "Which programs fund the $1,215,574 city award, and the loan terms and covenant length.",
+  "Amounts of the VOA Capital Magnet Fund loan, the First Bank debt and the tax credit equity, plus the equity price.",
+  "Whether the Shopworks/BC Builders team from the application stayed in place at closing.",
+  "Length of the CHFA affordability period (LURA) and whether any vouchers apply. The narrative mentions none."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Switchgrass Crossing, PDF pages 96-100)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 TOC Round One narratives (Switchgrass Crossing, PDF pages 18-19)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2025-05-09",
+   "title": "CHFA Announces 2025 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2025-05-09",
+   "url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one"
+  },
+  {
+   "id": "chfa-ahtc-2025-report",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "voans-2026-05-27",
+   "title": "VOANS closes on $26M all-electric affordable housing community in Colorado",
+   "publisher": "Volunteers of America National Services",
+   "date": "2026-05-27",
+   "url": "https://www.voans.org/voans-closes-on-26m-all-electric-affordable-housing-community-in-colorado/"
+  },
+  {
+   "id": "gov-toci-2026-02-26",
+   "title": "Department of Local Affairs Announces Inaugural Transit Oriented Communities Infrastructure Grant Awards",
+   "publisher": "Office of Governor Jared Polis",
+   "date": "2026-02-26",
+   "url": "https://www.colorado.gov/governor/news/department-local-affairs-announces-inaugural-transit-oriented-communities-infrastructure-grant"
+  },
+  {
+   "id": "fc-agenda-2025-06-17",
+   "title": "Fort Collins City Council Regular Meeting agenda, 2025-06-17",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&me=1b8aaf903396446db23335580b2462a4&ip=True"
+  },
+  {
+   "id": "fc-ais-2025-06-17",
+   "title": "Agenda Item Summary: Resolution 2025-065, 2025 Spring Cycle of the Competitive Process (housing table, page 6)",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-003-4fc959772eb44c48b603ec30211f25c9.pdf"
+  },
+  {
+   "id": "fc-res-2025-065",
+   "title": "Resolution 2025-065 (packet copy)",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-001-baadb8ede8c141d88ba9db97988a27e0.pdf"
+  },
+  {
+   "id": "fc-applicant-summaries-2025",
+   "title": "2025 Competitive Process Applicant Summaries",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-001-42aae17d63b547c8867378f55d43d90c.pdf"
+  }
+ ]
+}

@@ -1,0 +1,687 @@
+{
+ "slug": "101-main-frisco",
+ "name": "101 Main (The Bella)",
+ "city": "Frisco",
+ "county": "Summit",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 52,
+ "researched_on": "2026-10-20",
+ "headline": "The NHP Foundation is building The Bella, 52 new studio, one- and two-bedroom apartments for households at 30% to 80% AMI on Frisco's Main Street, with 2025 Round One federal 9% and state credits from CHFA. It is Frisco's first LIHTC development.",
+ "why_it_matters": "It shows how a small resort town can make a 9% deal work: the Town upzoned the site through its affordable housing incentive program, put in local gap money and land, and set up its own housing authority for a property tax exemption, with Prop 123 land banking money behind the site. Financing closed and demolition began in late August 2026.",
+ "status": {
+  "label": "Financing closed; demolition began August 2026",
+  "detail": "NHPF announced the financial closing on 2026-08-27, and Summit Daily reported demolition of the old office building began that week. Completion is expected in November 2027 (late 2027 per Summit Daily). There is no public building permit record in hand, and vertical construction has not yet been reported.",
+  "src": [
+   "nhpf-2026-08-27",
+   "sd-2026-08-27",
+   "chfa-2025-r1-award"
+  ]
+ },
+ "next_step": "Watch for the Town of Frisco building permit and the start of vertical construction after demolition, which Summit Daily said would take three to four weeks from 2026-08-26.",
+ "key_numbers": [
+  {
+   "value": "52 homes, all income-restricted",
+   "meaning": "24 studios, 17 one-bedrooms and 11 two-bedrooms at 30%, 50% and 80% AMI (income averaging).",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 in state credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$4.9M to $14.6M+ in Town of Frisco support",
+   "meaning": "Sources give different figures: the 2025 application cited more than $14.6M in Town cash flow loans; the Town later cited a $6.4M contribution; NHPF's closing release says about $4.9M of soft financing.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "frisco-recap-2026-06-09",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "value": "November 2027 target completion",
+   "meaning": "Financing closed 2026-08-27 and demolition began on 2026-08-25 or 2026-08-26.",
+   "src": [
+    "nhpf-2026-08-27",
+    "sd-2026-08-27"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "101 W Main Street, Frisco, CO 80443 (about 0.8 acres, frontage on W Main Street and Creekside Drive, next to Ten Mile Creek)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, I/F: new construction, individuals and families",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "52 total, 52 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Project name",
+   "value": "Applied for as 101 West Main Street; listed by CHFA as 101 Main; now marketed as The Bella",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-award",
+    "sd-2026-08-27",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story, all-electric wood frame with surface parking, 664 sq ft of ground-floor commercial space, built to Zero Energy Ready Homes with a photovoltaic system",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Prior use",
+   "value": "A 22,000 sq ft office building built in 1979, with underground and surface parking",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Free local bus stop across the street, with service to Copper Mountain, Breckenridge and Silverthorne",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Difficult Development Area",
+   "value": "The applicant says the site is in a DDA",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Planned Unit Development; site plan approved by the Planning Commission on 2024-06-20. Base zoning allowed about 11 market-rate units",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "sd-2024-02-11"
+   ]
+  },
+  {
+   "item": "Projected rents",
+   "value": "About $626 to $2,316 a month, depending on unit size and AMI level, as reported in August 2026; no local work requirement for tenants",
+   "src": [
+    "sd-2026-08-27"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 25
+  },
+  {
+   "level": "80% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 24
+  },
+  {
+   "type": "1BR",
+   "units": 17
+  },
+  {
+   "type": "2BR",
+   "units": 11
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives",
+  "sd-2026-08-27"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One (report as of 2025-05-08).",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Town of Frisco soft financing",
+   "amount": "About $4.9M (NHPF), $6.4M (Town), or more than $14.6M (2025 application)",
+   "note": "The application describes Town cash flow loans; the Town also agreed in 2023 to lend $2.5M toward buying the site. The Town agreed in July 2026 to subordinate its loans to the two outside lenders.",
+   "src": [
+    "nhpf-2026-08-27",
+    "frisco-recap-2026-06-09",
+    "chfa-2025-r1-narratives",
+    "frisco-housing-inventory",
+    "frisco-recap-2026-07-14"
+   ]
+  },
+  {
+   "source": "Prop 123 Land Banking grant (State of Colorado)",
+   "amount": "$5,000,000",
+   "note": "Awarded to the Town of Frisco for this site in the first Land Banking round (announced January 2024).",
+   "src": [
+    "sd-2024-02-11",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Housing Development Grant",
+   "amount": "$2,000,000",
+   "note": "Approved by the State Housing Board on 2025-11-03.",
+   "src": [
+    "sd-2025-11-04",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "DOLA infrastructure grants (More Housing Now and Strong Communities)",
+   "amount": "Not public",
+   "note": "NHPF says the Town facilitated two DOLA infrastructure grants.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "Not public",
+   "note": "U.S. Bank.",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "Not public",
+   "note": "Cedar Rapids Bank & Trust.",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "Town purchase of the commercial space",
+   "amount": "Not public",
+   "note": "The Town committed to buy the small commercial space after completion.",
+   "src": [
+    "nhpf-2026-08-27",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Through the Frisco Community Housing Development Authority.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "The NHP Foundation (New York-based nonprofit developer, founded 1989)",
+   "src": [
+    "chfa-2025-r1-award",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "West Main Apartments, LLLP (final development entity)",
+   "src": [
+    "frisco-recap-2026-07-14",
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "role": "Developer entity and original ground lessee",
+   "name": "NHPF West Main, LLC",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "role": "Land owner and ground lessor; lender; special limited partner",
+   "name": "Town of Frisco",
+   "src": [
+    "frisco-recap-2026-06-09",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "role": "Housing authority (property tax exemption, partnership role)",
+   "name": "Frisco Community Housing Development Authority",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "frisco-recap-2026-07-14"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Allen-Guerra Architects",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Planning/landscape",
+   "name": "Norris Design",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Contractor named on the application team",
+   "name": "CFC Construction",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Energy consultant",
+   "name": "Group 14",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (application)",
+   "name": "Corum",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultants",
+   "name": "RCH Jones Consulting and KDM Consultants",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "U.S. Bank",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "role": "Permanent lender",
+   "name": "Cedar Rapids Bank & Trust",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Operation Pathways (NHPF affiliate), offsite",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "nhpf-2026-08-27"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "NHPF announced in January 2024 that it planned 45 to 50 workforce units at 101 W Main, a 1970s office site with what it called a long development history, and that it would seek LIHTC and Prop 123 funding.",
+   "src": [
+    "nhpf-2024-01-04"
+   ]
+  },
+  {
+   "text": "In May 2023 the Frisco Town Council approved Ordinance 23-14 on two NHPF projects (101 West Main and 602 Galena), including a $2.5M Town loan for NHPF to buy 101 West Main. At that time the plan for 101 West Main was 4% credits with tax-exempt bonds; it later won 9% credits instead.",
+   "src": [
+    "frisco-housing-inventory"
+   ]
+  },
+  {
+   "text": "In February 2024 Summit Daily reported NHPF owned the site and had applied to rezone it from mixed-use to a Planned Unit Development. The Town's Affordable Housing Development Incentive Program let density rise from about 11 market-rate units to 52 and cut parking, with on-street overnight parking and car sharing.",
+   "src": [
+    "sd-2024-02-11",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 2025 application notes changes since a 2024 application, so the deal applied unsuccessfully in the 2024 round (inferred from the narrative).",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Town and NHPF signed a Second Amended and Restated Development Agreement on 2024-06-25 and a 99-year ground lease on 2025-08-27. Council approved Ordinance 26-16, amending and restating the ground lease for the LIHTC closing, on second reading on 2026-06-09.",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "text": "On 2026-07-14 Council approved Ordinance 26-12 on second reading, and the Frisco Community Housing Development Authority approved documents subordinating the Town's loans to the two outside lenders and transferring rights to West Main Apartments, LLLP.",
+   "src": [
+    "frisco-recap-2026-07-14"
+   ]
+  },
+  {
+   "text": "The application promised a 99-year affordability covenant with the Town. The 99-year ground lease is for long-term affordable housing.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "text": "The Town says its housing fund is strained by commitments including 101 W. Main (52 units, $6.4M) and 602 Galena (54 units, $8.1M), and in June 2026 it approved selling four Mary Ruth Place units to offset that.",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "text": "The narrative says rents are 18% to 79% below market, cites a 1.8% comparable vacancy rate and notes that The Larkspur in Breckenridge drew over 770 applications in four days.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Demolition started late because cell tower equipment on the old building had to be relocated first.",
+   "src": [
+    "sd-2026-08-27"
+   ]
+  },
+  {
+   "text": "NHPF's other Frisco project, The Scout, is a few blocks away and is opening in September 2026, per NHPF.",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-05",
+   "event": "Frisco Council approves Ordinance 23-14, including a $2.5M acquisition loan for 101 West Main",
+   "src": [
+    "frisco-housing-inventory"
+   ]
+  },
+  {
+   "date": "2024-01-04",
+   "event": "NHPF announces its Colorado entry, including 101 W Main",
+   "src": [
+    "nhpf-2024-01-04"
+   ]
+  },
+  {
+   "date": "2024-02-11",
+   "event": "Summit Daily reports a $5M Prop 123 Land Banking grant to Frisco for the site",
+   "src": [
+    "sd-2024-02-11"
+   ]
+  },
+  {
+   "date": "2024-06-20",
+   "event": "Planning Commission approves the site plan",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-06-25",
+   "event": "Second Amended and Restated Development Agreement signed",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-08-27",
+   "event": "Town and NHPF West Main, LLC enter the 99-year ground lease",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "date": "2025-11-03",
+   "event": "State Housing Board approves a $2M Housing Development Grant",
+   "src": [
+    "sd-2025-11-04"
+   ]
+  },
+  {
+   "date": "2026-06-09",
+   "event": "Council approves Ordinance 26-16 (amended and restated ground lease) on second reading",
+   "src": [
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "date": "2026-07-14",
+   "event": "Council approves Ordinance 26-12 on second reading; housing authority approves lender and transfer documents",
+   "src": [
+    "frisco-recap-2026-07-14"
+   ]
+  },
+  {
+   "date": "2026-08-25",
+   "event": "Demolition begins, per NHPF (Summit Daily says 2026-08-26)",
+   "src": [
+    "nhpf-2026-08-27",
+    "sd-2026-08-27"
+   ]
+  },
+  {
+   "date": "2026-08-27",
+   "event": "NHPF announces financial closing",
+   "src": [
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "date": "2027-11",
+   "event": "Expected completion",
+   "src": [
+    "nhpf-2026-08-27",
+    "sd-2026-08-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photo of the old office building at 101 W. Main St. on the day demolition began",
+   "url": "https://www.summitdaily.com/news/a-building-is-being-demolished-in-frisco-heres-whats-planned-to-replace-it/",
+   "kind": "photo",
+   "made_by": "Summit Daily News",
+   "note": "Lead photo of the article, dated 2026-08-26",
+   "src": [
+    "sd-2026-08-27"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA, the application and the Town give the income mix as 30%, 50% and 80% AMI, while NHPF's closing release says 30%, 60% and 80% AMI with a 60% average.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives",
+    "frisco-recap-2026-07-14",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "text": "The Town's support is given as more than $14.6M in cash flow loans in the 2025 application, a $6.4M contribution in the Town's June 2026 recap, and about $4.9M of soft financing in NHPF's closing release.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "frisco-recap-2026-06-09",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "text": "The application, the Town's housing inventory page and Summit Daily in 2024 say NHPF bought and owns the site, while the Town's June 2026 recap describes it as Town-owned land leased to NHPF for 99 years.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "frisco-housing-inventory",
+    "sd-2024-02-11",
+    "frisco-recap-2026-06-09"
+   ]
+  },
+  {
+   "text": "NHPF says demolition began on August 25, 2026, while Summit Daily says it began on Wednesday, August 26.",
+   "src": [
+    "nhpf-2026-08-27",
+    "sd-2026-08-27"
+   ]
+  },
+  {
+   "text": "The 2025 application assumed R4 for tax credit equity and construction and permanent loans, while the closing release names U.S. Bank as construction lender and Cedar Rapids Bank & Trust as permanent lender.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "nhpf-2026-08-27"
+   ]
+  },
+  {
+   "text": "A state official quoted in NHPF's closing release refers to 54 new housing options at The Bella, while every other source gives 52 units.",
+   "src": [
+    "nhpf-2026-08-27",
+    "chfa-2025-r1-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, tax credit equity price and the investor/syndicator at closing.",
+  "How title to the land passed from NHPF to the Town before the ground lease (a deed or Town purchase record is not in hand).",
+  "Building permit number and issue date, and the general contractor at closing.",
+  "Final Town loan amounts and terms, and the amount of the property tax exemption.",
+  "Whether any project-based vouchers apply. None are mentioned in the CHFA sources."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (101 West Main Street, PDF pages 1-5)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "nhpf-2026-08-27",
+   "title": "The NHP Foundation Closes Financing on The Bella, Expanding Affordable Housing in Frisco, Colorado",
+   "publisher": "The NHP Foundation via PR Newswire",
+   "date": "2026-08-27",
+   "url": "https://www.prnewswire.com/news-releases/the-nhp-foundation-closes-financing-on-the-bella-expanding-affordable-housing-in-frisco-colorado-302861936.html"
+  },
+  {
+   "id": "nhpf-2024-01-04",
+   "title": "The NHP Foundation Enters Colorado Affordable Workforce Housing Market with 3 Deals in The Mountain Resort Region",
+   "publisher": "The NHP Foundation via PRWeb",
+   "date": "2024-01-04",
+   "url": "https://www.prweb.com/releases/the-nhp-foundation-enters-colorado-affordable-workforce-housing-market-with-3-deals-in-the-mountain-resort-region-302025707.html"
+  },
+  {
+   "id": "sd-2024-02-11",
+   "title": "Frisco awarded $5 million grant for affordable housing project on town's Main Street",
+   "publisher": "Summit Daily News",
+   "date": "2024-02-11",
+   "url": "https://www.summitdaily.com/news/frisco-awarded-5-million-grant-for-affordable-housing-project-on-towns-main-street/"
+  },
+  {
+   "id": "sd-2025-11-04",
+   "title": "Frisco housing project receives $2 million from the state",
+   "publisher": "Summit Daily News",
+   "date": "2025-11-04",
+   "url": "https://www.summitdaily.com/news/frisco-housing-project-receives-2-million-from-the-state"
+  },
+  {
+   "id": "sd-2026-08-27",
+   "title": "A building is being demolished in Frisco. Here's what's planned to replace it.",
+   "publisher": "Summit Daily News",
+   "date": "2026-08-27",
+   "url": "https://www.summitdaily.com/news/a-building-is-being-demolished-in-frisco-heres-whats-planned-to-replace-it/"
+  },
+  {
+   "id": "frisco-housing-inventory",
+   "title": "Frisco Workforce Housing Inventory",
+   "publisher": "Town of Frisco",
+   "date": "2025",
+   "url": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/frisco-workforce-housing-inventory/"
+  },
+  {
+   "id": "frisco-recap-2026-06-09",
+   "title": "Catch Up with Council: Recap of June 9, 2026 Frisco Town Council Meeting (Amended Ground Lease Agreement for 101 West Main)",
+   "publisher": "Town of Frisco",
+   "date": "2026-06-10",
+   "url": "https://www.friscogov.com/catchup-with-council/catch-up-with-council-recap-of-june-9-2026-frisco-town-council-meeting-firc-building-hope-updates-council-training-workforce-housing-to-be-sold-amended-ground-lease-agreement-for-101-west-main/"
+  },
+  {
+   "id": "frisco-recap-2026-07-14",
+   "title": "Catch Up with Council: Recap of July 14, 2026 Frisco Town Council Meeting (101 West Main Housing Updates)",
+   "publisher": "Town of Frisco",
+   "date": "2026-07-15",
+   "url": "https://www.friscogov.com/catchup-with-council/catch-up-with-council-recap-of-july-14-2026-frisco-town-council-meeting-recap-of-july-14-2026-frisco-town-council-meeting-elevated-community-health-updates-2025-budget-audit-presentation-amended-groun/"
+  }
+ ]
+}

@@ -1,0 +1,603 @@
+{
+ "slug": "arapahoe-psh-aurora",
+ "name": "Arapahoe PSH (now Wagoner on the Creek)",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-20",
+ "headline": "Brothers Redevelopment is building 60 one-bedroom permanent supportive homes at 30% AMI on S. Chambers Road in Aurora for people leaving the justice system or experiencing homelessness. It won 2025 Round One federal 9%, state and TOC credits from CHFA, and broke ground on 2026-08-25 under the name Wagoner on the Creek.",
+ "why_it_matters": "It is a county-led supportive housing model: Arapahoe County picked the developer in 2022, seeded the site with ARPA money, and pairs the building with 60 project-based vouchers and on-site behavioral health care for justice-involved residents.",
+ "status": {
+  "label": "Under construction (groundbreaking 2026-08-25)",
+  "detail": "Brothers Redevelopment and Arapahoe County held a groundbreaking on 2026-08-25, and trade press reported construction had started. Leasing is expected to begin in spring 2027 and opening is targeted for fall (October) 2027. No separate public record of the financing closing or the building permit was found.",
+  "src": [
+   "bri-2026-09-01",
+   "denver7-2026-08-25",
+   "jres-2026-08-25",
+   "connectcre-2026-08-27"
+  ]
+ },
+ "next_step": "Watch for the City of Aurora building permit record for 1850 S. Chambers Road and for leasing and referral announcements in spring 2027.",
+ "key_numbers": [
+  {
+   "value": "60 one-bedroom homes, all at 30% AMI",
+   "meaning": "Permanent supportive housing for people experiencing homelessness, with a preference for people recently released from justice involvement in Arapahoe County.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 state credit and $78,000 TOC credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "60 project-based vouchers",
+   "meaning": "10 from the Aurora Housing Authority and 50 state vouchers from the Colorado Division of Housing.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "About $31 million total cost",
+   "meaning": "As reported at the August 2026 groundbreaking, drawn from about 10 funding sources.",
+   "src": [
+    "bri-2026-09-01",
+    "connectcre-2026-08-27"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1900 S. Chambers Road, Aurora, CO 80014 in the CHFA reports; 1850 S. Chambers Road in the 2026 groundbreaking release",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, SH: new construction, supportive housing",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "60 total, 60 low-income; all one-bedroom, one-bath, on four floors with two elevators",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Vacant 2-acre parcel on the east side of Chambers Road between Mexico and Iliff avenues, next to the Woodrim Tributary open space. Census Tract 823; not in a QCT or DDA",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning and parking",
+   "value": "R-3 medium-density multifamily; 66 surface parking spaces approved",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus stop 0.1 mile north on Chambers Road (three RTD lines); Florida Station 1.1 miles away. Bus passes are in the operating budget",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "AllHealth Network leads case management, behavioral health counseling, peer support and employment services, with Aurora Mental Health & Recovery and STRIDE Community Health Center. Units are furnished; amenities include a medical exam room, community kitchen and food pantry",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "item": "Resident referrals",
+   "value": "Through Colorado's OneHome coordinated entry and referrals from the 18th Judicial District and Arapahoe County Sheriff's Office",
+   "src": [
+    "cpolitics-2025-05-29",
+    "denver7-2026-08-25"
+   ]
+  },
+  {
+   "item": "Green building",
+   "value": "NGBS Bronze, Energy Star appliances, photovoltaic-ready design; 10 percent accessible units",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Ownership entity",
+   "value": "Wagoner On The Creek LLC, formed in Colorado on 2025-12-29 with its office at Brothers Redevelopment's Denver address (inferred to be the project owner from the name)",
+   "src": [
+    "opengov-wagoner-llc"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 60
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$78,000",
+   "note": "Applied for as the accelerated TOC credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Arapahoe County ARPA funds",
+   "amount": "$3,000,000 (county plan approved December 2022)",
+   "note": "The county approved $3M for supportive housing for justice-involved people and picked Brothers as developer. The applicant says county ARPA money, the U.S. Bank grant and a seller donation were already used to buy the land and pay predevelopment costs.",
+   "src": [
+    "denver7-2022-12-18",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "U.S. Bank grant",
+   "amount": "$500,000",
+   "note": "Presented 2024-06-14.",
+   "src": [
+    "cbs-2024-06-14",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Arapahoe County and City of Aurora HOME funds",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "cpolitics-2025-05-29"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding and vouchers",
+   "amount": "Not public",
+   "note": "Applied for through the CDOH 2025 RFA, including 50 state project-based vouchers and Tenancy Support Services funding.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Permanent loans (CHFA HUD Risk Share and HOF) and bank construction loan",
+   "amount": "Not public",
+   "note": "The application named an ANB Bank construction loan and Enterprise as tax credit investor. The 2026 groundbreaking release lists PNC Bank, CHFA, HUD and U.S. Bank among funders; whether lenders changed is not stated.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "source": "Seller land donation and deferred developer fee",
+   "amount": "Not public",
+   "note": "Developer fee requested at 13.77% versus 17.0% allowed.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Brothers Redevelopment, Inc. (Denver-based nonprofit)",
+   "src": [
+    "chfa-2025-r1-award",
+    "bri-2025-06-20"
+   ]
+  },
+  {
+   "role": "County partner",
+   "name": "Arapahoe County (selected Brothers as developer in 2022; ARPA and HOME funding)",
+   "src": [
+    "denver7-2022-12-18",
+    "cpolitics-2025-05-29"
+   ]
+  },
+  {
+   "role": "Lead service provider",
+   "name": "AllHealth Network",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "role": "Other service providers",
+   "name": "Aurora Mental Health & Recovery; STRIDE Community Health Center; Arapahoe/Douglas Works! (employment)",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "crow-support-letters"
+   ]
+  },
+  {
+   "role": "Voucher providers",
+   "name": "Aurora Housing Authority (10 PBV); Colorado Division of Housing (50 state PBV)",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Calcon Constructors",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "bri-2026-09-01",
+    "connectcre-2026-08-27"
+   ]
+  },
+  {
+   "role": "Other development team (2026 release)",
+   "name": "2Oaks Construction; RMM Advisors",
+   "src": [
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Brothers Property Management",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In December 2022 the Arapahoe County Commission approved a $3M plan for permanent supportive housing for justice-involved people experiencing homelessness and selected Brothers Redevelopment as developer.",
+   "src": [
+    "denver7-2022-12-18"
+   ]
+  },
+  {
+   "text": "Brothers acquired the site in 2023. The applicant credits Arapahoe County ARPA funds, a U.S. Bank grant and a donation from the land seller for the land purchase and predevelopment costs.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Aurora Planning Commission unanimously approved the Site Development Plan, including parking, on 2025-01-08, and the City Council call-up period passed without referral. Neighbor comments focused on density and traffic.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Brothers held the state tax credit public hearing on 2024-11-12, reaching out to the Chambers Ridge and Woodrim Crossing HOAs.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Site costs include a retaining wall along the Woodrim Tributary, a city-required sidewalk extension and rodent and tree mitigation, estimated at $250,000 and covered by county grant or city reimbursement funds, per the applicant.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "Build: slab on grade, wood frame, HardiePlank siding, four stories with two stair towers and two central elevators; services, leasing and common areas on the first floor.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant said it uses the same development and finance team as its Valor on the Fax PSH project in Denver, and that the permit could issue within days of financing closing.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Brothers announced the 9% award on 2025-06-20 and named the project Wagoner on the Creek by the August 2026 groundbreaking.",
+   "src": [
+    "bri-2025-06-20",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "text": "An Arapahoe County Criminal Justice Planning Office study found people experiencing homelessness re-enter jail on new charges at a 46% higher rate than housed people and serve 44% longer sentences.",
+   "src": [
+    "bri-2026-09-01",
+    "denver7-2026-08-25"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-12-18",
+   "event": "Arapahoe County approves a $3M supportive housing plan and selects Brothers Redevelopment",
+   "src": [
+    "denver7-2022-12-18"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Brothers acquires the site",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-06-14",
+   "event": "U.S. Bank presents a $500,000 grant",
+   "src": [
+    "cbs-2024-06-14"
+   ]
+  },
+  {
+   "date": "2024-11-12",
+   "event": "State tax credit public hearing held",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-01-08",
+   "event": "Aurora Planning Commission approves the Site Development Plan",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "9% application narrative filed with CHFA (narratives PDF date)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-06-20",
+   "event": "Brothers announces the 9% award",
+   "src": [
+    "bri-2025-06-20"
+   ]
+  },
+  {
+   "date": "2025-12-29",
+   "event": "Wagoner On The Creek LLC formed",
+   "src": [
+    "opengov-wagoner-llc"
+   ]
+  },
+  {
+   "date": "2026-08-25",
+   "event": "Groundbreaking; construction reported started",
+   "src": [
+    "bri-2026-09-01",
+    "denver7-2026-08-25",
+    "jres-2026-08-25"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Leasing expected in spring; opening targeted for October 2027",
+   "src": [
+    "bri-2026-09-01",
+    "denver7-2026-08-25"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Wagoner on the Creek",
+   "url": "https://brothersredevelopment.org/wagoner-on-the-creek-groundbreaking/",
+   "kind": "rendering",
+   "made_by": "Brothers Redevelopment",
+   "note": "Lead image of the 2026-09-01 groundbreaking article",
+   "src": [
+    "bri-2026-09-01"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA and Brothers' 2025 announcement give the address as 1900 S. Chambers Road, the 2026 groundbreaking release and ConnectCRE give 1850 S. Chambers Road, and two March 2025 support letters give 1700 S. Chambers Road.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "bri-2025-06-20",
+    "bri-2026-09-01",
+    "connectcre-2026-08-27",
+    "crow-support-letters"
+   ]
+  },
+  {
+   "text": "CHFA and Brothers say all units serve households at or below 30% AMI, while ConnectCRE says residents will need to earn less than 60% AMI.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "bri-2026-09-01",
+    "connectcre-2026-08-27"
+   ]
+  },
+  {
+   "text": "CBS reported in June 2024 that completion was expected in fall 2026 and Colorado Politics reported in May 2025 a planned 2026 opening, while Brothers now targets an October 2027 opening.",
+   "src": [
+    "cbs-2024-06-14",
+    "cpolitics-2025-05-29",
+    "bri-2026-09-01"
+   ]
+  },
+  {
+   "text": "Colorado Politics says Arapahoe County secured $30 million for the project, while Brothers describes a $31 million total project cost funded by many partners.",
+   "src": [
+    "cpolitics-2025-05-29",
+    "bri-2026-09-01"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Date of the financing closing and the building permit number (no public record found).",
+  "Amounts of the Arapahoe County and Aurora HOME loans, the CDOH gap loan, the CHFA permanent loans and tax credit equity, and the final construction lender and investor.",
+  "Length of the CHFA affordability period (LURA) and the term of the 60 project-based vouchers.",
+  "Why the address changed from 1900 to 1850 S. Chambers Road (possible replat or address reassignment)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Arapahoe PSH, PDF pages 11-15)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 Round One TOC credit narratives (Arapahoe PSH, PDF pages 1-2)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bri-2025-06-20",
+   "title": "Brothers Redevelopment Secures LIHTC Award for Supportive Housing Development in Arapahoe County",
+   "publisher": "Brothers Redevelopment",
+   "date": "2025-06-20",
+   "url": "https://brothersredevelopment.org/supportive-housing-arapahoe-county/"
+  },
+  {
+   "id": "bri-2026-09-01",
+   "title": "Brothers Redevelopment Breaks Ground on 60-Unit Supportive Housing Community in Aurora",
+   "publisher": "Brothers Redevelopment",
+   "date": "2026-09-01",
+   "url": "https://brothersredevelopment.org/wagoner-on-the-creek-groundbreaking/"
+  },
+  {
+   "id": "denver7-2026-08-25",
+   "title": "New Aurora housing community aims to reduce recidivism among formerly incarcerated individuals",
+   "publisher": "Denver7",
+   "date": "2026-08-25",
+   "url": "https://www.denver7.com/news/local-news/in-your-community/aurora-arapahoe-county/new-aurora-housing-community-aims-to-reduce-recidivism-among-formerly-incarcerated-individuals"
+  },
+  {
+   "id": "connectcre-2026-08-27",
+   "title": "Work Begins on 60-Unit Denver Supportive Housing Community",
+   "publisher": "Connect CRE",
+   "date": "2026-08-27",
+   "url": "https://www.connectcre.com/stories/work-begins-on-60-unit-denver-supportive-housing-community/"
+  },
+  {
+   "id": "jres-2026-08-25",
+   "title": "Construction Started on Aurora Apartments",
+   "publisher": "JRES",
+   "date": "2026-08-25",
+   "url": "https://jres.com/articles/construction-started-on-aurora-apartments-3/"
+  },
+  {
+   "id": "cpolitics-2025-05-29",
+   "title": "Arapahoe County, Denver celebrate new affordable housing projects",
+   "publisher": "Colorado Politics",
+   "date": "2025-05-29",
+   "url": "https://www.coloradopolitics.com/2025/05/29/arapahoe-county-denver-celebrate-new-affordable-housing-projects-b15bf492-b72c-53da-a3f1-ea7207e5d2ad"
+  },
+  {
+   "id": "denver7-2022-12-18",
+   "title": "Arapahoe County to provide housing for former inmates experiencing homelessness",
+   "publisher": "Denver7",
+   "date": "2022-12-18",
+   "url": "https://denver7.com/news/local-news/arapahoe-county-to-provide-housing-for-former-inmates-experiencing-homelessness"
+  },
+  {
+   "id": "cbs-2024-06-14",
+   "title": "U.S. Bank gives grant to Brothers Redevelopment to build affordable homes in Aurora",
+   "publisher": "CBS Colorado",
+   "date": "2024-06-14",
+   "url": "https://www.cbsnews.com/colorado/news/us-bank-grant-brothers-redevelopment-build-affordable-homes-aurora"
+  },
+  {
+   "id": "crow-support-letters",
+   "title": "Support letters for Aurora Permanent Supportive Housing (AllHealth Network; Arapahoe/Douglas Works!)",
+   "publisher": "Office of U.S. Rep. Jason Crow",
+   "date": "2025-03",
+   "url": "https://crow.house.gov/sites/evo-subsites/crow.house.gov/files/evo-media-document/%233-support.pdf"
+  },
+  {
+   "id": "opengov-wagoner-llc",
+   "title": "Wagoner On The Creek LLC (Colorado Secretary of State business record)",
+   "publisher": "OpenGovCO",
+   "date": "2025-12-29",
+   "url": "https://opengovco.com/business/20258407659"
+  }
+ ]
+}

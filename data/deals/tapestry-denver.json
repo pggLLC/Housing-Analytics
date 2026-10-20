@@ -1,0 +1,741 @@
+{
+ "slug": "tapestry-denver",
+ "name": "Tapestry LIHTC (The Tapestry)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 72,
+ "researched_on": "2026-10-20",
+ "headline": "Gorman & Company and The Colorado Health Foundation are building The Tapestry, a five-story building with 72 family apartments for households earning 30% to 80% AMI plus a ground-floor early learning center and health clinic, on donated land at 1799 N. Pennsylvania St. in Uptown/North Capitol Hill. It won 2025 Round One federal 9%, state and TOC credits from CHFA.",
+ "why_it_matters": "It shows a health foundation acting as land donor and gap lender: CHF bought a prime infill block, gave it to the deal (valued above $10.8M) and added loans and a parking lease. The deal closed in late 2025 and topped out by August 2026.",
+ "status": {
+  "label": "Under construction; vertical framing complete by August 2026",
+  "detail": "The city held a groundbreaking on 2025-12-15 after the financing closed in late 2025. Naked Denver reported on 2026-08-11 that vertical construction was complete and work had moved to the exterior, interiors and building systems. Completion is expected in 2027: the city says late 2027 and Naked Denver says early 2027.",
+  "src": [
+   "denver-host-2025-12-15",
+   "bisnow-2025-12-17",
+   "whatnow-2025-11-21",
+   "nakeddenver-2026-08-11"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy and lease-up notice in 2027, and for a CHFA 8609 or placed-in-service listing.",
+ "key_numbers": [
+  {
+   "value": "72 family homes, all income-restricted",
+   "meaning": "8 one-bedroom, 32 two-bedroom, 28 three-bedroom and 4 four-bedroom units at 30% to 80% AMI, with 32 of them three- and four-bedroom.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over 10 years, plus $650,000 state credit and $93,600 TOC credit.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "value": "About $37.7M total cost",
+   "meaning": "The budget in Denver's loan agreement is $37,672,332, including $24.65M hard costs and $10 for acquisition, since the land was donated. BusinessDen reported $35M at award.",
+   "src": [
+    "denver-loan-agreement",
+    "bden-2025-05-12"
+   ]
+  },
+  {
+   "value": "Over $14.5M from The Colorado Health Foundation",
+   "meaning": "Land valued above $10.8M, a subordinate loan and site preparation, plus a surface parking lease next door, per the applicant.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1799 N. Pennsylvania St., Denver (18th Avenue and Pennsylvania Street, across from CHF headquarters)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "nakeddenver-2026-08-11"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "CHFA, Gorman and DOLA say Uptown; the city says North Capitol Hill; the application says Uptown/North Capitol Hill",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives",
+    "denver-host-2025-12-15"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, I/F: new construction, individuals/families",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "72 total, 72 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five stories: one timber podium level and four wood-frame levels, masonry exterior. Average unit sizes are 625, 900, 1,115 and 1,365 sq ft (1BR to 4BR)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Ground floor",
+   "value": "Early childhood education center run by Mile High Early Learning, a health clinic run by the Uptown Clinic, and Hope Communities service space; all open to the neighborhood",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-host-2025-12-15"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "50 surface spaces (0.69 per unit), plus spaces next door under a 15-year parking lease from CHF",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 20 about 700 feet away, Civic Center Station 0.5 mile away, and the future East Colfax BRT. Residents get discounted Neighborhood Eco Passes",
+   "src": [
+    "chfa-2025-r1-toc-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, PV-ready, NGBS Gold",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "18th and Penn Building I, LLC, a Wisconsin LLC at Gorman's Oregon, Wisconsin address (Gorman link inferred from the address)",
+   "src": [
+    "denver-loan-agreement",
+    "denver-rr-26-0745"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "The applicant documents a Denver Housing Authority partnership for a property tax exemption",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Prior site use",
+   "value": "The former Employers Council property, which CHF bought in 2021",
+   "src": [
+    "nakeddenver-2026-08-11",
+    "whatnow-2024-08-22"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 12
+  },
+  {
+   "level": "60% AMI",
+   "units": 38
+  },
+  {
+   "level": "80% AMI",
+   "units": 14
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 8
+  },
+  {
+   "type": "2BR",
+   "units": 32
+  },
+  {
+   "type": "3BR",
+   "units": 28
+  },
+  {
+   "type": "4BR",
+   "units": 4
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "denver-loan-agreement"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$93,600",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "City and County of Denver (HOST) cash-flow loan",
+   "amount": "$2,290,000 (council approval); the city's groundbreaking release says $3.24M",
+   "note": "Approved by Council Resolution CR25-1618 on 2025-10-27. Terms: 1% simple interest, repaid from cash flow, due on the 19th anniversary of the note, with a 60-year affordability covenant (contract term 2025-10-29 to 2085-10-28). Amended by Council on 2026-06-22 (file 26-0745) only to fix the legal description, with no change to amount or term.",
+   "src": [
+    "denver-cr25-1618",
+    "denver-loan-agreement",
+    "denver-26-0745",
+    "denver-rr-26-0745",
+    "denver-host-2025-12-15"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Housing Development Grant loan",
+   "amount": "$950,000",
+   "note": "",
+   "src": [
+    "dola-2025-12-22"
+   ]
+  },
+  {
+   "source": "The Colorado Health Foundation",
+   "amount": "Over $14,500,000",
+   "note": "Land contribution (valued above $10.8M), a subordinate loan and site preparation, plus a 15-year parking lease, per the applicant.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "source": "Raza Development Fund loan",
+   "amount": "Not public",
+   "note": "Capital Magnet Fund money.",
+   "src": [
+    "whatnow-2025-11-21",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Vectra Bank at closing. Citi Community Capital had given the letter of interest at application. The city loan agreement allows up to $30M of construction debt and $14M of permanent debt ahead of the city.",
+   "src": [
+    "whatnow-2025-11-21",
+    "chfa-2025-r1-narratives",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "source": "Tax credit equity (federal, state and TOC)",
+   "amount": "Not public",
+   "note": "National Equity Fund.",
+   "src": [
+    "whatnow-2025-11-21",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Gorman sponsor note and deferred developer fee",
+   "amount": "Not public",
+   "note": "The applicant hoped Robert Wood Johnson Foundation money would replace the sponsor note. The developer fee in the city budget is $4,125,000, with part deferred over 15 years.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "source": "Denver AHRT building permit fee waivers",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Gorman & Company, LLC",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "role": "Landowner/donor and funder",
+   "name": "The Colorado Health Foundation",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-host-2025-12-15"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "18th and Penn Building I, LLC",
+   "src": [
+    "denver-cr25-1618",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Hope Communities",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "denver-host-2025-12-15"
+   ]
+  },
+  {
+   "role": "Early childhood education operator",
+   "name": "Mile High Early Learning",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Clinic operator",
+   "name": "Uptown Clinic (DOLA calls it Uptown Community Health Centers)",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "dola-2025-12-22"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction Services",
+   "src": [
+    "whatnow-2025-11-21",
+    "nakeddenver-2026-08-11"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Reported as Gorman Architecture and as SAR+ (Shears Adkins Rockmore) Architects; see discrepancies",
+   "src": [
+    "whatnow-2025-11-21",
+    "nakeddenver-2026-08-11",
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Gorman Property Management",
+   "src": [
+    "whatnow-2025-11-21"
+   ]
+  },
+  {
+   "role": "Earlier community outreach partner for CHF",
+   "name": "Urban Ventures",
+   "src": [
+    "whatnow-2024-08-22"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "CHF bought most of the block across from its headquarters in 2021 to build family affordable housing. It ran community outreach with Urban Ventures and, in August 2024, picked Gorman as developer and Hope Communities as services partner.",
+   "src": [
+    "whatnow-2024-08-22",
+    "denvergazette-2024-08-20",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The TOC narrative says CHF paid a price affordable housing could not afford and then donated the site, valued at more than $10.8M. The city loan budget lists acquisition at $10.",
+   "src": [
+    "chfa-2025-r1-toc-narratives",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "text": "The LIHTC building is one part of a planned Tapestry campus. The application describes a neighboring 100-unit middle-income building.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Zoning was in place and the project had cleared Denver concept review by application time. The team planned to close and start construction in October 2025.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Phase II found contaminants above EPA levels from historic filling stations and dry cleaning nearby. Remediation is budgeted at $102,000 with a materials management plan.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study shows 9.8% vacancy among LIHTC units in the market area and high penetration at 50% and 60% AMI. The applicant sets its 80% AMI rents below the maximum to compete.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "There are no homeless set-aside units, Coordinated Entry referrals or project-based vouchers. Rents sit below Denver voucher payment standards, so tenant-based voucher holders can rent.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Parking above the zoning standard triggered a city Transportation Demand Management requirement, met with Eco Pass subsidies and wayfinding.",
+   "src": [
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The city loan covenant spreads every AMI tier across bedroom sizes. For example, the 80% AMI units are 1 one-bedroom, 4 two-bedroom, 8 three-bedroom and 1 four-bedroom, and units float.",
+   "src": [
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "text": "Gorman announced the financial closing and construction start in November 2025.",
+   "src": [
+    "whatnow-2025-11-21"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021",
+   "event": "CHF buys the site across from its headquarters",
+   "src": [
+    "whatnow-2024-08-22"
+   ]
+  },
+  {
+   "date": "2024-08-20",
+   "event": "CHF names Gorman & Company developer and Hope Communities services partner",
+   "src": [
+    "denvergazette-2024-08-20",
+    "whatnow-2024-08-22"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-05-12",
+   "event": "BusinessDen reports the award and a $35M budget; Gorman targets a fall 2025 start and about 20 months of construction",
+   "src": [
+    "bden-2025-05-12"
+   ]
+  },
+  {
+   "date": "2025-10-27",
+   "event": "Denver City Council adopts CR25-1618, a loan of up to $2,290,000",
+   "src": [
+    "denver-cr25-1618"
+   ]
+  },
+  {
+   "date": "2025-11-21",
+   "event": "Gorman and CHF announce the financial closing and construction start",
+   "src": [
+    "whatnow-2025-11-21"
+   ]
+  },
+  {
+   "date": "2025-12-15",
+   "event": "Groundbreaking ceremony with the City of Denver",
+   "src": [
+    "denver-host-2025-12-15",
+    "bisnow-2025-12-17"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA state credit annual report lists the project and shows a rendering",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "date": "2026-06-22",
+   "event": "Council amends the city loan to correct the legal description (file 26-0745)",
+   "src": [
+    "denver-26-0745",
+    "denver-rr-26-0745"
+   ]
+  },
+  {
+   "date": "2026-08-11",
+   "event": "Naked Denver reports vertical construction complete",
+   "src": [
+    "nakeddenver-2026-08-11"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected (early 2027 per Naked Denver; late 2027 per the city)",
+   "src": [
+    "nakeddenver-2026-08-11",
+    "denver-host-2025-12-15"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Tapestry LIHTC",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Shears Adkins Rockmore Architects, via CHFA",
+   "note": "Printed page 9 (PDF page 11) of CHFA's 2025 state AHTC annual report; image credits are on the last page",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "title": "Rendering of the Tapestry at 17th/18th and Pennsylvania",
+   "url": "https://businessden.com/uptown-apartments-11-other-colorado-housing-projects-awarded-tax-credits/",
+   "kind": "rendering",
+   "made_by": "Gorman & Co., via BusinessDen",
+   "note": "Lead image of the article",
+   "src": [
+    "bden-2025-05-12"
+   ]
+  },
+  {
+   "title": "Construction progress photos",
+   "url": "https://www.nakeddenver.com/post/the-tapestry-takes-shape-as-completion-nears-in-uptown",
+   "kind": "photo",
+   "made_by": "Naked Denver",
+   "note": "Article photos, August 2026",
+   "src": [
+    "nakeddenver-2026-08-11"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Council Resolution CR25-1618, the loan agreement and the 2026 amendment request put the city loan at $2,290,000, while the city's groundbreaking release and Naked Denver say $3.24 million and Bisnow says $3.2M.",
+   "src": [
+    "denver-cr25-1618",
+    "denver-loan-agreement",
+    "denver-rr-26-0745",
+    "denver-host-2025-12-15",
+    "nakeddenver-2026-08-11",
+    "bisnow-2025-12-17"
+   ]
+  },
+  {
+   "text": "The city loan agreement is titled a Linkage Fee loan and Bisnow says linkage fees fund it, while the city's release and the 2026 amendment request name the Affordable Housing Fund as the source.",
+   "src": [
+    "denver-loan-agreement",
+    "bisnow-2025-12-17",
+    "denver-host-2025-12-15",
+    "denver-rr-26-0745"
+   ]
+  },
+  {
+   "text": "BusinessDen reported a $35 million construction budget, while the city loan agreement budget totals $37,672,332.",
+   "src": [
+    "bden-2025-05-12",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "text": "The Denver Gazette and BusinessDen place the project at 17th Avenue and Pennsylvania Street, while CHFA, the application and Naked Denver place it at 1799 N. Pennsylvania St. on 18th Avenue.",
+   "src": [
+    "denvergazette-2024-08-20",
+    "bden-2025-05-12",
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "nakeddenver-2026-08-11"
+   ]
+  },
+  {
+   "text": "What Now names Gorman Architecture as architect, while Naked Denver names SAR+ Architects, and CHFA credits the rendering to Shears Adkins Rockmore Architects.",
+   "src": [
+    "whatnow-2025-11-21",
+    "nakeddenver-2026-08-11",
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "text": "The city expects completion in late 2027, while Naked Denver says early 2027.",
+   "src": [
+    "denver-host-2025-12-15",
+    "bisnow-2025-12-17",
+    "nakeddenver-2026-08-11"
+   ]
+  },
+  {
+   "text": "The application narrative cites a walk score of 96, while the TOC narrative cites a Walk Score of 89.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Why the city's public figure ($3.24M) differs from the $2,290,000 council-approved loan: a second city loan or a later increase is possible but no record of one was found.",
+  "Amounts of the CHF subordinate loan, Raza CMF loan, Vectra Bank debt, NEF equity and equity price.",
+  "Whether Robert Wood Johnson Foundation money replaced the Gorman sponsor note.",
+  "Terms of the DHA property tax exemption structure and the CHFA LURA affordability period.",
+  "Timing and financing of the planned 100-unit middle-income building next door (the 18th and Penn Building II entity name suggests it, but this is not confirmed).",
+  "Certificate of occupancy and lease-up dates."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Tapestry LIHTC, PDF pages 101-105)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 TOC Round One narratives (Tapestry LIHTC, PDF pages 20-21)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-ahtc-2025-report",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "denver-cr25-1618",
+   "title": "Denver Council File 25-1618 (Resolution CR25-1618): Agreement with 18th and Penn Building I, LLC",
+   "publisher": "City and County of Denver",
+   "date": "2025-10-27",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=28190&GUID=98CE53FB-A3F6-4DB5-BF15-78769C291F37"
+  },
+  {
+   "id": "denver-loan-agreement",
+   "title": "Loan Agreement (Linkage Fee), City and County of Denver and 18th and Penn Building I, LLC, HOST-202581877",
+   "publisher": "City and County of Denver",
+   "date": "2025-10",
+   "url": "https://denver.legistar1.com/denver/attachments/247df6d7-7434-451e-b8ff-67bf83566706.pdf"
+  },
+  {
+   "id": "denver-26-0745",
+   "title": "Denver Council File 26-0745: Amendatory Loan Agreement with 18th and Penn Building I, LLC",
+   "publisher": "City and County of Denver",
+   "date": "2026-06-22",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=56920&GUID=791FE6A2-AEA8-4951-B361-E3BDD23D1E98"
+  },
+  {
+   "id": "denver-rr-26-0745",
+   "title": "Resolution request RR26-0745, HOST Tapestry loan amendment (key contract terms)",
+   "publisher": "City and County of Denver",
+   "date": "2026-05-21",
+   "url": "https://denver.legistar1.com/denver/attachments/7ea9b579-fa1e-4a0f-884b-1e8cf6ce83fa.docx"
+  },
+  {
+   "id": "denver-host-2025-12-15",
+   "title": "Transformative Housing Investment Breaks Ground in North Capitol Hill",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-12-15",
+   "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Transformative-Housing-Investment-Breaks-Ground-in-Denver%E2%80%99s-North-Capitol-Hill-U-Neighborhood"
+  },
+  {
+   "id": "dola-2025-12-22",
+   "title": "Division of Housing Updates - December 22, 2025",
+   "publisher": "Colorado Department of Local Affairs, Division of Housing",
+   "date": "2025-12-22",
+   "url": "https://content.govdelivery.com/accounts/CODOLA/bulletins/40126c4"
+  },
+  {
+   "id": "bisnow-2025-12-17",
+   "title": "Affordable Housing Project With Childcare, Clinic Breaks Ground: The Denver Deal Sheet",
+   "publisher": "Bisnow",
+   "date": "2025-12-17",
+   "url": "https://www.bisnow.com/news/denver/deal-sheet/affordable-housing-project-with-childcare-clinic-breaks-ground-the-denver-deal-sheet-132412"
+  },
+  {
+   "id": "nakeddenver-2026-08-11",
+   "title": "The Tapestry Takes Shape as Completion Nears in Uptown",
+   "publisher": "Naked Denver",
+   "date": "2026-08-11",
+   "url": "https://www.nakeddenver.com/post/the-tapestry-takes-shape-as-completion-nears-in-uptown"
+  },
+  {
+   "id": "whatnow-2025-11-21",
+   "title": "A Major Affordable Housing Project Brings 72 Apartments to Uptown Denver",
+   "publisher": "What Now Denver",
+   "date": "2025-11-21",
+   "url": "https://whatnow.com/denver/real-estate/a-major-affordable-housing-project-brings-72-apartments-to-uptown-denver/"
+  },
+  {
+   "id": "whatnow-2024-08-22",
+   "title": "The Colorado Health Foundation Partners with Gorman & Company and Hope Communities on The Tapestry in Uptown",
+   "publisher": "What Now Denver",
+   "date": "2024-08-22",
+   "url": "https://whatnow.com/denver/real-estate/the-colorado-health-foundation-partners-with-gorman-company-and-hope-communities-on-the-tapestry-in-uptown/"
+  },
+  {
+   "id": "denvergazette-2024-08-20",
+   "title": "Colorado Health Foundation and partners plan to build new affordable housing project in Denver's Uptown area",
+   "publisher": "Denver Gazette",
+   "date": "2024-08-20",
+   "url": "https://www.denvergazette.com/2024/08/20/colorado-health-foundation-and-partners-plan-to-build-new-affordable-housing-project-in-denvers-uptown-area-3f9b2964-5f42-11ef-a60b-8be7635b894d/"
+  },
+  {
+   "id": "bden-2025-05-12",
+   "title": "Uptown apartments, 11 other Colorado housing projects awarded tax credits",
+   "publisher": "BusinessDen",
+   "date": "2025-05-12",
+   "url": "https://businessden.com/uptown-apartments-11-other-colorado-housing-projects-awarded-tax-credits/"
+  }
+ ]
+}

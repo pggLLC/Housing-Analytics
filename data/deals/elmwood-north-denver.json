@@ -1,0 +1,514 @@
+{
+ "slug": "elmwood-north-denver",
+ "name": "Elmwood North",
+ "city": "Denver (mailing address; site is in unincorporated Adams County)",
+ "county": "Adams",
+ "award": "2025 Middle-Income Housing Tax Credit (MIHTC)",
+ "units": 70,
+ "researched_on": "2026-10-20",
+ "headline": "Delwest Development Corp. plans Elmwood North, 70 four-bedroom rental townhomes for families at 80% and 90% AMI at 8000 N. Pecos St. in unincorporated Adams County (Denver address), and won one of CHFA's first three Middle-Income Housing Tax Credit awards in 2025.",
+ "why_it_matters": "It tests the new MIHTC with a lean capital stack (a HUD 221(d)(4) loan, land equity and $1.65M a year of state credit, with no federal credit) and a housing authority partner, Maiker, brought in for a property tax abatement. Its county plat was still in review in September 2026, well behind the applicant's schedule.",
+ "status": {
+  "label": "Credits awarded; county plat still in review, no closing or construction confirmed",
+  "detail": "CHFA awarded the credit in 2025. Adams County's land use case list shows the Elmwood North minor subdivision plat (PRC2024-00012) still under review, with a fifth submittal on 2026-09-02. No public record of a financing closing, a building permit or a construction start was found. The application had targeted a Q1 2026 closing and vertical construction in June 2026.",
+  "src": [
+   "chfa-2025-mihtc-award",
+   "adams-land-use-cases",
+   "adams-prc2024-00012-s5",
+   "chfa-2025-mihtc-narratives"
+  ]
+ },
+ "next_step": "Watch Adams County's case page for approval and recording of the Elmwood North Filing No. 1 plat (PRC2024-00012), then for building permits and the HUD 221(d)(4) loan closing.",
+ "key_numbers": [
+  {
+   "value": "70 four-bedroom townhomes, all income-restricted",
+   "meaning": "Half at 80% AMI and half at 90% AMI, in five three-story buildings.",
+   "src": [
+    "chfa-2025-mihtc-award",
+    "chfa-2025-mihtc-annual",
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "value": "$1,650,000 a year in MIHTC",
+   "meaning": "The largest of CHFA's three 2025 MIHTC awards, which totaled $4,832,748 for 220 units. The applicant puts it at about $4.9M of equity at $0.60 per credit.",
+   "src": [
+    "chfa-2025-mihtc-award",
+    "chfa-2025-mihtc-annual",
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "value": "$26.2M HUD 221(d)(4) loan",
+   "meaning": "The planned senior construction-to-permanent loan, from Wells Fargo per a letter of interest. It is the bulk of the financing.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "value": "40-year affordability",
+   "meaning": "The applicant committed to 40 years instead of the required 30.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "8000 N. Pecos Street, Denver, CO 80221 (unincorporated Adams County)",
+   "src": [
+    "chfa-2025-mihtc-award",
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: individuals/families, new construction",
+   "src": [
+    "chfa-2025-mihtc-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "70 total, 70 MIHTC units",
+   "src": [
+    "chfa-2025-mihtc-award"
+   ]
+  },
+  {
+   "item": "Product",
+   "value": "Three-story townhomes, 4 bedrooms and 2.5 baths each, in five buildings, with washer/dryer and front porches",
+   "src": [
+    "chfa-2025-mihtc-narratives",
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "At least 1.68 spaces per unit; a private road links W. 79th Way to Pecos Street",
+   "src": [
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "item": "Neighbors",
+   "value": "Borders Sherrelwood Park to the east, a short walk from Sherrelwood Elementary; Delwest's 41-home Elmwood Estates (built 2019) is directly south",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 19 stop on Pecos next to the site; one Neighborhood EcoPass per unit for 7 years",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "The applicant plans Energy Star Multifamily and Zero Energy Ready Homes certification with electric-ready wiring; CHFA's annual report says DOE Efficient New Homes certification",
+   "src": [
+    "chfa-2025-mihtc-narratives",
+    "chfa-2025-mihtc-annual"
+   ]
+  },
+  {
+   "item": "Zoning cases",
+   "value": "Sherrelwood Village PUD Amendment No. 2 (PUD2024-00006) for 70 townhouses, and Elmwood North minor subdivision plat (PRC2024-00012)",
+   "src": [
+    "adams-prc2024-00012-s4",
+    "adams-land-use-cases"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "80% AMI",
+   "units": 35
+  },
+  {
+   "level": "90% AMI",
+   "units": 35
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "4BR",
+   "units": 70
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-mihtc-descriptions",
+  "chfa-2025-mihtc-annual",
+  "chfa-2025-mihtc-narratives"
+ ],
+ "money": [
+  {
+   "source": "Colorado Middle-Income Housing Tax Credit",
+   "amount": "$1,650,000 per year",
+   "note": "The award report's column is headed \"MIHTC Amount Requested\"; CHFA's annual report confirms $1,650,000 awarded. The applicant counts it as $4.9M to $4.95M of equity at $0.60 from Sugar Creek Capital (letter of interest), which implies about $8.25M of credit in total (inferred).",
+   "src": [
+    "chfa-2025-mihtc-award",
+    "chfa-2025-mihtc-annual",
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "source": "HUD 221(d)(4) construction-to-permanent loan",
+   "amount": "$26,200,000",
+   "note": "Wells Fargo letter of interest; 24 months interest-only, then a 40-year permanent loan, at a 1.11 debt service coverage ratio.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "source": "Delwest land contribution",
+   "amount": "$2,200,000",
+   "note": "Land contributed at that value as sponsor equity.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$621,000",
+   "note": "Land plus deferred fee total about $2.82M of sponsor equity.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "source": "45L energy efficiency tax credit equity",
+   "amount": "About $287,000",
+   "note": "Estimated $350,000 of credit at $0.82, bridged until received.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "source": "Property tax abatement through Maiker Housing Partners",
+   "amount": "Not public",
+   "note": "Maiker joins as special limited partner to abate property tax on units at or below 80% AMI.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Delwest Development Corp.",
+   "src": [
+    "chfa-2025-mihtc-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Elmwood North LLC (named as sponsor on the 2025 MIHTC letter-of-intent report and as owner on the county plat)",
+   "src": [
+    "chfa-2025-mihtc-loi",
+    "adams-prc2024-00012-s5"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Delwest Management (in-house)",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner (tax abatement)",
+   "name": "Maiker Housing Partners (Adams County housing authority)",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "role": "Planned lender",
+   "name": "Wells Fargo (HUD 221(d)(4), letter of interest)",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "role": "Planned MIHTC investor",
+   "name": "Sugar Creek Capital (letter of interest)",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Horizon Housing Foundation",
+   "src": [
+    "chfa-2025-mihtc-annual"
+   ]
+  },
+  {
+   "role": "Civil engineer / land use applicant",
+   "name": "Strategic Land Solutions, Inc.",
+   "src": [
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "role": "Energy consultant",
+   "name": "Energetics",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "role": "Construction cost advisor",
+   "name": "Palmeiro Group LLC",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Elmwood North won one of CHFA's three 2025 MIHTC awards, the program's first year. CHFA received five applications asking for $8.1M for 419 units and awarded $4,832,748 for 220 units. CHFA describes MIHTC units as affordable to households at 80% to 120% AMI.",
+   "src": [
+    "chfa-2025-mihtc-annual",
+    "chfa-2025-mihtc-award"
+   ]
+  },
+  {
+   "text": "Delwest owns the land and is contributing it at $2.2M. The site is Lot 1, Block 4 of Sherrelwood Village Filing No. 1, the north part of the Sherrelwood Village PUD, where Delwest built 41 single-family homes in 2019 before the pandemic paused the second phase.",
+   "src": [
+    "chfa-2025-mihtc-narratives",
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "text": "Local approvals: the project needs Sherrelwood Village PUD Amendment No. 2 (PUD2024-00006, 70 townhouses) and the Elmwood North minor subdivision plat (PRC2024-00012); Adams County requested comments on the plat case on 2024-07-25. The applicant expected PUD approval in July or August 2025 and building permits in fall 2025. Submittals on the plat case continued through 2026-09-02, and no county approval record for either case was found.",
+   "src": [
+    "adams-land-use-cases",
+    "adams-prc2024-00012-s4",
+    "adams-prc2024-00012-s5",
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says the site lies on a bus corridor that qualifies under HB 24-1007 and HB 24-1304 for higher density and no minimum parking, and that the PUD amendment only changes unit density.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "text": "Maiker Housing Partners and Adams County staff wrote letters of support. Maiker also plans to include Elmwood North in its voucher referral program.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "text": "Delwest contributed $100,000 to the 2024 Sherrelwood Park upgrades next door. The applicant also pitches the units for home-based child care under a 6+2 license.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "text": "Construction costs are based on Delwest's similar Vista townhomes at Mile High Greyhound Park in Commerce City. Delwest is studying offsite (prefabricated) components to cut cost.",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "text": "The July 2026 draft of the plat in the county file carries a mortgage holder consent block for Mercy Funding, which suggests an existing lender on the land (inferred).",
+   "src": [
+    "adams-prc2024-00012-s5"
+   ]
+  },
+  {
+   "text": "The credit amount moved slightly: $1,650,000 on the March 2025 letter-of-intent report, $1,649,753 on the May 2025 applicant report, and $1,650,000 on the award report.",
+   "src": [
+    "chfa-2025-mihtc-loi",
+    "chfa-2025-mihtc-applicants",
+    "chfa-2025-mihtc-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2019",
+   "event": "Delwest builds the 41 Elmwood Estates homes directly south",
+   "src": [
+    "chfa-2025-mihtc-narratives"
+   ]
+  },
+  {
+   "date": "2024-07-25",
+   "event": "Adams County requests comments on the Elmwood North plat case (PRC2024-00012)",
+   "src": [
+    "adams-land-use-cases"
+   ]
+  },
+  {
+   "date": "2025-03-24",
+   "event": "Listed on CHFA's 2025 MIHTC letter-of-intent report",
+   "src": [
+    "chfa-2025-mihtc-loi"
+   ]
+  },
+  {
+   "date": "2025-05-29",
+   "event": "Listed on CHFA's 2025 MIHTC applicant report ($1,649,753 requested)",
+   "src": [
+    "chfa-2025-mihtc-applicants"
+   ]
+  },
+  {
+   "date": "2025-07-21",
+   "event": "Listed on CHFA's 2025 MIHTC award report",
+   "src": [
+    "chfa-2025-mihtc-award"
+   ]
+  },
+  {
+   "date": "2025-08-29",
+   "event": "Engineer resubmits the Elmwood North townhome development plans to Adams County",
+   "src": [
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA's MIHTC annual report lists the award (35 units at 80% AMI, 35 at 90% AMI)",
+   "src": [
+    "chfa-2025-mihtc-annual"
+   ]
+  },
+  {
+   "date": "2026-04-16",
+   "event": "Plat case submittals 3 and 4 posted by Adams County",
+   "src": [
+    "adams-land-use-cases"
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "event": "Plat case submittal 5 posted; the case is still in review",
+   "src": [
+    "adams-land-use-cases",
+    "adams-prc2024-00012-s5"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Conceptual site plans (north and south)",
+   "url": "https://adamscountyco.gov/wp-content/uploads/2026/04/PRC2024-00012-submittal4.pdf",
+   "kind": "site plan",
+   "made_by": "Strategic Land Solutions, Inc. for Elmwood North LLC",
+   "note": "PUD Amendment No. 2 plan set, sheets 5-6 (PDF pages 5-6); multi-modal plan on PDF page 7",
+   "src": [
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "title": "Townhome floor plans and elevations",
+   "url": "https://adamscountyco.gov/wp-content/uploads/2026/04/PRC2024-00012-submittal4.pdf",
+   "kind": "rendering",
+   "made_by": "Delwest / Elmwood North LLC plan set, in the Adams County file",
+   "note": "Sheets 18-21 (PDF pages 18-21)",
+   "src": [
+    "adams-prc2024-00012-s4"
+   ]
+  },
+  {
+   "title": "Elmwood North Filing No. 1 plat (draft)",
+   "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/PRC2024-00012-Submittal5.pdf",
+   "kind": "plat",
+   "made_by": "Surveyor for Strategic Land Solutions, Inc.",
+   "note": "Plat sheets after the comment correspondence in the 45-page submittal",
+   "src": [
+    "adams-prc2024-00012-s5"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The applicant says the project will earn Energy Star Multifamily and Zero Energy Ready Homes certification, while CHFA's annual report says it will meet DOE Efficient New Homes certification.",
+   "src": [
+    "chfa-2025-mihtc-narratives",
+    "chfa-2025-mihtc-annual"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether Adams County has approved PUD Amendment No. 2 and the Elmwood North plat, and on what dates (no hearing record or resolution found).",
+  "Whether the HUD 221(d)(4) loan and MIHTC equity have closed, and the final credit price.",
+  "Total development cost; the sources-and-uses table in the narrative is an image and not readable as text.",
+  "Rents at 80% and 90% AMI for four-bedroom units, and whether any units will take vouchers.",
+  "Terms of the Maiker Housing Partners partnership and the size of the property tax abatement.",
+  "Revised construction start and first-unit delivery dates (the application targeted June 2026 and December 2026)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-mihtc-award",
+   "title": "2025 Award Report, Middle-income Housing Tax Credit (MIHTC)",
+   "publisher": "CHFA",
+   "date": "2025-07-21",
+   "url": "https://www.chfainfo.com/getattachment/44641e72-053a-42e7-8be0-5e613d51b242/2025-MIHTC-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-mihtc-narratives",
+   "title": "2025 MIHTC application narratives (Elmwood North, PDF pages 1-5)",
+   "publisher": "CHFA",
+   "date": "2025-05-28",
+   "url": "https://www.chfainfo.com/getattachment/434c229c-41e9-4fc7-bf35-7d36dfe11456/2025-MIHTC-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-mihtc-applicants",
+   "title": "2025 MIHTC Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-05-29",
+   "url": "https://www.chfainfo.com/getattachment/dbf5e2bf-6bab-4be0-87cd-b76b4b2da655/2025-MIHTC-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-mihtc-loi",
+   "title": "2025 MIHTC Letter of Intent Report",
+   "publisher": "CHFA",
+   "date": "2025-03-24",
+   "url": "https://www.chfainfo.com/getattachment/95dea7ba-b429-44dc-93fd-7efb37b90e5f/2025-MIHTC-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-mihtc-annual",
+   "title": "Middle-income Housing Tax Credit 2025 Annual Report (Elmwood North on PDF page 5)",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/417e132c-9109-41a9-a32e-d3a37df76964/2025-MIHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "adams-land-use-cases",
+   "title": "Current Land Use Cases (PRC2024-00012 Elmwood North)",
+   "publisher": "Adams County, Colorado",
+   "date": "2026-10-20",
+   "url": "https://adamscountyco.gov/our-county/community-economic-development/planning-development/current-land-use-cases/"
+  },
+  {
+   "id": "adams-prc2024-00012-s4",
+   "title": "PRC2024-00012 Submittal 4: Sherrelwood Village PUD Amendment No. 2 / Elmwood North plan set and 2025-08-29 comment response",
+   "publisher": "Adams County, Colorado",
+   "date": "2026-04-16",
+   "url": "https://adamscountyco.gov/wp-content/uploads/2026/04/PRC2024-00012-submittal4.pdf"
+  },
+  {
+   "id": "adams-prc2024-00012-s5",
+   "title": "PRC2024-00012 Submittal 5: Elmwood North minor subdivision plat and agency correspondence",
+   "publisher": "Adams County, Colorado",
+   "date": "2026-09-02",
+   "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/PRC2024-00012-Submittal5.pdf"
+  },
+  {
+   "id": "chfa-2025-mihtc-descriptions",
+   "title": "CHFA, 2025 MIHTC Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-07-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-mihtc-award-descriptions"
+  }
+ ]
+}
