@@ -946,6 +946,18 @@
     } catch (e) { return null; }
     if (!raw) return null;
     var WP = global.WorkflowProgress;
+    // A step page's Next link also sends step=N. The reader may change the
+    // product on this page, so step N is read from the route as it is now
+    // (the rail's own href) rather than the page named when they left.
+    try {
+      var stepNum = Number(new global.URLSearchParams(global.location.search).get('step'));
+      if (stepNum && WP && typeof WP.routeSteps === 'function') {
+        var now = WP.routeSteps();
+        for (var n = 0; n < now.length; n++) {
+          if (now[n].num === stepNum && now[n].href !== 'select-jurisdiction.html') return now[n].href;
+        }
+      }
+    } catch (e) { /* fall back to next= */ }
     var steps = (WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]')
       ? WP.STEPS.slice() : [];
     // A product route sends readers to pages STEPS does not list (the

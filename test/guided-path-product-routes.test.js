@@ -262,6 +262,18 @@ test('choosing a jurisdiction returns to a routed step, and only to one', () => 
   assert.strictEqual(back('https://example.com/'), null);
 });
 
+test('a Next link\'s step=N follows a product change made on the picker', () => {
+  const dom = new JSDOM('<!doctype html><button id="sjContinueBtn">x</button>',
+    { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent('market-analysis.html') + '&step=4', runScripts: 'outside-only' });
+  dom.window.eval(railSrc);
+  dom.window.eval(read('js/jurisdiction-selector.js'));
+  assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), 'market-analysis.html', 'rental: step 4 is Market Analysis');
+  dom.window.WorkflowProgress.setProduct('for-sale');
+  const want = WP0().stepsFor('for-sale').find((s) => s.num === 4).href;
+  assert.notStrictEqual(want, 'market-analysis.html', 'fixture: for-sale replaces step 4');
+  assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), want, 'after switching to for-sale, step 4 is the for-sale page');
+});
+
 test('the banner follows the calculator\'s mode, however it was set', () => {
   // A restored share link sets the mode without ?mode=ownership in the URL.
   const win = page('deal-calculator.html', '<!doctype html><main><section class="hero"><h1>x</h1></section></main>');

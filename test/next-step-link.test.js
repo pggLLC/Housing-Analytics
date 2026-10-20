@@ -44,7 +44,7 @@ for (const product of [null, 'for-sale']) {
     const got = renderNext(dom.window, fromPage, null);
     assert.equal(got.num, want.num, `${product || 'rental'} ${fromPage}: step number follows the route`);
     assert.equal(got.label, want.label, `${product || 'rental'} ${fromPage}: label follows the route`);
-    assert.equal(got.href, 'select-jurisdiction.html?next=' + encodeURIComponent(want.href), `${product || 'rental'} ${fromPage}: with no place, the link goes through the picker to the route's step`);
+    assert.equal(got.href, 'select-jurisdiction.html?next=' + encodeURIComponent(want.href) + '&step=' + want.num, `${product || 'rental'} ${fromPage}: with no place, the link goes through the picker to the route's step`);
     assert(got.viaPicker, 'with no place, the link says to pick one');
     if (want.routed) routedChecked++;
   }
@@ -57,7 +57,7 @@ for (const [fromPage, slot] of Object.entries(SLOT)) {
   const dom = new JSDOM('<!doctype html><main></main>', { runScripts: 'outside-only' });
   const got = renderNext(dom.window, fromPage, null);
   const want = canon.find((st) => st.num === slot + 1);
-  assert.deepEqual([got.num, got.label, got.href], [want.num, want.label, 'select-jurisdiction.html?next=' + encodeURIComponent(want.href)], `${fromPage}: fallback mirrors workflow-progress.js STEPS`);
+  assert.deepEqual([got.num, got.label, got.href], [want.num, want.label, 'select-jurisdiction.html?next=' + encodeURIComponent(want.href) + '&step=' + want.num], `${fromPage}: fallback mirrors workflow-progress.js STEPS`);
 }
 
 // A page anchor stays at the end of the link.
