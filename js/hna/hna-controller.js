@@ -3811,6 +3811,9 @@
     }
 
     // ---- Scenario comparison charts (5–10 year horizon section) ----
+    // A later render started while this one waited on the data above: that
+    // render draws this section and its saved-scenario disclosure.
+    if (reconSeq !== _reconSeq) return;
     try {
       const selectedScenario = getSelectedScenario();
       const customScenario = await buildScenarioBuilderOverlay(

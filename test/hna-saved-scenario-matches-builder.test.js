@@ -200,5 +200,32 @@ function builderChange(r) {
   assert(!Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes(key), 'or export its series');
   assert(Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes('baseline'), 'the later render exported the built-in series');
 
+  // An earlier Colorado render still waiting on its county files when a Mesa
+  // render with the saved scenario finishes: resuming, it must not replace
+  // Mesa's saved line or its disclosure with the statewide message.
+  drawn.length = 0;
+  let releaseState;
+  let stateHeld;
+  const heldState = new Promise((res) => { releaseState = res; });
+  const atState = new Promise((res) => { stateHeld = res; });
+  window.fetch = async (u) => (/projections\/08\d{3}\.json$/.test(String(u).split('?')[0]) ? (stateHeld(), heldState.then(() => plainFetch(u))) : plainFetch(u));
+  global.fetch = window.fetch;
+  const colorado = { geoType: 'state', geoid: '08', label: 'Colorado', profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } };
+  sel.value = key;
+  window.HNAState.state.currentSelection = colorado;
+  const stateRender = window.HNAController.applyAssumptions(readJson('data/hna/projections/08.json'), colorado);
+  await Promise.race([atState, stateRender.then(() => { throw new Error('the Colorado render finished without reading the county files'); })]);
+  window.fetch = plainFetch; global.fetch = plainFetch;
+  window.HNAState.state.currentSelection = mesa;
+  await window.HNAController.applyAssumptions(mesaProj, mesa);
+  const mesaDisclosure = disclosure.textContent;
+  assert.deepStrictEqual(drawn, [key], 'the Mesa render drew the saved line');
+  assert(!disclosure.hidden && /custom line is/.test(mesaDisclosure), 'and described it');
+  releaseState();
+  await stateRender;
+  assert.deepStrictEqual(drawn, [key], 'the earlier Colorado render, resuming, redrew the scenario chart over Mesa\'s');
+  assert.strictEqual(disclosure.textContent, mesaDisclosure, 'the earlier Colorado render, resuming, replaced Mesa\'s saved-scenario disclosure');
+  assert(Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes(key), 'Mesa\'s saved series is still the one exported');
+
   console.log(`hna-saved-scenario-matches-builder: PASS (${compared} places, ${multiCounty} across more than one county, equal year by year on both pages; a stale saved-scenario load draws nothing)`);
 })().catch((e) => { console.error(e); process.exit(1); });
