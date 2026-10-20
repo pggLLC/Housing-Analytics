@@ -1,0 +1,492 @@
+{
+ "slug": "greenbriar-apartments-fort-collins",
+ "name": "Greenbriar Apartments (scattered site)",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "CARE Communities won 2026 federal 4% credits to renovate Greenbriar, its first apartment community (40 units, built 1994-95 at 400-434 Butch Cassidy Drive in north Fort Collins), with all 40 homes kept affordable at 60% AMI.",
+ "why_it_matters": "Greenbriar's original 1993 tax credit carried only a 30-year commitment, so this recapitalization is what keeps the 40 homes affordable. It also fixes failing sewer and plumbing lines. It shows how CARE re-paired its properties (first with Windtrail, now with Fairbrooke) to fit the bond and gap money available.",
+ "status": {
+  "label": "Credits awarded; renovation planned for 2027",
+  "detail": "CHFA lists the award (amounts 'subject to change'). CARE told residents that renovations at Greenbriar and Fairbrooke begin in 2027. No public record of a financing closing or permits yet.",
+  "src": [
+   "chfa-4pct-award",
+   "care-reno-faq"
+  ]
+ },
+ "next_step": "Watch for the Housing Catalyst bond issue and closing on the combined Greenbriar-Fairbrooke financing, and for the City funding agreement for the $1.5M award.",
+ "key_numbers": [
+  {
+   "value": "40 homes, all at 60% AMI",
+   "meaning": "Every unit is income-restricted at 60% AMI: 20 two-bedrooms and 20 three-bedrooms.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$888,029 a year in federal 4% credit",
+   "meaning": "About $8.9M over 10 years, roughly $22,200 per unit per year. The site is in a Qualified Census Tract.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$5,600,000 in private activity bonds (Housing Catalyst issuer)",
+   "meaning": "About $140,000 of bonds per unit. Whose cap backs it is not stated.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1.5M city gap award, shared with Fairbrooke",
+   "meaning": "Fort Collins fully funded CARE's combined 76-unit Greenbriar-Fairbrooke rehab in June 2026.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-2026-06-16-minutes"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "400 Butch Cassidy Drive, Fort Collins 80524 (the property spans 400-434 Butch Cassidy Drive)",
+   "src": [
+    "chfa-4pct-award",
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Larimer",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Resident type",
+   "value": "Family",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building type",
+   "value": "Acquisition/Rehabilitation",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "40 total, 40 income-restricted",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "10 (CHFA 1993 report)",
+   "src": [
+    "chfa-1993-status"
+   ]
+  },
+  {
+   "item": "QCT / DDA / SADDA",
+   "value": "Yes / No / No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8 contract",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Year built",
+   "value": "1994-95 (CARE's first apartment community)",
+   "src": [
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "item": "Original tax credit",
+   "value": "CHFA 1993 9% award as 'Care Housing/Greenbriar Village', 30 years committed",
+   "src": [
+    "chfa-1993-status"
+   ]
+  },
+  {
+   "item": "Location (sponsor's description)",
+   "value": "North Fort Collins, near downtown",
+   "src": [
+    "care-communities"
+   ]
+  },
+  {
+   "item": "Companion deal",
+   "value": "Financed and renovated alongside CARE's Fairbrooke Heights (separate CHFA row); the City treats them as one 76-unit rehab",
+   "src": [
+    "chfa-4pct-award",
+    "fc-2026-06-16-packet",
+    "care-reno-faq"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 40
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 0
+  },
+  {
+   "type": "1BR",
+   "units": 0
+  },
+  {
+   "type": "2BR",
+   "units": 20
+  },
+  {
+   "type": "3BR",
+   "units": 20
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$888,029 per year",
+   "note": "About $8.88M over 10 years. 'Subject to change.' No state credit. QCT status allows a basis boost (inferred; the boost used is not public).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$5,600,000",
+   "note": "Issuer: Housing Catalyst. The cap source is not stated. In 2024 CARE estimated that Greenbriar and Windtrail together needed $16M of bonds to meet the bond test then in force.",
+   "src": [
+    "chfa-4pct-award",
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "source": "City of Fort Collins 2026 Spring Competitive Process (CDBG / HOME / Affordable Housing Fund)",
+   "amount": "$1,500,000 (shared with the companion property)",
+   "note": "Awarded to CARE Communities' combined 'Greenbriar-Fairbrooke Heights Rehab' (76 units); recommended by the Human Services and Housing Funding Board (ranked #3, 100% of request) and approved by Council in Resolution 2026-078 on 16 June 2026. The split between the two properties, and which of the three funding streams pays it, is not public.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-hshfb-2026-04-29",
+    "fc-2026-06-16-minutes"
+   ]
+  },
+  {
+   "source": "Original CHFA 9% credit (history)",
+   "amount": "$153,534 per year (1993) plus $95,708 supplemental (1995)",
+   "note": "Reserved 27 May 1993; partial final allocation 31 Jan 1994, remainder 31 Dec 1995; conventional financing.",
+   "src": [
+    "chfa-1993-status",
+    "chfa-1995-status"
+   ]
+  },
+  {
+   "source": "Tax credit equity, lender, total development cost",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "CARE Communities",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Current owner, developer and property manager",
+   "name": "CARE Communities (formerly CARE Housing, Inc.)",
+   "src": [
+    "fc-care-pab-2024",
+    "care-reno-faq"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Catalyst",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Local gap funder",
+   "name": "City of Fort Collins (Resolution 2026-078)",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-2026-06-16-minutes"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Greenbriar was CARE Housing's first community: 40 units in 10 buildings, built new in 1994-95 with a 1993 CHFA 9% award ($153,534, plus a $95,708 supplemental in 1995). The original commitment was 30 years, so the original compliance term has largely run (inferred from the dates).",
+   "src": [
+    "chfa-1993-status",
+    "chfa-1995-status",
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "text": "In March 2024 CARE asked the City for $10,812,010 of 2024 bond cap to rehab Greenbriar and Windtrail (90 units) under one tax credit partnership, with Housing Catalyst or CHFA as issuer. It also asked Larimer County for $6.5M. Windtrail later went ahead alone (2025 CHFA 4% award, $9M bonds), and Greenbriar is now paired with Fairbrooke Heights.",
+   "src": [
+    "fc-care-pab-2024",
+    "chfa-4pct-award",
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "text": "Main physical problem: the exterior sewer line from the buildings to the city main has been damaged by shifting ground and tree roots, causing backups into apartments. CARE plans new sewer and unit plumbing lines throughout, work under the parking lot, and repaving.",
+   "src": [
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "text": "Planned unit work (2026 FAQ): new appliances, countertops and cabinets, plumbing fixtures, flooring, washers and dryers, central air conditioning, new windows and lighting. Depending on budget, a renovated clubhouse, expanded garden, seating areas, landscaping, trash enclosures and sidewalk and pavement repairs. The 2024 plan also named Enterprise Green Communities and Energy Star targets, covered bike storage and community Wi-Fi.",
+   "src": [
+    "care-reno-faq",
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "text": "Residents will be moved temporarily (on site, to another CARE community or to a hotel) for about 6-8 weeks, with at least 30 days' notice. CARE pays approved moving costs.",
+   "src": [
+    "care-reno-faq"
+   ]
+  },
+  {
+   "text": "City gap funding: the combined $1.5M Greenbriar-Fairbrooke request was ranked last of 7 by the Affordable Housing Board but #3 by the Human Services and Housing Funding Board. It was fully funded under Resolution 2026-078, adopted 16 June 2026.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-hshfb-2026-04-29",
+    "fc-2026-06-16-minutes"
+   ]
+  },
+  {
+   "text": "Bond cap context: the City's 2026 cap went to Country Ranch and Bristlecone (Resolution 2026-077). The City's 2025 cap ($11,184,752) went to Housing Catalyst for Windtrail 'and elsewhere in the City' (Resolution 2025-066), which Housing Catalyst may carry forward for up to 3 years.",
+   "src": [
+    "fc-2026-06-16-minutes",
+    "fc-2026-06-16-packet",
+    "fc-2025-06-17-packet"
+   ]
+  },
+  {
+   "text": "Before the rehab, a January 2024 market-study inventory showed Greenbriar Village with 9 units at 50% AMI and 31 at 60%, with rents below the maximums. Post-rehab, CHFA shows all 40 at 60%.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "2026 CHFA maximum gross rents at 60% AMI in Larimer County: $1,761 for a two-bedroom and $2,034 for a three-bedroom. CARE describes Greenbriar as 2- and 3-bedroom apartments, which matches CHFA's 20/20 split. Actual rents are not public.",
+   "src": [
+    "chfa-limits-2026"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1993-05-27",
+   "event": "CHFA reserves 9% credit ($153,534) for Care Housing/Greenbriar Village",
+   "src": [
+    "chfa-1993-status"
+   ]
+  },
+  {
+   "date": "1995",
+   "event": "Supplemental 9% allocation of $95,708; final allocation effective 31 Dec 1995",
+   "src": [
+    "chfa-1995-status",
+    "chfa-1993-status"
+   ]
+  },
+  {
+   "date": "2024-03-15",
+   "event": "CARE requests City bond cap for a combined Greenbriar-Windtrail rehab",
+   "src": [
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Council assigns the City's 2025 bond cap to Housing Catalyst for Windtrail and other local projects (Res. 2025-066)",
+   "src": [
+    "fc-2025-06-17-packet"
+   ]
+  },
+  {
+   "date": "2026-04-29",
+   "event": "Funding board ranks Greenbriar-Fairbrooke Rehab #3 and recommends $1.5M",
+   "src": [
+    "fc-hshfb-2026-04-29"
+   ]
+  },
+  {
+   "date": "2026-06-16",
+   "event": "Council adopts Resolution 2026-078 approving the award",
+   "src": [
+    "fc-2026-06-16-minutes"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report (2026 cycle)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-09-24",
+   "event": "CARE issues the Fairbrooke Heights and Greenbriar renovation FAQ to residents",
+   "src": [
+    "care-reno-faq"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Planned renovation start ('first half of 2027' per the English FAQ; schedule subject to change)",
+   "src": [
+    "care-reno-faq"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Greenbriar exterior photo",
+   "url": "https://www.carecommunitiesnoco.org/our-communities/",
+   "kind": "photo",
+   "made_by": "CARE Communities",
+   "note": "Greenbriar card on the Our Communities page; no public site plan for the Greenbriar rehab was found",
+   "src": [
+    "care-communities"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "Address: CHFA gives 400 Butch Cassidy Drive; CARE's 2024 application and CHFA's 1993 report give 400-434 Butch Cassidy Drive (same property).",
+  "Pairing: CARE's 2024 bond request paired Greenbriar with Windtrail, while the 2026 City award and the CARE FAQ pair it with Fairbrooke Heights."
+ ],
+ "open_questions": [
+  "Whose bond cap backs the $5.6M of bonds; not stated publicly.",
+  "Total development cost, new partnership's acquisition price, investor and equity price, lender, general contractor and architect.",
+  "Split of the $1.5M city award between Greenbriar and Fairbrooke, and its funding stream (CDBG, HOME or Affordable Housing Fund).",
+  "Length of the new affordability covenant, and whether project-based vouchers (which CARE considered in 2024) will be added.",
+  "Exact start date for Greenbriar specifically (the FAQ gives only 2027)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-1993-status",
+   "title": "CHFA, 1993 Low Income Housing Tax Credit Status Report (updated 2001-02-27)",
+   "publisher": "CHFA",
+   "date": "2001-02-27",
+   "url": "https://www.chfainfo.com/getattachment/3fabb71f-240c-4272-a862-eefaa8b2ba77/1993StatusReport.pdf"
+  },
+  {
+   "id": "chfa-1995-status",
+   "title": "CHFA, 1995 Low Income Housing Tax Credit Status Report",
+   "publisher": "CHFA",
+   "date": "1995",
+   "url": "https://www.chfainfo.com/getattachment/b12ca5f5-4308-4759-bfc1-4bfb488b19a6/1995StatusReport.pdf"
+  },
+  {
+   "id": "chfa-limits-2026",
+   "title": "CHFA, 2026 Colorado Income Limits and Maximum Rents (Larimer County rows)",
+   "publisher": "CHFA",
+   "date": "2026-05-07",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  },
+  {
+   "id": "care-communities",
+   "title": "CARE Communities, Our Communities",
+   "publisher": "CARE Communities",
+   "date": "2026-10-20",
+   "url": "https://www.carecommunitiesnoco.org/our-communities/"
+  },
+  {
+   "id": "care-information",
+   "title": "CARE Communities, Information & Updates (Resident Renovation Updates links)",
+   "publisher": "CARE Communities",
+   "date": "2026-10-20",
+   "url": "https://www.carecommunitiesnoco.org/information/"
+  },
+  {
+   "id": "care-reno-faq",
+   "title": "CARE Communities, Fairbrooke Heights and Greenbriar Renovation - FAQ Handout (English, plus Spanish Fairbrooke version)",
+   "publisher": "CARE Communities",
+   "date": "2026-09-24",
+   "url": "https://www.carecommunitiesnoco.org/wp-content/uploads/2026/09/FAQ-Handout_Fairbrooke-Renovation_1.20.2026-combined.pdf"
+  },
+  {
+   "id": "fc-2026-06-16-packet",
+   "title": "City of Fort Collins, City Council agenda packet, 16 June 2026 (Item 20: Resolution 2026-078, 2026 Spring Competitive Process, pp. 369-396; Item 19: Resolution 2026-077, PAB)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-06-16",
+   "url": "https://mccmeetings.blob.core.usgovcloudapi.net/fortcollco-pubu/MEET-Packet-d2650790b0bd473b957ff2b78b58a288.pdf"
+  },
+  {
+   "id": "fc-2026-06-16-minutes",
+   "title": "City of Fort Collins, City Council minutes, 16 June 2026 (consent calendar adopted incl. Res. 2026-077 and 2026-078)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-06-16",
+   "url": "https://fortcollins-co.municodemeetings.com/sites/fortcollins-co.municodemeetings.com/files/fileattachments/city_council/meeting/4467/2026-06-16_minutes.pdf"
+  },
+  {
+   "id": "fc-hshfb-2026-04-29",
+   "title": "City of Fort Collins, Human Services and Housing Funding Board special meeting minutes, 29 April 2026",
+   "publisher": "City of Fort Collins",
+   "date": "2026-04-29",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-d2650790b0bd473b957ff2b78b58a288/ITEM-Attachment-001-955b5cf2304b45d28018d6b3c7f5e2e3.pdf"
+  },
+  {
+   "id": "fc-care-pab-2024",
+   "title": "CARE Housing, request to the City of Fort Collins for 2024 private activity bonds for the Greenbriar-Windtrail rehabilitation (letter and application, 15 March 2024; City Council attachment)",
+   "publisher": "City of Fort Collins (CARE Housing document)",
+   "date": "2024-03-15",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-21d37494d76c4bb898a0045c2ee97d55/ITEM-Attachment-001-b4cdbd0d8f9045fc8fb327c7afdcef3f.pdf"
+  },
+  {
+   "id": "fc-2025-06-17-packet",
+   "title": "City of Fort Collins, City Council agenda packet, 17 June 2025 (Item 17: Resolution 2025-066 assigning 2025 PAB to Housing Catalyst, pp. 377-386)",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetings.blob.core.usgovcloudapi.net/fortcollco-pubu/MEET-Packet-1b8aaf903396446db23335580b2462a4.pdf"
+  },
+  {
+   "id": "fc-ord009-2026-att2",
+   "title": "City of Fort Collins, Ordinance No. 009, 2026, AIS Attachment No. 2 (includes Prior & Associates preliminary market analysis for Village on Eastbrook, January 2024 survey, with LIHTC inventory table)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-01",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-b46a56ade860446797870b68cd984b93/ITEM-Attachment-003-139ac70a8eff4ad8986a03cd529c721d.pdf"
+  }
+ ]
+}
