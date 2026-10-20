@@ -72,6 +72,26 @@ run('a step that completes itself on read still asks for the missing jurisdictio
   assert.match(r.html, /href="select-jurisdiction\.html\?next=hna-what-housing-exists\.html"/, 'the prompt must carry the reader back here');
 });
 
+run('the needs assessment says it is showing statewide figures, not that it has nothing to show', () => {
+  // It opens on State of Colorado figures, so "nothing to show until you pick
+  // one" contradicted the numbers right below it (live check 2026-10-19).
+  // The banner's claim rests on the HNA's own default geography: if that
+  // stops being the state, this branch is no longer true.
+  const utils = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-utils.js'), 'utf8');
+  const defaults = /const DEFAULTS = \{([\s\S]*?)\};/.exec(utils);
+  assert.ok(defaults, 'HNA DEFAULTS block not found in js/hna/hna-utils.js');
+  assert.match(defaults[1], /geoType:\s*'state'/, 'the HNA no longer opens statewide; revisit the banner branch');
+  const r = render('hna-what-housing-exists.html', ['hsa']);
+  assert.match(r.text, /statewide/i, r.text);
+  assert.ok(!/nothing to show/.test(r.text), r.text);
+});
+
+run('the scenario builder, which opens empty, still asks for a jurisdiction', () => {
+  const r = render('hna-scenario-builder.html', ['opportunity']);
+  assert.ok(!/Showing statewide figures/.test(r.text), r.text);
+  assert.match(r.text, /Choose a jurisdiction first/, r.text);
+});
+
 run('Select Jurisdiction gives one next step: the banner agrees with the page button', () => {
   // Codex review 2026-10-15: the banner said "Go on to Opportunity Finder"
   // while the page's main button said "Begin Housing Needs Assessment (step 3)"

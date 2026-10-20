@@ -48,8 +48,8 @@
   var BANDS = [
     { min: 70, color: '#0b4f48', label: 'Highest' },
     { min: 50, color: '#2f8f83', label: 'Elevated' },
-    { min: 30, color: '#7dbcb2', label: 'Moderate' },
-    { min: -Infinity, color: '#c4e2dd', label: 'Lower' },
+    { min: 30, color: '#86c2b8', label: 'Moderate' },
+    { min: -Infinity, color: '#ddf0ed', label: 'Lower' },
   ];
 
   function bandFor(score) {
