@@ -30,7 +30,7 @@ import re
 import sys
 import textwrap
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -444,13 +444,63 @@ OFF_TOPIC_RE = re.compile(
     r'pest|fitness|rideshare|ice facility|wealthiest|photos of)\b', re.I)
 
 
+# National housing trends, from a short list of outlets and research
+# sources only (paul, 2026-10-20: "only very strong researched national
+# trends with very reputable sources"). He sent two WSJ stories the Colorado
+# searches could not find: "The Immigration Crackdown Is Making It Much Harder
+# to Build Houses" and "A New Type of Mortgage Is Reviving Long Abandoned
+# Neighborhoods". Matched against the publisher name Google News gives.
+NATIONAL_SOURCE_RE = re.compile(
+    r'^(?:WSJ|The Wall Street Journal|Wall Street Journal|The New York Times|The Washington Post|'
+    r'Bloomberg(?:\.com| CityLab)?|Reuters|AP News|Associated Press|Financial Times|The Economist|NPR|'
+    r'Joint Center for Housing Studies|Harvard Joint Center for Housing Studies|Urban Institute|'
+    r'Brookings|Terner Center(?: for Housing Innovation)?|Eye On Housing|NAHB|Freddie Mac|Fannie Mae|'
+    r'National Low Income Housing Coalition|Pew Research Center|The Pew Charitable Trusts|'
+    r'Federal Reserve(?: Bank of [A-Za-z. ]+)?|[A-Za-z. ]+ Federal Reserve Bank|Federal Reserve Board)$', re.I)
+# A trend headline names the housing market itself: building, lending, prices,
+# rents, supply. "It's a great time to buy a house — if you can stomach a 7%
+# rate" is advice and "Inflation Accelerated in September" is not housing.
+NATIONAL_TREND_RE = re.compile(
+    r'\b(housing|home-?build\w*|homebuild\w*|builders?|build (?:houses|homes)|mortgage\w*|'
+    r'home (?:prices|sales|values)|(?:new|existing)[- ]homes?|building permits|construction|'
+    r'multifamily|rental market|apartment (?:supply|construction|market)|single-family)\b', re.I)
+# Left out even from those outlets: opinion and commentary, first-person or
+# advice pieces, and other countries' housing news. The searches are global,
+# so the country list is long (Codex review of #2404: "Dutch home prices").
+NATIONAL_SKIP_RE = re.compile(
+    r'^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
+    r'\b(?:china|chinese|beijing|shanghai|u\.?k\.?|britain|british|england|english|scotland|scottish|'
+    r'wales|welsh|london|canada|canadian|toronto|vancouver|montreal|ontario|australia\w*|sydney|'
+    r'melbourne|new zealand|ireland|irish|dublin|europe\w*|euro ?zone|eu|germany|german|berlin|france|'
+    r'french|paris|spain|spanish|madrid|barcelona|portugal|portuguese|lisbon|italy|italian|netherlands|'
+    r'dutch|amsterdam|belgi\w+|swiss|switzerland|austria\w*|sweden|swedish|norway|norwegian|denmark|'
+    r'danish|finland|finnish|poland|polish|greece|greek|turkey|turkish|japan\w*|tokyo|india|indian|'
+    r'pakistan\w*|bangladesh\w*|mexico|mexican|brazil\w*|argentin\w+|chile\w*|colombia\w*|peru\w*|'
+    r'hong kong|taiwan\w*|singapore\w*|malaysia\w*|indonesia\w*|philippine\w*|thai\w*|vietnam\w*|'
+    r'korea\w*|seoul|dubai|uae|emirati|saudi\w*|qatar\w*|egypt\w*|israel\w*|lebanon|lebanese|'
+    r'hezbollah|gaza|iran\w*|iraq\w*|syria\w*|ukrain\w*|russia\w*|moscow|africa\w*|nigeria\w*|'
+    r'kenya\w*|ghana\w*)\b', re.I)
+
+
+def is_national_trend(title: str, source: str) -> bool:
+    """A national housing-trend story from one of the listed outlets."""
+    title = title or ''
+    if not NATIONAL_SOURCE_RE.match((source or '').strip()):
+        return False
+    # A site's own home page ("Joint Center for Housing Studies - Joint Center
+    # for Housing Studies") comes back from the research search.
+    if norm_title(title) and norm_title(title) in norm_title(source):
+        return False
+    return bool(NATIONAL_TREND_RE.search(title)) and not NATIONAL_SKIP_RE.search(title)
+
+
 def is_housing_headline(title: str, source: str = '') -> bool:
     title = title or ''
     return bool(HOUSING_TITLE_RE.search(title)) or not OFF_TOPIC_RE.search(title)
 
 
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
-    """'colorado', 'federal', or None (another state's news, or not housing policy)."""
+    """'colorado', 'federal', 'national' (a trend story from a listed outlet), or None."""
     title = COLORADO_STREET_RE.sub(' ', title or '')
     hay = f'{title} {source}'
     # A headline that says Colorado outright is Colorado news even when it names
@@ -459,6 +509,10 @@ def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     # outlet carrying another state's story still falls to OTHER_STATE_RE.
     if COLORADO_RE.search(title):
         return 'colorado'
+    # A national outlet's own name is not a place: "The New York Times" would
+    # otherwise read as New York news (Codex review of #2404).
+    if NATIONAL_SOURCE_RE.match((source or '').strip()):
+        hay = title
     if OTHER_STATE_RE.search(hay):
         return None
     if distinct_place or COLORADO_RE.search(hay):
@@ -466,6 +520,12 @@ def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     # A Colorado outlet ("Sterling Journal-Advocate", "The Durango Herald").
     if COLORADO_SOURCE_RE.search(source or ''):
         return 'colorado'
+    # The national outlets publish everything; only their housing-trend
+    # stories count, as federal news when they name a federal body.
+    if NATIONAL_SOURCE_RE.match((source or '').strip()):
+        if not is_national_trend(title, source):
+            return None
+        return 'federal' if FEDERAL_RE.search(title) else 'national'
     if FEDERAL_RE.search(hay):
         return 'federal'
     return None
@@ -516,8 +576,55 @@ def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
 
 def in_scope_alerts(alerts: list[dict], geos: dict) -> list[dict]:
     """The alerts a brief may summarise: tool-watch items plus every in-scope headline."""
+    # National trend stories are shown on the page but not summarised: the
+    # briefs are about Colorado and federal policy.
     return [a for a in alerts
-            if a.get('topic') == 'tool_watch' or alert_scope(a, geos)[0] is not None]
+            if a.get('topic') == 'tool_watch' or alert_scope(a, geos)[0] not in (None, 'national')]
+
+
+# The national outlets all report the same release on the same day ("U.S.
+# Housing Starts Dropped Again in September", WSJ; "US Housing Starts Fall to
+# Four-Month Low", Bloomberg; "US single-family housing starts ... tumble",
+# Reuters). Same-day headlines that share a two-word phrase, or headlines
+# within three days that share two, are one story; the others are listed
+# under it as "Also".
+NATIONAL_STOPWORDS = {'us', 'u', 's', 'the', 'a', 'an', 'in', 'of', 'to', 'as', 'for', 'and', 'on', 'at',
+                      'is', 'are', 'its', 'it', 'by', 'with', 'from', 'new', 'again', 'more', 'than',
+                      'america', "america's", 'americans', "americans'", "nation's", 'national'}
+# Phrases every housing story uses; sharing one says nothing about being the
+# same story ("US housing market slows" and "US housing market inventory
+# improves", Codex review of #2404).
+NATIONAL_GENERIC_PHRASES = {('housing', 'market'), ('mortgage', 'rates'), ('home', 'prices'),
+                            ('housing', 'crisis'), ('housing', 'shortage'), ('affordable', 'housing'),
+                            ('housing', 'costs'), ('home', 'buyers'), ('rent', 'prices')}
+
+
+def _phrases(title: str) -> set[tuple[str, str]]:
+    t = re.sub(r'\bhome[\s-]+builders?\b', 'homebuilder', (title or '').lower())
+    words = [w for w in re.findall(r"[a-z0-9']+", t.replace('’', "'")) if w not in NATIONAL_STOPWORDS]
+    return set(zip(words, words[1:])) - NATIONAL_GENERIC_PHRASES
+
+
+def same_national_story(s: dict, kept: list[dict]) -> dict | None:
+    mine = _phrases(s['title'])
+    try:
+        day = date.fromisoformat(s['date'])
+    except ValueError:
+        return None
+    for k in kept:
+        if k['scope'] != 'national':
+            continue
+        try:
+            gap = abs((date.fromisoformat(k['date']) - day).days)
+        except ValueError:
+            continue
+        shared = len(mine & _phrases(k['title']))
+        # One phrase is enough on the same day ("housing starts"); across
+        # days it takes two, so "build houses" alone does not fold the WSJ
+        # immigration story into a Virginia subdivision story.
+        if (gap == 0 or shared >= 2) and gap <= 3 and shared:
+            return k
+    return None
 
 
 def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[dict], dict]:
@@ -554,12 +661,17 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
             'regions': regions,
             'also': [],
         })
-    raw.sort(key=lambda s: s['date'], reverse=True)
+    # Newest first; on the same date a Colorado or federal copy of a headline
+    # comes before a national outlet's, so the story keeps its Colorado scope
+    # whatever order the feeds returned it in (Codex review of #2404).
+    raw.sort(key=lambda s: (s['date'], s['scope'] != 'national'), reverse=True)
     by_key: dict[str, dict] = {}
     stories: list[dict] = []
     for s in raw:
         key = norm_title(s['title'])
         seen = by_key.get(key)
+        if not seen and s['scope'] == 'national':
+            seen = same_national_story(s, stories)
         if seen:
             counts['merged'] += 1
             if s['source'] != seen['source'] and all(x['source'] != s['source'] for x in seen['also']):
