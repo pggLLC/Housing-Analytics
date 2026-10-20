@@ -777,6 +777,51 @@ def stories_meta(counts: dict) -> dict:
     }
 
 
+OWNER_NEWS_FILE = REPO_ROOT / 'data' / 'alerts' / 'owner-news.json'
+
+
+def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -> list[dict]:
+    """Add the owner's published picks (scripts/news/owner_news_picks.py) to the stories.
+
+    A pick is a story the owner chose himself, so the scope and topic filters
+    do not drop it: it is Colorado or federal news when the usual rule says
+    so, and national otherwise. A pick already on the page is marked, not
+    added twice.
+    """
+    data = load_json_safe(path or OWNER_NEWS_FILE)
+    items = data.get('items', []) if isinstance(data, dict) else []
+    by_key = {norm_title(s['title']): s for s in stories}
+    out = list(stories)
+    for it in items:
+        if it.get('status') != 'published' or not it.get('title'):
+            continue
+        key = norm_title(it['title'])
+        if key in by_key:
+            by_key[key]['picked'] = True
+            continue
+        places, distinct = find_places(it['title'], geos, it.get('source', ''))
+        regions: list[str] = []
+        for g in places:
+            if g.get('region') and g['region'] not in regions:
+                regions.append(g['region'])
+        story = {
+            'title': it['title'],
+            'source': it.get('source') or 'Unknown publisher',
+            'link': it.get('link') or '',
+            'date': (it.get('date') or '')[:10],
+            'scope': story_scope(it['title'], it.get('source', ''), distinct) or 'national',
+            'programs': [name for name, rx in PROGRAMS if rx.search(it['title'])],
+            'places': [{'geoid': g['geoid'], 'name': g['name'], 'type': g['type']} for g in places],
+            'regions': regions,
+            'also': [],
+            'picked': True,
+        }
+        by_key[key] = story
+        out.append(story)
+    out.sort(key=lambda s: s['date'], reverse=True)
+    return out
+
+
 def load_alerts() -> list[dict]:
     alerts_data = load_json_safe(ALERTS_FILE)
     if isinstance(alerts_data, dict):
@@ -799,6 +844,7 @@ def refresh_stories_only() -> int:
         return 1
     geos = load_geographies()
     stories, counts = build_stories(load_alerts(), geos)
+    stories = with_owner_picks(stories, geos)
     existing['stories'] = stories
     # A brief written before a scope rule changed can still list a headline the
     # rule now leaves out (Pasadena's "E. Colorado Blvd." on 2026-10-19): drop
@@ -862,6 +908,7 @@ def main() -> int:
         print('  OPENAI_API_KEY not set — using rule-based mode')
 
     stories, story_counts = build_stories(alerts, geos)
+    stories = with_owner_picks(stories, geos)
     print(f'  Stories: {len(stories)} ({story_counts["merged"]} duplicate headline(s) merged, '
           f'{story_counts["out_of_scope"]} out of scope)')
 
