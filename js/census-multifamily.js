@@ -25,6 +25,9 @@ const LIVE_VARS = {
   pct_10_19: "DP04_0012PE",
   pct_20p: "DP04_0013PE",
 };
+// Building-type counts DP04_0007E-DP04_0014E, in STRUCTURE_LABELS order.
+const STRUCTURE_KEYS = ["1_detached", "1_attached", "2_units", "3_4_units", "5_9", "10_19", "20p", "mobile"];
+const STRUCTURE_LIVE_VARS = STRUCTURE_KEYS.map((_, i) => "DP04_00" + String(7 + i).padStart(2, "0") + "E");
 const COLORADO_FIPS = "08";
 
 const STRUCTURE_LABELS = [
@@ -219,7 +222,7 @@ async function fetchLiveOne(record) {
   if (!key) {
     throw new Error("Live refresh requires a Census API key.");
   }
-  const get = `NAME,${Object.values(LIVE_VARS).join(",")}`;
+  const get = `NAME,${Object.values(LIVE_VARS).concat(STRUCTURE_LIVE_VARS).join(",")}`;
   let where, within;
   if (record.level === "state") { where = `state:${COLORADO_FIPS}`; }
   else if (record.level === "county") { where = `county:${record.geoid.slice(2)}`; within = `state:${COLORADO_FIPS}`; }
@@ -233,10 +236,27 @@ async function fetchLiveOne(record) {
   const data = await res.json();
   const header = data[0]; const row = data[1];
   const idx = Object.fromEntries(header.map((h, i) => [h, i]));
+  // The building-type table and the multifamily card read these fields, so
+  // the live figures replace the stored ones rather than sit beside them.
+  const total = num(row[idx[LIVE_VARS.totalHU]]);
+  const structure_count = {};
+  const structure_pct = {};
+  STRUCTURE_KEYS.forEach((k, i) => {
+    const c = num(row[idx[STRUCTURE_LIVE_VARS[i]]]);
+    structure_count[k] = c;
+    structure_pct[k] = c != null && total ? Math.round((c / total) * 1000) / 10 : null;
+  });
+  const mf = ["5_9", "10_19", "20p"].map((k) => structure_count[k]);
+  const mfOk = mf.every((v) => v != null) && total;
   return {
     ...record,
     name: row[idx.NAME],
-    totalHU: Number(row[idx[LIVE_VARS.totalHU]]) || record.totalHU,
+    totalHU: total || record.totalHU,
+    structure_count,
+    structure_pct,
+    pct_mf: mfOk ? Math.round((structure_pct["5_9"] + structure_pct["10_19"] + structure_pct["20p"]) * 10) / 10 : null,
+    mf_units: mfOk ? mf.reduce((a, b) => a + b, 0) : null,
+    _vintage: acsLabel("acs5", 2024),
     pct_5_9: Number(row[idx[LIVE_VARS.pct_5_9]]),
     pct_10_19: Number(row[idx[LIVE_VARS.pct_10_19]]),
     pct_20p: Number(row[idx[LIVE_VARS.pct_20p]]),
