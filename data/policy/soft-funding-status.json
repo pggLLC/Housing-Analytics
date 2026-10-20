@@ -604,10 +604,10 @@
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
-      "source_note": "Colorado Energy Office Home Energy Rebates page read 2026-10-20: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" Multifamily amounts are not published, so maximum award stays blank. DOE describes rebates rather than one of the loan/equity instruments; funding type, interest rate, loan term and repayment are left blank.",
+      "source_note": "Colorado Energy Office Home Energy Rebates page read 2026-10-20: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" The Energy Office publishes the caps: appliance rebates (HEAR) up to $14,000 per household or unit; whole-home rebates (HER) for manufactured or mobile homes up to $16,000 below 80% AMI; and for large multifamily buildings up to $8,000 per unit below 80% AMI, or $4,000 per unit up to $400,000 per building at 80% AMI and above. These are per-unit or per-building caps that depend on income and expected energy savings, and the 2026 phases have no confirmed opening, so maximum award per project stays blank. DOE describes rebates rather than one of the loan/equity instruments; funding type, interest rate, loan term and repayment are left blank.",
       "last_verified": "2026-10-20",
       "review_by": "2027-01-20",
-      "warning": "VERIFY before use. The single-family rebate is closed; the 2026 multifamily and manufactured-home phases have no published amounts yet.",
+      "warning": "VERIFY before use. The single-family rebate is closed; the 2026 multifamily and manufactured-home phases have published caps but no confirmed opening.",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
