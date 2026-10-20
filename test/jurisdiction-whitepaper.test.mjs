@@ -276,10 +276,11 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const z = src.zori.counties['08051'];
   const gz = m.market.filter((x) => /ZORI/.test(x.source));
   ok(z ? gz.length === 1 && gz[0].all === z.rent : gz.length === 0, 'Zillow rent equals the ZORI file, or is absent when the file has none');
-  const noZ = clone(src); delete noZ.zori.counties['08051'];
-  ok(!WP.buildModel(noZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source)), 'sabotage: a county missing from the ZORI file gets no Zillow row, not $0');
   const withZ = clone(src); withZ.zori.counties['08051'] = { name: 'Gunnison County', rent: 2475, vintage_month: '2026-08-31' };
   ok(WP.buildModel(withZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source) && x.all === 2475), 'sabotage: a county in the ZORI file gets its rent');
+  const noZ = clone(withZ); delete noZ.zori.counties['08051'];
+  ok('08051' in withZ.zori.counties && !('08051' in noZ.zori.counties), 'the removal mutation applied');
+  ok(!WP.buildModel(noZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source)), 'sabotage: a county dropped from the ZORI file gets no Zillow row, not $0');
   const den = WP.buildModel(src, '0820000', { FundingFit });
   // Every county the file publishes shows its own rent; the scan must find some.
   const zCounties = Object.keys(src.zori.counties || {});
