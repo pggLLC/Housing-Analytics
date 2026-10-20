@@ -1,0 +1,676 @@
+{
+ "slug": "parkside-apartments-longmont",
+ "name": "Parkside Apartments (scattered site)",
+ "city": "Longmont",
+ "county": "Boulder",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "Parkside Apartments is a 50-unit, fully Section 8-assisted family property at 1209 Tulip St in Longmont, which Lincoln Avenue Communities bought in December 2024. It is being re-syndicated and rehabbed with Mountain View Plaza, and won 2026 Federal 4% credits of $880,917 a year.",
+ "why_it_matters": "It preserves 50 deeply subsidized two- and three-bedroom family homes, a scarce unit type, using bonds issued by the housing authority and a property tax exemption. The deal is a template for Longmont's other aging HAP properties.",
+ "status": {
+  "label": "Credits awarded; bonds and tax-exemption partnership approved; closing not confirmed",
+  "detail": "Parkside shares one bond note and one SLP with Mountain View Plaza, both approved by LHA on 2026-06-16. The targeted 2026-08-17 closing and construction start has no confirming public record yet.",
+  "src": [
+   "lha-min-2026-06-16",
+   "lha-memo-2026-06-16",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch LHA Board packets for the closing report, and City of Longmont building permits at 1209 Tulip St.",
+ "key_numbers": [
+  {
+   "value": "50 homes, all income-restricted and Section 8-assisted",
+   "meaning": "Family property built 1980: 14 two-bedroom and 36 three-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "value": "$880,917 a year in federal 4% credit",
+   "meaning": "About $8.8M over 10 years. Together with Mountain View Plaza, the combined deal gets $2,308,441 a year. Subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$15,018,617 in bonds, shared with Mountain View Plaza",
+   "meaning": "CHFA repeats the combined figure on both rows; it is one issue.",
+   "src": [
+    "chfa-4pct-award",
+    "lha-res-2026-14"
+   ]
+  },
+  {
+   "value": "About $3.6M in property tax savings over 15 years (both properties)",
+   "meaning": "From LHA's special limited partnership, net of PILOT fees (staff estimate).",
+   "src": [
+    "lha-memo-2026-02-17"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1209 Tulip St, Longmont 80501",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Boulder",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Resident type",
+   "value": "Family",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building type",
+   "value": "Acquisition/Rehabilitation; scattered-site deal with Mountain View Plaza",
+   "src": [
+    "chfa-4pct-award",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 income-restricted",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "QCT / DDA / SADDA",
+   "value": "No / No / No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "Yes. A 100% project-based HAP contract (Option 1b), renewed 2025-01-01",
+   "src": [
+    "chfa-4pct-award",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "item": "Year built / last rehab",
+   "value": "1980 / 2006",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-memo-2026-02-17"
+   ]
+  },
+  {
+   "item": "Weighted average AMI (calculated)",
+   "value": "52.2%",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Tax area",
+   "value": "Boulder County tax area 680 (same as Mountain View Plaza)",
+   "src": [
+    "lha-taxcalc-2026-02"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 13
+  },
+  {
+   "level": "60% AMI",
+   "units": 37
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 14
+  },
+  {
+   "type": "3BR",
+   "units": 36
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "lac-slp-app-2025-11"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit (this property)",
+   "amount": "$880,917 per year",
+   "note": "Subject to change. No state credit is listed.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Parkside share of proposed budget (Feb 2026 budget split)",
+   "amount": "$3,225,000 base construction hard costs; $1,583,845 developer fee",
+   "note": "From the per-building columns of the combined budget. Acquisition is not split by building.",
+   "src": [
+    "lha-budget-2026-02"
+   ]
+  },
+  {
+   "source": "Private activity bonds / tax-exempt note (combined, both properties)",
+   "amount": "$15,018,617",
+   "note": "CHFA prints this same figure on both Longmont rows. It is one combined financing: LHA's single 'Multifamily Note (Parkside Apartments & Mountain View Plaza Projects) Series 2026', not to exceed $16,000,000, with PGIM, Inc. as initial funding lender and Zions Bancorporation as fiscal agent. The figure equals the three volume-cap pieces below to within $1 (inferred): $6,277,708 + $5,740,908 + $3,000,000 = $15,018,616. Do not add the two rows together.",
+   "src": [
+    "chfa-4pct-award",
+    "lha-res-2026-14",
+    "lha-memo-2026-04-21",
+    "col-ccf-2026-06-09",
+    "col-res-r-2026-33"
+   ]
+  },
+  {
+   "source": "Volume cap piece 1: City of Longmont 2024 PAB allocation",
+   "amount": "$6,277,708",
+   "note": "Awarded by the city to the project; the city declared intent and a 2024 carryforward election in R-2024-25 (adopted 2024-05-14). LHA accepted the assignment and issues on the project's behalf.",
+   "src": [
+    "lha-memo-2025-05-13",
+    "lha-memo-2026-04-21",
+    "col-ccf-2026-06-09",
+    "col-res-r-2026-33",
+    "col-agenda-2024-05-14"
+   ]
+  },
+  {
+   "source": "Volume cap piece 2: State of Colorado 2025 statewide balance (DOLA)",
+   "amount": "$5,740,908",
+   "note": "LHA applied as issuer on 2025-05-15 (a 2024 statewide try through the city failed); the award was received.",
+   "src": [
+    "lha-statewide-app-2025",
+    "lha-memo-2025-05-13",
+    "lha-memo-2026-04-21",
+    "col-ccf-2026-06-09"
+   ]
+  },
+  {
+   "source": "Volume cap piece 3: share of City of Longmont 2025 PAB allocation",
+   "amount": "about $3,000,000",
+   "note": "The city's $6,415,747 2025 cap had gone to Atwood Commons. Council split it on 2026-06-09 (R-2026-33): about $3,415,747 to Atwood and about $3,000,000 to Parkside & Mountain View Plaza, with CHFA backfilling Atwood.",
+   "src": [
+    "lha-res-2026-08",
+    "col-res-r-2026-33",
+    "col-ccf-2026-06-09",
+    "col-min-2026-06-09"
+   ]
+  },
+  {
+   "source": "Property tax exemption via LHA special limited partnership",
+   "amount": "About $3.6M saved over 15 years (staff estimate)",
+   "note": "LHA Ventures LLC joins as a 0.01% special limited partner for 17.5 years. Fees: a one-time SLP/PILOT fee at closing ($478,488 in the June 2026 memo), then $36,159 a year from 2027 rising 3% a year (split 50-50 with the city), plus a $3,000 a year asset management fee. Taxes avoided: about $317,659 a year (worksheet). The developer also says it gets certain sales and use tax exemptions.",
+   "src": [
+    "lha-memo-2026-02-17",
+    "lha-taxcalc-2026-02",
+    "lha-memo-2026-06-16",
+    "lha-res-2026-13"
+   ]
+  },
+  {
+   "source": "LHA bond issuer fees",
+   "amount": "$96,000 at closing, plus 0.1% of outstanding principal a year",
+   "note": "The annual fee is expected to be up to $16,000 in year 1. LHA's legal fees are reimbursed.",
+   "src": [
+    "lha-memo-2026-06-16"
+   ]
+  },
+  {
+   "source": "Total development cost (combined, both properties)",
+   "amount": "$56,727,057",
+   "note": "Developer's proposed budget (Nov 2025): acquisition $34.5M; construction hard costs $11,468,900; developer fee $4,117,945 (44.6% deferred). LHA staff memos round this to $56.7M.",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-memo-2026-02-17"
+   ]
+  },
+  {
+   "source": "Proposed permanent financing (combined, Nov 2025 proposal, with LHA partnership)",
+   "amount": "$14,957,607 tax-exempt first mortgage + $17,691,168 taxable first mortgage",
+   "note": "Proposal only. LIHTC equity installments come to about $19.86M and the deferred developer fee to $1,835,891. The lender is named as PGIM (the budget lists Freddie Mac application fees). The investor was not yet committed.",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-budget-2026-02"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Lincoln Avenue Communities",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "LIHTC owner / borrower",
+   "name": "Parkside and Mountain View Apartments LP (Colorado); general partner Parkside and Mountain View GP LLC (Delaware), controlled by a Lincoln Avenue Communities affiliate",
+   "src": [
+    "lha-res-2026-13",
+    "lha-res-2026-08"
+   ]
+  },
+  {
+   "role": "Bond / note issuer (conduit) and special limited partner",
+   "name": "Longmont Housing Authority (SLP entity: LHA Ventures LLC)",
+   "src": [
+    "chfa-4pct-award",
+    "lha-res-2026-14",
+    "lha-res-2026-13"
+   ]
+  },
+  {
+   "role": "Initial funding lender / fiscal agent",
+   "name": "PGIM, Inc. / Zions Bancorporation, National Association",
+   "src": [
+    "lha-res-2026-14"
+   ]
+  },
+  {
+   "role": "Proposed team (Nov 2025 application)",
+   "name": "Architect Ebersoldt + Associates; GC Brinkman Construction; property manager Seldin LLC; legal Cohen Liuzzo PLLC; accountant RubinBrown (spelled 'Rubin Brown' in the application)",
+   "src": [
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "role": "Prior owners (per BizWest tags; roles not stated in the readable excerpt)",
+   "name": "Parkside Investment Group LLLP; Mountain View Plaza Investment Group LLLP",
+   "src": [
+    "bizwest-2024-12-19"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Lincoln Avenue Communities bought Parkside and Mountain View Plaza in December 2024 (about $27M combined, per BizWest). BizWest tags the Parkside buyer as Parkside Owner LLC.",
+   "src": [
+    "bizwest-2024-12-19",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "text": "The property is 100% covered by a HUD Section 8 HAP contract, and an existing LIHTC LURA restricts all units to 60% AMI or less. Comparable market rents cited are $2,270 for a two-bedroom and $2,450 for a three-bedroom.",
+   "src": [
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "text": "Rehab scope (planned): energy and water upgrades, accessibility improvements, and updated units and common areas. Parkside's base hard cost line is $3,225,000.",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-budget-2026-02"
+   ]
+  },
+  {
+   "text": "Local deal: LHA (through LHA Ventures LLC) joins the owner partnership as a 0.01% special limited partner for 17.5 years. The property comes off the tax roll in exchange for an up-front fee and an annual PILOT, split with the city. LHA also gets a right of first refusal.",
+   "src": [
+    "lha-memo-2026-06-16",
+    "lha-res-2026-13",
+    "lha-memo-2026-02-17"
+   ]
+  },
+  {
+   "text": "Bonds: LHA is the conduit issuer. Longmont's charter bars the city from issuing PABs without a vote, so the city assigns its cap to LHA instead. The single note covers both properties.",
+   "src": [
+    "col-ccf-2026-06-09",
+    "lha-res-2026-14"
+   ]
+  },
+  {
+   "text": "Affordability: new LIHTC LURAs will put about 25% of units at 30% AMI and all units at or below 60% AMI. The developer says this extends affordability at least 30 years.",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-memo-2026-02-17"
+   ]
+  },
+  {
+   "text": "The LHA Board vote on the first PAB inducement (LHA-2025-08) was 6-1. Every later LHA vote on the deal, and the city's R-2026-33, was unanimous.",
+   "src": [
+    "lha-min-2025-05-13",
+    "lha-min-2026-02-17",
+    "lha-min-2026-04-21",
+    "lha-min-2026-06-16",
+    "col-min-2026-06-09"
+   ]
+  },
+  {
+   "text": "LHA staff called the Parkside & Mountain View bond issuance, together with Atwood Commons, among LHA's first conduit bond issuances for a third-party project.",
+   "src": [
+    "lha-min-2026-07-21"
+   ]
+  },
+  {
+   "text": "None of the city's 2026 PAB cap ($6,778,793) goes to this deal. The only 2026 letter of intent came from LHA itself (for 180 Emery Street).",
+   "src": [
+    "col-pab-page"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-05-14",
+   "event": "Longmont City Council adopts R-2024-25: intent to support PABs for Parkside & Mountain View Plaza and a carryforward election for the city's 2024 allocation",
+   "src": [
+    "col-res-r-2026-33",
+    "col-agenda-2024-05-14"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "A Lincoln Avenue-linked buyer buys both properties in two early-December deals, about $27M combined",
+   "src": [
+    "bizwest-2024-12-19",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "date": "2025-01-01",
+   "event": "HUD HAP contracts on both properties renewed (developer says for at least 20 more years)",
+   "src": [
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "date": "2025-05-13",
+   "event": "LHA Board adopts LHA-2025-08 (PAB inducement, up to $20M) 6-1",
+   "src": [
+    "lha-res-2025-08",
+    "lha-min-2025-05-13"
+   ]
+  },
+  {
+   "date": "2025-05-15",
+   "event": "LHA applies to DOLA for $5,740,908 of 2025 statewide balance (later awarded)",
+   "src": [
+    "lha-statewide-app-2025",
+    "lha-memo-2026-04-21"
+   ]
+  },
+  {
+   "date": "2025-11-17",
+   "event": "Lincoln Avenue applies to LHA for a property tax exemption partnership; reviewed by the LHA Advisory Board on 2025-12-09",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-adv-agenda-2025-12-09"
+   ]
+  },
+  {
+   "date": "2026-02-17",
+   "event": "LHA Board adopts LHA-2026-05: commitment to the tax exemption partnership, contingent on a credit award (6-0)",
+   "src": [
+    "lha-memo-2026-02-17",
+    "lha-min-2026-02-17"
+   ]
+  },
+  {
+   "date": "2026-04-21",
+   "event": "LHA Board adopts LHA-2026-08: intent to issue up to $16M in bonds, which CHFA required before considering the 4% application (7-0)",
+   "src": [
+    "lha-memo-2026-04-21",
+    "lha-res-2026-08",
+    "lha-min-2026-04-21"
+   ]
+  },
+  {
+   "date": "2026-06-09",
+   "event": "City Council approves R-2026-33 on consent (7-0), splitting the 2025 city PAB cap with Atwood Commons",
+   "src": [
+    "col-ccf-2026-06-09",
+    "col-res-r-2026-33",
+    "col-min-2026-06-09"
+   ]
+  },
+  {
+   "date": "2026-06-16",
+   "event": "LHA Board adopts LHA-2026-13 (enter the SLP) and LHA-2026-14 (issue the Series 2026 Multifamily Note, up to $16M), both 7-0; the memo says a tax credit award has been obtained",
+   "src": [
+    "lha-memo-2026-06-16",
+    "lha-min-2026-06-16",
+    "lha-agenda-2026-06-16"
+   ]
+  },
+  {
+   "date": "2026-08-17",
+   "event": "Target date for financing closing and construction start (June 2026 LHA memo). No record found confirming it happened.",
+   "src": [
+    "lha-memo-2026-06-16"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report (amounts subject to change)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Location map of both properties",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=ab784263-76b6-4faa-b69f-0f52d5c587ac",
+   "kind": "map",
+   "made_by": "Lincoln Avenue Communities (property tax exemption application)",
+   "note": "Page 4: regional map with both sites marked in central Longmont. No site plan or rendering was found in public packets.",
+   "src": [
+    "lac-slp-app-2025-11"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "CHFA prints $15,018,617 of PAB on both the Mountain View Plaza and the Parkside rows. LHA's resolution authorizes one combined note (not to exceed $16M) for both properties, so the figure is one issue, not $30M (chfa-4pct-award vs lha-res-2026-14).",
+  "CHFA's report also prints 'Longmont Housing Authority' and $15,018,617 on the 2025 '34th Street' row (Boulder, Boulder Housing Partners). That looks like a copy error in CHFA's report (inferred; chfa-4pct-award).",
+  "The one-time SLP fee is $476,488 in the February 2026 memo and worksheet, but $478,488 in the June 2026 memo (lha-memo-2026-02-17, lha-taxcalc-2026-02 vs lha-memo-2026-06-16).",
+  "The city's June 2026 council memo says all units would be restricted to 30% AMI or less (through the HAP vouchers). CHFA's award and the developer's application show LIHTC restrictions at 30% and 60% AMI, with about 25% of units at 30% (col-ccf-2026-06-09 vs chfa-4pct-award, lac-slp-app-2025-11).",
+  "The schedule slipped. The Nov 2025 application targeted an April 2026 construction start and December 2026 completion; the June 2026 LHA memo targets closing and construction start on 2026-08-17 (lac-slp-app-2025-11 vs lha-memo-2026-06-16).",
+  "The development budget carries $34.5M for acquisition, while BizWest reports about $27M paid in December 2024. The application says the existing ownership entities will sell to the new LIHTC partnership. That is a related-party resale at a higher (likely appraised) value; this is inferred (lha-budget-2026-02, lac-slp-app-2025-11 vs bizwest-2024-12-19).",
+  "The February 2026 budget lists CHFA upfront and ongoing issuer fees, although LHA ended up as issuer (lha-budget-2026-02 vs lha-res-2026-14)."
+ ],
+ "open_questions": [
+  "Whether the financing closed and the rehab started on or after 2026-08-17: no closing record, building permit or news found as of 2026-10-20.",
+  "Final equity investor, credit price, and final lender terms (the Nov 2025 application named PGIM as lender; the investor was not yet committed).",
+  "The per-property split of the $27M December 2024 purchase price (the BizWest article is paywalled), and the price in the related-party sale to the LIHTC partnership.",
+  "Final rehab scope and per-unit hard costs for each building, as permitted.",
+  "LURA term: the application says at least 30 years; the CHFA LURA is not public.",
+  "No site plans or renderings found in public packets."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "col-agenda-2024-05-14",
+   "title": "City Council Regular Session agenda, May 14, 2024 (item 9G, R-2024-25)",
+   "publisher": "City of Longmont",
+   "date": "2024-05-14",
+   "url": "https://longmont.primegov.com/Public/CompiledDocument?meetingTemplateId=12168&compileOutputType=1"
+  },
+  {
+   "id": "bizwest-2024-12-19",
+   "title": "California company nabs pair of Longmont apartment complexes (paywalled; headline and summary read)",
+   "publisher": "BizWest",
+   "date": "2024-12-19",
+   "url": "https://bizwest.com/2024/12/19/california-company-nabs-pair-of-longmont-apartment-complexes/"
+  },
+  {
+   "id": "lha-memo-2025-05-13",
+   "title": "LHA Board memo: Supporting Parkside & Mountain View Plaza with an application to Statewide Balance for PABs",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-05-13",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=318a77f7-8053-4cf2-9e67-f5e430f07198"
+  },
+  {
+   "id": "lha-res-2025-08",
+   "title": "Resolution LHA-2025-08 (PAB inducement, Parkside & Mountain View Plaza)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-05-13",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=030b8a33-ad23-4706-9d93-1983c4f4dd9d"
+  },
+  {
+   "id": "lha-statewide-app-2025",
+   "title": "LHA statewide balance PAB application letter to DOLA, Parkside & Mountain View Plaza",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-05-15",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=1bdbb093-b015-48a3-9690-26943c2ca1d8"
+  },
+  {
+   "id": "lha-min-2025-05-13",
+   "title": "LHA Board of Commissioners minutes, May 13, 2025",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-05-13",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=b280336e-d0d6-4181-86c3-764ada060e21"
+  },
+  {
+   "id": "lac-slp-app-2025-11",
+   "title": "Lincoln Avenue Communities, Property Tax Exemption Partnership Application to LHA - Parkside Apartments & Mountain View Plaza",
+   "publisher": "Lincoln Avenue Communities (in LHA Advisory Board packet, Dec 9, 2025)",
+   "date": "2025-11-17",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=ab784263-76b6-4faa-b69f-0f52d5c587ac"
+  },
+  {
+   "id": "lha-adv-agenda-2025-12-09",
+   "title": "LHA Advisory Board agenda, December 9, 2025",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-12-09",
+   "url": "https://longmont.primegov.com/Public/CompiledDocument?meetingTemplateId=15453&compileOutputType=1"
+  },
+  {
+   "id": "lha-memo-2026-02-17",
+   "title": "LHA Board memo: Property Tax Exemption Partnership with Lincoln Avenue Communities for Parkside & Mountain View Plaza",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-02-17",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=8edae6a3-c11d-4dd4-bcf5-dd1e11675c4a"
+  },
+  {
+   "id": "lha-budget-2026-02",
+   "title": "Parkside Mountain View Development Budget (LHA Board packet attachment 5a3)",
+   "publisher": "Lincoln Avenue Communities / LHA",
+   "date": "2026-02-17",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=c3d7f507-eb55-4d17-9d1a-f890d0f751c8"
+  },
+  {
+   "id": "lha-taxcalc-2026-02",
+   "title": "Property Tax Exemption Calculation Worksheet, Parkside & Mountain View Plaza",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-02-13",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=2602f70c-f24b-4bb8-a9dc-5c78249270ae"
+  },
+  {
+   "id": "lha-min-2026-02-17",
+   "title": "LHA Board of Commissioners minutes, February 17, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-02-17",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=ca2a64df-278d-4c3e-980b-6db454fc6a8b"
+  },
+  {
+   "id": "lha-memo-2026-04-21",
+   "title": "LHA Board memo: Parkside & Mountain View Plaza Private Activity Bond Acceptance and Issuance",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-04-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=e13cee9d-8a46-4859-a1bc-c68d800254cf"
+  },
+  {
+   "id": "lha-res-2026-08",
+   "title": "Resolution LHA-2026-08 (intent to issue bonds, Parkside & Mountain View Plaza)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-04-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=db7a1bd7-9405-4d08-bb55-d57e23cec0cb"
+  },
+  {
+   "id": "lha-min-2026-04-21",
+   "title": "LHA Board of Commissioners minutes, April 21, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-04-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=57d24a10-a7e8-4a52-8d3e-254f41c94817"
+  },
+  {
+   "id": "col-ccf-2026-06-09",
+   "title": "City Council Communication, item 9.G (R-2026-33), June 9, 2026",
+   "publisher": "City of Longmont",
+   "date": "2026-06-09",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=11cfbb7f-76a8-40e7-9da5-2767c1c892e5"
+  },
+  {
+   "id": "col-res-r-2026-33",
+   "title": "Resolution R-2026-33 amending and affirming R-2025-33 (2025 PAB assignment to LHA)",
+   "publisher": "City of Longmont",
+   "date": "2026-06-09",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=85c752b6-f585-4884-8441-599cad0a21f4"
+  },
+  {
+   "id": "col-min-2026-06-09",
+   "title": "City Council Regular Session minutes, June 9, 2026",
+   "publisher": "City of Longmont",
+   "date": "2026-06-09",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=d37b39ab-e0a2-478b-8a06-1cd4ae28af74"
+  },
+  {
+   "id": "lha-agenda-2026-06-16",
+   "title": "LHA Board of Commissioners agenda, June 16, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/Public/CompiledDocument?meetingTemplateId=16382&compileOutputType=1"
+  },
+  {
+   "id": "lha-memo-2026-06-16",
+   "title": "LHA Board memo: Parkside & Mountain View Plaza Special Limited Partnership and Bond Issuance",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=57f866a0-94ac-4d82-90ff-3b2e27a74724"
+  },
+  {
+   "id": "lha-res-2026-13",
+   "title": "Resolution LHA-2026-13 (consent to tax exemption partnership)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=84b00c9c-7759-4e25-b9fb-de32785d4e59"
+  },
+  {
+   "id": "lha-res-2026-14",
+   "title": "Resolution LHA-2026-14 (Multifamily Note, Parkside Apartments & Mountain View Plaza Projects, Series 2026)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=65436cde-4525-4572-b1c6-4f15c40e4270"
+  },
+  {
+   "id": "lha-min-2026-06-16",
+   "title": "LHA Board of Commissioners minutes, June 16, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=2049dd77-b371-43ea-90eb-edd998e75714"
+  },
+  {
+   "id": "lha-min-2026-07-21",
+   "title": "LHA Board of Commissioners special meeting minutes, July 21, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=40560daf-165b-4dc9-adc1-4b0beb3a8e98"
+  },
+  {
+   "id": "col-pab-page",
+   "title": "Private Activity Bonds (2026 schedule)",
+   "publisher": "City of Longmont",
+   "date": "2026",
+   "url": "https://longmontcolorado.gov/housing-and-community-investment/private-activity-bonds/"
+  }
+ ]
+}
