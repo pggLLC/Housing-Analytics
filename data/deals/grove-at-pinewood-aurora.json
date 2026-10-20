@@ -1,0 +1,516 @@
+{
+ "slug": "grove-at-pinewood-aurora",
+ "name": "The Grove at Pinewood",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 49,
+ "researched_on": "2026-10-20",
+ "headline": "Ulysses Development Group plans The Grove at Pinewood, a 49-unit, four-story family apartment building for households at 40-60% AMI on vacant land beside its 103-unit Pinewood Lodge senior property at 200 S. Ironton Street in Aurora; it won $1.8 million a year in federal 9% credit, $500,000 in state credit and $98,000 in TOC credit in CHFA's 2026 Round One.",
+ "why_it_matters": "It is an infill second phase on surplus land at an existing affordable senior property, using an Aurora Housing Authority special limited partnership to get a tax exemption and to offset Aurora's high water, sewer and impact fees; the AHA board took up that partnership in August 2026.",
+ "status": {
+  "label": "Credits awarded; housing authority partnership in progress; closing not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30. The Aurora Housing Authority board agenda for 2026-08-13 lists a special limited partnership presentation for The Grove at Pinewood and action on AHA Board Resolution No. 688; No public source shows the outcome. The applicant said it could close within six months of an award and break ground by the end of 2026; There is no public closing, permit or groundbreaking record.",
+  "src": [
+   "chfa-2026-r1-award",
+   "aha-agenda-2026-08-13",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Get the Aurora Housing Authority minutes for 2026-08-13 to confirm whether Resolution No. 688 (the special limited partnership) passed, then watch City of Aurora records for the minor subdivision plat and building permits.",
+ "key_numbers": [
+  {
+   "value": "49 homes, all income-restricted",
+   "meaning": "17 one-bedroom, 16 two-bedroom, 16 three-bedroom family apartments at 40-60% AMI (average 56.33%).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18M over the 10-year credit period, plus $500,000 state credit and $98,000 TOC credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "40 years of affordability",
+   "meaning": "The applicant commits to the 15-year compliance period plus a 25-year extended use period.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Second try",
+   "meaning": "The same 49 units applied as Pinewood Modular in 2025 Round One and were not funded.",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "200 S. Ironton Street, Aurora 80012 (shared parcel with Pinewood Lodge)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "County and census tract",
+   "value": "Arapahoe County; tract 77.03 (08005007703)",
+   "src": [
+    "census-geocoder"
+   ]
+  },
+  {
+   "item": "QCT / DDA",
+   "value": "Not in a QCT, DDA or SADDA (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction / resident type",
+   "value": "New construction; Individual/Family",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 1.57 acres of a 4.57-acre parcel; the rest (about 3.0 acres) holds Pinewood Lodge, a 103-unit affordable senior property owned by Ulysses",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "MU-C (Mixed-Use Corridor), no residential density maximum; applicant says zoning approval and entitlements are in hand",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story Type V building, slab on grade, panelized wood framing, elevator, double-loaded corridor; 46 surface parking spaces (7 EV-ready, 5 ADA); rooftop solar for common areas; all-electric",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "3 Type A mobility units and 1 hearing/vision unit",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Utilities",
+   "value": "Tenants pay water and electricity; owner pays sewer and trash",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD routes 3, 3L and 105 within 0.1-0.5 mile; about 0.1 mile from the Alameda and Havana Park-n-Ride; near Alameda Avenue and Havana Street",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "60% AMI units are underwritten at 55% AMI maximum rents; market study says rents are 10-59% below comparable properties",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 8
+  },
+  {
+   "level": "60% AMI",
+   "units": 36
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 17
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  },
+  {
+   "type": "3BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives",
+  "chfa-2025-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Awarded 2026 Round One; 10-year credit period, about $18M in total.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "Amount as CHFA prints it.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Transit Oriented Communities (TOC) credit",
+   "amount": "$98,000",
+   "note": "Amount as CHFA prints it.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Prop 123 Concessionary Debt, predevelopment",
+   "amount": "$538,230",
+   "note": "Per the 2026 applicant narrative, received May 2025 for predevelopment costs; the 2025 narrative described an award of up to $489,500. No state list confirming either figure was found.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent debt; tax credit equity",
+   "amount": "Not public",
+   "note": "Per the applicant, term sheets from KeyBank (debt) and Enterprise (equity).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "43% of developer fee",
+   "note": "Per the applicant; dollar amount not given. State heat pump rebates are also in the budget.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Ulysses Development Group",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Owner of the land and of Pinewood Lodge (per applicant)",
+   "name": "Ulysses Development Group",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Proposed special limited partner (tax exemption, waitlist)",
+   "name": "Housing Authority of the City of Aurora (Aurora Housing Authority)",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "aha-agenda-2026-08-13"
+   ]
+  },
+  {
+   "role": "General contractor (per applicant)",
+   "name": "Brinkman Construction",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (per applicant)",
+   "name": "Asset Living",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Construction/permanent lender (term sheet, per applicant)",
+   "name": "KeyBank",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Tax credit equity (term sheet, per applicant)",
+   "name": "Enterprise",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Intergenerational programming consultant (per applicant)",
+   "name": "Aging Dynamics",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Market study (per TOC narrative)",
+   "name": "Novogradac",
+   "src": [
+    "chfa-2026-r1-toc-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Ulysses acquired Pinewood Lodge, the existing 103-unit affordable senior property on the same parcel, in May 2024, per its 2025 narrative; the Grove is the second of two phases meant to create a cross-generational campus with shared parking, outdoor amenities and a shared management agreement. The purchase price is not public.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The same 49-unit design (17/16/16 bedrooms; 36 at 60%, 8 at 50%, 5 at 40% AMI) applied in CHFA's 2025 Round One as Pinewood Modular, requesting $1,598,467 federal 9%, $650,000 state and $63,700 TOC credit; it is not on the 2025 Round One award report.",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "text": "Land and local deal: about 1.57 acres will be split off from the 4.57-acre parcel through a City of Aurora Minor Subdivision Plat. Since November 2024 Ulysses has proposed an Aurora Housing Authority special limited partnership that would give the project the authority's waitlist and tax-exempt status and help offset Aurora's water, sewer and impact fees; AHA sent support letters, and further SLP steps were to follow an award.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The Aurora Housing Authority board scheduled a special limited partnership presentation for The Grove at Pinewood, an executive session on real estate matters, and action on AHA Board Resolution No. 688 at its 2026-08-13 meeting.",
+   "src": [
+    "aha-agenda-2026-08-13"
+   ]
+  },
+  {
+   "text": "Community outreach, per the applicant: a first public meeting in January 2025 (noticed to Pinewood Lodge residents and in the Sentinel) and a second meeting with Lodge residents in December 2025; Lodge residents raised concerns about construction and added density.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Environmental: the Phase I ESA found no recognized environmental conditions; radon is a business environmental risk, and a passive radon mitigation system is planned, per the applicant.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Applicant says the project meets Enterprise Green Communities and DOE Zero Energy Ready Homes standards and is consistent with the Aurora Places Plan's call for family and senior housing in diverse neighborhoods.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-05",
+   "event": "Ulysses acquires Pinewood Lodge (per applicant)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-11",
+   "event": "Ulysses approaches Aurora Housing Authority about a special limited partnership (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-01",
+   "event": "First public meeting on the project (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "Listed as Pinewood Modular on CHFA's 2025 Round One applicant report",
+   "src": [
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Prop 123 predevelopment funding received (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Not on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Second meeting with Pinewood Lodge residents (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letters of intent report",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-08-13",
+   "event": "Aurora Housing Authority board agenda: SLP presentation and Resolution No. 688 (outcome not found)",
+   "src": [
+    "aha-agenda-2026-08-13"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "On CHFA's 2026 Round One award report ($1.8M federal 9%, $500,000 state, $98,000 TOC)",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The 2025 narrative says the Prop 123 Concessionary Debt predevelopment award was up to $489,500, while the 2026 narrative says Ulysses received $538,230 in May 2025.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 2025 narrative puts the project on about 1.14 acres of a 4.5-acre parcel, while the 2026 narrative says about 1.57 acres of a 4.57-acre parcel.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Ulysses's 2025 narrative says Pinewood Lodge serves residents at 50% to 60% AMI, while another applicant's 2026 Round One narrative lists Pinewood Lodge as 55+ at 40-60% AMI.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the Aurora Housing Authority board approved Resolution No. 688 on 2026-08-13, and the SLP terms (ownership share, fees, property tax exemption).",
+  "Minor subdivision plat approval date and building permit status with the City of Aurora.",
+  "Total development cost, equity price, loan amounts and rents are not public.",
+  "Pinewood Lodge purchase price and seller; whether the land carries an existing affordability covenant.",
+  "Whether any units will have project-based vouchers; none are mentioned.",
+  "No public site plan or rendering was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "CHFA, 2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 Application Narratives, Round One (The Grove at Pinewood narrative, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-toc-narratives",
+   "title": "CHFA, 2026 TOC Credit Application Narratives, Round One (The Grove at Pinewood, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/b0cba85d-49b2-42d5-be59-6c61e7f0f9a5/2026-Round-One-TOC-Credit-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "CHFA, 2025 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "CHFA, 2025 Application Narratives, Round One (Pinewood Modular narrative, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "CHFA, 2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "aha-agenda-2026-08-13",
+   "title": "Housing Authority of the City of Aurora, Notice and agenda, regular meeting of August 13, 2026",
+   "publisher": "Aurora Housing Authority",
+   "date": "2026-08-07",
+   "url": "https://irp.cdn-website.com/cb9d28f1/files/uploaded/01.+Agenda+for+8.6.2026+meeting-de5df2af.pdf"
+  },
+  {
+   "id": "census-geocoder",
+   "title": "U.S. Census Bureau Geocoder, 200 S Ironton St, Aurora CO 80012 (current geographies)",
+   "publisher": "U.S. Census Bureau",
+   "date": "2026-10-20",
+   "url": "https://geocoding.geo.census.gov/geocoder/geographies/address?street=200+S+Ironton+St&city=Aurora&state=CO&zip=80012&benchmark=Public_AR_Current&vintage=Current_Current&layers=Census%20Tracts,Counties&format=html"
+  }
+ ]
+}

@@ -1,0 +1,516 @@
+{
+ "slug": "wildflower-flats-fort-lupton",
+ "name": "Wildflower Flats",
+ "city": "Fort Lupton",
+ "county": "Weld",
+ "units": 60,
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-20",
+ "headline": "Wildflower Flats is a planned 60-unit, all-affordable, three-story apartment building for adults 55 and older (30-60% AMI) at 1501 2nd Street in Fort Lupton's Vincent Village. It is sponsored by McDermott Properties and won 2026 Round One federal 9% and state housing tax credits.",
+ "why_it_matters": "It won on its second try. After losing in 2025 Round One, McDermott made the project deeper and more efficient: three more units, a shift of units from 60% to 50% AMI (now 47 of 60 at or below 50%), NGBS Silver, and more federal credit requested. It also uses a Fort Lupton Housing Authority special limited partnership for a property tax exemption, a model already used next door. Those are useful lessons for small-town senior 9% applications.",
+ "status": {
+  "label": "Credits awarded; city site plan under review; construction not started",
+  "detail": "CHFA announced the award on 2026-05-21, and its award report as of 2026-09-30 still lists it. On 2026-10-20 the City of Fort Lupton listed the Wildflower Flats Site Plan (SPR26-001) as under review, with the Planning Commission date to be determined. The application targeted closing and construction start for December 2026. There is no public record of a closing or building permit.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-news",
+   "fl-current-projects",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch for the Fort Lupton Planning Commission hearing on site plan SPR26-001, then a building permit and the financial closing targeted for December 2026.",
+ "key_numbers": [
+  {
+   "value": "60 homes for ages 55+, all income-restricted",
+   "meaning": "Units are at 30% (7), 40% (6), 50% (34) and 60% (13) AMI, in 2 studios, 42 one-bedrooms and 16 two-bedrooms.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,780,000 a year federal 9% credit + $500,000 state credit",
+   "meaning": "Federal credit is about $17.8M over 10 years (calculated), or $29,667 per unit a year by the applicant's figure.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "About $16.4M construction loan; about $3.5M permanent loan",
+   "meaning": "The application also lists about $14M in 9% equity, about $2.4M in state credit equity and about $443,000 of deferred developer fee.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Second-round winner",
+   "meaning": "A 57-unit version applied in 2025 Round One and does not appear on that round's award report.",
+   "src": [
+    "chfa-2025-r1-applicant",
+    "chfa-2025-r1-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1501 2nd Street, Fort Lupton, CO 80621",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "East of Rollie Avenue and north of State Highway 52/1st Street, in the Vincent Village master-planned community",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, older adult (N, OA)",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Density",
+   "value": "34.8 units per acre (about 1.7 acres, inferred from 60 units)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story wood frame on a post-tensioned slab, two hydraulic elevators, double-loaded halls. Brick, stucco and cementitious siding exterior.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "56 surface spaces (6 accessible, 2 EV charging, 6 EV-ready)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Silver, Energy Star appliances, electrification-ready. CHFA describes an all-electric-ready, solar-ready design.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "The applicant says zoning is in place and no rezoning is needed",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "City land-use case",
+   "value": "Wildflower Flats Site Plan, SPR26-001 (under review; Planning Commission date TBD)",
+   "src": [
+    "fl-current-projects",
+    "fl-spr26-001"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 34
+  },
+  {
+   "level": "60% AMI",
+   "units": 13
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 2
+  },
+  {
+   "type": "1BR",
+   "units": 42
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions",
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,780,000 per year",
+   "note": "Awarded 2026 Round One. Annual credit for 10 years.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Standard State Affordable Housing Tax Credit",
+   "amount": "$500,000",
+   "note": "Awarded 2026 Round One",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "source": "9% LIHTC equity",
+   "amount": "About $14 million",
+   "note": "Application estimate",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "State credit (AHTC) equity",
+   "amount": "About $2.4 million",
+   "note": "Application estimate",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Taxable construction loan",
+   "amount": "About $16.4 million",
+   "note": "Application estimate. Lender not named.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "About $3.5 million",
+   "note": "Application estimate, sized to a 1.15 debt coverage ratio. Lender not named.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "About $443,000",
+   "note": "Application estimate",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not quantified",
+   "note": "Through a special limited partnership with the Fort Lupton Housing Authority. The applicant counts it as local financial support.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "McDermott Properties, LLC",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Property manager (sponsor affiliate)",
+   "name": "ComCap Management",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner (property tax exemption)",
+   "name": "Fort Lupton Housing Authority",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Supportive services provider",
+   "name": "Eaton Senior Communities",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "role": "General contractor (cost estimator)",
+   "name": "Brinkman Construction",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "First try: in 2025 Round One, McDermott applied for a 57-unit version (41 one-bedroom and 16 two-bedroom units; 8 at 30%, 5 at 40%, 22 at 50% and 22 at 60% AMI) and asked for $1,509,564 federal and $650,000 state credit. Wildflower Flats does not appear on CHFA's 2025 Round One award report.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-applicant",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "text": "Redesign for 2026: the applicant added three units (including two studios) and four parking spaces. It moved units from 60% to 50% AMI so that 47 of 60 units are at 30-50% AMI, citing a market study finding 45% more income-eligible seniors at 50% AMI than at 60%. It also upgraded from NGBS Bronze to Silver.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Credit request grew over the cycle: $1,580,000 federal at the December 2025 LOI, then $1,780,000 at application and award. State credit was $500,000 throughout.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "text": "Local deal: there is no city loan or land contribution in the public record. Local support is a property tax exemption through a special limited partnership with the Fort Lupton Housing Authority, plus support letters from the mayor and the Housing Authority. The applicant also asked for CHFA's discretionary DDA basis boost, citing deep targeting and lower Weld County rents.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Precedent next door: the Housing Authority was also the special limited partner for Sagebrush Apartments (72 units, 1365 2nd Street, opened 2024), helping it get a PILOT tax arrangement. That appears to be the 72-unit family LIHTC in Vincent Village that the application says was completed in October 2023 (match inferred from address and unit count).",
+   "src": [
+    "tmo-sagebrush",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals: McDermott held three concept-plan review meetings with the City, the latest in November 2025 (a concept plan review was completed in May 2024). It said it would submit the site plan before CHFA's decision. The City now lists site plan SPR26-001 as under review.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r1-narratives",
+    "fl-current-projects"
+   ]
+  },
+  {
+   "text": "Community input: a virtual public hearing on 2026-01-15 drew no opposition. Some residents raised concerns that the property would be tax-exempt, and McDermott says it met with them.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Design reuse: Brinkman Construction estimated costs. The application says Brinkman built virtually the same building for McDermott twice before, at Lynwood Senior Apartments in Denver (2022/2023) and at Oakridge.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA calls this the first housing tax credit development for older adults in Fort Lupton. Eaton Senior Communities will provide on-site wellness services, and a grocery store, pharmacy, clinic and recreation center are within half a mile.",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-05",
+   "event": "Fort Lupton Planning completed a concept plan review (per the 2025 application)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "57-unit version listed on CHFA's 2025 Round One applicant report",
+   "src": [
+    "chfa-2025-r1-applicant"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "CHFA's 2025 Round One award report published, without Wildflower Flats",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Most recent of three concept-plan review meetings with the City",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One LOI report ($1,580,000 federal and $500,000 state requested)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-01-15",
+   "event": "Virtual public hearing held by McDermott; no opposition reported",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report ($1,780,000 federal and $500,000 state requested)",
+   "src": [
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announced 2026 Round One awards, including Wildflower Flats",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report at $1,780,000 federal and $500,000 state credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2026-10-20",
+   "event": "City lists site plan SPR26-001 as under review, with the Planning Commission date TBD",
+   "src": [
+    "fl-current-projects"
+   ]
+  },
+  {
+   "date": "2026-12",
+   "event": "Targeted closing and construction start (application projection, not confirmed)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Wildflower Flats Site Plan (SPR26-001) application folder",
+   "url": "https://www.fortluptonco.gov/DocumentCenter/Index/1093",
+   "kind": "site plan",
+   "made_by": "Applicant (McDermott Properties), posted by City of Fort Lupton Planning",
+   "note": "City Document Center folder for the site plan case. Its file list loads by script, so It is not confirmed which drawings it holds or their page numbers.",
+   "src": [
+    "fl-spr26-001",
+    "fl-current-projects"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Site plan contents and the hearing date. The SPR26-001 documents could not be listed without a browser.",
+  "Land seller, purchase price and closing. The application says only that land costs are reasonable.",
+  "Total development cost, equity investor and price, and construction and permanent lenders.",
+  "Terms of the Fort Lupton Housing Authority partnership (fee, exemption value) and any board resolution approving it.",
+  "Affordability period and whether any units get project-based vouchers.",
+  "Rents and utility allowances."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA Announces 2026 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 HTC Round One Application Narratives (Wildflower Flats, PDF pages 151-155)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "CHFA, 2026 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round 1 LOI Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "CHFA, 2025 HTC Round One Application Narratives (Wildflower Flats, PDF page 116 onward)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicant",
+   "title": "CHFA, 2025 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "CHFA, 2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "fl-current-projects",
+   "title": "City of Fort Lupton, Current Development Projects",
+   "publisher": "City of Fort Lupton",
+   "date": "2026-10-20",
+   "url": "https://www.fortluptonco.gov/463/Current-Development-Projects"
+  },
+  {
+   "id": "fl-spr26-001",
+   "title": "City of Fort Lupton Document Center, Wildflower Flats Site Plan (SPR26-001)",
+   "publisher": "City of Fort Lupton",
+   "date": "2026",
+   "url": "https://www.fortluptonco.gov/DocumentCenter/Index/1093"
+  },
+  {
+   "id": "tmo-sagebrush",
+   "title": "The Michaels Organization to Host Ribbon Cutting for New Affordable Multifamily Community in Fort Lupton",
+   "publisher": "The Michaels Organization",
+   "date": "2024-04",
+   "url": "https://tmo.com/the-michaels-organization-to-host-ribbon-cutting-for-new-affordable-multifamily-community-in-fort-lupton"
+  }
+ ]
+}

@@ -1,0 +1,465 @@
+{
+ "slug": "crawford-commons-clifton",
+ "name": "Crawford Commons",
+ "city": "Clifton",
+ "county": "Mesa",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-20",
+ "headline": "A 60-home, all income-restricted townhome-style family rental community on county-donated land in unincorporated Clifton, sponsored by Housing Resources of Western Colorado with Evergreen Real Estate Group; it won 2026 Round One federal 9% and state credits.",
+ "why_it_matters": "It is Clifton's first 9% award in about 25 years, built on land Mesa County donated, with a capital stack the sponsor calls fully committed: credits, a state grant, Capital Magnet Fund money and CHFA debt.",
+ "status": {
+  "label": "Credits awarded; construction expected spring 2027",
+  "detail": "CHFA lists the award as of 2026-09-30. September 2026 news reports say construction should start in spring 2027 after final financing approvals and finish in fall 2028; no closing or permit record was found.",
+  "src": [
+   "chfa-2026-r1-award",
+   "coloradobiz-2026",
+   "milehighcre-2026"
+  ]
+ },
+ "next_step": "Watch for the Mesa County site plan review and building permit, and for the financing closing ahead of a spring 2027 start.",
+ "key_numbers": [
+  {
+   "value": "60 homes, all income-restricted",
+   "meaning": "16 at 30% AMI, 14 at 60%, 14 at 70% and 16 at 80% AMI; 20 one-bedroom, 20 two-bedroom, 10 three-bedroom and 10 four-bedroom.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18 million over 10 years (inferred), plus $500,000 in state credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "About $24.5 million total cost",
+   "meaning": "Inferred from the application's total development cost of just under $408,739 per home; construction about $285,000 per home.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Land donated by Mesa County",
+   "meaning": "Given to the sponsor expressly for affordable housing, per CHFA and the application.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "32 1/2 Road and Friendship Drive, Clifton (unincorporated Mesa County)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction and residents",
+   "value": "New construction; individual/family, with 20 units given a preference for older adults (intergenerational)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "60 townhome-style rentals in six detached buildings, plus a separate community building with community room, flex space and management office",
+   "src": [
+    "coloradobiz-2026",
+    "milehighcre-2026"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned for multifamily (RMF-8 per the 2023 charrette); building permit expected 90-120 days after submission to Mesa County",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "kephart-charrette-2023"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "2023 charrette describes a 12-acre site next to the sponsor's Jay Lee Apartments, with 5.5 acres for stormwater and 6.5 acres for housing",
+   "src": [
+    "kephart-charrette-2023"
+   ]
+  },
+  {
+   "item": "Transit and services",
+   "value": "Next to a Grand Valley Transit Route 10 stop; about half a mile from the new Clifton Community Campus",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "All-electric and solar-ready design",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 16
+  },
+  {
+   "level": "60% AMI",
+   "units": 14
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  },
+  {
+   "level": "80% AMI",
+   "units": 16
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 20
+  },
+  {
+   "type": "2BR",
+   "units": 20
+  },
+  {
+   "type": "3BR",
+   "units": 10
+  },
+  {
+   "type": "4BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Annual credit for 10 years.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Housing Development Grant",
+   "amount": "$2,000,000",
+   "note": "Preliminary award, per the application; no DOLA award record was found online.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Capital Magnet Fund (Mercy Community Capital)",
+   "amount": "$1,500,000",
+   "note": "Commitment, per the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA SMART permanent loan and CHFA Housing Opportunity Fund",
+   "amount": "Not public",
+   "note": "Named in the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Donated",
+   "note": "Mesa County donated the land to the sponsor; the 2023 charrette budget showed $0 acquisition cost.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "kephart-charrette-2023"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Housing Resources of Western Colorado",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Turn-key developer",
+   "name": "Evergreen Real Estate Group",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "coloradobiz-2026"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Holst Architecture",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "coloradobiz-2026"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Shaw Construction",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "coloradobiz-2026"
+   ]
+  },
+  {
+   "role": "Land donor",
+   "name": "Mesa County",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Capital Magnet Fund lender",
+   "name": "Mercy Community Capital",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Mesa County originally donated the land to Housing Resources of Western Colorado for affordable housing; no county resolution or deed record was found online.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The sponsor, a nonprofit founded in 1977, owns and manages 181 affordable rental units in five properties, including the neighbouring Jay Lee Apartments in Clifton.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Per the application, it will be the first LIHTC development in Clifton in 22 years and the first 9% project in 25 years; CHFA says the first in more than 20 years.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Design started at a three-day design charrette in October 2023 (Housing Colorado Now, with University of Colorado Denver and Kephart). That concept used 8-plex apartments and 4-plex townhomes for 60-90 homes for households under 60% AMI, with a $26.7 million budget including $12.3 million in 9% equity and $2.8 million in Division of Housing grant. The awarded plan now serves 30%-80% AMI in six townhome buildings.",
+   "src": [
+    "kephart-charrette-2023",
+    "chfa-2026-r1-descriptions",
+    "coloradobiz-2026"
+   ]
+  },
+  {
+   "text": "Approvals: the site is already zoned for multifamily; the remaining public step is Mesa County formal site plan review. No county hearing or approval record was found.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study cited in the application: 5.4% capture rate; nearby Grand Valley Apartments (50 units) is full with more than 200 households waiting, and the Grand Junction Housing Authority waitlist is about 1,600 families.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Resident services: on-site workshops and counselling on renting, financial fitness and homebuying, from the sponsor.",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Supporters listed in the application include the Mesa County Board of Commissioners, City of Grand Junction, Grand Junction Housing Authority and Clifton community leaders; the application reports no significant opposition.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-10-07",
+   "event": "Design charrette (2023-10-05 to 2023-10-07) presents the Crawford Commons concept",
+   "src": [
+    "kephart-charrette-2023"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Listed on CHFA's 2026 Round One Letters of Intent report (PDF created 2025-12-08)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "Application narrative published in CHFA's 2026 Round One narratives (PDF created 2026-02-09)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 14 Round One awards, including Crawford Commons",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-09-03",
+   "event": "News reports on the award; construction expected to start spring 2027",
+   "src": [
+    "coloradobiz-2026",
+    "milehighcre-2026"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report with $1,800,000 federal and $500,000 state credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Expected construction start (spring 2027)",
+   "src": [
+    "coloradobiz-2026"
+   ]
+  },
+  {
+   "date": "2028",
+   "event": "Expected completion (fall 2028)",
+   "src": [
+    "coloradobiz-2026"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Charrette site plan concept",
+   "url": "https://kephart.com/wp-content/uploads/2023/10/2023-Final-Presentation.pdf",
+   "kind": "site plan",
+   "made_by": "Housing Colorado Now 2023 design charrette team (University of Colorado Denver students, Kephart, Housing Resources)",
+   "note": "PDF pages 31-33; 2023 concept, not the awarded design",
+   "src": [
+    "kephart-charrette-2023"
+   ]
+  },
+  {
+   "title": "Charrette building designs and floor plans (8-plex, 4-plex, clubhouse)",
+   "url": "https://kephart.com/wp-content/uploads/2023/10/2023-Final-Presentation.pdf",
+   "kind": "rendering",
+   "made_by": "Housing Colorado Now 2023 design charrette team",
+   "note": "PDF pages 35-44; 2023 concept",
+   "src": [
+    "kephart-charrette-2023"
+   ]
+  },
+  {
+   "title": "Site overview and imagery",
+   "url": "https://kephart.com/wp-content/uploads/2023/10/2023-Final-Presentation.pdf",
+   "kind": "photo",
+   "made_by": "Housing Colorado Now 2023 design charrette team",
+   "note": "PDF pages 22-23",
+   "src": [
+    "kephart-charrette-2023"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2023 charrette lists a site address of 513 Jaylee Street, Grand Junction 81504, while CHFA lists 32 1/2 Road and Friendship Drive, Clifton.",
+   "src": [
+    "kephart-charrette-2023",
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The CHFA loan amounts, equity price, rents and final total development cost are not public.",
+  "The Division of Housing grant ($2,000,000) and Capital Magnet Fund commitment ($1,500,000) were checked only against the application; no award record was found.",
+  "No Mesa County land donation resolution, site plan file or permit was found online.",
+  "Who will own and manage the finished property is not stated publicly.",
+  "Affordability period and any vouchers are not stated in public sources found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 Application Narratives - Round One (Crawford Commons Apartments, PDF pages 46-50)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA announces 2026 Round One Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "coloradobiz-2026",
+   "title": "Clifton affordable housing project awarded 9% low-income housing tax credit",
+   "publisher": "ColoradoBiz",
+   "date": "2026-09-03",
+   "url": "https://coloradobiz.com/clifton-affordable-housing-project-receives-tax-credit/"
+  },
+  {
+   "id": "milehighcre-2026",
+   "title": "Affordable Townhome Community in Clifton Awarded 9% Low-Income Housing Tax Credits",
+   "publisher": "Mile High CRE",
+   "date": "2026-09-03",
+   "url": "https://milehighcre.com/affordable-townhome-community-in-clifton-awarded-9-low-income-housing-tax-credits/"
+  },
+  {
+   "id": "kephart-charrette-2023",
+   "title": "Crawford Commons, Clifton, Colorado - Housing Colorado Now 2023 Design Charrette (final presentation)",
+   "publisher": "Kephart",
+   "date": "2023-10",
+   "url": "https://kephart.com/wp-content/uploads/2023/10/2023-Final-Presentation.pdf"
+  }
+ ]
+}

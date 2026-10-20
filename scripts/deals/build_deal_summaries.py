@@ -31,6 +31,21 @@ MATCH = {
     'parkside-apartments-longmont': {'agency': 'CHFA', 'year': 2026, 'names': ['Parkside Apartments (scattered site)']},
     'reserve-at-south-creek-englewood': {'agency': 'CHFA', 'year': 2026, 'names': ['Reserve at South Creek']},
     'lumberyard-apartments-aspen': {'agency': 'CHFA', 'year': 2026, 'names': ['Lumberyard Apartments']},
+    # 2026 Round One (federal 9%); names as the ledger prints them.
+    '123-manitou-manitou-springs': {'agency': 'CHFA', 'year': 2026, 'names': ['123 Manitou']},
+    'crossroads-at-divide-divide': {'agency': 'CHFA', 'year': 2026, 'names': ['Crossroads at Divide']},
+    'barth-hotel-denver': {'agency': 'CHFA', 'year': 2026, 'names': ['Barth Hotel']},
+    'commons-at-mosaic-denver': {'agency': 'CHFA', 'year': 2026, 'names': ['SH Commons at Mosaic', 'Commons at Mosaic']},
+    'montbello-townhomes-denver': {'agency': 'CHFA', 'year': 2026, 'names': ['Montbello Townhomes']},
+    'grove-at-pinewood-aurora': {'agency': 'CHFA', 'year': 2026, 'names': ['Grove at Pinewood']},
+    'metro-center-apartments-aurora': {'agency': 'CHFA', 'year': 2026, 'names': ['Metro Center Apartments']},
+    'willoughby-corner-phase-2-lafayette': {'agency': 'CHFA', 'year': 2026, 'names': ['Willoughby Corner Phase 2']},
+    'cedar-creek-commons-montrose': {'agency': 'CHFA', 'year': 2026, 'names': ['Cedar Creek Commons']},
+    'crawford-commons-clifton': {'agency': 'CHFA', 'year': 2026, 'names': ['Crawford Commons']},
+    'gardenwalk-of-canon-city': {'agency': 'CHFA', 'year': 2026, 'names': ['GardenWalk of Cañon City']},
+    'silver-key-apartments-colorado-springs': {'agency': 'CHFA', 'year': 2026, 'names': ['Silver Key Apartments at North Weber']},
+    'ute-mountain-homes-i-towaoc': {'agency': 'CHFA', 'year': 2026, 'names': ['Ute Mountain Homes I']},
+    'wildflower-flats-fort-lupton': {'agency': 'CHFA', 'year': 2026, 'names': ['Wildflower Flats']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
@@ -40,8 +55,10 @@ FORBIDDEN = [
     (re.compile(r'\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b'), 'a phone number'),
     (re.compile(r'indibuild', re.I), 'a developer brand that stays off the public site'),
     (re.compile(r'fruita', re.I), 'a Fruita project'),
+    # Summaries read as reference pages, not research notes.
+    (re.compile(r'\b(I (found|could|did|read|checked)|my (calculation|inference|reading))\b'), 'first-person research wording'),
 ]
-CITED = ['key_numbers', 'facts', 'money', 'parties', 'background', 'timeline', 'pictures']
+CITED = ['key_numbers', 'facts', 'money', 'parties', 'background', 'timeline', 'pictures', 'discrepancies']
 
 
 def problems(rec):
@@ -62,6 +79,9 @@ def problems(rec):
     known = set(ids)
     groups = [rec.get('status') or {}] + [x for k in CITED for x in (rec.get(k) or [])]
     for item in groups:
+        if not isinstance(item, dict):
+            out.append('item is not an object with src: %s' % json.dumps(item)[:80])
+            continue
         src = item.get('src') or []
         if not src:
             out.append('uncited item: %s' % json.dumps(item)[:80])

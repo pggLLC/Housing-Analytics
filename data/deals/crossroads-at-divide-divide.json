@@ -1,0 +1,448 @@
+{
+ "slug": "crossroads-at-divide-divide",
+ "name": "Crossroads at Divide",
+ "city": "Divide",
+ "county": "Teller",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 36,
+ "researched_on": "2026-10-20",
+ "headline": "A 36-home, all income-restricted new family apartment building at Clark Ranch Road and Lone Ranger Road in unincorporated Divide, sponsored by AmericaWest Housing Solutions with Riverstone Platform Partners, won 2026 Round One federal 9% and state housing tax credits from CHFA.",
+ "why_it_matters": "It is a rural mountain 9% deal with no local gap loan: it rides on Teller County's new wastewater capacity and Central Service Center next door, county fee discounts and shared Greccio management of nearby tax credit properties.",
+ "status": {
+  "label": "Credits awarded; site subdivision, permits and construction start not confirmed",
+  "detail": "CHFA reserved the credits in Round One (announced 2026-05-21). The application said the 2.41-acre parcel was being split from a 5.16-acre site with completion expected by summer 2026; no public record was found of the replat, a building permit, closing or groundbreaking.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-narratives",
+   "gazette-2026-05-31"
+  ]
+ },
+ "next_step": "Watch Teller County records for the replat of the 5.16-acre site and the building permit, then the financing closing.",
+ "key_numbers": [
+  {
+   "value": "36 homes, all income-restricted",
+   "meaning": "12 one- and 24 two-bedroom apartments for households at 30% to 70% of area median income.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18 million over the 10-year credit period, plus $500,000 in standard state credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "$25,000 county fee discount",
+   "meaning": "Teller County commissioners' discount on fees; no impact fees; Divide Water Providers to cut tap fees 5% to 30%.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Second try",
+   "meaning": "The same 36-unit deal applied in 2025 Round One and was not funded; the 2026 version added a clubhouse and leaned on new county infrastructure.",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Location",
+   "value": "Clark Ranch Road and Lone Ranger Road, Divide 80814 (unincorporated Teller County), near US 24 and CO 67",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction and residents",
+   "value": "New construction; individuals and families",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 2.41 acres of a 5.16-acre site being subdivided; zoned PUD for multifamily at up to 15 units per acre; no rezoning or variances needed",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story walk-up, wood frame with panelized walls where possible, Hardie and metal siding, metal roof; clubhouse with leasing office, flex space, gym and maintenance shop; shared laundry; 86 parking spaces",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, solar-ready, cold-climate heat pumps; NGBS Silver; 2018 IECC",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Rents (application)",
+   "value": "Below LIHTC maximums: 60% AMI units priced at 54% AMI and 70% AMI units at 56% AMI",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "QAP priority",
+   "value": "County population under 180,000 (Teller County 24,710 per the application)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Resident services",
+   "value": "Onsite in the clubhouse: financial literacy, adult and child literacy, health, eviction prevention, food security and referrals",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 5
+  },
+  {
+   "level": "60% AMI",
+   "units": 18
+  },
+  {
+   "level": "70% AMI",
+   "units": 8
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1 bedroom",
+   "units": 12
+  },
+  {
+   "type": "2 bedrooms",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions",
+  "gazette-2026-05-30"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "About $18 million over 10 years",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "CHFA does not say whether this is per year or total",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Taxable permanent debt",
+   "amount": "Not public",
+   "note": "Lender not named",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Teller County fee discount",
+   "amount": "$25,000",
+   "note": "Distributed at the commissioners' discretion; no impact fees",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Divide Water Providers tap fee discount",
+   "amount": "5% to 30% of tap fees",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA's award report prints it)",
+   "name": "AmericaWest Housing Solutions (nonprofit; developed Valley View Apartments in Woodland Park, 2017)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Co-sponsor / co-developer",
+   "name": "Riverstone Platform Partners",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Greccio Housing Unlimited, Inc. (Colorado Springs)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (cost estimates)",
+   "name": "Taylor Kohrs (Thornton), also building the Teller County Central Service Center",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Other team members",
+   "name": "S.B. Clark Companies; DTJ Design",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Replat co-applicant",
+   "name": "Teller County (with AmericaWest)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site is across the road from Teller County's new Central Service Center, which broke ground in July 2025, is planned to open by January 2027 and will employ about 80 people; the county will pave the roads to the west and south of the project.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The project has been allocated the sewer taps it needs from the existing plant; a new Divide wastewater facility was expected to start construction in summer 2026.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The parcel split is part of a series of building permit adjustments for the County Service Center, with AmericaWest a co-applicant with Teller County; the application ties its expedited handling to the county's Prop 123 commitment.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 5.16-acre site allows up to 77 units; AmericaWest plans a second phase for workforce households at or below 120% of area median income.",
+   "src": [
+    "gazette-2026-05-30",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Greccio, the manager, bought the adjacent 49-unit Hybrook Townhomes; with Valley View in Woodland Park it plans two full-time staff in Teller County, with the Crossroads clubhouse as their hub under an MOU with AmericaWest.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application cites demand from Cripple Creek casino jobs (the $222 million Chamonix Hotel and Casino), Charis Bible College and Pikes Peak Regional Hospital, and says Woodland Park and Cripple Creek have little developable land.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Only three other LIHTC properties serve the market area (Hybrook Townhomes I and II and Valley View Place), and a shared waitlist had 24 households, per the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Nearby, the 61-acre Alpine Vista subdivision on the former Saddle Club property is to add up to 300 homes and 100,000 square feet of commercial space.",
+   "src": [
+    "gazette-2026-05-30"
+   ]
+  },
+  {
+   "text": "The 2025 Round One application had the same 36-unit, one- and two-bedroom plan with 75 parking spaces and no clubhouse; it was not funded.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-02",
+   "event": "2025 Round One application: 36 units, $1,600,000 federal and $650,000 state credit requested; not awarded",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-07",
+   "event": "Teller County Central Service Center breaks ground across the road",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "2026 Round One letter of intent: 36 units, $1,780,000 federal credit",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "2026 Round One application: $1,800,000 federal and $500,000 state credit requested",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 2026 Round One awards, including Crossroads at Divide",
+   "src": [
+    "gazette-2026-05-31"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2027-01",
+   "event": "Planned opening of the Teller County Central Service Center",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of the Crossroads at Divide building",
+   "url": "https://gazette.com/2026/05/30/crossroads-at-divide-to-provide-affordable-apartments/",
+   "kind": "rendering",
+   "made_by": "Not credited (captioned 'Screenshot'); presumably the project team (inferred)",
+   "note": "Lead image of the article",
+   "src": [
+    "gazette-2026-05-30"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2026 application narrative says 11% of units (about 4 of 36) will be at 30% AMI, while CHFA's award description and The Gazette list 5 units at 30% AMI.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions",
+    "gazette-2026-05-30"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, equity investor and price, permanent lender and loan amount are not public.",
+  "Whether the replat has been recorded and a building permit issued; no Teller County record was found.",
+  "Affordability period/covenant length, final rents and construction start date are not public.",
+  "Owner entity name and any Teller County land or Prop 123 role beyond the fee discount and replat are not public.",
+  "No public site plan was found; the application attachments (master plan, sewer reroute) are not published."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Crossroads at Divide, from p. 51)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "2026 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round 1 LOI Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One Application Narratives (Crossroads at Divide, p. 31)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "gazette-2026-05-30",
+   "title": "Crossroads at Divide to provide affordable apartments",
+   "publisher": "The Gazette (Pikes Peak Courier)",
+   "date": "2026-05-30",
+   "url": "https://gazette.com/2026/05/30/crossroads-at-divide-to-provide-affordable-apartments/"
+  },
+  {
+   "id": "gazette-2026-05-31",
+   "title": "Three Pikes Peak region affordable housing projects awarded tax credits for construction",
+   "publisher": "The Gazette",
+   "date": "2026-05-31",
+   "url": "https://gazette.com/2026/05/31/three-pikes-peak-region-affordable-housing-projects-awarded-tax-credits-for-construction/"
+  }
+ ]
+}

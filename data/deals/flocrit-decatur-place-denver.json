@@ -9,7 +9,7 @@
  "why_it_matters": "It is a preservation deal with a full public capital stack (CHFA HUD Risk Share bonds, Denver HOME/CDBG, DHA vouchers, a state EPA climate grant) at about $539,000 per unit total cost, a useful benchmark for a deep electrification rehab of an occupied Section 8 building.",
  "status": {
   "label": "Credits awarded; closing and construction start not confirmed",
-  "detail": "CHFA lists the award (amounts subject to change), and Denver finished the HUD environmental review notice in April 2026. Mercy Housing says the rehab is planned to start in fall 2026 and run about 18 months; I found no public record of a closing, permit or start.",
+  "detail": "CHFA lists the award (amounts subject to change), and Denver finished the HUD environmental review notice in April 2026. Mercy Housing says the rehab is planned to start in fall 2026 and run about 18 months; There is no public record of a closing, permit or start.",
   "src": [
    "chfa-4pct-award",
    "denver-host-fonsi",
@@ -20,7 +20,7 @@
  "key_numbers": [
   {
    "value": "106 homes, all income-restricted",
-   "meaning": "100 at 50% AMI and 6 at 60% AMI (weighted average about 50.6% AMI, my calculation), with a Section 8 contract.",
+   "meaning": "100 at 50% AMI and 6 at 60% AMI (weighted average about 50.6% AMI, calculated), with a Section 8 contract.",
    "src": [
     "chfa-4pct-award"
    ]
@@ -42,7 +42,7 @@
   },
   {
    "value": "$57,166,609 total estimated cost",
-   "meaning": "About $539,300 per unit (my calculation), of which $25.0M is federal money.",
+   "meaning": "About $539,300 per unit (calculated), of which $25.0M is federal money.",
    "src": [
     "denver-host-fonsi"
    ]
@@ -171,7 +171,7 @@
   {
    "source": "Tax-exempt private activity bonds (CHFA issuer) / CHFA HUD Risk Share loan",
    "amount": "$18,000,000",
-   "note": "CHFA's award report lists $18,000,000 of PAB; Denver's HUD notice lists $18,000,000 of CHFA 542(c) Risk Share funds. That these are the same loan is my inference. Whose bond cap was used is not stated.",
+   "note": "CHFA's award report lists $18,000,000 of PAB; Denver's HUD notice lists $18,000,000 of CHFA 542(c) Risk Share funds. That these are the same loan is inferred. Whose bond cap was used is not stated.",
    "src": [
     "chfa-4pct-award",
     "denver-host-fonsi"
@@ -366,8 +366,15 @@
  ],
  "pictures": [],
  "discrepancies": [
-  "The bedroom mix as relayed in the task brief (1BR 82, 2BR 24) is off by one column: CHFA's mix table has 8 AMI/market columns before Studio, so the row reads Studio 0, 1BR 0, 2BR 82, 3BR 24, which matches Mercy Housing's page (82 two-bedroom, 24 three-bedroom) and CHFA's LIHTC property list (2 and 3 bedrooms).",
-  "CHFA classes the resident type as 'Supportive'; Mercy Housing and its loan fund describe it as a family property for single parents."
+  {
+   "text": "CHFA classes the resident type as 'Supportive'; Mercy Housing and its loan fund describe it as a family property for single parents.",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-decatur",
+    "mercy-loan-2016",
+    "mercy-loan-profile"
+   ]
+  }
  ],
  "open_questions": [
   "Equity investor and price, any seller note or acquisition price, deferred developer fee, GC and architect.",

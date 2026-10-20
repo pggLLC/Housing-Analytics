@@ -1,0 +1,639 @@
+{
+ "slug": "silver-key-apartments-colorado-springs",
+ "name": "Silver Key Apartments at North Weber",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 49,
+ "researched_on": "2026-10-20",
+ "headline": "Silver Key Apartments at North Weber is a 49-unit, all-affordable new-construction building for older adults (62+) at 30% to 60% AMI on a vacant lot at 2126 N. Weber Street in Colorado Springs' Old North End, sponsored by nonprofit Silver Key Senior Services, which won a 2026 Round One federal 9% and state housing tax credit award.",
+ "why_it_matters": "It shows a nonprofit service provider pairing a 9% deal with deeply discounted land ($350,000 against a $1.31M appraisal), city HOME money, county debt and a turnkey developer (MGL Partners), and getting a 49-unit building approved on an office-residential lot through a conditional use and a development standards adjustment, with affordable housing counted as the compensating benefit.",
+ "status": {
+  "label": "Credits awarded and land-use approvals granted; construction start not confirmed",
+  "detail": "City Planning Commission approved the conditional use and development standards adjustment on 2026-01-14. An administrative development plan was still required. CHFA announced the award on 2026-05-21. In July 2026 KOAA reported that construction is \"set to begin in February\" (year not stated; 2027 is inferred). There is no public record of a building permit, financial closing or groundbreaking.",
+  "src": [
+   "cs-legistar-cu",
+   "cs-staff-report",
+   "chfa-2026-r1-news",
+   "chfa-2026-r1-award",
+   "koaa-2026-07-24"
+  ]
+ },
+ "next_step": "Watch for the City's administrative Development Plan decision for 2126 N. Weber Street, a City Council or county action on the $600,000 HOME and $500,000 El Paso County loans, and a building permit ahead of the reported February start.",
+ "key_numbers": [
+  {
+   "value": "49 homes, all income-restricted, age 62+",
+   "meaning": "47 one-bedrooms and 2 two-bedrooms: 5 units at 30% AMI, 21 at 50% and 23 at 60% (average 52.65% AMI).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives",
+    "cs-staff-report"
+   ]
+  },
+  {
+   "value": "$1,697,491 a year in federal 9% credit",
+   "meaning": "About $16.97M over the 10-year credit period (calculated), plus $500,000 in standard state credit. The application priced the federal credit at $0.81 for $13,749,675 of equity.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$21,807,532 total estimated cost ($445,051 a unit)",
+   "meaning": "From the February 2026 application narrative; below the roughly $497,900 Colorado per-unit average the narrative cites.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Land bought for $350,000; appraised at $1,310,000",
+   "meaning": "The seller sold at a deep discount in September 2025 but can buy the land back at 110% of the price if construction of low-income senior housing has not started by 2028-09-05.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2126 N. Weber Street, Colorado Springs 80907 (southwest corner of N. Weber Street and E. Madison Street)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives",
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "El Paso",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "Construction / resident type",
+   "value": "New construction; Older Adult (CHFA codes N, OA)",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "49 total, 49 income-restricted",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "item": "Ages served",
+   "value": "62 and older",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-05-31"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Lots 11-16, Block 513, North End Addition No. 2; one lot of record through a waiver of replat. Staff report: 1.31 acres (57,064 sq ft); narrative: 1.22 acres",
+   "src": [
+    "cs-staff-report",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "OR (Office Residential); multifamily allowed only as a conditional use, and the OR use standard caps a building at 10 units",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story building, 35 feet, two elevators, flat roof; stucco, brick and fiber-cement siding; NGBS Silver minimum",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "33 off-street spaces (11 accessible, 18 EV-ready) plus 15 on-street; code minimum after senior, transit and bike reductions is 30",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "QCT / DDA",
+   "value": "Not in a QCT, DDA or SADDA",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Historic context",
+   "value": "Adjacent to, but outside, the North End Historic District and North End Historic Preservation Overlay",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Part-time on-site service coordinator paid from the operating budget, shuttle to Silver Key headquarters, Connections Café meals five days a week",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 21
+  },
+  {
+   "level": "60% AMI",
+   "units": 23
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 47
+  },
+  {
+   "type": "2BR",
+   "units": 2
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives",
+  "cs-staff-report",
+  "gazette-2026-05-31"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,697,491 per year",
+   "note": "Awarded, Round One 2026; same as requested. Application assumed $13,749,675 of equity at $0.81.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "Application shows $500,000 of state credit equity at $0.70.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "First mortgage",
+   "amount": "$2,350,000",
+   "note": "Lender not named publicly.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$1,862,000",
+   "note": "Proposed in the application; the narrative elsewhere calls it CDOH HDG funding.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs HOME funds",
+   "amount": "$600,000",
+   "note": "Proposed; triggers Build America, Buy America. Silver Key said it was trying to raise local money to replace it.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "El Paso County subordinate loan",
+   "amount": "$500,000",
+   "note": "Proposed, low-cost.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Silver Key Foundation",
+   "amount": "$250,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Energy Office Charge Ahead",
+   "amount": "$40,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$355,857",
+   "note": "12.82% of the fee, repaid by Year 15.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "City incentives",
+   "amount": "Not quantified",
+   "note": "Fee waivers, city sales and use tax rebate, and Rapid Response expedited review.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it); applicant and property owner",
+   "name": "Silver Key Senior Services, Inc.",
+   "src": [
+    "chfa-2026-r1-award",
+    "cs-staff-report"
+   ]
+  },
+  {
+   "role": "Turnkey developer",
+   "name": "MGL Partners",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Way Architects, P.C.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "cs-site-plan"
+   ]
+  },
+  {
+   "role": "General contractor (as proposed)",
+   "name": "B.C. Builders",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Planning consultant / civil engineering",
+   "name": "N.E.S., Inc. (planning); JPS Engineering (civil)",
+   "src": [
+    "cs-staff-report",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (as proposed)",
+   "name": "Silva Management Partners",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site was a State Division of Wildlife office from the 1960s; the state left in 2005 and the buildings were removed around 2011. A 2017 City approval for a 44-unit apartment building was never built and expired in 2023, and the empty lot drew complaints about camping, weeds and trash.",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "text": "Silver Key bought the land in September 2025 for $350,000 against a July 2025 appraisal of $1,310,000 and owns it free and clear. The purchase agreement lets the seller repurchase at 110% of the price if construction of low-income senior housing has not begun within 36 months of closing (by 2028-09-05). The seller is not named.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "On 2026-01-14 the City Planning Commission approved a conditional use for multifamily in the OR zone (CUDP-25-0030) and a development standards adjustment to allow 49 units in one building where 10 is the maximum (DVSA-25-0009). Affordable housing was the compensating benefit. The vote was reported as unanimous.",
+   "src": [
+    "cs-legistar-cu",
+    "cs-legistar-dvsa",
+    "cs-staff-report",
+    "gazette-2026-01-20",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "City staff said a Development Plan is still required; it is decided administratively but with public notice. Engineering flagged possible paving of the west alley, and on-street parking on narrow Madison Street (26 feet wide) is to be reviewed at that stage.",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "text": "The staff report says affordability will be fixed by a future deed restriction or land use restriction agreement. The length of the affordability period is not stated in the public sources checked.",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "text": "Public comment was mixed: 15 emails plus calls and a neighborhood meeting, with concerns about building size, parking and alley traffic, and support for replacing a nuisance lot with senior housing.",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "text": "This is Silver Key's second LIHTC development after the 50-unit Silver Key Apartments at South Murray, also delivered with MGL; Silver Key reported a waitlist of over 410 applicants.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Silver Key set a goal of raising $800,000 for a legacy fund to help offset rents for residents at or below 30% AMI.",
+   "src": [
+    "gazette-2026-01-20"
+   ]
+  },
+  {
+   "text": "CHFA's Round One letter-of-intent list (2025-12-08) showed the deal at 49 units seeking $1,700,000 in federal and $500,000 in state credit; the February 2026 application requested $1,697,491, the amount awarded.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-09",
+   "event": "Silver Key buys the 2126 N. Weber Street lot for $350,000",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-10-07",
+   "event": "Conditional use and development standards adjustment applications submitted to the City",
+   "src": [
+    "cs-staff-report"
+   ]
+  },
+  {
+   "date": "2025-11-20",
+   "event": "KOAA reports Silver Key's proposal (47 units at the time)",
+   "src": [
+    "koaa-2025-11-20"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letter-of-intent report",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Silver Key holds a community meeting",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-01-14",
+   "event": "City Planning Commission approves the conditional use and development standards adjustment",
+   "src": [
+    "cs-legistar-cu",
+    "cs-legistar-dvsa"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report; application narrative published",
+   "src": [
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 2026 Round One awards, including this deal",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-07-24",
+   "event": "KOAA reports construction is set to begin in February and take 16 to 18 months",
+   "src": [
+    "koaa-2026-07-24"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "CHFA Round One award report (as of date) lists $1,697,491 federal and $500,000 state credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Conceptual site plan, Silver Key at Weber",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/a9651a7a-ac82-448a-9043-cf3f7273178d.pdf",
+   "kind": "site plan",
+   "made_by": "Way Architects, P.C. (for Silver Key)",
+   "note": "Attachment 11 to Planning Commission file CUDP-25-0030; single page, marked conceptual only",
+   "src": [
+    "cs-legistar-cu"
+   ]
+  },
+  {
+   "title": "Conceptual east elevation",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/83e03369-fcab-4411-a80f-25e19704407e.pdf",
+   "kind": "rendering",
+   "made_by": "Way Architects, P.C. (inferred from matching drawing set)",
+   "note": "Attachment 13 to CUDP-25-0030; single page, architectural elevation drawing",
+   "src": [
+    "cs-legistar-cu"
+   ]
+  },
+  {
+   "title": "Building massing comparison exhibit",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/1ba913fd-36e2-40fa-ab1a-e2e9f413ab01.pdf",
+   "kind": "site plan",
+   "made_by": "Applicant's architect (CAD drawing)",
+   "note": "Attachment 14 to CUDP-25-0030; single page comparing the building with nearby buildings",
+   "src": [
+    "cs-legistar-cu"
+   ]
+  },
+  {
+   "title": "City staff presentation, Planning Commission 2026-01-14",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/f69f83ca-a6a9-4d5f-9c27-dcc20b52e1e5.pdf",
+   "kind": "site plan",
+   "made_by": "City of Colorado Springs Planning Department",
+   "note": "Pages 3-4 show the site plan and architecture/building size comparison",
+   "src": [
+    "cs-legistar-cu"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Unit count: KOAA's November 2025 report described 47 units and the Gazette's December 2025 site-plan article described 50 units (47 one-bedroom and 3 two-bedroom), while the City staff report, the CHFA application and the award report give 49 units (47 one-bedroom and 2 two-bedroom).",
+   "src": [
+    "koaa-2025-11-20",
+    "gazette-2025-12-14",
+    "cs-staff-report",
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "text": "Site size: the City staff report and staff presentation give 1.31 acres (57,064 sq ft), while the CHFA application narrative and KOAA give about 1.22 acres (1.223 acres).",
+   "src": [
+    "cs-staff-report",
+    "cs-presentation",
+    "chfa-2026-r1-narratives",
+    "koaa-2026-01-16"
+   ]
+  },
+  {
+   "text": "Construction start: the Gazette in January 2026 said construction could start that summer, the Gazette in May 2026 said groundbreaking was expected later in 2026, the application narrative said the project would be ready to start by April 2027, and KOAA in July 2026 said construction was set to begin in February.",
+   "src": [
+    "gazette-2026-01-20",
+    "gazette-2026-05-31",
+    "chfa-2026-r1-narratives",
+    "koaa-2026-07-24"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Has the administrative Development Plan been approved, and has a building permit been issued?",
+  "Have the $600,000 City HOME funds and the $500,000 El Paso County loan been formally approved, or was the HOME money replaced with local funds to avoid Build America, Buy America costs?",
+  "The narrative's listed sources add to $20,207,532, about $1.6M less than its stated $21,807,532 total cost (calculated); the source of the difference is not public.",
+  "The narrative shows $500,000 of state credit equity at $0.70 against a $500,000 state credit award; how the state credit is counted is not explained publicly.",
+  "Lender, equity investor, final rents, affordability period and the land seller's identity are not public."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "CHFA, 2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round One Letter of Intent Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 Application Narratives - Round One (Silver Key Apartments at North Weber narrative)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA Announces 2026 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "cs-legistar-cu",
+   "title": "City of Colorado Springs Legistar, CUDP-25-0030, Conditional Use for Multi-Family Dwelling at 2126 North Weber Street (City Planning Commission, approved 2026-01-14)",
+   "publisher": "City of Colorado Springs",
+   "date": "2026-01-14",
+   "url": "https://coloradosprings.legistar.com/LegislationDetail.aspx?ID=7793914&GUID=E097C00C-DB70-415C-B5CC-D0F1E54DCD2A"
+  },
+  {
+   "id": "cs-legistar-dvsa",
+   "title": "City of Colorado Springs Legistar, DVSA-25-0009, Development Standards Adjustment for a 49-unit Multi-Family Dwelling at 2126 North Weber Street",
+   "publisher": "City of Colorado Springs",
+   "date": "2026-01-14",
+   "url": "https://coloradosprings.legistar.com/LegislationDetail.aspx?ID=7793915&GUID=48609D09-9F48-4B0E-9987-506A892459DC"
+  },
+  {
+   "id": "cs-staff-report",
+   "title": "City of Colorado Springs Planning Department, Staff Report, Silver Key Apartments (CUDP-25-0030, DVSA-25-0009)",
+   "publisher": "City of Colorado Springs",
+   "date": "2026-01-14",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/50eabff5-e22e-42d3-ae08-4258ef2d516e.docx"
+  },
+  {
+   "id": "cs-presentation",
+   "title": "City of Colorado Springs, Staff Presentation, Silver Key Apartments, City Planning Commission 2026-01-14",
+   "publisher": "City of Colorado Springs",
+   "date": "2026-01-14",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/f69f83ca-a6a9-4d5f-9c27-dcc20b52e1e5.pdf"
+  },
+  {
+   "id": "cs-site-plan",
+   "title": "Attachment 11 - Site Plan Concept, Silver Key at Weber (Way Architects)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/a9651a7a-ac82-448a-9043-cf3f7273178d.pdf"
+  },
+  {
+   "id": "koaa-2025-11-20",
+   "title": "Silver Key proposes 47-unit senior apartment complex for Colorado Springs' Old North End",
+   "publisher": "KOAA News5",
+   "date": "2025-11-20",
+   "url": "https://www.koaa.com/news/local-news/silver-key-proposes-47-unit-senior-apartment-complex-for-colorado-springs-old-north-end"
+  },
+  {
+   "id": "gazette-2025-12-14",
+   "title": "Site plan gives details on new senior citizen housing project on N. Weber Street",
+   "publisher": "The Gazette",
+   "date": "2025-12-14",
+   "url": "https://gazette.com/2025/12/14/site-plan-gives-details-on-new-senior-citizen-housing-project-on-n-weber-street/"
+  },
+  {
+   "id": "koaa-2026-01-16",
+   "title": "Silver Key receives approval for new affordable senior housing development",
+   "publisher": "KOAA News5",
+   "date": "2026-01-16",
+   "url": "https://www.koaa.com/news/local-news/silver-key-receives-approval-for-new-affordable-senior-housing-development"
+  },
+  {
+   "id": "gazette-2026-01-20",
+   "title": "Silver Key Senior Services gets green light for second affordable housing complex in Colorado Springs",
+   "publisher": "The Gazette",
+   "date": "2026-01-20",
+   "url": "https://gazette.com/2026/01/20/silver-key-senior-services-gets-green-light-for-second-affordable-housing-complex-in-colorado-springs/"
+  },
+  {
+   "id": "gazette-2026-05-31",
+   "title": "Three Pikes Peak region affordable housing projects awarded tax credits for construction",
+   "publisher": "The Gazette",
+   "date": "2026-05-31",
+   "url": "https://gazette.com/2026/05/31/three-pikes-peak-region-affordable-housing-projects-awarded-tax-credits-for-construction/"
+  },
+  {
+   "id": "koaa-2026-07-24",
+   "title": "Silver Key's next affordable senior housing site coming to Old North End",
+   "publisher": "KOAA News5",
+   "date": "2026-07-24",
+   "url": "https://www.koaa.com/news/local-news/in-your-community/central-springs/silver-keys-next-affordable-senior-housing-site-coming-to-old-north-end"
+  }
+ ]
+}

@@ -1,0 +1,567 @@
+{
+ "slug": "barth-hotel-denver",
+ "name": "Barth Hotel",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-20",
+ "headline": "Eaton Senior Communities plans to buy and fully renovate the vacant, landmarked Barth Hotel in Lower Downtown Denver into 50 studio apartments for seniors 62+ earning 30% to 50% AMI, and won 2026 Round One federal 9%, state and TOC credits from CHFA.",
+ "why_it_matters": "It shows how an old affordability covenant on a building can keep a prime downtown site in senior housing: the covenant held the purchase price down, and a new Downtown Development Authority loan helped fill the gap. The deal still has to close by 2026-12-31 or the building goes to a hotelier.",
+ "status": {
+  "label": "Credits awarded; purchase closing not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30, and BusinessDen reported the award in May 2026. Eaton must close on the building by 2026-12-31, or the hotel option passes to Sage Hospitality. There is no public record of the closing, a building permit or a construction start. Construction is expected in 2027.",
+  "src": [
+   "chfa-2026-r1-award",
+   "bden-2026-05-26",
+   "bden-2026-02-02",
+   "denver-ddda-release"
+  ]
+ },
+ "next_step": "Watch for a recorded deed or covenant amendment for 1514 17th St. (Denver Clerk and Recorder) and the financing closing before 2026-12-31. Without that closing the agreed fallback to the hotel plan takes effect.",
+ "key_numbers": [
+  {
+   "value": "50 studios, all income-restricted",
+   "meaning": "Independent living for seniors 62+ at 30% to 50% AMI, cut down from a 62-unit former rooming house and assisted living building.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives",
+    "bden-2025-05-05"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "About $14.5M over the 10-year credit period, plus $500,000 state credit and $100,000 TOC credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "Up to $6M DDDA loan",
+   "meaning": "A low-interest loan from the Denver Downtown Development Authority, approved 2026-01-27. It may shrink to about $4M if historic tax credits come through.",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "value": "About $22M total cost",
+   "meaning": "That is the city staff estimate as the Gazette reported it. The applicant says the credit ask is about $200,000 per unit, well below new construction.",
+   "src": [
+    "gazette-2026-01-28",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1514 17th St., Denver, CO 80202 (corner of 17th and Blake streets, two blocks from Union Station)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives",
+    "bden-2026-05-26"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "A/R, OA: acquisition/rehab, older adult",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "Independent living for seniors aged 62+, with on-site services from Eaton",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "item": "Historic status",
+   "value": "Built 1882. Listed on the National Register (1982) and state register, and a designated Denver landmark in the Lower Downtown Historic District",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "item": "Difficult Development Area",
+   "value": "The applicant says the site is in a 2026 DDA",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Two blocks from Union Station. Residents get an RTD pass, and its cost is in the development budget",
+   "src": [
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Occupancy today",
+   "value": "Vacant since December 2024, after the elevator failed",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-01-28"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 35
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 50
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives",
+  "denver-ddda-release",
+  "chfa-2026-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "Awarded in 2026 Round One. At the December 2025 letter-of-intent stage the request was $1,300,000.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$100,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Denver Downtown Development Authority loan",
+   "amount": "Up to $6,000,000",
+   "note": "Low-interest loan approved 2026-01-27 by a 5-2 board vote. It must be repaid before any future sale. The board hopes historic credits cut its stake to about $4M. A city official said repayment could take about 40 years, and the loan might never be fully repaid.",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing soft funds",
+   "amount": "Not public",
+   "note": "The applicant calls them committed.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Existing City of Denver HOST loan",
+   "amount": "Not public",
+   "note": "Stays on the property. CDOH and HOST committed to amend the existing covenants to the new unit count and AMIs.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Federal and state historic tax credits",
+   "amount": "Not public",
+   "note": "Being applied for. These may reduce the DDDA loan.",
+   "src": [
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "source": "Permanent debt and deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Eaton Senior Communities, Inc. (Lakewood-based nonprofit serving people 62+ since 1980)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "Urban Ventures Development Services",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction",
+   "src": [
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "role": "Energy/sustainability consultant",
+   "name": "Group14",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Seller (current owner)",
+   "name": "Senior Housing Options (owner from the late 1970s)",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "role": "Gap lender",
+   "name": "Denver Downtown Development Authority",
+   "src": [
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "role": "Fallback buyer if the deal does not close by 2026-12-31",
+   "name": "Sage Hospitality (hotel next door)",
+   "src": [
+    "bden-2026-02-02",
+    "bden-2025-09-22"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Opened in 1882 as a liquor wholesaler's warehouse, it soon became a hotel, last known as Hotel Barth. It was converted to housing around 1980.",
+   "src": [
+    "gazette-2026-01-28",
+    "bden-2025-09-22"
+   ]
+  },
+  {
+   "text": "Senior Housing Options ran it as a room-and-board SRO and later as a Medicaid-funded assisted living facility. The owner moved residents out by December 2024 after the elevator failed and listed the 62-unit building for sale. The listing broker estimated it needs at least $10M of work.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bden-2025-05-05"
+   ]
+  },
+  {
+   "text": "Earlier CHFA, CDOH and City of Denver funding left affordability covenants on the property. The Gazette describes a 60-year affordable housing covenant. The applicant says these covenants keep the purchase price well below market.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "text": "In September 2025 the CEO of Sage Hospitality was under contract to buy the Barth and turn it back into a hotel, which would require lifting the covenants. City Council members raised concerns.",
+   "src": [
+    "bden-2025-09-22"
+   ]
+  },
+  {
+   "text": "In early 2026 the two sides agreed that Eaton has until 2026-12-31 to buy the building. If it does not close by then, the hotelier gets his chance at a 40-room hotel.",
+   "src": [
+    "bden-2026-02-02"
+   ]
+  },
+  {
+   "text": "Eaton has site control through an executed purchase and sale agreement. The purchase price is not public; the building was listed for $2.5M in 2025.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "bden-2025-05-05"
+   ]
+  },
+  {
+   "text": "Rehab scope: full interior gut with the historic lobby and corridors kept. Units are enlarged so each has a bathroom and galley kitchen. All MEP is replaced, with heat pumps and cooling, and the building goes all-electric. Work adds a new 5-stop stretcher-size elevator plus a LULA to the basement, an NFPA 13 sprinkler system, new electrical service and refurbished historic windows. It follows Enterprise Green Communities.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "text": "CHFA granted a waiver so the units need no dishwashers, because the historic layout limits space.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Ground floor: lobby and amenity space, service offices, a food pantry with cold storage, a potluck kitchen and laundry. The mezzanine holds a library, exercise space and health and wellness rooms.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says the LoDo District and the LoDoNa registered neighborhood organization support the project.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "At the December 2025 letter-of-intent stage CHFA coded the deal Older Adult, Veterans and acquisition/rehab. By the February 2026 application it was coded Older Adult and acquisition/rehab only.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-applicants"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1882",
+   "event": "Building opens; it soon becomes a hotel",
+   "src": [
+    "gazette-2026-01-28",
+    "denver-ddda-release"
+   ]
+  },
+  {
+   "date": "1982",
+   "event": "Added to the National Register of Historic Places",
+   "src": [
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Building vacated",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "date": "2025-05-05",
+   "event": "BusinessDen reports the building is listed for sale",
+   "src": [
+    "bden-2025-05-05"
+   ]
+  },
+  {
+   "date": "2025-09-22",
+   "event": "Sage Hospitality CEO reported under contract to buy it for a hotel",
+   "src": [
+    "bden-2025-09-22"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letters-of-intent report (federal 9% request $1,300,000)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-01-27",
+   "event": "DDDA board approves a loan of up to $6M",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "date": "2026-02-02",
+   "event": "BusinessDen reports Eaton has until year end to buy, or the hotel option takes over",
+   "src": [
+    "bden-2026-02-02"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-05-26",
+   "event": "BusinessDen reports the project was awarded tax credits",
+   "src": [
+    "bden-2026-05-26"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2026-12-31",
+   "event": "Deadline for Eaton to close the purchase",
+   "src": [
+    "bden-2026-02-02"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Construction expected to start (spring 2027 per city staff presentation), with completion by early 2028",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photo of the Barth Hotel building at 1514 17th St.",
+   "url": "https://businessden.com/lodo-landmark-barth-hotel-now-vacant-listed-for-2-5m/",
+   "kind": "photo",
+   "made_by": "NAI Shames Makovsky (listing broker), via BusinessDen",
+   "note": "Lead photo of the article",
+   "src": [
+    "bden-2025-05-05"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Denver's DDDA release calls the $6M a low-interest loan, while the Denver Gazette says the board voted to grant $6 million.",
+   "src": [
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  },
+  {
+   "text": "CHFA and the city name the sponsor Eaton Senior Communities, Inc., while the Denver Gazette calls it Eaton Senior Services.",
+   "src": [
+    "chfa-2026-r1-award",
+    "denver-ddda-release",
+    "gazette-2026-01-28"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Purchase price and closing date (the building was listed at $2.5M; the price under the executed PSA is not public).",
+  "Amounts of the CDOH soft loan, the existing HOST loan balance, permanent debt and historic tax credit equity, plus the lender and syndicator.",
+  "Terms of the city covenant/loan amendment that set the 2026-12-31 deadline. There is no public Denver Council record of it.",
+  "Length of the new CHFA affordability period (LURA).",
+  "Whether any project-based vouchers or rental subsidy apply. The CHFA reports show none."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One application narratives (Barth Hotel, PDF pages 26-30)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-toc-narratives",
+   "title": "2026 Round One TOC credit narratives (Barth Hotel, PDF pages 7-8)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/b0cba85d-49b2-42d5-be59-6c61e7f0f9a5/2026-Round-One-TOC-Credit-Narratives.pdf"
+  },
+  {
+   "id": "denver-ddda-release",
+   "title": "DDDA Approves Renovation of Historic Barth Hotel",
+   "publisher": "City and County of Denver",
+   "date": "2026-01-27",
+   "url": "https://denvergov.org/News-articles/2026/DDDA-Approves-Renovation-of-Historic-Barth-Hotel"
+  },
+  {
+   "id": "gazette-2026-01-28",
+   "title": "Denver's historic Barth Hotel to get $6M from downtown authority",
+   "publisher": "Denver Gazette",
+   "date": "2026-01-28",
+   "url": "https://www.denvergazette.com/2026/01/28/denvers-historic-barth-hotel-to-get-6m-from-downtown-authority/"
+  },
+  {
+   "id": "bden-2025-05-05",
+   "title": "LoDo landmark Barth Hotel, now vacant, listed for $2.5M",
+   "publisher": "BusinessDen",
+   "date": "2025-05-05",
+   "url": "https://businessden.com/lodo-landmark-barth-hotel-now-vacant-listed-for-2-5m/"
+  },
+  {
+   "id": "bden-2025-09-22",
+   "title": "Walter Isenberg wants to bring nightly stays back to the Barth Hotel",
+   "publisher": "BusinessDen",
+   "date": "2025-09-22",
+   "url": "https://businessden.com/walter-isenberg-sage-hospitality-barth-hotel-affordable-housing/"
+  },
+  {
+   "id": "bden-2026-02-02",
+   "title": "Nonprofit has 11 months to buy derelict LoDo hotel",
+   "publisher": "BusinessDen",
+   "date": "2026-02-02",
+   "url": "https://businessden.com/nonprofit-has-11-months-to-buy-derelict-lodo-hotel/"
+  },
+  {
+   "id": "bden-2026-05-26",
+   "title": "Nonprofit gets 'last piece of financing needed' for Barth Hotel project",
+   "publisher": "BusinessDen",
+   "date": "2026-05-26",
+   "url": "https://businessden.com/nonprofit-gets-last-piece-of-financing-needed-for-barth-hotel-project/"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  }
+ ]
+}
