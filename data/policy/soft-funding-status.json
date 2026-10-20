@@ -512,8 +512,8 @@
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
       "source_note": "CDFI describes tax credits for investments into CDEs, not one standardized rental-project financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank for the downstream project. The seven-year tax-credit period is not a loan term. No universal project maximum or available balance is published.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     },
     "TIF-LOCAL": {
       "name": "Tax Increment Financing (Local)",
@@ -569,9 +569,9 @@
         "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
       ],
       "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
-      "source_note": "Primary source reopened 2026-10-09. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09",
+      "source_note": "Primary source reopened 2026-10-20: the DOE how-to-apply page still routes applicants through state administrators and local providers, with eligibility at 200% of the poverty guidelines or the LIHEAP 60% of state median income. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20",
       "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope.",
       "funding_type": null,
       "rate_pct": null,

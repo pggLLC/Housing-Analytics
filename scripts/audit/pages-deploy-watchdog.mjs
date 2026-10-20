@@ -30,6 +30,7 @@ export function evaluateDeployCoverage({
   headCommitDate,
   runs,
   activeRuns = runs,
+  branchRuns = [],
   now = new Date(),
   workflowId = DEFAULT_WORKFLOW_ID,
   graceMinutes = DEFAULT_GRACE_MINUTES,
@@ -41,9 +42,23 @@ export function evaluateDeployCoverage({
 
   const commitAgeMinutes = minutesBetween(now, headCommitDate || now);
   const deployRuns = Array.isArray(runs) ? runs : [];
-  const staleActiveRuns = (Array.isArray(activeRuns) ? activeRuns : []).filter((run) => (
+  const staleRuns = (Array.isArray(activeRuns) ? activeRuns : []).filter((run) => (
     ACTIVE_STATUSES.includes(run.status) && runAgeMinutes(run, now) > staleActiveMinutes
   ));
+  // A stale run is only freezing deploys if nothing has deployed since it was
+  // created. GitHub can leave a ghost run "queued" that its own cancel endpoint
+  // refuses (409, "has not been queued yet") while later deploys go through
+  // (run 39262504970, 2026-10-19): that one is reported, not failed on.
+  const successes = [...deployRuns, ...(Array.isArray(branchRuns) ? branchRuns : [])]
+    .filter((run) => run.status === 'completed' && run.conclusion === 'success');
+  const superseded = (stale) => successes.some((run) => (
+    Date.parse(run.created_at) > Date.parse(stale.created_at || stale.run_started_at)
+  ));
+  const staleActiveRuns = staleRuns.filter((run) => !superseded(run));
+  const bypassed = staleRuns.filter(superseded).map((run) => (
+    `::warning::Stale ${workflowId} run is still listed as ${run.status} but later deploys succeeded, so it is not blocking Pages: ${runLabel(run)} age=${runAgeMinutes(run, now).toFixed(1)}m`
+  ));
+  const withBypassed = (result) => ({ ...result, messages: [...result.messages, ...bypassed] });
 
   if (staleActiveRuns.length) {
     return {
@@ -63,37 +78,37 @@ export function evaluateDeployCoverage({
   ));
 
   if (successfulRun) {
-    return {
+    return withBypassed({
       ok: true,
       reason: 'successful-run',
       messages: [`Latest main ${headSha} has successful Pages deploy coverage: ${runLabel(successfulRun)}.`],
-    };
+    });
   }
 
   const activeRun = matchingRuns.find((run) => ACTIVE_STATUSES.includes(run.status));
   if (activeRun) {
-    return {
+    return withBypassed({
       ok: true,
       reason: 'fresh-active-run',
       messages: [
         `Latest main ${headSha} has an active Pages deploy within ${staleActiveMinutes} minutes: ${runLabel(activeRun)} age=${runAgeMinutes(activeRun, now).toFixed(1)}m.`,
       ],
-    };
+    });
   }
 
   if (commitAgeMinutes < graceMinutes) {
-    return {
+    return withBypassed({
       ok: true,
       reason: 'trigger-grace-period',
       messages: [`Latest main ${headSha} is ${commitAgeMinutes.toFixed(1)} minutes old; allowing deploy trigger grace period.`],
-    };
+    });
   }
 
   const recent = deployRuns
     .slice(0, 5)
     .map((run) => `- ${runLabel(run)}`);
 
-  return {
+  return withBypassed({
     ok: false,
     reason: 'missing-successful-run',
     messages: [
@@ -102,7 +117,7 @@ export function evaluateDeployCoverage({
       'Recent deploy runs:',
       recent.join('\n') || '(none)',
     ],
-  };
+  });
 }
 
 async function fetchJson(url, token) {
@@ -160,8 +175,9 @@ export async function checkDeployCoverage({
       const activeRuns = responses.slice(2).filter(r => r.status === 'fulfilled').flatMap(r => r.value);
       const failed = responses.find(r => r.status === 'rejected');
       if (failed) {
+        const branchListing = responses[1].status === 'fulfilled' ? responses[1].value : [];
         const known = evaluateDeployCoverage({ headSha, headCommitDate, runs: [], activeRuns,
-          now, workflowId, graceMinutes, staleActiveMinutes });
+          branchRuns: branchListing, now, workflowId, graceMinutes, staleActiveMinutes });
         if (known.reason === 'stale-active-run') return known;
         throw failed.reason;
       }
@@ -170,7 +186,7 @@ export async function checkDeployCoverage({
       const inconsistent = signature(headRuns) !== signature(branchRuns) || newest < Date.parse(headCommitDate);
       if (inconsistent && attempt === 0) { await wait(retryDelayMs); continue; }
       const result = evaluateDeployCoverage({ headSha, headCommitDate, runs: headRuns, activeRuns,
-        now, workflowId, graceMinutes, staleActiveMinutes });
+        branchRuns, now, workflowId, graceMinutes, staleActiveMinutes });
       if (result.reason === 'stale-active-run') return result;
       if (!result.ok && (coversHead(branchRuns) || coversHead(activeRuns))) {
         return unverifiable('the head-SHA and other run queries still disagree after retry; no missing-deploy claim can be made.', true);

@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-18",
+    "last_checked": "2026-10-20",
     "review_by": "2027-01-15",
     "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
@@ -1483,7 +1483,7 @@
           "reason": "No resident income limit; investments must be in low-income communities, which are defined by census tract."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "support",
         "execution": [],
@@ -6151,7 +6151,7 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "rental-assistance",
         "execution": [
@@ -6396,7 +6396,7 @@
           "reason": "HOME can be a grant, deferred loan or amortizing loan at the PJ's discretion; deferred_loan is the common form, not a rule."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "capital",
         "execution": [
