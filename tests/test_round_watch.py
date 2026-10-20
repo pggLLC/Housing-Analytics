@@ -214,3 +214,11 @@ def test_year_only_record_dates_to_the_last_day():
     ev = {'agency': 'DOLA', 'year': 2025, 'quote': 'Project: X; Homes: 100'}
     december_app = {'source_as_of': '2025-12-20', 'year': 2025, 'total_units': 50}
     assert rw.size_as_of(None, [december_app], [ev], live=False) == 100
+
+
+def test_strongest_reason_comes_first():
+    a, l, e = base()
+    a['applications'].append(app('Miner Deal', 'Longmont', 2026, 2, 'not_awarded'))  # other-type loss: 10
+    l['projects'].append(project('miner', 'Miner Deal', 'Longmont', 40, [dola('Miner Deal', '2026-06')]))  # fits 9%: 25
+    i = items(build(a, l, e), 1)['Miner Deal']
+    assert [w['kind'] for w in i['why']][:2] == ['soft_fit', 'lost_other']

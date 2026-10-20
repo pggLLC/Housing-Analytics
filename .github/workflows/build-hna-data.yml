@@ -550,7 +550,7 @@ jobs:
           # test:place-pages-fresh / test:paper-fresh / the inventory check
           # until the next human PR inherited the failure.
           git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa \
-                  data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/market/market-direction.json places README.md AGENTS.md data/paper working-paper.html methods.html 2>/dev/null || true
+                  data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/market/market-direction.json places README.md AGENTS.md data/paper working-paper.html methods.html 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS
@@ -593,7 +593,7 @@ jobs:
               # regenerate" commit does), and the 2026-09-22 morning run
               # aborted on exactly that. `places` is a directory: any
               # conflicted path under it is derived.
-              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/market/market-direction.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
+              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/market/market-direction.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
               for conflicted in "${conflicted_paths[@]}"; do
                 is_derived=0
                 for derived in "${derived_artifacts[@]}"; do

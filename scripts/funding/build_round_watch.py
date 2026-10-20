@@ -357,7 +357,7 @@ def item(key, v, credit, bt, D):
         'award_orgs': award_orgs(v, D),
         'band': v['band'],
         'score': v['score'],
-        'why': [why(s, credit, bt) for s in v['signals']],
+        'why': [why(s, credit, bt) for s in sorted(v['signals'], key=lambda s: -POINTS[s['kind']])],  # strongest first
         # every CHFA application on file, newest first, so the private site can
         # find the contact CHFA printed beside it
         'applications': [{'round_label': a['round_label'], 'credit_type': a['credit_type'], 'name': a['name'],

@@ -878,13 +878,6 @@
      "score": 35,
      "why": [
       {
-       "kind": "lost_other",
-       "text": "CHFA did not fund it in 2025 Round Two (it asked for $814,830 a year in federal 4% credit and $1,492,659 in state credit and $10,850,000 in private activity bonds). That was the other round type; 4 of 105 deals like this applied in this one.",
-       "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
-       "quote": "Building Type: N; Resident Type: I/F; Name: Miner Street Apartments; Address: 1300 Colorado Boulevard; City: Idaho Springs; Total Units: 65; LI Units: 64; Federal 4% Credit Requested: $814,830; PAB Issuer: CHFA; PAB Requested: $10,850,000; State Credit Requested*: $1,492,659; Sponsor: DW Development Group",
-       "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
-      },
-      {
        "kind": "soft_fit",
        "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
@@ -893,6 +886,13 @@
          "quote": "Project: Miner Street Apartments; Program: Rental; Amount: $2,500,000; Amount basis: requested; Homes: 50; Announced: 2026-06; Source: DOH Application Schedule and Awards page: awards announced June 2026"
         }
        ]
+      },
+      {
+       "kind": "lost_other",
+       "text": "CHFA did not fund it in 2025 Round Two (it asked for $814,830 a year in federal 4% credit and $1,492,659 in state credit and $10,850,000 in private activity bonds). That was the other round type; 4 of 105 deals like this applied in this one.",
+       "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+       "quote": "Building Type: N; Resident Type: I/F; Name: Miner Street Apartments; Address: 1300 Colorado Boulevard; City: Idaho Springs; Total Units: 65; LI Units: 64; Federal 4% Credit Requested: $814,830; PAB Issuer: CHFA; PAB Requested: $10,850,000; State Credit Requested*: $1,492,659; Sponsor: DW Development Group",
+       "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
       }
      ],
      "applications": [
@@ -2783,13 +2783,6 @@
      "score": 35,
      "why": [
       {
-       "kind": "lost_other",
-       "text": "CHFA did not fund it in 2026 Round One (it asked for $1,800,000 a year in federal 9% credit and $500,000 in state credit). That was the other round type; 4 of 105 deals like this applied in this one.",
-       "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
-       "quote": "Type: N,I/F; Name: 40th Ave Apartments; Address: 3979 Central Park Boulevard; City: Denver; Total Units: 115; LI Units: 115; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $230,000; Sponsor: Northeast Denver Housing Center",
-       "outcome_detail": "Not on CHFA's 2026 Round One award report (2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons."
-      },
-      {
        "kind": "soft_fit",
        "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
@@ -2798,6 +2791,13 @@
          "quote": "Project: 40th Avenue Apartments; Program: Rental; Amount: $2,000,000; Amount basis: requested; Homes: 115; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025"
         }
        ]
+      },
+      {
+       "kind": "lost_other",
+       "text": "CHFA did not fund it in 2026 Round One (it asked for $1,800,000 a year in federal 9% credit and $500,000 in state credit). That was the other round type; 4 of 105 deals like this applied in this one.",
+       "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+       "quote": "Type: N,I/F; Name: 40th Ave Apartments; Address: 3979 Central Park Boulevard; City: Denver; Total Units: 115; LI Units: 115; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $230,000; Sponsor: Northeast Denver Housing Center",
+       "outcome_detail": "Not on CHFA's 2026 Round One award report (2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons."
       }
      ],
      "applications": [
