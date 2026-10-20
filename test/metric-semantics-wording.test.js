@@ -49,9 +49,9 @@ assertNotIncludes(indexHtml, 'CO rental deficit ≤60% AMI', 'homepage <=60 AMI 
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤30% AMI', 'homepage old <=30 generic deficit label is removed');
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤60% AMI', 'homepage old <=60 generic deficit label is removed');
 
-assertIncludes(hnaRenderers, '1,000-unit current rental gap', 'renderer permitting note names current rental gap');
+assertIncludes(hnaRenderers, '1,000-unit rental gap', 'renderer permitting note names current rental gap');
 assertNotIncludes(hnaRenderers, '1,000-unit housing gap', 'renderer old generic housing-gap phrase is removed');
-assertIncludes(hnaRenderers, 'Census BPS also publishes place-level permits for reporting jurisdictions', 'renderer acknowledges BPS place records');
+assertIncludes(hnaRenderers, 'its permits are issued by the county', 'renderer explains why a community without a BPS place record shows county permits');
 assertIncludes(hnaRenderers, 'unincorporated areas and CDPs are county-permitted', 'renderer explains legitimate missing place records');
 assertNotIncludes(hnaRenderers, 'publishes at the county level only', 'renderer no longer denies BPS place records');
 

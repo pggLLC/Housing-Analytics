@@ -32,8 +32,29 @@
     restricted: 'Restricted',
     prohibited_for_new: 'Closed to new adoption',
     not_usable_for_housing: 'Revenue cannot fund housing',
-    unclear: 'Legal basis unclear'
+    unclear: 'Legal basis unclear',
+    required_for_subject_jurisdictions: 'Required by state law in subject jurisdictions'
   };
+  // Header definitions, shown from the header itself by table-header-tips.js.
+  var TIP = {
+    feeComponent: 'The kind of fee a builder pays: building permit, plan review, water and sewer tap, impact, or use tax.',
+    feeOffered: 'What the jurisdiction waives, reduces, defers or reimburses for this fee, as its own source states it.',
+    feeWho: 'Which projects qualify (income limit, tenure, restriction length, by right or discretionary) and the source that was read.',
+    scope: 'The group of local tools counted: fee relief, land-use incentives, or local funding and ownership tools.',
+    verified: 'Counties and municipalities with at least one record in this scope read from an official source.',
+    noneFound: 'Counties and municipalities whose official sources were read and showed no tool in this scope.',
+    unreadable: 'Counties and municipalities whose official source for this scope could not be opened or read.',
+    notChecked: 'Counties and municipalities whose sources for this scope have not been read yet. Not checked does not mean none.',
+    tool: 'A local affordable-housing tool a Colorado county or municipality can use.',
+    toolCount: 'Counties and municipalities with a verified record of using the tool. A tool state law requires shows that instead of a count.',
+    law: 'What Colorado law says about local use of the tool: authorized, needs voter approval, restricted, closed to new adoption, or required.',
+    examples: 'Up to five jurisdictions with a verified record. Select one to see its record.',
+    fundKind: 'The kind of local fund or ownership tool on record, such as a housing trust fund or dedicated sales tax.',
+    fundCount: 'Counties and municipalities with that kind of fund or tool in effect.'
+  };
+  function th(text, tip, attrs) {
+    return '<th scope="' + (attrs || 'col') + '" data-tip="' + esc(tip) + '">' + esc(text) + '</th>';
+  }
   var FAMILY_TEXT = {
     fee_relief: 'Fee relief',
     land_use: 'Land use',
@@ -142,10 +163,11 @@
       var mine = fees.filter(function (r) { return D.componentOf(r) === c.id; });
       if (!mine.length) {
         var none = state === 'records' || state === 'none_found' ? 'No relief found in the sources read' : STATE_TEXT[state];
-        return '<tr><th scope="row">' + esc(c.label) + '</th><td colspan="2" class="li-muted">' + esc(none) + '</td></tr>';
+        return '<tr><th scope="row">' + esc(c.label) + '</th><td class="li-muted">' + esc(none) + '</td><td class="li-muted">—</td></tr>';
       }
-      return mine.map(function (r, idx) {
-        return '<tr>' + (idx === 0 ? '<th scope="row" rowspan="' + mine.length + '">' + esc(c.label) + '</th>' : '') +
+      // One full row per record (no merged cells), so the table sorts.
+      return mine.map(function (r) {
+        return '<tr><th scope="row">' + esc(c.label) + '</th>' +
           '<td><strong>' + esc(feeValue(r)) + '</strong>' + kindNote(r) + '<br><span>' + esc(r.summary || '') + '</span>' +
           (r.deferral_trigger ? '<br><span class="li-muted">Paid at: ' + esc(r.deferral_trigger) + '</span>' : '') +
           (r.provider && r.provider !== r.jurisdiction ? '<br><span class="li-muted">Charged by ' + esc(r.provider) + '</span>' : '') +
@@ -155,7 +177,7 @@
       }).join('');
     }).join('');
     return '<section class="li-block" aria-labelledby="li-fees-h"><h3 id="li-fees-h">' + esc(SCOPE_TEXT.fees) + ' ' + pill(state) + '</h3>' +
-      '<div class="data-table li-stack"><table><thead><tr><th scope="col">Fee component</th><th scope="col">What is offered</th><th scope="col">Who qualifies, and the source</th></tr></thead><tbody>' +
+      '<div class="data-table li-stack"><table aria-label="Fee relief by fee component"><thead><tr>' + th('Fee component', TIP.feeComponent) + th('What is offered', TIP.feeOffered) + th('Who qualifies, and the source', TIP.feeWho) + '</tr></thead><tbody>' +
       rows + '</tbody></table></div></section>';
   }
 
@@ -213,6 +235,36 @@
       ' Source: ' + src + '.</p>';
   }
 
+  // Plain statement of a state-required tool: who it covers and since when.
+  function requiredText(tool) {
+    if (tool.id === 'adu_by_right') {
+      return 'HB24-1152 has required this since June 30, 2025 of every municipality with 1,000 or more people within a metropolitan planning organization, and of county areas within such an organization that lie in a census designated place of 40,000 or more.';
+    }
+    return tool.status_reason || '';
+  }
+
+  function renderRequired(model, geoid) {
+    var alt = model.alternatives(geoid);
+    if (!alt || !alt.required.length) return '';
+    var p = alt.profile;
+    var subject = p.inheritsFrom ? nameOf(model, p.inheritsFrom) : p.name;
+    var items = alt.required.map(function (r) {
+      var t = r.tool;
+      var basis = (t.legal_basis || [])[0];
+      var url = basis && safeUrl(basis.source && basis.source.url);
+      var subjectGeoid = global.LocalIncentivesData.canonicalGeoid(p.inheritsFrom || p.geoid);
+      var known = (t.known_subject_jurisdictions || []).filter(function (k) { return k.geoid === subjectGeoid; })[0];
+      var knownUrl = known && safeUrl(known.source && known.source.url);
+      var applies = known
+        ? ' ' + esc(subject) + ' is covered: ' + esc(known.basis) + (knownUrl ? ' (<a href="' + esc(knownUrl) + '" target="_blank" rel="noopener">' + esc(known.source.label) + '</a>)' : '') + ' It must already allow ADUs this way; this is not a local option. '
+        : ' If ' + esc(subject) + ' meets that definition, it must already allow them this way; it is not a local option. ';
+      return '<li><strong>' + esc(t.label) + '</strong> <span class="tag tag-ghost">' + esc(STATUS_TEXT[t.colorado_status]) + '</span><br>' +
+        esc(requiredText(t)) + applies +
+        (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">HB24-1152 signed act</a>' : '') + '</li>';
+    }).join('');
+    return '<section class="li-block" aria-labelledby="li-req-h"><h3 id="li-req-h">Required by state law</h3><ul class="li-alt">' + items + '</ul></section>';
+  }
+
   function renderAlternatives(model, geoid) {
     var alt = model.alternatives(geoid);
     if (!alt || !alt.suggestions.length) return '';
@@ -256,7 +308,7 @@
     target.innerHTML = '<h2 id="li-j-name" style="margin-top:0;">' + esc(p.name) + '</h2>' +
       '<p class="li-meta">' + esc(kind) + (countyName ? ' · ' + esc(countyName) : '') + '</p>' + inherits +
       renderProp123(model, p) + renderFees(p) + renderList(p, 'land_use') + renderList(p, 'funds') +
-      renderAlternatives(model, geoid) + links;
+      renderRequired(model, geoid) + renderAlternatives(model, geoid) + links;
   }
 
   function renderSummary(model, target) {
@@ -266,7 +318,7 @@
       return '<tr><th scope="row">' + esc(SCOPE_TEXT[scope]) + '</th><td>' + b.records + '</td><td>' + b.none_found + '</td><td>' + b.unreadable + '</td><td>' + b.not_checked + '</td></tr>';
     }).join('');
     target.innerHTML = '<p><strong>' + s.any_records + '</strong> of Colorado\'s <strong>' + s.jurisdictions + '</strong> counties and municipalities have at least one verified record so far. Coverage grows in batches, starting with the largest jurisdictions and the Prop 123 filers.</p>' +
-      '<div class="data-table"><table aria-label="Coverage by scope"><thead><tr><th scope="col">Scope</th><th scope="col">Verified records</th><th scope="col">Checked, none found</th><th scope="col">Could not be read</th><th scope="col">Not yet checked</th></tr></thead><tbody>' +
+      '<div class="data-table"><table aria-label="Coverage by scope"><thead><tr>' + th('Scope', TIP.scope) + th('Verified records', TIP.verified) + th('Checked, none found', TIP.noneFound) + th('Could not be read', TIP.unreadable) + th('Not yet checked', TIP.notChecked) + '</tr></thead><tbody>' +
       cells + '</tbody></table></div>';
   }
 
@@ -281,9 +333,12 @@
         var ex = a.adopters.slice(0, 5).map(function (id) {
           return '<a href="#j=' + esc(id) + '" data-li-jump="' + esc(id) + '">' + esc(nameOf(model, id)) + '</a>';
         }).join(', ');
+        if (a.tool.colorado_status === 'required_for_subject_jurisdictions') {
+          return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>Required by state law</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status]) + '</td><td>' + esc(requiredText(a.tool)) + '</td></tr>';
+        }
         return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>' + a.adopters.length + '</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status] || a.tool.colorado_status) + '</td><td>' + (ex || '<span class="li-muted">No verified record yet</span>') + (a.adopters.length > 5 ? ', and others' : '') + '</td></tr>';
       }).join('');
-      return '<h3>' + esc(FAMILY_TEXT[f]) + '</h3><div class="data-table li-stack"><table><thead><tr><th scope="col">Tool</th><th scope="col">Jurisdictions with a verified record</th><th scope="col">Colorado law</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      return '<h3>' + esc(FAMILY_TEXT[f]) + '</h3><div class="data-table li-stack"><table aria-label="' + esc(FAMILY_TEXT[f]) + ' tools"><thead><tr>' + th('Tool', TIP.tool) + th('Jurisdictions with a verified record', TIP.toolCount) + th('Colorado law', TIP.law) + th('Examples', TIP.examples) + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     }).join('') + renderFundTypes(model);
   }
 
@@ -305,7 +360,7 @@
       return '<tr><th scope="row">' + esc(D.FUND_TOOL_LABELS[tool] || tool) + '</th><td>' + by[tool].size + '</td><td>' + ex + (by[tool].size > 5 ? ', and others' : '') + '</td></tr>';
     }).join('');
     if (!rows) return '';
-    return '<h3>Local funding on record, by kind</h3><div class="data-table li-stack"><table><thead><tr><th scope="col">Kind of fund or tool</th><th scope="col">Jurisdictions</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    return '<h3>Local funding on record, by kind</h3><div class="data-table li-stack"><table aria-label="Local funding on record, by kind"><thead><tr>' + th('Kind of fund or tool', TIP.fundKind) + th('Jurisdictions', TIP.fundCount) + th('Examples', TIP.examples) + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
 
   function renderCatalog(doc, target, fees) {

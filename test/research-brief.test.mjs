@@ -205,7 +205,7 @@ test('a brief without a local dataset does not invent a verification date or fee
   const { doc, requests } = await runPage(t, { id: brief.id });
   assert.equal(requests.length, 1);
   assert.equal(doc.querySelector('[data-count]'), null);
-  assert.match(doc.querySelector('.brief-meta').textContent, /Data verified date not recorded/);
+  assert.doesNotMatch(doc.querySelector('.brief-meta').textContent, /Data verified/, 'no check date is invented or announced as missing');
 });
 
 test('untrusted titles, body text, source labels and gaps render as text; unsafe URLs are not linked', async (t) => {

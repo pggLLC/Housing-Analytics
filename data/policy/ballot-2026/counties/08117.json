@@ -14,7 +14,7 @@
         "The only county referral found is still BOCC Resolution 2026-57, Summit County Referred Measure 1A. It extends the existing 4.652-mill Strong Future property tax indefinitely for wildfire prevention, mental health/substance abuse/suicide prevention, early childhood care, public buildings/community facilities, and recycling/waste diversion. Excluded: the question text does not earmark housing. (A recital mentions reducing 'homelessness' as a result of mental-health programs, but the submission clause does not fund housing or homelessness.) Exhibit A submission clause: 'Without raising any additional taxes and to continue funding for: Wildfire prevention; Mental health, substance abuse services, and suicide prevention programs for Summit County youth and adults; Affordable early childhood care and learning for Summit County families and workers; Improving public buildings/community facilities and extending their useful life; and Sustaining recycling and waste diversion programs, shall Summit County be authorized to continue to collect and expend revenues previously approved by Summit County voters in 2018 by Summit County Referred Measure 1A by the ongoing extension of the existing four and six hundred fifty-two thousandths mill levy property tax commencing January 1, 2028, and continuing thereafter as a voter-approved revenue change, without limitation or condition under Article X, Section 20 of the Colorado Constitution or any other law, with all expenditures made in consideration of independent citizen advisory committee recommendations and subject to annual independent financial audit?'",
         "Rechecked 2026-10-10: the 2026 resolutions index now runs to 2026-70, but its numbering gaps remain (2026-56 and 2026-58 to 2026-63 are not posted), so another county referral cannot be ruled out until the sample ballot or TABOR notice is posted.",
         "News in 2025 reported a possible November 2026 regional transportation authority question. Later reporting (Oct 2025) said the county paused RTA planning. No official referral was found. It would be transit, not housing, unless its text earmarks housing.",
-        "The Diligent BOCC agenda portal (summitcountyco.community.diligentoneplatform.com) was reached on 2026-09-26, but agenda packets were not machine-readable. Agendas were not reviewed item by item.",
+        "The Diligent BOCC agenda portal (summitcountyco.community.diligentoneplatform.com) was reached on 2026-09-26, but its agenda packets could not be opened as documents. Agendas were not reviewed item by item.",
         "Rechecked 2026-10-12: the county resolutions index is unchanged (it ends at 2026-70, and 2026-56 and 2026-58 to 2026-63 are still not posted). 2026-57 (Strong Future 1A) is still the only ballot referral listed."
       ],
       "reviewed_sources": [
@@ -105,7 +105,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "townofbreckenridge.com (www and non-www) returned HTTP 403 (CloudFront 'Request blocked') to curl and WebFetch, so the town clerk and election pages and council ordinances could not be read.",
+        "townofbreckenridge.com (www and non-www) could not be opened, so the town clerk and election pages and council ordinances could not be read.",
         "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26.",
         "Search results show only the town's April 7, 2026 regular municipal election. No news report of a November 2026 town ballot question was found."
       ],
@@ -129,7 +129,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "dillonco.gov and townofdillon.com returned HTTP 403 (CloudFront block) to curl and WebFetch. The GovDelivery bulletin archive (CODILLON) was not listable.",
+        "dillonco.gov and townofdillon.com could not be opened. The town's email bulletin archive could not be listed.",
         "Search results show Dillon's April 7, 2026 election (charter amendments). No official or news source found for a November 3, 2026 town question. A 2022 Summit Daily article on November STR ballot measures relates to 2022, not 2026.",
         "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26."
       ],
@@ -225,7 +225,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "silverthorne.org (www and non-www) returned HTTP 403 (CloudFront block) to curl and WebFetch, so the clerk voter-information page and council ordinances could not be read.",
+        "silverthorne.org (www and non-www) could not be opened, so the clerk voter-information page and council ordinances could not be read.",
         "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26.",
         "No news report of a November 2026 Silverthorne question was found. Earlier lodging-tax and workforce-housing debt questions were from prior elections."
       ],

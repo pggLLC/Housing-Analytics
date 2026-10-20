@@ -135,12 +135,17 @@ assert.strictEqual(Array.from(defaultDom.mount.querySelectorAll('#ms-path-select
 assert.strictEqual((text(defaultDom.mount.querySelector('#ms-s3')).match(/Each market path is a scenario, not a prediction\./g) || []).length, 1);
 
 // S4 default uses a real lifecycle year-result; public-source recovery must
-// survive that interface and render the Phase-2b worked-reference totals.
+// survive that interface. The default formula is fixed appreciation, so no
+// public appreciation share is charged on top of it, and the seller's net in
+// S4 equals the S3 figure for the same formula and year.
 const defaultSettlement = Waterfall.settle(base.selectedConvention.results[base.selectedYear], Page.WATERFALL_INPUTS);
-assert.equal(defaultSettlement.publicSubsidyRetainedInHome, 20000);
-assert.equal(defaultSettlement.publicSubsidyRecapturedAtSale, 80000);
-assert(text(defaultDom.mount.querySelector('#ms-s4')).includes('$20,000'));
-assert(text(defaultDom.mount.querySelector('#ms-s4')).includes('$80,000'));
+assert.equal(defaultSettlement.publicAppreciationSharePaid, 0);
+assert.equal(defaultSettlement.publicSubsidyRetainedInHome, 50000);
+assert.equal(defaultSettlement.publicSubsidyRecapturedAtSale, 50000);
+assert.equal(defaultSettlement.ownerNetProceeds, base.selectedConvention.results[base.selectedYear].ownerNetProceeds);
+assert(text(defaultDom.mount.querySelector('#ms-s4')).includes(money(defaultSettlement.ownerNetProceeds)));
+assert(text(fixedCard).includes(money(defaultSettlement.ownerNetProceeds)), 'S3 and S4 show the same seller proceeds');
+assert(text(defaultDom.mount.querySelector('#ms-s4')).includes('Not charged: the fixed-appreciation resale formula'));
 
 // S4: inject the documented worked example, still produced by the real engine,
 // and pin its settlement outputs in the rendered DOM.
@@ -297,7 +302,10 @@ assert(new RegExp(`up to ${regulationCap}% of the purchase price[^.]*not (?:calc
 // 110 -> 108 on 2026-10-18: the capture caveat stopped quoting figures from a
 // private market study; those two percentage tokens are the only change.
 assert.strictEqual(numericTokens.length, 108, 'only residual shortfalls may add rendered money or percentage tokens');
-assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '0b897fdb0647c4f59f86d1f5e275e2a9d9ee664ddcd0bb0a2702272e1450224f', 'pre-existing rendered money and percentage tokens must match current main');
+// 2026-10-20: S4 no longer charges a public appreciation share on top of the
+// fixed-appreciation formula, so its share line reads $0, the subsidy split
+// reads $50,000 / $50,000, and owner net reads $179,374, the S3 figure.
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), 'd45df192fa21c54f7ce42392ad163f00d810f8a9b1581591c5db1c31f96768bb', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {

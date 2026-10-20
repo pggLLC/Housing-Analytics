@@ -12,7 +12,7 @@
       "limitations": [
         "Excluded: Gilpin County Ballot Issue 1A (referred by Resolution 26-077) retains revenue \"FOR CORE INFRASTRUCTURE AND MAINTENANCE INCLUDING ROADS, BRIDGES, WILDFIRE AND FLOOD MITIGATION\"; no housing earmark.",
         "Excluded: Timberline Fire Protection District Ballot Issue 7B (fire district mill levy); not housing.",
-        "The posted sample ballots are JPEG images with no text layer; they were read visually.",
+        "The posted sample ballots are JPEG images with no searchable text; they were read visually.",
         "No list of participating political subdivisions and no mailed TABOR notice was posted as of 2026-09-26."
       ],
       "reviewed_sources": [
@@ -47,7 +47,7 @@
       "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-03: the city website (cityofblackhawk.org, including the city clerk elections page and home page) still returns HTTP 403 to automated access and was not read.",
+        "Rechecked 2026-10-03: the city website (cityofblackhawk.org, including the city clerk elections page and home page) still could not be opened and was not read.",
         "Gilpin County still offers only two sample ballot styles (General; Central City) and has posted no participating-entities list or mailed TABOR notice. The Central City style carries a \"City of Central Offices\" section; neither style has a City of Black Hawk section or question. That suggests Black Hawk is not on the coordinated ballot, but no official source says so."
       ],
       "reviewed_sources": [
@@ -79,7 +79,7 @@
       "entry_ids": [],
       "limitations": [
         "Participating for candidates only: the city Call for Candidates states \"A Regular Mail Ballot Election coordinated with Gilpin County Clerk & Recorder will be held on Tuesday, November 3, 2026 to fill the Mayor seat and two (2) Alderman seats\". The Central City sample ballot carries no city ballot question.",
-        "The posted sample ballots are JPEG images with no text layer; they were read visually."
+        "The posted sample ballots are JPEG images with no searchable text; they were read visually."
       ],
       "reviewed_sources": [
         {

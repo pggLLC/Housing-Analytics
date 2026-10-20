@@ -758,9 +758,9 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="tab-intro">The geographic view of Colorado's affordable housing. Start with the map of LIHTC projects and the HUD QCT and DDA overlays that decide basis-boost eligibility, then use the sections below for county AMI gaps, concessions and foreclosures, and how Colorado compares with the nation.</p>
 
 <div class="callout callout-info" style="margin: 1rem 0 1.5rem;">
-  <h3 style="margin-top:0;">June 2026 Read — Cooling Prices, Tariff Pressure on Supply</h3>
-  <p>The Federal Housing Finance Agency's Colorado House Price Index (FHFA series <a href="https://fred.stlouisfed.org/series/COSTHPI" target="_blank" rel="noopener">COSTHPI</a>) was down roughly <strong>−2.4% year-over-year in the first quarter of 2026</strong> — one of the largest declines in the country — reflecting a Front Range market that has been correcting since mortgage rates peaked. At the same time, tariffs on construction materials announced earlier in 2026 (10–50% on selected categories) are flowing into hard-cost estimates and slowing the development pipeline. Commentary from the <a href="https://www.kansascityfed.org/research/" target="_blank" rel="noopener">Federal Reserve Bank of Kansas City</a> and the <a href="https://www.bellpolicy.org/" target="_blank" rel="noopener">Bell Policy Center</a> notes that <strong>new affordable-housing supply in Colorado is decelerating</strong> even as demand stays high. The takeaway for site-level work: treat any pro-forma financial model built before the tariffs as out of date, and re-run deals against today's hard-cost assumptions before assuming that a rebound in tax-credit pricing covers the gap.</p>
-  <p style="margin-bottom:0;font-size:.85rem;color:var(--muted);">Sources: <a href="https://fred.stlouisfed.org/series/COSTHPI" target="_blank" rel="noopener">FHFA Colorado House Price Index (FRED · COSTHPI)</a> · <a href="https://www.bellpolicy.org/" target="_blank" rel="noopener">Bell Policy Center 2026 Colorado housing brief</a> · <a href="https://www.kansascityfed.org/research/regional-research/" target="_blank" rel="noopener">Federal Reserve Bank of Kansas City regional commentary</a>.</p>
+  <h3 style="margin-top:0;">Colorado Home Prices, Second Quarter 2026: Flat</h3>
+  <p>The Federal Housing Finance Agency's Colorado House Price Index (FHFA series <a href="https://fred.stlouisfed.org/series/COSTHPI" target="_blank" rel="noopener">COSTHPI</a>) rose <strong>0.2% from the second quarter of 2025 to the second quarter of 2026</strong> (851.46 to 853.19), after a 0.9% rise over the year to the first quarter. Colorado home prices have held close to flat since early 2025. Prices are not falling enough to make homes affordable for lower-income households, so the need figures elsewhere on this page still apply. For site-level work, re-run any financial model against current construction costs rather than older estimates.</p>
+  <p style="margin-bottom:0;font-size:.85rem;color:var(--muted);">Source: <a href="https://fred.stlouisfed.org/series/COSTHPI" target="_blank" rel="noopener">FHFA Colorado All-Transactions House Price Index (FRED · COSTHPI)</a>, quarterly, not seasonally adjusted.</p>
 </div>
 
 <!-- F118-1 — Intro KPI row was hardcoded snapshot numbers. Now: LIHTC allocation
@@ -771,15 +771,15 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="kpi-grid">
     <div class="kpi-card">
       <div class="kpi-value" id="cddIntroAllocation">—</div>
-      <div class="kpi-label">Annual LIHTC Allocation</div>
-      <div class="kpi-unit">USD · Colorado state total (federal + state credits, R1 ×2 annualized)</div>
-      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA 2026 R1</a></div>
+      <div class="kpi-label">2026 Federal Housing Credit Ceiling</div>
+      <div class="kpi-unit">USD · Colorado's yearly 9% credit authority ($3.416 per resident)</div>
+      <div class="kpi-source"><a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a> · <a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener">IRS Notice 2026-22 (state populations)</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value" id="cddIntroPropCount">—</div>
-      <div class="kpi-label">HUD LIHTC Properties</div>
-      <div class="kpi-unit">active CO properties in HUD/CHFA database</div>
-      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
+      <div class="kpi-label">CHFA Tax-Credit Properties</div>
+      <div class="kpi-unit">all Colorado properties in CHFA's housing credit list</div>
+      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value" id="cddAamdVacancy">—</div>
@@ -801,18 +801,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var fmtUsdM = function (n) { return '$' + (n / 1e6).toFixed(0) + 'M'; };
     var fmtInt = function (n) { return n.toLocaleString(); };
 
-    // Annual LIHTC allocation: R1 federal+state credits × 2 rounds (CHFA does
-    // two competitive rounds/yr). Conservative; ignores 4% bonds.
-    fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
+    // Colorado's 2026 federal housing credit ceiling (data/allocations.json,
+    // IRS Notice 2026-22 populations; $3.416 per resident under Rev. Proc. 2025-32).
+    // It was "CHFA Round 1 x 2", which is not an allocation anyone publishes.
+    fetch('data/allocations.json', { cache: 'no-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d || !Array.isArray(d.awards)) return;
-        var r1Total = d.awards.reduce(function (s, a) {
-          return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
-        }, 0);
-        var annual = r1Total * 2;
+        var co = d && d.states && d.states.CO;
+        if (!co || !(co.allocation > 0)) return;
         var el = document.getElementById('cddIntroAllocation');
-        if (el) el.textContent = fmtUsdM(annual);
+        if (el) el.textContent = '$' + (co.allocation / 1e6).toFixed(1) + 'M';
       }).catch(function () {});
 
     // HUD LIHTC properties: count features in the CHFA GeoJSON (active portfolio).
@@ -1039,55 +1037,49 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card" style="margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">AMI Variations Across Colorado Counties</h3>
 <div class="data-table">
-<table>
+<table id="cddCountyAmiTable">
 <thead>
 <tr>
-<th>County</th>
-<th>1-Person AMI (100%)</th>
-<th>4-Person AMI (100%)</th>
-<th>60% AMI Max Income</th>
-<th>Relative Cost</th>
+<th data-tip="The county the income limits apply to. HUD sets limits for each county or metro area.">County</th>
+<th data-tip="HUD's area median income for a 4-person household in the county.">4-Person AMI (100%)</th>
+<th data-tip="The most a 1-person household can earn and still qualify for a 60% AMI tax-credit home.">60% Limit, 1 Person</th>
+<th data-tip="The most a 4-person household can earn and still qualify for a 60% AMI tax-credit home.">60% Limit, 4 People</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><strong>Denver</strong></td>
-<td>$86,870</td>
-<td>$124,100</td>
-<td>$74,460</td>
-<td>High</td>
-</tr>
-<tr>
-<td><strong>Boulder</strong></td>
-<td>$92,400</td>
-<td>$131,900</td>
-<td>$79,140</td>
-<td>Very High</td>
-</tr>
-<tr>
-<td><strong>El Paso (C. Springs)</strong></td>
-<td>$78,200</td>
-<td>$111,700</td>
-<td>$67,020</td>
-<td>Moderate</td>
-</tr>
-<tr>
-<td><strong>Larimer (Ft. Collins)</strong></td>
-<td>$84,300</td>
-<td>$120,400</td>
-<td>$72,240</td>
-<td>Moderate-High</td>
-</tr>
-<tr>
-<td><strong>Pueblo</strong></td>
-<td>$61,500</td>
-<td>$87,900</td>
-<td>$52,740</td>
-<td>Lower</td>
-</tr>
+<tr data-fips="08031"><td><strong>Denver</strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-fips="08013"><td><strong>Boulder</strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-fips="08041"><td><strong>El Paso (Colorado Springs)</strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-fips="08069"><td><strong>Larimer (Fort Collins)</strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-fips="08101"><td><strong>Pueblo</strong></td><td>—</td><td>—</td><td>—</td></tr>
 </tbody>
 </table>
 </div>
+<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD <span data-county-il-year>current</span> Income Limits</a> (<code>data/hud-fmr-income-limits.json</code>).</p>
+<script>
+(function () {
+  'use strict';
+  fetch('data/hud-fmr-income-limits.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !Array.isArray(d.counties)) return;
+      var usd = function (n) { return n > 0 ? '$' + Math.round(n).toLocaleString('en-US') : '—'; };
+      var rows = document.querySelectorAll('#cddCountyAmiTable tbody tr[data-fips]');
+      Array.prototype.forEach.call(rows, function (tr) {
+        var c = d.counties.filter(function (x) { return x.fips === tr.getAttribute('data-fips'); })[0];
+        var il = c && c.income_limits;
+        if (!il) return;
+        var td = tr.querySelectorAll('td');
+        td[1].textContent = usd(il.ami_4person);
+        td[2].textContent = usd(il.il60_1person);
+        td[3].textContent = usd(il.il60_4person);
+      });
+      var y = d.meta && d.meta.income_limits_fiscal_year;
+      var el = document.querySelector('[data-county-il-year]');
+      if (el && y) el.textContent = /^FY/.test(String(y)) ? String(y) : 'FY' + y;
+    }).catch(function () {});
+}());
+</script>
 </div>
 <!-- ══════════════════════════════════════════════════════════════
      Colorado AMI Households vs Priced-Affordable Units — Interactive
@@ -1526,9 +1518,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: .65rem;">
 <!-- LIHTC Allocation Per Capita — computed live from CHFA + BLS pop -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">LIHTC Allocation Per Capita</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Federal Credit per Resident (2026)</div>
 <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" id="cddLihtcPerCap">—</div>
-<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA</a> + Census pop</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a></div>
 </div>
 <!-- Multifamily vacancy: metro stabilized rate from data/market/aamd-denver-vacancy.json. -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
@@ -1581,21 +1573,15 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       if (el) el.textContent = (median > 0 ? '+' : '') + median.toFixed(1) + '%';
     }).catch(function(){});
 
-  // LIHTC allocation per capita — sum federal 9% credits awarded ÷ CO population.
-  // Use the 2026 R1 bridge file ($23M / 14 deals so far this year) + estimate
-  // a full-year run-rate based on prior years (~$45M annual 9% allocation).
-  // Population: BLS LAUS or DOLA gives CO ~5.84M.
-  fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
+  // The yearly federal housing credit amount per resident that sets every
+  // state's ceiling (data/policy/tax-credit-legislation.json, Rev. Proc. 2025-32).
+  fetch('data/policy/tax-credit-legislation.json', { cache: 'no-cache' })
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      if (!d || !d.awards) return;
-      // R1 = ~$23M federal 9%. Annual run-rate ≈ R1 × 2 (CHFA does 2 rounds/yr) + state credits.
-      var r1Federal = d.awards.reduce(function(s, a) { return s + (a.federal_9pct_credit || 0); }, 0);
-      var annualEstimate = r1Federal * 2;  // 2 rounds/yr
-      var coPop = 5_840_000;  // DOLA 2024 estimate
-      var perCap = annualEstimate / coPop;
+      var pc = null;
+      JSON.stringify(d || {}, function (k, v) { if (k === 'ceiling_2026' && v && v.per_capita > 0) pc = v.per_capita; return v; });
       var el = document.getElementById('cddLihtcPerCap');
-      if (el) el.textContent = '$' + perCap.toFixed(2);
+      if (el && pc) el.textContent = '$' + pc.toFixed(2);
     }).catch(function(){});
 })();
 </script>
@@ -1962,7 +1948,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <!-- 3. Affordable Inventory -->
   <section class="mi-section" aria-labelledby="inventory-heading">
     <h2 id="inventory-heading">🏠 Affordable Inventory</h2>
-    <h3>Source: HUD LIHTC Database (public ArcGIS endpoint)</h3>
+    <h3>Source: CHFA Housing Tax Credit Properties</h3>
     <div class="mi-kpi-grid">
       <div class="mi-kpi">
         <div class="mi-kpi-value" id="kpiLihtcProjects">—</div>
@@ -1986,7 +1972,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       </div>
     </div>
     <div id="inventoryStatus" class="mi-status" aria-live="polite"></div>
-    <p class="data-note">HUD LIHTC database via CHFA ArcGIS Feature Service and HUD ArcGIS (public endpoints). Data may lag current year by 12–18 months.</p>
+    <p class="data-note">Properties as listed by CHFA (Colorado Housing and Finance Authority).</p>
   </section>
 
   <!-- 4. Risk Dashboard -->
@@ -2444,13 +2430,13 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <div class="stats-strip">
     <div class="stat-card">
       <div class="stat-value" id="moAllocation">—</div>
-      <div class="stat-label">2026 Total Allocation</div>
-      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA R1</a> ×2</div>
+      <div class="stat-label">2026 Round 1 Credit Awards</div>
+      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · federal + state credits, <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA 2026 Round 1</a></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" id="moActiveProjects">—</div>
-      <div class="stat-label">Active LIHTC Properties</div>
-      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD/CHFA</a></div>
+      <div class="stat-label">CHFA Tax-Credit Properties</div>
+      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA</a></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" id="moTotalLiUnits">—</div>
@@ -2459,15 +2445,15 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     </div>
     <div class="stat-card">
       <div class="stat-value" id="moPerCapita">—</div>
-      <div class="stat-label">Per Capita Allocation</div>
-      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · ÷ DOLA pop</div>
+      <div class="stat-label">2026 Federal Ceiling</div>
+      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;">$3.416 per resident · <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a></div>
     </div>
   </div>
 
   <div class="article-body">
 
     <h2>Market Overview</h2>
-    <p>Colorado's LIHTC market sits in the high-eight-figure range of annual federal+state credit allocations across the active CHFA-administered portfolio. The Denver-Aurora-Lakewood metro accounts for the majority of statewide units, with significant development in Colorado Springs, Fort Collins, Boulder, and Pueblo. Live counts above; metro-level breakdown below comes directly from the CHFA portfolio.</p>
+    <p>Colorado's federal housing credit ceiling for 2026 is about $20.5 million a year, and CHFA awards it in competitive rounds alongside state credits. The Denver-Aurora-Lakewood metro accounts for the majority of statewide units, with significant development in Colorado Springs, Fort Collins, Boulder, and Pueblo. Live counts above; metro-level breakdown below comes directly from the CHFA portfolio.</p>
 
     <!-- #2010 — was a "Colorado Credit Pricing Forecast" with eight typed
          quarters (five already past, still drawn as forecast) and a "Housing
@@ -2559,7 +2545,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     'Gunnison': 'Mountain Resort'
   };
 
-  // Live: annual LIHTC allocation (R1 × 2 rounds).
+  // Live: CHFA 2026 Round 1 credit awards (federal 9% + 4% + state).
   fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
@@ -2567,12 +2553,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       var r1 = d.awards.reduce(function (s, a) {
         return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
       }, 0);
-      var annual = r1 * 2;
+      // Round 1 as CHFA awarded it; no annualizing.
       var elA = document.getElementById('moAllocation');
-      if (elA) elA.textContent = fmtUsdM(annual);
-      var coPop = 5840000;  // DOLA 2024 estimate
+      if (elA) elA.textContent = '$' + (r1 / 1e6).toFixed(1) + 'M';
+    }).catch(function () {});
+  fetch('data/allocations.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var co = d && d.states && d.states.CO;
       var elP = document.getElementById('moPerCapita');
-      if (elP) elP.textContent = fmtUsd0(annual / coPop);
+      if (elP && co && co.allocation > 0) elP.textContent = '$' + (co.allocation / 1e6).toFixed(1) + 'M';
     }).catch(function () {});
 
   // Live: properties, LI units, metro breakdown from CHFA portfolio.
@@ -3095,7 +3085,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           var error   = document.getElementById("carMarketError");
           if (!car) {
             if (loading) loading.style.display = "none";
-            if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+            if (error) { error.textContent = "CAR market figures are not available right now. See coloradorealtors.com for the latest report."; error.style.display = "block"; }
             return;
           }
           if (loading) loading.style.display = "none";
@@ -3113,7 +3103,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
             document.getElementById("carDaysOnMarket") && (document.getElementById("carDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
             document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = estimatedPrice || !(sw.median_price_per_sqft > 0) ? unpublished : "$" + sw.median_price_per_sqft + "/sqft");
             var freshnessEl = document.getElementById("carFreshness");
-            if (freshnessEl && car.month) { freshnessEl.textContent = (estimatedPrice ? "Estimated tracking figures; prices withheld. Report month: " : "Report month: ") + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+            if (freshnessEl && car.month) { freshnessEl.textContent = (estimatedPrice
+                ? "Listings and days on market are estimated from CAR's latest county reports, not figures CAR published for the state. Prices stay blank until CAR publishes them. Month: "
+                : "Report month: ") + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
             content.style.display = "block";
           }
         }).catch(function() {

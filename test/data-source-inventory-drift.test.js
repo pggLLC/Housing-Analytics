@@ -126,7 +126,7 @@ function verifyCsvCounts(sources) {
   });
 
   const ddaRow = rowsById.get('dda-colorado');
-  assert.equal(ddaRow.features, '10', 'DDA CSV row must report the 10 records in data/dda-colorado.json');
+  assert.equal(ddaRow.features, '44', 'DDA CSV row must report the 44 records in data/dda-colorado.json (10 nonmetro counties + 34 Small Area ZIP rows)');
 }
 
 const sources = loadSources();
@@ -154,7 +154,7 @@ assert.match(scoringDoc, /measured terms are renormalized/i,
 const dda = sources.find((source) => source.id === 'dda-colorado');
 assert.throws(
   () => verifySource(Object.assign({}, dda, { features: dda.features + 1 })),
-  /declares 11 features but committed data contains 10/,
+  /declares 45 features but committed data contains 44/,
 );
 
 

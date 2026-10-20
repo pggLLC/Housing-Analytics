@@ -56,9 +56,9 @@ const noPartners = clone(baseline); delete noPartners.partners;
 assert.equal(Scenario.validate(noPartners), true);
 const emptyPartners = clone(baseline); emptyPartners.partners = [];
 assert.equal(Scenario.validate(emptyPartners), true);
-assert.deepEqual(baseline.meta.owner_inputs_pending, ['tdc_build_up', 'land_value', 'phasing', 'hrwc_terms', 'development_partner', 'lender']);
+assert.deepEqual(baseline.meta.owner_inputs_pending, ['tdc_build_up', 'land_value', 'phasing', 'steward_terms', 'development_partner', 'lender']);
 assert.deepEqual(baseline.partners.map((partner) => partner.role), ['land_owner', 'steward', 'developer', 'lender']);
-assert.equal(baseline.partners.find((partner) => partner.role === 'steward').provider_id, 'hrwc');
+assert.equal(baseline.partners.find((partner) => partner.role === 'steward').provider_id, null);
 assert.equal(baseline.partners.find((partner) => partner.role === 'developer').name, null);
 assert.equal(baseline.partners.find((partner) => partner.role === 'lender').name, null);
 

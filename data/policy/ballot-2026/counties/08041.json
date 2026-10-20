@@ -12,7 +12,7 @@
       "limitations": [
         "El Paso County Ballot Issue 1A (extends the existing 0.23% public safety sales and use tax to January 1, 2037) read and excluded; it is the only county question. School, fire and other district measures (4B, 4C, 6A, 7B and others) were also excluded.",
         "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26).",
-        "The sample ballot PDF uses a shifted font encoding; its text was decoded (each character offset by 29) before reading."
+        "The sample ballot PDF's embedded text uses a nonstandard character encoding; it was converted to plain text before reading."
       ],
       "reviewed_sources": [
         {
@@ -70,7 +70,7 @@
       "entry_ids": [],
       "limitations": [
         "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official sample ballot, which the county describes as including all the local and state races and measures. This row is absent from it.",
-        "The city website returned HTTP 403 and could not be checked.",
+        "The city website could not be opened, so it was not checked.",
         "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
       ]
     },
@@ -83,7 +83,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Town of Green Mountain Falls Ballot Issue 3A (0.5% sales tax for 2027–2030 for the Old Town Marshal's building) read and excluded; no housing earmark. The town website returned HTTP 403.",
+        "Town of Green Mountain Falls Ballot Issue 3A (0.5% sales tax for 2027–2030 for the Old Town Marshal's building) read and excluded; no housing earmark. The town website could not be opened.",
         "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
       ]
     },

@@ -135,8 +135,47 @@
   function exampleInputs(model, data) {
     return `<p class="ms-warning ms-example-inputs" data-example-inputs="true"><strong>${esc(MarketStudyReport.exampleInputsLabel(placeName(model, data)))}.</strong> ${MarketStudyReport.exampleInputsDetail()}</p>`;
   }
+  // Header definitions, shown from the header itself by table-header-tips.js.
+  var HEADER_TIPS = {
+    'Homes': 'How many homes in the example project fall in this row.',
+    'Type': 'Number of bedrooms in the home.',
+    'Size': 'Planned interior floor area range, in square feet.',
+    'Where the number comes from': 'Whether the figure was entered for the example, modeled from other inputs, or read from a public source.',
+    'Income group (AMI band)': 'The range of household income, as a share of area median income (AMI), the homes are priced for.',
+    'Most they could pay': 'The highest price a household at the top of the band could pay with the example mortgage terms and housing-cost share.',
+    'Gap to typical home value': 'Typical local home value minus the most the household could pay. A positive number is a shortfall.',
+    'Still short after the example\'s down-payment help': 'The gap left after the down-payment help assumed for the example project.',
+    'Years owned': 'How long the first owner keeps the home before selling.',
+    'Seller walks away with (net proceeds)': 'What the seller keeps at resale after selling costs, the mortgage payoff and any public loan repayment, plus any improvement credit.',
+    'Capped resale price': 'The resale price the formula allows, held no higher than the appraised market value.',
+    'Most the next buyer could pay': 'The highest price the next income-qualified buyer could pay in that year, with incomes grown as modeled.',
+    'Still affordable to the next buyer?': 'Whether the capped resale price is at or below what the next buyer could pay.',
+    'Step': 'One payment out of the sale proceeds, in the order they are paid.',
+    'Owed': 'The amount due for this step.',
+    'Paid': 'The amount the sale proceeds covered for this step.',
+    'Shortfall': 'Owed minus paid: what the proceeds could not cover.',
+    'Evidence': 'Whether the figure is modeled from example inputs or read from a source.',
+    'Stage': 'One step in narrowing all households to buyers ready to purchase one of these homes.',
+    'Share / output (decimal share, e.g. 0.8 = 80%)': 'The share of the previous stage that carries forward, as a decimal.',
+    'Output / protected label': 'How many households remain after this stage, or why the count is withheld.',
+    'Evidence basis': 'What the share is based on.',
+    'Classification': 'Whether the share was entered, modeled, or read from a source.',
+    'Sales pace': 'How quickly the homes are assumed to sell.',
+    'Homes closing each month': 'Homes sold per month at this pace.',
+    'Homes closing each year': 'Homes sold per year at this pace.',
+    'Share of ready buyers needed each year': 'Homes sold each year divided by the households ready to buy.',
+    'Share of all ready buyers the project needs': 'All the project\'s homes divided by the households ready to buy.',
+    'Signed contracts needed (some fall through)': 'Purchase contracts needed to close every home, allowing for contracts that are cancelled.',
+    'Pool only shrinks as homes sell (no new buyers added)': 'Whether the model replenishes the pool of ready buyers over the sales period. It does not.',
+    'Homes in this group': 'How many of the project\'s homes are priced for this income group.',
+    'Share of this group\'s ready buyers needed': 'Homes in the group divided by the group\'s households ready to buy.',
+    'Data limitation': 'What the figure cannot tell you, given the data behind it.'
+  };
   function table(headers, rows, label, ordered) {
-    return `<div class="ms-table-wrap"><table aria-label="${label}"${ordered ? ' data-no-sort' : ''}><thead><tr>${headers.map(function (item) { return `<th>${item}</th>`; }).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+    return `<div class="ms-table-wrap"><table aria-label="${label}"${ordered ? ' data-no-sort' : ''}><thead><tr>${headers.map(function (item) {
+      var tip = HEADER_TIPS[item];
+      return tip ? `<th data-tip="${esc(tip)}">${item}</th>` : `<th>${item}</th>`;
+    }).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   }
   function scenarioKey(doc) {
     return doc.program.variant_note ? doc.program.variant_note.value : doc.meta.name;
@@ -267,7 +306,7 @@
       return `<option${year === model.selectedYear ? ' selected' : ''}>${year}</option>`;
     }).join('');
     var rows = model.settlement.steps.map(function (step) {
-      return `<tr><td>${step.label}</td><td>${display(step.owed, 'money')}</td><td>${display(step.paid, 'money')}</td><td>${display(step.shortfall, 'money')}</td><td>${pill(step)}</td></tr>`;
+      return `<tr><td>${step.label}${step.note ? `<br><span class="ms-note">${esc(step.note)}</span>` : ''}</td><td>${display(step.owed, 'money')}</td><td>${display(step.paid, 'money')}</td><td>${display(step.shortfall, 'money')}</td><td>${pill(step)}</td></tr>`;
     });
     var warning = model.settlement.ownerNetTransparencyWarning
       ? `<div class="ms-warning" role="alert" data-transparency-warning="visible"><strong>Owner-net transparency warning:</strong> ${model.settlement.ownerNetTransparencyNote}</div>` : '';

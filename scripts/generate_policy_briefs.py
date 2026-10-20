@@ -227,7 +227,7 @@ OTHER_STATE_RE = re.compile(
     r'indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|'
     r'oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|'
     r'maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|'
-    r'idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|'
+    r'idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|st\.? louis|'
     r'seattle|portland|burbank|felton|tulsa|indianapolis|trumann|newport|reese apartments|'
     r'streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog|az ?family)\b', re.I)
 COLORADO_RE = re.compile(
@@ -256,7 +256,7 @@ PROGRAMS: list[tuple[str, re.Pattern]] = [
 AMBIGUOUS_PLACE_NAMES = {
     'Alpine', 'Avon', 'Bennett', 'Bonanza', 'Boone', 'Brandon', 'Brush', 'Cathedral',
     'Catherine', 'Center', 'Cope', 'Crawford', 'Crook', 'Crowley', 'Delta', 'Derby', 'Divide', 'Empire',
-    'Englewood', 'Erie', 'Evans', 'Evergreen', 'Fairmount', 'Federal Heights', 'Florence',
+    'Elizabeth', 'Englewood', 'Erie', 'Evans', 'Evergreen', 'Fairmount', 'Federal Heights', 'Florence',
     'Fountain', 'Frederick', 'Garden City', 'Genoa', 'Glendale', 'Golden', 'Granada', 'Grover',
     'Hasty', 'Hayden', 'Holly', 'Howard', 'Hudson', 'Hugo', 'Joes', 'Kim', 'Kirk', 'Lakeside',
     'Lewis', 'Lincoln Park', 'Lynn', 'Marble', 'Marvel', 'Meridian', 'Midland',
@@ -685,8 +685,20 @@ def refresh_stories_only() -> int:
     if not isinstance(existing, dict) or not isinstance(existing.get('briefs'), list):
         print(f'✗ {OUT_FILE} has no briefs to keep; run without --stories-only', file=sys.stderr)
         return 1
-    stories, counts = build_stories(load_alerts())
+    geos = load_geographies()
+    stories, counts = build_stories(load_alerts(), geos)
     existing['stories'] = stories
+    # A brief written before a scope rule changed can still list a headline the
+    # rule now leaves out (Pasadena's "E. Colorado Blvd." on 2026-10-19): drop
+    # those links so the briefs and the stories agree.
+    for b in existing['briefs']:
+        if b.get('topic') == 'tool_watch' or b.get('is_tool_evaluation') or not isinstance(b.get('articles'), list):
+            continue
+        b['articles'] = [x for x in b['articles']
+                         if alert_scope({'title': x.get('title', ''), 'source': x.get('source', '')}, geos)[0] is not None]
+        if isinstance(b.get('sources'), list):
+            kept = {x.get('source') for x in b['articles']}
+            b['sources'] = [src for src in b['sources'] if src in kept]
     existing['stories_meta'] = stories_meta(counts)
     with open(OUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(existing, f, indent=2)

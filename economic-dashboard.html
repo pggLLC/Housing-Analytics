@@ -168,15 +168,15 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statUnderConst">—</div>
-<div class="kpi-strip-label">Units Under Construction</div>
+<div class="kpi-strip-label">Units Under Construction (all housing)</div>
 <div class="kpi-delta" id="deltaUnderConst">—</div>
-<div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://fred.stlouisfed.org/series/UNDCON5MUSA" target="_blank" rel="noopener">FRED UNDCON5MUSA</a></div>
+<div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://fred.stlouisfed.org/series/UNDCONTSA" target="_blank" rel="noopener">FRED UNDCONTSA</a></div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statCompletions">—</div>
-<div class="kpi-strip-label">Completions</div>
+<div class="kpi-strip-label">Completions (all housing, SAAR)</div>
 <div class="kpi-delta" id="deltaCompletions">—</div>
-<div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://fred.stlouisfed.org/series/COMPU5MUSA" target="_blank" rel="noopener">FRED COMPU5MUSA</a></div>
+<div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://fred.stlouisfed.org/series/COMPUTSA" target="_blank" rel="noopener">FRED COMPUTSA</a></div>
 </div>
 </div>
 <div style="padding:0 var(--sp4);">
@@ -685,6 +685,16 @@ function getKey(){ return CONFIG_KEY || ""; }
     return n.toLocaleString(undefined,{maximumFractionDigits:2});
   }
 
+  // Card value with the FRED series units: "thousands" series read as
+  // "1,275 thousand"; "$M" series (millions of dollars) as "$894,597 million".
+  function fmtCardValue(v, ind){
+    const n = Number(v);
+    if (!isFinite(n)) return "—";
+    if (ind.units === "thousands") return Math.round(n).toLocaleString() + " thousand";
+    if (ind.units === "$M") return "$" + Math.round(n).toLocaleString() + " million";
+    return fmtValue(n, ind.fmt);
+  }
+
   function deltaClass(d){
     if (!isFinite(d)) return "flat";
     if (d > 0) return "up";
@@ -961,17 +971,42 @@ function getKey(){ return CONFIG_KEY || ""; }
     return d.toLocaleString(undefined, {month:"short", year:"2-digit"});
   }
 
+  // Index of the observation dated closest to, and not after, one year
+  // before the observation at `endIdx` (default: the latest). Works for
+  // daily, weekly, monthly and quarterly series alike. Returns -1 when the
+  // series does not reach back a full year.
+  function yearAgoIndex(series, endIdx){
+    const end = (endIdx == null) ? series.length - 1 : endIdx;
+    if (end < 1) return -1;
+    const d = new Date(series[end].date + "T00:00:00Z");
+    if (isNaN(d.getTime())) return -1;
+    d.setUTCFullYear(d.getUTCFullYear() - 1);
+    const target = d.toISOString().slice(0, 10);
+    for (let i = end - 1; i >= 0; i--) {
+      if (series[i].date <= target) return i;
+    }
+    return -1;
+  }
+
   function pickChange(series){
-    // Prefer YoY if enough history, else last period change
-    if (series.length < 2) return {delta: NaN, label:"—"};
+    // Prefer year-over-year (same date one year earlier); if the series does
+    // not reach back a year, fall back to the change from the previous point.
+    if (series.length < 2) return {delta: NaN, label:"—", base: NaN};
     const last = series[series.length - 1].value;
-    // Find ~12 periods back if dates are monthly-ish. If not, use previous point.
-    const idx = Math.max(0, series.length - 13);
-    const prev = series[idx].value;
-    const delta = last - prev;
-    // If we likely used YoY, label it; else generic chg
-    const label = (series.length >= 13) ? "YoY" : "chg";
-    return {delta, label};
+    const yIdx = yearAgoIndex(series);
+    const idx = (yIdx >= 0) ? yIdx : series.length - 2;
+    const base = series[idx].value;
+    const delta = last - base;
+    const label = (yIdx >= 0) ? "YoY" : "chg";
+    return {delta, label, base};
+  }
+
+  // Percent change versus the year-earlier observation, or NaN.
+  function yoyPct(series){
+    const yIdx = yearAgoIndex(series);
+    if (yIdx < 0) return NaN;
+    const last = series[series.length - 1].value, prev = series[yIdx].value;
+    return (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
   }
 
   async function loadAll(){
@@ -1001,19 +1036,17 @@ function getKey(){ return CONFIG_KEY || ""; }
 
     // Load headline stats (CPI YoY, UNRATE, DGS10, HOUST) — each independently
     await Promise.allSettled([
-      fetchFRED("CPIAUCSL", apiKey, 90).then(cpi => {
-        const last = cpi[cpi.length-1];
-        const prev = cpi[Math.max(0, cpi.length-13)];
-        const yoy = (last.value/prev.value - 1) * 100;
-        els.statCpi.textContent = yoy.toFixed(1) + "%";
+      fetchFRED("CPIAUCSL", apiKey, Infinity).then(cpi => {
+        const yoy = yoyPct(cpi);
+        els.statCpi.textContent = isFinite(yoy) ? yoy.toFixed(1) + "%" : "—";
 
         // Show how the YoY rate has changed versus one year ago (in percentage points)
         if (els.deltaCpi) {
           let pp = NaN;
-          if (cpi.length >= 25) {
-            const last1y = cpi[cpi.length-13];
-            const prev1y = cpi[cpi.length-25];
-            const yoyPrev = (last1y.value/prev1y.value - 1) * 100;
+          const i1 = yearAgoIndex(cpi);
+          const i2 = (i1 >= 0) ? yearAgoIndex(cpi, i1) : -1;
+          if (i2 >= 0) {
+            const yoyPrev = (cpi[i1].value/cpi[i2].value - 1) * 100;
             pp = yoy - yoyPrev;
           }
           els.deltaCpi.textContent = isFinite(pp)
@@ -1022,7 +1055,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         }
       }).catch(e => { console.warn("Headline CPI failed:", e); els.statCpi.textContent = "—"; }),
 
-      fetchFRED("UNRATE", apiKey, 90).then(unemp => {
+      fetchFRED("UNRATE", apiKey, Infinity).then(unemp => {
         els.statUnemp.textContent = fmtValue(unemp[unemp.length-1].value, "pct");
 
         if (els.deltaUnemp) {
@@ -1033,7 +1066,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         }
       }).catch(e => { console.warn("Headline UNRATE failed:", e); els.statUnemp.textContent = "—"; }),
 
-      fetchFRED("DGS10", apiKey, 90).then(teny => {
+      fetchFRED("DGS10", apiKey, Infinity).then(teny => {
         els.stat10y.textContent = fmtValue(teny[teny.length-1].value, "pct");
 
         if (els.delta10y) {
@@ -1044,13 +1077,11 @@ function getKey(){ return CONFIG_KEY || ""; }
         }
       }).catch(e => { console.warn("Headline DGS10 failed:", e); els.stat10y.textContent = "—"; }),
 
-      fetchFRED("HOUST", apiKey, 90).then(starts => {
+      fetchFRED("HOUST", apiKey, Infinity).then(starts => {
         els.statStarts.textContent = (Math.round(starts[starts.length-1].value) * 1000).toLocaleString() + " /yr";
 
         if (els.deltaStarts) {
-          const last = starts[starts.length-1].value;
-          const prev = starts[Math.max(0, starts.length-13)].value;
-          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          const pct = yoyPct(starts);
           els.deltaStarts.textContent = isFinite(pct)
             ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%`
             : "YoY: —";
@@ -1058,38 +1089,34 @@ function getKey(){ return CONFIG_KEY || ""; }
       }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
 
       // Construction activity stats for KPI strip
-      fetchFRED("HOUST5F", apiKey, 90).then(mf => {
+      fetchFRED("HOUST5F", apiKey, Infinity).then(mf => {
         if (els.statMfStarts) els.statMfStarts.textContent = (Math.round(mf[mf.length-1].value) * 1000).toLocaleString();
         if (els.deltaMfStarts) {
-          const last = mf[mf.length-1].value, prev = mf[Math.max(0, mf.length-13)].value;
-          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          const pct = yoyPct(mf);
           els.deltaMfStarts.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
         }
       }).catch(e => { console.warn("Headline HOUST5F failed:", e); if (els.statMfStarts) els.statMfStarts.textContent = "—"; }),
 
-      fetchFRED("PERMIT", apiKey, 90).then(permits => {
+      fetchFRED("PERMIT", apiKey, Infinity).then(permits => {
         if (els.statPermits) els.statPermits.textContent = (Math.round(permits[permits.length-1].value) * 1000).toLocaleString();
         if (els.deltaPermits) {
-          const last = permits[permits.length-1].value, prev = permits[Math.max(0, permits.length-13)].value;
-          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          const pct = yoyPct(permits);
           els.deltaPermits.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
         }
       }).catch(e => { console.warn("Headline PERMIT failed:", e); if (els.statPermits) els.statPermits.textContent = "—"; }),
 
-      fetchFRED("UNDCONTSA", apiKey, 90).then(uc => {
+      fetchFRED("UNDCONTSA", apiKey, Infinity).then(uc => {
         if (els.statUnderConst) els.statUnderConst.textContent = (Math.round(uc[uc.length-1].value) * 1000).toLocaleString();
         if (els.deltaUnderConst) {
-          const last = uc[uc.length-1].value, prev = uc[Math.max(0, uc.length-13)].value;
-          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          const pct = yoyPct(uc);
           els.deltaUnderConst.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
         }
       }).catch(e => { console.warn("Headline UNDCONTSA failed:", e); if (els.statUnderConst) els.statUnderConst.textContent = "—"; }),
 
-      fetchFRED("COMPUTSA", apiKey, 90).then(comp => {
+      fetchFRED("COMPUTSA", apiKey, Infinity).then(comp => {
         if (els.statCompletions) els.statCompletions.textContent = (Math.round(comp[comp.length-1].value) * 1000).toLocaleString();
         if (els.deltaCompletions) {
-          const last = comp[comp.length-1].value, prev = comp[Math.max(0, comp.length-13)].value;
-          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          const pct = yoyPct(comp);
           els.deltaCompletions.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
         }
       }).catch(e => { console.warn("Headline COMPUTSA failed:", e); if (els.statCompletions) els.statCompletions.textContent = "—"; }),
@@ -1115,9 +1142,12 @@ function getKey(){ return CONFIG_KEY || ""; }
       const card = cardMap.get(ind.id);
 
       try{
-        const series = await fetchFRED(ind.id, apiKey, 120);
+        // Full history for the year-over-year change; the chart shows the
+        // most recent 120 observations.
+        const history = await fetchFRED(ind.id, apiKey, Infinity);
+        const series = history.slice(-120);
         const last = series[series.length-1];
-        valEl.textContent = fmtValue(last.value, ind.fmt);
+        valEl.textContent = fmtCardValue(last.value, ind);
         dateEl.textContent = monthLabel(last.date);
 
         // Populate data-currency attribute and "As of [date]" display
@@ -1125,7 +1155,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         if (card) card.setAttribute("data-currency", last.date);
         if (currencyEl) currencyEl.textContent = `As of ${last.date}`;
 
-        const change = pickChange(series);
+        const change = pickChange(history);
         const cls = deltaClass(change.delta);
         const arr = arrow(change.delta);
 
@@ -1134,7 +1164,7 @@ function getKey(){ return CONFIG_KEY || ""; }
           if (ind.fmt === "pct") {
             deltaText = `${arr} ${change.delta.toFixed(2)} pts ${change.label}`;
           } else if (ind.fmt === "usd" || ind.fmt === "index" || ind.fmt === "int") {
-            const base = series[Math.max(0, series.length-13)].value;
+            const base = change.base;
             const pct = base ? ((last.value/base - 1)*100) : NaN;
             if (isFinite(pct)) deltaText = `${arr} ${pct.toFixed(1)}% ${change.label}`;
             else deltaText = `${arr} ${change.delta.toFixed(2)} ${change.label}`;

@@ -911,12 +911,58 @@
       "label": "Accessory dwelling units by right",
       "family": "land_use",
       "what_it_is": "Homeowners may add an accessory dwelling unit through administrative approval wherever single-unit homes are allowed.",
-      "colorado_status": "authorized",
-      "status_reason": "HB24-1152 requires subject jurisdictions to allow one ADU, subject to administrative approval, wherever single-unit detached dwellings are allowed.",
+      "colorado_status": "required_for_subject_jurisdictions",
+      "status_reason": "Required by state law. Since June 30, 2025, HB24-1152 has required every subject jurisdiction to allow one ADU, subject to administrative approval, wherever single-unit detached dwellings are allowed. Subject jurisdictions are municipalities with a population of one thousand or more, as reported by the State Demography Office, that are within a metropolitan planning organization, and the portion of a county that is within both a metropolitan planning organization and a census designated place with a population of forty thousand or more.",
       "reuse_legal_basis_ids": [
         "hb24-1152-adu"
       ],
-      "considerations": "For subject jurisdictions this is a state mandate; others can adopt it voluntarily, and ADUs add units slowly, one lot at a time.",
+      "legal_basis": [
+        {
+          "citation": "HB24-1152, Accessory Dwelling Units, C.R.S. 29-35-102(21) and 29-35-103(1)",
+          "source": {
+            "label": "leg.colorado.gov HB24-1152 signed act",
+            "url": "https://leg.colorado.gov/bill_files/42079/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "HB24-1152 Signed Act PDF, pages 10-11",
+            "checked": "2026-10-19"
+          },
+          "evidence": [
+            {
+              "section": "29-35-102(21)(a)",
+              "quote": "A MUNICIPALITY THAT BOTH HAS A POPULATION OF ONE THOUSAND OR MORE, AS REPORTED BY THE STATE DEMOGRAPHY OFFICE, AND IS WITHIN A METROPOLITAN PLANNING ORGANIZATION"
+            },
+            {
+              "section": "29-35-102(21)(b)",
+              "quote": "THE PORTION OF A COUNTY THAT IS BOTH WITHIN A CENSUS DESIGNATED PLACE WITH A POPULATION OF FORTY THOUSAND OR MORE, AS REPORTED IN THE MOST RECENT DECENNIAL CENSUS, AND WITHIN A METROPOLITAN PLANNING ORGANIZATION."
+            },
+            {
+              "section": "29-35-103(1)",
+              "quote": "ON OR AFTER JUNE 30, 2025, A SUBJECT JURISDICTION SHALL ALLOW, SUBJECT TO AN ADMINISTRATIVE APPROVAL PROCESS, ONE ACCESSORY DWELLING UNIT AS AN ACCESSORY USE TO A SINGLE-UNIT DETACHED DWELLING IN ANY PART OF THE SUBJECT JURISDICTION WHERE THE JURISDICTION ALLOWS SINGLE-UNIT DETACHED DWELLINGS."
+            }
+          ]
+        }
+      ],
+      "known_subject_jurisdictions": [
+        {
+          "geoid": "0820000",
+          "name": "Denver",
+          "basis": "a municipality (the City and County of Denver) far above one thousand people, within the metropolitan planning organization area of the Denver Regional Council of Governments (DRCOG).",
+          "source": {
+            "label": "DRCOG, Federal Fiscal Years 2026 and 2027 Unified Planning Work Program",
+            "url": "https://drcog.org/sites/default/files/non/TPO-GF-26JULY15UPWPADMIN_REDLINE-EN-NON-26-07-08-V1.pdf"
+          },
+          "evidence": [
+            {
+              "section": "What is the Denver Regional Council of Governments?",
+              "quote": "DRCOG serves several functions for the region, including as a federally designated metropolitan planning organization. In this role, DRCOG coordinates regional transportation planning to address important regional needs in all or part of Adams, Arapahoe, Boulder, Broomfield, Denver, Douglas, Jefferson and Weld counties."
+            }
+          ],
+          "checked": "2026-10-20"
+        }
+      ],
+      "considerations": "Not a local option for a subject jurisdiction, such as Denver or another municipality of one thousand or more people within a metropolitan planning organization: it must already allow ADUs this way. A local government outside the definition can adopt the same rule voluntarily; one that does, and also adopts a strategy listed in 29-35-104, can be certified by the Colorado Department of Local Affairs (DOLA) as an ADU supportive jurisdiction.",
       "maps_to": {}
     },
     {

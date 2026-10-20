@@ -1,7 +1,8 @@
 // test/preservation.test.js
 //
-// Unit tests for js/preservation.js (PreservationDashboard public API)
-// and js/data-connectors/nhpd.js (Nhpd connector).
+// Unit tests for js/preservation.js (PreservationDashboard public API, which
+// shows the CHFA preservation inventory) and js/data-connectors/nhpd.js
+// (Nhpd connector, used by the market analysis).
 //
 // Runs with plain Node.js — no jest/mocha required.
 // Exit code 0 = all pass; 1 = one or more failures.
@@ -74,205 +75,104 @@ eval(fs.readFileSync(path.join(ROOT, 'js/preservation.js'), 'utf8'));  // eslint
 
 // ── Sample data ──────────────────────────────────────────────────────────────
 
+// Nhpd connector fixtures (used by market-analysis, not by preservation.html).
 const SAMPLE_FEATURE = {
   type: 'Feature',
   geometry: { type: 'Point', coordinates: [-104.99, 39.74] },
   properties: {
-    nhpd_id: 'CO-001',
-    property_name: 'Test Apartments',
-    address: '100 Main St',
-    city: 'Denver',
-    county: 'Denver',
-    county_fips: '08031',
-    state: 'CO',
-    zip: '80204',
-    total_units: 120,
-    assisted_units: 100,
-    subsidy_type: 'HUD Section 8 PBRA',
-    subsidy_expiration: '2027-06-30',
-    owner_type: 'nonprofit',
-    ami_targeting: '60%',
+    nhpd_id: 'CO-001', property_name: 'Test Apartments', address: '100 Main St',
+    city: 'Denver', county: 'Denver', county_fips: '08031', state: 'CO', zip: '80204',
+    total_units: 120, assisted_units: 100, subsidy_type: 'HUD Section 8 PBRA',
+    subsidy_expiration: '2027-06-30', owner_type: 'nonprofit', ami_targeting: '60%',
   }
 };
 
 const SAMPLE_GEOJSON = {
   type: 'FeatureCollection',
-  meta: {
-    generated: '2026-03-13T00:00:00Z',
-    feature_count: 3,
-  },
+  meta: { generated: '2026-03-13T00:00:00Z', feature_count: 3 },
   features: [
     SAMPLE_FEATURE,
-    {
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [-105.27, 40.01] },
-      properties: {
-        nhpd_id: 'CO-002',
-        property_name: 'Boulder Flats',
-        address: '200 Pearl St',
-        city: 'Boulder',
-        county: 'Boulder',
-        county_fips: '08013',
-        state: 'CO',
-        zip: '80302',
-        total_units: 60,
-        assisted_units: 50,
-        subsidy_type: 'LIHTC',
-        subsidy_expiration: '2035-12-31',
-        owner_type: 'nonprofit',
-        ami_targeting: '60%',
-      }
-    },
-    {
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [-104.82, 38.83] },
-      properties: {
-        nhpd_id: 'CO-003',
-        property_name: 'Springs Manor',
-        address: '300 Tejon St',
-        city: 'Colorado Springs',
-        county: 'El Paso',
-        county_fips: '08041',
-        state: 'CO',
-        zip: '80903',
-        total_units: 80,
-        assisted_units: 72,
-        subsidy_type: 'HOME',
-        subsidy_expiration: String(new Date().getFullYear() + 1) + '-06-30',
-        owner_type: 'for-profit',
-        ami_targeting: '80%',
-      }
-    }
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [-105.27, 40.01] },
+      properties: { nhpd_id: 'CO-002', property_name: 'Boulder Flats', city: 'Boulder', county: 'Boulder',
+        county_fips: '08013', total_units: 60, assisted_units: 50, subsidy_type: 'LIHTC', subsidy_expiration: '2035-12-31' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [-104.82, 38.83] },
+      properties: { nhpd_id: 'CO-003', property_name: 'Springs Manor', city: 'Colorado Springs', county: 'El Paso',
+        county_fips: '08041', total_units: 80, assisted_units: 72, subsidy_type: 'HOME',
+        subsidy_expiration: String(new Date().getFullYear() + 1) + '-06-30' } }
   ]
 };
 
-// ── Tests: PreservationDashboard._normaliseFeature ───────────────────────────
+// CHFA preservation-map records, in the shape of
+// data/affordable-housing/preservation/chfa-preservation.json.
+const CHFA_FEATURES = [
+  { type: 'Feature', geometry: { type: 'Point', coordinates: [-104.99, 39.74] },
+    properties: { PROJECT: '1001 Lincoln Street ', PROJ_ADD: '1001 North Lincoln Street', PROJ_CTY: 'Denver',
+      PROJ_ST: 'CO', N_UNITS: 118, UniqueProjID: '80203-MF-1001', RecordID: 1, Zip: 80203 } },
+  { type: 'Feature', geometry: { type: 'Point', coordinates: [-105.27, 40.01] },
+    properties: { PROJECT: 'Boulder Flats', PROJ_ADD: '200 Pearl St', PROJ_CTY: 'BOULDER',
+      PROJ_ST: 'CO', N_UNITS: 40, UniqueProjID: '80302-MF-Boulder', RecordID: 2, Zip: 80302 } },
+  { type: 'Feature', geometry: { type: 'Point', coordinates: [-104.82, 38.83] },
+    properties: { PROJECT: 'Springs Manor', PROJ_ADD: '300 Tejon St', PROJ_CTY: 'Colorado Springs',
+      PROJ_ST: 'CO', N_UNITS: null, UniqueProjID: '80903-MF-Springs', RecordID: 3, Zip: 80903 } },
+];
 
-test('normaliseFeature: extracts standard fields', function () {
-  const n = window.PreservationDashboard._normaliseFeature(SAMPLE_FEATURE);
-  assert(n.property_name === 'Test Apartments',  'property_name correct');
-  assert(n.city          === 'Denver',           'city correct');
-  assert(n.county        === 'Denver',           'county correct');
-  assert(n.assisted_units === 100,               'assisted_units correct');
-  assert(n.total_units    === 120,               'total_units correct');
-  assert(n.subsidy_type  === 'HUD Section 8 PBRA', 'subsidy_type correct');
+// ── Tests: PreservationDashboard (CHFA inventory) ────────────────────────────
+
+test('normaliseFeature: maps CHFA fields', function () {
+  const n = window.PreservationDashboard._normaliseFeature(CHFA_FEATURES[0]);
+  assert(n.property_name === '1001 Lincoln Street', 'property_name trimmed');
+  assert(n.address === '1001 North Lincoln Street', 'address');
+  assert(n.city === 'Denver', 'city');
+  assert(n.zip === '80203', 'zip as string');
+  assert(n.units === 118, 'units');
+  assert(n.lon === -104.99 && n.lat === 39.74, 'lon/lat from geometry');
 });
 
-test('normaliseFeature: injects lon/lat from geometry', function () {
-  const n = window.PreservationDashboard._normaliseFeature(SAMPLE_FEATURE);
-  assert(n.lon === -104.99, 'lon from geometry');
-  assert(n.lat === 39.74,   'lat from geometry');
+test('normaliseFeature: upper-case city is title-cased; missing unit count stays unknown', function () {
+  const b = window.PreservationDashboard._normaliseFeature(CHFA_FEATURES[1]);
+  assert(b.city === 'Boulder', 'BOULDER → Boulder');
+  const s = window.PreservationDashboard._normaliseFeature(CHFA_FEATURES[2]);
+  assert(s.units === null, 'null N_UNITS → null, not 0');
+  assert(window.PreservationDashboard._normaliseFeature(null) === null, 'null input → null');
 });
 
-test('normaliseFeature: handles null input gracefully', function () {
-  const n = window.PreservationDashboard._normaliseFeature(null);
-  assert(n === null, 'returns null for null input');
+test('assignCounties + computeKpis: unknown unit counts are counted separately', function () {
+  const rows = CHFA_FEATURES.map(f => window.PreservationDashboard._normaliseFeature(f));
+  const names = { '-104.99': 'Denver', '-105.27': 'Boulder', '-104.82': 'El Paso' };
+  window.PreservationDashboard._assignCounties(rows, (lat, lon) => ({ name: names[String(lon)] }));
+  assert(rows.map(r => r.county).join('|') === 'Denver|Boulder|El Paso', 'counties assigned from location');
+  const k = window.PreservationDashboard._computeKpis(rows);
+  assert(k.total === 3, 'total 3');
+  assert(k.totalUnits === 158, 'units 118+40, unknown excluded');
+  assert(k.unknownUnits === 1, 'one property with no unit count');
+  assert(k.counties === 3, 'three counties');
+  const e = window.PreservationDashboard._computeKpis([]);
+  assert(e.total === 0 && e.totalUnits === 0 && e.unknownUnits === 0, 'empty → zeros');
 });
 
-test('normaliseFeature: handles flat object (no geometry)', function () {
-  const flat = { property_name: 'Flat Prop', assisted_units: 10, subsidy_type: 'LIHTC' };
-  const n = window.PreservationDashboard._normaliseFeature(flat);
-  assert(n.property_name === 'Flat Prop', 'property_name from flat object');
-  assert(n.assisted_units === 10,         'assisted_units from flat object');
-});
-
-// ── Tests: PreservationDashboard._parseExpiryYear ────────────────────────────
-
-test('parseExpiryYear: parses ISO date string', function () {
-  const y = window.PreservationDashboard._parseExpiryYear('2027-06-30');
-  assert(y === 2027, 'year from ISO string');
-});
-
-test('parseExpiryYear: accepts numeric year', function () {
-  const y = window.PreservationDashboard._parseExpiryYear(2031);
-  assert(y === 2031, 'year from number');
-});
-
-test('parseExpiryYear: returns null for null input', function () {
-  const y = window.PreservationDashboard._parseExpiryYear(null);
-  assert(y === null, 'null input → null');
-});
-
-test('parseExpiryYear: returns null for invalid string', function () {
-  const y = window.PreservationDashboard._parseExpiryYear('not-a-date');
-  assert(y === null, 'invalid string → null');
-});
-
-// ── Tests: PreservationDashboard._computeKpis ────────────────────────────────
-
-test('computeKpis: sums units and flags expiring correctly', function () {
-  const rows = SAMPLE_GEOJSON.features.map(
-    f => window.PreservationDashboard._normaliseFeature(f)
-  );
-  const kpis = window.PreservationDashboard._computeKpis(rows);
-  assert(kpis.total === 3,            'total count is 3');
-  assert(kpis.totalUnits === 222,     'total units = 100+50+72');
-  // Springs Manor expiry is next year → should be flagged
-  assert(kpis.expiringCount >= 1,     'at least 1 expiring within 3 years');
-  assert(kpis.expiringUnits >= 72,    'at-risk units includes Springs Manor');
-});
-
-test('computeKpis: empty array returns zeros', function () {
-  const kpis = window.PreservationDashboard._computeKpis([]);
-  assert(kpis.total         === 0, 'total 0');
-  assert(kpis.totalUnits    === 0, 'totalUnits 0');
-  assert(kpis.expiringCount === 0, 'expiringCount 0');
-  assert(kpis.expiringUnits === 0, 'expiringUnits 0');
-});
-
-// ── Tests: PreservationDashboard._buildChartData ─────────────────────────────
-
-test('buildChartData: labels span current year + 15 years', function () {
-  const rows = SAMPLE_GEOJSON.features.map(
-    f => window.PreservationDashboard._normaliseFeature(f)
-  );
+test('buildChartData: counties ordered by listed units', function () {
+  const rows = CHFA_FEATURES.map(f => window.PreservationDashboard._normaliseFeature(f));
+  rows[0].county = 'Denver'; rows[1].county = 'Boulder'; rows[2].county = '';
   const cd = window.PreservationDashboard._buildChartData(rows);
-  const currentYear = new Date().getFullYear();
-  assert(cd.labels[0] === String(currentYear),               'first label = current year');
-  assert(cd.labels[cd.labels.length - 1] === String(currentYear + 15), 'last label = current+15');
-  assert(cd.unitCounts.length === cd.labels.length,          'unit count array aligned with labels');
-  assert(cd.propertyCounts.length === cd.labels.length,      'property count array aligned');
+  assert(cd.labels.join('|') === 'Denver|Boulder', 'unassigned rows are left out');
+  assert(cd.unitCounts[0] === 118 && cd.propertyCounts[1] === 1, 'sums agree');
 });
 
-test('buildChartData: 2035 bucket contains Boulder Flats (50 units)', function () {
-  const rows = SAMPLE_GEOJSON.features.map(
-    f => window.PreservationDashboard._normaliseFeature(f)
-  );
-  const cd = window.PreservationDashboard._buildChartData(rows);
-  const idx = cd.labels.indexOf('2035');
-  assert(idx !== -1,              '2035 label present');
-  assert(cd.unitCounts[idx] === 50, '50 units in 2035 bucket');
-  assert(cd.propertyCounts[idx] === 1, '1 property in 2035 bucket');
+test('inSizeBand: bands and unknown counts', function () {
+  const f = window.PreservationDashboard._inSizeBand;
+  assert(f({ units: 24 }, '1-24') && !f({ units: 25 }, '1-24'), '1–24 band');
+  assert(f({ units: 100 }, '100+'), '100+ band');
+  assert(f({ units: null }, 'unknown') && !f({ units: null }, '50-99'), 'unknown count only in unknown band');
+  assert(f({ units: null }, ''), 'no filter matches everything');
 });
 
-// ── Tests: PreservationDashboard._expiryClass ─────────────────────────────────
-
-test('expiryClass: expired date returns pres-exp-expired', function () {
-  const cls = window.PreservationDashboard._expiryClass('2020-01-01');
-  assert(cls === 'pres-exp-expired', 'past date → expired class');
-});
-
-test('expiryClass: null input returns pres-exp-unknown', function () {
-  const cls = window.PreservationDashboard._expiryClass(null);
-  assert(cls === 'pres-exp-unknown', 'null → unknown class');
-});
-
-test('expiryClass: future date 5+ years returns pres-exp-ok', function () {
-  const futureYear = new Date().getFullYear() + 8;
-  const cls = window.PreservationDashboard._expiryClass(futureYear + '-12-31');
-  assert(cls === 'pres-exp-ok', 'far future → ok class');
-});
-
-// ── Tests: PreservationDashboard._subsidyTypeSlug ────────────────────────────
-
-test('subsidyTypeSlug: HUD Section 8 PBRA → hud-section-8-pbra', function () {
-  const s = window.PreservationDashboard._subsidyTypeSlug('HUD Section 8 PBRA');
-  assert(s === 'hud-section-8-pbra', 'slug correct');
-});
-
-test('subsidyTypeSlug: empty string returns "other"', function () {
-  const s = window.PreservationDashboard._subsidyTypeSlug('');
-  assert(s === 'other', 'empty → other');
+test('chfa-preservation.json: real CHFA inventory with names, cities and points', function () {
+  const geojson = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/affordable-housing/preservation/chfa-preservation.json'), 'utf8'));
+  assert(geojson.type === 'FeatureCollection', 'FeatureCollection');
+  assert(geojson.features.length > 1000, 'statewide inventory, not a sample (' + geojson.features.length + ')');
+  assert(geojson.features.every(f => f.properties.PROJECT && f.properties.PROJ_CTY), 'every record has a name and city');
+  assert(geojson.features.every(f => f.geometry && Array.isArray(f.geometry.coordinates)), 'every record has a point');
+  assert(geojson.features.every(f => /PreservationProperties/.test(f.properties._source)), 'every record is from the CHFA layer');
 });
 
 // ── Tests: Nhpd connector ─────────────────────────────────────────────────────
@@ -371,20 +271,30 @@ test('preservation.html: file exists', function () {
 test('preservation.html: includes required scripts', function () {
   const html = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
   assert(html.includes('js/preservation.js'),           'includes preservation.js');
-  assert(html.includes('js/data-connectors/nhpd.js'),  'includes nhpd.js connector');
+  assert(html.includes('js/county-from-coords.js'),     'includes county-from-coords.js');
   assert(html.includes('js/cache-manager.js'),          'includes cache-manager.js');
   assert(html.includes('js/data-service-portable.js'), 'includes data-service-portable.js');
+  assert(!html.includes('js/data-connectors/nhpd.js'),  'no longer loads the NHPD stub connector');
 });
 
-test('NHPD rendering surfaces disclose the real stub vintage and gated-source limitation', function () {
-  const preservation = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
+test('preservation.html: names CHFA as the source and NHPD partners correctly, with no stub or build text', function () {
+  const html = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
+  assert(html.includes('chfainfo.com/rental-housing/preservation'), 'links CHFA preservation page');
+  assert(html.includes('Public and Affordable Housing Research Corporation'), 'NHPD partner is PAHRC');
+  assert(!/Public Housing Analytics/.test(html), 'no misnamed NHPD partner');
+  assert(!/stub|snapshot|fetch_nhpd|HTTP 404|scripts\//i.test(html.replace(/<script[\s\S]*?<\/script>/g, '')), 'no stub, snapshot or build text');
+  assert(/does not list subsidy type or expiration dates/.test(html), 'states the layer limitation');
+  const js = fs.readFileSync(path.join(ROOT, 'js/preservation.js'), 'utf8');
+  assert(js.includes("'affordable-housing/preservation/chfa-preservation.json'"), 'dashboard loads the CHFA inventory');
+  assert(!js.includes('nhpd_co.geojson'), 'dashboard does not load the NHPD stub');
+});
+
+test('market-analysis.html: NHPD stub surface discloses vintage and gated-source limitation', function () {
   const market = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
-  [preservation, market].forEach(function (surface) {
-    const snapshot = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/nhpd_co.geojson'), 'utf8'));
-    assert(surface.includes(snapshot.meta.generated.slice(0, 10)), 'surface vintage agrees with the source metadata');
-    assert(surface.includes('registration-gated'), 'surface discloses the NHPD access limitation');
-    assert(/verify current subsidy status/i.test(surface), 'surface requires current-source verification');
-  });
+  const snapshot = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/nhpd_co.geojson'), 'utf8'));
+  assert(market.includes(snapshot.meta.generated.slice(0, 10)), 'surface vintage agrees with the source metadata');
+  assert(market.includes('registration-gated'), 'surface discloses the NHPD access limitation');
+  assert(/verify current subsidy status/i.test(market), 'surface requires current-source verification');
 });
 
 test('preservation.html: accessibility — landmarks present', function () {

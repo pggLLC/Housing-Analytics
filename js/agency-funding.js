@@ -449,18 +449,19 @@
     var groups = M.group(awards, by);
     var perOk = by === 'county' && state.norm === 'per';
     var cols = [
-      { k: 'CHFA', head: 'CHFA credits a year', val: function (b) { return b && b.credits; }, fmt: money },
-      { k: 'OEDIT', head: 'OEDIT $', val: function (b) { return b && b.dollars; }, fmt: money },
-      { k: 'DOLA', head: 'DOLA $', val: function (b) { return b && b.dollars; }, fmt: money },
+      { k: 'CHFA', head: 'CHFA credits a year', tip: 'Housing tax credits a year awarded by the Colorado Housing and Finance Authority (CHFA).', val: function (b) { return b && b.credits; }, fmt: money },
+      { k: 'OEDIT', head: 'OEDIT $', tip: 'Grants and loans, in dollars, awarded by the Colorado Office of Economic Development and International Trade (OEDIT).', val: function (b) { return b && b.dollars; }, fmt: money },
+      { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA).', val: function (b) { return b && b.dollars; }, fmt: money },
     ];
     groups.forEach(function (g) {
       g.population = by === 'county' ? (data.counties[g.key] || {}).population : null;
       g.sortValue = g.summary.homes || 0;
     });
     groups.sort(function (a, b) { return (a.key === '_none') - (b.key === '_none') || b.sortValue - a.sortValue; });
-    var head = '<tr><th scope="col">' + (by === 'county' ? 'County' : 'Developer') + '</th>' +
-      cols.map(function (c) { return '<th scope="col" class="num">' + esc(c.head) + '</th>'; }).join('') +
-      '<th scope="col" class="num">Homes</th><th scope="col" class="num">Awards</th></tr>';
+    var head = '<tr><th scope="col" data-tip="' + (by === 'county' ? 'The county the awarded project is in.' : 'The developer named on the award.') + '">' + (by === 'county' ? 'County' : 'Developer') + '</th>' +
+      cols.map(function (c) { return '<th scope="col" class="num" data-tip="' + esc(c.tip) + '">' + esc(c.head) + '</th>'; }).join('') +
+      '<th scope="col" class="num" data-tip="Homes in the awarded projects; per 1,000 residents when shown per resident.">Homes</th>' +
+      '<th scope="col" class="num" data-tip="How many awards are counted, from all three agencies.">Awards</th></tr>';
     var LIMIT = 12;
     // Per resident needs a population; a row with none (awards in no one county) says so rather than showing its total.
     var NO_POP = '<td class="num hm-muted" title="No county population to divide by">n/a</td>';
@@ -491,9 +492,9 @@
 
   // ── grouped table ─────────────────────────────────────────────────────────
   var COLS = [
-    { key: 'label', head: 'Name', num: false },
-    { key: 'measure', head: null, num: true },
-    { key: 'homes', head: 'Homes', num: true },
+    { key: 'label', head: 'Name', num: false, tip: 'The county, town, developer or agency the awards are grouped by. Select a name to open its awards.' },
+    { key: 'measure', head: null, num: true, tip: 'Grants and loans in dollars, or housing tax credits a year, for the agency chosen in "Who paid". The two are never added together.' },
+    { key: 'homes', head: 'Homes', num: true, tip: 'Homes in the awarded projects.' },
   ];
 
   function groupMeasure(g) {
@@ -545,7 +546,7 @@
       var name = c.head || measureHead();
       var sorted = sk === c.key;
       var aria = sorted ? (dir > 0 ? 'ascending' : 'descending') : 'none';
-      return '<th scope="col" class="' + (c.num ? 'num' : '') + '" aria-sort="' + aria + '"><button type="button" data-hm-sort="' + c.key + '">' +
+      return '<th scope="col" class="' + (c.num ? 'num' : '') + '" aria-sort="' + aria + '" data-tip="' + esc(c.tip) + '"><button type="button" data-hm-sort="' + c.key + '">' +
         esc(name) + (sorted ? (dir > 0 ? ' ▲' : ' ▼') : '') + '</button></th>';
     }).join('') + '</tr>';
     var body = groups.map(function (g) {

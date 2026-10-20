@@ -41,6 +41,7 @@ import os
 import re
 import subprocess
 import sys
+from urllib.parse import urlparse
 import tempfile
 import urllib.request
 
@@ -189,7 +190,7 @@ def build(pdf_dir: str | None):
             used.add(key)
         since = fix.get('since')
         if since and not (since.get('text') and since.get('checked') and since.get('sources')
-                          and all(str(x.get('url', '')).startswith('https://') for x in since['sources'])):
+                          and all((urlparse(str(x.get('url', ''))).scheme == 'https' and urlparse(str(x.get('url', ''))).netloc) for x in since['sources'])):
             raise SystemExit(f'{key}: "since" needs text, checked and https sources')
         # an entry with only a note annotates a row the ledger read correctly
         sponsor = fix.get('sponsor', a['sponsor'])

@@ -128,6 +128,12 @@ for (const tool of docs.alternatives.tools) {
   }
   const row = [...toolkit.querySelectorAll('tr')].find((tr) => tr.querySelector('th')?.textContent === tool.label);
   assert(row, `toolkit has no row for ${tool.label}`);
+  if (tool.colorado_status === 'required_for_subject_jurisdictions') {
+    // A state mandate is not counted as local adoption, and never reads as "no record".
+    assert.equal(row.querySelectorAll('td')[0].textContent, 'Required by state law', `${tool.label}: mandate row`);
+    assert(!/No verified record/.test(row.textContent), `${tool.label}: a mandate must not read as unused`);
+    continue;
+  }
   assert.equal(Number(row.querySelectorAll('td')[0].textContent), expected, `${tool.label}: toolkit count`);
   if (expected) toolsCounted++;
 }
@@ -144,6 +150,33 @@ for (const geoid of tally.keys()) {
   }
 }
 assert(suggestionsChecked > 100, 'suggestion scan is vacuous');
+
+// 4b. ADUs by right are required by HB24-1152: never suggested, shown as required (Denver is covered).
+{
+  const alt = model.alternatives('0820000');
+  assert(!alt.suggestions.some((s) => s.tool.id === 'adu_by_right'), 'Denver must not be told to consider ADUs by right');
+  assert(alt.required.some((r) => r.tool.id === 'adu_by_right'), 'ADUs by right are listed as required by state law');
+  w.LocalIncentivesPage.renderJurisdiction(model, '0820000', panel);
+  const text = textOf(panel);
+  assert(/Required by state law/.test(text) && /HB24-1152/.test(text), 'Denver panel states the HB24-1152 requirement');
+  assert(/Denver[^.]* is covered: .*Denver Regional Council of Governments/.test(text), 'Denver panel says Denver is covered, with its source');
+  assert(!/If Denver[^.]* meets that definition/.test(text), 'Denver is not left as a maybe');
+  assert(!/Accessory dwelling units by right[^.]*No Colorado jurisdiction has a verified record/.test(text), 'no "no verified record" line for ADUs');
+}
+
+// 4c. Every table header the page draws carries a definition, and the fee table has no merged cells (so it sorts).
+{
+  w.LocalIncentivesPage.renderJurisdiction(model, '0820000', panel);
+  model.SCOPES = D.SCOPES;
+  w.LocalIncentivesPage.renderSummary(model, w.document.querySelector('[data-li-summary]'));
+  w.LocalIncentivesPage.renderToolkit(model, w.document.querySelector('[data-li-toolkit]'));
+  const tables = [...w.document.querySelectorAll('table')];
+  assert(tables.length >= 7, `expected at least 7 tables, found ${tables.length}`);
+  for (const t of tables) for (const h of t.querySelectorAll('thead th')) assert(h.getAttribute('data-tip')?.length > 20, `header "${h.textContent}" has no data-tip`);
+  const feeTable = panel.querySelector('#li-fees-h').parentElement.querySelector('table');
+  assert(!feeTable.querySelector('[rowspan], [colspan]'), 'fee table has no merged cells');
+  for (const tr of feeTable.tBodies[0].rows) assert.equal(tr.cells.length, 3, 'every fee row has three cells');
+}
 assert(docs.alternatives.tools.some((t) => ['prohibited_for_new', 'not_usable_for_housing'].includes(t.colorado_status)),
   'the catalog should carry at least one tool Colorado law rules out, with its reason');
 

@@ -139,6 +139,26 @@
     return isFinite(rate) ? rate : null;
   }
 
+  /**
+   * DOLA cumulative homes-needed series (housing_need.incremental_units_needed_dola)
+   * at 5, 10 and 20 years past the 2024 base year, or null when absent.
+   */
+  function _dolaIncrementalNeed(dolaProj) {
+    var hn = dolaProj && dolaProj.housing_need;
+    var inc = hn && hn.incremental_units_needed_dola;
+    var years = dolaProj && dolaProj.years;
+    if (!Array.isArray(inc) || !Array.isArray(years)) return null;
+    var base = Number(dolaProj.baseYear) || 2024;
+    var out = {};
+    var any = false;
+    [5, 10, 20].forEach(function (h) {
+      var idx = years.indexOf(base + h);
+      var v = idx >= 0 ? inc[idx] : null;
+      if (v != null && isFinite(v)) { out[h] = Number(v); any = true; }
+    });
+    return any && out[20] != null ? out : null;
+  }
+
   /* ─────────────────────────────────────────────────────────────────────────
    * 2. project(fips, countyData, options) → ProjectionResult
    * ───────────────────────────────────────────────────────────────────────── */
@@ -181,19 +201,39 @@
     var vacancyAdjustmentApplied = (vdf !== null);
     var vacancyMultiplier = vacancyAdjustmentApplied ? (1 + vdf) : 1;
 
-    /* --- Current gap (30% AMI severely cost-burdened) --- */
-    // Severely burdened households are the primary proxy for deep affordability gap
-    var currentGap = _safeRound(households * (severelyBurdenedPct / 100));
+    /* --- Current gap (renters paying 50% or more of income) --- */
+    // severely_burdened_pct is a share of RENTER households (ACS
+    // B25070_010E / B25070_001E), so it multiplies renter households, not
+    // all households. Renter households come from the caller or from the
+    // projections file's ACS tenure split; with neither, no gap is shown.
+    var rhRaw = cd.renter_households == null ? NaN : parseFloat(cd.renter_households);
+    var renterHouseholds = isFinite(rhRaw) ? rhRaw : null;
+    var ts = options.dolaProj && options.dolaProj.housing_need && options.dolaProj.housing_need.tenure_split;
+    if (renterHouseholds == null && ts && ts.renter_share != null && households > 0) {
+      renterHouseholds = households * Number(ts.renter_share);
+    }
+    var currentGap = (renterHouseholds != null && severelyBurdenedPct > 0)
+      ? _safeRound(renterHouseholds * (severelyBurdenedPct / 100))
+      : null;
 
     /* --- Baseline projections --- */
+    // D7 — When the DOLA projections file carries its own cumulative
+    // homes-needed series (incremental_units_needed_dola, the figure the
+    // page headline uses), the baseline reads it directly so the table and
+    // the headline show one 20-year number. Otherwise fall back to growth.
+    var dolaIncr = _dolaIncrementalNeed(options.dolaProj || null);
     function baselineUnits(years) {
+      if (dolaIncr && dolaIncr[years] != null) return _safeRound(dolaIncr[years]);
       var newHH = _incrementalGrowth(households, baselineRate, years);
       return _safeRound(newHH * vacancyMultiplier);
     }
+    // D9 — A shrinking place needs no added homes; never show a negative.
+    function floor0(n) { return n > 0 ? n : 0; }
 
-    var bYr5  = baselineUnits(5);
-    var bYr10 = baselineUnits(10);
-    var bYr20 = baselineUnits(20);
+    var rawYr20 = baselineUnits(20);
+    var bYr5  = floor0(baselineUnits(5));
+    var bYr10 = floor0(baselineUnits(10));
+    var bYr20 = floor0(rawYr20);
 
     /* --- Low / High scenarios --- */
     var lYr5  = _safeRound(bYr5  * 0.40);
@@ -205,49 +245,65 @@
     var hYr20 = _safeRound(bYr20 * 1.70);
 
     /* --- Annual gap --- */
-    var gapFromCurrent  = _safeRound(currentGap / 15);
+    var gapFromCurrent  = currentGap != null ? _safeRound(currentGap / 15) : 0;
     var gapFromGrowth   = _safeRound(bYr20 / 20);
-    var annualGap = Math.max(gapFromCurrent, gapFromGrowth);
+    var annualGap = Math.max(gapFromCurrent, gapFromGrowth, 0);
 
     /* --- Methodology strings --- */
     var methodology = [];
     methodology.push(
-      'Base year: 2024. Households: ' + _fmt(households) + '.'
+      'Base year: 2024. Households: ' + _fmt(households) + ' (ACS 2020-2024 5-year).'
     );
-    methodology.push(
-      dolaRate !== null
-        ? 'Household growth rate derived from DOLA SDO projections (' +
-          (baselineRate * 100).toFixed(2) + '%/yr).'
-        : 'DOLA projections unavailable; default Colorado rate of 0.80%/yr applied.'
-    );
-    if (vdf > 0) {
+    if (dolaIncr) {
       methodology.push(
-        'Vacancy rate (' + vacancyRate + '%) is below healthy threshold (5%); ' +
-        'a vacancy-deficit multiplier of ' + vacancyMultiplier.toFixed(3) +
-        'x applied to new-unit estimates.'
+        'Baseline homes needed come from the Colorado State Demography Office (DOLA) household forecast, ' +
+        'converted to homes at a healthy vacancy rate, counted from 2024.'
       );
     } else {
       methodology.push(
-        'Vacancy rate (' + vacancyRate + '%) at or above 5%; no vacancy-deficit adjustment applied.'
+        dolaRate !== null
+          ? 'Household growth rate derived from DOLA State Demography Office projections (' +
+            (baselineRate * 100).toFixed(2) + '% a year).'
+          : 'DOLA projections are unavailable, so a Colorado default growth rate of 0.80% a year is applied.'
+      );
+      if (vacancyRate == null) {
+        // handled below
+      } else if (vdf > 0) {
+        methodology.push(
+          'Vacancy rate (' + (vacancyRate * 100).toFixed(1) + '%) is below the healthy threshold of 5%, ' +
+          'so new-home estimates are multiplied by ' + vacancyMultiplier.toFixed(3) + '.'
+        );
+      } else {
+        methodology.push(
+          'Vacancy rate (' + (vacancyRate * 100).toFixed(1) + '%) is at or above 5%, so no vacancy adjustment is applied.'
+        );
+      }
+    }
+    if (rawYr20 <= 0) {
+      methodology.push('Households are projected to stay flat or shrink, so no added homes are needed for growth.');
+    }
+    methodology.push(
+      'The low and high rows are illustrative: 40% and 170% of the baseline. They are not separate DOLA forecasts.'
+    );
+    if (currentGap != null) {
+      methodology.push(
+        'Current deep-affordability gap: renter households (' + _fmt(renterHouseholds) + ') multiplied by the share of renters ' +
+        'paying 50% or more of income on rent (' + severelyBurdenedPct + '%, ACS 2020-2024 5-year, table B25070).'
       );
     }
     methodology.push(
-      'Low scenario = 40% of baseline; High scenario = 170% of baseline.'
-    );
-    methodology.push(
-      'Current deep-affordability gap estimated from severely cost-burdened ' +
-      'households (' + severelyBurdenedPct + '% of total).'
-    );
-    methodology.push(
-      'Annual gap = max(currentGap / 15, baseline 20-yr need / 20) = ' + _fmt(annualGap) + ' units/yr.'
+      'Annual gap is the larger of the current gap spread over 15 years and the baseline 20-year need divided by 20: ' +
+      _fmt(annualGap) + ' homes a year.'
     );
 
     // Surface missing vacancy data so callers/UI can flag projection uncertainty
     if (!vacancyAdjustmentApplied) {
-      methodology.push(
-        'Vacancy rate unavailable for this geography; deficit adjustment skipped. ' +
-        'Projection reflects baseline household growth only — consider this a floor for projected need.'
-      );
+      if (!dolaIncr) {
+        methodology.push(
+          'The vacancy rate is not available for this area, so no vacancy adjustment is applied. ' +
+          'The projection reflects household growth only and should be read as a minimum.'
+        );
+      }
     }
 
     return {
@@ -266,6 +322,9 @@
       },
       annualGap: annualGap,
       currentGap: currentGap,
+      renterHouseholds: renterHouseholds,
+      noGrowthNeed: rawYr20 <= 0,
+      needSource: dolaIncr ? 'dola' : 'growth',
       methodology: methodology,
       vacancyAdjustmentApplied: vacancyAdjustmentApplied
     };
@@ -444,8 +503,12 @@
       mix = AMI_MIX_PRESETS.default_mixed;
     }
 
+    // D6/D7 — cost_burdened_pct is a share of renter households, so it
+    // multiplies renter households. Without a renter count, none is shown.
+    var renterHH = cd.renter_households != null ? Number(cd.renter_households)
+      : (options.renterHouseholds != null ? Number(options.renterHouseholds) : null);
     var totalUnitsNeeded = options.totalUnitsNeeded ||
-      _safeRound((cd.households || 0) * ((cd.cost_burdened_pct || 0) / 100));
+      (renterHH != null && isFinite(renterHH) ? _safeRound(renterHH * ((cd.cost_burdened_pct || 0) / 100)) : null);
 
     return {
       recommended: {
@@ -528,9 +591,12 @@
 
     var introPara =
       '<p style="font-size:1.133rem;margin-bottom:16px;">' +
-      'Based on current housing gaps and low/baseline/high growth assumptions for ' +
-      '<strong>' + _escHtml(countyName) + '</strong>, the following projections estimate ' +
-      'unmet housing demand over the next 20 years.' +
+      'Homes needed in ' +
+      '<strong>' + _escHtml(countyName) + '</strong> over the next 20 years to house projected new households, ' +
+      (result.needSource === 'dola'
+        ? 'from the Colorado State Demography Office (DOLA) household forecast. The baseline is DOLA\'s own homes-needed figure. ' +
+          'The headline 20-year figure on this page is modeled separately, net of today\'s housing stock at a target vacancy rate, so it can be higher or lower; read it as the main estimate and this table as the DOLA comparison.'
+        : 'from household growth at the rate shown in the methodology.') +
       (result.geoScope === 'county-for-place'
         ? ' Projections are computed at county granularity — figures below are ' +
           'county-scope, not specific to the selected place.'
@@ -538,19 +604,19 @@
       '</p>';
 
     var tableRows = [
-      _projRow('Low',      s.low,      result.annualGap * 0.40, false),
-      _projRow('Baseline', s.baseline, result.annualGap,         true),
-      _projRow('High',     s.high,     result.annualGap * 1.70, false)
+      _projRow('Low (illustrative, 40% of baseline)',   s.low,      result.annualGap * 0.40, false),
+      _projRow('Baseline',                              s.baseline, result.annualGap,         true),
+      _projRow('High (illustrative, 170% of baseline)', s.high,     result.annualGap * 1.70, false)
     ].join('');
 
     var table =
       '<table class="hnp-table" role="table" aria-label="Housing need projections">' +
       '<thead><tr>' +
-      '<th scope="col" title="Growth scenario: DOLA’s low, baseline and high household projections. Read the three together as a range, not the baseline as a forecast.">Scenario</th>' +
-      '<th scope="col" title="Homes needed by year 5 to house projected new households at a healthy vacancy rate, cumulative from the base year. All incomes, all tenures — not affordable-only, and not net of existing stock.">5-Year Need</th>' +
-      '<th scope="col" title="Same measure at year 10, cumulative from the base year.">10-Year Need</th>' +
-      '<th scope="col" title="Same measure at year 20, cumulative from the base year.">20-Year Need</th>' +
-      '<th scope="col" title="Average homes needed per year over the 20-year window (20-year need ÷ 20). Compare against the jurisdiction’s recent permitting pace.">Annual Gap</th>' +
+      '<th scope="col" data-tip="The baseline follows the DOLA household forecast. Low and high are illustrative bounds at 40% and 170% of the baseline, not separate forecasts.">Scenario</th>' +
+      '<th scope="col" data-tip="Homes needed by year 5 to house projected new households at a healthy vacancy rate, cumulative from the base year. All incomes, all tenures — not affordable-only, and not net of existing stock.">5-Year Need</th>' +
+      '<th scope="col" data-tip="Same measure at year 10, cumulative from the base year.">10-Year Need</th>' +
+      '<th scope="col" data-tip="Same measure at year 20, cumulative from the base year.">20-Year Need</th>' +
+      '<th scope="col" data-tip="Homes needed per year: the larger of the 20-year need divided by 20 and the current deep-affordability gap spread over 15 years. Compare it with recent permitting.">Annual Gap</th>' +
       '</tr></thead>' +
       '<tbody>' + tableRows + '</tbody>' +
       '</table>';
@@ -567,13 +633,18 @@
       '</ul>' +
       '</details>';
 
-    var currentGapNote =
-      '<p style="font-size:1.133rem;margin-top:10px;">' +
-      '<strong>Estimated current deep-affordability gap:</strong> ' +
-      _fmt(result.currentGap) + ' units (severely cost-burdened households).' +
-      '</p>';
+    var noGrowthNote = result.noGrowthNeed
+      ? '<p style="font-size:1.133rem;margin-top:10px;"><strong>No added homes needed for growth.</strong> ' +
+        'Households here are projected to stay flat or shrink over the next 20 years (DOLA State Demography Office forecast).</p>'
+      : '';
+    var currentGapNote = result.currentGap != null
+      ? '<p style="font-size:1.133rem;margin-top:10px;">' +
+        '<strong>Estimated current deep-affordability gap:</strong> about ' +
+        _fmt(result.currentGap) + ' renter households pay 50% or more of their income on rent (ACS 2020-2024 5-year, table B25070).' +
+        '</p>'
+      : '';
 
-    container.innerHTML = introPara + table + currentGapNote + methodNote;
+    container.innerHTML = introPara + table + noGrowthNote + currentGapNote + methodNote;
     // Fix #4: re-scan for any [data-edu] anchors injected by this render
     if (window.EduCallout && window.EduCallout.isLoaded()) {
       window.EduCallout.scan(container);
@@ -588,7 +659,7 @@
       '<td>' + _fmt(scenario.yr5) + '</td>' +
       '<td>' + _fmt(scenario.yr10) + '</td>' +
       '<td>' + _fmt(scenario.yr20) + '</td>' +
-      '<td>' + _fmt(annualGap) + '/yr</td>' +
+      '<td>' + _fmt(annualGap) + ' a year</td>' +
       '</tr>'
     );
   }
@@ -719,8 +790,12 @@
       '<p style="font-size:1.133rem;margin-bottom:16px;">' +
       'Strategy: <strong>' + _escHtml(rec.label) + '</strong>. ' +
       'The distribution below reflects current income levels and cost-burden ' +
-      'patterns for this county. Estimated total units needed: ' +
-      '<strong>' + _fmt(rec.totalUnitsNeeded) + '</strong>.' +
+      'patterns for this county.' +
+      (rec.totalUnitsNeeded != null
+        ? ' Cost-burdened renter households today (paying 30% or more of income on rent, ACS 2020-2024 5-year): <strong>' +
+          _fmt(rec.totalUnitsNeeded) + '</strong>. This is a count of households under strain, not a 20-year production target; ' +
+          'see the projection table above for that.'
+        : '') +
       '</p>';
 
     var disclaimer =

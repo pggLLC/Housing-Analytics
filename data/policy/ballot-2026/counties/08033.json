@@ -11,7 +11,7 @@
       "entry_ids": [],
       "limitations": [
         "No county question appears on the sample ballot; the county section lists candidate offices only. Telluride School District R-1 Ballot Issue 5A (school mill levy override) was read and excluded.",
-        "The sample ballot and the signed Notice of General Election are scanned images without a text layer; they were read visually.",
+        "The sample ballot and the signed Notice of General Election are scanned images without searchable text; they were read visually.",
         "Only ballot style 001-02 was posted; no second style was available (checked 2026-09-26)."
       ],
       "reviewed_sources": [
@@ -35,7 +35,7 @@
       "entry_ids": [],
       "limitations": [
         "The signed Notice of General Election (2026-09-17) gives the ballot content as \"General Election – Federal– State – County- School District\" and names no municipality. No formal participating-entities list is published. Town agendas show Resolution No. 2, Series 2026, cancelling the April 7, 2026 regular municipal election, and no November ballot item.",
-        "The sample ballot and the signed Notice of General Election are scanned images without a text layer; they were read visually."
+        "The sample ballot and the signed Notice of General Election are scanned images without searchable text; they were read visually."
       ],
       "reviewed_sources": [
         {
@@ -55,9 +55,9 @@
       "limitations": [
         "The Town of Rico is not on the county coordinated ballot (the county notice names no municipality and the Rico-area ballot style 001-02 has no town contest). It runs its own municipal election on November 3, 2026.",
         "The Notice of Election on the town home page reads: \"The Town of Rico’s Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" It names no ballot question (checked 2026-10-10).",
-        "The Town Clerk's November election update in the August 2026 board packet reads \"2 Trustee seats will be on the ballot.\" No ballot question, referral or TABOR notice appears in the June to September 2026 board packets (including the September 2 special meeting and the September 28 budget hearing), in Ordinances 2026-03 to 2026-12, or in the October 21, 2026 agenda items listed on the home page. All of these packets have a text layer.",
+        "The Town Clerk's November election update in the August 2026 board packet reads \"2 Trustee seats will be on the ballot.\" No ballot question, referral or TABOR notice appears in the June to September 2026 board packets (including the September 2 special meeting and the September 28 budget hearing), in Ordinances 2026-03 to 2026-12, or in the October 21, 2026 agenda items listed on the home page. All of these packets have searchable text.",
         "Rechecked 2026-10-12: the Notice of Election on the town home page is unchanged. It reads: \"The Town of Rico’s Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" The page lists no ballot question, ballot issue or TABOR notice, and the October 21, 2026 agenda items it lists include no ballot referral.",
-        "Closed under the town-closure rule (#2072, confirmed 2026-10-11): the town is absent from the county coordinated ballot, and its own official Notice of Election, which states the purpose of its November 3, 2026 election, was read. No town sample ballot has been posted, so the basis is the notice, not a ballot. Flagged for owner review.",
+        "Closed on 2026-10-11: the town is absent from the county coordinated ballot, and its own official Notice of Election, which states the purpose of its November 3, 2026 election, was read. No town sample ballot has been posted, so the basis is the notice, not a ballot. Flagged for a further check.",
         "No official ballot found. Rechecked 2026-10-12: the town site posts no ballot or sample ballot for its November 3, 2026 municipal election. This row rests on the town's Notice of Election, not on a ballot."
       ],
       "reviewed_sources": [

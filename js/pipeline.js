@@ -79,12 +79,12 @@
     var wrap = el('div', { class: 'ipp-ami-table-wrap' });
     var t = el('table', { class: 'ipp-ami-table' });
     t.appendChild(el('thead', null, el('tr', null, [
-      el('th', { text: 'County (4-person household)' }),
-      el('th', { text: '30% AMI' }),
-      el('th', { text: '50% AMI' }),
-      el('th', { text: '60% AMI' }),
-      el('th', { text: '80% AMI' }),
-      el('th', { text: '100% AMI' })
+      el('th', { text: 'County (4-person household)', 'data-tip': 'The county and its HUD income-limit area. Figures are for a household of four people.' }),
+      el('th', { text: '30% AMI', 'data-tip': 'HUD extremely low income limit for a four-person household: about 30% of area median income.' }),
+      el('th', { text: '50% AMI', 'data-tip': 'HUD very low income limit for a four-person household: 50% of area median income.' }),
+      el('th', { text: '60% AMI', 'data-tip': 'HUD 60% income limit for a four-person household, the most common LIHTC income ceiling.' }),
+      el('th', { text: '80% AMI', 'data-tip': 'HUD low income limit for a four-person household: about 80% of area median income, which HUD can cap.' }),
+      el('th', { text: '100% AMI', 'data-tip': 'HUD median family income for the area, the base the other limits are figured from.' })
     ])));
     var tb = el('tbody');
     c.rows.forEach(function (r) {
@@ -124,9 +124,9 @@
   function renderSourcesTable(rows) {
     var t = el('table', { class: 'ipp-sources' });
     t.appendChild(el('thead', null, el('tr', null, [
-      el('th', { text: 'Source' }),
-      el('th', { text: 'Vintage' }),
-      el('th', { text: 'What it provides' })
+      el('th', { text: 'Source', 'data-tip': 'The public dataset, document or page this stage draws on.' }),
+      el('th', { text: 'Vintage', 'data-tip': 'The year or release of the data, or how often the source is refreshed.' }),
+      el('th', { text: 'What it provides', 'data-tip': 'What the stage takes from the source.' })
     ])));
     var tb = el('tbody');
     rows.forEach(function (r) {

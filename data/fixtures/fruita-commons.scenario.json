@@ -5,13 +5,13 @@
     "status": "hypothesis_to_test",
     "as_of": "2026-08-05",
     "classification_note": "Every modeled project value carries an explicit classification.",
-    "owner_inputs_pending": ["tdc_build_up", "land_value", "phasing", "hrwc_terms", "development_partner", "lender"]
+    "owner_inputs_pending": ["tdc_build_up", "land_value", "phasing", "steward_terms", "development_partner", "lender"]
   },
   "jurisdiction": { "place_geoid": "0828745", "county_fips": "08077", "name": "Fruita" },
   "partners": [
-    { "role": "land_owner", "name": "Fruita Housing Authority", "provider_id": null, "is_commitment": false, "classification": "user_entered" },
-    { "role": "steward", "name": null, "provider_id": "hrwc", "is_commitment": false, "classification": "user_entered", "note": "candidate only — general availability, no project commitment" },
-    { "role": "developer", "name": null, "provider_id": null, "is_commitment": false, "verify": true, "owner_input_required": true, "classification": "not_available", "note": "no development agreement exists; Fruita Mews partnership is capacity evidence, not a commitment" },
+    { "role": "land_owner", "name": "City of Fruita", "provider_id": null, "is_commitment": false, "classification": "user_entered" },
+    { "role": "steward", "name": "Nonprofit steward (example)", "provider_id": null, "is_commitment": false, "classification": "user_entered", "note": "candidate only — general availability, no project commitment" },
+    { "role": "developer", "name": null, "provider_id": null, "is_commitment": false, "verify": true, "owner_input_required": true, "classification": "not_available", "note": "no development agreement exists" },
     { "role": "lender", "name": null, "provider_id": null, "is_commitment": false, "verify": true, "owner_input_required": true, "classification": "not_available" }
   ],
   "local_baseline": {
@@ -36,7 +36,7 @@
     "tenure_form": { "value": "townhome", "classification": "user_entered" }
   },
   "land": {
-    "owner": "Fruita Housing Authority",
+    "owner": "City of Fruita",
     "disposition_model": "model_a_public_land_retention",
     "hypothesis_to_test": true,
     "land_value_per_unit": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
@@ -61,7 +61,7 @@
     { "band": [1.00, 1.20], "range": [0, 35000], "is_commitment": false, "classification": "user_entered" }
   ],
   "stewardship": {
-    "candidate_provider_id": "hrwc",
+    "candidate_provider_id": null,
     "is_commitment": false,
     "terms": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
   },

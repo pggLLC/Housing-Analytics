@@ -1,10 +1,16 @@
 /**
  * js/preservation.js
- * NHPD Preservation Dashboard — subsidy tracking for Colorado affordable housing.
+ * Preservation inventory — Colorado affordable rental properties on the
+ * Colorado Housing and Finance Authority (CHFA) preservation map.
  *
- * Loads data/market/nhpd_co.geojson via DataService, caches it with CacheManager,
- * and renders KPI cards, an expiration-timeline chart, a filterable property table,
- * and a CSV export.
+ * Loads data/affordable-housing/preservation/chfa-preservation.json via
+ * DataService, caches it with CacheManager, assigns each property a county
+ * from its mapped location (js/county-from-coords.js), and renders KPI cards,
+ * a units-by-county chart, a filterable property table and a CSV export.
+ *
+ * The CHFA layer carries property identity only (name, address, city, ZIP,
+ * total units, location). It has no subsidy type or expiration date, so this
+ * dashboard shows neither and never infers risk from the listing.
  *
  * Exposes window.PreservationDashboard for testing.
  */
@@ -15,106 +21,111 @@
   var CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 
   /** @const {string} CacheManager namespace. */
-  var CACHE_NS = 'nhpd';
+  var CACHE_NS = 'chfa-preservation';
 
   /** @const {string} CacheManager key for GeoJSON payload. */
   var CACHE_KEY = 'geojson';
 
-  /** @const {number} Years ahead to flag a subsidy as "expiring soon". */
-  var EXPIRY_HORIZON_YEARS = 3;
+  /** @const {string} Data path relative to data/. */
+  var DATA_PATH = 'affordable-housing/preservation/chfa-preservation.json';
 
-  /** @const {string[]} Columns used by the sortable table. */
-  var TABLE_COLS = ['property_name', 'city', 'county', 'subsidy_type', 'assisted_units', 'subsidy_expiration', 'owner_type'];
+  /** @const {number} Counties shown in the chart. */
+  var CHART_TOP_N = 12;
+
+  /** @const {string} Source label carried on every exported row. */
+  var SOURCE_LABEL = 'Colorado Housing and Finance Authority (CHFA) preservation map';
+
+  /** @const {string} Limitation carried on every exported row. */
+  var LIMITATION = 'Property identity and total units only; the CHFA layer lists no subsidy type or expiration date. ' +
+    'County is assigned from the mapped location. Verify current affordability restrictions with CHFA or the property owner.';
+
+  /** @const {Object} Unit-size bands for the size filter. */
+  var SIZE_BANDS = {
+    '1-24':   [1, 24],
+    '25-49':  [25, 49],
+    '50-99':  [50, 99],
+    '100+':   [100, Infinity],
+    unknown:  null,
+  };
 
   // ── Module state ──────────────────────────────────────────────────────────
 
-  var _cache   = null;   // CacheManager instance — initialised in init()
+  var _cache   = null;   // CacheManager instance — initialised in loadData()
   var _allRows = [];     // normalised flat property objects
-  var _sortState = { col: 'subsidy_expiration', dir: 'asc' };
-  var _chart   = null;  // Chart.js instance
-  var _coverage = { status: 'unavailable', generated: null, recordCount: null,
-    unavailableReason: 'NHPD snapshot unavailable; statewide and local preservation totals are unknown.' };
+  var _sortState = { col: 'property_name', dir: 'asc' };
+  var _chart   = null;   // Chart.js instance
+  var _loaded  = false;  // true once a valid inventory is on screen
 
   // ── Data normalisation ───────────────────────────────────────────────────
 
   /**
-   * Extracts and normalises properties from a GeoJSON Feature or flat object.
-   * Returns a flat record with standardised field names.
+   * Safely coerces a value to a positive finite number; returns null when the
+   * source gives no usable count (a missing count is unknown, not zero).
+   * @param {*} v
+   * @returns {number|null}
+   */
+  function toCount(v) {
+    if (v === null || v === undefined || v === '') { return null; }
+    var n = parseFloat(v);
+    return (isFinite(n) && n > 0) ? n : null;
+  }
+
+  /**
+   * Title-cases a city string ("COLORADO SPRINGS" → "Colorado Springs").
+   * @param {string} s
+   * @returns {string}
+   */
+  function cityCase(s) {
+    var t = String(s || '').trim();
+    if (!t) { return ''; }
+    if (t !== t.toUpperCase()) { return t; }
+    return t.toLowerCase().replace(/\b[a-z]/g, function (c) { return c.toUpperCase(); });
+  }
+
+  /**
+   * Extracts and normalises one CHFA preservation feature (or a flat object).
    * @param {Object} feature
-   * @returns {Object}
+   * @returns {Object|null}
    */
   function normaliseFeature(feature) {
     var props = (feature && feature.properties) ? feature.properties : feature;
     if (!props) { return null; }
 
-    // Inject lat/lon from geometry if available
     var lat = null;
     var lon = null;
     if (feature && feature.geometry && feature.geometry.type === 'Point' &&
         Array.isArray(feature.geometry.coordinates)) {
-      lon = feature.geometry.coordinates[0];
-      lat = feature.geometry.coordinates[1];
+      lon = parseFloat(feature.geometry.coordinates[0]);
+      lat = parseFloat(feature.geometry.coordinates[1]);
     }
 
     return {
-      nhpd_id:            props.nhpd_id            || props.NHPD_ID            || '',
-      property_name:      props.property_name      || props.PROPERTY_NAME      || props.name || '',
-      address:            props.address            || props.ADDRESS            || '',
-      city:               props.city               || props.CITY               || '',
-      county:             props.county             || props.COUNTY             || '',
-      county_fips:        props.county_fips        || props.COUNTY_FIPS        || '',
-      state:              props.state              || props.STATE              || 'CO',
-      zip:                props.zip                || props.ZIP                || '',
-      total_units:        toNum(props.total_units  || props.TOTAL_UNITS),
-      assisted_units:     toNum(props.assisted_units || props.ASSISTED_UNITS || props.total_units || props.TOTAL_UNITS),
-      subsidy_type:       props.subsidy_type       || props.SUBSIDY_TYPE       || 'Unknown',
-      subsidy_expiration: props.subsidy_expiration || props.SUBSIDY_EXPIRATION || null,
-      owner_type:         props.owner_type         || props.OWNER_TYPE         || 'unknown',
-      ami_targeting:      props.ami_targeting      || props.AMI_TARGETING      || '',
-      lat:                lat || toNum(props.lat   || props.latitude  || props.LATITUDE),
-      lon:                lon || toNum(props.lon   || props.longitude || props.LONGITUDE),
+      record_id:     props.UniqueProjID || props.record_id || (props.RecordID != null ? String(props.RecordID) : ''),
+      property_name: String(props.PROJECT || props.property_name || '').trim(),
+      address:       String(props.PROJ_ADD || props.address || '').trim(),
+      city:          cityCase(props.PROJ_CTY || props.city),
+      zip:           props.Zip != null ? String(props.Zip) : String(props.zip || ''),
+      units:         toCount(props.N_UNITS != null ? props.N_UNITS : props.units),
+      county:        props.county || '',
+      lat:           isFinite(lat) ? lat : null,
+      lon:           isFinite(lon) ? lon : null,
     };
   }
 
   /**
-   * Safely coerces a value to a non-negative finite number; returns 0 on failure.
-   * @param {*} v
-   * @returns {number}
+   * Assigns a county name to each row from its mapped point, when the
+   * county lookup is available. Rows outside every boundary keep ''.
+   * @param {Array.<Object>} rows
+   * @param {Function} lookup  (lat, lon) → {name} | null
    */
-  function toNum(v) {
-    var n = parseFloat(v);
-    return (isFinite(n) && n >= 0) ? n : 0;
-  }
-
-  /**
-   * Returns the expiry year as a number, or null if unparseable.
-   * @param {string|number|null} raw
-   * @returns {number|null}
-   */
-  function parseExpiryYear(raw) {
-    if (!raw) { return null; }
-    if (typeof raw === 'number') {
-      return (raw > 1900 && raw < 2200) ? raw : null;
+  function assignCounties(rows, lookup) {
+    if (typeof lookup !== 'function') { return; }
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      if (r.county || r.lat === null || r.lon === null) { continue; }
+      var hit = lookup(r.lat, r.lon);
+      if (hit && hit.name) { r.county = hit.name; }
     }
-    var d = new Date(String(raw));
-    if (isNaN(d.getTime())) { return null; }
-    return d.getFullYear();
-  }
-
-  /**
-   * Returns the expiry date as a ms timestamp, or null.
-   * @param {string|number|null} raw
-   * @returns {number|null}
-   */
-  function parseExpiryMs(raw) {
-    if (!raw) { return null; }
-    if (typeof raw === 'number') {
-      return (raw > 1900 && raw < 2200)
-        ? new Date(raw, 11, 31).getTime()
-        : null;
-    }
-    var t = new Date(String(raw)).getTime();
-    return isNaN(t) ? null : t;
   }
 
   // ── KPI calculation ───────────────────────────────────────────────────────
@@ -122,220 +133,109 @@
   /**
    * Computes summary KPIs from a row array.
    * @param {Array.<Object>} rows
-   * @returns {{total: number, totalUnits: number, expiringCount: number, expiringUnits: number}}
+   * @returns {{total: number, totalUnits: number, counties: number, unknownUnits: number}}
    */
   function computeKpis(rows) {
-    var now = Date.now();
-    var cutoff = new Date(new Date().getFullYear() + EXPIRY_HORIZON_YEARS, 11, 31).getTime();
     var totalUnits = 0;
-    var expiringCount = 0;
-    var expiringUnits = 0;
-
+    var unknownUnits = 0;
+    var counties = {};
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
-      totalUnits += r.assisted_units;
-      var expMs = parseExpiryMs(r.subsidy_expiration);
-      if (expMs !== null && expMs >= now && expMs <= cutoff) {
-        expiringCount++;
-        expiringUnits += r.assisted_units;
-      }
+      if (r.units === null) { unknownUnits++; } else { totalUnits += r.units; }
+      if (r.county) { counties[r.county] = true; }
     }
-
     return {
       total: rows.length,
       totalUnits: totalUnits,
-      expiringCount: expiringCount,
-      expiringUnits: expiringUnits,
+      counties: Object.keys(counties).length,
+      unknownUnits: unknownUnits,
     };
   }
 
   // ── Chart ─────────────────────────────────────────────────────────────────
 
   /**
-   * Builds expiration-year bucketed data for the timeline chart.
-   * @param {Array.<Object>} rows  All rows (unfiltered).
+   * Sums listed units and properties by county, largest first.
+   * @param {Array.<Object>} rows
+   * @param {number} [topN]
    * @returns {{ labels: string[], unitCounts: number[], propertyCounts: number[] }}
    */
-  function buildChartData(rows) {
-    var currentYear = new Date().getFullYear();
-    var yearBuckets = {};
-    for (var y = currentYear; y <= currentYear + 15; y++) {
-      yearBuckets[y] = { units: 0, props: 0 };
-    }
-
+  function buildChartData(rows, topN) {
+    var buckets = {};
     for (var i = 0; i < rows.length; i++) {
-      var expYear = parseExpiryYear(rows[i].subsidy_expiration);
-      if (expYear !== null && yearBuckets[expYear]) {
-        yearBuckets[expYear].units += rows[i].assisted_units;
-        yearBuckets[expYear].props++;
-      }
+      var c = rows[i].county;
+      if (!c) { continue; }
+      if (!buckets[c]) { buckets[c] = { units: 0, props: 0 }; }
+      buckets[c].units += rows[i].units || 0;
+      buckets[c].props++;
     }
-
-    var labels = [];
-    var unitCounts = [];
-    var propertyCounts = [];
-    var keys = Object.keys(yearBuckets).sort();
-    for (var k = 0; k < keys.length; k++) {
-      labels.push(keys[k]);
-      unitCounts.push(yearBuckets[keys[k]].units);
-      propertyCounts.push(yearBuckets[keys[k]].props);
-    }
-    return { labels: labels, unitCounts: unitCounts, propertyCounts: propertyCounts };
+    var keys = Object.keys(buckets).sort(function (a, b) {
+      return (buckets[b].units - buckets[a].units) || a.localeCompare(b);
+    }).slice(0, topN || CHART_TOP_N);
+    return {
+      labels: keys,
+      unitCounts: keys.map(function (k) { return buckets[k].units; }),
+      propertyCounts: keys.map(function (k) { return buckets[k].props; }),
+    };
   }
 
   /**
-   * Renders or updates the expiration timeline chart on the given canvas.
+   * Renders the units-by-county chart on the given canvas.
    * @param {HTMLCanvasElement} canvas
    * @param {Array.<Object>} rows
    */
   function renderChart(canvas, rows) {
     if (!canvas || typeof window.Chart === 'undefined') { return; }
     var cd = buildChartData(rows);
+    if (!cd.labels.length) { return; }
 
     if (_chart) {
       _chart.data.labels = cd.labels;
       _chart.data.datasets[0].data = cd.unitCounts;
-      _chart.data.datasets[1].data = cd.propertyCounts;
       _chart.update();
       return;
     }
 
-    // The canvas cannot draw var(--chart-1), so resolve the theme tokens.
+    // The canvas cannot draw var(--chart-1), so resolve the theme token.
     var css = getComputedStyle(document.documentElement);
     var unitsColor = css.getPropertyValue('--chart-1').trim() || '#1e5799';
-    var propsColor = css.getPropertyValue('--chart-6').trim() || '#92400e';
     _chart = new window.Chart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
         labels: cd.labels,
         datasets: [
           {
-            label: 'Snapshot Assisted Units Expiring',
+            label: 'Units listed on the CHFA preservation map',
             data: cd.unitCounts,
             backgroundColor: unitsColor,
             borderColor: unitsColor,
             borderWidth: 1,
-            yAxisID: 'yUnits',
-          },
-          {
-            label: 'Snapshot Properties Expiring',
-            data: cd.propertyCounts,
-            type: 'line',
-            backgroundColor: 'transparent',
-            borderColor: propsColor,
-            borderWidth: 2,
-            pointRadius: 4,
-            yAxisID: 'yProps',
           }
         ]
       },
       options: {
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'top' },
+          legend: { display: false },
           tooltip: {
             callbacks: {
               label: function (ctx) {
-                return ctx.dataset.label + ': ' + ctx.raw.toLocaleString();
+                return ctx.raw.toLocaleString() + ' units in ' + cd.propertyCounts[ctx.dataIndex].toLocaleString() + ' properties';
               }
             }
           }
         },
         scales: {
-          x: {
-            title: { display: true, text: 'Expiration Year' }
-          },
-          yUnits: {
-            type: 'linear',
-            position: 'left',
-            title: { display: true, text: 'Assisted Units' },
-            beginAtZero: true,
-          },
-          yProps: {
-            type: 'linear',
-            position: 'right',
-            title: { display: true, text: 'Properties' },
-            beginAtZero: true,
-            grid: { drawOnChartArea: false },
-          }
+          x: { title: { display: true, text: 'Units listed' }, beginAtZero: true },
+          y: { title: { display: false }, ticks: { autoSkip: false } }
         }
       }
     });
   }
 
   // ── Table ─────────────────────────────────────────────────────────────────
-
-  /**
-   * Returns a CSS class indicating expiry urgency.
-   * @param {string|number|null} expiry
-   * @returns {string}
-   */
-  function expiryClass(expiry) {
-    var ms = parseExpiryMs(expiry);
-    if (ms === null) { return 'pres-exp-unknown'; }
-    var now  = Date.now();
-    var diff = ms - now;
-    var oneYearMs = 365 * 24 * 60 * 60 * 1000;
-    if (diff < 0)                 { return 'pres-exp-expired'; }
-    if (diff < oneYearMs)         { return 'pres-exp-critical'; }
-    if (diff < 3 * oneYearMs)     { return 'pres-exp-warning'; }
-    return 'pres-exp-ok';
-  }
-
-  /**
-   * Returns a human-readable expiry label.
-   * @param {string|number|null} expiry
-   * @returns {string}
-   */
-  function expiryLabel(expiry) {
-    if (!expiry) { return '—' ; }
-    var ms = parseExpiryMs(expiry);
-    if (ms === null) { return String(expiry); }
-    var d  = new Date(ms);
-    var now = Date.now();
-    if (ms < now) { return d.getFullYear() + ' (Recorded date passed)'; }
-    return d.getFullYear().toString();
-  }
-
-  /**
-   * Returns a label for subsidy type that's safe for HTML.
-   * @param {string} t
-   * @returns {string}
-   */
-  function subsidyLabel(t) {
-    return String(t || 'Unknown').replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  }
-
-  /**
-   * Renders the property table body.
-   * @param {Array.<Object>} rows
-   */
-  function renderTable(rows) {
-    var tbody = document.getElementById('presTableBody');
-    if (!tbody) { return; }
-
-    if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="pres-empty">No snapshot records match the current filters. Coverage is incomplete; preservation risk remains unknown.</td></tr>';
-      return;
-    }
-
-    var html = '';
-    for (var i = 0; i < rows.length; i++) {
-      var r = rows[i];
-      var ec = expiryClass(r.subsidy_expiration);
-      html += '<tr class="pres-row ' + ec + '">';
-      html += '<td class="pres-name">' + escHtml(r.property_name) + '<br><span class="pres-addr">' + escHtml(r.address) + '</span></td>';
-      html += '<td>' + escHtml(r.city) + '</td>';
-      html += '<td>' + escHtml(r.county) + '</td>';
-      html += '<td><span class="pres-tag pres-tag-' + subsidyTypeSlug(r.subsidy_type) + '">' + subsidyLabel(r.subsidy_type) + '</span></td>';
-      html += '<td class="pres-num">' + r.assisted_units.toLocaleString() + '</td>';
-      html += '<td class="pres-expiry ' + ec + '">' + expiryLabel(r.subsidy_expiration) + '</td>';
-      html += '<td>' + escHtml(r.owner_type) + '</td>';
-      html += '</tr>';
-    }
-    tbody.innerHTML = html;
-  }
 
   /**
    * Escapes a string for HTML attribute/text content.
@@ -351,40 +251,63 @@
   }
 
   /**
-   * Converts a subsidy type string to a CSS-safe slug.
-   * @param {string} t
-   * @returns {string}
+   * Renders the property table body.
+   * @param {Array.<Object>} rows
    */
-  function subsidyTypeSlug(t) {
-    return String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'other';
+  function renderTable(rows) {
+    var tbody = document.getElementById('presTableBody');
+    if (!tbody) { return; }
+
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="pres-empty">No listed properties match the current filters. A property missing here may still carry affordability restrictions.</td></tr>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      html += '<tr class="pres-row">';
+      html += '<td class="pres-name">' + escHtml(r.property_name) + '</td>';
+      html += '<td>' + escHtml(r.address) + '</td>';
+      html += '<td>' + escHtml(r.city) + '</td>';
+      html += '<td>' + (r.county ? escHtml(r.county) : '<span class="pres-addr">Not assigned</span>') + '</td>';
+      html += '<td>' + escHtml(r.zip) + '</td>';
+      html += '<td class="pres-num">' + (r.units === null ? '<span class="pres-addr">Not listed</span>' : r.units.toLocaleString()) + '</td>';
+      html += '</tr>';
+    }
+    tbody.innerHTML = html;
   }
 
   // ── Filters & sorting ────────────────────────────────────────────────────
+
+  /**
+   * True when a row falls in the named unit-size band.
+   * @param {Object} r
+   * @param {string} band
+   * @returns {boolean}
+   */
+  function inSizeBand(r, band) {
+    if (!band) { return true; }
+    if (band === 'unknown') { return r.units === null; }
+    var range = SIZE_BANDS[band];
+    return !!range && r.units !== null && r.units >= range[0] && r.units <= range[1];
+  }
 
   /**
    * Returns the currently filtered and sorted rows.
    * @returns {Array.<Object>}
    */
   function getFilteredSorted() {
-    var countyFilter  = getVal('presFilterCounty');
-    var typeFilter    = getVal('presFilterType');
-    var horizonFilter = parseInt(getVal('presFilterHorizon'), 10) || 0;
-    var search        = (getVal('presSearch') || '').toLowerCase().trim();
-
-    var now     = Date.now();
-    var cutoffMs = horizonFilter
-      ? new Date(new Date().getFullYear() + horizonFilter, 11, 31).getTime()
-      : 0;
+    var countyFilter = getVal('presFilterCounty');
+    var sizeFilter   = getVal('presFilterSize');
+    var search       = (getVal('presSearch') || '').toLowerCase().trim();
 
     var filtered = _allRows.filter(function (r) {
-      if (countyFilter  && r.county       !== countyFilter)  { return false; }
-      if (typeFilter    && r.subsidy_type !== typeFilter)    { return false; }
-      if (horizonFilter) {
-        var expMs = parseExpiryMs(r.subsidy_expiration);
-        if (expMs === null || expMs < now || expMs > cutoffMs) { return false; }
-      }
+      if (countyFilter && r.county !== countyFilter) { return false; }
+      if (!inSizeBand(r, sizeFilter)) { return false; }
       if (search && r.property_name.toLowerCase().indexOf(search) === -1 &&
-          r.city.toLowerCase().indexOf(search) === -1) { return false; }
+          r.city.toLowerCase().indexOf(search) === -1 &&
+          r.address.toLowerCase().indexOf(search) === -1) { return false; }
       return true;
     });
 
@@ -393,8 +316,8 @@
     return filtered.slice().sort(function (a, b) {
       var av = a[col];
       var bv = b[col];
-      if (av == null) { return 1; }
-      if (bv == null) { return -1; }
+      if (av == null || av === '') { return 1; }
+      if (bv == null || bv === '') { return -1; }
       if (typeof av === 'number') { return dir * (av - bv); }
       return dir * String(av).localeCompare(String(bv));
     });
@@ -427,44 +350,39 @@
    * Also announces update to screen readers.
    */
   function refresh() {
-    if (_coverage.recordCount === null) {
-      showError(_coverage.unavailableReason);
+    if (!_loaded) {
+      showError('The CHFA preservation inventory could not be loaded.');
       return;
     }
-    var rows  = getFilteredSorted();
-    var kpis  = computeKpis(rows);
+    var rows = getFilteredSorted();
+    var kpis = computeKpis(rows);
 
-    setText('presKpiTotal',          kpis.total.toLocaleString());
-    setText('presKpiUnits',          kpis.totalUnits.toLocaleString());
-    setText('presKpiExpiring',       kpis.expiringCount.toLocaleString());
-    setText('presKpiExpiringUnits',  kpis.expiringUnits.toLocaleString());
+    setText('presKpiTotal',   kpis.total.toLocaleString());
+    setText('presKpiUnits',   kpis.totalUnits.toLocaleString());
+    setText('presKpiCounties', kpis.counties.toLocaleString());
+    setText('presKpiUnknownUnits', kpis.unknownUnits.toLocaleString());
 
     renderTable(rows);
     var exportBtn = document.getElementById('presExportBtn');
-    if (exportBtn) exportBtn.disabled = !rows.length || _coverage.recordCount === null;
+    if (exportBtn) exportBtn.disabled = !rows.length;
 
     if (typeof window.__announceUpdate === 'function') {
       window.__announceUpdate(
-        rows.length + ' snapshot properties shown, ' +
-        kpis.expiringCount + ' recorded expirations within ' + EXPIRY_HORIZON_YEARS + ' years. Coverage is incomplete; total preservation risk is unknown.'
+        rows.length + ' listed properties shown with ' + kpis.totalUnits.toLocaleString() + ' units.'
       );
     }
   }
 
-  // ── County & type dropdowns ───────────────────────────────────────────────
+  // ── County dropdown ───────────────────────────────────────────────────────
 
   /**
-   * Populates the county and subsidy-type filter dropdowns from loaded data.
+   * Populates the county filter dropdown from loaded data.
    */
   function populateFilters() {
     var counties = {};
-    var types    = {};
     for (var i = 0; i < _allRows.length; i++) {
-      var r = _allRows[i];
-      if (r.county)       { counties[r.county] = true; }
-      if (r.subsidy_type) { types[r.subsidy_type] = true; }
+      if (_allRows[i].county) { counties[_allRows[i].county] = true; }
     }
-
     var countyEl = document.getElementById('presFilterCounty');
     if (countyEl) {
       var sorted = Object.keys(counties).sort();
@@ -473,17 +391,6 @@
         opt.value = sorted[c];
         opt.textContent = sorted[c];
         countyEl.appendChild(opt);
-      }
-    }
-
-    var typeEl = document.getElementById('presFilterType');
-    if (typeEl) {
-      var sortedT = Object.keys(types).sort();
-      for (var t = 0; t < sortedT.length; t++) {
-        var optT = document.createElement('option');
-        optT.value = sortedT[t];
-        optT.textContent = sortedT[t];
-        typeEl.appendChild(optT);
       }
     }
   }
@@ -530,12 +437,10 @@
    */
   function exportCsv() {
     var rows = getFilteredSorted();
-    if (!rows.length || _coverage.recordCount === null) return;
+    if (!rows.length || !_loaded) return;
     var headers = [
-      'nhpd_id', 'property_name', 'address', 'city', 'county', 'county_fips',
-      'state', 'zip', 'total_units', 'assisted_units', 'subsidy_type',
-      'subsidy_expiration', 'owner_type', 'ami_targeting',
-      'source_generated', 'source_coverage', 'source_record_count', 'coverage_limitation'
+      'record_id', 'property_name', 'address', 'city', 'county', 'zip', 'units',
+      'lat', 'lon', 'source', 'limitation'
     ];
     function escapeCsv(v) {
       var s = String(v == null ? '' : v);
@@ -545,12 +450,9 @@
     var lines = [headers.join(',')];
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
-      var provenance = {
-        source_generated: _coverage.generated, source_coverage: _coverage.status,
-        source_record_count: _coverage.recordCount, coverage_limitation: _coverage.unavailableReason
-      };
+      var extra = { source: SOURCE_LABEL, limitation: LIMITATION };
       lines.push(headers.map(function (h) {
-        return escapeCsv(Object.prototype.hasOwnProperty.call(provenance, h) ? provenance[h] : r[h]);
+        return escapeCsv(Object.prototype.hasOwnProperty.call(extra, h) ? extra[h] : r[h]);
       }).join(','));
     }
     var csv  = lines.join('\n');
@@ -558,7 +460,7 @@
     var url  = URL.createObjectURL(blob);
     var a    = document.createElement('a');
     a.href     = url;
-    a.download = 'nhpd-limited-snapshot-' + (_coverage.generated ? _coverage.generated.slice(0, 10) : 'vintage-unknown') + '.csv';
+    a.download = 'chfa-preservation-inventory.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -568,18 +470,16 @@
   // ── Data loading ──────────────────────────────────────────────────────────
 
   /**
-   * Loads NHPD GeoJSON from cache or DataService and bootstraps the UI.
+   * Loads the CHFA preservation GeoJSON from cache or DataService.
    */
   function loadData() {
-    // Show loading state
     var tbody = document.getElementById('presTableBody');
     if (tbody) {
-      tbody.innerHTML = '<tr><td colspan="7" class="pres-loading">Loading NHPD data…</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="pres-loading">Loading the CHFA preservation inventory…</td></tr>';
     }
 
     _cache = new CacheManager(CACHE_NS, CACHE_TTL_MS);
 
-    // Check cache first
     var cached = _cache.get(CACHE_KEY);
     if (cached) {
       onDataLoaded(cached);
@@ -588,76 +488,81 @@
 
     var ds = window.DataService;
     if (!ds || !ds.getGeoJSON) {
-      showError('DataService is not available.');
+      showError('The CHFA preservation inventory could not be loaded.');
       return;
     }
 
-    var path = ds.baseData('market/nhpd_co.geojson');
-    ds.getGeoJSON(path)
+    ds.getGeoJSON(ds.baseData(DATA_PATH))
       .then(function (geojson) {
         _cache.set(CACHE_KEY, geojson);
         onDataLoaded(geojson);
       })
-      .catch(function (err) {
-        showError('Could not load NHPD data. ' + (err && err.message ? err.message : ''));
+      .catch(function () {
+        showError('The CHFA preservation inventory could not be loaded.');
       });
+  }
+
+  /**
+   * Resolves once county boundaries are ready (or immediately when the
+   * helper is absent), then returns a lookup function or null.
+   * @returns {Promise<Function|null>}
+   */
+  function countyLookup() {
+    var cfc = window.CountyFromCoords;
+    if (!cfc || typeof cfc.init !== 'function') { return Promise.resolve(null); }
+    return Promise.resolve(cfc.init()).then(function () {
+      return cfc.isReady() ? cfc.lookupSync : null;
+    }, function () { return null; });
   }
 
   /**
    * Called once GeoJSON is available (from cache or network).
    * @param {Object} geojson
+   * @returns {Promise|undefined}
    */
   function onDataLoaded(geojson) {
-    if (!geojson || !Array.isArray(geojson.features)) {
-      showError('NHPD snapshot is invalid; preservation coverage is unknown.');
+    if (!geojson || !Array.isArray(geojson.features) || !geojson.features.length) {
+      showError('The CHFA preservation inventory is empty or invalid.');
       return;
     }
-    var features = (geojson && Array.isArray(geojson.features)) ? geojson.features : [];
 
     _allRows = [];
-    for (var i = 0; i < features.length; i++) {
-      var row = normaliseFeature(features[i]);
-      if (row) { _allRows.push(row); }
+    for (var i = 0; i < geojson.features.length; i++) {
+      var row = normaliseFeature(geojson.features[i]);
+      if (row && row.property_name) { _allRows.push(row); }
     }
+    _loaded = true;
 
-    // Also load into Nhpd connector if available
-    if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
-      window.Nhpd.loadFromGeoJSON(geojson);
-      _coverage = window.Nhpd.getCoverage();
-    }
-    setText('presCoverage', _coverage.unavailableReason + ' Cards, table and CSV show filtered snapshot records; they do not estimate total preservation needs.');
-
-    // Stamp freshness
-    var meta = geojson && geojson.meta;
-    if (meta && meta.generated) {
-      setText('presDataTimestamp', 'Snapshot generated ' + meta.generated.slice(0, 10));
-    }
-
-    populateFilters();
-    setupSorting();
-    refresh();
-    renderChart(document.getElementById('presExpiryChart'), _allRows);
+    return countyLookup().then(function (lookup) {
+      assignCounties(_allRows, lookup);
+      var assigned = _allRows.filter(function (r) { return r.county; }).length;
+      setText('presCoverage', _allRows.length.toLocaleString() + ' properties listed on the CHFA preservation map. ' +
+        (assigned === _allRows.length
+          ? 'Every property was placed in a county from its mapped location.'
+          : assigned.toLocaleString() + ' were placed in a county from their mapped location; the rest show "Not assigned".'));
+      populateFilters();
+      setupSorting();
+      refresh();
+      renderChart(document.getElementById('presCountyChart'), _allRows);
+    });
   }
 
   /**
-   * Displays an error message in the table body.
+   * Displays an error message in place of the inventory.
    * @param {string} msg
    */
   function showError(msg) {
-    if (window.Nhpd) window.Nhpd.loadInventory(null);
     _allRows = [];
-    _coverage = { status: 'unavailable', generated: null, recordCount: null,
-      unavailableReason: 'NHPD snapshot unavailable; statewide and local preservation totals are unknown.' };
+    _loaded = false;
     if (_chart) { _chart.destroy(); _chart = null; }
-    ['presKpiTotal', 'presKpiUnits', 'presKpiExpiring', 'presKpiExpiringUnits'].forEach(function (id) { setText(id, 'Unavailable'); });
-    setText('presCoverage', _coverage.unavailableReason);
+    ['presKpiTotal', 'presKpiUnits', 'presKpiCounties', 'presKpiUnknownUnits'].forEach(function (id) { setText(id, 'Unavailable'); });
+    setText('presCoverage', msg + ' Check the CHFA preservation map directly.');
     var exportBtn = document.getElementById('presExportBtn');
     if (exportBtn) exportBtn.disabled = true;
     var tbody = document.getElementById('presTableBody');
     if (tbody) {
-      tbody.innerHTML = '<tr><td colspan="7" class="pres-error">⚠ ' + escHtml(msg) + '</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="pres-error">⚠ ' + escHtml(msg) + '</td></tr>';
     }
-    setText('presDataTimestamp', 'Data unavailable');
   }
 
   // ── Init ──────────────────────────────────────────────────────────────────
@@ -666,23 +571,17 @@
    * Bootstraps the dashboard when the DOM is ready.
    */
   function init() {
-    // Wire filter controls
-    var selectFilterIds = ['presFilterCounty', 'presFilterType', 'presFilterHorizon'];
+    var selectFilterIds = ['presFilterCounty', 'presFilterSize'];
     for (var i = 0; i < selectFilterIds.length; i++) {
       var el = document.getElementById(selectFilterIds[i]);
       if (el) { el.addEventListener('change', refresh); }
     }
-    var textFilterIds = ['presSearch'];
-    for (var j = 0; j < textFilterIds.length; j++) {
-      var textEl = document.getElementById(textFilterIds[j]);
-      if (textEl) { textEl.addEventListener('input', refresh); }
-    }
+    var textEl = document.getElementById('presSearch');
+    if (textEl) { textEl.addEventListener('input', refresh); }
 
-    // Wire export button
     var exportBtn = document.getElementById('presExportBtn');
     if (exportBtn) { exportBtn.addEventListener('click', exportCsv); }
 
-    // Announce helper (fallback)
     if (typeof window.__announceUpdate !== 'function') {
       window.__announceUpdate = function (msg) {
         var region = document.getElementById('aria-live-region');
@@ -706,26 +605,26 @@
   window.PreservationDashboard = {
     /** @returns {Array.<Object>} All loaded property rows (normalised). */
     getRows:           function () { return _allRows.slice(); },
-    /** @returns {Object} Current KPIs for loaded data. */
+    /** @returns {Object} Current KPIs for loaded data; nulls when unavailable. */
     getKpis:           function () {
-      return _coverage.recordCount === null
-        ? { total: null, totalUnits: null, expiringCount: null, expiringUnits: null, unavailableReason: _coverage.unavailableReason }
-        : computeKpis(_allRows);
+      return _loaded
+        ? computeKpis(_allRows)
+        : { total: null, totalUnits: null, counties: null, unknownUnits: null };
     },
     /** Programmatically refresh the view. */
     refresh:           refresh,
     /** Exposes normaliseFeature for unit testing. */
     _normaliseFeature: normaliseFeature,
-    /** Exposes parseExpiryYear for unit testing. */
-    _parseExpiryYear:  parseExpiryYear,
+    /** Exposes assignCounties for unit testing. */
+    _assignCounties:   assignCounties,
     /** Exposes computeKpis for unit testing. */
     _computeKpis:      computeKpis,
     /** Exposes buildChartData for unit testing. */
     _buildChartData:   buildChartData,
-    /** Exposes expiryClass for unit testing. */
-    _expiryClass:      expiryClass,
-    /** Exposes subsidyTypeSlug for unit testing. */
-    _subsidyTypeSlug:  subsidyTypeSlug,
+    /** Exposes inSizeBand for unit testing. */
+    _inSizeBand:       inSizeBand,
+    /** Exposes onDataLoaded for unit testing. */
+    _onDataLoaded:     onDataLoaded,
   };
 
 }());

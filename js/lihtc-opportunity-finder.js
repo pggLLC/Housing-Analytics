@@ -12,7 +12,9 @@
  *
  * Per jurisdiction we compute:
  *   - # of QCTs intersecting the place (via place-tract-membership)
- *   - DDA designation (containing county is one of CO's 10 nonmetro DDAs)
+ *   - DDA designation: the containing county is one of HUD's nonmetro
+ *     county DDAs, or part of the place lies in a metro Small Area DDA
+ *     (HUD designates those by ZIP; a site qualifies only inside the ZIP)
  *   - All LIHTC projects in the jurisdiction (matched by PROJ_CTY)
  *   - Last CHFA award year + years-since (CHFA publishes no placed-in-service
  *     year; the feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js,
@@ -42,6 +44,7 @@
     qctTractIds: new Set(),         // Set of tract GEOIDs that are QCTs
     ddaCountyFips: new Set(),       // Set of 5-digit county FIPS designated as DDA
     ddaFeatures: [],                // raw DDA polygons (for map rendering)
+    ddaZipFeatures: [],             // metro Small Area DDA polygons (one per ZIP and metro area)
     placeMembership: {},            // place geoid → { name, tracts:[{tract_geoid, share_of_place_area}] }
     placeFromAmi: {},               // place geoid → AMI/HHs row (for population)
     projects: [],                   // CHFA/HUD LIHTC project points (filtered to a valid award year)
@@ -89,7 +92,7 @@
     // city name (lowercase, no suffix). Each entry tagged with
     // { _source:'chfa-2026-r1-bridge', _bridge:true } so a single filter
     // line can drop them when the live feed catches up.
-    chfa2026R1ByCity: {},           // normalized city name → [award records]
+    chfa2026R1ByCity: {},           // _cityKey(city) → [award records]
     chfa2026R1Meta: null,           // bridge-file metadata (round, announcement date, totals)
     opportunities: [],
     map: null,
@@ -426,6 +429,42 @@
     for (var h = 1; h < rings.length; h++) if (_pointInRing(lon, lat, rings[h])) return false;
     return true;
   }
+  function _pointInGeometry(lon, lat, g) {
+    if (!g) return false;
+    if (g.type === 'Polygon') return _pointInPolygonRings(lon, lat, g.coordinates);
+    if (g.type === 'MultiPolygon') return g.coordinates.some(function (r) { return _pointInPolygonRings(lon, lat, r); });
+    return false;
+  }
+  // ZIP of a metro Small Area DDA feature (HUD DDA_TYPE 'SA'), or null for a
+  // nonmetro county DDA.
+  function _ddaZip(f) {
+    var p = (f && f.properties) || {};
+    var zip = String(p.ZCTA5 || '');
+    return (p.DDA_KIND === 'zip' || p.DDA_TYPE === 'SA' || p.DDATYPE === 'SA') && /^\d{5}$/.test(zip) ? zip : null;
+  }
+  // Small Area DDA ZIPs that reach into a place: the ZIP polygon contains the
+  // place's Census point or the internal point of a tract that makes up a
+  // meaningful part of the place (same overlap rule as QCTs). HUD designates
+  // metro DDAs by ZIP, so only sites inside these ZIPs get the basis boost.
+  function _ddaZipsForPlace(placeGeoid, tracts) {
+    if (!state.ddaZipFeatures.length) return [];
+    var pts = [];
+    var pc = state.placeCentroid[placeGeoid];
+    if (pc) pts.push([pc.lng, pc.lat]);
+    (tracts || []).forEach(function (t) {
+      var sp = +t.share_of_place_area || 0;
+      var st = +t.share_of_tract_area || 0;
+      var c = state.tractCentroids[t.tract_geoid];
+      if (c && (sp > 0.05 || st > 0.20)) pts.push([c.lon, c.lat]);
+    });
+    var zips = {};
+    state.ddaZipFeatures.forEach(function (f) {
+      var zip = _ddaZip(f);
+      if (zips[zip]) return;
+      if (pts.some(function (pt) { return _pointInGeometry(pt[0], pt[1], f.geometry); })) zips[zip] = true;
+    });
+    return Object.keys(zips).sort();
+  }
   // { inQct, tract, year } for a project feature, or null when its point or
   // the QCT map is missing (unknown, never "not in a QCT").
   function _qctMapStatus(feature, qctMap) {
@@ -463,6 +502,34 @@
   function placeNameToCity(label) {
     if (!label) return '';
     return label.replace(/\s*\([^)]+\)\s*$/, '').trim();
+  }
+
+  // Matching key for a city name, used on BOTH sides of every city join
+  // (CHFA PROJ_CTY, the affordable-housing property list, the 2026 Round
+  // One awards, and Census place names). Upper case, accents stripped
+  // (CHFA spells "Canon City", Census "Cañon City"), "Ft"/"St" spelled
+  // out as whole words, spaces collapsed. CITY_KEY_ALIASES fixes the
+  // misspellings found in CHFA's property list.
+  var CITY_KEY_ALIASES = {
+    'COLORDO SPRINGS': 'COLORADO SPRINGS'
+  };
+  function _cityKey(name) {
+    var k = String(name || '');
+    if (k.normalize) k = k.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    k = k.toUpperCase()
+      .replace(/\bFT\b\.?/g, 'FORT')
+      .replace(/\bST\b\.?/g, 'SAINT')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/^(CITY|TOWN) OF /, '');   // Census names Creede "City of Creede"
+    return CITY_KEY_ALIASES[k] || k;
+  }
+  // First non-empty entry of `map` under any of `keys`.
+  function _firstKeyed(map, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i] && map[keys[i]] && (!Array.isArray(map[keys[i]]) || map[keys[i]].length)) return map[keys[i]];
+    }
+    return null;
   }
 
   // Haversine great-circle distance in miles between two lat/lng points.
@@ -620,8 +687,11 @@
     return { score: Math.round((below / needDist.length) * 100), source: res.source };
   }
 
-  function basisBoostScore(isQct, isDda) {
-    if (isQct && isDda) return 100;
+  // isBoth: a QCT and a DDA cover the same ground. Defaults to isQct && isDda,
+  // which holds for a county DDA; a ZIP DDA counts only where a QCT tract
+  // of the place lies inside the ZIP.
+  function basisBoostScore(isQct, isDda, isBoth) {
+    if (isBoth === undefined ? (isQct && isDda) : isBoth) return 100;
     if (isQct || isDda) return 60;
     return 0;
   }
@@ -658,7 +728,8 @@
   // already has. Until 2026-10-14 it always said "currently neither", which
   // a DDA place contradicted on the same panel.
   function _basisMoveUp(op) {
-    if (op.hasQct && op.hasDda) return 'nothing: it already has both a QCT and a DDA';
+    if (op.hasBoth) return 'nothing: it already has both a QCT and a DDA';
+    if (op.hasQct && op.hasDda) return 'a QCT tract lies inside its DDA ZIP (it has both, but not in the same place)';
     if (op.hasDda) return 'a QCT is added (it already has a DDA)';
     if (op.hasQct) return 'a DDA is added (it already has a QCT)';
     return 'a QCT or DDA designation is added (currently neither)';
@@ -822,6 +893,7 @@
       // Build DDA county-FIPS set + keep raw features for map
       state.ddaFeatures = parts[1].features || [];
       state.ddaFeatures.forEach(function (f) {
+        if (_ddaZip(f)) { state.ddaZipFeatures.push(f); return; }
         var g = f.properties && f.properties.GEOID;
         if (g && g.length === 5) state.ddaCountyFips.add(g);
       });
@@ -918,7 +990,7 @@
       var ahProps = parts[13];
       if (ahProps && Array.isArray(ahProps.properties)) {
         ahProps.properties.forEach(function (p) {
-          var city = (p.city || '').toUpperCase().trim();
+          var city = _cityKey(p.city);
           if (!city) return;
           var isPres = p.program_type.indexOf('preservation-candidate') !== -1;
           if (isPres) {
@@ -1057,7 +1129,7 @@
           // Apply provenance tags in memory.
           a._source = 'chfa-2026-r1-bridge';
           a._bridge = true;
-          var key = (a.city || '').trim().toLowerCase();
+          var key = _cityKey(a.city);
           if (!key) return;
           (state.chfa2026R1ByCity[key] = state.chfa2026R1ByCity[key] || []).push(a);
         });
@@ -1184,7 +1256,9 @@
 
       setStatus('Rolling up ' + Object.keys(state.placeMembership).length +
         ' jurisdictions against ' + state.qctTractIds.size + ' QCTs · ' +
-        state.ddaCountyFips.size + ' DDAs · ' + state.projects.length + ' LIHTC projects · ' +
+        state.ddaCountyFips.size + ' DDA counties · ' +
+        Object.keys(state.ddaZipFeatures.reduce(function (m, f) { m[_ddaZip(f)] = 1; return m; }, {})).length +
+        ' DDA ZIPs · ' + state.projects.length + ' LIHTC projects · ' +
         Object.keys(state.policyScores).length + ' policy-score records…');
     });
   }
@@ -1236,10 +1310,10 @@
     var needDist = buildNeedDistribution();
     var ops = [];
 
-    // Index projects by upper-case PROJ_CTY for fast lookup
+    // Index projects by PROJ_CTY (normalized with _cityKey) for fast lookup
     var projectsByCity = {};
     state.projects.forEach(function (p) {
-      var c = ((p.properties && p.properties.PROJ_CTY) || '').toUpperCase().trim();
+      var c = _cityKey(p.properties && p.properties.PROJ_CTY);
       if (!c) return;
       (projectsByCity[c] = projectsByCity[c] || []).push(p);
     });
@@ -1302,15 +1376,29 @@
       });
       var hasQct = qctTracts.length > 0;
 
-      // DDA membership — place's containing county is in the DDA set
-      var hasDda = containingCounty && state.ddaCountyFips.has(containingCounty);
+      // DDA membership — the containing county is a nonmetro county DDA, or
+      // part of the place lies in a metro Small Area DDA ZIP.
+      var hasDdaCounty = !!(containingCounty && state.ddaCountyFips.has(containingCounty));
+      var ddaZips = hasDdaCounty ? [] : _ddaZipsForPlace(placeGeoid, membership.tracts);
+      var hasDda = hasDdaCounty || ddaZips.length > 0;
+      // Both on the same ground: every QCT in a DDA county, or a QCT tract
+      // whose internal point lies inside one of the place's DDA ZIPs.
+      var hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(function (t) {
+        var c = state.tractCentroids[t.tract_geoid];
+        return c && state.ddaZipFeatures.some(function (f) {
+          return ddaZips.indexOf(_ddaZip(f)) !== -1 && _pointInGeometry(c.lon, c.lat, f.geometry);
+        });
+      })));
 
       // Note: we no longer pre-filter to basis-boost-eligible jurisdictions
       // at rollup time. The filter is applied at _applyFilters() so the user
       // can opt to see all 482 jurisdictions via the 'no requirement' option.
 
-      // LIHTC projects in the jurisdiction (matched by PROJ_CTY)
-      var cityNameForLookup = placeNameToCity(label).toUpperCase();
+      // LIHTC projects in the jurisdiction (matched by PROJ_CTY). Try the
+      // place's own name, then its geo-config label (the membership file
+      // names Central City "Central").
+      var cityKeys = [_cityKey(placeNameToCity(label)), _cityKey(placeNameToCity(meta.label || ''))];
+      var cityNameForLookup = cityKeys.filter(function (k) { return k && projectsByCity[k]; })[0] || cityKeys[0];
       var inside = (projectsByCity[cityNameForLookup] || []);
       var lastAwardYearFeed = inside.reduce(function (max, p) {
         var y = _awardYear(p.properties);
@@ -1323,7 +1411,7 @@
 
       // F116 — 2026 R1 bridge awards in this jurisdiction. Matched by
       // normalized city name (the press release doesn't carry GEOIDs).
-      var r1Awards = state.chfa2026R1ByCity[placeNameToCity(label).toLowerCase()] || [];
+      var r1Awards = _firstKeyed(state.chfa2026R1ByCity, cityKeys) || [];
 
       // F146 — Fold recent CHFA award rounds INTO the lastYear used for
       // recency scoring. Previously we explicitly excluded the bridge data
@@ -1428,7 +1516,7 @@
       var regional_recency_anchor_4pct         = regional && regional.regional_recency_anchor_4pct         || null;
       var regional_recency_anchor_state_credit = regional && regional.regional_recency_anchor_state_credit || null;
       var regional_recency_anchor_competitive  = regional && regional.regional_recency_anchor_competitive  || null;
-      var bbScore = basisBoostScore(hasQct, hasDda);
+      var bbScore = basisBoostScore(hasQct, hasDda, hasBoth);
       var popScore = populationScore(pop);
 
       // Compute civic 0–100 first (need it before composite scores)
@@ -1560,11 +1648,11 @@
       // Sourced from 4 datasets: CHFA LIHTC + CHFA Preservation + HUD MF
       // Assisted + USDA RD. preservationByCity[city] is now an object with
       // sub-type counts + urgency buckets.
-      var preservationRec = state.preservationByCity[cityNameForLookup] || {
+      var preservationRec = _firstKeyed(state.preservationByCity, cityKeys) || {
         total: 0, sec8: 0, hud202_811: 0, fha: 0, usdaRd: 0, other: 0,
         urgent5y: 0, expiringSoon10y: 0
       };
-      var lihtcStock = state.lihtcByCity[cityNameForLookup] || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
+      var lihtcStock = _firstKeyed(state.lihtcByCity, cityKeys) || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
 
       // Civic score values for op record (reuse pre-computed values)
       var civicRawScore = civicRawScore_pre;
@@ -1591,7 +1679,9 @@
         publicLandsHeavy: PUBLIC_LANDS_HEAVY_COUNTIES.has(containingCounty),
         hasQct:       hasQct,
         hasDda:       hasDda,
-        hasBoth:      hasQct && hasDda,
+        ddaKind:      hasDdaCounty ? 'county' : (ddaZips.length ? 'zip' : null),
+        ddaZips:      ddaZips,
+        hasBoth:      hasBoth,
         qctTracts:    qctTracts,
         qctCount:     qctTracts.length,
         projects:     inside,
@@ -2689,9 +2779,15 @@
     }
     var rows = filtered.map(function (op) {
       var typeHtml = '';
-      if (op.hasBoth) typeHtml = '<span class="lof-badge lof-badge--both">QCT + DDA</span>';
-      else if (op.hasQct) typeHtml = '<span class="lof-badge lof-badge--qct">QCT</span>';
-      else if (op.hasDda) typeHtml = '<span class="lof-badge lof-badge--dda">DDA</span>';
+      var qctMult = op.qctCount > 1 ? '<span style="font-size:.8125rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '';
+      if (op.hasBoth) typeHtml = '<span class="lof-badge lof-badge--both">QCT + DDA</span>' + qctMult;
+      else {
+        // A place can have QCTs and a DDA ZIP that do not overlap: show both badges.
+        if (op.hasQct) typeHtml += '<span class="lof-badge lof-badge--qct">QCT</span>' + qctMult;
+        if (op.hasDda) typeHtml += (typeHtml ? ' ' : '') + '<span class="lof-badge lof-badge--dda"' +
+          (op.ddaKind === 'zip' ? ' title="Small Area DDA: ZIP ' + escHtml(op.ddaZips.join(', ')) + ' only"' : '') + '>DDA' +
+          (op.ddaKind === 'zip' ? ' ZIP' : '') + '</span>';
+      }
       var lastFundedText = op.lastYear != null
         ? op.lastYear + ' <span style="color:var(--muted)">(' + op.yearsSince + 'y)</span>'
         : '<em>Never</em>';
@@ -2730,7 +2826,8 @@
       // <td>s via CSS. The jurisdiction subtitle now folds in the type
       // (city/town/cdp) AND county name so users keep context when the
       // dedicated Type + County columns are hidden.
-      var typeText = op.hasBoth ? 'QCT+DDA' : op.hasQct ? 'QCT' : op.hasDda ? 'DDA' : '';
+      var typeText = op.hasBoth ? 'QCT+DDA'
+        : [op.hasQct ? 'QCT' : '', op.hasDda ? (op.ddaKind === 'zip' ? 'DDA ZIP' : 'DDA') : ''].filter(Boolean).join(' · ');
       var jurisSubtitle =
         '<div class="lof-juris-sub">' +
           '<span class="lof-juris-type">' + escHtml(op.type) + '</span>' +
@@ -2761,7 +2858,7 @@
             'aria-label="Open Housing Needs Assessment for ' + escHtml(op.name) + ' in new tab" ' +
             'onclick="event.stopPropagation()">→ HNA</a>' +
           jurisSubtitle + '</td>' +
-        '<td data-priority="tertiary">' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.8125rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
+        '<td data-priority="tertiary">' + typeHtml + '</td>' +
         '<td data-priority="secondary">' + escHtml(op.countyName) + '</td>' +
         '<td data-priority="tertiary">' + lastFundedText + '</td>' +
         '<td data-priority="tertiary">' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.8125rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
@@ -2997,8 +3094,7 @@
     var resolvedNotice = '';
     if (lr && lr._resolvedFrom === 'county-fallback') {
       resolvedNotice = '<p class="lof-civic-fallback">⚠ Showing <strong>' + escHtml(op.countyName) +
-        '</strong> resources — no place-level entry for ' + escHtml(op.name) + ' yet. ' +
-        '<a href="https://github.com/pggLLC/Housing-Analytics/blob/main/scripts/augment-local-resources.js" target="_blank" rel="noopener">Help us add it</a></p>';
+        '</strong> resources — no place-level entry for ' + escHtml(op.name) + ' yet.</p>';
     }
 
     return '<h4 class="lof-section-h">Civic capacity ' + scoreBadge + '</h4>' +
@@ -3430,10 +3526,11 @@
     // 3. Basis-boost eligibility
     if (op.hasBoth) {
       reasons.push('<strong>QCT + DDA:</strong> strongest IRC §42(d)(5)(B) basis-boost case (30% extra basis).');
-    } else if (op.hasQct) {
-      reasons.push('<strong>QCT designation:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(i)).');
-    } else if (op.hasDda) {
-      reasons.push('<strong>DDA county:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(ii)).');
+    } else {
+      if (op.hasQct) reasons.push('<strong>QCT designation:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(ii)).');
+      if (op.hasDda) reasons.push(op.ddaKind === 'zip'
+        ? '<strong>Small Area DDA:</strong> ZIP ' + escHtml(op.ddaZips.join(', ')) + ' — a site inside a designated ZIP gets the 30% basis boost (IRC §42(d)(5)(B)(iii)); sites elsewhere in ' + escHtml(op.name) + ' do not.'
+        : '<strong>DDA county:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(iii)).');
     }
     // 4. Civic-readiness signals
     if (op.prop123Detail || (op.civic && op.civic.dimensions && op.civic.dimensions.prop123_committed)) {
@@ -3592,7 +3689,9 @@
     // Designation summary
     var designations = [];
     if (op.hasQct) designations.push(op.qctCount + ' QCT' + (op.qctCount > 1 ? 's' : ''));
-    if (op.hasDda) designations.push('DDA (county-wide)');
+    if (op.hasDda) designations.push(op.ddaKind === 'zip'
+      ? 'Small Area DDA in ZIP ' + op.ddaZips.join(', ') + ' (sites inside the ZIP only)'
+      : 'DDA (county-wide)');
 
     // HNA deep-link CTAs — open the full Housing Needs Assessment workup
     // for the place AND its containing county.
@@ -4894,8 +4993,9 @@
       overlays['County boundaries'] = countyOverlay;
     }
 
-    // ── DDA counties (blue fill, ON by default) ─────────────────────────
-    // All 10 Colorado DDA counties get a translucent blue overlay so users
+    // ── DDAs (blue fill, ON by default) ─────────────────────────────────
+    // HUD's nonmetro DDA counties and metro Small Area DDA ZIPs get a
+    // translucent blue overlay so users
     // see basis-boost geography at-a-glance. Previously this was drawn only
     // for jurisdictions in the active filter — that meant non-DDA filter
     // results hid the DDA map entirely, which contradicted the page's
@@ -4904,7 +5004,10 @@
     state.ddaFeatures.forEach(function (f) {
       var rings = _geomToLeafletRings(f.geometry);
       if (!rings) return;
-      var name = (f.properties && (f.properties.NAME || f.properties.GEOID)) || 'DDA county';
+      var zip = _ddaZip(f);
+      var name = zip
+        ? 'Small Area DDA ZIP ' + zip + ' · sites inside this ZIP get the 30% basis boost (IRC §42(d)(5)(B)(iii))'
+        : ((f.properties && (f.properties.NAME || f.properties.GEOID)) || 'DDA county') + ' · nonmetro DDA county · 30% basis boost (IRC §42(d)(5)(B)(iii))';
       // F12: bumped visibility to match QCT clarity. Was weight:1.2/
       // fillOpacity:0.10/opacity:0.60 — too faint at state-level zoom.
       var poly = window.L.polygon(rings, {
@@ -4912,12 +5015,12 @@
         color: '#2563eb', weight: 1.6, fillColor: '#60a5fa',
         fillOpacity: 0.22, opacity: 0.85, interactive: true
       });
-      poly.bindTooltip('DDA: ' + escHtml(name) + ' County · 30% basis boost (IRC §42(d)(5)(B))', { sticky: true });
+      poly.bindTooltip('DDA: ' + escHtml(name), { sticky: true });
       ddaLayer.addLayer(poly);
     });
     ddaLayer.addTo(state.map);
     state.layers.dda = ddaLayer;
-    overlays['DDA counties (blue, basis-boost)'] = ddaLayer;
+    overlays['DDA counties + ZIPs (blue, basis-boost)'] = ddaLayer;
 
     // ── QCT tracts (orange fill, ON by default) ─────────────────────────
     // Re-fetch once for the geometry — state.qctTractIds only stores the
@@ -5093,7 +5196,7 @@
         '</div>' +
         '<div class="lof-legend-row">' +
           '<span class="lof-legend-sw" style="background:#60a5fa;opacity:.75"></span>' +
-          '<span><strong>DDA county</strong> <span class="lof-legend-sub">— high-cost rural county, +30% basis</span></span>' +
+          '<span><strong>DDA</strong> <span class="lof-legend-sub">— HUD high-cost nonmetro county or metro ZIP, +30% basis</span></span>' +
         '</div>' +
 
         '<div class="lof-legend-group-label">Opportunity Zones (2018)</div>' +
@@ -5216,8 +5319,9 @@
         // loaded here (skipOz) — it arrives lazily when the user toggles the
         // OZ map layer, opens a redev detail panel, or enables the redev filter.
         _loadRedevData(function () { _stampRedevOnOps(); _refresh(); }, { skipOz: true });
-        setStatus('Ranked ' + state.opportunities.length +
-          ' Colorado jurisdictions with QCT and/or DDA designations · click a row for project history.');
+        var basisEligible = state.opportunities.filter(function (o) { return o.hasQct || o.hasDda; }).length;
+        setStatus('Ranked ' + state.opportunities.length + ' Colorado jurisdictions (' + basisEligible +
+          ' with a QCT and/or DDA designation) · click a row for project history.');
         _refresh();
       })
       .catch(function (err) {

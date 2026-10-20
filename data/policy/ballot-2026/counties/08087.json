@@ -11,7 +11,7 @@
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: the Elections Department page posts 27 English sample ballot styles (with Spanish versions); all 27 were read. The only county question is Morgan County Question 1A: \"Shall the proposed Morgan County Home Rule Charter be adopted?\" No TABOR notice or participating-entities list is posted.",
-        "Excluded by owner decision on 2026-09-26: Question 1A, referred by Resolution 2026 BCC 38 (September 1, 2026; scanned) and numbered in Resolution 2026 BCC 41. It adopts a form of county government, not a tax or housing measure on its face; the proposed charter contains an Article IX on planning. The charter PDF is scanned and only its cover and table of contents were read.",
+        "Excluded on review on 2026-09-26: Question 1A, referred by Resolution 2026 BCC 38 (September 1, 2026; scanned) and numbered in Resolution 2026 BCC 41. It adopts a form of county government, not a tax or housing measure on its face; the proposed charter contains an Article IX on planning. The charter PDF is scanned and only its cover and table of contents were read.",
         "Not county questions and not housing: Central Colorado Water Conservancy District Ballot Issue 7B and its Groundwater Management Subdistrict Ballot Issue 7C (water), and Buffalo School District RE-4J Ballot Issue 5A (debt).",
         "Commissioners' agendas January to September 29, 2026 show no other county ballot referral."
       ],
@@ -91,7 +91,7 @@
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: none of the 27 county sample ballot styles has a City of Fort Morgan section. No participating-entities list is posted.",
-        "The city's election page states that its municipal election takes place in November of odd-numbered years. Council agendas May 19 to September 15, 2026 contain no ballot referral (two PDFs had no text layer)."
+        "The city's election page states that its municipal election takes place in November of odd-numbered years. Council agendas May 19 to September 15, 2026 contain no ballot referral (two PDFs had no searchable text)."
       ],
       "reviewed_sources": [
         {
@@ -154,7 +154,7 @@
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: none of the 27 county sample ballot styles has a Town of Log Lane Village section. No participating-entities list is posted.",
-        "The town website (townofllv.com) returned HTTP 403 on 2026-10-10, as it did on 2026-09-26, so a separate town election could not be ruled out from the town's own records."
+        "The town website (townofllv.com) could not be opened on 2026-10-10 or 2026-09-26, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
         {

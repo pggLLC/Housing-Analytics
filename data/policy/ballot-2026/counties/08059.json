@@ -13,7 +13,7 @@
         "No Jefferson County (1-series) ballot issue or question appears in the TABOR booklet or on the On the Ballot page.",
         "Excluded (special districts, not housing): Jeffco School District R-1 5A and 5B; 6A Blue Mountain Water; 6B Golden Gate Fire; 6C Arvada Fire; 6D and 6E Columbine Knolls Grove Metropolitan Recreation District; 7A Front Range Passenger Rail District (transit; station-area improvements, no housing earmark); 7B Evergreen Fire; 7C West Metro Fire; 7D Conifer Fire.",
         "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list.",
-        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its text layer is garbled, so it was read from rendered page images): its Ballot Measures run from the state measures straight into municipal, school district and special district measures, with no Jefferson County section."
+        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its searchable text is garbled, so it was read from rendered page images): its Ballot Measures run from the state measures straight into municipal, school district and special district measures, with no Jefferson County section."
       ],
       "reviewed_sources": [
         {
@@ -63,8 +63,8 @@
       "entry_ids": [],
       "limitations": [
         "Excluded: City of Edgewater Issue 2K, a 0.5% sales tax \"USED SOLELY FOR THE PURPOSES OF INCREASING AND IMPROVING ACCESSIBILITY AND MOBILITY THROUGHOUT THE CITY\"; not housing.",
-        "The city elections page (edgewaterco.gov) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
-        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its text layer is garbled, so it was read from rendered page images): City of Edgewater Issue 2K is the only Edgewater measure."
+        "The city elections page (edgewaterco.gov) could not be opened on 2026-09-26 and was not read.",
+        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its searchable text is garbled, so it was read from rendered page images): City of Edgewater Issue 2K is the only Edgewater measure."
       ],
       "reviewed_sources": [
         {
@@ -109,7 +109,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "The Town of Lakeside has no measure or race on the county list. The town website (lakeside.town) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
+        "The Town of Lakeside has no measure or race on the county list. The town website (lakeside.town) could not be opened on 2026-09-26 and was not read.",
         "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list. The PDF sample ballot was marked \"coming soon\" on 2026-09-26."
       ]
     },
@@ -125,7 +125,7 @@
       ],
       "limitations": [
         "Excluded: Lakewood Questions 2H (start of newly elected terms), 2I (repeal of Charter 12.12 and voter approval for property tax increases; no housing earmark) and 2J (initiative and referendum election time frames).",
-        "The city website (lakewoodco.gov) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+        "The city website (lakewoodco.gov) could not be opened on 2026-09-26 and was not read."
       ],
       "reviewed_sources": [
         {
@@ -144,7 +144,7 @@
       "entry_ids": [],
       "limitations": [
         "Excluded: Town of Morrison Issues 2D (removes a lodging tax exemption) and 2E (lodging tax from 6% to 8%); both revenues are \"TO BE SPENT ON ANY LAWFUL MUNICIPAL PURPOSE\", not dedicated to housing. Question 2F (trustee terms) is governance.",
-        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its text layer is garbled, so it was read from rendered page images): Town of Morrison Issues 2D and 2E and Question 2F are the only Morrison measures."
+        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its searchable text is garbled, so it was read from rendered page images): Town of Morrison Issues 2D and 2E and Question 2F are the only Morrison measures."
       ],
       "reviewed_sources": [
         {
@@ -175,8 +175,8 @@
       "entry_ids": [],
       "limitations": [
         "Excluded: Town of Mountain View Questions 2B (council-manager form of government) and 2C (repeal of charter Article VIII, boards and commissions); governance. These non-tax questions are on the county On the Ballot page, not in the TABOR booklet.",
-        "The town website (tomv.org) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
-        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its text layer is garbled, so it was read from rendered page images): Town of Mountain View Questions 2B and 2C are the only Mountain View measures."
+        "The town website (tomv.org) could not be opened on 2026-09-26 and was not read.",
+        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its searchable text is garbled, so it was read from rendered page images): Town of Mountain View Questions 2B and 2C are the only Mountain View measures."
       ],
       "reviewed_sources": [
         {
@@ -199,7 +199,7 @@
       "entry_ids": [],
       "limitations": [
         "Excluded: City of Wheat Ridge Issue 2A, a 1.0% sales and use tax for streets, bike and pedestrian safety, community spaces, the Anderson Park pool, and police and city facilities; not housing. The city holds a special municipal election coordinated with the county for this question.",
-        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its text layer is garbled, so it was read from rendered page images): City of Wheat Ridge Issue 2A is the only Wheat Ridge measure."
+        "Checked 2026-10-12 against the Jefferson County All-Inclusive Sample Ballot (PDF created 2026-10-06; its searchable text is garbled, so it was read from rendered page images): City of Wheat Ridge Issue 2A is the only Wheat Ridge measure."
       ],
       "reviewed_sources": [
         {
@@ -277,9 +277,9 @@
         "checked": "2026-09-26"
       },
       "limitations": [
-        "Mixed-purpose measure: homelessness response is one named use within public safety purposes, alongside crime prevention and traffic safety improvements. The question does not allocate a share of revenue to homelessness. Included as a homelessness measure by owner decision on 2026-09-26.",
+        "Mixed-purpose measure: homelessness response is one named use within public safety purposes, alongside crime prevention and traffic safety improvements. The question does not allocate a share of revenue to homelessness. Included as a homelessness measure after review on 2026-09-26.",
         "The quote is from the TABOR booklet with line breaks normalized to single spaces.",
-        "The referring ordinance or resolution was not read: the city website (lakewoodco.gov) returned HTTP 403 on 2026-09-26. The county PDF sample ballot was not yet posted.",
+        "The referring ordinance or resolution was not read: the city website (lakewoodco.gov) could not be opened on 2026-09-26. The county PDF sample ballot was not yet posted.",
         "The question states no duration or sunset."
       ],
       "result": null,

@@ -104,8 +104,8 @@
   <script defer src="js/config/table-export-registry.js"></script>
   <script defer src="js/components/table-export.js"></script>
 </head>
-<body data-page-update-key="lihtc"
-      data-page-source="IRS · HUD LIHTC Database · CHFA">
+<body data-page-update-key="allocations"
+      data-page-source="2026 ceilings: IRS Rev. Proc. 2025-32 · 2026 population: IRS Notice 2026-22 (Census Vintage 2025)">
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
 <div id="statusPanel" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);"></div>
@@ -139,12 +139,7 @@
       <h1>LIHTC Allocations</h1>
       <p>Explore Low-Income Housing Tax Credit allocations by state, region, and year. Analyze per-capita credit distribution, track year-over-year shifts, and identify states with the strongest LIHTC activity — supporting site selection, policy research, and investment strategy decisions.</p>
       <p style="font-size:.9rem;color:var(--muted);margin-top:.5rem;"><strong>Note on methodology:</strong> Figures shown represent <em>allocation authority</em> — the IRS per-capita ceiling each state may award to developers — not the number of units actually placed in service. States may carry forward unused authority, and there is typically a multi-year gap between allocation and project completion. Historical years (2010–2023) use IRS per-capita floors; confirmed state-level breakdowns are noted where available.</p>
-      <div class="sub">Powered by IRS per-capita cap data and HUD LIHTC database · Updated annually</div>
-      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
-        <small id="lihtcDataTimestamp" class="data-timestamp"></small>
-        <span class="data-reliability-badge" aria-live="polite" aria-label="Data status loading">Checking data…</span>
-        <a href="data-status.html" style="font-size:.8125rem;color:var(--link);">View diagnostics</a>
-      </div>
+      <div class="sub">2026 ceilings: the greater of $3.416 per resident or $3,953,600 (<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a>), applied to the 2026 population figures in <a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener">IRS Notice 2026-22</a> (April 6, 2026) · Historical years 2010–2023 · Updated annually</div>
     </section>
 
     <section class="card">
@@ -247,10 +242,10 @@
           <thead>
             <tr>
               <th data-tip="U.S. Census region (Northeast, Midwest, South, West).">Region</th>
-              <th class="right">States</th>
-              <th class="right">Total allocation</th>
-              <th class="right">% of national</th>
-              <th class="right">Per-capita</th>
+              <th class="right" data-tip="Number of states (and DC) in the region.">States</th>
+              <th class="right" data-tip="Combined per-capita LIHTC ceilings of the region's states for the selected year, in dollars.">Total allocation</th>
+              <th class="right" data-tip="The region's share of the national total for the selected year.">% of national</th>
+              <th class="right" data-tip="The region's total allocation divided by its resident population.">Per-capita</th>
             </tr>
           </thead>
           <tbody id="region-summary-body"></tbody>
@@ -262,12 +257,12 @@
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th>State</th>
-              <th>Abbr</th>
-              <th class="right">Allocation</th>
-              <th class="right">Per-capita</th>
-              <th class="right">% of national</th>
+              <th data-tip="Rank by allocation within the current selection.">#</th>
+              <th data-tip="The state (or DC) this row describes.">State</th>
+              <th data-tip="Two-letter postal abbreviation.">Abbr</th>
+              <th class="right" data-tip="The state's annual per-capita LIHTC ceiling in dollars; for 2026, $3.416 per resident or $3,953,600, whichever is greater. Carryforward, returned and national pool credits are not included.">Allocation</th>
+              <th class="right" data-tip="Ceiling divided by resident population. For 2026 each state gets $3.416 per resident or the $3,953,600 small-state minimum, whichever is greater, so small states show a higher figure.">Per-capita</th>
+              <th class="right" data-tip="This state's share of the national total for the selected year.">% of national</th>
             </tr>
           </thead>
           <tbody id="top10-body"></tbody>
@@ -282,13 +277,13 @@
         <table id="states-table" data-export="la-states">
           <thead>
             <tr>
-              <th data-sort="rank">#</th>
-              <th data-sort="name">State</th>
-              <th data-sort="abbr">Abbr</th>
-              <th class="right" data-sort="population">Population</th>
-              <th class="right" data-sort="allocation">Allocation</th>
-              <th class="right" data-sort="perCapita">Per-capita</th>
-              <th class="right" data-sort="share">% of national</th>
+              <th data-sort="rank" data-tip="Row number in the current sort order.">#</th>
+              <th data-sort="name" data-tip="The state (or DC) this row describes.">State</th>
+              <th data-sort="abbr" data-tip="Two-letter postal abbreviation.">Abbr</th>
+              <th class="right" data-sort="population" data-tip="Resident population used for the ceiling. For 2026, the IRS figure in Notice 2026-22 (Census Vintage 2025 estimate).">Population</th>
+              <th class="right" data-sort="allocation" data-tip="The state's annual per-capita LIHTC ceiling in dollars; for 2026, $3.416 per resident or $3,953,600, whichever is greater. Carryforward, returned and national pool credits are not included.">Allocation</th>
+              <th class="right" data-sort="perCapita" data-tip="Ceiling divided by resident population. For 2026 each state gets $3.416 per resident or the $3,953,600 small-state minimum, whichever is greater, so small states show a higher figure.">Per-capita</th>
+              <th class="right" data-sort="share" data-tip="This state's share of the national total for the selected year.">% of national</th>
             </tr>
           </thead>
           <tbody id="states-body"></tbody>
@@ -341,25 +336,25 @@
           <div class="stat-value" id="sam-total-allocation">—</div>
           <div class="stat-label">Total Allocation</div>
           <div class="sam-stat-unit">USD · national program total</div>
-          <div class="sam-stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac / IRS §42</a></div>
+          <div class="sam-stat-source"><a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-value" id="sam-confirmed-states">—</div>
           <div class="stat-label">Reporting Jurisdictions</div>
           <div class="sam-stat-unit">states + DC with allocations</div>
-          <div class="sam-stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
+          <div class="sam-stat-source"><a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener">IRS Notice 2026-22</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-value" id="sam-avg-per-capita">—</div>
           <div class="stat-label">Average Per Capita</div>
-          <div class="sam-stat-unit">USD · IRS floor per person</div>
-          <div class="sam-stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.irs.gov/forms-pubs/about-form-8586" target="_blank" rel="noopener">IRS Section 42</a></div>
+          <div class="sam-stat-unit">USD · simple average of state per-capita figures</div>
+          <div class="sam-stat-source"><a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-value" id="sam-largest-state">—</div>
           <div class="stat-label" id="sam-largest-amount">Largest Allocation</div>
           <div class="sam-stat-unit">USD · single-state ceiling</div>
-          <div class="sam-stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac 2026</a></div>
+          <div class="sam-stat-source"><a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a></div>
         </div>
       </div>
 
@@ -392,10 +387,11 @@
 
         <!-- Source -->
         <div style="background:var(--bg2);border-left:3px solid var(--accent2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:var(--sp3);margin-top:var(--sp3);">
-          <p style="margin:0 0 0.3rem;font-size:var(--small);"><strong>Data Source:</strong>
-            <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" rel="noopener" target="_blank" style="color:var(--link);">Novogradac — 2026 Federal LIHTC Information by State</a>
+          <p style="margin:0 0 0.3rem;font-size:var(--small);"><strong>Data Source (2026):</strong>
+            <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" rel="noopener" target="_blank" style="color:var(--link);">IRS Rev. Proc. 2025-32, section 4.08</a> ($3.416 per resident or $3,953,600, whichever is greater) ·
+            <a href="https://www.irs.gov/irb/2026-15_IRB" rel="noopener" target="_blank" style="color:var(--link);">IRS Notice 2026-22</a> (2026 population figures)
           </p>
-          <p style="margin:0;font-size:var(--tiny);color:var(--muted);">Last Updated: February 2026 · Update Frequency: Quarterly · 27 states confirmed, 23 states estimated pending official confirmation.</p>
+          <p style="margin:0;font-size:var(--tiny);color:var(--muted);">Population figures published April 6, 2026 (Census Bureau Vintage 2025 estimates). All 50 states and DC are computed from the IRS rule; 9 receive the small-state minimum. Per-capita ceilings only: carryforward, returned and national pool credits are not included.</p>
         </div>
       </section>
 
@@ -407,7 +403,7 @@
           </div>
           <div class="data-table">
             <table>
-              <thead><tr><th>#</th><th>State</th><th>Allocation</th><th>Per Capita</th></tr></thead>
+              <thead><tr><th data-tip="Rank by allocation.">#</th><th data-tip="The state (or DC) this row describes.">State</th><th data-tip="The state's annual per-capita LIHTC ceiling in dollars; for 2026, $3.416 per resident or $3,953,600, whichever is greater. Carryforward, returned and national pool credits are not included.">Allocation</th><th data-tip="Ceiling divided by resident population. For 2026 each state gets $3.416 per resident or the $3,953,600 small-state minimum, whichever is greater, so small states show a higher figure.">Per Capita</th></tr></thead>
               <tbody id="sam-top-states-body"><tr><td colspan="4" style="text-align:center;padding:var(--sp4);color:var(--muted);">Loading data…</td></tr></tbody>
             </table>
           </div>
@@ -418,7 +414,7 @@
           </div>
           <div class="data-table">
             <table>
-              <thead><tr><th>#</th><th>State</th><th>Per Capita</th><th>Total</th></tr></thead>
+              <thead><tr><th data-tip="Rank by per-capita allocation.">#</th><th data-tip="The state (or DC) this row describes.">State</th><th data-tip="Ceiling divided by resident population. For 2026 each state gets $3.416 per resident or the $3,953,600 small-state minimum, whichever is greater, so small states show a higher figure.">Per Capita</th><th data-tip="The state's annual per-capita LIHTC ceiling in dollars; for 2026, $3.416 per resident or $3,953,600, whichever is greater. Carryforward, returned and national pool credits are not included.">Total</th></tr></thead>
               <tbody id="sam-per-capita-body"><tr><td colspan="4" style="text-align:center;padding:var(--sp4);color:var(--muted);">Loading data…</td></tr></tbody>
             </table>
           </div>
@@ -904,7 +900,7 @@
     // ---------- RENDER LOOP ----------
     function setStatus(dataset){
       const year = els.year.value;
-      els.statusDataset.textContent = `Dataset: Novogradac ${year}`;
+      els.statusDataset.textContent = year === '2026' ? 'Dataset: IRS 2026 ceilings' : `Dataset: IRS per-capita estimates ${year}`;
       const ok = dataset && dataset.states && Object.keys(dataset.states).length > 0;
       els.statusLoaded.innerHTML = ok ? `Loaded: <span class="ok">✅</span>` : `Loaded: <span class="bad">❌</span>`;
     }

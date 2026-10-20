@@ -38,9 +38,9 @@
       "entry_ids": [],
       "limitations": [
         "Rechecked 2026-10-12: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list (only registration links, precinct and district maps, polling centers and drop boxes).",
-        "Participation unknown. The town has no elections page; its 2026 trustee documents are scanned PDFs with no text layer, and none are posted after 2026-06-16.",
+        "Participation unknown. The town has no elections page; its 2026 trustee documents are scanned PDFs with no searchable text, and none are posted after 2026-06-16.",
         "On 2026-10-10 the town meeting-information page still lists no trustee documents after June 2026.",
-        "Rechecked 2026-10-12: the town now lists Board of Trustees agendas for July 7, July 21, August 18 and October 6, 2026 (all with a text layer); none lists a ballot referral, election item or coordinated-election IGA. The town Elections page (dated 2024) says: 'The Town of Meeker regular election is held the first Tuesday of April on even numbered years.' Neither is an official statement about November 3, 2026, and no county ballot style is posted to check the town against."
+        "Rechecked 2026-10-12: the town now lists Board of Trustees agendas for July 7, July 21, August 18 and October 6, 2026 (all with searchable text); none lists a ballot referral, election item or coordinated-election IGA. The town Elections page (dated 2024) says: 'The Town of Meeker regular election is held the first Tuesday of April on even numbered years.' Neither is an official statement about November 3, 2026, and no county ballot style is posted to check the town against."
       ],
       "reviewed_sources": [
         {
@@ -84,8 +84,8 @@
       "limitations": [
         "Rechecked 2026-10-12: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list (only registration links, precinct and district maps, polling centers and drop boxes).",
         "Participation unknown. Rangely held its regular election on 2026-04-07; council packets 2026-05-12 through 2026-09-22 contain no ballot referral or coordinated-election IGA.",
-        "On 2026-10-10 the town municipal-elections page returned HTTP 403; the 2026-09-26 findings are kept.",
-        "Rechecked 2026-10-12: the town Municipal Elections page loads again and says: 'The Town of Rangely municipal elections are held the first Tuesday of April on even numbered years.' The October 13, 2026 council packet (54 pages, text layer) has no ballot referral or coordinated-election IGA. No county ballot style is posted to check the town against, so the row stays open."
+        "On 2026-10-10 the town municipal-elections page could not be opened; the 2026-09-26 findings are kept.",
+        "Rechecked 2026-10-12: the town Municipal Elections page loads again and says: 'The Town of Rangely municipal elections are held the first Tuesday of April on even numbered years.' The October 13, 2026 council packet (54 pages, searchable text) has no ballot referral or coordinated-election IGA. No county ballot style is posted to check the town against, so the row stays open."
       ],
       "reviewed_sources": [
         {

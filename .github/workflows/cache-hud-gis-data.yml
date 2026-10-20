@@ -178,15 +178,22 @@ jobs:
           const urlFor = (y) => `https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_${y}/FeatureServer/0/query`;
           let DDA_URL = urlFor(YEARS[0]);
           const PAGE    = 1000;
+          // Colorado has two kinds of DDA: nonmetro counties (DDA_TYPE 'NM',
+          // DDA_CODE NCNTY08xxx…) and metro Small Area DDAs (DDA_TYPE 'SA'),
+          // which HUD designates by ZIP (ZCTA5). Colorado ZIPs are 80xxx and
+          // 81xxx. Keeping only the NCNTY rows dropped every metro ZIP DDA
+          // (Denver 80202, Colorado Springs 80920-80930, …).
           // Try a server-side Colorado filter first; fall back to fetching all and filtering client-side.
           const WHERE_CANDIDATES = [
-            "DDA_CODE LIKE 'NCNTY08%'",
+            "DDA_CODE LIKE 'NCNTY08%' OR (DDA_TYPE = 'SA' AND (ZCTA5 LIKE '80%' OR ZCTA5 LIKE '81%'))",
             '1=1',  // full dataset — will be filtered client-side below
           ];
 
           function isColorado(feature) {
-            const code = (feature.properties && feature.properties.DDA_CODE) || '';
-            return code.startsWith('NCNTY08');
+            const p = feature.properties || {};
+            const code = p.DDA_CODE || '';
+            if (code.startsWith('NCNTY08')) return true;
+            return p.DDA_TYPE === 'SA' && /^8[01]\d{3}$/.test(String(p.ZCTA5 || ''));
           }
 
           async function fetchAll(where) {
@@ -222,7 +229,8 @@ jobs:
                 if (coFeats.length) {
                   const out = { ...gj, features: coFeats, fetchedAt: new Date().toISOString(), designationYear: year, source: `HUD ArcGIS Difficult_Development_Areas_${year} FeatureServer — services.arcgis.com` };
                   fs.writeFileSync('data/dda-colorado.json', JSON.stringify(out));
-                  console.log(`Wrote ${coFeats.length} Colorado DDA features to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
+                  const nCounty = coFeats.filter((f) => String((f.properties || {}).DDA_CODE || '').startsWith('NCNTY08')).length;
+                  console.log(`Wrote ${coFeats.length} Colorado DDA features (${nCounty} nonmetro counties, ${coFeats.length - nCounty} Small Area ZIP rows) to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
                   return;
                 }
                 console.warn(`DDA where="${where}" returned 0 Colorado features, trying next filter`);

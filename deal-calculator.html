@@ -449,7 +449,7 @@
       <section class="hos-panel" aria-labelledby="dcStressHeading">
         <h2 id="dcStressHeading" style="margin:0 0 4px;">Stress Test Scenarios</h2>
         <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
-          Adjust the five stress variables below to see how the deal performs under deteriorating conditions. Mirrors the input layer of a real professional pro forma (e.g., the Anthracite closing model): LIHTC pricing decline, construction cost overrun, per-AMI-tier rent stress, slow lease-up, and stricter lender DSCR. Each control is independent; combine them to model worst-case.
+          Adjust the five stress variables below to see how the deal performs under deteriorating conditions. Mirrors the input layer of a typical professional LIHTC pro forma: LIHTC pricing decline, construction cost overrun, per-AMI-tier rent stress, slow lease-up, and stricter lender DSCR. Each control is independent; combine them to model worst-case.
         </p>
         <details>
           <summary style="cursor:pointer;font-weight:600;font-size:.88rem;padding:.4rem 0;color:var(--text)">
@@ -519,7 +519,7 @@
             How sale or refi proceeds at the end of the hold period flow through the partnership. Standard 6-tier waterfall:
             (1) hard debt payoff → (2) soft debt by priority → (3) deferred dev fee → (4) LP return of capital + preferred return shortfall →
             (5) GP catch-up → (6) residual split. Defaults match typical LIHTC closing conventions
-            (Anthracite-style: 0.01%/99.99% during ops; 30/70 residual split with 8% pref).
+            (0.01%/99.99% during operations; 30/70 residual split with 8% pref).
           </p>
           <div id="dcWaterfallControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px, 100%),1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
             <div>
@@ -613,7 +613,7 @@
 
         <div class="dc-edu-item">
           <h3>Credit pricing is a market &mdash; and it moves</h3>
-          <p>The equity price per dollar of annual credit (the "credit price") is determined by what tax credit investors will pay. In strong markets, this approaches $1.10&ndash;$1.15. In volatile periods, it can drop to $0.85 or below. A 10-cent swing on a $1M annual credit changes your equity by $1M. LIHTC equity closes 12&ndash;18 months after allocation, during which your project's financial structure is locked &mdash; but market conditions are not.</p>
+          <p>The equity price per dollar of tax credit (the "credit price") is determined by what tax credit investors will pay. For 2026-Q2, Novogradac's national averages were $0.82 for 9% credits and $0.83 for 4% credits, and its Colorado median (all credit types) was $0.81 (<a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac LIHTC equity pricing trends</a>; <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener">regional and state pricing</a>). A 10-cent swing on a $1M annual credit changes your equity by $1M. LIHTC equity closes 12&ndash;18 months after allocation, during which your project's financial structure is locked &mdash; but market conditions are not.</p>
         </div>
 
         <div class="dc-edu-item">
@@ -623,7 +623,7 @@
 
         <div class="dc-edu-item">
           <h3>9% credits are competitive &mdash; not guaranteed</h3>
-          <p>CHFA allocates 9% credits through a competitive QAP process. Colorado receives roughly $3.90 per capita in annual allocation authority &mdash; about $24M/year. A typical 60-unit LIHTC project needs $1.2&ndash;$1.8M in annual credits. Demand routinely exceeds supply by 3:1 or more. Applications score on: site control, readiness, community support, income targeting, green standards, nonprofit involvement, and design quality. Rejection does not mean the project is bad &mdash; it often means it is early.</p>
+          <p>CHFA allocates 9% credits through a competitive QAP process. For 2026 each state's 9% ceiling is $3.416 per resident (<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a>), about $20.5 million for Colorado. A typical 60-unit LIHTC project needs $1.2&ndash;$1.8M in annual credits. Demand routinely exceeds supply by 3:1 or more. Applications score on: site control, readiness, community support, income targeting, green standards, nonprofit involvement, and design quality. Rejection does not mean the project is bad &mdash; it often means it is early.</p>
         </div>
 
         <div class="dc-edu-item" id="dc-edu-livability">
@@ -1062,7 +1062,7 @@
     var CRA_LENDERS = [
       {
         name: 'Wells Fargo',
-        role: 'National LIHTC syndicator and construction lender. One of the largest affordable housing equity investors in the country. Active in Colorado new construction and preservation.',
+        role: 'National LIHTC equity investor and construction lender. One of the largest affordable housing equity investors in the country. Active in Colorado new construction and preservation.',
         tags: ['Equity', 'Construction', 'Permanent']
       },
       {

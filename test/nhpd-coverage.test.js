@@ -27,86 +27,82 @@ function run(win, lat = 39.7392, lon = -104.9903) {
     { method: 'buffer', bufferMiles: 5, proposedUnits: 100 }).on('complete', resolve).on('error', reject));
 }
 
-async function dashboard({ data = snapshot, cached = false, fail = false } = {}) {
+// preservation.html shows CHFA's preservation-map inventory, not the NHPD
+// stub. These tests drive the real page and module in jsdom.
+const chfa = JSON.parse(read('data/affordable-housing/preservation/chfa-preservation.json'));
+async function dashboard({ data = chfa, cached = false, fail = false, counties = true } = {}) {
   const dom = new JSDOM(read('preservation.html'), { url: 'https://cohoanalytics.com/preservation.html', runScripts: 'outside-only' });
   const win = dom.window;
   win.requestAnimationFrame = fn => fn();
   let csv, filename, chart;
   win.CacheManager = class { get() { return cached ? data : null; } set() {} };
-  win.DataService = { baseData: p => p, getGeoJSON: () => fail ? Promise.reject(new Error('offline')) : Promise.resolve(data) };
+  win.DataService = { baseData: p => p, getGeoJSON: () => fail ? Promise.reject(new Error('offline')) : Promise.resolve(data),
+    getJSON: () => Promise.resolve(JSON.parse(read('data/co-county-boundaries.json'))) };
   win.HTMLCanvasElement.prototype.getContext = () => ({});
   win.Chart = class { constructor(_, config) { chart = config; } destroy() {} };
   win.Blob = class { constructor(parts) { csv = parts.join(''); } };
   win.URL.createObjectURL = () => 'blob:test';
   win.URL.revokeObjectURL = () => {};
   win.HTMLAnchorElement.prototype.click = function () { filename = this.download; };
-  for (const p of ['js/data-connectors/nhpd.js', 'js/preservation.js']) win.eval(read(p));
-  await tick();
-  return { dom, win, chart, csv: () => csv, filename: () => filename };
+  const mods = counties ? ['js/county-from-coords.js', 'js/preservation.js'] : ['js/preservation.js'];
+  for (const p of mods) win.eval(read(p));
+  for (let i = 0; i < 5; i++) await tick();
+  return { dom, win, chart: () => chart, csv: () => csv, filename: () => filename };
 }
 
-test('dashboard numbers, labels, chart and timestamp agree with the loaded subset', async () => {
+test('preservation dashboard cards, chart and table agree with the CHFA inventory', async () => {
   for (const cached of [false, true]) {
     const d = await dashboard({ cached });
     const doc = d.win.document;
-    assert.equal(Number(doc.getElementById('presKpiTotal').textContent), snapshot.features.length);
-    assert.equal(Number(doc.getElementById('presKpiUnits').textContent.replaceAll(',', '')),
-      snapshot.features.reduce((n, f) => n + f.properties.assisted_units, 0));
-    assert.match(doc.getElementById('presCoverage').textContent, new RegExp(snapshot.features.length + ' snapshot records'));
-    assert.ok(doc.getElementById('presDataTimestamp').textContent.includes(snapshot.meta.generated.slice(0, 10)));
-    assert.equal(doc.querySelector('[data-page-update-key="manifest"], .data-timestamp'), null,
-      'site manifest must not claim an NHPD refresh');
-    const labels = [...doc.querySelectorAll('.pres-kpi-label')];
-    assert.equal(labels.length, 4);
-    for (const label of labels) assert.match(label.textContent, /snapshot/i, 'each numeric card needs subset context');
-    for (const ds of d.chart.data.datasets) assert.match(ds.label, /snapshot/i);
-    const year = new Date().getFullYear();
-    d.chart.data.labels.forEach((y, i) => {
-      const records = snapshot.features.filter(f => d.win.PreservationDashboard._parseExpiryYear(f.properties.subsidy_expiration) === Number(y));
-      assert.equal(d.chart.data.datasets[1].data[i], records.length);
-      assert.equal(d.chart.data.datasets[0].data[i], records.reduce((n, f) => n + f.properties.assisted_units, 0));
-    });
-    assert.equal(Number(d.chart.data.labels[0]), year);
+    const n = chfa.features.length;
+    const units = chfa.features.reduce((s, f) => s + (f.properties.N_UNITS > 0 ? f.properties.N_UNITS : 0), 0);
+    const unknown = chfa.features.filter(f => !(f.properties.N_UNITS > 0)).length;
+    assert.equal(Number(doc.getElementById('presKpiTotal').textContent.replaceAll(',', '')), n);
+    assert.equal(Number(doc.getElementById('presKpiUnits').textContent.replaceAll(',', '')), units);
+    assert.equal(Number(doc.getElementById('presKpiUnknownUnits').textContent.replaceAll(',', '')), unknown);
+    assert.ok(Number(doc.getElementById('presKpiCounties').textContent) > 40, 'statewide coverage across counties');
+    assert.match(doc.getElementById('presCoverage').textContent, new RegExp(n.toLocaleString() + ' properties listed on the CHFA preservation map'));
+    assert.equal(doc.querySelectorAll('#presTableBody tr').length, n);
+    const chart = d.chart();
+    assert.equal(chart.data.labels.length, 12);
+    assert.equal(chart.data.labels[0], 'Denver');
+    assert.doesNotMatch(doc.body.textContent, /stub|snapshot|Pueblo Downtown Affordable/i);
     d.dom.window.close();
   }
 });
 
-test('filtered CSV retains original records and source coverage on every exported row', async () => {
+test('filtered CSV carries the CHFA source and limitation on every row', async () => {
   const d = await dashboard();
   const doc = d.win.document;
-  doc.getElementById('presFilterCounty').value = 'Denver';
-  doc.getElementById('presFilterCounty').dispatchEvent(new d.win.Event('change'));
-  const expected = snapshot.features.filter(f => f.properties.county === 'Denver');
-  assert.equal(Number(doc.getElementById('presKpiTotal').textContent), expected.length);
+  const sel = doc.getElementById('presFilterCounty');
+  sel.value = 'Mesa';
+  sel.dispatchEvent(new d.win.Event('change'));
+  const shown = Number(doc.getElementById('presKpiTotal').textContent);
+  assert.ok(shown > 0);
+  const rows = d.win.PreservationDashboard.getRows().filter(r => r.county === 'Mesa');
+  assert.equal(shown, rows.length);
   doc.getElementById('presExportBtn').click();
   const lines = d.csv().split('\n');
-  assert.equal(lines.length, expected.length + 1);
-  for (const f of expected) assert.ok(d.csv().includes(f.properties.nhpd_id + ','));
+  assert.equal(lines.length, rows.length + 1);
   for (const line of lines.slice(1)) {
-    assert.ok(line.includes(snapshot.meta.generated));
-    assert.ok(line.includes(',stub,' + snapshot.features.length + ','));
-    assert.match(line, /totals are unknown/);
-    assert.match(line, /does not mean no preservation risk/);
+    assert.match(line, /Colorado Housing and Finance Authority \(CHFA\) preservation map/);
+    assert.match(line, /no subsidy type or expiration date/);
   }
-  assert.ok(d.filename().includes(snapshot.meta.generated.slice(0, 10)));
-  assert.match(d.filename(), /limited-snapshot/);
-  doc.getElementById('presFilterCounty').value = '';
-  doc.getElementById('presFilterType').value = 'HOME';
-  doc.getElementById('presFilterHorizon').value = '3';
-  doc.getElementById('presFilterHorizon').dispatchEvent(new d.win.Event('change'));
-  const now = Date.now();
-  const cutoff = new Date(new Date().getFullYear() + 3, 11, 31).getTime();
-  const homeExpiring = snapshot.features.filter(f => {
-    const p = f.properties, date = new Date(p.subsidy_expiration).getTime();
-    return p.subsidy_type === 'HOME' && date >= now && date <= cutoff;
-  });
-  assert.equal(Number(doc.getElementById('presKpiTotal').textContent), homeExpiring.length);
-  assert.equal(Number(doc.getElementById('presKpiExpiring').textContent), homeExpiring.length);
+  assert.equal(d.filename(), 'chfa-preservation-inventory.csv');
   doc.getElementById('presSearch').value = 'no-such-property';
   doc.getElementById('presSearch').dispatchEvent(new d.win.Event('input'));
-  assert.equal(doc.getElementById('presKpiTotal').textContent, '0', 'zero matching sample records is valid');
-  assert.match(doc.getElementById('presTableBody').textContent, /risk remains unknown/);
-  assert.ok(doc.getElementById('presExportBtn').disabled, 'empty export cannot lose its coverage disclosure');
+  assert.equal(doc.getElementById('presKpiTotal').textContent, '0');
+  assert.match(doc.getElementById('presTableBody').textContent, /may still carry affordability restrictions/);
+  assert.ok(doc.getElementById('presExportBtn').disabled);
+  d.dom.window.close();
+});
+
+test('missing county boundaries leave counties unassigned, not wrong', async () => {
+  const d = await dashboard({ counties: false });
+  const rows = d.win.PreservationDashboard.getRows();
+  assert.equal(rows.length, chfa.features.length);
+  assert.ok(rows.every(r => r.county === ''));
+  assert.match(d.win.document.getElementById('presCoverage').textContent, /Not assigned/);
   d.dom.window.close();
 });
 
@@ -117,7 +113,7 @@ test('failed or invalid load gives unavailable cards, disabled export and null A
     assert.equal(d.win.PreservationDashboard.getKpis().total, null);
     assert.match(d.win.document.getElementById('presKpiTotal').textContent, /Unavailable/);
     assert.ok(d.win.document.getElementById('presExportBtn').disabled);
-    assert.equal(d.chart, undefined);
+    assert.equal(d.chart(), undefined);
     d.dom.window.close();
   }
 });

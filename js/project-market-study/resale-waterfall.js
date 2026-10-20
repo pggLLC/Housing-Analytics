@@ -139,6 +139,24 @@
     return actual;
   }
 
+  var FIXED_FORMULAS = ['fixed_simple', 'fixed_compound'];
+
+  /**
+   * True when the resale price came from a fixed-appreciation formula. The
+   * formula type is read from config.formulaType or yearResult.formulaType;
+   * a SharedEquityLifecycle year result carries neither, so it is recognised
+   * by its price equalling the fixed leg while that leg grew above the
+   * original price (an AMI- or CPI-indexed formula leaves the fixed leg flat).
+   */
+  function isFixedFormula(yearResult, config) {
+    var type = config.formulaType || yearResult.formulaType;
+    if (type) return FIXED_FORMULAS.indexOf(type) !== -1;
+    var legs = yearResult.formulaLegs;
+    if (!legs || legs.fixed == null || yearResult.formulaResalePrice == null) return false;
+    return Number(yearResult.formulaResalePrice) === Number(legs.fixed) &&
+      Number(legs.fixed) > Number(config.originalRestrictedPrice || 0);
+  }
+
   function settle(yearResult, config) {
     yearResult = yearResult || {};
     config = config || {};
@@ -160,7 +178,13 @@
     var sellingOwed = config.sellingCosts != null
       ? dollars(nonnegative(config.sellingCosts, 'sellingCosts', 0))
       : dollars(resalePrice * decimalRate(config.sellingCostRate, 'sellingCostRate', 0.06));
-    var appreciationOwed = dollars(Math.max(0, resalePrice - originalPrice) * shareRate);
+    // A fixed-appreciation formula already sets what the seller keeps; taking
+    // a public share of the same appreciation on top would charge for it
+    // twice. The share applies to a fixed formula only when the program
+    // explicitly combines the two (config.combineAppreciationShareWithFixedFormula).
+    var fixedFormula = isFixedFormula(yearResult, config);
+    var shareApplies = !fixedFormula || !!config.combineAppreciationShareWithFixedFormula;
+    var appreciationOwed = shareApplies ? dollars(Math.max(0, resalePrice - originalPrice) * shareRate) : 0;
     var recovery = config.subsidyRecovery || {};
     var pool = resalePrice;
     var steps = [];
@@ -194,7 +218,11 @@
           });
         });
       }
-      if (key === 'public_appreciation_share') paid[key] = distribute(key, 'Public appreciation share', appreciationOwed);
+      if (key === 'public_appreciation_share') {
+        paid[key] = distribute(key, 'Public appreciation share', appreciationOwed, shareApplies ? null : {
+          note: 'Not charged: the fixed-appreciation resale formula already limits the seller\'s gain.',
+        });
+      }
     });
 
     var ownerResidual = pool;
@@ -227,6 +255,8 @@
       improvementCreditPaid: paid.improvement_credit,
       subordinatePaid: paid.subordinate_debt,
       publicAppreciationSharePaid: paid.public_appreciation_share,
+      publicAppreciationShareApplied: shareApplies,
+      fixedAppreciationFormula: fixedFormula,
       ownerResidual: ownerResidual,
       ownerNetProceeds: ownerNet,
       totalOwnerCashInvested: ownerCash,

@@ -246,3 +246,27 @@ def test_an_indirect_housing_headline_stays(geos):
         alert("Denver's Javier Mabrey eyes Colorado House leadership", 'State Affairs Pro'),
     ], geos)
     assert len(stories) == 4
+
+
+def test_a_first_name_that_is_also_a_town_is_not_that_town(geos):
+    # 2026-10-19: "Elizabeth Bachmann Speaks at ... Boot Camp" (a law firm's
+    # post) was matched to the town of Elizabeth and shown as its news.
+    stories, _ = gpb.build_stories([
+        alert('Elizabeth Bachmann Speaks at 2026 Affordable Housing Boot Camp', 'Kutak Rock'),
+        alert('Elizabeth, Colo. approves workforce housing plan', 'Elbert County News'),
+    ], geos)
+    assert set(by_title(stories)) == {'Elizabeth, Colo. approves workforce housing plan'}
+
+
+def test_a_brief_keeps_only_links_the_stories_keep(geos, tmp_path, monkeypatch):
+    out = tmp_path / 'policy_briefs.json'
+    out.write_text(json.dumps({'briefs': [{'title': 'b', 'sources': ['Urbanize LA', 'Denver Gazette'], 'articles': [
+        {'title': 'Affordable housing slated for 2000 E. Colorado Blvd. in Pasadena - Urbanize LA', 'source': 'Urbanize LA'},
+        {'title': 'Denver approves affordable housing tax credits - Denver Gazette', 'source': 'Denver Gazette'},
+    ]}]}))
+    monkeypatch.setattr(gpb, 'OUT_FILE', str(out))
+    monkeypatch.setattr(gpb, 'load_alerts', lambda: [])
+    assert gpb.refresh_stories_only() == 0
+    brief = json.loads(out.read_text())['briefs'][0]
+    assert [a['source'] for a in brief['articles']] == ['Denver Gazette']
+    assert brief['sources'] == ['Denver Gazette']

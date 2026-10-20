@@ -127,7 +127,7 @@
     var parts = [];
     if (item.published) parts.push('Published ' + shortDate(item.published));
     if (item.updated) parts.push('updated ' + shortDate(item.updated));
-    if (item.maintenance === 'generated') parts.push('regenerated from the repository');
+    if (item.maintenance === 'generated') parts.push('rebuilt from the site’s own data');
     return parts.join(' · ');
   }
 

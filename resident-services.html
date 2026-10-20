@@ -236,7 +236,7 @@
         <!-- 6. Colorado QAP -->
         <section id="rs-colorado" class="rs-section" aria-labelledby="rs-colorado-h">
           <h2 id="rs-colorado-h">What Colorado's tax credit plan requires</h2>
-          <p>CHFA's Qualified Allocation Plan (QAP) decides who wins Colorado's housing tax credits. It rewards services in three places: points for setting aside units for people experiencing homelessness or other special populations, points for deep income targeting, and a larger developer fee that must be spent on services or rent help. Each card quotes the plan; a test checks the quotes against CHFA's text, which this site fetches every week.</p>
+          <p>CHFA's Qualified Allocation Plan (QAP) decides who wins Colorado's housing tax credits. It rewards services in three places: points for setting aside units for people experiencing homelessness or other special populations, points for deep income targeting, and a larger developer fee that must be spent on services or rent help. Each card quotes the plan, and the quotes are re-checked against CHFA's published plan text.</p>
           <div data-rs-qap><p class="rs-muted">Loading the QAP requirements…</p></div>
         </section>
 
@@ -280,9 +280,9 @@
         <div class="sources-box">
           <h3>Data Sources &amp; Review Rules</h3>
           <ul>
-            <li>Research findings, funding sources and cost figures: <code>data/policy/resident-services.json</code>. Every record names its source, quotes it, and carries a check date and a re-check date. A daily job opens an issue before a record falls due, and the record shows a warning here once it is overdue.</li>
-            <li>CHFA QAP quotes are checked against the plan text in <code>data/audit/chfa-qap-watch.json</code>, which a weekly job refreshes from CHFA's site. When CHFA adopts a new QAP, the quotes are re-read against it.</li>
-            <li>2026 award descriptions: <code>data/affordable-housing/chfa-awards/2026-round-one.json</code>, from CHFA's published award descriptions.</li>
+            <li>Research findings, funding sources and cost figures: every record names its source, quotes it, and carries the date it was checked and the date it is due to be checked again. A record past its re-check date shows a warning here.</li>
+            <li>CHFA QAP quotes are checked against the text of CHFA's <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">2025–2026 Qualified Allocation Plan, Second Amendment</a>. When CHFA adopts a new QAP, the quotes are re-read against it.</li>
+            <li>2026 award descriptions: CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">2026 Round One award descriptions</a>.</li>
             <li>Related pages: <a href="lihtc-guide-for-stakeholders.html">LIHTC Basics</a>, <a href="local-incentives.html">Local Housing Incentives</a>, <a href="hna-what-to-do.html">What to do</a> in the Housing Needs Assessment.</li>
           </ul>
           <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">

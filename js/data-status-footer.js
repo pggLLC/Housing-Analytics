@@ -12,6 +12,7 @@
  * Update keys map to sentinel timestamps in the data files:
  *   fred        → data/fred-data.json  → .updated
  *   lihtc       → data/chfa-lihtc.json → .fetchedAt
+ *   allocations → data/allocations.json → .lastUpdated
  *   manifest    → data/manifest.json   → .generated
  *
  * A static fallback date can also be supplied:
@@ -24,6 +25,7 @@
   var UPDATE_SOURCES = {
     fred:     { file: 'data/fred-data.json',   field: 'updated' },
     lihtc:    { file: 'data/chfa-lihtc.json',  field: 'fetchedAt' },
+    allocations: { file: 'data/allocations.json', field: 'lastUpdated' },
     manifest: { file: 'data/manifest.json',    field: 'generated' },
     ami:      { file: 'data/co_ami_gap_by_county.json', field: ['meta', 'generated_at'] },  // the file writes generated_at; 'generated' resolved to nothing
     // HNA pages: the ranking index's generatedAt, read through the 1 KB

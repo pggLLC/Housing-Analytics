@@ -1,462 +1,478 @@
-// 2026 Federal LIHTC Information by State
-// Source: Novogradac - https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state
-// Data: Known LIHTC Ceiling allocations (as of February 2026)
-// Updates available at source URL - check quarterly
+// 2026 Federal LIHTC state ceilings
+// Each state: the greater of $3.416 per resident or $3,953,600
+// (IRS Rev. Proc. 2025-32, section 4.08: https://www.irs.gov/pub/irs-drop/rp-25-32.pdf),
+// using the 2026 population figures in IRS Notice 2026-22
+// (Internal Revenue Bulletin 2026-15: https://www.irs.gov/irb/2026-15_IRB).
+// Same figures as data/allocations.json.
 
 const stateAllocations2026 = {
-    'AL': { 
+    'AL': {
         name: 'Alabama',
         code: 'AL',
-        credits9pct: 17618699,
-        population: 5059903,
-        perCapita: 3.48,
+        credits9pct: 17739589,
+        population: 5193088,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'AK': { 
+    'AK': {
         name: 'Alaska',
         code: 'AK',
-        credits9pct: 3515779,
-        population: 733391,
-        perCapita: 4.79,
+        credits9pct: 3953600,
+        population: 737270,
+        perCapita: 5.36,
         region: 'West',
+        note: 'Small-state minimum ($3,953,600)',
         dataStatus: 'confirmed'
     },
-    'AR': { 
-        name: 'Arkansas',
-        code: 'AR',
-        credits9pct: 9500000,
-        population: 3038970,
-        perCapita: 3.13,
-        region: 'South',
-        dataStatus: 'confirmed'
-    },
-    'CA': { 
-        name: 'California',
-        code: 'CA',
-        credits9pct: 134697194,
-        population: 39355703,
+    'AZ': {
+        name: 'Arizona',
+        code: 'AZ',
+        credits9pct: 26042962,
+        population: 7623818,
         perCapita: 3.42,
         region: 'West',
         dataStatus: 'confirmed'
     },
-    'CO': { 
+    'AR': {
+        name: 'Arkansas',
+        code: 'AR',
+        credits9pct: 10640126,
+        population: 3114791,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'CA': {
+        name: 'California',
+        code: 'CA',
+        credits9pct: 134437736,
+        population: 39355309,
+        perCapita: 3.42,
+        region: 'West',
+        dataStatus: 'confirmed'
+    },
+    'CO': {
         name: 'Colorado',
         code: 'CO',
-        credits9pct: 20350796,
+        credits9pct: 20538908,
         population: 6012561,
-        perCapita: 3.38,
+        perCapita: 3.42,
         region: 'West',
         dataStatus: 'confirmed'
     },
-    'CT': { 
+    'CT': {
         name: 'Connecticut',
         code: 'CT',
-        credits9pct: 12554036,
-        population: 3609446,
-        perCapita: 3.48,
+        credits9pct: 12599902,
+        population: 3688496,
+        perCapita: 3.42,
         region: 'Northeast',
         dataStatus: 'confirmed'
     },
-    'FL': { 
+    'DE': {
+        name: 'Delaware',
+        code: 'DE',
+        credits9pct: 3953600,
+        population: 1059952,
+        perCapita: 3.73,
+        region: 'South',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'DC': {
+        name: 'District of Columbia',
+        code: 'DC',
+        credits9pct: 3953600,
+        population: 693645,
+        perCapita: 5.70,
+        region: 'South',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'FL': {
         name: 'Florida',
         code: 'FL',
-        credits9pct: 79874812,
+        credits9pct: 80147961,
         population: 23462518,
-        perCapita: 3.40,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'GA': { 
+    'GA': {
         name: 'Georgia',
         code: 'GA',
-        credits9pct: 39579277,
+        credits9pct: 38610187,
         population: 11302748,
-        perCapita: 3.50,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'IL': { 
+    'HI': {
+        name: 'Hawaii',
+        code: 'HI',
+        credits9pct: 4894513,
+        population: 1432820,
+        perCapita: 3.42,
+        region: 'West',
+        dataStatus: 'confirmed'
+    },
+    'ID': {
+        name: 'Idaho',
+        code: 'ID',
+        credits9pct: 6933568,
+        population: 2029733,
+        perCapita: 3.42,
+        region: 'West',
+        dataStatus: 'confirmed'
+    },
+    'IL': {
         name: 'Illinois',
         code: 'IL',
-        credits9pct: 34000000,
+        credits9pct: 43448586,
         population: 12719141,
-        perCapita: 2.67,
+        perCapita: 3.42,
         region: 'Midwest',
         dataStatus: 'confirmed'
     },
-    'IA': { 
+    'IN': {
+        name: 'Indiana',
+        code: 'IN',
+        credits9pct: 23820906,
+        population: 6973333,
+        perCapita: 3.42,
+        region: 'Midwest',
+        dataStatus: 'confirmed'
+    },
+    'IA': {
         name: 'Iowa',
         code: 'IA',
-        credits9pct: 11091056,
-        population: 3193079,
-        perCapita: 3.48,
+        credits9pct: 11062330,
+        population: 3238387,
+        perCapita: 3.42,
         region: 'Midwest',
         dataStatus: 'confirmed'
     },
-    'KY': { 
+    'KS': {
+        name: 'Kansas',
+        code: 'KS',
+        credits9pct: 10170184,
+        population: 2977220,
+        perCapita: 3.42,
+        region: 'Midwest',
+        dataStatus: 'confirmed'
+    },
+    'KY': {
         name: 'Kentucky',
         code: 'KY',
-        credits9pct: 15673879,
-        population: 4505837,
-        perCapita: 3.48,
+        credits9pct: 15737047,
+        population: 4606864,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'MI': { 
+    'LA': {
+        name: 'Louisiana',
+        code: 'LA',
+        credits9pct: 15775734,
+        population: 4618189,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'ME': {
+        name: 'Maine',
+        code: 'ME',
+        credits9pct: 4833210,
+        population: 1414874,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'MD': {
+        name: 'Maryland',
+        code: 'MD',
+        credits9pct: 21402425,
+        population: 6265347,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'MA': {
+        name: 'Massachusetts',
+        code: 'MA',
+        credits9pct: 24438351,
+        population: 7154084,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'MI': {
         name: 'Michigan',
         code: 'MI',
-        credits9pct: 34904568,
-        population: 10127984,
-        perCapita: 3.45,
+        credits9pct: 34596852,
+        population: 10127884,
+        perCapita: 3.42,
         region: 'Midwest',
         dataStatus: 'confirmed'
     },
-    'MO': { 
-        name: 'Missouri',
-        code: 'MO',
-        credits9pct: 21334552,
-        population: 6170732,
-        perCapita: 3.46,
+    'MN': {
+        name: 'Minnesota',
+        code: 'MN',
+        credits9pct: 19916663,
+        population: 5830405,
+        perCapita: 3.42,
         region: 'Midwest',
         dataStatus: 'confirmed'
     },
-    'MT': { 
-        name: 'Montana',
-        code: 'MT',
-        credits9pct: 3050000, // Estimated based on $2.75/capita minimum
-        population: 1106629,
-        perCapita: 2.76,
-        region: 'West',
-        dataStatus: 'estimated',
-        note: 'Data not available in source - using federal minimum'
-    },
-    'NH': { 
-        name: 'New Hampshire',
-        code: 'NH',
-        credits9pct: 4813253,
-        population: 1381189,
-        perCapita: 3.48,
-        region: 'Northeast',
-        dataStatus: 'confirmed'
-    },
-    'NJ': { 
-        name: 'New Jersey',
-        code: 'NJ',
-        credits9pct: 33032433,
-        population: 9548215,
-        perCapita: 3.46,
-        region: 'Northeast',
-        dataStatus: 'confirmed'
-    },
-    'NM': { 
-        name: 'New Mexico',
-        code: 'NM',
-        credits9pct: 7276954,
-        population: 2203199,
-        perCapita: 3.30,
-        region: 'West',
-        dataStatus: 'confirmed'
-    },
-    'NY': { 
-        name: 'New York',
-        code: 'NY',
-        credits9pct: 68066519,
-        population: 20002427,
-        perCapita: 3.40,
-        region: 'Northeast',
-        dataStatus: 'confirmed'
-    },
-    'NC': { 
-        name: 'North Carolina',
-        code: 'NC',
-        credits9pct: 37733218,
-        population: 11197968,
-        perCapita: 3.37,
+    'MS': {
+        name: 'Mississippi',
+        code: 'MS',
+        credits9pct: 10091411,
+        population: 2954160,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'ND': { 
+    'MO': {
+        name: 'Missouri',
+        code: 'MO',
+        credits9pct: 21420168,
+        population: 6270541,
+        perCapita: 3.42,
+        region: 'Midwest',
+        dataStatus: 'confirmed'
+    },
+    'MT': {
+        name: 'Montana',
+        code: 'MT',
+        credits9pct: 3953600,
+        population: 1144694,
+        perCapita: 3.45,
+        region: 'West',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'NE': {
+        name: 'Nebraska',
+        code: 'NE',
+        credits9pct: 6893508,
+        population: 2018006,
+        perCapita: 3.42,
+        region: 'Midwest',
+        dataStatus: 'confirmed'
+    },
+    'NV': {
+        name: 'Nevada',
+        code: 'NV',
+        credits9pct: 11211954,
+        population: 3282188,
+        perCapita: 3.42,
+        region: 'West',
+        dataStatus: 'confirmed'
+    },
+    'NH': {
+        name: 'New Hampshire',
+        code: 'NH',
+        credits9pct: 4834808,
+        population: 1415342,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'NJ': {
+        name: 'New Jersey',
+        code: 'NJ',
+        credits9pct: 32616702,
+        population: 9548215,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'NM': {
+        name: 'New Mexico',
+        code: 'NM',
+        credits9pct: 7260701,
+        population: 2125498,
+        perCapita: 3.42,
+        region: 'West',
+        dataStatus: 'confirmed'
+    },
+    'NY': {
+        name: 'New York',
+        code: 'NY',
+        credits9pct: 68328291,
+        population: 20002427,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'NC': {
+        name: 'North Carolina',
+        code: 'NC',
+        credits9pct: 38252259,
+        population: 11197968,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'ND': {
         name: 'North Dakota',
         code: 'ND',
         credits9pct: 3953600,
-        population: 774948,
-        perCapita: 5.10,
+        population: 799358,
+        perCapita: 4.95,
+        region: 'Midwest',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'OH': {
+        name: 'Ohio',
+        code: 'OH',
+        credits9pct: 40652142,
+        population: 11900510,
+        perCapita: 3.42,
         region: 'Midwest',
         dataStatus: 'confirmed'
     },
-    'OR': { 
+    'OK': {
+        name: 'Oklahoma',
+        code: 'OK',
+        credits9pct: 14085152,
+        population: 4123288,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'OR': {
         name: 'Oregon',
         code: 'OR',
-        credits9pct: 14224083,
-        population: 4237256,
-        perCapita: 3.36,
+        credits9pct: 14598570,
+        population: 4273586,
+        perCapita: 3.42,
         region: 'West',
         dataStatus: 'confirmed'
     },
-    'SC': { 
+    'PA': {
+        name: 'Pennsylvania',
+        code: 'PA',
+        credits9pct: 44611020,
+        population: 13059432,
+        perCapita: 3.42,
+        region: 'Northeast',
+        dataStatus: 'confirmed'
+    },
+    'RI': {
+        name: 'Rhode Island',
+        code: 'RI',
+        credits9pct: 3953600,
+        population: 1114521,
+        perCapita: 3.55,
+        region: 'Northeast',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'SC': {
         name: 'South Carolina',
         code: 'SC',
-        credits9pct: 18600000,
+        credits9pct: 19028056,
         population: 5570274,
-        perCapita: 3.34,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'TX': { 
+    'SD': {
+        name: 'South Dakota',
+        code: 'SD',
+        credits9pct: 3953600,
+        population: 935094,
+        perCapita: 4.23,
+        region: 'Midwest',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'TN': {
+        name: 'Tennessee',
+        code: 'TN',
+        credits9pct: 24988300,
+        population: 7315076,
+        perCapita: 3.42,
+        region: 'South',
+        dataStatus: 'confirmed'
+    },
+    'TX': {
         name: 'Texas',
         code: 'TX',
-        credits9pct: 106889479,
+        credits9pct: 108320749,
         population: 31709821,
-        perCapita: 3.37,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'UT': { 
+    'UT': {
         name: 'Utah',
         code: 'UT',
-        credits9pct: 11968342,
+        credits9pct: 12088896,
         population: 3538904,
-        perCapita: 3.38,
+        perCapita: 3.42,
         region: 'West',
         dataStatus: 'confirmed'
     },
-    'VA': { 
+    'VT': {
+        name: 'Vermont',
+        code: 'VT',
+        credits9pct: 3953600,
+        population: 644663,
+        perCapita: 6.13,
+        region: 'Northeast',
+        note: 'Small-state minimum ($3,953,600)',
+        dataStatus: 'confirmed'
+    },
+    'VA': {
         name: 'Virginia',
         code: 'VA',
-        credits9pct: 30249230,
+        credits9pct: 30334446,
         population: 8880107,
-        perCapita: 3.41,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'WA': { 
+    'WA': {
         name: 'Washington',
         code: 'WA',
-        credits9pct: 24580203,
+        credits9pct: 27331484,
         population: 8001020,
-        perCapita: 3.07,
+        perCapita: 3.42,
         region: 'West',
         dataStatus: 'confirmed'
     },
-    'WV': { 
+    'WV': {
         name: 'West Virginia',
         code: 'WV',
-        credits9pct: 6046248,
-        population: 1788146,
-        perCapita: 3.38,
+        credits9pct: 6033158,
+        population: 1766147,
+        perCapita: 3.42,
         region: 'South',
         dataStatus: 'confirmed'
     },
-    'WY': { 
+    'WI': {
+        name: 'Wisconsin',
+        code: 'WI',
+        credits9pct: 20403040,
+        population: 5972787,
+        perCapita: 3.42,
+        region: 'Midwest',
+        dataStatus: 'confirmed'
+    },
+    'WY': {
         name: 'Wyoming',
         code: 'WY',
         credits9pct: 3953600,
-        population: 580456,
-        perCapita: 6.81,
+        population: 588753,
+        perCapita: 6.72,
         region: 'West',
+        note: 'Small-state minimum ($3,953,600)',
         dataStatus: 'confirmed'
-    },
-    
-    // States not in CSV - estimated using national average methodology
-    // These will be updated when Novogradac publishes complete 2026 data
-    'AZ': { 
-        name: 'Arizona', 
-        code: 'AZ',
-        credits9pct: 25200000, 
-        population: 7359197, 
-        perCapita: 3.42, 
-        region: 'West',
-        dataStatus: 'estimated'
-    },
-    'DE': { 
-        name: 'Delaware', 
-        code: 'DE',
-        credits9pct: 3500000, 
-        population: 1018396, 
-        perCapita: 3.44, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'HI': { 
-        name: 'Hawaii', 
-        code: 'HI',
-        credits9pct: 4900000, 
-        population: 1435138, 
-        perCapita: 3.42, 
-        region: 'West',
-        dataStatus: 'estimated'
-    },
-    'ID': { 
-        name: 'Idaho', 
-        code: 'ID',
-        credits9pct: 6800000, 
-        population: 1964726, 
-        perCapita: 3.46, 
-        region: 'West',
-        dataStatus: 'estimated'
-    },
-    'IN': { 
-        name: 'Indiana', 
-        code: 'IN',
-        credits9pct: 23500000, 
-        population: 6833037, 
-        perCapita: 3.44, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'KS': { 
-        name: 'Kansas', 
-        code: 'KS',
-        credits9pct: 10100000, 
-        population: 2940546, 
-        perCapita: 3.43, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'LA': { 
-        name: 'Louisiana', 
-        code: 'LA',
-        credits9pct: 15800000, 
-        population: 4624047, 
-        perCapita: 3.42, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'ME': { 
-        name: 'Maine', 
-        code: 'ME',
-        credits9pct: 4800000, 
-        population: 1385340, 
-        perCapita: 3.47, 
-        region: 'Northeast',
-        dataStatus: 'estimated'
-    },
-    'MD': { 
-        name: 'Maryland', 
-        code: 'MD',
-        credits9pct: 21200000, 
-        population: 6164660, 
-        perCapita: 3.44, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'MA': { 
-        name: 'Massachusetts', 
-        code: 'MA',
-        credits9pct: 24000000, 
-        population: 7001399, 
-        perCapita: 3.43, 
-        region: 'Northeast',
-        dataStatus: 'estimated'
-    },
-    'MN': { 
-        name: 'Minnesota', 
-        code: 'MN',
-        credits9pct: 19500000, 
-        population: 5707390, 
-        perCapita: 3.42, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'MS': { 
-        name: 'Mississippi', 
-        code: 'MS',
-        credits9pct: 10100000, 
-        population: 2939690, 
-        perCapita: 3.44, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'NE': { 
-        name: 'Nebraska', 
-        code: 'NE',
-        credits9pct: 6800000, 
-        population: 1978379, 
-        perCapita: 3.44, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'NV': { 
-        name: 'Nevada', 
-        code: 'NV',
-        credits9pct: 11200000, 
-        population: 3194176, 
-        perCapita: 3.51, 
-        region: 'West',
-        dataStatus: 'estimated'
-    },
-    'OH': { 
-        name: 'Ohio', 
-        code: 'OH',
-        credits9pct: 40200000, 
-        population: 11785935, 
-        perCapita: 3.41, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'OK': { 
-        name: 'Oklahoma', 
-        code: 'OK',
-        credits9pct: 13800000, 
-        population: 4053824, 
-        perCapita: 3.40, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'PA': { 
-        name: 'Pennsylvania', 
-        code: 'PA',
-        credits9pct: 44500000, 
-        population: 12961683, 
-        perCapita: 3.43, 
-        region: 'Northeast',
-        dataStatus: 'estimated'
-    },
-    'RI': { 
-        name: 'Rhode Island', 
-        code: 'RI',
-        credits9pct: 3800000, 
-        population: 1095610, 
-        perCapita: 3.47, 
-        region: 'Northeast',
-        dataStatus: 'estimated'
-    },
-    'SD': { 
-        name: 'South Dakota', 
-        code: 'SD',
-        credits9pct: 3100000, 
-        population: 909824, 
-        perCapita: 3.41, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
-    },
-    'TN': { 
-        name: 'Tennessee', 
-        code: 'TN',
-        credits9pct: 24200000, 
-        population: 7126489, 
-        perCapita: 3.40, 
-        region: 'South',
-        dataStatus: 'estimated'
-    },
-    'VT': { 
-        name: 'Vermont', 
-        code: 'VT',
-        credits9pct: 2200000, 
-        population: 647464, 
-        perCapita: 3.40, 
-        region: 'Northeast',
-        dataStatus: 'estimated'
-    },
-    'WI': { 
-        name: 'Wisconsin', 
-        code: 'WI',
-        credits9pct: 20300000, 
-        population: 5910955, 
-        perCapita: 3.43, 
-        region: 'Midwest',
-        dataStatus: 'estimated'
     }
 };
 
@@ -516,13 +532,14 @@ const topStates2026 = Object.entries(stateAllocations2026)
 
 // Data source information
 const dataSource = {
-    primary: 'Novogradac',
-    url: 'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state',
-    lastUpdated: 'February 2026',
-    updateFrequency: 'Quarterly',
-    methodology: 'Based on U.S. Treasury allocations and state population estimates',
-    note: 'Some states estimated pending official confirmation. Check source for updates.',
-    federalMinimum: '$2.75 per capita (2025 baseline + inflation adjustment)'
+    primary: 'IRS Rev. Proc. 2025-32 and IRS Notice 2026-22',
+    url: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
+    populationUrl: 'https://www.irs.gov/irb/2026-15_IRB',
+    lastUpdated: 'April 6, 2026',
+    updateFrequency: 'Annual',
+    methodology: 'Greater of $3.416 per resident or $3,953,600, applied to the IRS 2026 resident population figures (Census Vintage 2025)',
+    note: 'Per-capita ceiling only; carryforward, returned credits and national pool credits are not included.',
+    federalMinimum: '$3,953,600 small-state minimum; $3.416 per resident otherwise (2026)'
 };
 
 // Export

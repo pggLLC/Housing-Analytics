@@ -9,7 +9,7 @@
  *
  *   1. Data file integrity (all 10 source files load + have expected shape)
  *   2. QCT tract count (HUD 2025 publication)
- *   3. DDA county FIPS count (HUD 2025 publication — CO has 10 nonmetro)
+ *   3. DDA counts (HUD 2026 list — 10 nonmetro CO counties + metro Small Area ZIPs)
  *   4. LIHTC project geometry filtering (drop placeholder award years; mirrors the
  *      Opportunity Finder, which reads AwardYear — the feed's YR_PIS is a copy of it)
  *   5. Place-tract membership rollup (TIGER 2024)
@@ -191,6 +191,62 @@ function placeNameToCity(label) {
   return label.replace(/\s*\([^)]+\)\s*$/, '').trim();
 }
 
+// Mirror of _cityKey(): accents stripped, Ft/St spelled out, CHFA misspellings fixed.
+const CITY_KEY_ALIASES = { 'COLORDO SPRINGS': 'COLORADO SPRINGS' };
+function cityKey(name) {
+  const k = String(name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+    .replace(/\bFT\b\.?/g, 'FORT')
+    .replace(/\bST\b\.?/g, 'SAINT')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^(CITY|TOWN) OF /, '');
+  return CITY_KEY_ALIASES[k] || k;
+}
+
+// Mirror of _pointInGeometry() / _ddaZipsForPlace().
+function pointInRing(lon, lat, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function pointInPolygonRings(lon, lat, rings) {
+  if (!rings?.length || !pointInRing(lon, lat, rings[0])) return false;
+  for (let h = 1; h < rings.length; h++) if (pointInRing(lon, lat, rings[h])) return false;
+  return true;
+}
+function pointInGeometry(lon, lat, g) {
+  if (!g) return false;
+  if (g.type === 'Polygon') return pointInPolygonRings(lon, lat, g.coordinates);
+  if (g.type === 'MultiPolygon') return g.coordinates.some(r => pointInPolygonRings(lon, lat, r));
+  return false;
+}
+function ddaZip(f) {
+  const p = f?.properties || {};
+  const zip = String(p.ZCTA5 || '');
+  return (p.DDA_KIND === 'zip' || p.DDA_TYPE === 'SA' || p.DDATYPE === 'SA') && /^\d{5}$/.test(zip) ? zip : null;
+}
+function ddaZipsForPlace(zipFeatures, placePoint, tracts, tractPoints) {
+  const pts = [];
+  if (placePoint) pts.push([placePoint.lng, placePoint.lat]);
+  (tracts || []).forEach(t => {
+    const sp = +t.share_of_place_area || 0;
+    const st = +t.share_of_tract_area || 0;
+    const c = tractPoints[t.tract_geoid];
+    if (c && (sp > 0.05 || st > 0.20)) pts.push([c.lon, c.lat]);
+  });
+  const zips = new Set();
+  zipFeatures.forEach(f => {
+    const zip = ddaZip(f);
+    if (!zips.has(zip) && pts.some(([lon, lat]) => pointInGeometry(lon, lat, f.geometry))) zips.add(zip);
+  });
+  return [...zips].sort();
+}
+
 function recencyScore(lastYear) {
   if (lastYear == null) return 100;
   const years = Math.max(0, CURRENT_YEAR - lastYear);
@@ -237,8 +293,8 @@ function needScoreFor(chasByFips, fips, dist) {
   return Math.round((below / dist.length) * 100);
 }
 
-function basisBoostScore(isQct, isDda) {
-  if (isQct && isDda) return 100;
+function basisBoostScore(isQct, isDda, isBoth) {
+  if (isBoth === undefined ? (isQct && isDda) : isBoth) return 100;
   if (isQct || isDda) return 60;
   return 0;
 }
@@ -270,7 +326,8 @@ async function buildOpportunities() {
   const [
     qct, dda, lihtc, chas, pm, amiGap, gc,
     scorecard, localRes, prop123,
-    lsSupport, lsFees, lsFunds, lsCoverage
+    lsSupport, lsFees, lsFunds, lsCoverage,
+    tractCent, placeCent
   ] = await Promise.all([
     loadJson('data/qct-colorado.json'),
     loadJson('data/dda-colorado.json'),
@@ -285,7 +342,9 @@ async function buildOpportunities() {
     loadJson('data/policy/local-support.json').catch(() => null),
     loadJson('data/policy/fee-reductions.json').catch(() => null),
     loadJson('data/policy/local-housing-funds.json').catch(() => null),
-    loadJson('data/policy/incentive-coverage.json').catch(() => null)
+    loadJson('data/policy/incentive-coverage.json').catch(() => null),
+    loadJson('data/market/tract_centroids_co.json').catch(() => null),
+    loadJson('data/co-place-centroids.json').catch(() => null)
   ]);
   const localSupport = lsSupport
     ? LocalSupportData.build({ support: lsSupport, fees: lsFees, funds: lsFunds, coverage: lsCoverage })
@@ -299,7 +358,9 @@ async function buildOpportunities() {
   });
 
   const ddaFips = new Set();
+  const ddaZipFeatures = [];
   (dda.features || []).forEach(f => {
+    if (ddaZip(f)) { ddaZipFeatures.push(f); return; }
     const g = f.properties?.GEOID;
     if (g && g.length === 5) ddaFips.add(g);
   });
@@ -309,9 +370,18 @@ async function buildOpportunities() {
     return Number.isFinite(y) && y >= 1980 && y <= 2030;
   });
 
+  const tractPoints = {};
+  (tractCent?.tracts || []).forEach(t => {
+    if (t.geoid && Number.isFinite(+t.lat) && Number.isFinite(+t.lon)) tractPoints[t.geoid] = { lat: +t.lat, lon: +t.lon };
+  });
+  const placePoints = {};
+  Object.entries(placeCent?.byGeoid || {}).forEach(([g, p]) => {
+    if (Number.isFinite(p.lat) && Number.isFinite(p.lng)) placePoints[g] = { lat: p.lat, lng: p.lng };
+  });
+
   const projectsByCity = {};
   projects.forEach(p => {
-    const c = (p.properties?.PROJ_CTY || '').toUpperCase().trim();
+    const c = cityKey(p.properties?.PROJ_CTY);
     if (!c) return;
     (projectsByCity[c] = projectsByCity[c] || []).push(p);
   });
@@ -368,12 +438,19 @@ async function buildOpportunities() {
       return sp > 0.05 || st > 0.20;
     });
     const hasQct = qctTracts.length > 0;
-    const hasDda = containingCounty && ddaFips.has(containingCounty);
+    const hasDdaCounty = !!(containingCounty && ddaFips.has(containingCounty));
+    const ddaZips = hasDdaCounty ? [] : ddaZipsForPlace(ddaZipFeatures, placePoints[geoid], membership.tracts, tractPoints);
+    const hasDda = hasDdaCounty || ddaZips.length > 0;
+    const hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(t => {
+      const c = tractPoints[t.tract_geoid];
+      return c && ddaZipFeatures.some(f => ddaZips.includes(ddaZip(f)) && pointInGeometry(c.lon, c.lat, f.geometry));
+    })));
     // Note: do not pre-filter to basis-eligible (production code allows the
     // user to opt into all 482 jurisdictions via the 'no requirement' basis
     // option). Harness still asserts the basis-eligible counts below.
 
-    const cityLookup = placeNameToCity(label).toUpperCase();
+    const cityKeys = [cityKey(placeNameToCity(label)), cityKey(placeNameToCity(meta.label || ''))];
+    const cityLookup = cityKeys.find(k => k && projectsByCity[k]) || cityKeys[0];
     const inside = projectsByCity[cityLookup] || [];
     let lastYear = -Infinity;
     inside.forEach(p => {
@@ -391,7 +468,7 @@ async function buildOpportunities() {
 
     const recScore = recencyScore(lastYear);
     const needPct = needScoreFor(chasByFips, containingCounty, needDist);
-    const bbScore = basisBoostScore(hasQct, hasDda);
+    const bbScore = basisBoostScore(hasQct, hasDda, hasBoth);
     const popScore = populationScore(pop);
 
     const civic = policyScores[geoid] || (containingCounty ? policyScores[containingCounty] : null);
@@ -415,7 +492,7 @@ async function buildOpportunities() {
       localSupportBonus: lsBonus,
       countyFips: containingCounty,
       countyName: countyName[containingCounty] || '—',
-      hasQct, hasDda, hasBoth: hasQct && hasDda,
+      hasQct, hasDda, hasBoth, ddaZips,
       qctCount: qctTracts.length,
       projectCount: inside.length, totalUnits, lastYear,
       yearsSince: lastYear != null ? CURRENT_YEAR - lastYear : null,
@@ -434,7 +511,7 @@ async function buildOpportunities() {
   });
 
   return {
-    ops, qctIds, ddaFips, projects, chasByFips, placeMeta, countyName,
+    ops, qctIds, ddaFips, ddaZipFeatures, projects, chasByFips, placeMeta, countyName,
     policyScores, localRes: lr, p123ByName
   };
 }
@@ -459,13 +536,14 @@ async function main() {
     process.exit(2);
   }
 
-  const { ops, qctIds, ddaFips, projects, placeMeta, policyScores, localRes, p123ByName } = rollup;
+  const { ops, qctIds, ddaFips, ddaZipFeatures, projects, placeMeta, policyScores, localRes, p123ByName } = rollup;
 
   /* ── 1. Data integrity ───────────────────────────────────────────── */
   header('Data integrity');
   const dataChecks = [
     { name: 'QCT tract count',        actual: qctIds.size,    min: 200, max: 260, note: 'HUD 2025: 224 expected' },
-    { name: 'DDA county-FIPS count',  actual: ddaFips.size,   min: 8,   max: 15,  note: 'HUD 2025: 10 nonmetro CO counties' },
+    { name: 'DDA county-FIPS count',  actual: ddaFips.size,   min: 8,   max: 15,  note: 'HUD 2026: 10 nonmetro CO counties' },
+    { name: 'DDA Small Area ZIP count', actual: new Set(ddaZipFeatures.map(ddaZip)).size, min: 20, max: 45, note: 'HUD 2026: 31 metro CO ZIPs (34 ZIP-by-metro rows)' },
     { name: 'LIHTC project count',    actual: projects.length, min: 500, max: 1000, note: 'CHFA/HUD LIHTC with a valid award year' },
     { name: 'Place-meta entries',     actual: Object.keys(placeMeta).length, min: 400, max: 600, note: 'CO geo-config' },
     { name: 'Policy-scorecard entries', actual: Object.keys(policyScores).length, min: 500, max: 600, note: '~546 expected (counties + places + CDPs)' },
@@ -489,11 +567,11 @@ async function main() {
 
   const inv = [
     { name: 'Total places scored',       actual: ops.length, min: 450, max: 510, note: '~482 expected (all CO places in TIGER place-tract-membership)' },
-    { name: 'Basis-boost-eligible (QCT or DDA)', actual: eligible, min: 130, max: 200, note: '158 expected' },
-    { name: 'QCT + DDA (both)',          actual: both,       min: 4,   max: 12,  note: '6 expected' },
-    { name: 'QCT only',                  actual: qctOnly,    min: 70,  max: 110, note: '92 expected' },
-    { name: 'DDA only',                  actual: ddaOnly,    min: 45,  max: 80,  note: '60 expected' },
-    { name: 'Never-funded jurisdictions (within basis-eligible)', actual: ops.filter(o => (o.hasQct || o.hasDda) && o.lastYear == null).length, min: 80, max: 130, note: '105 expected' }
+    { name: 'Basis-boost-eligible (QCT or DDA)', actual: eligible, min: 130, max: 200, note: '182 expected (158 before metro ZIP DDAs were added)' },
+    { name: 'QCT + DDA (both)',          actual: both,       min: 4,   max: 12,  note: '7 expected' },
+    { name: 'QCT only',                  actual: qctOnly,    min: 70,  max: 110, note: '85 expected' },
+    { name: 'DDA only',                  actual: ddaOnly,    min: 60,  max: 100, note: '84 expected' },
+    { name: 'Never-funded jurisdictions (within basis-eligible)', actual: ops.filter(o => (o.hasQct || o.hasDda) && o.lastYear == null).length, min: 80, max: 140, note: '118 expected' }
   ];
   inv.forEach(c => {
     const ok = c.actual >= c.min && c.actual <= c.max;

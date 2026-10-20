@@ -4,9 +4,16 @@
  * Renders the "Rent vs Buy Breakeven" mini-calculator on the Deal
  * Calculator page. Given a home price, monthly rent, mortgage rate,
  * property tax rate, maintenance %, and rent escalation rate, it
- * computes the year at which cumulative ownership costs (mortgage
- * payments + tax + maintenance - principal paydown - equity
- * appreciation) drop below cumulative rent paid.
+ * computes the first year in which the net cost of buying drops below
+ * cumulative rent paid. Net cost of buying through year t is
+ *
+ *   cumulative owning payments (P&I + property tax + maintenance)
+ *   + down payment + buyer closing costs
+ *   + forgone return on the down payment
+ *   - net sale proceeds (home value - loan balance - selling costs)
+ *
+ * The down payment is counted as an outflow and comes back only through
+ * the sale proceeds, so it is never counted as a gain.
  *
  * Why this matters for LIHTC analysts (per Phase 3 / C2)
  * ------------------------------------------------------
@@ -31,6 +38,9 @@
     maintPct:          1.0,
     rentEscalationPct: 3.0,
     homeAppreciationPct: 3.5,
+    closingCostPct:    3.0,     // buyer closing costs, % of price
+    sellingCostPct:    6.0,     // commission + seller costs at sale, % of value
+    opportunityRatePct: 4.0,    // return the down payment would earn if invested
   };
 
   /**
@@ -48,8 +58,9 @@
       Math.pow(1 + monthlyRate, 360) /
       (Math.pow(1 + monthlyRate, 360) - 1);
 
+    var closingCosts = p.homePrice * (p.closingCostPct / 100);
     var rentCum = 0;
-    var buyCum = downPayment;  // starts with down payment outflow
+    var ownCum = 0;            // cumulative P&I + property tax + maintenance
     var rentSeries = [];
     var buySeries  = [];
     var rent = p.monthlyRent;
@@ -62,9 +73,9 @@
       rentCum += rent * 12;
       rent = rent * (1 + p.rentEscalationPct / 100);
       // Buy year — annual P&I + taxes + maintenance
-      buyCum += monthlyPI * 12;
-      buyCum += homeValue * (p.propTaxRatePct / 100);
-      buyCum += homeValue * (p.maintPct / 100);
+      ownCum += monthlyPI * 12;
+      ownCum += homeValue * (p.propTaxRatePct / 100);
+      ownCum += homeValue * (p.maintPct / 100);
       // Principal paid this year (estimate)
       var princThisYear = 0;
       for (var m = 0; m < 12; m++) {
@@ -74,12 +85,13 @@
         loanBalance -= princ;
         princThisYear += princ;
       }
-      // Home appreciation gain (offsets buy cost)
-      var appreciation = homeValue * (p.homeAppreciationPct / 100);
-      homeValue += appreciation;
-      // Net buy cost = total outflows - equity built - appreciation
-      var equity = (p.homePrice - loanBalance) + (homeValue - p.homePrice);
-      var netBuyCost = buyCum - equity;
+      if (loanBalance < 0) loanBalance = 0;
+      homeValue *= 1 + p.homeAppreciationPct / 100;
+      // Forgone return on the down payment, compounded annually
+      var opportunityCost = downPayment * (Math.pow(1 + p.opportunityRatePct / 100, year) - 1);
+      // What the owner would walk away with after selling at year end
+      var saleProceeds = homeValue - loanBalance - homeValue * (p.sellingCostPct / 100);
+      var netBuyCost = ownCum + downPayment + closingCosts + opportunityCost - saleProceeds;
 
       rentSeries.push({ year: year, cum: rentCum });
       buySeries.push({  year: year, cum: netBuyCost });
@@ -97,6 +109,7 @@
       params: p,
       summary: {
         downPayment: downPayment,
+        closingCosts: closingCosts,
         monthlyPI: monthlyPI,
         monthlyAllIn: monthlyPI + (p.homePrice * (p.propTaxRatePct / 100) / 12) + (p.homePrice * (p.maintPct / 100) / 12),
       },
@@ -148,6 +161,11 @@
           'Down payment: <strong>' + fmt$(result.summary.downPayment) + '</strong> · ' +
           'Monthly P&I: <strong>' + fmt$(result.summary.monthlyPI) + '</strong> · ' +
           'All-in monthly: <strong>' + fmt$(result.summary.monthlyAllIn) + '</strong>' +
+        '</div>' +
+        '<div style="font-size:.8rem;color:var(--muted);margin-top:.35rem;line-height:1.5;">' +
+          'Buying counts the down payment, ' + result.params.closingCostPct + '% closing costs and a ' +
+          result.params.opportunityRatePct + '% forgone return on the down payment, less what a sale would return after ' +
+          result.params.sellingCostPct + '% selling costs.' +
         '</div>' +
         '<div style="font-size:.82rem;margin-top:.5rem;line-height:1.5;">' +
           '<strong>LIHTC implication:</strong> ' + lihtcImplication +
