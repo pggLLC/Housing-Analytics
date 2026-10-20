@@ -782,9 +782,13 @@ OWNER_NEWS_FILE = REPO_ROOT / 'data' / 'alerts' / 'owner-news.json'
 
 
 def _link_key(url: str) -> str:
+    # Same rule as owner_news_picks.norm_url: tracking tags off, the rest kept.
     p = urllib.parse.urlsplit((url or '').strip())
     host = p.netloc.lower().removeprefix('www.')
-    return f'{host}{p.path.rstrip("/")}' if host else ''
+    query = urllib.parse.urlencode(sorted(
+        (k, v) for k, v in urllib.parse.parse_qsl(p.query)
+        if not re.match(r'^(utm_\w+|fbclid|gclid|mc_cid|mc_eid|cmpid|ref|src|smid|mod|ocid|cid)$', k, re.I)))
+    return (f'{host}{p.path.rstrip("/")}'.lower() + (f'?{query}' if query else '')) if host else ''
 
 
 def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -> list[dict]:

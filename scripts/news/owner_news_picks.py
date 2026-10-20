@@ -75,10 +75,16 @@ def unwrap(url: str) -> str:
     return url or ''
 
 
+# Tracking tags come off; any other query part (?id=2) names the article.
+TRACKING_RE = re.compile(r'^(utm_\w+|fbclid|gclid|mc_cid|mc_eid|cmpid|ref|src|smid|mod|ocid|cid)$', re.I)
+
+
 def norm_url(url: str) -> str:
     p = urllib.parse.urlparse(unwrap(url).strip())
     host = p.netloc.lower().removeprefix('www.')
-    return f'{host}{p.path.rstrip("/")}'.lower()
+    query = urllib.parse.urlencode(sorted((k, v) for k, v in urllib.parse.parse_qsl(p.query)
+                                          if not TRACKING_RE.match(k)))
+    return f'{host}{p.path.rstrip("/")}'.lower() + (f'?{query}' if query else '')
 
 
 def norm_title(t: str) -> str:
@@ -296,7 +302,9 @@ def update(ledger: list[dict], alerts: list[dict], pasted: list[dict], ticked: s
     keep_cut = (today - timedelta(days=KEEP_DAYS)).isoformat()
     kept = [i for i in by_id.values()
             if not (i['status'] == 'waiting' and i['added'] < wait_cut)
-            and not (i['status'] == 'published' and (i['date'] or i['added']) < keep_cut)]
+            # A pick stays for 90 days from when it was published here, not
+            # from the article's date, so an older article pasted today shows.
+            and not (i['status'] == 'published' and (i.get('reviewed') or i['added']) < keep_cut)]
     kept.sort(key=lambda i: (i['date'] or i['added'], i['id']), reverse=True)
     return kept, done
 

@@ -164,3 +164,18 @@ def test_only_the_workflows_own_review_issue_counts():
     ours = {'number': 4, 'body': body, 'user': {'login': 'github-actions[bot]'}}
     assert onp.review_issue([planted]) is None
     assert onp.review_issue([planted, ours])['number'] == 4
+
+
+def test_query_strings_that_name_the_article_are_kept():
+    assert onp.norm_url('https://www.x.com/a/?utm_source=g&fbclid=1') == 'x.com/a'
+    assert onp.norm_url('https://x.com/article?id=1') != onp.norm_url('https://x.com/article?id=2')
+    assert gpb._link_key('https://x.com/article?id=1&utm_medium=e') == onp.norm_url('https://x.com/article?id=1')
+
+
+def test_an_old_article_pasted_today_stays():
+    ledger, done = onp.update([], [], [{'issue': 8, 'link': 'https://www.wsj.com/old', 'headline': 'Old story',
+                                        'opened': '2026-10-20'}], set(), (set(), set()), TODAY,
+                              describe_fn=lambda u: {'link': u, 'title': 'Old story', 'source': 'WSJ',
+                                                     'date': '2025-01-02'})
+    assert [(i['title'], i['status'], i['issue']) for i in ledger] == [('Old story', 'published', 8)]
+    assert done == [8]
