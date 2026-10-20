@@ -256,7 +256,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Aspen at #45 with an overall housing-need score of 76.6. It identifies 510 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 76.1% of <=30% AMI households. 67.6% of renter households are cost burdened, and 1.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Aspen at #49 with an overall housing-need score of 75.4. It identifies 510 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 76.1% of <=30% AMI households. 67.6% of renter households are cost burdened, and 1.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -276,12 +276,14 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 6,756. LEHD-based commuting signals show 7,412 in-commuters and a commute ratio of 74.3%. The digest's county-context projection shows 4,447 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 6,756. LEHD-based commuting signals show 7,412 in-commuters and a commute ratio of 74.3%. The digest's 20-year figure is 669 homes. Projected resident growth gives 73; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 596: homes for a quarter of the lower- and middle-wage workers who commute into City of Aspen, if they moved closer.",
           "cites": [
             "d11",
             "d12",
             "d13",
-            "d14"
+            "d14",
+            "d23",
+            "d24"
           ]
         },
         {
@@ -644,7 +646,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -653,7 +655,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -761,7 +763,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -788,7 +790,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -797,7 +799,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -806,7 +808,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -838,6 +840,24 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d23",
+      "label": "Twenty-year resident growth in homes needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_growth_20yr",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d24",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "incommuter_need_units",
       "accessed": "2026-07-03"
     }
   ]

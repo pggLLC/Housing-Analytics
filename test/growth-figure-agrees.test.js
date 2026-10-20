@@ -7,17 +7,17 @@
 // Found 2026-09-26: for Mesa County the HNA's need reconciliation (and its
 // Excel sheet) said "Resident growth by 2044 16,071" while the Recommendation
 // said "resident growth alone would need about 12,727". Two quantities, one
-// name. The digest's future_units_growth_20yr is the change in homes needed as
-// households grow (DOLA's incremental_units_needed_dola). The HNA's county
-// reading is homes needed at the horizon LESS the homes in the market today,
-// which also counts today's shortfall against the target vacancy. Both are
-// deliberate; they must not share a name.
+// name. Since 2026-10-20 both surfaces compute resident growth the same way,
+// the rise in homes needed as households grow (DOLA's
+// incremental_units_needed_dola), so at the page's default they agree. The
+// page's Hold and Trend options read population x a headship rate instead of
+// DOLA's household forecast, a different number, and must say so in the name.
 //
 // Held as agreement: each surface is read from what it actually renders (the
 // real applyAssumptions; the real RecommendationContract over the committed
 // digest). Where the two surfaces use the same name, the numbers must be
-// equal. Fruita (place ledger on both) must agree; Mesa must either agree or
-// carry a different name on the HNA.
+// equal. Fruita (place ledger on both) and Mesa at the page's default
+// (Forecast) must agree; Mesa under Hold must carry a different name.
 //
 // ── 2. Each metric carries its own source's vintage ──
 //
@@ -53,14 +53,14 @@ function freshRequire(rel) {
 
 /* ── The HNA, rendered by the real applyAssumptions ─────────────────── */
 
-function page(geoType, geoid, label) {
+function page(geoType, geoid, label, headship) {
   const html = read('housing-needs-assessment.html');
   const card = html.match(/<h2>Housing need summary<\/h2>[\s\S]*?<div id="hnaNeedReconciliation"[^>]*><\/div>/);
   assert(card, 'the housing-need summary (through #hnaNeedReconciliation) could not be found in housing-needs-assessment.html');
   return `<!doctype html><html><body>
     <select id="geoType"><option value="${geoType}" selected>${geoType}</option></select>
     <select id="geoSelect"><option value="${geoid}" selected>${label}</option></select>
-    <input type="radio" name="headship" value="current" checked>
+    ${/name="assumpHeadship"/.test(card[0]) ? '' : `<input type="radio" name="assumpHeadship" value="${headship}">`}
     <div class="chart-box"><canvas id="chartProjectedHH"></canvas></div>
     ${card[0]}
   </body></html>`;
@@ -95,10 +95,16 @@ function install(dom) {
   freshRequire('js/hna/hna-controller.js');
 }
 
-async function hnaGrowthRow(selection, countyFips) {
-  const dom = new JSDOM(page(selection.geoType, selection.geoid, selection.label),
+async function hnaGrowthRow(selection, countyFips, headship) {
+  const dom = new JSDOM(page(selection.geoType, selection.geoid, selection.label, headship),
     { url: 'http://127.0.0.1/housing-needs-assessment.html' });
   install(dom);
+  // The page's own headship radios, set the way a click would leave them.
+  const radio = document.querySelector(`input[name="assumpHeadship"][value="${headship}"]`);
+  assert(radio, `no ${headship} headship option on the page`);
+  radio.checked = true;
+  assert.strictEqual(window.HNARenderers.getAssumptions().headshipMode, headship === 'hold' ? 'current' : headship,
+    `${selection.label}: the ${headship} option did not reach the calculator`);
   window.HNAState.state.currentSelection = selection;
   const proj = readJson(`data/hna/projections/${countyFips}.json`);
   await window.HNAController.applyAssumptions(proj, selection);
@@ -114,14 +120,12 @@ const RecommendationContract = freshRequire('js/workflow/recommendation-contract
 
 // The name the Recommendation gives the growth-only figure, and its number.
 // recommendation-contract.js writes it two ways, by the digest's
-// future_units_reading: under the workforce reading the growth figure is the
-// parenthetical ("resident growth alone would need about N"); under the
-// resident-growth reading it is the headline itself ("Roughly N additional
-// homes over 20 years, from projected resident growth"), because there the
-// 20-year figure IS the growth figure. Mesa moved from the first form to the
-// second when the county household series switched to the SDO household
-// forecast (#2260), so both forms are read.
-const REC_GROWTH_WORKFORCE = /(resident growth) alone would need about ([\d,]+)/i;
+// future_units_reading: where today's in-commuters are added, the growth part
+// is named inside the sentence ("Roughly T additional homes over 20 years: N
+// for projected resident growth, plus ..."); where they are not, the headline
+// is the growth figure itself ("Roughly N additional homes over 20 years, from
+// projected resident growth"). Both forms are read.
+const REC_GROWTH_PLUS = /: ([\d,]+) for projected (resident growth), plus /i;
 const REC_GROWTH_RESIDENT = /Roughly ([\d,]+) additional homes over 20 years, from projected (resident growth)/i;
 
 function recGrowth(geoid) {
@@ -131,10 +135,8 @@ function recGrowth(geoid) {
   const plain = String(production.plain || '');
   let name = null;
   let units = null;
-  const w = plain.match(REC_GROWTH_WORKFORCE);
-  const r = w ? null : plain.match(REC_GROWTH_RESIDENT);
-  if (w) { name = w[1].toLowerCase(); units = Number(w[2].replace(/,/g, '')); }
-  else if (r) { name = r[2].toLowerCase(); units = Number(r[1].replace(/,/g, '')); }
+  const m = plain.match(REC_GROWTH_PLUS) || plain.match(REC_GROWTH_RESIDENT);
+  if (m) { name = m[2].toLowerCase(); units = Number(m[1].replace(/,/g, '')); }
   return { out, production, name, units };
 }
 
@@ -163,53 +165,62 @@ function summaryAcs(geoid) {
 (async () => {
   console.log('\nOne name, one number; each metric its own vintage');
 
+  // Keyed by case; geoid names the digest. 'forecast' is the page's default.
   const CASES = [
-    { selection: { geoType: 'county', geoid: '08077', label: 'Mesa County' }, county: '08077' },
-    { selection: { geoType: 'place', geoid: '0828745', label: 'Fruita', contextCounty: '08077',
-      profile: { DP02_0001E: 5807, DP04_0001E: 6100, DP05_0001E: 14000 } }, county: '08077' },
+    { key: 'Mesa County', selection: { geoType: 'county', geoid: '08077', label: 'Mesa County' }, county: '08077', headship: 'forecast' },
+    { key: 'Mesa County, Hold', selection: { geoType: 'county', geoid: '08077', label: 'Mesa County' }, county: '08077', headship: 'hold' },
+    { key: 'Fruita', selection: { geoType: 'place', geoid: '0828745', label: 'Fruita', contextCounty: '08077',
+      profile: { DP02_0001E: 5807, DP04_0001E: 6100, DP05_0001E: 14000 } }, county: '08077', headship: 'forecast' },
   ];
   const seen = {};
   for (const c of CASES) {
-    seen[c.selection.geoid] = { hna: await hnaGrowthRow(c.selection, c.county), rec: recGrowth(c.selection.geoid) };
+    seen[c.key] = { geoid: c.selection.geoid, hna: await hnaGrowthRow(c.selection, c.county, c.headship), rec: recGrowth(c.selection.geoid) };
   }
 
   await test('both surfaces render a resident-side figure for Mesa and Fruita (the checks below are not vacuous)', () => {
-    for (const [geoid, s] of Object.entries(seen)) {
-      assert(Number.isFinite(s.hna.units), `${geoid}: HNA growth row has no number`);
-      assert(s.rec.name, `${geoid}: the Recommendation no longer quotes the growth-only figure — "${s.rec.production.plain}"`);
+    for (const [key, s] of Object.entries(seen)) {
+      assert(Number.isFinite(s.hna.units), `${key}: HNA growth row has no number`);
+      assert(s.rec.name, `${key}: the Recommendation no longer quotes the growth-only figure — "${s.rec.production.plain}"`);
     }
   });
 
   await test('the Recommendation\'s growth figure is the digest\'s future_units_growth_20yr', () => {
-    for (const [geoid, s] of Object.entries(seen)) {
-      const g = digest(geoid).metrics.future_units_growth_20yr;
-      assert(g && Number.isFinite(g.value), `${geoid}: digest carries no future_units_growth_20yr`);
-      assert.strictEqual(s.rec.units, g.value, `${geoid}: Recommendation says ${s.rec.units}, digest ${g.value}`);
+    for (const [key, s] of Object.entries(seen)) {
+      const g = digest(s.geoid).metrics.future_units_growth_20yr;
+      assert(g && Number.isFinite(g.value), `${key}: digest carries no future_units_growth_20yr`);
+      assert.strictEqual(s.rec.units, g.value, `${key}: Recommendation says ${s.rec.units}, digest ${g.value}`);
     }
   });
 
   await test('the same name on both surfaces means the same number', () => {
     const bad = [];
-    for (const [geoid, s] of Object.entries(seen)) {
+    for (const [key, s] of Object.entries(seen)) {
       if (nameOf(s.hna.label) === s.rec.name && s.hna.units !== s.rec.units) {
-        bad.push(`${geoid}: HNA "${s.hna.label}" ${s.hna.units}; Recommendation "${s.rec.name} alone" ${s.rec.units}`);
+        bad.push(`${key}: HNA "${s.hna.label}" ${s.hna.units}; Recommendation "${s.rec.name} alone" ${s.rec.units}`);
       }
     }
     assert.deepStrictEqual(bad, [], 'one name, two numbers:\n  ' + bad.join('\n  '));
   });
 
   await test('Fruita: the place ledger feeds both surfaces, so name and number agree', () => {
-    const s = seen['0828745'];
+    const s = seen.Fruita;
     assert.strictEqual(nameOf(s.hna.label), s.rec.name, `HNA "${s.hna.label}" vs Recommendation "${s.rec.name}"`);
     assert.strictEqual(s.hna.units, s.rec.units);
   });
 
-  await test('Mesa County: a figure that differs from resident growth is not called resident growth', () => {
-    const s = seen['08077'];
-    if (s.hna.units === s.rec.units) return;
+  await test('Mesa County at the page\'s default: DOLA\'s households on both surfaces, so name and number agree', () => {
+    const s = seen['Mesa County'];
+    assert.strictEqual(nameOf(s.hna.label), s.rec.name, `HNA "${s.hna.label}" vs Recommendation "${s.rec.name}"`);
+    assert(Math.abs(s.hna.units - s.rec.units) <= 1, `HNA ${s.hna.units}, Recommendation ${s.rec.units}`);
+  });
+
+  await test('Mesa County under Hold: a different number carries the option in its name', () => {
+    const s = seen['Mesa County, Hold'];
+    assert.notStrictEqual(s.hna.units, s.rec.units,
+      `Hold gave the Forecast figure (${s.hna.units}): the option no longer reaches the calculator, so this case checks nothing`);
     assert.notStrictEqual(nameOf(s.hna.label), s.rec.name,
       `HNA calls ${s.hna.units} "${s.hna.label}"; the Recommendation calls ${s.rec.units} "${s.rec.name}"`);
-    assert(!/resident growth/i.test(s.hna.label), `HNA label "${s.hna.label}" still names resident growth`);
+    assert(/headship held/i.test(s.hna.label), `HNA label "${s.hna.label}" does not name the Hold option`);
   });
 
   await test('every digest metric is labelled with its own source\'s vintage', () => {

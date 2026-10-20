@@ -667,8 +667,9 @@ function methodsData() {
     out.workforce_gap_wins = rows.filter((r) => m(r).workforce_gap_pressure_score != null
       && m(r).resident_gap_pressure_score != null
       && m(r).workforce_gap_pressure_score > m(r).resident_gap_pressure_score).length;
-    out.future_units_workforce_reading = rows.filter((r) => m(r).future_units_reading === 'workforce').length;
-    // The same reading summed over counties, beside the in-commuter need (§09).
+    // Rows whose 20-year figure adds today's in-commuters to resident growth (§06, §09).
+    out.future_units_with_incommuters = rows.filter((r) => m(r).future_units_reading === 'resident_growth_plus_incommuters').length;
+    // The jobs reading summed over counties, beside the in-commuter need (§09).
     out.workforce_reading_counties_sum = rows.filter((r) => r.type === 'county')
       .reduce((a, r) => a + (Number.isFinite(m(r).workforce_gap_units) && m(r).workforce_gap_units > 0 ? m(r).workforce_gap_units : 0), 0);
   }

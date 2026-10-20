@@ -98,7 +98,9 @@
     }
     var n20 = num(o.need20yr);
     if (n20 !== null) {
-      notes.push('The 20-year need (' + int(n20) + ' homes) is one total, not split by income, and can count local low-wage jobs as well as resident growth, so it does not set the mix.');
+      notes.push(n20 < 0
+        ? 'The 20-year figure is a surplus of ' + int(Math.abs(n20)) + ' homes, because projected households fall here. It is one total, not split by income, so it does not set the mix.'
+        : 'The 20-year need (' + int(n20) + ' homes) is one total, not split by income, and counts today\u2019s in-commuters who would move closer as well as resident growth, so it does not set the mix.');
     }
     return { notes: notes, workforce: workforce };
   }

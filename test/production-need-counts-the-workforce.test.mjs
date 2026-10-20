@@ -32,14 +32,24 @@
  * never used it, so the site simultaneously held "7,554 units needed" and
  * "surplus of 4,937 units" for the same county on the same day.
  *
+ * Third defect, 2026-10-20: the fix for the second was max(growth,
+ * workforce_gap_units), and the jobs reading counts one job as one home,
+ * including jobs held by people who already live here. It won for most
+ * places and put a present shortfall in the 20-year slot (Aspen 4,447 against
+ * 73 of growth). The figure is now resident growth PLUS today's in-commuters
+ * who would move closer, counted as households (data/hna/workforce-need.json,
+ * a quarter of lower- and middle-wage in-commuters). Removing the max exposed
+ * the active-stock subtraction: Summit's ACS rental vacancy is 41.9%, short-
+ * term rentals included, so its "active stock" exceeded the homes it needs
+ * and it read -6,712. Resident growth is now the rise in homes needed from
+ * the base year, DOLA's own incremental form, with no stock count in it.
+ *
  * ── How this guard works ──
  *
  * It extracts the SHIPPED _productionNeed out of js/hna/hna-controller.js and
- * runs it against the committed projections and ranking index, so it measures
- * the deployed arithmetic rather than a copy of it. It asserts PROPERTIES —
- * max not blend, active stock not total stock, no surplus where a workforce
- * gap exists — rather than pinning 64 numbers that move with every data
- * refresh.
+ * runs it against the committed projections and in-commuter file, so it
+ * measures the deployed arithmetic rather than a copy of it. It asserts
+ * PROPERTIES rather than pinning 64 numbers that move with every refresh.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -65,16 +75,12 @@ function extract(name) {
 
 const productionNeed = new Function(`${extract('_productionNeed')}; return _productionNeed;`)();
 
-/** Every county with both a projection and a workforce reading. */
+const workforceNeed = readJson('data/hna/workforce-need.json');
+
+/** Every county with a projection, its stored need at both ends, and its in-commuter need. */
 const counties = (() => {
   const idx = readJson('data/hna/ranking-index.json');
-  const wf = new Map();
-  const nm = new Map();
-  for (const r of idx.rankings) {
-    nm.set(r.geoid, r.name);
-    const v = r.metrics && r.metrics.workforce_gap_units;
-    if (v != null && Number.isFinite(Number(v))) wf.set(r.geoid, Number(v));
-  }
+  const nm = new Map(idx.rankings.map((r) => [r.geoid, r.name]));
   const out = [];
   const dir = path.join(ROOT, 'data/hna/projections');
   for (const f of fs.readdirSync(dir)) {
@@ -83,17 +89,20 @@ const counties = (() => {
     const p = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
     const hn = p.housing_need || {};
     const j = (p.years || []).indexOf((p.baseYear || 2024) + 20);
-    if (j < 0) continue;
+    const b = (p.years || []).indexOf(p.baseYear || 2024);
+    if (j < 0 || b < 0) continue;
     const needUnits = (hn.units_needed_dola || [])[j];
-    if (needUnits == null) continue;
+    const baseNeedUnits = (hn.units_needed_dola || [])[b];
+    if (needUnits == null || baseNeedUnits == null) continue;
+    const inc = workforceNeed.counties[geoid] && workforceNeed.counties[geoid].present_incommuter_need;
     out.push({
       geoid,
       name: nm.get(geoid) || geoid,
       needUnits: Number(needUnits),
+      baseNeedUnits: Number(baseNeedUnits),
       baseUnits: Number(p.base.housing_units),
-      observedTotalVac: hn.observed_total_vacancy,
-      activeVac: hn.active_market_vacancy,
-      workforceGapUnits: wf.get(geoid) ?? null,
+      dolaIncremental: (hn.incremental_units_needed_dola || [])[j],
+      incommuterUnits: inc ? inc.move_closer_25 : null,
     });
   }
   return out;
@@ -102,82 +111,65 @@ const counties = (() => {
 test('the measurement found something to measure', () => {
   assert.ok(counties.length >= 55,
     `only ${counties.length} counties resolved — the fixture walk is broken and every assertion below would pass vacuously`);
-  const withWf = counties.filter((c) => c.workforceGapUnits != null).length;
-  assert.ok(withWf >= 40, `only ${withWf} counties carry workforce_gap_units`);
+  const withInc = counties.filter((c) => c.incommuterUnits != null).length;
+  assert.ok(withInc >= 55, `only ${withInc} counties carry an in-commuter need`);
 });
 
-test('no jurisdiction with a workforce shortfall is told it has surplus housing', () => {
-  const lying = [];
-  for (const c of counties) {
-    if (!(c.workforceGapUnits > 0)) continue;
-    const r = productionNeed(c);
-    if (r && r.units < 0) lying.push(`${c.name}: ${Math.round(r.units)} units while ${c.workforceGapUnits} workers need homes`);
-  }
-  assert.deepEqual(lying, [],
-    'these employ workers they cannot house and are told they have excess capacity:\n  ' + lying.join('\n  '));
-});
-
-test('the answer is the larger reading, never a blend', () => {
-  // A blend lets a place average away a need it is already exporting, which is
-  // the owner's standing rule for this metric and the reason #1733 used max().
+test('the figure is resident growth plus today’s in-commuters, and both parts are kept', () => {
   for (const c of counties) {
     const r = productionNeed(c);
-    if (!r) continue;
-    const parts = [r.growthUnits, r.workforceUnits].filter((v) => v != null);
-    if (!parts.length) continue;
-    const biggest = Math.max(...parts);
-    assert.equal(Math.round(r.units), Math.round(biggest),
-      `${c.name}: published ${Math.round(r.units)} but the readings were ` +
-      `growth=${r.growthUnits == null ? 'n/a' : Math.round(r.growthUnits)} ` +
-      `workforce=${r.workforceUnits == null ? 'n/a' : r.workforceUnits} — a blend, not a max`);
+    assert.ok(r, `${c.name}: no figure`);
+    if (c.incommuterUnits == null) continue;
+    assert.equal(r.basis, 'resident_growth_plus_incommuters', `${c.name}: basis ${r.basis}`);
+    assert.equal(r.incommuterUnits, c.incommuterUnits, `${c.name}: in-commuter part ${r.incommuterUnits}, file ${c.incommuterUnits}`);
+    assert.ok(Math.abs(r.units - (r.growthUnits + r.incommuterUnits)) < 1e-9,
+      `${c.name}: published ${r.units}, but growth ${r.growthUnits} + in-commuters ${r.incommuterUnits} — a max or a blend, not a sum`);
   }
 });
 
-test('supply is counted on the market demand was measured in', () => {
-  // Demand houses households at the ACTIVE-MARKET vacancy. Subtracting the
-  // total stock counts second homes as available supply.
-  const seasonal = counties.filter((c) =>
-    c.observedTotalVac != null && c.activeVac != null && c.observedTotalVac > c.activeVac + 0.05);
-  assert.ok(seasonal.length >= 5,
-    `only ${seasonal.length} counties have a seasonal split — this assertion needs them to mean anything`);
-  for (const c of seasonal) {
+test('resident growth is the rise in homes needed, and no stock count enters it', () => {
+  // The stock subtraction is what told Pitkin (total stock) and then Summit
+  // (an active stock inflated by short-term rentals) that they had surplus.
+  // Growth must equal DOLA's own stored incremental figure, and moving the
+  // housing stock must not move it.
+  for (const c of counties) {
     const r = productionNeed(c);
-    assert.equal(r.stockBasis, 'active_market_stock',
-      `${c.name} has ${(c.observedTotalVac * 100).toFixed(1)}% total vs ${(c.activeVac * 100).toFixed(1)}% active vacancy but supply was counted as ${r.stockBasis}`);
-    assert.ok(r.activeStock < c.baseUnits,
-      `${c.name}: active stock ${Math.round(r.activeStock)} should be below total stock ${c.baseUnits}`);
-    // The label is not the arithmetic. An earlier version of this guard
-    // asserted only stockBasis, and reverting the subtraction to the TOTAL
-    // stock passed it — the label is computed separately and stayed correct
-    // while the number went back to being wrong. Assert the relationship the
-    // label claims.
-    assert.ok(Math.abs(r.growthUnits - (c.needUnits - r.activeStock)) < 1,
-      `${c.name}: growth reading is ${Math.round(r.growthUnits)} but needUnits - activeStock is ` +
-      `${Math.round(c.needUnits - r.activeStock)} — the figure was not computed against the stock ` +
-      `its own stockBasis says it used`);
-    assert.ok(Math.abs(r.growthUnits - (c.needUnits - c.baseUnits)) > 1,
-      `${c.name}: growth reading equals needUnits - TOTAL stock, which is the original defect`);
+    assert.ok(Math.abs(r.growthUnits - Number(c.dolaIncremental)) < 1,
+      `${c.name}: growth ${Math.round(r.growthUnits)} but DOLA's stored incremental units are ${Math.round(c.dolaIncremental)}`);
+    const moved = productionNeed({ ...c, baseUnits: c.baseUnits * 2, observedTotalVac: 0.6, activeVac: 0.4 });
+    assert.equal(moved.units, r.units, `${c.name}: the figure moved with the housing stock`);
   }
 });
 
-test('a jurisdiction with no workforce reading still gets an answer', () => {
-  // The workforce half is an augmentation. Losing it must degrade to the
-  // resident-growth reading, not to nothing.
+test('a surplus is published only where projected households fall', () => {
+  const wrong = counties.map((c) => ({ c, r: productionNeed(c) }))
+    .filter(({ r }) => r.units < 0 && !(r.growthUnits < 0))
+    .map(({ c, r }) => `${c.name}: ${Math.round(r.units)} with growth ${Math.round(r.growthUnits)}`);
+  assert.deepEqual(wrong, [], 'told they have excess capacity while households grow:\n  ' + wrong.join('\n  '));
+});
+
+test('a jurisdiction with no in-commuter record still gets an answer, and says what it counts', () => {
   const c = counties[0];
-  const r = productionNeed({ ...c, workforceGapUnits: null });
-  assert.ok(r && r.units != null, 'dropping the workforce reading produced no answer at all');
+  const r = productionNeed({ ...c, incommuterUnits: null });
+  assert.ok(r && r.units != null, 'dropping the in-commuter part produced no answer at all');
   assert.equal(r.basis, 'resident_growth');
+  assert.equal(r.units, r.growthUnits);
 });
 
-test('the resort counties this was found on are no longer told they have surplus', () => {
+test('no growth projection, no figure: a sum with an unknown part is unknown', () => {
+  const r = productionNeed({ needUnits: null, baseNeedUnits: null, incommuterUnits: 500 });
+  assert.equal(r, null, 'an in-commuter number alone was published as the 20-year figure');
+});
+
+test('the resort counties this was found on are not told they have surplus', () => {
   // Named because a property test can hold while the case that motivated it
-  // regresses. These are the four largest surpluses measured on 2026-09-20.
-  const named = { '08117': 'Summit', '08037': 'Eagle', '08097': 'Pitkin', '08107': 'Routt' };
+  // regresses: the four largest surpluses measured on 2026-09-20, and Grand,
+  // which the active-stock form read as a surplus on 2026-10-20.
+  const named = { '08117': 'Summit', '08037': 'Eagle', '08097': 'Pitkin', '08107': 'Routt', '08049': 'Grand' };
   for (const [geoid, label] of Object.entries(named)) {
     const c = counties.find((x) => x.geoid === geoid);
     assert.ok(c, `${label} County (${geoid}) has left the dataset — this guard is checking less than it claims`);
     const r = productionNeed(c);
-    assert.ok(r.units > 0,
-      `${label} County publishes ${Math.round(r.units)} units of need — it was -${Math.abs(Math.round(c.needUnits - c.baseUnits))} before this fix and must not return to a surplus`);
+    assert.ok(r.units > 0, `${label} County publishes ${Math.round(r.units)} units of need`);
   }
 });

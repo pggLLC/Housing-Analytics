@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Build data/hna/workforce-need.json: homes for the people who work here.
 
-Replaces nothing yet. It sits beside the workforce reading the ranking index
-publishes (low-wage jobs located here less rental homes affordable at <=60% AMI,
-one job to one home), which methods.html §09 describes. That reading counts
+Its 25% scenario is the second part of the 20-year figure since 2026-10-20
+(build_ranking_index.py incommuter_need, and the HNA page): resident growth
+plus these homes. It replaced, in that figure, the workforce reading the
+ranking index still publishes for its gap score (low-wage jobs located here
+less rental homes affordable at <=60% AMI, one job to one home), which
+methods.html §09 describes. That reading counts
 jobs, not households, counts jobs already held by housed residents, and puts a
 present shortfall in the 20-year slot. This file builds the two quantities a
 practitioner HNA uses instead, from public data, and keeps them separate:

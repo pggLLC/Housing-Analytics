@@ -950,7 +950,9 @@
       row2('Renters severely burdened (50%+)', fmtPct(n.severeBurdenedPct)) +
       row2('Rental homes short at or below 30% / 50% / 60% AMI (each counts everyone below it)', fmtInt(n.gap30) + ' / ' + fmtInt(n.gap50) + ' / ' + fmtInt(n.gap60)) +
       row2('Low-wage local jobs; workers commuting in', fmtInt(n.lowWageJobs) + '; ' + fmtInt(n.inCommuters)) +
-      row2('Homes needed over 20 years', fmtInt(n.need20yr)) +
+      // Below zero is a surplus where projected households fall, said in words.
+      row2('Homes needed over 20 years', n.need20yr !== null && n.need20yr < 0
+        ? 'Surplus of ' + fmtInt(Math.abs(n.need20yr)) + ' (households projected to fall)' : fmtInt(n.need20yr)) +
       row2('Overall need score (0–100); statewide percentile', (n.overallNeedScore === null ? NA : n.overallNeedScore.toFixed(1)) + '; ' + (n.percentileRank === null ? NA : 'p' + Math.round(n.percentileRank))) +
       row2('Statewide rank', n.rank === null ? NA : '#' + fmtInt(n.rank) + (n.ranked ? ' of ' + fmtInt(n.ranked) : '')) +
       '</tbody></table>' +

@@ -11,9 +11,13 @@
 // The Recommendation quoted the same figure as "Roughly 2,302 additional
 // homes over 20 years" with nothing to say it was not a household forecast.
 //
+// Since 2026-10-20 the figure is resident growth plus homes for a quarter of
+// today's lower- and middle-wage in-commuters, or resident growth alone where
+// there is no in-commuter record; the jobs reading no longer sets it.
+//
 // Held as agreement with the data, not as wording:
 //   - the tile's declared basis equals the digest's future_units_reading, and
-//     a workforce figure equals the digest's workforce_gap_units;
+//     a figure with in-commuters is the digest's growth plus its in-commuters;
 //   - for every digest, the Recommendation's production basis equals
 //     future_units_reading.
 
@@ -105,16 +109,16 @@ async function renderTile(selection, countyFips) {
   const FRUITA = '0828745';
   const fruita = digest(FRUITA);
   const reading = fruita.metrics.future_units_reading.value;
-  const workforce = fruita.metrics.workforce_gap_units.value;
+  const growth = fruita.metrics.future_units_growth_20yr.value;
+  const incommuters = fruita.metrics.incommuter_need_units ? fruita.metrics.incommuter_need_units.value : null;
 
-  await test('the tile declares the digest\'s reading, and a workforce figure is the workforce gap', async () => {
+  await test('the tile declares the digest\'s reading, and its figure is growth plus in-commuters', async () => {
     const t = await renderTile({ geoType: 'place', geoid: FRUITA, label: 'Fruita', contextCounty: '08077',
       profile: { DP02_0001E: 5807, DP04_0001E: 6100, DP05_0001E: 14000 } }, '08077');
     assert.strictEqual(t.basis, reading, `tile declares ${t.basis}; the digest says ${reading}`);
-    if (reading === 'workforce') {
-      assert.strictEqual(t.value.replace(/,/g, ''), String(workforce),
-        `a workforce-based tile shows ${t.value}; the digest's workforce gap is ${workforce}`);
-    }
+    assert.strictEqual(reading, 'resident_growth_plus_incommuters', `Fruita reads ${reading}; this test expects its in-commuter record`);
+    assert(Math.abs(Number(t.value.replace(/,/g, '')) - (growth + incommuters)) <= 1,
+      `the tile shows ${t.value}; the digest's growth ${growth} plus in-commuters ${incommuters} is ${growth + incommuters}`);
     assert(t.label && t.label !== '—', 'the tile carries no basis label');
   });
 
@@ -128,14 +132,15 @@ async function renderTile(selection, countyFips) {
     const fn = src.match(/function unitsNeedBasisLabel\([\s\S]*?\n  \}/);
     assert(fn, 'unitsNeedBasisLabel() is gone; the subtitle has no single producer');
     const label = new Function(fn[0] + '; return unitsNeedBasisLabel;')();
-    const w = label('workforce', false);
-    const g = label('resident_growth', false);
-    const gp = label('resident_growth', true);
-    assert(w && g && gp && w !== g && w !== gp, `bases share a label: ${w} | ${g} | ${gp}`);
-    // Fruita reads resident growth since #2385 counted its own jobs, and its
-    // growth comes from the stored place projection when the ledger covers it.
+    const all = [
+      label('resident_growth_plus_incommuters', false), label('resident_growth_plus_incommuters', true),
+      label('resident_growth', false), label('resident_growth', true),
+    ];
+    assert(all.every(Boolean) && new Set(all).size === all.length, `bases share a label: ${all.join(' | ')}`);
+    assert.strictEqual(label('workforce', false), label(null, false), 'the retired jobs basis still gets a label of its own');
+    // Fruita's growth comes from the stored place projection when the ledger covers it.
     const placeLedger = JSON.parse(read('data/hna/projections/places.json')).places || {};
-    const usedPlace = rendered.basis === 'resident_growth' && Boolean(placeLedger[FRUITA]);
+    const usedPlace = Boolean(placeLedger[FRUITA]);
     assert.strictEqual(rendered.label, label(rendered.basis, usedPlace),
       'the rendered subtitle is not what unitsNeedBasisLabel gives for its declared basis');
   });
@@ -146,7 +151,7 @@ async function renderTile(selection, countyFips) {
   const files = fs.readdirSync(path.join(ROOT, DIGEST_DIR)).filter((f) => f.endsWith('.json'));
 
   await test('for every digest, the Recommendation\'s production basis is the digest\'s reading', () => {
-    const seen = { workforce: 0, resident_growth: 0 };
+    const seen = { resident_growth_plus_incommuters: 0, resident_growth: 0 };
     const wrong = [];
     for (const f of files) {
       const d = JSON.parse(read(`${DIGEST_DIR}/${f}`));
@@ -159,9 +164,40 @@ async function renderTile(selection, countyFips) {
       }
     }
     assert.deepStrictEqual(wrong.slice(0, 5), [], `${wrong.length} disagreements`);
-    // Non-vacuity on the scan: both readings occur and were checked.
-    assert(seen.workforce > 100 && seen.resident_growth > 10,
-      `checked ${seen.workforce} workforce and ${seen.resident_growth} resident-growth answers; too few to mean anything`);
+    // Non-vacuity on the scan. The few geographies with no in-commuter record
+    // give no production verdict today, so growth alone is held on Fruita's
+    // digest with its in-commuter part removed.
+    assert(seen.resident_growth_plus_incommuters > 300,
+      `checked ${seen.resident_growth_plus_incommuters} with-in-commuter answers; too few to mean anything`);
+    const alone = JSON.parse(JSON.stringify(fruita));
+    delete alone.metrics.incommuter_need_units;
+    alone.metrics.future_units_reading.value = 'resident_growth';
+    alone.metrics.future_units_needed_20yr.value = alone.metrics.future_units_growth_20yr.value;
+    const c = Contract.build({ digest: alone, generatedAt: 'x' }).conclusions.find((x) => x.id === 'production');
+    assert(c && c.verdict, 'growth alone gave no production verdict; this case checks nothing');
+    assert.strictEqual(c.basis, 'resident_growth', `growth alone reads as ${c.basis}`);
+    assert(!/in-commuter/i.test(c.plain), `growth alone still mentions in-commuters: "${c.plain}"`);
+  });
+
+  await test('a figure below zero is a surplus in words, never a minus sign', () => {
+    // Where projected households fall, growth is negative and so may be the
+    // total. "Roughly -1,030 additional homes" was the Recommendation for Las
+    // Animas County before this was held.
+    let surplus = 0;
+    const raw = [];
+    for (const f of files) {
+      const d = JSON.parse(read(`${DIGEST_DIR}/${f}`));
+      const fu = d.metrics.future_units_needed_20yr && d.metrics.future_units_needed_20yr.value;
+      const c = Contract.build({ digest: d, generatedAt: 'x' }).conclusions.find((x) => x.id === 'production');
+      if (!c || !c.verdict) continue;
+      if (/(^|[\s(:])[-\u2212]\d/.test(c.verdict + ' ' + c.plain)) raw.push(`${f}: ${c.verdict} | ${c.plain}`);
+      if (typeof fu === 'number' && fu < 0) {
+        surplus += 1;
+        if (!/surplus/i.test(c.verdict) || !/surplus/i.test(c.plain)) raw.push(`${f}: ${fu} is not called a surplus: ${c.plain}`);
+      }
+    }
+    assert(surplus >= 10, `only ${surplus} digests carry a figure below zero; too few to mean anything`);
+    assert.deepStrictEqual(raw.slice(0, 5), [], `${raw.length} answers print a minus sign or skip the word surplus`);
   });
 
   if (failures) { console.log(`\n${failures} failed`); process.exit(1); }
