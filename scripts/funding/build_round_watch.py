@@ -23,6 +23,9 @@ still looking for credits:
   sponsor applied in 2+ of the last 4 rounds              5
   Prop 123 land banking award                             5
 
+State money counts only for projects of 15+ homes (the smallest round
+application 2023-2026) that are not mobile home parks.
+
 High 50+, Medium 25-49, Watch 10-24. A project leaves the list once CHFA
 awards it credit, and while an application of its is still undecided.
 
@@ -73,6 +76,9 @@ POINTS = {'lost_last_same': 50, 'lost_older_same': 10, 'soft_fit': 25, 'soft_mis
           'lost_other': 10, 'sponsor': 5, 'land': 5}
 BANDS = [('High', 50), ('Medium', 25), ('Watch', 10)]
 BIG = 70        # homes; 70+ usually goes 4% with bonds (218 of 275 CHFA allocations 2019-2025)
+MIN_HOMES = 15  # the smallest round application 2023-2026; smaller state-funded projects are not tax credit deals
+# mobile home park purchases and preservation: none has ever applied for credits
+NOT_A_CREDIT_DEAL = re.compile(r'\b(mhp|mobile home|manufactured home)', re.I)
 SOFT_SKIP = {'Prop 123 homeownership (AHOP)'}   # for-sale homes; no tax credit
 LAND = 'Prop 123 Land Banking'
 UNDECIDED = {'pending', 'in_review', 'letter_of_intent', 'unresolved'}
@@ -156,10 +162,12 @@ def public_before(e, cutoff):
     return e['year'] < int(cutoff[:4])
 
 
-def score_round(D, target, cutoff, keep_all=False):
+def score_round(D, target, cutoff, keep_all=False, live=False):
     """Every project's points for round `target` as of `cutoff`. Returns
     {entity: {...}} for projects scoring 10 or more (every project with a
-    signal when keep_all, so a signal's rate is not limited to listed ones)."""
+    signal when keep_all, so a signal's rate is not limited to listed ones).
+    `live` scores the list for the next round: every event in the files is
+    public by now, including this year's awards."""
     credit = ROUND_CREDIT[target[1]]
     prior = [r for r in D.rounds if r < target]
     same = [r for r in prior if r[1] == target[1]]
@@ -180,7 +188,7 @@ def score_round(D, target, cutoff, keep_all=False):
             continue
         if apps and apps[-1]['outcome'] in UNDECIDED:
             continue
-        events = [e for e in (p['events'] if p else []) if public_before(e, cutoff)]
+        events = [e for e in (p['events'] if p else []) if live or public_before(e, cutoff)]
         if any(e['agency'] == 'CHFA' and e['stage'] in ('funded', 'under_construction') for e in events):
             continue
         signals = []
@@ -195,6 +203,8 @@ def score_round(D, target, cutoff, keep_all=False):
         units = (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
         soft = [e for e in events if e['agency'] != 'CHFA' and e['program'] not in SOFT_SKIP
                 and e['program'] != LAND and e['year'] >= cy - 1]
+        if units is not None and units < MIN_HOMES or NOT_A_CREDIT_DEAL.search(' '.join(D.names.get(key, ())) + ' ' + ((p or {}).get('name') or '')):
+            soft = []
         if soft:
             fits = units is not None and ((units >= BIG) == (credit == '4%'))
             signals.append({'kind': 'soft_fit' if fits else 'soft_misfit', 'events': soft, 'units': units})
@@ -261,7 +271,7 @@ def why(sig, credit, bt):
         text = 'CHFA did not fund it in %s%s.' % (a['round_label'], ' (it asked for %s)' % ask if ask else '')
         r = rate(bt, 'lost_last_same_' + credit) if k == 'lost_last_same' else rate(bt, k)
         if k == 'lost_last_same' and r:
-            text += ' %s %s deals turned down like this applied again the next year.' % (r, credit)
+            text += ' %s deals turned down in a %s round applied again the next year.' % (r, credit)
         elif k == 'lost_older_same' and r:
             text += ' It has not applied since; %s deals like this came back in a later round.' % r
         elif k == 'lost_other' and r:
@@ -346,16 +356,18 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=()):
     for rnd in (1, 2):
         target = next_round(D, rnd)
         credit = ROUND_CREDIT[rnd]
-        listed = score_round(D, target, as_of)
-        pending = [a for a in D.round_apps if a['round'] == rnd and a['outcome'] in UNDECIDED]
+        listed = score_round(D, target, as_of, live=True)
+        latest = max(r for r in D.rounds if r[1] == rnd)
+        pending = [a for a in D.round_apps if (a['year'], a['round']) == latest and a['outcome'] == 'pending']
         items = sorted((item(k, v, credit, bt, D) for k, v in listed.items()),
                        key=lambda i: (-i['score'], i['name'].lower()))
         rounds.append({
             'round': label(target), 'credit': credit,
             'applications_due': 'February' if rnd == 1 else 'August',
             'undecided_last_round': len(pending),
-            'note': ('%d applications from %s are still waiting on CHFA; each joins this list if it is not funded.'
-                     % (len(pending), pending[0]['round_label'])) if pending else None,
+            'note': ('%d %s from %s %s still waiting on CHFA; each joins this list if it is not funded.'
+                     % (len(pending), 'application' if len(pending) == 1 else 'applications', pending[0]['round_label'],
+                        'is' if len(pending) == 1 else 'are')) if pending else None,
             'counts': {b: sum(1 for i in items if i['band'] == b) for b, _ in BANDS},
             'items': items,
         })
@@ -376,7 +388,8 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=()):
                        'it suits the other round), not funded in the other round type 10, a sponsor that applied in '
                        '2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch '
                        '10-24. A project leaves the list once CHFA awards it credit or while its application is '
-                       'undecided. Homeownership (AHOP) awards are left out.'),
+                       'undecided. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks '
+                       'do not count as state-money signals: none has applied for credits.'),
             'points': POINTS, 'bands': dict(BANDS), 'big_project_homes': BIG,
             'limits': [
                 'Public records only: a deal with no earlier application or state award is invisible until it applies.',

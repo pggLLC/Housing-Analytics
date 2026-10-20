@@ -39,7 +39,20 @@
   .rw-detail a { display: inline-block; min-height: 24px; }
   .rw-quote { margin: .25rem 0 .25rem .5rem; padding-left: .6rem; border-left: 2px solid var(--border); color: var(--muted); font-size: .8rem; }
   details.dv-card > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
-  @media (max-width: 480px) { .rw-table { font-size: .82rem; } .rw-table th, .rw-table td { padding: .4rem .3rem; } }
+  /* Phones: each deal is a card, its details below it at full width */
+  @media (max-width: 640px) {
+    #roundWatch .rw-scroll { overflow-x: visible; }
+    #roundWatch .rw-table thead { display: none; }
+    #roundWatch .rw-table, #roundWatch .rw-table tbody, #roundWatch .rw-table tr, #roundWatch .rw-table td { display: block; width: 100%; box-sizing: border-box; }
+    #roundWatch .rw-row { border-top: 1px solid var(--border); padding-top: .5rem; }
+    #roundWatch .rw-row td { border: 0; padding: .1rem 0; text-align: left; }
+    #roundWatch .rw-row td.rw-num::before { content: 'Homes: '; color: var(--muted); }
+    #roundWatch .rw-row td:nth-child(4)::before { content: 'Sponsor: '; color: var(--muted); }
+    #roundWatch .rw-detail-row td { border: 0; padding: 0 0 .5rem; }
+    #roundWatch .rw-detail-row[hidden] { display: none; }
+    .rw-quote { overflow-wrap: anywhere; }
+  }
+  .rw-detail { overflow-wrap: anywhere; }
 </style>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
