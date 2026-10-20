@@ -3821,8 +3821,12 @@
         baseYear,
         countyFips5,
         selection,
-        window.HNAUtils.safeNum(placeProjectionRec?.shares?.blended)
+        window.HNAUtils.safeNum(placeProjectionRec?.shares?.blended),
+        function () { return reconSeq !== _reconSeq; }
       );
+      // A later render (another scenario or place) has started: it draws the
+      // chart, the disclosure and the export series, and announces itself.
+      if (reconSeq !== _reconSeq) return;
       window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, {
         customScenario: customScenario,
         households: householdSeriesForMode,
@@ -3984,8 +3988,11 @@
   // is this page's line exactly. A town or CDP takes the change at the share of
   // county growth this page gives it (the place ledger's blended share, else
   // its share of the county's people), summed over the same counties the
-  // Scenario Builder uses (CohortComponentModel.countiesFor).
-  async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, placeShare){
+  // Scenario Builder uses (CohortComponentModel.countiesFor). isStale, when
+  // given, says a later render has started: the files load before the line is
+  // worked out, so a load that finishes after the reader changed scenario or
+  // place writes nothing.
+  async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, placeShare, isStale){
     const rec = getScenarioBuilderRecord(selectedKey);
     const M = window.CohortComponentModel;
     if (!rec || !M || typeof M.changeFromSdo !== 'function' || !countyFips5 || !Array.isArray(popSel) || !popSel.length) {
@@ -4016,6 +4023,7 @@
         .then(function (b) { cache[fips] = b; return b; })
         .catch(function () { return null; });
     }));
+    if (isStale && isStale()) return null;
     if (!baselines.length || baselines.some(function (b) { return !b; })) {
       setCustomScenarioDisclosure({ unavailableReason: 'The State Demography Office forecast files the saved scenario runs on did not load, so its line is not drawn.' });
       return null;
