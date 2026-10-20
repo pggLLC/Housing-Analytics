@@ -18,7 +18,7 @@ still looking for credits:
   not funded in an older round of the same type          10
   DOLA or Prop 123 rental money in the last two calendar
     years, size suits this round (70+ homes = 4%)        25
-  the same, size suits the other round                   10
+  the same, size suits the other round (or not printed)  10
   not funded in the other round type                     10
   sponsor applied in 2+ of the last 4 rounds              5
   Prop 123 land banking award                             5
@@ -73,7 +73,7 @@ DEALS = os.path.join(ROOT, 'data', 'deals', 'index.json')
 OUT = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json')
 
 ROUND_CREDIT = {1: '9%', 2: '4%'}
-POINTS = {'lost_last_same': 50, 'lost_older_same': 10, 'soft_fit': 25, 'soft_misfit': 10,
+POINTS = {'lost_last_same': 50, 'lost_older_same': 10, 'soft_fit': 25, 'soft_misfit': 10, 'soft_size_unknown': 10,
           'lost_other': 10, 'sponsor': 5, 'land': 5}
 BANDS = [('High', 50), ('Medium', 25), ('Watch', 10)]
 BIG = 70        # homes; 70+ usually goes 4% with bonds (218 of 275 CHFA allocations 2019-2025)
@@ -232,8 +232,10 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
         if units is not None and units < MIN_HOMES or NOT_A_CREDIT_DEAL.search(' '.join(D.names.get(key, ())) + ' ' + ((p or {}).get('name') or '')):
             soft = []
         if soft:
-            fits = units is not None and ((units >= BIG) == (credit == '4%'))
-            signals.append({'kind': 'soft_fit' if fits else 'soft_misfit', 'events': soft, 'units': units})
+            # no printed size yet: it could suit either round, so it has its own rate
+            kind = ('soft_size_unknown' if units is None else
+                    'soft_fit' if (units >= BIG) == (credit == '4%') else 'soft_misfit')
+            signals.append({'kind': kind, 'events': soft, 'units': units})
         land = [e for e in events if e['program'] == LAND]
         if land:
             signals.append({'kind': 'land', 'events': land})
@@ -265,12 +267,12 @@ def backtest(D):
         rounds.append({'round': label(target), 'credit': ROUND_CREDIT[target[1]], 'as_of': cutoff,
                        'applicants': len(applied), 'caught': len(applied & set(listed)),
                        'below_list': len(applied & set(scored) - set(listed)),
-                       'no_record_before': len(applied - set(scored)), 'bands': bands})
+                       'no_sign_before': len(applied - set(scored)), 'bands': bands})
     totals = {b: {'listed': sum(r['bands'][b]['listed'] for r in rounds),
                   'applied': sum(r['bands'][b]['applied'] for r in rounds)} for b, _ in BANDS}
     return {'rounds': rounds, 'bands': totals,
             'applicants': sum(r['applicants'] for r in rounds), 'caught': sum(r['caught'] for r in rounds),
-            'below_list': sum(r['below_list'] for r in rounds), 'no_record_before': sum(r['no_record_before'] for r in rounds),
+            'below_list': sum(r['below_list'] for r in rounds), 'no_sign_before': sum(r['no_sign_before'] for r in rounds),
             'signals': {k: {'with_signal': v[0], 'applied': v[1]} for k, v in sorted(per_signal.items())}}
 
 
@@ -306,7 +308,7 @@ def why(sig, credit, bt):
             text += ' That was the other round type; %s deals like this applied in this one.' % r
         return {'kind': k, 'text': text, 'source_url': a['source_url'], 'quote': a['quote'],
                 'outcome_detail': a.get('outcome_detail')}
-    if k in ('soft_fit', 'soft_misfit'):
+    if k in ('soft_fit', 'soft_misfit', 'soft_size_unknown'):
         lines = []
         for e in sorted(sig['events'], key=lambda e: (e['year'], e['program'])):
             amt = money(e.get('amount'))
@@ -319,8 +321,9 @@ def why(sig, credit, bt):
         if k == 'soft_fit' and r:
             text += ' %s deals with recent state money and a size that suits this round applied in it.' % r
         elif k == 'soft_misfit':
-            text += ' At %s homes it suits the other round better%s.' % (sig['units'] or 'an unknown number of',
-                                                                        ' (%s deals like this applied here)' % r if r else '')
+            text += ' At %s homes it suits the other round better%s.' % (sig['units'], ' (%s deals like this applied here)' % r if r else '')
+        elif k == 'soft_size_unknown':
+            text += ' No public record prints its size yet, so it could suit either round%s.' % (' (%s deals like this applied here)' % r if r else '')
         return {'kind': k, 'text': text, 'sources': [{'url': l['source_url'], 'quote': l['quote']} for l in lines]}
     if k == 'land':
         e = min(sig['events'], key=lambda e: e['year'])
@@ -432,7 +435,7 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
                        'as every round from 2023 to 2026 was). Points for public evidence a project still needs '
                        'credits: not funded a year earlier in the same round type 50, in an older round of that '
                        'type 10, recent DOLA or Prop 123 rental money with a size that suits the round 25 (10 if '
-                       'it suits the other round), not funded in the other round type 10, a sponsor that applied in '
+                       'it suits the other round or its size is not printed yet), not funded in the other round type 10, a sponsor that applied in '
                        '2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch '
                        '10-24. A project leaves the list once CHFA awards it credit or while its application is '
                        'undecided. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks '

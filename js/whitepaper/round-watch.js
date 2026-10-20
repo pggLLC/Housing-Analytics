@@ -180,7 +180,7 @@
     return '<div class="rw-stats">' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(r1.counts.High) + '</div><div>High-likelihood deals for ' + esc(r1.round) + ' (' + esc(r1.credit) + '), applications due in ' + esc(r1.applications_due) + '.</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(pct(hi.applied, hi.listed)) + '</div><div>of past High picks applied (' + esc(hi.applied) + ' of ' + esc(hi.listed) + ', four rounds tested).</div></div>' +
-      '<div class="rw-stat"><div class="rw-stat-v">' + esc(bt.caught) + ' of ' + esc(bt.applicants) + '</div><div>past applicants were on the list before their round; ' + esc(bt.below_list) + ' had a weaker sign and ' + esc(bt.no_record_before) + ' no public record yet.</div></div>' +
+      '<div class="rw-stat"><div class="rw-stat-v">' + esc(bt.caught) + ' of ' + esc(bt.applicants) + '</div><div>past applicants were on the list before their round; ' + esc(bt.below_list) + ' had a weaker sign and ' + esc(bt.no_sign_before) + ' showed no sign we score.</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(undecided) + '</div><div>applications still waiting on CHFA; any not funded join the next list.</div></div>' +
       '</div>';
   }
@@ -195,6 +195,7 @@
       'lost_last_same_9%': 'Not funded a year earlier, 9% round', 'lost_last_same_4%': 'Not funded a year earlier, 4% round',
       lost_older_same: 'Not funded in an older round of the same type', lost_other: 'Not funded in the other round type',
       soft_fit: 'Recent state money, size suits the round', soft_misfit: 'Recent state money, size suits the other round',
+      soft_size_unknown: 'Recent state money, size not yet printed',
       sponsor: 'Sponsor applied in 2+ of the last 4 rounds', land: 'Prop 123 land banking award'
     };
     var sig = Object.keys(bt.signals).map(function (k) {

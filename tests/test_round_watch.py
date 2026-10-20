@@ -239,4 +239,12 @@ def test_backtest_splits_weak_signs_from_no_record():
     l['projects'].append(project('lot', 'Lot Deal', 'Longmont', 40, [land]))
     a['applications'].append(app('Lot Deal', 'Longmont', 2026, 1, 'pending'))
     r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
-    assert r['below_list'] == 1 and r['no_record_before'] == r['applicants'] - r['caught'] - 1
+    assert r['below_list'] == 1 and r['no_sign_before'] == r['applicants'] - r['caught'] - 1
+
+
+def test_unknown_size_is_its_own_signal():
+    a, l, e = base()
+    p = project('nosize', 'No Size Deal', 'Longmont', None, [dola('No Size Deal', '2026-06')])
+    l['projects'].append(p)
+    i = items(build(a, l, e), 1)['No Size Deal']
+    assert i['why'][0]['kind'] == 'soft_size_unknown' and 'could suit either round' in i['why'][0]['text']
