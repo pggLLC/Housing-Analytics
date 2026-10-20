@@ -236,6 +236,7 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
   const lehd = read('data/hna/place-lehd.json').places;
   const od = read('data/hna/place-od-flows.json');
   const odPlaces = od.places || od;
+  const odSameYear = String((od.meta || {}).year) === String(read('data/market/lodes_co.json').meta.vintage);
   const problems = [];
   for (const [geoid, p] of Object.entries(lehd)) {
     const l = p.lehd || {};
@@ -264,7 +265,9 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
     }
     // 2. A block count of zero jobs is a count, not a gap to fill with the
     //    tract estimate (Goldfield read 106 jobs against a block count of 0).
-    const b = odPlaces[geoid];
+    //    Only when the OD file and the wage mix are the same LODES year: on a
+    //    mismatch the builder keeps the same-year tract estimate on purpose.
+    const b = odSameYear ? odPlaces[geoid] : null;
     if (b && b.jobs === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
       problems.push(`${p.name}: block count is 0 jobs but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
     }
