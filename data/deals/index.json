@@ -1,0 +1,61 @@
+{
+ "meta": {
+  "title": "Deal summaries",
+  "generator": "scripts/deals/build_deal_summaries.py",
+  "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
+  "count": 3
+ },
+ "deals": [
+  {
+   "slug": "ascent-at-salt-flats-grand-junction",
+   "name": "Ascent at Salt Flats",
+   "city": "Grand Junction",
+   "county": "Mesa",
+   "award": "2025 Federal 4% housing tax credit with noncompetitive state credit",
+   "year": 2025,
+   "units": 144,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Ascent at Salt Flats"
+    ]
+   }
+  },
+  {
+   "slug": "flocrit-decatur-place-denver",
+   "name": "FloCrit at Decatur Place",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2026 Federal 4% housing tax credit (rolling list)",
+   "year": 2026,
+   "units": 106,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "FloCrit at Decatur Place"
+    ]
+   }
+  },
+  {
+   "slug": "reserve-at-south-creek-englewood",
+   "name": "Reserve at South Creek",
+   "city": "Englewood (mailing address); unincorporated Arapahoe County (Dove Valley)",
+   "county": "Arapahoe",
+   "award": "2026 Federal 4% housing tax credit (rolling list)",
+   "year": 2026,
+   "units": 166,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "Reserve at South Creek"
+    ]
+   }
+  }
+ ]
+}

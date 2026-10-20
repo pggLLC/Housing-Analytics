@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Deal Summaries | COHO Analytics</title>
+  <meta name="description" content="One sourced summary per Colorado housing tax credit award: homes, who they serve, the public money, the land deal, dates and what is still open, from public records.">
+  <meta property="og:title" content="Deal Summaries | COHO Analytics">
+  <meta property="og:description" content="Sourced summaries of Colorado housing tax credit awards, built from CHFA, state and local public records.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/deal-summary.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/deal-summary.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <article class="article-wrap" data-deal-summary>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page" data-ds-crumb>Deal summaries</span>
+      </nav>
+      <div data-ds-view><p>Loading the deal summary…</p></div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+<!-- Sortable headers and header definitions on every table (paul, 2026-10-18). -->
+<script defer src="js/components/table-header-tips.js"></script>
+<script defer src="js/components/table-sort.js"></script>
+</body>
+</html>

@@ -30,6 +30,22 @@
     boundaries: 'data/boundaries/counties_co.geojson',
     regions: 'data/derived/funding-vs-need.json',
   };
+  // Hand-researched deal summaries (deal-summary.html); each lists the award rows it covers.
+  var DEAL_INDEX = 'data/deals/index.json';
+  function normName(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+  // A CHFA award row matches a summary on agency, year and name; the ledger can cut long names
+  // short ("Greenbriar Apartments (scattered"), so a name that starts the other also matches.
+  function dealFor(a) {
+    var n = normName(a.name);
+    if (!n || !data.deals) return null;
+    for (var i = 0; i < data.deals.length; i++) {
+      var m = data.deals[i].match || {};
+      if (m.agency !== a.agency || (m.year && m.year !== a.year)) continue;
+      var hit = (m.names || []).some(function (x) { var k = normName(x); return k === n || (n.length >= 12 && k.indexOf(n) === 0) || (k.length >= 12 && n.indexOf(k) === 0); });
+      if (hit) return data.deals[i];
+    }
+    return null;
+  }
   // One hue, light to dark, so the order reads without colour vision.
   var RAMP = ['#e8f3f1', '#c3e1dc', '#8fc6bd', '#4fa597', '#1f7f72', '#0b5a50'];
   var NONE = '#eef0f3';
@@ -566,7 +582,9 @@
         var quote = a.quote ? '<blockquote class="hm-quote">' + esc(a.quote) + '</blockquote>' : '';
         var line2 = [a.agency + ' ' + shortProgram(a.program), a.yearLabel, where,
           state.groupBy !== 'developer' ? (a.developer ? (a.developerRole === 'owner' ? 'owner: ' : '') + a.developer : 'developer not printed') : null].filter(Boolean).join(' · ');
-        return '<tr class="hm-award"><td colspan="3"><div class="hm-award-top"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
+        var deal = dealFor(a);
+        var dealLink = deal ? ' <a class="hm-deal-link" href="deal-summary.html?d=' + esc(deal.slug) + '">Deal summary</a>' : '';
+        return '<tr class="hm-award"><td colspan="3"><div class="hm-award-top"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' + dealLink +
           '<span class="hm-award-amt">' + esc(awardMoneyText(a)) + (a.homes !== null ? ' · ' + esc(count(a.homes)) + ' homes' : '') + '</span></div>' +
           '<div class="hm-muted">' + esc(line2) + tags + '</div>' +
           '<div class="hm-muted">Source: ' + src + (a.sourceChecked ? (a.sourceDated ? ' (dated ' : ' (read ') + esc(String(a.sourceChecked).slice(0, 10)) + ')' : '') + '</div>' + quote + '</td></tr>';
@@ -828,6 +846,8 @@
     var tag = { 3: 'h3', 4: 'h4', 5: 'h5' }[root.getAttribute('data-agency-funding-level')];
     if (view) view.innerHTML = tag ? MARKUP.replace(/<(\/?)h2\b/g, function (m, slash) { return '<' + slash + tag; }) : MARKUP;
     var keys = Object.keys(FILES);
+    // Deal summaries are optional: if the index fails to load, award rows simply carry no link.
+    fetchJson(DEAL_INDEX).then(function (idx) { data.deals = (idx && idx.deals) || []; if (data.awards.length) render(); }).catch(function () { data.deals = []; });
     Promise.all(keys.map(function (k) { return fetchJson(FILES[k]); })).then(function (docs) {
       var d = {};
       keys.forEach(function (k, i) { d[k] = docs[i]; });

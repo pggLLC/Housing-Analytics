@@ -1,0 +1,34 @@
+/* deal-summary.css: deal-summary.html (js/deal-summary.js). */
+.ds-head h1 { margin: var(--sp2) 0 var(--sp2); }
+.ds-kicker { font-size: var(--small); color: var(--muted); margin: var(--sp3) 0 0; }
+.ds-headline { max-width: 760px; font-size: 1.05rem; line-height: 1.55; margin: 0 0 var(--sp3); }
+.ds-status { max-width: 760px; background: var(--warn-dim); border-left: 4px solid var(--warn); border-radius: var(--radius-sm); padding: var(--sp2) var(--sp3); line-height: 1.5; }
+.ds-keys { list-style: none; padding: 0; margin: var(--sp3) 0; display: grid; gap: var(--sp2); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.ds-key { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: var(--sp3); display: flex; flex-direction: column; gap: 6px; }
+.ds-key-value { font-size: 1.15rem; font-weight: 700; color: var(--text-strong); line-height: 1.25; }
+.ds-key-meaning { font-size: var(--small); line-height: 1.45; color: var(--text); }
+.ds-why, .ds-next { max-width: 760px; line-height: 1.55; margin: var(--sp2) 0; }
+.ds-actions { margin: var(--sp3) 0; display: flex; flex-wrap: wrap; gap: var(--sp3); align-items: center; }
+.ds-print { min-height: 44px; padding: 8px 16px; border: 1px solid var(--accent); border-radius: var(--radius-sm); background: var(--accent); color: var(--on-accent); font: inherit; cursor: pointer; }
+.ds-fold { border-top: 1px solid var(--border); padding: var(--sp2) 0; }
+.ds-fold > summary { cursor: pointer; list-style: revert; min-height: 44px; display: list-item; }
+.ds-fold > summary h2 { display: inline; font-size: 1.15rem; margin: 0; }
+.ds-fold-body { padding: var(--sp2) 0; }
+.ds-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ds-table { border-collapse: collapse; width: 100%; font-size: var(--small); }
+.ds-table th, .ds-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.ds-table th.num, .ds-table td.num { text-align: right; white-space: nowrap; }
+.ds-table .ds-total td { font-weight: 700; }
+.ds-nowrap { white-space: nowrap; }
+.ds-bar { display: inline-block; height: 10px; background: var(--accent); border-radius: 0 4px 4px 0; margin-right: 8px; vertical-align: middle; max-width: 60%; }
+.ds-list { padding-left: 1.2em; line-height: 1.55; max-width: 820px; }
+.ds-list li { margin: 0 0 6px; }
+.ds-sources { padding-left: 1.6em; line-height: 1.5; font-size: var(--small); overflow-wrap: anywhere; }
+.ds-cite { font-size: var(--tiny); margin-left: 2px; text-decoration: none; white-space: nowrap; }
+.ds-muted { font-size: var(--small); color: var(--muted); }
+@media print {
+  #site-header, #site-footer, .breadcrumb, .ds-actions, .skip-link { display: none !important; }
+  .ds-fold > summary { list-style: none; }
+  .ds-scroll { overflow: visible; }
+  a { color: inherit; }
+}

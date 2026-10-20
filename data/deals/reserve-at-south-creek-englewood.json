@@ -1,0 +1,557 @@
+{
+ "slug": "reserve-at-south-creek-englewood",
+ "name": "Reserve at South Creek",
+ "city": "Englewood (mailing address); unincorporated Arapahoe County (Dove Valley)",
+ "county": "Arapahoe",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "April Housing (Blackstone) plans to resyndicate and rehab Reserve at South Creek, a 168-unit 2001 family complex in unincorporated Arapahoe County (Dove Valley), turning 99 market-rate units affordable so that 166 of 168 are income-restricted at 60% AMI; it is on CHFA's 2026 Federal 4% award list.",
+ "why_it_matters": "It is a template for using a county housing authority special limited partnership (for a property tax exemption) plus county bond cap to convert market-rate units in an expiring tax credit property to permanent affordability, at no county cash cost.",
+ "status": {
+  "label": "Credits awarded; closing and rehab start not confirmed",
+  "detail": "CHFA lists the award (subject to change), Arapahoe County assigned $7,005,092 of its 2026 bond cap to CHFA for the deal (RES 26-075, RES 26-193), and the county board approved intent to form a housing authority special limited partnership (RES 26-034). Final partnership terms were to come back to the housing authority board later; I found no closing or construction record.",
+  "src": [
+   "chfa-4pct-award",
+   "arap-res26-034-bsr",
+   "arap-res26-075-bsr",
+   "arap-res26-193-bsr",
+   "arap-api-5060",
+   "arap-api-5112",
+   "arap-api-5325"
+  ]
+ },
+ "next_step": "Watch Arapahoe County Housing Authority (Board of County Commissioners) agendas for the definitive special limited partnership agreements, which staff said would come back before closing.",
+ "key_numbers": [
+  {
+   "value": "168 homes, 166 income-restricted",
+   "meaning": "Today 69 are restricted and 99 are market rate; after the deal all 166 restricted units are at 60% AMI.",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "value": "$2,919,135 a year in federal 4% credit",
+   "meaning": "About $29.2M over 10 years; CHFA marks it subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$21,029,987 in CHFA bonds",
+   "meaning": "$7,005,092 of it is Arapahoe County's 2026 bond cap, assigned to CHFA; the rest is presumably CHFA/statewide cap (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "arap-res26-193-res"
+   ]
+  },
+  {
+   "value": "About $85M total development cost",
+   "meaning": "April Housing's January 2026 estimate, about $506,000 per unit (my calculation).",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "15611 E Jamison Drive, Englewood 80112 (CHFA and county bond reports); some county documents print 14611 E. Jamison Drive",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb",
+    "arap-res26-034-bsr",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "item": "Jurisdiction",
+   "value": "Unincorporated Arapahoe County, in the Dove Valley Census Designated Place. Not in the City of Englewood or the City of Centennial; Englewood (CHFA) and Centennial (county resolution) are mailing names.",
+   "src": [
+    "census-geocoder",
+    "arap-pab-bsr-feb",
+    "arap-res26-034-res"
+   ]
+  },
+  {
+   "item": "Census tract",
+   "value": "08005006863 (tract 68.63); CHFA: not a QCT, not a DDA or SADDA",
+   "src": [
+    "census-geocoder",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Resident type",
+   "value": "Family (CHFA); county staff report lists families, seniors, veterans, disabled",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "item": "Construction type",
+   "value": "Acquisition/Rehabilitation (county: conversion and rehabilitation, resyndication)",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "7 three-story residential buildings plus 1 community building; built 2001",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "168 total, 166 income-restricted (CHFA); county: 48 one-bedroom, 72 two-bedroom, 48 three-bedroom",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "item": "Current restriction",
+   "value": "69 units at 60% AMI under a LURA that expires in 2030; 99 market rate",
+   "src": [
+    "arap-archa-presentation",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "No (CHFA)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Property manager",
+   "value": "Cirrus Property Management",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "item": "School district",
+   "value": "Cherry Creek School District 5",
+   "src": [
+    "census-geocoder"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 166
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 72
+  },
+  {
+   "type": "3BR",
+   "units": 46
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,919,135 per year",
+   "note": "Subject to change. No state credit listed.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$21,029,987",
+   "note": "County staff earlier said the project needed $23,500,000 of bond cap.",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "source": "Arapahoe County 2026 bond cap assigned to CHFA",
+   "amount": "$7,005,092",
+   "note": "$4,005,092 assigned 2026-03-31 (RES 26-075); raised to $7,005,092 on 2026-08-11 (RES 26-193) after $3,000,000 freed up when another project switched to a different credit program.",
+   "src": [
+    "arap-res26-075-bsr",
+    "arap-res26-075-res",
+    "arap-res26-193-bsr",
+    "arap-res26-193-res",
+    "arap-pab-bsr-jul",
+    "arap-api-5112",
+    "arap-api-5325"
+   ]
+  },
+  {
+   "source": "Property tax exemption via Arapahoe County Housing Authority special limited partnership",
+   "amount": "Not stated",
+   "note": "April Housing proposed paying ArCHA either about $225,000 upfront plus a 40% residual share (about $173,000 in year 18), or $25,000 upfront plus $25,000 a year rising 3% (described as 13% of the 2024 tax bill) plus residual (about $187,000). Which option was chosen is not public.",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "source": "Total development cost (estimate)",
+   "amount": "About $85,000,000",
+   "note": "April Housing presentation, January 2026.",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "April Housing",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Current owner",
+   "name": "April Housing lists the property in its own Arapahoe County portfolio (with Centennial East I and II); April Housing describes itself as a wholly owned Blackstone portfolio company",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "role": "Special limited partner (planned)",
+   "name": "Arapahoe County Housing Authority (ArCHA), governed by the Board of County Commissioners",
+   "src": [
+    "arap-res26-034-bsr",
+    "arap-archa-bsr"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "arap-res26-075-res"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Cirrus Property Management",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "This is a resyndication: the property was built in 2001 with 69 units restricted at 60% AMI and 99 market-rate units; its LURA expires in 2030, and April Housing marked it 'resyndication eligible' in 2026.",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "text": "April Housing presented the special limited partnership to the county commissioners sitting as the ArCHA board at the 2026 ArCHA annual meeting (study session, 2026-01-12).",
+   "src": [
+    "arap-archa-bsr",
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "text": "On 2026-02-03 the Board of County Commissioners passed RES 26-034, approving intent to form a special limited partnership between ArCHA and April Housing for the project; staff said final terms would come back to the ArCHA board later.",
+   "src": [
+    "arap-res26-034-bsr",
+    "arap-res26-034-res",
+    "arap-api-5060"
+   ]
+  },
+  {
+   "text": "Planned rehab (12 to 16 months): unit upgrades (appliances, countertops, cabinets, lighting, HVAC, flooring), sitework (security, landscaping, paving, amenity and accessibility upgrades) and exterior work (finishes, doors, lighting, roofing).",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "text": "Arapahoe County received 7 applications for its 2026 bond cap; staff ranked Reserve at South Creek first, citing Prop 123-eligible units at 60% AMI and the planned ArCHA partnership.",
+   "src": [
+    "arap-pab-bsr-feb",
+    "arap-res26-075-bsr"
+   ]
+  },
+  {
+   "text": "The county's news release says 69 homes will be preserved and 99 market-rate homes converted for households under 60% AMI, 'protecting affordability for the long term.'",
+   "src": [
+    "arap-news-partnerships",
+    "arap-news-sotc"
+   ]
+  },
+  {
+   "text": "Prior sale history: April Housing already owns the property, so the acquisition is most likely a related-party sale into a new tax credit partnership; no price is public (inferred).",
+   "src": [
+    "arap-archa-presentation",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Arapahoe County 2026 limits (CHFA, HUD effective 2026-05-01): 60% AMI income limit is $60,480 for 1 person and $86,400 for 4; max rent $1,620 (1BR), $1,944 (2BR), $2,247 (3BR).",
+   "src": [
+    "chfa-limits"
+   ]
+  },
+  {
+   "text": "A Denver7 preview (about January 2026) quoted April Housing's head of preservation on 'longer term affordability' and said the company would apply to the state for tax credits and bonds, with a timeline that 'could be as fast as the end of the year.'",
+   "src": [
+    "denver7-preview"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2001",
+   "event": "Built (69 restricted units, 99 market rate)",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "date": "2026-01-12",
+   "event": "April Housing presents the partnership at the ArCHA annual meeting (BOCC study session)",
+   "src": [
+    "arap-archa-bsr",
+    "arap-archa-presentation"
+   ]
+  },
+  {
+   "date": "2026-02-03",
+   "event": "BOCC passes RES 26-034: intent to form ArCHA special limited partnership with April Housing",
+   "src": [
+    "arap-api-5060",
+    "arap-res26-034-bsr"
+   ]
+  },
+  {
+   "date": "2026-02-17",
+   "event": "County staff recommend $4,005,092 of 2026 bond cap for the project (study session)",
+   "src": [
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "date": "2026-03-31",
+   "event": "BOCC passes RES 26-075 assigning $4,005,092 of county bond cap to CHFA for the project",
+   "src": [
+    "arap-api-5112",
+    "arap-res26-075-bsr",
+    "arap-res26-075-res"
+   ]
+  },
+  {
+   "date": "2026-07-28",
+   "event": "Staff recommend raising the county cap for the project to $7,005,092 (study session)",
+   "src": [
+    "arap-pab-bsr-jul"
+   ]
+  },
+  {
+   "date": "2026-08-11",
+   "event": "BOCC passes RES 26-193 assigning $7,005,092 of county bond cap to CHFA for the project",
+   "src": [
+    "arap-api-5325",
+    "arap-res26-193-bsr",
+    "arap-res26-193-res"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2030",
+   "event": "Current LURA on the 69 restricted units would expire",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Property photos (pool, fitness room, kitchen, living room)",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/7b2c8a2a-c3a9-4795-b63e-28823c591510.pdf",
+   "kind": "photo",
+   "made_by": "April Housing (presentation in Arapahoe County packet)",
+   "note": "PDF page 18; 1- and 2-bedroom floor plans on page 19; property summary on page 17",
+   "src": [
+    "arap-archa-presentation"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "Address: CHFA, the county bond reports and CHFA's LIHTC list say 15611 E Jamison Drive (Census geocodes it), while April Housing's presentation and the RES 26-034 staff report and resolution say 14611 E. Jamison Drive; 15611 looks right and 14611 a typo (inferred).",
+  "City: CHFA prints Englewood and RES 26-034 says 'Centennial, Colorado in unincorporated Arapahoe County'; county bond reports and the Census put it in unincorporated Arapahoe County (Dove Valley CDP), so both city names are mailing names only.",
+  "Bedroom mix as relayed in the task brief (Studio 48, 1BR 72, 2BR 46) is off by one column: CHFA's table reads Studio 0, 1BR 48, 2BR 72, 3BR 46, which matches the county (48/72/48 for all 168 units) if the 2 unrestricted units are three-bedrooms (inferred, e.g. staff units).",
+  "Bond cap: county staff said the project needs $23,500,000 of bond cap; CHFA lists $21,029,987 of PAB.",
+  "Meeting date: a Denver7 preview said the housing authority would decide on January 27, but county records show the presentation on 2026-01-12 and the vote (RES 26-034) on 2026-02-03.",
+  "County 2026 bond cap total: the 2026-03-31 staff report says $8,233,226; the draft resolution says $8,223,226."
+ ],
+ "open_questions": [
+  "Which ArCHA fee option was chosen and the final partnership terms; length of the new affordability covenant.",
+  "Prior acquisition by Blackstone/April Housing (date and price) and the related-party sale price into the new partnership.",
+  "Equity investor and price, bond buyer or lender, GC, rehab cost per unit, relocation plan for current market-rate tenants who may not income-qualify.",
+  "Source of the remaining roughly $14.0M of bond cap beyond the county's $7,005,092."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "census-geocoder",
+   "title": "Census Geocoder result for 15611 E Jamison Dr, Englewood, CO 80112",
+   "publisher": "U.S. Census Bureau",
+   "date": "2026-10-20",
+   "url": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=15611+E+Jamison+Dr%2C+Englewood%2C+CO+80112&benchmark=Public_AR_Current&vintage=Current_Current&layers=all&format=json"
+  },
+  {
+   "id": "arap-archa-bsr",
+   "title": "Board Summary Report, File 26-011: 2026 Arapahoe County Housing Authority Annual Meeting",
+   "publisher": "Arapahoe County",
+   "date": "2026-01-12",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/a477a5a9-062f-4b38-94f1-5be4c375431e.pdf"
+  },
+  {
+   "id": "arap-archa-presentation",
+   "title": "ArCHA annual meeting presentation, incl. April Housing 'Special Liability Partnership Presentation: Reserve at South Creek' (January 2026)",
+   "publisher": "Arapahoe County (packet for File 26-011)",
+   "date": "2026-01-12",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/7b2c8a2a-c3a9-4795-b63e-28823c591510.pdf"
+  },
+  {
+   "id": "arap-res26-034-bsr",
+   "title": "Board Summary Report, File 26-071: Approval of Intent to Enter into a Special Limited Liability Partnership with April Housing for the Reserve at South Creek Project",
+   "publisher": "Arapahoe County",
+   "date": "2026-02-03",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/214b40fa-52c7-4a77-883a-ca8357435d15.pdf"
+  },
+  {
+   "id": "arap-res26-034-res",
+   "title": "Draft resolution, File 26-071 (RES 26-034)",
+   "publisher": "Arapahoe County",
+   "date": "2026-02-03",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/9f666717-5061-4209-82f3-be09ae3bcb73.docx"
+  },
+  {
+   "id": "arap-api-5060",
+   "title": "Legistar record, File 26-071: status Passed 2026-02-03, RES 26-034",
+   "publisher": "Arapahoe County (Legistar)",
+   "date": "2026-02-03",
+   "url": "https://webapi.legistar.com/v1/arapahoe/matters/5060"
+  },
+  {
+   "id": "arap-pab-bsr-feb",
+   "title": "Board Summary Report, File 26-097: 2026 Private Activity Bonds (study session)",
+   "publisher": "Arapahoe County",
+   "date": "2026-02-17",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/f308b557-af1a-416e-ad40-edec7b84e959.pdf"
+  },
+  {
+   "id": "arap-res26-075-bsr",
+   "title": "Board Summary Report, File 26-123: 2026 Private Activity Bond (PAB) Allocation",
+   "publisher": "Arapahoe County",
+   "date": "2026-03-31",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/3c14f947-a5e7-47cd-952d-8f76fe52ad98.pdf"
+  },
+  {
+   "id": "arap-res26-075-res",
+   "title": "Draft resolution, File 26-123 (RES 26-075): assignment of 2026 PAB to CHFA and SMHO",
+   "publisher": "Arapahoe County",
+   "date": "2026-03-31",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/cd752846-e1b9-4253-a3f7-a5cfe2fcaa4d.docx"
+  },
+  {
+   "id": "arap-api-5112",
+   "title": "Legistar record, File 26-123: status Passed 2026-03-31, RES 26-075",
+   "publisher": "Arapahoe County (Legistar)",
+   "date": "2026-03-31",
+   "url": "https://webapi.legistar.com/v1/arapahoe/matters/5112"
+  },
+  {
+   "id": "arap-pab-bsr-jul",
+   "title": "Board Summary Report, File 26-369: 2026 Private Activity Bonds (PAB) Re-Adjusted Allocation (study session)",
+   "publisher": "Arapahoe County",
+   "date": "2026-07-28",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/15404763-fa04-45da-aa8b-8a0baf3b9183.pdf"
+  },
+  {
+   "id": "arap-res26-193-bsr",
+   "title": "Board Summary Report, File 26-336: 2026 Private Activity Bonds (PAB) Re-Adjusted Allocation",
+   "publisher": "Arapahoe County",
+   "date": "2026-08-11",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/a232e423-6a1a-47c6-b0e9-891a1030b744.pdf"
+  },
+  {
+   "id": "arap-res26-193-res",
+   "title": "Draft resolution, File 26-336 (RES 26-193): assignment of $7,005,092 of 2026 PAB to CHFA for Reserve at South Creek",
+   "publisher": "Arapahoe County",
+   "date": "2026-08-11",
+   "url": "https://arapahoe.legistar1.com/arapahoe/attachments/00ccc604-98fb-4f58-abff-497164f1d213.docx"
+  },
+  {
+   "id": "arap-api-5325",
+   "title": "Legistar record, File 26-336: status Passed 2026-08-11, RES 26-193",
+   "publisher": "Arapahoe County (Legistar)",
+   "date": "2026-08-11",
+   "url": "https://webapi.legistar.com/v1/arapahoe/matters/5325"
+  },
+  {
+   "id": "arap-news-partnerships",
+   "title": "Arapahoe continues to invest in the County by advancing affordable housing through strategic partnerships",
+   "publisher": "Arapahoe County",
+   "date": "2026",
+   "url": "https://www.arapahoeco.gov/news_detail_T13_R1344.php"
+  },
+  {
+   "id": "arap-news-sotc",
+   "title": "Arapahoe County Board of County Commissioners Highlights a Year of Progress at 2026 State of the County",
+   "publisher": "Arapahoe County",
+   "date": "2026",
+   "url": "https://www.arapahoeco.gov/news_detail_T13_R1546.php"
+  },
+  {
+   "id": "denver7-preview",
+   "title": "Proposal would safeguard current affordable housing in Arapahoe County",
+   "publisher": "Denver7",
+   "date": "2026-01",
+   "url": "https://www.denver7.com/news/local-news/arapahoe-county-mulls-proposal-that-would-safeguard-current-affordable-housing"
+  },
+  {
+   "id": "chfa-lihtc-list",
+   "title": "LIHTC Property List",
+   "publisher": "CHFA",
+   "date": "2026-09-01",
+   "url": "https://www.chfainfo.com/getmedia/f67935e1-9eea-460e-a2bd-1722498222ea/LIHTCPropertyList.pdf"
+  },
+  {
+   "id": "chfa-limits",
+   "title": "2026 Income Limit and Maximum Rent Tables for All Colorado Counties",
+   "publisher": "CHFA",
+   "date": "2026-05-01",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  }
+ ]
+}
