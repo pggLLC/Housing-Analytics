@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20T10:24:41.176526Z",
+  "generated": "2026-10-20T10:35:24.576872Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7864,7 +7864,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774736
+      "bytes": 774479
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -7997,9 +7997,9 @@
       "bytes": 3208
     },
     "data/market/zori_rents_co.json": {
-      "featureCount": 35,
+      "featureCount": 33,
       "placeholder": false,
-      "bytes": 25688
+      "bytes": 24922
     },
     "data/metadata/rent_burden_sources.json": {
       "featureCount": 0,
