@@ -159,6 +159,7 @@
     "      <li><strong>Per resident</strong> divides by county population from the Census Bureau\'s American Community Survey, 2020-2024 five-year estimates (<code>data/co-county-demographics.json</code>). Small counties swing hard: one large award in a county of 15,000 people reads as a big number per resident.</li>",
     "      <li><strong>Years:</strong> CHFA awards are by award year; Prop 123 awards by the fiscal year they were made in (FY24-25 counts as 2024).</li>",
     "      <li><strong>Developers</strong> are the sponsor, developer, borrower or grantee each list prints. Where a CHFA report prints only an owner column (\"Owner Name\" or \"Ownership\", 2016 to 2023), the owner is used and tagged \"owner as printed\": for some projects that is a partnership formed for the one project, not the developer behind it. Spelling variants of one organisation are merged (for example \"Gorman &amp; Company, LLC\" and \"Gorman &amp; Company\"); an award whose list prints no sponsor is grouped as \"Not named on the award list\". Six Prop 123 modular awards print no location and are listed but not mapped.</li>",
+    "      <li><strong>Deal summaries</strong> are researched by hand from CHFA, state and local public records, one award at a time, with every figure citing its source (<code>data/deals/index.json</code>). A row links to its summary when one exists; more are added in batches.</li>",
     "      <li>This page is a public-data reference, not legal or financial advice. Confirm current awards with the agency.</li>",
     "    </ul>",
     "  </div>",
