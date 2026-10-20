@@ -261,10 +261,13 @@ async function main() {
   assert(/rise in homes needed from today/.test(document.getElementById('needNote').textContent), 'a place-ledger note should say it is the rise from today');
   assert(!document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a place-ledger note must not claim it subtracted the housing stock');
 
-  // A county computed on the page does subtract the stock, and says so.
+  // A county computed on the page is the same rise from today since
+  // 2026-10-20: no stock count enters it, and the note must not claim one did.
   const washington = { geoType: 'county', geoid: '08121', label: 'Washington County', contextCounty: '08121', profile: { DP02_0001E: 2100, DP04_0001E: 2400, DP05_0001E: 4800 } };
   await applyFixture(washington);
-  assert(document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a county note computed against the stock should say so: ' + document.getElementById('needNote').textContent);
+  const countyNote = document.getElementById('needNote').textContent;
+  assert(/rise in homes needed from today/.test(countyNote), 'a county note should say it is the rise from today: ' + countyNote);
+  assert(!countyNote.includes('after subtracting the current housing stock'), 'a county note must not claim it subtracted the housing stock: ' + countyNote);
 
   console.log('HNA surplus semantics tests passed');
 }

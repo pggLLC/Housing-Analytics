@@ -278,16 +278,17 @@
     ], function (items) {
       var future = num(items[0].value);
       var gap = num(items[1].value);
-      // Which reading produced the 20-year figure. For most jurisdictions it
-      // is the workforce reading (jobs against homes affordable to the people
-      // doing them), which the digest has carried under a DOLA source id; the
-      // sentence says what the number counts rather than inheriting that.
+      // What the 20-year figure counts: projected resident growth, plus homes
+      // for a quarter of today's lower- and middle-wage in-commuters where the
+      // in-commuter figure exists. The sentence names both parts rather than
+      // inheriting the digest's DOLA source id.
       var reading = metrics.future_units_reading ? metrics.future_units_reading.value : null;
       var growth = metrics.future_units_growth_20yr ? num(metrics.future_units_growth_20yr.value) : null;
+      var incommuters = metrics.incommuter_need_units ? num(metrics.incommuter_need_units.value) : null;
       var how = '';
-      if (future !== null && reading === 'workforce') {
-        how = ', read from jobs: more lower-wage workers are employed here than there are homes they can afford'
-          + (growth === null ? '' : ' (resident growth alone would need about ' + growth.toLocaleString('en-US') + ')');
+      if (future !== null && reading === 'resident_growth_plus_incommuters' && growth !== null && incommuters !== null) {
+        how = ': ' + growth.toLocaleString('en-US') + ' for projected resident growth, plus '
+          + incommuters.toLocaleString('en-US') + ' for a quarter of today\u2019s lower- and middle-wage in-commuters if they moved closer';
       } else if (future !== null && reading === 'resident_growth') {
         how = ', from projected resident growth';
       }

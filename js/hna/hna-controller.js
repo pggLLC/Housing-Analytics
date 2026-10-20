@@ -2558,11 +2558,12 @@
       const pace = `Production vs need: recent permitting of ${fmt(avg.value)} units/yr `
         + `(Census BPS ${avg.window}; ${fmt(sf.value || 0)} single-family / ${fmt(mf.value || 0)} multifamily) `
         + `${coverage} the ${fmt(annualNeed)} units/yr needed to reach `;
-      if (basis === 'workforce') {
-        // The need here is the workforce reading, not a growth projection.
-        // This note used to call it "growth-driven need only" whatever won.
-        setNote(pace + `the ${endYear} figure, which is the workforce reading (jobs against homes affordable at \u226460% AMI), not projected growth. `
-          + `Permits of any price count toward the pace; the workforce reading counts homes lower-wage workers can afford.`);
+      if (basis === 'resident_growth_plus_incommuters') {
+        const scaledNote = (geoType === 'county') ? ''
+          : usedPlaceProjection ? ' from this community’s blended place projection'
+          : ' scaled from the county DOLA projection';
+        setNote(pace + `the ${endYear} figure: projected growth${scaledNote}, plus homes for a quarter of today’s lower- and middle-wage in-commuters. `
+          + `Existing shortfalls are additional.`);
       } else {
         // Label the need source honestly: covered places get their own
         // blended projection (places.json, #1040), not county scaling.
@@ -2586,46 +2587,50 @@
   /**
    * How many homes does this jurisdiction need over the horizon?
    *
-   * Two readings, and the answer is the larger. Never a blend — a blend lets a
-   * place average away a need it is already exporting.
+   * Two parts, added: homes for resident growth, plus homes for today's
+   * in-commuters who would move closer. The ranking index builds the same sum
+   * (build_ranking_index.py), so the two surfaces cannot disagree on it.
    *
-   * ── Reading 1: resident growth ──
+   * ── Part 1: resident growth ──
    *
-   * Households projected at the horizon, housed at the target vacancy, minus
-   * the stock that already exists. The subtlety is WHICH stock. Demand is
-   * computed at the ACTIVE-MARKET vacancy — deliberately, because in a resort
-   * county the headline vacancy counts second homes nobody can rent. Supply
-   * was then subtracted at the TOTAL stock, seasonal units included. Demand
-   * measured on the active market, supply counted with the empty chalets.
+   * The rise in homes needed from the base year as projected households grow,
+   * both ends housed at the same target vacancy: DOLA's own incremental form,
+   * and the quantity the ranking index publishes as future_units_growth_20yr.
    *
-   * Pitkin County, measured 2026-09-20: 13,677 units, 39.3% total vacancy,
-   * 6.7% active-market vacancy, 8,303 projected households.
-   *   needUnits = 8,303 / (1 - 0.067)          = 8,899
-   *   old: 8,899 - 13,677                      = -4,778  "surplus of 4,937 units"
-   *   new: 8,899 - (occupied / (1 - activeVac)) =    -5
-   * The published page told Aspen it had excess housing capacity.
+   * It used to be homes needed at the horizon minus the homes standing today.
+   * Subtracting the TOTAL stock told Pitkin County it had a surplus of 4,937
+   * units (second homes counted as supply); subtracting the active-market
+   * stock fixed Pitkin (-5) but not Summit, where the ACS counts 40% of the
+   * rental stock as vacant for rent, short-term rentals included: occupied /
+   * (1 - 0.419) = 23,184 homes "in the market" against 16,472 needed, a
+   * surplus of 6,712 for a county 958 households of in-commuters short. The
+   * max() with the jobs reading hid it. A stock count that the ACS cannot
+   * split from short-term rentals is not a measure of today's shortfall; the
+   * in-commuter part below measures that shortfall directly.
    *
-   * ── Reading 2: the workforce ──
+   * ── Part 2: today's in-commuters ──
    *
    * A place that has already priced out the people who work there shows no
-   * resident growth, because they are not residents. Boundary-bounded demand
-   * reads displacement as adequacy. #1733 built the jobs-side reading for the
-   * ranking index — workforce_gap_units, from LODES workplace-area counts
-   * against units affordable at <=60% AMI — and this page never used it.
-   * Pitkin: 9,682 people commute in, 9,353 local low-wage jobs,
-   * workforce_gap_units = 7,554. The same site held "7,554 units needed" and
-   * "surplus of 4,937 units" on the same day.
+   * resident growth, because they are not residents. Pitkin: 9,682 people
+   * commute in. Until 2026-10 this was answered with max(growth,
+   * workforce_gap_units), the LODES jobs-against-homes reading, and it won for
+   * most places. It counts one job as one home, includes jobs held by people
+   * who already live here, and is a present shortfall in a 20-year slot
+   * (Aspen 4,447 against 73 of growth). The in-commuter need counts
+   * households instead (data/hna/workforce-need.json): lower- and middle-wage
+   * in-commuters over workers per working household, at a quarter who would
+   * move closer. The half scenario is shown beside it, never hidden.
    *
-   * Returns the figure AND which reading produced it, because a number this
-   * size is not actionable without knowing what it counts.
+   * Returns the figure AND what it counts, because a number this size is not
+   * actionable without knowing that.
    */
   /**
-   * workforce_gap_units for one jurisdiction, from its metrics digest.
+   * workforce_gap_units for one jurisdiction, from its metrics digest: the
+   * jobs-against-homes reading the ranking's need score uses. Shown as its
+   * own line in the need reconciliation; not part of the figure used.
    *
    * The digest is per-jurisdiction and ~38KB, so this costs one small fetch
-   * rather than the whole ranking index. Returns null on any failure: the
-   * production figure then falls back to the resident-growth reading alone,
-   * which is the previous behaviour, rather than showing nothing.
+   * rather than the whole ranking index. Returns null on any failure.
    */
   // One fetch of the jurisdiction's metrics digest per geoid, shared by the
   // workforce-gap reading and the decision strip's evidence check below.
@@ -2735,77 +2740,29 @@
   function _productionNeed(input) {
     const num = (v) => (v == null || !Number.isFinite(Number(v)) ? null : Number(v));
     const needUnits = num(input.needUnits);
-    const baseUnits = num(input.baseUnits);
-    const observedTotalVac = num(input.observedTotalVac);
-    const activeVac = num(input.activeVac);
-    const workforce = num(input.workforceGapUnits);
+    const baseNeedUnits = num(input.baseNeedUnits);
+    const incommuter = num(input.incommuterUnits);
+    const growth = (needUnits !== null && baseNeedUnits !== null) ? (needUnits - baseNeedUnits) : null;
 
-    // The stock actually in the housing market. Falls back to the total when
-    // the vacancy split is unavailable — the same answer as before, rather
-    // than no answer.
-    let activeStock = baseUnits;
-    let stockBasis = 'total_stock';
-    if (baseUnits !== null && observedTotalVac !== null && activeVac !== null
-        && observedTotalVac > activeVac && observedTotalVac < 1 && activeVac < 1) {
-      const occupied = baseUnits * (1 - observedTotalVac);
-      activeStock = occupied / (1 - activeVac);
-      stockBasis = 'active_market_stock';
-    }
-
-    const growth = (needUnits !== null && activeStock !== null) ? (needUnits - activeStock) : null;
-
-    if (growth === null && workforce === null) return null;
-    if (workforce !== null && (growth === null || workforce > growth)) {
-      return {
-        units: workforce,
-        basis: 'workforce',
-        growthUnits: growth,
-        workforceUnits: workforce,
-        stockBasis,
-        activeStock,
-      };
-    }
+    // A sum with an unknown part is unknown: no growth reading, no figure.
+    // No in-commuter record leaves growth alone, and the basis says so.
+    if (growth === null) return null;
     return {
-      units: growth,
-      basis: 'resident_growth',
+      units: incommuter !== null ? growth + incommuter : growth,
+      basis: incommuter !== null ? 'resident_growth_plus_incommuters' : 'resident_growth',
       growthUnits: growth,
-      workforceUnits: workforce,
-      stockBasis,
-      activeStock,
+      incommuterUnits: incommuter,
     };
   }
 
-  function unitsNeedBasisLabel(basis, usedPlaceProjection, netOfStock) {
-    if (basis === 'workforce') return 'Workforce reading: jobs vs. affordable homes';
-    if (basis === 'resident_growth') {
-      return usedPlaceProjection
-        ? 'Resident growth: place projection'
-        // Kept self-contained (a test evaluates this function on its own);
-        // the name must match residentReadingName below.
-        : (netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth') + ': DOLA household projection';
-    }
+  function unitsNeedBasisLabel(basis, usedPlaceProjection) {
+    // Kept self-contained: a test evaluates this function on its own.
+    const growth = usedPlaceProjection ? 'Resident growth (place projection)' : 'Resident growth (DOLA household projection)';
+    if (basis === 'resident_growth_plus_incommuters') return growth + ' + in-commuters moving closer';
+    if (basis === 'resident_growth') return growth;
     return 'Basis unavailable';
   }
 
-  /**
-   * What the resident-side reading is called, by what it counts.
-   *
-   * Two different quantities have both been called "resident growth". The
-   * ranking index, the digest and the Recommendation publish
-   * future_units_growth_20yr: the CHANGE in homes needed as households grow
-   * (DOLA's incremental_units_needed_dola, or the place ledger built on it) --
-   * Mesa County 12,727 by 2044. This page, where it computes the reading from
-   * the county projection itself, subtracts the homes in the market today
-   * from the homes needed at the horizon, which also counts any shortfall in
-   * today's stock against the target vacancy -- Mesa County 16,071. Both are
-   * deliberate (the stock-net form is what stops a resort county being told
-   * it has surplus housing; see _productionNeed), but they are not the same
-   * figure and must not share a name. test/growth-figure-agrees.test.js holds
-   * the rule: the same name on both surfaces means the same number.
-   */
-  function residentReadingName(netOfStock) {
-    return netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth';
-  }
 
   /**
    * Homes lost from today's stock by the horizon year, from the same
@@ -2881,10 +2838,11 @@
    * How the need figures on this page fit together (audit F4).
    *
    * Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
-   * how they related: 2,302 is the workforce reading, used because it is the
-   * larger of two readings; 819 is the resident-growth reading it beat; 103
+   * how they related: 2,302 was then the jobs reading, used because it was the
+   * larger of two readings; 819 was the resident-growth reading it beat; 103
    * is today's rental shortfall at <=30% AMI, a different question; +635 is
-   * the households chart, which counts households, not homes.
+   * the households chart, which counts households, not homes. The figure is
+   * now growth plus today's in-commuters, and each part has its own row.
    *
    * Every value is one some other part of the page already shows, passed in
    * rather than recomputed, so this block cannot drift from what it explains.
@@ -2894,12 +2852,16 @@
   function buildNeedReconciliation(input) {
     const num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
     const endYear = input.endYear || null;
-    const basis = (input.basis === 'workforce' || input.basis === 'resident_growth') ? input.basis : null;
+    const basis = (input.basis === 'resident_growth_plus_incommuters' || input.basis === 'resident_growth') ? input.basis : null;
     const used = num(input.usedUnits);
     const growth = num(input.growthUnits);
-    const netOfStock = input.growthNetOfStock === true;
-    const growthName = residentReadingName(netOfStock);
-    const growthNameLc = growthName.charAt(0).toLowerCase() + growthName.slice(1);
+    // The ranking and the Recommendation read DOLA's household forecast. Under
+    // Hold or Trend this page reads population x a headship rate instead, a
+    // different number, so it carries the option in its name (one name, one
+    // number). A place reads its own projection under every option.
+    const growthName = 'Resident growth' + (input.usedPlaceProjection ? ''
+      : (input.householdsBasis === 'hold' || input.householdsBasis === 'trend-unavailable') ? ' (headship held)'
+        : input.householdsBasis === 'trend' ? ' (headship trended)' : '');
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
     const replacement = num(input.replacementUnits);
@@ -2919,29 +2881,15 @@
         key: 'growth',
         label: growthName + (endYear ? ' by ' + endYear : ''),
         units: growth,
-        counts: netOfStock
-          ? 'Homes to house projected households at the target vacancy, less the homes in the market today (DOLA household projection). '
-            + 'This also counts any shortfall in today\u2019s stock against the target vacancy, so it is not the same figure as resident growth alone, '
-            + 'which counts only the homes added households need.'
-          : 'Homes needed for the growth in projected households, at the target vacancy ('
-            + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
-        inFigure: basis === 'resident_growth',
+        counts: 'Homes needed for the growth in projected households, at the target vacancy ('
+          + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
+        inFigure: basis !== null,
         unavailable: growth === null ? 'No household projection for this geography.' : null,
       },
       {
-        key: 'workforce',
-        label: 'Workforce reading',
-        units: workforce,
-        counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts).',
-        inFigure: basis === 'workforce',
-        unavailable: workforce === null ? 'No workforce-gap reading for this geography.' : null,
-      },
-      {
-        // The workforce reading above counts one low-wage job as one home and
-        // sets jobs held by housed residents against the stock too. This line
-        // counts households: only people who commute in, divided by workers
-        // per working household, at a stated share who would move closer. A
-        // deficit today, like the existing shortfall, so never in the figure.
+        // Households, not jobs: only people who commute in, divided by
+        // workers per working household, at a stated share who would move
+        // closer. The quarter is in the figure; the half is shown here.
         key: 'incommuter',
         label: 'In-commuters who would move closer, today',
         units: incLow,
@@ -2949,38 +2897,48 @@
         counts: 'Lower- and middle-wage workers who commute in (LEHD LODES 2023), divided by workers per working household'
           + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
           + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
-          + '. No statewide source measures that share, so both are shown. A deficit today, not a projection, and not part of the figure used'
-          + (inc.stateSum ? '; for Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
-        inFigure: false,
+          + '. No statewide source measures that share, so both are shown, and the quarter is in the figure used'
+          + (inc.stateSum ? '. For Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+        inFigure: basis === 'resident_growth_plus_incommuters',
         unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
       },
       {
-        // Homes lost from today's stock over the same years. Neither reading
-        // above counts them: both set demand against the homes standing now,
+        // Kept so the number still has a home on the page: the ranking's need
+        // score uses it. It counts one job as one home and includes jobs held
+        // by people who already live here, so it is not added to the figure.
+        key: 'workforce',
+        label: 'Lower-wage jobs less affordable homes',
+        units: workforce,
+        counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts). '
+          + 'It counts one job as one home, including jobs held by people who already live here, so it is not part of the figure used; the ranking\u2019s need score uses it.',
+        inFigure: false,
+        unavailable: workforce === null ? 'No jobs-against-homes reading for this geography.' : null,
+      },
+      {
+        // Homes lost from today's stock over the same years. The figure used
+        // does not count them: it sets demand against the homes standing now,
         // as though none will be demolished, burn or be converted. Shown on
         // its own line and added to the figure used only in withReplacement,
-        // so the headline (and the ranking, which reads growth only) is
+        // so the headline (and the ranking, which reads the same figure) is
         // unchanged until the owner decides otherwise.
         key: 'replacement',
         label: 'Homes lost to age and demolition' + (endYear ? ' by ' + endYear : ''),
         units: replacement,
         counts: 'Existing homes expected to be permanently lost, by age of the building: annual loss rates from 0.02% for homes built since 2010 to 0.6% for homes built before 1940, '
-          + 'applied to the ACS year-built count (DP04). Not counted in either reading above, which both assume today\u2019s homes all remain'
+          + 'applied to the ACS year-built count (DP04). Not counted in the figure used, which assumes today\u2019s homes all remain'
           + (input.usedPlaceProjection ? '; scaled to this place by the same share as its projection.' : '.'),
         inFigure: false,
         unavailable: replacement === null ? (input.replacementUnavailable || 'No replacement estimate for this geography.') : null,
       },
     ];
     let why = 'No need figure could be computed for this geography.';
-    if (basis === 'workforce') {
-      // An unknown growth reading is not a smaller one: say which it is.
-      why = growth === null
-        ? 'The workforce reading is the only reading available here, so it is the figure used; there is no resident-growth projection to compare it with.'
-        : 'The workforce reading is larger than ' + growthNameLc + ', so it is the figure used. The two readings answer the same question in different ways and are never added together.';
+    if (basis === 'resident_growth_plus_incommuters') {
+      why = growthName + ' plus homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer.'
+        + (growth !== null && incHigh !== null
+          ? ' If half moved closer, the figure would be ' + Math.round(growth + incHigh).toLocaleString('en-US') + '.'
+          : '');
     } else if (basis === 'resident_growth') {
-      why = workforce !== null
-        ? growthName + ' is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
-        : growthName + ' is the only reading available here, so it is the figure used.';
+      why = growthName + ' alone, because there is no in-commuter figure for this geography.';
     }
     const hh = num(input.chartHouseholdsDelta);
     const p = input.permits || {};
@@ -3033,11 +2991,10 @@
                   + (input.householdsScaled
                     ? ', scaled to this place by its share of county population'
                     : (input.subCounty ? ', at county level because the series could not be scaled to this place' : '')))
-          + '. The ' + growthNameLc + ' reading counts homes: '
-          + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
-            : 'the growth in projected households, at the target vacancy')
-          + (input.usedPlaceProjection ? ', from this community\u2019s own projection' : '')
-          + '. They measure different things and are not expected to match.',
+          + '. The resident growth figure counts homes: the growth in projected households, at the target vacancy'
+          + (input.usedPlaceProjection
+            ? ', from this community\u2019s own projection, so it is not expected to match this chart.'
+            : ', so it is close to this change divided by one minus the vacancy.'),
       },
       permits: {
         perYear,
@@ -3116,36 +3073,31 @@
     return window.HNAUtils.fmtNum(rounded);
   }
 
-  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis, netOfStock) {
+  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis, growthUnits, incommuterUnits) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) {
       return 'Projections loaded, but could not compute housing need (missing households/headship).';
     }
-    // A figure this size is not actionable without knowing what it counts, and
-    // the two readings answer different questions. Say which one won.
-    if (basis === 'workforce') {
-      return `Workforce-based: ${window.HNAUtils.fmtNum(Math.round(Number(incUnits)))} units by ${endYear}. `
-        + 'This jurisdiction employs more low-wage workers than it has homes affordable to them, so the '
-        + 'demand its own residents show understates the need — people who cannot afford to live here '
-        + 'commute in and are not counted as households. Housing need is read from jobs (LEHD LODES '
-        + 'workplace-area counts against units affordable at \u226460% AMI) rather than from projected '
-        + 'household growth, and the larger of the two readings is shown.'
-        + projectionMethodNote;
-    }
-    const display = formatIncrementalUnitsDisplay(incUnits);
+    // A figure this size is not actionable without knowing what it counts.
+    // With in-commuters added, the vacancy summary describes the growth part
+    // and the last sentence names the part it does not cover.
+    // Number(null) is 0, so absence is checked before the number is read.
+    const known = (v) => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
+    const plus = basis === 'resident_growth_plus_incommuters' && known(growthUnits) && known(incommuterUnits);
+    const part = plus ? Number(growthUnits) : Number(incUnits);
+    const added = plus
+      ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer: ${window.HNAUtils.fmtNum(Math.round(Number(incUnits)))} in all.`
+      : '';
+    const display = formatIncrementalUnitsDisplay(part);
     const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
-    // Say what was subtracted. The county reading nets out the homes in the
-    // market today; the place ledger is the rise in homes needed from the base
-    // year and subtracts no stock (see residentReadingName), so "after
-    // subtracting the current housing stock" was false on every place page.
-    const what = netOfStock === false
-      ? (Number(incUnits) < 0
-        ? `: projected households fall, so this many fewer homes are needed than today at a ${vacancy} target vacancy.`
-        : `: the rise in homes needed from today as projected households grow, at a ${vacancy} target vacancy.`)
-      : `, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.`;
-    if (Number(incUnits) < 0) {
-      return `Vacancy-based summary: ${display} by ${endYear}${what}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+    // The rise in homes needed from the base year; no stock is subtracted
+    // (see _productionNeed).
+    const what = part < 0
+      ? `: projected households fall, so this many fewer homes are needed than today at a ${vacancy} target vacancy.`
+      : `: the rise in homes needed from today as projected households grow, at a ${vacancy} target vacancy.`;
+    if (part < 0) {
+      return `Vacancy-based summary: ${display} by ${endYear}${what}${added}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
     }
-    return `Vacancy-based summary: ${display} net new total units by ${endYear}${what}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+    return `Vacancy-based summary: ${display} net new total units by ${endYear}${what}${added}${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
   }
 
 
@@ -3402,6 +3354,17 @@
       : ((i>=0) ? headshipAt(i) : null);
     const hhH = storedHouseholds !== null ? storedHouseholds : ((popH!==null && hsH!==null) ? (popH * hsH) : null);
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
+    // The same households at the base year, read the same way (the stored
+    // series when the horizon read it, else population x the base-year rate),
+    // so resident growth is the rise in homes needed and no stock count enters
+    // it (see _productionNeed).
+    const b0 = years.indexOf(baseYear) >= 0 ? years.indexOf(baseYear) : 0;
+    const stored0 = (storedHouseholds !== null && forecastSeries) ? window.HNAUtils.safeNum(forecastSeries[b0]) : null;
+    const pop0 = (popSel && popSel.length) ? window.HNAUtils.safeNum(popSel[b0]) : null;
+    const hs0 = headshipAt(b0);
+    const hh0 = (stored0 !== null && stored0 > 0) ? stored0
+      : ((pop0 !== null && pop0 > 0 && hs0 !== null) ? pop0 * hs0 : null);
+    const baseNeedUnits = (hh0 !== null) ? (hh0 / (1.0 - targetVac)) : null;
     // The household charts and the reconciliation's households line quote the
     // series the calculator reads, so the headship option moves every
     // household figure on the page together. Under Forecast that is the
@@ -3469,25 +3432,21 @@
         };
       }
     }
-    // The larger of the resident-growth reading and the workforce reading; see
-    // _productionNeed. Subtracting the TOTAL stock from demand computed at the
-    // active-market vacancy is what published "surplus of 4,937 units" for a
-    // county where 9,682 people commute in because they cannot live there.
+    // Resident growth plus today's in-commuters who would move closer; see
+    // _productionNeed. Colorado reads '08': only the in-commuters who live in
+    // another state.
     const _workforceGapUnits = await _loadWorkforceGapUnits(
       (selection && selection.geoid) || countyFips5 || null);
+    const _incommuter = await _loadIncommuterNeed(!selection ? (countyFips5 || null)
+      : selection.geoType === 'state' ? '08' : (selection.geoid || countyFips5));
     const _need = _productionNeed({
       needUnits,
-      baseUnits,
-      observedTotalVac: window.HNAUtils.safeNum(proj?.housing_need?.observed_total_vacancy),
-      activeVac: window.HNAUtils.safeNum(proj?.housing_need?.active_market_vacancy),
-      workforceGapUnits: _workforceGapUnits,
+      baseNeedUnits,
+      incommuterUnits: _incommuter.low,
     });
     let incUnits = _need ? _need.units : null;
     let incUnitsBasis = _need ? _need.basis : null;
     let growthUnits = _need ? _need.growthUnits : null;
-    // Whether that reading subtracted the homes in the market today; see
-    // residentReadingName. The place ledger below does not.
-    let growthNetOfStock = !!(_need && _need.activeStock !== null && _need.activeStock > 0);
     let projectionMethodNote = '';
     let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
@@ -3495,22 +3454,19 @@
       const placeInc = placeIdx >= 0 ? window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeIdx]) : null;
       if (placeInc !== null){
         // The place series is a better RESIDENT-GROWTH reading than the
-        // county-scaled one, so it replaces that half — but it is still the
-        // resident half, and taking it raw here would throw away the workforce
-        // reading the county path had just applied. A place that exports its
-        // workforce must not read as needing nothing simply because a
-        // place-level projection exists for it.
+        // county-scaled one, so it replaces that part — but it is still the
+        // resident part, and taking it raw here would drop the in-commuters
+        // the county path had just added. A place that exports its workforce
+        // must not read as needing nothing simply because a place-level
+        // projection exists for it.
         const _placeNeed = _productionNeed({
           needUnits: placeInc,
-          baseUnits: 0,
-          observedTotalVac: null,
-          activeVac: null,
-          workforceGapUnits: _workforceGapUnits,
+          baseNeedUnits: 0,
+          incommuterUnits: _incommuter.low,
         });
         incUnits = _placeNeed ? _placeNeed.units : placeInc;
         incUnitsBasis = _placeNeed ? _placeNeed.basis : null;
         growthUnits = _placeNeed ? _placeNeed.growthUnits : placeInc;
-        growthNetOfStock = false;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         if (sh.permit == null) {
@@ -3573,12 +3529,11 @@
     if (els.statTargetVac) els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
     if (els.statUnitsNeed) els.statUnitsNeed.textContent = incUnitsDisplay;
-    // Name the reading that produced the figure. The subtitle used to read
-    // "DOLA forecast" whatever won, and for 365 of 546 jurisdictions the
-    // figure is the workforce reading (jobs against homes affordable at
-    // <=60% AMI), not a DOLA projection at all.
+    // Name what the figure counts. The subtitle used to read "DOLA forecast"
+    // whatever produced it; the figure also counts today's in-commuters,
+    // which no DOLA projection does.
     if (els.statUnitsNeedBasis) {
-      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection, growthNetOfStock);
+      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection);
       els.statUnitsNeedBasis.dataset.basis = incUnitsBasis || 'unavailable';
     }
     if (window.HNARenderers.renderProjectionCalculationTrace) {
@@ -3589,6 +3544,8 @@
           mode: 'place',
           endYear,
           incrementalUnits: incUnits,
+          growthUnits,
+          incommuterUnits: _need ? _need.incommuterUnits : null,
           householdShare: placeShares.household,
           permitShare: placeShares.permit,
           blendedShare: placeShares.blended,
@@ -3650,7 +3607,10 @@
           projectedHouseholds: hhH,
           targetVacancy: targetVac,
           totalUnitsRequired: needUnits,
-          existingHousingUnits: baseUnits,
+          baseHouseholds: hh0,
+          baseUnitsRequired: baseNeedUnits,
+          growthUnits,
+          incommuterUnits: _need ? _need.incommuterUnits : null,
           incrementalUnits: incUnits,
         });
       }
@@ -3660,12 +3620,7 @@
         production: {
           value: incUnitsDisplay,
           read: incUnits !== null && Number.isFinite(Number(incUnits))
-            // "Surplus" is a claim about a housing market, not an arithmetic
-            // sign. When the workforce reading is what produced the figure,
-            // the jurisdiction is short of homes by definition — the label has
-            // to say what the number means, not what side of zero it is on.
-            ? (incUnitsBasis === 'workforce' ? 'Workforce shortfall'
-              : incUnits > 0 ? 'Gap remains'
+            ? (incUnits > 0 ? 'Gap remains'
               : incUnits === 0 ? 'At target'
               : 'Surplus')
             : 'Unavailable',
@@ -3704,7 +3659,8 @@
       // vacancy assumption chosen on this page.
       usedPlaceProjection && window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy) !== null
         ? window.HNAUtils.safeNum(proj.housing_need.target_vacancy) : targetVac,
-      projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis, growthNetOfStock);
+      projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis,
+      growthUnits, _need ? _need.incommuterUnits : null);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
@@ -3818,12 +3774,11 @@
         usedUnits: incUnits,
         basis: incUnitsBasis,
         growthUnits,
-        growthNetOfStock,
         workforceUnits: _workforceGapUnits,
         existingGapUnits,
         replacementUnits: _replacement.units,
         replacementUnavailable: _replacement.reason,
-        incommuter: await _loadIncommuterNeed(!selection ? null : selection.geoType === 'state' ? '08' : (selection.geoid || countyFips5)),
+        incommuter: _incommuter,
         usedPlaceProjection,
         subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
         chartHouseholdsDelta,

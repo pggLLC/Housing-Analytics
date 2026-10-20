@@ -258,14 +258,14 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   assert(!r.trace.includes('77,187.5'), 'trace no longer shows population × base-year headship (77,187.5)');
   assert(r.trace.includes('47.368%'), 'trace shows the headship the stored series implies (90,000 ÷ 190,000)');
   assert(r.trace.includes('94,736.8'), 'trace shows stored households ÷ (1 − 5% vacancy)');
-  assert.equal(r.headline, '24,737', 'headline is stored households ÷ 0.95 − 70,000 existing units');
+  assert.equal(r.headline, '26,316', 'headline is the rise in homes needed: stored households ÷ 0.95, less the base year\'s 65,000 ÷ 0.95');
   assert(r.trace.includes(FORECAST_WORDS) && !r.trace.includes(CONSTANT_WORDS), `trace names the household forecast when the file says so: ${r.trace}`);
   assert(r.trace.includes('household-county.csv'), 'trace names the household forecast source file');
 
   // Constant-headship-labelled series: same arithmetic, labelled as the fallback, never as the forecast.
   r = await render(withSeries([65000, 77187.5], ['constant_headship', 'constant_headship']), mesa);
   assert(r.trace.includes('77,187.5') && r.trace.includes(CONSTANT_WORDS) && !r.trace.includes(FORECAST_WORDS), 'trace names the constant-headship fallback when the file says so');
-  assert.equal(r.headline, '11,250', 'constant-headship series reproduces the population × headship headline');
+  assert.equal(r.headline, '12,829', 'constant-headship series reproduces the population × headship headline');
 
   // Unlabelled series (files built before the label existed) is used but never called a forecast.
   r = await render(withSeries([65000, 77187.5]), mesa);
@@ -274,12 +274,12 @@ async function assertCountyCalculatorReadsStoredHouseholds() {
   // No value at the horizon: population × headship, never 0, and no forecast claim.
   r = await render(withSeries([65000, null], ['sdo_household_forecast', null]), mesa);
   assert(r.trace.includes('77,187.5') && !r.trace.includes(FORECAST_WORDS), 'null at the horizon falls back to population × headship without claiming the forecast');
-  assert.equal(r.headline, '11,250', 'fallback headline is population × headship ÷ 0.95 − existing units');
+  assert.equal(r.headline, '12,829', 'fallback headline is the rise in population × headship ÷ 0.95 from the base year');
 
   // Hold: the control's name is a promise that the base-year rate is held, whatever the stored series says.
   r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'hold');
   assert(r.trace.includes('77,187.5') && r.trace.includes('40.625%') && !r.trace.includes(FORECAST_WORDS), `Hold keeps population × the base-year rate and does not claim the forecast: ${r.trace}`);
-  assert.equal(r.headline, '11,250', 'Hold headline is the base-year-rate figure');
+  assert.equal(r.headline, '12,829', 'Hold headline is the base-year-rate figure');
 
   // Trend headship: the user asked for population × a trended headship rate; the stored series is not used.
   r = await render(withSeries([65000, 90000], ['sdo_household_forecast', 'sdo_household_forecast']), mesa, 'trend');
@@ -616,8 +616,12 @@ async function assertCountyReconciliationNote() {
   assert(trace.includes('40.625%'), 'County trace shows the base-year headship rate used to three decimals');
   assert(trace.includes('77,187.5'), 'County trace shows projected households used');
   assert(trace.includes('81,250.0'), 'County trace shows vacancy-adjusted housing units used');
-  assert(trace.includes('70,000'), 'County trace shows existing stock used');
-  assert(trace.includes('11,250'), 'County trace reconciles to the headline incremental units');
+  // Resident growth is the rise in homes needed from the base year (65,000
+  // households ÷ 0.95), not homes needed less today's stock: no stock count
+  // enters it since 2026-10-20.
+  assert(trace.includes('68,421.1') && trace.includes('65,000'), 'County trace shows the homes required in the base year and the households they house');
+  assert(!trace.includes('70,000'), 'County trace still subtracts the existing stock');
+  assert(trace.includes('12,829'), 'County trace reconciles to the headline incremental units');
   assert(trace.includes('Screening-grade estimate'), 'County trace carries screening-grade framing');
 }
 
@@ -756,7 +760,9 @@ async function assertRealDataReconciliation() {
   assert(countyTrace.includes(oneDecimal(mesaStoredHh)), `Real county trace pins the stored projected households (${oneDecimal(mesaStoredHh)})`);
   assert(countyTrace.includes('5.000%'), 'Real county trace pins the target vacancy used to three decimals');
   assert(countyTrace.includes(oneDecimal(mesaStoredHh / 0.95)), `Real county trace pins the vacancy-adjusted units from the stored households (${oneDecimal(mesaStoredHh / 0.95)})`);
-  assert(countyTrace.includes('71,829'), 'Real county trace pins the existing housing stock used');
+  const mesaBaseHh = countyProjection.housing_need.households_dola[countyProjection.years.indexOf(countyProjection.baseYear)];
+  assert(typeof mesaBaseHh === 'number' && mesaBaseHh > 0, 'the committed Mesa County file carries stored households for its base year');
+  assert(countyTrace.includes(oneDecimal(mesaBaseHh / 0.95)), `Real county trace pins the homes required in the base year from the stored households (${oneDecimal(mesaBaseHh / 0.95)})`);
 
   dom = new JSDOM(makeHtml(), { url: 'about:blank' });
   installBrowserStubs(dom, placeDoc);

@@ -9,6 +9,10 @@
 // permit note compared 142 permits a year against 2,302 / 20 and called that
 // "growth-driven need only".
 //
+// Since 2026-10-20 the figure used is resident growth plus homes for a quarter
+// of today's lower- and middle-wage in-commuters, so two rows make it up and
+// the jobs reading is shown beside it, never in it.
+//
 // Held as agreement, not wording. Rendered by the real applyAssumptions:
 //   - the block's figure used equals the tile, and its basis the tile's;
 //   - each row equals the source the page reads it from (digest, permits.json);
@@ -119,13 +123,15 @@ async function render(selection, countyFips) {
       'the block and the tile declare different bases');
   });
 
-  await test('the row marked as the figure used is the reading the tile shows, and only one is marked', async () => {
+  await test('the rows marked as the figure used are the parts its basis names, and they add up to it', async () => {
     const marked = [...r.host.querySelectorAll('[data-recon-key][data-in-figure="true"]')];
-    assert.strictEqual(marked.length, 1, `${marked.length} rows are marked as the figure used`);
-    const want = r.rec.used.basis === 'workforce' ? 'workforce' : 'growth';
-    assert.strictEqual(marked[0].dataset.reconKey, want, `the ${marked[0].dataset.reconKey} row is marked; the basis is ${r.rec.used.basis}`);
-    assert.strictEqual(marked[0].dataset.units, r.host.querySelector('.hna-recon-used').dataset.units,
-      'the marked row and the figure used disagree');
+    const want = r.rec.used.basis === 'resident_growth_plus_incommuters' ? ['growth', 'incommuter']
+      : r.rec.used.basis === 'resident_growth' ? ['growth'] : [];
+    assert(want.length, `basis ${r.rec.used.basis}: Fruita has a figure, so this test has nothing to check`);
+    assert.deepStrictEqual(marked.map((x) => x.dataset.reconKey), want, `basis ${r.rec.used.basis}`);
+    const sum = marked.reduce((t, x) => t + Number(x.dataset.units), 0);
+    const used = Number(r.host.querySelector('.hna-recon-used').dataset.units);
+    assert(Math.abs(sum - used) <= 1, `the marked rows add to ${sum}; the figure used is ${used}`);
   });
 
   await test('each row equals the source the page reads it from', async () => {
@@ -332,7 +338,7 @@ async function render(selection, countyFips) {
     assert.strictEqual(Number(row.dataset.units), Math.round(want), `replacement row ${row.dataset.units} at a 30-year horizon; want ${Math.round(want)} for ${endYear}`);
   });
 
-  await test('the in-commuter line equals workforce-need.json and stays out of the figure used', async () => {
+  await test('the in-commuter line equals workforce-need.json and is in the figure used as its quarter', async () => {
     const wn = JSON.parse(read('data/hna/workforce-need.json'));
     const rec = wn.places[FRUITA];
     assert(rec && rec.present_incommuter_need, 'Fruita has no in-commuter record; nothing to check');
@@ -340,7 +346,11 @@ async function render(selection, countyFips) {
     assert(row, 'the block has no in-commuter row');
     assert.strictEqual(Number(row.dataset.units), rec.present_incommuter_need.move_closer_25, 'row ≠ the 25% scenario');
     assert(row.textContent.includes(rec.present_incommuter_need.move_closer_50.toLocaleString('en-US')), 'the 50% scenario is not stated');
-    assert.notStrictEqual(row.dataset.inFigure, 'true', 'in-commuter need is marked as part of the figure used');
+    assert.strictEqual(r.rec.used.basis, 'resident_growth_plus_incommuters', `Fruita has an in-commuter record but basis ${r.rec.used.basis}`);
+    assert.strictEqual(row.dataset.inFigure, 'true', 'the in-commuter quarter is not marked as part of the figure used');
+    assert.notStrictEqual(r.row('workforce').dataset.inFigure, 'true', 'the jobs reading is marked as part of the figure used');
+    assert(r.rec.used.why.includes(Math.round(metric(d, 'future_units_growth_20yr') + rec.present_incommuter_need.move_closer_50).toLocaleString('en-US')),
+      'the explanation does not give the figure if half moved closer');
     // Households, not jobs: the line must be smaller than in-commuters x wage share.
     const per = rec.incommuters * rec.low_middle_wage_share;
     assert(rec.present_incommuter_need.move_closer_50 < per, 'the 50% line is not below the in-commuting low/middle-wage workers it divides');
@@ -366,19 +376,25 @@ async function render(selection, countyFips) {
     assert.strictEqual(rec.households, null, 'an absent households delta was reported');
   });
 
-  await test('a missing reading is never ranked against the one that was used', async () => {
-    // Codex review of #1890: with no growth projection, "larger than resident
-    // growth" ranks a value that does not exist. Held as structure: the
-    // explanation must differ from the one given when both readings exist,
-    // and the growth row must say it is unavailable.
+  await test('a missing part is never described as part of the figure used', async () => {
+    // Codex review of #1890: an explanation must not lean on a value that does
+    // not exist. Held as structure: with no in-commuter record the figure is
+    // growth alone and says so; with no growth there is no figure, and neither
+    // part is marked as in it. The retired jobs basis is not accepted.
     const build = window.HNAController.buildNeedReconciliation;
-    const both = build({ endYear: 2044, usedUnits: 900, basis: 'workforce', growthUnits: 300, workforceUnits: 900 });
-    const wOnly = build({ endYear: 2044, usedUnits: 900, basis: 'workforce', growthUnits: null, workforceUnits: 900 });
-    const gBoth = build({ endYear: 2044, usedUnits: 900, basis: 'resident_growth', growthUnits: 900, workforceUnits: 300 });
-    const gOnly = build({ endYear: 2044, usedUnits: 900, basis: 'resident_growth', growthUnits: 900, workforceUnits: null });
-    assert.notStrictEqual(wOnly.used.why, both.used.why, 'with no growth reading, the workforce explanation still ranks it against growth');
-    assert.notStrictEqual(gOnly.used.why, gBoth.used.why, 'with no workforce reading, the growth explanation still ranks it against workforce');
-    assert(wOnly.rows.find((x) => x.key === 'growth').unavailable, 'the missing growth reading does not say it is unavailable');
+    const inc = { low: 600, high: 1200 };
+    const plus = build({ endYear: 2044, usedUnits: 900, basis: 'resident_growth_plus_incommuters', growthUnits: 300, incommuter: inc, workforceUnits: 2000 });
+    const gOnly = build({ endYear: 2044, usedUnits: 300, basis: 'resident_growth', growthUnits: 300, incommuter: { low: null, high: null, reason: 'why' }, workforceUnits: 2000 });
+    const none = build({ endYear: 2044, usedUnits: null, basis: null, growthUnits: null, incommuter: inc, workforceUnits: 2000 });
+    const inFig = (rec) => rec.rows.filter((x) => x.inFigure).map((x) => x.key);
+    assert.deepStrictEqual(inFig(plus), ['growth', 'incommuter']);
+    assert.deepStrictEqual(inFig(gOnly), ['growth'], 'with no in-commuter record, the in-commuter row is still marked');
+    assert.notStrictEqual(gOnly.used.why, plus.used.why, 'with no in-commuter record, the explanation still adds them');
+    assert(!/\bplus\b/i.test(gOnly.used.why), `"${gOnly.used.why}" adds a part that does not exist`);
+    assert.deepStrictEqual(inFig(none), [], 'with no growth reading, a part is still marked as in a figure that does not exist');
+    assert(none.rows.find((x) => x.key === 'growth').unavailable, 'the missing growth reading does not say it is unavailable');
+    assert.strictEqual(build({ endYear: 2044, usedUnits: 2000, basis: 'workforce', growthUnits: 300, workforceUnits: 2000 }).used.basis, null,
+      'the retired jobs reading is still accepted as a basis');
   });
 
   console.log(failures ? `\n${failures} failure(s)` : '\nAll checks passed ✅');
