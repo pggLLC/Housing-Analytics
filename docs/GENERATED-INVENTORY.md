@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T17:55:59.324Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T19:09:56.033Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-74 pages found.
+75 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -35,6 +35,7 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.1 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.7 KB |
+| `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.5 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
@@ -89,7 +90,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1709 JSON files found.
+1719 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -147,6 +148,16 @@
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/cra/co-bank-branches.json` | 223.3 KB | ✅ | — |
 | `data/dda-colorado.json` | 692.7 KB | ✅ | 44 features |
+| `data/deals/ascent-at-salt-flats-grand-junction.json` | 11.9 KB | ✅ | — |
+| `data/deals/fairbrooke-heights-fort-collins.json` | 18.5 KB | ✅ | — |
+| `data/deals/flocrit-decatur-place-denver.json` | 14.0 KB | ✅ | — |
+| `data/deals/greenbriar-apartments-fort-collins.json` | 16.8 KB | ✅ | — |
+| `data/deals/gregory-highlands-ranch.json` | 22.6 KB | ✅ | — |
+| `data/deals/index.json` | 3.8 KB | ✅ | — |
+| `data/deals/lumberyard-apartments-aspen.json` | 26.2 KB | ✅ | — |
+| `data/deals/mountain-view-plaza-longmont.json` | 26.3 KB | ✅ | — |
+| `data/deals/parkside-apartments-longmont.json` | 25.9 KB | ✅ | — |
+| `data/deals/reserve-at-south-creek-englewood.json` | 16.7 KB | ✅ | — |
 | `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
@@ -1807,7 +1818,7 @@
 
 ## Test Files
 
-673 test files found.
+674 test files found.
 
 | File | Size |
 |------|------|
@@ -2438,6 +2449,7 @@
 | `tests/test_chfa_qap_watch.py` | 23.0 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
+| `tests/test_deal_summaries.py` | 1.4 KB |
 | `tests/test_development_activity.py` | 45.2 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fdic_branches_co.py` | 954 B |
