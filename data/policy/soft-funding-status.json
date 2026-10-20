@@ -512,8 +512,8 @@
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
       "source_note": "CDFI describes tax credits for investments into CDEs, not one standardized rental-project financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank for the downstream project. The seven-year tax-credit period is not a loan term. No universal project maximum or available balance is published.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     },
     "TIF-LOCAL": {
       "name": "Tax Increment Financing (Local)",
@@ -569,9 +569,9 @@
         "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
       ],
       "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
-      "source_note": "Primary source reopened 2026-10-09. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09",
+      "source_note": "Primary source reopened 2026-10-20: the DOE how-to-apply page still routes applicants through state administrators and local providers, with eligibility at 200% of the poverty guidelines or the LIHEAP 60% of state median income. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20",
       "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope.",
       "funding_type": null,
       "rate_pct": null,
@@ -723,7 +723,7 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": "2026-06-10",
+      "deadline": "2026-11-10",
       "competitiveness": "moderate",
       "eligibleExecution": [
         "9%",
@@ -732,7 +732,7 @@
       "maxPerProject": 6000000,
       "description": "Subordinate financing for developments awarded federal LIHTC that have not converted to permanent financing. Amortizing or non-amortizing structures depend on underwriting.",
       "contactUrl": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "status": "closed",
+      "status": "active",
       "funding_type": null,
       "rate_pct": 2.5,
       "term_years": null,
@@ -746,7 +746,7 @@
         "must_pay_dscr": 1.05
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The last application window was May 27–June 10, 2026 and is closed. Available, awarded and capacity balances for this instrument are not stated.",
+      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The May 27–June 10, 2026 window closed; CHFA's October 19, 2026 notice says the next round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026. Most FY2027 gap money goes through the competitive tax credit rounds instead. Available, awarded and capacity balances for this instrument are not stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "OEDIT / CHFA",
