@@ -281,8 +281,10 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const withZ = clone(src); withZ.zori.counties['08051'] = { name: 'Gunnison County', rent: 2475, vintage_month: '2026-08-31' };
   ok(WP.buildModel(withZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source) && x.all === 2475), 'sabotage: a county in the ZORI file gets its rent');
   const den = WP.buildModel(src, '0820000', { FundingFit });
-  const dz = src.zori.counties['08031'];
-  ok(dz && den.market.some((x) => /ZORI/.test(x.source) && x.all === dz.rent), 'Denver\'s Zillow rent equals the ZORI file (non-vacuity)');
+  // Every county the file publishes shows its own rent; the scan must find some.
+  const zCounties = Object.keys(src.zori.counties || {});
+  ok(zCounties.length > 0, 'the ZORI file publishes counties to check (non-vacuity)');
+  ok(zCounties.every((f) => WP.buildModel(src, f, { FundingFit }).market.some((x) => /ZORI/.test(x.source) && x.all === src.zori.counties[f].rent)), 'every published county\'s Zillow rent equals the ZORI file');
   ok(den.market.some((x) => /Apartment List/.test(x.source) && x.br2 === src.apartmentList.cities.denver.rent_2br), 'Apartment List 2BR equals its file');
   ok(!m.market.some((x) => /Apartment List/.test(x.source)), 'no Apartment List row for a city it does not cover');
   // Every assisted property in the town, and nothing from another county's same-named town.
