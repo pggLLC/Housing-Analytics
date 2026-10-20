@@ -212,6 +212,7 @@
 
   document.addEventListener('jurisdiction-url-context:resolved', _autoMount);
   document.addEventListener('workflow:product-changed', _autoMount);
+  document.addEventListener('workflow:project-loaded', _autoMount);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _autoMount);

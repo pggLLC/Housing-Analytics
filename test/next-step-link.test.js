@@ -59,6 +59,12 @@ for (const [fromPage, slot] of Object.entries(SLOT)) {
   assert.deepEqual([got.num, got.label, got.href], [want.num, want.label, want.href], `${fromPage}: fallback mirrors workflow-progress.js STEPS`);
 }
 
+// The link is rebuilt whenever the route can change: a product pick or a
+// project switch (which fires only workflow:project-loaded).
+for (const ev of ['workflow:product-changed', 'workflow:project-loaded']) {
+  assert(cta.includes(`addEventListener('${ev}', _autoMount)`), `the Next link remounts on ${ev}`);
+}
+
 // The place travels in the form each page reads.
 {
   const jx = { fips: '0862880', geoType: 'place' };
