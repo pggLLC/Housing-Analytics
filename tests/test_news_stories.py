@@ -148,7 +148,7 @@ def test_the_committed_stories_are_well_formed():
     keys = [gpb.norm_title(s['title']) for s in stories]
     assert len(keys) == len(set(keys)), 'a headline appears twice'
     for s in stories:
-        assert s['scope'] in ('colorado', 'federal')
+        assert s['scope'] in ('colorado', 'federal', 'national')
         assert re.match(r'^\d{4}-\d{2}-\d{2}$', s['date']), s
         assert all(p['geoid'] in geoids for p in s['places']), s
         assert set(s['regions']) <= regions, s
@@ -270,3 +270,109 @@ def test_a_brief_keeps_only_links_the_stories_keep(geos, tmp_path, monkeypatch):
     brief = json.loads(out.read_text())['briefs'][0]
     assert [a['source'] for a in brief['articles']] == ['Denver Gazette']
     assert brief['sources'] == ['Denver Gazette']
+
+
+def test_national_trends_come_only_from_listed_outlets(geos):
+    # 2026-10-20: paul sent two WSJ stories the Colorado searches never
+    # found, and asked for national trends from very reputable sources only.
+    stories, _ = gpb.build_stories([
+        alert('The Immigration Crackdown Is Making It Much Harder to Build Houses', 'WSJ'),
+        alert('A New Type of Mortgage Is Reviving Long Abandoned Neighborhoods', 'WSJ'),
+        alert('US homebuilder sentiment tumbles to near 14-1/2-year low in October', 'Reuters'),
+        alert('As Baby Boomers Age, Housing Demand Faces a Rising Headwind', 'Joint Center for Housing Studies'),
+        # Same kind of headline, unlisted outlet.
+        alert('Housing starts slump as builders pull back', 'Some Housing Blog'),
+        # Listed outlets, but opinion, advice, another country, another
+        # state, or not housing.
+        alert('Opinion | Tighter Rent Control Robs New York Tenants', 'WSJ'),
+        alert("It's a great time to buy a house — if you can stomach a 7% rate", 'The Washington Post'),
+        alert("China's new home prices fall again as recovery remains elusive", 'Reuters'),
+        alert("Could Embracing Sprawl Ease California's Housing Crunch?", 'The New York Times'),
+        alert('Supreme Court rejects Google challenge to US patent agency review policy', 'Reuters'),
+        alert('Joint Center for Housing Studies', 'Joint Center for Housing Studies'),
+    ], geos)
+    got = {s['title']: s['scope'] for s in stories}
+    assert got == {
+        'The Immigration Crackdown Is Making It Much Harder to Build Houses': 'national',
+        'A New Type of Mortgage Is Reviving Long Abandoned Neighborhoods': 'national',
+        'US homebuilder sentiment tumbles to near 14-1/2-year low in October': 'national',
+        'As Baby Boomers Age, Housing Demand Faces a Rising Headwind': 'national',
+    }
+
+
+def test_a_national_outlet_on_colorado_or_federal_news_keeps_that_scope(geos):
+    stories, _ = gpb.build_stories([
+        alert('Denver rents fall as new apartments open', 'WSJ'),
+        alert('HUD cuts housing voucher funding', 'Reuters'),
+    ], geos)
+    assert {s['title']: s['scope'] for s in stories} == {
+        'Denver rents fall as new apartments open': 'colorado',
+        'HUD cuts housing voucher funding': 'federal',
+    }
+
+
+def test_national_trends_are_not_summarised_in_the_briefs(geos):
+    alerts = [alert('U.S. Housing Starts Dropped Again in September', 'WSJ'),
+              alert('Denver approves affordable housing tax credits', 'Denver Gazette')]
+    assert [a['source'] for a in gpb.in_scope_alerts(alerts, geos)] == ['Denver Gazette']
+
+
+def test_the_same_national_release_is_one_story(geos):
+    stories, _ = gpb.build_stories([
+        alert('U.S. Housing Starts Dropped Again in September', 'WSJ', date='2026-10-20'),
+        alert('US Housing Starts Fall to Four-Month Low as Demand Falters', 'Bloomberg.com', date='2026-10-20'),
+        alert('U.S. Home-Builder Sentiment Sinks to 14-Year Low', 'WSJ', date='2026-10-19'),
+        alert('US homebuilder sentiment tumbles to near 14-1/2-year low in October', 'Reuters', date='2026-10-19'),
+        # One shared phrase a day apart is not the same story.
+        alert('The Immigration Crackdown Is Making It Much Harder to Build Houses', 'WSJ', date='2026-10-16'),
+        alert("A developer wants to build houses near Pocahontas's birthplace", 'The Washington Post', date='2026-10-17'),
+    ], geos)
+    assert {s['title']: [a['source'] for a in s['also']] for s in stories} == {
+        'U.S. Housing Starts Dropped Again in September': ['Bloomberg.com'],
+        'U.S. Home-Builder Sentiment Sinks to 14-Year Low': ['Reuters'],
+        'The Immigration Crackdown Is Making It Much Harder to Build Houses': [],
+        "A developer wants to build houses near Pocahontas's birthplace": [],
+    }
+
+
+def test_new_york_times_trend_stories_are_kept(geos):
+    # The publisher name contains "New York"; only the headline says where a
+    # story is (Codex review of #2404).
+    stories, _ = gpb.build_stories([
+        alert('Rising Mortgage Rates Risk Plunging Housing Further Into Crisis', 'The New York Times'),
+        alert('Can Real Estate Out-Organize Tenants in New York? This Group Will Try.', 'The New York Times'),
+    ], geos)
+    assert [s['title'] for s in stories] == ['Rising Mortgage Rates Risk Plunging Housing Further Into Crisis']
+
+
+def test_a_common_phrase_alone_does_not_merge_national_stories(geos):
+    stories, _ = gpb.build_stories([
+        alert('US housing market slows as mortgage rates rise', 'Reuters', date='2026-10-20'),
+        alert('US housing market inventory improves for buyers', 'Bloomberg.com', date='2026-10-20'),
+    ], geos)
+    assert len(stories) == 2
+
+
+def test_foreign_housing_news_from_listed_outlets_is_left_out(geos):
+    stories, _ = gpb.build_stories([
+        alert('Dutch home prices rise for a tenth month', 'Reuters'),
+        alert('South African housing construction slows', 'Reuters'),
+        alert('Canadian housing starts jump in September', 'Bloomberg.com'),
+    ], geos)
+    assert stories == []
+
+
+def test_a_headline_in_both_colorado_and_national_news_stays_colorado(geos):
+    # Same headline, same day, from a Colorado outlet and a national one:
+    # the feed order must not decide which list it lands in.
+    for order in (1, -1):
+        stories, _ = gpb.build_stories([
+            alert('US housing starts fall to a five-year low', 'Reuters'),
+            alert('US housing starts fall to a five-year low', 'Denver Post'),
+        ][::order], geos)
+        assert [(s['scope'], s['source']) for s in stories] == [('colorado', 'Denver Post')]
+        assert [a['source'] for a in stories[0]['also']] == ['Reuters']
+
+def test_regional_federal_reserve_banks_are_listed():
+    assert gpb.NATIONAL_SOURCE_RE.match('Atlanta Federal Reserve Bank')
+    assert gpb.NATIONAL_SOURCE_RE.match('Federal Reserve Bank of Kansas City')
