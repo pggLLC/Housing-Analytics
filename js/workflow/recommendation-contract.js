@@ -289,7 +289,7 @@
         how = ', read from jobs: more lower-wage workers are employed here than there are homes they can afford'
           + (growth === null ? '' : ' (resident growth alone would need about ' + growth.toLocaleString('en-US') + ')');
       } else if (future !== null && reading === 'resident_growth') {
-        how = ', from projected household growth';
+        how = ', from projected resident growth';
       }
       return {
         verdict: future === null

@@ -146,7 +146,10 @@ test('the metric discriminates — it did not just raise everything', () => {
   // destroying the metric's ability to separate places. A real zero has to
   // still be reachable, and the top must not be saturated.
   const vals = rows.map((r) => m(r).workforce_gap_pct).filter((v) => typeof v === 'number');
-  assert.ok(vals.length >= 400, `only ${vals.length} usable values; check went vacuous`);
+  // 354 of 546 on 2026-10-19. It was 406 while each town's wage tiers were
+  // its county's jobs scaled by population, which gave small bedroom towns
+  // more low-wage jobs than they host; now under 50 is suppressed for real.
+  assert.ok(vals.length >= 300, `only ${vals.length} usable values; check went vacuous`);
   const zero = vals.filter((v) => v === 0).length;
   const maxed = vals.filter((v) => v === 100).length;
   assert.ok(zero >= 10,
@@ -183,4 +186,126 @@ test('the new metrics are documented in the index catalogue', () => {
     'workforce_gap_units', 'workforce_gap_pct', 'workforce_gap_basis']) {
     assert.ok(ids.has(id), `${id} is published on every row but absent from the metric catalogue`);
   }
+});
+
+test("a town's wage tiers count its own jobs, not its county's", () => {
+  // Fruita read 2,735 low- and middle-wage jobs located there against 3,087
+  // jobs in total: the tiers were Mesa County's, scaled by Fruita's share of
+  // the county's people, and the workforce reading turned the excess into
+  // "2,302 homes needed". The tiers must add up to the place's own job count.
+  const lehd = read('data/hna/place-lehd.json').places;
+  const off = [];
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    if (!(l.C000 > 0) || l.CE01 == null) continue;
+    const tiers = l.CE01 + l.CE02 + l.CE03;
+    if (tiers === 0 && Object.values(l.annualEmployment || {}).every((v) => !v)) continue;
+    if (Math.abs(tiers - l.C000) > 2) off.push(`${p.name} (${geoid}): tiers ${tiers} vs jobs ${l.C000}`);
+    const ae = l.annualEmployment || {};
+    const yrs = Object.keys(ae).sort();
+    if (yrs.length && ae[yrs[yrs.length - 1]] !== l.C000) {
+      off.push(`${p.name} (${geoid}): latest yearly jobs ${ae[yrs[yrs.length - 1]]} vs jobs ${l.C000}`);
+    }
+  }
+  assert.deepEqual(off.slice(0, 10), [], `${off.length} places disagree with their own job count`);
+});
+
+test('a place\'s job count, wage mix and yearly series are one LODES year', () => {
+  // The OD flows can be rebuilt for any year; rescaling another year's count
+  // into the latest year of the series would publish it under the wrong year.
+  const wacYear = String(read('data/market/lodes_co.json').meta.vintage);
+  const odYear = String((read('data/hna/place-od-flows.json').meta || {}).year);
+  const lehd = read('data/hna/place-lehd.json').places;
+  let checked = 0;
+  const bad = [];
+  for (const p of Object.values(lehd)) {
+    const years = Object.keys((p.lehd || {}).annualEmployment || {}).sort();
+    if (!years.length) continue;
+    checked++;
+    if (years[years.length - 1] !== wacYear) bad.push(`${p.name}: series ends ${years[years.length - 1]}, wage mix is ${wacYear}`);
+    if (p.lehd.flows_source === 'block-od' && p.lehd.wac_source === 'block-scaled' && odYear !== wacYear) {
+      bad.push(`${p.name}: block count from ${odYear} used with ${wacYear} wages`);
+    }
+  }
+  assert.ok(checked > 400, `only ${checked} places carry a yearly series`);
+  assert.deepEqual(bad, []);
+});
+
+test('small places keep an honest history: one wage mix, no zero-job inventions, no county stand-in', () => {
+  // Three cases Codex found on #2385, pinned so they cannot come back.
+  const lehd = read('data/hna/place-lehd.json').places;
+  const od = read('data/hna/place-od-flows.json');
+  const odPlaces = od.places || od;
+  const aux = read('data/hna/source/lodes_primary_jobs.json');
+  const wacPlaces = aux.wac_primary_places || {};
+  const wacYear = String(read('data/market/lodes_co.json').meta.vintage);
+  const odSameYear = String((od.meta || {}).year) === wacYear && String(aux.year) === wacYear;
+  const problems = [];
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    const ae = l.annualEmployment || {};
+    const aw = l.annualWages || {};
+    // 1. Every year splits its jobs with the same wage mix. Rescaling counts
+    //    that were already rounded turned Lakeside's 2020-22 into {0, 0, 530}
+    //    and then switched to the local mix in 2023: a wage shift that never
+    //    happened.
+    const years = Object.keys(aw).sort();
+    if (years.length && l.C000 > 0) {
+      const latest = aw[years[years.length - 1]];
+      const latestTotal = latest.low + latest.medium + latest.high;
+      for (const y of years) {
+        const t = aw[y];
+        const total = t.low + t.medium + t.high;
+        if (Math.abs(total - (ae[y] || 0)) > 2) problems.push(`${p.name} ${y}: tiers ${total} vs jobs ${ae[y]}`);
+        if (total >= 100 && latestTotal >= 100) {
+          const share = t.low / total;
+          const latestShare = latest.low / latestTotal;
+          if (Math.abs(share - latestShare) > 0.02) {
+            problems.push(`${p.name} ${y}: low-wage share ${share.toFixed(3)} vs ${latestShare.toFixed(3)} in ${years[years.length - 1]}`);
+          }
+        }
+      }
+    }
+    // 2. A block count of zero jobs is a count, not a gap to fill with the
+    //    tract estimate (Goldfield read 106 jobs against a block count of 0).
+    //    Only when the OD file and the wage mix are the same LODES year: on a
+    //    mismatch the builder keeps the same-year tract estimate on purpose.
+    const b = odSameYear ? odPlaces[geoid] : null;
+    //    The count is the place's WAC all-jobs total; OD main leaves out
+    //    out-of-state workers, so a zero there is not enough on its own.
+    const total = b ? ((wacPlaces[geoid] || {}).all_jobs || 0) : null;
+    if (b && total === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
+      problems.push(`${p.name}: no job located here but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
+    }
+  }
+  // 3. No local wage mix means unknown, not the county's mix (Hartsel,
+  //    population 0, read 19/23/51 from Park County's split). Which places
+  //    have no mix is derived from the builder's own inputs: the tracts a
+  //    place overlaps, weighted by place_pop x share_of_place_area / tract pop,
+  //    carry no high-wage jobs.
+  const membership = read('data/hna/place-tract-membership.json').places;
+  const tractPop = new Map(read('data/market/acs_tract_metrics_co.json').tracts.map((t) => [String(t.geoid), Number(t.pop) || 0]));
+  const lodes = new Map(read('data/market/lodes_co.json').tracts.map((t) => [String(t.geoid), t]));
+  let noMix = 0;
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    if (!(l.C000 > 0)) continue;
+    let high = 0;
+    let weighted = false;
+    for (const t of (membership[geoid] || {}).tracts || []) {
+      const lt = lodes.get(t.tract_geoid);
+      const tp = tractPop.get(t.tract_geoid) || 0;
+      const sop = Number(t.share_of_place_area) || 0;
+      if (!lt || tp <= 0 || sop <= 0) continue;
+      weighted = true;
+      high += (Number(lt.high_wage) || 0) * Math.min(1, (p.place_pop * sop) / tp);
+    }
+    if (!weighted || high > 0) continue;
+    noMix++;
+    if (l.CE01 !== null || l.CE02 !== null || l.CE03 !== null || Object.keys(l.annualWages || {}).length) {
+      problems.push(`${p.name}: no local wage mix, but tiers ${l.CE01}/${l.CE02}/${l.CE03} and ${Object.keys(l.annualWages || {}).length} years of wage split`);
+    }
+  }
+  assert.ok(noMix >= 1, 'no place without a local wage mix was found, so the no-county-mix rule went unchecked');
+  assert.deepEqual(problems.slice(0, 10), [], `${problems.length} small-place history problems`);
 });

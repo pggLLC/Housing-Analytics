@@ -284,7 +284,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Denver at #105 with an overall housing-need score of 66.7. It identifies 29,051 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 56.2% of <=30% AMI households. 49.5% of renter households are cost burdened, and 3.2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Denver at #107 with an overall housing-need score of 66.5. It identifies 29,051 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 56.2% of <=30% AMI households. 49.5% of renter households are cost burdened, and 3.2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -304,7 +304,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 729,019. LEHD-based commuting signals show 381,335 in-commuters and a commute ratio of 69.9%. The digest's county-context projection shows 70,122 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 729,019. LEHD-based commuting signals show 384,704 in-commuters and a commute ratio of 70.1%. The digest's county-context projection shows 70,122 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -701,8 +701,43 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s39",
+      "label": "Denver reports mixed results on five-year housing goals — Denver Gazette",
+      "url": "https://www.denvergazette.com/2026/09/25/denver-reports-mixed-results-on-five-year-housing-goals/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s40",
+      "label": "Local Leaders Break Ground on Park Avenue Apartments — City and County of Denver (HOST)",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Local-Leaders-Break-Ground-on-Park-Avenue-Apartments",
+      "kind": "primary",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s41",
+      "label": "Denver City Council committee looks to ease affordable housing metrics — Colorado Politics",
+      "url": "https://www.coloradopolitics.com/2026/08/11/denver-city-council-committee-looks-to-ease-affordable-housing-metrics/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s42",
+      "label": "To spur more housing construction, Denver changed its parking rules — Marketplace",
+      "url": "https://www.marketplace.org/story/2026/09/02/denver-changed-parking-rule-to-spur-more-housing",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s43",
+      "label": "Denver Mayor Mike Johnston unveils Mile High Line project at State of the City — Rocky Mountain PBS",
+      "url": "https://www.rmpbs.org/news/government/denver-mayor-mike-johnston-unveils-mile-high-line-project",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -711,7 +746,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -846,7 +881,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -855,7 +890,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -864,7 +899,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -897,41 +932,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s39",
-      "label": "Denver reports mixed results on five-year housing goals — Denver Gazette",
-      "url": "https://www.denvergazette.com/2026/09/25/denver-reports-mixed-results-on-five-year-housing-goals/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s40",
-      "label": "Local Leaders Break Ground on Park Avenue Apartments — City and County of Denver (HOST)",
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Local-Leaders-Break-Ground-on-Park-Avenue-Apartments",
-      "kind": "primary",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s41",
-      "label": "Denver City Council committee looks to ease affordable housing metrics — Colorado Politics",
-      "url": "https://www.coloradopolitics.com/2026/08/11/denver-city-council-committee-looks-to-ease-affordable-housing-metrics/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s42",
-      "label": "To spur more housing construction, Denver changed its parking rules — Marketplace",
-      "url": "https://www.marketplace.org/story/2026/09/02/denver-changed-parking-rule-to-spur-more-housing",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s43",
-      "label": "Denver Mayor Mike Johnston unveils Mile High Line project at State of the City — Rocky Mountain PBS",
-      "url": "https://www.rmpbs.org/news/government/denver-mayor-mike-johnston-unveils-mile-high-line-project",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ]
 }

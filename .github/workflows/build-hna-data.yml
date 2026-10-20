@@ -298,6 +298,19 @@ jobs:
         # output from those inputs, so it must be rebuilt whenever they move.
         run: python3 scripts/hna/build_workforce_need.py --fetch 2>&1
 
+      - name: Phase 6.46 — Rebuild place LEHD, then place CHAS on it
+        if: ${{ inputs.statewide_only != true }}
+        # Each place's job total (C000) is its LODES WAC all-jobs count from
+        # data/hna/source/lodes_primary_jobs.json, which Phase 6.45 just
+        # refreshed, and its yearly series rescale the LEHD county files
+        # refreshed above. place-chas.json reads place-lehd.json, and Phase 7
+        # reads both, so both are rebuilt here before the ranking index.
+        # Local, deterministic, no network: a failure is a real bug, so it
+        # blocks like Phase 6.4.
+        run: |
+          python3 scripts/hna/build_place_lehd.py 2>&1
+          python3 scripts/hna/build_place_chas.py 2>&1
+
       - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
         if: ${{ inputs.statewide_only != true }}
         # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json
