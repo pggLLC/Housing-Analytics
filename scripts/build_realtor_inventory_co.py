@@ -57,11 +57,19 @@ COUNTY_URL = BASE + "RDC_Inventory_Core_Metrics_County.csv"
 ZIP_URL = BASE + "RDC_Inventory_Core_Metrics_Zip.csv"
 RESEARCH_PAGE = "https://www.realtor.com/research/data/"
 
-# Colorado has 64 counties, and a statewide file carries all of them
-# (AGENTS.md hard constraint 2); Realtor.com carried all 64 in September 2026.
-# Its ZIP file carried 473 Colorado ZIPs; far fewer means a bad extract.
+# A statewide file carries all 64 Colorado counties (AGENTS.md hard
+# constraint 2), so the county file must hold exactly the counties in the
+# committed boundary file, by FIPS and name; Realtor.com carried all 64 in
+# September 2026. Its ZIP file carried 473 Colorado ZIPs; far fewer means a
+# bad extract.
+COUNTY_REGISTRY = Path(__file__).resolve().parent.parent / "data" / "co-county-boundaries.json"
 CO_COUNTIES = 64
 MIN_ZIPS = 400
+
+
+def canonical_counties() -> dict:
+    features = json.loads(COUNTY_REGISTRY.read_text())["features"]
+    return {f["properties"]["GEOID"]: f["properties"]["NAMELSAD"] for f in features}
 
 # (output key, csv column, kind). "pct" columns are fractions in the file.
 FIELDS = [
@@ -166,8 +174,13 @@ def main() -> int:
         print(f"ERROR: {exc}; keeping the committed file.", file=sys.stderr)
         return 1
 
-    if len(counties) != CO_COUNTIES:
-        print(f"ERROR: {len(counties)} Colorado counties in the file, not {CO_COUNTIES}; keeping the committed file.", file=sys.stderr)
+    canon = canonical_counties()
+    missing = sorted(set(canon) - set(counties))
+    extra = sorted(set(counties) - set(canon))
+    renamed = sorted(k for k in set(canon) & set(counties) if counties[k]["name"] != canon[k])
+    if missing or extra or renamed:
+        print(f"ERROR: the county file does not match Colorado's {len(canon)} counties "
+              f"(missing {missing}, unknown {extra}, misnamed {renamed}); keeping the committed file.", file=sys.stderr)
         return 1
     if len(zips) < MIN_ZIPS:
         print(f"ERROR: only {len(zips)} Colorado ZIPs in the file; keeping the committed file.", file=sys.stderr)

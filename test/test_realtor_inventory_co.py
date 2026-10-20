@@ -31,11 +31,14 @@ ZIP_HEAD = COUNTY_HEAD.replace("county_fips,county_name", "postal_code,zip_name"
 
 
 def county_csv(n: int, blank_dom_for: str | None = None) -> str:
+    # The first n of Colorado's real counties, named as Realtor.com names them ("chaffee, co").
+    canon = sorted(json.loads((ROOT / "data" / "co-county-boundaries.json").read_text())["features"],
+                   key=lambda f: f["properties"]["GEOID"])
     rows = [COUNTY_HEAD]
-    for i in range(n):
-        fips = "08%03d" % (2 * i + 1)
+    for i, f in enumerate(canon[:n]):
+        fips, name = f["properties"]["GEOID"], f["properties"]["NAME"].lower()
         dom = "" if blank_dom_for in (fips, "all") else "90.0"
-        rows.append(f'202609,{fips},"county {i}, co",500000.0,-0.02,120,0.25,{dom},0.1,10,8,300.0,0.2,0.05,{i % 2}')
+        rows.append(f'202609,{fips},"{name}, co",500000.0,-0.02,120,0.25,{dom},0.1,10,8,300.0,0.2,0.05,{i % 2}')
     rows.append('202609,49037,"san juan, ut",452250.0,0.0095,30,-0.3,124.0,0.68,6,11,227.0,0.09,0.02,0')
     return "\n".join(rows) + "\n"
 
@@ -84,6 +87,8 @@ def test_bad_month_keeps_committed_file():
     m = load_module()
     bad = {
         "a county missing": (county_csv(63), None),
+        "an unknown county in place of Broomfield": (county_csv(64).replace("202609,08014,", "202609,08127,"), None),
+        "a county under another name": (county_csv(64).replace('"broomfield, co"', '"brumfield, co"'), None),
         "an empty ZIP file": (county_csv(64), ZIP_HEAD + "\n"),
         "a ZIP file from another month": (county_csv(64), zip_csv().replace("202609,", "202608,")),
         "a renamed metric column": (county_csv(64).replace("median_days_on_market,", "days_on_market,", 1), None),
