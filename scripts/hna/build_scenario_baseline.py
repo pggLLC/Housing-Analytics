@@ -122,6 +122,7 @@ def main():
 
     sya = {}
     names = {}
+    rows_by_age = {}  # (county, year, age) -> rows; each must be exactly 1
     for r in sya_rows:
         c = int(r['countyfips'])
         if c == 0:
@@ -129,6 +130,8 @@ def main():
         y = int(r['year'])
         if BASE_YEAR <= y <= END_YEAR:
             d = sya.setdefault(c, {}).setdefault(y, ([0.0] * N_AGES, [0.0] * N_AGES))
+            key = (c, y, int(r['age']))
+            rows_by_age[key] = rows_by_age.get(key, 0) + 1
             a = min(int(r['age']), N_AGES - 1)
             d[0][a] += float(r['malepopulation'])
             d[1][a] += float(r['femalepopulation'])
@@ -150,11 +153,18 @@ def main():
     extra = sorted(set(sya) - set(CO_COUNTIES))
     if missing or extra:
         raise SystemExit(f'SDO population file has counties {extra} it should not and lacks {missing}; nothing written')
+    # A download cut short inside a year keeps that year but loses some ages,
+    # which would otherwise read as nobody of those ages.
+    years = list(range(BASE_YEAR, END_YEAR + 1))
+    gaps = [f'08{c:03d} {y} age {a}' for c in CO_COUNTIES for y in years for a in range(N_AGES)
+            if rows_by_age.get((c, y, a), 0) != 1]
+    gaps += [f'08{c:03d} {y} age {a} ({n} rows)' for (c, y, a), n in rows_by_age.items() if n != 1 and a >= N_AGES]
+    if gaps:
+        raise SystemExit(f'SDO population file lacks or repeats {len(gaps)} county-year-age rows, e.g. {gaps[:3]}; nothing written')
 
     # Every county is checked and built before the first file is written, so a
     # short download of any of the three files writes nothing rather than
     # leaving some counties on the new vintage and some on the old.
-    years = list(range(BASE_YEAR, END_YEAR + 1))
     hh_ids = set(range(len(HH_GROUPS) + 1))
     worst = 0.0
     outputs = {}

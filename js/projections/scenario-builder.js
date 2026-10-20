@@ -120,21 +120,14 @@
   }
 
   /**
-   * The counties whose forecasts a geography draws on: a county itself; a town
-   * or CDP in the place ledger, every county it sits in; any other place, its
-   * containing county. `data` needs only { ledger, cross } (see contextFor).
+   * The counties whose forecasts a geography draws on: CohortComponentModel's
+   * countiesFor, which the HNA page's saved-scenario line uses too. `data`
+   * needs only { ledger, cross } (see contextFor).
    */
   function countiesFor(geo, data) {
     if (!geo || !geo.geoid) return [];
-    if (geo.type === 'county') return [geo.geoid];
     const d = data || {};
-    const rec = (d.ledger || {})[geo.geoid];
-    if (rec && rec.shares && _num(rec.shares.blended) != null) {
-      const x = (d.cross || {})[geo.geoid];
-      if (x && Array.isArray(x.all_counties) && x.all_counties.length) return x.all_counties.map(m => m.fips);
-      return [rec.containing_county || geo.containingCounty].filter(Boolean);
-    }
-    return [geo.containingCounty].filter(Boolean);
+    return window.CohortComponentModel.countiesFor(geo, (d.ledger || {})[geo.geoid], (d.cross || {})[geo.geoid]);
   }
 
   function _pctText(v) {

@@ -201,6 +201,28 @@
     return out;
   }
 
+  /**
+   * The counties whose SDO forecast a geography's scenario runs on. The
+   * Scenario Builder and the HNA page's saved-scenario line both use this, so
+   * a scenario covers the same counties on both: a county itself; a town or
+   * CDP with a place-ledger share, every county it sits in
+   * (cross-county-places.json); any other place, its containing county.
+   * @param {Object} geo - {type, geoid, containingCounty}
+   * @param {Object} [ledgerRec] - the place ledger row, if any
+   * @param {Object} [crossRec] - cross-county-places.json places[geoid], if any
+   */
+  function countiesFor(geo, ledgerRec, crossRec) {
+    if (!geo || !geo.geoid) return [];
+    if (geo.type === 'county') return [geo.geoid];
+    if (ledgerRec && ledgerRec.shares && _given(ledgerRec.shares.blended) != null) {
+      if (crossRec && Array.isArray(crossRec.all_counties) && crossRec.all_counties.length) {
+        return crossRec.all_counties.map(function (m) { return m.fips; });
+      }
+      return [ledgerRec.containing_county || geo.containingCounty].filter(Boolean);
+    }
+    return [geo.containingCounty].filter(Boolean);
+  }
+
   // A saved number, or null when it is absent: Number(null) is 0, and a
   // setting that was never saved is not a setting of zero.
   function _given(v) {
@@ -225,6 +247,7 @@
     changeFromSdo: changeFromSdo,
     averageAnnualMigration: averageAnnualMigration,
     paramsFromSaved: paramsFromSaved,
+    countiesFor: countiesFor,
     DEFAULT_PARAMS: Object.freeze(Object.assign({}, DEFAULT_PARAMS)),
     RANGES: Object.freeze(Object.assign({}, RANGES)),
     N_AGES: N_AGES,

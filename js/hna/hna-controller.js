@@ -3962,6 +3962,11 @@
   function setCustomScenarioDisclosure(customMeta){
     const el = document.getElementById('customScenarioDisclosure');
     if (!el) return;
+    if (customMeta && customMeta.unavailableReason) {
+      el.textContent = customMeta.unavailableReason;
+      el.hidden = false;
+      return;
+    }
     if (!customMeta || !customMeta.active) {
       el.textContent = '';
       el.hidden = true;
@@ -3978,7 +3983,8 @@
   // (CohortComponentModel.changeFromSdo). At 100% on all three the custom line
   // is this page's line exactly. A town or CDP takes the change at the share of
   // county growth this page gives it (the place ledger's blended share, else
-  // its share of the county's people).
+  // its share of the county's people), summed over the same counties the
+  // Scenario Builder uses (CohortComponentModel.countiesFor).
   async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, placeShare){
     const rec = getScenarioBuilderRecord(selectedKey);
     const M = window.CohortComponentModel;
@@ -3986,20 +3992,32 @@
       setCustomScenarioDisclosure(null);
       return null;
     }
-    let baseline = null;
-    if (window.HNAState.state.lastScenarioBaseline && window.HNAState.state.lastScenarioBaselineFips === countyFips5) {
-      baseline = window.HNAState.state.lastScenarioBaseline;
-    } else {
-      try {
-        baseline = await loadJson(window.HNAUtils.PATHS.scenarioBaseline(countyFips5));
-        window.HNAState.state.lastScenarioBaseline = baseline;
-        window.HNAState.state.lastScenarioBaselineFips = countyFips5;
-      } catch (_) {
-        baseline = null;
-      }
+    if (!selection || selection.geoType === 'state' || _isMultiJurisdictionSelection(selection)) {
+      setCustomScenarioDisclosure({ unavailableReason: 'A saved Scenario Builder scenario runs on one county, town or CDP, as the Scenario Builder does. Choose one to see its line here.' });
+      return null;
     }
-    if (!baseline) {
-      setCustomScenarioDisclosure(null);
+    let crossRec = null;
+    if (selection.geoType !== 'county' && Number.isFinite(placeShare)) {
+      if (window.HNAState.state.crossCountyPlaces === undefined) {
+        window.HNAState.state.crossCountyPlaces = await loadJson('data/hna/cross-county-places.json').catch(function () { return null; });
+      }
+      const cross = window.HNAState.state.crossCountyPlaces;
+      crossRec = cross && cross.places ? cross.places[selection.geoid] || null : null;
+    }
+    const fipsList = M.countiesFor(
+      { type: selection.geoType, geoid: selection.geoid, containingCounty: countyFips5 },
+      Number.isFinite(placeShare) ? { shares: { blended: placeShare } } : null,
+      crossRec
+    );
+    const cache = window.HNAState.state.scenarioBaselines || (window.HNAState.state.scenarioBaselines = {});
+    const baselines = await Promise.all(fipsList.map(function (fips) {
+      if (cache[fips]) return cache[fips];
+      return loadJson(window.HNAUtils.PATHS.scenarioBaseline(fips))
+        .then(function (b) { cache[fips] = b; return b; })
+        .catch(function () { return null; });
+    }));
+    if (!baselines.length || baselines.some(function (b) { return !b; })) {
+      setCustomScenarioDisclosure({ unavailableReason: 'The State Demography Office forecast files the saved scenario runs on did not load, so its line is not drawn.' });
       return null;
     }
 
@@ -4013,10 +4031,17 @@
       setCustomScenarioDisclosure(null);
       return null;
     }
-    const sdoMigration = M.averageAnnualMigration(baseline, 20);
+    const migrations = baselines.map(function (b) { return M.averageAnnualMigration(b, 20); });
+    const sdoMigration = migrations.some(function (m) { return m == null; }) ? null
+      : migrations.reduce(function (a, m) { return a + m; }, 0);
     const params = M.paramsFromSaved(rec.parameters || {}, sdoMigration == null ? null : sdoMigration * share);
     const changeByYear = {};
-    M.changeFromSdo(baseline, params).forEach(function (row) { changeByYear[row.year] = row; });
+    baselines.forEach(function (b) {
+      M.changeFromSdo(b, params).forEach(function (row) {
+        const sum = changeByYear[row.year] || (changeByYear[row.year] = { year: row.year, population: 0 });
+        sum.population += row.population;
+      });
+    });
     // Only the chart's own years: no padded or extrapolated tail.
     const series = (years || [])
       .map(function (year, idx) {
@@ -5409,6 +5434,7 @@
   window.__HNA_mergeExtendedForTest = mergeExtended;
   window.__HNA_buildCensusUrlForTest = _buildCensusUrl;
   window.__HNA_rentBurdenEvidenceForTest = _rentBurdenEvidence;
+  window.__HNA_buildScenarioBuilderOverlayForTest = buildScenarioBuilderOverlay;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);

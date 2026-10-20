@@ -89,7 +89,7 @@ The chart on the Scenario Builder page always displays **all four curves** simul
 - 1.5× the migration
 - Your scenario (your current slider settings)
 
-A saved scenario also appears in the HNA page's scenario list, drawn as that page's population line plus the change the scenario makes to SDO's forecast.
+A saved scenario also appears in the HNA page's scenario list, drawn as that page's population line plus the change the scenario makes to SDO's forecast. The change is taken over the same counties the builder uses (`CohortComponentModel.countiesFor`), so a town in several counties moves by the same amount on both pages (`test/hna-saved-scenario-matches-builder.test.js`). Statewide, which the builder does not model, the page draws no saved-scenario line and says so.
 
 To compare multiple custom scenarios:
 1. Load the first scenario → note the results

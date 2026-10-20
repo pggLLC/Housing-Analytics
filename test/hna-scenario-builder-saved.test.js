@@ -83,7 +83,8 @@ assert(controllerSrc.includes('ScenarioStorage.list()'), 'controller reads saved
 assert(controllerSrc.includes("(Scenario Builder)'"), 'controller labels saved select options with Scenario Builder suffix');
 assert(controllerSrc.includes('SCENARIO_BUILDER_PREFIX'), 'controller namespaces saved scenario option values');
 assert(controllerSrc.includes('Custom (Scenario Builder) · 20-yr cohort model'), 'custom legend/disclosure label is pinned');
-assert(controllerSrc.includes('M.changeFromSdo(baseline, params)'), 'controller recomputes saved scenario series with CohortComponentModel on the SDO baseline');
+assert(controllerSrc.includes('M.changeFromSdo(b, params)'), 'controller recomputes saved scenario series with CohortComponentModel on the SDO baselines');
+assert(controllerSrc.includes('M.countiesFor('), 'controller runs a saved scenario on the counties the Scenario Builder uses (agreement held by hna-saved-scenario-matches-builder.test.js)');
 assert(controllerSrc.includes('base + share * change.population'), 'the custom line is the page\'s own line plus the scenario\'s change from SDO');
 assert(controllerSrc.includes("M.paramsFromSaved(rec.parameters || {}"), 'scenarios saved by the earlier model are converted, not run as-is');
 assert(!controllerSrc.includes('localStorage.setItem') || controllerSrc.includes('ScenarioStorage'), 'controller does not persist computed projection series');
