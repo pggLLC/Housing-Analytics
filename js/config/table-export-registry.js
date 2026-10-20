@@ -123,8 +123,8 @@
     },
     'dd-market-direction-counties': {
       title: 'Housing market direction by county',
-      description: 'One row per Colorado county: its market call, the readings behind it, homes permitted this year against last, the tax-credit rent edge and affordable homes in the pipeline.',
-      sources: ['market-direction']
+      description: 'One row per Colorado county: its market call, the readings behind it, homes permitted this year against last, the tax-credit rent edge, affordable homes in the pipeline, and Realtor.com’s homes for sale, days on market and share of listings with a price cut.',
+      sources: ['market-direction', 'realtor-inventory']
     },
     'dd-market-direction-towns': {
       title: 'Housing market direction by town',
