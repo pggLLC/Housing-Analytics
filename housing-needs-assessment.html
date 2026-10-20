@@ -488,7 +488,7 @@
           { selector: '#hnaH2RentBurden', meta: {
             what:    'Share of renter households paying each rent-as-percent-of-income tier — <15%, 15–20%, 20–25%, 25–30%, 30–35%, 35%+.',
             source:  'ACS 5-Year DP04 GRAPI bins DP04_0137PE–0142PE (vintage 2020–2024).',
-            method:  'Bin shares straight from the DP04 profile; ≥30% = cost-burdened, ≥50% = severely burdened.',
+            method:  'Bin shares straight from the DP04 profile; 30% or more = cost-burdened, 50% or more = severely burdened.',
             drift:   'The Census Bureau renumbered these rent-share categories starting with its 2023 data release; this chart uses the current numbering.',
             caveats: 'Gross rent is contract rent plus the utilities and fuels the renter pays, so these shares include utilities. Households paying no cash rent, or whose share cannot be computed, are not counted.',
           } },
@@ -534,7 +534,7 @@
             { name: 'ACS Commuting (S0801)', status: 'primary', vintage: '2024', coverage: 'Counties + places' },
             { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
             { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
-            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
+            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'HUD released a newer edition in Dec 2025; this page still uses 2018-2022.' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
             { name: 'AMI Gap (ACS B25063 + B25118 renter HH)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
           ],
@@ -599,7 +599,7 @@
           <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
 
           <div class="stat"><div class="k">Renter-occupied (tenure)</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0047 (renter share; owner share is 0046) · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
-          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Rent burdened (30% or more)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.8125rem;opacity:.85">—</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801 mean travel time (min) · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
@@ -872,7 +872,7 @@
       <div class="chart-card span-6">
         <h2 id="hnaH2RentBurden">Rent burden distribution</h2>
         <p>Share of renter households by gross rent as a percent of income (ACS DP04 / GRAPI bins).
-          Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
+          Households spending 30% or more of income on housing are considered cost-burdened; 50% or more, severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
         </p>
         <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
@@ -1435,9 +1435,9 @@
         </p>
         <!-- Metric cards populated by renderEconomicIndicators() — 4 LEHD WAC cards.
              Uses metric-cards-4 (4-column grid) so the box size matches the
-             BLS labour market & affordability row directly below. -->
+             BLS labor market & affordability row directly below. -->
         <div id="econIndicatorCards" class="metric-cards metric-cards-4" style="margin-bottom:14px"></div>
-        <h3 class="hna-subhead" style="margin:0 0 8px;">Colorado labour market &amp; affordability</h3>
+        <h3 class="hna-subhead" style="margin:0 0 8px;">Colorado labor market &amp; affordability</h3>
         <!-- BLS LAUS + ACS KPIs (unemployment, 5-yr job growth, 5-yr pop growth, affordability index) populated by renderBlsLabourMarket() -->
         <div id="blsLabourMarketCards" class="metric-cards metric-cards-4" style="margin-bottom:14px" data-source-id="bls-laus"></div>
         <div class="hna-grid" style="margin-top:0">
