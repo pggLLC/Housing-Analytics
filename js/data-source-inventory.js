@@ -688,7 +688,7 @@
       maxAgeDays: 45,
       geoUnit: 'County, ZIP',
       coverage: 'Colorado — 64 counties, 473 ZIP codes',
-      features: 64,
+      features: 537,
       description: 'Realtor.com monthly listing summary: homes for sale, new and pending listings, median list price, days on market and the share of listings with a price cut. Shown beside each county on the Market Direction tab; context only.',
       tags: ['realtor', 'listings', 'for-sale', 'days-on-market'],
       apiEndpoint: null
