@@ -935,6 +935,14 @@
           break;
         }
       }
+      // A routed page (the for-sale study) is named by the current route.
+      var WP = global.WorkflowProgress;
+      if (!label && WP && typeof WP.routeSteps === 'function') {
+        var route = WP.routeSteps();
+        for (var r = 0; r < route.length; r++) {
+          if (route[r].href === target) { label = route[r].label; break; }
+        }
+      }
     } catch (e) { /* fall through to the generic wording */ }
     btn.textContent = label ? ('Continue to ' + label + ' \u2192') : 'Continue \u2192';
   }
@@ -1022,6 +1030,8 @@
     // rather than the rail's "Deal") are not available on the first pass.
     syncContinueLabel();
     if (global.addEventListener) global.addEventListener('load', syncContinueLabel);
+    // The product picked on this page changes where step=N leads.
+    if (global.document && global.document.addEventListener) global.document.addEventListener('workflow:product-changed', syncContinueLabel);
     el.sjRecent        = document.getElementById('sjRecent');
     el.sjRecentList    = document.getElementById('sjRecentList');
 

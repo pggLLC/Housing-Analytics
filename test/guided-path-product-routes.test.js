@@ -267,11 +267,15 @@ test('a Next link\'s step=N follows a product change made on the picker', () => 
     { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent('market-analysis.html') + '&step=4', runScripts: 'outside-only' });
   dom.window.eval(railSrc);
   dom.window.eval(read('js/jurisdiction-selector.js'));
+  // The picker starts on DOMContentLoaded, which jsdom fires after this tick.
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), 'market-analysis.html', 'rental: step 4 is Market Analysis');
   dom.window.WorkflowProgress.setProduct('for-sale');
   const want = WP0().stepsFor('for-sale').find((s) => s.num === 4).href;
   assert.notStrictEqual(want, 'market-analysis.html', 'fixture: for-sale replaces step 4');
   assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), want, 'after switching to for-sale, step 4 is the for-sale page');
+  const label = WP0().stepsFor('for-sale').find((s) => s.num === 4).label;
+  assert.strictEqual(dom.window.document.getElementById('sjContinueBtn').textContent, 'Continue to ' + label + ' \u2192', 'the button names the page it now opens');
 });
 
 test('the banner follows the calculator\'s mode, however it was set', () => {
