@@ -29,7 +29,7 @@
   //   ACS: 2020-2024 5-year B25070 rows 007-010 over renter households with
   //     a computed ratio (001 minus 011), the same basis as DP04_0141PE +
   //     DP04_0142PE that the score card and ranking index use. Census
-  //     Reporter acs2024_5yr, checked 2026-10-20: 422,941 / 803,524.
+  //     Reporter acs2024_5yr, checked 2026-10-20: 404,262 / 764,414 = 52.89%.
   //   CHAS: HUD CHAS 2018-2022 state row
   //     (data/hna/chas_affordability_gap.json.state.summary).
   // Comparing an ACS county share with the CHAS state row put Mesa County's
