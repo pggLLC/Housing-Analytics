@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T02:43:31.929Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T03:47:54.201Z. Do not edit by hand.
 
 ---
 
@@ -48,14 +48,14 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 37.4 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.1 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 137.9 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.1 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.0 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.4 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.3 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.2 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.4 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.3 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.6 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 47.9 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 791 B |
