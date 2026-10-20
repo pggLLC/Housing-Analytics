@@ -207,7 +207,7 @@ async function render(selection, countyFips) {
     const wr = ws.rows.find((o) => /^Figure used plus homes lost/.test(o.m || ''));
     assert(wr && wr.h === Math.round(r.rec.withReplacement.units), 'the sheet\'s figure-plus-replacement differs from the screen');
     const used = ws.rows.find((o) => /^Figure used( \(|$)/.test(o.m || ''));
-    assert(used && used.h === r.rec.used.units, 'the sheet\'s figure used differs from the screen');
+    assert(used && used.h === Math.round(r.rec.used.units), 'the sheet\'s figure used differs from the screen');
   });
 
   await test('homes lost to age equal the projection the growth reading came from, and are kept out of the figure used', async () => {
