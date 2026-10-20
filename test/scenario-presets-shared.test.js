@@ -46,31 +46,14 @@ assert.deepEqual(
 assert.deepEqual(
   Object.fromEntries(canonical.map(preset => [preset.key, preset.params])),
   {
-    baseline: {
-      fertility_multiplier: 1.0,
-      mortality_multiplier: 1.0,
-      net_migration_annual: 500,
-    },
-    low_growth: {
-      fertility_multiplier: 0.90,
-      mortality_multiplier: 1.02,
-      net_migration_annual: 250,
-    },
-    high_growth: {
-      fertility_multiplier: 1.05,
-      mortality_multiplier: 0.98,
-      net_migration_annual: 1000,
-    },
+    baseline: { births_pct: 100, deaths_pct: 100, migration_pct: 100 },
+    low_growth: { births_pct: 100, deaths_pct: 100, migration_pct: 50 },
+    high_growth: { births_pct: 100, deaths_pct: 100, migration_pct: 150 },
   },
-  'canonical ScenarioPresets params preserve the approved numeric triples',
+  'Scenario Builder presets are percentages of SDO\'s forecast: SDO, half and 1.5x its migration',
 );
 
 for (const preset of canonical) {
-  assert.deepEqual(
-    hna[preset.key].params,
-    preset.params,
-    `HNA params for ${preset.key} come from shared presets`,
-  );
   const builderPreset = builder.find(s => s.id === preset.key);
   assert(builderPreset, `Scenario Builder exposes ${preset.key}`);
   assert.deepEqual(
@@ -78,6 +61,22 @@ for (const preset of canonical) {
     preset.params,
     `Scenario Builder params for ${preset.key} come from shared presets`,
   );
+  assert(hna[preset.key], `the HNA page has a ${preset.key} line`);
+}
+
+// The HNA page's low and high lines are not the builder's presets: they scale
+// projected growth by a factor (hna-renderers _scenarioGrowthSensitivitySeries).
+// Their labels and descriptions must name the factor the renderer applies.
+const renderers = read('js/hna/hna-renderers.js');
+for (const key of ['low_growth', 'high_growth']) {
+  const label = hna[key].label;
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const m = renderers.match(new RegExp(`label: '${escaped}', data: _scenarioGrowthSensitivitySeries\\(baseline, ([\\d.]+)\\)`));
+  assert(m, `the HNA chart draws a "${label}" line with a growth factor`);
+  const pct = Math.round(Math.abs(Number(m[1]) - 1) * 100);
+  assert(hna[key].description.includes(`${pct}%`), `HNA ${key} description names the ${pct}% the chart applies`);
+  assert(!/move in|migration of|people a year/.test(hna[key].description.replace('Scenario Builder', '')),
+    `HNA ${key} description does not describe a migration preset the chart does not draw`);
 }
 
 assert.deepEqual(

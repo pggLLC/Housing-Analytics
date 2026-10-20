@@ -83,8 +83,9 @@ assert(controllerSrc.includes('ScenarioStorage.list()'), 'controller reads saved
 assert(controllerSrc.includes("(Scenario Builder)'"), 'controller labels saved select options with Scenario Builder suffix');
 assert(controllerSrc.includes('SCENARIO_BUILDER_PREFIX'), 'controller namespaces saved scenario option values');
 assert(controllerSrc.includes('Custom (Scenario Builder) · 20-yr cohort model'), 'custom legend/disclosure label is pinned');
-assert(controllerSrc.includes('CohortComponentModel'), 'controller recomputes saved scenario series with CohortComponentModel');
-assert(controllerSrc.includes('filter(function (row) { return allowedYears.has(Number(row.year))'), 'controller truncates custom series to HNA chart years');
+assert(controllerSrc.includes('M.changeFromSdo(baseline, params)'), 'controller recomputes saved scenario series with CohortComponentModel on the SDO baseline');
+assert(controllerSrc.includes('base + share * change.population'), 'the custom line is the page\'s own line plus the scenario\'s change from SDO');
+assert(controllerSrc.includes("M.paramsFromSaved(rec.parameters || {}"), 'scenarios saved by the earlier model are converted, not run as-is');
 assert(!controllerSrc.includes('localStorage.setItem') || controllerSrc.includes('ScenarioStorage'), 'controller does not persist computed projection series');
 assert(renderersSrc.includes('borderDash: [8, 4]'), 'custom scenario renders as a dashed line');
 
@@ -98,33 +99,29 @@ freshRequire('js/hna/hna-renderers.js');
 window.ScenarioStorage.save({
   id: 'custom-workforce-growth',
   name: 'Workforce growth',
-  parameters: {
-    fertility_multiplier: 1.03,
-    mortality_multiplier: 0.99,
-    net_migration_annual: 800,
-  },
+  parameters: { births_pct: 103, deaths_pct: 99, migration_pct: 160 },
 });
 assert.equal(window.ScenarioStorage.list().length, 1, 'seeded localStorage fixture produces one saved scenario');
 
-const model = new window.CohortComponentModel({
-  basePopulation: {
-    male: new Array(18).fill(1000),
-    female: new Array(18).fill(1000),
-  },
-  baseYear: 2024,
-  targetYear: 2050,
-  scenario: window.ScenarioStorage.list()[0].parameters,
-  headshipRate: 0.38,
-  vacancyTarget: 0.05,
-  baseUnits: 1000,
-});
+// The custom line the controller draws: the page's own line plus the change
+// the saved settings make to SDO's forecast, over the chart's years only.
+const mesaBaseline = JSON.parse(read('data/hna/scenario-baseline/08077.json'));
 const hnaYears = Array.from({ length: 21 }, (_, idx) => 2024 + idx);
+const hnaLine = hnaYears.map((_, idx) => 20000 + idx * 100);
 const hnaLastYear = hnaYears[hnaYears.length - 1];
-const customSeries = model.project()
-  .filter(row => hnaYears.includes(row.year))
-  .map(row => ({ year: row.year, population: row.totalPopulation, pop: row.totalPopulation }));
+const lineFor = (params) => {
+  const byYear = {};
+  window.CohortComponentModel.changeFromSdo(mesaBaseline, params).forEach(row => { byYear[row.year] = row; });
+  return hnaYears.map((year, idx) => byYear[year] && {
+    year, population: hnaLine[idx] + byYear[year].population, pop: hnaLine[idx] + byYear[year].population,
+  }).filter(Boolean);
+};
+const customSeries = lineFor(window.ScenarioStorage.list()[0].parameters);
 assert.equal(customSeries.at(-1).year, hnaLastYear, 'custom 2050 Builder series is truncated at the HNA chart last year');
 assert(!customSeries.some(row => row.year > hnaLastYear), 'custom series has no padded or extrapolated tail past the HNA chart');
+assert.deepEqual(lineFor(window.CohortComponentModel.DEFAULT_PARAMS).map(r => r.population), hnaLine,
+  'a saved scenario at 100% draws exactly the page\'s own line');
+assert(customSeries.at(-1).population > hnaLine.at(-1), 'more migration than SDO draws above the page\'s line in Mesa County');
 
 const customOpt = document.createElement('option');
 customOpt.value = 'builder:custom-workforce-growth';

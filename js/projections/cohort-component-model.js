@@ -1,247 +1,199 @@
 /**
  * cohort-component-model.js — COHO Analytics
  *
- * Client-side cohort-component demographic projection engine.
- * Mirrors the Python implementation in scripts/hna/demographic_projections.py
- * so that the interactive scenario builder can run projections entirely in-browser
- * without a round-trip to the server.
+ * The Scenario Builder's population projection: single year of age and sex,
+ * one year at a time, the cohort-component method the State Demography Office
+ * (SDO) uses for Colorado's county forecast.
  *
- * Standard model: Pop(t+1) = Pop(t) × Survival + Births + Net Migration
- * Projections are run in annual steps by interpolating 5-year age-group survival
- * rates. Births use age-specific fertility rates (ASFRs) applied to female cohorts.
+ * It starts from SDO's forecast. data/hna/scenario-baseline/<county>.json
+ * (scripts/hna/build_scenario_baseline.py) carries SDO's base population, the
+ * scale factors that make Colorado's death and birth rates by age give SDO's
+ * deaths and births each year, and SDO's migration by age, which is what its
+ * forecast leaves after births and deaths. So with births, deaths and migration
+ * all at 100% the model reproduces SDO's population by age, and its household
+ * forecast. A scenario multiplies one or more of those three.
+ *
+ * Households: SDO's households by age of householder, as a rate on people of
+ * that age in each year, applied to the scenario's people of that age.
+ *
+ * _step below is build_scenario_baseline.py step(); keep the two the same.
  *
  * Exposes: window.CohortComponentModel
  */
 (function () {
   'use strict';
 
-  // ---------------------------------------------------------------------------
-  // Constants (match demographic_projections.py)
-  // ---------------------------------------------------------------------------
+  const N_AGES = 101; // 0..99 and 100+
+  const FIRST_FERTILE = 10;
+  const LAST_FERTILE = 49;
+  const DEFAULT_PARAMS = { births_pct: 100, deaths_pct: 100, migration_pct: 100 };
 
-  const AGE_GROUPS = [
-    '0-4','5-9','10-14','15-19','20-24','25-29',
-    '30-34','35-39','40-44','45-49','50-54','55-59',
-    '60-64','65-69','70-74','75-79','80-84','85+',
-  ];
-  const N_COHORTS = AGE_GROUPS.length; // 18
-
-  // 5-year survival rates (approximate US life-table)
-  const DEFAULT_SURVIVAL = [
-    0.9985, 0.9990, 0.9989, 0.9985, 0.9978,
-    0.9975, 0.9970, 0.9963, 0.9950, 0.9930,
-    0.9900, 0.9860, 0.9800, 0.9700, 0.9550,
-    0.9300, 0.8900, 0.7500,
-  ];
-
-  // Age-specific fertility rates per woman per 5-year period
-  const DEFAULT_ASFR = {
-    '15-19': 0.040, '20-24': 0.160, '25-29': 0.280,
-    '30-34': 0.280, '35-39': 0.160, '40-44': 0.055, '45-49': 0.008,
-  };
-  const FERTILE_INDICES = [3, 4, 5, 6, 7, 8, 9]; // 15-19 through 45-49
-  const SEX_RATIO_AT_BIRTH = 1.05;
-
-  // Migration by age: proportional share (sums to 1.0)
-  const MIGRATION_AGE_DIST = [
-    0.04, 0.04, 0.04, 0.06, 0.10, 0.12, 0.11, 0.10,
-    0.09, 0.08, 0.07, 0.06, 0.05, 0.05, 0.04, 0.03, 0.01, 0.01,
-  ];
-
-  // ---------------------------------------------------------------------------
-  // CohortComponentModel
-  // ---------------------------------------------------------------------------
-
-  /**
-   * @param {Object} opts
-   * @param {Object}  opts.basePopulation - {male: float[18], female: float[18]}
-   * @param {number}  opts.baseYear       - Start year (default 2024)
-   * @param {number}  opts.targetYear     - End year (default 2050)
-   * @param {Object}  [opts.scenario]     - Scenario parameter overrides
-   * @param {number}  [opts.headshipRate] - Fraction of households per person (default 0.38)
-   * @param {number}  [opts.vacancyTarget]- Target vacancy rate (default 0.05)
-   * @param {number}  [opts.baseUnits]    - Existing housing units in base year
-   */
-  function CohortComponentModel(opts) {
-    this.basePopulation = opts.basePopulation || _emptyPop();
-    this.baseYear       = opts.baseYear  || 2024;
-    this.targetYear     = opts.targetYear || 2050;
-    this.headshipRate   = opts.headshipRate  || 0.38;
-    this.vacancyTarget  = opts.vacancyTarget || 0.05;
-    this.baseUnits      = opts.baseUnits || 0;
-
-    // Scenario parameters
-    const sc = opts.scenario || {};
-    this.fertilityMult  = (sc.fertility_multiplier  != null) ? sc.fertility_multiplier  : 1.0;
-    this.mortalityMult  = (sc.mortality_multiplier  != null) ? sc.mortality_multiplier  : 1.0;
-    this.migrationAnnual= (sc.net_migration_annual  != null) ? sc.net_migration_annual  : 500;
+  function _pct(v, fallback) {
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 ? n / 100 : fallback;
   }
 
-  /** Run the projection and return an array of yearly snapshots. */
-  CohortComponentModel.prototype.project = function () {
-    const years = this.targetYear - this.baseYear;
-    const results = [];
-
-    // Convert 5-year survival to annual (s_annual = s_5yr^(1/5))
-    const annualSurvival = DEFAULT_SURVIVAL.map(s => Math.pow(s * this.mortalityMult, 0.2));
-    // Clamp to valid range
-    const clamp = x => Math.min(0.9999, Math.max(0, x));
-    const survival = annualSurvival.map(clamp);
-
-    // Convert 5-year ASFRs to annual (divide by 5)
-    const asfr = {};
-    FERTILE_INDICES.forEach(i => {
-      const ag = AGE_GROUPS[i];
-      asfr[i] = (DEFAULT_ASFR[ag] || 0) * this.fertilityMult / 5.0;
-    });
-
-    // Deep copy base population
-    let pop = {
-      male:   this.basePopulation.male.slice(),
-      female: this.basePopulation.female.slice(),
-    };
-
-    // Add base year snapshot
-    results.push(this._snapshot(this.baseYear, pop));
-
-    for (let yr = 1; yr <= years; yr++) {
-      pop = this._stepYear(pop, survival, asfr);
-      results.push(this._snapshot(this.baseYear + yr, pop));
+  // One year: deaths from the population at the start of the year, survivors
+  // one year older, births to women 10-49. Returns survivors and newborns.
+  function _step(pm, pf, rates, kd, kb, deathsMult, birthsMult) {
+    const sm = new Array(N_AGES).fill(0);
+    const sf = new Array(N_AGES).fill(0);
+    let deaths = 0;
+    for (let a = 0; a < N_AGES; a++) {
+      const rm = Math.min(1, rates.deathMale[a] * kd * deathsMult);
+      const rf = Math.min(1, rates.deathFemale[a] * kd * deathsMult);
+      deaths += pm[a] * rm + pf[a] * rf;
+      const to = a < N_AGES - 1 ? a + 1 : a;
+      sm[to] += pm[a] * (1 - rm);
+      sf[to] += pf[a] * (1 - rf);
     }
+    let births = 0;
+    for (let a = FIRST_FERTILE; a <= LAST_FERTILE; a++) births += pf[a] * rates.birthByAge[a];
+    births *= kb * birthsMult;
+    const ratio = rates.sexRatioAtBirth;
+    sm[0] += births * ratio / (1 + ratio);
+    sf[0] += births / (1 + ratio);
+    return { sm, sf, births, deaths };
+  }
 
-    return results;
-  };
-
-  /** Single annual step: age cohorts, apply mortality, add births, add migration. */
-  CohortComponentModel.prototype._stepYear = function (pop, survival, asfr) {
-    const newMale   = new Array(N_COHORTS).fill(0);
-    const newFemale = new Array(N_COHORTS).fill(0);
-
-    // Age cohorts by 1 year (simplified: treat 5-yr groups as annual steps
-    // by proportionally aging 1/5 of each cohort into the next group)
-    for (let i = 0; i < N_COHORTS; i++) {
-      const survM = pop.male[i]   * survival[i];
-      const survF = pop.female[i] * survival[i];
-      if (i < N_COHORTS - 1) {
-        // Most of cohort stays in same group; 1/5 ages into next
-        newMale[i]     += survM * (4 / 5);
-        newFemale[i]   += survF * (4 / 5);
-        newMale[i + 1] += survM * (1 / 5);
-        newFemale[i + 1] += survF * (1 / 5);
-      } else {
-        // Last cohort (85+) accumulates
-        newMale[i]   += survM;
-        newFemale[i] += survF;
-      }
-    }
-
-    // Births: apply ASFRs to female cohorts
-    let totalBirths = 0;
-    FERTILE_INDICES.forEach(i => {
-      totalBirths += newFemale[i] * (asfr[i] || 0);
+  function _households(pm, pf, groups, rates) {
+    let hh = 0;
+    groups.forEach(function (g, i) {
+      let people = 0;
+      for (let a = g.minAge; a <= g.maxAge; a++) people += pm[a] + pf[a];
+      hh += people * rates[i];
     });
-    const maleBirths   = totalBirths * (SEX_RATIO_AT_BIRTH / (1 + SEX_RATIO_AT_BIRTH));
-    const femaleBirths = totalBirths * (1 / (1 + SEX_RATIO_AT_BIRTH));
-    newMale[0]   += maleBirths;
-    newFemale[0] += femaleBirths;
-
-    // Net migration distributed by age
-    const totalMig = this.migrationAnnual;
-    MIGRATION_AGE_DIST.forEach((share, i) => {
-      const cohortMig = totalMig * share;
-      newMale[i]   += cohortMig * 0.48;
-      newFemale[i] += cohortMig * 0.52;
-    });
-
-    return { male: newMale, female: newFemale };
-  };
-
-  /** Build a result snapshot for a given year. */
-  CohortComponentModel.prototype._snapshot = function (year, pop) {
-    const totalPop = pop.male.reduce((a, b) => a + b, 0)
-                   + pop.female.reduce((a, b) => a + b, 0);
-    const households    = Math.round(totalPop * this.headshipRate);
-    const unitsNeeded   = this._calcUnitsNeeded(households);
-    const cumNeed       = Math.max(0, unitsNeeded - this.baseUnits);
-
-    return {
-      year,
-      totalPopulation: Math.round(totalPop),
-      malePop:         Math.round(pop.male.reduce((a, b) => a + b, 0)),
-      femalePop:       Math.round(pop.female.reduce((a, b) => a + b, 0)),
-      households,
-      unitsNeeded,
-      cumulativeNeedAboveBase: cumNeed,
-      ageDistribution: {
-        male:   pop.male.map(Math.round),
-        female: pop.female.map(Math.round),
-      },
-    };
-  };
-
-  /**
-   * Calculate housing units needed given projected households.
-   * Formula: units = HH / (1 - vacancyTarget)
-   */
-  CohortComponentModel.prototype._calcUnitsNeeded = function (households) {
-    return Math.round(households / (1 - this.vacancyTarget));
-  };
-
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
-
-  function _emptyPop() {
-    return { male: new Array(N_COHORTS).fill(0), female: new Array(N_COHORTS).fill(0) };
+    return hh;
   }
 
   /**
-   * Build a base population from DOLA SYA data.
-   * dolaSyaData should be the object at data/hna/dola_sya/{countyFips}.json
-   *
-   * Two input shapes are supported:
-   *   A) Parallel arrays (the actual on-disk format):
-   *        { ages: [0,1,…,100], male: [n,…], female: [n,…] }
-   *   B) Row objects (legacy / defensive):
-   *        { pyramid: [{ age, male, female }, …] }
-   *
-   * F24 fix: the shipped data files use shape (A), but this function only
-   * recognized shape (B) and silently returned an empty base population for
-   * EVERY geography — so the cohort projection ran on zeros. Both shapes are
-   * now handled; single ages are folded into 5-year cohorts.
+   * Project one county from its baseline file.
+   * @param {Object} baseline - data/hna/scenario-baseline/<county>.json
+   * @param {Object} [params] - {births_pct, deaths_pct, migration_pct}; 100 = SDO's forecast
+   * @returns {Array<{year, population, households, births, deaths, migration}>}
+   *   one row per year from baseYear to endYear; the base year has no flows.
    */
-  CohortComponentModel.buildBasePopFromDola = function (dolaSyaData) {
-    const pop = _emptyPop();
-    if (!dolaSyaData) return pop;
+  function project(baseline, params) {
+    if (!baseline || !baseline.base || !baseline.steps || !baseline.rates) return [];
+    const p = Object.assign({}, DEFAULT_PARAMS, params || {});
+    const birthsMult = _pct(p.births_pct, 1);
+    const deathsMult = _pct(p.deaths_pct, 1);
+    const migMult = _pct(p.migration_pct, 1);
+    const steps = baseline.steps;
+    const groups = baseline.households.groups;
+    const hhRates = baseline.households.ratesByYear;
 
-    if (Array.isArray(dolaSyaData.ages) && Array.isArray(dolaSyaData.male) && Array.isArray(dolaSyaData.female)) {
-      // Shape (A): parallel arrays indexed by single year of age.
-      const ages = dolaSyaData.ages;
-      for (let i = 0; i < ages.length; i++) {
-        const idx = Math.min(Math.floor(ages[i] / 5), N_COHORTS - 1);
-        pop.male[idx]   += dolaSyaData.male[i]   || 0;
-        pop.female[idx] += dolaSyaData.female[i] || 0;
+    let pm = baseline.base.male.slice();
+    let pf = baseline.base.female.slice();
+    const rows = [{
+      year: baseline.baseYear,
+      population: _sum(pm) + _sum(pf),
+      households: _households(pm, pf, groups, hhRates[0]),
+      births: null, deaths: null, migration: null,
+    }];
+    for (let i = 0; i < steps.deathScale.length; i++) {
+      const s = _step(pm, pf, baseline.rates, steps.deathScale[i], steps.birthScale[i], deathsMult, birthsMult);
+      const mm = steps.migrationMale[i];
+      const mf = steps.migrationFemale[i];
+      let migration = 0;
+      for (let a = 0; a < N_AGES; a++) {
+        s.sm[a] += mm[a] * migMult;
+        s.sf[a] += mf[a] * migMult;
+        migration += (mm[a] + mf[a]) * migMult;
       }
-      return pop;
+      pm = s.sm;
+      pf = s.sf;
+      rows.push({
+        year: baseline.baseYear + i + 1,
+        population: _sum(pm) + _sum(pf),
+        households: _households(pm, pf, groups, hhRates[i + 1]),
+        births: s.births,
+        deaths: s.deaths,
+        migration: migration,
+      });
     }
+    return rows;
+  }
 
-    if (!Array.isArray(dolaSyaData.pyramid)) return pop;
-
-    // Shape (B): array of { age, male, female } rows.
-    dolaSyaData.pyramid.forEach(row => {
-      const age = row.age;
-      const idx = Math.min(Math.floor(age / 5), N_COHORTS - 1);
-      pop.male[idx]   += row.male   || 0;
-      pop.female[idx] += row.female || 0;
+  /**
+   * The scenario's change from SDO's forecast, by year: what the scenario adds
+   * to (or takes from) SDO's population and households. Zero at 100% on all
+   * three, so a line drawn as SDO's figures plus this change is SDO's line
+   * exactly when nothing is changed.
+   */
+  function changeFromSdo(baseline, params) {
+    const run = project(baseline, params);
+    const def = project(baseline, DEFAULT_PARAMS);
+    return run.map(function (r, i) {
+      return {
+        year: r.year,
+        population: r.population - def[i].population,
+        households: r.households - def[i].households,
+      };
     });
-    return pop;
+  }
+
+  /**
+   * SDO's net migration a year, averaged over the first `years` years of the
+   * forecast (all of it when omitted): the migration the model carries at
+   * 100%, so a slider label and the projection agree.
+   */
+  function averageAnnualMigration(baseline, years) {
+    const steps = baseline && baseline.steps;
+    if (!steps || !Array.isArray(steps.migrationMale) || !steps.migrationMale.length) return null;
+    const n = Math.min(steps.migrationMale.length, Number.isFinite(years) && years > 0 ? years : Infinity);
+    let total = 0;
+    for (let i = 0; i < n; i++) total += _sum(steps.migrationMale[i]) + _sum(steps.migrationFemale[i]);
+    return total / n;
+  }
+
+  /**
+   * Parameters from a saved scenario. Scenarios saved before 2026-10-20 held
+   * multipliers and a flat number of migrants a year, the same for every place.
+   * The multipliers carry over as percentages, and the migrants a year become a
+   * percentage of SDO's average for the place loaded (sdoAnnualMigration).
+   * Where SDO expects no net arrivals, a number of migrants cannot be read as a
+   * percentage, so migration stays at SDO's forecast and `migrationNote` says so.
+   */
+  function paramsFromSaved(saved, sdoAnnualMigration) {
+    const s = saved || {};
+    if (s.migration_pct != null || s.births_pct != null || s.deaths_pct != null) {
+      return {
+        births_pct: Number.isFinite(Number(s.births_pct)) ? Number(s.births_pct) : 100,
+        deaths_pct: Number.isFinite(Number(s.deaths_pct)) ? Number(s.deaths_pct) : 100,
+        migration_pct: Number.isFinite(Number(s.migration_pct)) ? Number(s.migration_pct) : 100,
+        migrationNote: null,
+      };
+    }
+    const out = {
+      births_pct: Math.round(100 * (Number.isFinite(Number(s.fertility_multiplier)) ? Number(s.fertility_multiplier) : 1)),
+      deaths_pct: Math.round(100 * (Number.isFinite(Number(s.mortality_multiplier)) ? Number(s.mortality_multiplier) : 1)),
+      migration_pct: 100,
+      migrationNote: null,
+    };
+    const annual = Number(s.net_migration_annual);
+    if (!Number.isFinite(annual)) return out;
+    if (Number.isFinite(sdoAnnualMigration) && sdoAnnualMigration > 0) {
+      out.migration_pct = Math.max(0, Math.round(100 * annual / sdoAnnualMigration));
+    } else {
+      out.migrationNote = 'This scenario was saved as ' + Math.round(annual).toLocaleString('en-US') +
+        ' people moving in a year. SDO expects more people to leave this place than arrive, so that number cannot be set as a share of its forecast; migration is at SDO’s forecast.';
+    }
+    return out;
+  }
+
+  function _sum(arr) {
+    let t = 0;
+    for (let i = 0; i < arr.length; i++) t += arr[i];
+    return t;
+  }
+
+  window.CohortComponentModel = {
+    project: project,
+    changeFromSdo: changeFromSdo,
+    averageAnnualMigration: averageAnnualMigration,
+    paramsFromSaved: paramsFromSaved,
+    DEFAULT_PARAMS: Object.freeze(Object.assign({}, DEFAULT_PARAMS)),
+    N_AGES: N_AGES,
   };
-
-  // ---------------------------------------------------------------------------
-  // Exports
-  // ---------------------------------------------------------------------------
-
-  window.CohortComponentModel = CohortComponentModel;
-  window.CohortComponentModel.AGE_GROUPS     = AGE_GROUPS;
-  window.CohortComponentModel.DEFAULT_SURVIVAL = DEFAULT_SURVIVAL;
 })();

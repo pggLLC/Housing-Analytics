@@ -6,13 +6,15 @@ This document explains how to create, save, load, compare, and export projection
 
 ## What Is a Scenario?
 
-A **scenario** is a named set of demographic assumptions that drives the cohort-component projection model:
+A **scenario** is a named set of three percentages of the State Demography Office's (SDO) forecast for the place loaded. 100% on all three is SDO's forecast, the one the HNA page's 20-year figure uses.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `fertility_multiplier` | Multiplies baseline age-specific fertility rates | 1.0 |
-| `mortality_multiplier` | Multiplies baseline life-table survival rates | 1.0 |
-| `net_migration_annual` | Net persons migrating into the area per year | 500 |
+| `births_pct` | Births, as a percentage of SDO's forecast births | 100 |
+| `deaths_pct` | Deaths, as a percentage of SDO's forecast deaths | 100 |
+| `migration_pct` | Net migration (people moving in minus people moving out), as a percentage of SDO's forecast, at every age | 100 |
+
+See [Projection Methodology](PROJECTION-METHODOLOGY.md#scenario-builder) for how the model applies them.
 
 ---
 
@@ -20,28 +22,25 @@ A **scenario** is a named set of demographic assumptions that drives the cohort-
 
 Three scenarios are pre-configured and cannot be deleted:
 
-| Scenario | Fertility | Mortality | Migration |
-|----------|-----------|-----------|-----------|
-| **Baseline** (Moderate Growth) | 1.00× | 1.00× | 500/yr |
-| **Low Growth** | 0.90× | 1.02× | 250/yr |
-| **High Growth** | 1.05× | 0.98× | 1,000/yr |
+| Scenario | Births | Deaths | Migration |
+|----------|--------|--------|-----------|
+| **SDO forecast** | 100% | 100% | 100% |
+| **Half the migration** | 100% | 100% | 50% |
+| **1.5× the migration** | 100% | 100% | 150% |
 
-**Data attribution:**
-- Baseline parameters from DOLA Components of Change (2018–2023 county averages)
-- Low Growth adjustment informed by FRED CPI shelter index (`CUUR0000SAH1`)
-- High Growth adjustment informed by FRED unemployment rate (`UNRATE`)
+Until 2026-10-20 the presets were one fixed set of inputs for every place (500, 250 or 1,000 people moving in a year, with fertility and mortality multipliers), which for a small town was far above its recent migration. Percentages of each place's own forecast replace them.
 
 ---
 
 ## Creating a Custom Scenario
 
-1. Open the **[Scenario Builder](../hna-scenario-builder.html)**
+1. Open the **[Scenario Builder](../hna-scenario-builder.html)** and load a county, town or CDP
 2. Use the **sliders** to set:
-   - Fertility Rate Multiplier (0.5× – 1.5×)
-   - Net Annual Migration (−500 to +2,000 persons/year)
-   - Mortality Rate Multiplier (0.8× – 1.2×)
+   - People moving in, net (0% – 200% of SDO's forecast; the page shows SDO's number of people a year beside it)
+   - Births (50% – 150%)
+   - Deaths (80% – 120%)
 3. Enter a **name** in the "Scenario name" field
-4. Click **Save as Custom Scenario**
+4. Click **Save**
 
 ### Storage
 
@@ -51,23 +50,26 @@ Custom scenarios are saved to **browser localStorage** under the key `coho_hna_s
 
 ```json
 {
-  "id": "custom-high-fertility-2026-abc123",
-  "name": "High Fertility 2026",
+  "id": "custom-slower-migration-abc123",
+  "name": "Slower migration",
   "year": 2026,
   "assumptions": {
-    "fertility": "120% of baseline",
-    "migration": "500 persons/year net",
-    "mortality": "100% of baseline"
+    "births": "100% of SDO's forecast",
+    "deaths": "100% of SDO's forecast",
+    "migration": "60% of SDO's forecast net migration"
   },
   "parameters": {
-    "fertility_multiplier": 1.2,
-    "mortality_multiplier": 1.0,
-    "net_migration_annual": 500
+    "births_pct": 100,
+    "deaths_pct": 100,
+    "migration_pct": 60
   },
-  "createdAt": "2026-03-23T04:30:00Z",
-  "baselineSource": "DOLA 2024"
+  "createdAt": "2026-10-20T18:30:00Z",
+  "baselineSource": "SDO Vintage 2024 Prepared March 2025",
+  "geography": { "geoid": "08077", "name": "Mesa County" }
 }
 ```
+
+Scenarios saved before 2026-10-20 carry `fertility_multiplier`, `mortality_multiplier` and `net_migration_annual` instead. They still load: the multipliers become percentages and the people a year become a percentage of SDO's average net migration for the place loaded (`CohortComponentModel.paramsFromSaved`).
 
 ---
 
@@ -82,10 +84,12 @@ Custom scenarios are saved to **browser localStorage** under the key `coho_hna_s
 ## Comparing Scenarios
 
 The chart on the Scenario Builder page always displays **all four curves** simultaneously:
-- Baseline
-- Low Growth
-- High Growth
-- Custom (your current slider settings)
+- SDO forecast
+- Half the migration
+- 1.5× the migration
+- Your scenario (your current slider settings)
+
+A saved scenario also appears in the HNA page's scenario list, drawn as that page's population line plus the change the scenario makes to SDO's forecast.
 
 To compare multiple custom scenarios:
 1. Load the first scenario → note the results

@@ -235,6 +235,19 @@ jobs:
           echo "── Building scenario JSON files ──"
           python3 scripts/hna/build_scenarios.py 2>&1 || echo "::warning::Scenario build failed (non-critical; existing files will be used)"
 
+      - name: Phase 4.1 — Rebuild Scenario Builder baselines (SDO forecast by age)
+        # The Scenario Builder starts from SDO's county forecast by single
+        # year of age (data/hna/scenario-baseline/<county>.json), rebuilt here
+        # from the SDO files the DOLA phase just fetched so a new SDO vintage
+        # reaches the builder in the same run as the HNA page. The script fails
+        # if its default path drifts from SDO by more than rounding. Non-
+        # blocking like Phase 4: with an older baseline the builder still gives
+        # the HNA page's figure at 100%, because it adds a scenario's change to
+        # the HNA projection file's own series.
+        if: ${{ inputs.statewide_only != true }}
+        run: |
+          python3 scripts/hna/build_scenario_baseline.py 2>&1 || echo "::warning::Scenario Builder baseline build failed (non-critical; existing files will be used)"
+
       - name: Phase 5 — Validate DOLA and FRED data quality
         if: ${{ inputs.statewide_only != true }}
         run: |
