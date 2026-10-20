@@ -2,10 +2,10 @@
   "schema": "homeownership-programs/v1",
   "meta": {
     "title": "Help for Homebuyers Program Watchlist",
-    "as_of": "2026-07-18",
-    "last_updated": "2026-07-18",
-    "last_verified": "2026-10-09",
-    "review_by": "2027-01-07",
+    "as_of": "2026-10-20",
+    "last_updated": "2026-10-20",
+    "last_verified": "2026-10-20",
+    "review_by": "2027-01-20",
     "methodology": "Consumer-facing watchlist of homebuyer and homeowner assistance programs. Dollar values are included only when visible on an official program page reviewed this session; otherwise benefit_amount remains null and the page renders VERIFY."
   },
   "programs": [
@@ -224,19 +224,20 @@
       "level": "colorado",
       "kind": "grant",
       "status": "VERIFY",
-      "plain_summary": "Colorado Home Energy Rebates may support efficient appliances and whole-home energy upgrades, but current Colorado phase availability must be checked before budgeting. Do not assume a rebate is available for a 2026 project.",
+      "plain_summary": "Colorado's single-family appliance rebate (HEAR) is closed in every county. The Colorado Energy Office says rebates for small multifamily buildings, and whole-home rebates for manufactured or mobile homes and large multifamily buildings, are planned for 2026. Do not budget a rebate for a single-family home.",
       "who_its_for": "Colorado homeowners or renters considering eligible energy upgrades, subject to state program rules.",
-      "what_its_worth": "VERIFY: DOE describes statutory rebate caps, but current Colorado availability is not confirmed here.",
+      "what_its_worth": "VERIFY: the single-family appliance rebate is closed. For the 2026 phases the Energy Office lists caps of up to $14,000 per unit for appliances and up to $16,000 for a manufactured or mobile home below 80% AMI, but has not confirmed when they open.",
       "benefit_amount": null,
       "benefit_unit": null,
-      "how_to_start": "Check DOE rebate status and confirm Colorado availability with CEO/local implementers.",
-      "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "how_to_start": "Check the Colorado Energy Office Home Energy Rebates page for the multifamily or manufactured-home phase before planning a project.",
+      "source_url": "https://energyoffice.colorado.gov/home-energy-rebates",
       "related_source_urls": [
+        "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
-      "source_note": "DOE says rebates are state-administered and available only in select states; it now calls the appliance rebate the High-Efficiency Electric Home Rebate (HEEHR), formerly HEAR. Colorado's launch is confirmed by DOE's 2024 bulletin, but the Colorado Energy Office page could not be read on 2026-10-09, so current availability is VERIFY.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-07"
+      "source_note": "The Colorado Energy Office page, read 2026-10-20, says: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" Its August 2026 update says Region 2 applications submitted after August 1, 2026 will be denied. DOE says the rebates are state-administered and available only in select states.",
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     },
     {
       "id": "colorado-solar-for-all-watch",

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T12:19:29Z",
+  "generated_at": "2026-10-20T10:26:07Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",
@@ -93,10 +93,10 @@
    }
   },
   "call_counts": {
-   "emerging": 11,
+   "emerging": 10,
    "falling_demand": 5,
-   "softening": 7,
-   "steady": 41
+   "softening": 6,
+   "steady": 43
   },
   "rent_edge_counts": {
    "clear": 20,
@@ -147,17 +147,15 @@
      2024
     ]
    },
-   "zori_cities_unmatched": [
-    "Conifer"
-   ],
+   "zori_cities_unmatched": [],
    "call_counts": {
     "town": {
      "emerging": 5,
      "falling_demand": 11,
      "not_enough_data": 49,
      "second_home_shift": 7,
-     "softening": 24,
-     "steady": 176
+     "softening": 23,
+     "steady": 177
     },
     "cdp": {
      "not_enough_data": 203,
@@ -170,8 +168,8 @@
  "counties": {
   "08001": {
    "name": "Adams County",
-   "call": "softening",
-   "call_basis": "falling: price, rent",
+   "call": "steady",
+   "call_basis": "rising: none; falling: price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -188,9 +186,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.5,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.4,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 1.26,
@@ -302,7 +300,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -391,8 +389,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.5,
-     "month": "2026-08-31",
+     "value": -0.8,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -495,7 +493,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -759,8 +757,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 1.4,
-     "month": "2026-08-31",
+     "value": 2.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -845,7 +843,7 @@
   "08014": {
    "name": "Broomfield County",
    "call": "steady",
-   "call_basis": "rising: permits; falling: rent",
+   "call_basis": "rising: permits; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -862,9 +860,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": -0.0,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 1.1,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 2.28,
@@ -947,8 +945,8 @@
   },
   "08015": {
    "name": "Chaffee County",
-   "call": "steady",
-   "call_basis": "rising: permits, price; falling: rent",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population, jobs",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -965,9 +963,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": -2.9,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 1.1,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 1.72,
@@ -1132,7 +1130,7 @@
   "08019": {
    "name": "Clear Creek County",
    "call": "softening",
-   "call_basis": "falling: permits, price, rent",
+   "call_basis": "falling: permits, price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -1149,9 +1147,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.0,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.6,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.1,
@@ -1584,7 +1582,7 @@
     },
     "rent": {
      "value": null,
-     "month": null,
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -1656,7 +1654,7 @@
   "08031": {
    "name": "Denver County",
    "call": "softening",
-   "call_basis": "falling: permits, price, rent",
+   "call_basis": "falling: permits, price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -1673,9 +1671,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.4,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.2,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 1.04,
@@ -1872,8 +1870,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.8,
-     "month": "2026-08-31",
+     "value": -0.4,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -1970,8 +1968,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 4.5,
-     "month": "2026-08-31",
+     "value": 6.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -2069,7 +2067,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -2151,8 +2149,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 2.3,
-     "month": "2026-08-31",
+     "value": 2.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -2254,8 +2252,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 4.4,
-     "month": "2026-08-31",
+     "value": 5.3,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -2324,8 +2322,8 @@
   },
   "08045": {
    "name": "Garfield County",
-   "call": "emerging",
-   "call_basis": "rising: permits, price; growing: population",
+   "call": "steady",
+   "call_basis": "rising: permits, price; falling: rent",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -2342,9 +2340,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": 0.5,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": -0.3,
+     "month": "2026-09-30",
+     "reading": "down"
     },
     "population": {
      "value": 1.01,
@@ -2507,7 +2505,7 @@
   "08049": {
    "name": "Grand County",
    "call": "emerging",
-   "call_basis": "rising: permits, price, rent; growing: population",
+   "call_basis": "rising: permits, price; growing: population",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -2524,9 +2522,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": 4.2,
-     "month": "2026-08-31",
-     "reading": "up"
+     "value": 2.5,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.83,
@@ -2623,7 +2621,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": null,
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -2964,8 +2962,8 @@
   },
   "08059": {
    "name": "Jefferson County",
-   "call": "softening",
-   "call_basis": "falling: permits, rent",
+   "call": "steady",
+   "call_basis": "rising: none; falling: permits",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -2982,9 +2980,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": -0.2,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.1,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.33,
@@ -3262,7 +3260,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -3356,8 +3354,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 0.7,
-     "month": "2026-08-31",
+     "value": 1.0,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -3449,8 +3447,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 1.7,
-     "month": "2026-08-31",
+     "value": 1.8,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -3558,7 +3556,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -3738,7 +3736,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -3832,8 +3830,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 1.9,
-     "month": "2026-08-31",
+     "value": 0.6,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -4110,8 +4108,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 3.3,
-     "month": "2026-08-31",
+     "value": 4.6,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -4204,8 +4202,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 5.5,
-     "month": "2026-08-31",
+     "value": 6.0,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -4298,7 +4296,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -4484,7 +4482,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": null,
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -4574,7 +4572,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": null,
      "unavailable_reason": "Zillow publishes no rent index for this county",
      "reading": null
     },
@@ -4741,8 +4739,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 16.0,
-     "month": "2026-08-31",
+     "value": 11.7,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -4897,8 +4895,8 @@
   },
   "08101": {
    "name": "Pueblo County",
-   "call": "steady",
-   "call_basis": "rising: none; falling: price",
+   "call": "softening",
+   "call_basis": "falling: price, rent",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4915,9 +4913,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.2,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": -0.0,
+     "month": "2026-09-30",
+     "reading": "down"
     },
     "population": {
      "value": 0.58,
@@ -5199,8 +5197,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 5.4,
-     "month": "2026-08-31",
+     "value": 6.0,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -5636,8 +5634,8 @@
   },
   "08117": {
    "name": "Summit County",
-   "call": "emerging",
-   "call_basis": "rising: price, rent; growing: jobs",
+   "call": "steady",
+   "call_basis": "rising: price; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5654,9 +5652,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": 4.2,
-     "month": "2026-08-31",
-     "reading": "up"
+     "value": 1.6,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.33,
@@ -5752,8 +5750,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 9.7,
-     "month": "2026-08-31",
+     "value": 9.6,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -5913,7 +5911,7 @@
   "08123": {
    "name": "Weld County",
    "call": "steady",
-   "call_basis": "rising: none; falling: rent",
+   "call_basis": "rising: none; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5930,9 +5928,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": -0.1,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.8,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 3.05,
@@ -6353,7 +6351,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -6739,7 +6737,7 @@
     "share_of_housing_units": 0.0082,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -6950,8 +6948,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 0.7,
-     "month": "2026-08-31",
+     "value": 0.5,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -6968,7 +6966,7 @@
     "share_of_housing_units": 0.0031,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 261,
@@ -7014,8 +7012,8 @@
      "reading": null
     },
     "rent": {
-     "value": 8.8,
-     "month": "2026-08-31",
+     "value": 9.8,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -7090,7 +7088,7 @@
     "share_of_housing_units": 0.041,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -7225,8 +7223,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.8,
-     "month": "2026-08-31",
+     "value": -1.2,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -7290,7 +7288,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -7361,7 +7359,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -7437,8 +7435,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -7503,7 +7501,7 @@
     "share_of_housing_units": 0.0251,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -7535,8 +7533,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -7608,7 +7606,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 116,
@@ -7660,7 +7658,7 @@
     "share_of_housing_units": 0.0077,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -7692,7 +7690,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -7818,7 +7816,7 @@
     "share_of_housing_units": 0.1869,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8007,7 +8005,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8059,7 +8057,7 @@
     "share_of_housing_units": 0.4202,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8284,7 +8282,7 @@
     "share_of_housing_units": 0.0786,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8298,7 +8296,7 @@
    "type": "town",
    "county_fips": "08013",
    "call": "steady",
-   "call_basis": "rising: none; falling: none",
+   "call_basis": "rising: rent; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -8315,9 +8313,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 1.7,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": 3.0,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": -0.05,
@@ -8514,7 +8512,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -8532,7 +8530,7 @@
     "share_of_housing_units": 0.5589,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 68,
@@ -8665,8 +8663,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.2,
-     "month": "2026-08-31",
+     "value": 1.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -8683,7 +8681,7 @@
     "share_of_housing_units": 0.0066,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 116,
@@ -8740,7 +8738,7 @@
     "share_of_housing_units": 0.14,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8804,8 +8802,8 @@
    "name": "Broomfield (city)",
    "type": "town",
    "county_fips": "08014",
-   "call": "softening",
-   "call_basis": "falling: price, rent",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -8822,9 +8820,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.0,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 1.1,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 2.28,
@@ -8887,7 +8885,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -8934,7 +8932,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -8952,7 +8950,7 @@
     "share_of_housing_units": 0.028,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -9084,8 +9082,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -9181,8 +9179,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 3.7,
-     "month": "2026-08-31",
+     "value": 6.9,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -9306,7 +9304,7 @@
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -9338,7 +9336,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -9356,7 +9354,7 @@
     "share_of_housing_units": 0.0183,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 15,
@@ -9446,7 +9444,7 @@
     },
     "rent": {
      "value": 3.6,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -9551,8 +9549,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 1.7,
-     "month": "2026-08-31",
+     "value": 1.6,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -9671,7 +9669,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -9714,7 +9712,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -9777,8 +9775,8 @@
    "name": "Centennial (city)",
    "type": "town",
    "county_fips": "08005",
-   "call": "softening",
-   "call_basis": "falling: permits, rent",
+   "call": "steady",
+   "call_basis": "rising: none; falling: permits",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -9795,9 +9793,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": -0.4,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.8,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.55,
@@ -9965,7 +9963,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10042,8 +10040,8 @@
      "reading": null
     },
     "rent": {
-     "value": -5.4,
-     "month": "2026-08-31",
+     "value": -7.1,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -10292,8 +10290,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 2.6,
-     "month": "2026-08-31",
+     "value": 2.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -10354,7 +10352,7 @@
     "share_of_housing_units": 0.0714,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10630,7 +10628,7 @@
     "share_of_housing_units": 0.1304,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10658,8 +10656,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 2.2,
-     "month": "2026-08-31",
+     "value": 2.8,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -10724,7 +10722,7 @@
     "share_of_housing_units": 0.0117,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10849,8 +10847,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 1.8,
-     "month": "2026-08-31",
+     "value": 0.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -10867,7 +10865,7 @@
     "share_of_housing_units": 0.004,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 462,
@@ -11013,7 +11011,7 @@
     "share_of_housing_units": 0.7062,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -11044,8 +11042,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 3.4,
-     "month": "2026-08-31",
+     "value": 4.1,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -11368,7 +11366,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -11641,7 +11639,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -11818,8 +11816,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -11865,7 +11863,7 @@
    "type": "town",
    "county_fips": "08031",
    "call": "softening",
-   "call_basis": "falling: permits, price, rent",
+   "call_basis": "falling: permits, price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -11882,9 +11880,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.5,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 0.2,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 1.04,
@@ -11957,7 +11955,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -11986,7 +11984,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -12004,7 +12002,7 @@
     "share_of_housing_units": 0.5743,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -12374,8 +12372,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 0.4,
-     "month": "2026-08-31",
+     "value": 0.8,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -12472,8 +12470,8 @@
    "name": "Eagle (town)",
    "type": "town",
    "county_fips": "08037",
-   "call": "emerging",
-   "call_basis": "rising: permits, rent; growing: population",
+   "call": "steady",
+   "call_basis": "rising: permits; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -12491,9 +12489,9 @@
      "reading": null
     },
     "rent": {
-     "value": 4.8,
-     "month": "2026-08-31",
-     "reading": "up"
+     "value": 2.4,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 0.84,
@@ -12567,7 +12565,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -12755,7 +12753,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -12773,7 +12771,7 @@
     "share_of_housing_units": 0.0324,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -12803,7 +12801,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -13216,8 +13214,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.3,
-     "month": "2026-08-31",
+     "value": -0.1,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -13280,8 +13278,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 3.2,
-     "month": "2026-08-31",
+     "value": 6.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -13330,7 +13328,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -13377,7 +13375,7 @@
    "type": "town",
    "county_fips": "08123",
    "call": "steady",
-   "call_basis": "rising: price; falling: permits",
+   "call_basis": "rising: price, rent; falling: permits",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -13394,9 +13392,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": 2.6,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": 3.9,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": 1.47,
@@ -13440,8 +13438,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 4.3,
-     "month": "2026-08-31",
+     "value": 3.0,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -13454,7 +13452,7 @@
     "share_of_housing_units": 0.0514,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -13502,7 +13500,7 @@
     "share_of_housing_units": 0.0081,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -13535,8 +13533,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -13567,7 +13565,7 @@
    "type": "town",
    "county_fips": "08001",
    "call": "steady",
-   "call_basis": "rising: none; falling: none",
+   "call_basis": "rising: rent; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -13586,9 +13584,9 @@
      "reading": null
     },
     "rent": {
-     "value": 2.9,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": 6.3,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": 0.79,
@@ -13604,7 +13602,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -13635,8 +13633,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 42.5,
-     "month": "2026-08-31",
+     "value": 38.8,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -13797,8 +13795,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -13991,8 +13989,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 1.4,
-     "month": "2026-08-31",
+     "value": 1.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -14164,8 +14162,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -14225,8 +14223,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 5.2,
-     "month": "2026-08-31",
+     "value": 6.0,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -14474,8 +14472,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -14529,7 +14527,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -14585,7 +14583,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -14603,7 +14601,7 @@
     "share_of_housing_units": 0.5218,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 53,
@@ -14631,7 +14629,7 @@
    "type": "town",
    "county_fips": "08077",
    "call": "steady",
-   "call_basis": "rising: price; falling: none",
+   "call_basis": "rising: price; falling: rent",
    "signals": {
     "permits": {
      "value": null,
@@ -14645,9 +14643,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": 2.5,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": -0.9,
+     "month": "2026-09-30",
+     "reading": "down"
     },
     "population": {
      "value": 0.68,
@@ -14902,7 +14900,7 @@
     "share_of_housing_units": 0.1724,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -14946,7 +14944,7 @@
     "share_of_housing_units": 0.0188,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -15025,8 +15023,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -15157,7 +15155,7 @@
    "type": "town",
    "county_fips": "08005",
    "call": "falling_demand",
-   "call_basis": "household population -0.79%/yr; rent down",
+   "call_basis": "household population -0.79%/yr; rent flat",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -15176,9 +15174,9 @@
      "reading": null
     },
     "rent": {
-     "value": -0.8,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 1.1,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": -0.79,
@@ -15294,7 +15292,7 @@
    "type": "town",
    "county_fips": "08045",
    "call": "steady",
-   "call_basis": "rising: permits; falling: none",
+   "call_basis": "rising: permits; falling: rent",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -15311,9 +15309,9 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 0.1,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": -2.9,
+     "month": "2026-09-30",
+     "reading": "down"
     },
     "population": {
      "value": 0.47,
@@ -15329,7 +15327,7 @@
     "share_of_housing_units": 0.0274,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 3,
@@ -15375,8 +15373,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -0.7,
-     "month": "2026-08-31",
+     "value": -0.4,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -15393,7 +15391,7 @@
     "share_of_housing_units": 0.004,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 8,
@@ -15575,7 +15573,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -15626,8 +15624,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 1.8,
-     "month": "2026-08-31",
+     "value": 0.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -15678,8 +15676,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -15771,8 +15769,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.3,
-     "month": "2026-08-31",
+     "value": -0.6,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -15882,8 +15880,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.9,
-     "month": "2026-08-31",
+     "value": 1.8,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -16134,7 +16132,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -16493,7 +16491,7 @@
     "share_of_housing_units": 0.6627,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -16565,8 +16563,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 0.7,
-     "month": "2026-08-31",
+     "value": 1.0,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -17155,8 +17153,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -17265,7 +17263,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17416,7 +17414,7 @@
     "share_of_housing_units": 0.1206,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17681,7 +17679,7 @@
     "share_of_housing_units": 0.0235,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17695,7 +17693,7 @@
    "type": "town",
    "county_fips": "08123",
    "call": "steady",
-   "call_basis": "rising: permits; falling: price",
+   "call_basis": "rising: permits, rent; falling: price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -17712,9 +17710,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": 1.7,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": 3.2,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": 3.81,
@@ -17884,7 +17882,7 @@
     "share_of_housing_units": 0.003,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17978,7 +17976,7 @@
     "share_of_housing_units": 0.5998,
     "reliability": "reliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -18220,7 +18218,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -18298,8 +18296,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.6,
-     "month": "2026-08-31",
+     "value": 1.4,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -18617,7 +18615,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -18648,8 +18646,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.4,
-     "month": "2026-08-31",
+     "value": -0.6,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -18666,7 +18664,7 @@
     "share_of_housing_units": 0.0032,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 12,
@@ -19102,7 +19100,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -19381,8 +19379,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.5,
-     "month": "2026-08-31",
+     "value": -0.9,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -19445,8 +19443,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -19643,8 +19641,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -6.8,
-     "month": "2026-08-31",
+     "value": -5.7,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -19706,8 +19704,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 1.0,
-     "month": "2026-08-31",
+     "value": 1.4,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -19769,8 +19767,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 4.8,
-     "month": "2026-08-31",
+     "value": 7.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -19877,8 +19875,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 2.2,
-     "month": "2026-08-31",
+     "value": 1.4,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -20211,7 +20209,7 @@
     },
     "rent": {
      "value": 5.1,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -20511,7 +20509,7 @@
     "share_of_housing_units": 0.1404,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -20649,8 +20647,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.9,
-     "month": "2026-08-31",
+     "value": -3.3,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -20833,8 +20831,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -21056,7 +21054,7 @@
     "share_of_housing_units": 0.3455,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21087,8 +21085,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 5.9,
-     "month": "2026-08-31",
+     "value": 6.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -21147,8 +21145,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 2.1,
-     "month": "2026-08-31",
+     "value": 2.6,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -21241,7 +21239,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -21259,7 +21257,7 @@
     "share_of_housing_units": 0.0927,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21353,7 +21351,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21520,7 +21518,7 @@
     "share_of_housing_units": 0.2203,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21563,7 +21561,7 @@
     "share_of_housing_units": 0.3524,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21698,7 +21696,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -21716,7 +21714,7 @@
     "share_of_housing_units": 0.0073,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21802,7 +21800,7 @@
     "share_of_housing_units": 0.0857,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21878,8 +21876,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -2.1,
-     "month": "2026-08-31",
+     "value": -0.6,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -21896,7 +21894,7 @@
     "share_of_housing_units": 0.0005,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -21989,7 +21987,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -22762,7 +22760,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -22814,8 +22812,8 @@
     },
     "rent": {
      "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
+     "month": "2026-09-30",
+     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
     "population": {
@@ -23033,7 +23031,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -23155,8 +23153,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -2.9,
-     "month": "2026-08-31",
+     "value": -1.5,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -23439,8 +23437,8 @@
      "reading": "flat"
     },
     "rent": {
-     "value": 4.2,
-     "month": "2026-08-31",
+     "value": 3.7,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -23853,8 +23851,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -23871,7 +23869,7 @@
     "share_of_housing_units": 0.0799,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -24023,8 +24021,8 @@
    "name": "Pueblo (city)",
    "type": "town",
    "county_fips": "08101",
-   "call": "steady",
-   "call_basis": "rising: none; falling: price",
+   "call": "softening",
+   "call_basis": "falling: price, rent",
    "signals": {
     "permits": {
      "value": null,
@@ -24038,9 +24036,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.1,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": -0.0,
+     "month": "2026-09-30",
+     "reading": "down"
     },
     "population": {
      "value": 0.51,
@@ -24056,7 +24054,7 @@
     "share_of_housing_units": 0.0062,
     "reliability": "use_with_caution"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -24104,7 +24102,7 @@
     "share_of_housing_units": 0.0091,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -24632,8 +24630,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -24650,7 +24648,7 @@
     "share_of_housing_units": 0.0174,
     "reliability": "unreliable"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -24988,7 +24986,7 @@
     "share_of_housing_units": 0.3271,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -25203,8 +25201,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -25221,7 +25219,7 @@
     "share_of_housing_units": 0.0952,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -25269,7 +25267,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -25493,8 +25491,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 4.3,
-     "month": "2026-08-31",
+     "value": 3.6,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -25844,7 +25842,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -25875,8 +25873,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -7.6,
-     "month": "2026-08-31",
+     "value": -3.2,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -25984,7 +25982,7 @@
     "share_of_housing_units": 0.0018,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -26077,7 +26075,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -26208,7 +26206,7 @@
    "type": "town",
    "county_fips": "08117",
    "call": "steady",
-   "call_basis": "rising: rent; falling: price",
+   "call_basis": "rising: none; falling: price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -26225,9 +26223,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": 8.4,
-     "month": "2026-08-31",
-     "reading": "up"
+     "value": 1.5,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 3.23,
@@ -26243,7 +26241,7 @@
     "share_of_housing_units": 0.257,
     "reliability": "use_with_caution"
    },
-   "county_call": "emerging",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 52,
@@ -26404,7 +26402,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "emerging",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -26776,8 +26774,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 7.1,
-     "month": "2026-08-31",
+     "value": 7.5,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -26876,7 +26874,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -27101,8 +27099,8 @@
      "reading": "up"
     },
     "rent": {
-     "value": 7.0,
-     "month": "2026-08-31",
+     "value": 5.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
@@ -27318,7 +27316,7 @@
    "type": "town",
    "county_fips": "08013",
    "call": "steady",
-   "call_basis": "rising: permits; falling: price",
+   "call_basis": "rising: permits, rent; falling: price",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -27335,9 +27333,9 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.8,
-     "month": "2026-08-31",
-     "reading": "flat"
+     "value": 3.4,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": 0.1,
@@ -27629,8 +27627,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": -1.1,
-     "month": "2026-08-31",
+     "value": -0.6,
+     "month": "2026-09-30",
      "reading": "down"
     },
     "population": {
@@ -27647,7 +27645,7 @@
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": {
      "total": 290,
@@ -27675,7 +27673,7 @@
    "type": "town",
    "county_fips": "08069",
    "call": "emerging",
-   "call_basis": "rising: permits, price; growing: population",
+   "call_basis": "rising: permits, price, rent; growing: population",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -27692,10 +27690,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": null,
-     "month": null,
-     "unavailable_reason": "Zillow publishes no rent index for this place",
-     "reading": null
+     "value": 4.9,
+     "month": "2026-09-30",
+     "reading": "up"
     },
     "population": {
      "value": 16.35,
@@ -27763,7 +27760,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -27932,7 +27929,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -27998,7 +27995,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -28208,7 +28205,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -28500,7 +28497,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "softening",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -28845,7 +28842,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -28920,7 +28917,7 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
+     "month": "2026-09-30",
      "unavailable_reason": "Zillow publishes no year-over-year change for this place",
      "reading": null
     },
@@ -29084,8 +29081,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.8,
-     "month": "2026-08-31",
+     "value": 0.9,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -29102,7 +29099,7 @@
     "share_of_housing_units": 0.006,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -29194,7 +29191,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -29225,8 +29222,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 0.6,
-     "month": "2026-08-31",
+     "value": 1.2,
+     "month": "2026-09-30",
      "reading": "flat"
     },
     "population": {
@@ -29243,7 +29240,7 @@
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
    },
-   "county_call": "softening",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -29420,8 +29417,8 @@
    "name": "Windsor (town)",
    "type": "town",
    "county_fips": "08123",
-   "call": "steady",
-   "call_basis": "rising: permits, price; falling: rent",
+   "call": "emerging",
+   "call_basis": "rising: permits, price; growing: population",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -29438,9 +29435,9 @@
      "reading": "up"
     },
     "rent": {
-     "value": -0.4,
-     "month": "2026-08-31",
-     "reading": "down"
+     "value": 1.2,
+     "month": "2026-09-30",
+     "reading": "flat"
     },
     "population": {
      "value": 6.2,
@@ -29494,8 +29491,8 @@
     },
     "rent": {
      "value": null,
-     "month": "2026-08-31",
-     "unavailable_reason": "Zillow publishes no year-over-year change for this place",
+     "month": null,
+     "unavailable_reason": "Zillow publishes no rent index for this place",
      "reading": null
     },
     "population": {
@@ -29587,8 +29584,8 @@
      "reading": "down"
     },
     "rent": {
-     "value": 10.2,
-     "month": "2026-08-31",
+     "value": 12.2,
+     "month": "2026-09-30",
      "reading": "up"
     },
     "population": {
