@@ -464,6 +464,16 @@
     return '<p>' + parts.join(' ') + '</p>';
   }
 
+  // The State Demography Office forecasts counties only. A town's figure is
+  // its share of the county's forecast growth, and saying "the county
+  // forecast" next to the town's name read as the county's own number.
+  function _forecastSource(ctx) {
+    var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp';
+    if (!isPlace) return 'from the State Demography Office\u2019s county forecast';
+    var county = ctx.containingCountyName || 'its county';
+    return 'this community\u2019s share of ' + county + '\u2019s growth in the State Demography Office forecast, which covers counties only';
+  }
+
   function _para4Forward(ctx) {
     if (ctx.pop == null && ctx.pop20yr == null) return null;
     var parts = [];
@@ -476,7 +486,7 @@
         '<strong>20-year population projection of ' + _fmtInt(ctx.pop20yr) + '</strong> implies ' +
         (deltaPop > 0 ? 'roughly ' : 'a net loss of ~') + _fmtInt(Math.abs(deltaHh)) + ' ' +
         (deltaPop > 0 ? 'new' : 'fewer') + ' households at current average household size (' + ctx.avgHhSize.toFixed(2) + '), ' +
-        _aOrAn(pctGrowth) + ' ' + pctGrowth + '% ' + direction + ' from today (from the State Demography Office\u2019s county forecast). ' +
+        _aOrAn(pctGrowth) + ' ' + pctGrowth + '% ' + direction + ' from today (' + _forecastSource(ctx) + '). ' +
         // The homes-needed figure on the same page is a different count (it
         // comes from projected households at a target vacancy), and the two
         // read as a contradiction when neither says so (trust sweep, 2026-10-18).

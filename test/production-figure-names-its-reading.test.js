@@ -132,7 +132,11 @@ async function renderTile(selection, countyFips) {
     const g = label('resident_growth', false);
     const gp = label('resident_growth', true);
     assert(w && g && gp && w !== g && w !== gp, `bases share a label: ${w} | ${g} | ${gp}`);
-    assert.strictEqual(rendered.label, label(rendered.basis, false),
+    // Fruita reads resident growth since #2385 counted its own jobs, and its
+    // growth comes from the stored place projection when the ledger covers it.
+    const placeLedger = JSON.parse(read('data/hna/projections/places.json')).places || {};
+    const usedPlace = rendered.basis === 'resident_growth' && Boolean(placeLedger[FRUITA]);
+    assert.strictEqual(rendered.label, label(rendered.basis, usedPlace),
       'the rendered subtitle is not what unitsNeedBasisLabel gives for its declared basis');
   });
 

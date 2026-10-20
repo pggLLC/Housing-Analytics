@@ -6,7 +6,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 - Digest files: 546
 - Total tagged metrics: 78620
-- County-context metric tags: 6758
+- County-context metric tags: 6763
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
 
@@ -15,8 +15,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | geography_level | metric tags |
 |---|---:|
 | county | 8704 |
-| county_context | 6758 |
-| place | 63158 |
+| county_context | 6763 |
+| place | 63153 |
 
 ## Source Tags
 
@@ -30,8 +30,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-profile-dp04 | 1088 |
 | acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
-| ami-gap-county-acs | 448 |
-| ami-gap-place-acs | 3374 |
+| ami-gap-county-acs | 449 |
+| ami-gap-place-acs | 3373 |
 | chfa-2026-r1-awards | 546 |
 | chfa-lihtc-and-2026-r1-awards | 2184 |
 | chfa-lihtc-properties | 10370 |
@@ -46,8 +46,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | lehd-lodes-county | 738 |
 | lehd-lodes-county-earnings-bin-estimate | 546 |
 | lehd-lodes-place-apportioned | 1446 |
-| lehd-lodes-wac-county | 64 |
-| lehd-lodes-wac-place | 482 |
+| lehd-lodes-wac-county | 65 |
+| lehd-lodes-wac-place | 481 |
 | opportunity-amenity-context | 2730 |
 | workforce-gap-lodes-wac-vs-ami-gap | 1638 |
 | zillow-zhvi-city-index | 540 |

@@ -218,7 +218,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Colorado Springs at #49 with an overall housing-need score of 75.4. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Colorado Springs at #55 with an overall housing-need score of 74.0. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -238,7 +238,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 493,540. LEHD-based commuting signals show 103,081 in-commuters and a commute ratio of 45.5%. The digest's county-context projection shows 62,180 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 493,540. LEHD-based commuting signals show 105,553 in-commuters and a commute ratio of 45.6%. The digest's county-context projection shows 62,180 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -507,8 +507,22 @@
       "accessed": "2026-10-10"
     },
     {
+      "id": "s31",
+      "label": "Second affordable housing project on church land opens in Colorado Springs — Colorado Springs Gazette",
+      "url": "https://gazette.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
+      "id": "s32",
+      "label": "Prop 123 funds to support 11 new affordable housing developments across Colorado — KKTV",
+      "url": "https://www.kktv.com/2026/07/21/prop-123-funds-support-11-new-affordable-housing-developments-across-colorado-including-one-colorado-springs/",
+      "kind": "press",
+      "accessed": "2026-10-18"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -517,7 +531,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -652,7 +666,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -661,7 +675,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -670,7 +684,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-18T13:07:14Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T03:14:24Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -703,20 +717,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "s31",
-      "label": "Second affordable housing project on church land opens in Colorado Springs — Colorado Springs Gazette",
-      "url": "https://gazette.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/",
-      "kind": "press",
-      "accessed": "2026-10-18"
-    },
-    {
-      "id": "s32",
-      "label": "Prop 123 funds to support 11 new affordable housing developments across Colorado — KKTV",
-      "url": "https://www.kktv.com/2026/07/21/prop-123-funds-support-11-new-affordable-housing-developments-across-colorado-including-one-colorado-springs/",
-      "kind": "press",
-      "accessed": "2026-10-18"
     }
   ]
 }

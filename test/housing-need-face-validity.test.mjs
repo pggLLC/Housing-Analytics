@@ -20,20 +20,21 @@
  * workforce-housing layer already flags as under pressure, may not rank in the
  * bottom half of housing need.
  *
- * The thresholds are stable from 12x/70 to 13.3x/80 — asserted below, including
+ * The thresholds are stable from 12x/70 to 23x/80 — asserted below, including
  * where the stability ENDS at both ends. Below 12x the set grows to include
- * Granby (10.8x) and Red Cliff (11.6x), which are not extreme markets, so 12x is
- * where "expensive" stops being a judgement call. Above 13.3x it loses Larkspur
- * (13.37x on the August 2026 ZHVI; 13.52x when it was pinned) and shrinks to
- * the three older entries, which hold through 20x/80.
- * The range was 12x-20x until Larkspur joined the ledger (#1991); it narrowed
- * because a real failure sits inside it, not because a threshold was tuned. Recording the boundary matters as
+ * Granby and Red Cliff, which are not extreme markets, so 12x is where
+ * "expensive" stops being a judgement call. Above 23x it loses Nathrop
+ * (23.77x) and is empty.
+ * The range was 12x-20x until Larkspur joined the ledger (#1991) and 12x-13.3x
+ * while it sat there; it widened again on 2026-10-19 when Larkspur, Keystone
+ * and Cattle Creek left (#2385). Each move followed a real place entering or
+ * leaving, not a threshold being tuned. Recording the boundary matters as
  * much as recording the rule: a threshold with no stated range of validity is
  * a number someone picked.
  *
  * ── Why this file is red-by-design, and why it still passes ──
  *
- * Four places fail the rule today. They are listed, by name, with their
+ * One place fails the rule today. They are listed, by name, with their
  * numbers. That ledger is NOT an exemption list:
  *
  *   - a fourth place failing breaks the build,
@@ -119,6 +120,11 @@ const WORKFORCE_PRESSURE = 70;
  * required by drift; the band is re-based only when the ledger entry is.
  */
 const KNOWN_FAILURES = {
+  // 2026-10-19 (#2385): Keystone, Cattle Creek and Larkspur came OFF. Their
+  // wage tiers had been their county's jobs scaled by population; counted
+  // from their own jobs, Keystone hosts 1,654 low-wage jobs, Cattle Creek 208
+  // and Larkspur 59, and all three now rank in the top half.
+  //
   // History, for the record only — rank is no longer asserted and none of
   // these needed a code change: ranks moved on 2026-09-19 (the index restored
   // from 41 metrics to 72, repooling every percentile) and on 2026-09-22
@@ -136,39 +142,16 @@ const KNOWN_FAILURES = {
   // low-wage jobs), its gap pressure went 10.1 -> 75.8 and its rank 363 ->
   // 197. That is the defect this ledger was opened for, closed.
   //
-  // The two CDPs below are NEW failures, and they are new for an honest
-  // reason rather than a regression: the workforce reading can only see a
-  // place that hosts a workforce. Cattle Creek has 59 local low-wage jobs and
-  // Nathrop has 41, against a state median of 215. Their need is residential,
-  // not employment-driven, so a job-based demand term has nothing to measure
-  // and they stay where they were. They were failing this rule before the
-  // change too; Snowmass and Keystone were simply worse, and the rule only
-  // reports the set.
-  '0840550': { name: 'Keystone (CDP)',
-    evidence: { workforce: 90.4, priceToIncome: 24.9 },
-    needWhenPinned: 40.7, rankWhenPinned: 305,
-    why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
-       + '— but still short of the top half' },
-  '0812470': { name: 'Cattle Creek (CDP)',
-    evidence: { workforce: 84.2, priceToIncome: 24.57 },
-    needWhenPinned: 40.1, rankWhenPinned: 313,
-    why: 'a house costs 24.57x local income and affordability intensity is 99.2, but it hosts only 59 '
-       + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
-  // Larkspur joined 2026-09-27 (#1991, owner decision). Its own inputs did not
-  // change: transit amenity scoring moved from the OpenStreetMap stop file to
-  // every confirmed CDOT and agency stop, other places gained opportunity
-  // credit, and its percentile slipped past the midline. Same diagnosis as the
-  // rest of the ledger: 18 local low-wage jobs, so the job-based reading has
-  // nothing to measure.
-  '0843550': { name: 'Larkspur (town)',
-    evidence: { workforce: 82.2, priceToIncome: 13.52 },
-    needWhenPinned: 43.3, rankWhenPinned: 279,
-    why: 'a house costs 13.52x local income, but it hosts 18 low-wage jobs, so the job-based gap reading '
-       + 'sees almost nothing; it slipped when statewide confirmed transit lifted other places (#1991)' },
+  // Nathrop, below, was a NEW failure then, and new for an honest reason
+  // rather than a regression: the workforce reading can only see a place
+  // that hosts a workforce. Counted from its own jobs it hosts 10 low-wage
+  // jobs (41 when they were its county's scaled by population). Its need is
+  // residential, not employment-driven, so a job-based demand term has
+  // nothing to measure. It was failing this rule before that change too.
   '0853010': { name: 'Nathrop (CDP)',
     evidence: { workforce: 81.9, priceToIncome: 23.88 },
     needWhenPinned: 39.1, rankWhenPinned: 324,
-    why: '23.88x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
+    why: '23.88x price-to-income and 98.4 affordability intensity against 10 local low-wage jobs — '
        + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };
 
@@ -235,8 +218,8 @@ test('the inputs the rule depends on are present and populated', () => {
 
 test('the failing set is stable across the range the rule claims', () => {
   // A rule that only works at one setting is a rule reverse-engineered from
-  // its answer. This one holds from 12x/70 to 13.3x/80.
-  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 78], [13.3, 80]];
+  // its answer. This one holds from 12x/70 to 23x/80.
+  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 80], [18, 75], [23, 80]];
   const sets = RANGE.map(([p, w]) => failing(p, w).map((x) => x.geoid).sort().join(','));
   const distinct = [...new Set(sets)];
   assert.strictEqual(distinct.length, 1,
@@ -254,11 +237,11 @@ test('and the rule stops being stable where it says it does', () => {
   assert.notStrictEqual(at10, at12,
     'the set no longer grows below 12x. That is good news about the data, but the '
     + 'stated range in this file is now wrong — re-derive it and update the docstring');
-  // And the top end: by 15x the set has lost a member. If it has not, the
+  // And the top end: by 24x the set has lost a member. If it has not, the
   // range is wider than this file says and should be restated.
-  const at15 = failing(15, 75).map((p) => p.geoid).sort().join(',');
-  assert.notStrictEqual(at15, at12,
-    'the set no longer shrinks by 15x, so the stable range reaches further than 13.3x — '
+  const at24 = failing(24, 80).map((p) => p.geoid).sort().join(',');
+  assert.notStrictEqual(at24, at12,
+    'the set no longer shrinks by 24x, so the stable range reaches further than 23x — '
     + 're-derive it and update the docstring');
 });
 
@@ -459,11 +442,13 @@ test('what sinks the remaining failures is that they host no workforce', () => {
   const failing = Object.keys(KNOWN_FAILURES)
     .map((g) => places.find((p) => p.geoid === g))
     .filter(Boolean);
-  assert.ok(failing.length >= 2, 'not enough ledger rows resolved to compare');
+  // One row since 2026-10-19 (Nathrop, 10 low-wage jobs); one is enough to
+  // compare against the median credible row.
+  assert.ok(failing.length >= 1, 'no ledger rows resolved to compare');
 
   const jobsOf = (p) => (typeof p.localLowWageJobs === 'number' ? p.localLowWageJobs : null);
   const measured = failing.map(jobsOf).filter((v) => v !== null);
-  assert.ok(measured.length >= 2,
+  assert.ok(measured.length >= 1,
     'the digests no longer carry local_low_wage_jobs — re-derive this diagnosis');
 
   // Every expensive place that scores CORRECTLY hosts real employment.
