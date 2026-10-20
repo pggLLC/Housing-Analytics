@@ -450,14 +450,15 @@
     // per user request. The three labeled paragraphs already make the
     // intent clear without the redundant header. Accent left border +
     // muted background still distinguish the callout visually.
-    return '<aside class="hna-dev-context" role="note" ' +
-           'style="margin:.55rem 0 .8rem;padding:.65rem .85rem;' +
-           'border-left:3px solid var(--accent);background:var(--bg2);' +
-           'border-radius:0 6px 6px 0;font-size:.85rem;line-height:1.45">' +
-             '<p style="margin:0 0 .4rem"><strong>Why it matters:</strong> ' + entry.why + '</p>' +
-             '<p style="margin:0 0 .4rem"><strong>What it says about need:</strong> ' + entry.demand + '</p>' +
-             '<p style="margin:0"><strong>How it shapes a project:</strong> ' + entry.project + mixTail + '</p>' +
-           '</aside>';
+    // Folded by default: the page carries ~45 of these, three paragraphs
+    // each, and open they made the HNA page 135 phone screens long. The
+    // section's chart and takeaway stay visible; the explanation is one tap.
+    return '<details class="hna-dev-context">' +
+             '<summary>Why it matters for a project</summary>' +
+             '<p><strong>Why it matters:</strong> ' + entry.why + '</p>' +
+             '<p><strong>What it says about need:</strong> ' + entry.demand + '</p>' +
+             '<p><strong>How it shapes a project:</strong> ' + entry.project + mixTail + '</p>' +
+           '</details>';
   }
 
   function _injectCallouts() {

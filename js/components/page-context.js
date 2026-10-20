@@ -63,7 +63,7 @@
     }
 
     el.innerHTML =
-      '<details class="pctx-panel" open>' +
+      '<details class="pctx-panel"' + (opts.collapsed ? '' : ' open') + '>' +
         '<summary class="pctx-summary">About this page</summary>' +
         '<div class="pctx-body">' +
           (what ? '<div class="pctx-section"><div class="pctx-label">What this page does</div><p class="pctx-text">' + esc(what) + '</p></div>' : '') +
