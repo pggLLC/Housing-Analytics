@@ -476,6 +476,13 @@ function sourceForMetric(metric, entry, summary) {
   if (metric === 'overcrowding_rate_pct') {
     return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acs5AsOf(summary, '_acs5BackfillYear') };
   }
+  // Below 500 renter units the ranking index substitutes the county's
+  // active-market vacancy (vacancy_adjustment_method says so). Labelling that
+  // 'place' let the town-vs-county table show Rio Blanco County's 1.9% as
+  // Rangely's own, against Rangely's 5.5%.
+  if (metric === 'vacancy_rate_pct' && m.vacancy_adjustment_method === 'county_active_market_small_renter_base') {
+    return { source_id: 'acs-profile', geography_level: contextLevel(entry, 'county_context'), as_of: acsAsOf(summary) };
+  }
   return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acsAsOf(summary) };
 }
 
@@ -948,6 +955,14 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSo
   for (const [metric, value] of Object.entries(entry.metrics || {})) {
     if (INTERNAL_METRICS.has(metric)) continue;
     metrics[metric] = digestMetric(metric, value, entry, summary, denom);
+  }
+  // A substituted county vacancy carries the county's housing units as its
+  // denominator, not the town's: the rate was computed over the county.
+  if (entry.type !== 'county' && entry.containingCounty
+      && entry.metrics?.vacancy_adjustment_method === 'county_active_market_small_renter_base'
+      && metrics.vacancy_rate_pct) {
+    const countyDenom = denominators(loadSummary(entry.containingCounty));
+    metrics.vacancy_rate_pct = digestMetric('vacancy_rate_pct', entry.metrics.vacancy_rate_pct, entry, summary, countyDenom);
   }
   Object.assign(metrics, regionalComparisonMetrics(entry, summary, chasSources, amiGapSources));
   const economic = economicLayer[entry.geoid] || {};

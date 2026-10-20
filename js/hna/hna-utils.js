@@ -1154,6 +1154,23 @@
     return null;
   }
 
+  // The ranking index drops an ACS renter-burden share that the CHAS severe
+  // share contradicts (Rangely: 21.1% burdened, 30.3% severely, a subset
+  // larger than its whole), and the narrative then uses CHAS. Every place that
+  // shows the ACS share asks this first. Returns a promise of true when the
+  // share for `geoid` was rejected; false when it stands or the index is
+  // unavailable.
+  function acsBurdenRejected(geoid){
+    const n = (typeof window !== 'undefined') && window.HNANarratives && window.HNANarratives._internals;
+    if (!geoid || !n || typeof n.loadRanking !== 'function' || typeof n.rankingEntryFor !== 'function') {
+      return Promise.resolve(false);
+    }
+    return Promise.resolve(n.loadRanking()).then(function () {
+      const e = n.rankingEntryFor(geoid);
+      return !!(e && e.metrics && e.metrics.pct_cost_burdened === null);
+    }, function () { return false; });
+  }
+
   /**
    * Compute the planning target vacancy for a county from ACS DP04
    * active-market vacancy rates (DP04_0004E homeowner + DP04_0005E rental),
@@ -1295,6 +1312,7 @@
     computeIncomeNeeded,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,
+    acsBurdenRejected,
     calculateJobMetrics,
     parseIndustries,
     calculateWageDistribution,
