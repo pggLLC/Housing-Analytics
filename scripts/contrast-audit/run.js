@@ -62,7 +62,7 @@ const THRESHOLD_LARGE    = 3.0;
  *                   bg_fixed, ratio_before, ratio_after, threshold, isLarge, passes_after_fix }
  */
 /* A page whose markup is only a <meta http-equiv="refresh"> (e.g.
- * indibuild-pipeline-public.html → pipeline.html) navigates away while it is
+ * colorado-market.html → colorado-deep-dive.html) navigates away while it is
  * being scanned, and page.evaluate() dies with "Execution context was
  * destroyed". Its target is audited in its own right, so it is reported as a
  * redirect rather than scanned, and never as a pass. */

@@ -103,7 +103,7 @@ Once the certificate is issued, tick **Enforce HTTPS** in Settings → Pages.
 ## Validate (post-cutover)
 
 - `curl -I https://cohoanalytics.com` → `200`
-- Home and `pipeline.html` load; `indibuild-pipeline-public.html` redirects to `pipeline.html`
+- Home and `pipeline.html` load
 - `https://cohoanalytics.com/robots.txt` shows the `cohoanalytics.com` sitemap line
 - Data panels that call the Workers load (CORS OK)
 - `npm run audit:repo-links:probe`
