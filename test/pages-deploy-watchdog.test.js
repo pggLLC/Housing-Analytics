@@ -72,6 +72,43 @@ function runFixture(overrides = {}) {
     assert(result.messages.join('\n').includes('waiting'), 'failure explains the stuck waiting run');
   });
 
+  // 2026-10-19: run 39262504970 sat "queued" for a day, GitHub refused to cancel
+  // it (409), and every later deploy succeeded. Nothing was frozen behind it.
+  const ghost = runFixture({ head_sha: 'ghostsha', status: 'queued', conclusion: null, created_at: '2026-07-14T09:00:00Z' });
+  run('a stale run that later deploys got past is a warning, not a failure', () => {
+    const later = runFixture({ head_sha: 'newsha', created_at: '2026-07-14T12:05:00Z' });
+    const result = evaluateDeployCoverage({
+      headSha: 'newsha', headCommitDate: '2026-07-14T12:00:00Z',
+      runs: [later], activeRuns: [ghost], branchRuns: [later, ghost], now, staleActiveMinutes: 120,
+    });
+    assert.strictEqual(result.ok, true);
+    assert.strictEqual(result.reason, 'successful-run');
+    assert(result.messages.some((m) => m.includes('::warning::') && m.includes('ghostsha')), 'the ghost run is still reported');
+  });
+
+  run('a stale run with only earlier or failed deploys around it still fails', () => {
+    const earlier = runFixture({ head_sha: 'oldsha', created_at: '2026-07-14T08:00:00Z' });
+    const failedLater = runFixture({ head_sha: 'newsha', conclusion: 'failure', created_at: '2026-07-14T12:05:00Z' });
+    const result = evaluateDeployCoverage({
+      headSha: 'newsha', headCommitDate: '2026-07-14T12:00:00Z',
+      runs: [failedLater], activeRuns: [ghost], branchRuns: [earlier, failedLater, ghost], now, staleActiveMinutes: 120,
+    });
+    assert.strictEqual(result.ok, false);
+    assert.strictEqual(result.reason, 'stale-active-run');
+  });
+
+  run('a stale run that started after the last success finished still fails', () => {
+    // Created 09:00 but only started 10:30, after a deploy created 09:30 finished at 10:00.
+    const late = runFixture({ head_sha: 'latesha', status: 'in_progress', conclusion: null, created_at: '2026-07-14T09:00:00Z', run_started_at: '2026-07-14T10:30:00Z' });
+    const earlier = runFixture({ head_sha: 'newsha', created_at: '2026-07-14T09:30:00Z', updated_at: '2026-07-14T10:00:00Z' });
+    const result = evaluateDeployCoverage({
+      headSha: 'newsha', headCommitDate: '2026-07-14T09:20:00Z',
+      runs: [earlier], activeRuns: [late], branchRuns: [earlier, late], now, staleActiveMinutes: 120,
+    });
+    assert.strictEqual(result.ok, false);
+    assert.strictEqual(result.reason, 'stale-active-run');
+  });
+
   run('fails when latest main is old enough and has only canceled deploys', () => {
     const result = evaluateDeployCoverage({
       headSha: 'abc123',
@@ -146,7 +183,8 @@ function runFixture(overrides = {}) {
   }
   await check('direct active queries find a stale run beyond the first page', async () => {
     const fresh = Array.from({ length: 100 }, (_, i) => ({ ...runFixture({ head_sha: 'other', status: 'queued', conclusion: null, created_at: '2026-10-07T22:00:00Z' }), id: i }));
-    const stale = { ...runFixture({ head_sha: 'old', status: 'queued', conclusion: null, created_at: '2026-10-07T18:00:00Z' }), id: 101 };
+    // Queued after the last successful deploy (19:31), so nothing has got past it.
+    const stale = { ...runFixture({ head_sha: 'old', status: 'queued', conclusion: null, created_at: '2026-10-07T19:45:00Z' }), id: 101 };
     const { result, calls } = await probe({ head: [current], branch: [current], active: { queued: [...fresh, stale] } });
     assert.equal(result.ok, false); assert.equal(result.reason, 'stale-active-run');
     assert(calls.some(q => q.get('status') === 'queued' && q.get('page') === '2'));
