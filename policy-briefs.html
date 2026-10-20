@@ -59,7 +59,7 @@
       .news-main, .news-aside { display: contents; }
       /* News first: the side column is a few rows, so it may sit between the
          latest stories and the rest, but the full lists live on other pages. */
-      #newsLatest { order: 1; } #eventsPanel { order: 2; } #policyWatchPanel { order: 3; } #newsRiver { order: 4; } #researchPanel { order: 5; }
+      #newsLatest { order: 1; } #eventsPanel { order: 2; } #policyWatchPanel { order: 3; } #newsRiver { order: 4; } #nationalPanel { order: 5; } #researchPanel { order: 6; }
     }
 
     .news-label { display: flex; align-items: center; gap: .6rem; font-size: .8125rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
@@ -220,7 +220,7 @@
       <!-- A summary rail, not a second page: a few rows, each linked to where
            the full list lives. It used to print every Policy watch entry and
            ran 6,804px beside ~3,050px of news (2026-09-28). -->
-      <aside class="news-aside" aria-label="Upcoming events, policy watch and latest research">
+      <aside class="news-aside" aria-label="Upcoming events, policy watch, national trends and latest research">
         <section id="eventsPanel" class="news-panel" aria-labelledby="eventsLabel" hidden>
           <h2 class="news-label" id="eventsLabel">Upcoming events</h2>
           <p class="news-note" id="eventsNote"></p>
@@ -238,6 +238,12 @@
           <p class="news-note" id="policyWatchAsOf"></p>
           <ul id="policyWatchList" class="watch-rows no-glossary"></ul>
           <p class="news-panel__more"><a href="colorado-elections.html">2026 ballot, candidates and housing officials</a></p>
+        </section>
+        <section id="nationalPanel" class="news-panel" aria-labelledby="nationalLabel" hidden>
+          <h2 class="news-label" id="nationalLabel">National trends</h2>
+          <p class="news-note">Housing market and homebuilding trends reported by national newspapers and housing research centers. Opinion pieces are left out.</p>
+          <ul id="nationalList" class="watch-rows no-glossary"></ul>
+          <button type="button" class="news-linkbtn" id="nationalMore" hidden></button>
         </section>
         <section id="researchPanel" class="news-panel" aria-labelledby="researchLabel">
           <h2 class="news-label" id="researchLabel">Latest research</h2>
@@ -619,6 +625,38 @@
       }).join('');
     }
 
+    // ── National trends ──────────────────────────────────────────────────
+    // Stories the pipeline scoped 'national': housing-trend headlines from its
+    // short list of national outlets and research centers
+    // (NATIONAL_SOURCE_RE in scripts/generate_policy_briefs.py). They stay out
+    // of the Colorado news list and its filters and sit here, newest first.
+    var NATIONAL_STEP = 5;
+    function renderNational(data) {
+      var list = (data && Array.isArray(data.stories) ? data.stories : [])
+        .filter(function (s) { return s && s.title && s.scope === 'national'; })
+        .sort(function (a, b) { return storyTime(b) - storyTime(a); });
+      if (!list.length) return;
+      var n = NATIONAL_STEP, host = $('nationalList'), more = $('nationalMore');
+      function draw() {
+        host.innerHTML = list.slice(0, n).map(function (s) {
+          var t = storyTime(s);
+          var head = s.link
+            ? '<a href="' + escapeHtml(s.link) + '" target="_blank" rel="noopener">' + escapeHtml(s.title) + '</a>'
+            : '<span>' + escapeHtml(s.title) + '</span>';
+          return '<li class="watch-row">' + head + '<span class="watch-row__meta">' +
+            escapeHtml(s.source || 'Unknown publisher') + (t ? ' · ' + shortDate(t) : '') +
+            (Array.isArray(s.also) && s.also.length
+              ? ' · Also ' + s.also.map(function (x) { return escapeHtml(x.source); }).join(', ') : '') +
+            '</span></li>';
+        }).join('');
+        more.hidden = list.length <= n;
+        more.textContent = 'Show ' + Math.min(NATIONAL_STEP, list.length - n) + ' more national stories';
+      }
+      more.addEventListener('click', function () { n += NATIONAL_STEP; draw(); });
+      draw();
+      $('nationalPanel').hidden = false;
+    }
+
     // ── Policy watch ─────────────────────────────────────────────────────
     // data/policy/policy-watch.json, as a summary: one row per section with its
     // count and newest check date, linked to the page that lists it in full
@@ -739,6 +777,7 @@
         renderEvents(payloads[4]);
         var RC = window.ResearchCatalog;
         stories = readStories(data);
+        renderNational(data);
         renderPipelineStatus(data && data.meta);
         renderResearch(RC ? RC.latest(RC.items(payloads[3], curatedData, null)) : []);
         if (!stories.length) {

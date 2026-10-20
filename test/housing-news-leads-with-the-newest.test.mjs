@@ -384,3 +384,37 @@ test('no policy watch file hides the panel', async () => {
   assert.equal(window.document.getElementById('policyWatchPanel').hidden, true,
     'the panel shows with no data behind it');
 });
+
+test('national trend stories sit in their own panel, not in the Colorado news', async () => {
+  const stories = [
+    story('Colorado story', 'Denver Post', '2026-10-01'),
+    story('The Immigration Crackdown Is Making It Much Harder to Build Houses', 'WSJ', '2026-10-16',
+      { scope: 'national', also: [{ source: 'Reuters', link: 'https://news.localhost/r', date: '2026-10-16' }] }),
+    story('A New Type of Mortgage Is Reviving Long Abandoned Neighborhoods', 'WSJ', '2026-10-11', { scope: 'national' }),
+  ];
+  for (let i = 0; i < 6; i++) stories.push(story(`US housing trend ${i}`, 'Reuters', `2026-09-0${i + 1}`, { scope: 'national' }));
+  const dom = await runPage({ briefs: [], stories, meta: {} });
+  const doc = dom.window.document;
+  await settle();
+  const main = visibleStories(doc).map((el) => el.querySelector('a').textContent);
+  assert.deepEqual(main, ['Colorado story']);
+  const panel = doc.getElementById('nationalPanel');
+  assert.equal(panel.hidden, false);
+  const rows = () => [...doc.querySelectorAll('#nationalList .watch-row a')].map((a) => a.textContent);
+  assert.equal(rows()[0], 'The Immigration Crackdown Is Making It Much Harder to Build Houses');
+  assert.equal(rows().length, 5);
+  const more = doc.getElementById('nationalMore');
+  assert.equal(more.textContent, 'Show 3 more national stories');
+  more.click();
+  assert.equal(rows().length, 8);
+  assert.equal(more.hidden, true);
+  assert.equal(doc.querySelector('#nationalList .watch-row__meta').textContent, 'WSJ · Oct 16 · Also Reuters');
+  const opts = [...doc.querySelectorAll('#regionFilter option')].map((o) => o.textContent);
+  assert.ok(!opts.some((o) => /national/i.test(o) && !/Federal/.test(o)), opts.join('|'));
+});
+
+test('no national stories, no panel', async () => {
+  const dom = await runPage({ briefs: [], stories: [story('Colorado story', 'Denver Post', '2026-10-01')], meta: {} });
+  await settle();
+  assert.equal(dom.window.document.getElementById('nationalPanel').hidden, true);
+});
