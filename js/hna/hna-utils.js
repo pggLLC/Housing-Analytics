@@ -96,6 +96,7 @@
     lehd: (geoid) => `data/hna/lehd/${geoid}.json` + _dataVer(),
     dolaSya: (countyFips5) => `data/hna/dola_sya/${countyFips5}.json`,
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
+    scenarioBaseline: (countyFips5) => `data/hna/scenario-baseline/${countyFips5}.json`,
     placeProjections: 'data/hna/projections/places.json',
     derived: 'data/hna/derived/geo-derived.json',
     acsDebugLog: 'data/hna/acs_debug_log.txt',
@@ -1264,19 +1265,28 @@
 
   // --- Renderers ---
 
-  const PROJECTION_SCENARIOS = {};
-  ((window.ScenarioPresets && window.ScenarioPresets.list) || []).forEach(function (preset) {
-    PROJECTION_SCENARIOS[preset.key] = {
-      label: preset.label,
-      description: preset.description,
-      color: preset.color,
-      params: {
-        fertility_multiplier: preset.params.fertility_multiplier,
-        mortality_multiplier: preset.params.mortality_multiplier,
-        net_migration_annual: preset.params.net_migration_annual,
-      },
-    };
-  });
+  // The page's three projection lines. Baseline is the State Demography
+  // Office's forecast; low and high scale the projected growth from the base
+  // year by 15% either way (hna-renderers _scenarioGrowthSensitivitySeries).
+  // They are a sensitivity check, not the Scenario Builder's presets, which
+  // change births, deaths or migration (js/projections/scenario-presets.js).
+  const PROJECTION_SCENARIOS = {
+    baseline: {
+      label: 'SDO forecast',
+      description: 'The State Demography Office’s forecast for this place, the one the 20-year figure uses.',
+      color: '#4a90d9',
+    },
+    low_growth: {
+      label: 'Growth −15%',
+      description: 'SDO’s forecast with 15% less growth from the base year. A sensitivity check, not a separate forecast; to change births, deaths or migration, use the Scenario Builder.',
+      color: '#e07b39',
+    },
+    high_growth: {
+      label: 'Growth +15%',
+      description: 'SDO’s forecast with 15% more growth from the base year. A sensitivity check, not a separate forecast; to change births, deaths or migration, use the Scenario Builder.',
+      color: '#4caf50',
+    },
+  };
 
   // AMI tier labels for housing demand charts
   const AMI_TIER_LABELS = {

@@ -3821,9 +3821,7 @@
         baseYear,
         countyFips5,
         selection,
-        baseUnits,
-        headship0,
-        targetVac
+        window.HNAUtils.safeNum(placeProjectionRec?.shares?.blended)
       );
       window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, {
         customScenario: customScenario,
@@ -3955,7 +3953,7 @@
     const meta = custom ? null : window.HNAUtils.PROJECTION_SCENARIOS[sc];
     const el   = document.getElementById('scenarioDescription');
     if (el && custom) {
-      el.textContent = String(custom.name) + ' from Scenario Builder. Custom cohort-component projection; not a DOLA-aligned preset.';
+      el.textContent = String(custom.name) + ' from the Scenario Builder: the State Demography Office’s forecast with your own births, deaths and migration settings.';
     } else if (el && meta) {
       el.textContent = meta.description;
     }
@@ -3964,88 +3962,96 @@
   function setCustomScenarioDisclosure(customMeta){
     const el = document.getElementById('customScenarioDisclosure');
     if (!el) return;
+    if (customMeta && customMeta.unavailableReason) {
+      el.textContent = customMeta.unavailableReason;
+      el.hidden = false;
+      return;
+    }
     if (!customMeta || !customMeta.active) {
       el.textContent = '';
       el.hidden = true;
       return;
     }
-    el.textContent = 'Custom Scenario Builder line shown with a cohort-component model and current HNA base data; built-in scenarios remain DOLA-aligned. The custom line is truncated to the chart year range with no extrapolated tail.';
+    el.textContent = 'The custom line is this page\u2019s population line plus the change your saved Scenario Builder settings make to the State Demography Office\u2019s forecast, over the chart\u2019s years only.' +
+      (customMeta.migrationNote ? ' ' + customMeta.migrationNote : '');
     el.hidden = false;
   }
 
-  function scaleDolaSyaData(dolaData, scaleFactor, selection, countyFips5){
-    if (!dolaData || !Number.isFinite(scaleFactor) || scaleFactor === 1) return dolaData;
-    const scaled = Object.assign({}, dolaData, {
-      geoid: selection && selection.geoid,
-      placeName: selection && selection.label,
-      downscaledFromCounty: countyFips5,
-      scaleFactor: scaleFactor,
-    });
-    if (Array.isArray(dolaData.male)) scaled.male = dolaData.male.map(function (v) { return v * scaleFactor; });
-    if (Array.isArray(dolaData.female)) scaled.female = dolaData.female.map(function (v) { return v * scaleFactor; });
-    if (Array.isArray(dolaData.pyramid)) {
-      scaled.pyramid = dolaData.pyramid.map(function (row) {
-        return Object.assign({}, row, {
-          male: (row.male || 0) * scaleFactor,
-          female: (row.female || 0) * scaleFactor,
-        });
-      });
-    }
-    return scaled;
-  }
-
-  async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, baseUnits, headship0, targetVac){
+  // A saved Scenario Builder scenario, drawn on this page's own population
+  // line: the line plus the change the scenario's births, deaths and migration
+  // percentages make to the State Demography Office's forecast
+  // (CohortComponentModel.changeFromSdo). At 100% on all three the custom line
+  // is this page's line exactly. A town or CDP takes the change at the share of
+  // county growth this page gives it (the place ledger's blended share, else
+  // its share of the county's people), summed over the same counties the
+  // Scenario Builder uses (CohortComponentModel.countiesFor).
+  async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, placeShare){
     const rec = getScenarioBuilderRecord(selectedKey);
-    if (!rec) {
+    const M = window.CohortComponentModel;
+    if (!rec || !M || typeof M.changeFromSdo !== 'function' || !countyFips5 || !Array.isArray(popSel) || !popSel.length) {
       setCustomScenarioDisclosure(null);
       return null;
     }
-    if (!window.CohortComponentModel || typeof window.CohortComponentModel !== 'function') {
-      setCustomScenarioDisclosure(null);
+    if (!selection || selection.geoType === 'state' || _isMultiJurisdictionSelection(selection)) {
+      setCustomScenarioDisclosure({ unavailableReason: 'A saved Scenario Builder scenario runs on one county, town or CDP, as the Scenario Builder does. Choose one to see its line here.' });
       return null;
     }
-    let dolaData = null;
-    if (window.HNAState.state.lastDolaSya && window.HNAState.state.lastDolaFips === countyFips5) {
-      dolaData = window.HNAState.state.lastDolaSya;
-    } else if (countyFips5) {
-      try {
-        dolaData = await loadJson(window.HNAUtils.PATHS.dolaSya(countyFips5));
-      } catch (_) {
-        dolaData = null;
+    let crossRec = null;
+    if (selection.geoType !== 'county' && Number.isFinite(placeShare)) {
+      if (window.HNAState.state.crossCountyPlaces === undefined) {
+        window.HNAState.state.crossCountyPlaces = await loadJson('data/hna/cross-county-places.json').catch(function () { return null; });
       }
+      const cross = window.HNAState.state.crossCountyPlaces;
+      crossRec = cross && cross.places ? cross.places[selection.geoid] || null : null;
     }
-    if (!dolaData) {
-      setCustomScenarioDisclosure(null);
+    const fipsList = M.countiesFor(
+      { type: selection.geoType, geoid: selection.geoid, containingCounty: countyFips5 },
+      Number.isFinite(placeShare) ? { shares: { blended: placeShare } } : null,
+      crossRec
+    );
+    const cache = window.HNAState.state.scenarioBaselines || (window.HNAState.state.scenarioBaselines = {});
+    const baselines = await Promise.all(fipsList.map(function (fips) {
+      if (cache[fips]) return cache[fips];
+      return loadJson(window.HNAUtils.PATHS.scenarioBaseline(fips))
+        .then(function (b) { cache[fips] = b; return b; })
+        .catch(function () { return null; });
+    }));
+    if (!baselines.length || baselines.some(function (b) { return !b; })) {
+      setCustomScenarioDisclosure({ unavailableReason: 'The State Demography Office forecast files the saved scenario runs on did not load, so its line is not drawn.' });
       return null;
     }
 
     const countyBase = window.HNAUtils.safeNum((proj && proj.population_dola && proj.population_dola[0]) || null);
-    const selectedBase = window.HNAUtils.safeNum((popSel && popSel[0]) || null);
+    const selectedBase = window.HNAUtils.safeNum(popSel[0]);
     const isSubCounty = selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection);
-    const scaleFactor = isSubCounty && countyBase && selectedBase
-      ? Math.min(1, Math.max(0.0001, selectedBase / countyBase))
-      : 1;
-    const scopedDola = scaleDolaSyaData(dolaData, scaleFactor, selection, countyFips5);
-    const basePopulation = window.CohortComponentModel.buildBasePopFromDola(scopedDola);
-    const chartEndYear = years && years.length ? Number(years[years.length - 1]) : (baseYear + 20);
-    const requestedEnd = Number(rec.targetYear || rec.horizonEndYear || rec.endYear || 2050);
-    const targetYear = Number.isFinite(requestedEnd) ? Math.min(requestedEnd, 2050) : 2050;
-    const model = new window.CohortComponentModel({
-      basePopulation: basePopulation,
-      baseYear: baseYear || 2024,
-      targetYear: targetYear,
-      scenario: rec.parameters || {},
-      headshipRate: headship0 || 0.38,
-      vacancyTarget: targetVac || 0.05,
-      baseUnits: baseUnits || 0,
-    });
-    const projected = model.project();
-    const allowedYears = new Set((years || []).map(function (y) { return Number(y); }));
-    const series = projected
-      .filter(function (row) { return allowedYears.has(Number(row.year)) && Number(row.year) <= chartEndYear; })
-      .map(function (row) {
-        return { year: row.year, population: row.totalPopulation, pop: row.totalPopulation };
+    const share = !isSubCounty ? 1
+      : (Number.isFinite(placeShare) ? Math.min(1, Math.max(0.005, placeShare))
+        : (countyBase && selectedBase ? Math.min(1, Math.max(0.0001, selectedBase / countyBase)) : null));
+    if (share == null) {
+      setCustomScenarioDisclosure(null);
+      return null;
+    }
+    const migrations = baselines.map(function (b) { return M.averageAnnualMigration(b, 20); });
+    const sdoMigration = migrations.some(function (m) { return m == null; }) ? null
+      : migrations.reduce(function (a, m) { return a + m; }, 0);
+    const params = M.paramsFromSaved(rec.parameters || {}, sdoMigration == null ? null : sdoMigration * share);
+    const changeByYear = {};
+    baselines.forEach(function (b) {
+      M.changeFromSdo(b, params).forEach(function (row) {
+        const sum = changeByYear[row.year] || (changeByYear[row.year] = { year: row.year, population: 0 });
+        sum.population += row.population;
       });
+    });
+    // Only the chart's own years: no padded or extrapolated tail.
+    const series = (years || [])
+      .map(function (year, idx) {
+        const base = window.HNAUtils.safeNum(popSel[idx]);
+        const change = changeByYear[Number(year)];
+        if (base == null || !change) return null;
+        const population = base + share * change.population;
+        return { year: Number(year), population: population, pop: population };
+      })
+      .filter(function (row) { return row !== null; });
     const meta = {
       active: true,
       key: selectedKey,
@@ -4054,6 +4060,7 @@
       label: SCENARIO_BUILDER_LABEL,
       color: '#a855f7',
       series: series,
+      migrationNote: params.migrationNote || null,
     };
     setCustomScenarioDisclosure(meta);
     return meta;
@@ -5427,6 +5434,7 @@
   window.__HNA_mergeExtendedForTest = mergeExtended;
   window.__HNA_buildCensusUrlForTest = _buildCensusUrl;
   window.__HNA_rentBurdenEvidenceForTest = _rentBurdenEvidence;
+  window.__HNA_buildScenarioBuilderOverlayForTest = buildScenarioBuilderOverlay;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);

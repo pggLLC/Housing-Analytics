@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Projection Scenario Builder | COHO Analytics</title>
-  <meta name="description" content="Interactive 20-year demographic and housing projection tool with scenario comparison for Colorado counties and municipalities." />
+  <meta name="description" content="Change the State Demography Office forecast of births, deaths and migration and see the homes a Colorado county, town or CDP would need over 20 years." />
   <meta property="og:title" content="Projection Scenario Builder | COHO Analytics">
-  <meta property="og:description" content="Build and compare baseline, low-growth, and high-growth housing projection scenarios for Colorado.">
+  <meta property="og:description" content="Test the homes a Colorado place needs over 20 years against lower or higher migration than the State Demography Office forecasts.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -42,6 +42,7 @@
   <script src="js/projections/scenario-presets.js"></script>
   <script src="js/projections/scenario-storage.js"></script>
   <script defer src="js/projections/scenario-builder.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script src="js/components/method-footer.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
@@ -109,23 +110,22 @@
     <!-- Hero -->
     <div class="sb-hero">
       <div class="kicker">Colorado • Demographic Projections</div>
-      <h1 data-i18n="scenarios.title">Projection Scenario Builder</h1>
-      <p class="sb-hero-sub" data-i18n="scenarios.subtitle">
-        Estimate how many homes your place may need by 2050. Start from the state demographer's
-        population figures, pick low, moderate or high growth, or set your own assumptions about
-        births, deaths and people moving in or out, then compare the results and save the ones you
-        want to keep. The model ages each group of residents forward one year at a time.
+      <h1>Projection Scenario Builder</h1>
+      <p class="sb-hero-sub">
+        See how many homes a place needs over 20 years if births, deaths or migration differ from the
+        State Demography Office's forecast. Every setting starts at that forecast, so with nothing
+        changed you get the HNA page's 20-year figure.
       </p>
-      <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;" role="note"><strong>Screening tool only.</strong> Projections are illustrative planning estimates based on public DOLA and Census data. They are not certified forecasts and do not substitute for a formal housing needs study or CHFA-required analysis.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;" role="note"><strong>Screening tool only.</strong> Projections are planning estimates from public data: the State Demography Office, the National Center for Health Statistics and the Census Bureau. They are not certified forecasts and do not substitute for a formal housing needs study or CHFA-required analysis.</p>
     </div>
 
     <div id="pageContext"></div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
-        what: 'Model 20-year demographic projections using a cohort-component model with adjustable fertility, migration, and mortality assumptions. Three presets (baseline, low-growth, high-growth) plus custom scenarios.',
+        what: 'Change the State Demography Office (SDO) forecast of births, deaths and migration, and see the homes a place would need over 20 years. Three presets: SDO’s forecast, half its migration, and one and a half times its migration.',
         why: 'LIHTC compliance periods are 15-30 years. Lenders, investors, and CHFA need confidence that housing demand will persist. Demographic projections help justify long-term viability and inform unit mix decisions.',
-        not: 'Projections are scenarios, not predictions. They use simplified cohort advancement with county-level DOLA base data. They do not model economic shocks, policy changes, or sub-county migration patterns. The baseline scenario reflects 2018-2023 trend averages.',
+        not: 'Projections are scenarios, not predictions. Each setting scales SDO’s own forecast; the builder does not tie migration to jobs, wages or home prices. Towns and CDPs take a share of their county’s forecast, the share the HNA page uses.',
         nextSteps: [
           { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the financial feasibility' }
         ]
@@ -154,13 +154,37 @@
       </div>
       <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
       <p style="margin:var(--sp1) 0 0;font-size:.8125rem;color:var(--muted);line-height:1.4;">
-        <strong>Counties</strong> start from the State Demography Office's (DOLA) count of residents by age and sex.
-        <strong>Towns, cities and unincorporated communities (CDPs)</strong> use their county's age and sex mix,
-        scaled to their share of the county's population (Census ACS table B01003). That works for most places
-        but can undercount young and working-age residents in college towns and resort areas. Every place uses
-        the same two housing assumptions: about 38 households for every 100 residents, and 5% of homes standing
-        empty at any time, as they do between occupants.
+        <strong>Counties</strong> use the State Demography Office's (SDO) forecast by single year of age and sex.
+        <strong>Towns, cities and unincorporated communities (CDPs)</strong> take the share of their county's
+        growth the HNA page gives them, so the two pages agree. Homes use each county's target vacancy, also as on the HNA page.
       </p>
+    </section>
+
+    <!-- Key numbers: what the loaded scenario says, before any detail -->
+    <section id="sbKeyNumbers" class="sb-keys" aria-labelledby="sbKeysHeading" hidden>
+      <h2 id="sbKeysHeading" class="sb-keys__heading">Your scenario</h2>
+      <div class="sb-keys__grid" role="list">
+        <div class="sb-key" role="listitem">
+          <span class="sb-key__label" id="sbKeyHomesLabel">Homes needed in 20 years</span>
+          <span class="sb-key__val" id="sbKeyHomes">—</span>
+          <span class="sb-key__line" id="sbKeyHomesNote"></span>
+        </div>
+        <div class="sb-key" role="listitem">
+          <span class="sb-key__label" id="sbKeyPopLabel">Population in 20 years</span>
+          <span class="sb-key__val" id="sbKeyPop">—</span>
+          <span class="sb-key__line" id="sbKeyPopNote"></span>
+        </div>
+        <div class="sb-key" role="listitem">
+          <span class="sb-key__label">People moving in a year (net)</span>
+          <span class="sb-key__val" id="sbKeyMigration">—</span>
+          <span class="sb-key__line" id="sbKeyMigrationNote"></span>
+        </div>
+      </div>
+      <div class="sb-decide">
+        <p><strong>Why this matters.</strong> The HNA page's 20-year figure assumes SDO's forecast holds. Lower and higher migration show how much of the need rests on people moving in.</p>
+        <p><strong>What to decide.</strong> Whether a project still makes sense if migration runs below SDO's forecast. Try Half the migration before you size one.</p>
+        <p class="sb-decide__next"><a href="deal-calculator.html">Next step: model the deal →</a></p>
+      </div>
     </section>
 
     <!-- LIHTC contextual tips (Scenario Builder step) -->
@@ -173,85 +197,81 @@
       <aside class="sb-controls" aria-label="Scenario controls">
 
         <!-- Scenario presets -->
-        <div class="sb-section-title" data-i18n="hna.projections.scenarioLabel">Scenario</div>
+        <div class="sb-section-title">Scenario</div>
         <div id="sbScenarioButtons" class="sb-scenario-buttons">
           <button class="sb-scenario-btn active" data-scenario="baseline" type="button">
-            <span data-i18n="scenarios.baseline.name">Baseline (Moderate Growth)</span>
-            <small>COHO preset · DOLA base pop.</small>
+            <span>SDO forecast</span>
+            <small>All at 100%</small>
           </button>
           <button class="sb-scenario-btn" data-scenario="low_growth" type="button">
-            <span data-i18n="scenarios.lowGrowth.name">Low Growth</span>
-            <small>COHO preset</small>
+            <span>Half the migration</span>
+            <small>Moving in at 50%</small>
           </button>
           <button class="sb-scenario-btn" data-scenario="high_growth" type="button">
-            <span data-i18n="scenarios.highGrowth.name">High Growth</span>
-            <small>COHO preset</small>
+            <span>1.5× the migration</span>
+            <small>Moving in at 150%</small>
           </button>
         </div>
 
-        <!-- Custom sliders -->
-        <div class="sb-section-title" style="margin-top:var(--sp4);">Custom Assumptions</div>
+        <!-- Custom sliders: each a percentage of SDO's forecast -->
+        <div class="sb-section-title" style="margin-top:var(--sp4);">Your settings, as a share of SDO's forecast</div>
 
         <div class="sb-sliders">
-          <!-- Fertility -->
+          <!-- Net migration -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.fertilityMultiplier">Birth rate</span>
-              <span class="sb-slider-value" id="sbFertMultVal">1.00</span>
+              <span>People moving in (net)</span>
+              <span class="sb-slider-value" id="sbMigrationPctVal">100%</span>
             </div>
-            <input type="range" id="sbFertMult" class="sb-slider"
-              min="0.5" max="1.5" step="0.01" value="1.0"
-              aria-label="Birth rate, as a multiple of today's rate"
-              data-i18n-aria-label="scenarios.sliders.fertilityMultiplier">
-            <p class="sb-slider-help" data-i18n="scenarios.sliders.fertilityHelp">
-              1.00 = today's birth rate; 1.10 means 10% more births
+            <input type="range" id="sbMigrationPct" class="sb-slider"
+              min="0" max="200" step="5" value="100"
+              aria-label="People moving in minus people moving out, as a percentage of SDO's forecast">
+            <p class="sb-slider-help">
+              100% = SDO's forecast of people moving in minus people moving out. <span id="sbMigrationSdo"></span>
             </p>
           </div>
 
-          <!-- Net Migration -->
+          <!-- Births -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.migrationAnnual">People moving in each year (net)</span>
-              <span class="sb-slider-value" id="sbMigAnnualVal">500</span>
+              <span>Births</span>
+              <span class="sb-slider-value" id="sbBirthsPctVal">100%</span>
             </div>
-            <input type="range" id="sbMigAnnual" class="sb-slider"
-              min="-500" max="2000" step="50" value="500"
-              aria-label="People moving in each year, minus people moving out"
-              data-i18n-aria-label="scenarios.sliders.migrationAnnual">
-            <p class="sb-slider-help" data-i18n="scenarios.sliders.migrationHelp">
-              People moving in minus people moving out, each year. Below zero means more leave than arrive.
+            <input type="range" id="sbBirthsPct" class="sb-slider"
+              min="50" max="150" step="1" value="100"
+              aria-label="Births, as a percentage of SDO's forecast">
+            <p class="sb-slider-help">
+              100% = SDO's forecast of births; 110% means one more baby for every ten SDO expects.
             </p>
           </div>
 
-          <!-- Mortality -->
+          <!-- Deaths -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.mortalityMultiplier">Death rate</span>
-              <span class="sb-slider-value" id="sbMortMultVal">1.00</span>
+              <span>Deaths</span>
+              <span class="sb-slider-value" id="sbDeathsPctVal">100%</span>
             </div>
-            <input type="range" id="sbMortMult" class="sb-slider"
-              min="0.8" max="1.2" step="0.01" value="1.0"
-              aria-label="Death rate, as a multiple of today's rates"
-              data-i18n-aria-label="scenarios.sliders.mortalityMultiplier">
-            <p class="sb-slider-help" data-i18n="scenarios.sliders.mortalityHelp">
-              1.00 = today's death rates by age; higher means more deaths
+            <input type="range" id="sbDeathsPct" class="sb-slider"
+              min="80" max="120" step="1" value="100"
+              aria-label="Deaths, as a percentage of SDO's forecast">
+            <p class="sb-slider-help">
+              100% = SDO's forecast of deaths; below 100% means people live longer.
             </p>
           </div>
         </div>
 
         <!-- Save scenario -->
-        <div class="sb-section-title" style="margin-top:var(--sp4);" data-i18n="scenarios.savedScenarios">Saved Scenarios</div>
+        <div class="sb-section-title" style="margin-top:var(--sp4);">Saved Scenarios</div>
         <div class="sb-save-row">
           <input
             type="text"
             id="sbScenarioName"
             class="sb-scenario-name-input"
             placeholder="Scenario name…"
-            data-i18n-placeholder="scenarios.scenarioNamePlaceholder"
             aria-label="Scenario name"
             maxlength="80"
           >
-          <button id="sbSaveScenario" class="btn" type="button" style="white-space:nowrap;" data-i18n="scenarios.saveScenario">
+          <button id="sbSaveScenario" class="btn" type="button" style="white-space:nowrap;">
             Save
           </button>
         </div>
@@ -262,7 +282,7 @@
         <!-- Action buttons -->
         <div style="display:flex;gap:var(--sp2);margin-top:var(--sp3);flex-wrap:wrap;">
           <button id="sbExportScenarios" class="btn btn-outline" type="button">Export Scenarios</button>
-          <button id="sbClearResults"    class="btn btn-outline" type="button" data-i18n="scenarios.clearResults">Reset</button>
+          <button id="sbClearResults"    class="btn btn-outline" type="button">Reset</button>
         </div>
       </aside>
 
@@ -270,12 +290,10 @@
       <div>
         <!-- Formula note -->
         <div class="sb-formula-note" role="note">
-          <strong>Formula:</strong>
-          Units Needed = (Projected Households ÷ (1 − Vacancy Target))
-          &nbsp;|&nbsp;
-          Households = Population × Headship Rate (0.38)
-          &nbsp;|&nbsp;
-          <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology →</a>
+          <strong>How homes are counted:</strong>
+          homes needed = households added since 2024 ÷ (1 − the county's target vacancy), as on the HNA page.
+          Households = SDO's households per person in four age groups × the scenario's people in each group.
+          <a href="docs/PROJECTION-METHODOLOGY.md">Methodology →</a>
         </div>
         <!-- Model assumptions disclosure -->
         <details style="margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
@@ -284,27 +302,29 @@
           </summary>
           <dl style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem 1rem;font-size:var(--tiny);color:var(--text);margin:0.5rem 0 0;">
             <dt style="color:var(--muted);font-weight:600;">Base population</dt>
-            <dd style="margin:0;"><a href="https://demography.dola.colorado.gov/assets/html/sdodata.html" target="_blank" rel="noopener">DOLA SYA 2024 vintage</a> — county-level single-year-of-age estimates</dd>
-            <dt style="color:var(--muted);font-weight:600;">Headship rate</dt>
-            <dd style="margin:0;">0.38 (fixed) — national ACS 5-yr estimate; may not reflect local conditions</dd>
+            <dd style="margin:0;"><a href="https://demography.dola.colorado.gov/assets/html/sdodata.html" target="_blank" rel="noopener">SDO county forecast, Vintage 2024</a>: people by single year of age and sex in 2024</dd>
+            <dt style="color:var(--muted);font-weight:600;">Births and deaths</dt>
+            <dd style="margin:0;">Colorado's rates by age (NCHS: <a href="https://www.cdc.gov/nchs/data/nvsr/nvsr73/nvsr73-07.pdf" target="_blank" rel="noopener">state life tables, 2021</a>; <a href="https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr74-1.pdf" target="_blank" rel="noopener">births, 2023</a>), scaled each year so each county's totals equal SDO's forecast</dd>
+            <dt style="color:var(--muted);font-weight:600;">Migration by age</dt>
+            <dd style="margin:0;">SDO's forecast: the change in its population by age that births and deaths do not explain</dd>
+            <dt style="color:var(--muted);font-weight:600;">Households</dt>
+            <dd style="margin:0;">SDO's household forecast by age of householder (18-24, 25-44, 45-64, 65 and over)</dd>
             <dt style="color:var(--muted);font-weight:600;">Vacancy target</dt>
-            <dd style="margin:0;">5.0% (fixed) — planning-level assumption; actual vacancy varies by market</dd>
-            <dt style="color:var(--muted);font-weight:600;">Scenario presets</dt>
-            <dd style="margin:0;">COHO-defined presets (fertility ×, mortality ×, net migration); not derived from DOLA or FRED forecasts</dd>
-            <dt style="color:var(--muted);font-weight:600;">Migration distribution</dt>
-            <dd style="margin:0;">Age-distributed using national US proportions; not county-calibrated</dd>
+            <dd style="margin:0;">Each county's target vacancy, as on the HNA page</dd>
+            <dt style="color:var(--muted);font-weight:600;">Towns and CDPs</dt>
+            <dd style="margin:0;">The HNA page's share of county growth: from the place's share of county households and of 2020–2024 building permits (Census ACS and building permits); a few places without one use their share of county population</dd>
             <dt style="color:var(--muted);font-weight:600;">Model type</dt>
-            <dd style="margin:0;"><strong>Modeled</strong> — cohort-component projection; outputs are illustrative estimates, not certified forecasts</dd>
+            <dd style="margin:0;"><strong>Modeled</strong>: cohort-component projection by single year of age; outputs are scenarios, not certified forecasts</dd>
           </dl>
         </details>
 
         <!-- Chart panel -->
         <div class="sb-chart-panel">
-          <h2 class="sb-chart-title" data-i18n="scenarios.results.title">Projection Results: Housing Units Needed (2024–2050)</h2>
-          <div class="sb-chart-wrap" data-source="DOLA SYA + Cohort-Component Scenarios (Headship 0.38, Vacancy 5%)" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled">
+          <h2 class="sb-chart-title">Homes needed since 2024 for resident growth, by scenario</h2>
+          <div class="sb-chart-wrap" data-source="SDO county forecast (Vintage 2024) + cohort-component scenarios, county target vacancy" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="SDO Vintage 2024" data-source-type="modeled">
             <canvas id="sbProjectionChart"
               role="img"
-              aria-label="Line chart showing projected housing units needed under baseline, low-growth, high-growth, and custom scenarios from 2024 to 2050">
+              aria-label="Line chart of homes needed since 2024 under SDO's forecast, half its migration, one and a half times its migration, and your scenario, 2024 to 2050">
             </canvas>
             <p id="sbChartEmpty" class="sb-chart-empty" hidden>No projection yet. Choose a geography above and select Load Geography Data to chart that place's projected housing need.</p>
           </div>
@@ -312,18 +332,19 @@
 
         <!-- Results table -->
         <div class="sb-results" style="margin-top:var(--sp4);">
-          <h2 class="sb-chart-title" data-i18n="scenarios.results.title">Detailed Annual Projections</h2>
+          <h2 class="sb-chart-title">Year by year</h2>
+          <p class="sb-table-note">Homes for resident growth only. The 20-year figure above also adds homes for today's in-commuters.</p>
           <div class="sb-table-wrap">
             <table class="sb-table" aria-label="Annual projection data table">
               <thead>
                 <tr>
-                  <th scope="col" data-i18n="scenarios.results.year">Year</th>
-                  <th scope="col" data-i18n="scenarios.results.population">Population</th>
-                  <th scope="col" data-i18n="scenarios.results.households">Households</th>
-                  <th scope="col" data-i18n="scenarios.results.housingUnitsNeeded">Units Needed (Baseline)</th>
-                  <th scope="col">Units Needed (Low)</th>
-                  <th scope="col">Units Needed (High)</th>
-                  <th scope="col">Units Needed (Custom)</th>
+                  <th scope="col" data-tip="Year of the projection. 2024 is the base year.">Year</th>
+                  <th scope="col" data-tip="People in this place under your scenario.">Population</th>
+                  <th scope="col" data-tip="Households added since 2024 under your scenario. Below zero means fewer households than in 2024.">Households added</th>
+                  <th scope="col" data-tip="Homes needed since 2024 for the households added, at the county's target vacancy.">Homes needed (your scenario)</th>
+                  <th scope="col" data-tip="Homes needed with births, deaths and migration as SDO forecasts them: the HNA page's figure.">SDO forecast</th>
+                  <th scope="col" data-tip="Homes needed if half as many people move in, net, as SDO forecasts.">Half the migration</th>
+                  <th scope="col" data-tip="Homes needed if one and a half times as many people move in, net, as SDO forecasts.">1.5× the migration</th>
                 </tr>
               </thead>
               <tbody id="sbResultsBody">
@@ -337,11 +358,11 @@
 
     <!-- Data attribution -->
     <div class="sb-attribution" role="contentinfo" aria-label="Data attribution">
-      <strong data-i18n="dataAttribution.title">Data Sources:</strong>
-      <span data-i18n="scenarios.attribution.dola">DOLA State Demography Office — Components of Change (2024 vintage)</span> |
-      <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener" data-i18n="scenarios.attribution.fred">FRED Economic Data</a> |
-      <a href="https://api.census.gov/" target="_blank" rel="noopener" data-i18n="scenarios.attribution.acs">US Census ACS</a> |
-      <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology Documentation</a>
+      <strong>Data Sources:</strong>
+      <a href="https://demography.dola.colorado.gov/assets/html/sdodata.html" target="_blank" rel="noopener">State Demography Office: county forecast by age, components of change and households (Vintage 2024)</a> |
+      NCHS: Colorado life tables (2021) and birth rates (2023) |
+      <a href="https://api.census.gov/" target="_blank" rel="noopener">US Census ACS</a> |
+      <a href="docs/PROJECTION-METHODOLOGY.md">Methodology Documentation</a>
     </div>
 
     <!-- Export panel (Scenario Builder step) -->
@@ -365,20 +386,14 @@
   </main>
 
   <script>
-    // F24: Scenario Builder geography picker
-    //   - Counties: DOLA single-year-of-age pyramid loaded directly.
-    //   - Incorporated places (municipalities): containing county's pyramid
-    //     downscaled by the place's share of county population (ACS B01003
-    //     via ranking-index).
-    //   - F151: Census-Designated Places (CDPs / unincorporated communities):
-    //     same downscaling as incorporated places. Previously excluded with
-    //     the comment "they lack reliable population data" — verified that
-    //     was conservative: of 210 CDPs in ranking-index, 201 (95%) carry a
-    //     population metric and all 210 have containingCounty, so the
-    //     downscale factor resolves cleanly. Adds Highlands Ranch (99K),
-    //     Edwards, Pagosa Springs, and ~200 other sub-county geographies
-    //     the previous build missed. CDPs without population fall back to
-    //     the county pyramid unscaled with a warning, same as places.
+    // Scenario Builder geography picker. Counties, incorporated places and
+    // CDPs all start from the State Demography Office forecast for their
+    // county (data/hna/scenario-baseline/<county>.json). A town or CDP takes
+    // the share of county growth the HNA page gives it: its blended share in
+    // the place ledger (data/hna/projections/places.json), across every county
+    // it sits in (data/hna/cross-county-places.json), or its share of the
+    // county's people when the ledger has no row for it.
+    // ScenarioBuilder.contextFor() makes that choice; this script only fetches.
     document.addEventListener('DOMContentLoaded', function () {
       var select   = document.getElementById('sbGeoSelect');
       var loadBtn  = document.getElementById('sbLoadCounty');
@@ -386,9 +401,9 @@
       var root     = (window.__REPO_ROOT || '');
       var urlParams = new URLSearchParams(window.location.search || '');
 
-      // Lookup of GEOID → { name, type, containingCounty, population } so the
-      // click handler can resolve a place's containing county + share factor
-      // without re-parsing the full ranking-index.
+      // GEOID → { geoid, name, type, containingCounty, population,
+      // inCommuters, inCommutersHigh } from the ranking index, the HNA page's
+      // own source for the 20-year figure's in-commuter part.
       var geoIndex = {};
 
       function fetchJSON(path) {
@@ -397,10 +412,17 @@
           .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
       }
 
+      // One request per file per visit; a failed request is retried next time.
+      var cache = {};
+      function cachedJSON(path) {
+        if (!cache[path]) {
+          cache[path] = fetchJSON(path).catch(function (err) { delete cache[path]; throw err; });
+        }
+        return cache[path];
+      }
+
       // Populate the dropdown with three optgroups (Counties, Incorporated
-      // Places, then CDPs/Unincorporated Communities). Sort each
-      // alphabetically. The optgroup labels themselves carry the data
-      // lineage so users know what pyramid they're getting.
+      // Places, then CDPs/Unincorporated Communities), each alphabetical.
       fetchJSON('data/hna/ranking-index.json')
         .then(function (idx) {
           var rankings = idx.rankings || {};
@@ -409,13 +431,15 @@
           var places = [];
           var cdps = [];
           list.forEach(function (r) {
-            var pop = r && r.metrics && (r.metrics.population || r.metrics.population_proxy);
+            var m = (r && r.metrics) || {};
             var entry = {
               geoid: r.geoid,
               name: r.name,
               type: r.type,
               containingCounty: r.containingCounty,
-              population: pop || null
+              population: m.population != null ? m.population : null,
+              inCommuters: m.incommuter_need_units != null ? m.incommuter_need_units : null,
+              inCommutersHigh: m.incommuter_need_units_high != null ? m.incommuter_need_units_high : null
             };
             geoIndex[r.geoid] = entry;
             if (r.type === 'county') counties.push(entry);
@@ -428,21 +452,21 @@
 
           var html = '<option value="">— Select a geography —</option>';
           if (counties.length) {
-            html += '<optgroup label="Counties (DOLA pyramid)">';
+            html += '<optgroup label="Counties">';
             counties.forEach(function (c) {
               html += '<option value="' + c.geoid + '">' + c.name + '</option>';
             });
             html += '</optgroup>';
           }
           if (places.length) {
-            html += '<optgroup label="Incorporated Places (downscaled from county)">';
+            html += '<optgroup label="Incorporated Places (share of county growth)">';
             places.forEach(function (p) {
               html += '<option value="' + p.geoid + '">' + p.name + '</option>';
             });
             html += '</optgroup>';
           }
           if (cdps.length) {
-            html += '<optgroup label="Unincorporated Communities — CDPs (downscaled from county)">';
+            html += '<optgroup label="Unincorporated Communities — CDPs (share of county growth)">';
             cdps.forEach(function (c) {
               html += '<option value="' + c.geoid + '">' + c.name + '</option>';
             });
@@ -497,77 +521,50 @@
           statusEl.textContent = 'Please select a county, incorporated place, or unincorporated community first.';
           return;
         }
-        var entry = geoIndex[geoid];
-        var displayName = entry ? entry.name : geoid;
-
-        statusEl.textContent = 'Loading DOLA data for ' + displayName + '…';
-
-        // Resolve which DOLA pyramid to fetch + any downscaling factor.
-        var countyFips, scaleFactor, scaleNote;
-        if (!entry || entry.type === 'county') {
-          countyFips  = geoid;
-          scaleFactor = 1;
-          scaleNote   = null;
-        } else {
-          // Place: use containing county's pyramid, scaled by population share.
-          countyFips = entry.containingCounty;
-          if (!countyFips) {
-            statusEl.textContent = 'Cannot scope ' + displayName + ': missing containing-county FIPS.';
-            return;
-          }
-          var countyEntry = geoIndex['0' + countyFips.slice(1)] || geoIndex[countyFips];
-          var placePop  = entry.population;
-          var countyPop = countyEntry && countyEntry.population;
-          if (!placePop || !countyPop || countyPop <= 0) {
-            scaleFactor = null;
-          } else {
-            scaleFactor = Math.min(1, placePop / countyPop);
-          }
-          if (scaleFactor == null) {
-            // Fall back to county pyramid unscaled, but warn the user.
-            scaleFactor = 1;
-            scaleNote = displayName + ' loaded but population share could not be computed — pyramid reflects ' +
-                         (countyEntry ? countyEntry.name : 'containing county') + ' totals, not the place.';
-          } else {
-            scaleNote = displayName + ' pyramid downscaled by ' +
-                         (scaleFactor * 100).toFixed(1) + '% (place population ' +
-                         Math.round(placePop).toLocaleString() + ' / county ' +
-                         Math.round(countyPop).toLocaleString() + ').';
-          }
-        }
+        var SB = window.ScenarioBuilder;
+        if (!SB) return;
+        var entry = geoIndex[geoid] || { geoid: geoid, name: geoid, type: 'county' };
+        statusEl.textContent = 'Loading the State Demography Office forecast for ' + entry.name + '…';
 
         var seq = ++loadSeq;
         loading = true;
-        fetchJSON('data/hna/dola_sya/' + countyFips + '.json')
-          .then(function (dolaData) {
+        var placeFiles = entry.type === 'county'
+          ? Promise.resolve({ ledger: {}, cross: {} })
+          : Promise.all([
+              cachedJSON('data/hna/projections/places.json'),
+              cachedJSON('data/hna/cross-county-places.json')
+            ]).then(function (r) {
+              return { ledger: (r[0] && r[0].places) || {}, cross: (r[1] && r[1].places) || {} };
+            });
+        placeFiles
+          .then(function (pf) {
+            var fipsList = SB.countiesFor(entry, pf);
+            return Promise.all(fipsList.map(function (fips) {
+              return Promise.all([
+                cachedJSON('data/hna/scenario-baseline/' + fips + '.json'),
+                cachedJSON('data/hna/projections/' + fips + '.json')
+              ]);
+            })).then(function (pairs) {
+              var data = { baselines: {}, projections: {}, ledger: pf.ledger, cross: pf.cross };
+              pairs.forEach(function (pair, i) {
+                data.baselines[fipsList[i]] = pair[0];
+                data.projections[fipsList[i]] = pair[1];
+              });
+              return SB.contextFor(entry, data);
+            });
+          })
+          .then(function (ctx) {
             if (seq !== loadSeq) return;
             loading = false;
-            // Apply downscaling factor to the male/female cohorts so the
-            // projection model treats this as a place-scale jurisdiction.
-            // Pass through unmodified for counties (scaleFactor = 1).
-            if (scaleFactor !== 1 && dolaData && Array.isArray(dolaData.male) && Array.isArray(dolaData.female)) {
-              dolaData = Object.assign({}, dolaData, {
-                male:   dolaData.male.map(function (v) { return v * scaleFactor; }),
-                female: dolaData.female.map(function (v) { return v * scaleFactor; }),
-                geoid: geoid,
-                placeName: displayName,
-                downscaledFromCounty: countyFips,
-                scaleFactor: scaleFactor
-              });
-            }
-            statusEl.textContent = scaleNote || ('Data loaded for ' + displayName + '.');
-            if (window.ScenarioBuilder) {
-              window.ScenarioBuilder.init({ dolaData: dolaData, geoid: geoid, displayName: displayName });
-            }
+            statusEl.textContent = ctx.unavailableReason || SB.describeContext(ctx);
+            SB.init(ctx);
           })
           .catch(function () {
             if (seq !== loadSeq) return;
             loading = false;
-            var reason = 'Population data could not be loaded for ' + displayName + ', so no projection is shown. Try Load Geography Data again.';
+            var reason = 'The State Demography Office forecast could not be loaded for ' + entry.name + ', so no projection is shown. Try Load Geography Data again.';
             statusEl.textContent = reason;
-            if (window.ScenarioBuilder) {
-              window.ScenarioBuilder.init({ unavailableReason: reason });
-            }
+            SB.init({ unavailableReason: reason });
           });
       });
 
