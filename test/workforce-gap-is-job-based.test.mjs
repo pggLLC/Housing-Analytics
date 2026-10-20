@@ -236,7 +236,10 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
   const lehd = read('data/hna/place-lehd.json').places;
   const od = read('data/hna/place-od-flows.json');
   const odPlaces = od.places || od;
-  const odSameYear = String((od.meta || {}).year) === String(read('data/market/lodes_co.json').meta.vintage);
+  const aux = read('data/hna/source/lodes_primary_jobs.json');
+  const auxPlaces = aux.places || {};
+  const wacYear = String(read('data/market/lodes_co.json').meta.vintage);
+  const odSameYear = String((od.meta || {}).year) === wacYear && String(aux.year) === wacYear;
   const problems = [];
   for (const [geoid, p] of Object.entries(lehd)) {
     const l = p.lehd || {};
@@ -268,7 +271,9 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
     //    Only when the OD file and the wage mix are the same LODES year: on a
     //    mismatch the builder keeps the same-year tract estimate on purpose.
     const b = odSameYear ? odPlaces[geoid] : null;
-    if (b && b.jobs === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
+    //    Jobs held by out-of-state workers (OD aux) are added to the block count.
+    const total = b ? b.jobs + ((auxPlaces[geoid] || {}).jobs || 0) : null;
+    if (b && total === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
       problems.push(`${p.name}: block count is 0 jobs but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
     }
   }

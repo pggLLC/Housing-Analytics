@@ -117,6 +117,7 @@ TRACT_METRICS   = REPO / "data/market/acs_tract_metrics_co.json"
 SUMMARY_DIR     = REPO / "data/hna/summary"
 LEHD_DIR        = REPO / "data/hna/lehd"
 LODES_TRACT     = REPO / "data/market/lodes_co.json"
+AUX_JOBS        = REPO / "data/hna/source/lodes_primary_jobs.json"
 PLACE_OD_FLOWS  = REPO / "data/hna/place-od-flows.json"
 OUT_PATH        = REPO / "data/hna/place-lehd.json"
 
@@ -299,7 +300,15 @@ def build():
     # into the latest year would publish it under the wrong year.
     wac_year = _meta_year(LODES_TRACT, "vintage")
     od_year = _meta_year(PLACE_OD_FLOWS, "year")
-    od_same_year = od_year is not None and od_year == wac_year
+    # place-od-flows.json comes from LODES OD "main", which holds only jobs
+    # whose worker also lives in Colorado. Jobs held by out-of-state workers
+    # are in "aux", summed by workplace place in lodes_primary_jobs.json; a
+    # place's job count is the two together (Keystone 2,399 + 373).
+    aux_doc = _load_json(AUX_JOBS) if AUX_JOBS.exists() else {}
+    aux_places = aux_doc.get("places") or {}
+    aux_year = str(aux_doc["year"]) if aux_doc.get("year") is not None else None
+    od_same_year = (od_year is not None and od_year == wac_year
+                    and aux_year == wac_year)
 
     places_out = {}
     used_tract_flows = 0
@@ -520,10 +529,11 @@ def build():
             lehd_out["flows_source"]    = "block-od"
             used_block_flows += 1
             # Use block-OD jobs as C000 too, and rescale CNS sectors to match.
-            # A block record saying 0 jobs is the exact count too: 24 small
-            # places (Goldfield, Two Buttes, ...) have no job located inside
-            # their boundary, and the tract estimate must not stand in.
-            jobs_b = int(block.get("jobs") or 0)
+            # Out-of-state workers (aux) are added: OD main leaves them out.
+            # A total of 0 is the exact count too: small places such as
+            # Goldfield have no job located inside their boundary, and the
+            # tract estimate must not stand in.
+            jobs_b = int(block.get("jobs") or 0) + int((aux_places.get(geoid) or {}).get("jobs") or 0)
             if od_same_year and jobs_b >= 0:
                 lehd_out["C000"] = jobs_b
                 cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
@@ -629,7 +639,8 @@ def build():
             "source_place_summary": "data/hna/summary/{place_geoid}.json",
             "source_county_lehd":   "data/hna/lehd/{county}.json",
             "method":
-                "C000 is the place's own job count (block-level LODES OD, else tract "
+                "C000 is the place's own job count (block-level LODES OD main plus "
+                "out-of-state workers' jobs from OD aux, else tract "
                 "LODES weighted by place_pop_in_tract / tract_pop). CE01–03 apply the "
                 "place's tract WAC wage mix to that count. CNS01–20 and the "
                 "annualEmployment / annualWages trend are county totals apportioned by "

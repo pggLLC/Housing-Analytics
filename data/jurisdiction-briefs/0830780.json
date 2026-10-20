@@ -253,7 +253,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Glenwood Springs at #34 with an overall housing-need score of 78.1. It identifies 187 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 54.4% of <=30% AMI households. 47.6% of renter households are cost burdened, and 0.3% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Glenwood Springs at #33 with an overall housing-need score of 78.1. It identifies 187 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 54.4% of <=30% AMI households. 47.6% of renter households are cost burdened, and 0.3% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -273,7 +273,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 10,241. LEHD-based commuting signals show 7,462 in-commuters and a commute ratio of 78.1%. The digest's county-context projection shows 3,017 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 10,241. LEHD-based commuting signals show 7,462 in-commuters and a commute ratio of 78.1%. The digest's county-context projection shows 3,126 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -645,7 +645,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-19T23:35:12Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T02:27:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -654,7 +654,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-19T23:35:12Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T02:27:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -789,7 +789,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-19T23:35:12Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T02:27:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -798,7 +798,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-19T23:35:12Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T02:27:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -807,7 +807,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-19T23:35:12Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T02:27:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
