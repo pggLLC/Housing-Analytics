@@ -163,6 +163,23 @@ def public_before(e, cutoff):
     return e['year'] < int(cutoff[:4])
 
 
+SIZE_IN_QUOTE = re.compile(r'(?:Total Units|N_UNITS|Homes|Estimated Units|Estimated Unit Count|Projected Units): (\d+)')
+
+
+def size_as_of(p, apps, events, live):
+    """Homes as known at the cutoff. The ledger keeps the size from its
+    latest record, which may postdate a past round, so a backtest reads the
+    size each record printed (its quote) and takes the latest one public by
+    then, else the last earlier application's."""
+    if live:
+        return (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
+    sized = [(e['year'], e.get('announced') or '', int(m.group(1))) for e in events
+             for m in [SIZE_IN_QUOTE.search(e.get('quote') or '')] if m]
+    if sized:
+        return max(sized)[2]
+    return apps[-1]['total_units'] if apps else None
+
+
 def score_round(D, target, cutoff, keep_all=False, live=False):
     """Every project's points for round `target` as of `cutoff`. Returns
     {entity: {...}} for projects scoring 10 or more (every project with a
@@ -177,10 +194,10 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
     for a in D.round_apps:
         if (a['year'], a['round']) in prior:
             apps_by[a['_entity']].append(a)
-    sponsor_rounds = defaultdict(set)
+    sponsor_rounds = defaultdict(dict)  # sponsor -> {round: first application printed}
     for a in D.round_apps:
         if (a['year'], a['round']) in prior[-4:] and a.get('sponsor'):
-            sponsor_rounds[a['sponsor']].add((a['year'], a['round']))
+            sponsor_rounds[a['sponsor']].setdefault((a['year'], a['round']), a)
     out = {}
     for key in sorted(set(apps_by) | set(D.by_id)):
         p = D.by_id.get(key)
@@ -200,8 +217,10 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
                     'lost_older_same' if r in same else 'lost_other')
             signals.append({'kind': kind, 'app': a})
             if a.get('sponsor') and len(sponsor_rounds[a['sponsor']]) >= 2:
-                signals.append({'kind': 'sponsor', 'sponsor': a['sponsor'], 'rounds': len(sponsor_rounds[a['sponsor']])})
-        units = (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
+                rows = sponsor_rounds[a['sponsor']]
+                signals.append({'kind': 'sponsor', 'sponsor': a['sponsor'], 'rounds': len(rows),
+                                'apps': [rows[r] for r in sorted(rows)]})
+        units = size_as_of(p, apps, events, live)
         soft = [e for e in events if e['agency'] != 'CHFA' and e['program'] not in SOFT_SKIP
                 and e['program'] != LAND and e['year'] >= cy - 1]
         if units is not None and units < MIN_HOMES or NOT_A_CREDIT_DEAL.search(' '.join(D.names.get(key, ())) + ' ' + ((p or {}).get('name') or '')):
@@ -301,7 +320,8 @@ def why(sig, credit, bt):
         return {'kind': k, 'text': 'Prop 123 land banking paid for the land in %d%s, so the site is held for affordable homes.'
                 % (e['year'], ' (%s)' % amt if amt else ''), 'source_url': e['source_url'], 'quote': e.get('quote')}
     if k == 'sponsor':
-        return {'kind': k, 'text': '%s applied in %d of the last 4 CHFA rounds.' % (sig['sponsor'], sig['rounds'])}
+        return {'kind': k, 'text': '%s applied in %d of the last 4 CHFA rounds.' % (sig['sponsor'], sig['rounds']),
+                'sources': [{'url': a['source_url'], 'quote': a['quote']} for a in sig['apps']]}
     raise ValueError(k)
 
 

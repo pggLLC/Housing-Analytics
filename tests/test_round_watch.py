@@ -9,7 +9,10 @@ Pins:
   5. the owner's excluded project is dropped;
   6. a deal summary links only for the same town and development;
   7. the committed file is current, deterministic, and holds no contact
-     details (those live only on the private developer site).
+     details (those live only on the private developer site);
+  8. a backtest sizes a project as printed before the cutoff, not by a
+     later record;
+  9. every reason, the sponsor's included, carries its source rows.
 """
 import copy
 import hashlib
@@ -147,3 +150,27 @@ def test_deal_summary_link_needs_same_town_and_name():
     assert rw.deal_summary({'name': 'Hover Place', 'city': 'Longmont'}, deals) == 'hover-place-longmont'
     assert rw.deal_summary({'name': 'Hover Place', 'city': 'Denver'}, deals) is None
     assert rw.deal_summary({'name': 'Lumberyard Apartments - Phase A (Building 1)', 'city': 'Aspen'}, deals) is None
+
+
+def test_backtest_size_is_the_size_printed_before_the_cutoff():
+    a, l, e = base()
+    a['applications'].append(app('Grow Deal', 'Longmont', 2026, 1, 'awarded'))
+    # 40 homes when DOLA funded it; a later record says 150, the ledger keeps that
+    ev = dola('Grow Deal', '2025-06')
+    ev['quote'] += '; Homes: 40'
+    l['projects'].append(project('grow', 'Grow Deal', 'Longmont', 150, [ev]))
+    r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
+    assert r['caught'] == 1 and r['bands']['Medium']['applied'] == 1  # fits 9%: 25 points
+
+
+def test_every_reason_has_a_source_including_sponsor():
+    a, l, e = base()
+    a['applications'] += [app('Old One', 'Longmont', 2025, 1, 'not_awarded', sponsor='Repeat Co'),
+                          app('Old Two', 'Longmont', 2025, 2, 'not_awarded', units=120, sponsor='Repeat Co'),
+                          app('Hover Place', 'Longmont', 2026, 1, 'not_awarded', sponsor='Repeat Co')]
+    out = build(a, l, e)
+    w = next(w for w in items(out, 1)['Hover Place']['why'] if w['kind'] == 'sponsor')
+    assert [s['url'] for s in w['sources']] == [URL] * 3
+    for r in out['rounds']:
+        for i in r['items']:
+            assert all(w.get('source_url') or w.get('sources') for w in i['why'])

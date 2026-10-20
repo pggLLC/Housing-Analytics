@@ -114,11 +114,11 @@
       "applied": 6
      },
      "Medium": {
-      "listed": 23,
+      "listed": 22,
       "applied": 5
      },
      "Watch": {
-      "listed": 51,
+      "listed": 52,
       "applied": 1
      }
     }
@@ -130,11 +130,11 @@
     "applied": 27
    },
    "Medium": {
-    "listed": 68,
+    "listed": 67,
     "applied": 14
    },
    "Watch": {
-    "listed": 185,
+    "listed": 186,
     "applied": 8
    }
   },
@@ -162,11 +162,11 @@
     "applied": 5
    },
    "soft_fit": {
-    "with_signal": 70,
+    "with_signal": 69,
     "applied": 20
    },
    "soft_misfit": {
-    "with_signal": 54,
+    "with_signal": 55,
     "applied": 4
    },
    "sponsor": {
@@ -212,7 +212,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -262,7 +262,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -306,7 +306,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -350,7 +350,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. At 115 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. At 115 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -392,7 +392,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Rocky Mountain Communities applied in 2 of the last 4 CHFA rounds."
+       "text": "Rocky Mountain Communities applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, SH, V; Name: Commons Phase II; Address: 3765 Marion Drive; City: Colorado Springs; Total Units: 42; Total LI Units: 42; Federal 9% Credit Requested: $1,599,620; Standard State Credit Requested: $650,000; Sponsor: Rocky Mountain Communities"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Commons Phase II; Address: 3765 Marion Drive; City: Colorado Springs; Total Units: 53; LI Units: 53; Federal 9% Credit Requested: $1,718,190; Standard State Credit Requested: $500,000; TOC Credit Requested: $106,000; Sponsor: Rocky Mountain Communities"
+        }
+       ]
       }
      ],
      "applications": [
@@ -444,7 +454,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Medici Development LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Medici Development LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, F; Name: Harbart House; Address: 1290 Colorado Boulevard; City: Denver; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,473,438; Standard State Credit Requested: $650,000; TOC Credit Requested: $65,000; Sponsor: Medici Development LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Cole Flats; Address: 1675 E. 35th Avenue; City: Denver; Total Units: 63; LI Units: 63; Federal 4% Credit Requested: $887,121; PAB Issuer: CHFA; PAB Requested: $12,000,000; State Credit Requested*: $1,108,901; TOC Credit Reqeuested: $81,900; Sponsor: Medici Development LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Harbart House; Address: 1290 Colorado Boulevard; City: Denver; Total Units: 50; LI Units: 50; Federal 9% Credit Requested: $1,511,084; Standard State Credit Requested: $500,000; TOC Credit Requested: $100,000; Sponsor: Medici Development LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -528,7 +552,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Northpointe Development II Corporation applied in 2 of the last 4 CHFA rounds."
+       "text": "Northpointe Development II Corporation applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,OA; Name: Scott Street Apartments; Address: 507 Scott Street; City: Salida; Total Units: 40; LI Units: 40; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; Sponsor: Northpointe Development II Corporation"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Vantage Pointe Residences; Address: 6731 Lowell Boulevard; City: Denver; Total Units: 131; LI Units: 131; Federal 4% Credit Requested: $2,768,455; PAB Issuer: Maiker Housing Partners; PAB Requested: $18,960,167; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $262,000; Sponsor: Northpointe Development II Corporation"
+        }
+       ]
       }
      ],
      "applications": [
@@ -564,7 +598,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Steele Properties Holdings V LLC applied in 2 of the last 4 CHFA rounds."
+       "text": "Steele Properties Holdings V LLC applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Waldown; Address: 3707 Walnut Street; City: Denver; Total Units: 40; Total LI Units: 40; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $52,000; Sponsor: Steele Properties Holdings V LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Waldown; Address: 3707 Walnut Street; City: Denver; Total Units: 49; LI Units: 49; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $98,000; Sponsor: Steele Properties Holdings V LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -842,7 +886,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -880,7 +924,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -914,7 +958,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -942,7 +986,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1Z9tnPykLuRPp9TsmV8ZSinVYlnvkxfSG/view",
@@ -970,7 +1014,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -998,7 +1042,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -1026,7 +1070,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -1054,7 +1098,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -1082,7 +1126,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1110,7 +1154,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -1138,7 +1182,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/18I_gJeK34pel4N7AigCGhKACvXxLtych/view",
@@ -1171,7 +1215,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "BMC Investments applied in 2 of the last 4 CHFA rounds."
+       "text": "BMC Investments applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Canyons Affordable Apartments; Address: S Havana and Hess Road; City: Castle Pines; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; Sponsor: BMC Investments"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Metro Center Apartments; Address: Alameda Avenue at Sable Boulevard; City: Aurora; Total Units: 58; LI Units: 58; Federal 9% Credit Requested: $1,751,667; Standard State Credit Requested: $500,000; TOC Credit Requested: $116,000; Sponsor: BMC Investments"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1215,7 +1269,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Overland Property Group applied in 2 of the last 4 CHFA rounds."
+       "text": "Overland Property Group applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Reserves at Green Valley Ranch Phase II; Address: 4991 N Telluride Street; City: Denver; Total Units: 120; LI Units: 120; Federal 4% Credit Requested: $2,285,102; PAB Issuer: CHFA; PAB Requested: $25,600,000; State Credit Requested*: $1,800,000; Sponsor: Overland Property Group"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Reserves at Green Valley Ranch Phase II; Address: 4991 N Telluride Street; City: Denver; Total Units: 120; LI Units: 120; Federal 4% Credit Requested: $2,315,543; PAB Issuer: CHFA; PAB Requested: $17,300,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; Sponsor: Overland Property Group"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1251,7 +1315,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "TWG Development, LLC applied in 2 of the last 4 CHFA rounds."
+       "text": "TWG Development, LLC applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Castleton Heights; Address: 3161 North Castleton Court; City: Castle Rock; Total Units: 80; LI Units: 80; Federal 4% Credit Requested: $1,685,013; PAB Issuer: CHFA; PAB Requested: $19,100,000; State Credit Requested*: $1,800,000; Sponsor: TWG Development, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Castleton Heights; Address: 3161 North Castleton Court; City: Castle Rock; Total Units: 80; LI Units: 80; Federal 4% Credit Requested: $1,711,780; PAB Issuer: Douglas County Housing Partnership; PAB Requested: $12,167,212; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; Sponsor: TWG Development, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1287,7 +1361,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Tapestry LIHTC; Address: 1799 N Pennsylvania Street; City: Denver; Total Units: 72; Total LI Units: 72; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $93,600; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Gibson; Address: 901 Grant Street; City: Denver; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,755,121; PAB Issuer: CHFA; PAB Requested: $29,275,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $191,100; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Generations at Tapestry; Address: 1790 North Logan Street; City: Denver; Total Units: 78; LI Units: 78; Federal 4% Credit Requested: $2,345,844; PAB Issuer: City and County of Denver; PAB Requested: $16,600,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $156,000; Sponsor: Gorman & Company, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1319,7 +1407,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. At 74 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. At 74 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -1358,7 +1446,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Boulder Housing Partners applied in 2 of the last 4 CHFA rounds."
+       "text": "Boulder Housing Partners applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N, A/R; Resident Type: I/F; Name: Penrose Place; Address: 3300 Penrose Place; City: Boulder; Total Units: 113; LI Units: 113; Federal 4% Credit Requested: $3,287,247; PAB Issuer: CHFA; PAB Requested: $40,500,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $146,900; Sponsor: Boulder Housing Partners"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: OA,SP; Name: Alpine Balsam; Address: 1055 Alpine Avenue; City: Boulder; Total Units: 55; LI Units: 55; Federal 4% Credit Requested: $1,577,561; PAB Issuer: Boulder Housing Partners; PAB Requested: $9,400,000; Accelerated State Credit Requested: $1,300,000; TOC Credit Requested: $110,000; Sponsor: Boulder Housing Partners"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1394,7 +1492,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Tapestry LIHTC; Address: 1799 N Pennsylvania Street; City: Denver; Total Units: 72; Total LI Units: 72; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $93,600; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Gibson; Address: 901 Grant Street; City: Denver; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,755,121; PAB Issuer: CHFA; PAB Requested: $29,275,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $191,100; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Generations at Tapestry; Address: 1790 North Logan Street; City: Denver; Total Units: 78; LI Units: 78; Federal 4% Credit Requested: $2,345,844; PAB Issuer: City and County of Denver; PAB Requested: $16,600,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $156,000; Sponsor: Gorman & Company, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1438,7 +1550,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Colorado Coalition for the Homeless applied in 2 of the last 4 CHFA rounds."
+       "text": "Colorado Coalition for the Homeless applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, SH; Name: Park Avenue Apartments; Address: 3500 - 3600 Park Ave West; City: Denver; Total Units: 60; Total LI Units: 60; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $78,000; Sponsor: Colorado Coalition for the Homeless"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F,SH; Name: 4745 N Federal Blvd; Address: 4745 N Federal Boulevard; City: Denver; Total Units: 109; LI Units: 109; Federal 4% Credit Requested: $1,996,411; PAB Issuer: CHFA; PAB Requested: $20,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $218,000; Sponsor: Colorado Coalition for the Homeless"
+        }
+       ]
       }
      ],
      "applications": [
@@ -1469,7 +1591,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. At 198 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. At 198 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1561,7 +1683,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. At 185 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. At 185 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1917,7 +2039,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. At 72 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. At 72 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1945,7 +2067,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. At 73 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. At 73 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1JTc5ZDRjQXbAxpsr1ef5RynJIEBHirBN/view",
@@ -2069,7 +2191,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. At 120 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. At 120 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2130,7 +2252,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. At 158 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. At 158 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1rqSAnxVSs2vwTSsSuPM3sSR7m72gT0Xw/view",
@@ -2226,7 +2348,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. At 289 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. At 289 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2326,7 +2448,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. At 129 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. At 129 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1qgKEPwQZHK47Hxt4-dWMYXeeR0SDAuWy/view",
@@ -2354,7 +2476,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. At 117 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. At 117 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -2382,7 +2504,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. At 153 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. At 153 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -2410,7 +2532,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 139 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 139 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2438,7 +2560,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. At 96 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. At 96 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/14QYAuFUiHGQjfWfS8bxvHmjcFs0xK3Pb/view",
@@ -2466,7 +2588,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. At 106 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. At 106 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -2492,7 +2614,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. At 75 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. At 75 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -2669,7 +2791,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2707,7 +2829,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -2741,7 +2863,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2777,7 +2899,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. At 40 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. At 40 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2820,7 +2942,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2848,7 +2970,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2876,7 +2998,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1JTc5ZDRjQXbAxpsr1ef5RynJIEBHirBN/view",
@@ -2904,7 +3026,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2933,7 +3055,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1rqSAnxVSs2vwTSsSuPM3sSR7m72gT0Xw/view",
@@ -2965,7 +3087,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2993,7 +3115,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1qgKEPwQZHK47Hxt4-dWMYXeeR0SDAuWy/view",
@@ -3021,7 +3143,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -3049,7 +3171,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -3077,7 +3199,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3105,7 +3227,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/14QYAuFUiHGQjfWfS8bxvHmjcFs0xK3Pb/view",
@@ -3133,7 +3255,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -3159,7 +3281,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. 20 of 70 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -3194,7 +3316,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 65 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 65 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3238,7 +3360,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3282,7 +3404,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3324,7 +3446,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "BMC Investments applied in 2 of the last 4 CHFA rounds."
+       "text": "BMC Investments applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Canyons Affordable Apartments; Address: S Havana and Hess Road; City: Castle Pines; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; Sponsor: BMC Investments"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Metro Center Apartments; Address: Alameda Avenue at Sable Boulevard; City: Aurora; Total Units: 58; LI Units: 58; Federal 9% Credit Requested: $1,751,667; Standard State Credit Requested: $500,000; TOC Credit Requested: $116,000; Sponsor: BMC Investments"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3368,7 +3500,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Rocky Mountain Communities applied in 2 of the last 4 CHFA rounds."
+       "text": "Rocky Mountain Communities applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, SH, V; Name: Commons Phase II; Address: 3765 Marion Drive; City: Colorado Springs; Total Units: 42; Total LI Units: 42; Federal 9% Credit Requested: $1,599,620; Standard State Credit Requested: $650,000; Sponsor: Rocky Mountain Communities"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Commons Phase II; Address: 3765 Marion Drive; City: Colorado Springs; Total Units: 53; LI Units: 53; Federal 9% Credit Requested: $1,718,190; Standard State Credit Requested: $500,000; TOC Credit Requested: $106,000; Sponsor: Rocky Mountain Communities"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3420,7 +3562,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Overland Property Group applied in 2 of the last 4 CHFA rounds."
+       "text": "Overland Property Group applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Reserves at Green Valley Ranch Phase II; Address: 4991 N Telluride Street; City: Denver; Total Units: 120; LI Units: 120; Federal 4% Credit Requested: $2,285,102; PAB Issuer: CHFA; PAB Requested: $25,600,000; State Credit Requested*: $1,800,000; Sponsor: Overland Property Group"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Reserves at Green Valley Ranch Phase II; Address: 4991 N Telluride Street; City: Denver; Total Units: 120; LI Units: 120; Federal 4% Credit Requested: $2,315,543; PAB Issuer: CHFA; PAB Requested: $17,300,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; Sponsor: Overland Property Group"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3456,7 +3608,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "TWG Development, LLC applied in 2 of the last 4 CHFA rounds."
+       "text": "TWG Development, LLC applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Castleton Heights; Address: 3161 North Castleton Court; City: Castle Rock; Total Units: 80; LI Units: 80; Federal 4% Credit Requested: $1,685,013; PAB Issuer: CHFA; PAB Requested: $19,100,000; State Credit Requested*: $1,800,000; Sponsor: TWG Development, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Castleton Heights; Address: 3161 North Castleton Court; City: Castle Rock; Total Units: 80; LI Units: 80; Federal 4% Credit Requested: $1,711,780; PAB Issuer: Douglas County Housing Partnership; PAB Requested: $12,167,212; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; Sponsor: TWG Development, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3492,7 +3654,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Tapestry LIHTC; Address: 1799 N Pennsylvania Street; City: Denver; Total Units: 72; Total LI Units: 72; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $93,600; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Gibson; Address: 901 Grant Street; City: Denver; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,755,121; PAB Issuer: CHFA; PAB Requested: $29,275,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $191,100; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Generations at Tapestry; Address: 1790 North Logan Street; City: Denver; Total Units: 78; LI Units: 78; Federal 4% Credit Requested: $2,345,844; PAB Issuer: City and County of Denver; PAB Requested: $16,600,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $156,000; Sponsor: Gorman & Company, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3528,7 +3704,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Medici Development LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Medici Development LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, F; Name: Harbart House; Address: 1290 Colorado Boulevard; City: Denver; Total Units: 50; Total LI Units: 50; Federal 9% Credit Requested: $1,473,438; Standard State Credit Requested: $650,000; TOC Credit Requested: $65,000; Sponsor: Medici Development LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Cole Flats; Address: 1675 E. 35th Avenue; City: Denver; Total Units: 63; LI Units: 63; Federal 4% Credit Requested: $887,121; PAB Issuer: CHFA; PAB Requested: $12,000,000; State Credit Requested*: $1,108,901; TOC Credit Reqeuested: $81,900; Sponsor: Medici Development LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Harbart House; Address: 1290 Colorado Boulevard; City: Denver; Total Units: 50; LI Units: 50; Federal 9% Credit Requested: $1,511,084; Standard State Credit Requested: $500,000; TOC Credit Requested: $100,000; Sponsor: Medici Development LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3568,7 +3758,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. At 50 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. At 50 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -3647,7 +3837,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Boulder Housing Partners applied in 2 of the last 4 CHFA rounds."
+       "text": "Boulder Housing Partners applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N, A/R; Resident Type: I/F; Name: Penrose Place; Address: 3300 Penrose Place; City: Boulder; Total Units: 113; LI Units: 113; Federal 4% Credit Requested: $3,287,247; PAB Issuer: CHFA; PAB Requested: $40,500,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $146,900; Sponsor: Boulder Housing Partners"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: OA,SP; Name: Alpine Balsam; Address: 1055 Alpine Avenue; City: Boulder; Total Units: 55; LI Units: 55; Federal 4% Credit Requested: $1,577,561; PAB Issuer: Boulder Housing Partners; PAB Requested: $9,400,000; Accelerated State Credit Requested: $1,300,000; TOC Credit Requested: $110,000; Sponsor: Boulder Housing Partners"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3683,7 +3883,21 @@
       },
       {
        "kind": "sponsor",
-       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds."
+       "text": "Gorman & Company, LLC applied in 3 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Tapestry LIHTC; Address: 1799 N Pennsylvania Street; City: Denver; Total Units: 72; Total LI Units: 72; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $93,600; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Gibson; Address: 901 Grant Street; City: Denver; Total Units: 147; LI Units: 147; Federal 4% Credit Requested: $2,755,121; PAB Issuer: CHFA; PAB Requested: $29,275,000; State Credit Requested*: $1,800,000; TOC Credit Reqeuested: $191,100; Sponsor: Gorman & Company, LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Generations at Tapestry; Address: 1790 North Logan Street; City: Denver; Total Units: 78; LI Units: 78; Federal 4% Credit Requested: $2,345,844; PAB Issuer: City and County of Denver; PAB Requested: $16,600,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $156,000; Sponsor: Gorman & Company, LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3727,7 +3941,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Colorado Coalition for the Homeless applied in 2 of the last 4 CHFA rounds."
+       "text": "Colorado Coalition for the Homeless applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, SH; Name: Park Avenue Apartments; Address: 3500 - 3600 Park Ave West; City: Denver; Total Units: 60; Total LI Units: 60; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $78,000; Sponsor: Colorado Coalition for the Homeless"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F,SH; Name: 4745 N Federal Blvd; Address: 4745 N Federal Boulevard; City: Denver; Total Units: 109; LI Units: 109; Federal 4% Credit Requested: $1,996,411; PAB Issuer: CHFA; PAB Requested: $20,000,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $218,000; Sponsor: Colorado Coalition for the Homeless"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3763,7 +3987,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Northpointe Development II Corporation applied in 2 of the last 4 CHFA rounds."
+       "text": "Northpointe Development II Corporation applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,OA; Name: Scott Street Apartments; Address: 507 Scott Street; City: Salida; Total Units: 40; LI Units: 40; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; Sponsor: Northpointe Development II Corporation"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+         "quote": "Building Type: N; Resident Type: I/F; Name: Vantage Pointe Residences; Address: 6731 Lowell Boulevard; City: Denver; Total Units: 131; LI Units: 131; Federal 4% Credit Requested: $2,768,455; PAB Issuer: Maiker Housing Partners; PAB Requested: $18,960,167; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $262,000; Sponsor: Northpointe Development II Corporation"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3799,7 +4033,17 @@
       },
       {
        "kind": "sponsor",
-       "text": "Steele Properties Holdings V LLC applied in 2 of the last 4 CHFA rounds."
+       "text": "Steele Properties Holdings V LLC applied in 2 of the last 4 CHFA rounds.",
+       "sources": [
+        {
+         "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N, I/F; Name: Waldown; Address: 3707 Walnut Street; City: Denver; Total Units: 40; Total LI Units: 40; Federal 9% Credit Requested: $1,600,000; Standard State Credit Requested: $650,000; TOC Credit Requested: $52,000; Sponsor: Steele Properties Holdings V LLC"
+        },
+        {
+         "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+         "quote": "Type: N,I/F; Name: Waldown; Address: 3707 Walnut Street; City: Denver; Total Units: 49; LI Units: 49; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $98,000; Sponsor: Steele Properties Holdings V LLC"
+        }
+       ]
       }
      ],
      "applications": [
@@ -3870,7 +4114,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. At 56 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. At 56 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -3962,7 +4206,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. At 26 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. At 26 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1Z9tnPykLuRPp9TsmV8ZSinVYlnvkxfSG/view",
@@ -3990,7 +4234,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. At 54 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. At 54 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -4282,7 +4526,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. At 20 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. At 20 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -4406,7 +4650,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. At 55 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. At 55 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -4434,7 +4678,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. At 24 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. At 24 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -4494,7 +4738,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. At 53 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. At 53 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -4562,7 +4806,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. At 66 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. At 66 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -4918,7 +5162,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. At 33 homes it suits the other round better (4 of 54 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. At 33 homes it suits the other round better (4 of 55 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/18I_gJeK34pel4N7AigCGhKACvXxLtych/view",
