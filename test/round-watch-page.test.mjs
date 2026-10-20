@@ -24,9 +24,9 @@ function ok(cond, msg) { assert.ok(cond, msg); checks++; }
 
 // 1. Contacts.
 const contacts = { contacts: { a: [
-  { kind: 'org_office', org: 'Org', phone: '303-555-0100', source_url: 'https://org.example/contact', source_label: 'Website' },
-  { kind: 'chfa_applicant', org: 'Org', name: 'Pat', email: 'pat@org.example', source_url: 'https://www.chfainfo.com/r.pdf', source_label: 'CHFA report' },
-  { kind: 'land_banking', org: 'Org', name: 'Lee', source_url: 'http://insecure.example', source_label: 'x' }
+  { kind: 'org_office', org: 'Org', phone: '303-555-0100', source_url: 'https://example.com/contact', source_label: 'Website' },
+  { kind: 'chfa_applicant', org: 'Org', name: 'Pat', email: 'pat@org.example', source_url: 'https://example.com/chfa-report.pdf', source_label: 'CHFA report' },
+  { kind: 'land_banking', org: 'Org', name: 'Lee', source_url: 'http://example.com/insecure', source_label: 'x' }
 ] } };
 const cs = RW.contactsFor(contacts, 'a');
 ok(cs.length === 2, 'a contact without an https source is dropped');
@@ -36,9 +36,9 @@ ok(RW.contactsFor(null, 'a').length === 0 && RW.contactsFor(contacts, 'missing')
 // 2 and 3. Rows.
 const item = {
   id: 'a', name: '<b>Deal</b>', city: 'Longmont', county: 'Boulder County', homes: 40, sponsor: 'Sponsor & Co', band: 'High', score: 80,
-  why: [{ kind: 'lost_last_same', text: 'CHFA did not fund it in 2026 Round One. 14 of 19 came back.', source_url: 'https://www.chfainfo.com/r.pdf', quote: 'Name: <Deal>' },
+  why: [{ kind: 'lost_last_same', text: 'CHFA did not fund it in 2026 Round One. 14 of 19 came back.', source_url: 'https://example.com/chfa-report.pdf', quote: 'Name: <Deal>' },
         { kind: 'land', text: 'Land banking.', source_url: 'javascript:alert(1)', quote: 'q' }],
-  applications: [{ round_label: '2026 Round One', credit_type: '9%', outcome: 'not_awarded', source_url: 'https://www.chfainfo.com/r.pdf' }]
+  applications: [{ round_label: '2026 Round One', credit_type: '9%', outcome: 'not_awarded', source_url: 'https://example.com/chfa-report.pdf' }]
 };
 const rows = RW.rowsHtml([item], contacts, {});
 ok(!rows.includes('<b>Deal</b>') && rows.includes('&lt;b&gt;Deal&lt;/b&gt;'), 'the project name is escaped');

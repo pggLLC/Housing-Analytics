@@ -22,13 +22,14 @@ import os
 import re
 import subprocess
 import sys
+from urllib.parse import urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _spec = importlib.util.spec_from_file_location('build_round_watch', os.path.join(ROOT, 'scripts', 'funding', 'build_round_watch.py'))
 rw = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(rw)
 
-URL = 'https://www.chfainfo.com/report.pdf'
+URL = 'https://example.com/report.pdf'  # example.com: the source-URL sweep skips it
 
 
 def app(name, city, year, rnd, outcome, units=40, sponsor='Sponsor A', fed=1000000):
@@ -47,7 +48,7 @@ def project(pid, name, city, units, events):
 
 def dola(name, announced, amount=1000000):
     return {'agency': 'DOLA', 'program': 'Division of Housing award', 'stage': 'funded', 'year': int(announced[:4]),
-            'announced': announced, 'amount': amount, 'amount_label': 'awarded', 'source_url': 'https://doh.colorado.gov/x',
+            'announced': announced, 'amount': amount, 'amount_label': 'awarded', 'source_url': 'https://example.com/doh',
             'quote': 'Project: %s; Program: Rental' % name}
 
 
@@ -141,7 +142,7 @@ def test_committed_file_is_current_and_has_no_contacts():
             assert i['band'] in ('High', 'Medium', 'Watch') and i['why']
             for w in i['why']:
                 urls = [s['url'] for s in w.get('sources', [])] or ([w['source_url']] if w.get('source_url') else [])
-                assert all(u.startswith('https://') for u in urls)
+                assert all(urlsplit(u).scheme == 'https' and urlsplit(u).netloc for u in urls)
 
 
 def test_deal_summary_link_needs_same_town_and_name():
