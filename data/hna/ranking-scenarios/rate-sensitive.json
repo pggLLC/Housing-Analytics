@@ -11,9 +11,9 @@
     "params": {
       "min_rate_denominator": 50
     },
-    "generated_at": "2026-10-20T02:28:04Z",
-    "source_commit": "91e2f36f4",
-    "based_on": "2026-10-20T02:27:32Z"
+    "generated_at": "2026-10-20T03:14:56Z",
+    "source_commit": "a906dddba",
+    "based_on": "2026-10-20T03:14:24Z"
   },
   "rankings": [
     {
@@ -337,12 +337,12 @@
       "overall_need_score": 72.1
     },
     {
-      "geoid": "0824785",
+      "geoid": "0809280",
       "rank": 65,
-      "overall_need_score": 72.0
+      "overall_need_score": 71.8
     },
     {
-      "geoid": "0809280",
+      "geoid": "0824785",
       "rank": 66,
       "overall_need_score": 71.8
     },
@@ -377,17 +377,17 @@
       "overall_need_score": 70.7
     },
     {
-      "geoid": "0871625",
+      "geoid": "0884440",
       "rank": 73,
+      "overall_need_score": 70.7
+    },
+    {
+      "geoid": "0871625",
+      "rank": 74,
       "overall_need_score": 70.6
     },
     {
       "geoid": "0824950",
-      "rank": 74,
-      "overall_need_score": 70.5
-    },
-    {
-      "geoid": "0884440",
       "rank": 75,
       "overall_need_score": 70.5
     },
@@ -462,14 +462,14 @@
       "overall_need_score": 68.2
     },
     {
-      "geoid": "0827370",
+      "geoid": "0806172",
       "rank": 90,
-      "overall_need_score": 67.8
+      "overall_need_score": 68.0
     },
     {
-      "geoid": "0806172",
+      "geoid": "0827370",
       "rank": 91,
-      "overall_need_score": 67.7
+      "overall_need_score": 67.8
     },
     {
       "geoid": "0829625",
@@ -507,17 +507,17 @@
       "overall_need_score": 67.1
     },
     {
-      "geoid": "0876190",
+      "geoid": "0879100",
       "rank": 99,
       "overall_need_score": 67.0
     },
     {
-      "geoid": "0879100",
+      "geoid": "0871755",
       "rank": 100,
-      "overall_need_score": 67.0
+      "overall_need_score": 66.8
     },
     {
-      "geoid": "0871755",
+      "geoid": "0876190",
       "rank": 101,
       "overall_need_score": 66.8
     },
@@ -574,7 +574,7 @@
     {
       "geoid": "0850920",
       "rank": 112,
-      "overall_need_score": 65.1
+      "overall_need_score": 65.2
     },
     {
       "geoid": "0808675",
@@ -612,12 +612,12 @@
       "overall_need_score": 63.7
     },
     {
-      "geoid": "08123",
+      "geoid": "0879785",
       "rank": 120,
-      "overall_need_score": 63.5
+      "overall_need_score": 63.7
     },
     {
-      "geoid": "0879785",
+      "geoid": "08123",
       "rank": 121,
       "overall_need_score": 63.5
     },
@@ -642,12 +642,12 @@
       "overall_need_score": 62.8
     },
     {
-      "geoid": "0851745",
+      "geoid": "0819150",
       "rank": 126,
-      "overall_need_score": 62.8
+      "overall_need_score": 62.7
     },
     {
-      "geoid": "0819150",
+      "geoid": "0851745",
       "rank": 127,
       "overall_need_score": 62.7
     },
@@ -672,22 +672,22 @@
       "overall_need_score": 62.4
     },
     {
-      "geoid": "0848445",
-      "rank": 132,
-      "overall_need_score": 62.4
-    },
-    {
       "geoid": "0853395",
-      "rank": 133,
+      "rank": 132,
       "overall_need_score": 62.3
     },
     {
       "geoid": "0820605",
-      "rank": 134,
+      "rank": 133,
       "overall_need_score": 62.2
     },
     {
       "geoid": "0833640",
+      "rank": 134,
+      "overall_need_score": 62.2
+    },
+    {
+      "geoid": "0848445",
       "rank": 135,
       "overall_need_score": 62.2
     },
@@ -722,14 +722,14 @@
       "overall_need_score": 61.4
     },
     {
-      "geoid": "0853175",
+      "geoid": "0845680",
       "rank": 142,
-      "overall_need_score": 61.2
+      "overall_need_score": 60.8
     },
     {
-      "geoid": "0845680",
+      "geoid": "0853175",
       "rank": 143,
-      "overall_need_score": 60.8
+      "overall_need_score": 60.7
     },
     {
       "geoid": "0814587",
@@ -754,7 +754,7 @@
     {
       "geoid": "0852550",
       "rank": 148,
-      "overall_need_score": 60.0
+      "overall_need_score": 60.2
     },
     {
       "geoid": "0808070",
@@ -797,27 +797,27 @@
       "overall_need_score": 59.0
     },
     {
-      "geoid": "0801740",
+      "geoid": "0829735",
       "rank": 157,
-      "overall_need_score": 58.8
+      "overall_need_score": 58.9
     },
     {
-      "geoid": "0812045",
+      "geoid": "0801740",
       "rank": 158,
       "overall_need_score": 58.6
     },
     {
-      "geoid": "08015",
+      "geoid": "0812045",
       "rank": 159,
-      "overall_need_score": 58.5
+      "overall_need_score": 58.6
     },
     {
-      "geoid": "08029",
+      "geoid": "08015",
       "rank": 160,
       "overall_need_score": 58.5
     },
     {
-      "geoid": "0829735",
+      "geoid": "08029",
       "rank": 161,
       "overall_need_score": 58.5
     },
@@ -832,14 +832,14 @@
       "overall_need_score": 58.4
     },
     {
-      "geoid": "0833695",
+      "geoid": "0874080",
       "rank": 164,
-      "overall_need_score": 58.2
+      "overall_need_score": 58.1
     },
     {
-      "geoid": "0874080",
+      "geoid": "0833695",
       "rank": 165,
-      "overall_need_score": 58.1
+      "overall_need_score": 58.0
     },
     {
       "geoid": "0882130",
@@ -872,12 +872,12 @@
       "overall_need_score": 57.1
     },
     {
-      "geoid": "0819850",
+      "geoid": "0886750",
       "rank": 172,
-      "overall_need_score": 56.5
+      "overall_need_score": 56.8
     },
     {
-      "geoid": "0886750",
+      "geoid": "0819850",
       "rank": 173,
       "overall_need_score": 56.5
     },
@@ -974,7 +974,7 @@
     {
       "geoid": "0853120",
       "rank": 192,
-      "overall_need_score": 53.5
+      "overall_need_score": 53.7
     },
     {
       "geoid": "0874375",
@@ -1097,52 +1097,52 @@
       "overall_need_score": 49.8
     },
     {
-      "geoid": "0823630",
+      "geoid": "0880865",
       "rank": 217,
+      "overall_need_score": 49.8
+    },
+    {
+      "geoid": "0823630",
+      "rank": 218,
       "overall_need_score": 49.7
     },
     {
       "geoid": "0812325",
-      "rank": 218,
+      "rank": 219,
       "overall_need_score": 49.6
     },
     {
       "geoid": "0840790",
-      "rank": 219,
+      "rank": 220,
       "overall_need_score": 49.5
     },
     {
       "geoid": "0827175",
-      "rank": 220,
-      "overall_need_score": 49.4
-    },
-    {
-      "geoid": "0880865",
       "rank": 221,
       "overall_need_score": 49.4
     },
     {
-      "geoid": "0851800",
+      "geoid": "0868875",
       "rank": 222,
       "overall_need_score": 49.3
     },
     {
-      "geoid": "0868875",
-      "rank": 223,
-      "overall_need_score": 49.3
-    },
-    {
       "geoid": "0807580",
-      "rank": 224,
+      "rank": 223,
       "overall_need_score": 49.2
     },
     {
       "geoid": "0877510",
-      "rank": 225,
+      "rank": 224,
       "overall_need_score": 49.0
     },
     {
       "geoid": "0837820",
+      "rank": 225,
+      "overall_need_score": 48.9
+    },
+    {
+      "geoid": "0851800",
       "rank": 226,
       "overall_need_score": 48.9
     },
@@ -1192,19 +1192,19 @@
       "overall_need_score": 48.4
     },
     {
-      "geoid": "0874430",
-      "rank": 236,
-      "overall_need_score": 48.4
-    },
-    {
       "geoid": "0808950",
-      "rank": 237,
+      "rank": 236,
       "overall_need_score": 48.2
     },
     {
       "geoid": "0845145",
-      "rank": 238,
+      "rank": 237,
       "overall_need_score": 48.2
+    },
+    {
+      "geoid": "0874430",
+      "rank": 238,
+      "overall_need_score": 48.1
     },
     {
       "geoid": "0829955",
@@ -1467,14 +1467,14 @@
       "overall_need_score": 43.0
     },
     {
-      "geoid": "0843660",
+      "geoid": "0838370",
       "rank": 291,
       "overall_need_score": 42.9
     },
     {
-      "geoid": "0838370",
+      "geoid": "0843660",
       "rank": 292,
-      "overall_need_score": 42.7
+      "overall_need_score": 42.9
     },
     {
       "geoid": "0869150",
@@ -1597,34 +1597,34 @@
       "overall_need_score": 39.3
     },
     {
-      "geoid": "0827975",
+      "geoid": "0821155",
       "rank": 317,
       "overall_need_score": 39.3
     },
     {
-      "geoid": "0870360",
+      "geoid": "0827975",
       "rank": 318,
       "overall_need_score": 39.3
     },
     {
-      "geoid": "0853010",
+      "geoid": "0870360",
       "rank": 319,
+      "overall_need_score": 39.2
+    },
+    {
+      "geoid": "0853010",
+      "rank": 320,
       "overall_need_score": 39.1
     },
     {
       "geoid": "08079",
-      "rank": 320,
-      "overall_need_score": 39.0
-    },
-    {
-      "geoid": "08109",
       "rank": 321,
       "overall_need_score": 39.0
     },
     {
-      "geoid": "0821155",
+      "geoid": "08109",
       "rank": 322,
-      "overall_need_score": 38.8
+      "overall_need_score": 39.0
     },
     {
       "geoid": "0848115",
@@ -1652,27 +1652,27 @@
       "overall_need_score": 38.5
     },
     {
-      "geoid": "0807410",
+      "geoid": "0886310",
       "rank": 328,
-      "overall_need_score": 38.4
+      "overall_need_score": 38.5
     },
     {
-      "geoid": "0855925",
+      "geoid": "0807410",
       "rank": 329,
       "overall_need_score": 38.4
     },
     {
-      "geoid": "0875970",
+      "geoid": "0855925",
       "rank": 330,
       "overall_need_score": 38.4
     },
     {
-      "geoid": "0886310",
+      "geoid": "0866895",
       "rank": 331,
-      "overall_need_score": 38.3
+      "overall_need_score": 38.2
     },
     {
-      "geoid": "0866895",
+      "geoid": "0875970",
       "rank": 332,
       "overall_need_score": 38.2
     },
@@ -1717,24 +1717,24 @@
       "overall_need_score": 37.5
     },
     {
-      "geoid": "0845750",
+      "geoid": "0853875",
       "rank": 341,
-      "overall_need_score": 37.4
+      "overall_need_score": 37.5
     },
     {
-      "geoid": "0864255",
+      "geoid": "0845750",
       "rank": 342,
       "overall_need_score": 37.4
     },
     {
-      "geoid": "0864970",
+      "geoid": "0864255",
       "rank": 343,
       "overall_need_score": 37.4
     },
     {
-      "geoid": "0853875",
+      "geoid": "0864970",
       "rank": 344,
-      "overall_need_score": 37.3
+      "overall_need_score": 37.4
     },
     {
       "geoid": "0845695",
@@ -1742,24 +1742,24 @@
       "overall_need_score": 37.1
     },
     {
-      "geoid": "0839745",
+      "geoid": "0868105",
       "rank": 346,
-      "overall_need_score": 36.4
+      "overall_need_score": 36.3
+    },
+    {
+      "geoid": "0839745",
+      "rank": 347,
+      "overall_need_score": 36.2
     },
     {
       "geoid": "0845530",
-      "rank": 347,
-      "overall_need_score": 36.4
+      "rank": 348,
+      "overall_need_score": 36.2
     },
     {
       "geoid": "0873715",
-      "rank": 348,
-      "overall_need_score": 36.4
-    },
-    {
-      "geoid": "0868105",
       "rank": 349,
-      "overall_need_score": 36.3
+      "overall_need_score": 36.2
     },
     {
       "geoid": "0830350",
@@ -1777,24 +1777,24 @@
       "overall_need_score": 36.0
     },
     {
-      "geoid": "0856145",
+      "geoid": "0834960",
       "rank": 353,
       "overall_need_score": 35.9
     },
     {
-      "geoid": "0865190",
+      "geoid": "0856145",
       "rank": 354,
       "overall_need_score": 35.9
     },
     {
-      "geoid": "0857300",
+      "geoid": "0865190",
       "rank": 355,
-      "overall_need_score": 35.8
+      "overall_need_score": 35.9
     },
     {
-      "geoid": "0834960",
+      "geoid": "0857300",
       "rank": 356,
-      "overall_need_score": 35.7
+      "overall_need_score": 35.8
     },
     {
       "geoid": "08125",
@@ -1802,14 +1802,14 @@
       "overall_need_score": 35.6
     },
     {
-      "geoid": "0818640",
+      "geoid": "08089",
       "rank": 358,
-      "overall_need_score": 35.6
+      "overall_need_score": 35.5
     },
     {
-      "geoid": "08089",
+      "geoid": "0818640",
       "rank": 359,
-      "overall_need_score": 35.5
+      "overall_need_score": 35.4
     },
     {
       "geoid": "08043",
@@ -1869,7 +1869,7 @@
     {
       "geoid": "0803840",
       "rank": 371,
-      "overall_need_score": 34.3
+      "overall_need_score": 34.1
     },
     {
       "geoid": "0819795",
@@ -1904,7 +1904,7 @@
     {
       "geoid": "0863650",
       "rank": 378,
-      "overall_need_score": 33.6
+      "overall_need_score": 33.8
     },
     {
       "geoid": "0883175",
@@ -1917,19 +1917,19 @@
       "overall_need_score": 33.2
     },
     {
-      "geoid": "0843220",
+      "geoid": "0825610",
       "rank": 381,
       "overall_need_score": 33.1
     },
     {
-      "geoid": "0817760",
+      "geoid": "0843220",
       "rank": 382,
-      "overall_need_score": 33.0
+      "overall_need_score": 33.1
     },
     {
-      "geoid": "0825610",
+      "geoid": "0817760",
       "rank": 383,
-      "overall_need_score": 32.9
+      "overall_need_score": 33.0
     },
     {
       "geoid": "0847345",
@@ -1937,24 +1937,24 @@
       "overall_need_score": 32.9
     },
     {
-      "geoid": "0848060",
+      "geoid": "0806090",
       "rank": 385,
       "overall_need_score": 32.8
     },
     {
-      "geoid": "0852820",
-      "rank": 386,
-      "overall_need_score": 32.7
-    },
-    {
-      "geoid": "0806090",
-      "rank": 387,
-      "overall_need_score": 32.6
-    },
-    {
       "geoid": "0848940",
-      "rank": 388,
+      "rank": 386,
       "overall_need_score": 32.5
+    },
+    {
+      "geoid": "0852820",
+      "rank": 387,
+      "overall_need_score": 32.5
+    },
+    {
+      "geoid": "0848060",
+      "rank": 388,
+      "overall_need_score": 32.4
     },
     {
       "geoid": "0822145",
@@ -1997,17 +1997,17 @@
       "overall_need_score": 31.7
     },
     {
-      "geoid": "0880755",
+      "geoid": "0862880",
       "rank": 397,
       "overall_need_score": 31.7
     },
     {
-      "geoid": "0834685",
+      "geoid": "0880755",
       "rank": 398,
-      "overall_need_score": 31.5
+      "overall_need_score": 31.7
     },
     {
-      "geoid": "0862880",
+      "geoid": "0834685",
       "rank": 399,
       "overall_need_score": 31.5
     },
@@ -2027,17 +2027,17 @@
       "overall_need_score": 31.4
     },
     {
-      "geoid": "0819355",
+      "geoid": "0847235",
       "rank": 403,
       "overall_need_score": 31.3
     },
     {
-      "geoid": "0847235",
+      "geoid": "0818750",
       "rank": 404,
-      "overall_need_score": 31.3
+      "overall_need_score": 31.2
     },
     {
-      "geoid": "0818750",
+      "geoid": "0819355",
       "rank": 405,
       "overall_need_score": 31.2
     },
@@ -2072,27 +2072,27 @@
       "overall_need_score": 30.8
     },
     {
-      "geoid": "0851635",
+      "geoid": "0886475",
       "rank": 412,
+      "overall_need_score": 30.6
+    },
+    {
+      "geoid": "0850040",
+      "rank": 413,
+      "overall_need_score": 30.5
+    },
+    {
+      "geoid": "0851635",
+      "rank": 414,
       "overall_need_score": 30.5
     },
     {
       "geoid": "0808620",
-      "rank": 413,
-      "overall_need_score": 30.4
-    },
-    {
-      "geoid": "0886475",
-      "rank": 414,
+      "rank": 415,
       "overall_need_score": 30.4
     },
     {
       "geoid": "0816465",
-      "rank": 415,
-      "overall_need_score": 30.3
-    },
-    {
-      "geoid": "0850040",
       "rank": 416,
       "overall_need_score": 30.3
     },
@@ -2157,14 +2157,14 @@
       "overall_need_score": 28.3
     },
     {
-      "geoid": "0855705",
+      "geoid": "0820495",
       "rank": 429,
       "overall_need_score": 28.3
     },
     {
-      "geoid": "0820495",
+      "geoid": "0855705",
       "rank": 430,
-      "overall_need_score": 28.2
+      "overall_need_score": 28.3
     },
     {
       "geoid": "0860655",
@@ -2222,29 +2222,29 @@
       "overall_need_score": 27.2
     },
     {
-      "geoid": "0833310",
+      "geoid": "0869700",
       "rank": 442,
       "overall_need_score": 27.2
     },
     {
-      "geoid": "0861315",
+      "geoid": "0833310",
       "rank": 443,
       "overall_need_score": 27.0
     },
     {
-      "geoid": "0868930",
+      "geoid": "0861315",
       "rank": 444,
-      "overall_need_score": 26.9
+      "overall_need_score": 27.0
     },
     {
-      "geoid": "0869700",
+      "geoid": "0868930",
       "rank": 445,
       "overall_need_score": 26.9
     },
     {
       "geoid": "0817925",
       "rank": 446,
-      "overall_need_score": 26.5
+      "overall_need_score": 26.7
     },
     {
       "geoid": "0807795",
@@ -2269,7 +2269,7 @@
     {
       "geoid": "0858235",
       "rank": 451,
-      "overall_need_score": 25.9
+      "overall_need_score": 26.1
     },
     {
       "geoid": "0840900",
@@ -2342,24 +2342,24 @@
       "overall_need_score": 24.2
     },
     {
-      "geoid": "08073",
+      "geoid": "0841010",
       "rank": 466,
-      "overall_need_score": 23.9
+      "overall_need_score": 24.2
     },
     {
-      "geoid": "0836940",
+      "geoid": "08073",
       "rank": 467,
-      "overall_need_score": 23.8
+      "overall_need_score": 23.9
     },
     {
       "geoid": "0831715",
       "rank": 468,
-      "overall_need_score": 23.7
+      "overall_need_score": 23.8
     },
     {
-      "geoid": "0879270",
+      "geoid": "0836940",
       "rank": 469,
-      "overall_need_score": 23.7
+      "overall_need_score": 23.8
     },
     {
       "geoid": "08105",
@@ -2367,9 +2367,9 @@
       "overall_need_score": 23.6
     },
     {
-      "geoid": "0838590",
+      "geoid": "0879270",
       "rank": 471,
-      "overall_need_score": 23.5
+      "overall_need_score": 23.6
     },
     {
       "geoid": "0856695",
@@ -2387,14 +2387,14 @@
       "overall_need_score": 23.3
     },
     {
-      "geoid": "0834520",
+      "geoid": "0838590",
       "rank": 475,
       "overall_need_score": 23.2
     },
     {
-      "geoid": "0859830",
+      "geoid": "0834520",
       "rank": 476,
-      "overall_need_score": 23.1
+      "overall_need_score": 23.0
     },
     {
       "geoid": "0807190",
@@ -2407,22 +2407,22 @@
       "overall_need_score": 22.9
     },
     {
-      "geoid": "0841010",
+      "geoid": "0859830",
       "rank": 479,
       "overall_need_score": 22.9
     },
     {
-      "geoid": "0837600",
-      "rank": 480,
-      "overall_need_score": 22.7
-    },
-    {
       "geoid": "0812030",
-      "rank": 481,
+      "rank": 480,
       "overall_need_score": 22.6
     },
     {
       "geoid": "0812855",
+      "rank": 481,
+      "overall_need_score": 22.6
+    },
+    {
+      "geoid": "0837600",
       "rank": 482,
       "overall_need_score": 22.6
     },
@@ -2534,7 +2534,7 @@
     {
       "geoid": "0826875",
       "rank": 504,
-      "overall_need_score": 19.7
+      "overall_need_score": 19.5
     },
     {
       "geoid": "0848555",
@@ -2594,7 +2594,7 @@
     {
       "geoid": "0829680",
       "rank": 516,
-      "overall_need_score": 18.6
+      "overall_need_score": 18.5
     },
     {
       "geoid": "08027",
@@ -2634,7 +2634,7 @@
     {
       "geoid": "0800760",
       "rank": 524,
-      "overall_need_score": 17.5
+      "overall_need_score": 17.3
     },
     {
       "geoid": "0808345",
@@ -2697,14 +2697,14 @@
       "overall_need_score": 13.5
     },
     {
-      "geoid": "0813460",
+      "geoid": "0829845",
       "rank": 537,
-      "overall_need_score": 12.9
+      "overall_need_score": 12.6
     },
     {
-      "geoid": "0829845",
+      "geoid": "0813460",
       "rank": 538,
-      "overall_need_score": 12.6
+      "overall_need_score": 12.5
     },
     {
       "geoid": "0881690",
@@ -2734,7 +2734,7 @@
     {
       "geoid": "0826765",
       "rank": 544,
-      "overall_need_score": 10.0
+      "overall_need_score": 9.8
     },
     {
       "geoid": "0812450",

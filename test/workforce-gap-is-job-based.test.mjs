@@ -237,7 +237,7 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
   const od = read('data/hna/place-od-flows.json');
   const odPlaces = od.places || od;
   const aux = read('data/hna/source/lodes_primary_jobs.json');
-  const auxPlaces = aux.places || {};
+  const wacPlaces = aux.wac_primary_places || {};
   const wacYear = String(read('data/market/lodes_co.json').meta.vintage);
   const odSameYear = String((od.meta || {}).year) === wacYear && String(aux.year) === wacYear;
   const problems = [];
@@ -271,10 +271,11 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
     //    Only when the OD file and the wage mix are the same LODES year: on a
     //    mismatch the builder keeps the same-year tract estimate on purpose.
     const b = odSameYear ? odPlaces[geoid] : null;
-    //    Jobs held by out-of-state workers (OD aux) are added to the block count.
-    const total = b ? b.jobs + ((auxPlaces[geoid] || {}).jobs || 0) : null;
+    //    The count is the place's WAC all-jobs total; OD main leaves out
+    //    out-of-state workers, so a zero there is not enough on its own.
+    const total = b ? ((wacPlaces[geoid] || {}).all_jobs || 0) : null;
     if (b && total === 0 && (l.C000 !== 0 || l.CE01 || l.CE02 || l.CE03)) {
-      problems.push(`${p.name}: block count is 0 jobs but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
+      problems.push(`${p.name}: no job located here but C000 ${l.C000}, tiers ${l.CE01}/${l.CE02}/${l.CE03}`);
     }
   }
   // 3. No local wage mix means unknown, not the county's mix (Hartsel,
