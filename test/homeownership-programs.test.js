@@ -80,7 +80,7 @@ console.log('='.repeat(38));
   const allowedLevels = new Set(['federal', 'colorado', 'metro']);
   const allowedKinds = new Set(['tax-credit', 'grant', 'dpa-loan', 'property-tax-relief']);
   const allowedStatuses = new Set(['active', 'expired', 'proposed', 'VERIFY']);
-  const allowedHosts = /^(www\.)?(chfainfo\.com|metro-dpa\.com|chaconline\.org|irs\.gov|congress\.gov|dpt\.colorado\.gov|energy\.gov|epa\.gov)$|^(federalfunds\.colorado\.gov|content\.govdelivery\.com)$/;
+  const allowedHosts = /^(www\.)?(chfainfo\.com|metro-dpa\.com|chaconline\.org|irs\.gov|congress\.gov|dpt\.colorado\.gov|energy\.gov|epa\.gov)$|^(federalfunds\.colorado\.gov|energyoffice\.colorado\.gov|content\.govdelivery\.com)$/;
 
   data.programs.forEach((program) => {
     assert(program.id && program.name, `${program.id || 'program'} has id and name`);

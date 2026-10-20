@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-10-09",
+  "lastUpdated": "2026-10-20",
   "vintage": "2026-Q4",
-  "note": "Program terms checked against the cited official pages on 2026-10-09 unless an earlier last_verified is explicitly retained after a blocked recheck. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances. Legacy identifiers are retained for consumers but are not additional awards.",
+  "note": "Program terms checked against the cited official pages on 2026-10-09 (Colorado Home Energy Rebates rechecked 2026-10-20) unless an earlier last_verified is explicitly retained after a blocked recheck. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances. Legacy identifiers are retained for consumers but are not additional awards.",
   "programs": {
     "CHFA-HTF": {
       "name": "CHFA Housing Trust Fund",
@@ -597,22 +597,23 @@
         "multifamily-retrofit"
       ],
       "maxPerProject": null,
-      "description": "DOE describes Home Energy Rebates as state-administered and available only in select jurisdictions. Colorado launch materials say HEAR began through WAP with broader direct-consumer and multifamily HOMES phases planned; current Colorado availability could not be fetch-verified on an accessible official CEO page this session.",
-      "contactUrl": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "description": "The Colorado Energy Office says the single-family appliance rebate (HEAR) is closed in both regions, rebates for small multifamily buildings will be available in 2026, and whole-home rebates (HER) will open to manufactured or mobile homes and large multifamily buildings in 2026. DOE describes the rebates as state-administered and available only in select states.",
+      "contactUrl": "https://energyoffice.colorado.gov/home-energy-rebates",
       "relatedSourceUrls": [
+        "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. DOE program page previously checked 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active. DOE describes rebates rather than one of the loan/equity instruments. Funding type, interest rate, loan term and repayment are left blank. Federal household examples ($8,000 HOMES and $14,000 HEEHR) are not a verified Colorado multifamily project maximum, so maximum award is left blank.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09",
-      "warning": "VERIFY before use. Federal IRA rebate implementation is volatile and Colorado phase availability was not independently confirmed on an accessible current official state page.",
+      "source_note": "Colorado Energy Office Home Energy Rebates page read 2026-10-20: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" The Energy Office publishes the caps: appliance rebates (HEAR) up to $14,000 per household or unit; whole-home rebates (HER) for manufactured or mobile homes up to $16,000 below 80% AMI; and for large multifamily buildings up to $8,000 per unit below 80% AMI, or $4,000 per unit up to $400,000 per building at 80% AMI and above. These are per-unit or per-building caps that depend on income and expected energy savings, and the 2026 phases have no confirmed opening, so maximum award per project stays blank. DOE describes rebates rather than one of the loan/equity instruments; funding type, interest rate, loan term and repayment are left blank.",
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20",
+      "warning": "VERIFY before use. The single-family rebate is closed; the 2026 multifamily and manufactured-home phases have published caps but no confirmed opening.",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program"
+      "source_url": "https://energyoffice.colorado.gov/home-energy-rebates"
     },
     "CEO-SOLAR-FOR-ALL": {
       "name": "Colorado Solar for All / GGRF watch",

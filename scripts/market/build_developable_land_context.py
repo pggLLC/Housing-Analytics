@@ -56,6 +56,13 @@ def review_by(days: int = 92) -> str:
     return (date.today() + timedelta(days=days)).isoformat()
 
 
+def tract_display_name(geoid: str) -> str:
+    """Census's own tract name: code 007801 -> "Census Tract 78.01", 960200 -> "Census Tract 9602"."""
+    code = geoid[-6:]
+    base, suffix = str(int(code[:4])), code[4:]
+    return f"Census Tract {base}.{suffix}" if suffix != "00" else f"Census Tract {base}"
+
+
 def read_json(path: Path):
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -150,7 +157,7 @@ def load_tracts():
         tracts.append({
             "geoid": geoid,
             "county_fips": geoid[:5],
-            "name": props.get("NAME") or f"Census Tract {geoid[-6:]}",
+            "name": props.get("NAME") or tract_display_name(geoid),
             "geometry": geometry,
             "bbox": bbox,
             "land_acres": land_acres,
