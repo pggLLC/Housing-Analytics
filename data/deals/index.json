@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 3
+  "count": 6
  },
  "deals": [
   {
@@ -24,6 +24,23 @@
    }
   },
   {
+   "slug": "fairbrooke-heights-fort-collins",
+   "name": "Fairbrooke Heights (scattered site)",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2026 Federal 4% housing tax credit (rolling list)",
+   "year": 2026,
+   "units": 36,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "Fairbrooke Heights (scattered site)"
+    ]
+   }
+  },
+  {
    "slug": "flocrit-decatur-place-denver",
    "name": "FloCrit at Decatur Place",
    "city": "Denver",
@@ -37,6 +54,40 @@
     "year": 2026,
     "names": [
      "FloCrit at Decatur Place"
+    ]
+   }
+  },
+  {
+   "slug": "greenbriar-apartments-fort-collins",
+   "name": "Greenbriar Apartments (scattered site)",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2026 Federal 4% housing tax credit (rolling list)",
+   "year": 2026,
+   "units": 40,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "Greenbriar Apartments (scattered site)"
+    ]
+   }
+  },
+  {
+   "slug": "gregory-highlands-ranch",
+   "name": "The Gregory",
+   "city": "Highlands Ranch",
+   "county": "Douglas",
+   "award": "2026 Federal 4% housing tax credit (rolling list)",
+   "year": 2026,
+   "units": 165,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2026,
+    "names": [
+     "Gregory"
     ]
    }
   },

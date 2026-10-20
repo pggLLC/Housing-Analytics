@@ -1,0 +1,597 @@
+{
+ "slug": "gregory-highlands-ranch",
+ "name": "The Gregory",
+ "city": "Highlands Ranch",
+ "county": "Douglas",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "The Gregory is a 165-unit, all-affordable new-construction apartment building for adults 55 and older (all at 60% AMI) on Plaza Drive in Highlands Ranch, developed by Shea Properties, which won a 2026 Federal 4% housing tax credit award financed with Douglas County Housing Partnership bonds.",
+ "why_it_matters": "It is a straight 4% bond deal on private land in unincorporated Douglas County. It needed no rezoning (multifamily is a use by right in Highlands Ranch Planning Area 79). Douglas County's local bond cap, pooled at DCHP, carried the bonds. A metro-district park on part of the lot is the community give-back: a repeatable template for suburban senior LIHTC.",
+ "status": {
+  "label": "Credits awarded and bonds approved; construction start not confirmed",
+  "detail": "The County approved the plat on 2026-03-10, and county staff reports list a 165-unit site improvement plan (SP2026-027) in process. The Board approved DCHP's bonds (up to $37M) on 2026-09-22. Shea's stated target was to start construction in Q4 2026 (November) and open in 2028. I found no public record of a bond closing, building permit or groundbreaking.",
+  "src": [
+   "chfa-4pct-award",
+   "dc-plat-staff",
+   "dc-cmr-2026-05-12",
+   "dc-gregory-bond",
+   "dc-legistar-gregory",
+   "hrh-2026-03-16",
+   "dg-2026-03-16"
+  ]
+ },
+ "next_step": "Watch for the County's approval of site improvement plan SP2026-027 and a building permit, and for DCHP's Multifamily Housing Revenue Bonds (The Gregory Project) to close, which would mark financial closing.",
+ "key_numbers": [
+  {
+   "value": "165 homes, all income-restricted, age 55+",
+   "meaning": "All 165 units are set at 60% AMI: 120 one-bedrooms and 45 two-bedrooms.",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "value": "$3,212,404 a year in federal 4% credit",
+   "meaning": "About $32.1M over the 10-year credit period (my calculation). CHFA marks the amount subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$29,900,000 in private activity bonds (DCHP issuer)",
+   "meaning": "CHFA's bond figure. The County's public approval allows up to $37,000,000.",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "value": "9.69-acre lot, about 1 acre to a metro-district park",
+   "meaning": "Shea is building a community park on the lot that will be conveyed to the Highlands Ranch Metropolitan District.",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Name",
+   "value": "Gregory (CHFA); \"The Gregory\" in the County bond resolution",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "item": "Address",
+   "value": "NEC Flying B Way and Plaza Drive, Highlands Ranch 80129 (unincorporated Douglas County)",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "item": "Legal lot",
+   "value": "Lot 1, Highlands Ranch Filing 159 (County file SB2023-022)",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Highlands Ranch Planned Development, Planning Area 79 (Highlands Ranch Plaza Center); multiple-family dwellings for sale or lease are a use by right",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "9.69 acres between C-470 (north) and the Highlands Ranch Water treatment plant (south); Solana Lucent Station apartments to the east; Wind Crest senior community to the southwest; next to the High Line Canal trail",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "item": "Resident type",
+   "value": "Older Adult (CHFA); age 55 and older (County)",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "item": "Construction type",
+   "value": "New construction; one building",
+   "src": [
+    "chfa-4pct-award",
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "165 total, 165 income-restricted",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "QCT / DDA / SADDA",
+   "value": "QCT No; DDA No; SADDA Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8 contract",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Amenities (planned)",
+   "value": "Indoor and outdoor gathering spaces, dog park, pet wash, fitness studio, craft room, bike room, demonstration kitchen, activities lounge, gathering space on each floor",
+   "src": [
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "item": "Utilities",
+   "value": "Highlands Ranch Water (will-serve letter); South Metro Fire Rescue; access from Plaza Drive via an off-site Denver Water access easement",
+   "src": [
+    "dc-plat-staff"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 165
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 120
+  },
+  {
+   "type": "2BR",
+   "units": 45
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,212,404 per year",
+   "note": "About $32.1M over 10 years (my calculation). Marked subject to change. No noncompetitive state credit is shown for this deal.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (DCHP Multifamily Housing Revenue Bonds, The Gregory Project)",
+   "amount": "$29,900,000 (CHFA); not to exceed $37,000,000 (County approval)",
+   "note": "Issuer: Douglas County Housing Partnership. Borrower: The Gregory, LLC. The Board's approval satisfies only IRC Section 147(f) and creates no County debt.",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "source": "Bond cap behind the bonds",
+   "amount": "Douglas County 2026 cap $14,247,633, assigned to DCHP",
+   "note": "Douglas County, Parker and Castle Rock have assigned their cap to DCHP since 2013 ($24,481,229 combined in 2026), and DCHP typically pools cap over 2-3 years. Which years' cap (or any CHFA statewide cap) funds The Gregory is not stated.",
+   "src": [
+    "dc-pab-2026"
+   ]
+  },
+  {
+   "source": "Park construction",
+   "amount": "Not stated in county records",
+   "note": "Shea builds an approximately 1-acre community park on Lot 1 and conveys it to HRMD, which will own and maintain it. Cost and funding split are not in the county records I read.",
+   "src": [
+    "dc-le-park"
+   ]
+  },
+  {
+   "source": "Prop 123 / state gap funds",
+   "amount": "None found",
+   "note": "The County's October 2026 list of Prop 123 awards to DCHP members (2024-2026) does not include this project.",
+   "src": [
+    "dc-ws-2026-10-20"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Shea Properties",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Borrower / owner entity",
+   "name": "The Gregory, LLC (Colorado LLC)",
+   "src": [
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "role": "Land owner / plat applicant",
+   "name": "Central Park at Highlands Ranch, LLC, acting through Shea Properties Management Company, Inc.; the County calls Shea Properties the current owner",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Douglas County Housing Partnership (multijurisdictional housing authority of Douglas County, Castle Rock, Parker, Lone Tree and Castle Pines)",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "role": "Section 147(f) approving body",
+   "name": "Douglas County Board of County Commissioners",
+   "src": [
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "role": "Park owner (future)",
+   "name": "Highlands Ranch Metropolitan District",
+   "src": [
+    "dc-le-park"
+   ]
+  },
+  {
+   "role": "Civil engineer / land-use representative",
+   "name": "Redland",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site was first platted for a different project. A 2023 submittal (referrals sent 2023-06-16) proposed 240 market apartments in two buildings, called \"Kaos Apartments\" in the drainage report. The 2026 plat staff report says the plan is now 165 units in a single building.",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "text": "No rezoning was needed. PA 79 of the Highlands Ranch PD (approved 1979) allows multifamily for sale or lease by right. The County approval was a Minor Development Final Plat creating one 9.69-acre lot; news reports called it a \"zoning request\".",
+   "src": [
+    "dc-plat-staff",
+    "dg-2026-03-16"
+   ]
+  },
+  {
+   "text": "The Planning Commission heard the plat on 2026-03-02, and the Board adopted it on 2026-03-10 with four conditions: a burrowing owl study for earthwork between Mar 15 and Oct 31, watching for cultural resources, technical plat corrections, and applicant commitments made at the hearing. No public comments were received.",
+   "src": [
+    "dc-plat-staff",
+    "dc-legistar-plat"
+   ]
+  },
+  {
+   "text": "The County found no school, park or fee dedications due (already met within the Highlands Ranch PD) and required no Subdivision Improvements Agreement. Improvements will be secured with the site improvement plan.",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "text": "Site improvement plan SP2026-027, \"165 senior affordable apartments\" on Lot 1, was submitted on 2026-04-21. The County listed the plat as completed on 2026-04-27.",
+   "src": [
+    "dc-cmr-2026-04-28",
+    "dc-cmr-2026-05-12"
+   ]
+  },
+  {
+   "text": "Park deal: HRMD applied for a Location and Extent (LE2026-010) for \"Kaos Park\", an approximately 1-acre community park on Lot 1 with a community garden, fitness station, bocce, lawn, pavilion and 24 parking spaces. It will be built alongside the apartments and conveyed to HRMD. The Planning Commission hearing was 2026-08-17, and the County listed the L&E as completed on 2026-08-20.",
+   "src": [
+    "dc-le-park",
+    "dc-cmr-2026-08-11",
+    "dc-cmr-2026-09-08"
+   ]
+  },
+  {
+   "text": "Bond approval: DCHP held its Section 147(f) public hearing on 2026-09-11, after notice on 2026-09-04. On 2026-09-22 the Board adopted Resolution R-026-070 approving up to $37,000,000 of DCHP bonds for the roughly 165-unit 55+ project.",
+   "src": [
+    "dc-gregory-bond",
+    "dc-legistar-gregory"
+   ]
+  },
+  {
+   "text": "Bond cap: on 2026-03-24 the Board assigned all of the County's 2026 private activity bond cap ($14,247,633) to DCHP (Resolution R-026-020).",
+   "src": [
+    "dc-pab-2026",
+    "dc-legistar-pab"
+   ]
+  },
+  {
+   "text": "Affordability: Shea said the project follows its standard 4% LIHTC program, restricted to 60% AMI and age 55+. The length of the LIHTC extended-use covenant is not stated in the public records I found.",
+   "src": [
+    "hrh-2026-03-16",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Shea Properties' track record nearby: The Audrey, a roughly 134-unit senior affordable building at 9350 Dorchester Street in Highlands Ranch, was also financed with DCHP bonds ($20,750,000 Multifamily Housing Revenue Note, Series 2020). Shea said The Audrey's waiting list is driving demand for The Gregory.",
+   "src": [
+    "kutak-audrey",
+    "dg-2026-03-16"
+   ]
+  },
+  {
+   "text": "What 60% AMI means in Douglas County (CHFA 2026 limits): maximum rent $1,620 for a 1BR and $1,944 for a 2BR, including utility allowance; income limits $60,480 for 1 person and $69,120 for 2 people. Actual rents are not public.",
+   "src": [
+    "chfa-limits"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-06-16",
+   "event": "County sends referrals on the original Filing 159 plat (then a 240-unit, two-building apartment proposal)",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "date": "2026-03-02",
+   "event": "Douglas County Planning Commission hears the Minor Development Final Plat",
+   "src": [
+    "dc-plat-staff",
+    "dc-legistar-plat"
+   ]
+  },
+  {
+   "date": "2026-03-10",
+   "event": "Board of County Commissioners approves the Highlands Ranch Filing 159 final plat (one 9.69-acre lot for senior apartments)",
+   "src": [
+    "dc-legistar-plat",
+    "dg-2026-03-16"
+   ]
+  },
+  {
+   "date": "2026-03-24",
+   "event": "Board assigns the County's 2026 bond cap ($14,247,633) to DCHP (R-026-020)",
+   "src": [
+    "dc-pab-2026",
+    "dc-legistar-pab"
+   ]
+  },
+  {
+   "date": "2026-04-21",
+   "event": "Site improvement plan SP2026-027 (165 senior affordable apartments) submitted",
+   "src": [
+    "dc-cmr-2026-04-28"
+   ]
+  },
+  {
+   "date": "2026-04-27",
+   "event": "Plat listed by the County as completed",
+   "src": [
+    "dc-cmr-2026-05-12"
+   ]
+  },
+  {
+   "date": "2026-08-17",
+   "event": "Planning Commission hearing on HRMD's park Location and Extent (LE2026-010); listed completed 2026-08-20",
+   "src": [
+    "dc-cmr-2026-08-11",
+    "dc-cmr-2026-09-08"
+   ]
+  },
+  {
+   "date": "2026-09-11",
+   "event": "DCHP Section 147(f) public hearing on up to $37M of bonds",
+   "src": [
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report (file date)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-09-22",
+   "event": "Board adopts R-026-070 approving DCHP bonds for The Gregory",
+   "src": [
+    "dc-gregory-bond",
+    "dc-legistar-gregory"
+   ]
+  },
+  {
+   "date": "2026-11",
+   "event": "Shea's target construction start (stated in March 2026); leasing targeted for 2028",
+   "src": [
+    "dg-2026-03-16",
+    "hrh-2026-03-16"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Minor Development Final Plat exhibit, Highlands Ranch Filing 159",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/39c6dea5-69a5-424f-950c-2e280c5f527e.pdf",
+   "kind": "plat",
+   "made_by": "Plat drawn by AzTec (surveyor) for the applicant; in the Douglas County BCC staff report",
+   "note": "Pages 280-282 (plat exhibit) and page 283 (supplemental exhibit); vicinity, zoning and aerial maps on pages 13-15",
+   "src": [
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "title": "Location and Extent plan for Kaos Park on Lot 1",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/d4caeccc-4d49-47cd-8346-9bb5e1f3cbfd.pdf",
+   "kind": "site plan",
+   "made_by": "Redland for HRMD / Central Park at Highlands Ranch, LLC; in the Douglas County Planning Commission staff report",
+   "note": "Pages 22-25 (L&E exhibit); vicinity, zoning and aerial maps on pages 10-12",
+   "src": [
+    "dc-le-park"
+   ]
+  },
+  {
+   "title": "Conceptual site plan and context exhibit from the traffic study (earlier 240-unit 'Kaos' layout)",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/39c6dea5-69a5-424f-950c-2e280c5f527e.pdf",
+   "kind": "site plan",
+   "made_by": "Shea Properties exhibits in the Kimley-Horn traffic study, Appendix F, in the BCC staff report",
+   "note": "Pages 277-279. These show the superseded two-building plan, not the 165-unit Gregory.",
+   "src": [
+    "dc-plat-staff"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "Bond amount: CHFA lists $29,900,000 of PAB; the County's 2026-09-22 public approval is for up to $37,000,000. The County figure is a not-to-exceed ceiling. [chfa-4pct-award; dc-gregory-bond]",
+  "Unit count: the 2026-05-12 County Manager Report describes the completed plat as \"concurrent SIP for 240 units\"; the plat staff report and the SIP listing say 165 units. The 240 figure is the superseded 2023 two-building plan. [dc-cmr-2026-05-12; dc-plat-staff; dc-cmr-2026-04-28]",
+  "Lot size: 9.69 acres (plat staff report), 9.686 acres (L&E exhibit), 9.68 acres (County planning lists) and 9.86 acres (Redland's L&E narrative). [dc-plat-staff; dc-le-park; dc-cmr-2026-09-08]",
+  "Park size: about 1 acre of improvements (County L&E staff report) versus about 1.9 acres the Herald reported Shea would allocate to the Metro District. [dc-le-park; hrh-2026-03-16]",
+  "Type of approval: news reports call the 2026-03-10 action a \"zoning request\"; County records show a Minor Development Final Plat on land already zoned for multifamily. [dg-2026-03-16; dc-plat-staff]",
+  "60% AMI limits: the Denver Gazette quotes a 1BR maximum rent of $1,576 and a 1-person income limit of $58,860; CHFA's 2026 limits (effective 2026-05-01) are $1,620 and $60,480. The Gazette apparently used the prior year's table (my inference). [dg-2026-03-16; chfa-limits]",
+  "Owner name: the plat staff report names the applicant \"Central Park at Highlands Ranch, LLC\"; Redland's L&E narrative lists the owner/developer as \"Central Park Retail at Highlands Ranch LLC\"; the L&E staff report calls Shea Properties the current owner. [dc-plat-staff; dc-le-park]"
+ ],
+ "open_questions": [
+  "Total development cost, equity investor and credit price, bond purchaser or lender, and permanent loan terms are not public.",
+  "Whose bond cap backs the $29.9M (DCHP's pooled County/Parker/Castle Rock cap across years, or a CHFA statewide share) is not stated.",
+  "Whether the land is contributed, sold or leased to The Gregory, LLC, and at what price, is not public; the land is privately owned by a Shea-related entity.",
+  "Whether DCHP takes an ownership role that would bring a property tax exemption is not stated in County records (inferred possibility only).",
+  "Rents, utility allowances, length of the affordability covenant, general contractor and architect are not public.",
+  "SIP SP2026-027 approval, building permit and bond closing dates are not yet public.",
+  "The Highlands Ranch Metro District's own project page for the Plaza Drive park (agreement terms, cost cap) blocked automated access (HTTP 403), so it is not cited."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-limits",
+   "title": "CHFA, 2026 Income Limit and Maximum Rent Tables for All Colorado Counties",
+   "publisher": "CHFA",
+   "date": "2026-05-01",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  },
+  {
+   "id": "dc-plat-staff",
+   "title": "Douglas County, Highlands Ranch Filing 159 Minor Development Final Plat, BCC staff report (SB2023-022), 283 pp.",
+   "publisher": "Douglas County Community Development",
+   "date": "2026-02-23",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/39c6dea5-69a5-424f-950c-2e280c5f527e.pdf"
+  },
+  {
+   "id": "dc-legistar-plat",
+   "title": "Douglas County Legistar, File 4461: Highlands Ranch Filing 159 Minor Development Final Plat, adopted 2026-03-10 (BCC Land Use Meeting); File 4434 accepted by Planning Commission 2026-03-02",
+   "publisher": "Douglas County (Legistar API)",
+   "date": "2026-03-10",
+   "url": "https://webapi.legistar.com/v1/douglascounty/matters/4325/histories"
+  },
+  {
+   "id": "dc-pab-2026",
+   "title": "Douglas County, Private Activity Bond Staff Report: Resolution assigning 2026 PAB Cap allocation to DCHP",
+   "publisher": "Douglas County Community Services",
+   "date": "2026-03-10",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/cc146387-00ba-43fc-9639-cc1af4e52f8c.pdf"
+  },
+  {
+   "id": "dc-legistar-pab",
+   "title": "Douglas County Legistar, File 4507 (R-026-020): Resolution Assigning 2026 PAB Cap Allocation to DCHP, adopted 2026-03-24",
+   "publisher": "Douglas County (Legistar API)",
+   "date": "2026-03-24",
+   "url": "https://webapi.legistar.com/v1/douglascounty/matters/4371"
+  },
+  {
+   "id": "dc-gregory-bond",
+   "title": "Douglas County, Private Activity Bond Staff Report and Bond Authorizing Resolution: $37,000,000 in PAB for The Gregory (BCC 2026-09-22)",
+   "publisher": "Douglas County Community Services",
+   "date": "2026-09-04",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/8ae482ae-dfb6-4d8e-953a-8486dc0b7f90.pdf"
+  },
+  {
+   "id": "dc-legistar-gregory",
+   "title": "Douglas County Legistar, File 5061 (R-026-070): Bond Authorizing Resolution for The Gregory, adopted 2026-09-22",
+   "publisher": "Douglas County (Legistar API)",
+   "date": "2026-09-22",
+   "url": "https://webapi.legistar.com/v1/douglascounty/matters/4925/histories"
+  },
+  {
+   "id": "dc-le-park",
+   "title": "Douglas County, Highlands Ranch Filing 159, Lot 1 Location and Extent staff report (LE2026-010), 25 pp.",
+   "publisher": "Douglas County Community Development",
+   "date": "2026-08-05",
+   "url": "https://douglascounty.legistar1.com/douglascounty/attachments/d4caeccc-4d49-47cd-8346-9bb5e1f3cbfd.pdf"
+  },
+  {
+   "id": "dc-cmr-2026-04-28",
+   "title": "Douglas County, County Manager Report, April 28, 2026 (Planning Activity Report)",
+   "publisher": "Douglas County",
+   "date": "2026-04-28",
+   "url": "https://www.douglasco.gov/documents/county-manager-report-for-april-28-2026.pdf/"
+  },
+  {
+   "id": "dc-cmr-2026-05-12",
+   "title": "Douglas County, County Manager Report, May 12, 2026 (Planning Activity Report)",
+   "publisher": "Douglas County",
+   "date": "2026-05-12",
+   "url": "https://www.douglasco.gov/documents/county-manager-report-for-may-12-2026.pdf/"
+  },
+  {
+   "id": "dc-cmr-2026-08-11",
+   "title": "Douglas County, County Manager Report, August 11, 2026 (Planning Activity Report)",
+   "publisher": "Douglas County",
+   "date": "2026-08-11",
+   "url": "https://www.douglasco.gov/documents/county-manager-report-for-august-11-2026.pdf/"
+  },
+  {
+   "id": "dc-cmr-2026-09-08",
+   "title": "Douglas County, County Manager Report, September 8, 2026 (Planning Activity Report)",
+   "publisher": "Douglas County",
+   "date": "2026-09-08",
+   "url": "https://www.douglasco.gov/documents/county-manager-report-for-sept-8-2026.pdf/"
+  },
+  {
+   "id": "dc-ws-2026-10-20",
+   "title": "Douglas County Commissioners Work Session packet, October 20, 2026 (DCHP Joint Management of Proposition 123)",
+   "publisher": "Douglas County",
+   "date": "2026-10-20",
+   "url": "https://www.douglasco.gov/documents/10-20-various-work-session.pdf/"
+  },
+  {
+   "id": "hrh-2026-03-16",
+   "title": "Senior affordable housing proposed on Plaza Drive",
+   "publisher": "Highlands Ranch Herald (Colorado Community Media)",
+   "date": "2026-03-16",
+   "url": "https://www.highlandsranchherald.com/news/article_0a28fdc2-33f7-424a-9023-b96deffa98f8.html"
+  },
+  {
+   "id": "dg-2026-03-16",
+   "title": "Douglas County senior housing development advances",
+   "publisher": "Denver Gazette",
+   "date": "2026-03-16",
+   "url": "https://www.denvergazette.com/2026/03/16/douglas-county-senior-housing-development-advances/"
+  },
+  {
+   "id": "kutak-audrey",
+   "title": "Kutak Rock Serves as Bond Counsel on Douglas County Senior Housing Facility (The Audrey)",
+   "publisher": "Kutak Rock",
+   "date": "2020-04",
+   "url": "https://www.kutakrock.com/newspublications/news/2020/04/krbond-counsel-douglas-county-sr-housing-facility"
+  }
+ ]
+}
