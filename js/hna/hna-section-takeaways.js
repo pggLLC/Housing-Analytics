@@ -491,7 +491,26 @@
   }
 
   // ── Inject ──────────────────────────────────────────────────────
+  // The overall renter-burden share comes from the ranking index. On a cold
+  // load its request can still be pending when CHAS arrives, and an injected
+  // takeaway is never replaced, so wait for it once before the first inject.
+  var _rankingReady = false;
+  var _rankingWaiting = false;
+  function _rankingSettled() {
+    if (_rankingReady) return true;
+    var N = window.HNANarratives && window.HNANarratives._internals;
+    var p = N && typeof N.loadRanking === 'function' ? N.loadRanking() : null;
+    if (!p || typeof p.then !== 'function') return true;
+    if (!_rankingWaiting) {
+      _rankingWaiting = true;
+      var done = function () { _rankingReady = true; _tryInject(); };
+      p.then(done, done);
+    }
+    return false;
+  }
+
   function _injectAll() {
+    if (!_rankingSettled()) return 0;
     var ctx = _gatherCtx();
     if (!ctx) return 0;
     var nodes = document.querySelectorAll('main h2');

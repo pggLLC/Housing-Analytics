@@ -956,6 +956,14 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSo
     if (INTERNAL_METRICS.has(metric)) continue;
     metrics[metric] = digestMetric(metric, value, entry, summary, denom);
   }
+  // A substituted county vacancy carries the county's housing units as its
+  // denominator, not the town's: the rate was computed over the county.
+  if (entry.type !== 'county' && entry.containingCounty
+      && entry.metrics?.vacancy_adjustment_method === 'county_active_market_small_renter_base'
+      && metrics.vacancy_rate_pct) {
+    const countyDenom = denominators(loadSummary(entry.containingCounty));
+    metrics.vacancy_rate_pct = digestMetric('vacancy_rate_pct', entry.metrics.vacancy_rate_pct, entry, summary, countyDenom);
+  }
   Object.assign(metrics, regionalComparisonMetrics(entry, summary, chasSources, amiGapSources));
   const economic = economicLayer[entry.geoid] || {};
   for (const [metric, config] of Object.entries(ECONOMIC_METRICS)) {

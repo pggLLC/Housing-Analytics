@@ -388,7 +388,7 @@
       "as_of": "ACS 2020-2024 5-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 1886,
+      "denominator": 6656,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
