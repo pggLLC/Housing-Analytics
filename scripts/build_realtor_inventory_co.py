@@ -26,10 +26,11 @@ Output: data/market/realtor_inventory_co.json
     "zips":     { "80012": { name, active_listings, ..., quality_flag } }
   }
 
-A county or ZIP missing from Realtor.com's file is simply absent here,
-and readers show "No reading" for it. A month with far fewer Colorado
-counties than usual is treated as a bad file: the script keeps the
-committed file and exits 1.
+A month that lacks any of the 64 counties, carries far fewer ZIPs than
+usual, or does not give one and the same month in both files is treated as
+a bad file: the script keeps the committed file and exits 1, so the monthly
+job fails and opens its issue. Readers still show "No reading" for a county
+the file lacks, in case one ever reaches the page.
 
 Usage:
   python3 scripts/build_realtor_inventory_co.py
@@ -42,6 +43,7 @@ import argparse
 import csv
 import io
 import json
+import math
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -55,9 +57,11 @@ COUNTY_URL = BASE + "RDC_Inventory_Core_Metrics_County.csv"
 ZIP_URL = BASE + "RDC_Inventory_Core_Metrics_Zip.csv"
 RESEARCH_PAGE = "https://www.realtor.com/research/data/"
 
-# Colorado has 64 counties; Realtor.com carried all 64 in September 2026.
-# Fewer than this many means the file changed shape, not the market.
-MIN_COUNTIES = 50
+# Colorado has 64 counties, and a statewide file carries all of them
+# (AGENTS.md hard constraint 2); Realtor.com carried all 64 in September 2026.
+# Its ZIP file carried 473 Colorado ZIPs; far fewer means a bad extract.
+CO_COUNTIES = 64
+MIN_ZIPS = 400
 
 # (output key, csv column, kind). "pct" columns are fractions in the file.
 FIELDS = [
@@ -88,7 +92,7 @@ def _num(raw: str | None, kind: str):
         v = float(raw)
     except ValueError:
         return None
-    if v != v:  # NaN
+    if math.isnan(v):
         return None
     if kind == "pct":
         return round(v * 100, 1)
@@ -143,14 +147,18 @@ def main() -> int:
 
     counties, county_months = parse(county_text, "county")
     zips, zip_months = parse(zip_text, "zip")
-    months = county_months | zip_months
 
-    if len(counties) < MIN_COUNTIES:
-        print(f"ERROR: only {len(counties)} Colorado counties in the file; keeping the committed file.", file=sys.stderr)
+    if len(counties) != CO_COUNTIES:
+        print(f"ERROR: {len(counties)} Colorado counties in the file, not {CO_COUNTIES}; keeping the committed file.", file=sys.stderr)
         return 1
-    if len(months) != 1:
-        print(f"ERROR: expected one month across both files, found {sorted(months)}.", file=sys.stderr)
+    if len(zips) < MIN_ZIPS:
+        print(f"ERROR: only {len(zips)} Colorado ZIPs in the file; keeping the committed file.", file=sys.stderr)
         return 1
+    if len(county_months) != 1 or zip_months != county_months:
+        print(f"ERROR: expected one month in both files, found county {sorted(county_months)}, "
+              f"ZIP {sorted(zip_months)}; keeping the committed file.", file=sys.stderr)
+        return 1
+    months = set(county_months)
 
     output = {
         "meta": {

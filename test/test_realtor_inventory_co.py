@@ -40,17 +40,18 @@ def county_csv(n: int, blank_dom_for: str | None = None) -> str:
     return "\n".join(rows) + "\n"
 
 
-def zip_csv() -> str:
-    return "\n".join([ZIP_HEAD,
-                      '202609,80012,"aurora, co",290750.0,-0.1,188,0.02,58.0,-0.11,52,40,222.0,0.33,0.06,1',
-                      '202609,84101,"salt lake city, ut",400000.0,0.0,100,0.0,40.0,0.0,20,10,250.0,0.1,0.0,0']) + "\n"
+def zip_csv(n: int = 400) -> str:
+    rows = [ZIP_HEAD, '202609,80012,"aurora, co",290750.0,-0.1,188,0.02,58.0,-0.11,52,40,222.0,0.33,0.06,1']
+    rows += [f'202609,{81000 + i},"town {i}, co",300000.0,0.0,20,0.0,60.0,0.0,5,4,200.0,0.1,0.0,0' for i in range(n - 1)]
+    rows.append('202609,84101,"salt lake city, ut",400000.0,0.0,100,0.0,40.0,0.0,20,10,250.0,0.1,0.0,0')
+    return "\n".join(rows) + "\n"
 
 
-def run(module, county_text: str, out: Path) -> int:
+def run(module, county_text: str, out: Path, zip_text: str | None = None) -> int:
     with tempfile.TemporaryDirectory() as tmp:
         c, z = Path(tmp, "c.csv"), Path(tmp, "z.csv")
         c.write_text(county_text)
-        z.write_text(zip_csv())
+        z.write_text(zip_csv() if zip_text is None else zip_text)
         module.OUT = out
         module.REPO_ROOT = out.parent
         import sys
@@ -71,7 +72,7 @@ def test_parse_keeps_colorado_and_nulls_blanks():
         d = json.loads(out.read_text())
         assert d["meta"]["month"] == "2026-09"
         assert len(d["counties"]) == 64 and "49037" not in d["counties"]
-        assert list(d["zips"]) == ["80012"]
+        assert len(d["zips"]) == 400 and "80012" in d["zips"] and "84101" not in d["zips"]
         assert d["counties"]["08003"]["median_days_on_market"] is None, "a blank cell must stay null, never zero"
         c = d["counties"]["08001"]
         assert c["active_listings"] == 120 and c["active_listings_yy_pct"] == 25.0
@@ -79,20 +80,27 @@ def test_parse_keeps_colorado_and_nulls_blanks():
         assert d["counties"]["08003"]["quality_flag"] == 1 and c["quality_flag"] == 0
 
 
-def test_short_month_keeps_committed_file():
+def test_bad_month_keeps_committed_file():
     m = load_module()
-    with tempfile.TemporaryDirectory() as tmp:
-        out = Path(tmp, "realtor.json")
-        out.write_text("kept\n")
-        assert run(m, county_csv(m.MIN_COUNTIES - 1), out) == 1
-        assert out.read_text() == "kept\n", "a file with too few counties must not overwrite the committed one"
+    bad = {
+        "a county missing": (county_csv(63), None),
+        "an empty ZIP file": (county_csv(64), ZIP_HEAD + "\n"),
+        "a ZIP file from another month": (county_csv(64), zip_csv().replace("202609,", "202608,")),
+    }
+    for name, (county_text, zip_text) in bad.items():
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp, "realtor.json")
+            out.write_text("kept\n")
+            assert run(m, county_text, out, zip_text) == 1, name
+            assert out.read_text() == "kept\n", f"{name} must not overwrite the committed file"
 
 
 def test_committed_file_shape():
     d = json.loads(COMMITTED.read_text())
     m = load_module()
     keys = [k for k, _, _ in m.FIELDS] + ["name", "quality_flag"]
-    assert len(d["counties"]) >= m.MIN_COUNTIES
+    assert len(d["counties"]) == m.CO_COUNTIES, "a statewide file carries all 64 counties"
+    assert len(d["zips"]) >= m.MIN_ZIPS
     for geo in ("counties", "zips"):
         for code, row in d[geo].items():
             assert sorted(row) == sorted(keys), f"{geo} {code} fields"
