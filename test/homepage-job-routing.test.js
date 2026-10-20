@@ -72,6 +72,11 @@ assert(
   assert(entry, 'navigation has no Data Trust Center entry with a description');
   assert(/sources/i.test(entry[1]) && /freshness/i.test(entry[1]) && /how we check the data/i.test(entry[1]),
     'navigation Data Trust Center description must name sources, freshness and how we check the data');
+  // ...and the page it opens must still cover each of those.
+  const hub = fs.readFileSync(path.join(ROOT, 'data-review-hub.html'), 'utf8');
+  assert(/sources/i.test(hub), 'data-review-hub.html no longer covers sources, but the menu promises it');
+  assert(/freshness/i.test(hub), 'data-review-hub.html no longer covers freshness, but the menu promises it');
+  assert(/data quality checks|automated checks/i.test(hub), 'data-review-hub.html no longer describes its data checks, but the menu promises them');
 }
 assert(
   navigation.includes('Browse every dataset with previews'),
