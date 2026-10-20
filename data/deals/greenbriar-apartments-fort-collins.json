@@ -386,8 +386,22 @@
   }
  ],
  "discrepancies": [
-  "Address: CHFA gives 400 Butch Cassidy Drive; CARE's 2024 application and CHFA's 1993 report give 400-434 Butch Cassidy Drive (same property).",
-  "Pairing: CARE's 2024 bond request paired Greenbriar with Windtrail, while the 2026 City award and the CARE FAQ pair it with Fairbrooke Heights."
+  {
+   "text": "Address: CHFA's 2026 award report gives 400 Butch Cassidy Drive; CARE's 2024 bond application and CHFA's 1993 status report give 400-434 Butch Cassidy Drive (same property).",
+   "src": [
+    "chfa-4pct-award",
+    "fc-care-pab-2024",
+    "chfa-1993-status"
+   ]
+  },
+  {
+   "text": "Pairing: CARE's 2024 bond request paired Greenbriar with Windtrail, while the 2026 City award and the CARE FAQ pair it with Fairbrooke Heights.",
+   "src": [
+    "fc-care-pab-2024",
+    "fc-2026-06-16-packet",
+    "care-reno-faq"
+   ]
+  }
  ],
  "open_questions": [
   "Whose bond cap backs the $5.6M of bonds; not stated publicly.",

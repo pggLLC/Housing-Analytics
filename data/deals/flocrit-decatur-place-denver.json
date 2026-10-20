@@ -366,8 +366,15 @@
  ],
  "pictures": [],
  "discrepancies": [
-  "The bedroom mix as relayed in the task brief (1BR 82, 2BR 24) is off by one column: CHFA's mix table has 8 AMI/market columns before Studio, so the row reads Studio 0, 1BR 0, 2BR 82, 3BR 24, which matches Mercy Housing's page (82 two-bedroom, 24 three-bedroom) and CHFA's LIHTC property list (2 and 3 bedrooms).",
-  "CHFA classes the resident type as 'Supportive'; Mercy Housing and its loan fund describe it as a family property for single parents."
+  {
+   "text": "CHFA classes the resident type as 'Supportive'; Mercy Housing and its loan fund describe it as a family property for single parents.",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-decatur",
+    "mercy-loan-2016",
+    "mercy-loan-profile"
+   ]
+  }
  ],
  "open_questions": [
   "Equity investor and price, any seller note or acquisition price, deferred developer fee, GC and architect.",

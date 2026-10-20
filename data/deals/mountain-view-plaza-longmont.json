@@ -475,13 +475,57 @@
   }
  ],
  "discrepancies": [
-  "CHFA prints $15,018,617 of PAB on both the Mountain View Plaza and the Parkside rows. LHA's resolution authorizes one combined note (not to exceed $16M) for both properties, so the figure is one issue, not $30M (chfa-4pct-award vs lha-res-2026-14).",
-  "CHFA's report also prints 'Longmont Housing Authority' and $15,018,617 on the 2025 '34th Street' row (Boulder, Boulder Housing Partners). That looks like a copy error in CHFA's report (inferred; chfa-4pct-award).",
-  "The one-time SLP fee is $476,488 in the February 2026 memo and worksheet, but $478,488 in the June 2026 memo (lha-memo-2026-02-17, lha-taxcalc-2026-02 vs lha-memo-2026-06-16).",
-  "The city's June 2026 council memo says all units would be restricted to 30% AMI or less (through the HAP vouchers). CHFA's award and the developer's application show LIHTC restrictions at 30% and 60% AMI, with about 25% of units at 30% (col-ccf-2026-06-09 vs chfa-4pct-award, lac-slp-app-2025-11).",
-  "The schedule slipped. The Nov 2025 application targeted an April 2026 construction start and December 2026 completion; the June 2026 LHA memo targets closing and construction start on 2026-08-17 (lac-slp-app-2025-11 vs lha-memo-2026-06-16).",
-  "The development budget carries $34.5M for acquisition, while BizWest reports about $27M paid in December 2024. The application says the existing ownership entities will sell to the new LIHTC partnership. That is a related-party resale at a higher (likely appraised) value; this is inferred (lha-budget-2026-02, lac-slp-app-2025-11 vs bizwest-2024-12-19).",
-  "The February 2026 budget lists CHFA upfront and ongoing issuer fees, although LHA ended up as issuer (lha-budget-2026-02 vs lha-res-2026-14)."
+  {
+   "text": "CHFA prints $15,018,617 of PAB on both the Mountain View Plaza and the Parkside rows. LHA's resolution authorizes one combined note (not to exceed $16M) for both properties, so the figure is one issue, not $30M.",
+   "src": [
+    "chfa-4pct-award",
+    "lha-res-2026-14"
+   ]
+  },
+  {
+   "text": "CHFA's award report also prints 'Longmont Housing Authority' and $15,018,617 on the 2025 '34th Street' row (Boulder, Boulder Housing Partners). That looks like a copy error in CHFA's report (inferred).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The one-time SLP fee is $476,488 in LHA's February 2026 memo and tax credit worksheet, but $478,488 in LHA's June 2026 memo.",
+   "src": [
+    "lha-memo-2026-02-17",
+    "lha-taxcalc-2026-02",
+    "lha-memo-2026-06-16"
+   ]
+  },
+  {
+   "text": "The city's June 2026 council memo says all units would be restricted to 30% AMI or less (through the HAP vouchers). CHFA's award and the developer's November 2025 application show LIHTC restrictions at 30% and 60% AMI, with about 25% of units at 30%.",
+   "src": [
+    "col-ccf-2026-06-09",
+    "chfa-4pct-award",
+    "lac-slp-app-2025-11"
+   ]
+  },
+  {
+   "text": "The schedule slipped. The developer's November 2025 application targeted an April 2026 construction start and December 2026 completion; LHA's June 2026 memo targets closing and construction start on 2026-08-17.",
+   "src": [
+    "lac-slp-app-2025-11",
+    "lha-memo-2026-06-16"
+   ]
+  },
+  {
+   "text": "LHA's February 2026 development budget carries $34.5M for acquisition, while BizWest reports about $27M paid in December 2024. The application says the existing ownership entities will sell to the new LIHTC partnership. That is a related-party resale at a higher (likely appraised) value; this is inferred.",
+   "src": [
+    "lha-budget-2026-02",
+    "lac-slp-app-2025-11",
+    "bizwest-2024-12-19"
+   ]
+  },
+  {
+   "text": "LHA's February 2026 budget lists CHFA upfront and ongoing issuer fees, although LHA's later bond resolution makes LHA the issuer.",
+   "src": [
+    "lha-budget-2026-02",
+    "lha-res-2026-14"
+   ]
+  }
  ],
  "open_questions": [
   "Whether the financing closed and the rehab started on or after 2026-08-17: no closing record, building permit or news found as of 2026-10-20.",

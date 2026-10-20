@@ -324,12 +324,56 @@
  ],
  "pictures": [],
  "discrepancies": [
-  "Address: CHFA, the county bond reports and CHFA's LIHTC list say 15611 E Jamison Drive (Census geocodes it), while the RES 26-034 staff report and resolution say 14611 E. Jamison Drive; 15611 looks right and 14611 a typo (inferred).",
-  "City: CHFA prints Englewood and RES 26-034 says 'Centennial, Colorado in unincorporated Arapahoe County'; county bond reports and the Census put it in unincorporated Arapahoe County (Dove Valley CDP), so both city names are mailing names only.",
-  "Bedroom mix as relayed in the task brief (Studio 48, 1BR 72, 2BR 46) is off by one column: CHFA's table reads Studio 0, 1BR 48, 2BR 72, 3BR 46, which matches the county (48/72/48 for all 168 units) if the 2 unrestricted units are three-bedrooms (inferred, e.g. staff units).",
-  "Bond cap: county staff said the project needs $23,500,000 of bond cap; CHFA lists $21,029,987 of PAB.",
-  "Meeting date: a Denver7 preview said the housing authority would decide on January 27, but county records show the presentation on 2026-01-12 and the vote (RES 26-034) on 2026-02-03.",
-  "County 2026 bond cap total: the 2026-03-31 staff report says $8,233,226; the draft resolution says $8,223,226."
+  {
+   "text": "Address: CHFA's award report, the county bond reports and CHFA's LIHTC list say 15611 E Jamison Drive (the Census geocoder places it), while the county's RES 26-034 staff report and resolution say 14611 E. Jamison Drive; 15611 looks right and 14611 a typo (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb",
+    "chfa-lihtc-list",
+    "census-geocoder",
+    "arap-res26-034-bsr",
+    "arap-res26-034-res"
+   ]
+  },
+  {
+   "text": "City: CHFA prints Englewood and RES 26-034 says 'Centennial, Colorado in unincorporated Arapahoe County'; county bond reports and the Census put it in unincorporated Arapahoe County (Dove Valley CDP), so both city names are mailing names only.",
+   "src": [
+    "chfa-4pct-award",
+    "arap-res26-034-res",
+    "arap-pab-bsr-feb",
+    "census-geocoder"
+   ]
+  },
+  {
+   "text": "Three-bedrooms: CHFA's award report shows 1BR 48, 2BR 72 and 3BR 46 for the 166 restricted units, while the county lists 48/72/48 for all 168 units; the two match if the 2 unrestricted units are three-bedrooms (inferred, e.g. staff units).",
+   "src": [
+    "chfa-4pct-award",
+    "arap-pab-bsr-feb"
+   ]
+  },
+  {
+   "text": "Bond cap: county staff said the project needs $23,500,000 of bond cap; CHFA's award report lists $21,029,987 of PAB.",
+   "src": [
+    "arap-pab-bsr-feb",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Meeting date: a Denver7 preview said the housing authority would decide on January 27, but county records show the presentation on 2026-01-12 and the vote (RES 26-034) on 2026-02-03.",
+   "src": [
+    "denver7-preview",
+    "arap-archa-bsr",
+    "arap-res26-034-bsr",
+    "arap-api-5060"
+   ]
+  },
+  {
+   "text": "County 2026 bond cap total: the 2026-03-31 staff report says $8,233,226; the draft resolution says $8,223,226.",
+   "src": [
+    "arap-res26-075-bsr",
+    "arap-res26-075-res"
+   ]
+  }
  ],
  "open_questions": [
   "Total development cost, year built, the current owner's purchase date and price, and the rehab scope are not in the public county or CHFA records used here.",

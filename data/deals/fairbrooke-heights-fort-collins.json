@@ -401,9 +401,28 @@
   }
  ],
  "discrepancies": [
-  "Start date: CARE's English FAQ (dated 24 Sept 2026) says renovations begin 'in the first half of 2027' and take about 10 months. Its Spanish Fairbrooke section and the same-day resident presentation say 'around July 2027', running to June 2028 (about a year).",
-  "Bedrooms: CHFA shows 1 one-bedroom and 35 two-bedrooms, but CARE's community page describes Fairbrooke as '2-bedroom apartments'. The January 2024 market survey does list a 1BR at Fairbrooke.",
-  "Existing income mix: the January 2024 market study's inventory table shows 21 units at 40% AMI and 14 at 50% (35 units), while its rent survey for 'Care at Fairbrooke Heights' also lists 30% AMI units. CHFA's new mix has 36 units including 3 at 30%."
+  {
+   "text": "Start date: CARE's English FAQ (dated 24 Sept 2026) says renovations begin 'in the first half of 2027' and take about 10 months. Its Spanish Fairbrooke section and the same-day resident presentation say 'around July 2027', running to June 2028 (about a year).",
+   "src": [
+    "care-reno-faq",
+    "care-fb-presentation"
+   ]
+  },
+  {
+   "text": "Bedrooms: CHFA shows 1 one-bedroom and 35 two-bedrooms, but CARE's community page describes Fairbrooke as '2-bedroom apartments'. The January 2024 market study does list a 1BR at Fairbrooke.",
+   "src": [
+    "chfa-4pct-award",
+    "care-communities",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "text": "Existing income mix: the January 2024 market study's inventory table shows 21 units at 40% AMI and 14 at 50% (35 units), while its rent survey for 'Care at Fairbrooke Heights' also lists 30% AMI units. CHFA's new mix has 36 units including 3 at 30%.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-4pct-award"
+   ]
+  }
  ],
  "open_questions": [
   "Whose bond cap backs the $3.4M of bonds (Housing Catalyst carryforward of the City's 2025 assignment, other local cap, or CHFA/statewide balance)? Not stated publicly.",

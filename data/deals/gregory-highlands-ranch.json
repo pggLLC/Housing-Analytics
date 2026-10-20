@@ -456,13 +456,57 @@
   }
  ],
  "discrepancies": [
-  "Bond amount: CHFA lists $29,900,000 of PAB; the County's 2026-09-22 public approval is for up to $37,000,000. The County figure is a not-to-exceed ceiling. [chfa-4pct-award; dc-gregory-bond]",
-  "Unit count: the 2026-05-12 County Manager Report describes the completed plat as \"concurrent SIP for 240 units\"; the plat staff report and the SIP listing say 165 units. The 240 figure is the superseded 2023 two-building plan. [dc-cmr-2026-05-12; dc-plat-staff; dc-cmr-2026-04-28]",
-  "Lot size: 9.69 acres (plat staff report), 9.686 acres (L&E exhibit), 9.68 acres (County planning lists) and 9.86 acres (Redland's L&E narrative). [dc-plat-staff; dc-le-park; dc-cmr-2026-09-08]",
-  "Park size: about 1 acre of improvements (County L&E staff report) versus about 1.9 acres the Herald reported Shea would allocate to the Metro District. [dc-le-park; hrh-2026-03-16]",
-  "Type of approval: news reports call the 2026-03-10 action a \"zoning request\"; County records show a Minor Development Final Plat on land already zoned for multifamily. [dg-2026-03-16; dc-plat-staff]",
-  "60% AMI limits: the Denver Gazette quotes a 1BR maximum rent of $1,576 and a 1-person income limit of $58,860; CHFA's 2026 limits (effective 2026-05-01) are $1,620 and $60,480. The Gazette apparently used the prior year's table (my inference). [dg-2026-03-16; chfa-limits]",
-  "Owner name: the plat staff report names the applicant \"Central Park at Highlands Ranch, LLC\"; Redland's L&E narrative lists the owner/developer as \"Central Park Retail at Highlands Ranch LLC\"; the L&E staff report calls Shea Properties the current owner. [dc-plat-staff; dc-le-park]"
+  {
+   "text": "Bond amount: CHFA's award report lists $29,900,000 of PAB; the County's 2026-09-22 public approval is for up to $37,000,000. The County figure is a not-to-exceed ceiling.",
+   "src": [
+    "chfa-4pct-award",
+    "dc-gregory-bond"
+   ]
+  },
+  {
+   "text": "Unit count: the 2026-05-12 County Manager Report describes the completed plat as \"concurrent SIP for 240 units\"; the plat staff report and the SIP listing in the 2026-04-28 County Manager Report say 165 units. The 240 figure is the superseded 2023 two-building plan.",
+   "src": [
+    "dc-cmr-2026-05-12",
+    "dc-plat-staff",
+    "dc-cmr-2026-04-28"
+   ]
+  },
+  {
+   "text": "Lot size: 9.69 acres (plat staff report), 9.686 acres (L&E exhibit), 9.68 acres (County planning lists) and 9.86 acres (Redland's L&E narrative).",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park",
+    "dc-cmr-2026-09-08"
+   ]
+  },
+  {
+   "text": "Park size: about 1 acre of improvements (County L&E staff report) versus about 1.9 acres the Highlands Ranch Herald reported Shea would allocate to the Metro District.",
+   "src": [
+    "dc-le-park",
+    "hrh-2026-03-16"
+   ]
+  },
+  {
+   "text": "Type of approval: news reports call the 2026-03-10 action a \"zoning request\"; County records show a Minor Development Final Plat on land already zoned for multifamily.",
+   "src": [
+    "dg-2026-03-16",
+    "dc-plat-staff"
+   ]
+  },
+  {
+   "text": "60% AMI limits: the Denver Gazette quotes a 1BR maximum rent of $1,576 and a 1-person income limit of $58,860; CHFA's 2026 limits (effective 2026-05-01) are $1,620 and $60,480. The Gazette apparently used the prior year's table (inferred).",
+   "src": [
+    "dg-2026-03-16",
+    "chfa-limits"
+   ]
+  },
+  {
+   "text": "Owner name: the plat staff report names the applicant \"Central Park at Highlands Ranch, LLC\"; Redland's L&E narrative lists the owner/developer as \"Central Park Retail at Highlands Ranch LLC\"; the L&E staff report calls Shea Properties the current owner.",
+   "src": [
+    "dc-plat-staff",
+    "dc-le-park"
+   ]
+  }
  ],
  "open_questions": [
   "Total development cost, equity investor and credit price, bond purchaser or lender, and permanent loan terms are not public.",
