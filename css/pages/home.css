@@ -1153,6 +1153,8 @@
 .home-keys__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* White cards on the grey page, like the folded rows below. */
+  background: var(--card);
   border-top: 1px solid var(--border);
   border-left: 1px solid var(--border);
 }
@@ -1198,8 +1200,9 @@
 .home-decide {
   margin-top: var(--sp3);
   padding: var(--sp3) var(--sp4);
+  border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
-  background: var(--bg2);
+  background: var(--card);
 }
 
 .home-decide p {
