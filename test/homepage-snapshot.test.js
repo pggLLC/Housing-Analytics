@@ -274,8 +274,15 @@ function testDecisionLineMatchesCoverage() {
   assert(decide, 'index.html has the "what to decide" block');
   const coverage = require('../data/home-snapshot.json').values.lihtc_new_construction_coverage_of_le60_renter_growth;
   assert(Number.isFinite(coverage) && coverage > 0, 'fixture: the snapshot carries a coverage ratio');
-  if (/cover only part/.test(decide[1])) {
-    assert(coverage < 1, `the decision line says "cover only part" but coverage is ${coverage}; reword it`);
+  // Each phrase the line may use, and the ratio it is true for.
+  const PHRASES = [
+    [/cover only part/, (c) => c < 1, 'below 1'],
+    [/cover all\b/, (c) => c >= 1, 'at least 1'],
+    [/cover more than/, (c) => c > 1, 'above 1'],
+  ];
+  const used = PHRASES.filter(([re]) => re.test(decide[1]));
+  assert(used.length > 0, 'the decision line still states what the coverage ratio shows');
+  for (const [re, holds, needs] of used) {
+    assert(holds(coverage), `the decision line says ${re} but coverage is ${coverage}, not ${needs}; reword it`);
   }
-  assert(/cover only part|cover all|cover more than/.test(decide[1]), 'the decision line still states what the coverage ratio shows');
 }
