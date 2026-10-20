@@ -117,12 +117,12 @@ const RecommendationContract = freshRequire('js/workflow/recommendation-contract
 // future_units_reading: under the workforce reading the growth figure is the
 // parenthetical ("resident growth alone would need about N"); under the
 // resident-growth reading it is the headline itself ("Roughly N additional
-// homes over 20 years, from projected household growth"), because there the
+// homes over 20 years, from projected resident growth"), because there the
 // 20-year figure IS the growth figure. Mesa moved from the first form to the
 // second when the county household series switched to the SDO household
 // forecast (#2260), so both forms are read.
 const REC_GROWTH_WORKFORCE = /(resident growth) alone would need about ([\d,]+)/i;
-const REC_GROWTH_RESIDENT = /Roughly ([\d,]+) additional homes over 20 years, from projected (household growth)/i;
+const REC_GROWTH_RESIDENT = /Roughly ([\d,]+) additional homes over 20 years, from projected (resident growth)/i;
 
 function recGrowth(geoid) {
   const out = RecommendationContract.build({ digest: digest(geoid), project: null, generatedAt: 'test' });
