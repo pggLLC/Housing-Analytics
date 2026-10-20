@@ -1135,3 +1135,131 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ----------------------------------------------------------------
+   Executive view: four key numbers under the town search, the
+   decision they point to, and folded sections below (2026-10-20).
+   ---------------------------------------------------------------- */
+
+.home-keys {
+  margin-top: var(--sp5);
+}
+
+.home-keys__heading {
+  font-size: 1.05rem;
+  margin: 0 0 var(--sp2);
+}
+
+.home-keys__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.home-keys .home-snapshot__key {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--small);
+}
+
+.home-keys .home-snapshot__val {
+  font-size: 1.5rem;
+}
+
+.home-key__line {
+  display: block;
+  font-size: var(--small);
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* A quiet text toggle, not the site's full-width section row. */
+.home-key__how {
+  margin-top: var(--sp2);
+}
+
+.home-key__how > summary {
+  display: inline-flex;
+  justify-content: flex-start;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 var(--sp3);
+  font-size: var(--small);
+  font-weight: 600;
+  background-color: transparent;
+}
+
+.home-key__how[open] > summary {
+  background-color: transparent;
+  border-bottom: 0;
+}
+
+.home-decide {
+  margin-top: var(--sp3);
+  padding: var(--sp3) var(--sp4);
+  border-left: 3px solid var(--accent);
+  background: var(--bg2);
+}
+
+.home-decide p {
+  margin: 0 0 var(--sp2);
+  line-height: 1.5;
+}
+
+.home-decide__next {
+  margin-bottom: 0 !important;
+  font-weight: 700;
+}
+
+.home-decide__next a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Folded sections: title and a one-line takeaway, chevron on the right. */
+.home-fold {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.home-fold > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--sp3);
+  row-gap: 2px;
+  min-height: 44px;
+}
+
+.home-fold > summary > :not(.home-fold__takeaway) {
+  grid-column: 1;
+  margin: 0;
+}
+
+.home-fold > summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.home-fold__title {
+  font-size: 1.05rem;
+}
+
+.home-fold__takeaway {
+  grid-column: 1;
+  font-size: var(--small);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.home-fold[open] > summary ~ * {
+  margin-inline: var(--sp4);
+}
+
+@media (max-width: 480px) {
+  .home-keys__grid {
+    grid-template-columns: 1fr;
+  }
+}
