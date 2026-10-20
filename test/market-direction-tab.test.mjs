@@ -188,10 +188,19 @@ function checks({ view, errors }, MD = BASE, LI = LISTINGS) {
       }
       const mark = l.quality_flag === 1 ? ' †' : '';
       if (mark) flagged++;
-      const sale = `${l.active_listings.toLocaleString('en-US')} (`;
-      if (!r[iSale].text.startsWith(sale) || !r[iSale].text.endsWith(')' + mark)) fail(`${c.name}: homes for sale shown ${r[iSale].text}, the file ${l.active_listings}${mark}`);
-      if (r[iDom].text !== `${l.median_days_on_market} days${mark}`) fail(`${c.name}: days on market shown ${r[iDom].text}, the file ${l.median_days_on_market}${mark}`);
-      if (r[iCut].text !== `${l.price_reduced_share_pct.toFixed(0)}%${mark}`) fail(`${c.name}: price cuts shown ${r[iCut].text}, the file ${l.price_reduced_share_pct}${mark}`);
+      // a blank figure in the file stays null and reads "No reading", as the page renders it
+      const blank = 'Realtor.com publishes no figure for this county this month';
+      const expect = (i, label, v, text) => {
+        if (v === null || v === undefined) {
+          if (r[i].text !== 'No reading' || r[i].note !== blank) fail(`${c.name}: blank ${label} shows "${r[i].text}" (${r[i].note})`);
+        } else if (!text(r[i].text)) fail(`${c.name}: ${label} shown ${r[i].text}, the file ${v}${mark}`);
+      };
+      const n = (v) => v.toLocaleString('en-US');
+      expect(iSale, 'homes for sale', l.active_listings, (t) => (l.active_listings_yy_pct === null || l.active_listings_yy_pct === undefined)
+        ? t === `${n(l.active_listings)}${mark}`
+        : t.startsWith(`${n(l.active_listings)} (`) && t.endsWith(')' + mark));
+      expect(iDom, 'days on market', l.median_days_on_market, (t) => t === `${n(l.median_days_on_market)} days${mark}`);
+      expect(iCut, 'price cuts', l.price_reduced_share_pct, (t) => t === `${l.price_reduced_share_pct.toFixed(0)}%${mark}`);
     }
     if (LI) {
       if (!view.listingsNote.includes(`Realtor.com listings for ${month}`)) fail(`the listings note does not name ${month}: ${view.listingsNote}`);
@@ -273,6 +282,13 @@ try {
   const thinFails = checks(await render(browser, null, null, thin), BASE, thin);
   assert.deepEqual(thinFails, [], thinFails.join('\n'));
   console.log(`  a county missing from the listings file (${LISTINGS.counties[dropped].name}) shows no reading, with the reason`);
+  // A county whose figures Realtor.com left blank: each blank reads "No reading", never "null days".
+  const blanks = structuredClone(LISTINGS);
+  const blanked = Object.keys(blanks.counties).find((f) => f !== PICK && f !== dropped);
+  Object.assign(blanks.counties[blanked], { active_listings_yy_pct: null, median_days_on_market: null, price_reduced_share_pct: null });
+  const blankFails = checks(await render(browser, null, null, blanks), BASE, blanks);
+  assert.deepEqual(blankFails, [], blankFails.join('\n'));
+  console.log(`  blank listing figures (${LISTINGS.counties[blanked].name}) show no reading, never "null"`);
   const goneFails = checks(await render(browser, null, null, null), BASE, null);
   assert.deepEqual(goneFails, [], goneFails.join('\n'));
   console.log('  a listings file that will not load leaves the rest of the table intact');

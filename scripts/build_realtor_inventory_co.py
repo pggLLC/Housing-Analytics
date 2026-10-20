@@ -148,8 +148,9 @@ def parse(text: str, geo: str) -> tuple[dict, set]:
             key = (rec.get("postal_code") or "").zfill(5)
             label = _title(name)
         month = (rec.get("month_date_yyyymm") or "").strip()
-        if len(month) == 6:
-            months.add(month[:4] + "-" + month[4:])
+        if not (len(month) == 6 and month.isdigit() and 1 <= int(month[4:]) <= 12):
+            raise ValueError(f"the {geo} file gives {month!r} as a month, not YYYYMM")
+        months.add(month[:4] + "-" + month[4:])
         rows[key] = {"name": label, **_row(rec)}
     return dict(sorted(rows.items())), months
 

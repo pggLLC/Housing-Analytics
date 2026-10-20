@@ -90,6 +90,8 @@ def test_bad_month_keeps_committed_file():
         "an unknown county in place of Broomfield": (county_csv(64).replace("202609,08014,", "202609,08127,"), None),
         "a county under another name": (county_csv(64).replace('"broomfield, co"', '"brumfield, co"'), None),
         "an empty ZIP file": (county_csv(64), ZIP_HEAD + "\n"),
+        "a month that is not a calendar month": (county_csv(64).replace("202609,", "202613,"),
+                                                 zip_csv().replace("202609,", "202613,")),
         "a ZIP file from another month": (county_csv(64), zip_csv().replace("202609,", "202608,")),
         "a renamed metric column": (county_csv(64).replace("median_days_on_market,", "days_on_market,", 1), None),
         "a blank metric column": (county_csv(64, blank_dom_for="all"), None),
