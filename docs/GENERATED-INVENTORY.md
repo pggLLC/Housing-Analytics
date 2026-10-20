@@ -58,6 +58,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 47.9 KB |
+| `indibuild-pipeline-public.html` | Redirecting | COHO | 791 B |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.4 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 9.4 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.4 KB |
