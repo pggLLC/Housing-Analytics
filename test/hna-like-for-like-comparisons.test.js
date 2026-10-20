@@ -127,6 +127,19 @@ function takeaways() {
     assert.equal(BY_ID['0862880'].metrics.vacancy_adjustment_method, 'county_active_market_small_renter_base');
   });
 
+  await test('a burden share the ranking index rejected is reported as rejected to every renderer', async () => {
+    const w = narrativesContext();
+    Object.assign(w, { URLSearchParams, URL, location: { search: '', href: 'http://localhost/' } });
+    vm.runInContext(read('js/hna/hna-utils.js'), w);
+    const U = w.HNAUtils;
+    assert.equal(typeof U.acsBurdenRejected, 'function', 'HNAUtils.acsBurdenRejected missing');
+    const rejected = ROWS.filter((r) => r.metrics && r.metrics.pct_cost_burdened === null);
+    assert(rejected.length >= 1, 'no rejected share, so the check is empty');
+    assert.equal(await U.acsBurdenRejected('0862880'), true, 'Rangely not reported as rejected');
+    assert.equal(await U.acsBurdenRejected('08077'), false, 'Mesa County reported as rejected');
+    for (const r of rejected) assert.equal(await U.acsBurdenRejected(r.geoid), true, r.geoid);
+  });
+
   if (failures) { console.log(failures + ' failed'); process.exit(1); }
   console.log('all passed');
 })();

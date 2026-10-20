@@ -631,22 +631,16 @@
         href: '#statRentBurden',
       },
     });
-    // The ranking index drops an ACS burden share that the CHAS severe share
-    // contradicts (Rangely: 21.1% burdened, 30.3% severely, a subset larger
-    // than its whole). The narrative then falls back to CHAS, so showing the
-    // ACS share here put two "cost-burdened" figures on one page.
-    const _narr = window.HNANarratives && window.HNANarratives._internals;
-    if (rb30 !== null && _narr && _narr.loadRanking && _narr.rankingEntryFor) {
-      Promise.resolve(_narr.loadRanking()).then(function () {
-        if (token !== _snapshotToken) return;
-        const entry = _narr.rankingEntryFor(geoid);
-        if (!entry || !entry.metrics || entry.metrics.pct_cost_burdened !== null) return;
+    // A share the ranking index rejected is not shown (U().acsBurdenRejected).
+    if (rb30 !== null && U().acsBurdenRejected) {
+      U().acsBurdenRejected(geoid).then(function (rejected) {
+        if (!rejected || token !== _snapshotToken) return;
         if (els.statRentBurden) {
           els.statRentBurden.textContent = '—';
           els.statRentBurden.title = 'The ACS share for this place contradicts its HUD CHAS severe-burden share, so it is not shown.';
         }
         updateDecisionStrip({ affordability: { value: '—', read: _decisionReadFromPct(null), href: '#statRentBurden' } });
-      }).catch(function () { /* ranking optional */ });
+      });
     }
 
     // Income needed to buy the median home at the 30%-rule front-end
@@ -8101,6 +8095,14 @@
           '<strong>Current cost pressure:</strong> ~' + fmt(burdened) + ' of ' + fmt(renterHHs) +
           ' renter households (' + burdenPct.toFixed(1) + '%) are rent-burdened today (paying &gt;30% of income on rent). ' +
           '<span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
+        // Same rule as the score card: a share the ranking index rejected is
+        // not shown. The guard keeps a later geography's line in place.
+        const shown = burdenEl.innerHTML;
+        if (U().acsBurdenRejected) {
+          U().acsBurdenRejected(prof._geoid).then(function (rejected) {
+            if (rejected && burdenEl.innerHTML === shown) burdenEl.innerHTML = '';
+          });
+        }
       } else {
         burdenEl.innerHTML = '';
       }
