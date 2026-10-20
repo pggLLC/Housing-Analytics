@@ -102,6 +102,18 @@ def test_bad_month_keeps_committed_file():
             assert out.read_text() == "kept\n", f"{name} must not overwrite the committed file"
 
 
+def test_older_month_keeps_committed_file():
+    m = load_module()
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp, "realtor.json")
+        newer = json.dumps({"meta": {"month": "2026-10"}})
+        out.write_text(newer)
+        assert run(m, county_csv(64), out) == 1, "September must not replace a committed October"
+        assert out.read_text() == newer
+        out.write_text(json.dumps({"meta": {"month": "2026-09"}}))
+        assert run(m, county_csv(64), out) == 0, "a re-run of the same month is fine"
+
+
 def test_committed_file_shape():
     d = json.loads(COMMITTED.read_text())
     m = load_module()

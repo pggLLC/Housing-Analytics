@@ -27,8 +27,8 @@ Output: data/market/realtor_inventory_co.json
   }
 
 A month that lacks any of the 64 counties, carries far fewer ZIPs than
-usual, or does not give one and the same month in both files is treated as
-a bad file: the script keeps the committed file and exits 1, so the monthly
+usual, does not give one and the same month in both files, or is older than
+the committed month is treated as a bad file: the script keeps the committed file and exits 1, so the monthly
 job fails and opens its issue. Readers still show "No reading" for a county
 the file lacks, in case one ever reaches the page.
 
@@ -194,6 +194,14 @@ def main() -> int:
         print(f"ERROR: most counties have no {', '.join(empty)}; keeping the committed file.", file=sys.stderr)
         return 1
     months = set(county_months)
+    try:
+        stored = json.loads(OUT.read_text())["meta"]["month"]
+    except (OSError, ValueError, KeyError, TypeError):
+        stored = None
+    if stored and next(iter(months)) < stored:
+        print(f"ERROR: the files give {next(iter(months))}, older than the committed {stored}; "
+              "keeping the committed file.", file=sys.stderr)
+        return 1
 
     output = {
         "meta": {
