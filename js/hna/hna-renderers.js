@@ -987,22 +987,20 @@
    *
    * @param {object} profile
    */
-  function renderAffordChart(profile) {
-    const canvas = document.getElementById('chartAfford');
-    if (!canvas || !profile) return;
-    const t        = chartTheme();
-    const safeNum  = U().safeNum;
-    const fmtMoney = U().fmtMoney;
-    const mhi       = safeNum(profile.DP03_0062E) || 0;
-    const homeInfo  = homeValueInfo(profile);
-    const homeValue = homeInfo.value || 0;
-    const calc      = (typeof U().computeIncomeNeeded === 'function' && !homeInfo.suppressIncomeToOwn)
-      ? U().computeIncomeNeeded(homeValue)
-      : null;
-    const needed    = calc && Number.isFinite(calc.annualIncome) ? calc.annualIncome : 0;
-    // D2 — The card's static note says the headline home value is Zillow
-    // ZHVI. For a geography whose headline is the ACS figure (Mesa County),
-    // that is wrong, so the note follows the value actually shown.
+  // D2 — The card's static note says the headline home value is Zillow
+  // ZHVI. For a geography whose headline is the ACS figure (Mesa County),
+  // that is wrong, so the note and the affordability badge follow the value
+  // actually shown, on every render.
+  function affordSourceUrl(homeInfo, fallback) {
+    const src = homeInfo && homeInfo.display ? homeInfo.display.source : 'acs_raw';
+    if (src === 'zhvi' || src === 'county_zhvi_adjusted') return fallback || 'https://www.zillow.com/research/data/';
+    const oneYear = /1-year/.test(homeInfo && homeInfo.asOf || '');
+    const m = /(20\d\d)(?!.*20\d\d)/.exec(homeInfo && homeInfo.asOf || '');
+    const y = m ? m[1] : '2024';
+    return 'https://data.census.gov/table/ACS' + (oneYear ? 'DP1Y' : 'DP5Y') + y + '.DP04';
+  }
+
+  function applyAffordProvenance(canvas, profile, homeInfo) {
     try {
       const hvCanvas = document.getElementById('chartHomeValue');
       const box = hvCanvas && hvCanvas.closest ? hvCanvas.closest('.chart-box') : null;
@@ -1019,25 +1017,59 @@
             '. The distribution below is the ACS 2020-2024 5-year owner-reported value, which can differ from the headline when the headline uses another source or survey period.';
       }
       const affordBox = canvas.closest ? canvas.closest('.chart-box') : null;
-      if (affordBox && /Zillow ZHVI cascade/.test(affordBox.getAttribute('data-source') || '')) {
-        const isZhviHead = homeInfo.display && homeInfo.display.source === 'zhvi';
-        const newSrc = (isZhviHead ? 'Home value: Zillow ZHVI' : 'Home value: ' + (homeInfo.sourceText || 'Census ACS DP04')) +
-          ' + income: ACS DP03 + mortgage assumptions below';
-        affordBox.setAttribute('data-source', newSrc);
-        // The badge renders once at load; rebuild it from the new text.
-        const affordCard = affordBox.closest('.chart-card');
-        const staleBadge = affordCard && affordCard.querySelector(':scope > .chart-source');
-        if (staleBadge && window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
-          staleBadge.remove();
-          window.SourceBadge.attach(affordBox, {
-            source: newSrc,
-            url: affordBox.getAttribute('data-source-url') || null,
-            vintage: homeInfo.asOf || affordBox.getAttribute('data-vintage') || null,
-            sourceType: affordBox.getAttribute('data-source-type') || null
-          });
-        }
+      if (!affordBox) return;
+      // Remember the page's own Zillow link the first time, then rebuild
+      // the badge from the current geography every time.
+      if (!affordBox.hasAttribute('data-afford-managed')) {
+        affordBox.setAttribute('data-afford-managed', '');
+        affordBox.setAttribute('data-zillow-url', affordBox.getAttribute('data-source-url') || '');
+      }
+      const isZhviHead = homeInfo.display && homeInfo.display.source === 'zhvi';
+      const newSrc = (isZhviHead ? 'Home value: Zillow ZHVI' : 'Home value: ' + (homeInfo.sourceText || 'Census ACS DP04')) +
+        ' + income: ACS DP03 + mortgage assumptions below';
+      const newUrl = affordSourceUrl(homeInfo, affordBox.getAttribute('data-zillow-url'));
+      affordBox.setAttribute('data-source', newSrc);
+      affordBox.setAttribute('data-source-url', newUrl);
+      if (homeInfo.asOf) affordBox.setAttribute('data-vintage', homeInfo.asOf);
+      const affordCard = affordBox.closest('.chart-card');
+      const staleBadge = affordCard && affordCard.querySelector(':scope > .chart-source');
+      if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+        if (staleBadge) staleBadge.remove();
+        window.SourceBadge.attach(affordBox, {
+          source: newSrc,
+          url: newUrl,
+          vintage: homeInfo.asOf || affordBox.getAttribute('data-vintage') || null,
+          sourceType: affordBox.getAttribute('data-source-type') || null
+        });
       }
     } catch (_) { /* note is optional */ }
+  }
+
+  function renderAffordChart(profile) {
+    const canvas = document.getElementById('chartAfford');
+    if (!canvas || !profile) return;
+    const t        = chartTheme();
+    const safeNum  = U().safeNum;
+    const fmtMoney = U().fmtMoney;
+    const mhi       = safeNum(profile.DP03_0062E) || 0;
+    const homeInfo  = homeValueInfo(profile);
+    const homeValue = homeInfo.value || 0;
+    const calc      = (typeof U().computeIncomeNeeded === 'function' && !homeInfo.suppressIncomeToOwn)
+      ? U().computeIncomeNeeded(homeValue)
+      : null;
+    const needed    = calc && Number.isFinite(calc.annualIncome) ? calc.annualIncome : 0;
+    applyAffordProvenance(canvas, profile, homeInfo);
+    // The ACS series (1-year or 5-year) comes from the published margins
+    // file. When it is not loaded yet, label again once it arrives, unless
+    // another geography has been rendered in the meantime.
+    canvas._affordProfile = profile;
+    const R = window.ACSReliability;
+    if (R && typeof R.load === 'function') {
+      Promise.resolve(R.load()).then(() => {
+        if (canvas._affordProfile !== profile) return;
+        applyAffordProvenance(canvas, profile, homeValueInfo(profile));
+      }).catch(() => {});
+    }
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -7085,11 +7117,27 @@
       var lastYr = years[years.length - 1];
       var firstYr = years[0];
       var card = panel.closest ? panel.closest('.chart-card') : null;
-      if (card) card.setAttribute('data-vintage', 'BPS ' + firstYr + '-' + lastYr);
       if (card) {
+        var vintage = 'BPS ' + firstYr + '-' + lastYr;
+        card.setAttribute('data-vintage', vintage);
+        // The badge renders once at load; rebuild it with the years shown.
+        var staleBpsBadge = card.querySelector(':scope > .chart-source');
+        if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+          if (staleBpsBadge) staleBpsBadge.remove();
+          window.SourceBadge.attach(card, {
+            source: card.getAttribute('data-source') || 'Census Building Permits Survey (BPS)',
+            url: card.getAttribute('data-source-url') || null,
+            vintage: vintage,
+            sourceType: card.getAttribute('data-source-type') || null
+          });
+        }
         var introP = card.querySelector('p');
         if (introP && /Building Permits Survey/.test(introP.innerHTML)) {
           introP.innerHTML = introP.innerHTML.replace(/Census Building Permits Survey<\/a> \d{4}-\d{4}/, 'Census Building Permits Survey</a> ' + firstYr + '-' + lastYr);
+          // A town with its own permit record is the one issuing them.
+          var issuer = usingCounty ? 'the county'
+            : String(placeRec.name || 'this town').replace(/\s+(city and county|city|town|village)$/i, '');
+          introP.innerHTML = introP.innerHTML.replace(/How many new housing units has [^?<]+ permitted each year\?/, 'How many new housing units has ' + issuer + ' permitted each year?');
         }
       }
       var fmtAvg = function (n) { return n < 10 ? (Math.round(n * 10) / 10).toLocaleString('en-US') : fmtNum(Math.round(n)); };
