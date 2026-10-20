@@ -202,12 +202,14 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 8,976. LEHD-based commuting signals show 3,023 in-commuters and a commute ratio of 60.2%. The digest's county-context projection shows 904 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 8,976. LEHD-based commuting signals show 3,023 in-commuters and a commute ratio of 60.2%. The digest's 20-year figure is 904 homes. Projected resident growth gives 593; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 311: homes for a quarter of the lower- and middle-wage workers who commute into City of Cortez, if they moved closer.",
           "cites": [
             "d11",
             "d12",
             "d13",
-            "d14"
+            "d14",
+            "d23",
+            "d24"
           ]
         },
         {
@@ -625,6 +627,24 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d23",
+      "label": "Twenty-year resident growth in homes needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_growth_20yr",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d24",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "incommuter_need_units",
       "accessed": "2026-07-03"
     }
   ]

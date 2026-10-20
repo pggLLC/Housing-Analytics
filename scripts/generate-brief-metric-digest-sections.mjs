@@ -37,7 +37,12 @@ const DATA_SOURCES = [
   ["d20", "county_service_sector_share_pct", "County service-sector employment share"],
   ["d21", "county_trend_rent_change_2009_2024_pct", "County rent change, ACS cohort trend"],
   ["d22", "county_trend_income_change_2009_2024_pct", "County income change, ACS cohort trend"],
+  ["d23", "future_units_growth_20yr", "Twenty-year resident growth in homes needed"],
+  ["d24", "incommuter_need_units", "In-commuter need, a quarter moving closer"],
 ];
+
+// d23 and d24 are cited only where the 20-year figure has both parts.
+const COMPONENT_SOURCES = new Set(["d23", "d24"]);
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
@@ -96,6 +101,37 @@ function futureUnitsText(digest) {
   return `${valueText(digest, "future_units_needed_20yr")} future units needed`;
 }
 
+function hasNeedComponents(digest) {
+  const m = digest.metrics || {};
+  const finite = (field) => m[field] && typeof m[field].value === "number" && Number.isFinite(m[field].value);
+  return !!(m.future_units_reading && m.future_units_reading.value === "resident_growth_plus_incommuters"
+    && finite("future_units_growth_20yr") && finite("incommuter_need_units"));
+}
+
+// The 20-year figure adds two parts with different geographies and time frames:
+// projected resident growth (county context for a place) and today's in-commuters
+// to this place. Each is named with its own frame, not the whole as county context.
+function futureNeedText(digest, jurisdiction) {
+  if (!hasNeedComponents(digest)) {
+    return `The digest's county-context projection shows ${futureUnitsText(digest)} over 20 years, ` +
+      `so that projection should be read as county context rather than a place trend.`;
+  }
+  const total = metric(digest, "future_units_needed_20yr").value;
+  const growthMetric = metric(digest, "future_units_growth_20yr");
+  const growth = growthMetric.value;
+  const inc = metric(digest, "incommuter_need_units").value;
+  const totalText = total < 0 ? `a surplus of ${num(Math.abs(total))} homes` : `${num(total)} homes`;
+  const growthText = growth < 0
+    ? `Projected households fall, so resident growth lowers need by ${num(Math.abs(growth))}`
+    : `Projected resident growth gives ${num(growth)}`;
+  const growthFrame = growthMetric.geography_level === "county_context"
+    ? "; it comes from the county projection, so read it as county context, not a place trend"
+    : "";
+  return `The digest's 20-year figure is ${totalText}. ${growthText}${growthFrame}. ` +
+    `Today's in-commuters give ${num(inc)}: homes for a quarter of the lower- and middle-wage workers ` +
+    `who commute into ${jurisdiction}, if they moved closer.`;
+}
+
 function sourceFor(geoid, id, field, label) {
   const m = readJson(path.join(DIGEST_DIR, `${geoid}.json`)).metrics[field];
   return {
@@ -142,10 +178,8 @@ export function sectionFor(brief, digest) {
           `Demographics and demand: the population metric is ` +
           `${valueText(digest, "population")}. LEHD-based commuting signals show ` +
           `${valueText(digest, "in_commuters")} in-commuters and a commute ratio of ` +
-          `${valueText(digest, "commute_ratio", "pct")}. The digest's county-context projection ` +
-          `shows ${futureUnitsText(digest)} over 20 years, ` +
-          `so that projection should be read as county context rather than a place trend.`,
-        cites: ["d11", "d12", "d13", "d14"],
+          `${valueText(digest, "commute_ratio", "pct")}. ${futureNeedText(digest, jurisdiction)}`,
+        cites: hasNeedComponents(digest) ? ["d11", "d12", "d13", "d14", "d23", "d24"] : ["d11", "d12", "d13", "d14"],
       },
       {
         text:
@@ -187,6 +221,7 @@ function updateBrief(file) {
   const gapRateAvailable = gapRateIsAvailable(digest);
   for (const [id, field, label] of DATA_SOURCES) {
     if (id === "d4" && !gapRateAvailable) continue;
+    if (COMPONENT_SOURCES.has(id) && !hasNeedComponents(digest)) continue;
     brief.sources.push(sourceFor(geoid, id, field, label));
   }
 
