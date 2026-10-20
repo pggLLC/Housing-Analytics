@@ -430,20 +430,11 @@
 
     <div id="pageContext"></div>
 
-    <!-- F152 — Developer Pipeline teaser strip.
-         One-line discoverability link to the public methodology page so HNA
-         readers know how this assessment fits into the larger pipeline.
-         Defined inline (no extra CSS file) to keep the integration minimal. -->
-    <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
-      <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
-        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our eight-stage public methodology for turning housing data into housing built.
-      </span>
-      <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
-    </aside>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
+        collapsed: true,
         what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
         why: 'Local decision-makers — council members, planners, housing authorities — need a clear, public-data answer to the question: "Is there documented housing need in our community, and at what income levels?" This assessment provides that evidence base. Developers also use the same snapshot to support CHFA QAP scoring, which rewards projects that demonstrate documented community need.',
         not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level cost burden and AMI gaps are computed at place geography (direct Census ACS for the AMI gap; tract-apportioned HUD CHAS for cost burden) — not scaled from county. The one county input is HUD\'s AMI income limits, which HUD only publishes at county level, so a place uses its containing county\'s limits. CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
@@ -513,8 +504,6 @@
     });
     </script>
 
-    <div id="hnaDataQuality"></div>
-    <div id="hnaApiHealth" data-api-health="auto"></div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.DataQualitySummary) {
@@ -1412,6 +1401,23 @@
           <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> publish implementation guidance.
         </p>
       </section>
+
+      <!-- Data health and the pipeline link sit with the methodology, not above
+           the answer: on a phone they pushed the Executive Snapshot to screen 5. -->
+      <div class="span-12 hna-about-data">
+    <div id="hnaDataQuality"></div>
+    <div id="hnaApiHealth" data-api-health="auto"></div>
+    <!-- F152 — Developer Pipeline teaser strip.
+         One-line discoverability link to the public methodology page so HNA
+         readers know how this assessment fits into the larger pipeline.
+         Defined inline (no extra CSS file) to keep the integration minimal. -->
+    <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
+      <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our eight-stage public methodology for turning housing data into housing built.
+      </span>
+      <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
+    </aside>
+      </div>
 
       <div class="chart-card span-12 methodology">
         <h2>Methodology & Data Sources</h2>
