@@ -178,5 +178,39 @@ assert(outflow.migrationNote, 'and the reader is told why');
   assert.equal(scanned, 64, 'checked every county at the highest migration setting');
 }
 
+// 8. A saved scenario's change is worked out on the baseline and added to the
+//    HNA projection file's line, so the two must be the same SDO forecast:
+//    an older baseline beside a newer projection file moves every setting but
+//    100% by an older forecast's change. The baseline sums SDO's file by age
+//    and the projection file comes from SDO's components file, so the two
+//    differ by SDO's own rounding, a few people (worst 15 in the 2024
+//    vintage); a new forecast moves most counties by far more. The weekly
+//    data build rebuilds both and must not commit one without the other.
+{
+  const TOLERANCE = 50;
+  let compared = 0;
+  const apart = [];
+  for (const [g, b] of Object.entries(data.baselines)) {
+    const p = data.projections[g];
+    const byYear = new Map(p.years.map((y, i) => [y, p.population_dola[i]]));
+    b.sdo.years.forEach((y, i) => {
+      if (!byYear.has(y) || byYear.get(y) == null) return;
+      compared++;
+      const d = Math.abs(byYear.get(y) - b.sdo.population[i]);
+      if (d > TOLERANCE) apart.push(`${g} ${y}: baseline ${b.sdo.population[i]}, projection file ${byYear.get(y)}`);
+    });
+  }
+  assert(compared >= 64 * 20, `compared ${compared} county-years of the baselines with the projection files`);
+  assert.deepEqual(apart, [], 'the Scenario Builder baselines and the HNA projection files are different SDO forecasts; ' +
+    'rerun python3 scripts/hna/build_scenario_baseline.py:\n  ' + apart.slice(0, 5).join('\n  '));
+
+  const wf = read('.github/workflows/build-hna-data.yml');
+  const line = wf.split('\n').find((l) => /^\s*python3 scripts\/hna\/build_scenario_baseline\.py/.test(l));
+  assert(line, 'the weekly HNA data build rebuilds the Scenario Builder baselines');
+  assert(!/\|\||;\s*true|continue-on-error/.test(line), `the baseline rebuild must stop the data build when it fails, not let it commit the new projection files beside the old baselines: ${line.trim()}`);
+  const step = wf.slice(wf.lastIndexOf('- name:', wf.indexOf(line)), wf.indexOf(line));
+  assert(!/continue-on-error:\s*true/.test(step), 'the baseline rebuild step does not continue on error');
+}
+
 console.log(`scenario-baseline-reproduces-sdo: PASS (${files.length} counties within ${worstPop.toFixed(2)} people / ${worstHh.toFixed(2)} households of SDO; ` +
   `${checked} jurisdictions equal the HNA page's 20-year figure; presets bracket SDO in ${ordered} counties, ${reversed} where less migration means more homes)`);

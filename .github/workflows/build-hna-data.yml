@@ -240,13 +240,21 @@ jobs:
         # year of age (data/hna/scenario-baseline/<county>.json), rebuilt here
         # from the SDO files the DOLA phase just fetched so a new SDO vintage
         # reaches the builder in the same run as the HNA page. The script fails
-        # if its default path drifts from SDO by more than rounding. Non-
-        # blocking like Phase 4: with an older baseline the builder still gives
-        # the HNA page's figure at 100%, because it adds a scenario's change to
-        # the HNA projection file's own series.
+        # if its default path drifts from SDO by more than rounding.
+        #
+        # BLOCKING. At 100% an older baseline still gives the HNA page's
+        # figure, because the builder adds a scenario's change to the HNA
+        # projection file's own series; but every other setting would add a
+        # change worked out from the older SDO forecast to the newer line.
+        # Failing here commits nothing ("Commit and push" carries no `if:`),
+        # so main keeps a baseline and projection pair from one SDO vintage,
+        # and the DOLA checkpoint means a re-run after a fix does not re-fetch.
+        # The script is local (no network, no API key), so a failure is a
+        # real problem with SDO's files or the script, not a blip. Gated by
+        # test:scenario-presets (scenario-baseline-reproduces-sdo.test.js).
         if: ${{ inputs.statewide_only != true }}
         run: |
-          python3 scripts/hna/build_scenario_baseline.py 2>&1 || echo "::warning::Scenario Builder baseline build failed (non-critical; existing files will be used)"
+          python3 scripts/hna/build_scenario_baseline.py 2>&1
 
       - name: Phase 5 — Validate DOLA and FRED data quality
         if: ${{ inputs.statewide_only != true }}
