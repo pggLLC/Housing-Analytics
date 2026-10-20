@@ -104,7 +104,7 @@
       return '<li>' + (u ? '<a href="' + esc(u) + '" rel="noopener" target="_blank">' + esc(p.title) + '</a>' : esc(p.title)) +
         ' (' + esc(p.kind) + (p.made_by ? ', by ' + esc(p.made_by) : '') + ')' + (p.note ? ': ' + esc(p.note) : '') + ' ' + cite(p.src) + '</li>';
     }) + '</ul><p class="ds-muted">Pictures stay in the public documents they come from; each link opens the document.</p>' : '';
-    var checks = (d.discrepancies || []).concat([]).length ? '<ul class="ds-list">' + list(d.discrepancies, function (x) { return '<li>' + textWithCites(x) + '</li>'; }) + '</ul>' : '';
+    var checks = (d.discrepancies || []).concat([]).length ? '<ul class="ds-list">' + list(d.discrepancies, function (x) { return '<li>' + (x && typeof x === 'object' ? textWithCites(x.text) + ' ' + cite(x.src) : textWithCites(x)) + '</li>'; }) + '</ul>' : '';
     var open = d.open_questions && d.open_questions.length ? '<ul class="ds-list">' + list(d.open_questions, function (x) { return '<li>' + textWithCites(x) + '</li>'; }) + '</ul>' : '';
     var sources = d.sources && d.sources.length ? '<ol class="ds-sources">' + list(d.sources, function (s, i) {
       var u = safeUrl(s.url);
