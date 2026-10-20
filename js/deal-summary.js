@@ -43,6 +43,14 @@
         return '<a class="ds-cite" href="#ds-src-' + order[id] + '" aria-label="Source ' + order[id] + '">[' + order[id] + ']</a>';
       }).join('');
     }
+    // Researchers name source ids inline in free text ("[chfa-4pct-award; dc-plat-staff]");
+    // swap each known id for its numbered citation link so the text stays traceable.
+    var idPattern = Object.keys(order).length ? new RegExp('(^|[^a-z0-9-])(' + Object.keys(order).sort(function (a, b) { return b.length - a.length; })
+      .map(function (id) { return id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')(?![a-z0-9-])', 'g') : null;
+    function textWithCites(x) {
+      var t = esc(x);
+      return idPattern ? t.replace(idPattern, function (m, pre, id) { return pre + cite([id]); }) : t;
+    }
     function list(items, fn) { return items && items.length ? items.map(fn).join('') : ''; }
     function section(title, body, open) {
       if (!body) return '';
@@ -96,8 +104,8 @@
       return '<li>' + (u ? '<a href="' + esc(u) + '" rel="noopener" target="_blank">' + esc(p.title) + '</a>' : esc(p.title)) +
         ' (' + esc(p.kind) + (p.made_by ? ', by ' + esc(p.made_by) : '') + ')' + (p.note ? ': ' + esc(p.note) : '') + ' ' + cite(p.src) + '</li>';
     }) + '</ul><p class="ds-muted">Pictures stay in the public documents they come from; each link opens the document.</p>' : '';
-    var checks = (d.discrepancies || []).concat([]).length ? '<ul class="ds-list">' + list(d.discrepancies, function (x) { return '<li>' + esc(x) + '</li>'; }) + '</ul>' : '';
-    var open = d.open_questions && d.open_questions.length ? '<ul class="ds-list">' + list(d.open_questions, function (x) { return '<li>' + esc(x) + '</li>'; }) + '</ul>' : '';
+    var checks = (d.discrepancies || []).concat([]).length ? '<ul class="ds-list">' + list(d.discrepancies, function (x) { return '<li>' + textWithCites(x) + '</li>'; }) + '</ul>' : '';
+    var open = d.open_questions && d.open_questions.length ? '<ul class="ds-list">' + list(d.open_questions, function (x) { return '<li>' + textWithCites(x) + '</li>'; }) + '</ul>' : '';
     var sources = d.sources && d.sources.length ? '<ol class="ds-sources">' + list(d.sources, function (s, i) {
       var u = safeUrl(s.url);
       return '<li id="ds-src-' + (i + 1) + '">' + esc([s.publisher, s.title].filter(Boolean).join(', ')) + (s.date ? ' (' + esc(s.date) + ')' : '') +
