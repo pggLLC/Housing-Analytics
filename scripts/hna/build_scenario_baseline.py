@@ -151,15 +151,20 @@ def main():
     if missing or extra:
         raise SystemExit(f'SDO population file has counties {extra} it should not and lacks {missing}; nothing written')
 
-    os.makedirs(OUT_DIR, exist_ok=True)
+    # Every county is checked and built before the first file is written, so a
+    # short download of any of the three files writes nothing rather than
+    # leaving some counties on the new vintage and some on the old.
     years = list(range(BASE_YEAR, END_YEAR + 1))
+    hh_ids = set(range(len(HH_GROUPS) + 1))
     worst = 0.0
-    written = 0
+    outputs = {}
     for c in sorted(sya):
         geoid = f'08{c:03d}'
         path = sya[c]
-        if any(y not in path for y in years) or c not in comp or c not in hh:
-            raise SystemExit(f'{geoid}: SDO files do not cover {BASE_YEAR}-{END_YEAR}')
+        comp_c, hh_c = comp.get(c, {}), hh.get(c, {})
+        if (any(y not in path for y in years) or any(y not in comp_c for y in years[1:])
+                or any(not hh_ids <= set(hh_c.get(y, {})) for y in years)):
+            raise SystemExit(f'{geoid}: SDO files do not cover {BASE_YEAR}-{END_YEAR}; nothing written')
         kds, kbs, mig_m, mig_f = [], [], [], []
         sdo_births, sdo_deaths, sdo_mig = [], [], []
         for y in years[:-1]:
@@ -233,15 +238,18 @@ def main():
                 'netMigration': sdo_mig,
             },
         }
-        with open(os.path.join(OUT_DIR, f'{geoid}.json'), 'w') as f:
-            json.dump(out, f, separators=(',', ':'))
-            f.write('\n')
-        written += 1
+        outputs[geoid] = out
     # Migration is stored to the hundredth of a person, so the rebuilt path can
     # differ from SDO's by rounding alone: a few people over 26 years.
     if worst > 5:
-        raise SystemExit(f'default path drifts from SDO by {worst:.1f} people in some year; expected 5 or fewer')
-    print(f'wrote {written} county files to {os.path.relpath(OUT_DIR, ROOT)} ({vintage}); '
+        raise SystemExit(f'default path drifts from SDO by {worst:.1f} people in some year; expected 5 or fewer; nothing written')
+
+    os.makedirs(OUT_DIR, exist_ok=True)
+    for geoid, out in outputs.items():
+        with open(os.path.join(OUT_DIR, f'{geoid}.json'), 'w') as f:
+            json.dump(out, f, separators=(',', ':'))
+            f.write('\n')
+    print(f'wrote {len(outputs)} county files to {os.path.relpath(OUT_DIR, ROOT)} ({vintage}); '
           f'largest drift from SDO population {worst:.2f} people')
 
 
