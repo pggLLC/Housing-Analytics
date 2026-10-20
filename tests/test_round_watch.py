@@ -190,3 +190,12 @@ def test_backtest_size_takes_a_newer_application_over_an_older_award():
     v = next(v for v in rw.score_round(D, (2026, 2), cutoff, keep_all=True).values() if v['project'] and v['project']['id'] == 'colfax')
     assert v['units'] == 57
     assert any(s['kind'] == 'soft_misfit' for s in v['signals'])
+
+
+def test_size_compares_whole_dates():
+    ev = dola('X', '2026-06-10')
+    ev['quote'] += '; Homes: 100'
+    later_app = {'source_as_of': '2026-06-20', 'year': 2026, 'total_units': 50}
+    assert rw.size_as_of(None, [later_app], [ev], live=False) == 50
+    later_app['source_as_of'] = '2026-06-01'
+    assert rw.size_as_of(None, [later_app], [ev], live=False) == 100

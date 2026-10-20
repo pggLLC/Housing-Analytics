@@ -173,10 +173,11 @@ def size_as_of(p, apps, events, live):
     or a funding record (its quote). Year-only records date to year end."""
     if live:
         return (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
-    sized = [((e.get('announced') or '%d-12' % e['year'])[:7], int(m.group(1))) for e in events
+    # (date as printed, 0 record / 1 application, homes): same-day ties go to the application
+    sized = [((e.get('announced') or '%d-12' % e['year']).split('/')[0], 0, int(m.group(1))) for e in events
              for m in [SIZE_IN_QUOTE.search(e.get('quote') or '')] if m]
-    sized += [((a.get('source_as_of') or '%d-12' % a['year'])[:7], a['total_units']) for a in apps if a.get('total_units')]
-    return max(sized)[1] if sized else None
+    sized += [(a.get('source_as_of') or '%d-12' % a['year'], 1, a['total_units']) for a in apps if a.get('total_units')]
+    return max(sized)[2] if sized else None
 
 
 def score_round(D, target, cutoff, keep_all=False, live=False):
