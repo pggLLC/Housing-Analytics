@@ -1,26 +1,29 @@
 {
   "version": "2026-Q2",
-  "lastUpdated": "2026-07-16",
+  "lastUpdated": "2026-10-20",
   "meta": {
     "title": "LIHTC Deal Predictor Non-Pricing Assumptions",
-    "as_of": "2026-07-16",
+    "as_of": "2026-10-20",
     "source": "COHO policy assumptions synced to js/config/financial-constants.js and Novogradac benchmark fallback",
     "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing",
-    "review_by": "2026-10-16",
+    "review_by": "2027-01-20",
     "methodology": "Hard costs, soft costs, developer fee, soft-funding, and concept mix assumptions support screening-level LIHTC concept recommendations. EquityPricing values are documented offline fallbacks only; live predictor pricing loads data/market/novogradac-equity-pricing.json first and otherwise falls back to js/config/financial-constants.js."
   },
   "equityPricing": {
     "default9Pct": 0.82,
     "default4Pct": 0.83,
     "range": [0.75, 1.05],
-    "source": "Offline fallback synced to financial-constants.js; live benchmark source is data/market/novogradac-equity-pricing.json"
+    "source": "Offline fallback synced to financial-constants.js; live benchmark source is data/market/novogradac-equity-pricing.json",
+    "last_verified": "2026-10-20",
+    "verified_against": "data/market/novogradac-equity-pricing.json pricing.national_avg (Novogradac Q2 2026, captured 2026-10-08): $0.82 for 9% and $0.83 for 4%, equal to these fallbacks"
   },
   "hardCostPerUnit": {
     "family": 275000,
     "seniors": 260000,
     "mixedUse": 310000,
     "supportive": 295000,
-    "source": "Colorado construction cost survey, Q4 2025"
+    "source": "COHO screening assumption set in March 2026. The earlier label cited a Colorado construction cost survey for Q4 2025, but no such survey is on file, so these are not sourced figures; replace them with a local cost estimate.",
+    "cost_trend_note": "Since Q4 2025 the PPI for net inputs to multifamily construction (FRED WPUIP231120, data/fred-data.json) rose about 7.6% (155.7 average for Oct-Dec 2025 to 167.5 in August 2026), and Colorado construction hourly earnings rose 4.5% year over year (data/market/co-construction-labor-cost.json). These figures have not been escalated."
   },
   "softCostPct": 0.22,
   "devFeePct": 0.15,
