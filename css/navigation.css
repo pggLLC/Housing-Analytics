@@ -564,7 +564,7 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 1.35em; height: 1.35em; margin-right: 8px; border-radius: 999px;
   font-size: .75rem; font-weight: 700; line-height: 1; vertical-align: 1px;
-  color: var(--accent); border: 1px solid currentColor;
+  color: inherit; border: 1px solid currentColor; /* the label colour already passes on the active-row tint */
 }
 
 /* ── Footer: brand + the header's four groups ──────────────────────────
