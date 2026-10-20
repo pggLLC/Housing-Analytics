@@ -36,6 +36,7 @@ next(age+1, sex)   = people(age, sex) − deaths(age, sex) + migration(age+1, se
 - `f` is Colorado's births per woman by five-year age of mother, 2023, from NCHS Births: Final Data for 2023 (NVSR vol. 74 no. 1), Table 8. Their sum ×5 is the printed total fertility rate, 1,454.0 per 1,000; `scripts/hna/fetch_colorado_vital_rates.py` checks it.
 - `kd` and `kb` scale those Colorado rates so each county's deaths and births in each year equal SDO's. Only the age pattern comes from NCHS; every total comes from SDO.
 - `migration(age, sex)` is what SDO's forecast population by age leaves after the survivors and births above: the migration SDO's forecast implies, by age.
+- Above 100%, SDO's net departures at an age can outnumber the people of that age (at 150% they would in 37 of the 64 counties). No more than everyone can leave, so a cohort stops at zero and the migration shown counts only the people who left.
 
 With every slider at 100% the model reproduces SDO's population for every county and year to within rounding (5 people, checked by the build script and by `test/scenario-baseline-reproduces-sdo.test.js`).
 
@@ -79,7 +80,7 @@ Migration scales SDO's net migration at every age. Where the people SDO has arri
 
 ### Saved scenarios from the earlier model
 
-Scenarios saved before 2026-10-20 held multipliers and a number of people moving in a year. Loading one converts the multipliers to percentages and the people a year to a percentage of SDO's average net migration for the place loaded. Where SDO expects more people to leave than arrive, a number of arrivals cannot be a percentage of it, so migration stays at 100% and the page says why.
+Scenarios saved before 2026-10-20 held multipliers and a number of people moving in a year. Loading one converts the multipliers to percentages and the people a year to a percentage of SDO's average net migration for the place loaded. Where SDO expects more people to leave than arrive, a number of arrivals cannot be a percentage of it, so migration stays at 100% and the page says why. A count more than twice SDO's loads as 200%, the highest the builder models, again with a note, and a record that never set a count keeps SDO's migration.
 
 ### Limitations
 

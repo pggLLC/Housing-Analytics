@@ -69,7 +69,7 @@ Custom scenarios are saved to **browser localStorage** under the key `coho_hna_s
 }
 ```
 
-Scenarios saved before 2026-10-20 carry `fertility_multiplier`, `mortality_multiplier` and `net_migration_annual` instead. They still load: the multipliers become percentages and the people a year become a percentage of SDO's average net migration for the place loaded (`CohortComponentModel.paramsFromSaved`).
+Scenarios saved before 2026-10-20 carry `fertility_multiplier`, `mortality_multiplier` and `net_migration_annual` instead. They still load: the multipliers become percentages and the people a year become a percentage of SDO's average net migration for the place loaded (`CohortComponentModel.paramsFromSaved`). Every setting is held to the sliders' ranges (`CohortComponentModel.RANGES`), so a count more than twice SDO's loads as 200% and the page says so; a record with no count keeps SDO's migration.
 
 ---
 

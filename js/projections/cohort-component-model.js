@@ -27,8 +27,12 @@
   const FIRST_FERTILE = 10;
   const LAST_FERTILE = 49;
   const DEFAULT_PARAMS = { births_pct: 100, deaths_pct: 100, migration_pct: 100 };
+  // What the Scenario Builder's sliders can set; a saved scenario is read
+  // within these too, so the builder and the HNA page run the same settings.
+  const RANGES = { births_pct: [50, 150], deaths_pct: [80, 120], migration_pct: [0, 200] };
 
   function _pct(v, fallback) {
+    if (v == null || v === '') return fallback;
     const n = Number(v);
     return Number.isFinite(n) && n >= 0 ? n / 100 : fallback;
   }
@@ -95,11 +99,15 @@
       const s = _step(pm, pf, baseline.rates, steps.deathScale[i], steps.birthScale[i], deathsMult, birthsMult);
       const mm = steps.migrationMale[i];
       const mf = steps.migrationFemale[i];
+      // Above 100%, SDO's net departures at an age can exceed the people of
+      // that age; no more than everyone can leave, so a cohort stops at zero.
       let migration = 0;
       for (let a = 0; a < N_AGES; a++) {
-        s.sm[a] += mm[a] * migMult;
-        s.sf[a] += mf[a] * migMult;
-        migration += (mm[a] + mf[a]) * migMult;
+        const m = Math.max(-s.sm[a], mm[a] * migMult);
+        const f = Math.max(-s.sf[a], mf[a] * migMult);
+        s.sm[a] += m;
+        s.sf[a] += f;
+        migration += m + f;
       }
       pm = s.sm;
       pf = s.sf;
@@ -154,32 +162,56 @@
    * percentage of SDO's average for the place loaded (sdoAnnualMigration).
    * Where SDO expects no net arrivals, a number of migrants cannot be read as a
    * percentage, so migration stays at SDO's forecast and `migrationNote` says so.
+   * Every setting is held to RANGES, and `migrationNote` says when a saved
+   * migrant count was more than the builder can model.
    */
   function paramsFromSaved(saved, sdoAnnualMigration) {
     const s = saved || {};
     if (s.migration_pct != null || s.births_pct != null || s.deaths_pct != null) {
       return {
-        births_pct: Number.isFinite(Number(s.births_pct)) ? Number(s.births_pct) : 100,
-        deaths_pct: Number.isFinite(Number(s.deaths_pct)) ? Number(s.deaths_pct) : 100,
-        migration_pct: Number.isFinite(Number(s.migration_pct)) ? Number(s.migration_pct) : 100,
+        births_pct: _inRange('births_pct', _given(s.births_pct)),
+        deaths_pct: _inRange('deaths_pct', _given(s.deaths_pct)),
+        migration_pct: _inRange('migration_pct', _given(s.migration_pct)),
         migrationNote: null,
       };
     }
+    const fert = _given(s.fertility_multiplier);
+    const mort = _given(s.mortality_multiplier);
     const out = {
-      births_pct: Math.round(100 * (Number.isFinite(Number(s.fertility_multiplier)) ? Number(s.fertility_multiplier) : 1)),
-      deaths_pct: Math.round(100 * (Number.isFinite(Number(s.mortality_multiplier)) ? Number(s.mortality_multiplier) : 1)),
+      births_pct: _inRange('births_pct', fert == null ? null : Math.round(100 * fert)),
+      deaths_pct: _inRange('deaths_pct', mort == null ? null : Math.round(100 * mort)),
       migration_pct: 100,
       migrationNote: null,
     };
-    const annual = Number(s.net_migration_annual);
-    if (!Number.isFinite(annual)) return out;
+    // A record that never set a migrant count keeps SDO's migration.
+    const annual = _given(s.net_migration_annual);
+    if (annual == null) return out;
     if (Number.isFinite(sdoAnnualMigration) && sdoAnnualMigration > 0) {
-      out.migration_pct = Math.max(0, Math.round(100 * annual / sdoAnnualMigration));
+      const pct = Math.round(100 * annual / sdoAnnualMigration);
+      out.migration_pct = _inRange('migration_pct', pct);
+      if (pct > RANGES.migration_pct[1]) {
+        out.migrationNote = 'This scenario was saved as ' + Math.round(annual).toLocaleString('en-US') +
+          ' people moving in a year, more than ' + RANGES.migration_pct[1] / 100 +
+          ' times SDO’s forecast for this place; migration is set to ' + RANGES.migration_pct[1] + '%, the most the builder models.';
+      }
     } else {
       out.migrationNote = 'This scenario was saved as ' + Math.round(annual).toLocaleString('en-US') +
         ' people moving in a year. SDO expects more people to leave this place than arrive, so that number cannot be set as a share of its forecast; migration is at SDO’s forecast.';
     }
     return out;
+  }
+
+  // A saved number, or null when it is absent: Number(null) is 0, and a
+  // setting that was never saved is not a setting of zero.
+  function _given(v) {
+    if (v == null || v === '') return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function _inRange(key, v) {
+    if (v == null) return DEFAULT_PARAMS[key];
+    return Math.min(RANGES[key][1], Math.max(RANGES[key][0], v));
   }
 
   function _sum(arr) {
@@ -194,6 +226,7 @@
     averageAnnualMigration: averageAnnualMigration,
     paramsFromSaved: paramsFromSaved,
     DEFAULT_PARAMS: Object.freeze(Object.assign({}, DEFAULT_PARAMS)),
+    RANGES: Object.freeze(Object.assign({}, RANGES)),
     N_AGES: N_AGES,
   };
 })();

@@ -54,6 +54,8 @@ FERTILE = range(10, 50)  # ages 10-49, the NCHS birth-rate groups
 # SDO age_group_id 1-4; id 0 is the total.
 HH_GROUPS = [('18-24', 18, 24), ('25-44', 25, 44), ('45-64', 45, 64), ('65+', 65, 100)]
 SEX_RATIO = 1.05
+# Colorado's 64 county FIPS codes: the odd numbers 1-125 and Broomfield, 14.
+CO_COUNTIES = sorted(set(range(1, 126, 2)) | {14})
 
 URLS = {
     'sya': 'https://storage.googleapis.com/co-publicdata/sya-county.csv',
@@ -142,6 +144,13 @@ def main():
         c = int(r['area_code'])
         hh.setdefault(c, {}).setdefault(int(r['year']), {})[int(r['age_group_id'])] = float(r['total_households'])
 
+    # All 64 counties or nothing: a download missing a county would otherwise
+    # leave that county's file from an earlier vintage beside the new ones.
+    missing = sorted(set(CO_COUNTIES) - set(sya))
+    extra = sorted(set(sya) - set(CO_COUNTIES))
+    if missing or extra:
+        raise SystemExit(f'SDO population file has counties {extra} it should not and lacks {missing}; nothing written')
+
     os.makedirs(OUT_DIR, exist_ok=True)
     years = list(range(BASE_YEAR, END_YEAR + 1))
     worst = 0.0
@@ -185,8 +194,8 @@ def main():
         pm, pf = list(path[BASE_YEAR][0]), list(path[BASE_YEAR][1])
         for i, y in enumerate(years[1:]):
             sm, sf, _, _ = step(pm, pf, qm, qf, asfr, kds[i], kbs[i])
-            pm = [sm[a] + mig_m[i][a] for a in range(N_AGES)]
-            pf = [sf[a] + mig_f[i][a] for a in range(N_AGES)]
+            pm = [max(0.0, sm[a] + mig_m[i][a]) for a in range(N_AGES)]
+            pf = [max(0.0, sf[a] + mig_f[i][a]) for a in range(N_AGES)]
             sdo_total = sum(path[y][0]) + sum(path[y][1])
             worst = max(worst, abs(sum(pm) + sum(pf) - sdo_total))
 

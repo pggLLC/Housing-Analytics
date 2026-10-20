@@ -143,6 +143,7 @@ for (const preset of global.ScenarioPresets.list) {
     assert(input, `the page has the ${id} slider`);
     const [min, max, step, value] = input.slice(1).map(Number);
     assert.equal(value, 100, `${id} starts at SDO's forecast`);
+    assert.deepEqual([min, max], M.RANGES[key], `${id} covers the range the model reads saved scenarios within`);
     const v = preset.params[key];
     assert(v >= min && v <= max && (v - min) % step === 0, `${preset.key} sets ${key} to ${v}, which ${id} (${min}-${max} by ${step}) cannot show`);
   }
@@ -156,6 +157,26 @@ assert.deepEqual([legacy.births_pct, legacy.deaths_pct, legacy.migration_pct], [
 const outflow = M.paramsFromSaved({ net_migration_annual: 500 }, -120);
 assert.equal(outflow.migration_pct, 100, 'where SDO expects net departures a number of migrants is not converted');
 assert(outflow.migrationNote, 'and the reader is told why');
+
+// 7. No setting the sliders allow makes anyone a negative person: above 100%,
+//    SDO's departures at an age can outnumber the people of that age.
+{
+  const src = read('js/projections/cohort-component-model.js');
+  const probe = src.replace('pm = s.sm;', 'pm = s.sm; global.__lowest = Math.min(global.__lowest, ...s.sm, ...s.sf);');
+  assert.notEqual(probe, src, 'probe applied to the model');
+  const saved = global.CohortComponentModel;
+  new Function('window', 'global', probe)(global, global);
+  const P = global.CohortComponentModel;
+  global.CohortComponentModel = saved;
+  let scanned = 0;
+  for (const [geoid, b] of Object.entries(data.baselines)) {
+    global.__lowest = 0;
+    P.project(b, { migration_pct: M.RANGES.migration_pct[1] });
+    assert(global.__lowest >= 0, `${geoid}: a cohort falls below zero at ${M.RANGES.migration_pct[1]}% migration (${global.__lowest})`);
+    scanned++;
+  }
+  assert.equal(scanned, 64, 'checked every county at the highest migration setting');
+}
 
 console.log(`scenario-baseline-reproduces-sdo: PASS (${files.length} counties within ${worstPop.toFixed(2)} people / ${worstHh.toFixed(2)} households of SDO; ` +
   `${checked} jurisdictions equal the HNA page's 20-year figure; presets bracket SDO in ${ordered} counties, ${reversed} where less migration means more homes)`);

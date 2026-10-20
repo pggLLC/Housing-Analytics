@@ -12,12 +12,14 @@
 //      capped at everyone; the 100+ group stays in place.
 //   4. Births: women 10-49 x rate x scale x the births slider, split by the
 //      sex ratio at birth.
-//   5. Migration adds the stored people by age, scaled by the slider.
+//   5. Migration adds the stored people by age, scaled by the slider, and no
+//      more than everyone of an age can leave.
 //   6. Households: each group's rate x the scenario's people of that age.
 //   7. changeFromSdo is zero at 100% and the difference from 100% otherwise.
 //   8. averageAnnualMigration over a window and over the whole forecast.
-//   9. paramsFromSaved reads new records, converts earlier ones, and says
-//      when an earlier migrant count cannot be converted.
+//   9. paramsFromSaved reads new records, converts earlier ones, holds every
+//      setting to the sliders' ranges, keeps SDO's migration when none was
+//      saved, and says when an earlier migrant count cannot be converted.
 //
 // Usage: node test/unit/cohort-component-model.test.js
 
@@ -97,11 +99,20 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
 // 5. Migration
 {
   const mm = zeros(); mm[25] = 40;
-  const mf = zeros(); mf[25] = -10;
+  const mf = zeros(); mf[31] = -10;
   const b = baseline({ people: [[30, 100, 100]], migMale: mm, migFemale: mf });
   close(M.project(b)[1].migration, 30, 'migration at 100% is the stored net by age');
   close(M.project(b, { migration_pct: 50 })[1].population, 215, 'half the migration adds half the people');
   close(M.project(b, { migration_pct: 0 })[1].population, 200, 'no migration adds no one');
+}
+{
+  const mm = zeros(); mm[31] = -80;
+  const b = baseline({ people: [[30, 100, 100]], migMale: mm });
+  close(M.project(b)[1].population, 120, 'at 100% 80 of the 100 men aged 31 leave');
+  const r = M.project(b, { migration_pct: 200 })[1];
+  close(r.population, 100, 'at 200% the 160 departures stop at the 100 men there are');
+  close(r.migration, -100, 'and migration counts the 100 who left');
+  close(M.project(b, { migration_pct: null })[1].population, 120, 'a missing setting is SDO\'s, not zero');
 }
 
 // 6. Households
@@ -143,6 +154,14 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   assert.equal(out.migration_pct, 100, 'a migrant count cannot be a share of net departures');
   assert(/250 people moving in a year/.test(out.migrationNote), 'and the note says what was saved');
   assert.equal(M.paramsFromSaved({ net_migration_annual: -300 }, 600).migration_pct, 0, 'a negative count converts to 0%, the slider\'s floor');
+  const none = M.paramsFromSaved({ fertility_multiplier: 1.0, mortality_multiplier: 1.0, net_migration_annual: null }, 600);
+  assert.equal(none.migration_pct, 100, 'no saved migrant count keeps SDO\'s migration, not 0%');
+  assert.equal(none.migrationNote, null, 'and needs no note');
+  const big = M.paramsFromSaved({ net_migration_annual: 500 }, 10);
+  assert.equal(big.migration_pct, M.RANGES.migration_pct[1], 'a count far above SDO\'s is held to the slider\'s top');
+  assert(/500 people moving in a year/.test(big.migrationNote), 'and the note says what was saved');
+  assert.deepEqual(M.paramsFromSaved({ births_pct: 400, deaths_pct: 10, migration_pct: -5 }),
+    { births_pct: 150, deaths_pct: 80, migration_pct: 0, migrationNote: null }, 'new records are held to the sliders\' ranges');
 }
 
 console.log('cohort-component-model unit: PASS');
