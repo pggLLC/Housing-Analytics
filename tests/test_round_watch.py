@@ -223,3 +223,20 @@ def test_strongest_reason_comes_first():
     l['projects'].append(project('miner', 'Miner Deal', 'Longmont', 40, [dola('Miner Deal', '2026-06')]))  # fits 9%: 25
     i = items(build(a, l, e), 1)['Miner Deal']
     assert [w['kind'] for w in i['why']][:2] == ['soft_fit', 'lost_other']
+
+
+def test_dola_award_counts_from_its_day_when_the_day_is_printed():
+    assert rw.public_before({'agency': 'DOLA', 'year': 2025, 'announced': '2025-02-11'}, '2025-02-12')
+    assert not rw.public_before({'agency': 'DOLA', 'year': 2025, 'announced': '2025-02-12'}, '2025-02-12')
+    assert not rw.public_before({'agency': 'DOLA', 'year': 2025, 'announced': '2025-02'}, '2025-02-12')  # month only: not yet
+
+
+def test_backtest_splits_weak_signs_from_no_record():
+    a, l, e = base()
+    # a 5-point land-banking deal that then applied in 2026 Round One: below the list, not "no record"
+    land = {'agency': 'OEDIT / CHFA (Prop 123 AHFF)', 'program': rw.LAND, 'stage': 'funded', 'year': 2024,
+            'amount': 500000, 'source_url': 'https://example.com/land', 'quote': 'Project Name: Lot Deal; Location: Longmont'}
+    l['projects'].append(project('lot', 'Lot Deal', 'Longmont', 40, [land]))
+    a['applications'].append(app('Lot Deal', 'Longmont', 2026, 1, 'pending'))
+    r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
+    assert r['below_list'] == 1 and r['no_record_before'] == r['applicants'] - r['caught'] - 1

@@ -55,6 +55,9 @@ ok(!folded.includes('Weak') && RW.tableHtml(round, contacts, { sort: 'band', dir
 ok((folded.match(/<th [^>]*data-tip="[^"]{20,}"/g) || []).length === 5, 'every list header has a definition');
 const sorted = RW.sortItems([{ name: 'B', band: 'Medium', score: 30, homes: 10 }, { name: 'A', band: 'High', score: 50, homes: 90 }], 'homes', 'desc');
 ok(sorted[0].name === 'A', 'the list sorts by homes');
+const stats = RW.statsHtml({ rounds: [{ round: '2027 Round One', credit: '9%', applications_due: 'February 2027', counts: { High: 3 }, undecided_last_round: 0 }],
+  backtest: { bands: { High: { listed: 4, applied: 2 } }, caught: 5, applicants: 10, below_list: 1, no_record_before: 4 } });
+ok(stats.includes('5 of 10') && stats.includes('1 had a weaker sign and 4 no public record yet'), 'the stats split weak signs from no public record');
 
 // 4. Gating.
 const page = read('developer-round-watch.html');

@@ -155,9 +155,12 @@ def label(r):
 
 
 def public_before(e, cutoff):
-    """An event counts only once it was public: DOLA by its announced month,
-    everything else (dated by year only) once its year is over."""
+    """An event counts only once it was public: DOLA by its announced day
+    (or month, when only the month is printed), everything else (dated by
+    year only) once its year is over."""
     d = e.get('announced')
+    if e['agency'] == 'DOLA' and d and len(d) == 10 and len(cutoff) >= 10:
+        return d < cutoff[:10]
     if e['agency'] == 'DOLA' and d and len(d) >= 7:
         return d[:7] < cutoff[:7]
     return e['year'] < int(cutoff[:4])
@@ -261,11 +264,13 @@ def backtest(D):
                      'applied': sum(1 for k, v in listed.items() if v['band'] == b and k in applied)} for b, _ in BANDS}
         rounds.append({'round': label(target), 'credit': ROUND_CREDIT[target[1]], 'as_of': cutoff,
                        'applicants': len(applied), 'caught': len(applied & set(listed)),
-                       'no_record_before': len(applied - set(listed)), 'bands': bands})
+                       'below_list': len(applied & set(scored) - set(listed)),
+                       'no_record_before': len(applied - set(scored)), 'bands': bands})
     totals = {b: {'listed': sum(r['bands'][b]['listed'] for r in rounds),
                   'applied': sum(r['bands'][b]['applied'] for r in rounds)} for b, _ in BANDS}
     return {'rounds': rounds, 'bands': totals,
             'applicants': sum(r['applicants'] for r in rounds), 'caught': sum(r['caught'] for r in rounds),
+            'below_list': sum(r['below_list'] for r in rounds), 'no_record_before': sum(r['no_record_before'] for r in rounds),
             'signals': {k: {'with_signal': v[0], 'applied': v[1]} for k, v in sorted(per_signal.items())}}
 
 
