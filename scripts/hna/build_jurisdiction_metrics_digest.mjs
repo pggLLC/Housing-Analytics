@@ -476,6 +476,13 @@ function sourceForMetric(metric, entry, summary) {
   if (metric === 'overcrowding_rate_pct') {
     return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acs5AsOf(summary, '_acs5BackfillYear') };
   }
+  // Below 500 renter units the ranking index substitutes the county's
+  // active-market vacancy (vacancy_adjustment_method says so). Labelling that
+  // 'place' let the town-vs-county table show Rio Blanco County's 1.9% as
+  // Rangely's own, against Rangely's 5.5%.
+  if (metric === 'vacancy_rate_pct' && m.vacancy_adjustment_method === 'county_active_market_small_renter_base') {
+    return { source_id: 'acs-profile', geography_level: contextLevel(entry, 'county_context'), as_of: acsAsOf(summary) };
+  }
   return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acsAsOf(summary) };
 }
 

@@ -619,7 +619,10 @@
 
     // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
-    if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+    if (els.statRentBurden) {
+      els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+      els.statRentBurden.removeAttribute('title');
+    }
     if (els.statRentBurdenSrc) els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
     updateDecisionStrip({
       affordability: {
@@ -628,6 +631,23 @@
         href: '#statRentBurden',
       },
     });
+    // The ranking index drops an ACS burden share that the CHAS severe share
+    // contradicts (Rangely: 21.1% burdened, 30.3% severely, a subset larger
+    // than its whole). The narrative then falls back to CHAS, so showing the
+    // ACS share here put two "cost-burdened" figures on one page.
+    const _narr = window.HNANarratives && window.HNANarratives._internals;
+    if (rb30 !== null && _narr && _narr.loadRanking && _narr.rankingEntryFor) {
+      Promise.resolve(_narr.loadRanking()).then(function () {
+        if (token !== _snapshotToken) return;
+        const entry = _narr.rankingEntryFor(geoid);
+        if (!entry || !entry.metrics || entry.metrics.pct_cost_burdened !== null) return;
+        if (els.statRentBurden) {
+          els.statRentBurden.textContent = '—';
+          els.statRentBurden.title = 'The ACS share for this place contradicts its HUD CHAS severe-burden share, so it is not shown.';
+        }
+        updateDecisionStrip({ affordability: { value: '—', read: _decisionReadFromPct(null), href: '#statRentBurden' } });
+      }).catch(function () { /* ranking optional */ });
+    }
 
     // Income needed to buy the median home at the 30%-rule front-end
     // ratio. computeIncomeNeeded takes a scalar home value and returns

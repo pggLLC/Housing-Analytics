@@ -24,15 +24,30 @@
   'use strict';
 
   // ── Comparator constants ─────────────────────────────────────────
-  // CO/US renter burden anchors. CO from HUD CHAS 2018–2022 state row
-  // (verified at data/hna/chas_affordability_gap.json.state.summary).
-  // US from ACS 2020-2024 5-year B25070 (rows 007-010 over all renter
-  // households, 001, so "not computed" stays in the denominator as it does
-  // in CHAS). Checked 2026-10-14 via Census Reporter acs2024_5yr. These shift
-  // slowly enough that a yearly refresh with the ACS release is sufficient.
-  var CO_RENTER_CB30 = 47.2;  // %
-  var CO_RENTER_CB50 = 23.4;  // %
-  var US_RENTER_CB30 = 47.6;  // %
+  // Colorado renter burden, one anchor per source, so a local figure is only
+  // ever compared with a state figure built the same way:
+  //   ACS: 2020-2024 5-year B25070 rows 007-010 over renter households with
+  //     a computed ratio (001 minus 011), the same basis as DP04_0141PE +
+  //     DP04_0142PE that the score card and ranking index use. Census
+  //     Reporter acs2024_5yr, checked 2026-10-20: 422,941 / 803,524.
+  //   CHAS: HUD CHAS 2018-2022 state row
+  //     (data/hna/chas_affordability_gap.json.state.summary).
+  // Comparing an ACS county share with the CHAS state row put Mesa County's
+  // 51.8% "above the Colorado average" of 47.2%, when the ACS state figure is
+  // 52.9%.
+  var CO_RENTER_CB30_ACS  = 52.9;  // %
+  var CO_RENTER_CB30_CHAS = 47.2;  // %
+  var CO_RENTER_CB50      = 23.4;  // % (CHAS; the severe share is CHAS only)
+  var ACS_LABEL  = 'ACS 2020\u20132024';
+  var CHAS_LABEL = 'HUD CHAS 2018\u20132022';
+
+  // The state anchor and source label for whichever source supplied
+  // ctx.renterCb30.
+  function _cb30Basis(ctx) {
+    return ctx.renterCb30FromRanking
+      ? { co: CO_RENTER_CB30_ACS, label: ACS_LABEL }
+      : { co: CO_RENTER_CB30_CHAS, label: CHAS_LABEL };
+  }
 
   // ── Light HTML escape ─────────────────────────────────────────────
   function _esc(s) {
@@ -340,17 +355,23 @@
     }
     if (ctx.renterCb50 != null && ctx.renterCb50 >= 25) {
       return '<strong>Severe renter cost burden is broadly documented — ' + _fmtPct(ctx.renterCb50) +
-        ' of renters pay 50% or more of their income on rent</strong>, ' +
+        ' of renters pay 50% or more of their income on rent</strong> (' + CHAS_LABEL + '), ' +
         'a meaningful share of the community’s renter base navigating tight household budgets.';
     }
-    if (ctx.renterCb30 != null && ctx.renterCb30 >= CO_RENTER_CB30 + 5) {
+    var basis = _cb30Basis(ctx);
+    if (ctx.renterCb30 != null && ctx.renterCb30 >= basis.co + 5) {
       return '<strong>Renter cost burden here runs above the Colorado average — ' +
-        _fmtPct(ctx.renterCb30) + ' vs ' + _fmtPct(CO_RENTER_CB30) + ' statewide</strong>, ' +
+        _fmtPct(ctx.renterCb30) + ' vs ' + _fmtPct(basis.co) + ' statewide (' + basis.label + ')</strong>, ' +
         'one indicator the local rental market has tightened relative to wages.';
+    }
+    if (ctx.renterCb30 != null && ctx.renterCb30 <= basis.co - 5) {
+      return 'Renter cost burden runs at ' + _fmtPct(ctx.renterCb30) +
+        ' overall, below the Colorado average (' + _fmtPct(basis.co) + ', ' + basis.label + '), ' +
+        'with the community’s lower income tiers carrying a larger share of that burden.';
     }
     if (ctx.renterCb30 != null) {
       return 'Renter cost burden runs at ' + _fmtPct(ctx.renterCb30) +
-        ' overall — close to the Colorado average (' + _fmtPct(CO_RENTER_CB30) + '), ' +
+        ' overall — close to the Colorado average (' + _fmtPct(basis.co) + ', ' + basis.label + '), ' +
         'with the community’s lower income tiers carrying a larger share of that burden.';
     }
     return null;
@@ -376,22 +397,18 @@
     // comparator without making it the headline.
     var lines = [];
     if (ctx.renterCb30 != null) {
-      var cmpCo = _compareBurden(ctx.renterCb30, CO_RENTER_CB30);
-      var cmpUs = _compareBurden(ctx.renterCb30, US_RENTER_CB30);
-      // Phrase comparators as context, not as accomplishment.
-      var coFrag, usFrag;
+      var basis = _cb30Basis(ctx);
+      var cmpCo = _compareBurden(ctx.renterCb30, basis.co);
+      // Phrase the comparator as context, not as accomplishment.
+      var coFrag;
       if (cmpCo.delta < -4)      coFrag = 'lower than the Colorado average';
       else if (cmpCo.delta > 4)  coFrag = 'higher than the Colorado average';
       else                       coFrag = 'in line with the Colorado average';
-      if (cmpUs.delta < -4)      usFrag = 'and lower than the U.S. average';
-      else if (cmpUs.delta > 4)  usFrag = 'and higher than the U.S. average';
-      else                       usFrag = 'and in line with the U.S. average';
       var suffix = ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60
         ? ' — and as the lead finding shows, the burden is most concentrated at the lowest income band.'
         : ', with the lower income bands carrying a larger share of the documented need.';
       lines.push('Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) +
-        ', ' + coFrag + ' (' + _fmtPct(CO_RENTER_CB30) + ') ' +
-        usFrag + ' (' + _fmtPct(US_RENTER_CB30) + ')' + suffix);
+        ', ' + coFrag + ' (' + _fmtPct(basis.co) + ', both ' + basis.label + ')' + suffix);
     }
     if (ctx.renterCb50 != null) {
       // Only add the severe row when the LEAD wasn't the severe-burden
@@ -400,7 +417,7 @@
       if (!ledWithSevere || ctx.renterCb50 < 25) {
         lines.push(
           'Severe renter burden (paying ≥50% of income on rent) runs at ' +
-          _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide.'
+          _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide (both ' + CHAS_LABEL + ').'
         );
       }
     }
