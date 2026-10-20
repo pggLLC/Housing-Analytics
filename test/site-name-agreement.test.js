@@ -24,10 +24,7 @@ const brand = (nav.match(/<div class="brand">\s*<a href="[^"]*">([^<]+)<\/a>/) |
 assert.ok(brand, 'could not read the header brand from js/navigation.js');
 
 // Pages left out, each with the reason.
-const EXEMPT = {
-  // A meta-refresh stub that is never read.
-  'indibuild-pipeline-public.html': 'redirect stub',
-};
+const EXEMPT = {};
 
 // Top-level pages, and the 482 place profiles that
 // scripts/hna/build_place_pages.py generates from places/_template.html.
