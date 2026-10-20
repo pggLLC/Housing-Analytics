@@ -8,7 +8,7 @@ body:
     attributes:
       label: Link
       description: The story's address. An Apple News or Google News link works too.
-      placeholder: https://
+      placeholder: Paste the story's address
     validations:
       required: true
   - type: input
