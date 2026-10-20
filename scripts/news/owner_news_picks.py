@@ -55,6 +55,7 @@ LINK_LABEL = 'news-link'
 REVIEW_LABEL = 'news-review'
 REVIEW_TITLE = 'News picks to review'
 MARKER = '<!-- owner-news-review -->'
+BOT_LOGIN = 'github-actions[bot]'
 TRUSTED = {'OWNER', 'MEMBER', 'COLLABORATOR'}
 WAIT_DAYS = 30
 KEEP_DAYS = 90
@@ -210,6 +211,15 @@ def open_issues(token: str, repo: str) -> list[dict]:
     return out
 
 
+def review_issue(issues: list[dict]) -> dict | None:
+    """The review issue this workflow opened. Only its own issue counts:
+    anyone can write the marker into an issue of their own and tick its
+    boxes, but only the workflow and the repo's collaborators can edit the
+    workflow's issue (Codex review of #2413)."""
+    return next((i for i in issues if MARKER in (i.get('body') or '')
+                 and (i.get('user') or {}).get('login') == BOT_LOGIN), None)
+
+
 def ticked_ids(body: str) -> set[str]:
     return set(re.findall(r'^- \[[xX]\] .*<!-- id:([0-9a-f]{10}) -->', body or '', re.M))
 
@@ -324,7 +334,7 @@ def sync_issues(token: str, repo: str) -> int:
             gh(token, f'/repos/{repo}/issues/{it["number"]}/comments', 'POST',
                {'body': 'Added to Housing News. It shows on the page once the site redeploys.'})
             gh(token, f'/repos/{repo}/issues/{it["number"]}', 'PATCH', {'state': 'closed', 'state_reason': 'completed'})
-    review = next((i for i in issues if MARKER in (i.get('body') or '')), None)
+    review = review_issue(issues)
     # A box ticked while this run was going stays ticked, so the next run
     # publishes it rather than this rewrite clearing it (Codex review of #2413).
     body = review_body(ledger, repo, ticked_ids(review['body'] if review else ''))
@@ -354,7 +364,7 @@ def main() -> int:
             issues = open_issues(token, repo)
         except Exception as exc:  # noqa: BLE001
             print(f'  ⚠ Could not read issues: {exc}', file=sys.stderr)
-        review = next((i for i in issues if MARKER in (i.get('body') or '')), None)
+        review = review_issue(issues)
     feeds = feed_urls()
     alerts = alert_items(feeds)
     pasted = pasted_links(issues)

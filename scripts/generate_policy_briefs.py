@@ -29,6 +29,7 @@ import os
 import re
 import sys
 import textwrap
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -780,6 +781,12 @@ def stories_meta(counts: dict) -> dict:
 OWNER_NEWS_FILE = REPO_ROOT / 'data' / 'alerts' / 'owner-news.json'
 
 
+def _link_key(url: str) -> str:
+    p = urllib.parse.urlsplit((url or '').strip())
+    host = p.netloc.lower().removeprefix('www.')
+    return f'{host}{p.path.rstrip("/")}' if host else ''
+
+
 def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -> list[dict]:
     """Add the owner's published picks (scripts/news/owner_news_picks.py) to the stories.
 
@@ -791,13 +798,22 @@ def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -
     data = load_json_safe(path or OWNER_NEWS_FILE)
     items = data.get('items', []) if isinstance(data, dict) else []
     by_key = {norm_title(s['title']): s for s in stories}
+    # The same article can carry a different headline in the feed and on its
+    # own page, so its address is a key too.
+    by_link = {_link_key(s.get('link', '')): s for s in stories if s.get('link')}
+    for s in stories:
+        for a in s.get('also', []):
+            if a.get('link'):
+                by_link.setdefault(_link_key(a['link']), s)
     out = list(stories)
     for it in items:
         if it.get('status') != 'published' or not it.get('title'):
             continue
         key = norm_title(it['title'])
-        if key in by_key:
-            by_key[key]['picked'] = True
+        lk = _link_key(it.get('link', ''))
+        same = by_key.get(key) or (by_link.get(lk) if lk else None)
+        if same:
+            same['picked'] = True
             continue
         places, distinct = find_places(it['title'], geos, it.get('source', ''))
         regions: list[str] = []
@@ -817,6 +833,8 @@ def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -
             'picked': True,
         }
         by_key[key] = story
+        if story['link']:
+            by_link[_link_key(story['link'])] = story
         out.append(story)
     out.sort(key=lambda s: s['date'], reverse=True)
     return out

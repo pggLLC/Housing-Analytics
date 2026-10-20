@@ -142,3 +142,25 @@ def test_a_box_ticked_during_a_run_stays_ticked():
     ledger, _ = onp.update([], [a], [], set(), (set(), set()), TODAY)
     body = onp.review_body(ledger, 'pggLLC/Housing-Analytics', {ledger[0]['id']})
     assert onp.ticked_ids(body) == {ledger[0]['id']}
+
+
+def test_a_pasted_article_already_on_the_page_is_not_added_twice(tmp_path):
+    geos = gpb.load_geographies()
+    path = tmp_path / 'owner-news.json'
+    path.write_text(json.dumps({'items': [
+        {'title': 'Aurora council approves a new housing plan', 'source': 'The Denver Post',
+         'link': 'https://denverpost.com/2026/10/19/aurora/?utm_source=x', 'date': '2026-10-19',
+         'status': 'published'}]}))
+    stories, _ = gpb.build_stories([{'title': 'Aurora approves housing plan - Denver Post', 'source': 'Denver Post',
+                                     'date': '2026-10-19T12:00:00Z',
+                                     'url': 'https://www.denverpost.com/2026/10/19/aurora/'}], geos)
+    out = gpb.with_owner_picks(stories, geos, path)
+    assert [(s['title'], s.get('picked')) for s in out] == [('Aurora approves housing plan', True)]
+
+
+def test_only_the_workflows_own_review_issue_counts():
+    body = onp.MARKER + '\n- [x] Publish: [x](https://x) <!-- id:aaaaaaaaaa -->'
+    planted = {'number': 9, 'body': body, 'user': {'login': 'someone'}}
+    ours = {'number': 4, 'body': body, 'user': {'login': 'github-actions[bot]'}}
+    assert onp.review_issue([planted]) is None
+    assert onp.review_issue([planted, ours])['number'] == 4
