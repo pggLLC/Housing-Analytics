@@ -15,25 +15,59 @@ const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const cta = read('js/components/next-action-cta.js');
 assert(!/position:\s*(sticky|fixed)/.test(cta), 'the Next block is not pinned to the screen');
 
-const wna = read('js/components/workflow-next-action.js');
-const canon = [...wna.matchAll(/\{ key: '(\w+)',\s*label: '([^']+)',\s*href: '([^']+)' \}/g)].map((m) => ({ key: m[1], label: m[2] }));
-assert(canon.length === 7, 'fixture: the canonical path has 7 steps, found ' + canon.length);
+// The canonical route and its product variants come from workflow-progress.js.
+const wpSrc = read('js/components/workflow-progress.js');
+function routeFor(product) {
+  const dom = new JSDOM('<!doctype html><main></main>', { runScripts: 'outside-only', url: 'http://127.0.0.1/' });
+  if (product) dom.window.localStorage.setItem('coho:guided-product', product);
+  dom.window.eval(wpSrc);
+  return { dom, route: dom.window.WorkflowProgress.routeSteps() };
+}
 
-const FROM = { of: 'opportunity', hna: 'hsa', pma: 'market', deal: 'deal' };
-for (const [fromPage, key] of Object.entries(FROM)) {
-  const dom = new JSDOM('<!doctype html><main></main>', { runScripts: 'outside-only' });
-  dom.window.eval(cta);
-  const html = dom.window.NextActionCTA.render({ fromPage, jurisdiction: null });
+function renderNext(win, fromPage, jurisdiction) {
+  win.eval(cta);
+  const html = win.NextActionCTA.render({ fromPage, jurisdiction });
   const doc = new JSDOM(html).window.document;
   const next = doc.querySelectorAll('.naca-next');
   assert.equal(next.length, 1, `${fromPage}: exactly one primary next action`);
   const m = /^Next: Step (\d+), (.+?) →$/.exec(next[0].textContent.trim());
   assert(m, `${fromPage}: the link reads "Next: Step N, Label →", got "${next[0].textContent}"`);
-  // Optional steps (Opportunity Finder) are never the "next" one.
-  let i = canon.findIndex((s) => s.key === key) + 1;
-  if (canon[i] && canon[i].key === 'opportunity') i++;
-  assert.equal(Number(m[1]), i + 1, `${fromPage}: step number matches the canonical path`);
-  assert.equal(m[2], canon[i].label, `${fromPage}: step label matches the canonical path`);
+  return { num: Number(m[1]), label: m[2], href: next[0].getAttribute('href') };
+}
+
+const SLOT = { of: 2, hna: 3, pma: 4, deal: 6 };
+let routedChecked = 0;
+for (const product of [null, 'for-sale']) {
+  for (const [fromPage, slot] of Object.entries(SLOT)) {
+    const { dom, route } = routeFor(product);
+    const want = route.find((st) => st.num === slot + 1);
+    const got = renderNext(dom.window, fromPage, null);
+    assert.equal(got.num, want.num, `${product || 'rental'} ${fromPage}: step number follows the route`);
+    assert.equal(got.label, want.label, `${product || 'rental'} ${fromPage}: label follows the route`);
+    assert.equal(got.href, want.href, `${product || 'rental'} ${fromPage}: link follows the route`);
+    if (want.routed) routedChecked++;
+  }
+}
+assert(routedChecked > 0, 'fixture: the for-sale route replaces at least one next step');
+
+// Without workflow-progress.js on the page, the fallback is the canonical route.
+const canon = routeFor(null).route;
+for (const [fromPage, slot] of Object.entries(SLOT)) {
+  const dom = new JSDOM('<!doctype html><main></main>', { runScripts: 'outside-only' });
+  const got = renderNext(dom.window, fromPage, null);
+  const want = canon.find((st) => st.num === slot + 1);
+  assert.deepEqual([got.num, got.label, got.href], [want.num, want.label, want.href], `${fromPage}: fallback mirrors workflow-progress.js STEPS`);
+}
+
+// The place travels in the form each page reads.
+{
+  const jx = { fips: '0862880', geoType: 'place' };
+  const pma = renderNext(routeFor(null).dom.window, 'pma', jx);
+  assert.equal(pma.href, 'hna-scenario-builder.html?geoType=place&geoid=0862880&auto=1', 'Scenario Builder gets geoid/geoType/auto');
+  const hna = renderNext(routeFor(null).dom.window, 'hna', jx);
+  assert.equal(hna.href, 'market-analysis.html?fips=0862880&geoType=place&auto=1', 'Market Analysis gets fips/geoType/auto');
+  const deal = renderNext(routeFor(null).dom.window, 'deal', jx);
+  assert.equal(deal.href, 'recommendation.html?fips=0862880&geoType=place', 'Recommendation gets fips/geoType without auto-run');
 }
 
 const dc = read('deal-calculator.html');

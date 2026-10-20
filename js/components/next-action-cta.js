@@ -71,37 +71,79 @@
     return null;
   }
 
-  // The next step on the 1-7 path (workflow-progress.js STEPS) from each
-  // page. Walkthrough 2026-10-20 (R1): the old strip pinned three equal
-  // buttons to the bottom of the phone screen (about a fifth of it) and
-  // competed with the step rail. Now there is one next action, at the end
-  // of the page, and the cross-tool links stay as plain links under it.
-  var NEXT = {
-    'of':   { step: 3, label: 'Housing Needs Assessment', page: 'hna' },
-    'hna':  { step: 4, label: 'Market Analysis', page: 'pma' },
-    'pma':  { step: 5, label: 'Scenario Builder', href: 'hna-scenario-builder.html' },
-    'deal': { step: 7, label: 'Recommendation', href: 'recommendation.html', geoSupport: 'both', noAuto: true }
-  };
+  // The page's own slot on the 1-7 path. The next step is the slot after it
+  // on the reader's product route (WorkflowProgress.routeSteps(): a for-sale
+  // project's step 4 is the for-sale market study, not Market Analysis), so
+  // this block and the step rail cannot disagree. Walkthrough 2026-10-20
+  // (R1): the old strip pinned three equal buttons to the bottom of the phone
+  // screen (about a fifth of it) and competed with the rail. Now there is one
+  // next action, at the end of the page, and the other tools stay as plain
+  // links under it.
+  var SLOT = { 'of': 2, 'hna': 3, 'pma': 4, 'deal': 6 };
+  // Used only when workflow-progress.js is not on the page; mirrors its
+  // STEPS (test/next-step-link.test.js checks that it does).
+  var FALLBACK_ROUTE = [
+    { num: 3, key: 'hsa',            label: 'Needs Assessment', href: 'hna-what-housing-exists.html' },
+    { num: 4, key: 'market',         label: 'Market Analysis',  href: 'market-analysis.html' },
+    { num: 5, key: 'scenario',       label: 'Scenarios',        href: 'hna-scenario-builder.html' },
+    { num: 6, key: 'deal',           label: 'Deal Calculator',  href: 'deal-calculator.html' },
+    { num: 7, key: 'recommendation', label: 'Recommendation',   href: 'recommendation.html' }
+  ];
+  // Which PAGES entry a route slot opens, so it is not listed twice.
+  var KEY_TO_PAGE = { hsa: 'hna', market: 'pma', deal: 'deal', opportunity: 'of' };
+
+  function _route() {
+    try {
+      var WP = window.WorkflowProgress;
+      if (WP && typeof WP.routeSteps === 'function') {
+        var r = WP.routeSteps();
+        if (r && r.length) return r;
+      }
+    } catch (_) {}
+    return FALLBACK_ROUTE;
+  }
+
+  function _nextStep(fromPage) {
+    var slot = SLOT[fromPage];
+    if (!slot) return null;
+    var route = _route();
+    for (var i = 0; i < route.length; i++) if (route[i].num === slot + 1) return route[i];
+    return null;
+  }
+
+  // Carry the jurisdiction in the form each page reads: the Scenario Builder
+  // takes geoid/geoType, the Recommendation reads fips/geoType without
+  // auto-running, and the rest take fips/geoType/auto=1.
+  function _withJurisdiction(href, jurisdiction, noAuto) {
+    if (!jurisdiction) return href;
+    var sep = href.indexOf('?') === -1 ? '?' : '&';
+    var fips = encodeURIComponent(jurisdiction.fips);
+    var geoType = encodeURIComponent(jurisdiction.geoType);
+    if (/hna-scenario-builder\.html/.test(href)) {
+      return href + sep + 'geoType=' + geoType + '&geoid=' + fips + '&auto=1';
+    }
+    return href + sep + 'fips=' + fips + '&geoType=' + geoType +
+      ((noAuto || /recommendation\.html/.test(href)) ? '' : '&auto=1');
+  }
 
   function _buildHref(pageDef, jurisdiction) {
     if (!jurisdiction || !pageDef.geoSupport) return pageDef.href;
-    return pageDef.href + '?fips=' + encodeURIComponent(jurisdiction.fips) +
-           '&geoType=' + encodeURIComponent(jurisdiction.geoType) + (pageDef.noAuto ? '' : '&auto=1');
+    return _withJurisdiction(pageDef.href, jurisdiction);
   }
 
   function render(opts) {
     opts = opts || {};
     var fromPage = opts.fromPage || 'unknown';
     var jurisdiction = opts.jurisdiction || _getActiveJurisdiction();
-    var next = NEXT[fromPage];
-    var nextDef = next ? (next.page ? PAGES[next.page] : next) : null;
+    var next = _nextStep(fromPage);
+    var nextPage = next ? KEY_TO_PAGE[next.key] : null;
 
-    var primary = nextDef
-      ? '<a class="naca-next" href="' + _buildHref(nextDef, jurisdiction) + '">Next: Step ' + next.step + ', ' + next.label + ' \u2192</a>'
+    var primary = next
+      ? '<a class="naca-next" href="' + _withJurisdiction(next.href, jurisdiction) + '">Next: Step ' + next.num + ', ' + next.label + ' \u2192</a>'
       : '';
 
     var keys = Object.keys(PAGES).filter(function (k) {
-      return k !== fromPage && !(next && next.page === k);
+      return k !== fromPage && !(next && !next.routed && nextPage === k);
     });
     var links = keys.map(function (k) {
       var def = PAGES[k];
@@ -169,6 +211,7 @@
   }
 
   document.addEventListener('jurisdiction-url-context:resolved', _autoMount);
+  document.addEventListener('workflow:product-changed', _autoMount);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _autoMount);
