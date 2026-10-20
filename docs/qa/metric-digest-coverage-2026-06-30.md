@@ -5,7 +5,7 @@ Date: 2026-06-30
 B1 metric-digest data spine generated from the committed HNA ranking index and per-geography summaries. This is non-scoring and does not rewrite `data/hna/ranking-index.json`.
 
 - Digest files: 546
-- Total tagged metrics: 78620
+- Total tagged metrics: 79712
 - County-context metric tags: 7125
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
@@ -14,9 +14,9 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 | geography_level | metric tags |
 |---|---:|
-| county | 8704 |
+| county | 8832 |
 | county_context | 7125 |
-| place | 62791 |
+| place | 63755 |
 
 ## Source Tags
 
@@ -36,7 +36,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | chfa-lihtc-and-2026-r1-awards | 2184 |
 | chfa-lihtc-properties | 10370 |
 | county-housing-cost-trends-acs-cohorts | 2730 |
-| dola-demographic-projections | 2730 |
+| dola-demographic-projections | 2204 |
+| dola-projections-plus-lodes-incommuters | 526 |
 | economic-housing-bridge | 4368 |
 | hna-affordable-ownership-need | 6552 |
 | hna-ranking-index-derived | 12558 |
@@ -48,6 +49,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | lehd-lodes-place-apportioned | 1446 |
 | lehd-lodes-wac-county | 65 |
 | lehd-lodes-wac-place | 481 |
+| lodes-incommuters-acs-b08202 | 1092 |
 | opportunity-amenity-context | 2730 |
 | workforce-gap-lodes-wac-vs-ami-gap | 1638 |
 | zillow-zhvi-city-index | 540 |

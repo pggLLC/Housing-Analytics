@@ -280,7 +280,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,216 in-commuters and a commute ratio of 31.6%. The digest's county-context projection shows 9,404 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,216 in-commuters and a commute ratio of 31.6%. The digest's county-context projection shows 9,798 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -589,7 +589,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -598,7 +598,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -706,7 +706,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -733,7 +733,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -742,7 +742,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -751,7 +751,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T11:14:06Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-20T14:16:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
