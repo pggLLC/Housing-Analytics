@@ -188,9 +188,21 @@
         if (m.in_commuters != null)               ctx.inCommuters = +m.in_commuters;
         if (m.commute_ratio != null)              ctx.commuteRatio = +m.commute_ratio;
       }
+      var countyEntry = entry && entry.containingCounty ? _rankingEntry(entry.containingCounty) : null;
+      ctx.containingCountyName = (countyEntry && countyEntry.name) || null;
     } catch (_) { /* ranking optional */ }
 
     return ctx;
+  }
+
+  // The State Demography Office forecasts counties only. A town's figure is
+  // its share of the county's forecast growth, and saying "the county
+  // forecast" next to the town's name read as the county's own number.
+  function _forecastSource(c) {
+    var isPlace = c.geoType === 'place' || c.geoType === 'cdp';
+    if (!isPlace) return 'from the State Demography Office\u2019s county forecast';
+    var county = c.containingCountyName || 'its county';
+    return 'this community\u2019s share of ' + county + '\u2019s growth in the State Demography Office forecast, which covers counties only';
   }
 
   function _rankingEntry(geoid) {
@@ -332,7 +344,7 @@
         : '';
       return '<strong>Projected to ' + (deltaPop > 0 ? 'add ' : 'lose ') +
         _fmtInt(Math.abs(deltaPop)) + ' residents (' + pctG + '% ' + direction + ')</strong> ' +
-        'over 20 years (from the State Demography Office\u2019s county forecast)' + hhClause + '.' + pressure;
+        'over 20 years (' + _forecastSource(c) + ')' + hhClause + '.' + pressure;
     },
 
     // Senior growth pressure
