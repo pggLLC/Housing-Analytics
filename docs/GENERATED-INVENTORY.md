@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T12:36:31.928Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T13:37:48.383Z. Do not edit by hand.
 
 ---
 
@@ -282,7 +282,7 @@
 | `data/hna/jurisdiction-metrics-digest/08035.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0803620.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08037.json` | 39.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0803730.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0803730.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0803840.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08039.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0803950.json` | 40.9 KB | ✅ | — |
@@ -313,7 +313,7 @@
 | `data/hna/jurisdiction-metrics-digest/0806602.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08067.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08069.json` | 39.2 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0806970.json` | 39.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0806970.json` | 39.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0807025.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08071.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0807190.json` | 40.8 KB | ✅ | — |
@@ -341,7 +341,7 @@
 | `data/hna/jurisdiction-metrics-digest/0808675.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08087.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08089.json` | 39.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0808950.json` | 39.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0808950.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08091.json` | 38.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0809115.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0809280.json` | 40.7 KB | ✅ | — |
@@ -354,7 +354,7 @@
 | `data/hna/jurisdiction-metrics-digest/0810105.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08103.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08105.json` | 39.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0810600.json` | 40.4 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0810600.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08107.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08109.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0810985.json` | 39.2 KB | ✅ | — |
@@ -381,10 +381,10 @@
 | `data/hna/jurisdiction-metrics-digest/08125.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812635.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812815.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0812855.json` | 40.6 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0812855.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812900.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812945.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0813460.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0813460.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813590.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813845.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0814175.json` | 40.2 KB | ✅ | — |
@@ -395,7 +395,7 @@
 | `data/hna/jurisdiction-metrics-digest/0815330.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0815440.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0815550.json` | 40.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0815605.json` | 40.4 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0815605.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0815825.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0815935.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0816000.json` | 40.8 KB | ✅ | — |
@@ -418,8 +418,8 @@
 | `data/hna/jurisdiction-metrics-digest/0818750.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819080.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819150.json` | 39.2 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0819355.json` | 40.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0819630.json` | 40.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0819355.json` | 40.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0819630.json` | 40.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819795.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819850.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0820000.json` | 40.8 KB | ✅ | — |
@@ -437,13 +437,13 @@
 | `data/hna/jurisdiction-metrics-digest/0822200.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0822575.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0822860.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0822882.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0822882.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823025.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823135.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823300.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823520.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823575.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0823630.json` | 39.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0823630.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823740.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823795.json` | 39.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0824235.json` | 39.1 KB | ✅ | — |
@@ -471,7 +471,7 @@
 | `data/hna/jurisdiction-metrics-digest/0827865.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0827950.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0827975.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0828105.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0828105.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0828250.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0828305.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0828360.json` | 40.9 KB | ✅ | — |
@@ -480,8 +480,8 @@
 | `data/hna/jurisdiction-metrics-digest/0828800.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0828830.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0829185.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0829240.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0829295.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0829240.json` | 39.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0829295.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0829625.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0829680.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0829735.json` | 40.7 KB | ✅ | — |
@@ -497,18 +497,18 @@
 | `data/hna/jurisdiction-metrics-digest/0831550.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0831605.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0831660.json` | 40.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0831715.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0831715.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0831935.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0832155.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0832650.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0833035.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0833310.json` | 40.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0833420.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0833420.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0833502.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0833640.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0833695.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0834520.json` | 40.2 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0834630.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0834520.json` | 40.3 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0834630.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0834685.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0834740.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0834960.json` | 40.1 KB | ✅ | — |
@@ -518,11 +518,11 @@
 | `data/hna/jurisdiction-metrics-digest/0836410.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0836610.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0836940.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837215.json` | 40.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837215.json` | 40.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837220.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837270.json` | 40.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837380.json` | 40.5 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837545.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837545.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837600.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837655.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837820.json` | 40.9 KB | ✅ | — |
@@ -535,18 +535,18 @@
 | `data/hna/jurisdiction-metrics-digest/0838810.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838910.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0839160.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0839195.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0839195.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0839250.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0839745.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0839800.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0839800.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0839855.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0839965.json` | 40.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0839965.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840185.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840377.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840515.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840550.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840570.json` | 40.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0840790.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0840790.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840900.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841010.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841065.json` | 39.0 KB | ✅ | — |
@@ -565,7 +565,7 @@
 | `data/hna/jurisdiction-metrics-digest/0843605.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0843660.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844100.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0844265.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0844265.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844270.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844320.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844375.json` | 39.0 KB | ✅ | — |
@@ -597,13 +597,13 @@
 | `data/hna/jurisdiction-metrics-digest/0849325.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0849490.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0849600.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0849875.json` | 40.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0849875.json` | 40.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0850012.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0850026.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0850040.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0850380.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0850480.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0850920.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0850480.json` | 41.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0850920.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0851250.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0851635.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0851690.json` | 40.5 KB | ✅ | — |
@@ -611,17 +611,17 @@
 | `data/hna/jurisdiction-metrics-digest/0851800.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0851975.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0852075.json` | 40.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0852210.json` | 39.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0852210.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0852350.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0852550.json` | 40.5 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0852570.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0852570.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0852820.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853010.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853120.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853175.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853395.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853780.json` | 39.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0853875.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0853875.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0853945.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854330.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854495.json` | 39.3 KB | ✅ | — |
@@ -629,7 +629,7 @@
 | `data/hna/jurisdiction-metrics-digest/0854880.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854935.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0855045.json` | 40.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0855155.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0855155.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0855540.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0855705.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0855870.json` | 40.3 KB | ✅ | — |
@@ -653,20 +653,20 @@
 | `data/hna/jurisdiction-metrics-digest/0857850.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858235.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858400.json` | 39.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0858510.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0858510.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858592.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858675.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858785.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0858960.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0859005.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0859005.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0859240.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0859520.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0859830.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0859885.json` | 39.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0860160.json` | 40.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0860600.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0860600.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0860655.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0860765.json` | 38.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0860765.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0861315.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0862000.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0862220.json` | 39.1 KB | ✅ | — |
@@ -678,8 +678,8 @@
 | `data/hna/jurisdiction-metrics-digest/0863375.json` | 39.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0863650.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0863705.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0864090.json` | 40.5 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0864200.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0864090.json` | 40.6 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0864200.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864255.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864870.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864970.json` | 40.6 KB | ✅ | — |
@@ -700,7 +700,7 @@
 | `data/hna/jurisdiction-metrics-digest/0868655.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0868847.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0868875.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0868930.json` | 39.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0868930.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0868985.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0869040.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0869110.json` | 39.0 KB | ✅ | — |
@@ -710,7 +710,7 @@
 | `data/hna/jurisdiction-metrics-digest/0869700.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0869810.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0870112.json` | 39.3 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0870195.json` | 40.7 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0870195.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0870250.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0870360.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0870525.json` | 40.9 KB | ✅ | — |
@@ -721,7 +721,7 @@
 | `data/hna/jurisdiction-metrics-digest/0871790.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0871845.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0872320.json` | 38.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0872395.json` | 40.3 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0872395.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873330.json` | 40.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873715.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873825.json` | 40.8 KB | ✅ | — |
@@ -733,7 +733,7 @@
 | `data/hna/jurisdiction-metrics-digest/0874375.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0874430.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0874485.json` | 40.4 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0874815.json` | 40.3 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0874815.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0874980.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0875585.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0875640.json` | 40.7 KB | ✅ | — |
@@ -770,7 +770,7 @@
 | `data/hna/jurisdiction-metrics-digest/0883120.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883175.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883230.json` | 40.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0883450.json` | 40.3 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0883450.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883500.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883835.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0884000.json` | 38.9 KB | ✅ | — |
@@ -786,7 +786,7 @@
 | `data/hna/jurisdiction-metrics-digest/0886117.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0886200.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0886310.json` | 40.1 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0886475.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0886475.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0886750.json` | 40.3 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
@@ -1761,7 +1761,7 @@
 | `data/policy/jchs-state-of-nations-housing.json` | 4.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/lihtc-assumptions.json` | 4.2 KB | ✅ | — |
+| `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 14.4 KB | ✅ | — |
 | `data/policy/local-housing-funds.json` | 137.1 KB | ✅ | — |
 | `data/policy/local-support.json` | 146.6 KB | ✅ | — |
@@ -1808,7 +1808,7 @@
 
 ## Test Files
 
-670 test files found.
+671 test files found.
 
 | File | Size |
 |------|------|
@@ -2055,6 +2055,7 @@
 | `test/hna-household-demand-place-scaling.test.js` | 7.7 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
+| `test/hna-like-for-like-comparisons.test.js` | 7.1 KB |
 | `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-need-reconciliation.test.js` | 24.6 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.4 KB |
