@@ -270,10 +270,33 @@ test('small places keep an honest history: one wage mix, no zero-job inventions,
     }
   }
   // 3. No local wage mix means unknown, not the county's mix (Hartsel,
-  //    population 0, read 19/23/51 from Park County's split).
-  const hartsel = lehd['0834630'];
-  assert.ok(hartsel, 'Hartsel left place-lehd.json; repoint this case at another place with no tract weight');
-  assert.strictEqual(hartsel.lehd.CE01, null, `Hartsel CE01 is ${hartsel.lehd.CE01}; with no local wage mix it must be unknown`);
-  assert.deepEqual(hartsel.lehd.annualWages, {}, 'Hartsel carries a yearly wage split it has no local source for');
+  //    population 0, read 19/23/51 from Park County's split). Which places
+  //    have no mix is derived from the builder's own inputs: the tracts a
+  //    place overlaps, weighted by place_pop x share_of_place_area / tract pop,
+  //    carry no high-wage jobs.
+  const membership = read('data/hna/place-tract-membership.json').places;
+  const tractPop = new Map(read('data/market/acs_tract_metrics_co.json').tracts.map((t) => [String(t.geoid), Number(t.pop) || 0]));
+  const lodes = new Map(read('data/market/lodes_co.json').tracts.map((t) => [String(t.geoid), t]));
+  let noMix = 0;
+  for (const [geoid, p] of Object.entries(lehd)) {
+    const l = p.lehd || {};
+    if (!(l.C000 > 0)) continue;
+    let high = 0;
+    let weighted = false;
+    for (const t of (membership[geoid] || {}).tracts || []) {
+      const lt = lodes.get(t.tract_geoid);
+      const tp = tractPop.get(t.tract_geoid) || 0;
+      const sop = Number(t.share_of_place_area) || 0;
+      if (!lt || tp <= 0 || sop <= 0) continue;
+      weighted = true;
+      high += (Number(lt.high_wage) || 0) * Math.min(1, (p.place_pop * sop) / tp);
+    }
+    if (!weighted || high > 0) continue;
+    noMix++;
+    if (l.CE01 !== null || l.CE02 !== null || l.CE03 !== null || Object.keys(l.annualWages || {}).length) {
+      problems.push(`${p.name}: no local wage mix, but tiers ${l.CE01}/${l.CE02}/${l.CE03} and ${Object.keys(l.annualWages || {}).length} years of wage split`);
+    }
+  }
+  assert.ok(noMix >= 1, 'no place without a local wage mix was found, so the no-county-mix rule went unchecked');
   assert.deepEqual(problems.slice(0, 10), [], `${problems.length} small-place history problems`);
 });
