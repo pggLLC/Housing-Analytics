@@ -16,8 +16,8 @@ name: Funding award ledger
 #
 # Then scripts/funding/build_land_banking_awards.py turns the ledger's Prop 123
 # Land Banking rows into data/policy/prop123-land-banking-awards.json (the map on
-# land-banking-awards.html) and the contacts CHFA prints into the gated
-# data/jurisdiction-briefs/_land-banking-contacts.json.
+# land-banking-awards.html). The contacts CHFA prints name people, so they are
+# not written here; they live only in the private developer-site repository.
 #
 # scripts/funding/build_award_rows.py then reads the same PDFs as tables
 # into data/policy/funding-awards/award-rows.json: each award's name, sponsor
@@ -124,7 +124,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json data/jurisdiction-briefs/_land-banking-contacts.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'
