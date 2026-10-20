@@ -36,10 +36,11 @@
   },
   {
    "value": "Average about 47% AMI",
-   "meaning": "The applicant says incomes average 47% AMI and include 30% AMI units; OEDIT describes the range as 30% to 60% AMI. The unit-by-unit income split is not public.",
+   "meaning": "CHFA's award description lists 6 units at 30% AMI, 8 at 40%, 15 at 50% and 10 at 60%; the applicant gives a 47% AMI average and OEDIT a 30% to 60% range.",
    "src": [
     "chfa-2026-r1-narratives",
-    "oedit-prop123-cd-2026"
+    "oedit-prop123-cd-2026",
+    "chfa-2026-r1-descriptions"
    ]
   },
   {
@@ -118,7 +119,24 @@
    ]
   }
  ],
- "income_mix": [],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 10
+  }
+ ],
  "bedroom_mix": [
   {
    "type": "4BR",
@@ -127,7 +145,8 @@
  ],
  "mix_src": [
   "chfa-2026-r1-narratives",
-  "chfa-2026-r1-award"
+  "chfa-2026-r1-award",
+  "chfa-2026-r1-descriptions"
  ],
  "money": [
   {
@@ -393,7 +412,6 @@
   }
  ],
  "open_questions": [
-  "Unit-by-unit income mix: the 2026 narrative gives only a 47% AMI average with some 30% AMI units, and OEDIT gives a 30-60% AMI range, so income_mix is left empty.",
   "Rents, total development cost, equity investor and price for the 39-unit Phase 1 are not public.",
   "Whether the $1.5M HOST loan has gone to City Council, and its covenant length.",
   "Whether project-based vouchers from Denver Housing Authority were obtained (mentioned only in the 2025 application).",
@@ -479,6 +497,13 @@
    "publisher": "BusinessDen",
    "date": "2026-05-29",
    "url": "https://businessden.com/park-hill-montbello-housing-projects-among-14-awarded-tax-credits/"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
   }
  ]
 }

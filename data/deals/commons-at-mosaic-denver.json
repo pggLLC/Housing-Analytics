@@ -132,11 +132,11 @@
  "bedroom_mix": [
   {
    "type": "1BR",
-   "units": 37
+   "units": 36
   },
   {
    "type": "2BR",
-   "units": 13
+   "units": 14
   },
   {
    "type": "3BR",
@@ -144,7 +144,8 @@
   }
  ],
  "mix_src": [
-  "chfa-2026-r1-narratives"
+  "chfa-2026-r1-narratives",
+  "chfa-2026-r1-descriptions"
  ],
  "money": [
   {
@@ -455,6 +456,13 @@
     "mhcre-2025-09-23",
     "chhsm-2025-11-13"
    ]
+  },
+  {
+   "text": "CHFA's award description lists 36 one-bedroom and 14 two-bedroom units; the application narrative's building-by-building plan adds up to 37 one-bedroom and 13 two-bedroom. The bedroom mix shown uses the award description.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
   }
  ],
  "open_questions": [
@@ -542,6 +550,13 @@
    "publisher": "Westword",
    "date": "2022-12-12",
    "url": "https://www.westword.com/news/former-campus-dorms-in-denver-could-become-affordable-family-housing-15628592/"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
   }
  ]
 }

@@ -85,9 +85,9 @@
   },
   {
    "item": "Bedrooms",
-   "value": "\"An even mix of 1 and 2-bedroom residences\" (exact split not stated; 21 and 21 would be even, which is inferred)",
+   "value": "21 one-bedroom and 21 two-bedroom",
    "src": [
-    "chfa-2026-r1-narratives"
+    "chfa-2026-r1-descriptions"
    ]
   },
   {
@@ -148,9 +148,19 @@
    "units": 9
   }
  ],
- "bedroom_mix": [],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 21
+  },
+  {
+   "type": "2BR",
+   "units": 21
+  }
+ ],
  "mix_src": [
-  "chfa-2026-r1-narratives"
+  "chfa-2026-r1-narratives",
+  "chfa-2026-r1-descriptions"
  ],
  "money": [
   {
@@ -383,7 +393,6 @@
  "discrepancies": [],
  "open_questions": [
   "No public site plan, rendering or plat was found; the City says its final site plan review is administrative, so none may be posted.",
-  "Exact bedroom split (the application says only an \"even mix\" of one- and two-bedrooms), so bedroom_mix is left empty.",
   "Land price, DOH amount, loan size, equity price, total development cost, rents and affordability period are not public.",
   "The number and date of the Cañon City resolution waiving fees, and the value of the waivers, were not found in a public city record.",
   "Whether the land purchase from the fire protection district has closed, and when construction will start."
@@ -458,6 +467,13 @@
    "publisher": "CHFA",
    "date": "2025",
    "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
   }
  ]
 }

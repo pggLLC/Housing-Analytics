@@ -116,7 +116,20 @@
    ]
   }
  ],
- "income_mix": [],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 35
+  }
+ ],
  "bedroom_mix": [
   {
    "type": "Studio",
@@ -125,7 +138,8 @@
  ],
  "mix_src": [
   "chfa-2026-r1-narratives",
-  "denver-ddda-release"
+  "denver-ddda-release",
+  "chfa-2026-r1-descriptions"
  ],
  "money": [
   {
@@ -458,7 +472,6 @@
   }
  ],
  "open_questions": [
-  "Income mix by AMI band: public sources say only 30% to 50% AMI for all 50 units, with no split by band.",
   "Purchase price and closing date (the building was listed at $2.5M; the price under the executed PSA is not public).",
   "Amounts of the CDOH soft loan, the existing HOST loan balance, permanent debt and historic tax credit equity, plus the lender and syndicator.",
   "Terms of the city covenant/loan amendment that set the 2026-12-31 deadline. There is no public Denver Council record of it.",
@@ -542,6 +555,13 @@
    "publisher": "BusinessDen",
    "date": "2026-05-26",
    "url": "https://businessden.com/nonprofit-gets-last-piece-of-financing-needed-for-barth-hotel-project/"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
   }
  ]
 }

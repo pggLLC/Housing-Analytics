@@ -125,10 +125,45 @@
    ]
   }
  ],
- "income_mix": [],
- "bedroom_mix": [],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 6
+  },
+  {
+   "level": "60% AMI",
+   "units": 25
+  },
+  {
+   "level": "70% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 28
+  },
+  {
+   "type": "2BR",
+   "units": 26
+  },
+  {
+   "type": "3BR",
+   "units": 4
+  }
+ ],
  "mix_src": [
-  "chfa-2026-r1-narratives"
+  "chfa-2026-r1-narratives",
+  "chfa-2026-r1-descriptions"
  ],
  "money": [
   {
@@ -239,7 +274,7 @@
    ]
   },
   {
-   "text": "Income averaging serves households from 30% to 70% of AMI. The underwriting assumes 70% AMI units lease at 60% AMI rents because the metro rental market is soft. No public source gives the unit-by-unit income or bedroom counts.",
+   "text": "Income averaging serves households from 30% to 70% of AMI. The underwriting assumes 70% AMI units lease at 60% AMI rents because the metro rental market is soft.",
    "src": [
     "chfa-2026-r1-narratives"
    ]
@@ -352,7 +387,6 @@
   }
  ],
  "open_questions": [
-  "Unit-by-unit income mix and bedroom mix: no public source found gives counts beyond 30% to 70% AMI and one, two and three bedrooms.",
   "Total development cost, equity price, lender and permanent debt are not public.",
   "Whether the Aurora Urban Renewal Authority or the City of Aurora committed money, and how much.",
   "Who sold or contributed the land at a $10 basis, and on what terms (ground lease or sale).",
@@ -423,6 +457,13 @@
    "publisher": "City of Aurora",
    "date": "",
    "url": "https://www.auroragov.org/business_services/economic___business_development/transit_oriented_development/aurora_metro_center"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
   }
  ]
 }
