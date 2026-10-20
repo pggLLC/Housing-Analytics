@@ -125,3 +125,20 @@ def test_no_picks_file_changes_nothing(tmp_path):
 def test_the_issue_form_labels_its_issues():
     form = (ROOT / '.github' / 'ISSUE_TEMPLATE' / 'news-link.yml').read_text()
     assert 'labels: ["news-link"]' in form and 'title: "News link"' in form
+
+
+def test_a_named_publisher_in_the_feed_is_kept():
+    items = onp.alert_items(['https://news.google.com/rss/search?q=x'], parse=lambda _u: [
+        {'title': 'New affordable housing plan moves forward - CPR News', 'source': 'CPR News',
+         'url': 'https://www.cpr.org/2026/10/19/plan/', 'date': '2026-10-19T10:00:00Z'}])
+    assert [(i['title'], i['source']) for i in items] == [('New affordable housing plan moves forward', 'CPR News')]
+    atom = onp.alert_items(['https://www.google.com/alerts/feeds/1/2'], parse=lambda u: [
+        {'title': 'Aurora plan', 'source': u, 'url': 'https://www.denverpost.com/a/', 'date': ''}])
+    assert atom[0]['source'] == 'denverpost.com'
+
+
+def test_a_box_ticked_during_a_run_stays_ticked():
+    a = alert('Aurora approves housing plan', 'https://www.denverpost.com/a/')
+    ledger, _ = onp.update([], [a], [], set(), (set(), set()), TODAY)
+    body = onp.review_body(ledger, 'pggLLC/Housing-Analytics', {ledger[0]['id']})
+    assert onp.ticked_ids(body) == {ledger[0]['id']}

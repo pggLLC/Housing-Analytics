@@ -156,7 +156,16 @@ def alert_items(feeds: list[str], parse=parse_feed) -> list[dict]:
             link = unwrap(a.get('url', ''))
             if not link or not a.get('title'):
                 continue
-            items.append({'title': a['title'].strip(), 'source': domain(link), 'link': link,
+            # An RSS item may name its publisher ("CPR News"); the Atom feeds
+            # Google Alerts serves give only the feed address. A named
+            # publisher is kept, so the Colorado-outlet rule still applies,
+            # and Google News's " - Publisher" title suffix is taken off.
+            src = (a.get('source') or '').strip()
+            named = src and not src.startswith('http') and '/' not in src and src != domain(url)
+            title = a['title'].strip()
+            if named and title.endswith(' - ' + src):
+                title = title[: -len(' - ' + src)].strip()
+            items.append({'title': title, 'source': src if named else domain(link), 'link': link,
                           'date': (a.get('date') or '')[:10], 'via': 'google-alert'})
     return items
 
@@ -205,7 +214,7 @@ def ticked_ids(body: str) -> set[str]:
     return set(re.findall(r'^- \[[xX]\] .*<!-- id:([0-9a-f]{10}) -->', body or '', re.M))
 
 
-def review_body(items: list[dict], repo: str) -> str:
+def review_body(items: list[dict], repo: str, ticked: set[str] = frozenset()) -> str:
     form = f'https://github.com/{repo}/issues/new?template=news-link.yml'
     waiting = sorted((i for i in items if i['status'] == 'waiting'), key=lambda i: i['date'], reverse=True)
     lines = [MARKER, '',
@@ -217,7 +226,8 @@ def review_body(items: list[dict], repo: str) -> str:
         lines.append('Nothing waiting right now.')
     for i in waiting:
         title = i['title'].replace('[', '(').replace(']', ')')
-        lines.append(f'- [ ] Publish: [{title}]({i["link"]}) — {i["source"]}, {i["date"] or "undated"} '
+        box = 'x' if i['id'] in ticked else ' '
+        lines.append(f'- [{box}] Publish: [{title}]({i["link"]}) — {i["source"]}, {i["date"] or "undated"} '
                      f'<!-- id:{i["id"]} -->')
     return '\n'.join(lines) + '\n'
 
@@ -315,7 +325,9 @@ def sync_issues(token: str, repo: str) -> int:
                {'body': 'Added to Housing News. It shows on the page once the site redeploys.'})
             gh(token, f'/repos/{repo}/issues/{it["number"]}', 'PATCH', {'state': 'closed', 'state_reason': 'completed'})
     review = next((i for i in issues if MARKER in (i.get('body') or '')), None)
-    body = review_body(ledger, repo)
+    # A box ticked while this run was going stays ticked, so the next run
+    # publishes it rather than this rewrite clearing it (Codex review of #2413).
+    body = review_body(ledger, repo, ticked_ids(review['body'] if review else ''))
     if review:
         if review['body'] != body:
             gh(token, f'/repos/{repo}/issues/{review["number"]}', 'PATCH', {'body': body})
