@@ -141,9 +141,12 @@
     var next = _nextStep(fromPage);
     var nextPage = next ? KEY_TO_PAGE[next.key] : null;
 
-    var primary = next
-      ? '<a class="naca-next" href="' + _withJurisdiction(next.href, jurisdiction) + '">Next: Step ' + next.num + ', ' + next.label + ' \u2192</a>'
-      : '';
+    // With no place chosen the next step would open empty, so the link goes
+    // through the place picker, which returns the reader to that step.
+    var primary = !next ? ''
+      : jurisdiction
+        ? '<a class="naca-next" href="' + _withJurisdiction(next.href, jurisdiction) + '">Next: Step ' + next.num + ', ' + next.label + ' \u2192</a>'
+        : '<a class="naca-next" href="select-jurisdiction.html?next=' + encodeURIComponent(next.href) + '">Next: pick a place, then Step ' + next.num + ', ' + next.label + ' \u2192</a>';
 
     var keys = Object.keys(PAGES).filter(function (k) {
       return k !== fromPage && !(next && !next.routed && nextPage === k);
