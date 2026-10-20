@@ -63,7 +63,7 @@
       label: "Explore",
       items: [
         { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "2 to 6 places side by side", isNew: true },
-        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 places by housing need" },
+        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
@@ -94,7 +94,7 @@
       // internal/docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
-        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check them" },
+        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
         { label: "Data Map",              href: "data-map-browser.html",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
       ]
@@ -103,7 +103,7 @@
       label: "Insights",
       items: [
         { label: "— Current —", isHeader: true },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Colorado housing headlines, with sources" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Headlines; check the linked source" },
         { label: "Policy & Legislation",   href: "housing-legislation-2026.html",  desc: "Laws and rules we track" },
         { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
         { label: "— Research —", isHeader: true },

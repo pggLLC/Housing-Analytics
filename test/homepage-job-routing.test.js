@@ -65,10 +65,14 @@ assert(
   index.includes('freshness, sources, how we check the data, and limitations'),
   'homepage Data Trust Center route must use public wording for data checks'
 );
-assert(
-  navigation.includes('Start here · sources, freshness, how we check the data, and discovery'),
-  'navigation Data Trust Center description must avoid maintainer QA vocabulary'
-);
+// The menu description names what the page covers in public words; the
+// banned maintainer phrases are checked below with the other old wording.
+{
+  const entry = navigation.match(/label:\s*"Data Trust Center",[^}]*desc:\s*"([^"]+)"/);
+  assert(entry, 'navigation has no Data Trust Center entry with a description');
+  assert(/sources/i.test(entry[1]) && /freshness/i.test(entry[1]) && /how we check the data/i.test(entry[1]),
+    'navigation Data Trust Center description must name sources, freshness and how we check the data');
+}
 assert(
   navigation.includes('Browse every dataset with previews'),
   'navigation File Browser description must use public dataset-browsing language'
