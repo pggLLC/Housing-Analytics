@@ -15332,7 +15332,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0803455",
+          "0875640"
+        ]
       }
     },
     {
@@ -15806,7 +15810,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0800620",
+          "0804000"
+        ]
       }
     },
     {
@@ -16784,7 +16792,13 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0836410",
+          "0846410",
+          "0866197",
+          "0873943"
+        ]
       }
     },
     {
@@ -17226,7 +17240,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0836410"
+        ]
       }
     },
     {
@@ -17464,7 +17481,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0836410",
+          "0845255"
+        ]
       }
     },
     {
@@ -17858,7 +17879,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0836410"
+        ]
       }
     },
     {
@@ -18800,7 +18824,12 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0851800",
+          "0857025",
+          "0886117"
+        ]
       }
     },
     {
@@ -19048,7 +19077,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0820000"
+        ]
       }
     },
     {
@@ -19374,7 +19406,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0820000"
+        ]
       }
     },
     {
@@ -19420,7 +19455,8 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": []
       }
     },
     {
@@ -20858,7 +20894,13 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0819150",
+          "0838810",
+          "0843000",
+          "0852075"
+        ]
       }
     },
     {
@@ -21322,7 +21364,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0824950"
+        ]
       }
     },
     {
@@ -21534,7 +21579,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0809280"
+        ]
       }
     },
     {
@@ -22102,7 +22150,12 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0819080",
+          "0824950",
+          "0828360"
+        ]
       }
     },
     {
@@ -22232,7 +22285,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0826600",
+          "0828360"
+        ]
       }
     },
     {
@@ -22998,7 +23055,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0883230"
+        ]
       }
     },
     {
@@ -23134,7 +23194,8 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": []
       }
     },
     {
@@ -23912,7 +23973,12 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0808675",
+          "0877290",
+          "0877757"
+        ]
       }
     },
     {
@@ -24148,7 +24214,8 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": []
       }
     },
     {
@@ -24754,7 +24821,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000",
+          "0858675"
+        ]
       }
     },
     {
@@ -25124,7 +25195,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0800870",
+          "0816000"
+        ]
       }
     },
     {
@@ -25656,7 +25731,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0827370"
+        ]
       }
     },
     {
@@ -26218,7 +26296,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0827370",
+          "0827865"
+        ]
       }
     },
     {
@@ -26548,7 +26630,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     },
     {
@@ -27938,7 +28023,13 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0806970",
+          "0816000",
+          "0830420",
+          "0851800"
+        ]
       }
     },
     {
@@ -28108,7 +28199,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0814587",
+          "0816000"
+        ]
       }
     },
     {
@@ -28450,7 +28545,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     },
     {
@@ -28608,7 +28706,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     },
     {
@@ -29022,7 +29123,12 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000",
+          "0827865",
+          "0868847"
+        ]
       }
     },
     {
@@ -29160,7 +29266,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     },
     {
@@ -29442,7 +29551,11 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0814587",
+          "0816000"
+        ]
       }
     },
     {
@@ -29628,7 +29741,8 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": []
       }
     },
     {
@@ -29874,7 +29988,10 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     },
     {
@@ -30192,12 +30309,15 @@
         "DDA_KIND": "zip",
         "GEOID": null,
         "COUNTYFP": null,
-        "STATEFP": "08"
+        "STATEFP": "08",
+        "PLACE_GEOIDS": [
+          "0816000"
+        ]
       }
     }
   ],
   "fetchedAt": "2026-10-19T23:51:00.639Z",
   "designationYear": 2026,
   "source": "HUD ArcGIS Difficult_Development_Areas_2026 FeatureServer — services.arcgis.com",
-  "normalizedAt": "2026-10-19T23:51:00.682Z"
+  "normalizedAt": "2026-10-20T01:30:20.896Z"
 }

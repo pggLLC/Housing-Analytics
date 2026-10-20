@@ -281,6 +281,6 @@ def test_adus_by_right_are_required_by_hb24_1152(catalog):
     quotes = ' '.join(quotes_of(b) for b in adu['legal_basis'])
     assert 'POPULATION OF ONE THOUSAND OR MORE' in quotes and 'METROPOLITAN PLANNING ORGANIZATION' in quotes
     assert 'ON OR AFTER JUNE 30, 2025' in quotes
-    assert any('leg.colorado.gov' in b['source']['url'] for b in adu['legal_basis'])
+    assert any(urlparse(b['source']['url']).hostname == 'leg.colorado.gov' for b in adu['legal_basis'])
     for k in adu.get('known_subject_jurisdictions', []):
         assert https(k['source']['url']) and k['evidence'] and k['evidence'][0]['quote'], k['geoid']

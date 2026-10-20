@@ -39,6 +39,67 @@ const DATA_DIR   = path.resolve(__dirname, '..', 'data');
 const DDA_FILE   = path.join(DATA_DIR, 'dda-colorado.json');
 const CO_STATEFP = '08';
 const CO_ZIP     = /^8[01]\d{3}$/;   // Colorado ZIPs
+const PLACE_FILE = path.join(DATA_DIR, 'co-place-boundaries.geojson');
+
+/* ── Which places each ZIP DDA reaches into ─────────────────────────────
+ * A metro Small Area DDA only helps a site inside its ZIP, so a place is
+ * listed for a ZIP when the two boundaries overlap by a real area, not when
+ * they only share an edge. Overlap is measured on a fixed grid of about
+ * 200 m (0.002°) inside the ZIP; a place needs MIN_CELLS grid points (about
+ * 0.1 km²) inside both shapes, which drops slivers where two separately
+ * drawn boundaries follow the same street. */
+const GRID_STEP = 0.002;
+const MIN_CELLS = 3;
+
+function pointInRing(lon, lat, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function polygons(g) {
+  if (!g) return [];
+  if (g.type === 'Polygon') return [g.coordinates];
+  if (g.type === 'MultiPolygon') return g.coordinates;
+  return [];
+}
+function pointInGeometry(lon, lat, polys) {
+  return polys.some((rings) => rings.length && pointInRing(lon, lat, rings[0])
+    && !rings.slice(1).some((hole) => pointInRing(lon, lat, hole)));
+}
+function bboxOf(polys) {
+  const b = [Infinity, Infinity, -Infinity, -Infinity];
+  polys.forEach((rings) => (rings[0] || []).forEach(([x, y]) => {
+    if (x < b[0]) b[0] = x; if (y < b[1]) b[1] = y; if (x > b[2]) b[2] = x; if (y > b[3]) b[3] = y;
+  }));
+  return b;
+}
+function placesInZip(zipGeometry, places) {
+  const zp = polygons(zipGeometry);
+  const zb = bboxOf(zp);
+  const candidates = places.filter((pl) => pl.bbox[0] <= zb[2] && pl.bbox[2] >= zb[0] && pl.bbox[1] <= zb[3] && pl.bbox[3] >= zb[1]);
+  const counts = {};
+  const x0 = Math.floor(zb[0] / GRID_STEP) * GRID_STEP;
+  const y0 = Math.floor(zb[1] / GRID_STEP) * GRID_STEP;
+  for (let y = y0 + GRID_STEP / 2; y < zb[3]; y += GRID_STEP) {
+    for (let x = x0 + GRID_STEP / 2; x < zb[2]; x += GRID_STEP) {
+      const inPlaces = candidates.filter((pl) => x >= pl.bbox[0] && x <= pl.bbox[2] && y >= pl.bbox[1] && y <= pl.bbox[3]);
+      if (!inPlaces.length || !pointInGeometry(x, y, zp)) continue;
+      inPlaces.forEach((pl) => { if (pointInGeometry(x, y, pl.polys)) counts[pl.geoid] = (counts[pl.geoid] || 0) + 1; });
+    }
+  }
+  return Object.keys(counts).filter((g) => counts[g] >= MIN_CELLS).sort();
+}
+function loadPlaces() {
+  if (!fs.existsSync(PLACE_FILE)) return null;
+  const fc = JSON.parse(fs.readFileSync(PLACE_FILE, 'utf8'));
+  return (fc.features || []).map((f) => {
+    const polys = polygons(f.geometry);
+    return { geoid: String((f.properties || {}).geoid || ''), polys, bbox: bboxOf(polys) };
+  }).filter((pl) => /^08\d{5}$/.test(pl.geoid) && pl.polys.length);
+}
 
 /**
  * Extract the 5-digit state+county FIPS code from a county-based DDA_CODE.
@@ -125,6 +186,15 @@ function sortKey(feature) {
   const normalised = raw.features.map(normaliseFeature).filter(Boolean)
     .sort((a, b) => (sortKey(a) < sortKey(b) ? -1 : sortKey(a) > sortKey(b) ? 1 : 0));
   const zipRows = normalised.filter((f) => f.properties.DDA_KIND === 'zip');
+
+  // List the places each ZIP DDA overlaps, so pages can match a town to a ZIP
+  // without loading every place boundary in the browser.
+  const places = loadPlaces();
+  if (!places) {
+    console.error(`ERROR: ${PLACE_FILE} not found; cannot match ZIP DDAs to places.`);
+    process.exit(1);
+  }
+  zipRows.forEach((f) => { f.properties.PLACE_GEOIDS = placesInZip(f.geometry, places); });
 
   const output = {
     ...raw,

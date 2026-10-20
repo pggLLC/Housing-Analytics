@@ -282,7 +282,12 @@ test('preservation.html: names CHFA as the source and NHPD partners correctly, w
   assert(html.includes('chfainfo.com/rental-housing/preservation'), 'links CHFA preservation page');
   assert(html.includes('Public and Affordable Housing Research Corporation'), 'NHPD partner is PAHRC');
   assert(!/Public Housing Analytics/.test(html), 'no misnamed NHPD partner');
-  assert(!/stub|snapshot|fetch_nhpd|HTTP 404|scripts\//i.test(html.replace(/<script[\s\S]*?<\/script>/g, '')), 'no stub, snapshot or build text');
+  // Read the page as a reader sees it: parsed text with script elements removed.
+  const { JSDOM } = require('jsdom');
+  const doc = new JSDOM(html).window.document;
+  doc.querySelectorAll('script').forEach(function (el) { el.remove(); });
+  const visible = doc.documentElement.textContent;
+  assert(!/stub|snapshot|fetch_nhpd|HTTP 404|scripts\//i.test(visible), 'no stub, snapshot or build text');
   assert(/does not list subsidy type or expiration dates/.test(html), 'states the layer limitation');
   const js = fs.readFileSync(path.join(ROOT, 'js/preservation.js'), 'utf8');
   assert(js.includes("'affordable-housing/preservation/chfa-preservation.json'"), 'dashboard loads the CHFA inventory');

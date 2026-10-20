@@ -442,26 +442,16 @@
     var zip = String(p.ZCTA5 || '');
     return (p.DDA_KIND === 'zip' || p.DDA_TYPE === 'SA' || p.DDATYPE === 'SA') && /^\d{5}$/.test(zip) ? zip : null;
   }
-  // Small Area DDA ZIPs that reach into a place: the ZIP polygon contains the
-  // place's Census point or the internal point of a tract that makes up a
-  // meaningful part of the place (same overlap rule as QCTs). HUD designates
-  // metro DDAs by ZIP, so only sites inside these ZIPs get the basis boost.
-  function _ddaZipsForPlace(placeGeoid, tracts) {
-    if (!state.ddaZipFeatures.length) return [];
-    var pts = [];
-    var pc = state.placeCentroid[placeGeoid];
-    if (pc) pts.push([pc.lng, pc.lat]);
-    (tracts || []).forEach(function (t) {
-      var sp = +t.share_of_place_area || 0;
-      var st = +t.share_of_tract_area || 0;
-      var c = state.tractCentroids[t.tract_geoid];
-      if (c && (sp > 0.05 || st > 0.20)) pts.push([c.lon, c.lat]);
-    });
+  // Small Area DDA ZIPs that reach into a place. HUD designates metro DDAs by
+  // ZIP, so only sites inside these ZIPs get the basis boost. The data file
+  // lists, for each ZIP, the places whose boundary overlaps it by a real area
+  // (scripts/normalize-dda.js measures the overlap of the two shapes).
+  function _ddaZipsForPlace(placeGeoid) {
     var zips = {};
     state.ddaZipFeatures.forEach(function (f) {
       var zip = _ddaZip(f);
-      if (zips[zip]) return;
-      if (pts.some(function (pt) { return _pointInGeometry(pt[0], pt[1], f.geometry); })) zips[zip] = true;
+      var places = (f.properties || {}).PLACE_GEOIDS;
+      if (zip && Array.isArray(places) && places.indexOf(placeGeoid) !== -1) zips[zip] = true;
     });
     return Object.keys(zips).sort();
   }
@@ -1379,7 +1369,7 @@
       // DDA membership — the containing county is a nonmetro county DDA, or
       // part of the place lies in a metro Small Area DDA ZIP.
       var hasDdaCounty = !!(containingCounty && state.ddaCountyFips.has(containingCounty));
-      var ddaZips = hasDdaCounty ? [] : _ddaZipsForPlace(placeGeoid, membership.tracts);
+      var ddaZips = hasDdaCounty ? [] : _ddaZipsForPlace(placeGeoid);
       var hasDda = hasDdaCounty || ddaZips.length > 0;
       // Both on the same ground: every QCT in a DDA county, or a QCT tract
       // whose internal point lies inside one of the place's DDA ZIPs.

@@ -230,19 +230,12 @@ function ddaZip(f) {
   const zip = String(p.ZCTA5 || '');
   return (p.DDA_KIND === 'zip' || p.DDA_TYPE === 'SA' || p.DDATYPE === 'SA') && /^\d{5}$/.test(zip) ? zip : null;
 }
-function ddaZipsForPlace(zipFeatures, placePoint, tracts, tractPoints) {
-  const pts = [];
-  if (placePoint) pts.push([placePoint.lng, placePoint.lat]);
-  (tracts || []).forEach(t => {
-    const sp = +t.share_of_place_area || 0;
-    const st = +t.share_of_tract_area || 0;
-    const c = tractPoints[t.tract_geoid];
-    if (c && (sp > 0.05 || st > 0.20)) pts.push([c.lon, c.lat]);
-  });
+function ddaZipsForPlace(zipFeatures, placeGeoid) {
   const zips = new Set();
   zipFeatures.forEach(f => {
     const zip = ddaZip(f);
-    if (!zips.has(zip) && pts.some(([lon, lat]) => pointInGeometry(lon, lat, f.geometry))) zips.add(zip);
+    const places = f?.properties?.PLACE_GEOIDS;
+    if (zip && Array.isArray(places) && places.includes(placeGeoid)) zips.add(zip);
   });
   return [...zips].sort();
 }
@@ -439,7 +432,7 @@ async function buildOpportunities() {
     });
     const hasQct = qctTracts.length > 0;
     const hasDdaCounty = !!(containingCounty && ddaFips.has(containingCounty));
-    const ddaZips = hasDdaCounty ? [] : ddaZipsForPlace(ddaZipFeatures, placePoints[geoid], membership.tracts, tractPoints);
+    const ddaZips = hasDdaCounty ? [] : ddaZipsForPlace(ddaZipFeatures, geoid);
     const hasDda = hasDdaCounty || ddaZips.length > 0;
     const hasBoth = hasQct && (hasDdaCounty || (ddaZips.length > 0 && qctTracts.some(t => {
       const c = tractPoints[t.tract_geoid];
@@ -567,11 +560,11 @@ async function main() {
 
   const inv = [
     { name: 'Total places scored',       actual: ops.length, min: 450, max: 510, note: '~482 expected (all CO places in TIGER place-tract-membership)' },
-    { name: 'Basis-boost-eligible (QCT or DDA)', actual: eligible, min: 130, max: 200, note: '182 expected (158 before metro ZIP DDAs were added)' },
+    { name: 'Basis-boost-eligible (QCT or DDA)', actual: eligible, min: 130, max: 200, note: '184 expected (158 before metro ZIP DDAs were added)' },
     { name: 'QCT + DDA (both)',          actual: both,       min: 4,   max: 12,  note: '7 expected' },
-    { name: 'QCT only',                  actual: qctOnly,    min: 70,  max: 110, note: '85 expected' },
-    { name: 'DDA only',                  actual: ddaOnly,    min: 60,  max: 100, note: '84 expected' },
-    { name: 'Never-funded jurisdictions (within basis-eligible)', actual: ops.filter(o => (o.hasQct || o.hasDda) && o.lastYear == null).length, min: 80, max: 140, note: '118 expected' }
+    { name: 'QCT only',                  actual: qctOnly,    min: 70,  max: 110, note: '83 expected' },
+    { name: 'DDA only',                  actual: ddaOnly,    min: 60,  max: 100, note: '86 expected' },
+    { name: 'Never-funded jurisdictions (within basis-eligible)', actual: ops.filter(o => (o.hasQct || o.hasDda) && o.lastYear == null).length, min: 80, max: 140, note: '119 expected' }
   ];
   inv.forEach(c => {
     const ok = c.actual >= c.min && c.actual <= c.max;
