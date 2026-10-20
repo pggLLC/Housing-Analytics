@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T10:35:21.006Z",
+    "generated_at": "2026-10-20T11:55:32.713Z",
     "root": "data/",
     "file_count": 1754,
-    "total_size_bytes": 192239069,
+    "total_size_bytes": 192240067,
     "kinds": {
       "json": 1708,
       "geojson": 34,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-20T04:33:39.919Z",
+      "mtime": "2026-10-20T11:12:58.335Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -940,7 +940,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-18T11:15:30.677Z",
+      "mtime": "2026-10-20T11:55:29.838Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1056,7 +1056,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-18T11:15:27.644Z",
+      "mtime": "2026-10-20T11:55:27.585Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31537,8 +31537,8 @@
     {
       "path": "market/colorado-equity-pricing-factors.json",
       "kind": "json",
-      "size_bytes": 5385,
-      "mtime": "2026-10-14T08:31:22.611Z",
+      "size_bytes": 5451,
+      "mtime": "2026-10-20T11:11:41.418Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -31617,8 +31617,8 @@
     {
       "path": "market/developable_land_context_co.json",
       "kind": "json",
-      "size_bytes": 1434048,
-      "mtime": "2026-09-25T12:55:18.846Z",
+      "size_bytes": 1433998,
+      "mtime": "2026-10-20T11:11:41.421Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32714,7 +32714,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-18T11:15:30.768Z",
+      "mtime": "2026-10-20T11:55:29.929Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32750,7 +32750,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16097,
-      "mtime": "2026-10-20T10:31:21.753Z",
+      "mtime": "2026-10-20T11:12:59.944Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32774,7 +32774,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-20T10:31:21.245Z",
+      "mtime": "2026-10-20T11:12:59.505Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34961,8 +34961,8 @@
     {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
-      "size_bytes": 17186,
-      "mtime": "2026-10-09T05:14:07.944Z",
+      "size_bytes": 17614,
+      "mtime": "2026-10-20T11:11:41.603Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -35544,8 +35544,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 44921,
-      "mtime": "2026-10-18T07:17:04.986Z",
+      "size_bytes": 45475,
+      "mtime": "2026-10-20T11:11:41.606Z",
       "shape": "object",
       "keys": [
         "lastUpdated",

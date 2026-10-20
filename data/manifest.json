@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20T10:35:24.576872Z",
+  "generated": "2026-10-20T11:55:36.676062Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7709,7 +7709,7 @@
     "data/market/colorado-equity-pricing-factors.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5385
+      "bytes": 5451
     },
     "data/market/colorado-foreclosure-performance.json": {
       "featureCount": 0,
@@ -7729,7 +7729,7 @@
     "data/market/developable_land_context_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1434048
+      "bytes": 1433998
     },
     "data/market/development-activity.json": {
       "featureCount": 0,
@@ -8449,7 +8449,7 @@
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17186
+      "bytes": 17614
     },
     "data/policy/housing-events-curated.json": {
       "featureCount": 0,
@@ -8569,7 +8569,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 44921
+      "bytes": 45475
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
