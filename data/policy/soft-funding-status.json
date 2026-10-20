@@ -598,9 +598,9 @@
       ],
       "maxPerProject": null,
       "description": "The Colorado Energy Office says the single-family appliance rebate (HEAR) is closed in both regions, rebates for small multifamily buildings will be available in 2026, and whole-home rebates (HER) will open to manufactured or mobile homes and large multifamily buildings in 2026. DOE describes the rebates as state-administered and available only in select states.",
-      "contactUrl": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "contactUrl": "https://energyoffice.colorado.gov/home-energy-rebates",
       "relatedSourceUrls": [
-        "https://energyoffice.colorado.gov/home-energy-rebates",
+        "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
@@ -613,7 +613,7 @@
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program"
+      "source_url": "https://energyoffice.colorado.gov/home-energy-rebates"
     },
     "CEO-SOLAR-FOR-ALL": {
       "name": "Colorado Solar for All / GGRF watch",
