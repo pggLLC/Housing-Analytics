@@ -619,7 +619,10 @@
 
     // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
-    if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+    if (els.statRentBurden) {
+      els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+      els.statRentBurden.removeAttribute('title');
+    }
     if (els.statRentBurdenSrc) els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
     updateDecisionStrip({
       affordability: {
@@ -628,6 +631,17 @@
         href: '#statRentBurden',
       },
     });
+    // A share the ranking index rejected is not shown (U().acsBurdenRejected).
+    if (rb30 !== null && U().acsBurdenRejected) {
+      U().acsBurdenRejected(geoid).then(function (rejected) {
+        if (!rejected || token !== _snapshotToken) return;
+        if (els.statRentBurden) {
+          els.statRentBurden.textContent = '—';
+          els.statRentBurden.title = 'The ACS share for this place contradicts its HUD CHAS severe-burden share, so it is not shown.';
+        }
+        updateDecisionStrip({ affordability: { value: '—', read: _decisionReadFromPct(null), href: '#statRentBurden' } });
+      });
+    }
 
     // Income needed to buy the median home at the 30%-rule front-end
     // ratio. computeIncomeNeeded takes a scalar home value and returns
@@ -5311,6 +5325,18 @@
       };
       renderHousingTypeNeed(htnData);
 
+      // The scoring drops an ACS burden share the ranking index rejected, and
+      // reads that from the ranking cache. If the cache was still loading,
+      // render again once it settles, so the result never depends on timing.
+      var _narr = window.HNANarratives && window.HNANarratives._internals;
+      if (geoid && _narr && _narr.rankingEntryFor && !_narr.rankingEntryFor(geoid) && U().acsBurdenRejected) {
+        U().acsBurdenRejected(geoid).then(function (rejected) {
+          var cur = S() && S().state && S().state.current;
+          if (!rejected || (cur && cur.geoid && cur.geoid !== geoid)) return;
+          renderHousingTypeNeed(htnData);
+        });
+      }
+
       // Then add the 15-year pencil lines once the CHFA limits and rules are in
       // (fetched once per page; the ranking above does not wait for them).
       var mcCounty = '';
@@ -8081,6 +8107,14 @@
           '<strong>Current cost pressure:</strong> ~' + fmt(burdened) + ' of ' + fmt(renterHHs) +
           ' renter households (' + burdenPct.toFixed(1) + '%) are rent-burdened today (paying &gt;30% of income on rent). ' +
           '<span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
+        // Same rule as the score card: a share the ranking index rejected is
+        // not shown. The guard keeps a later geography's line in place.
+        const shown = burdenEl.innerHTML;
+        if (U().acsBurdenRejected) {
+          U().acsBurdenRejected(prof._geoid).then(function (rejected) {
+            if (rejected && burdenEl.innerHTML === shown) burdenEl.innerHTML = '';
+          });
+        }
       } else {
         burdenEl.innerHTML = '';
       }

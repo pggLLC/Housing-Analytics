@@ -187,6 +187,15 @@
         if (m.ami_gap_50pct != null)              ctx.amiGap50 = +m.ami_gap_50pct;
         if (m.in_commuters != null)               ctx.inCommuters = +m.in_commuters;
         if (m.commute_ratio != null)              ctx.commuteRatio = +m.commute_ratio;
+        // The overall renter burden is the ACS figure the score cards and the
+        // narrative above use (ranking index, GRAPI bins). CHAS keeps the
+        // severe share and the income tiers. Taking the overall share from
+        // CHAS here put two different "cost-burdened" figures on one page.
+        var pcb = m.pct_cost_burdened;
+        if (typeof pcb === 'number' && Number.isFinite(pcb) && pcb >= 0 && pcb <= 100) {
+          ctx.renterCb30 = pcb;
+          ctx.renterCb30FromAcs = true;
+        }
       }
       var countyEntry = entry && entry.containingCounty ? _rankingEntry(entry.containingCounty) : null;
       ctx.containingCountyName = (countyEntry && countyEntry.name) || null;
@@ -301,7 +310,7 @@
         ' single-family detached, ' + _fmtPct(c.pctMultifamily) + ' multifamily 5+ units.';
     },
 
-    // Rent burden distribution (DP04 GRAPI bins)
+    // Rent burden distribution
     'Rent burden distribution': function (c) {
       if (c.renterCb30 == null) return null;
       var leadFraming = c.ami30BurdenPct != null && c.ami30BurdenPct >= 60
@@ -310,8 +319,11 @@
         : (c.renterCb50 != null && c.renterCb50 >= 25
             ? 'a widespread severe-burden problem'
             : 'a renter market where some share carries burden across all income bands');
-      return '<strong>' + _fmtPct(c.renterCb30) + ' of renters are cost-burdened</strong>' +
-        (c.renterCb50 != null ? ' (' + _fmtPct(c.renterCb50) + ' severely)' : '') +
+      // Each share names its source: the overall share is ACS when the
+      // ranking index has it, the severe share is always CHAS.
+      return '<strong>' + _fmtPct(c.renterCb30) + ' of renters are cost-burdened</strong> (' +
+        (c.renterCb30FromAcs ? 'ACS 2020\u20132024' : 'HUD CHAS 2018\u20132022') + ')' +
+        (c.renterCb50 != null ? '; ' + _fmtPct(c.renterCb50) + ' pay half their income or more (HUD CHAS 2018\u20132022)' : '') +
         ', with ' + leadFraming + '.' + _chasFallbackNote(c);
     },
 
@@ -361,12 +373,15 @@
     // Age of housing stock (year-built distribution)
     'Age of Housing Stock': function (c) {
       var p = c.profile || {};
-      var pre1960 = (_safeNum(p.DP04_0023E)||0) + (_safeNum(p.DP04_0024E)||0)
+      // DP04_0023E is 1960-1969, so it is not "before 1960": DP04_0024E-26E
+      // (1950-59, 1940-49, 1939 or earlier) are.
+      var pre1960 = (_safeNum(p.DP04_0024E)||0)
                   + (_safeNum(p.DP04_0025E)||0) + (_safeNum(p.DP04_0026E)||0);
       var post2010 = (_safeNum(p.DP04_0017E)||0) + (_safeNum(p.DP04_0018E)||0);
       var totalAge = pre1960 + post2010
                    + (_safeNum(p.DP04_0019E)||0) + (_safeNum(p.DP04_0020E)||0)
-                   + (_safeNum(p.DP04_0021E)||0) + (_safeNum(p.DP04_0022E)||0);
+                   + (_safeNum(p.DP04_0021E)||0) + (_safeNum(p.DP04_0022E)||0)
+                   + (_safeNum(p.DP04_0023E)||0);
       if (!totalAge) return null;
       var pctPre1960 = (pre1960 / totalAge) * 100;
       var pctPost2010 = (post2010 / totalAge) * 100;
@@ -375,7 +390,7 @@
         : pctPost2010 >= 30
           ? 'a relatively young stock with substantial post-2010 construction'
           : 'a stock built mostly during the mid-to-late 20th century';
-      return '<strong>' + framing + '</strong> — ' + _fmtPct(pctPre1960) + ' of units pre-date 1960; ' +
+      return '<strong>' + framing + '</strong> — ' + _fmtPct(pctPre1960) + ' of units were built before 1960; ' +
         _fmtPct(pctPost2010) + ' were built since 2010.';
     },
 
@@ -476,7 +491,26 @@
   }
 
   // ── Inject ──────────────────────────────────────────────────────
+  // The overall renter-burden share comes from the ranking index. On a cold
+  // load its request can still be pending when CHAS arrives, and an injected
+  // takeaway is never replaced, so wait for it once before the first inject.
+  var _rankingReady = false;
+  var _rankingWaiting = false;
+  function _rankingSettled() {
+    if (_rankingReady) return true;
+    var N = window.HNANarratives && window.HNANarratives._internals;
+    var p = N && typeof N.loadRanking === 'function' ? N.loadRanking() : null;
+    if (!p || typeof p.then !== 'function') return true;
+    if (!_rankingWaiting) {
+      _rankingWaiting = true;
+      var done = function () { _rankingReady = true; _tryInject(); };
+      p.then(done, done);
+    }
+    return false;
+  }
+
   function _injectAll() {
+    if (!_rankingSettled()) return 0;
     var ctx = _gatherCtx();
     if (!ctx) return 0;
     var nodes = document.querySelectorAll('main h2');

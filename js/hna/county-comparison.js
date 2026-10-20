@@ -109,7 +109,9 @@
     if (!placeMetric || !countyMetric) return 'not published for both geographies';
     if (!placeMetric.denominator_key) return 'not a rate — levels scale with population and do not compare';
     if (num(placeMetric.value) === null || num(countyMetric.value) === null) return 'no value';
-    if (placeMetric.geography_level === 'county') {
+    // county_context: the place carries the county's own figure (vacancy in
+    // a town under 500 renter units), so the delta would be zero by design.
+    if (placeMetric.geography_level === 'county' || placeMetric.geography_level === 'county_context') {
       return 'the local figure is the county’s own, so there is nothing to compare';
     }
     if (placeMetric.denominator_floor_applied || countyMetric.denominator_floor_applied) {

@@ -133,6 +133,14 @@
     var renterCB35 = rb35p;
     var renterCB30 = (rb30_34 != null && rb35p != null) ? rb30_34 + rb35p
                    : (rb35p != null ? rb35p : null);
+    // The ranking index drops an ACS share the CHAS severe share contradicts
+    // (Rangely: 21.1% burdened, 30.3% severely); the rest of the page does
+    // not show it, so it does not score here either.
+    try {
+      var n = window.HNANarratives && window.HNANarratives._internals;
+      var e = n && n.rankingEntryFor && p._geoid ? n.rankingEntryFor(p._geoid) : null;
+      if (e && e.metrics && e.metrics.pct_cost_burdened === null) { renterCB30 = null; renterCB35 = null; }
+    } catch (_) { /* ranking optional */ }
 
     // Owner cost burden — sum 30-34.9 (DP04_0114PE) + 35%+ (DP04_0115PE) when both
     // present; the HNA extended fetch returns both. Fall back to 0114 alone if

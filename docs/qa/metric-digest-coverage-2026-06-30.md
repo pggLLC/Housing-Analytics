@@ -6,7 +6,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 - Digest files: 546
 - Total tagged metrics: 78620
-- County-context metric tags: 6763
+- County-context metric tags: 7125
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
 
@@ -15,8 +15,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | geography_level | metric tags |
 |---|---:|
 | county | 8704 |
-| county_context | 6763 |
-| place | 63153 |
+| county_context | 7125 |
+| place | 62791 |
 
 ## Source Tags
 
