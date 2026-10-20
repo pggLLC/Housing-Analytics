@@ -100,12 +100,20 @@ def domain(url: str) -> str:
     return urllib.parse.urlparse(url).netloc.lower().removeprefix('www.')
 
 
+META_ATTR_RE = re.compile(r'([\w:-]+)\s*=\s*(?:"([^"]*)"|\'([^\']*)\')')
+
+
 def _meta(page: str, *names: str) -> str:
+    # Each attribute ends at its own quote, so "Mayor's housing plan" stays whole.
+    tags = []
+    for tag in re.findall(r'<meta\b[^>]*>', page, re.I):
+        attrs = {k.lower(): (dq if dq or not sq else sq) for k, dq, sq in META_ATTR_RE.findall(tag)}
+        tags.append(attrs)
     for name in names:
-        m = re.search(r'<meta[^>]+(?:property|name)=["\']%s["\'][^>]*content=["\']([^"\']+)' % re.escape(name), page, re.I) \
-            or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*(?:property|name)=["\']%s["\']' % re.escape(name), page, re.I)
-        if m:
-            return html.unescape(m.group(1)).strip()
+        for attrs in tags:
+            if name.lower() in (attrs.get('property', '').lower(), attrs.get('name', '').lower()) \
+                    and attrs.get('content', '').strip():
+                return html.unescape(attrs['content']).strip()
     return ''
 
 

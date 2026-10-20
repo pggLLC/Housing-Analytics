@@ -179,3 +179,9 @@ def test_an_old_article_pasted_today_stays():
                                                      'date': '2025-01-02'})
     assert [(i['title'], i['status'], i['issue']) for i in ledger] == [('Old story', 'published', 8)]
     assert done == [8]
+
+
+def test_an_apostrophe_in_a_headline_is_kept():
+    page = '''<meta property="og:title" content="Mayor's housing plan passes" /><meta content='CPR "News"' name='og:site_name'>'''
+    assert onp._meta(page, 'og:title') == "Mayor's housing plan passes"
+    assert onp._meta(page, 'og:site_name') == 'CPR "News"'
