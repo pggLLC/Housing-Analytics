@@ -29,6 +29,7 @@ import os
 import re
 import sys
 import textwrap
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -777,6 +778,72 @@ def stories_meta(counts: dict) -> dict:
     }
 
 
+OWNER_NEWS_FILE = REPO_ROOT / 'data' / 'alerts' / 'owner-news.json'
+
+
+def _link_key(url: str) -> str:
+    # Same rule as owner_news_picks.norm_url: tracking tags off, the rest kept.
+    p = urllib.parse.urlsplit((url or '').strip())
+    host = p.netloc.lower().removeprefix('www.')
+    query = urllib.parse.urlencode(sorted(
+        (k, v) for k, v in urllib.parse.parse_qsl(p.query)
+        if not re.match(r'^(utm_\w+|fbclid|gclid|mc_cid|mc_eid|cmpid|ref|src|smid|mod|ocid|cid)$', k, re.I)))
+    return (f'{host}{p.path.rstrip("/")}'.lower() + (f'?{query}' if query else '')) if host else ''
+
+
+def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -> list[dict]:
+    """Add the owner's published picks (scripts/news/owner_news_picks.py) to the stories.
+
+    A pick is a story the owner chose himself, so the scope and topic filters
+    do not drop it: it is Colorado or federal news when the usual rule says
+    so, and national otherwise. A pick already on the page is marked, not
+    added twice.
+    """
+    data = load_json_safe(path or OWNER_NEWS_FILE)
+    items = data.get('items', []) if isinstance(data, dict) else []
+    by_key = {norm_title(s['title']): s for s in stories}
+    # The same article can carry a different headline in the feed and on its
+    # own page, so its address is a key too.
+    by_link = {_link_key(s.get('link', '')): s for s in stories if s.get('link')}
+    for s in stories:
+        for a in s.get('also', []):
+            if a.get('link'):
+                by_link.setdefault(_link_key(a['link']), s)
+    out = list(stories)
+    for it in items:
+        if it.get('status') != 'published' or not it.get('title'):
+            continue
+        key = norm_title(it['title'])
+        lk = _link_key(it.get('link', ''))
+        same = by_key.get(key) or (by_link.get(lk) if lk else None)
+        if same:
+            same['picked'] = True
+            continue
+        places, distinct = find_places(it['title'], geos, it.get('source', ''))
+        regions: list[str] = []
+        for g in places:
+            if g.get('region') and g['region'] not in regions:
+                regions.append(g['region'])
+        story = {
+            'title': it['title'],
+            'source': it.get('source') or 'Unknown publisher',
+            'link': it.get('link') or '',
+            'date': (it.get('date') or '')[:10],
+            'scope': story_scope(it['title'], it.get('source', ''), distinct) or 'national',
+            'programs': [name for name, rx in PROGRAMS if rx.search(it['title'])],
+            'places': [{'geoid': g['geoid'], 'name': g['name'], 'type': g['type']} for g in places],
+            'regions': regions,
+            'also': [],
+            'picked': True,
+        }
+        by_key[key] = story
+        if story['link']:
+            by_link[_link_key(story['link'])] = story
+        out.append(story)
+    out.sort(key=lambda s: s['date'], reverse=True)
+    return out
+
+
 def load_alerts() -> list[dict]:
     alerts_data = load_json_safe(ALERTS_FILE)
     if isinstance(alerts_data, dict):
@@ -799,6 +866,7 @@ def refresh_stories_only() -> int:
         return 1
     geos = load_geographies()
     stories, counts = build_stories(load_alerts(), geos)
+    stories = with_owner_picks(stories, geos)
     existing['stories'] = stories
     # A brief written before a scope rule changed can still list a headline the
     # rule now leaves out (Pasadena's "E. Colorado Blvd." on 2026-10-19): drop
@@ -862,6 +930,7 @@ def main() -> int:
         print('  OPENAI_API_KEY not set — using rule-based mode')
 
     stories, story_counts = build_stories(alerts, geos)
+    stories = with_owner_picks(stories, geos)
     print(f'  Stories: {len(stories)} ({story_counts["merged"]} duplicate headline(s) merged, '
           f'{story_counts["out_of_scope"]} out of scope)')
 

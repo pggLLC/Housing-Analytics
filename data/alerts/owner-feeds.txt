@@ -1,0 +1,5 @@
+# The owner's Google Alerts, as RSS feeds (one per line).
+# Read by scripts/news/owner_news_picks.py. Stories from these feeds wait in
+# the "News picks to review" issue until ticked; nothing publishes on its own.
+# How to get a feed: google.com/alerts → pencil on the alert → Show options →
+# Deliver to: RSS feed → Update alert → copy the RSS icon's link.
