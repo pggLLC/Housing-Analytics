@@ -114,12 +114,12 @@
       "applied": 6
      },
      "Medium": {
-      "listed": 22,
-      "applied": 5
+      "listed": 21,
+      "applied": 4
      },
      "Watch": {
-      "listed": 52,
-      "applied": 1
+      "listed": 53,
+      "applied": 2
      }
     }
    }
@@ -130,12 +130,12 @@
     "applied": 27
    },
    "Medium": {
-    "listed": 67,
-    "applied": 14
+    "listed": 66,
+    "applied": 13
    },
    "Watch": {
-    "listed": 186,
-    "applied": 8
+    "listed": 187,
+    "applied": 9
    }
   },
   "applicants": 102,
@@ -162,12 +162,12 @@
     "applied": 5
    },
    "soft_fit": {
-    "with_signal": 69,
-    "applied": 20
+    "with_signal": 68,
+    "applied": 19
    },
    "soft_misfit": {
-    "with_signal": 55,
-    "applied": 4
+    "with_signal": 56,
+    "applied": 5
    },
    "sponsor": {
     "with_signal": 56,
@@ -212,7 +212,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -262,7 +262,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -306,7 +306,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -350,7 +350,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. At 115 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. At 115 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -886,7 +886,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -924,7 +924,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -958,7 +958,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -986,7 +986,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1Z9tnPykLuRPp9TsmV8ZSinVYlnvkxfSG/view",
@@ -1014,7 +1014,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -1042,7 +1042,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -1070,7 +1070,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -1098,7 +1098,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -1126,7 +1126,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1154,7 +1154,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -1182,7 +1182,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/18I_gJeK34pel4N7AigCGhKACvXxLtych/view",
@@ -1407,7 +1407,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. At 74 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. At 74 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -1591,7 +1591,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. At 198 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. At 198 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -1683,7 +1683,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. At 185 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. At 185 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2039,7 +2039,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. At 72 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. At 72 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2067,7 +2067,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. At 73 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. At 73 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1JTc5ZDRjQXbAxpsr1ef5RynJIEBHirBN/view",
@@ -2191,7 +2191,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. At 120 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. At 120 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2252,7 +2252,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. At 158 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. At 158 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1rqSAnxVSs2vwTSsSuPM3sSR7m72gT0Xw/view",
@@ -2348,7 +2348,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. At 289 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. At 289 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -2448,7 +2448,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. At 129 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. At 129 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1qgKEPwQZHK47Hxt4-dWMYXeeR0SDAuWy/view",
@@ -2476,7 +2476,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. At 117 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. At 117 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -2504,7 +2504,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. At 153 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. At 153 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -2532,7 +2532,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 139 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 139 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2560,7 +2560,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. At 96 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. At 96 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/14QYAuFUiHGQjfWfS8bxvHmjcFs0xK3Pb/view",
@@ -2588,7 +2588,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. At 106 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. At 106 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -2614,7 +2614,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. At 75 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. At 75 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -2791,7 +2791,7 @@
       },
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,000,000 requested (award amount not printed), 2025-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2829,7 +2829,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $700,000 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -2863,7 +2863,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $15,000,000 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2899,7 +2899,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. At 40 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,350,000 requested (award amount not printed), 2025-11. At 40 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -2942,7 +2942,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $12,818,096 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2970,7 +2970,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,997,474 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -2998,7 +2998,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: HOME (federal) (DOLA), $391,136 awarded, 2025-02-11. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1JTc5ZDRjQXbAxpsr1ef5RynJIEBHirBN/view",
@@ -3026,7 +3026,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $7,000,000 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -3055,7 +3055,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $2,700,000 awarded, 2025-07-08; Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $6,200,000 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1rqSAnxVSs2vwTSsSuPM3sSR7m72gT0Xw/view",
@@ -3087,7 +3087,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $14,000,000 requested (award amount not printed), 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -3115,7 +3115,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,000,000 awarded, 2026-05-05. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1qgKEPwQZHK47Hxt4-dWMYXeeR0SDAuWy/view",
@@ -3143,7 +3143,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $385,000 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -3171,7 +3171,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,750,000 awarded, 2026-07-07. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -3199,7 +3199,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3227,7 +3227,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Affordable Housing Revolving Loan Fund (DOLA), $1,500,000 awarded, 2026-04-14. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/14QYAuFUiHGQjfWfS8bxvHmjcFs0xK3Pb/view",
@@ -3255,7 +3255,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,425,000 awarded, 2026-07-07. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1O4xIf-JNvMLenpCRKKpsVhfu8gxqxfER/view",
@@ -3281,7 +3281,7 @@
      "why": [
       {
        "kind": "soft_fit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. 20 of 69 deals with recent state money and a size that suits this round applied in it.",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $485,000 awarded, 2025. 19 of 68 deals with recent state money and a size that suits this round applied in it.",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -3316,7 +3316,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 65 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $2,500,000 requested (award amount not printed), 2026-06. At 65 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3360,7 +3360,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $770,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3404,7 +3404,7 @@
       },
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,500,000 requested (award amount not printed), 2025-11. At 52 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -3758,7 +3758,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. At 50 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $750,000 awarded, 2025. At 50 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -4114,7 +4114,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. At 56 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $3,734,417 awarded, 2025. At 56 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
@@ -4206,7 +4206,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. At 26 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,300,000 awarded, 2025-06-10. At 26 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/1Z9tnPykLuRPp9TsmV8ZSinVYlnvkxfSG/view",
@@ -4234,7 +4234,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. At 54 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Investment Trust Fund (HITF) (DOLA), $700,000 awarded, 2025-12-09. At 54 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -4526,7 +4526,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. At 20 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,100,000 awarded, 2025-12-09. At 20 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view",
@@ -4650,7 +4650,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. At 55 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Division of Housing award (DOLA), $1,237,500 requested (award amount not printed), 2026-06. At 55 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://doh.colorado.gov/application-schedule-and-awards",
@@ -4678,7 +4678,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. At 24 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Concessionary Debt (OEDIT / CHFA (Prop 123 AHFF)), $75,000 awarded, 2025. At 24 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
@@ -4738,7 +4738,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. At 53 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $10,036,571 requested (award amount not printed), 2025. At 53 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
@@ -4806,7 +4806,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. At 66 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Prop 123 Equity (OEDIT / CHFA (Prop 123 AHFF)), $5,000,000 requested (award amount not printed), 2025. At 66 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
@@ -5162,7 +5162,7 @@
      "why": [
       {
        "kind": "soft_misfit",
-       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. At 33 homes it suits the other round better (4 of 55 deals like this applied here).",
+       "text": "State money in place and no tax credit yet: Housing Development Grant (DOLA), $1,600,000 awarded, 2025-10-21. At 33 homes it suits the other round better (5 of 56 deals like this applied here).",
        "sources": [
         {
          "url": "https://drive.google.com/file/d/18I_gJeK34pel4N7AigCGhKACvXxLtych/view",

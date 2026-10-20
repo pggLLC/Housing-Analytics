@@ -174,3 +174,19 @@ def test_every_reason_has_a_source_including_sponsor():
     for r in out['rounds']:
         for i in r['items']:
             assert all(w.get('source_url') or w.get('sources') for w in i['why'])
+
+
+def test_backtest_size_takes_a_newer_application_over_an_older_award():
+    a, l, e = base()
+    # DOLA printed 90 homes in 2025; the 2026 Round One application (public
+    # before Round Two) printed 57, so Round Two sees a 57-home deal
+    a['applications'].append(app('Colfax Deal', 'Longmont', 2026, 1, 'not_awarded', units=57))
+    a['applications'].append(app('Colfax Deal', 'Longmont', 2026, 2, 'pending', units=57))
+    ev = dola('Colfax Deal', '2025-06')
+    ev['quote'] += '; Homes: 90'
+    l['projects'].append(project('colfax', 'Colfax Deal', 'Longmont', 57, [ev]))
+    D = rw.Data(a, l, e)
+    cutoff = next(r for r in rw.build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round Two')['as_of']
+    v = next(v for v in rw.score_round(D, (2026, 2), cutoff, keep_all=True).values() if v['project'] and v['project']['id'] == 'colfax')
+    assert v['units'] == 57
+    assert any(s['kind'] == 'soft_misfit' for s in v['signals'])

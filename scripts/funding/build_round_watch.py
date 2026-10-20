@@ -168,16 +168,15 @@ SIZE_IN_QUOTE = re.compile(r'(?:Total Units|N_UNITS|Homes|Estimated Units|Estima
 
 def size_as_of(p, apps, events, live):
     """Homes as known at the cutoff. The ledger keeps the size from its
-    latest record, which may postdate a past round, so a backtest reads the
-    size each record printed (its quote) and takes the latest one public by
-    then, else the last earlier application's."""
+    latest record, which may postdate a past round, so a backtest takes the
+    latest size printed by a record public by then: an earlier application,
+    or a funding record (its quote). Year-only records date to year end."""
     if live:
         return (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
-    sized = [(e['year'], e.get('announced') or '', int(m.group(1))) for e in events
+    sized = [((e.get('announced') or '%d-12' % e['year'])[:7], int(m.group(1))) for e in events
              for m in [SIZE_IN_QUOTE.search(e.get('quote') or '')] if m]
-    if sized:
-        return max(sized)[2]
-    return apps[-1]['total_units'] if apps else None
+    sized += [((a.get('source_as_of') or '%d-12' % a['year'])[:7], a['total_units']) for a in apps if a.get('total_units')]
+    return max(sized)[1] if sized else None
 
 
 def score_round(D, target, cutoff, keep_all=False, live=False):
