@@ -174,9 +174,9 @@ def size_as_of(p, apps, events, live):
     if live:
         return (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
     # (date as printed, 0 record / 1 application, homes): same-day ties go to the application
-    sized = [((e.get('announced') or '%d-12' % e['year']).split('/')[0], 0, int(m.group(1))) for e in events
+    sized = [((e.get('announced') or '%d-12-31' % e['year']).split('/')[0], 0, int(m.group(1))) for e in events
              for m in [SIZE_IN_QUOTE.search(e.get('quote') or '')] if m]
-    sized += [(a.get('source_as_of') or '%d-12' % a['year'], 1, a['total_units']) for a in apps if a.get('total_units')]
+    sized += [(a.get('source_as_of') or '%d-12-31' % a['year'], 1, a['total_units']) for a in apps if a.get('total_units')]
     return max(sized)[2] if sized else None
 
 
@@ -211,11 +211,14 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
             continue
         signals = []
         if apps:
+            def loss(a):
+                r = (a['year'], a['round'])
+                return ('lost_last_same' if same and r == same[-1] else
+                        'lost_older_same' if r in same else 'lost_other')
+            # the strongest loss counts (a same-type loss beats a later other-type one), newest on a tie
+            kind, _, lost = max(((loss(x), n, x) for n, x in enumerate(apps)), key=lambda t: (POINTS[t[0]], t[1]))
+            signals.append({'kind': kind, 'app': lost})
             a = apps[-1]
-            r = (a['year'], a['round'])
-            kind = ('lost_last_same' if same and r == same[-1] else
-                    'lost_older_same' if r in same else 'lost_other')
-            signals.append({'kind': kind, 'app': a})
             if a.get('sponsor') and len(sponsor_rounds[a['sponsor']]) >= 2:
                 rows = sponsor_rounds[a['sponsor']]
                 signals.append({'kind': 'sponsor', 'sponsor': a['sponsor'], 'rounds': len(rows),

@@ -199,3 +199,18 @@ def test_size_compares_whole_dates():
     assert rw.size_as_of(None, [later_app], [ev], live=False) == 50
     later_app['source_as_of'] = '2026-06-01'
     assert rw.size_as_of(None, [later_app], [ev], live=False) == 100
+
+
+def test_same_type_loss_beats_a_later_other_type_loss():
+    a, l, e = base()
+    a['applications'] += [app('Both Rounds', 'Longmont', 2026, 1, 'not_awarded'),
+                          app('Both Rounds', 'Longmont', 2026, 2, 'not_awarded')]
+    i = items(build(a, l, e), 1)['Both Rounds']
+    assert i['band'] == 'High' and i['why'][0]['kind'] == 'lost_last_same'
+    assert '2026 Round One' in i['why'][0]['text']
+
+
+def test_year_only_record_dates_to_the_last_day():
+    ev = {'agency': 'DOLA', 'year': 2025, 'quote': 'Project: X; Homes: 100'}
+    december_app = {'source_as_of': '2025-12-20', 'year': 2025, 'total_units': 50}
+    assert rw.size_as_of(None, [december_app], [ev], live=False) == 100
