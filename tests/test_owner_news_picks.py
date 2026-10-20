@@ -187,3 +187,8 @@ def test_an_apostrophe_in_a_headline_is_kept():
     page = '''<meta property="og:title" content="Mayor's housing plan passes" /><meta content='CPR "News"' name='og:site_name'>'''
     assert onp._meta(page, 'og:title') == "Mayor's housing plan passes"
     assert onp._meta(page, 'og:site_name') == 'CPR "News"'
+
+
+def test_only_google_redirect_links_are_unwrapped():
+    fake = 'https\x3a//notgoogle.com/url?url=https\x3a//elsewhere.localhost/'
+    assert onp.unwrap(fake) == fake

@@ -68,7 +68,8 @@ UA = 'Mozilla/5.0 (compatible; HousingAnalytics/1.0; +https://cohoanalytics.com)
 def unwrap(url: str) -> str:
     """Google Alerts links go through google.com/url?url=<the article>."""
     p = urllib.parse.urlparse(url or '')
-    if p.netloc.endswith('google.com') and p.path == '/url':
+    host = (p.hostname or '').lower()
+    if (host == 'google.com' or host.endswith('.google.com')) and p.path == '/url':
         real = urllib.parse.parse_qs(p.query).get('url')
         if real:
             return real[0]
