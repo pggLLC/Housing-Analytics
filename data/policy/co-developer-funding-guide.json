@@ -2965,7 +2965,7 @@
       "administrator": "OEDIT, with CHFA as contract administrator",
       "official_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
       "funding_type": "loan",
-      "status": "closed",
+      "status": "rounds",
       "soft_funding_id": "PROP123-LIHTC-GAP",
       "what_it_funds": "Subordinate gap loans for affordable rental projects that have a federal Low Income Housing Tax Credit award but have not converted to permanent financing.",
       "award_size": "Minimum $400,000; maximum is the least of 1.05 debt service coverage on all must-pay debt, 10% of total project costs, or $6,000,000.",
@@ -2975,7 +2975,7 @@
       "affordability_period": "Regulatory Agreement for the greater of the loan term or 30 years.",
       "eligible_applicants": "For-profits, nonprofits, governmental entities including housing authorities, and tribal governments.",
       "eligible_projects": "Developments that have received a federal LIHTC award but have not yet converted to permanent financing; project must be in a jurisdiction with a filed Prop 123 commitment.",
-      "application_cycle": "Closed as of 2026-10-10 (last open round May 27 to June 10, 2026). FY2027 plan: $44M of LIHTC Gap reserved for competitive Housing Tax Credit applicants under the 2027-2028 QAP (up to $25M in 2027 Round One, up to $19M in Round Two); a small amount in open Concessionary Debt rounds opening October 2026 and February 2027 for emergency needs. Exact October 2026 dates not published.",
+      "application_cycle": "Last round ran May 27 to June 10, 2026. FY2027 plan: $44M of LIHTC Gap reserved for competitive Housing Tax Credit applicants under the 2027-2028 QAP (up to $25M in 2027 Round One, up to $19M in Round Two); a small amount in open Concessionary Debt rounds opening October 2026 and February 2027 for emergency needs. The October 2026 round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026, per CHFA's October 19, 2026 notice.",
       "key_considerations": [
         "Most FY2027 gap money is awarded through CHFA's competitive tax credit rounds, not a separate application.",
         "Loan is capped at the smallest of three limits, including 10% of total project cost and $6 million.",
@@ -2984,6 +2984,10 @@
         "If senior construction financing already closed, the gap loan can fund only at permanent conversion."
       ],
       "sources": [
+        {
+          "label": "CHFA eNews, October 19, 2026: Proposition 123 Concessionary Debt Round Applications Accepted",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "label": "coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance",
           "url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/"
@@ -2998,6 +3002,16 @@
         }
       ],
       "evidence": [
+        {
+          "field": "application_cycle",
+          "quote": "Starting Wednesday, October 21st, applications and supporting materials will be accepted for the Proposition 123 Concessionary Debt Multifamily Finance, LIHTC Gap Finance, and LIHTC Predevelopment Finance loan options",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The application period will close on Tuesday, November 10th, at 5:00pm MT.",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "field": "eligible_projects",
           "quote": "Developments that have received an award of federal Low Income Housing Tax Credits but have not yet converted to permanent financing",
@@ -3089,13 +3103,8 @@
           "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/05/Prop123-CO-AHFF-ConcessionaryDebt-LIHTC-GapFinanceGuidelines.pdf"
         }
       ],
-      "unverified": [
-        {
-          "field": "application_cycle",
-          "reason": "FY2027 Funding Plan says open rounds open 'October 2026' but no exact open or close date was published on the program page as of 2026-10-10."
-        }
-      ],
-      "last_checked": "2026-10-10",
+      "unverified": [],
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "capital",
         "execution": [
@@ -3119,7 +3128,7 @@
       "administrator": "OEDIT, with CHFA as contract administrator",
       "official_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/multifamily-finance/",
       "funding_type": "loan",
-      "status": "closed",
+      "status": "rounds",
       "what_it_funds": "Senior or subordinate below-market loans for new construction or preservation of low- and middle-income multifamily rental housing that is not using state or federal Housing Tax Credits (Middle-income Housing Tax Credit projects are eligible).",
       "award_size": "Minimum $400,000; maximum is the least of 90% of value or cost on all must-pay debt, a 1.15 DSCR as senior loan (1.05 combined as subordinate), or $6,000,000.",
       "rate": "2.5% fixed, plus standard loan closing costs.",
@@ -3128,7 +3137,7 @@
       "affordability_period": "Regulatory Agreement for the greater of the loan term or 30 years.",
       "eligible_applicants": "For-profit, nonprofit, governmental entities including housing authorities, and tribal governments.",
       "eligible_projects": "New construction and preservation of low- and middle-income multifamily rental; projects seeking state or federal Housing Tax Credits are ineligible except Middle-income Housing Tax Credits.",
-      "application_cycle": "Closed as of 2026-10-10. FY2027 open rounds ($20M shared with LIHTC Predevelopment and LIHTC Gap) open October 2026 and February 2027; exact dates not published.",
+      "application_cycle": "FY2027 open rounds ($20M shared with LIHTC Predevelopment and LIHTC Gap) open October 2026 and February 2027. The October 2026 round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026, per CHFA's October 19, 2026 notice.",
       "key_considerations": [
         "Cannot be combined with 4% or 9% LIHTC or the state Affordable Housing Tax Credit; Middle-income Housing Tax Credit deals can apply.",
         "Must be prepared to close within 12 months of award notice.",
@@ -3136,6 +3145,10 @@
         "All AHFF projects must meet high-density, mixed-income and environmental sustainability priorities."
       ],
       "sources": [
+        {
+          "label": "CHFA eNews, October 19, 2026: Proposition 123 Concessionary Debt Round Applications Accepted",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "label": "coloradoaffordablehousingfinancingfund.com/concessionary-debt/multifamily-finance",
           "url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/multifamily-finance/"
@@ -3146,6 +3159,16 @@
         }
       ],
       "evidence": [
+        {
+          "field": "application_cycle",
+          "quote": "Starting Wednesday, October 21st, applications and supporting materials will be accepted for the Proposition 123 Concessionary Debt Multifamily Finance, LIHTC Gap Finance, and LIHTC Predevelopment Finance loan options",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The application period will close on Tuesday, November 10th, at 5:00pm MT.",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "field": "award_size",
           "quote": "Maximum loan size limited to the lesser of 90% of value or cost when considering all must-pay debt, debt service coverage ratio of 1.15 as a senior loan and 1.05 as a subordinate loan when combined with the senior debt, or $6,000,000, whichever is less.",
@@ -3208,7 +3231,7 @@
           "reason": "Program page and FY2027 plan do not publish a loan term; only that amortizing and non-amortizing structures are available based on underwriting."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "capital",
         "execution": [
@@ -3234,7 +3257,7 @@
       "administrator": "OEDIT, with CHFA as contract administrator",
       "official_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-predevelopment-finance/",
       "funding_type": "loan",
-      "status": "closed",
+      "status": "rounds",
       "what_it_funds": "Unsecured predevelopment loans for projects that qualify for federal Housing Tax Credits.",
       "award_size": "Up to $750,000 per project; no minimum.",
       "rate": "2.5% fixed, plus standard loan closing costs.",
@@ -3243,13 +3266,17 @@
       "affordability_period": "None beyond LIHTC requirements.",
       "eligible_applicants": "For-profit, nonprofit, governmental entities including housing authorities, and tribal governments.",
       "eligible_projects": "Developments that qualify for federal Low Income Housing Tax Credits.",
-      "application_cycle": "Closed as of 2026-10-10; next open rounds October 2026 and February 2027 per FY2027 plan (exact dates not published).",
+      "application_cycle": "Open rounds October 2026 and February 2027 per the FY2027 plan. The October 2026 round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026, per CHFA's October 19, 2026 notice.",
       "key_considerations": [
         "Unsecured, but the borrower must give recourse guaranties.",
         "Should be ready to close within three to six months of award.",
         "Principal comes due when the construction loan closes."
       ],
       "sources": [
+        {
+          "label": "CHFA eNews, October 19, 2026: Proposition 123 Concessionary Debt Round Applications Accepted",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "label": "coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-predevelopment-finance",
           "url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-predevelopment-finance/"
@@ -3260,6 +3287,16 @@
         }
       ],
       "evidence": [
+        {
+          "field": "application_cycle",
+          "quote": "Starting Wednesday, October 21st, applications and supporting materials will be accepted for the Proposition 123 Concessionary Debt Multifamily Finance, LIHTC Gap Finance, and LIHTC Predevelopment Finance loan options",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The application period will close on Tuesday, November 10th, at 5:00pm MT.",
+          "url": "https://myemail.constantcontact.com/subject.html?soid=1101682993035&aid=8dRQyOFPkV8"
+        },
         {
           "field": "award_size",
           "quote": "Maximum predevelopment loan to a project is $750,000",
@@ -3317,7 +3354,7 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-20",
       "fit": {
         "role": "capital",
         "execution": [

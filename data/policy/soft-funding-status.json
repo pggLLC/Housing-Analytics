@@ -723,7 +723,7 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": "2026-06-10",
+      "deadline": "2026-11-10",
       "competitiveness": "moderate",
       "eligibleExecution": [
         "9%",
@@ -732,7 +732,7 @@
       "maxPerProject": 6000000,
       "description": "Subordinate financing for developments awarded federal LIHTC that have not converted to permanent financing. Amortizing or non-amortizing structures depend on underwriting.",
       "contactUrl": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "status": "closed",
+      "status": "active",
       "funding_type": null,
       "rate_pct": 2.5,
       "term_years": null,
@@ -746,7 +746,7 @@
         "must_pay_dscr": 1.05
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The last application window was May 27–June 10, 2026 and is closed. Available, awarded and capacity balances for this instrument are not stated.",
+      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The May 27–June 10, 2026 window closed; CHFA's October 19, 2026 notice says the next round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026. Most FY2027 gap money goes through the competitive tax credit rounds instead. Available, awarded and capacity balances for this instrument are not stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "adminEntity": "OEDIT / CHFA",
