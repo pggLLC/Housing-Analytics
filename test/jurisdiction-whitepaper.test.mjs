@@ -271,9 +271,18 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const reworded = clone(src); reworded.rankingIndex.metrics.find((x) => x.id === 'overall_need_score').description = 'Sabotage wording.';
   ok(WP.renderHtml(WP.buildModel(reworded, '0833640', { FundingFit })).includes('Sabotage wording.'), 'sabotage: reword the data and the report follows');
   // Market rents equal their files.
+  // Zillow drops thin counties some months (Gunnison left the September 2026 file):
+  // a published county shows its rent, an unpublished one shows no Zillow row at all.
   const z = src.zori.counties['08051'];
-  ok(m.market.some((x) => /ZORI/.test(x.source) && x.all === z.rent), 'Zillow rent equals the ZORI file');
+  const gz = m.market.filter((x) => /ZORI/.test(x.source));
+  ok(z ? gz.length === 1 && gz[0].all === z.rent : gz.length === 0, 'Zillow rent equals the ZORI file, or is absent when the file has none');
+  const noZ = clone(src); delete noZ.zori.counties['08051'];
+  ok(!WP.buildModel(noZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source)), 'sabotage: a county missing from the ZORI file gets no Zillow row, not $0');
+  const withZ = clone(src); withZ.zori.counties['08051'] = { name: 'Gunnison County', rent: 2475, vintage_month: '2026-08-31' };
+  ok(WP.buildModel(withZ, '0833640', { FundingFit }).market.some((x) => /ZORI/.test(x.source) && x.all === 2475), 'sabotage: a county in the ZORI file gets its rent');
   const den = WP.buildModel(src, '0820000', { FundingFit });
+  const dz = src.zori.counties['08031'];
+  ok(dz && den.market.some((x) => /ZORI/.test(x.source) && x.all === dz.rent), 'Denver\'s Zillow rent equals the ZORI file (non-vacuity)');
   ok(den.market.some((x) => /Apartment List/.test(x.source) && x.br2 === src.apartmentList.cities.denver.rent_2br), 'Apartment List 2BR equals its file');
   ok(!m.market.some((x) => /Apartment List/.test(x.source)), 'no Apartment List row for a city it does not cover');
   // Every assisted property in the town, and nothing from another county's same-named town.

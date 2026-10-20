@@ -54,8 +54,17 @@ const COUNTY = '08051', PLACE = '0833640';
   ok(cty.ruralResort === lim.rural_resort, 'rural resort flag from the CHFA file');
 
   const fmr = files.fmr.counties.find((c) => c.fips === COUNTY).fmr.two_br;
-  const zori = files.zori.counties[COUNTY].rent;
-  ok(cty.rentRange.low === Math.min(fmr, zori) && cty.rentRange.high === Math.max(fmr, zori), 'rent range must be HUD FMR and ZORI, not ACS median');
+  // Zillow drops thin counties some months (Gunnison, Ouray and Park left the
+  // September 2026 file), so the range follows whatever the file holds.
+  const zrow = files.zori.counties[COUNTY];
+  const want = zrow ? [fmr, zrow.rent] : [fmr];
+  ok(cty.rentRange.low === Math.min(...want) && cty.rentRange.high === Math.max(...want), 'rent range must be HUD FMR and ZORI, not ACS median');
+  const withZ = clone(files.zori); withZ.counties[COUNTY] = { name: 'Gunnison County', rent: fmr + 400 };
+  const zr = MI.build({ ...files, zori: withZ }, { countyFips: COUNTY }, M);
+  ok(zr.rentRange.low === fmr && zr.rentRange.high === fmr + 400, 'a county Zillow publishes puts its rent in the range');
+  const noZ = clone(files.zori); delete noZ.counties[COUNTY];
+  const nz = MI.build({ ...files, zori: noZ }, { countyFips: COUNTY }, M);
+  ok(nz.rentRange.low === fmr && nz.rentRange.high === fmr, 'a county Zillow does not publish uses FMR alone, never a $0 Zillow rent');
   const guideName = files.guide.programs.find((p) => p.id === 'chfa-mihtc').name;
   ok(cty.mihtc && cty.mihtc.name === guideName, 'MIHTC name comes from the funding guide');
 
