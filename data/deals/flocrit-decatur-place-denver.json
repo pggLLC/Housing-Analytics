@@ -1,0 +1,445 @@
+{
+ "slug": "flocrit-decatur-place-denver",
+ "name": "FloCrit at Decatur Place",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "Mercy Housing plans to rehab Decatur Place, its existing 106-unit building for single parents with a Section 8 contract in Denver's Sun Valley neighborhood, and to add a Florence Crittenton (FloCrit) resource and early-education center there; the project is on CHFA's 2026 Federal 4% award list.",
+ "why_it_matters": "It is a preservation deal with a full public capital stack (CHFA HUD Risk Share bonds, Denver HOME/CDBG, DHA vouchers, a state EPA climate grant) at about $539,000 per unit total cost, a useful benchmark for a deep electrification rehab of an occupied Section 8 building.",
+ "status": {
+  "label": "Credits awarded; closing and construction start not confirmed",
+  "detail": "CHFA lists the award (amounts subject to change), and Denver finished the HUD environmental review notice in April 2026. Mercy Housing says the rehab is planned to start in fall 2026 and run about 18 months; I found no public record of a closing, permit or start.",
+  "src": [
+   "chfa-4pct-award",
+   "denver-host-fonsi",
+   "mercy-decatur"
+  ]
+ },
+ "next_step": "Watch Denver City Council agendas for a HOST loan agreement with Mercy Housing for the $2.5M of HOME and CDBG money, which would usually come just before closing.",
+ "key_numbers": [
+  {
+   "value": "106 homes, all income-restricted",
+   "meaning": "100 at 50% AMI and 6 at 60% AMI (weighted average about 50.6% AMI, my calculation), with a Section 8 contract.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$2,429,327 a year in federal 4% credit",
+   "meaning": "About $24.3M over 10 years; CHFA marks it subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$18,000,000 in CHFA bonds",
+   "meaning": "Same figure Denver lists as CHFA HUD Risk Share funds, so the bond loan appears to be insured under HUD's 542(c) Risk Share program (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "value": "$57,166,609 total estimated cost",
+   "meaning": "About $539,300 per unit (my calculation), of which $25.0M is federal money.",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1155 Decatur Street, Denver 80204 (Sun Valley neighborhood)",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-decatur"
+   ]
+  },
+  {
+   "item": "Jurisdiction",
+   "value": "City and County of Denver",
+   "src": [
+    "chfa-4pct-award",
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Existing 4-story multifamily building",
+   "src": [
+    "denver-host-fonsi",
+    "mercy-decatur"
+   ]
+  },
+  {
+   "item": "Resident type (CHFA)",
+   "value": "Supportive",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Construction type",
+   "value": "Acquisition/Rehabilitation",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "106 total, 106 income-restricted",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Bedrooms",
+   "value": "82 two-bedroom, 24 three-bedroom",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-decatur",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "item": "QCT / DDA / SADDA",
+   "value": "Yes / No / No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "Yes (CHFA); Mercy Housing says the property has a Housing Assistance Payment contract and residents pay 30% of income",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-loan-profile",
+    "mercy-decatur"
+   ]
+  },
+  {
+   "item": "Residents",
+   "value": "Single parents, many formerly homeless; residents commit to full-time work and/or school and take part in on-site services",
+   "src": [
+    "mercy-loan-2016",
+    "mercy-loan-profile"
+   ]
+  },
+  {
+   "item": "Already a tax credit property",
+   "value": "Yes, on CHFA's LIHTC property list (106 units, 2 and 3 bedrooms)",
+   "src": [
+    "chfa-lihtc-list"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "50% AMI",
+   "units": 100
+  },
+  {
+   "level": "60% AMI",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 82
+  },
+  {
+   "type": "3BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "mercy-decatur"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,429,327 per year",
+   "note": "Subject to change. No state credit is listed for this deal.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer) / CHFA HUD Risk Share loan",
+   "amount": "$18,000,000",
+   "note": "CHFA's award report lists $18,000,000 of PAB; Denver's HUD notice lists $18,000,000 of CHFA 542(c) Risk Share funds. That these are the same loan is my inference. Whose bond cap was used is not stated.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "source": "Denver Housing Authority Project-Based Vouchers",
+   "amount": "$2,519,520",
+   "note": "Listed as HUD funding in Denver's environmental notice; term not stated.",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "source": "Denver HOST CDBG",
+   "amount": "$1,250,000",
+   "note": "",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "source": "Denver HOST HOME",
+   "amount": "$1,250,000",
+   "note": "",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "source": "EPA Climate Pollution Reduction Grant via Colorado Energy Office",
+   "amount": "$2,000,000",
+   "note": "For the building electrification work (inferred from scope).",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "source": "Total estimated project cost",
+   "amount": "$57,166,609",
+   "note": "Federal sources total $25,019,520; the rest (tax credit equity, any seller note, deferred fee) is not itemized publicly.",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Mercy Housing Mountain Plains",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Current owner/operator",
+   "name": "Mercy Housing (a 2016 refinance loan went to Mercy Housing, Inc.; ownership entity not named publicly)",
+   "src": [
+    "mercy-loan-2016",
+    "mercy-decatur"
+   ]
+  },
+  {
+   "role": "Service partner (the 'FloCrit' in the name)",
+   "name": "Florence Crittenton Services of Colorado: Denver's notice says a Resource Center and Early Education Center are planned in existing first-floor space 'for Florence Crittenton'",
+   "src": [
+    "denver-host-fonsi",
+    "flocrit-history"
+   ]
+  },
+  {
+   "role": "Bond issuer / Risk Share lender",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "role": "Voucher provider",
+   "name": "Denver Housing Authority",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "role": "City funder and HUD responsible entity",
+   "name": "City and County of Denver, Department of Housing Stability (HOST)",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "role": "State grant",
+   "name": "Colorado Energy Office",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Florence Crittenton's teen-parent school was housed at Decatur Place in the past before moving; FloCrit's history page says the school ended up at 'Decatur Place, now part of Mercy Housing.' The new plan brings FloCrit back with a first-floor resource and early-education center.",
+   "src": [
+    "flocrit-history",
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "text": "Rehab scope (Denver notice): updated amenity spaces, a new Florence Crittenton Resource Center and Early Education Center (left out of the rehab pricing), outdoor areas rebuilt as playgrounds and terraces, a resurfaced and adjusted parking lot, and full electrification with cold-climate heat pumps, heat-pump water heating and on-site solar.",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "text": "Rehab scope (Mercy Housing): new kitchens and baths, appliances, LVT flooring, windows, energy-efficient HVAC with air conditioning, hot-water systems and modernized elevators, plus laundry, fitness room, cafe-style space, landscaping and repaving. Start planned fall 2026, about 18 months.",
+   "src": [
+    "mercy-decatur"
+   ]
+  },
+  {
+   "text": "In October 2016 Mercy Loan Fund lent Mercy Housing $5 million to refinance debt and fund capital work, including replacing the exterior insulation finish with stucco to reduce mold risk.",
+   "src": [
+    "mercy-loan-2016",
+    "mercy-loan-profile"
+   ]
+  },
+  {
+   "text": "Mercy Housing lists past funding from an FHA mortgage (TRI Capital), the City of Denver, the Colorado Division of Housing, CHFA and HUD Section 8; the city's CDBG also supports the property.",
+   "src": [
+    "mercy-decatur",
+    "mercy-loan-profile"
+   ]
+  },
+  {
+   "text": "As an acquisition/rehab by the current owner group, this is most likely a transfer to a new tax credit partnership controlled by Mercy Housing; no sale price is public (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "mercy-loan-2016"
+   ]
+  },
+  {
+   "text": "Not found in CHFA's competitive-round application narratives (2016-2026), so this appears to have come straight through the non-competitive 4% path.",
+   "src": [
+    "chfa-narratives"
+   ]
+  },
+  {
+   "text": "Denver 2026 limits (CHFA, HUD effective 2026-05-01): 50% AMI income limit is $72,000 for 4 people, max rent $1,620 for a 2BR and $1,872 for a 3BR; 60% AMI is $86,400 for 4 people, max rent $1,944 (2BR) and $2,247 (3BR). With Section 8, tenants pay 30% of income.",
+   "src": [
+    "chfa-limits",
+    "mercy-decatur"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2016-10-26",
+   "event": "Mercy Loan Fund announces a $5M loan to Mercy Housing to refinance and improve Decatur Place",
+   "src": [
+    "mercy-loan-2016"
+   ]
+  },
+  {
+   "date": "2026-04-30",
+   "event": "Denver HOST publishes Finding of No Significant Impact and notice of intent to request release of HUD funds (comments due 2026-05-15)",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "date": "2026-05-18",
+   "event": "Planned date (on or about) for Denver to ask HUD to release Risk Share, PBV, CDBG and HOME funds",
+   "src": [
+    "denver-host-fonsi"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026",
+   "event": "Rehab planned to begin in fall 2026, about 18 months (Mercy Housing; plan, not a confirmed start)",
+   "src": [
+    "mercy-decatur"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  "The bedroom mix as relayed in the task brief (1BR 82, 2BR 24) is off by one column: CHFA's mix table has 8 AMI/market columns before Studio, so the row reads Studio 0, 1BR 0, 2BR 82, 3BR 24, which matches Mercy Housing's page (82 two-bedroom, 24 three-bedroom) and CHFA's LIHTC property list (2 and 3 bedrooms).",
+  "CHFA classes the resident type as 'Supportive'; Mercy Housing and its loan fund describe it as a family property for single parents."
+ ],
+ "open_questions": [
+  "Equity investor and price, any seller note or acquisition price, deferred developer fee, GC and architect.",
+  "Whose bond cap backs the $18M (CHFA statewide or Denver's) is not stated.",
+  "Term and length of the Section 8 HAP contract and the new DHA project-based voucher contract.",
+  "Terms of the Florence Crittenton space (lease, who pays for build-out, which is excluded from the rehab pricing).",
+  "Whether Denver's HOST loan for the HOME/CDBG money has gone to City Council (none found in Legistar as of 2026-10-20).",
+  "Length of the new affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "denver-host-fonsi",
+   "title": "Notice of Finding of No Significant Impact and Notice of Intent to Request Release of Funds: Mercy Housing Decatur Place Rehabilitation",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2026-04-30",
+   "url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/mercyhousingdecaturrehab_publicnoticelh_2026-04-30.pdf"
+  },
+  {
+   "id": "mercy-decatur",
+   "title": "Decatur Place, 1155 Decatur Street, Denver, CO",
+   "publisher": "Mercy Housing",
+   "date": "2026",
+   "url": "https://www.mercyhousing.org/mountain-plains/decatur-place/"
+  },
+  {
+   "id": "mercy-loan-2016",
+   "title": "Mercy Loan Fund Partners with Mercy Housing to Preserve Affordable Housing for Single Parents in Denver, CO",
+   "publisher": "Mercy Housing",
+   "date": "2016-10-26",
+   "url": "https://www.mercyhousing.org/2016/10/mercy-loan-fund-partners-with-mercy-housing-to-preserve-affordable-housing-for-single-parents-in-denver-co/"
+  },
+  {
+   "id": "mercy-loan-profile",
+   "title": "Decatur Place Apartments (Mercy Loan Fund profile)",
+   "publisher": "Mercy Housing",
+   "date": "",
+   "url": "https://www.mercyhousing.org/partner-with-us/mercy-loan-fund/profile/decatur-place-apartments/"
+  },
+  {
+   "id": "flocrit-history",
+   "title": "Our History",
+   "publisher": "Florence Crittenton Services of Colorado",
+   "date": "",
+   "url": "https://flocritco.org/history/"
+  },
+  {
+   "id": "chfa-lihtc-list",
+   "title": "LIHTC Property List",
+   "publisher": "CHFA",
+   "date": "2026-09-01",
+   "url": "https://www.chfainfo.com/getmedia/f67935e1-9eea-460e-a2bd-1722498222ea/LIHTCPropertyList.pdf"
+  },
+  {
+   "id": "chfa-limits",
+   "title": "2026 Income Limit and Maximum Rent Tables for All Colorado Counties",
+   "publisher": "CHFA",
+   "date": "2026-05-01",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  },
+  {
+   "id": "chfa-narratives",
+   "title": "Application Narratives Archive",
+   "publisher": "CHFA",
+   "date": "",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/application-narratives-archive"
+  }
+ ]
+}

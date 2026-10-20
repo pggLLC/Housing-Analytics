@@ -1,0 +1,515 @@
+{
+ "slug": "fairbrooke-heights-fort-collins",
+ "name": "Fairbrooke Heights (scattered site)",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2026 Federal 4% housing tax credit (rolling list)",
+ "researched_on": "2026-10-20",
+ "headline": "CARE Communities won 2026 federal 4% credits to renovate Fairbrooke Heights, its existing 36-unit, 2002-built tax credit apartment community in west Fort Collins, keeping all 36 homes affordable at 30-50% AMI.",
+ "why_it_matters": "It is a small, deeply affordable preservation deal (average about 43% AMI) that a local nonprofit put together from bonds, 4% credits and a city gap grant shared with its Greenbriar property. That makes it a model for recapitalizing aging 1990s-2000s nonprofit tax credit stock in Larimer County.",
+ "status": {
+  "label": "Credits awarded; renovation planned to start around July 2027",
+  "detail": "CHFA lists the award (amounts 'subject to change'). CARE told residents on 24 Sept 2026 that construction will begin around July 2027 and last about a year. No public record of a bond or financing closing or a building permit yet.",
+  "src": [
+   "chfa-4pct-award",
+   "care-fb-presentation",
+   "care-reno-faq"
+  ]
+ },
+ "next_step": "Watch for the Housing Catalyst bond issue and the financing closing (expected before the planned mid-2027 start), and for the City funding agreement that carries the $1.5M Greenbriar-Fairbrooke award.",
+ "key_numbers": [
+  {
+   "value": "36 homes, all income-restricted",
+   "meaning": "3 at 30% AMI, 18 at 40% and 15 at 50%; average about 43% AMI (my calculation). Almost all are two-bedroom.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$472,920 a year in federal 4% credit",
+   "meaning": "About $4.7M over 10 years, roughly $13,100 per unit per year. No state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$3,400,000 in private activity bonds (Housing Catalyst issuer)",
+   "meaning": "About $94,000 of tax-exempt bonds per unit. Whose bond cap backs it is not stated.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1.5M city gap award, shared with Greenbriar",
+   "meaning": "The City funded CARE's combined 76-unit Greenbriar-Fairbrooke rehab in full in June 2026.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-2026-06-16-minutes"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1827 Somerville Drive, Fort Collins 80526 (CHFA's 2001 report spells it 'Sommerville')",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2001-status"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Larimer",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Resident type",
+   "value": "Family",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building type",
+   "value": "Acquisition/Rehabilitation",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "36 total, 36 income-restricted",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "3 (CHFA 2001 report; the 2026 phasing plan shows three buildings)",
+   "src": [
+    "chfa-2001-status",
+    "care-fb-presentation"
+   ]
+  },
+  {
+   "item": "QCT / DDA / SADDA",
+   "value": "No / No / No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8 contract",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Year built",
+   "value": "2002 (new construction by CARE Housing)",
+   "src": [
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "item": "Original tax credit",
+   "value": "CHFA 2001 9% award, 40-year extended use commitment",
+   "src": [
+    "chfa-2001-status"
+   ]
+  },
+  {
+   "item": "Location (sponsor's description)",
+   "value": "West Fort Collins, near the foothills trails and natural areas, minutes from Horsetooth Reservoir",
+   "src": [
+    "care-communities"
+   ]
+  },
+  {
+   "item": "Companion deal",
+   "value": "Financed and renovated alongside CARE's Greenbriar Apartments (separate CHFA row); the City treats them as one 76-unit rehab",
+   "src": [
+    "chfa-4pct-award",
+    "fc-2026-06-16-packet",
+    "care-reno-faq"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 3
+  },
+  {
+   "level": "40% AMI",
+   "units": 18
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 0
+  },
+  {
+   "type": "1BR",
+   "units": 1
+  },
+  {
+   "type": "2BR",
+   "units": 35
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$472,920 per year",
+   "note": "About $4.73M over the 10-year credit period. 'Subject to change.' No noncompetitive state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$3,400,000",
+   "note": "Issuer: Housing Catalyst (Fort Collins housing authority). The cap source is not stated; see open questions.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "City of Fort Collins 2026 Spring Competitive Process (CDBG / HOME / Affordable Housing Fund)",
+   "amount": "$1,500,000 (shared with the companion property)",
+   "note": "Awarded to CARE Communities' combined 'Greenbriar-Fairbrooke Heights Rehab' (76 units); recommended by the Human Services and Housing Funding Board (ranked #3, 100% of request) and approved by Council in Resolution 2026-078 on 16 June 2026. The split between the two properties, and which of the three funding streams pays it, is not public.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-hshfb-2026-04-29",
+    "fc-2026-06-16-minutes"
+   ]
+  },
+  {
+   "source": "Original 2001 CHFA 9% credit (history)",
+   "amount": "$213,033 per year federal; $322,444 state",
+   "note": "From CHFA's 2001 status report columns for final federal amount and state allocation (my reading of the columns). This funded the original 2002 construction.",
+   "src": [
+    "chfa-2001-status"
+   ]
+  },
+  {
+   "source": "Tax credit equity, lender, total development cost",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "CARE Communities",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Current owner, original developer and property manager",
+   "name": "CARE Communities (formerly CARE Housing, Inc.; carehousing.org now redirects to carecommunitiesnoco.org)",
+   "src": [
+    "chfa-2001-status",
+    "care-communities",
+    "care-reno-faq"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Catalyst",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Local gap funder",
+   "name": "City of Fort Collins (Resolution 2026-078)",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-2026-06-16-minutes"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "CARE Housing (now CARE Communities) built Fairbrooke Heights as new construction with a 2001 CHFA 9% award: 36 units, 3 buildings, 100% low-income, nonprofit set-aside, 40-year extended use commitment. It was completed in 2002.",
+   "src": [
+    "chfa-2001-status",
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "text": "Because it is an acquisition/rehab deal, the property will move into a new tax credit ownership entity (inferred from the building type). CARE has done this before: in 2022 it rehabbed Swallow Road Apartments with Housing Catalyst as special limited partner and co-developer. No sale price or buyer entity for Fairbrooke is public.",
+   "src": [
+    "chfa-4pct-award",
+    "care-building"
+   ]
+  },
+  {
+   "text": "Planned interior scope: energy-efficient lighting, heating and air conditioning, new kitchen and bath cabinets, appliances, water fixtures, washer and dryer, flooring and paint, water heaters, windows and blinds. Exterior: siding replacement, exterior stair repair, better outdoor community spaces and landscaping, ADA accessibility improvements, and trash and recycling enclosures.",
+   "src": [
+    "care-fb-presentation"
+   ]
+  },
+  {
+   "text": "Phasing: 6 phases of 6 units (half a building at a time), 6-8 weeks per phase. Residents either move permanently into a renovated unit or temporarily into another unit and return. CARE pays approved moving costs and will hire a relocation consultant; residents get 90-day and 30-day notices.",
+   "src": [
+    "care-fb-presentation",
+    "care-reno-faq"
+   ]
+  },
+  {
+   "text": "City gap funding: CARE asked for $1,500,000 for the combined Greenbriar-Fairbrooke Heights rehab (76 units, 0-60% AMI). The Affordable Housing Board ranked it last of 7 on 9 April 2026 ('not ready to proceed', 'no health & safety issues'). The Human Services and Housing Funding Board ranked it #3 and recommended full funding on 29 April 2026, and Council approved this in Resolution 2026-078 on the 16 June 2026 consent calendar.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-hshfb-2026-04-29",
+    "fc-2026-06-16-minutes"
+   ]
+  },
+  {
+   "text": "Bond cap context: Council's 2026 city PAB allocation went to Country Ranch Apartments and Bristlecone Affordable (Resolution 2026-077), not to this deal. In 2025 the City assigned its full $11,184,752 cap to Housing Catalyst for CARE's Windtrail Park rehab 'and elsewhere in the City' (Resolution 2025-066). Housing Catalyst can carry cap forward for up to 3 years.",
+   "src": [
+    "fc-2026-06-16-packet",
+    "fc-2026-06-16-minutes",
+    "fc-2025-06-17-packet"
+   ]
+  },
+  {
+   "text": "Before the rehab, a January 2024 market-study inventory listed Fairbrooke Heights with 35 LIHTC units (21 at 40% AMI and 14 at 50%) and rents set below the maximums. The new CHFA mix (3/18/15 at 30/40/50% AMI) is slightly deeper.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "2026 CHFA maximum gross rents for Larimer County two-bedrooms: $880 at 30% AMI, $1,174 at 40% and $1,467 at 50%. Actual post-rehab rents are not public.",
+   "src": [
+    "chfa-limits-2026"
+   ]
+  },
+  {
+   "text": "No Fairbrooke or CARE application appears on CHFA's Application Narratives Archive page, so there is no sign of a competitive 9% round attempt for this rehab.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2001",
+   "event": "CHFA 9% tax credit award to CARE Housing for Fairbrooke Heights (36 units, new construction)",
+   "src": [
+    "chfa-2001-status"
+   ]
+  },
+  {
+   "date": "2002",
+   "event": "Fairbrooke Heights completed",
+   "src": [
+    "fc-care-pab-2024"
+   ]
+  },
+  {
+   "date": "2026-03-26",
+   "event": "Joint HSHFB/Affordable Housing Board meeting reviews housing applications, including Greenbriar-Fairbrooke",
+   "src": [
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "date": "2026-04-09",
+   "event": "Affordable Housing Board ranks Greenbriar-Fairbrooke Rehab 7th of 7 (advisory)",
+   "src": [
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "date": "2026-04-29",
+   "event": "Human Services and Housing Funding Board ranks it #3 and recommends the full $1.5M",
+   "src": [
+    "fc-hshfb-2026-04-29"
+   ]
+  },
+  {
+   "date": "2026-06-16",
+   "event": "City Council adopts Resolution 2026-078 (consent calendar), approving the $1.5M award",
+   "src": [
+    "fc-2026-06-16-minutes",
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report (2026 cycle)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-09-24",
+   "event": "CARE holds a Fairbrooke resident meeting on the rehab and posts the FAQ handout",
+   "src": [
+    "care-fb-presentation",
+    "care-reno-faq"
+   ]
+  },
+  {
+   "date": "2027-07",
+   "event": "Planned start of construction (about 1 year on site), per CARE; schedule 'subject to change'",
+   "src": [
+    "care-fb-presentation",
+    "care-reno-faq"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Fairbrooke phasing plan on site plan (3 buildings, Phases 1A-3B)",
+   "url": "https://www.carecommunitiesnoco.org/wp-content/uploads/2026/09/9.24.26_FB-Resident-Meeting-Presentation.pdf",
+   "kind": "site plan",
+   "made_by": "CARE Communities (resident presentation over an engineering site plan)",
+   "note": "Page 6",
+   "src": [
+    "care-fb-presentation"
+   ]
+  },
+  {
+   "title": "Fairbrooke Heights exterior photo",
+   "url": "https://www.carecommunitiesnoco.org/our-communities/",
+   "kind": "photo",
+   "made_by": "CARE Communities",
+   "note": "Fairbrooke Heights card on the Our Communities page",
+   "src": [
+    "care-communities"
+   ]
+  }
+ ],
+ "discrepancies": [
+  "Start date: CARE's English FAQ (dated 24 Sept 2026) says renovations begin 'in the first half of 2027' and take about 10 months. Its Spanish Fairbrooke section and the same-day resident presentation say 'around July 2027', running to June 2028 (about a year).",
+  "Bedrooms: CHFA shows 1 one-bedroom and 35 two-bedrooms, but CARE's community page describes Fairbrooke as '2-bedroom apartments'. The January 2024 market survey does list a 1BR at Fairbrooke.",
+  "Existing income mix: the January 2024 market study's inventory table shows 21 units at 40% AMI and 14 at 50% (35 units), while its rent survey for 'Care at Fairbrooke Heights' also lists 30% AMI units. CHFA's new mix has 36 units including 3 at 30%."
+ ],
+ "open_questions": [
+  "Whose bond cap backs the $3.4M of bonds (Housing Catalyst carryforward of the City's 2025 assignment, other local cap, or CHFA/statewide balance)? Not stated publicly.",
+  "Total development cost, acquisition price paid by the new partnership, tax credit investor and price, lender, general contractor and architect.",
+  "How the $1.5M city award is split between Fairbrooke and Greenbriar, and whether it is CDBG, HOME or Affordable Housing Fund money (federal money would bring Build America Buy America and Davis-Bacon-type requirements).",
+  "Length of the new affordability covenant (CARE said in 2025 that its Windtrail rehab would reset restrictions 'for at least another 60 years'; nothing equivalent is published for Fairbrooke).",
+  "Whether project-based vouchers will be added (CHFA shows no Section 8 contract)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2001-status",
+   "title": "CHFA, 2001 Low Income Housing Tax Credit Status Report",
+   "publisher": "CHFA",
+   "date": "2001",
+   "url": "https://www.chfainfo.com/getattachment/aa9ca048-b5b3-46f4-a158-ad1178ae650c/2001StatusReport.pdf"
+  },
+  {
+   "id": "chfa-limits-2026",
+   "title": "CHFA, 2026 Colorado Income Limits and Maximum Rents (Larimer County rows)",
+   "publisher": "CHFA",
+   "date": "2026-05-07",
+   "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf"
+  },
+  {
+   "id": "care-communities",
+   "title": "CARE Communities, Our Communities",
+   "publisher": "CARE Communities",
+   "date": "2026-10-20",
+   "url": "https://www.carecommunitiesnoco.org/our-communities/"
+  },
+  {
+   "id": "care-information",
+   "title": "CARE Communities, Information & Updates (Resident Renovation Updates links)",
+   "publisher": "CARE Communities",
+   "date": "2026-10-20",
+   "url": "https://www.carecommunitiesnoco.org/information/"
+  },
+  {
+   "id": "care-reno-faq",
+   "title": "CARE Communities, Fairbrooke Heights and Greenbriar Renovation - FAQ Handout (English, plus Spanish Fairbrooke version)",
+   "publisher": "CARE Communities",
+   "date": "2026-09-24",
+   "url": "https://www.carecommunitiesnoco.org/wp-content/uploads/2026/09/FAQ-Handout_Fairbrooke-Renovation_1.20.2026-combined.pdf"
+  },
+  {
+   "id": "care-fb-presentation",
+   "title": "CARE Communities, Fairbrooke Apartment Rehabilitation, resident meeting presentation",
+   "publisher": "CARE Communities",
+   "date": "2026-09-24",
+   "url": "https://www.carecommunitiesnoco.org/wp-content/uploads/2026/09/9.24.26_FB-Resident-Meeting-Presentation.pdf"
+  },
+  {
+   "id": "care-building",
+   "title": "CARE Communities, Building with CARE (development page)",
+   "publisher": "CARE Communities",
+   "date": "2026-10-20",
+   "url": "https://www.carecommunitiesnoco.org/building-with-care/"
+  },
+  {
+   "id": "fc-2026-06-16-packet",
+   "title": "City of Fort Collins, City Council agenda packet, 16 June 2026 (Item 20: Resolution 2026-078, 2026 Spring Competitive Process, pp. 369-396; Item 19: Resolution 2026-077, PAB)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-06-16",
+   "url": "https://mccmeetings.blob.core.usgovcloudapi.net/fortcollco-pubu/MEET-Packet-d2650790b0bd473b957ff2b78b58a288.pdf"
+  },
+  {
+   "id": "fc-2026-06-16-minutes",
+   "title": "City of Fort Collins, City Council minutes, 16 June 2026 (consent calendar adopted incl. Res. 2026-077 and 2026-078)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-06-16",
+   "url": "https://fortcollins-co.municodemeetings.com/sites/fortcollins-co.municodemeetings.com/files/fileattachments/city_council/meeting/4467/2026-06-16_minutes.pdf"
+  },
+  {
+   "id": "fc-hshfb-2026-04-29",
+   "title": "City of Fort Collins, Human Services and Housing Funding Board special meeting minutes, 29 April 2026",
+   "publisher": "City of Fort Collins",
+   "date": "2026-04-29",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-d2650790b0bd473b957ff2b78b58a288/ITEM-Attachment-001-955b5cf2304b45d28018d6b3c7f5e2e3.pdf"
+  },
+  {
+   "id": "fc-care-pab-2024",
+   "title": "CARE Housing, request to the City of Fort Collins for 2024 private activity bonds for the Greenbriar-Windtrail rehabilitation (letter and application, 15 March 2024; City Council attachment)",
+   "publisher": "City of Fort Collins (CARE Housing document)",
+   "date": "2024-03-15",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-21d37494d76c4bb898a0045c2ee97d55/ITEM-Attachment-001-b4cdbd0d8f9045fc8fb327c7afdcef3f.pdf"
+  },
+  {
+   "id": "fc-2025-06-17-packet",
+   "title": "City of Fort Collins, City Council agenda packet, 17 June 2025 (Item 17: Resolution 2025-066 assigning 2025 PAB to Housing Catalyst, pp. 377-386)",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetings.blob.core.usgovcloudapi.net/fortcollco-pubu/MEET-Packet-1b8aaf903396446db23335580b2462a4.pdf"
+  },
+  {
+   "id": "fc-ord009-2026-att2",
+   "title": "City of Fort Collins, Ordinance No. 009, 2026, AIS Attachment No. 2 (includes Prior & Associates preliminary market analysis for Village on Eastbrook, January 2024 survey, with LIHTC inventory table)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-01",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-b46a56ade860446797870b68cd984b93/ITEM-Attachment-003-139ac70a8eff4ad8986a03cd529c721d.pdf"
+  }
+ ]
+}

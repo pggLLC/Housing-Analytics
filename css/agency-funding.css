@@ -77,3 +77,4 @@
 .hm-region.rg-5 { fill: var(--chart-5); }
 .hm-region.rg-6 { fill: var(--chart-6); }
 .hm-region.rg-7 { fill: var(--chart-7); }
+.hm-deal-link { font-size: var(--small); margin-left: var(--sp2); white-space: nowrap; }
