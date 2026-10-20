@@ -553,3 +553,36 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
   .nav-search-input { display: none; }
   .nav-search { padding: 4px; border-color: transparent; background: transparent; }
 }
+
+/* ── Menu entries (2026-10-20) ─────────────────────────────────────────
+   The numbered steps carry their number as a small badge, so the 1..7
+   spine reads at a glance and the description no longer repeats "Step N:".
+   The dropdown is wide enough that a description wraps to two lines at most
+   instead of three or four in the old 220px column. */
+.nav-dropdown { min-width: 340px; }
+.nav-link-step {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1.35em; height: 1.35em; margin-right: 8px; border-radius: 999px;
+  font-size: .75rem; font-weight: 700; line-height: 1; vertical-align: 1px;
+  color: var(--accent); border: 1px solid currentColor;
+}
+
+/* ── Footer: brand + the header's four groups ──────────────────────────
+   site-theme.css lays .footer-wrap out as a wrapping flex row; this grid
+   needs the footer element in the selector to win. */
+footer.site-footer .footer-wrap {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.6fr) repeat(4, minmax(0, 1fr));
+  gap: 20px 24px;
+  align-items: start;
+}
+.footer-about-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 4px !important; }
+.footer-about-links a { font-size: .88rem; }
+@media (max-width: 900px) {
+  footer.site-footer .footer-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+  footer.site-footer .footer-wrap > .footer-col:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .footer-col > a, .footer-about-links a { min-height: 32px; display: inline-flex; align-items: center; }
+  .footer-col { gap: 2px; }
+}
