@@ -204,27 +204,7 @@ function cityKey(name) {
   return CITY_KEY_ALIASES[k] || k;
 }
 
-// Mirror of _pointInGeometry() / _ddaZipsForPlace().
-function pointInRing(lon, lat, ring) {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i];
-    const [xj, yj] = ring[j];
-    if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) inside = !inside;
-  }
-  return inside;
-}
-function pointInPolygonRings(lon, lat, rings) {
-  if (!rings?.length || !pointInRing(lon, lat, rings[0])) return false;
-  for (let h = 1; h < rings.length; h++) if (pointInRing(lon, lat, rings[h])) return false;
-  return true;
-}
-function pointInGeometry(lon, lat, g) {
-  if (!g) return false;
-  if (g.type === 'Polygon') return pointInPolygonRings(lon, lat, g.coordinates);
-  if (g.type === 'MultiPolygon') return g.coordinates.some(r => pointInPolygonRings(lon, lat, r));
-  return false;
-}
+// Mirror of _ddaZipsForPlace() / _ddaQctTractsForPlace().
 function ddaZip(f) {
   const p = f?.properties || {};
   const zip = String(p.ZCTA5 || '');
@@ -329,7 +309,7 @@ async function buildOpportunities() {
     qct, dda, lihtc, chas, pm, amiGap, gc,
     scorecard, localRes, prop123,
     lsSupport, lsFees, lsFunds, lsCoverage,
-    tractCent, placeCent
+    placeCent
   ] = await Promise.all([
     loadJson('data/qct-colorado.json'),
     loadJson('data/dda-colorado.json'),
@@ -345,7 +325,6 @@ async function buildOpportunities() {
     loadJson('data/policy/fee-reductions.json').catch(() => null),
     loadJson('data/policy/local-housing-funds.json').catch(() => null),
     loadJson('data/policy/incentive-coverage.json').catch(() => null),
-    loadJson('data/market/tract_centroids_co.json').catch(() => null),
     loadJson('data/co-place-centroids.json').catch(() => null)
   ]);
   const localSupport = lsSupport
@@ -372,10 +351,6 @@ async function buildOpportunities() {
     return Number.isFinite(y) && y >= 1980 && y <= 2030;
   });
 
-  const tractPoints = {};
-  (tractCent?.tracts || []).forEach(t => {
-    if (t.geoid && Number.isFinite(+t.lat) && Number.isFinite(+t.lon)) tractPoints[t.geoid] = { lat: +t.lat, lon: +t.lon };
-  });
   const placePoints = {};
   Object.entries(placeCent?.byGeoid || {}).forEach(([g, p]) => {
     if (Number.isFinite(p.lat) && Number.isFinite(p.lng)) placePoints[g] = { lat: p.lat, lng: p.lng };

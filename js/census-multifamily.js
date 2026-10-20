@@ -256,7 +256,9 @@ async function fetchLiveOne(record) {
     structure_pct,
     pct_mf: mfOk ? Math.round((structure_pct["5_9"] + structure_pct["10_19"] + structure_pct["20p"]) * 10) / 10 : null,
     mf_units: mfOk ? mf.reduce((a, b) => a + b, 0) : null,
-    _vintage: acsLabel("acs5", 2024),
+    // Only the total and building types come from the live call; the
+    // other figures keep the stored vintage in _vintage.
+    _liveVintage: acsLabel("acs5", 2024),
     pct_5_9: Number(row[idx[LIVE_VARS.pct_5_9]]),
     pct_10_19: Number(row[idx[LIVE_VARS.pct_10_19]]),
     pct_20p: Number(row[idx[LIVE_VARS.pct_20p]]),
@@ -313,7 +315,8 @@ function renderSummary(record, inv) {
     {
       label: "Total housing units",
       value: fmtNumber(record.totalHU),
-      sub: record._vintage ? `${record._vintage}, Census DP04` : "Census DP04",
+      sub: record._live ? `${record._liveVintage}, Census DP04 (refreshed live)`
+        : (record._vintage ? `${record._vintage}, Census DP04` : "Census DP04"),
     },
     {
       label: "Multifamily (5+ units)",
@@ -667,7 +670,7 @@ async function render(record) {
     return;
   }
   lastSelection = record;
-  const liveTag = record._live ? " · refreshed live" : "";
+  const liveTag = record._live ? ` · housing units and building types refreshed live (${record._liveVintage})` : "";
   $("geo-note").innerHTML =
     `<strong>${record.name}</strong> ` +
     `<span style="opacity:.75">— ${snapshotVintageNote(record)}${liveTag}</span>`;

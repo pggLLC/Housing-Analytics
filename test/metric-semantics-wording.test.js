@@ -49,7 +49,18 @@ assertNotIncludes(indexHtml, 'CO rental deficit ≤60% AMI', 'homepage <=60 AMI 
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤30% AMI', 'homepage old <=30 generic deficit label is removed');
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤60% AMI', 'homepage old <=60 generic deficit label is removed');
 
-assertIncludes(hnaRenderers, '1,000-unit rental gap', 'renderer permitting note names current rental gap');
+// The permitting note's worked example must agree with itself (gap / pace
+// = years) and must point at a panel the page actually has.
+{
+  const m = /Compare to need:<\/strong> if a place has a ([\d,]+)-unit rental gap \(see the ([^)]+?) panel below\) ' \+\s*'and permits ([\d,]+) units a year, it would take about (\d+) years/.exec(hnaRenderers);
+  assert(m, 'renderer permitting note has a worked gap/pace example to check');
+  const gap = Number(m[1].replace(/,/g, ''));
+  const pace = Number(m[3].replace(/,/g, ''));
+  assert.strictEqual(Math.round(gap / pace), Number(m[4]), 'permitting example: years = gap / permits per year');
+  const norm = (t) => t.replace(/&amp;/g, 'and').replace(/&/g, 'and').replace(/\s+/g, ' ').trim().toLowerCase();
+  const headings = [...hnaHtml.matchAll(/<h2[^>]*>([^<]+)<\/h2>/g)].map((h) => norm(h[1]));
+  assert(headings.includes(norm(m[2])), `permitting note names a panel on the page ("${m[2]}")`);
+}
 assertNotIncludes(hnaRenderers, '1,000-unit housing gap', 'renderer old generic housing-gap phrase is removed');
 assertIncludes(hnaRenderers, 'its permits are issued by the county', 'renderer explains why a community without a BPS place record shows county permits');
 assertIncludes(hnaRenderers, 'unincorporated areas and CDPs are county-permitted', 'renderer explains legitimate missing place records');
