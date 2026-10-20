@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-18T10:16:14.006721Z",
+  "updated": "2026-10-20T10:21:24.224732Z",
   "source": "Polymarket Gamma API",
-  "event_count": 8,
-  "curated_count": 8,
+  "event_count": 12,
+  "curated_count": 12,
   "dropped_settled": [],
   "missing_since": {},
   "events": {
@@ -15,32 +15,32 @@
       "markets": [
         {
           "question": "50+ bps decrease",
-          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
-          "volume": "7650261.352547",
+          "outcomePrices": "[\"0.0005\", \"0.9995\"]",
+          "volume": "8998809.954547",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps decrease",
           "outcomePrices": "[\"0.0035\", \"0.9965\"]",
-          "volume": "7579559.104952",
+          "volume": "8575824.184946",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "No change",
-          "outcomePrices": "[\"0.865\", \"0.135\"]",
-          "volume": "13404276.30256",
+          "outcomePrices": "[\"0.855\", \"0.145\"]",
+          "volume": "14398769.556716999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps increase",
-          "outcomePrices": "[\"0.135\", \"0.865\"]",
-          "volume": "10200288.499572",
+          "outcomePrices": "[\"0.145\", \"0.855\"]",
+          "volume": "11099852.18149",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps increase",
           "outcomePrices": "[\"0.0035\", \"0.9965\"]",
-          "volume": "6365613.179049999",
+          "volume": "6975472.416045001",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -54,49 +54,49 @@
       "markets": [
         {
           "question": "0 (0 bps)",
-          "outcomePrices": "[\"0.9685\", \"0.0315\"]",
-          "volume": "8926256.080337",
+          "outcomePrices": "[\"0.9705\", \"0.0295\"]",
+          "volume": "8951342.587698001",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1 (25 bps)",
-          "outcomePrices": "[\"0.01\", \"0.99\"]",
-          "volume": "3581421.1978949998",
+          "outcomePrices": "[\"0.0075\", \"0.9925\"]",
+          "volume": "3587894.825292",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "2 (50 bps)",
-          "outcomePrices": "[\"0.0055\", \"0.9945\"]",
-          "volume": "3447608.377733",
+          "outcomePrices": "[\"0.004\", \"0.996\"]",
+          "volume": "3451848.4477330013",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "3 (75 bps)",
-          "outcomePrices": "[\"0.0025\", \"0.9975\"]",
-          "volume": "2991111.387220999",
+          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
+          "volume": "2991680.5232209996",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4 (100 bps)",
-          "outcomePrices": "[\"0.003\", \"0.997\"]",
-          "volume": "2767284.6060419995",
+          "outcomePrices": "[\"0.0025\", \"0.9975\"]",
+          "volume": "2769908.3630419997",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "5 (125 bps)",
-          "outcomePrices": "[\"0.001\", \"0.999\"]",
-          "volume": "3014438.3531339993",
+          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
+          "volume": "3016455.567134",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "6 (150 bps)",
-          "outcomePrices": "[\"0.001\", \"0.999\"]",
-          "volume": "4231438.065319999",
+          "outcomePrices": "[\"0.0005\", \"0.9995\"]",
+          "volume": "4231388.5453200005",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "7 (175 bps)",
-          "outcomePrices": "[\"0.001\", \"0.999\"]",
+          "outcomePrices": "[\"0.0005\", \"0.9995\"]",
           "volume": "3532591.6951670013",
           "outcomes": "[\"Yes\", \"No\"]"
         },
@@ -121,13 +121,52 @@
         {
           "question": "11 (275 bps)",
           "outcomePrices": "[\"0.0005\", \"0.9995\"]",
-          "volume": "5288182.198100999",
+          "volume": "5309017.208101001",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "12+ (300+ bps)",
           "outcomePrices": "[\"0.0005\", \"0.9995\"]",
-          "volume": "4113588.933919999",
+          "volume": "4125561.91392",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "fed-decision-in-december-20260729232808632": {
+      "title": "Fed Decision in December?",
+      "slug": "fed-decision-in-december-20260729232808632",
+      "endDate": "2026-12-10T04:59:00Z",
+      "closed": false,
+      "closedTime": null,
+      "markets": [
+        {
+          "question": "50+ bps decrease",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "716683.939439",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps decrease",
+          "outcomePrices": "[\"0.0065\", \"0.9935\"]",
+          "volume": "939870.2090259999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "No change",
+          "outcomePrices": "[\"0.195\", \"0.805\"]",
+          "volume": "946215.474148",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps increase",
+          "outcomePrices": "[\"0.775\", \"0.225\"]",
+          "volume": "942238.6004979999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "50+ bps increase",
+          "outcomePrices": "[\"0.0255\", \"0.9745\"]",
+          "volume": "568984.294031",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -142,31 +181,223 @@
         {
           "question": "50+ bps decrease",
           "outcomePrices": "[\"0.0065\", \"0.9935\"]",
-          "volume": "96845.63605999999",
+          "volume": "104116.172559",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps decrease",
-          "outcomePrices": "[\"0.015\", \"0.985\"]",
-          "volume": "87093.796441",
+          "outcomePrices": "[\"0.0125\", \"0.9875\"]",
+          "volume": "91128.904873",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "No change",
-          "outcomePrices": "[\"0.625\", \"0.375\"]",
-          "volume": "133691.197992",
+          "outcomePrices": "[\"0.645\", \"0.355\"]",
+          "volume": "152062.711212",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps increase",
-          "outcomePrices": "[\"0.34\", \"0.66\"]",
-          "volume": "179964.55048299997",
+          "outcomePrices": "[\"0.335\", \"0.665\"]",
+          "volume": "198015.041306",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps increase",
-          "outcomePrices": "[\"0.0115\", \"0.9885\"]",
-          "volume": "62617.170527",
+          "outcomePrices": "[\"0.0135\", \"0.9865\"]",
+          "volume": "69496.064007",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "how-high-will-10-year-treasury-yield-go-before-2027": {
+      "title": "How high will 10-year Treasury yield go before 2027?",
+      "slug": "how-high-will-10-year-treasury-yield-go-before-2027",
+      "endDate": "2027-01-01T04:59:00Z",
+      "closed": false,
+      "closedTime": null,
+      "markets": [
+        {
+          "question": "4.5%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "37423.046862",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.6%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "41896.08860399998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.8%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "75857.10444599998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.0%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "138957.73666899998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.2%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "165791.74239000006",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.5%",
+          "outcomePrices": "[\"0.252\", \"0.748\"]",
+          "volume": "206621.12570199996",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.7%",
+          "outcomePrices": "[\"0.1455\", \"0.8545\"]",
+          "volume": "105259.08200499999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "6.0%",
+          "outcomePrices": "[\"0.0655\", \"0.9345\"]",
+          "volume": "100252.03860900002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.4%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "20930.093690999995",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.3%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "6036.705823",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.1%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "25001.440407000002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.4%",
+          "outcomePrices": "[\"0.435\", \"0.565\"]",
+          "volume": "70456.05411900001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5.3%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "39043.09248099999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "how-low-will-10-year-treasury-yield-get-before-2027": {
+      "title": "How low will 10-year Treasury yield get before 2027?",
+      "slug": "how-low-will-10-year-treasury-yield-get-before-2027",
+      "endDate": "2027-01-01T04:59:00Z",
+      "closed": false,
+      "closedTime": null,
+      "markets": [
+        {
+          "question": "Below 4.0%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "31759.25017",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.5%",
+          "outcomePrices": "[\"0.012\", \"0.988\"]",
+          "volume": "43698.11744999999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.0%",
+          "outcomePrices": "[\"0.017\", \"0.983\"]",
+          "volume": "7963.846963",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 2.0%",
+          "outcomePrices": "[\"0.0195\", \"0.9805\"]",
+          "volume": "5113.216577000001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 1.0%",
+          "outcomePrices": "[\"0.014\", \"0.986\"]",
+          "volume": "40828.15334",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.6%",
+          "outcomePrices": "[\"0.013\", \"0.987\"]",
+          "volume": "12482.433351",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.7%",
+          "outcomePrices": "[\"0.014\", \"0.986\"]",
+          "volume": "38155.575972000006",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.8%",
+          "outcomePrices": "[\"0.02\", \"0.98\"]",
+          "volume": "65255.76852400001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 3.9%",
+          "outcomePrices": "[\"0.0285\", \"0.9715\"]",
+          "volume": "57131.53574800001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.6%",
+          "outcomePrices": "[\"0.155\", \"0.845\"]",
+          "volume": "28620.960049",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.7%",
+          "outcomePrices": "[\"0.265\", \"0.735\"]",
+          "volume": "18249.069964",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.1%",
+          "outcomePrices": "[\"0.0305\", \"0.9695\"]",
+          "volume": "12566.377325000001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.4%",
+          "outcomePrices": "[\"0.05\", \"0.95\"]",
+          "volume": "23707.876110999998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.2%",
+          "outcomePrices": "[\"0.021\", \"0.979\"]",
+          "volume": "6732.3621",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.5%",
+          "outcomePrices": "[\"0.0655\", \"0.9345\"]",
+          "volume": "19535.1086",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Below 4.3%",
+          "outcomePrices": "[\"0.033\", \"0.967\"]",
+          "volume": "3032.748282",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -180,8 +411,8 @@
       "markets": [
         {
           "question": "\u2191 7.50%",
-          "outcomePrices": "[\"0.595\", \"0.405\"]",
-          "volume": "1749.69587",
+          "outcomePrices": "[\"0.71\", \"0.29\"]",
+          "volume": "1956.3511409999996",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -193,13 +424,13 @@
         {
           "question": "\u2193 6.50%",
           "outcomePrices": "[\"0.175\", \"0.825\"]",
-          "volume": "11239.737449",
+          "volume": "11717.817448999998",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "\u2193 6.25%",
-          "outcomePrices": "[\"0.07\", \"0.93\"]",
-          "volume": "1732.0105079999996",
+          "outcomePrices": "[\"0.15\", \"0.85\"]",
+          "volume": "1937.110508",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -246,20 +477,20 @@
         },
         {
           "question": "\u2193 5.90%",
-          "outcomePrices": "[\"0.0305\", \"0.9695\"]",
+          "outcomePrices": "[\"0.029\", \"0.971\"]",
           "volume": "11616.661370000002",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "\u2193 5.70%",
-          "outcomePrices": "[\"0.012\", \"0.988\"]",
+          "outcomePrices": "[\"0.0075\", \"0.9925\"]",
           "volume": "12394.097038000004",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "\u2193 5.50%",
           "outcomePrices": "[\"0.0325\", \"0.9675\"]",
-          "volume": "2872.9385469999997",
+          "volume": "3037.406633",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -273,8 +504,23 @@
       "markets": [
         {
           "question": "US recession by end of 2026?",
-          "outcomePrices": "[\"0.07\", \"0.93\"]",
-          "volume": "2321328.77044",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "2325165.4042700008",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "us-recession-by-end-of-2027-20260807185409760": {
+      "title": "US recession by end of 2027?",
+      "slug": "us-recession-by-end-of-2027-20260807185409760",
+      "endDate": "2027-12-31T23:59:00Z",
+      "closed": false,
+      "closedTime": null,
+      "markets": [
+        {
+          "question": "US recession by end of 2027?",
+          "outcomePrices": "[\"0.355\", \"0.645\"]",
+          "volume": "11449.681159",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -289,7 +535,7 @@
         {
           "question": "<0.5%",
           "outcomePrices": "[\"0.003\", \"0.997\"]",
-          "volume": "9106.917747",
+          "volume": "9106.917747000001",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -318,7 +564,7 @@
         },
         {
           "question": ">2.5%",
-          "outcomePrices": "[\"0.475\", \"0.525\"]",
+          "outcomePrices": "[\"0.474\", \"0.526\"]",
           "volume": "25247.222412999996",
           "outcomes": "[\"Yes\", \"No\"]"
         }
@@ -334,7 +580,7 @@
         {
           "question": "Above 4.5%",
           "outcomePrices": "[\"0.145\", \"0.855\"]",
-          "volume": "226734.70001799997",
+          "volume": "230545.91668499997",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -351,14 +597,14 @@
         },
         {
           "question": "Above 5%",
-          "outcomePrices": "[\"0.08\", \"0.92\"]",
-          "volume": "339732.888943",
+          "outcomePrices": "[\"0.1\", \"0.9\"]",
+          "volume": "341056.70784499997",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "Above 6%",
-          "outcomePrices": "[\"0.0385\", \"0.9615\"]",
-          "volume": "69751.98914899999",
+          "outcomePrices": "[\"0.0335\", \"0.9665\"]",
+          "volume": "70094.159149",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -369,7 +615,7 @@
         },
         {
           "question": "Above 10%",
-          "outcomePrices": "[\"0.024\", \"0.976\"]",
+          "outcomePrices": "[\"0.025\", \"0.975\"]",
           "volume": "60201.794114000004",
           "outcomes": "[\"Yes\", \"No\"]"
         },
@@ -390,8 +636,8 @@
       "markets": [
         {
           "question": "Tech Layoffs Up or Down in 20\u200b26?",
-          "outcomePrices": "[\"0.895\", \"0.105\"]",
-          "volume": "26035.437662000008",
+          "outcomePrices": "[\"0.89\", \"0.11\"]",
+          "volume": "26036.217662000006",
           "outcomes": "[\"Up\", \"Down\"]"
         }
       ]
