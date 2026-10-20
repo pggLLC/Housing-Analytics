@@ -536,7 +536,20 @@ function reportFor(geography, name, geoid) {
 const fruitaGeo = StudyGeography.inputs(
   { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }, DATA, ENGINES);
 
-test('the "not the same agency" caveat appears exactly when the report names the authority', () => {
+// The shipped Fruita fixture names the city as land owner. To exercise the
+// side of the rule where a report does name a housing authority, these two
+// tests swap in a made-up authority as land owner and restore it after.
+const EXAMPLE_AUTHORITY = 'Example Housing Authority';
+function withAuthorityOwner(fn) {
+  const s0 = scenarios[0];
+  const owner = s0.partners.find((p) => p.role === 'land_owner');
+  const saved = [owner.name, s0.land && s0.land.owner];
+  owner.name = EXAMPLE_AUTHORITY;
+  if (s0.land) s0.land.owner = EXAMPLE_AUTHORITY;
+  try { return fn(); } finally { owner.name = saved[0]; if (s0.land) s0.land.owner = saved[1]; }
+}
+
+test('the "not the same agency" caveat appears exactly when the report names the authority', () => withAuthorityOwner(() => {
   const checked = [];
   for (const r of [reportFor(denver, 'Denver'), reportFor(fruitaGeo, 'Fruita')]) {
     assert.ok(r.text.length > 5000, `${r.name}: no report rendered, so nothing is being checked`);
@@ -551,13 +564,13 @@ test('the "not the same agency" caveat appears exactly when the report names the
   // Non-vacuity: one side of the iff must be exercised each way.
   assert.deepStrictEqual(checked, ['Denver:0', 'Fruita:1'],
     `expected Denver to name no authority and Fruita to name one; got ${checked.join(', ')}`);
-});
+}));
 
-test('the report guard refuses both halves of a mismatch', () => {
+test('the report guard refuses both halves of a mismatch', () => withAuthorityOwner(() => {
   const fruita = mountFor(fruitaGeo);
   const built = Report.buildReport(fruita.model, { asOf: 'x', jurisdictionLabel: 'Fruita', jurisdictionGeoid: scenarios[0].jurisdiction.place_geoid,
     vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
-  const caveat = Report.authorityCaveat('Fruita Housing Authority');
+  const caveat = Report.authorityCaveat(EXAMPLE_AUTHORITY);
   assert.ok(built.content.includes(caveat));
   const stripped = built.content.split(caveat).join('');
   assert.notStrictEqual(stripped, built.content, 'the strip mutation did not apply');
@@ -568,7 +581,7 @@ test('the report guard refuses both halves of a mismatch', () => {
   const injected = denverBuilt.content.replace('</section>', '<p>' + caveat + '.</p></section>');
   assert.notStrictEqual(injected, denverBuilt.content, 'the inject mutation did not apply');
   assert.throws(() => Report.renderReportPreview({ title: denverBuilt.title, asOf: denverBuilt.asOf, content: injected }), /does not name/);
-});
+}));
 
 /* ── Local sale prices: the same figure, source and period in the report ── */
 

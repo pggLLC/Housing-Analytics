@@ -32,6 +32,9 @@
   var ZORI_URL = 'data/market/zori_rents_co.json';
   var ACS_URL  = 'data/market/acs_median_rent_co.json';
   var FMR_URL  = 'data/hud-fmr-income-limits.json';
+  // Published ACS margins file: records which series (1-year or 5-year)
+  // each stored estimate really came from.
+  var REL_URL  = 'data/hna/acs-reliability.json';
 
   // Per-page cache (avoid 3x re-fetch when mounted on multiple panels)
   var _cache = null;
@@ -40,9 +43,13 @@
     _cache = Promise.all([
       fetch(ZORI_URL, { cache: 'no-cache' }).then(function (r) { return r.json(); }),
       fetch(ACS_URL,  { cache: 'no-cache' }).then(function (r) { return r.json(); }),
-      fetch(FMR_URL,  { cache: 'no-cache' }).then(function (r) { return r.json(); })
+      fetch(FMR_URL,  { cache: 'no-cache' }).then(function (r) { return r.json(); }),
+      (global.ACSReliability && typeof global.ACSReliability.load === 'function'
+        ? Promise.resolve(global.ACSReliability.load())
+        : fetch(REL_URL).then(function (r) { return r.ok ? r.json() : null; })
+      ).catch(function () { return null; })
     ]).then(function (parts) {
-      return { zori: parts[0], acs: parts[1], fmr: parts[2] };
+      return { zori: parts[0], acs: parts[1], fmr: parts[2], rel: parts[3] };
     }).catch(function () {
       _cache = null;
       return null;
@@ -248,11 +255,24 @@
         });
       }
       if (acsRow) {
-        var acsVintage = (data.acs.meta && data.acs.meta.vintage) || (acsRow.vintage || '2020-2024 5-yr');
+        // D2 — The stored rent is the 1-year estimate for large geographies
+        // (Mesa $1,259; its 5-year is $1,182). Label it with the series the
+        // published margins file records for this exact figure.
+        var relGeoid = acsScope === 'place' ? placeGeoid : countyFips5;
+        var relGeo = data.rel && data.rel.geos ? data.rel.geos[String(relGeoid)] : null;
+        var relE = relGeo && relGeo.DP04_0134E;
+        var relMatch = relE && relE.e != null && Math.abs(Number(relE.e) - Number(acsVal)) < 0.5 ? relE : null;
+        var acsYear = (relMatch && relMatch.y) || (data.acs.meta && data.acs.meta.acs_year) || 2024;
+        var isOneYear = relMatch && relMatch.s === 'acs1';
+        var acsVintage = relMatch
+          ? (isOneYear ? acsYear + ' 1-year' : (acsYear - 4) + '–' + acsYear + ' 5-year')
+          : String(acsYear);
         rows.push({
           source:  'ACS median gross rent',
           vintage: 'ACS ' + acsVintage + (acsScope === 'county' && placeName ? ' · county-level' : ''),
-          measure: 'All occupied renter units, smoothed over 5 years. Census B25064.',
+          measure: isOneYear
+            ? 'All occupied renter units paying cash rent, surveyed in ' + acsYear + '. Census DP04.'
+            : 'All occupied renter units paying cash rent, averaged over 5 years of surveys. Census DP04.',
           value:   _fmtMoney(acsVal)
         });
       }
@@ -284,7 +304,11 @@
       var tableHtml =
         '<div class="rt-table-wrap">' +
         '<table class="rt-table">' +
-          '<thead><tr><th>Source</th><th>What it measures</th><th>Value</th></tr></thead>' +
+          '<thead><tr>' +
+            '<th data-tip="Who publishes the rent figure, and the year or period it covers.">Source</th>' +
+            '<th data-tip="Which rents each source counts: existing leases, new leases, or a federal payment standard.">What it measures</th>' +
+            '<th data-tip="Monthly rent in dollars for this area.">Value</th>' +
+          '</tr></thead>' +
           '<tbody>' +
           rows.map(function (r) {
             // The computed average is a result row: class="total" keeps it

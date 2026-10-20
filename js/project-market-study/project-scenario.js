@@ -70,7 +70,7 @@
   function validate(doc, registries) {
     if (!doc || doc.schema !== 'project-scenario/v1') fail('schema');
     if (!doc.meta || doc.meta.status !== 'hypothesis_to_test' || !Array.isArray(doc.meta.owner_inputs_pending)) fail('meta');
-    ['tdc_build_up', 'land_value', 'phasing', 'hrwc_terms', 'development_partner', 'lender'].forEach(function (key) { if (doc.meta.owner_inputs_pending.indexOf(key) < 0) fail('owner_inputs_pending ' + key); });
+    ['tdc_build_up', 'land_value', 'phasing', 'steward_terms', 'development_partner', 'lender'].forEach(function (key) { if (doc.meta.owner_inputs_pending.indexOf(key) < 0) fail('owner_inputs_pending ' + key); });
     if (!doc.jurisdiction || !/^08\d{5}$/.test(doc.jurisdiction.place_geoid) || !/^08\d{3}$/.test(doc.jurisdiction.county_fips)) fail('jurisdiction');
     if (doc.partners != null && !Array.isArray(doc.partners)) fail('partners array');
     var landOwners = 0;

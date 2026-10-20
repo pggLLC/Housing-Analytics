@@ -87,7 +87,7 @@
       "entry_ids": [],
       "limitations": [
         "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which the On the Ballot page says \"includes ALL districts and contests\". This row is absent from it.",
-        "The Town of Larkspur website returned a Cloudflare challenge (HTTP 403) and could not be checked. Larkspur Fire Protection District Ballot Issues 6A and 6B belong to a special district (fire and emergency services) and were excluded."
+        "The Town of Larkspur website could not be opened, so it was not checked. Larkspur Fire Protection District Ballot Issues 6A and 6B belong to a special district (fire and emergency services) and were excluded."
       ]
     },
     {
@@ -188,7 +188,7 @@
         "checked": "2026-09-26"
       },
       "limitations": [
-        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without a text layer; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
+        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without searchable text; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
         "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
         "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
       ],
@@ -254,7 +254,7 @@
         "checked": "2026-09-26"
       },
       "limitations": [
-        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without a text layer; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
+        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without searchable text; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
         "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
         "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
       ],

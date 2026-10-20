@@ -2,7 +2,7 @@
   "_meta": {
     "purpose": "Public-facing content for developer-pipeline-public.html. Editing this JSON updates the page without HTML changes.",
     "scope": "Public methodology only. Specific jurisdiction classifications, named contacts, and deal status stay in the private /developer-* pages.",
-    "last_reviewed": "2026-06"
+    "last_reviewed": "2026-10"
   },
   "hero": {
     "kicker": "How affordable housing actually gets built",
@@ -10,10 +10,10 @@
     "lede": "In every Colorado community there are people doing everything right and still being priced out — working families, seniors on fixed incomes, young adults trying to stay near family. Building homes that fit them takes patience, public data, and a willingness to keep checking your work. This is an open, plain-language reference for the path that gets walked — step by step, source by source — from a first look at a community to the keys in someone's hand.",
     "stat_strip": [
       {
-        "label": "Colorado affordability gap",
-        "value": "~225,000 homes",
-        "sub": "Estimated shortfall for households earning under 80% AMI. Range across DOLA SDO, Shimberg, and Up For Growth.",
-        "source": "DOLA State Demography Office (2024 mid-projection); Shimberg Center 2024 needs assessment; Up For Growth 2024 housing underproduction report."
+        "label": "Colorado housing shortfall",
+        "value": "~106,000 homes",
+        "sub": "Estimated statewide shortfall of homes in 2023, at all income levels, down from about 140,000 at its 2019 peak.",
+        "source": "Colorado State Demography Office, housing shortfall analysis released September 17, 2025 (2023 estimate)."
       },
       {
         "label": "Pipeline stages",
@@ -28,7 +28,7 @@
     ]
   },
   "intro": {
-    "why_this_matters": "Colorado is short an estimated quarter-million homes for households earning under 80% of Area Median Income — neighbors, coworkers, and family who simply cannot find a place they can afford. Closing that gap takes a clear-eyed way of asking, in each community: where is the need real, where can local conditions support new homes, and where is a project likely to actually get built? This page gathers the public information anyone can use to ask those questions honestly — the same ACS, HUD CHAS, CHFA, and DOLA sources that practitioners across Colorado already rely on — so the reasoning is open to be read, challenged, and improved.",
+    "why_this_matters": "The Colorado State Demography Office estimates the state was short about 106,000 homes in 2023, and that the shortfall has eased since 2019 while affordability has worsened — neighbors, coworkers, and family who simply cannot find a place they can afford. Closing that gap takes a clear-eyed way of asking, in each community: where is the need real, where can local conditions support new homes, and where is a project likely to actually get built? This page gathers the public information anyone can use to ask those questions honestly — the same ACS, HUD CHAS, CHFA, and DOLA sources that practitioners across Colorado already rely on — so the reasoning is open to be read, challenged, and improved.",
     "how_to_read": [
       "Each stage is sequential. Stage 1 narrows the universe; Stage 8 ends with a concrete action.",
       "Every stage lists its data source, a confidence rating (high / medium / low), the limits to keep in mind, and what the stage does NOT tell you.",
@@ -39,31 +39,31 @@
   "ami_anchor": {
     "title": "What AMI actually means in dollars",
     "preface": "Affordable housing programs use percentages of AMI to set who qualifies and what rents are allowed. Here is what those percentages translate to in dollars for a household of four in three representative Colorado counties — to make the bands concrete.",
-    "vintage": "HUD FY2025 income limits (effective April 2025)",
+    "vintage": "HUD FY2026 income limits",
     "rows": [
       {
         "county": "Denver County",
-        "ami_100": 124800,
-        "ami_80": 99850,
-        "ami_60": 74900,
-        "ami_50": 62400,
-        "ami_30": 37450
+        "ami_100": 144000,
+        "ami_80": 115200,
+        "ami_60": 86400,
+        "ami_50": 72000,
+        "ami_30": 43200
       },
       {
         "county": "Garfield County (Western Slope)",
-        "ami_100": 117100,
-        "ami_80": 93700,
-        "ami_60": 70250,
-        "ami_50": 58550,
-        "ami_30": 35150
+        "ami_100": 114100,
+        "ami_80": 91300,
+        "ami_60": 68450,
+        "ami_50": 57050,
+        "ami_30": 34250
       },
       {
         "county": "Pueblo County",
-        "ami_100": 95800,
-        "ami_80": 76650,
-        "ami_60": 57500,
-        "ami_50": 47900,
-        "ami_30": 28750
+        "ami_100": 87700,
+        "ami_80": 70150,
+        "ami_60": 52600,
+        "ami_50": 43850,
+        "ami_30": 26300
       }
     ],
     "footnote": "AMI bands matter because LIHTC and most state programs target the 30-60% range, where renters typically cannot pay market rents and the gap is widest. Households at 80-120% (workforce) are the focus of Colorado's MIHTC and Prop 123 programs. Above 120% generally pays market rent."
@@ -72,14 +72,14 @@
     {
       "n": 1,
       "title": "Jurisdiction Screen",
-      "summary": "Reduce 64 counties + ~480 places to a workable short list using population-weighted housing-need indicators.",
-      "what_this_means": "The starting universe is all 64 Colorado counties and roughly 480 incorporated places (cities, towns, and Census Designated Places). The Jurisdiction Screen reduces that universe to a short list where housing need, market conditions, and policy posture line up well enough to justify a closer look. A jurisdiction here means a county or place with its own Census GEOID — the standard federal identifier used to keep data joined cleanly across sources.",
+      "summary": "Reduce 64 counties, 272 municipalities and Colorado's Census Designated Places to a workable short list using population-weighted housing-need indicators.",
+      "what_this_means": "The starting universe is all 64 Colorado counties, the state's 272 incorporated municipalities (cities and towns), and its Census Designated Places, the unincorporated communities the Census Bureau reports separately. The Jurisdiction Screen reduces that universe to a short list where housing need, market conditions, and policy posture line up well enough to justify a closer look. A jurisdiction here means a county or place with its own Census GEOID — the standard federal identifier used to keep data joined cleanly across sources.",
       "why_it_matters": "A first-pass screen helps keep the conversation grounded in where the need is actually concentrated, rather than wherever the news cycle happens to be focused that week. Population-weighted housing-need indicators surface communities where new affordable homes would make a real difference for residents earning 30–80% AMI.",
       "data_sources": [
-        {"label": "ACS 1-year & 5-year", "vintage": "2024 1-yr / 2023 5-yr", "what": "Population, median income, tenure, rent, vacancy"},
-        {"label": "HUD income limits & FMRs", "vintage": "FY2025", "what": "Affordability benchmark by county / metro"},
+        {"label": "ACS 5-year", "vintage": "2020–2024", "what": "Population, median income, tenure, rent, vacancy"},
+        {"label": "HUD income limits & FMRs", "vintage": "FY2026 income limits / FY2027 FMRs", "what": "Affordability benchmark by county / metro"},
         {"label": "CHFA LIHTC inventory", "vintage": "Refreshed nightly", "what": "Existing affordable supply by place"},
-        {"label": "CHAS-derived place-level AMI gap", "vintage": "CHAS 2017-2021 downscaled", "what": "Demand vs. supply at each income band"}
+        {"label": "CHAS-derived place-level AMI gap", "vintage": "CHAS 2018–2022 downscaled", "what": "Demand vs. supply at each income band"}
       ],
       "confidence": "medium-public",
       "confidence_note": "Inputs are authoritative federal datasets, but each carries its own vintage and methodology assumptions. Verify local figures with the planning director or housing authority before treating any single number as decisive.",
@@ -281,7 +281,7 @@
       "confidence": "high",
       "confidence_note": "High on the framework — CHFA documents are public and explicit. Medium on the partner and abatement rosters, which depend on manual curation and should be re-verified annually.",
       "watch_outs": [
-        "The 9% credit pool is more than 4x oversubscribed in most years — readiness alone does not guarantee an award.",
+        "CHFA's competitive 9% round draws roughly twice as many applications as it funds (14 of 32 in 2026, per CHFA's Round One applicant and award reports) — readiness alone does not guarantee an award.",
         "The 4% bond cap can be exhausted partway through a year, deferring otherwise-ready projects to the next cycle.",
         "Colorado state LIHTC, MIHTC, and Prop 123 dollars have their own readiness conventions that overlap but do not perfectly align with the federal LIHTC levels."
       ],
@@ -295,8 +295,8 @@
       "what_this_means": "The evidence package is the public-data record assembled for a jurisdiction-site pairing once it reaches at least Level 2 readiness. It is a self-contained document of demographics, housing-stock context, rent triangulation across multiple sources (ACS, Zillow ZORI, Apartment List, HUD FMR), the AMI-tier gap analysis, the existing affordable inventory within and adjacent to the site, the funding-readiness summary, and the civic-capacity context.",
       "why_it_matters": "A clean evidence package shortens every downstream conversation — with the jurisdiction, with funders, with neighborhood stakeholders, and with the project's own underwriting team. It also creates a durable record that allows analysis decisions to be revisited later when the data refreshes.",
       "data_sources": [
-        {"label": "ACS demographic profile", "vintage": "Current 1-yr / 5-yr", "what": "Population, income, tenure, rent, demographics"},
-        {"label": "HUD FMR & income limits", "vintage": "FY2025", "what": "Rent benchmarks and AMI tiers"},
+        {"label": "ACS demographic profile", "vintage": "ACS 2020–2024 5-year", "what": "Population, income, tenure, rent, demographics"},
+        {"label": "HUD FMR & income limits", "vintage": "FY2026 income limits / FY2027 FMRs", "what": "Rent benchmarks and AMI tiers"},
         {"label": "CHFA inventory", "vintage": "Nightly", "what": "Existing LIHTC supply"},
         {"label": "ZORI & Apartment List rent series", "vintage": "Monthly", "what": "Market rent triangulation"},
         {"label": "Local-resources directory", "vintage": "Continuous", "what": "Champions, advocates, agencies"}
@@ -375,7 +375,7 @@
   },
   "closing": {
     "title": "Inspect, challenge, improve",
-    "body": "This methodology is educational. It is intended to make the pipeline approach legible to housing authorities, jurisdictions, funders, advocates, and the public, and to invite correction where any step or definition can be sharpened. Data vintages and source documentation for every dataset referenced here are listed on the Data Health page. If a number on this site looks wrong, the fastest path to a correction is to check the relevant dataset's vintage there and open an issue or pull request with what you find.",
+    "body": "This methodology is educational. It is intended to make the pipeline approach legible to housing authorities, jurisdictions, funders, advocates, and the public, and to invite correction where any step or definition can be sharpened. Data vintages and source documentation for every dataset referenced here are listed on the Data Health page. If a number on this site looks wrong, the fastest path to a correction is to check the relevant dataset's vintage there and email info@cohoanalytics.com with what you find.",
     "links": [
       {"label": "Data Health & vintages", "href": "data-status.html"},
       {"label": "LIHTC Basics guide", "href": "lihtc-guide-for-stakeholders.html"},

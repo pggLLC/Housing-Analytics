@@ -386,7 +386,7 @@
         "price_high": 0.84,
         "price_assumed": null,
         "quote": "Based on the responses, the ranges for federal low income housing tax credit are: Metro $0.77 - $0.84 (any application in Maricopa or Pima County) Rural $0.75 - $0.81 (applications in all other counties) Tribal $0.74 - $0.83 (applications on eligible Tribal land) Submissions for the 2026 9% LIHTC Application deadline must reflect an amount of equity per LIHTC dollar based on the above.",
-        "note": "The range shown is Metro (Maricopa and Pima); other counties are $0.75–$0.81 and tribal land $0.74–$0.83. ADOH surveys equity providers before each round, as the QAP directs, and applications must price within the range. housing.az.gov blocks scripted requests, so the bulletin was read through a text-reader proxy on 2026-10-09; the August 2026 amended QAP was not read."
+        "note": "The range shown is Metro (Maricopa and Pima); other counties are $0.75–$0.81 and tribal land $0.74–$0.83. ADOH surveys equity providers before each round, as the QAP directs, and applications must price within the range. The bulletin was read on 2026-10-09; the August 2026 amended QAP was not read."
       }
     ]
   }

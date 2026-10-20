@@ -94,7 +94,7 @@
       "limitations": [
         "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
         "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
-        "No City of Delta question appears. The city's election pages (https://www.cityofdelta.net/administration/page/notice-election) returned HTTP 403 (Cloudflare challenge) on 2026-09-26 and could not be read. Owner review: confirm the city has no November 3, 2026 measure."
+        "No City of Delta question appears. The city's election pages (https://www.cityofdelta.net/administration/page/notice-election) could not be opened on 2026-09-26. Whether the city has a November 3, 2026 measure still needs to be confirmed from its own records."
       ],
       "reviewed_sources": [
         {

@@ -44,7 +44,7 @@
       "entry_ids": [],
       "limitations": [
         "Read the Adams County official 2026 General Election sample ballot posted 2026-09-28. It contains Bennett School District No. 29J Issue 5A and Bennett Fire Protection District Issues 7F and 7G, but no Town of Bennett question. Those district questions are not town questions and do not qualify for this municipal row.",
-        "Bennett's Town Clerk page (https://www.bennettco.gov/node/106) and 2026 municipal election page (https://www.bennettco.gov/town-board-trustees/page/2026-town-bennett-municipal-election) returned HTTP 403 during the 2026-10-04 recheck. Search-index excerpts concern the April election and do not verify November coverage. The current municipal sources remain unreadable, so this row is source_unreadable, not none_found. Owner review is needed.",
+        "Bennett's Town Clerk page (https://www.bennettco.gov/node/106) and 2026 municipal election page (https://www.bennettco.gov/town-board-trustees/page/2026-town-bennett-municipal-election) could not be opened during the 2026-10-04 recheck. Search results refer only to the April election and do not show November coverage. The current town sources remain unreadable, so this row is source_unreadable, not none_found, and needs a further check.",
         "The Adams County elections page and its Information for Coordinating Entities and Candidates page were reviewed on 2026-10-04. The latter describes the IGA process but neither page provided a separate participating-entities list; the official sample ballot was reviewed for all published ballot content."
       ],
       "reviewed_sources": [

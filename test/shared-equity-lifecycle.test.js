@@ -245,7 +245,7 @@ test('public-source flag survives normalization into the year result', () => {
   assert.strictEqual(year(result, 10).subordinateBalances[0].publicSource, true);
 });
 
-test('settle on real lifecycle output pins $20,000 retained and $80,000 recaptured', () => {
+test('settle on real fixed-formula lifecycle output charges no appreciation share on top of the formula', () => {
   const result = lifecycle.project(input({
     subordinateDebt: [{
       label: 'Public deferred assistance', principal: 50000, interestRate: 0,
@@ -253,7 +253,7 @@ test('settle on real lifecycle output pins $20,000 retained and $80,000 recaptur
     }],
     horizons: [10],
   }));
-  const settlement = waterfall.settle(year(result, 10), {
+  const cfg = {
     sellingCostRate: 0.06,
     returnOwnerDownPayment: true,
     ownerDownPayment: 40000,
@@ -263,11 +263,22 @@ test('settle on real lifecycle output pins $20,000 retained and $80,000 recaptur
     publicSubsidyAtClosing: 100000,
     nextBuyerPricing: 'formula',
     totalOwnerCashInvested: 50000,
-  });
-  // Public recovery = $50,000 subordinate payoff + 25% × ($520,000 − $400,000)
-  //                 = $50,000 + $30,000 = $80,000; retained = $100,000 − $80,000.
-  assert.equal(settlement.publicSubsidyRetainedInHome, 20000);
-  assert.equal(settlement.publicSubsidyRecapturedAtSale, 80000);
+  };
+  const settlement = waterfall.settle(year(result, 10), cfg);
+  // The fixed 3% formula already limits the seller's gain, so the 25% public
+  // appreciation share is not charged again: public recovery is the $50,000
+  // subordinate payoff alone; retained = $100,000 − $50,000.
+  assert.equal(settlement.fixedAppreciationFormula, true);
+  assert.equal(settlement.publicAppreciationSharePaid, 0);
+  assert.equal(settlement.publicSubsidyRetainedInHome, 50000);
+  assert.equal(settlement.publicSubsidyRecapturedAtSale, 50000);
+  // The settlement's owner net agrees with the lifecycle's own seller proceeds.
+  assert.equal(settlement.ownerNetProceeds, year(result, 10).ownerNetProceeds);
+  // A program that explicitly combines the two gets the share back:
+  // $50,000 + 25% × ($520,000 − $400,000) = $80,000 recaptured, $20,000 retained.
+  const combined = waterfall.settle(year(result, 10), Object.assign({}, cfg, { combineAppreciationShareWithFixedFormula: true }));
+  assert.equal(combined.publicSubsidyRetainedInHome, 20000);
+  assert.equal(combined.publicSubsidyRecapturedAtSale, 80000);
 });
 
 test('declining case flags negative equity and reports null owner return when proceeds are nonpositive', () => {

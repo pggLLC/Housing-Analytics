@@ -98,7 +98,7 @@ function dom(url) {
   const P = d.window.HousingNeedProjector;
   const cd = { households: 7000, cost_burdened_pct: 55, median_household_income: 50000, vacancy_rate: 0.03 };
   const rec = P.recommendAmiMix(cd);
-  ok(rec.priority === 'deeply_affordable' && rec.recommended.pct30 === 30 && rec.totalUnitsNeeded === 3850, 'preset choice and unit count are unchanged');
+  ok(rec.priority === 'deeply_affordable' && rec.recommended.pct30 === 30 && rec.totalUnitsNeeded === null && P.recommendAmiMix(Object.assign({ renter_households: 2000 }, cd)).totalUnitsNeeded === 1100, 'preset choice unchanged; burdened count uses renter households only (D6)');
   const mc = P.mixCheckFor(rec, inputs, M, MI);
   ok(mc.units['30'] === 30 && mc.units['80'] === 7 && !('100' in mc.units) && mc.leftOut === 5, 'the check tests the preset\'s 30–80% shares and names the 100% slice it leaves out');
   const viaMix = M.pencil({ limits: inputs.limits, units: mc.units, rules: files.rules });

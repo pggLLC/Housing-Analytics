@@ -61,7 +61,8 @@ jobs:
             "B25003_002E": "owner_occupied",
             "B25003_003E": "renter_occupied",
             "B25034_001E": "housing_units_year_built_total",
-            "B25034_010E": "built_2010_or_later",
+            "B25034_002E": "built_2020_or_later",
+            "B25034_003E": "built_2010_to_2019",
           }
 
           def fetch_json(url: str):

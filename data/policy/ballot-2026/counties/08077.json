@@ -143,7 +143,7 @@
       "limitations": [
         "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
         "Excluded: Town of De Beque Ballot Issue 2C - occupation tax of up to $5 per pound on medical marijuana, with revenue retained as a voter-approved revenue change; the question text states no housing purpose.",
-        "Town website (debeque.org) returned HTTP 403 on 2026-09-26; town clerk page not readable."
+        "Town website (debeque.org) could not be opened on 2026-09-26; the town clerk page was not read."
       ],
       "reviewed_sources": [
         {
@@ -327,7 +327,7 @@
       "limitations": [
         "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
         "Excluded: Town of Palisade Ballot Issue 2A - sales tax increase from 2.0% to 3.0% through December 31, 2034, for street repairs, park and swimming pool improvements, and emergency services; not housing.",
-        "Town website (townofpalisade.org) returned HTTP 403 on 2026-09-26; town clerk page not readable."
+        "Town website (townofpalisade.org) could not be opened on 2026-09-26; the town clerk page was not read."
       ],
       "reviewed_sources": [
         {

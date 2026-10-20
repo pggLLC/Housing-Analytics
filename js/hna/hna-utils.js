@@ -38,7 +38,10 @@
 
   const AFFORD = {
     // Mortgage assumptions (transparent, not "the truth")
-    rateAnnual: 0.065,
+    // D17 — Freddie Mac Primary Mortgage Market Survey 30-year fixed average,
+    // week of October 15, 2026 (7.40%; FRED MORTGAGE30US in data/fred-data.json).
+    rateAnnual: 0.074,
+    rateSource: 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
     termYears: 30,
     downPaymentPct: 0.10,
     propertyTaxPctAnnual: 0.0065,
@@ -176,7 +179,11 @@
     return v.toLocaleString(undefined,{maximumFractionDigits:0});
   }
   const moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('../utils/format-money.js') : null);
+  // M17 — ACS publishes top-coded medians as one dollar over the cap
+  // (income 250,001; home value 2,000,001; gross rent 3,501). Show the cap.
+  const ACS_TOP_CODES = { 250001: '$250,000 or more', 2000001: '$2,000,000 or more', 3501: '$3,500 or more' };
   function fmtMoney(n){
+    if (n != null && n !== '' && Object.prototype.hasOwnProperty.call(ACS_TOP_CODES, Number(n))) return ACS_TOP_CODES[Number(n)];
     return moneyFormatter.formatMoney(n);
   }
   function fmtPct(n){
@@ -250,6 +257,25 @@
   }
 
 
+  /**
+   * The published-margins entry (data/hna/acs-reliability.json, via
+   * window.ACSReliability) whose estimate is this figure, or null when the
+   * file is not loaded, the geography is unknown, or the number differs.
+   */
+  function acsEntryFor(profile, field, value) {
+    const R = typeof window !== 'undefined' ? window.ACSReliability : null;
+    const geoid = profile && profile._geoid;
+    if (!R || typeof R.forValue !== 'function' || !geoid || value == null) return null;
+    try { return R.forValue(geoid, field, value) || null; } catch (_) { return null; }
+  }
+
+  /** "2024 1-year" or "2020-2024 5-year" for an ACS series code and end year. */
+  function acsSeriesText(series, year) {
+    const y = Number(year);
+    if (series === 'acs1') return (Number.isFinite(y) ? y + ' ' : '') + '1-year';
+    return (Number.isFinite(y) ? (y - 4) + '-' + y + ' ' : '') + '5-year';
+  }
+
   function homeValueInfo(profile) {
     const display = profile && profile.median_home_value && typeof profile.median_home_value === 'object'
       ? profile.median_home_value
@@ -263,15 +289,29 @@
       else if (display.source === 'acs_raw') sourceLabel = 'ACS DP04_0089E raw floor';
       else sourceLabel = display.source || sourceLabel;
     }
-    const year = profile && profile._acsYear ? profile._acsYear : ACS_YEAR_PRIMARY;
-    const rawAsOf = year ? 'ACS ' + year + ' 5-year' : 'ACS 5-year';
+    // D2 — The stored summaries mark every profile as 5-year, but large
+    // geographies carry the 1-year estimate (Mesa DP04_0089E $410,200 is
+    // 1-year; its 5-year is $378,600). The series comes from the published
+    // margins file when it has an entry for this exact figure; otherwise the
+    // label names the year only rather than guess a series.
+    const acsMatch = acsEntryFor(profile, 'DP04_0089E', value) ||
+      (display ? acsEntryFor(profile, 'median_home_value', value) : null);
+    const year = acsMatch && acsMatch.y ? acsMatch.y
+      : (profile && profile._acsYear ? profile._acsYear : ACS_YEAR_PRIMARY);
+    // Without the margins file, a geography under 65,000 people can only
+    // have a 5-year estimate (the 1-year survey is not published for it).
+    const popN = profile ? safeNum(profile.DP05_0001E) : null;
+    const series = acsMatch && acsMatch.s ? acsMatch.s : (popN != null && popN < 65000 ? 'acs5' : null);
+    const rawAsOf = series ? 'ACS ' + acsSeriesText(series, year) : 'ACS ' + year;
     const lowConfidence = !!(display && (display.confidence === 'low' || display.source === 'acs_raw' || display.source === 'county_zhvi_adjusted'));
     const info = {
       display,
       value,
       source: display && display.source ? display.source : 'DP04_0089E',
       sourceLabel,
-      asOf: display && display.as_of ? display.as_of : rawAsOf,
+      // A raw-ACS cascade value keeps the vintage the margins file found for
+      // it; the cascade's own as_of says 5-year even for 1-year figures.
+      asOf: display && display.as_of && !(display.source === 'acs_raw' && acsMatch) ? display.as_of : rawAsOf,
       confidence: display && display.confidence ? display.confidence : null,
       lowConfidence,
       suppressIncomeToOwn: !!(display && display.suppress_income_to_own),
@@ -976,7 +1016,7 @@
       conditions.push('✅ ' + affordable + ' of ' + units + ' homes affordable — at least half, as § 29-32-105(2)(a) requires');
     } else {
       eligible = false;
-      conditions.push('Only ' + affordable + ' of ' + units + ' homes affordable — at least half must be (rentals ≤60% AMI, for-sale ≤100% AMI), § 29-32-105(2)(a)');
+      conditions.push('Only ' + affordable + ' of ' + units + ' homes affordable — at least half must be (rentals at or below 60% AMI, for-sale at or below 100% AMI), § 29-32-105(2)(a)');
     }
 
     if (jurisdiction_type === 'cdp') {
@@ -1240,7 +1280,7 @@
 
   // AMI tier labels for housing demand charts
   const AMI_TIER_LABELS = {
-    '30_ami':       '≤30% AMI',
+    '30_ami':       '30% AMI or less',
     '50_ami':       '31–50% AMI',
     '80_ami':       '51–80% AMI',
     '100_ami':      '81–100% AMI',
@@ -1309,6 +1349,8 @@
     safeNum,
     homeValueInfo,
     homeValueSourceText,
+    acsEntryFor,
+    acsSeriesText,
     computeIncomeNeeded,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,

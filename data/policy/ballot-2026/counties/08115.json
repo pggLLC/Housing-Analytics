@@ -11,7 +11,7 @@
       "entry_ids": [],
       "limitations": [
         "The only county question is Sedgwick County Ballot Issue 1A. It was excluded because it funds emergency medical services, not housing. Full text as printed on the sample ballot: 'SHALL SEDGWICK COUNTY TAXES BE INCREASED $467,000.00 ANNUALLY, (ESTIMATED FIRST YEAR DOLLAR INCREASE) BY LEVYING A TEMPORARY 1% SALES AND USE TAX THAT SHALL SUNSET FOUR YEARS AFTER ITS IMPLEMENTATION TO BE DEPOSITED INTO THE SEDGWICK COUNTY EMERGENCY MEDICAL SERVICES FUND FOR SEDGWICK COUNTY AMBULANCE SERVICE AND SHALL SEDGWICK COUNTY BE AUTHORIZED TO RECEIVE, RETAIN AND SPEND IN THE YEAR 2027 AND EACH SUBSEQUENT YEAR, ALL REVENUES, INCLUDING INVESTMENT INCOME IT RECEIVES FROM THIS NEW SALES AND USE TAX AND ITS MILL LEVY, AS A VOTER APPROVED REVENUE CHANGE WITHOUT LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER LAW; ALL PURSUANT TO AND AS FURTHER PROVIDED IN PROPOSAL AND THIS RESOLUTION OF THE BOARD OF COUNTY COMMISSIONERS OF THE COUNTY?'",
-        "The Election Notice PDF has no text layer. I read it from the embedded page image, so no machine text was extracted.",
+        "The Election Notice PDF is a scanned image; it was read from the page image.",
         "The posted sample ballot is a single style (003-02). The complete listing comes from the certified General Notice, not from the sample ballot.",
         "The only non-county local measure is Holyoke School District RE-1J Question #5A, which asks to accept a $37,511,924.54 BEST grant. It is not housing."
       ],
@@ -35,7 +35,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "The clerk's certified 'complete listing of ballot content for Sedgwick County, Colorado ballots' (Sept 21, 2026) lists no municipal ballot measures. No separate participating-entities list or IGA list is posted. I did not check the town's own website."
+        "The clerk's certified 'complete listing of ballot content for Sedgwick County, Colorado ballots' (Sept 21, 2026) lists no municipal ballot measures. No separate participating-entities list or IGA list is posted. The town's own website was not checked."
       ],
       "reviewed_sources": [
         {

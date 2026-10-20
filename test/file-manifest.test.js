@@ -176,7 +176,10 @@ function readJson(rel) {
   const explorerJs = fs.readFileSync(path.join(ROOT, 'js/data-explorer.js'), 'utf8');
   assert(explorerHtml.includes('dex-stale-pill'), 'Data Explorer includes stale-manifest pill styles');
   assert(explorerJs.includes('MANIFEST_STALE_MS = 7 * 24 * 60 * 60 * 1000'), 'Data Explorer has the 7-day stale threshold');
-  assert(explorerJs.includes('npm run audit:file-manifest'), 'Data Explorer points maintainers to the npm manifest alias');
+  // The page is for readers: the build command for the file list stays in
+  // the workflows and the script header, not on screen.
+  assert(!/npm run|scripts\/audit/.test(explorerJs.replace(/^\s*(\/\/|\*).*$/gm, '')),
+    'Data Explorer shows no build commands to readers');
 
   console.log('file-manifest automation: PASS');
 })().catch((err) => {

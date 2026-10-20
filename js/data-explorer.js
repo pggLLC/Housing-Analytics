@@ -226,10 +226,10 @@
     $('#dexStatCsv').textContent   = fmtCount(state.meta.kinds?.csv || 0);
     const meta = $('#dexManifestMeta');
     if (meta && state.meta.generated_at) {
-      meta.textContent = ` Manifest generated ${fmtTimeAbs(state.meta.generated_at)} · rebuild with npm run audit:file-manifest`;
+      meta.textContent = ` File list updated ${fmtTimeAbs(state.meta.generated_at)}`;
       const ageDays = manifestStalenessDays(state.meta.generated_at);
       if (ageDays != null && ageDays * 24 * 60 * 60 * 1000 > MANIFEST_STALE_MS) {
-        meta.appendChild(el('span', { class: 'dex-stale-pill', title: 'data/_manifest.json is older than the freshness target' }, `Manifest stale: ${ageDays} days`));
+        meta.appendChild(el('span', { class: 'dex-stale-pill', title: 'This file list is more than a week old, so newer files may be missing from it' }, `List ${ageDays} days old`));
       }
     }
   }
@@ -638,7 +638,7 @@
       ? window.PathResolver.fromRoot(MANIFEST_URL)
       : MANIFEST_URL;
     const r = await fetch(url, { cache: 'no-store' });
-    if (!r.ok) throw new Error(`Could not load ${MANIFEST_URL} (HTTP ${r.status}). Run: node scripts/audit/build-data-manifest.mjs`);
+    if (!r.ok) throw new Error(`The file list could not be loaded (HTTP ${r.status}). Please try again later.`);
     return r.json();
   }
 
@@ -719,7 +719,7 @@
       const tbody = $('#dexRows');
       tbody.innerHTML = '';
       tbody.appendChild(el('tr', {}, el('td', { colspan: 6, class: 'dex-empty' }, String(e.message || e))));
-      $('#dexTree').innerHTML = '<div class="dex-empty" style="padding:1rem .5rem;font-size:.82rem;">Manifest unavailable.</div>';
+      $('#dexTree').innerHTML = '<div class="dex-empty" style="padding:1rem .5rem;font-size:.82rem;">File list unavailable.</div>';
       console.error('[data-explorer] failed to load manifest:', e);
     }
   }

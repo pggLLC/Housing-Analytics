@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Data Map · Geographic Datasets · COHO Analytics</title>
-  <meta name="description" content="Interactive Colorado map for browsing every geographic dataset in the COHO Analytics repository — LIHTC properties, QCT/DDA, Opportunity Zones, amenities, environmental constraints." />
+  <meta name="description" content="Interactive Colorado map for browsing every geographic dataset on COHO Analytics — LIHTC properties, QCT/DDA, Opportunity Zones, amenities, environmental constraints." />
   <!-- F194 — Stylesheet stack matches the rest of the site. Was
        previously linking a non-existent css/site.css; the live deploy
        returned 404 for that file and the page rendered without the
@@ -169,7 +169,7 @@
   <div class="dmb-hero">
     <span class="kicker">Geographic Browser</span>
     <h1>Data Map</h1>
-    <p>Every geographic dataset in the COHO Analytics repository on one map. Toggle layers in the sidebar to see what's available; click any feature for its details and the underlying file path. Replaces the old "Multifamily Lens" page — that content lives in the <a href="housing-needs-assessment.html">HNA</a> and <a href="compare.html">Compare</a> pages where it's used in context.</p>
+    <p>Every geographic dataset on this site on one map. Toggle layers in the sidebar to see what's available; click any feature for its details and the data file it comes from. Multifamily housing context is shown where it is used, in the <a href="housing-needs-assessment.html">HNA</a> and <a href="compare.html">Compare</a> pages.</p>
   </div>
 
   <!-- F177 — Data section cross-link banner. -->
@@ -273,7 +273,7 @@
     'data/boundaries/counties_co.geojson': 'Duplicate county geometry; Data Map uses data/co-county-boundaries.json as the canonical county boundary layer.',
     'data/amenities/schools_co.geojson': 'Duplicate school point layer; Data Map uses data/market/schools_co.geojson because it carries richer NCES and enrollment fields.',
     'data/amenities/transit_stops_co.geojson': 'OpenStreetMap stop input to data/amenities/transit_stops_statewide_co.geojson, which the Transit stops layer shows; its stops that CDOT and agency feeds lack appear there marked unconfirmed.',
-    'data/environmental/fema-flood-co.geojson': 'Legacy 4-record stub kept only for source-comparison transparency; local flood coverage uses data/market/flood_zones_co.geojson and live NFHL remains available.',
+    'data/environmental/fema-flood-co.geojson': 'Legacy 4-record stub, not shown: local flood coverage uses data/market/flood_zones_co.geojson and live NFHL remains available.',
     'data/market/cdphe_county_boundaries_co.geojson': 'Duplicate county geometry from CDPHE; county boundaries already covered by the canonical Counties layer.',
     'data/market/pma_tract_display_geometry.geojson': 'Internal PMA display derivative of tract_boundaries_co.geojson; not a standalone user-facing Data Map layer.',
     'data/market/epa_sld_bg_geometry_co.geojson': 'Internal lookup geometry: 2010 block-group boundaries the EPA walkability connector uses to find the block group a site is in; it carries no metrics of its own to map.',
@@ -310,14 +310,18 @@
           { k: 'Basis boost', v: '30% (IRC §42(d)(5)(B))' },
         ];
       } },
-    { key: 'dda', name: 'DDA — Difficult Development Areas (counties)', group: 'Tax credit designations',
+    { key: 'dda', name: 'DDA — Difficult Development Areas (nonmetro counties + metro ZIPs)', group: 'Tax credit designations',
       url: 'data/dda-colorado.json', color: '#f59e0b', kind: 'polygon',
+      sourceLabel: 'HUD 2026 Difficult Development Areas (huduser.gov/portal/datasets/qct.html) · data/dda-colorado.json',
       defaultOn: true,
       popupRows: function (p) {
+        var zip = p.DDA_TYPE === 'SA';
         return [
+          { k: 'DDA',      v: p.NAME || p.DDA_NAME },
+          { k: 'DDA type', v: zip ? 'Small Area DDA (metro ZIP; only sites inside this ZIP qualify)' : (p.DDA_TYPE === 'NM' ? 'Nonmetro county (whole county qualifies)' : p.DDA_TYPE) },
+          { k: 'ZIP',      v: p.ZCTA5 },
           { k: 'DDA code', v: p.DDA_CODE },
-          { k: 'DDA type', v: p.DDA_TYPE },
-          { k: 'ZCTA',     v: p.ZCTA5 },
+          { k: 'Basis boost', v: '30% (IRC §42(d)(5)(B)(iii))' },
         ];
       } },
     { key: 'oz', name: 'Opportunity Zones (designated)', group: 'Tax credit designations',
@@ -439,19 +443,6 @@
           { k: 'SFHA flag',       v: 'Yes (1% annual chance · 100-year)' },
           { k: 'Base flood elev', v: p.STATIC_BFE && p.STATIC_BFE > 0 ? p.STATIC_BFE + ' ft' : null },
           { k: 'FIRM panel',      v: p.DFIRM_ID || p.FIRM_PAN },
-        ];
-      } },
-    /* Kept for source-comparison transparency. The stub file shipped
-       with the repo's original ETL; visible toggle so users can see
-       how much coverage we lacked before F193. */
-    { key: 'flood-stub', name: '⚠ legacy stub (5 records — do not use)', group: 'Environment',
-      url: 'data/environmental/fema-flood-co.geojson', color: '#94a3b8', kind: 'polygon',
-      popupRows: function (p) {
-        return [
-          { k: 'Zone',         v: p.FLD_ZONE },
-          { k: 'Subtype',      v: p.ZONE_SUBTY },
-          { k: 'County FIPS',  v: p.county_fips },
-          { k: '⚠ Note',       v: 'Stub data — use "FEMA flood zones (live NFHL)" instead' },
         ];
       } },
     { key: 'flood-zones-local', name: 'Flood zones (local GeoJSON)', group: 'Environment',

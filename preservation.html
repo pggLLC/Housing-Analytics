@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Preservation Tracking | COHO Analytics</title>
-  <meta name="description" content="Explore a limited Colorado NHPD stub snapshot. Sample subsidy expirations are not a statewide inventory or an estimate of total preservation needs.">
-  <meta property="og:title" content="Preservation Tracking | COHO Analytics">
-  <meta property="og:description" content="Explore a limited Colorado NHPD stub snapshot; statewide preservation needs remain unknown.">
+  <title>Preservation Inventory | COHO Analytics</title>
+  <meta name="description" content="Colorado affordable rental properties listed on the CHFA preservation map: name, address, city, county and total units, with filters and a CSV download.">
+  <meta property="og:title" content="Preservation Inventory | COHO Analytics">
+  <meta property="og:description" content="Colorado affordable rental properties listed on the CHFA preservation map.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
@@ -28,7 +28,7 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
-  <script defer src="js/data-connectors/nhpd.js"></script>
+  <script defer src="js/county-from-coords.js"></script>
   <script defer src="js/home-jurisdiction-search.js"></script>
   <script defer src="js/components/jurisdiction-select-search.js"></script>
   <script defer src="js/preservation.js"></script>
@@ -64,18 +64,12 @@
       padding: var(--sp2) var(--sp3);
       text-align: center;
     }
-    .pres-kpi-card.pres-kpi-warn {
-      border-top: 3px solid var(--warn, #d97706);
-    }
     .pres-kpi-value {
       display: block;
       font-size: 2rem;
       font-weight: 700;
       line-height: 1.1;
       color: var(--accent);
-    }
-    .pres-kpi-card.pres-kpi-warn .pres-kpi-value {
-      color: var(--warn, #d97706);
     }
     .pres-kpi-label {
       display: block;
@@ -100,7 +94,7 @@
     }
     .pres-chart-wrap {
       position: relative;
-      height: 260px;
+      height: 320px;
       max-width: 900px;
     }
 
@@ -188,30 +182,6 @@
     }
     .pres-num { text-align: right; }
 
-    /* Expiry status colours */
-    .pres-expiry.pres-exp-expired  { color: #9ca3af; font-style: italic; }
-    .pres-expiry.pres-exp-critical { color: var(--bad); font-weight: 700; }
-    .pres-expiry.pres-exp-warning  { color: var(--warn); font-weight: 600; }
-    .pres-expiry.pres-exp-ok       { color: var(--good, #16a34a); }
-    .pres-expiry.pres-exp-unknown  { color: var(--muted); }
-
-    /* Subsidy type tags */
-    .pres-tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-size: var(--tiny);
-      font-weight: 700;
-      white-space: nowrap;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-    .pres-tag-hud-section-8-pbra { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
-    .pres-tag-lihtc               { background: #dcfce7; color: #166534; border-color: #86efac; }
-    .pres-tag-home                { background: #fef9c3; color: #713f12; border-color: #fde047; }
-    .pres-tag-hud-section-202     { background: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
-
     /* Empty / loading / error states */
     .pres-loading, .pres-empty, .pres-error {
       text-align: center;
@@ -237,26 +207,6 @@
       margin-top: var(--sp1);
     }
 
-    /* Legend */
-    .pres-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      padding: 0 var(--sp3) var(--sp2);
-      font-size: var(--tiny);
-      color: var(--muted);
-    }
-    .pres-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-    .pres-legend-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .pres-legend-dot-critical { background: #dc2626; }
-    .pres-legend-dot-warning  { background: #d97706; }
-    .pres-legend-dot-ok       { background: #16a34a; }
-    .pres-legend-dot-expired  { background: #9ca3af; }
-
     @media (max-width: 640px) {
       .pres-kpi-strip { grid-template-columns: repeat(2, 1fr); }
       .pres-controls  { flex-direction: column; align-items: stretch; }
@@ -279,47 +229,54 @@
     <!-- Page header -->
     <div class="pres-header">
       <span class="kicker">Preservation</span>
-      <h1>NHPD Subsidy Tracking</h1>
+      <h1>Colorado Preservation Inventory</h1>
       <p class="pres-subtitle">
-        Explore the recorded subsidy dates in a limited Colorado snapshot.
-        Data sourced from the <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">National Housing Preservation Database (NHPD)</a>.
-        <span id="presDataTimestamp" aria-live="polite"></span>
-        <strong>NHPD access is registration-gated; this page uses the disclosed 2026-03-13 stub snapshot. Verify current subsidy status with NHPD.</strong>
+        Existing affordable rental properties listed on the
+        <a href="https://www.chfainfo.com/rental-housing/preservation" target="_blank" rel="noopener">Colorado Housing and Finance Authority (CHFA) preservation map</a>.
+        CHFA lists properties that receive or have received an incentive to keep them affordable, such as rent supplements,
+        below-market financing or Housing Tax Credits, drawn from CHFA's portfolio and from the Colorado Division of Housing,
+        the City and County of Denver, USDA and HUD.
+        <span id="presDataTimestamp">Copy of the CHFA map layer retrieved September 2026. CHFA updates its own portfolio annually and partner data at staggered intervals.</span>
+        <strong>The map layer lists each property's name, address, city, ZIP code and total units. It does not list subsidy type or expiration dates; verify current affordability restrictions with CHFA.</strong>
       </p>
-      <p id="presCoverage" role="status">Limited coverage: 20 snapshot records. These are sample counts, not statewide totals or an estimate of total preservation needs. Missing records do not mean no preservation risk.</p>
+      <p id="presCoverage" role="status">Loading the CHFA preservation inventory…</p>
     </div>
 
     <!-- KPI strip -->
-    <div class="pres-kpi-strip" role="region" aria-label="Filtered snapshot statistics" aria-describedby="presCoverage">
+    <div class="pres-kpi-strip" role="region" aria-label="Filtered inventory statistics" aria-describedby="presCoverage">
       <div class="pres-kpi-card">
         <span class="pres-kpi-value" id="presKpiTotal">—</span>
-        <span class="pres-kpi-label">Properties in Snapshot</span>
+        <span class="pres-kpi-label">Properties Listed</span>
       </div>
       <div class="pres-kpi-card">
         <span class="pres-kpi-value" id="presKpiUnits">—</span>
-        <span class="pres-kpi-label">Assisted Units in Snapshot</span>
+        <span class="pres-kpi-label">Total Units Listed</span>
       </div>
-      <div class="pres-kpi-card pres-kpi-warn">
-        <span class="pres-kpi-value" id="presKpiExpiring">—</span>
-        <span class="pres-kpi-label">Snapshot Properties Expiring ≤ 3 Years</span>
+      <div class="pres-kpi-card">
+        <span class="pres-kpi-value" id="presKpiCounties">—</span>
+        <span class="pres-kpi-label">Counties</span>
       </div>
-      <div class="pres-kpi-card pres-kpi-warn">
-        <span class="pres-kpi-value" id="presKpiExpiringUnits">—</span>
-        <span class="pres-kpi-label">Snapshot Units Expiring ≤ 3 Years</span>
+      <div class="pres-kpi-card">
+        <span class="pres-kpi-value" id="presKpiUnknownUnits">—</span>
+        <span class="pres-kpi-label">Properties With No Unit Count</span>
       </div>
     </div>
 
-    <!-- Expiration timeline chart -->
+    <!-- Units by county chart -->
     <section class="pres-chart-section" aria-labelledby="presChartHeading">
-      <h2 id="presChartHeading">Snapshot Subsidy Expiration Timeline</h2>
+      <h2 id="presChartHeading">Listed Units by County (12 largest)</h2>
       <div class="pres-chart-wrap">
-        <canvas id="presExpiryChart" role="img"
-                aria-label="Snapshot assisted units and properties by recorded expiration year; incomplete coverage, not statewide totals"></canvas>
+        <canvas id="presCountyChart" role="img"
+                aria-label="Total units listed on the CHFA preservation map in the 12 counties with the most listed units"></canvas>
       </div>
       <p>
-        The chart uses all loaded snapshot records; filters below change the cards, table, and CSV only.
-        A zero in a year means no recorded expiration in this subset, not no preservation needs.
-        Dates may have changed since the snapshot; expiration alone does not establish loss of affordability.
+        The chart uses every listed property; filters below change the cards, table and CSV only.
+        Each property is placed in a county from its mapped location, using simplified census county boundaries,
+        so a property close to a county line can land in the neighboring county.
+        CHFA reports that, as of December 2024, affordability restrictions on nearly 21,000 rental units in Colorado
+        are set to expire in the next 15 years
+        (<a href="https://www.chfainfo.com/rental-housing/preservation" target="_blank" rel="noopener">CHFA preservation</a>).
+        The property list does not show which properties those are.
       </p>
     </section>
 
@@ -329,106 +286,84 @@
         County
         <select id="presFilterCounty" class="pres-select" aria-label="Filter by county"
                 data-jurisdiction-search data-jurisdiction-search-type="County"
-                data-jurisdiction-search-label="Search counties in this dataset"
+                data-jurisdiction-search-label="Search counties in this inventory"
                 data-jurisdiction-search-placeholder="Type a county name…">
-          <option value="">All counties in snapshot</option>
+          <option value="">All counties</option>
         </select>
       </label>
       <label class="pres-filter-label">
-        Subsidy Type
-        <select id="presFilterType" class="pres-select" aria-label="Filter by subsidy type">
-          <option value="">All types</option>
-        </select>
-      </label>
-      <label class="pres-filter-label">
-        Expiry Horizon
-        <select id="presFilterHorizon" class="pres-select" aria-label="Filter by expiration horizon">
-          <option value="">All expiry dates</option>
-          <option value="1">Expiring within 1 year</option>
-          <option value="3">Expiring within 3 years</option>
-          <option value="5">Expiring within 5 years</option>
-          <option value="10">Expiring within 10 years</option>
+        Property Size
+        <select id="presFilterSize" class="pres-select" aria-label="Filter by property size">
+          <option value="">All sizes</option>
+          <option value="1-24">1–24 units</option>
+          <option value="25-49">25–49 units</option>
+          <option value="50-99">50–99 units</option>
+          <option value="100+">100 or more units</option>
+          <option value="unknown">No unit count listed</option>
         </select>
       </label>
       <label class="pres-filter-label">
         Search
         <input id="presSearch" class="pres-search" type="search"
-               placeholder="Property or city name…" aria-label="Search by property or city name">
+               placeholder="Property, address or city…" aria-label="Search by property, address or city">
       </label>
-      <button id="presExportBtn" class="pres-export-btn" aria-label="Download filtered snapshot records as CSV" disabled>
-        ⬇ Download Snapshot CSV
+      <button id="presExportBtn" class="pres-export-btn" aria-label="Download filtered properties as CSV" disabled>
+        ⬇ Download CSV
       </button>
     </div>
-    <p>Filters search this subset only. Counties absent from the list have unknown coverage. No matching records does not establish that a county has no subsidized homes or preservation risk.</p>
-
-    <!-- Expiry legend -->
-    <div class="pres-legend" aria-hidden="true">
-      <span class="pres-legend-item">
-        <span class="pres-legend-dot pres-legend-dot-critical"></span>Expiring &lt; 1 year
-      </span>
-      <span class="pres-legend-item">
-        <span class="pres-legend-dot pres-legend-dot-warning"></span>Expiring 1–3 years
-      </span>
-      <span class="pres-legend-item">
-        <span class="pres-legend-dot pres-legend-dot-ok"></span>Expiring 3+ years
-      </span>
-      <span class="pres-legend-item">
-        <span class="pres-legend-dot pres-legend-dot-expired"></span>Recorded date passed
-      </span>
-    </div>
+    <p>A property missing from this list may still carry affordability restrictions; the map covers properties CHFA and its partners report.</p>
 
     <!-- Properties table -->
-    <div class="pres-table-wrap" role="region" aria-label="Subsidized property list">
-      <table class="pres-table" id="presTable" aria-label="Colorado NHPD snapshot records">
+    <div class="pres-table-wrap" role="region" aria-label="Preservation property list">
+      <table class="pres-table" id="presTable" aria-label="Properties on the CHFA preservation map">
         <thead>
           <tr>
             <th class="pres-th sortable" data-col="property_name"
+                data-tip="Property name as CHFA lists it on its preservation map."
+                tabindex="0" role="columnheader" aria-sort="ascending">
+              Property <span class="sort-icon">↑</span>
+            </th>
+            <th class="pres-th sortable" data-col="address"
+                data-tip="Street address as CHFA lists it."
                 tabindex="0" role="columnheader" aria-sort="none">
-              Property <span class="sort-icon">↕</span>
+              Address <span class="sort-icon">↕</span>
             </th>
             <th class="pres-th sortable" data-col="city"
+                data-tip="City in the property's mailing address, which can differ from the municipality the property sits in."
                 tabindex="0" role="columnheader" aria-sort="none">
               City <span class="sort-icon">↕</span>
             </th>
             <th class="pres-th sortable" data-col="county"
+                data-tip="County containing the property's mapped location, from simplified census county boundaries. Not part of CHFA's listing."
                 tabindex="0" role="columnheader" aria-sort="none">
               County <span class="sort-icon">↕</span>
             </th>
-            <th class="pres-th sortable" data-col="subsidy_type"
+            <th class="pres-th sortable" data-col="zip"
+                data-tip="ZIP code as CHFA lists it."
                 tabindex="0" role="columnheader" aria-sort="none">
-              Subsidy Type <span class="sort-icon">↕</span>
+              ZIP <span class="sort-icon">↕</span>
             </th>
-            <th class="pres-th sortable" data-col="assisted_units"
+            <th class="pres-th sortable" data-col="units"
+                data-tip="Total units in the property as CHFA lists them. The listing does not say how many are rent-restricted. Not listed means CHFA gives no count."
                 tabindex="0" role="columnheader" aria-sort="none">
-              Assisted Units <span class="sort-icon">↕</span>
-            </th>
-            <th class="pres-th sortable" data-col="subsidy_expiration"
-                tabindex="0" role="columnheader" aria-sort="ascending">
-              Expiration <span class="sort-icon">↑</span>
-            </th>
-            <th class="pres-th sortable" data-col="owner_type"
-                tabindex="0" role="columnheader" aria-sort="none">
-              Owner Type <span class="sort-icon">↕</span>
+              Units <span class="sort-icon">↕</span>
             </th>
           </tr>
         </thead>
         <tbody id="presTableBody">
-          <tr><td colspan="7" class="pres-loading">Loading NHPD data…</td></tr>
+          <tr><td colspan="6" class="pres-loading">Loading the CHFA preservation inventory…</td></tr>
         </tbody>
       </table>
     </div>
 
     <p class="pres-footnote">
-      Data sourced from the
-      <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">
-        National Housing Preservation Database (NHPD)
-      </a>,
-      a joint project of the National Low Income Housing Coalition and Public Housing Analytics.
-      Snapshot vintage: 2026-03-13 (stub, 20 projects). This snapshot cannot be refreshed automatically:
-      the NHPD properties API returns HTTP 404 and bulk access is registration-gated, so
-      <code>scripts/fetch_nhpd.py</code> has no working endpoint to call. Current subsidy status must be
-      verified directly with NHPD.
-      Expiry horizon warnings flag subsidies expiring within 3 years. ·
+      Source: <a href="https://www.chfainfo.com/rental-housing/preservation" target="_blank" rel="noopener">Colorado Housing and Finance Authority, preservation map</a>.
+      For subsidy types and expiration dates, see the
+      <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">National Housing Preservation Database (NHPD)</a>,
+      a joint project of the National Low Income Housing Coalition and the Public and Affordable Housing Research Corporation (PAHRC),
+      which requires registration, and HUD's
+      <a href="https://hudgis-hud.opendata.arcgis.com/datasets/multifamily-properties-assisted" target="_blank" rel="noopener">Multifamily Properties – Assisted</a> data.
+      County boundaries: U.S. Census Bureau TIGER/Line. ·
       <a href="housing-needs-assessment.html#prop123-section">Prop 123 Compliance →</a> ·
       <a href="chfa-portfolio.html">CHFA Portfolio →</a>
     </p>

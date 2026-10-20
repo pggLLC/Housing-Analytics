@@ -132,7 +132,7 @@
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
 <h4 style="margin: 0 0 0.75rem 0;">Phase 1: Site Selection &amp; Feasibility (Months 1-6)</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li><strong>Market Study:</strong> Document housing need and demand (required by HUD and state HFAs)</li>
+<li><strong>Market Study:</strong> Document housing need and demand (required by IRC §42(m) before the state agency allocates credits)</li>
 <li><strong>Site Control:</strong> Purchase option or contract; verify zoning compliance</li>
 <li><strong>QAP Analysis:</strong> Review state Qualified Allocation Plan scoring criteria</li>
 <li><strong>DDA/QCT Verification:</strong> Check if site qualifies for 30% basis boost</li>
@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="Example Sources of Funds (100-unit project, $25M budget) table"><table>
 <thead>
 <tr>
-<th>Source</th>
-<th>Amount</th>
-<th>%</th>
-<th>Key Terms</th>
+<th data-tip="Where the money comes from.">Source</th>
+<th data-tip="Dollars from this source in the example.">Amount</th>
+<th data-tip="Share of the $25M total development budget.">%</th>
+<th data-tip="The main terms that set the amount: credit price, loan coverage and term, or payment timing.">Key Terms</th>
 </tr>
 </thead>
 <tbody>
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <td><strong>Permanent Loan</strong></td>
 <td>$7.5M</td>
 <td>30%</td>
-<td>1.25 DSCR; 35-year amortization; 5.5% rate</td>
+<td>Sized at no less than 1.15 DSCR, CHFA's minimum for amortized debt in the 2025–2026 QAP; 35-year amortization; 5.5% rate</td>
 </tr>
 <tr>
 <td><strong>Deferred Developer Fee</strong></td>
@@ -292,10 +292,10 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="Example Uses of Funds table"><table>
 <thead>
 <tr>
-<th>Use</th>
-<th>Amount</th>
-<th>%</th>
-<th>Per Unit</th>
+<th data-tip="What the money pays for.">Use</th>
+<th data-tip="Dollars spent on this use in the example.">Amount</th>
+<th data-tip="Share of the $25M total development budget.">%</th>
+<th data-tip="The amount divided by the 100 homes in the example.">Per Unit</th>
 </tr>
 </thead>
 <tbody>
@@ -388,9 +388,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="4% vs 9% Credits: Which Path? table"><table>
 <thead>
 <tr>
-<th>Dimension</th>
-<th>9% (Competitive)</th>
-<th>4% (PAB-Backed)</th>
+<th data-tip="The feature being compared.">Dimension</th>
+<th data-tip="Credits awarded competitively through CHFA&#x27;s annual round, worth about 9% of eligible basis a year for 10 years.">9% (Competitive)</th>
+<th data-tip="Credits that come with private activity bond financing, worth about 4% of eligible basis a year for 10 years.">4% (PAB-Backed)</th>
 </tr>
 </thead>
 <tbody>
@@ -594,11 +594,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
   and get at least two pricing letters before making economics decisions.
 </p>
 <h4 style="margin: 1.5rem 0 0.75rem 0;">Syndicator relationships in Colorado:</h4>
-<ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li><strong>National syndicators:</strong> Raymond James, Hudson Housing, Enterprise, WNC, Boston Capital — active in all CO markets</li>
-<li><strong>Bank-affiliated:</strong> US Bank, Wells Fargo, PNC — most competitive in CRA-eligible tracts</li>
-<li><strong>Regional/mission-driven:</strong> Mercy Housing, Rose Urban Strategies — often lower price but flexible on structure</li>
-</ul>
+<p style="line-height: 1.8; color: var(--mcm-beige);">Syndicators include national, regional and bank-affiliated funds; get pricing letters from at least two.</p>
 <div class="data-source">
   <strong>Pre-screening tip:</strong> Get 2–3 pricing letters from different syndicators before CHFA submission.
   Pricing varies materially — a $0.04 spread on a $10M deal is $400K of difference in equity raised. CHFA
@@ -736,9 +732,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="Illustration of QAP scoring categories table"><table>
 <thead>
 <tr>
-<th>Scoring Category</th>
-<th>Max Points</th>
-<th>Purpose</th>
+<th data-tip="A group of criteria a qualified allocation plan scores. Illustrative, not CHFA&#x27;s current point schedule.">Scoring Category</th>
+<th data-tip="The most points the illustration gives the category.">Max Points</th>
+<th data-tip="What the category rewards.">Purpose</th>
 </tr>
 </thead>
 <tbody>
@@ -806,9 +802,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="Investment Return Calculation (Simplified) table"><table>
 <thead>
 <tr>
-<th>Component</th>
-<th>Value</th>
-<th>Timing</th>
+<th data-tip="A part of the investor&#x27;s return or cost in the example.">Component</th>
+<th data-tip="Dollars for this component; amounts in parentheses are paid out by the investor.">Value</th>
+<th data-tip="When the investor receives or pays it.">Timing</th>
 </tr>
 </thead>
 <tbody>
@@ -818,9 +814,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <td>$100,000/year × 10 years</td>
 </tr>
 <tr>
-<td><strong>Purchase Price @ $0.86</strong></td>
-<td>$860,000</td>
-<td>Paid in Years 1-2 (illustrative price; see the current benchmark above)</td>
+<td><strong>Purchase Price @ $0.82</strong></td>
+<td>($820,000)</td>
+<td>Paid in Years 1-2 (Novogradac 2026-Q2 average for 9% credits; see the benchmark above)</td>
 </tr>
 <tr>
 <td><strong>Depreciation Benefit</strong></td>
@@ -834,12 +830,12 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 </tr>
 <tr class="total" style="border-top: 2px solid var(--mcm-mustard);">
 <td><strong>Net Benefit</strong></td>
-<td><strong>~$280,000</strong></td>
-<td>NPV: ~5-7% IRR</td>
+<td><strong>~$330,000</strong></td>
+<td>Undiscounted: $1,000,000 − $820,000 + $200,000 − $50,000</td>
 </tr>
 </tbody>
 </table></div>
-<div class="data-source">IRR varies by tax rate, timing, exit assumptions. Banks may accept lower IRRs for CRA credit value.</div>
+<div class="data-source">The net benefit above is a simple sum, not discounted for timing. As a rate of return on the same illustration (half the price paid at closing and half a year later; credits, depreciation benefit and costs spread evenly over Years 1–10; no cash flow or exit value), the investor's IRR is about 7%. IRR varies by tax rate, timing, exit assumptions. Banks may accept lower IRRs for CRA credit value.</div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Due Diligence Checklist for Investors</h3>
@@ -867,7 +863,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
 <li>Construction budget reasonableness vs. comps, local costs</li>
 <li>Operating pro forma: Rents achievable? Expenses realistic?</li>
-<li>Debt coverage: Minimum 1.15 DSCR at stabilization</li>
+<li>Debt coverage: CHFA's 2025–2026 QAP requires at least 1.15 DSCR on all amortized debt through the 15-year pro forma, and may award less credit above 1.30</li>
 <li>Contingencies: Adequate reserves for cost overruns, lease-up?</li>
 </ul>
 </div>
@@ -887,9 +883,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="table-wrap" role="region" tabindex="0" aria-label="Current Market Dynamics (2026) table"><table>
 <thead>
 <tr>
-<th>Factor</th>
-<th>Current State</th>
-<th>Impact on Investors</th>
+<th data-tip="A market condition that affects tax-credit investing.">Factor</th>
+<th data-tip="Where the factor stands now, with its source.">Current State</th>
+<th data-tip="What the condition means for an investor&#x27;s return or risk.">Impact on Investors</th>
 </tr>
 </thead>
 <tbody>

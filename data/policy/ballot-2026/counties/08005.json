@@ -203,7 +203,7 @@
       "entry_ids": [],
       "limitations": [
         "No Town of Deer Trail contest or measure appears on the Arapahoe County sample ballot.",
-        "Town website (townofdeertrail.colorado.gov) returned HTTP 403 to curl and WebFetch on 2026-09-26; own clerk page NOT reviewed.",
+        "Town website (townofdeertrail.colorado.gov) could not be opened on 2026-09-26; the town clerk page was not reviewed.",
         "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
       ],
       "reviewed_sources": [
@@ -231,7 +231,7 @@
       "entry_ids": [],
       "limitations": [
         "No City of Englewood contest or measure appears on the Arapahoe County sample ballot.",
-        "City's own 2026 General Election page and the citizen-initiated charter amendment (ranked choice voting) petition page at englewoodco.gov returned HTTP 403 to curl and WebFetch on 2026-09-26 (Wayback also unreachable); own clerk page NOT read. Search snippets indicate a ranked-choice-voting charter petition (signatures due Aug 5, 2026) — not housing in any case, and it does not appear on the county sample ballot.",
+        "City's own 2026 General Election page and the citizen-initiated charter amendment (ranked choice voting) petition page at englewoodco.gov could not be opened on 2026-09-26, and no archived copy could be opened; the city clerk page was not read. Search results indicate a ranked-choice-voting charter petition (signatures due Aug 5, 2026) — not housing in any case, and it does not appear on the county sample ballot.",
         "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
       ],
       "reviewed_sources": [
@@ -259,7 +259,7 @@
       "entry_ids": [],
       "limitations": [
         "No Town of Foxfield contest or measure appears on the Arapahoe County sample ballot.",
-        "Town Elections page (townoffoxfield.colorado.gov/government/elections) returned HTTP 403 on 2026-09-26; own clerk page NOT read (search snippet only mentions cancelled April 7, 2026 election).",
+        "Town Elections page (townoffoxfield.colorado.gov/government/elections) could not be opened on 2026-09-26; the town clerk page was not read (search results mention only the cancelled April 7, 2026 election).",
         "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
       ],
       "reviewed_sources": [
@@ -464,7 +464,7 @@
       "limitations": [
         "No TABOR notice applies (not a tax/debt issue). Question text also matches the City's Election Information page, which states Council referred it by Ordinance 8, Series 2026 on August 18, 2026.",
         "Ordinance 8, Series 2026 PDF was downloaded but has no extractable text (image-only scan); its content was not read, so it is not cited as the resolution source.",
-        "Classified as a land-use measure because it concerns authority over zoning, density and land use in relation to state mandates; the legal effect on state housing/land-use laws is not assessed here. Inclusion confirmed by owner decision (2026-09-26)."
+        "Classified as a land-use measure because it concerns authority over zoning, density and land use in relation to state mandates; the legal effect on state housing/land-use laws is not assessed here. Inclusion confirmed on review (2026-09-26)."
       ],
       "result": null,
       "history": [],

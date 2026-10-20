@@ -259,6 +259,8 @@
      * shows the scope's coverage state beside every suggestion.
      * Tools Colorado law closes to new local use, or whose revenue cannot go
      * to housing, are returned separately as `ruledOut`, with the reason.
+     * Tools state law already requires of the jurisdictions it covers
+     * (ADUs by right, HB24-1152) are returned as `required`, never suggested.
      */
     function alternatives(geoid) {
       var p = profile(geoid);
@@ -268,8 +270,15 @@
       var mine = p.items.filter(inUse);
       var suggestions = [];
       var ruledOut = [];
+      var required = [];
       adoption.forEach(function (a) {
         var t = a.tool;
+        // State law already requires it of the jurisdictions it covers, so
+        // it is never a local option to "consider".
+        if (t.colorado_status === 'required_for_subject_jurisdictions') {
+          required.push({ tool: t, adopters: a.adopters });
+          return;
+        }
         if (mine.some(function (i) { return itemMatchesTool(i, t); })) return;
         if (t.colorado_status === 'prohibited_for_new' || t.colorado_status === 'not_usable_for_housing') {
           ruledOut.push({ tool: t, adopters: a.adopters });
@@ -285,7 +294,7 @@
         return (y.nearby.length - x.nearby.length) || (y.adopters.length - x.adopters.length) ||
           String(x.tool.label).localeCompare(String(y.tool.label));
       });
-      return { profile: p, suggestions: suggestions, ruledOut: ruledOut };
+      return { profile: p, suggestions: suggestions, ruledOut: ruledOut, required: required };
     }
 
     /** Statewide coverage: how many counties and municipalities are in each state per scope. */

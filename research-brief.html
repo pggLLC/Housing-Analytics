@@ -309,10 +309,12 @@
         document.title = brief.title + ' | COHO Analytics';
         var meta = el('p', 'Published ', header, 'brief-meta');
         date(meta, brief.generated);
-        meta.appendChild(document.createTextNode(' · Data verified '));
-        if (fees) date(meta, fees.meta.as_of);
-        else if (brief.verified) date(meta, brief.verified);
-        else meta.appendChild(document.createTextNode('date not recorded in this brief'));
+        // A brief with no recorded check date says nothing about one.
+        var verified = fees ? fees.meta.as_of : brief.verified;
+        if (verified) {
+          meta.appendChild(document.createTextNode(' · Data verified '));
+          date(meta, verified);
+        }
         var takeaway = section('brief-takeaway', 'Takeaway');
         takeaway.className = 'brief-takeaway';
         el('p', brief.takeaway || String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' '), takeaway);
@@ -330,7 +332,7 @@
           if (details) el('p', details, li, 'brief-meta');
         });
         var related = section('brief-related', 'Related data');
-        link(related, brief.related_data || 'Related data', brief.related_data);
+        link(related, 'Download the data behind this brief (JSON)', brief.related_data);
         var appendix = section('brief-appendix', 'Technical appendix');
         var methods = articles.filter(function (source) {
           var url = safeUrl(source.link);

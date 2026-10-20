@@ -6,14 +6,14 @@
       "level": "county",
       "name": "San Juan County",
       "coverage_state": "verified_measure_found",
-      "reviewed_source": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/001---FINAL---SAMPLE.pdf",
+      "checked": "2026-10-10",
       "entry_ids": [
         "ballot-2026-08111-lodging-tax-expansion"
       ],
       "limitations": [
-        "As of 2026-09-26 the clerk's election page states the general-election sample ballot 'will be available in October'; no final TABOR notice or participating-entities list is posted.",
-        "The one entry is recorded from draft county documents with status proposed, per owner instruction on PR #1946; see its limitations."
+        "Rechecked 2026-10-10: the clerk's elections page posts one general-election sample ballot (Ballot Type 1, Ballot Style 001) for the county's single precinct. Its only local measure is \"County Ballot Issue 1A\", listed under County Ballot Measures; it is recorded here as on the ballot.",
+        "The question text quoted in the entry is taken from the county's draft resolution; no final TABOR notice or participating-entities list is posted."
       ],
       "reviewed_sources": [
         {
@@ -35,6 +35,14 @@
         {
           "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/001---FINAL---SAMPLE.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -48,7 +56,7 @@
       "entry_ids": [],
       "limitations": [
         "Rechecked 2026-10-10. San Juan County is a single precinct (3065956001), and the clerk's elections page posts one general-election sample ballot (Ballot Type 1, Ballot Style 001). Its only local measure is \"County Ballot Issue 1A\" under County Ballot Measures, which is recorded on the 08111 row. There is no Town of Silverton section and no other local question.",
-        "The sample ballot PDF has a text layer, but its font maps each character to a code 29 below the real one, so pdftotext prints shifted characters. The text was read by reversing that fixed offset, not from page images.",
+        "The sample ballot PDF is a text document, but its embedded text uses a nonstandard character encoding; it was converted to plain text and read in full.",
         "The town elections page still shows only the November 4, 2025 8th and Bluff Special Improvement District election and posts nothing for Nov 3, 2026. Regular town elections are in April of even-numbered years.",
         "Silverton voters will see county issue 1A, whose text covers \"SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON\". It is a county measure, not a town measure.",
         "On 2026-09-26, the Board of Trustees July and Aug 2026 packets, the 7/20 special meeting agenda, and the 8/24/26 and 9/14/26 meeting recaps (town Google Drive folder) were reviewed. None contains a resolution or ordinance referring a question to the Nov 3, 2026 ballot."
@@ -94,8 +102,8 @@
         "name": "San Juan County"
       },
       "measure": {
-        "number": "Unassigned",
-        "official_title": "San Juan County Ballot Issue - Lodging Tax Expansion",
+        "number": "1A",
+        "official_title": "San Juan County Ballot Issue 1A - Lodging Tax Expansion",
         "origin": "referred",
         "relevance": [
           "housing_tax",
@@ -109,14 +117,17 @@
           "sunset": null
         }
       },
-      "status": "proposed",
+      "status": "on_ballot",
       "sources": {
         "certification": null,
         "official_text": {
           "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-9-26.pdf",
           "retrieved": "2026-09-26"
         },
-        "ballot_notice": null,
+        "ballot_notice": {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/001---FINAL---SAMPLE.pdf",
+          "retrieved": "2026-10-10"
+        },
         "blue_book": null,
         "resolution": {
           "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf",
@@ -133,18 +144,27 @@
       ],
       "verification": {
         "level": "primary",
-        "against": "Draft Resolution 2026-10 in the Aug 12, 2026 commissioners packet, compared with the draft TABOR notice in the Sep 9, 2026 packet",
-        "checked": "2026-09-26"
+        "against": "San Juan County final sample ballot for the November 3, 2026 election (Ballot Style 001), read 2026-10-10, which lists County Ballot Issue 1A under County Ballot Measures; question text from Draft Resolution 2026-10 in the Aug 12, 2026 commissioners packet, compared with the draft TABOR notice in the Sep 9, 2026 packet",
+        "checked": "2026-10-10"
       },
       "limitations": [
-        "Status is proposed: the only copies of the text are DRAFT-watermarked documents in commissioners' meeting packets. The final sample ballot and TABOR notice were not posted as of 2026-09-26 (clerk page: sample ballot 'will be available in October').",
-        "The issue number is shown as Unassigned because the draft TABOR notice leaves it blank. It will be updated, and the measure listed as on the ballot, once the final sample ballot or notice is posted.",
+        "Status is on the ballot: the county's final sample ballot, read 2026-10-10, lists the measure as County Ballot Issue 1A under County Ballot Measures. The quoted question text is recorded from the county's draft resolution; no final TABOR notice was posted as of 2026-10-10.",
+        "The issue number 1A is taken from the final sample ballot; the draft TABOR notice left the number blank.",
         "Adoption is recorded only in draft minutes: Resolution 2026-10 approved unanimously on Aug 12, 2026 (draft minutes in the Aug 26, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf), and the draft TABOR notice accepted 'as presented' on Sep 9, 2026 (draft minutes in the Sep 23, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf).",
         "Quote is transcribed from scanned page images of the draft resolution. The draft TABOR notice (PDF p.32 of the Sep 9 packet) has the same opening and closing text, but its middle lines are garbled in the scan, and it has a semicolon after '(3%)' where the resolution has a comma.",
         "The draft resolution's heading reads 'RESOLUTION NO. 2016-10'; the agenda and minutes call it Resolution 2026-10."
       ],
       "result": null,
-      "history": [],
+      "history": [
+        {
+          "checked": "2026-10-10",
+          "note": "Status changed from proposed to on the ballot after the final sample ballot listed County Ballot Issue 1A.",
+          "source": {
+            "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/001---FINAL---SAMPLE.pdf",
+            "retrieved": "2026-10-10"
+          }
+        }
+      ],
       "archived": false
     }
   ]

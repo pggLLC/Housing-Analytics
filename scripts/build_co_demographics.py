@@ -43,7 +43,7 @@ VARS = [
     'B25002_001E', 'B25002_003E',                             # occupancy / vacancy
     'B25010_001E',                                            # average household size
     'B25070_001E', 'B25070_007E', 'B25070_008E',
-    'B25070_009E', 'B25070_010E',                             # renter cost burden
+    'B25070_009E', 'B25070_010E', 'B25070_011E',               # renter cost burden
     'B25091_001E', 'B25091_008E', 'B25091_009E',
     'B25091_010E', 'B25091_011E',                             # owner cost burden (with mortgage)
     'B25014_001E', 'B25014_005E', 'B25014_006E', 'B25014_007E',
@@ -193,6 +193,10 @@ def build(key):
 
     pop, hh = num(cur, 'B01003_001E'), num(cur, 'B11001_001E')
     rent_burden_num = sum(filter(None, (num(cur, f'B25070_{n}E') for n in ('007', '008', '009', '010'))))
+    # Renters whose burden is "not computed" (B25070_011E) are left out of the base, as on the home page.
+    rent_total = num(cur, 'B25070_001E')
+    rent_not_computed = num(cur, 'B25070_011E') or 0
+    rent_burden_den = rent_total - rent_not_computed if rent_total else rent_total
     owner_burden_num = sum(filter(None, (num(cur, f'B25091_{n}E') for n in ('008', '009', '010', '011'))))
     crowd_num = sum(filter(None, (num(cur, f'B25014_{n}E') for n in ('005', '006', '007', '011', '012', '013'))))
 
@@ -215,9 +219,9 @@ def build(key):
         'housing_units': int(num(cur, 'B25001_001E') or 0) or None,
         'household_count': int(hh) if hh else None,
         'vacancy_rate': ratio(num(cur, 'B25002_003E'), num(cur, 'B25002_001E')),
-        'cost_burdened_renters_pct': ratio(rent_burden_num, num(cur, 'B25070_001E')),
-        'cost_burden_share': ratio(rent_burden_num, num(cur, 'B25070_001E')),
-        'severe_burden_share': ratio(num(cur, 'B25070_010E'), num(cur, 'B25070_001E')),
+        'cost_burdened_renters_pct': ratio(rent_burden_num, rent_burden_den),
+        'cost_burden_share': ratio(rent_burden_num, rent_burden_den),
+        'severe_burden_share': ratio(num(cur, 'B25070_010E'), rent_burden_den),
         'cost_burdened_owners_pct': ratio(owner_burden_num, num(cur, 'B25091_001E')),
         'overcrowding_rate': ratio(crowd_num, num(cur, 'B25014_001E')),
         'population_growth_rate_5yr': ratio(pop - num(base, 'B01003_001E'), num(base, 'B01003_001E')),
@@ -236,8 +240,8 @@ def build(key):
             'owner_occupied_rate': 'B25003_002E / B25003_001E',
             'renter_occupied_rate': 'B25003_003E / B25003_001E',
             'vacancy_rate': 'B25002_003E / B25002_001E',
-            'cost_burdened_renters_pct': '(B25070_007E+008E+009E+010E) / B25070_001E — renters paying 30%+',
-            'severe_burden_share': 'B25070_010E / B25070_001E — renters paying 50%+',
+            'cost_burdened_renters_pct': '(B25070_007E+008E+009E+010E) / (B25070_001E-011E) — renters paying 30%+, of renters whose burden is computed',
+            'severe_burden_share': 'B25070_010E / (B25070_001E-011E) — renters paying 50%+',
             'cost_burdened_owners_pct': '(B25091_008E+009E+010E+011E) / B25091_001E — owners WITH A MORTGAGE '
                                         'paying 30%+, over all owners; the numerator excludes mortgage-free owners '
                                         'by construction, so this understates burden among owners overall',

@@ -216,7 +216,7 @@
           aria-label="Bar chart: share of housing units by building type"
           data-source="ACS 5-year DP04 — Selected Housing Characteristics"
           data-source-url="https://data.census.gov/table/ACSDP5Y.DP04"
-          data-vintage="ACS 5-year (latest)"
+          data-vintage="ACS 2024 (5-year, or 1-year for areas of 65,000 or more)"
           data-source-type="raw"
         ></canvas>
         <div id="structure-table" style="margin-top: 12px"></div>
@@ -226,9 +226,9 @@
       <section class="card" style="margin-top: 16px; padding: 16px">
         <h2 style="margin-top: 0">LIHTC &amp; affordable inventory</h2>
         <p style="opacity: 0.85; margin-bottom: 8px">
-          Pulled from CHFA LIHTC, CHFA Preservation, HUD multifamily-assisted,
-          and USDA Rural Development datasets. Property-level data is unified
-          in <code>data/affordable-housing/properties.json</code>.
+          From CHFA tax-credit (LIHTC) and preservation records, HUD
+          multifamily-assisted properties, and USDA Rural Development
+          properties, combined into one property list.
         </p>
         <div id="inventory-grid" class="mf-summary-grid"></div>
         <div class="mf-two-col" style="margin-top: 16px">
@@ -269,7 +269,7 @@
               aria-label="Doughnut chart of renter vs owner share"
               data-source="ACS 5-year DP04 — Tenure"
               data-source-url="https://data.census.gov/table/ACSDP5Y.DP04"
-              data-vintage="ACS 5-year (latest)"
+              data-vintage="ACS 2024 (5-year, or 1-year for areas of 65,000 or more)"
               data-source-type="raw"
             ></canvas>
           </div>
@@ -284,7 +284,7 @@
               aria-label="Bar chart of rent burden distribution"
               data-source="ACS 5-year B25070 — Gross Rent as % of Household Income"
               data-source-url="https://data.census.gov/table/ACSDT5Y.B25070"
-              data-vintage="ACS 5-year (latest)"
+              data-vintage="ACS 2024 (5-year, or 1-year for areas of 65,000 or more)"
               data-source-type="raw"
             ></canvas>
             <p
@@ -314,7 +314,7 @@
           aria-label="Bar chart of housing units by decade built"
           data-source="ACS 5-year DP04 — Year Structure Built (0017E–0026E)"
           data-source-url="https://data.census.gov/table/ACSDP5Y.DP04"
-          data-vintage="ACS 5-year (latest)"
+          data-vintage="ACS 2024 (5-year, or 1-year for areas of 65,000 or more)"
           data-source-type="raw"
         ></canvas>
       </section>
@@ -372,23 +372,14 @@
       <section class="card" style="margin-top: 16px; padding: 16px">
         <h2 style="margin-top: 0">Data sources &amp; variables</h2>
         <p style="opacity: 0.85">
-          The page reads from two cached snapshot files that are refreshed
-          nightly by CI. No live Census API calls are made from the browser
-          (api.census.gov now requires an API key for all requests).
+          Housing figures for the selected area come from the Census Bureau's
+          American Community Survey 2024 data profile DP04: 5-year estimates
+          (2020-2024) for most areas and 1-year estimates for areas of 65,000
+          or more people. The label beside the area name says which. The
+          statewide leaderboard of multifamily share uses the 2019-2023
+          5-year estimates. Affordable-housing counts come from CHFA, HUD and
+          USDA Rural Development property records, totalled by county.
         </p>
-        <ul style="line-height: 1.55; margin: 0; padding-left: 1.2rem">
-          <li>
-            <code>data/census-multifamily-co.json</code> — ACS 5-year DP04
-            shares for state + 64 counties + 474 places (built by
-            <code>scripts/build_census_multifamily_co.py</code>).
-          </li>
-          <li>
-            <code>data/multifamily-inventory-co.json</code> — affordable-housing
-            inventory rolled up by county (CHFA LIHTC, preservation, HUD MF,
-            USDA RD). Built by
-            <code>scripts/build_multifamily_inventory_co.py</code>.
-          </li>
-        </ul>
         <h3 style="margin-top: 14px;">
           Census variables surfaced
         </h3>

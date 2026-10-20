@@ -206,7 +206,7 @@ ledgerAgreement(DATA);
   for (const t of towns) {
     const html = LBM.popupHtml(t, DATA, C, false, GATED);
     ok(html.includes(`developer-brief.html?geoid=${t.geoid}`), `${t.name} links to its report`);
-    for (const a of t.awards) ok(html.includes(a.project.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name} lists ${a.project}`);
+    for (const a of t.awards) ok(html.includes((a.show_project || a.project).replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name} lists ${a.project}`);
   }
   // CHFA-printed contacts show as quoted; researched ones say "to confirm".
   const chfa = CONTACTS.from_award_lists[0];
@@ -281,7 +281,7 @@ ledgerAgreement(DATA);
     ok(leaks(html).length === 0, `${t.name}: the public panel names no person`);
     ok(html.includes(`housing-needs-assessment.html?geoid=${t.geoid}&amp;geoType=place&amp;auto=1`) && !html.includes('developer-brief.html'), `${t.name}: links to its public needs assessment`);
     ok(html.includes(DATA.meta.program_email), `${t.name}: points to CHFA's program contact`);
-    for (const a of t.awards) ok(html.includes(a.sponsor.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name}: names the grantee of ${a.project}`);
+    for (const a of t.awards) ok(html.includes((a.show_sponsor || a.sponsor).replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name}: names the grantee of ${a.project}`);
   }
   // Sabotage: the same panel in gated mode does name people, so the leak scan can see them.
   ok(towns.some((t) => leaks(LBM.popupHtml(t, DATA, C, false, { mode: 'gated', reportBase: 'developer-brief.html?geoid=' })).length > 0), 'sabotage: the gated panel names people and the scan sees it');
@@ -344,6 +344,26 @@ ledgerAgreement(DATA);
   ok(read('js/co-developer-funding.js').includes('pastAwardsLink(p)'), 'the card renders that link');
   const pub = read('scripts/build-public-site.mjs');
   ok(!pub.includes("'land-banking-awards.html'") && !pub.includes("'js/land-banking-map.js'"), 'the public build keeps the public page and its map');
+  // Every column header carries a hover definition (site rule: the tip is on the header itself).
+  const ths = (PAGE.match(/<table class="data-table lb-table">[\s\S]*?<\/thead>/) || [''])[0].match(/<th\b[^>]*>/g) || [];
+  ok(ths.length === 8 && ths.every((t) => /data-tip="[^"]{20,}"/.test(t)), `every award table header has a hover definition (${ths.length})`);
+  ok(/button\[data-lb-more\]\[hidden\]\s*\{\s*display:\s*none/.test(PAGE), 'the "Show all" button really hides (the .btn rule sets display)');
+
+  // A corrected name is what readers see; the printed row stays in the quote. A "since" line is dated and sourced.
+  const shown = DATA.awards.filter((a) => a.show_project || a.show_sponsor);
+  ok(shown.length >= 2, 'scan found corrected names');
+  for (const a of shown) {
+    const row = LBA.rowHtml(a, DATA);
+    ok(row.includes(a.show_project || a.show_sponsor) && a.source_quote.includes(a.project) && a.source_quote.includes(a.sponsor), `${a.id}: shows the corrected name and quotes the printed one`);
+  }
+  const since = DATA.awards.filter((a) => a.since);
+  ok(since.length >= 1, 'scan found a "since" line');
+  for (const a of since) {
+    ok(/^\d{4}-\d{2}-\d{2}$/.test(a.since.checked) && a.since.sources.length && a.since.sources.every((x) => /^https:\/\//.test(x.url)), `${a.id}: "since" is dated and sourced`);
+    ok(LBA.rowHtml(a, DATA).includes('Since the award:') && LBM.popupHtml({ name: 'x', awards: [a] }, DATA, {}, false, { mode: 'public' }).includes('Since the award:'), `${a.id}: table and map both show "since"`);
+  }
+  ok(!/Mews|Phase II of/i.test(JSON.stringify(since)), 'no "since" line names a developer project');
+
   ok(!/developer-|jurisdiction-briefs/.test(read('js/land-banking-map.js').replace(/\/\*[\s\S]*?\*\//g, '')), 'the shared map code names no gated path');
 }
 
