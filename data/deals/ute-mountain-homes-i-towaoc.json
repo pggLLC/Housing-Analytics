@@ -1,0 +1,378 @@
+{
+ "slug": "ute-mountain-homes-i-towaoc",
+ "name": "Ute Mountain Homes I",
+ "city": "Towaoc",
+ "county": "Montezuma",
+ "units": 15,
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-20",
+ "headline": "Ute Mountain Homes I will be 15 new rental homes for families earning up to 40% of area median income. The homes are five single-family houses and five duplexes in Towaoc, on the Ute Mountain Ute Reservation. The Ute Mountain Ute Tribe is developing them, and they won a 2026 Round One federal 9% housing tax credit award.",
+ "why_it_matters": "CHFA calls this the first housing tax credit development in Colorado built on Tribal land and led by a Tribe. The Tribe is the developer, property manager, service provider and sole general partner. The financing is debt-free: the Tribe lends cash-flow-only money and the land comes on a long-term, low-cost lease. That structure can serve as a model for other Tribal nations applying under the Colorado QAP.",
+ "status": {
+  "label": "Credits awarded; construction start not confirmed",
+  "detail": "CHFA announced the award on 2026-05-21, and its award report as of 2026-09-30 still lists it. The Tribe's application said it would meet carryover requirements within 13 months of the reservation and place the homes in service within 24 months after the carryover year. There is no public record of a closing, groundbreaking or construction start.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-news",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch CHFA's carryover allocation and placed-in-service records, and any public Tribal announcement of a groundbreaking at the East Rodeo Drive site.",
+ "key_numbers": [
+  {
+   "value": "15 homes, all at 40% AMI",
+   "meaning": "There are 5 two-bedroom and 10 three-bedroom homes in five single-family houses and five duplexes, sized for larger, multi-generational households.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,196,414 a year in federal 9% credit",
+   "meaning": "That is about $11.96M over the 10-year credit period, or about $79,761 a year per home (calculated). No state credit is listed.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$10,426,647 total development cost (application)",
+   "meaning": "The application's only two funding sources are tax credit equity and a $1,851,515 cash-flow-only construction-to-permanent loan from the Tribe.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "40-year affordability",
+   "meaning": "The application commits to a 40-year extended-use period. Four homes are set aside for Special Populations and come with supportive services.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "East Rodeo Drive and future Road C, Towaoc, CO 81334",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, individual/family (N, I/F). The applicant report also coded it SP (special populations).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Undeveloped part of an existing neighborhood on an 11-acre site on the Reservation. Towaoc is the Tribal seat.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "5 single-family homes and 5 duplexes. Crawlspace foundations, wood framing, standing-seam metal roofs, cementitious or engineered-wood siding.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "National Green Building Standard (NGBS) certification. All-electric-ready and solar-ready design.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "A Ute Mountain Ute Transit Service corridor is about 0.39 mile from the center of the site.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "The Tribe is the governing jurisdiction and has no zoning or density limits. The Tribal Council passed a project-specific authorizing resolution (number not public).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Ute Mountain LLLP #1, with the Tribe as sole general partner",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 5
+  },
+  {
+   "type": "3BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions",
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,196,414 per year",
+   "note": "Awarded 2026 Round One. Annual credit for 10 years.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Ute Mountain Ute Tribe loan",
+   "amount": "$1,851,515",
+   "note": "Cash-flow-only construction-to-permanent loan committed by the Tribal Council, with no required debt service (per the application).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "State Affordable Housing Tax Credit",
+   "amount": "$500,000 requested; none awarded",
+   "note": "The LOI and application both requested $500,000 of state credit. The award report lists none.",
+   "src": [
+    "chfa-2026-r1-loi",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Total development cost",
+   "amount": "$10,426,647",
+   "note": "Application figure. The application says about 75% of costs are hard costs.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Ute Mountain Ute Tribe",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Developer, property manager, service provider and sole general partner",
+   "name": "Ute Mountain Ute Tribe",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Ute Mountain LLLP #1",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Cost estimator (general contractor)",
+   "name": "Pavilion Construction",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Cost reviewers",
+   "name": "Travois Architecture PC (TARCH); Weeminuche Construction Authority (WCA)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Market study",
+   "name": "Bowen National Research",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In its application, the Tribe called this its first LIHTC application and the first and only LIHTC development on the Ute Mountain Ute Reservation. CHFA describes it as the first housing tax credit development in Colorado to be built on Tribal land and led by a Tribe.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The Tribe manages a portfolio of 287 affordable housing units across Colorado, Utah and New Mexico. It has used NAHASDA, the Title VI Loan Guarantee program and the Federal Home Loan Bank's Affordable Housing Program. The application says the Tribe's own resources let it build only a few homes a year, and tax credits let it build 15 at once.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Land deal: the Tribe controls the site through an Agreement to Lease. The application says there is no land cost because of a long-term, low-cost lease, and no property taxes will be assessed.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Financing has no hard debt. The Tribe's cash-flow-only loan means no required debt service, which the application says lets the project serve households at or below 40% AMI. It adds that under NAHASDA, tenants will never pay more than 30% of income on rent.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Demand: the Bowen National Research market study cited a 17.2% simple capture rate. All low-rent units in the market area are fully occupied and managed by the Tribe, and the Tribe keeps a waiting list. The study called the capture rate conservative given overcrowding on the Reservation.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Cost factors named in the application: rural distance (Albuquerque, the nearest major city, is about 275 miles away), a small labor pool, Davis-Bacon wages, and the Tribal Employment Rights Office (TERO) fee of 4% of the construction budget (about $300,000). Shared kitchen and bath layouts and 2- and 4-foot design modules help contain costs.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application says the Reservation lost its Qualified Census Tract designation in 2026. The Tribe asked for CHFA's discretionary basis boost, saying that without it the federal credit would be $670,352 and the boost would add $276,095 to close a $1,932,665 gap.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Community process: the Tribe discussed the project at a summer 2025 housing retreat and presented it several times to the Tribal Council and its housing advisory board. It also held a public hearing (date not given). The application reports no local opposition.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Residents will have access to services the Tribe provides, including behavioral health, recidivism reduction, vocational rehabilitation, Tiwahe Program service coordination and food distribution. Tribal government offices, a post office and safety services are within two miles.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025",
+   "event": "The Tribe discussed predevelopment at its summer 2025 housing retreat",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One LOI report ($839,553 federal and $500,000 state requested)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report ($946,447 federal and $500,000 state requested); narrative published",
+   "src": [
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announced 2026 Round One awards, including Ute Mountain Homes I",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report at $1,196,414 federal 9% credit, with no state credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The application requested $946,447 a year in federal 9% credit plus $500,000 in state credit, and its narrative said state credit equity would be a funding source. The award report shows $1,196,414 a year in federal credit and no state credit.",
+   "src": [
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Why the award differs from the request: no public source explains why the award is larger in federal credit and has no state credit, or whether the basis boost was granted.",
+  "Tax credit investor and equity price: the application mentions a syndicator letter of intent, but the syndicator is not named publicly.",
+  "Updated total development cost and sources after the change in credit mix.",
+  "Tribal Council authorizing resolution number and date, and the date of the public hearing.",
+  "Lease term and lessor details (trust land) for the Agreement to Lease.",
+  "Rents and utility allowances. Whether NAHASDA operating assistance will be paired with the units.",
+  "Closing, construction start and expected placed-in-service date.",
+  "No public site plan or rendering found. The architectural drawings are in application tabs that CHFA has not posted."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "CHFA, 2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA Announces 2026 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 HTC Round One Application Narratives (Ute Mountain Homes I, PDF pages 136-140; written by the Ute Mountain Ute Tribe as applicant)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "CHFA, 2026 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round 1 LOI Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  }
+ ]
+}

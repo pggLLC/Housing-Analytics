@@ -20,7 +20,7 @@
  "key_numbers": [
   {
    "value": "36 homes, all income-restricted",
-   "meaning": "3 at 30% AMI, 18 at 40% and 15 at 50%; average about 43% AMI (my calculation). Almost all are two-bedroom.",
+   "meaning": "3 at 30% AMI, 18 at 40% and 15 at 50%; average about 43% AMI (calculated). Almost all are two-bedroom.",
    "src": [
     "chfa-4pct-award"
    ]
@@ -199,7 +199,7 @@
   {
    "source": "Original 2001 CHFA 9% credit (history)",
    "amount": "$213,033 per year federal; $322,444 state",
-   "note": "From CHFA's 2001 status report columns for final federal amount and state allocation (my reading of the columns). This funded the original 2002 construction.",
+   "note": "From CHFA's 2001 status report columns for final federal amount and state allocation (inferred of the columns). This funded the original 2002 construction.",
    "src": [
     "chfa-2001-status"
    ]

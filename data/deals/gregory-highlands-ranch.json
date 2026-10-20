@@ -9,7 +9,7 @@
  "why_it_matters": "It is a straight 4% bond deal on private land in unincorporated Douglas County. It needed no rezoning (multifamily is a use by right in Highlands Ranch Planning Area 79). Douglas County's local bond cap, pooled at DCHP, carried the bonds. A metro-district park on part of the lot is the community give-back: a repeatable template for suburban senior LIHTC.",
  "status": {
   "label": "Credits awarded and bonds approved; construction start not confirmed",
-  "detail": "The County approved the plat on 2026-03-10, and county staff reports list a 165-unit site improvement plan (SP2026-027) in process. The Board approved DCHP's bonds (up to $37M) on 2026-09-22. Shea's stated target was to start construction in Q4 2026 (November) and open in 2028. I found no public record of a bond closing, building permit or groundbreaking.",
+  "detail": "The County approved the plat on 2026-03-10, and county staff reports list a 165-unit site improvement plan (SP2026-027) in process. The Board approved DCHP's bonds (up to $37M) on 2026-09-22. Shea's stated target was to start construction in Q4 2026 (November) and open in 2028. There is no public record of a bond closing, building permit or groundbreaking.",
   "src": [
    "chfa-4pct-award",
    "dc-plat-staff",
@@ -32,7 +32,7 @@
   },
   {
    "value": "$3,212,404 a year in federal 4% credit",
-   "meaning": "About $32.1M over the 10-year credit period (my calculation). CHFA marks the amount subject to change.",
+   "meaning": "About $32.1M over the 10-year credit period (calculated). CHFA marks the amount subject to change.",
    "src": [
     "chfa-4pct-award"
    ]
@@ -168,7 +168,7 @@
   {
    "source": "Federal 4% housing tax credit",
    "amount": "$3,212,404 per year",
-   "note": "About $32.1M over 10 years (my calculation). Marked subject to change. No noncompetitive state credit is shown for this deal.",
+   "note": "About $32.1M over 10 years (calculated). Marked subject to change. No noncompetitive state credit is shown for this deal.",
    "src": [
     "chfa-4pct-award"
    ]
@@ -193,7 +193,7 @@
   {
    "source": "Park construction",
    "amount": "Not stated in county records",
-   "note": "Shea builds an approximately 1-acre community park on Lot 1 and conveys it to HRMD, which will own and maintain it. Cost and funding split are not in the county records I read.",
+   "note": "Shea builds an approximately 1-acre community park on Lot 1 and conveys it to HRMD, which will own and maintain it. Cost and funding split are not in the county records checked.",
    "src": [
     "dc-le-park"
    ]
@@ -318,7 +318,7 @@
    ]
   },
   {
-   "text": "Affordability: Shea said the project follows its standard 4% LIHTC program, restricted to 60% AMI and age 55+. The length of the LIHTC extended-use covenant is not stated in the public records I found.",
+   "text": "Affordability: Shea said the project follows its standard 4% LIHTC program, restricted to 60% AMI and age 55+. The length of the LIHTC extended-use covenant is not stated in the public records checked.",
    "src": [
     "hrh-2026-03-16",
     "chfa-4pct-award"

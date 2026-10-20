@@ -1,0 +1,484 @@
+{
+ "slug": "montbello-townhomes-denver",
+ "name": "Montbello Townhomes (Phase 1)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 39,
+ "researched_on": "2026-10-20",
+ "headline": "Delwest Development Corporation plans 39 four-bedroom rental townhomes for low-income families at 14400 Andrews Drive in Denver's Montbello neighborhood, with an on-site infant-toddler daycare; the project won $1.8 million a year in federal 9% credit plus $500,000 in state credit in CHFA's 2026 Round One.",
+ "why_it_matters": "It is one of very few all-four-bedroom tax credit rental projects in Denver, and it shows a stalled 4% bond deal (which lost its QCT basis boost) being reworked as a smaller 9% deal with deeper affordability and layered Prop 123, HOST and foundation money.",
+ "status": {
+  "label": "Credits awarded; financing closing and construction start not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30, and OEDIT preliminarily approved $1.45M in Prop 123 Concessionary Debt in July 2026. The applicant said in early 2026 that site development plan approval and building permits were still pending and that financing would close about November 2026; There is no public closing, permit or groundbreaking record.",
+  "src": [
+   "chfa-2026-r1-award",
+   "oedit-prop123-cd-2026",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch Denver Community Planning and Development for the site development plan and building permits at 14400 Andrews Drive, and Denver City Council for a HOST loan agreement with Delwest, both of which should precede a late-2026 closing.",
+ "key_numbers": [
+  {
+   "value": "39 four-bedroom townhomes, all income-restricted",
+   "meaning": "Family housing for large and multigenerational households; 8 units are built for mobility limits (2 ADA, 6 Type C visitable).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18M over the 10-year credit period, plus a $500,000 standard state credit award.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "Average about 47% AMI",
+   "meaning": "The applicant says incomes average 47% AMI and include 30% AMI units; OEDIT describes the range as 30% to 60% AMI. The unit-by-unit income split is not public.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "oedit-prop123-cd-2026"
+   ]
+  },
+  {
+   "value": "$1.45M Prop 123 loan (preliminary)",
+   "meaning": "State Concessionary Debt preliminarily approved in July 2026; final terms are set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-2026"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "14400 Andrews Drive, Denver (CHFA LOI report prints 14400 E Andrews Drive)",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "Montbello, across from Montbello Central Park and next to Montbello High School and Maxwell Elementary School",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction / resident type",
+   "value": "New construction; Individual/Family",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "39 total, 39 low-income; all four-bedroom townhomes with small fenced backyards",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "S-RH-2.5, with an approved PUD (per the 2025 applicant narrative)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "QCT status",
+   "value": "In a Qualified Census Tract and Opportunity Zone per the 2025 narrative; the 2026 narrative says the QCT designation expired at the end of 2025",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "All-electric; on-site licensed daycare for ages 0-3, flex space for adult services and a resident services office; play structure, basketball court, picnic areas, bike repair station",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD routes 42 and 45 within a 3-5 minute walk; applicant plans a 50% transit pass subsidy",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "In 2025 the applicant said it was on the Denver Housing Authority waitlist for project-based vouchers for its 30% AMI units; the 2026 narrative does not repeat this",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [],
+ "bedroom_mix": [
+  {
+   "type": "4BR",
+   "units": 39
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-narratives",
+  "chfa-2026-r1-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Awarded 2026 Round One; 10-year credit period, about $18M in total.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "Amount as CHFA prints it.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Prop 123 Concessionary Debt (Affordable Housing Financing Fund, OEDIT/CHFA)",
+   "amount": "$1,450,000",
+   "note": "Preliminarily approved 2026-07-21; final terms set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-2026"
+   ]
+  },
+  {
+   "source": "Denver HOST gap loan",
+   "amount": "$1,500,000",
+   "note": "Per the applicant: chosen through a competitive process; 1% interest-only cash-flow loan. There is no public council approval record.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan (Vectra Bank)",
+   "amount": "$18M construction; $5.1M permanent",
+   "note": "Per the applicant: construction 24 months at 6.00%; permanent 7.08%, 40-year amortization. Underwriting assumptions, not a closed loan.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation grant (under consideration)",
+   "amount": "$500,000 (estimate)",
+   "note": "Per the applicant: to reimburse fit-out of the daycare and service spaces; not committed.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee and developer land loan",
+   "amount": "About $1.021M deferred fee; $700,000 land loan",
+   "note": "Per the applicant; it said low-interest gap financing from the Colorado Division of Housing could replace the land loan.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Delwest Development Corporation",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "General contractor (low bid selected, per applicant)",
+   "name": "Palace Construction",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial advisor (per applicant)",
+   "name": "Daniel G. Morgan and Associates",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Land acquisition lender (holds the land note, per applicant)",
+   "name": "Impact Development Fund",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Resident services partner (in discussion, per applicant)",
+   "name": "Hope Communities",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Youth programs partner (per applicant)",
+   "name": "Boys & Girls Clubs of Metro Denver",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land history, per the applicant: a homebuilder bought the site in May 2015 and borrowed from Impact Development Fund (IDF) in 2018; after the builder defaulted, IDF foreclosed in March 2021 and held the land until Delwest bought it in July 2022 with an IDF land acquisition loan, which IDF still holds. The purchase price is not given.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project first applied in CHFA's 2025 Round Two as a 60-unit federal 4% bond deal (requesting $1,740,450 a year in 4% credit, $19.5M in CHFA private activity bonds and $1,498,000 in state credit). It does not appear on the 2025 Round Two award report or on CHFA's rolling 4% award report.",
+   "src": [
+    "chfa-2025-r2-applicants",
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-award",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Per the applicant, a dispute over relocating an Xcel Energy easement took up most of 2023-2024: Xcel would not vacate the easement until a new plat was recorded, and Denver would not record the plat until the easement was vacated. The delay meant the site lost its QCT 30% basis boost at the end of 2025, so the 4% structure no longer worked and Delwest switched to a smaller 9% application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The plan changed several times after community meetings, per the applicant: in April 2023 it was 30 for-sale homes at 80% AMI and 30 rentals at 80-120% AMI; after June 2024 feedback it became a 60% AMI average 4% rental; 30% AMI units were added after a January 2025 meeting with the District 8 council member; the 2026 Phase 1 version averages 47% AMI.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals, per the applicant: Denver City Council approved the plat in summer 2025; the site development plan and building permits were still to come (about 6 months at the earliest to start work). No public source shows the council ordinance number.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Being called Phase 1 implies a later phase on the remaining land (inferred from the name; the 2026 narrative does not describe a Phase 2).",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 2025 version of the project estimated about $640,000 per townhome ($160,000 per bedroom), based on a Palmeiro Group estimate from 90% drawings; no cost figure is public for the 39-unit Phase 1.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Hoodline's May 2026 summary of the award also describes four-bedroom townhomes with an early childhood education space, all-electric design and 30-60% AMI targeting.",
+   "src": [
+    "hoodline-2026-05-29"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2015-05",
+   "event": "Previous homebuilder buys the site (per applicant)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2021-03",
+   "event": "Impact Development Fund forecloses on the site (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-07",
+   "event": "Delwest buys the site with an IDF land acquisition loan (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-04",
+   "event": "Early for-sale/middle-income plan presented to the Montbello 2020 RNO (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025",
+   "event": "Denver City Council approves the plat, summer 2025 (per applicant)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-08-12",
+   "event": "Listed on CHFA's 2025 Round Two (4%) applicant report as a 60-unit deal",
+   "src": [
+    "chfa-2025-r2-applicants"
+   ]
+  },
+  {
+   "date": "2025-11-07",
+   "event": "Not on CHFA's 2025 Round Two award report",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letters of intent report (39 units)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-05-29",
+   "event": "News reports on CHFA's 2026 Round One awards name the Montbello project",
+   "src": [
+    "businessden-2026-05-29",
+    "hoodline-2026-05-29"
+   ]
+  },
+  {
+   "date": "2026-07-21",
+   "event": "OEDIT/CHFA preliminarily approve $1.45M in Prop 123 Concessionary Debt",
+   "src": [
+    "oedit-prop123-cd-2026"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "On CHFA's 2026 Round One award report ($1.8M federal 9%, $500,000 state)",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2026-11",
+   "event": "Applicant's estimated financing closing (a projection, not a record)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "Hoodline puts CHFA's 2026 Round One totals at $23,003,741 in federal 9% credit and $7,000,000 in state credit, while CHFA's award report (as of 2026-09-30) totals $23,509,805 federal 9% and $6,000,000 state across the same 14 deals and 634 units.",
+   "src": [
+    "hoodline-2026-05-29",
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Unit-by-unit income mix: the 2026 narrative gives only a 47% AMI average with some 30% AMI units, and OEDIT gives a 30-60% AMI range, so income_mix is left empty.",
+  "Rents, total development cost, equity investor and price for the 39-unit Phase 1 are not public.",
+  "Whether the $1.5M HOST loan has gone to City Council, and its covenant length.",
+  "Whether project-based vouchers from Denver Housing Authority were obtained (mentioned only in the 2025 application).",
+  "Affordability period (extended use) is not stated in the public narratives.",
+  "Daycare operator and final Colorado Health Foundation funding decision.",
+  "Plat ordinance number and date, site development plan approval, and building permit status.",
+  "Plans and timing for any later phase; no public site plan or rendering was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "CHFA, 2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 Application Narratives, Round One (Montbello Townhomes Phase 1 narrative, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-applicants",
+   "title": "CHFA, 2025 Round Two - Applicant Report, Federal 4% and State Credit (with TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-08-12",
+   "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "CHFA, 2025 Application Narratives, Round Two (Montbello Townhomes 4% narrative, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2025-08-06",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "CHFA, 2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-11-07",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "oedit-prop123-cd-2026",
+   "title": "OEDIT, More Housing Now: Prop 123 Funds to Support 11 New Affordable Housing Developments Across Colorado",
+   "publisher": "Colorado Office of Economic Development and International Trade",
+   "date": "2026-07-21",
+   "url": "https://oedit.colorado.gov/press-release/more-housing-now-prop-123-funds-to-support-11-new-affordable-housing-developments"
+  },
+  {
+   "id": "hoodline-2026-05-29",
+   "title": "Hoodline, Tax Credit Jackpot: Park Hill Dorms And Montbello Townhomes Score In Statewide Housing Push",
+   "publisher": "Hoodline",
+   "date": "2026-05-29",
+   "url": "https://hoodline.com/2026/05/tax-credit-jackpot-park-hill-dorms-and-montbello-townhomes-score-in-statewide-housing-push/"
+  },
+  {
+   "id": "businessden-2026-05-29",
+   "title": "BusinessDen, Park Hill, Montbello housing projects among 14 awarded tax credits (paywalled; headline and lede read)",
+   "publisher": "BusinessDen",
+   "date": "2026-05-29",
+   "url": "https://businessden.com/park-hill-montbello-housing-projects-among-14-awarded-tax-credits/"
+  }
+ ]
+}

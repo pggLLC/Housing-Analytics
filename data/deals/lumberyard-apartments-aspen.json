@@ -188,7 +188,7 @@
   {
    "source": "Colorado Middle-income Housing Tax Credit (MIHTC)",
    "amount": "$2,890,000",
-   "note": "The award report heads this column \"MIHTC Amount Requested\" (same figure on the June applicant report). CHFA's award description says \"MIHTC Awarded: $2,890,000\". The city expects about $10.5M of equity for Buildings 2 and 3. The credit is claimed over five years. Since $10.5M is more than $2.89M, the figure appears to be an annual amount (my inference).",
+   "note": "The award report heads this column \"MIHTC Amount Requested\" (same figure on the June applicant report). CHFA's award description says \"MIHTC Awarded: $2,890,000\". The city expects about $10.5M of equity for Buildings 2 and 3. The credit is claimed over five years. Since $10.5M is more than $2.89M, the figure appears to be an annual amount (inferred).",
    "src": [
     "chfa-mihtc-award",
     "chfa-mihtc-applicant",
@@ -395,7 +395,7 @@
    ]
   },
   {
-   "text": "What the MIHTC levels mean in Pitkin County (CHFA 2026 limits, rural resort county). At 90% AMI: maximum rent $2,398 (1BR), $2,877 (2BR), $3,325 (3BR); income limit $89,550 (1 person), $127,890 (4 people). At 130% AMI: $3,464, $4,156 and $4,803; $129,350 and $184,730. Actual rents follow APCHA rent categories and are not published in the records I found.",
+   "text": "What the MIHTC levels mean in Pitkin County (CHFA 2026 limits, rural resort county). At 90% AMI: maximum rent $2,398 (1BR), $2,877 (2BR), $3,325 (3BR); income limit $89,550 (1 person), $127,890 (4 people). At 130% AMI: $3,464, $4,156 and $4,803; $129,350 and $184,730. Actual rents follow APCHA rent categories and are not published in the records checked.",
    "src": [
     "chfa-limits",
     "aspen-mda"

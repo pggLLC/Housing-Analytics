@@ -1,0 +1,594 @@
+{
+ "slug": "123-manitou-manitou-springs",
+ "name": "123 Manitou",
+ "city": "Manitou Springs",
+ "county": "El Paso",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-20",
+ "headline": "A 50-home, all income-restricted new family rental community on the former La Fon (La Fun) Motel site at 123 Manitou Avenue, co-sponsored by Paragon Development and TWG Development, won 2026 Round One federal 9% and state housing tax credits from CHFA.",
+ "why_it_matters": "It is the first Housing Tax Credit apartment property in Manitou Springs, and it won on a second try after the sponsors added units, a county housing trust fund commitment, conditional state Division of Housing money and a housing authority partnership for tax exemption.",
+ "status": {
+  "label": "Credits awarded; city approvals and construction start not confirmed",
+  "detail": "CHFA reserved the credits in Round One (announced 2026-05-21). As of mid-June 2026 the project still needed Planning Commission, Pikes Peak Regional Building Department and City Council approval; the sponsors and the urban renewal authority expect construction to start in Q4 2026 or Q1 2027, with residents by 2028. No permit, closing or groundbreaking record was found.",
+  "src": [
+   "chfa-2026-r1-award",
+   "gazette-2026-05-31",
+   "kktv-2026-06-16",
+   "bulletin-2026-05-22"
+  ]
+ },
+ "next_step": "Watch Manitou Springs Planning Commission and City Council agendas for the final building plan hearing, then the Pikes Peak Regional Building permit and the financing closing.",
+ "key_numbers": [
+  {
+   "value": "50 homes, all income-restricted",
+   "meaning": "20 one-, 12 two- and 18 three-bedroom apartments for households at 30% to 60% of area median income.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,613,506 a year in federal 9% credit",
+   "meaning": "About $16.1 million over the 10-year credit period, plus $500,000 in standard state credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "$2.1 million from the urban renewal authority",
+   "meaning": "City sales-tax money that helped Paragon buy the motel site in 2022 and demolish the motel.",
+   "src": [
+    "gazette-2026-05-27",
+    "rmpbs-2026-05-30"
+   ]
+  },
+  {
+   "value": "First LIHTC project in Manitou Springs",
+   "meaning": "The sponsors say the city has had no new multifamily building since 1973; the 50 homes exceed the city's Prop 123 commitment of 46.",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "123 Manitou Avenue, Manitou Springs 80829, on Manitou Avenue east of US Highway 24",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction and residents",
+   "value": "New construction; individuals and families",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "About 55,000 gross square feet in two three-story wood-frame buildings with stone and fiber cement exteriors and flat roofs; clubhouse with library, kitchen and community room; playground, dog park, picnic area",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with a photovoltaic system; NGBS Silver target; EV parking",
+   "src": [
+    "chfa-2026-r1-descriptions",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Qualified Census Tract / DDA",
+   "value": "Neither; the sponsors asked CHFA for a 4.5% discretionary basis boost",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned for the use; 50 units use the by-right affordable housing density bonus; no off-street parking minimum. Final building plan goes to Planning Commission and City Council public hearings",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Free Manitou Springs shuttle and Mountain Metro bus stops next to the site",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Resident services",
+   "value": "Rainbow Housing Assistance Corporation's LINK program (education, workforce and health programming)",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 26
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1 bedroom",
+   "units": 20
+  },
+  {
+   "type": "2 bedrooms",
+   "units": 12
+  },
+  {
+   "type": "3 bedrooms",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-2026-r1-descriptions",
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,613,506 per year",
+   "note": "About $16.1 million over 10 years; equity from CREA per the application",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "CHFA does not say whether this is per year or total",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Manitou Springs Urban Renewal Authority",
+   "amount": "$2,100,000",
+   "note": "Sales-tax funded investment toward the 2022 site purchase and motel demolition",
+   "src": [
+    "gazette-2026-05-27",
+    "rmpbs-2026-05-30"
+   ]
+  },
+  {
+   "source": "El Paso County Housing Trust Fund",
+   "amount": "Not public",
+   "note": "Application says it is committed; amount not found in a public source that could be checked",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not public",
+   "note": "Application says conditional approval; amount not found",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans",
+   "amount": "Not public",
+   "note": "Assumed from Merchants Capital per the application",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "TWG to guarantee payoff of any balance at end of compliance",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA's award report prints it)",
+   "name": "Paragon Development, Inc",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Co-sponsor",
+   "name": "TWG Development",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Landowner",
+   "name": "Paragon (Paragon Realty, an Indiana-based developer, in news reports)",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "gazette-2026-05-27"
+   ]
+  },
+  {
+   "role": "Planned special limited partner (property, sales and use tax exemption)",
+   "name": "El Paso County Housing Authority",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (proposed)",
+   "name": "Elmington Property Management",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Cost estimator / local general contractor",
+   "name": "White Construction Group",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Rainbow Housing Assistance Corporation",
+   "src": [
+    "chfa-2026-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Consultants",
+   "name": "RCH Jones Consulting and KDM Consultants",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Local partner",
+   "name": "Manitou Springs Urban Renewal Authority",
+   "src": [
+    "bulletin-2026-05-22",
+    "rmpbs-2026-05-30"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site held the historic La Fon Motel (briefly the La Fun Motel); Paragon bought it in 2022 with a $2.1 million urban renewal authority investment and demolished the motel, which officials had called a public safety hazard.",
+   "src": [
+    "rmpbs-2026-05-30",
+    "gazette-2026-05-27"
+   ]
+  },
+  {
+   "text": "The application says the city helped with demolition, removal of the prior problematic ownership and site cleanup, completed in 2023.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Paragon first proposed 78 market-rate units in two buildings; the site's zoning caps density at 20 units per acre, and in December 2024 the Planning Commission voted 4-3 to deny the density variance.",
+   "src": [
+    "gazette-2025-02-02",
+    "bulletin-2025-02-06"
+   ]
+  },
+  {
+   "text": "Paragon then teamed with TWG on a 43-unit tax credit plan; City Council unanimously approved a letter of support at a 28 January 2025 special meeting (year inferred from the article date).",
+   "src": [
+    "bulletin-2025-02-06",
+    "gazette-2025-02-02"
+   ]
+  },
+  {
+   "text": "The 2025 Round One application (43 units, 9 at 30%, 3 at 40%, 9 at 50%, 22 at 60% AMI) did not win; it is not on CHFA's 2025 Round One award report.",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "text": "For 2026 the sponsors raised density to 50 units, obtained conditional Division of Housing funding and an El Paso County Housing Trust Fund commitment, raised the energy standard and added Rainbow Housing services.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "El Paso County Housing Authority is to join the partnership as special limited partner to provide property tax and sales and use tax exemption.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Manitou Springs committed under Prop 123 to permit 46 new affordable units; this project alone would meet that commitment, according to the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local officials in June 2026 cited city funds, developer money and a state Prop 123 grant toward the project, without amounts; a one-bedroom example rent of about $650 a month was given.",
+   "src": [
+    "kktv-2026-06-16"
+   ]
+  },
+  {
+   "text": "TWG's own later CHFA application (Castleton Heights, 2026 Round Two) says it expects to deliver the 50 units at 123 Manitou in 2028.",
+   "src": [
+    "chfa-2026-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Paragon buys the motel site with urban renewal authority help and demolishes the motel",
+   "src": [
+    "gazette-2026-05-27",
+    "rmpbs-2026-05-30"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Planning Commission denies density variance for the 78-unit market-rate plan, 4-3",
+   "src": [
+    "gazette-2025-02-02",
+    "bulletin-2025-02-06"
+   ]
+  },
+  {
+   "date": "2025-01-28",
+   "event": "City Council approves a letter of support for the tax credit application",
+   "src": [
+    "bulletin-2025-02-06"
+   ]
+  },
+  {
+   "date": "2025-02",
+   "event": "2025 Round One application: 43 units, $1,600,000 federal and $650,000 state credit requested; not awarded",
+   "src": [
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "2026 Round One letter of intent: 50 units, $1,698,000 federal credit",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "2026 Round One application: $1,613,506 federal and $500,000 state credit requested",
+   "src": [
+    "chfa-2026-r1-applicants"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 2026 Round One awards, including 123 Manitou",
+   "src": [
+    "gazette-2026-05-31",
+    "bulletin-2026-05-22"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "date": "2026-12",
+   "event": "Planned groundbreaking if city approvals come through (per developers); MSURA says Q4 2026 or Q1 2027",
+   "src": [
+    "kktv-2026-06-16",
+    "bulletin-2026-05-22"
+   ]
+  },
+  {
+   "date": "2028",
+   "event": "Expected delivery / move-in",
+   "src": [
+    "kktv-2026-06-16",
+    "chfa-2026-r2-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photo of the cleared former La Fon Motel lot",
+   "url": "https://www.rmpbs.org/news/housing-transportation/la-fon-motel-site-affordable-housing-manitou-springs",
+   "kind": "photo",
+   "made_by": "Rocky Mountain PBS",
+   "note": "Lead photo in the article",
+   "src": [
+    "rmpbs-2026-05-30"
+   ]
+  },
+  {
+   "title": "File photo of the former La Fon Motel site",
+   "url": "https://pikespeakbulletin.org/news/fifty-affordable-housing-units-coming-to/",
+   "kind": "photo",
+   "made_by": "Pikes Peak Bulletin",
+   "note": "Photo in the article",
+   "src": [
+    "bulletin-2026-05-22"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The site size differs: The Gazette calls it a 2-acre property and the Pikes Peak Bulletin a 2.2-acre lot, while Rocky Mountain PBS says 56,000 square feet (about 1.3 acres).",
+   "src": [
+    "gazette-2026-05-27",
+    "gazette-2025-02-02",
+    "bulletin-2025-02-06",
+    "rmpbs-2026-05-30"
+   ]
+  },
+  {
+   "text": "The urban renewal authority's press release puts Round One federal awards at $23,003,741 for 14 developments, while CHFA's award report totals $23,509,805 in federal 9% credit.",
+   "src": [
+    "bulletin-2026-05-22",
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "text": "The Pikes Peak Bulletin described TWG Development as Colorado-based, while The Gazette describes it as Indiana-based.",
+   "src": [
+    "bulletin-2025-02-06",
+    "gazette-2025-02-02",
+    "gazette-2026-05-27"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, equity price, loan amounts and the exact El Paso County Housing Trust Fund and Division of Housing amounts are not public (El Paso County Housing Authority board minutes that may show the trust fund request returned HTTP 403 and could not be used).",
+  "Whether the Planning Commission and City Council have approved the final building plan, and on what dates.",
+  "Whether the state Prop 123 grant officials mentioned is separate from the Division of Housing funding named in the application, and its amount.",
+  "Rents, affordability period/covenant length, general contractor under contract, and the urban renewal authority's terms (loan, grant or equity) are not public.",
+  "No public site plan or rendering with a page reference was found; the application attachments are not published."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-descriptions",
+   "title": "2026 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2026-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (123 Manitou, from p. 6)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicants",
+   "title": "2026 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round 1 LOI Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r2-narratives",
+   "title": "2026 HTC Round Two Application Narratives (Castleton Heights section)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/a3ac77b4-ea89-4f8f-a09b-9427df4aa115/2026-HTC-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One Application Narratives (123 Manitou, p. 6)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "gazette-2026-05-27",
+   "title": "La Fun developers receive coveted low-income housing tax credits for Manitou Springs project",
+   "publisher": "The Gazette",
+   "date": "2026-05-27",
+   "url": "https://gazette.com/2026/05/27/la-fun-developers-receive-coveted-low-income-housing-tax-credits-for-manitou-springs-project/"
+  },
+  {
+   "id": "gazette-2026-05-31",
+   "title": "Three Pikes Peak region affordable housing projects awarded tax credits for construction",
+   "publisher": "The Gazette",
+   "date": "2026-05-31",
+   "url": "https://gazette.com/2026/05/31/three-pikes-peak-region-affordable-housing-projects-awarded-tax-credits-for-construction/"
+  },
+  {
+   "id": "gazette-2025-02-02",
+   "title": "Developers of former La Fun Motel in Manitou Springs look to add affordable housing",
+   "publisher": "The Gazette",
+   "date": "2025-02-02",
+   "url": "https://gazette.com/2025/02/02/developers-of-former-la-fun-motel-in-manitou-springs-look-to-add-affordable-housing/"
+  },
+  {
+   "id": "bulletin-2026-05-22",
+   "title": "Fifty affordable housing units coming to Manitou Springs (Manitou Springs Urban Renewal Authority release)",
+   "publisher": "Pikes Peak Bulletin",
+   "date": "2026-05-22",
+   "url": "https://pikespeakbulletin.org/news/fifty-affordable-housing-units-coming-to/"
+  },
+  {
+   "id": "bulletin-2025-02-06",
+   "title": "Paragon development reduces density, seeks low-income tax credits",
+   "publisher": "Pikes Peak Bulletin",
+   "date": "2025-02-06",
+   "url": "https://pikespeakbulletin.org/news/vparagon-development-reduces-density-seeks-low-income-tax-credits/"
+  },
+  {
+   "id": "rmpbs-2026-05-30",
+   "title": "La Fon Motel site to become affordable housing in Manitou Springs",
+   "publisher": "Rocky Mountain PBS",
+   "date": "2026-05-30",
+   "url": "https://www.rmpbs.org/news/housing-transportation/la-fon-motel-site-affordable-housing-manitou-springs"
+  },
+  {
+   "id": "kktv-2026-06-16",
+   "title": "'They can't afford to live here': Manitou Springs seeks to solve a growing issue",
+   "publisher": "KKTV",
+   "date": "2026-06-16",
+   "url": "https://www.kktv.com/2026/06/17/they-cant-afford-live-here-manitou-springs-seeks-solve-growing-issue/"
+  }
+ ]
+}

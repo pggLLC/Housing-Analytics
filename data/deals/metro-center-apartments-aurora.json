@@ -1,0 +1,428 @@
+{
+ "slug": "metro-center-apartments-aurora",
+ "name": "Metro Center Apartments",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-20",
+ "units": 58,
+ "headline": "Metro Center Apartments is a planned four-story, 58-home new-construction rental for low-income families next to RTD's Metro Center light-rail station in Aurora; BMC Investments won 2026 Round One federal 9%, state and transit-oriented (TOC) credits for it.",
+ "why_it_matters": "It is a transit-oriented deal that won on its second try: BMC cut it from a 144-unit 4%/bond plan (2023) to 58 units on a nominal $10 land basis, so watch for Aurora site-plan filings and the second-phase parcel to the north.",
+ "status": {
+  "label": "Credits awarded; city approvals and closing not confirmed",
+  "detail": "CHFA lists the award as of 2026-09-30. The application said Aurora's site-plan review would take about 24 weeks, and no public record found shows a site-plan approval, permit, closing or groundbreaking.",
+  "src": [
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch the City of Aurora development-review records for a site plan on the southeast corner of East Alameda Parkway and North Sable Boulevard, and for any Aurora Urban Renewal Authority funding action.",
+ "key_numbers": [
+  {
+   "value": "58 homes, all income-restricted",
+   "meaning": "One-, two- and three-bedroom family apartments for households at 30% to 70% of area median income (AMI), using income averaging.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18M over 10 years, plus $500,000 in state credit and $116,000 in TOC credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "$10 land basis",
+   "meaning": "The applicant cut the land cost to a nominal $10 after its 2023 try, and says hard costs are under $280,000 per unit.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "Next to RTD Metro Center Station",
+   "meaning": "R Line light rail and eight bus routes; every unit gets a subsidized Neighborhood EcoPass.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (CHFA award report)",
+   "value": "Alameda Ave at Sable Blvd, Aurora",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Address (application narrative)",
+   "value": "Southeast corner of East Alameda Parkway and North Sable Boulevard, Aurora, CO 80012",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, I/F: new construction, individual/family",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "58 total, 58 low-income",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, Type V (wood-frame) construction; units 576 to 1,131 sq ft; 64 parking spaces",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "MU-TOD Core (Mixed-Use Transit-Oriented Development Core) under Aurora's Unified Development Ordinance",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Setting",
+   "value": "Inside the 60-acre Metro Center master plan, in a qualified census tract (2023 narrative) and within an established urban renewal district",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2023-r2-narratives",
+    "aurora-metro-center-tod"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Arapahoe (inferred from the census tract number 08005081101 in the 2023 narrative, where 08005 is Arapahoe County)",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, heat-pump HVAC, off-site community solar subscription, targeting National Green Building Standard Silver",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "JRES Intelica; overall capture rate 5.1%",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [],
+ "bedroom_mix": [],
+ "mix_src": [
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Annual credit, runs 10 years. The February 2026 applicant report shows $1,751,667 requested.",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado transit-oriented communities (TOC) credit",
+   "amount": "$116,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "$10 (nominal land basis)",
+   "note": "Per the 2026 application narrative.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Local soft funding",
+   "amount": "Not public",
+   "note": "The narrative cites support letters from the Aurora City Manager, the Aurora Urban Renewal Authority and Aurora Housing and Community Services, but names no dollar amount.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "BMC Investments",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "Mile High Development",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Cuningham",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (estimating; planned GMP builder)",
+   "name": "Deneuve Construction Services",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Market analyst",
+   "name": "JRES Intelica",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Resident meal partner",
+   "name": "Philo's Kitchen",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Community solar partner",
+   "name": "Cloudbreak Energy",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "BMC first sought credits for this site in CHFA's 2023 Round Two as a five-story, 144-unit 4% deal with an estimated $30.5M in CHFA-issued tax-exempt bonds, designed by KTGY with Alliance Construction as contractor. No award for it was found, and the 2026 narrative calls 2023 a prior application (inferred: the 2023 bid was not funded).",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "For 2026 BMC cut the program to 58 units. That freed a similar-sized parcel to the north, which is under option for a second phase of affordable apartments.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Income averaging serves households from 30% to 70% of AMI. The underwriting assumes 70% AMI units lease at 60% AMI rents because the metro rental market is soft. No public source gives the unit-by-unit income or bedroom counts.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The narrative cites support letters from the Aurora City Manager, the Aurora Urban Renewal Authority and Aurora Housing and Community Services, and reports no community opposition.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The site is in Aurora's City Center district next to Metro Center Station. The city says the station area lies in an urban renewal area created to redevelop about 137 acres of vacant land and nearby retail centers.",
+   "src": [
+    "aurora-metro-center-tod",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Resident extras the application commits to: subsidized EcoPasses for all units, free Wi-Fi, subsidized meals through Philo's Kitchen, and community-solar savings estimated at about 60% of electric bills.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2026-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says it is completing the 210-unit, LIHTC-financed Fitzsimons Gateway in Aurora (expected April 2026). It also applied for 9% credits for Canyons Affordable Apartments in Castle Pines in 2024 and 2025.",
+   "src": [
+    "chfa-2026-r1-narratives",
+    "chfa-2024-r1-applicant",
+    "chfa-2025-r1-applicant"
+   ]
+  },
+  {
+   "text": "The narrative says the project would comply with Aurora's rules, and that city review would take about 24 weeks. No dated city approval was found.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023",
+   "event": "BMC applies in CHFA's 2023 Round Two (4%) for a 144-unit Metro Center Affordable Apartments",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-12",
+   "event": "Listed on CHFA's 2026 Round One letters of intent report (58 units, $1,800,000 federal requested)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "Listed on CHFA's 2026 Round One applicant report ($1,751,667 federal requested)",
+   "src": [
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Listed on CHFA's 2026 Round One award report: $1,800,000 federal 9%, $500,000 state, $116,000 TOC",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior rendering (view from the light-rail tracks)",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf",
+   "kind": "rendering",
+   "made_by": "BMC Investments application (architect not credited on the page)",
+   "note": "Page 96 of CHFA's 2026 Round One narratives PDF",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "title": "Vicinity and trails map with project site marked",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf",
+   "kind": "site plan",
+   "made_by": "City of Aurora Parks, Recreation & Open Space map (2011), annotated by the applicant",
+   "note": "Page 99 of the same PDF (a locator map, not a site plan)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "title": "Earlier 144-unit rendering (2023 application)",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf",
+   "kind": "rendering",
+   "made_by": "BMC Investments 2023 application",
+   "note": "Page 136 of CHFA's 2023 Round Two narratives PDF; this shows the older, larger design",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's February 2026 applicant report lists $1,751,667 a year in federal 9% credit requested, while the award report lists $1,800,000 awarded (the December 2025 letters of intent report also showed $1,800,000).",
+   "src": [
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-loi"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Unit-by-unit income mix and bedroom mix: no public source found gives counts beyond 30% to 70% AMI and one, two and three bedrooms.",
+  "Total development cost, equity price, lender and permanent debt are not public.",
+  "Whether the Aurora Urban Renewal Authority or the City of Aurora committed money, and how much.",
+  "Who sold or contributed the land at a $10 basis, and on what terms (ground lease or sale).",
+  "Aurora site-plan approval date, permits, closing and construction start.",
+  "Why the award ($1,800,000) is above the $1,751,667 shown on the applicant report.",
+  "Whether a second phase on the optioned parcel to the north will apply for credits."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "2026 Round One Letters of Intent Report, Federal 9% and State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Metro Center Affordable Apartments, pp. 96-100)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-toc-narratives",
+   "title": "2026 Round One TOC Credit Narratives (Metro Center Affordable Apartments, pp. 23-24)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/b0cba85d-49b2-42d5-be59-6c61e7f0f9a5/2026-Round-One-TOC-Credit-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Application Narratives (Metro Center Affordable Apartments, pp. 136-140)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicant",
+   "title": "2025 Round One Housing Tax Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicant",
+   "title": "2024 Round One Housing Tax Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "aurora-metro-center-tod",
+   "title": "Aurora Metro Center (transit-oriented development station page)",
+   "publisher": "City of Aurora",
+   "date": "",
+   "url": "https://www.auroragov.org/business_services/economic___business_development/transit_oriented_development/aurora_metro_center"
+  }
+ ]
+}

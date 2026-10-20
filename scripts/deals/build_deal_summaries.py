@@ -55,6 +55,8 @@ FORBIDDEN = [
     (re.compile(r'\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b'), 'a phone number'),
     (re.compile(r'indibuild', re.I), 'a developer brand that stays off the public site'),
     (re.compile(r'fruita', re.I), 'a Fruita project'),
+    # Summaries read as reference pages, not research notes.
+    (re.compile(r'\b(I (found|could|did|read|checked)|my (calculation|inference|reading))\b'), 'first-person research wording'),
 ]
 CITED = ['key_numbers', 'facts', 'money', 'parties', 'background', 'timeline', 'pictures', 'discrepancies']
 

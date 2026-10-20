@@ -1,0 +1,463 @@
+{
+ "slug": "gardenwalk-of-canon-city",
+ "name": "GardenWalk of Cañon City",
+ "city": "Cañon City",
+ "county": "Fremont",
+ "award": "2026 Federal 9% housing tax credit (Round One)",
+ "units": 42,
+ "researched_on": "2026-10-20",
+ "headline": "GardenWalk of Cañon City is a 42-unit, all-affordable new-construction family apartment community of one- and two-bedroom homes at 3232 Independence Road in Cañon City (Fremont County), developed by Belmont Development Company, which won a 2026 Round One federal 9% and state housing tax credit award on its third try.",
+ "why_it_matters": "It is a small rural 9% deal that won after losing in 2024 and 2025 by cutting the land price from the seller (the Cañon City Area Fire Protection District), getting a Division of Housing pre-approval, adding NGBS Silver and more accessible units, and stacking city fee waivers. It is also the first Cañon City tax credit award since 2016, per the sponsor.",
+ "status": {
+  "label": "Credits awarded; construction start not confirmed",
+  "detail": "CHFA announced the award on 2026-05-21, and the 2026-09-30 award report lists it. The application said zoning is in place and that the final site plan review is administrative with no public notice. There is no public record of a site plan approval, building permit, land closing, financial closing or groundbreaking.",
+  "src": [
+   "chfa-2026-r1-news",
+   "chfa-2026-r1-award",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch for the City of Cañon City's administrative site plan approval and a building permit for 3232 Independence Road, and for the land purchase from the Cañon City Area Fire Protection District to close.",
+ "key_numbers": [
+  {
+   "value": "42 homes, all income-restricted, for families",
+   "meaning": "An even mix of one- and two-bedrooms, from 30% to 80% AMI: 9 units at 30%, 5 at 50%, 5 at 60%, 14 at 70% and 9 at 80% (60% average, calculated).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,800,000 a year in federal 9% credit",
+   "meaning": "About $18M over the 10-year credit period (calculated), about $42,900 a year per unit, plus $500,000 in standard state credit.",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "value": "Third application",
+   "meaning": "The same 42-unit deal applied in 2024 Round One ($1,450,000 requested) and 2025 Round One ($1,600,000 plus $650,000 state) without an award.",
+   "src": [
+    "chfa-2024-r1-applicant",
+    "chfa-2024-r1-award",
+    "chfa-2025-r1-applicant",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "value": "About 1.5 acres in the city's Urban Renewal District",
+   "meaning": "Bought from the Cañon City Area Fire Protection District at what the sponsor calls a significantly reduced price; the city adds waived or reduced tap, impact and permit fees.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3232 Independence Road, Cañon City 81212",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Fremont (rural county under 180,000 people, a CHFA priority)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction / resident type",
+   "value": "New construction; Individual/Family (CHFA codes N, I/F)",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "42 total, 42 income-restricted",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant"
+   ]
+  },
+  {
+   "item": "Bedrooms",
+   "value": "\"An even mix of 1 and 2-bedroom residences\" (exact split not stated; 21 and 21 would be even, which is inferred)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 1.5 acres within the City's Urban Renewal District, near US Highway 50, reached by Justice Center Road",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Qualified Census Tract",
+   "value": "Yes, per the sponsor",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned appropriately (zoning letter in the application); final site plan review is administrative",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building standard",
+   "value": "NGBS Silver; 100% electric; EV-ready parking and PV-ready roof",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Clubhouse, game room, fitness center, on-site management, pavilion with BBQ, playground, bike storage, bus shelter; in-unit washer/dryers",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 5
+  },
+  {
+   "level": "60% AMI",
+   "units": 5
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  },
+  {
+   "level": "80% AMI",
+   "units": 9
+  }
+ ],
+ "bedroom_mix": [],
+ "mix_src": [
+  "chfa-2026-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,800,000 per year",
+   "note": "Awarded, Round One 2026; same as requested in the application ($1,790,000 on the December 2025 LOI list).",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "Federal and state equity from Midwest Housing Equity Group, per the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Cedar Rapids Bank and Trust, per the application.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (DOH)",
+   "amount": "Not public",
+   "note": "Preliminary approval contingent on a tax credit award.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Cañon City fee waivers",
+   "amount": "Not quantified",
+   "note": "Waived or reduced tap, impact and permit fees; the City extended its resolution waiving permit and water tap fees.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "source": "Contribution to Fremont County transit",
+   "amount": "$20,000",
+   "note": "Budgeted by the developer to support the county's free demand-response transit.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it); developer",
+   "name": "Belmont Development Company, LLC",
+   "src": [
+    "chfa-2026-r1-award",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (as proposed)",
+   "name": "Belmont Construction Company, LLC",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (as proposed)",
+   "name": "Belmont Management Company Inc.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Wallace Architects L.L.C.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Equity investor (as proposed)",
+   "name": "Midwest Housing Equity Group",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Lender (as proposed)",
+   "name": "Cedar Rapids Bank and Trust",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Cañon City Area Fire Protection District",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Belmont says it has developed over 50 communities with more than 3,500 units in Arkansas, Colorado, Kansas, Missouri, Oklahoma and Texas. Its Colorado work includes GardenWalk of Gunnison and the 112-unit Park Ridge Apartments 4% bond rehab.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Land: the seller, the Cañon City Area Fire Protection District, agreed to minimal hard earnest money, a sale price much lower than in Belmont's earlier applications, and possible fee reductions on fire equipment installation. The price is not public.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The City of Cañon City extended its resolution waiving permit and water tap fees and made a baseline commitment under Proposition 123, according to the application. No public source shows the resolution number or date in a public city record.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "For 2026 Belmont added NGBS Silver certification, doubled its accessible units, got DOH pre-approval and cut the land price. The application received eight letters of support, including one from Loaves and Fishes Ministries.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Per the sponsor, Cañon City's last tax credit award was a 2016 9% supportive-housing deal; Heatherwood Apartments (a 1997 4% award) is a few hundred feet away.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Prior attempts: 2024 Round One applicant list (42 units, $1,450,000 federal requested) and 2025 Round One applicant list (42 units, $1,600,000 federal and $650,000 state requested). Neither round's award report lists the deal.",
+   "src": [
+    "chfa-2024-r1-applicant",
+    "chfa-2024-r1-award",
+    "chfa-2025-r1-applicant",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "text": "The 2025 application gave a slightly different income mix (8 units at 80% AMI rather than 9, with the 30% to 70% bands unchanged).",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study's comparables had 4.2% vacancy; its main concern was a low walkability score, which Belmont answers with new sidewalks on Justice Center Road, planned bike routes and Fremont County's demand-response transit.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "text": "Affordability period, Section 8 or vouchers, and rents are not stated in the public sources checked.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (not awarded)",
+   "src": [
+    "chfa-2024-r1-applicant",
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "Listed on CHFA's 2025 Round One applicant report (not awarded)",
+   "src": [
+    "chfa-2025-r1-applicant",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "Listed on CHFA's 2026 Round One letter-of-intent report ($1,790,000 federal, $500,000 state)",
+   "src": [
+    "chfa-2026-r1-loi"
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "event": "Listed on CHFA's 2026 Round One applicant report; application narrative published",
+   "src": [
+    "chfa-2026-r1-applicant",
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2026-05-21",
+   "event": "CHFA announces 2026 Round One awards, including this deal",
+   "src": [
+    "chfa-2026-r1-news"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "CHFA Round One award report (as of date) lists $1,800,000 federal and $500,000 state credit",
+   "src": [
+    "chfa-2026-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "No public site plan, rendering or plat was found; the City says its final site plan review is administrative, so none may be posted.",
+  "Exact bedroom split (the application says only an \"even mix\" of one- and two-bedrooms), so bedroom_mix is left empty.",
+  "Land price, DOH amount, loan size, equity price, total development cost, rents and affordability period are not public.",
+  "The number and date of the Cañon City resolution waiving fees, and the value of the waivers, were not found in a public city record.",
+  "Whether the land purchase from the fire protection district has closed, and when construction will start."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2026-r1-award",
+   "title": "CHFA, 2026 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-30",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-applicant",
+   "title": "CHFA, 2026 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-loi",
+   "title": "CHFA, 2026 Round One Letter of Intent Report",
+   "publisher": "CHFA",
+   "date": "2025-12-08",
+   "url": "https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "CHFA, 2026 Application Narratives - Round One (GardenWalk of Cañon City narrative)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-news",
+   "title": "CHFA Announces 2026 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2026-05-21",
+   "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits"
+  },
+  {
+   "id": "chfa-2024-r1-applicant",
+   "title": "CHFA, 2024 Round One Housing Tax Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "CHFA, 2024 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-24",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicant",
+   "title": "CHFA, 2025 Round One Housing Tax Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "CHFA, 2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "CHFA, 2025 HTC Round One Application Narratives (GardenWalk of Cañon City narrative)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  }
+ ]
+}
