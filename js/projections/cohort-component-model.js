@@ -199,7 +199,10 @@
     }
     const pct = Math.round(100 * annual / sdo);
     out.migration_pct = _inRange('migration_pct', pct);
-    if (pct < RANGES.migration_pct[0]) {
+    // The direction is read from the signs, not the rounded percentage, so a
+    // small count the other way (-50 against 10,000) is not rounded to 0%
+    // without a note.
+    if (annual * sdo < 0) {
       out.migrationNote = asSaved + ', the opposite of SDO’s forecast for this place (' +
         (sdo < 0 ? 'more people leaving than arriving' : 'more people arriving than leaving') +
         '); migration is set to ' + RANGES.migration_pct[0] + '%, the nearest the builder models.';

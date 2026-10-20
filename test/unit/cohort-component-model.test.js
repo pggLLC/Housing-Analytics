@@ -162,6 +162,8 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   const down = M.paramsFromSaved({ net_migration_annual: -300 }, 600);
   assert.equal(down.migration_pct, 0, 'departures where SDO expects arrivals load at 0%');
   assert(/300 more people leaving than arriving/.test(down.migrationNote), 'with a note, not silently');
+  const small = M.paramsFromSaved({ net_migration_annual: -50 }, 10000);
+  assert.deepEqual([small.migration_pct, /0%/.test(small.migrationNote || '')], [0, true], 'a small count the other way, rounding to 0%, still carries the note');
   const flat = M.paramsFromSaved({ net_migration_annual: 100 }, 0);
   assert.equal(flat.migration_pct, 100, 'where SDO\'s average is zero there is nothing to take a share of');
   assert(flat.migrationNote, 'and the reader is told');
