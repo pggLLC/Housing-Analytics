@@ -1,12 +1,12 @@
 {
   "meta": {
-    "as_of": "2026-07-19",
+    "as_of": "2026-10-20",
     "comap_terms_url": "https://comap.cnhp.colostate.edu/terms-of-use/",
-    "constrained_tract_count_share_below_50pct": 125,
+    "constrained_tract_count_share_below_50pct": 126,
     "context_only": true,
     "county_count": 64,
     "generated_by": "scripts/market/build_developable_land_context.py",
-    "last_verified": "2026-07-19",
+    "last_verified": "2026-10-20",
     "limitations": [
       "First-pass context-only indicator; not a buildable-parcel analysis and not a regulatory entitlement screen.",
       "PAD-US is centroid-allocated by source acres rather than polygon-overlaid, so large multi-tract holdings may be approximate.",
@@ -18,8 +18,8 @@
     "nlcd_source_url": "https://www.mrlc.gov/data",
     "not_scoring_input": true,
     "padus": {
-      "assigned_acres": 32072218.0,
-      "assigned_feature_count": 10412,
+      "assigned_acres": 32073287.0,
+      "assigned_feature_count": 10431,
       "gap_status_counts": {
         "1": 65,
         "2": 1640,
@@ -37,15 +37,15 @@
         "Unknown": 12
       },
       "source_feature_count": 11145,
-      "unassigned_acres": 45584439.0,
-      "unassigned_feature_count": 733
+      "unassigned_acres": 45583370.0,
+      "unassigned_feature_count": 714
     },
     "padus_item_url": "https://www.arcgis.com/home/item.html?id=98fce3fb0c8241ce8847e9f7d0d212e9",
     "padus_overview_url": "https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview",
     "padus_source": "PAD-US Protection Status by GAP Status Code",
     "padus_source_url": "https://services.arcgis.com/v01gqwM5QqNysAAi/arcgis/rest/services/PADUS_Protection_Status_by_GAP_Status_Code/FeatureServer/0",
-    "protected_tract_count": 1212,
-    "review_by": "2026-10-19",
+    "protected_tract_count": 1211,
+    "review_by": "2027-01-20",
     "source": "Colorado tract developable-land context",
     "source_status": {
       "comap": {
@@ -701,8 +701,8 @@
       "census_water_share": 0.034708,
       "context_only": true,
       "county_fips": "08001",
-      "developable_acres_context": 1961.57,
-      "developable_share_context": 0.500317,
+      "developable_acres_context": 1966.57,
+      "developable_share_context": 0.501593,
       "geoid": "08001008540",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -710,17 +710,17 @@
       ],
       "name": "Census Tract 85.40",
       "not_scoring_input": true,
-      "padus_feature_count": 17,
+      "padus_feature_count": 16,
       "padus_gap_status_counts": {
         "2": 5,
-        "4": 12
+        "4": 11
       },
       "padus_manager_type_counts": {
-        "Local Government": 16,
+        "Local Government": 15,
         "Regional Agency Special District": 1
       },
-      "padus_protected_open_space_acres": 1823.0,
-      "padus_protected_open_space_share": 0.464974,
+      "padus_protected_open_space_acres": 1818.0,
+      "padus_protected_open_space_share": 0.463699,
       "source_level": "tract_context_modeled",
       "total_acres": 3920.65
     },
@@ -943,8 +943,8 @@
       "census_water_share": 0.019726,
       "context_only": true,
       "county_fips": "08001",
-      "developable_acres_context": 8683.7,
-      "developable_share_context": 0.918404,
+      "developable_acres_context": 8678.7,
+      "developable_share_context": 0.917875,
       "geoid": "08001008552",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -952,16 +952,16 @@
       ],
       "name": "Census Tract 85.52",
       "not_scoring_input": true,
-      "padus_feature_count": 14,
+      "padus_feature_count": 15,
       "padus_gap_status_counts": {
         "2": 3,
-        "4": 11
+        "4": 12
       },
       "padus_manager_type_counts": {
-        "Local Government": 14
+        "Local Government": 15
       },
-      "padus_protected_open_space_acres": 585.0,
-      "padus_protected_open_space_share": 0.061871,
+      "padus_protected_open_space_acres": 590.0,
+      "padus_protected_open_space_share": 0.062399,
       "source_level": "tract_context_modeled",
       "total_acres": 9455.21
     },
@@ -3223,8 +3223,8 @@
       "census_water_share": 0.028656,
       "context_only": true,
       "county_fips": "08005",
-      "developable_acres_context": 272.77,
-      "developable_share_context": 0.509749,
+      "developable_acres_context": 266.77,
+      "developable_share_context": 0.498536,
       "geoid": "08005005552",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -3232,16 +3232,17 @@
       ],
       "name": "Census Tract 55.52",
       "not_scoring_input": true,
-      "padus_feature_count": 5,
+      "padus_feature_count": 6,
       "padus_gap_status_counts": {
+        "2": 1,
         "4": 5
       },
       "padus_manager_type_counts": {
-        "Local Government": 1,
+        "Local Government": 2,
         "Regional Agency Special District": 4
       },
-      "padus_protected_open_space_acres": 247.0,
-      "padus_protected_open_space_share": 0.461595,
+      "padus_protected_open_space_acres": 253.0,
+      "padus_protected_open_space_share": 0.472808,
       "source_level": "tract_context_modeled",
       "total_acres": 535.1
     },
@@ -3994,8 +3995,8 @@
       "census_water_share": 0.019461,
       "context_only": true,
       "county_fips": "08005",
-      "developable_acres_context": 618.27,
-      "developable_share_context": 0.951304,
+      "developable_acres_context": 624.27,
+      "developable_share_context": 0.960536,
       "geoid": "08005006000",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -4003,16 +4004,16 @@
       ],
       "name": "Census Tract 60",
       "not_scoring_input": true,
-      "padus_feature_count": 4,
+      "padus_feature_count": 3,
       "padus_gap_status_counts": {
-        "2": 2,
+        "2": 1,
         "4": 2
       },
       "padus_manager_type_counts": {
-        "Local Government": 4
+        "Local Government": 3
       },
-      "padus_protected_open_space_acres": 19.0,
-      "padus_protected_open_space_share": 0.029235,
+      "padus_protected_open_space_acres": 13.0,
+      "padus_protected_open_space_share": 0.020003,
       "source_level": "tract_context_modeled",
       "total_acres": 649.91
     },
@@ -4979,8 +4980,8 @@
       "census_water_share": 0.0,
       "context_only": true,
       "county_fips": "08005",
-      "developable_acres_context": 1280.71,
-      "developable_share_context": 0.929593,
+      "developable_acres_context": 1286.71,
+      "developable_share_context": 0.933948,
       "geoid": "08005007112",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -4988,18 +4989,18 @@
       ],
       "name": "Census Tract 71.12",
       "not_scoring_input": true,
-      "padus_feature_count": 11,
+      "padus_feature_count": 10,
       "padus_gap_status_counts": {
-        "2": 2,
+        "2": 1,
         "4": 9
       },
       "padus_manager_type_counts": {
         "Local Government": 2,
         "Private": 7,
-        "Regional Agency Special District": 2
+        "Regional Agency Special District": 1
       },
-      "padus_protected_open_space_acres": 97.0,
-      "padus_protected_open_space_share": 0.070407,
+      "padus_protected_open_space_acres": 91.0,
+      "padus_protected_open_space_share": 0.066052,
       "source_level": "tract_context_modeled",
       "total_acres": 1377.71
     },
@@ -5009,8 +5010,8 @@
       "census_water_share": 0.0,
       "context_only": true,
       "county_fips": "08005",
-      "developable_acres_context": 2028.23,
-      "developable_share_context": 0.95887,
+      "developable_acres_context": 2022.23,
+      "developable_share_context": 0.956033,
       "geoid": "08005007113",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -5018,18 +5019,18 @@
       ],
       "name": "Census Tract 71.13",
       "not_scoring_input": true,
-      "padus_feature_count": 12,
+      "padus_feature_count": 13,
       "padus_gap_status_counts": {
-        "2": 2,
+        "2": 3,
         "4": 10
       },
       "padus_manager_type_counts": {
         "Local Government": 2,
         "Private": 7,
-        "Regional Agency Special District": 3
+        "Regional Agency Special District": 4
       },
-      "padus_protected_open_space_acres": 87.0,
-      "padus_protected_open_space_share": 0.04113,
+      "padus_protected_open_space_acres": 93.0,
+      "padus_protected_open_space_share": 0.043967,
       "source_level": "tract_context_modeled",
       "total_acres": 2115.23
     },
@@ -9541,8 +9542,8 @@
       "census_water_share": 0.000812,
       "context_only": true,
       "county_fips": "08013",
-      "developable_acres_context": 12469.36,
-      "developable_share_context": 0.694868,
+      "developable_acres_context": 12468.36,
+      "developable_share_context": 0.694813,
       "geoid": "08013013704",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -9550,19 +9551,19 @@
       ],
       "name": "Census Tract 137.04",
       "not_scoring_input": true,
-      "padus_feature_count": 105,
+      "padus_feature_count": 106,
       "padus_gap_status_counts": {
         "2": 14,
         "3": 3,
-        "4": 88
+        "4": 89
       },
       "padus_manager_type_counts": {
-        "Local Government": 96,
+        "Local Government": 97,
         "Private": 8,
         "State": 1
       },
-      "padus_protected_open_space_acres": 5461.0,
-      "padus_protected_open_space_share": 0.30432,
+      "padus_protected_open_space_acres": 5462.0,
+      "padus_protected_open_space_share": 0.304376,
       "source_level": "tract_context_modeled",
       "total_acres": 17944.92
     },
@@ -9603,8 +9604,8 @@
       "census_water_share": 0.009654,
       "context_only": true,
       "county_fips": "08013",
-      "developable_acres_context": 34296.36,
-      "developable_share_context": 0.776662,
+      "developable_acres_context": 34297.36,
+      "developable_share_context": 0.776685,
       "geoid": "08013013706",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -9612,18 +9613,18 @@
       ],
       "name": "Census Tract 137.06",
       "not_scoring_input": true,
-      "padus_feature_count": 95,
+      "padus_feature_count": 94,
       "padus_gap_status_counts": {
         "2": 4,
-        "4": 91
+        "4": 90
       },
       "padus_manager_type_counts": {
-        "Local Government": 92,
+        "Local Government": 91,
         "Private": 2,
         "Regional Agency Special District": 1
       },
-      "padus_protected_open_space_acres": 9436.0,
-      "padus_protected_open_space_share": 0.213684,
+      "padus_protected_open_space_acres": 9435.0,
+      "padus_protected_open_space_share": 0.213661,
       "source_level": "tract_context_modeled",
       "total_acres": 44158.66
     },
@@ -9719,8 +9720,8 @@
       "census_water_share": 0.009321,
       "context_only": true,
       "county_fips": "08013",
-      "developable_acres_context": 1198.07,
-      "developable_share_context": 0.335372,
+      "developable_acres_context": 481.07,
+      "developable_share_context": 0.134665,
       "geoid": "08013060801",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -9728,18 +9729,18 @@
       ],
       "name": "Census Tract 608.01",
       "not_scoring_input": true,
-      "padus_feature_count": 21,
+      "padus_feature_count": 28,
       "padus_gap_status_counts": {
         "2": 1,
-        "4": 20
+        "4": 27
       },
       "padus_manager_type_counts": {
         "Joint": 2,
-        "Local Government": 18,
+        "Local Government": 25,
         "Private": 1
       },
-      "padus_protected_open_space_acres": 2341.0,
-      "padus_protected_open_space_share": 0.655307,
+      "padus_protected_open_space_acres": 3058.0,
+      "padus_protected_open_space_share": 0.856015,
       "source_level": "tract_context_modeled",
       "total_acres": 3572.37
     },
@@ -10470,8 +10471,8 @@
       "census_water_share": 0.0,
       "context_only": true,
       "county_fips": "08014",
-      "developable_acres_context": 96.59,
-      "developable_share_context": 0.989753,
+      "developable_acres_context": 97.59,
+      "developable_share_context": 1.0,
       "geoid": "08014980200",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -10479,15 +10480,11 @@
       ],
       "name": "Census Tract 9802",
       "not_scoring_input": true,
-      "padus_feature_count": 1,
-      "padus_gap_status_counts": {
-        "4": 1
-      },
-      "padus_manager_type_counts": {
-        "Local Government": 1
-      },
-      "padus_protected_open_space_acres": 1.0,
-      "padus_protected_open_space_share": 0.010247,
+      "padus_feature_count": 0,
+      "padus_gap_status_counts": {},
+      "padus_manager_type_counts": {},
+      "padus_protected_open_space_acres": 0.0,
+      "padus_protected_open_space_share": 0.0,
       "source_level": "tract_context_modeled",
       "total_acres": 97.59
     },
@@ -10891,8 +10888,8 @@
       "census_water_share": 0.003247,
       "context_only": true,
       "county_fips": "08021",
-      "developable_acres_context": 323937.03,
-      "developable_share_context": 0.481057,
+      "developable_acres_context": 329614.03,
+      "developable_share_context": 0.489487,
       "geoid": "08021974900",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -10900,21 +10897,21 @@
       ],
       "name": "Census Tract 9749",
       "not_scoring_input": true,
-      "padus_feature_count": 42,
+      "padus_feature_count": 41,
       "padus_gap_status_counts": {
         "1": 1,
         "2": 7,
-        "3": 26,
+        "3": 25,
         "4": 8
       },
       "padus_manager_type_counts": {
-        "Federal": 21,
+        "Federal": 20,
         "Non-Governmental Organization": 2,
         "Private": 2,
         "State": 17
       },
-      "padus_protected_open_space_acres": 347263.0,
-      "padus_protected_open_space_share": 0.515696,
+      "padus_protected_open_space_acres": 341586.0,
+      "padus_protected_open_space_share": 0.507266,
       "source_level": "tract_context_modeled",
       "total_acres": 673386.51
     },
@@ -15037,8 +15034,8 @@
       "census_water_share": 0.0,
       "context_only": true,
       "county_fips": "08031",
-      "developable_acres_context": 538.48,
-      "developable_share_context": 0.967654,
+      "developable_acres_context": 534.48,
+      "developable_share_context": 0.960466,
       "geoid": "08031006810",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -15046,16 +15043,16 @@
       ],
       "name": "Census Tract 68.10",
       "not_scoring_input": true,
-      "padus_feature_count": 2,
+      "padus_feature_count": 3,
       "padus_gap_status_counts": {
-        "4": 2
+        "4": 3
       },
       "padus_manager_type_counts": {
-        "Joint": 1,
+        "Joint": 2,
         "Regional Agency Special District": 1
       },
-      "padus_protected_open_space_acres": 18.0,
-      "padus_protected_open_space_share": 0.032346,
+      "padus_protected_open_space_acres": 22.0,
+      "padus_protected_open_space_share": 0.039534,
       "source_level": "tract_context_modeled",
       "total_acres": 556.48
     },
@@ -15174,8 +15171,8 @@
       "census_water_share": 0.009567,
       "context_only": true,
       "county_fips": "08031",
-      "developable_acres_context": 404.61,
-      "developable_share_context": 0.87764,
+      "developable_acres_context": 408.61,
+      "developable_share_context": 0.886316,
       "geoid": "08031006816",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -15183,15 +15180,15 @@
       ],
       "name": "Census Tract 68.16",
       "not_scoring_input": true,
-      "padus_feature_count": 3,
+      "padus_feature_count": 2,
       "padus_gap_status_counts": {
-        "4": 3
+        "4": 2
       },
       "padus_manager_type_counts": {
-        "Joint": 3
+        "Joint": 2
       },
-      "padus_protected_open_space_acres": 52.0,
-      "padus_protected_open_space_share": 0.112793,
+      "padus_protected_open_space_acres": 48.0,
+      "padus_protected_open_space_share": 0.104117,
       "source_level": "tract_context_modeled",
       "total_acres": 461.02
     },
@@ -23702,16 +23699,16 @@
       ],
       "name": "Census Tract 9516",
       "not_scoring_input": true,
-      "padus_feature_count": 22,
+      "padus_feature_count": 23,
       "padus_gap_status_counts": {
         "1": 1,
         "2": 1,
         "3": 12,
-        "4": 8
+        "4": 9
       },
       "padus_manager_type_counts": {
         "Federal": 14,
-        "Non-Governmental Organization": 6,
+        "Non-Governmental Organization": 7,
         "Private": 1,
         "State": 1
       },
@@ -23912,8 +23909,8 @@
       "census_water_share": 0.001883,
       "context_only": true,
       "county_fips": "08045",
-      "developable_acres_context": 151457.08,
-      "developable_share_context": 0.85711,
+      "developable_acres_context": 151481.08,
+      "developable_share_context": 0.857246,
       "geoid": "08045951902",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -23921,21 +23918,21 @@
       ],
       "name": "Census Tract 9519.02",
       "not_scoring_input": true,
-      "padus_feature_count": 27,
+      "padus_feature_count": 26,
       "padus_gap_status_counts": {
         "2": 3,
         "3": 2,
-        "4": 22
+        "4": 21
       },
       "padus_manager_type_counts": {
         "Federal": 2,
         "Local Government": 3,
-        "Non-Governmental Organization": 17,
+        "Non-Governmental Organization": 16,
         "Private": 3,
         "State": 2
       },
-      "padus_protected_open_space_acres": 24917.0,
-      "padus_protected_open_space_share": 0.141008,
+      "padus_protected_open_space_acres": 24893.0,
+      "padus_protected_open_space_share": 0.140872,
       "source_level": "tract_context_modeled",
       "total_acres": 176706.74
     },
@@ -26110,8 +26107,8 @@
       "census_water_share": 0.034063,
       "context_only": true,
       "county_fips": "08059",
-      "developable_acres_context": 772.93,
-      "developable_share_context": 0.739993,
+      "developable_acres_context": 966.93,
+      "developable_share_context": 0.925727,
       "geoid": "08059010403",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -26119,15 +26116,15 @@
       ],
       "name": "Census Tract 104.03",
       "not_scoring_input": true,
-      "padus_feature_count": 6,
+      "padus_feature_count": 5,
       "padus_gap_status_counts": {
-        "4": 6
+        "4": 5
       },
       "padus_manager_type_counts": {
-        "Local Government": 6
+        "Local Government": 5
       },
-      "padus_protected_open_space_acres": 236.0,
-      "padus_protected_open_space_share": 0.225944,
+      "padus_protected_open_space_acres": 42.0,
+      "padus_protected_open_space_share": 0.04021,
       "source_level": "tract_context_modeled",
       "total_acres": 1044.51
     },
@@ -26218,8 +26215,8 @@
       "census_water_share": 0.026388,
       "context_only": true,
       "county_fips": "08059",
-      "developable_acres_context": 954.56,
-      "developable_share_context": 0.947796,
+      "developable_acres_context": 760.56,
+      "developable_share_context": 0.755171,
       "geoid": "08059010503",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -26227,15 +26224,15 @@
       ],
       "name": "Census Tract 105.03",
       "not_scoring_input": true,
-      "padus_feature_count": 4,
+      "padus_feature_count": 5,
       "padus_gap_status_counts": {
-        "4": 4
+        "4": 5
       },
       "padus_manager_type_counts": {
-        "Local Government": 4
+        "Local Government": 5
       },
-      "padus_protected_open_space_acres": 26.0,
-      "padus_protected_open_space_share": 0.025816,
+      "padus_protected_open_space_acres": 220.0,
+      "padus_protected_open_space_share": 0.21844,
       "source_level": "tract_context_modeled",
       "total_acres": 1007.14
     },
@@ -28517,8 +28514,8 @@
       "census_water_share": 0.003665,
       "context_only": true,
       "county_fips": "08059",
-      "developable_acres_context": 5592.45,
-      "developable_share_context": 0.801668,
+      "developable_acres_context": 5239.45,
+      "developable_share_context": 0.751066,
       "geoid": "08059060501",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -28526,20 +28523,20 @@
       ],
       "name": "Census Tract 605.01",
       "not_scoring_input": true,
-      "padus_feature_count": 15,
+      "padus_feature_count": 28,
       "padus_gap_status_counts": {
-        "2": 1,
+        "2": 2,
         "3": 1,
-        "4": 13
+        "4": 25
       },
       "padus_manager_type_counts": {
-        "Local Government": 9,
-        "Non-Governmental Organization": 1,
+        "Local Government": 21,
+        "Non-Governmental Organization": 2,
         "Private": 1,
         "Regional Agency Special District": 4
       },
-      "padus_protected_open_space_acres": 1358.0,
-      "padus_protected_open_space_share": 0.194667,
+      "padus_protected_open_space_acres": 1711.0,
+      "padus_protected_open_space_share": 0.245269,
       "source_level": "tract_context_modeled",
       "total_acres": 6976.02
     },
@@ -34529,8 +34526,8 @@
       "census_water_share": 0.0,
       "context_only": true,
       "county_fips": "08097",
-      "developable_acres_context": 4841.15,
-      "developable_share_context": 0.914607,
+      "developable_acres_context": 4845.15,
+      "developable_share_context": 0.915362,
       "geoid": "08097000403",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -34538,18 +34535,18 @@
       ],
       "name": "Census Tract 4.03",
       "not_scoring_input": true,
-      "padus_feature_count": 25,
+      "padus_feature_count": 24,
       "padus_gap_status_counts": {
         "2": 5,
-        "4": 20
+        "4": 19
       },
       "padus_manager_type_counts": {
         "Joint": 2,
-        "Local Government": 17,
+        "Local Government": 16,
         "Non-Governmental Organization": 6
       },
-      "padus_protected_open_space_acres": 452.0,
-      "padus_protected_open_space_share": 0.085393,
+      "padus_protected_open_space_acres": 448.0,
+      "padus_protected_open_space_share": 0.084638,
       "source_level": "tract_context_modeled",
       "total_acres": 5293.15
     },
@@ -34588,8 +34585,8 @@
       "census_water_share": 0.004026,
       "context_only": true,
       "county_fips": "08097",
-      "developable_acres_context": 156099.81,
-      "developable_share_context": 0.529373,
+      "developable_acres_context": 156095.81,
+      "developable_share_context": 0.529359,
       "geoid": "08097000500",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -34597,23 +34594,23 @@
       ],
       "name": "Census Tract 5",
       "not_scoring_input": true,
-      "padus_feature_count": 97,
+      "padus_feature_count": 98,
       "padus_gap_status_counts": {
         "1": 1,
         "2": 10,
         "3": 12,
-        "4": 74
+        "4": 75
       },
       "padus_manager_type_counts": {
         "Federal": 13,
         "Joint": 5,
-        "Local Government": 58,
+        "Local Government": 59,
         "Non-Governmental Organization": 19,
         "Private": 1,
         "State": 1
       },
-      "padus_protected_open_space_acres": 137590.0,
-      "padus_protected_open_space_share": 0.466601,
+      "padus_protected_open_space_acres": 137594.0,
+      "padus_protected_open_space_share": 0.466615,
       "source_level": "tract_context_modeled",
       "total_acres": 294876.92
     },
@@ -36460,8 +36457,8 @@
       "census_water_share": 0.00024,
       "context_only": true,
       "county_fips": "08105",
-      "developable_acres_context": 346695.33,
-      "developable_share_context": 0.797608,
+      "developable_acres_context": 341018.33,
+      "developable_share_context": 0.784547,
       "geoid": "08105977001",
       "limitations": [
         "PAD-US exclusions are centroid-allocated source acres, not polygon-overlaid acreage.",
@@ -36469,21 +36466,21 @@
       ],
       "name": "Census Tract 9770.01",
       "not_scoring_input": true,
-      "padus_feature_count": 25,
+      "padus_feature_count": 26,
       "padus_gap_status_counts": {
         "2": 5,
-        "3": 5,
+        "3": 6,
         "4": 15
       },
       "padus_manager_type_counts": {
-        "Federal": 8,
+        "Federal": 9,
         "Local Government": 1,
         "Non-Governmental Organization": 4,
         "Private": 1,
         "State": 11
       },
-      "padus_protected_open_space_acres": 87869.0,
-      "padus_protected_open_space_share": 0.202152,
+      "padus_protected_open_space_acres": 93546.0,
+      "padus_protected_open_space_share": 0.215212,
       "source_level": "tract_context_modeled",
       "total_acres": 434668.85
     },
