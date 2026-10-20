@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T14:19:40.283Z",
+    "generated_at": "2026-10-20T17:44:52.443Z",
     "root": "data/",
     "file_count": 1754,
-    "total_size_bytes": 192627905,
+    "total_size_bytes": 192631077,
     "kinds": {
       "json": 1708,
       "geojson": 34,
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-20T14:19:35.613Z",
+      "mtime": "2026-10-20T17:44:49.185Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32752,7 +32752,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16097,
-      "mtime": "2026-10-20T14:19:37.781Z",
+      "mtime": "2026-10-20T17:44:50.848Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32776,7 +32776,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-20T14:19:37.189Z",
+      "mtime": "2026-10-20T17:44:50.418Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34654,8 +34654,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 432051,
-      "mtime": "2026-10-18T13:47:12.953Z",
+      "size_bytes": 434831,
+      "mtime": "2026-10-20T17:43:25.408Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35546,8 +35546,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 45475,
-      "mtime": "2026-10-20T11:11:41.606Z",
+      "size_bytes": 45867,
+      "mtime": "2026-10-20T17:43:25.415Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
