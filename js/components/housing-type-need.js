@@ -368,17 +368,17 @@
       // also raised at the top (40 → 45) so only truly extreme severe-burden
       // places saturate; CO baseline severe burden is high enough that the
       // original pivot was too generous.
-      ind('Severe renter cost burden (≥35% of income)', 0.30,
+      ind('Severe renter cost burden (35% or more of income)', 0.30,
         acs.renterCB35,
         ramp(acs.renterCB35, [[10, 0], [20, 35], [30, 65], [45, 100]])),
       // Bumped to 0.25 from 0.20 — the CHAS share of renters at ≤30% AMI
       // is the most direct signal of who needs PSH/30%-AMI LIHTC. Replaces
       // some of the weight pulled off severe burden above.
-      ind('≤30% AMI renter share', 0.25,
+      ind('Renters at 30% AMI or less (share)', 0.25,
         chas.renterByAmi ? chas.renterByAmi.lte30Share : null,
         ramp(chas.renterByAmi ? chas.renterByAmi.lte30Share : null,
              [[5, 0], [15, 50], [25, 80], [35, 100]])),
-      ind('Cost burden within ≤30% AMI cohort', 0.20,
+      ind('Cost burden among renters at 30% AMI or less', 0.20,
         chas.severeBurdenAmi30,
         ramp(chas.severeBurdenAmi30, [[40, 0], [60, 45], [80, 80], [90, 100]])),
       ind('Poverty rate', 0.15,
@@ -395,20 +395,20 @@
     return {
       type: 'deeplyAffordableRental',
       label: 'Deeply affordable rental',
-      meta: '≤30% AMI · apartment · rent',
+      meta: '30% AMI or less · apartment · rent',
       usesChas: true,
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Weighted blend of severe renter burden (35%), ≤30% AMI renter share (20%), ' +
-        'cost burden inside the ≤30% cohort (20%), poverty rate (15%), and MHI level (10%, ' +
+      methodology: 'Weighted blend of severe renter burden (35%), share of renters at 30% AMI or less (20%), ' +
+        'cost burden among renters at 30% AMI or less (20%), poverty rate (15%), and MHI level (10%, ' +
         'lower MHI = more ELI demand). Tracks demand for PSH / extremely-low-income LIHTC at ' +
         '30% AMI rents.',
-      lihtcRelevance: 'Aligns with ≤30% AMI LIHTC set-asides, PSH layering, and Prop 123 ' +
+      lihtcRelevance: 'Aligns with LIHTC set-asides for 30% AMI or less, PSH layering, and Prop 123 ' +
         '"extremely low income" credit boosts.',
       plainEnglish: function (level) {
         if (level === 'VeryHigh' || level === 'High') {
-          return 'Severe cost burden and a heavy ≤30% AMI renter base point to strong demand ' +
+          return 'Severe cost burden and a large base of renters at 30% AMI or less point to strong demand ' +
                  'for deeply affordable rental — the lowest-income LIHTC tier.';
         }
         if (level === 'Moderate') {
@@ -590,7 +590,7 @@
       ind('Average household size', 0.15,
         acs.avgHHSize,
         ramp(acs.avgHHSize, [[2.0, 0], [2.4, 40], [2.8, 75], [3.2, 100]])),
-      ind('Overcrowding (≥1.01 occupants/room)', 0.15,
+      ind('Overcrowding (more than 1 person per room)', 0.15,
         acs.overcrowdPct,
         ramp(acs.overcrowdPct, [[1, 0], [3, 40], [6, 75], [10, 100]])),
       ind('Renter market depth (renter HH count)', 0.05,
@@ -710,7 +710,7 @@
       // Bumped to 0.25 from 0.20 — owner cost burden directly indicates
       // existing owners squeezed by mortgages, the people who would refinance
       // or downsize into for-sale missing-middle product.
-      ind('Owner cost burden (≥30% of income)', 0.25,
+      ind('Owner cost burden (30% or more of income)', 0.25,
         acs.ownerCB30Pct,
         ramp(acs.ownerCB30Pct, [[15, 0], [25, 40], [35, 75], [45, 100]]))
     ];
@@ -725,7 +725,7 @@
       methodology: 'Blend of detached-SF dominance (20%), home-value-to-MHI ratio (35%), ' +
         'attached-unit production deficit (20%), and owner cost burden (25%). Home-value-to-MHI ' +
         'ratio is the strongest "stuck renters who want to buy" signal; SF dominance is now ' +
-        'secondary because virtually all CO suburbs hit ≥75% detached.',
+        'secondary because virtually all CO suburbs are 75% or more detached homes.',
       lihtcRelevance: 'Outside core 4%/9% LIHTC but pairs with for-sale Prop 123, MLI, CHFA ' +
         'down-payment, and inclusionary-zoning levers.',
       plainEnglish: function (level) {

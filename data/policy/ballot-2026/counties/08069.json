@@ -52,7 +52,7 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted. (larimer.gov returns HTTP 403 to curl; the pages and PDFs were retrieved with WebFetch.)",
+        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted.",
         "Town of Estes Park Elections page re-read 2026-10-10: regular municipal elections (with any local ballot questions) are held in April of even-numbered years; the 2026 election was April 7, 2026. The page states the Town is not responsible for elections coordinated with the county in November. No Town of Estes Park question is on the county sample ballot or TABOR notice.",
         "Estes Valley Fire Protection District 6D (sales tax for fire protection) is on the ballot for Estes-area voters; it is not a town measure and not housing."
       ],
@@ -88,9 +88,9 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted. (larimer.gov returns HTTP 403 to curl; the pages and PDFs were retrieved with WebFetch.)",
-        "City of Fort Collins 'On the Ballot' page (read 2026-10-10 with WebFetch; curl returns 403) says only that voters 'will elect state and federal offices as well as possible local ballot questions'; it names no City of Fort Collins question. No City of Fort Collins question is on the county sample ballot or TABOR notice.",
-        "Owner review: the city page's generic 'possible local ballot questions' sentence is the only city-side text; this row closes on the county all-contests sample ballot and TABOR notice."
+        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted.",
+        "City of Fort Collins 'On the Ballot' page (read 2026-10-10) says only that voters 'will elect state and federal offices as well as possible local ballot questions'; it names no City of Fort Collins question. No City of Fort Collins question is on the county sample ballot or TABOR notice.",
+        "The city page's generic 'possible local ballot questions' sentence is the only city-side text; this row closes on the county all-contests sample ballot and TABOR notice."
       ],
       "reviewed_sources": [
         {
@@ -124,9 +124,9 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted. (larimer.gov returns HTTP 403 to curl; the pages and PDFs were retrieved with WebFetch.)",
+        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted.",
         "No City of Loveland question is on the county sample ballot or TABOR notice.",
-        "City of Loveland City Clerk elections page (www.lovgov.org) returned HTTP 403 to curl and WebFetch on 2026-10-10 and was not read. Unreadable source: the city website (blocked), not a PDF.",
+        "City of Loveland City Clerk elections page (www.lovgov.org) could not be opened on 2026-10-10 and was not read. Unreadable source: the city website, not a PDF.",
         "Weld County portion of Loveland not reviewed."
       ],
       "reviewed_sources": [
@@ -157,7 +157,7 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted. (larimer.gov returns HTTP 403 to curl; the pages and PDFs were retrieved with WebFetch.)",
+        "Rechecked 2026-10-10: the Larimer County 2026 Elections page links the same sample ballot, described there as covering all Larimer County contests, and the same TABOR notice (tabor-notice-07-final.pdf, 24 pages). Both were re-read. Their only municipal measures are Town of Berthoud 3G and Town of Wellington 2A. The Election Legal Notice (dated 2026-09-23) lists drop boxes and VSPCs only; no participating-entities list or IGA is posted.",
         "Town of Timnath Elections page re-read 2026-10-10: the town's 2026 regular election was April 7, 2026 (two council seats); nothing is posted for November 3, 2026. No Town of Timnath question is on the county sample ballot or TABOR notice.",
         "Weld County portion of Timnath not reviewed; a town-wide question would also appear on the Larimer County ballot."
       ],

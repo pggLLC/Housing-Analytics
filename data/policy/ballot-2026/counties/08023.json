@@ -10,7 +10,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) is behind a Cloudflare browser challenge and returned HTTP 403 on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read."
+        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) could not be opened on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read."
       ]
     },
     {
@@ -22,7 +22,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) is behind a Cloudflare browser challenge and returned HTTP 403 on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read.",
+        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) could not be opened on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read.",
         "Town website checked 2026-09-26: no election or ballot content."
       ],
       "reviewed_sources": [
@@ -41,8 +41,8 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) is behind a Cloudflare browser challenge and returned HTTP 403 on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read.",
-        "The Town of San Luis website (https://townofsanluisco.org/) also returned HTTP 403 (Cloudflare challenge) on 2026-09-26."
+        "Unreadable: the Costilla County Clerk and Recorder elections page (https://www.costillacounty.gov/clerk-recorder/page/elections) could not be opened on 2026-09-26; no archived copy exists. Sample ballot, TABOR notice and participating-entities list could not be read.",
+        "The Town of San Luis website (https://townofsanluisco.org/) also could not be opened on 2026-09-26."
       ]
     }
   ],

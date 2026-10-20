@@ -53,7 +53,7 @@
     {
       id:    "UNDCONTSA",
       label: "Units under construction",
-      sub:   "All multifamily, SAAR",
+      sub:   "All housing units, seasonally adjusted",
       scale: 1000,
       unit:  "units",
       fmt:   (n) => Math.round(n * 1000).toLocaleString(),
@@ -63,12 +63,12 @@
     {
       id:    "COMPUTSA",
       label: "Completions",
-      sub:   "5+ unit structures, SAAR",
+      sub:   "All housing units, SAAR",
       scale: 1000,
       unit:  "units/yr",
       fmt:   (n) => Math.round(n * 1000).toLocaleString(),
       src:   "https://fred.stlouisfed.org/series/COMPUTSA",
-      note:  "New privately-owned 5+ unit housing units completed (seasonally adjusted annual rate)"
+      note:  "New privately-owned housing units completed, all structure types (seasonally adjusted annual rate)"
     },
   ];
 
@@ -119,7 +119,10 @@
       key: "newer_stock_share",
       label: "Built 2010 or later",
       compute: (r) => {
-        const newer = Number(r.built_2010_or_later);
+        // ACS 2020+ B25034: _002E = built 2020 or later, _003E = built 2010 to 2019.
+        // (B25034_010E is built 1940 to 1949 in these vintages, so it is not used.)
+        if (r.built_2020_or_later == null || r.built_2010_to_2019 == null) return null;
+        const newer = Number(r.built_2020_or_later) + Number(r.built_2010_to_2019);
         const total = Number(r.housing_units_year_built_total);
         if (!isFinite(newer) || !isFinite(total) || total <= 0) return null;
         return newer / total;

@@ -46,7 +46,7 @@
       if (o.purpose === 'rental' && !a.rental) return false;
       if (o.purpose === 'homeownership' && !a.homeownership) return false;
       if (q) {
-        var hay = [a.project, a.sponsor, a.location].concat((a.places || []).map(function (p) { return p.name + ' ' + (p.county || ''); }))
+        var hay = [a.project, a.sponsor, a.show_project, a.show_sponsor, a.location].concat((a.places || []).map(function (p) { return p.name + ' ' + (p.county || ''); }))
           .join(' ').toLowerCase();
         if (hay.indexOf(q) === -1) return false;
       }
@@ -80,6 +80,20 @@
       .sort(function (x, y) { return y.awards.length - x.awards.length || x.name.localeCompare(y.name); });
   }
 
+  function projectName(a) { return a.show_project || a.project; }
+  function sponsorName(a) { return a.show_sponsor || a.sponsor; }
+
+  // What has happened to the site since the award, when a dated public source says.
+  function sinceHtml(a) {
+    var s = a && a.since;
+    if (!s || !s.text) return '';
+    var links = (s.sources || []).map(function (x) {
+      var u = safeUrl(x.url);
+      return u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
+    }).join('; ');
+    return '<p class="lb-since">Since the award: ' + esc(s.text) + (links ? ' <span class="lb-note">Sources: ' + links + '.</span>' : '') + '</p>';
+  }
+
   function roundLabel(data, id) {
     var r = ((data.meta || {}).rounds || []).find(function (x) { return x.id === id; });
     return r ? r.label : id;
@@ -104,8 +118,8 @@
       (a.note ? '<p class="lb-note">' + esc(a.note) + '</p>' : '') + '</details>';
     return '<tr>' +
       '<td class="lb-c-round">' + esc(roundLabel(data, a.round)) + '</td>' +
-      '<td class="lb-c-project"><strong>' + esc(a.project) + '</strong></td>' +
-      '<td data-label="Received by">' + esc(a.sponsor) + '</td>' +
+      '<td class="lb-c-project"><strong>' + esc(projectName(a)) + '</strong>' + sinceHtml(a) + '</td>' +
+      '<td data-label="Received by">' + esc(sponsorName(a)) + '</td>' +
       '<td data-label="Town">' + esc(towns) + '</td>' +
       '<td data-label="Homes planned">' + esc(purposeText(a.purpose)) + '</td>' +
       '<td class="n" data-label="Awarded">' + money(a.amount_awarded) + '</td>' +
@@ -178,7 +192,7 @@
     var cell = function (v) { var t = String(v == null ? '' : v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
     var head = ['round', 'project', 'grantee', 'towns', 'counties', 'homes_planned', 'amount_awarded', 'estimated_homes', 'source_url'];
     return [head.join(',')].concat((awards || []).map(function (a) {
-      return [roundLabel(data, a.round), a.project, a.sponsor,
+      return [roundLabel(data, a.round), projectName(a), sponsorName(a),
         (a.places || []).map(function (p) { return p.name; }).join('; '),
         (a.places || []).map(function (p) { return p.county; }).filter(Boolean).join('; '),
         purposeText(a.purpose), a.amount_awarded, a.estimated_units, a.source_url].map(cell).join(',');

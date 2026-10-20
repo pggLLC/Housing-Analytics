@@ -100,7 +100,7 @@
     },
     'rent-vs-buy': {
       title: 'Rent vs Buy breakeven',
-      what: 'Year at which cumulative ownership cost (mortgage + taxes + maintenance - principal paydown - appreciation) drops below cumulative rent paid.',
+      what: 'First year in which the net cost of buying (payments, down payment, 3% closing costs and a 4% forgone return on the down payment, minus the equity left after 6% selling costs) drops below cumulative rent paid.',
       how: 'Standard 30-year mortgage amortization with editable inputs. Rent escalates at the user-specified rate; home value appreciates at the user-specified rate.',
       caveats: 'Does not model tax deductions, capital gains exclusion, or moving costs. Intended for directional analysis, not personal financial planning.',
       source: 'js/rent-vs-buy-breakeven.js',

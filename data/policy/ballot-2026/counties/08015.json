@@ -69,7 +69,7 @@
       "limitations": [
         "No Poncha Springs ballot style or question appears among the county's posted sample ballots; the posted County style carries no municipal question.",
         "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
-        "The town website (https://www.ponchasprings.us/) returned HTTP 403 on 2026-09-26 and could not be read to confirm there is no town measure. Owner review: confirm non-participation."
+        "The town website (https://www.ponchasprings.us/) could not be opened on 2026-09-26, so the town's own records do not confirm that it has no measure. Town participation still needs to be confirmed."
       ],
       "reviewed_sources": [
         {
@@ -102,7 +102,7 @@
       ],
       "limitations": [
         "Excluded (not housing): City of Salida measure \"Publishing Ordinances by Title\" (publication of ordinances by title only).",
-        "The City of Salida website (cityofsalida.com) returned HTTP 403 (Cloudflare challenge) on 2026-09-26; the ordinance and referendum petition documents could not be read."
+        "The City of Salida website (cityofsalida.com) could not be opened on 2026-09-26; the ordinance and referendum petition documents could not be read."
       ],
       "reviewed_sources": [
         {
@@ -173,7 +173,7 @@
       },
       "limitations": [
         "The sample ballot prints no letter or number for this measure; the measure number shown here repeats its ballot heading.",
-        "Origin is recorded as initiated because the measure is a referendum on an adopted ordinance; the City of Salida's referendum petition page returned HTTP 403 and could not be read. Owner review: confirm origin.",
+        "Origin is recorded as initiated because the measure is a referendum on an adopted ordinance; the City of Salida's referendum petition page could not be opened. The origin still needs to be confirmed.",
         "Ordinance No. 2026-09 itself could not be retrieved (the city website refused access), so no ordinance source is linked for this measure.",
         "The sample ballot does not state the density or unit count of the zoning."
       ],

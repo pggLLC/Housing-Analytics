@@ -11,7 +11,7 @@
       "entry_ids": [],
       "limitations": [
         "The clerk's Notice of General Election (certified Sep 18, 2026) gives \"a complete listing of ballot content for Yuma County\". It lists no county measure. Its local measures are \"City of Wray Referred Ballot Issue 2A\" and school district measures \"RE-1J Referred Ballot Issue 5A\" and \"RE-6J Referred Ballot Issue 5D\".",
-        "All twelve posted sample ballot styles (001-01 to 007-01) were read from their text layers on 2026-10-10. None has a county measure.",
+        "All twelve posted sample ballot styles (001-01 to 007-01) were read from their searchable text on 2026-10-10. None has a county measure.",
         "The BOCC minutes for Jul 30, 2026 mention 'future election ballot questions' without naming any. The certified ballot content shows that no county question was referred.",
         "No referral resolution was found among the posted BOCC minutes (Jul 6 - Aug 13, 2026, including the Aug 13 minutes) or the Sep 5, 2026 agenda, reviewed 2026-09-26."
       ],
@@ -193,8 +193,8 @@
       "entry_ids": [],
       "limitations": [
         "The county's certified complete ballot content (Notice of General Election, Sep 18, 2026) lists no City of Yuma measure, and none of the twelve sample ballot styles has a City of Yuma section.",
-        "The city has no elections page. Its latest council minutes, Sep 1, 2026 (MIN090126.pdf) and Sep 3, 2026 (MIN090326.pdf), are image-only scans (ScanSnap) with no text layer, so the town-side check could not be completed. The Jun 2 to Aug 3, 2026 minutes, which are text, contain no ballot, election or IGA items.",
-        "News snippets mention a Yuma marijuana tax question. That appears to be the 2021 question (Resolution #27, Series of 2021), not 2026. It is not housing either way."
+        "The city has no elections page. Its latest council minutes, Sep 1, 2026 (MIN090126.pdf) and Sep 3, 2026 (MIN090326.pdf), are image-only scans with no searchable text, so the town-side check could not be completed. The Jun 2 to Aug 3, 2026 minutes, which are text, contain no ballot, election or IGA items.",
+        "News reports mention a Yuma marijuana tax question. That appears to be the 2021 question (Resolution #27, Series of 2021), not 2026. It is not housing either way."
       ],
       "reviewed_sources": [
         {

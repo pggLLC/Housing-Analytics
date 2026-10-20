@@ -70,7 +70,7 @@
       tdc_build_up: 'a breakdown of total development cost (TDC)',
       land_value: 'the land value',
       phasing: 'the construction phasing',
-      hrwc_terms: 'the steward\'s terms (Housing Resources of Western Colorado)',
+      steward_terms: 'the steward\'s terms',
       development_partner: 'a development partner',
       lender: 'a lender'
     }),

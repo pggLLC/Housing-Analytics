@@ -10,7 +10,7 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the county election page now posts 15 English 2026 General sample ballot styles (001-01 to 015-01, one per precinct, with Spanish versions) and a STATE style; all 15 English styles were read from their text layer. Apart from state offices, judicial retention and statewide measures, the only question on any style is 12th Judicial District Attorney Question 7A. No TABOR notice or participating-entities list is posted.",
+        "Checked 2026-10-10: the county election page now posts 15 English 2026 General sample ballot styles (001-01 to 015-01, one per precinct, with Spanish versions) and a STATE style; all 15 English styles were read from their searchable text. Apart from state offices, judicial retention and statewide measures, the only question on any style is 12th Judicial District Attorney Question 7A. No TABOR notice or participating-entities list is posted.",
         "There is no county question on any style. Excluded, not housing: Question 7A asks whether the term limits for the District Attorney of the 12th Judicial District should be eliminated.",
         "Commissioner resolutions through 2026-32, minutes through 2026-08-12 and September agendas contain no ballot referral; the 2026-08-19 and 2026-08-26 agendas and minutes are not posted."
       ],

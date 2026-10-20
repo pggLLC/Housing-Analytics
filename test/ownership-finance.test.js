@@ -349,7 +349,8 @@ test('C2: HNAUtils.computeIncomeNeeded delegates to the engine with EXACT parity
     assert.equal(a.loan, b.loan);
   });
   // and the delegated path really is the engine's closed form
-  const viaEngine = engine.incomeRequiredForPrice(486295, { pmiLtvGate: true });
+  // HNAUtils uses the current PMMS rate (AFFORD.rateAnnual), not the engine default.
+  const viaEngine = engine.incomeRequiredForPrice(486295, { pmiLtvGate: true, rateAnnual: utilsWith.AFFORD.rateAnnual });
   assert(Math.abs(utilsWith.computeIncomeNeeded(486295).annualIncome - viaEngine.annualIncome) < 1e-6);
 });
 

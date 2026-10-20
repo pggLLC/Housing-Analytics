@@ -671,7 +671,10 @@
     const incomeNeedSrc = document.getElementById('statIncomeNeedSrc');
     if (incomeNeedSrc) {
       const sourceText = U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText;
-      incomeNeedSrc.textContent = (sourceText || 'Home-value source unavailable') + ' · Freddie Mac PMMS';
+      const rateA = U().AFFORD || {};
+      incomeNeedSrc.textContent = (sourceText || 'Home-value source unavailable') + ' · ' +
+        (rateA.rateAnnual ? (rateA.rateAnnual * 100).toFixed(2) + '% mortgage rate, ' : '') +
+        (rateA.rateSource || 'Freddie Mac PMMS');
     }
 
     // Commute (S0801 mean travel time C01_046E)
@@ -998,6 +1001,64 @@
    *
    * @param {object} profile
    */
+  // D2 — The card's static note says the headline home value is Zillow
+  // ZHVI. For a geography whose headline is the ACS figure (Mesa County),
+  // that is wrong, so the note and the affordability badge follow the value
+  // actually shown, on every render.
+  function affordSourceUrl(homeInfo, fallback) {
+    const src = homeInfo && homeInfo.display ? homeInfo.display.source : 'acs_raw';
+    if (src === 'zhvi' || src === 'county_zhvi_adjusted') return fallback || 'https://www.zillow.com/research/data/';
+    const oneYear = /1-year/.test(homeInfo && homeInfo.asOf || '');
+    const m = /(20\d\d)(?!.*20\d\d)/.exec(homeInfo && homeInfo.asOf || '');
+    const y = m ? m[1] : '2024';
+    return 'https://data.census.gov/table/ACS' + (oneYear ? 'DP1Y' : 'DP5Y') + y + '.DP04';
+  }
+
+  function applyAffordProvenance(canvas, profile, homeInfo) {
+    try {
+      const hvCanvas = document.getElementById('chartHomeValue');
+      const box = hvCanvas && hvCanvas.closest ? hvCanvas.closest('.chart-box') : null;
+      let note = box ? box.previousElementSibling : null;
+      while (note && note.tagName !== 'P') note = note.previousElementSibling;
+      if (note && (/Zillow ZHVI/.test(note.textContent) || note.hasAttribute('data-home-value-note'))) {
+        note.setAttribute('data-home-value-note', '');
+        const isZhvi = homeInfo.display && homeInfo.display.source === 'zhvi';
+        note.textContent = isZhvi
+          ? 'The headline median home value is Zillow ZHVI (current typical value, all homes); the distribution below is the ACS owner-reported value, a different measure and vintage, so the bars center below the headline.'
+          : 'The headline median home value is ' + (homeInfo.display && homeInfo.display.source !== 'acs_raw'
+              ? homeInfo.sourceLabel + ' (' + homeInfo.asOf + ')'
+              : 'the Census ACS median value of owner-occupied homes (' + homeInfo.asOf + ', table DP04)') +
+            '. The distribution below is the ACS 2020-2024 5-year owner-reported value, which can differ from the headline when the headline uses another source or survey period.';
+      }
+      const affordBox = canvas.closest ? canvas.closest('.chart-box') : null;
+      if (!affordBox) return;
+      // Remember the page's own Zillow link the first time, then rebuild
+      // the badge from the current geography every time.
+      if (!affordBox.hasAttribute('data-afford-managed')) {
+        affordBox.setAttribute('data-afford-managed', '');
+        affordBox.setAttribute('data-zillow-url', affordBox.getAttribute('data-source-url') || '');
+      }
+      const isZhviHead = homeInfo.display && homeInfo.display.source === 'zhvi';
+      const newSrc = (isZhviHead ? 'Home value: Zillow ZHVI' : 'Home value: ' + (homeInfo.sourceText || 'Census ACS DP04')) +
+        ' + income: ACS DP03 + mortgage assumptions below';
+      const newUrl = affordSourceUrl(homeInfo, affordBox.getAttribute('data-zillow-url'));
+      affordBox.setAttribute('data-source', newSrc);
+      affordBox.setAttribute('data-source-url', newUrl);
+      if (homeInfo.asOf) affordBox.setAttribute('data-vintage', homeInfo.asOf);
+      const affordCard = affordBox.closest('.chart-card');
+      const staleBadge = affordCard && affordCard.querySelector(':scope > .chart-source');
+      if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+        if (staleBadge) staleBadge.remove();
+        window.SourceBadge.attach(affordBox, {
+          source: newSrc,
+          url: newUrl,
+          vintage: homeInfo.asOf || affordBox.getAttribute('data-vintage') || null,
+          sourceType: affordBox.getAttribute('data-source-type') || null
+        });
+      }
+    } catch (_) { /* note is optional */ }
+  }
+
   function renderAffordChart(profile) {
     const canvas = document.getElementById('chartAfford');
     if (!canvas || !profile) return;
@@ -1011,6 +1072,18 @@
       ? U().computeIncomeNeeded(homeValue)
       : null;
     const needed    = calc && Number.isFinite(calc.annualIncome) ? calc.annualIncome : 0;
+    applyAffordProvenance(canvas, profile, homeInfo);
+    // The ACS series (1-year or 5-year) comes from the published margins
+    // file. When it is not loaded yet, label again once it arrives, unless
+    // another geography has been rendered in the meantime.
+    canvas._affordProfile = profile;
+    const R = window.ACSReliability;
+    if (R && typeof R.load === 'function') {
+      Promise.resolve(R.load()).then(() => {
+        if (canvas._affordProfile !== profile) return;
+        applyAffordProvenance(canvas, profile, homeValueInfo(profile));
+      }).catch(() => {});
+    }
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -1065,10 +1138,10 @@
         breakdownHtml +
         '<p style="margin:8px 0 4px"><strong>Mortgage assumptions:</strong></p>' +
         '<ul style="margin:0;padding-left:20px">' +
-          '<li>Interest rate: <strong>' + (A.rateAnnual*100).toFixed(2) + '%</strong> (30-yr fixed) · term: <strong>' + A.termYears + ' yr</strong></li>' +
+          '<li>Interest rate: <strong>' + (A.rateAnnual*100).toFixed(2) + '%</strong> (30-year fixed; ' + escHtml(A.rateSource || 'Freddie Mac PMMS') + ') · term: <strong>' + A.termYears + ' years</strong></li>' +
           '<li>Down payment: <strong>' + Math.round(A.downPaymentPct*100) + '%</strong> · PMI: <strong>' + (A.pmiPctAnnual*100).toFixed(2) + '%</strong> of loan/yr when down &lt; 20%</li>' +
           '<li>Property tax: <strong>' + (A.propertyTaxPctAnnual*100).toFixed(2) + '%</strong> of home value/yr · insurance: <strong>' + (A.insurancePctAnnual*100).toFixed(2) + '%</strong> of home value/yr</li>' +
-          '<li>Underwriting rule: monthly PITI ≤ <strong>' + Math.round(A.paymentToIncome*100) + '%</strong> of gross household income (lenders typically use 28%; we use the more generous 30% rule-of-thumb)</li>' +
+          '<li>Underwriting rule: monthly payment (principal, interest, taxes and insurance) of no more than <strong>' + Math.round(A.paymentToIncome*100) + '%</strong> of gross household income (lenders often use 28%; this uses the more generous 30% rule of thumb)</li>' +
         '</ul>' +
         '<p style="margin:8px 0 0;font-size:1rem">Reality-check: actual underwriting also looks at total debt-to-income, credit score, reserves, and DSCR. This card is a screening estimate, not a pre-qualification.</p>';
     }
@@ -1559,7 +1632,7 @@
                   { text: 'Not cost-burdened (<30% of income)',
                     fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
                     hidden: false },
-                  { text: 'Cost-burdened (≥30% of income)',
+                  { text: 'Cost-burdened (30% or more of income)',
                     fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
                     hidden: false },
                 ];
@@ -2886,14 +2959,8 @@
 
     const { geoType, geoid, geoLabel, usedCountyForContext, cacheFlags, derivedEntry, derivedYears } = opts || {};
 
-    // Build cacheBits list of loaded modules for transparency
-    const cacheBits = Object.entries(cacheFlags || {})
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-
-    const cacheNote = cacheBits.length > 0
-      ? `Loaded from cache: ${cacheBits.map(escHtml).join(', ')}.`
-      : 'No cached modules detected — all data loaded from live APIs.';
+    // M13 — the list of cached modules is internal detail, not shown to readers.
+    void cacheFlags;
 
     const U = window.HNAUtils;
 
@@ -2905,7 +2972,6 @@
     els.methodology.innerHTML = `
       <section class="method-section">
         <h4>Data Sources &amp; Methodology</h4>
-        <p class="method-cache">${cacheNote}</p>
       </section>
 
       <section class="method-section">
@@ -2925,17 +2991,17 @@
             <strong>Low-Income Housing Tax Credit (LIHTC)</strong> —
             Primary: CHFA ArcGIS FeatureServer (Colorado-specific);
             fallback: HUD LIHTC database at
-            <a href="${lihtcDbUrl}" target="_blank" rel="noopener noreferrer">SOURCES.lihtcDb</a>.
+            <a href="${lihtcDbUrl}" target="_blank" rel="noopener noreferrer">HUD LIHTC Database</a>.
           </li>
           <li>
             <strong>Qualified Census Tracts (QCT)</strong> —
             HUD Qualified Census Tracts designation.
-            <a href="${hudQctUrl}" target="_blank" rel="noopener noreferrer">SOURCES.hudQct</a>.
+            <a href="${hudQctUrl}" target="_blank" rel="noopener noreferrer">HUD Qualified Census Tracts</a>.
           </li>
           <li>
             <strong>Difficult Development Areas (DDA)</strong> —
             HUD Difficult Development Areas designation for basis boost eligibility.
-            <a href="${hudDdaUrl}" target="_blank" rel="noopener noreferrer">SOURCES.hudDda</a>.
+            <a href="${hudDdaUrl}" target="_blank" rel="noopener noreferrer">HUD Difficult Development Areas</a>.
           </li>
         </ul>
       </section>
@@ -4395,7 +4461,7 @@
       const tierMeta = (window.ChasTierShares
         ? window.ChasTierShares.getRenterSharesWithFallback(geoid, geoType, countyFips5)
         : { source: 'statewide-heuristic', tiers: [
-            { label: '≤30% AMI', share: 0.20 }, { label: '31-50% AMI', share: 0.16 },
+            { label: '30% AMI or less', share: 0.20 }, { label: '31-50% AMI', share: 0.16 },
             { label: '51-80% AMI', share: 0.20 }, { label: '81-100% AMI', share: 0.11 },
             { label: '>100% AMI', share: 0.33 } ] });
       const datasets = tierMeta.tiers.map((tier, idx) => ({
@@ -4561,6 +4627,13 @@
     // HTML but no JS rendered them. Audit pass 2026-05-10 wired them
     // to the same ACS 2023 DP04 fields the sibling charts already use.
     if (!profile) return;
+    // D16 — Nothing else fills #htfContainer, so its "Select a geography
+    // above" placeholder stayed on screen after a geography loaded.
+    const htf = document.getElementById('htfContainer');
+    if (htf && /Select a geography above/i.test(htf.textContent || '')) {
+      htf.innerHTML = '';
+      htf.hidden = true;
+    }
     const t = chartTheme();
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
@@ -4801,7 +4874,7 @@
                     { text: 'Not cost-burdened (<30% of income)',
                       fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
                       hidden: false },
-                    { text: 'Cost-burdened (≥30% of income)',
+                    { text: 'Cost-burdened (30% or more of income)',
                       fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
                       hidden: false },
                   ];
@@ -4957,10 +5030,10 @@
       const burdenedHH = Math.round(renterTotal * burden30plus / 100);
       bullets.push(
         '<strong>' + fmtPct(burden30plus) + '</strong> of renter households are <strong>cost-burdened</strong> ' +
-        '(paying ≥30% of income on rent) — roughly <strong>' + fmtNum(burdenedHH) + '</strong> households. ' +
+        '(paying 30% or more of income on rent) — roughly <strong>' + fmtNum(burdenedHH) + '</strong> households. ' +
         (burden35plus >= 20
-          ? 'A meaningful share (' + fmtPct(burden35plus) + ') are severely burdened (≥35%), which signals immediate rental-affordability stress.'
-          : 'Severe burden (≥35%) is moderate at ' + fmtPct(burden35plus) + '.')
+          ? 'A meaningful share (' + fmtPct(burden35plus) + ') are severely burdened (paying 35% or more), which signals immediate rental-affordability stress.'
+          : 'Severe burden (35% or more of income) is moderate at ' + fmtPct(burden35plus) + '.')
       );
     } else if (geoType === 'state') {
       bullets.push('Statewide ACS GRAPI bins suppress at this granularity — pick a county or place for cost-burden detail.');
@@ -4999,8 +5072,8 @@
       if (lte50Total > 0) {
         bullets.push(
           (_cbFromPlace ? 'Place-level HUD CHAS' : 'HUD CHAS county data') +
-          ' flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at ≤50% AMI ' +
-          'paying ≥30% of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
+          ' flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at or below 50% AMI ' +
+          'paying 30% or more of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
           'Use the AMI tier chart below for the per-tier breakdown.' +
           (_cbFromPlace ? ' ' + placeChasDisclosureHtml(profile._geoid) : '')
         );
@@ -5053,13 +5126,14 @@
     if (disabledCount == null) {
       disabledText = '—';
     } else if (denominator && denominator > 0) {
-      disabledText = U().fmtNum(disabledCount) + ' (' + fmtPct(disabledCount / denominator) + ' of pop)';
+      // D5 — fmtPct takes a percent (15.9), not a fraction (0.159).
+      disabledText = U().fmtNum(disabledCount) + ' (' + fmtPct(100 * disabledCount / denominator) + ' of the population)';
     } else {
       disabledText = U().fmtNum(disabledCount);
     }
     container.textContent =
-      `65+ population: ${senior65 !== null ? U().fmtNum(senior65) : '—'}. ` +
-      `With a disability: ${disabledText}.`;
+      `Residents aged 65 and older: ${senior65 !== null ? U().fmtNum(senior65) : '—'}. ` +
+      `Residents with a disability: ${disabledText}. Source: ACS DP05 and DP02.`;
   }
 
   // ---------------------------------------------------------------------------
@@ -5150,7 +5224,7 @@
     if (!window.HousingTypeNeed || typeof window.HousingTypeNeed.compute !== 'function') {
       container.innerHTML =
         '<p style="color:var(--muted);font-size:1.133rem;font-style:italic;">' +
-        'Housing-type need module not loaded.</p>';
+        'The housing-type ranking could not be loaded. Please reload the page.</p>';
       return;
     }
 
@@ -5258,7 +5332,7 @@
           'LIHTC inventory. Each indicator is normalised to a 0-100 score via a piecewise ' +
           'ramp, then weighted within its category; missing indicators are skipped and the ' +
           'remaining weights are renormalised so a single missing signal does not artificially ' +
-          'depress the score. Levels: Low &lt;30, Moderate 30-49, High 50-69, Very High &ge;70. ' +
+          'depress the score. Levels: Low &lt;30, Moderate 30-49, High 50-69, Very High 70 or more. ' +
           'Confidence is High when at least 4 indicators populate, Medium for 2-3, Low otherwise; ' +
           'tiny-place samples (pop &lt; 5,000) drop one tier. Read this alongside the ' +
           'Recommended AMI Distribution above and the Developer Pipeline LIHTC Readiness ' +
@@ -5375,6 +5449,8 @@
   function _ownFmtPermitAvg(v) {
     var n = Number(v);
     if (!Number.isFinite(n)) return '—';
+    // M6 — a small town averaging 0.2 permits a year is not "0".
+    if (n > 0 && n < 10) return (Math.round(n * 10) / 10).toLocaleString('en-US');
     return _ownFmtNum(Math.round(n));
   }
 
@@ -5681,10 +5757,10 @@
       _ownMetricRow('Moderate-income renter households', _ownFmtNum(result.moderateIncomeRenterHouseholds) + ' (' + _ownFmtPct(fit.inputs.moderateIncomeRenterShare) + ' of renters)', source, 'DERIVED', '51-100% HAMFI renter base.'),
       permitContext ? _ownMetricRow(
         'Single-family permit pace',
-        _ownFmtPermitAvg(permitContext.sfAnnual) + '/yr' + (permitContext.window ? ' (' + permitContext.window + ' avg)' : ''),
+        _ownFmtPermitAvg(permitContext.sfAnnual) + ' a year' + (permitContext.window ? ' (' + permitContext.window + ' average)' : ''),
         'Census BPS',
         'CONTEXT',
-        'Recent market single-family production context only; not an affordable ownership count or purchase-readiness signal. Total recent permits: ' + _ownFmtPermitAvg(permitContext.totalAnnual) + '/yr' + (permitContext.mfAnnual != null ? '; multifamily: ' + _ownFmtPermitAvg(permitContext.mfAnnual) + '/yr.' : '.')
+        'Recent market single-family production context only; not an affordable ownership count or purchase-readiness signal. Total recent permits: ' + _ownFmtPermitAvg(permitContext.totalAnnual) + ' a year' + (permitContext.mfAnnual != null ? '; multifamily: ' + _ownFmtPermitAvg(permitContext.mfAnnual) + ' a year.' : '.')
       ) : '',
       _ownMetricRow('Moderate-income owner cost-burdened households', _ownFmtNum(result.moderateIncomeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.moderateIncomeOwnerCostBurdenedShare) + ')', source, 'DERIVED', 'Owner pressure in the 51-100% HAMFI bands.'),
       _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'Calculated estimate' : 'Not yet verified', home ? ('Calculated at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
@@ -6110,7 +6186,7 @@
         makeChart(wageCanvas.getContext('2d'), {
           type: 'bar',
           data: {
-            labels: ['Low (≤$15k/yr)', 'Medium ($15–40k)', 'High ($40k+)'],
+            labels: ['Low ($15,000 a year or less)', 'Medium ($15,000 to $40,000)', 'High (over $40,000)'],
             datasets: [{
               data: [dist.low, dist.medium, dist.high],
               backgroundColor: [t.c5, t.c3, t.c1],
@@ -6225,7 +6301,7 @@
    *   • Rent affordability uses the 30% rule: required annual = monthly × 12 / 0.30.
    *   • Buy affordability reuses U().computeIncomeNeeded() which is already
    *     wired to the same constants the Income-to-Buy stat tile uses
-   *     (20% down, 30y mortgage, prevailing rate, prop tax + insurance).
+   *     (AFFORD.downPaymentPct down, 30y mortgage at AFFORD.rateAnnual, prop tax + insurance).
    *   • AMI-60% income limit comes from HUD income-limits cache for the
    *     containing county (4-person, the LIHTC reference unit size).
    *
@@ -6617,12 +6693,12 @@
     var tableHtml = '<div style="overflow-x:auto;">' +
       '<table style="width:100%;border-collapse:collapse;font-size:1rem;margin-top:8px;">' +
       '<thead><tr style="background:var(--bg2);">' +
-        '<th style="padding:8px;text-align:left;font-weight:700;border-bottom:2px solid var(--border);">Housing target</th>' +
-        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Cost</th>' +
-        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Income needed</th>' +
-        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Hourly wage</th>' +
-        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">vs. median HHI</th>' +
-        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Workers who qualify</th>' +
+        '<th data-tip="The home being afforded: renting at the local median, buying at the median value, or a tax-credit unit at 60% of area median income." style="padding:8px;text-align:left;font-weight:700;border-bottom:2px solid var(--border);">Housing target</th>' +
+        '<th data-tip="Monthly housing cost: median gross rent (ACS) or the monthly mortgage payment, taxes and insurance." style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Cost</th>' +
+        '<th data-tip="Yearly household income needed so the cost is no more than 30% of gross income." style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Income needed</th>' +
+        '<th data-tip="The income needed divided by 2,080 hours (40 hours a week, 52 weeks)." style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Hourly wage</th>' +
+        '<th data-tip="The income needed as a share of the local median household income (ACS DP03)." style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">vs. median HHI</th>' +
+        '<th data-tip="Share of jobs located here that pay at least the income needed (LEHD LODES earnings tiers)." style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Workers who qualify</th>' +
       '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
 
     // ── Methodology footer ────────────────────────────────────────────
@@ -6630,9 +6706,10 @@
       '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:600;">Methodology &amp; sources</summary>' +
       '<ul style="margin:8px 0 0;padding-left:20px;font-size:1rem;color:var(--muted);line-height:1.55;">' +
         '<li><strong>30% rule:</strong> standard housing affordability convention — gross income × 30% = max housing payment. Required annual = monthly cost × 12 ÷ 0.30; hourly = annual ÷ 2,080 (40hr × 52wk).</li>' +
-        '<li><strong>Buy assumptions:</strong> 20% down, 30-year mortgage at prevailing rate, property tax + insurance + (PMI if applicable). Same constants used by the Income Needed to Buy stat tile above.</li>' +
-        '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to ≤60% AMI tenants — this is the income they need.</li>' +
-        '<li><strong>"Workers who qualify":</strong> share of local LEHD WAC jobs earning ≥ the required income. Computed from CE01 (≤ $15K), CE02 ($15K-$40K), CE03 ($40K+) tier counts with linear interpolation within tiers.</li>' +
+        '<li><strong>Buy assumptions:</strong> ' + Math.round(((u.AFFORD && u.AFFORD.downPaymentPct) || 0.10) * 100) + '% down, 30-year mortgage at ' +
+          (((u.AFFORD && u.AFFORD.rateAnnual) || 0.074) * 100).toFixed(2) + '% (' + escHtml((u.AFFORD && u.AFFORD.rateSource) || 'Freddie Mac PMMS') + '), property tax, insurance and mortgage insurance when the down payment is under 20%. The same assumptions as the Income Needed to Buy figure above.</li>' +
+        '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to tenants at or below 60% AMI — this is the income they need.</li>' +
+        '<li><strong>"Workers who qualify":</strong> share of local LEHD WAC jobs earning at least the required income. Computed from the three LEHD earnings tiers (about $15,000 a year or less, $15,000 to $40,000, and over $40,000), with linear interpolation within each tier.</li>' +
         '<li><strong>Sources:</strong> ' +
           '<a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a> (rent + home value), ' +
           '<a href="https://data.census.gov/table/ACSDP5Y2024.DP03" target="_blank" rel="noopener" class="hna-source-link">ACS DP03</a> (median HHI), ' +
@@ -6647,24 +6724,21 @@
   // F199 + F200 — County-level historical trends (affordability + permits)
   // ──────────────────────────────────────────────────────────────────
   //
-  // Both panels load from data/co-housing-costs/county-trends.json, a 51 KB
-  // JSON built by scripts/build_county_trends_json.py from three parquet
-  // files:
-  //   • acs_county_latest.parquet — 3 ACS 5-yr cohorts (2009, 2014, 2024)
-  //   • fhfa_hpi_county_raw.parquet — FHFA HPI annual index
-  //   • permits_county.parquet — Census BPS annual permits 2020-2024
-  //
-  // Shared loader caches the parsed JSON; both renderers tolerate misses.
-  var _countyTrendsCache = null;
-  function _loadCountyTrends() {
-    if (_countyTrendsCache !== null) return Promise.resolve(_countyTrendsCache);
-    return fetch('data/co-housing-costs/county-trends.json')
-      .then(function (r) { return r.json(); })
-      .then(function (j) { _countyTrendsCache = j; return j; })
+  // F199 (decade trend) reads only data/hna/place-decade-trends.json; the
+  // county series in data/co-housing-costs/county-trends.json does not match
+  // the published ACS county estimates, so it is no longer shown (D1).
+  // F200 (permits) reads data/hna/permits.json, built from the Census BPS
+  // annual county and place files.
+  var _permitsBpsCache = null;
+  function _loadPermitsBps() {
+    if (_permitsBpsCache !== null) return Promise.resolve(_permitsBpsCache);
+    return fetch('data/hna/permits.json')
+      .then(function (r) { return r.ok ? r.json() : { counties: {}, places: {} }; })
+      .then(function (j) { _permitsBpsCache = j; return j; })
       .catch(function (e) {
-        console.warn('[HNA] county-trends.json load failed', e);
-        _countyTrendsCache = { counties: {} };
-        return _countyTrendsCache;
+        console.warn('[HNA] permits.json load failed', e);
+        _permitsBpsCache = { counties: {}, places: {} };
+        return _permitsBpsCache;
       });
   }
 
@@ -6673,7 +6747,7 @@
   // 2009/2014/2024 vintages (not scaled from the county). Only covers
   // places with a full 2009→2024 history — see that script's own docstring
   // for why a partial history is omitted rather than shown incomplete.
-  // Same tolerate-misses pattern as _loadCountyTrends.
+  // Same tolerate-misses pattern as _loadPermitsBps.
   var _placeTrendsCache = null;
   function _loadPlaceTrends() {
     if (_placeTrendsCache !== null) return Promise.resolve(_placeTrendsCache);
@@ -6898,11 +6972,11 @@
       }).join('');
       var tableHtml = '<div style="overflow-x:auto;margin-top:14px;"><table id="' + tableId + '" style="width:100%;border-collapse:collapse;font-size:1rem;">' +
         '<thead><tr style="background:var(--bg2);">' +
-          '<th style="padding:8px;text-align:left;border-bottom:2px solid var(--border);">ACS vintage</th>' +
-          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median rent</th>' +
-          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median HH income</th>' +
-          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Rent ÷ income</th>' +
-          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Renters burdened (30%+)</th>' +
+          '<th data-tip="The 5-year American Community Survey period each row comes from, named by its last year." style="padding:8px;text-align:left;border-bottom:2px solid var(--border);">ACS vintage</th>' +
+          '<th data-tip="Median gross rent, including utilities (ACS DP04)." style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median rent</th>' +
+          '<th data-tip="Median household income (ACS DP03)." style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median HH income</th>' +
+          '<th data-tip="A year of median rent divided by median household income." style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Rent ÷ income</th>' +
+          '<th data-tip="Share of renter households paying 30% or more of income on rent (ACS DP04)." style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Renters burdened (30% or more)</th>' +
         '</tr></thead><tbody>' + ratioRows + '</tbody></table></div>' +
         '<p style="margin:8px 0 0;font-size:1rem;color:var(--muted);line-height:1.5;">' +
           '<strong>Reading this:</strong> "Rent ÷ income" is the share of pretax median income spent on the median rent. ' +
@@ -6949,44 +7023,23 @@
     var u = U();
     var fmtMoney = u.fmtMoney;
 
-    if (!countyFips) {
-      // A statewide selection after a covered place would otherwise keep the
-      // place intro and DP03/DP04 badge above an empty panel.
+    // D1 — The county cohorts in data/co-housing-costs/county-trends.json
+    // do not match the published ACS county estimates (Mesa 2024 income
+    // $52,000 vs ACS $73,658), and no other county 2009/2014/2024 ACS series
+    // exists in the repo. Rather than show wrong history, the whole card is
+    // hidden unless this place has its own verified ACS cohorts.
+    var card = panel.closest ? panel.closest('.chart-card') : null;
+    function _hideCard() {
       _applyDecadeTrendCopy(panel, 'county');
-      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-        'Decade trends are published at the county level only. Pick a county or ' +
-        'place inside a county to see the historical comparison.</p>';
-      return;
+      panel.innerHTML = '';
+      if (card) card.style.display = 'none';
+    }
+    function _showCard() {
+      if (card) card.style.display = '';
     }
 
-    function _renderFromCounty() {
-      // County wording whether this is a county selection or a place falling
-      // back to its county — the cohorts come from county-trends.json either way.
-      _applyDecadeTrendCopy(panel, 'county');
-      _loadCountyTrends().then(function (data) {
-        var rec = data.counties && data.counties[countyFips];
-        if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
-          panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-            'Historical trend data not cached for this county.</p>';
-          return;
-        }
-        // F223 — Explicit county-scope label when called from a place
-        // selection whose own place-level trend isn't available (see
-        // renderDecadeAffordTrend's place-first attempt above this call).
-        var scopeBanner = (geoType === 'place')
-          ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
-              '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
-              'ACS 5-yr cohorts and FHFA HPI aren\'t cached for this place yet, so it inherits ' +
-              'these county-wide trends.' +
-            '</div>'
-          : '';
-        var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
-        _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, scopeBanner);
-      });
-    }
-
-    if (geoType !== 'place') {
-      _renderFromCounty();
+    if (!countyFips || geoType !== 'place') {
+      _hideCard();
       return;
     }
 
@@ -6998,18 +7051,18 @@
     // The builder now requests each vintage's own IDs (VINTAGE_VARIABLES in
     // scripts/hna/build_place_decade_trends.py) and applies the same gate
     // before writing; this client-side check stays as the backstop so a
-    // record with any implausible cohort falls back to the county chart
-    // exactly as before #1799 — never rendered as if it were this place's
-    // history.
+    // record with any implausible cohort hides the card — never rendered as
+    // if it were this place's history.
     function _plausibleCohort(c) {
       return c && Number(c.median_gross_rent) >= 200 && Number(c.median_hh_income) >= 5000;
     }
     _loadPlaceTrends().then(function (data) {
       var rec = data.places && data.places[geoid];
       if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2 || !rec.acs_cohorts.every(_plausibleCohort)) {
-        _renderFromCounty();
+        _hideCard();
         return;
       }
+      _showCard();
       var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
       // No warning banner here — this genuinely IS this place's own data,
       // not the county's. A small provenance line (not styled as a warning)
@@ -7052,19 +7105,35 @@
       return;
     }
 
-    _loadCountyTrends().then(function (data) {
-      var rec = data.counties && data.counties[countyFips];
-      var permits = rec && rec.permits;
-      // F223 — Explicit county-scope label when called from a place selection.
-      var scopeBanner = (geoType === 'place' && rec)
+    // D1 — Read the Census BPS annual files (data/hna/permits.json). The
+    // older county-trends.json permit series did not match BPS (Mesa
+    // 2020-2024: 2,188 there vs 5,464 in BPS). A municipality with its own
+    // BPS place record shows its own permits; CDPs and unincorporated areas
+    // are permitted by the county, so they show the county with a label.
+    _loadPermitsBps().then(function (data) {
+      var years0 = (data && data.years) || [];
+      var placeRec = (geoType === 'place' && data.places) ? data.places[geoid] : null;
+      var countyRec = data.counties ? data.counties[countyFips] : null;
+      var rec = placeRec || countyRec;
+      var usingCounty = !placeRec;
+      var permits = [];
+      if (rec && Array.isArray(rec.units_total)) {
+        for (var pi = 0; pi < years0.length; pi++) {
+          var v = rec.units_total[pi];
+          if (v != null) permits.push({ year: years0[pi], total_units: Number(v) });
+        }
+        permits = permits.slice(-5);
+      }
+      var countyName = countyRec && countyRec.name ? countyRec.name : 'County';
+      var scopeBanner = (geoType === 'place' && usingCounty && countyRec)
         ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
-            '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
-            'This panel shows county figures. Census BPS also publishes place-level permits for reporting jurisdictions; unincorporated areas and CDPs are county-permitted and legitimately have no place record.' +
+            '<strong style="color:var(--warn);">' + countyName + ' figures.</strong> ' +
+            'This community has no permit record of its own in the Census Building Permits Survey, because its permits are issued by the county. The figures below are for the whole county.' +
           '</div>'
         : '';
-      if (!permits || !permits.length) {
+      if (!permits.length) {
         panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-          'BPS permits not cached for this county.</p>';
+          'Census Building Permits Survey figures are not available for this area.</p>';
         return;
       }
       var years = permits.map(function (p) { return p.year; });
@@ -7073,6 +7142,31 @@
       var avgPerYear = total / units.length;
       var lastYr = years[years.length - 1];
       var firstYr = years[0];
+      var card = panel.closest ? panel.closest('.chart-card') : null;
+      if (card) {
+        var vintage = 'BPS ' + firstYr + '-' + lastYr;
+        card.setAttribute('data-vintage', vintage);
+        // The badge renders once at load; rebuild it with the years shown.
+        var staleBpsBadge = card.querySelector(':scope > .chart-source');
+        if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+          if (staleBpsBadge) staleBpsBadge.remove();
+          window.SourceBadge.attach(card, {
+            source: card.getAttribute('data-source') || 'Census Building Permits Survey (BPS)',
+            url: card.getAttribute('data-source-url') || null,
+            vintage: vintage,
+            sourceType: card.getAttribute('data-source-type') || null
+          });
+        }
+        var introP = card.querySelector('p');
+        if (introP && /Building Permits Survey/.test(introP.innerHTML)) {
+          introP.innerHTML = introP.innerHTML.replace(/Census Building Permits Survey<\/a> \d{4}-\d{4}/, 'Census Building Permits Survey</a> ' + firstYr + '-' + lastYr);
+          // A town with its own permit record is the one issuing them.
+          var issuer = usingCounty ? 'the county'
+            : String(placeRec.name || 'this town').replace(/\s+(city and county|city|town|village)$/i, '');
+          introP.innerHTML = introP.innerHTML.replace(/How many new housing units has [^?<]+ permitted each year\?/, 'How many new housing units has ' + issuer + ' permitted each year?');
+        }
+      }
+      var fmtAvg = function (n) { return n < 10 ? (Math.round(n * 10) / 10).toLocaleString('en-US') : fmtNum(Math.round(n)); };
 
       // ── Headline cards ────────────────────────────────────────────
       var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:10px;margin-bottom:14px;">' +
@@ -7083,7 +7177,7 @@
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
           '<div style="font-size:1rem;color:var(--muted);">Average pace</div>' +
-          '<div style="font-size:1.4rem;font-weight:800;">' + fmtNum(Math.round(avgPerYear)) + '</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;">' + fmtAvg(avgPerYear) + '</div>' +
           '<div style="font-size:1rem;color:var(--muted);">units/year average</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
@@ -7101,12 +7195,11 @@
         '<div style="margin-top:8px;font-size:1rem;color:var(--muted);line-height:1.55;">' +
           '<p style="margin:0 0 .5rem;"><strong>Source:</strong> ' +
             '<a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener" class="hna-source-link">Census Building Permits Survey (BPS)</a>. ' +
-            'Annual total units permitted at the county level. Vintages 2020-2024 cached in <code>data/co-housing-costs/permits_county.parquet</code>.</p>' +
-          '<p style="margin:0 0 .5rem;"><strong>Caveat:</strong> The current cached BPS slice publishes total units only — structure-type breakdown (1-unit / 2-4 / 5+) is not included. ' +
-            'To get the structure breakdown, ingest the raw monthly BPS files (the Census API publishes by structure type at jurisdiction level).</p>' +
-          '<p style="margin:0;"><strong>Compare to need:</strong> if the jurisdiction has a 1,000-unit current rental gap (see the Current rental gap & affordability panel below) ' +
-            'and is permitting only 200 units/year, that\'s ~5 years just to catch up — assuming everything permitted is affordable, which it isn\'t. ' +
-            'For affordable LIHTC permitting specifically, see the Prop 123 compliance section.</p>' +
+            'Total housing units permitted each year, ' + firstYr + ' to ' + lastYr + ', from the annual county and place files (reported plus imputed units). ' +
+            (usingCounty ? 'Figures are for the whole county.' : 'Figures are for this municipality\'s own permit record.') + '</p>' +
+          '<p style="margin:0;"><strong>Compare to need:</strong> if a place has a 1,000-unit rental gap (see the Current rental gap and affordability panel below) ' +
+            'and permits 200 units a year, it would take about 5 years just to catch up, even if every new unit were affordable. ' +
+            'For affordable tax-credit housing specifically, see the Prop 123 compliance section.</p>' +
         '</div></details>';
 
       panel.innerHTML = scopeBanner + cardsHtml + chartHtml + noteHtml;
@@ -7164,7 +7257,7 @@
       data: {
         labels: years,
         datasets: [
-          { label: 'Low (≤$15k)',    data: lowVals,    borderColor: t.c5, backgroundColor: t.c5, borderWidth: 2, pointRadius: 3, tension: 0.2 },
+          { label: 'Low ($15,000 a year or less)',    data: lowVals,    borderColor: t.c5, backgroundColor: t.c5, borderWidth: 2, pointRadius: 3, tension: 0.2 },
           { label: 'Medium ($15–40k)', data: mediumVals, borderColor: t.c3, backgroundColor: t.c3, borderWidth: 2, pointRadius: 3, tension: 0.2 },
           { label: 'High ($40k+)',   data: highVals,   borderColor: t.c1, backgroundColor: t.c1, borderWidth: 2, pointRadius: 3, tension: 0.2 },
         ],
@@ -7998,10 +8091,10 @@
       const totalDemand = demandCum[100] != null ? demandCum[100] : lastNonNull(demandCum);
       if (usingAcs && totalGap != null && totalDemand != null) {
         const parts = BANDS.filter(b => gapTier[b] != null && gapTier[b] > 0)
-          .map(b => '≤' + b + '% +' + fmt(gapTier[b]));
+          .map(b => 'up to ' + b + '% AMI +' + fmt(gapTier[b]));
         netLineEl.innerHTML =
           '<strong>Net of existing affordable supply:</strong> ~' + fmt(totalGap) +
-          ' of these ' + fmt(totalDemand) + ' households remain unserved at ≤100% AMI' +
+          ' of these ' + fmt(totalDemand) + ' households remain unserved at up to 100% AMI' +
           (parts.length ? ' <span style="color:var(--muted)">— shortfall concentrated at ' + parts.join(', ') + '</span>' : '') +
           '. <span style="color:var(--muted)">Supply estimated from ACS B25063 gross-rent distribution; treat as directional.</span>';
         explainGapFigure(netLineEl, 'rental-shortfall-summary', { displayedValue: totalGap,
@@ -8058,19 +8151,19 @@
         const more20 = total20 != null ? Math.max(0, total20 - totalToday) : null;
         const rows = projectedByBand.map(row =>
           '<tr>' +
-            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);">≤' + row.band + '% AMI</td>' +
+            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);">Up to ' + row.band + '% AMI</td>' +
             '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + fmt(row.today) + '</td>' +
             '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + (row.h10 != null ? fmt(Math.round(row.h10)) : '—') + '</td>' +
             '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + (row.h20 != null ? fmt(Math.round(row.h20)) : '—') + '</td>' +
           '</tr>'
         ).join('');
         projectedEl.innerHTML =
-          '<strong>Existing vs projected affordable rental deficit:</strong> Today short ~' + fmt(Math.round(totalToday)) +
-          (total10 != null ? '; +10yr ~' + fmt(Math.round(total10)) : '') +
-          (total20 != null ? '; +20yr ~' + fmt(Math.round(total20)) : '') +
-          (more20 != null ? ' → ~' + fmt(Math.round(more20)) + ' more from growth.' : '.') +
+          '<strong>Affordable rental deficit, today and projected:</strong> about ' + fmt(Math.round(totalToday)) + ' homes short today' +
+          (total10 != null ? '; about ' + fmt(Math.round(total10)) + ' in 10 years' : '') +
+          (total20 != null ? '; about ' + fmt(Math.round(total20)) + ' in 20 years' : '') +
+          (more20 != null ? ', or about ' + fmt(Math.round(more20)) + ' more from growth.' : '.') +
           '<div style="overflow-x:auto;margin-top:.45rem;"><table style="width:100%;border-collapse:collapse;font-size:1rem;">' +
-            '<thead><tr><th style="padding:4px 6px;text-align:left;border-bottom:1px solid var(--border);">AMI band</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">Today</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+10yr</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+20yr</th></tr></thead>' +
+            '<thead><tr><th data-tip="Household income as a share of area median income (AMI), HUD income limits." style="padding:4px 6px;text-align:left;border-bottom:1px solid var(--border);">AMI band</th><th data-tip="Renter households in this band without an affordable home today (ACS)." style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">Today</th><th data-tip="Today\'s shortfall scaled by DOLA household growth over 10 years." style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">In 10 years</th><th data-tip="Today\'s shortfall scaled by DOLA household growth over 20 years. This is the affordable rental deficit, a different measure from total homes needed." style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">In 20 years</th></tr></thead>' +
             '<tbody>' + rows + '</tbody>' +
           '</table></div>' +
           '<span style="color:var(--muted)">Projection scales today\'s per-band demand by the DOLA household-growth factor and keeps existing affordable-priced supply constant. This is the income-targeted affordable rental deficit, not the vacancy-based total-units method.</span>';
@@ -8149,11 +8242,11 @@
       } else if (usingChasFallback) {
         confEl.textContent = 'HUD CHAS';
         confEl.className   = 'data-reliability-badge drb--ok';
-        confEl.title       = 'HUD CHAS ' + ((chasData && chasData.meta && chasData.meta.vintage) || '') + '. CHAS bands are coarser than ACS: ≤30, 31-50, 51-80, 81-100 — intermediate bands (40, 60, 70%) shown as "—".';
+        confEl.title       = 'HUD CHAS ' + ((chasData && chasData.meta && chasData.meta.vintage) || '') + '. CHAS bands are coarser than ACS: 30% or less, 31-50, 51-80, 81-100 — intermediate bands (40, 60, 70%) shown as "—".';
       } else if (chasLooksSuspect) {
         confEl.textContent = 'Review CHAS';
         confEl.className   = 'data-reliability-badge drb--warn';
-        confEl.title       = '≤30% AMI row looks unreliable (known fetch_chas.py ETL bug) and no ACS-derived fallback is available for this geography.';
+        confEl.title       = 'The HUD CHAS figure for households at or below 30% AMI failed a consistency check, and no ACS-based figure is available for this geography.';
       } else if (isStub) {
         confEl.textContent = 'Estimated';
         confEl.className   = 'data-reliability-badge drb--warn';
@@ -8203,8 +8296,11 @@
             s.band + '% (' + (s.hasData ? fmt(s.val) : '—') + ')' +
           '</span>'
         ).join('');
+        // M3 — the income-limit year comes from the file the figures came from.
+        const ilMetaNote = ((acsIsPlace ? placeAmiData : acsAmiData) || {}).meta || {};
+        const ilYearNote = ilMetaNote.hud_income_limits_year ? 'HUD FY' + ilMetaNote.hud_income_limits_year + ' income limits' : 'HUD income limits';
         const sourceNote = usingAcs
-          ? 'ACS-derived (B25118 renter HH × B25063 vs. HUD 2025 limits) · per-tier cohorts'
+          ? 'ACS-derived (B25118 renter households by income and B25063 gross rent, compared with ' + ilYearNote + ') · per-tier cohorts'
           : usingChasFallback
             ? 'HUD CHAS · only 30/50/80/100% tiers have data (40/60/70 blank)'
             : '';
@@ -8215,7 +8311,7 @@
             labels +
           '</div>' +
           '<div style="font-size:1rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
-            '<strong>Total renter households needing affordable units ≤100% AMI:</strong> ' + fmt(total) +
+            '<strong>Total renter households needing affordable units at or below 100% AMI:</strong> ' + fmt(total) +
           '</div>' +
           (sourceNote
             ? '<div style="font-size:1rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'
@@ -8225,7 +8321,7 @@
           '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);' +
           'background:color-mix(in srgb,var(--warn) 6%,transparent);border-radius:6px;font-size:1rem;color:var(--muted)">' +
           '<strong style="color:var(--warn)">⚠ Data quality note:</strong> ' +
-          'no ACS-derived gap available for this geography, and the cached HUD CHAS row for this county didn\'t pass the ≤30% AMI sanity check ' +
+          'no ACS-derived gap available for this geography, and the cached HUD CHAS row for this county did not pass a consistency check for households at or below 30% AMI ' +
           '(known fetch_chas.py ETL bug — being repaired). Cross-check with the ' +
           '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent)">HUD CHAS Query Tool</a>.' +
           '</p>';
@@ -8269,7 +8365,7 @@
   }
 
   function renderFmrPanel(countyFips5) {
-    // Renders FY2025 HUD Fair Market Rents + Income Limits tables for
+    // Renders the HUD Fair Market Rents + Income Limits tables (years from the data file) for
     // the chosen county. Pre-fix: this function was an empty stub and
     // targeted the wrong container id ('fmrPanel'). The actual HTML has
     // three containers:
@@ -8293,13 +8389,28 @@
         areaEl.textContent = (summary.fmr_area_name || summary.county_name || 'Unknown area') +
           (summary.ami_4person ? ' · 4-person AMI: $' + Number(summary.ami_4person).toLocaleString() : '');
       }
+      // Header definitions for the two HUD tables (shown by table-header-tips.js).
+      const tipHeaders = (el, tipFor) => {
+        if (!el) return;
+        el.querySelectorAll('th').forEach((th) => {
+          if (th.getAttribute('data-tip')) return;
+          const tip = tipFor(String(th.textContent || '').trim());
+          if (tip) th.setAttribute('data-tip', tip);
+        });
+      };
       if (fmrEl) {
         const html = window.HudFmr.renderFmrTable(countyFips5);
         fmrEl.innerHTML = html || '<span style="color:var(--muted)">FMR data unavailable.</span>';
+        tipHeaders(fmrEl, (t) => /bedroom/i.test(t)
+          ? 'Number of bedrooms in the unit.'
+          : /FMR/i.test(t) ? 'HUD Fair Market Rent: the monthly gross rent, including utilities, HUD uses to set voucher payment standards for this area.' : null);
       }
       if (incomeEl) {
         const html = window.HudFmr.renderIncomeLimitsTable(countyFips5);
         incomeEl.innerHTML = html || '<span style="color:var(--muted)">Income limits data unavailable.</span>';
+        tipHeaders(incomeEl, (t) => /AMI/i.test(t)
+          ? 'Income limit as a share of HUD area median income (AMI).'
+          : /person/i.test(t) ? 'Yearly income limit for a household of this size (HUD income limits).' : null);
       }
       return true;
     }
@@ -8851,7 +8962,7 @@
           'B · Deep-need share',
           pctStr(deepNeed),
           pctB, peerLabel,
-          'Renters at ≤30% AMI as share of all ≤100% AMI renters'
+          'Renters at or below 30% AMI as a share of all renters at or below 100% AMI'
         ) +
         _scorecardCard(
           'C · Affordability pressure',
@@ -8882,11 +8993,11 @@
           '<p style="margin:.25rem 0"><strong>Four components, each scored 0–25 by percentile rank within Colorado.</strong> Higher percentile = closer to CO\'s most-need-acute counties. Composite = sum of the four scores (0–100).</p>' +
           '<ul style="margin:.4rem 0 .5rem;padding-left:18px">' +
             '<li><strong>A · Cost burden (blended).</strong> <code>(renter_cb30 × renter_HH + owner_cb30 × owner_HH) ÷ total_HH</code>. Single % reflecting ALL households\' cost burden, weighted by tenure mix. <em>Why blend?</em> Pure renter burden misses owner-heavy markets; this version doesn\'t. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS 2018-2022</a> Table 7.</li>' +
-            '<li><strong>B · Deep-need share.</strong> <code>renters_at_≤30%_AMI ÷ renters_at_≤100%_AMI</code>. Drops the 100+ tier (high-income cohort) from the denominator so the signal isn\'t diluted by wealthy renters. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS</a> Table 9.</li>' +
+            '<li><strong>B · Deep-need share.</strong> renters at or below 30% AMI ÷ renters at or below 100% AMI. Drops the 100+ tier (high-income cohort) from the denominator so the signal isn\'t diluted by wealthy renters. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS</a> Table 9.</li>' +
             '<li><strong>C · Affordability pressure.</strong> <code>median_home_price ÷ median_household_income</code>. Resort and high-cost markets (Pitkin 11.1x, Summit 8.6x) score high — appropriately — because they ARE expensive relative to local incomes. This is the lever percentile-normalisation pulls so resort distress surfaces without dwarfing urban distress. Source: <a href="https://data.census.gov/" target="_blank" rel="noopener" class="hna-source-link">ACS B19013 + B25077</a>.</li>' +
             '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/Worst-Case-Housing-Needs-2025-Report-to-Congress.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
           '</ul>' +
-          '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card is banded on the same scale, using its own percentile.</p>' +
+          '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need 70 or more · Elevated 50 to 69 · Moderate 30 to 49 · Lower under 30. Each card is banded on the same scale, using its own percentile.</p>' +
           '<p style="margin:.25rem 0;color:var(--muted);font-size:1rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
         '</div>' +
       '</details>';
@@ -9037,7 +9148,7 @@
       if (!place || !place.renter_hh_by_ami) return null;
       const tierOrder = ['lte30', '31to50', '51to80', '81to100', '100plus'];
       const tierLabels = {
-        lte30:    '≤30% AMI',
+        lte30:    '30% AMI or less',
         '31to50': '31–50% AMI',
         '51to80': '51–80% AMI',
         '81to100':'81–100% AMI',
@@ -9194,7 +9305,7 @@
     if ((!tiers || !tiers.length) && county.renter_hh_by_ami) {
       const TIER_ORDER = ['lte30','31to50','51to80','81to100','100plus'];
       const TIER_LABEL = {
-        lte30:    '≤30% AMI',
+        lte30:    '30% AMI or less',
         '31to50': '31–50% AMI',
         '51to80': '51–80% AMI',
         '81to100':'81–100% AMI',
@@ -9511,7 +9622,7 @@
     }
     var tierOrder = ['lte30', '31to50', '51to80', '81to100', '100plus'];
     var tierLabels = {
-      lte30: '≤30% AMI',
+      lte30: '30% AMI or less',
       '31to50': '31–50% AMI',
       '51to80': '51–80% AMI',
       '81to100': '81–100% AMI',
@@ -9559,7 +9670,7 @@
       var totalNet = value == null || String(value).trim() === '' ? null : Number(value);
       netLine.innerHTML = Number.isFinite(totalNet)
         ? '<strong>Cumulative rental shortfall:</strong> ~' + escHtml(_ownFmtNum(totalNet)) +
-          ' renter households, summing positive band shortfalls through ≤100% AMI. ' +
+          ' renter households, summing positive band shortfalls up to 100% AMI. ' +
           '<span style="color:var(--muted)">Combined from summed member ACS AMI-gap inputs; treat as directional.</span>'
         : '<span style="color:var(--muted)">' + escHtml(unavailable) + '</span>';
       explainGapFigure(netLine, 'rental-shortfall-summary', { displayedValue: Number.isFinite(totalNet) ? totalNet : null,
@@ -9707,7 +9818,7 @@
 
   var REGIONAL_COMPARISON_ROWS = [
     { section: 'Affordability', label: 'Cost burdened households', key: 'pct_cost_burdened', format: 'pct' },
-    { section: 'Affordability', label: '≤30% AMI households', key: 'pct_ami_lte30', format: 'pct' },
+    { section: 'Affordability', label: 'Households at 30% AMI or less', key: 'pct_ami_lte30', format: 'pct' },
     { section: 'Affordability', label: '31–50% AMI households', key: 'pct_ami_31to50', format: 'pct' },
     { section: 'Affordability', label: '51–80% AMI households', key: 'pct_ami_51to80', format: 'pct' },
     { section: 'Affordability', label: '>80% AMI households', key: 'pct_ami_gt80', format: 'pct' },

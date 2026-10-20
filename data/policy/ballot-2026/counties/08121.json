@@ -10,7 +10,7 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county elections page now posts ten 2026 General Election sample ballots, one per precinct style (Precincts 1-6, with Town of Akron, Akron Rural Fire and Arickaree School District variants). All ten were read from their text layers on 2026-10-10. None has a county ballot measure.",
+        "The county elections page now posts ten 2026 General Election sample ballots, one per precinct style (Precincts 1-6, with Town of Akron, Akron Rural Fire and Arickaree School District variants). All ten were read from their searchable text on 2026-10-10. None has a county ballot measure.",
         "Local measures on the posted styles: Town of Akron Referred Ballot Question 2B (election date change), Akron Rural Fire Protection District Referred Ballot Issue 6A (fire district property tax increase of 2.31 mills) and Arickaree School District R-2 Referred Ballot Question 4A (director districts). None is housing.",
         "No TABOR notice or participating-entities list is posted. The county does not need one for this row, because every county style was read.",
         "On 2026-09-26 the county had posted no general-election ballot content; the 2026 Elections PDF on the county document path was checked then."

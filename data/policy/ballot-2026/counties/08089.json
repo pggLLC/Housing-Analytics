@@ -66,8 +66,8 @@
       "entry_ids": [],
       "limitations": [
         "Rechecked 2026-10-12: the county Elections and Clerk and Recorder pages still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026 (the Elections page carries only the VSPC designation notice, drop-box and contact text), a site search for 'ballot' returns only the Elections page, and the newest public-hearing packet is still September 14, 2026.",
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (fowlercolorado.com) returned HTTP 403 on 2026-09-26.",
-        "The town website (fowlercolorado.com) still returned HTTP 403 on 2026-10-12."
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (fowlercolorado.com) could not be opened on 2026-09-26.",
+        "The town website (fowlercolorado.com) still could not be opened on 2026-10-12."
       ],
       "reviewed_sources": [
         {

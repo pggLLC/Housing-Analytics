@@ -30,7 +30,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Excluded by owner decision (2026-09-26): Town of Crested Butte Ballot Question 2B, an excise tax on residential parcels that are not a primary residence and on vacant land; revenue is \"DEPOSITED IN AND DEDICATED TO THE CAPITAL FUND\", with no housing earmark in the question.",
+        "Excluded on review (2026-09-26): Town of Crested Butte Ballot Question 2B, an excise tax on residential parcels that are not a primary residence and on vacant land; revenue is \"DEPOSITED IN AND DEDICATED TO THE CAPITAL FUND\", with no housing earmark in the question.",
         "The referring resolution was not located on the town website; the town elections page has no 2026 ballot content.",
         "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
       ],
@@ -192,7 +192,7 @@
       },
       "limitations": [
         "The quote is from the sample ballot with line breaks normalized to single spaces.",
-        "The referring resolution was not located: the town website (mtcrestedbuttecolorado.gov) returned HTTP 502 on 2026-09-26. No TABOR notice was posted as of 2026-09-26.",
+        "The referring resolution was not located: the town website (mtcrestedbuttecolorado.gov) could not be opened on 2026-09-26. No TABOR notice was posted as of 2026-09-26.",
         "The question states no duration or sunset."
       ],
       "result": null,

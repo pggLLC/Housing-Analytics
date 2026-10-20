@@ -843,7 +843,6 @@
       "sources": [
         "Construction Owners",
         "CBS News",
-        "Kutak Rock",
         "Affordable Housing Finance",
         "Mile High CRE"
       ],
@@ -859,12 +858,6 @@
           "source": "CBS News",
           "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSnd2ekRXR28ycWZoZnVaa3pCNExyYzVkcGdWenJERURiUTU3azlNTzhIZFBmdi1QX0NSSFU4UFdTdlNSY0s0QlBya0JRYmEwdjgzSWE0bHowNWxqSkZ0ajRlZ1pZc1V3Wjg1ZU5LUkkwMWxTaGctTVZ3aEYtcjR4YzVLQ1dlS0dMS0JRN1NNclB6eEZmZTNYdFpHY1YwRkI3dlZuOE9sZDZQZw?oc=5",
           "date": "2026-10-20"
-        },
-        {
-          "title": "Elizabeth Bachmann Speaks at 2026 Affordable Housing Boot Camp - Kutak Rock",
-          "source": "Kutak Rock",
-          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNbjVmbUI3clhhX1UzdUxld1BNbWFmUEgwRFRGMUNNSUR4UGlDUjVqR2ctMlNSV2Y1UVZST1hHekJfcllwTWRIMEFxcHljbHhaVG53N0RFWFZCZkRpZTY1Z052VDhsTG4xSnh6a3VYdFVDMkNHTXJlRG92bDI5Wk1OVmF2elZ1a05hMk8w?oc=5",
-          "date": "2026-10-12"
         },
         {
           "title": "Colorado Investor Buys Whisper Hollow in Metro St. Louis - Multifamily & Affordable Housing Business",
@@ -2047,25 +2040,6 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": []
-    },
-    {
-      "title": "Elizabeth Bachmann Speaks at 2026 Affordable Housing Boot Camp",
-      "source": "Kutak Rock",
-      "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNbjVmbUI3clhhX1UzdUxld1BNbWFmUEgwRFRGMUNNSUR4UGlDUjVqR2ctMlNSV2Y1UVZST1hHekJfcllwTWRIMEFxcHljbHhaVG53N0RFWFZCZkRpZTY1Z052VDhsTG4xSnh6a3VYdFVDMkNHTXJlRG92bDI5Wk1OVmF2elZ1a05hMk8w?oc=5",
-      "date": "2026-10-12",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0823740",
-          "name": "Elizabeth",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Eastern Plains"
-      ],
       "also": []
     },
     {
@@ -5514,9 +5488,9 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-10-20T08:42:48Z",
+    "generated": "2026-10-20T11:12:26Z",
     "source_alerts": 475,
-    "out_of_scope": 211,
+    "out_of_scope": 212,
     "merged_duplicates": 33,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py."
   }

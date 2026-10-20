@@ -164,6 +164,7 @@ async function run(name, fn) {
     dom.window.HNARenderers.renderDecadeAffordTrend('place', '0828745', '08077');
     await settle();
     const s = read(dom);
+    assert.equal(dom.window.document.querySelector('.chart-card').style.display, '', 'card visible for a covered place');
     assert.match(s.panel, /Place-level ACS 5-yr cohorts \(2009–2024\) for Fruita/, 'panel rendered from the place file');
     assert.doesNotMatch(s.intro, AT_COUNTY_LEVEL, 'place intro must not say "at the county level"');
     assert.match(s.intro, /place/i, 'place intro names place geography');
@@ -215,7 +216,7 @@ async function run(name, fn) {
     dom.window.HNARenderers.renderDecadeAffordTrend('state', '08', null);
     await settle();
     const s = read(dom);
-    assert.match(s.panel, /published at the county level only/, 'statewide empty state rendered');
+    assert.equal(dom.window.document.querySelector('.chart-card').style.display, 'none', 'statewide selection hides the card');
     assert.match(s.intro, AT_COUNTY_LEVEL, 'county intro restored');
     assert.match(s.badge, COUNTY_TABLE_IDS, 'county badge restored');
     assert.doesNotMatch(s.badge, /place-geography/, 'no place citation left above an empty panel');
@@ -230,7 +231,8 @@ async function run(name, fn) {
     dom.window.HNARenderers.renderDecadeAffordTrend('county', '08077', null);
     await settle();
     const s = read(dom);
-    assert.match(s.panel, /Median rent change/, 'county panel rendered');
+    // D1 — county-trends.json cohorts do not match ACS, so a county selection hides the card.
+    assert.equal(dom.window.document.querySelector('.chart-card').style.display, 'none', 'county selection hides the card');
     assert.doesNotMatch(s.panel, /Place-level ACS/, 'county panel carries no place provenance line');
     assert.match(s.intro, AT_COUNTY_LEVEL, 'county intro restored');
     assert.match(s.badge, COUNTY_TABLE_IDS, 'county badge restored');
@@ -238,12 +240,12 @@ async function run(name, fn) {
     dom.window.SourceBadge._disconnect();
   });
 
-  await run('a place NOT in the place file falls back to county cohorts and keeps the county wording', async () => {
+  await run('a place NOT in the place file hides the card and keeps the county wording', async () => {
     const dom = boot();
     dom.window.HNARenderers.renderDecadeAffordTrend('place', '0899999', '08077');
     await settle();
     const s = read(dom);
-    assert.match(s.panel, /Mesa, Colorado figures/, 'county-inherits banner shown');
+    assert.equal(dom.window.document.querySelector('.chart-card').style.display, 'none', 'card hidden, no county fallback');
     assert.match(s.intro, AT_COUNTY_LEVEL, 'fallback keeps the county intro');
     assert.match(s.badge, COUNTY_TABLE_IDS, 'fallback keeps the county citation');
     dom.window.SourceBadge._disconnect();

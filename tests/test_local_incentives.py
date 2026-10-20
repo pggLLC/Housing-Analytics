@@ -47,7 +47,7 @@ LAND_USE = {'inclusionary_zoning', 'expedited_review', 'density_bonus', 'parking
             'by_right_or_admin_approval', 'other'}
 FAMILIES = {'fee_relief', 'land_use', 'local_revenue', 'land_and_ownership', 'tax_relief'}
 CO_STATUS = {'authorized', 'authorized_with_voter_approval', 'restricted', 'prohibited_for_new',
-             'not_usable_for_housing', 'unclear'}
+             'not_usable_for_housing', 'unclear', 'required_for_subject_jurisdictions'}
 # City-and-county governments carry two geoids for one government.
 CONSOLIDATED = {'08031': '0820000', '08014': '0809280'}
 
@@ -273,3 +273,14 @@ def test_catalog_tools_have_a_quoted_colorado_legal_basis(catalog, fees):
     for t in tools:
         if t['colorado_status'] == 'not_usable_for_housing':
             assert not any((t.get('maps_to') or {}).values()), f"{t['id']}: cannot be adopted for housing"
+
+
+def test_adus_by_right_are_required_by_hb24_1152(catalog):
+    adu = next(t for t in catalog['tools'] if t['id'] == 'adu_by_right')
+    assert adu['colorado_status'] == 'required_for_subject_jurisdictions'
+    quotes = ' '.join(quotes_of(b) for b in adu['legal_basis'])
+    assert 'POPULATION OF ONE THOUSAND OR MORE' in quotes and 'METROPOLITAN PLANNING ORGANIZATION' in quotes
+    assert 'ON OR AFTER JUNE 30, 2025' in quotes
+    assert any(urlparse(b['source']['url']).hostname == 'leg.colorado.gov' for b in adu['legal_basis'])
+    for k in adu.get('known_subject_jurisdictions', []):
+        assert https(k['source']['url']) and k['evidence'] and k['evidence'][0]['quote'], k['geoid']

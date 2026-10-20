@@ -103,7 +103,7 @@
         "Rechecked 2026-10-12: the county elections page still posts only the same two general-election sample ballots (style 004-1 and the R-1 School District style 001-2). No TABOR notice, ballot-content certification or participating-entities list is posted, and none appears among the county Document Center files posted since (IDs up to 14847).",
         "Style 004-1 has no local questions, but neither the sample ballot nor the elections page says which town precinct 004 covers, so it is not treated as covering Norwood. The page lists Norwood Town Hall as an Election Day polling location, which does not show which style Norwood voters receive.",
         "Rechecked 2026-10-10: the town's posted 2026 resolutions still end at Resolution 0812 Series 2026, and none refers a question to the Nov 3, 2026 ballot. Resolution No. 212 Series 2026 cancelled the town's regular municipal election. The public notices page lists no notices.",
-        "The town's 2026 ordinances (through 0814 Series 2026, reviewed 2026-09-26) include no Nov 2026 ballot referral. The ordinances page returned HTTP 429 on 2026-10-10, so it was not rechecked.",
+        "The town's 2026 ordinances (through 0814 Series 2026, reviewed 2026-09-26) include no Nov 2026 ballot referral. The ordinances page could not be opened on 2026-10-10 (too many requests), so it was not rechecked.",
         "Rechecked 2026-10-12: the town resolutions page is unchanged (latest Resolution 0812 Series 2026), the ordinances page lists nothing after Ordinance 0814 Series 2026, and neither refers a question to the November 3, 2026 ballot."
       ],
       "reviewed_sources": [

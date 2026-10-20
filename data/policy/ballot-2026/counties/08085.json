@@ -108,7 +108,7 @@
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: the county's West End sample ballot has no Town of Nucla section; its local items are the West End Health Service District questions 6A and 6B and its director races. No other county style has a town section. No participating-entities list is posted.",
-        "The town website loaded on 2026-10-10 (it returned a Cloudflare challenge or HTTP 403 on 2026-09-26). Its Town Board page, with notices posted as of October 5, 2026, lists no election or ballot item."
+        "The town website loaded on 2026-10-10 (it could not be opened on 2026-09-26). Its Town Board page, with notices posted as of October 5, 2026, lists no election or ballot item."
       ],
       "reviewed_sources": [
         {
@@ -139,7 +139,7 @@
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: none of the three county sample ballot styles (West End, City, State) has a Town of Olathe section. No participating-entities list is posted.",
-        "The town website (townofolathe.org) returned HTTP 403 on 2026-10-10, as it did on 2026-09-26, so a separate town election could not be ruled out from the town's own records."
+        "The town website (townofolathe.org) could not be opened on 2026-10-10 or 2026-09-26, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
         {

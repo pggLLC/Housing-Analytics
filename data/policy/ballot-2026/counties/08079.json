@@ -10,7 +10,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "mineralcountycolorado.com (elections page, clerk page and linked PDFs) returned HTTP 403 behind a Cloudflare challenge on 2026-09-26, with and without www and with browser headers; no archived copy was found. The sample ballot, TABOR notice and participating-entities list could not be read.",
+        "mineralcountycolorado.com (elections page, clerk page and linked PDFs) could not be opened on 2026-09-26, with or without www; no archived copy was found. The sample ballot, TABOR notice and participating-entities list could not be read.",
         "Re-check once the county site is reachable, or confirm with the Mineral County Clerk and Recorder."
       ],
       "reviewed_sources": [

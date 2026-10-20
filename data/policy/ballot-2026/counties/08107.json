@@ -10,7 +10,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR).",
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no searchable text; every page of all eight styles was read on 2026-09-26.",
         "No Routt County ballot issue or question appears on any style. Local measures on the ballot: Yampa Valley Regional Transportation Authority 7A (transit sales tax), Town of Oak Creek 2A, Hayden School District RE-1 4A and 4B, Eagle County School District RE50J 5B, West Routt Fire Protection District 6A and Morrison Creek Metropolitan Water & Sanitation District 6B; none is a housing measure.",
         "No TABOR notice was posted on the county election pages on 2026-09-26."
       ],
@@ -72,7 +72,7 @@
       "limitations": [
         "Participating: the county's 2026 pending ballot issues list shows 'Town of Hayden - signed IGA', and the IGA is in the 2026-07-09 town council packet.",
         "No Town of Hayden ballot question appears on any sample ballot style; town council packets through 2026-09-17 contain no ballot referral.",
-        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR)."
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no searchable text; every page of all eight styles was read on 2026-09-26."
       ],
       "reviewed_sources": [
         {
@@ -136,8 +136,8 @@
       "limitations": [
         "Participating: Town of Oak Creek Ballot Issue 2A is on the sample ballot.",
         "Excluded 2A (not housing): a 2.00% sales tax rate increase deposited into the general fund for the construction and rehabilitation of capital improvements.",
-        "The town website returned HTTP 403 on 2026-09-26; the draft Ordinance No. 677 in the 2026-07-23 joint county/town packet matches the ballot text.",
-        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR)."
+        "The town website could not be opened on 2026-09-26; the draft Ordinance No. 677 in the 2026-07-23 joint county/town packet matches the ballot text.",
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no searchable text; every page of all eight styles was read on 2026-09-26."
       ],
       "reviewed_sources": [
         {

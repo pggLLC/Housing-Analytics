@@ -24,7 +24,7 @@
       "entry_ids": [],
       "limitations": [
         "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official precinct sample ballots (all 37 English ballot styles, proofs dated 2026-09-09), which together cover every ballot style in the county. This row is absent from it.",
-        "The town website returned HTTP 403 and could not be checked.",
+        "The town website could not be opened, so it was not checked.",
         "The county TABOR notice was not posted (checked 2026-09-26)."
       ]
     },
@@ -88,7 +88,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Participating with a Board of Trustees contest only; no town ballot question or issue. The town website returned HTTP 403.",
+        "Participating with a Board of Trustees contest only; no town ballot question or issue. The town website could not be opened.",
         "The county TABOR notice was not posted (checked 2026-09-26)."
       ],
       "reviewed_sources": [
@@ -107,7 +107,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "Participating with Mayor and Board of Trustees contests only; no town ballot question or issue. The town website returned HTTP 403.",
+        "Participating with Mayor and Board of Trustees contests only; no town ballot question or issue. The town website could not be opened.",
         "The county TABOR notice was not posted (checked 2026-09-26)."
       ],
       "reviewed_sources": [

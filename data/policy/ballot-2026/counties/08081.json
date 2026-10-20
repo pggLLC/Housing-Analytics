@@ -10,11 +10,11 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the elections page now posts 2026 General Election sample ballots labelled City and County (and a Spanish one). Both English PDFs were read. They are image-only scans with no text layer, so they were read from the rendered page images. No TABOR notice or participating-entities list is posted.",
+        "Checked 2026-10-10: the elections page now posts 2026 General Election sample ballots labelled City and County (and a Spanish one). Both English PDFs were read. They are image-only scans with no searchable text, so they were read from the rendered page images. No TABOR notice or participating-entities list is posted.",
         "Excluded: Moffat County Ballot Questions 1A, 1B and 1C, which would lengthen the term limits of the Clerk and Recorder, the Assessor and the Treasurer to three consecutive terms (Article XVIII, Section 11). Not housing. These match Resolution 2026-100 (adopted August 25, 2026).",
         "Not county questions and not housing: Moffat County School District RE-1 Ballot Issue 4A (bonded debt) on both styles, and Yampa Valley Regional Transportation Authority Ballot Issue 7A (a sales tax for regional transportation) on the City style.",
         "Commissioners' minutes July 14 to September 8, 2026 show no other county ballot referral.",
-        "Recorded as source_unreadable: the Moffat County City and County sample ballots are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Moffat County City and County sample ballots are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {
@@ -54,7 +54,7 @@
       "limitations": [
         "Checked 2026-10-10: the county's City sample ballot has no City of Craig section. Its local questions are Moffat County 1A to 1C (term limits), Moffat County School District RE-1 Issue 4A and Yampa Valley Regional Transportation Authority Issue 7A. The PDF is an image-only scan and was read from the rendered page images.",
         "No participating-entities list is posted. City council agendas April 28 to August 25, 2026 contain no city ballot-question resolution or coordinated-election agreement.",
-        "Recorded as source_unreadable: the Moffat County City sample ballot are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Moffat County City sample ballot are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {
@@ -82,7 +82,7 @@
       "limitations": [
         "Checked 2026-10-10: the county posts two English ballot styles, City and County, and neither has a Town of Dinosaur section. The PDFs are image-only scans and were read from the rendered page images. No participating-entities list is posted.",
         "The town's election page lists only the certified results of its April 7, 2026 regular election. Town agendas June 23 to September 15, 2026 contain no coordinated-election agreement or November ballot question.",
-        "Recorded as source_unreadable: the Moffat County City and County sample ballots are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Moffat County City and County sample ballots are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {

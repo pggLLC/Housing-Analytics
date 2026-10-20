@@ -298,8 +298,9 @@ test('JS: methodology references all data sources', () => {
 
 test('JS: cache status is reflected in the methodology section', () => {
     assert(js.includes('cacheFlags'), 'cacheFlags object is used in methodology');
-    assert(js.includes('cacheBits'),  'cacheBits array is used to report loaded modules');
-    assert(js.includes('No cached modules detected'), 'fallback message for no cached modules is present');
+    // M13 — the cached-module list is internal detail and is no longer shown to readers.
+    assert(!js.includes('Loaded from cache:'), 'cached-module list is not shown to readers');
+    assert(!js.includes('No cached modules detected'), 'no internal cache wording is shown to readers');
 });
 
 // ---------------------------------------------------------------------------

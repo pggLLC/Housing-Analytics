@@ -189,8 +189,12 @@
       // fit" row, through js/funding-fit.js (was soft-funding-status.json,
       // whose unconfirmed and closed rows were counted as eligible).
       soft('data/policy/chfa-watchlist.json'),
-      soft('data/policy/co-developer-funding-guide.json')
+      soft('data/policy/co-developer-funding-guide.json'),
+      // D11 — published ACS total population (DP05_0001E) per place, with
+      // the year and series it came from.
+      soft('data/hna/acs-reliability.json')
     ]).then(function (parts) {
+      state.acsGeos = (parts[15] && parts[15].geos) || {};
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
       state.projects = (parts[2].features || []).filter(function (f) {
@@ -353,6 +357,13 @@
     var amiHH = ami && (ami.all_households_le_ami_pct || ami.households_le_ami_pct);
     var pop = (amiHH && amiHH['100'])
       ? Math.round((+amiHH['100'] || 0) * 2.5) : null;
+    // The feasibility score keeps its documented proxy; the population row
+    // shows the published ACS figure.
+    var acsPopE = state.acsGeos && state.acsGeos[placeGeoid] && state.acsGeos[placeGeoid].DP05_0001E;
+    var acsPop = acsPopE && Number.isFinite(Number(acsPopE.e)) ? Math.round(Number(acsPopE.e)) : null;
+    var acsPopVintage = acsPop != null && acsPopE.y
+      ? 'ACS ' + (acsPopE.s === 'acs1' ? acsPopE.y + ' 1-year' : (acsPopE.y - 4) + '-' + acsPopE.y + ' 5-year')
+      : null;
 
     // Civic — prefer the place's scorecard; fall back to its containing
     // county's. Track whether we fell back so the rendered cell can be
@@ -412,6 +423,8 @@
         return max === -Infinity ? null : max;
       }()),
       population: pop,
+      acsPopulation: acsPop,
+      acsPopulationVintage: acsPopVintage,
       civicScore: civicPct,
       civicRawScore: civicRaw,
       civicIsCounty: civicIsCounty,
@@ -618,11 +631,11 @@
     { group: 'Component scores (0–100)' },
     { label: 'Housing Need', info: 'Tenure-blended cost burden + severe rent burden, percentile-normalized vs CO peers. Source: HUD CHAS 2018–2022 Table 7. Formula: blended_cb30 × 0.7 + cb50 × 0.3, then percentile-rank.',
       fn: function (r) { return r.needScore; }, fmt: function (v) { return v + 'p'; }, best: 'high' },
-    { label: 'Recency / Competition', info: 'min(100, years_since_last_LIHTC × 4). 25-year cap. Never-funded = 100. Source: CHFA HousingTaxCreditProperties_view AwardYear (2025-current).',
+    { label: 'Recency / Competition', info: 'min(100, years_since_last_LIHTC × 4). 25-year cap. Never-funded = 100. Source: CHFA housing tax credit property list, award year.',
       fn: function (r) { return r.recencyScore; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Basis-Boost', info: 'QCT-only: 60 · DDA-only: 60 · Both: 100 · Neither: 0. IRC §42(d)(5)(B) basis boost. Source: HUD QCT 2026 (224 CO tracts) + HUD DDA 2026 (10 CO nonmetro counties).',
+    { label: 'Basis-Boost', info: 'QCT-only: 60 · DDA-only: 60 · Both: 100 · Neither: 0. IRC §42(d)(5)(B) basis boost. Source: HUD QCT 2026 (224 CO tracts) + HUD DDA 2026 (10 nonmetro counties and 31 metro ZIP areas in Colorado). This score counts county-wide DDAs only; a metro ZIP-area DDA is not counted.',
       fn: function (r) { return r.basisScore; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Population / Feasibility', info: 'Bucketed: <500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Source: CHAS HHs ≤100% AMI × 2.5 proxy.',
+    { label: 'Population / Feasibility', info: 'Bucketed: under 500: 0 · 500 to 2,000: 30 · 2,000 to 5,000: 60 · 5,000 to 15,000: 85 · 15,000 or more: 100. Source: an estimate of population from CHAS households at or below 100% of area median income, multiplied by 2.5 people per household.',
       fn: function (r) { return r.popScore; }, fmt: function (v) { return v; }, best: 'high' },
     { label: 'Civic Readiness', info: 'Count of 7 civic-capacity dimensions (Prop 123 ✓, HNA ✓, comp plan ✓, IZ ✓, local funding ✓, housing authority ✓, nonprofits ✓) ÷ known dims × 100. Source: housing-policy-scorecard.json. "county" tag = the place has no place-level scorecard so this is its containing county\'s readiness — interpret as a ceiling for the place.',
       fn: function (r) { return r.civicScore; },
@@ -639,7 +652,7 @@
     // signal (definitional + freshness) in one inline badge. Hidden
     // entirely when the precompute pipeline (F207b) hasn't shipped
     // yet so we don't dilute the table with empty "insufficient" cells.
-    { label: 'CHAS reliability check', info: 'Cross-checks the CHAS 2018–2022 rate against (1) the same-vintage ACS 5-year — a definitional consistency check — and (2) the newer ACS 1-year — a freshness/market-movement check. Green = both consistent; amber = some divergence; red = material divergence (investigate). Source: js/rent-burden-reliability.js + data/processed/rent_burden_crosscheck.json.',
+    { label: 'CHAS reliability check', info: 'Cross-checks the CHAS 2018–2022 rate against (1) the same-vintage ACS 5-year — a definitional consistency check — and (2) the newer ACS 1-year — a freshness/market-movement check. Green = both consistent; amber = some divergence; red = material divergence (investigate). Sources: HUD CHAS 2018–2022 and Census ACS 5-year and 1-year estimates.',
       fn: function (r) { return r && r.placeGeoid ? r.placeGeoid : '—'; },
       fmt: function (v) {
         if (!v || v === '—') return '<span style="color:var(--muted)">—</span>';
@@ -647,9 +660,9 @@
       }, raw: true },
 
     { group: 'Designations + Capacity' },
-    { label: 'QCT', info: 'Qualified Census Tract — IRC §42(d)(5)(B)(ii). Tracts with ≥50% of HHs below 60% AMI or ≥25% poverty rate. Eligible for 30% basis boost.',
+    { label: 'QCT', info: 'Qualified Census Tract — IRC §42(d)(5)(B)(ii). Tracts where 50% or more of households earn under 60% of area median income, or the poverty rate is 25% or more. Eligible for 30% basis boost.',
       fn: function (r) { return r.hasQct ? 'Yes (' + r.qctCount + ')' : 'No'; }, fmt: function (v) { return v; }, raw: true },
-    { label: 'DDA', info: 'Difficult Development Area — IRC §42(d)(5)(B)(iii). HUD-designated nonmetro CO counties (10 currently) where construction cost exceeds local rents.',
+    { label: 'DDA county', info: 'Whether the place is in a county-wide Difficult Development Area, IRC §42(d)(5)(B)(iii). HUD\'s 2026 list has 10 nonmetro Colorado counties and 31 metro ZIP areas where building costs are high relative to incomes; this row checks the counties only, not the metro ZIP areas.',
       fn: function (r) { return r.hasDda ? 'Yes' : 'No'; }, fmt: function (v) { return v; }, raw: true },
     { label: 'Civic dimensions filled', info: 'Raw count of populated civic-capacity flags (out of 7). null indicates data wasn\'t researched. "county" tag = containing-county data, no place-level scorecard on file.',
       fn: function (r) {
@@ -666,12 +679,14 @@
     // F176 — Explicit drought count. Mirrors the recencyScore semantics
     // but exposes the human-readable years-since-last-award the OF
     // computes at runtime + the watchlist persists for featured places.
-    { label: 'Years since last LIHTC (drought)', info: 'CURRENT_YEAR − last_award_year. Captures "competition staleness" — long droughts often signal political will, sponsor capacity gap, or oversupply elsewhere. CHFA QAP scores reward longer droughts. "—" means no known prior LIHTC; the F146 recency score treats this as 100 (maximum opportunity).',
+    { label: 'Years since last LIHTC (drought)', info: 'CURRENT_YEAR − last_award_year. Captures "competition staleness" — long droughts often signal political will, sponsor capacity gap, or oversupply elsewhere. CHFA QAP scores reward longer droughts. "—" means no known prior LIHTC; the recency score treats this as 100 (maximum opportunity).',
       fn: function (r) { return r.droughtYears; },
       fmt: function (v, r) {
         if (v == null) return '<span style="color:var(--muted)">—</span>';
         var color = v >= 8 ? 'var(--accent)' : (v >= 4 ? 'inherit' : 'var(--muted)');
-        var note = v >= 8 ? ' yrs · drought signal' : (v >= 4 ? ' yrs' : ' yrs · recent');
+        // M4 — an award this year is not "0 years since".
+        if (v === 0) return '<span style="color:var(--muted)">Awarded this year</span>';
+        var note = v >= 8 ? ' years · drought signal' : (v >= 4 ? ' years' : (v === 1 ? ' year · recent' : ' years · recent'));
         return '<span style="color:' + color + ';font-weight:' + (v >= 8 ? '700' : '400') + '">' + v + note + '</span>';
       }, best: 'high' },
     // F176 — CHFA watchlist signal (curated by signals workflow). Only
@@ -732,7 +747,7 @@
       fn: function (r) { return r.preservationUrgent5y; }, fmt: function (v) { return v > 0 ? '<span class="cmp-pill cmp-pill--med">' + v + '</span>' : '0'; }, best: 'high' },
 
     { group: 'Labor market & commute (LEHD LODES)' },
-    { label: 'Labor character', info: 'Inferred from outflow share of resident workers. Bedroom community = ≥70% commute out (housing demand tracks regional job hubs). Mixed = 40–70%. Self-contained = <40% (local jobs anchor demand). Source: block-classified LEHD LODES OD via data/hna/place-od-flows.json.',
+    { label: 'Labor character', info: 'Inferred from outflow share of resident workers. Bedroom community = 70% or more commute out (housing demand tracks regional job hubs). Mixed = 40–70%. Self-contained = <40% (local jobs anchor demand). Source: block-classified LEHD LODES OD via data/hna/place-od-flows.json.',
       fn: function (r) {
         var c = r.labor && r.labor.character;
         if (!c) return '—';
@@ -757,8 +772,8 @@
       fmt: function (v) { return v != null ? v + ' programs' : '—'; }, best: 'high' },
 
     { group: 'Demographics' },
-    { label: 'Population (proxy)', info: 'HHs ≤100% AMI × 2.5 (avg CO HH size). Proxy because ACS B01003 isn\'t yet wired in. Resort markets understated (HH-based, not B01003 — but actually CLOSER to renter-base truth in resort markets).',
-      fn: function (r) { return r.population; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
+    { label: 'Population', info: 'Total population from the Census American Community Survey (table DP05), 2020-2024 5-year estimates for most places and 2024 1-year estimates for places of 65,000 or more.',
+      fn: function (r) { return r.acsPopulation; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
   ];
 
   // The deal type the comparison is ranked by, as js/funding-fit.js names it.

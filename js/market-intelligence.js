@@ -113,7 +113,7 @@
   function fetchAllCountyCensus() {
     if (countyAcsCache !== null) return Promise.resolve(countyAcsCache);
     var url = 'https://api.census.gov/data/2022/acs/acs5' +
-      '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
+      '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E' +
       ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
       ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E,B19013_001E' +
       '&for=county:*&in=state:08';
@@ -130,7 +130,9 @@
         var m = fullName.match(/^(.+?)\s+County/i);
         if (!m) return;
         var cName = m[1].trim();
-        var totalRenter = getVal(row, 'B25070_001E');
+        // B25070_011E is "Not computed" (no cash rent or no income); those
+        // renters cannot be burdened, so they leave the denominator.
+        var totalRenter = (getVal(row, 'B25070_001E') || 0) - (getVal(row, 'B25070_011E') || 0);
         var burdened30Plus = ['B25070_007E', 'B25070_008E', 'B25070_009E', 'B25070_010E']
           .reduce(function (s, k) { return s + (getVal(row, k) || 0); }, 0);
         var severe = getVal(row, 'B25070_010E');
@@ -249,13 +251,14 @@
       // B25070: rent burden, B11001: households, B25014: overcrowding,
       // B25002: occupancy status (for vacancy rate), B25064: median gross rent
       return fetchJSON(
-        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E,B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
+        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E,B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E,B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
       ).then(function (rows) {
         if (!Array.isArray(rows) || rows.length < 2) return;
         var headers = rows[0];
         var vals = rows[1];
         function get(name) { var i = headers.indexOf(name); return i >= 0 ? Number(vals[i]) : null; }
-        var totalRenter = get('B25070_001E');
+        // Renters with burden computed: total minus B25070_011E "Not computed".
+        var totalRenter = (get('B25070_001E') || 0) - (get('B25070_011E') || 0);
         // Sum of ≥30% burden buckets (30-34.9, 35-39.9, 40-44.9, 45-49.9, ≥50%)
         var burdened30 = [get('B25070_007E'), get('B25070_008E'), get('B25070_009E'), get('B25070_010E')].reduce(function (a, b) { return a + (b || 0); }, 0);
         var severe50 = get('B25070_010E');
@@ -311,7 +314,24 @@
     });
   }
 
+  // The inventory count is read from CHFA's HousingTaxCreditProperties
+  // feed (data/chfa-lihtc.json), so the section cites CHFA as its source.
+  function labelInventorySource() {
+    var heading = document.getElementById('inventory-heading');
+    var section = heading && heading.closest ? heading.closest('section') : null;
+    if (!section) return;
+    var h3 = section.querySelector('h3');
+    if (h3) {
+      h3.innerHTML = 'Source: <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a>';
+    }
+    var note = section.querySelector('.data-note');
+    if (note) {
+      note.innerHTML = 'Housing tax credit properties from <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> (public ArcGIS feature service).';
+    }
+  }
+
   function renderInventoryKpis(features, county) {
+    labelInventorySource();
     var filtered = county
       ? features.filter(function (f) {
           var cnty = (f.CNTY_NAME || f.county || '').toString().toLowerCase();
@@ -495,12 +515,14 @@
       var label = 'Rent affordable at 60% AMI (HUD, bedroom-mix weighted) — not a CHFA LIHTC limit';
       affordEl.title = available ? label : reason;
       if (affordEl.nextElementSibling) {
-        affordEl.nextElementSibling.textContent = available ? label + ': $' + fmt(Math.round(matched)) + '/mo' : reason;
+        affordEl.nextElementSibling.textContent = available
+          ? '60% AMI rent ($' + fmt(Math.round(matched)) + '/mo; HUD, bedroom-mix weighted, not a CHFA LIHTC limit) minus median gross rent. Negative means the median rent is higher.'
+          : reason;
       }
       if (Number.isFinite(medRent) && available) {
         var maxAffordRent = Math.round(matched);
         var gap = maxAffordRent - Math.round(medRent);
-        affordEl.textContent = (gap >= 0 ? '+' : '') + fmt(gap) + '/mo';
+        affordEl.textContent = (gap >= 0 ? '+' : '\u2212') + '$' + fmt(Math.abs(gap)) + '/mo';
         affordEl.className = 'risk-value ' + (gap >= 0 ? 'risk-low' : gap > -200 ? 'risk-med' : 'risk-high');
       } else {
         affordEl.textContent = '—';
@@ -561,7 +583,15 @@
 
   /* ── Load Economic Indicators ──────────────────────────────────── */
   function loadEconomicIndicators() {
-    return fetchJSON(resolveData('co-county-economic-indicators.json')).then(function (data) {
+    // Statewide median home value and household income come from the
+    // statewide ACS estimate, not an average of county medians.
+    var stateAcs = fetchJSON(resolveData('census-acs-state.json')).then(function (json) {
+      var rows = (json && Array.isArray(json.data)) ? json.data : [];
+      return rows.filter(function (r) { return r && r.state_fips === '08'; })[0] || null;
+    }).catch(function () { return null; });
+    return Promise.all([fetchJSON(resolveData('co-county-economic-indicators.json')), stateAcs]).then(function (loaded) {
+      var data = loaded[0];
+      currentData.stateAcs = loaded[1];
       currentData.econIndicators = data;
       renderEconomicKpis(data, selectedCounty);
       // Show data vintage in the note
@@ -587,15 +617,36 @@
         var vals = all.map(function (c) { return c[field]; }).filter(function (v) { return v != null; });
         return vals.length ? vals.reduce(function (s, v) { return s + v; }, 0) / vals.length : null;
       };
+      var st = currentData.stateAcs;
+      var stPrice = st && Number(st.median_home_value) > 0 ? Number(st.median_home_value) : null;
+      var stIncome = st && Number(st.median_household_income) > 0 ? Number(st.median_household_income) : null;
       d = {
         unemployment_rate: avg('unemployment_rate'),
         job_growth_5yr_pct: avg('job_growth_5yr_pct'),
-        affordability_index: avg('affordability_index'),
+        affordability_index: (stPrice && stIncome) ? stPrice / stIncome : null,
         population_growth_5yr_pct: avg('population_growth_5yr_pct'),
-        median_home_price: avg('median_home_price'),
-        median_hh_income: avg('median_hh_income')
+        median_home_price: stPrice,
+        median_hh_income: stIncome
       };
     }
+
+    // Geography and vintage of the home price and income figures.
+    var acsYear = county ? null : (currentData.stateAcs && Number(currentData.stateAcs.year));
+    var geoNote = county
+      ? county + ' County (ACS 2020–2024)'
+      : (acsYear ? 'Colorado (ACS ' + (acsYear - 4) + '–' + acsYear + ')' : '');
+    ['kpiMedianPrice', 'kpiMedianIncome', 'kpiAffordIndex'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el || !el.parentNode) return;
+      var note = el.parentNode.querySelector('.econ-kpi-geo');
+      if (!note) {
+        note = document.createElement('div');
+        note.className = 'econ-kpi-geo';
+        note.style.cssText = 'font-size:.75rem;color:var(--color-text-muted);margin-top:.15rem;';
+        el.parentNode.insertBefore(note, el.nextSibling);
+      }
+      note.textContent = geoNote;
+    });
 
     if (!d) return;
 

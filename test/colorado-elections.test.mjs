@@ -612,3 +612,30 @@ test('rendered research notes and coverage labels carry no internal codes', asyn
   assert.ok(quoted.length > 0, 'translated notes must be found');
   for (const q of quoted) assert.ok(labels.has(q) || q === 'Not applicable', `note label "${q}" must match a coverage label`);
 });
+
+// Research notes are read by the public. They describe what a source showed,
+// never the software, network or review workflow used to read it.
+const WORKFLOW_WORDS = /\b(?:pdftotext|pypdf|tesseract|curl|WebFetch|Wayback|Cloudflare|CloudFront|Akamai|Imperva|proxy|user[- ]agent|automated access|bot[- ]challenge|copier|Quadient|Identity-H|ToUnicode|owner (?:decision|instruction|review)|PR #\d+|second-pass rule|research environment)\b|\bI (?:read|did|extracted)\b/gi;
+
+test('rendered research notes carry no tool or workflow wording', async (t) => {
+  const { doc } = await page(t);
+  const shown = [...doc.querySelectorAll('#election-data li, #election-data td, #election-data p')];
+  assert.ok(shown.length > 100, 'the scan must inspect rendered notes');
+  const leaks = new Set();
+  for (const el of shown) {
+    const found = proseOnly(el.textContent).match(WORKFLOW_WORDS);
+    if (found) leaks.add(`${found.join(', ')} :: ${el.textContent.trim().slice(0, 120)}`);
+  }
+  assert.deepEqual([...leaks], [], 'rendered notes must read as plain reader notes');
+  const sourceLeaks = BALLOTS.flatMap((b) => [...b.coverage, ...b.entries])
+    .flatMap((row) => row.limitations || []).filter((text) => proseOnly(text).match(WORKFLOW_WORDS));
+  assert.deepEqual(sourceLeaks, [], 'stored notes must read as plain reader notes');
+});
+
+test('San Juan County Issue 1A is on the ballot with the final sample ballot as its source', () => {
+  const entry = allEntries(BALLOTS).find((e) => e.id === 'ballot-2026-08111-lodging-tax-expansion');
+  assert.ok(entry, 'the San Juan County lodging tax entry must exist');
+  assert.equal(entry.status, 'on_ballot');
+  assert.equal(entry.measure.number, '1A');
+  assert.match(entry.sources.ballot_notice.url, /FINAL---SAMPLE\.pdf$/);
+});

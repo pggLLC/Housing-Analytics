@@ -10,9 +10,9 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the elections page posts sample ballots for Precincts 1 to 13; all 13 were read. None has a county, municipal or district question; the only ballot measures are the state ones. Precincts 1 and 2 have a text layer; Precincts 3 to 13 are image-only scans and were read from the rendered page images. No TABOR notice or participating-entities list is posted.",
+        "Checked 2026-10-10: the elections page posts sample ballots for Precincts 1 to 13; all 13 were read. None has a county, municipal or district question; the only ballot measures are the state ones. Precincts 1 and 2 have searchable text; Precincts 3 to 13 are image-only scans and were read from the rendered page images. No TABOR notice or participating-entities list is posted.",
         "Commissioners' agendas June to September 2026 contain no ballot referral. A Park County lodging-tax question found in search was on the November 2025 ballot, not 2026.",
-        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {
@@ -52,7 +52,7 @@
       "limitations": [
         "Checked 2026-10-10: none of the 13 county precinct sample ballots has a Town of Alma section or any local question. No participating-entities list is posted.",
         "The town's elections page shows only its April 2026 election.",
-        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {
@@ -76,7 +76,7 @@
       "limitations": [
         "Checked 2026-10-10: none of the 13 county precinct sample ballots has a Town of Fairplay section or any local question. No participating-entities list is posted.",
         "The town's election documents (notice of election and sample ballot) concern its April 7, 2026 regular election only.",
-        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no searchable text. This page treats a scanned PDF as unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a notice or sample ballot with searchable text is posted."
       ],
       "reviewed_sources": [
         {

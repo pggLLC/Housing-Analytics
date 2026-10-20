@@ -1575,7 +1575,9 @@
         <strong>✓ Data source:</strong>
         LIHTC projects pulled live from
         <a href="https://chfa.maps.arcgis.com/apps/instant/basic/index.html?appid=3abac1de288d4ffd9dd755021b7c247e" target="_blank" rel="noopener">CHFA's public Housing Tax Credit Properties layer</a>
-        — 926 projects through 2025 (the 2025 awards have just been added). The recency score
+        (926 projects, awards through 2025), plus the 14 developments in
+        <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">CHFA's 2026 Round One awards</a>
+        (announced May 21, 2026), which the property layer does not list yet. The recency score
         uses CHFA's <em>AwardYear</em> field, which is when CHFA reserved the credits (typically
         2–3 years before the property opens). For saturation/recency scoring this is the
         <strong>better</strong> signal than an opening year — a 2024 award means "there's a
@@ -2032,10 +2034,9 @@
           <div class="lof-meth-block">
             <h3>The universe — which jurisdictions get scored</h3>
             <p>
-              Starts with Colorado's 482 incorporated places, towns, and CDPs (TIGER 2024). Each
-              target deal type then filters this universe differently. Today's implementation ranks
-              the <strong>158 jurisdictions with QCT and/or DDA designation</strong> (basis-boost
-              eligible). Target state adds preservation, workforce-resort, and Prop 123 deal types
+              Starts with Colorado's 482 incorporated places, towns, and CDPs (TIGER 2024). All 482
+              are scored and ranked; <strong>184 of them have a QCT and/or DDA designation</strong>
+              (basis-boost eligible), and the basis-boost filter narrows the list to those. Target state adds preservation, workforce-resort, and Prop 123 deal types
               with relaxed designation requirements.
             </p>
             <table class="lof-meth-table">
@@ -2043,8 +2044,8 @@
                 <tr><th>Target deal type</th><th>Universe filter</th><th>CO count</th></tr>
               </thead>
               <tbody>
-                <tr><td><strong>9% Competitive</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
-                <tr><td><strong>4% Bond (basis-boost)</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
+                <tr><td><strong>9% Competitive</strong></td><td>≥1 QCT tract, a DDA county, or a DDA ZIP</td><td>184</td></tr>
+                <tr><td><strong>4% Bond (basis-boost)</strong></td><td>≥1 QCT tract, a DDA county, or a DDA ZIP</td><td>184</td></tr>
                 <tr class="lof-meth-future"><td><strong>Preservation</strong></td><td>LIHTC w/ expiration ≤ 2030</td><td>~20 <em>(planned)</em></td></tr>
                 <tr class="lof-meth-future"><td><strong>Workforce / Resort</strong></td><td>Resort county subset, pop ≥1,000</td><td>~15 <em>(planned)</em></td></tr>
                 <tr class="lof-meth-future"><td><strong>Prop 123 Local</strong></td><td>Prop 123 ✓ AND (comp plan OR HNA OR housing lead)</td><td>~80 <em>(planned)</em></td></tr>
@@ -2095,7 +2096,8 @@
                 preference. Score: 100 if the place is in <em>both</em> a Qualified Census Tract
                 (QCT) and a Difficult Development Area (DDA); 60 if just one; 0 if neither.
                 <br><em>Data:</em> HUD's 2026 QCT designation list (224 Colorado tracts) + HUD's
-                2026 DDA list (10 Colorado nonmetro counties).
+                2026 DDA list (10 nonmetro Colorado counties and 31 metro ZIP areas; a place counts
+                as DDA through a ZIP when the ZIP covers part of it).
               </li>
 
               <li>
@@ -2195,8 +2197,9 @@
 
             <h4 style="margin:14px 0 4px;">9% Competitive — geographic-gap is the differentiator</h4>
             <p>
-              9% deals are scarce — Colorado gets roughly 30–40 awards a year for hundreds of
-              applicants. CHFA's Qualified Allocation Plan explicitly rewards geographic distribution
+              9% deals are scarce — CHFA funds about 12–14 developments a year, roughly half of
+              the 23–32 applications it received in 2024–2026
+              (<a href="https://www.chfainfo.com/rental-housing/housing-credit/awards" target="_blank" rel="noopener">CHFA applicant and award reports</a>). CHFA's Qualified Allocation Plan explicitly rewards geographic distribution
               and underserved-market scoring categories, so the single biggest predictor of success
               is <strong>"this jurisdiction hasn't been funded recently."</strong> Need still
               matters (CHFA scores deeper income-targeting), but a high-need market that just got
@@ -2252,13 +2255,13 @@
 
             <h4 style="margin:14px 0 4px;">Prop 123 Local — civic readiness IS the gate</h4>
             <p>
-              Prop 123 (HB22-1304) created two state-funded affordable-housing programs that
+              Proposition 123 (approved by voters in 2022; C.R.S. 29-32) created two state-funded affordable-housing programs that
               require local jurisdictions to <em>commit</em> to a 3% annual baseline expansion of
               affordable housing stock before they can access state dollars. Without the
               commitment, no Prop 123 deal happens — full stop. So the differentiator isn't need or
               market size, it's <strong>"has this jurisdiction done the local-policy work to
               unlock the state funding stack?"</strong> Prop 123 ✓, comp plan ✓, housing lead ✓,
-              housing authority ✓, local funding ✓, IZ ordinance ✓ — those seven civic-capacity
+              housing authority ✓, local funding ✓, IZ ordinance ✓ — those six civic-capacity
               flags decide whether a deal is even legally possible. Basis-boost matters less
               because Prop 123 dollars don't require federal QCT/DDA designation. Need still
               matters (the funds prioritize high-need markets), but readiness gates everything.
@@ -2301,11 +2304,11 @@
               <div style="margin-top:8px; font-size:.85rem; line-height:1.55;">
                 <p style="margin:6px 0;"><strong>Columns — deal types:</strong></p>
                 <ul style="margin:4px 0 8px; padding-left:22px;">
-                  <li><strong>9% Competitive</strong> — annual capped-allocation tax credits awarded by CHFA through a competitive scoring round. Roughly 30–40 awards/year statewide. Geographic distribution is heavily scored in the QAP.</li>
+                  <li><strong>9% Competitive</strong> — annual capped-allocation tax credits awarded by CHFA through a competitive scoring round. CHFA funds about 12–14 developments a year, roughly half of the 23–32 applications it received in 2024–2026 (<a href="https://www.chfainfo.com/rental-housing/housing-credit/awards" target="_blank" rel="noopener">CHFA applicant and award reports</a>). Geographic distribution is heavily scored in the QAP.</li>
                   <li><strong>4% Bond</strong> — non-competitive credits paired with tax-exempt private-activity bonds. No award cap, but bond issuance costs and underwriting standards favor larger projects (100+ units).</li>
                   <li><strong>Preservation</strong> — 4% acquisition/rehab deals refinancing existing LIHTC properties at Year-15 (compliance period ending). The opportunity is the existing subsidy + occupancy, not new construction.</li>
                   <li><strong>Workforce-Resort</strong> — bond deals in mountain/resort communities (Pitkin, San Miguel, Summit, Eagle, Routt, Garfield, La Plata, Grand) where severe workforce pressure meets small population.</li>
-                  <li><strong>Prop 123 Local</strong> — state-funded deals via HB22-1304's Affordable Housing Financing Fund or Support Fund. Requires the jurisdiction to have filed a Prop 123 commitment with DOLA.</li>
+                  <li><strong>Prop 123 Local</strong> — state-funded deals via the Affordable Housing Financing Fund or Support Fund created by Proposition 123 (approved by voters in 2022; C.R.S. 29-32). Requires the jurisdiction to have filed a Prop 123 commitment with DOLA.</li>
                   <li><strong>Balanced</strong> — no specific lens; weights all dimensions roughly equally for exploratory scouting.</li>
                 </ul>
                 <p style="margin:6px 0;"><strong>Rows — scoring dimensions:</strong></p>
@@ -2369,11 +2372,11 @@
               <thead>
                 <tr>
                   <th title="The scoring dimension (the input variable)">Dimension</th>
-                  <th title="Annual capped tax credits awarded by CHFA through a competitive scoring round. 30–40 awards/year statewide.">9% Competitive</th>
+                  <th title="Annual capped tax credits awarded by CHFA through a competitive scoring round. CHFA funds about 12–14 developments a year, roughly half of the 23–32 applications it received in 2024–2026 (CHFA applicant and award reports).">9% Competitive</th>
                   <th title="Non-competitive credits paired with tax-exempt private-activity bonds. Need scale (100+ units) for bond costs to pencil.">4% Bond</th>
                   <th title="4% acquisition/rehab deals refinancing existing LIHTC properties at Year-15.">Preservation</th>
                   <th title="Bond deals in mountain/resort communities where severe workforce pressure meets small population.">Workforce-Resort</th>
-                  <th title="State-funded deals via HB22-1304 (Prop 123). Requires DOLA-filed jurisdiction commitment.">Prop 123 Local</th>
+                  <th title="State-funded deals via Proposition 123 (approved by voters in 2022; C.R.S. 29-32). Requires DOLA-filed jurisdiction commitment.">Prop 123 Local</th>
                   <th title="No specific lens — equal-ish weights for exploratory scouting.">Balanced</th>
                 </tr>
               </thead>
@@ -2387,7 +2390,7 @@
             </table>
             <p class="lof-meth-note">
               <strong>These weights are live in the composite today</strong> — all five dimensions
-              including Civic Readiness, all six deal types. The F9 rebalance (2026-05-26) lifted
+              including Civic Readiness, all six deal types. On 2026-05-26 the weights were rebalanced to lift
               civic from 10–15% to 18–20% on 9% / 4% / Workforce-Resort because local Prop 123
               commitment, IZ ordinance, housing-authority infrastructure, and soft-debt match
               proved to matter more than the original 4-dimension model credited. CDPs
@@ -2410,8 +2413,8 @@
               <li><strong>★ Low</strong> — multiple fallbacks OR civic &lt;3 of 7 OR major dimension missing entirely</li>
             </ul>
             <p class="lof-meth-note">
-              Confidence pills next to every metric are sprint-1 work; today the locator surfaces
-              this as table column hover-tooltips and detail-panel inline notes.
+              The locator shows confidence as table column hover-tooltips and detail-panel
+              inline notes.
             </p>
           </div>
 
@@ -2470,10 +2473,10 @@
             <h3>Caveats &amp; known data quirks</h3>
             <ol class="lof-meth-caveats">
               <li>Placeholder years (<code>8888</code> / <code>9999</code>) are excluded from recency.</li>
-              <li>Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a misspelled PROJ_CTY ("Ft Collins" vs "Fort Collins") misses match. Fuzzy-match is a backlog item.</li>
+              <li>Projects are matched to jurisdictions by CHFA's project city name (<code>PROJ_CTY</code>). Names are compared without accents and with "Ft"/"St" spelled out, so "Canon City" matches Cañon City and "Ft Collins" matches Fort Collins; a city name CHFA misspells in some other way can still miss its place.</li>
               <li>Population is approximate — derived from CHAS HHs ≤100% AMI × 2.5 avg HH size, not direct ACS B01003. Resort areas with high second-home stock are actually closer to the renter-base truth via HH proxy than via B01003.</li>
               <li>QCT-place membership requires tract's share of place &gt; 5% OR place's share of tract &gt; 20%. Sliver overlaps don't claim a QCT.</li>
-              <li>DDA designation in CO is county-based (all 10 CO DDAs are nonmetro counties); all jurisdictions in DDA counties inherit the designation.</li>
+              <li>For 2026, HUD designates 10 nonmetro Colorado counties and 31 metro ZIP areas (Small Area DDAs) as Difficult Development Areas. Every place in a DDA county gets the designation; in a metro area, a site qualifies only if its ZIP is designated, so a place marked DDA through a ZIP has the basis boost only inside that ZIP.</li>
               <li>Civic-capacity coverage is sparse. ~70% of jurisdictions have populated scorecard records; ~30% rely on county-level inheritance.</li>
               <li>Recency uses CHFA's award year, not the year a project opened — CHFA's layer publishes no placed-in-service year. A recent award counts as recent activity even if the building is still under construction.</li>
             </ol>
@@ -2484,7 +2487,7 @@
             <h3>Data sources</h3>
             <ul class="lof-meth-sources">
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD QCT 2026</a> — 224 CO tracts (<code>data/qct-colorado.json</code>)</li>
-              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2026</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
+              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2026</a> — 10 CO nonmetro counties + 31 metro Small Area DDA ZIPs (<code>data/dda-colorado.json</code>)</li>
               <li><a href="https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties_view (live)</a> — 926 CO projects 1987–2025 (<code>data/chfa-lihtc.json</code>; HUD LIHTCDB fallback <code>data/market/hud_lihtc_co.geojson</code> with 716 projects through 2020)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
               <li><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2024.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
@@ -2495,7 +2498,7 @@
           </div>
 
           <p class="lof-meth-footer">
-            Methodology version 1.1 (2026-05-25). Verification: <code>npm run audit:opportunity-finder</code> runs 28 independent checks against this implementation.
+            Methodology version 1.1 (2026-05-25).
             <br><a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Read the full methodology doc →</a>
           </p>
         </section>

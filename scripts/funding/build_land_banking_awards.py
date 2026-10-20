@@ -41,6 +41,7 @@ import os
 import re
 import subprocess
 import sys
+from urllib.parse import urlparse
 import tempfile
 import urllib.request
 
@@ -187,6 +188,10 @@ def build(pdf_dir: str | None):
         fix = corrections.get(key, {})
         if fix:
             used.add(key)
+        since = fix.get('since')
+        if since and not (since.get('text') and since.get('checked') and since.get('sources')
+                          and all((urlparse(str(x.get('url', ''))).scheme == 'https' and urlparse(str(x.get('url', ''))).netloc) for x in since['sources'])):
+            raise SystemExit(f'{key}: "since" needs text, checked and https sources')
         # an entry with only a note annotates a row the ledger read correctly
         sponsor = fix.get('sponsor', a['sponsor'])
         project = fix.get('name', a['name'])
@@ -215,7 +220,12 @@ def build(pdf_dir: str | None):
             'estimated_units': a['total_units'], 'purpose': purpose,
             'rental': 'Rental' in purpose, 'homeownership': 'Homeownership' in purpose,
             'source_file': a['source_file'], 'source_url': a['source_url'], 'source_quote': quote,
-            'corrected_from_ledger': fix.get('reason'), 'note': fix.get('note')})
+            'corrected_from_ledger': fix.get('reason'), 'note': fix.get('note'),
+            # what readers see when the printed name has a typo or is shortened; the
+            # printed row stays in source_quote
+            'show_project': fix.get('show_project'), 'show_sponsor': fix.get('show_sponsor'),
+            # one dated, sourced line on what has happened to the site since the award
+            'since': fix.get('since')})
         if EMAIL.search(texts[a['source_file']]):
             c = row_contact(texts[a['source_file']], project, a['amount_awarded'])
             if not c:

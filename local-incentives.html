@@ -120,9 +120,10 @@
         <div class="sources-box">
           <h3>Data Sources &amp; Review Rules</h3>
           <ul>
-            <li>Fee relief and land-use incentives: <code>data/policy/fee-reductions.json</code>. Local funds, taxes, linkage fees and ownership tools: <code>data/policy/local-housing-funds.json</code>. Who was checked and found nothing: <code>data/policy/incentive-coverage.json</code>. Tool catalog: <code>data/policy/incentive-alternatives.json</code>.</li>
-            <li>Prop 123 status: <code>data/policy/prop123_jurisdictions.json</code>, built from DOLA's commitment filings, verified fast-track policies and fully compliant list by <code>scripts/policy/build_prop123_jurisdictions.py</code>; its date is shown beside every status.</li>
-            <li>Every record carries a re-check date. A daily job opens an issue before a record falls due, and the record shows a warning here once it is overdue. A monthly job opens an issue naming the next jurisdictions to research.</li>
+            <li>Fee relief, land-use incentives, local funds, taxes, linkage fees and ownership tools: each record names and links its source, usually the jurisdiction's own code, ordinance, budget or program page, and quotes it where the wording was captured; a record not read from the primary document is marked as reported. Jurisdictions checked and found to have none are recorded as such, not left blank.</li>
+            <li>Tool catalog: each tool's Colorado legal basis is quoted from the statute, constitution or bill text, linked beside it.</li>
+            <li>Prop 123 status: built from the <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">Colorado Department of Local Affairs (DOLA) commitment filings</a>, verified fast-track policies and fully compliant list; its date is shown beside every status.</li>
+            <li>Every record carries a re-check date, and shows a warning here once it is overdue.</li>
             <li>State and federal programs are in <a href="colorado-deep-dive.html#tab-funding">the Deep Dive's Funding Sources tab</a>; property-tax abatements are in the tax-abatement inventory.</li>
           </ul>
           <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">

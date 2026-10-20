@@ -10,9 +10,9 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10).",
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: its only searchable text is the \"SAMPLE BALLOT\" watermark. Because this page treats a scanned ballot as unreadable, no conclusion is drawn from it (checked 2026-10-10).",
         "The Elections page posts no TABOR notice, ballot-content certification or participating-entities list. Its other 2026 General documents are the logic and accuracy test notice, voter instructions and the state Ballot Blue Book (checked 2026-10-10).",
-        "Leads only, for owner review: the rendered pages show no Elbert County question. The local ballot issues shown are Douglas County School District RE-1 Ballot Issue 5A and Elbert Fire Protection District Ballot Issue 7B. A text-readable ballot or the TABOR notice is needed to close this row."
+        "Leads only, for further review: the page images show no Elbert County question. The local ballot issues shown are Douglas County School District RE-1 Ballot Issue 5A and Elbert Fire Protection District Ballot Issue 7B. A text-readable ballot or the TABOR notice is needed to close this row."
       ],
       "reviewed_sources": [
         {
@@ -34,9 +34,9 @@
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10).",
-        "The Town of Elizabeth notice of election and election pages returned a Cloudflare challenge (HTTP 403) on 2026-09-26 and again on 2026-10-10, to curl with a browser User-Agent and to a fetch tool, so they could not be read.",
-        "Leads only, for owner review: the rendered ballot has a Town of Elizabeth section with the Elizabeth Trustee contest (vote for four) and no town question."
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: its only searchable text is the \"SAMPLE BALLOT\" watermark. Because this page treats a scanned ballot as unreadable, no conclusion is drawn from it (checked 2026-10-10).",
+        "The Town of Elizabeth notice of election and election pages could not be opened on 2026-09-26 or 2026-10-10.",
+        "Leads only, for further review: the ballot images show a Town of Elizabeth section with the Elizabeth Trustee contest (vote for four) and no town question."
       ],
       "reviewed_sources": [
         {
@@ -66,7 +66,7 @@
       "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-12: the Elbert County Elections page posts the same image-only \"2026 SAMPLE BALLOT.pdf\" (Microsoft Print to PDF, modified 2026-09-30, no text layer beyond the watermark), the logic and accuracy test notice, voter instructions and the Ballot Blue Book. No TABOR notice, ballot-content certification or participating-entities list is posted, and no such document appears among the county's newer Document Center uploads (IDs 5757 to 5767, all non-election items). Under the scanned-PDF rule no conclusion is drawn from the sample ballot; read for leads only, it has no Town of Kiowa section.",
+        "Rechecked 2026-10-12: the Elbert County Elections page posts the same image-only \"2026 SAMPLE BALLOT.pdf\" (image-only, modified 2026-09-30, no searchable text beyond the watermark), the logic and accuracy test notice, voter instructions and the Ballot Blue Book. No TABOR notice, ballot-content certification or participating-entities list is posted, and no such document appears among the county's newer Document Center uploads (IDs 5757 to 5767, all non-election items). Because this page treats a scanned ballot as unreadable, no conclusion is drawn from the sample ballot; read for leads only, it has no Town of Kiowa section.",
         "Town Election page rechecked 2026-10-12: it still describes the November 5, 2024 General Election and says \"Regular Town elections are coordinated with the County and held every 2 years during even-numbered years.\" It posts nothing for November 3, 2026. The Agendas and Minutes page and the home page post no 2026 election notice (newest home-page news items are dated September 2026 and concern Town Hall concepts and a mural).",
         "Because the town says its regular elections are coordinated with the county in even-numbered years, a Kiowa contest or question on the November 2026 ballot is possible, and only a text-readable county ballot, TABOR notice or entity list can settle it. Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
@@ -118,7 +118,7 @@
       "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-12: the Elbert County Elections page posts the same image-only \"2026 SAMPLE BALLOT.pdf\" (Microsoft Print to PDF, modified 2026-09-30, no text layer beyond the watermark), the logic and accuracy test notice, voter instructions and the Ballot Blue Book. No TABOR notice, ballot-content certification or participating-entities list is posted, and no such document appears among the county's newer Document Center uploads (IDs 5757 to 5767, all non-election items). Under the scanned-PDF rule no conclusion is drawn from the sample ballot; read for leads only, it has no Town of Simla section.",
+        "Rechecked 2026-10-12: the Elbert County Elections page posts the same image-only \"2026 SAMPLE BALLOT.pdf\" (image-only, modified 2026-09-30, no searchable text beyond the watermark), the logic and accuracy test notice, voter instructions and the Ballot Blue Book. No TABOR notice, ballot-content certification or participating-entities list is posted, and no such document appears among the county's newer Document Center uploads (IDs 5757 to 5767, all non-election items). Because this page treats a scanned ballot as unreadable, no conclusion is drawn from the sample ballot; read for leads only, it has no Town of Simla section.",
         "The town Voting & Elections page (rechecked 2026-10-12) still states: \"The Town of Simla holds a regular municipal election on the first Tuesday of April in every even-numbered year.\" and \"From time to time, the Town may participate in coordinated elections held by Elbert County.\"",
         "The town Public Notices page (rechecked 2026-10-12) lists ordinances through the August 11, 2026 board meeting (Ordinances 357 to 368); none refers a ballot question. Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],

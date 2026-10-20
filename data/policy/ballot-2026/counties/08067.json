@@ -38,7 +38,7 @@
       "entry_ids": [],
       "limitations": [
         "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
-        "Town of Bayfield website (www.bayfieldgov.org) returned HTTP 403 to curl and WebFetch on 2026-10-10, so the town clerk's election page could not be read and a separate town election could not be ruled out. Unreadable source: the town website (blocked), not a PDF.",
+        "Town of Bayfield website (www.bayfieldgov.org) could not be opened on 2026-10-10, so the town clerk's election page could not be read and a separate town election could not be ruled out. Unreadable source: the town website, not a PDF.",
         "County calendar (2026-09-26) states Bayfield held its municipal election (trustees and questions) in April 2026."
       ],
       "reviewed_sources": [
@@ -71,7 +71,7 @@
       "limitations": [
         "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
         "City of Durango Elections page re-read 2026-10-10: it shows the April 1, 2025 municipal election results and general election rules; no November 3, 2026 notice, ballot question or TABOR notice is posted.",
-        "Closed on the county all-voters sample ballot plus the city's own elections page (same basis as Winter Park in R2-B4-P2). Owner review: confirm that basis."
+        "Closed on the county all-voters sample ballot plus the city's own elections page (the same basis used for Winter Park). This basis still needs to be confirmed."
       ],
       "reviewed_sources": [
         {
@@ -103,7 +103,7 @@
       "limitations": [
         "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
         "Town of Ignacio Election Information page (townofignacio.colorado.gov, read 2026-10-10): regular town elections are held in April of even-numbered years, and the 'next election' named is a Special Election on August 25, 2026, whose calendar lists two trustee seats only. Nothing is posted for November 3, 2026.",
-        "Closed on the county all-voters sample ballot plus the town's own election page. Owner review: confirm that basis."
+        "Closed on the county all-voters sample ballot plus the town's own election page. This basis still needs to be confirmed."
       ],
       "reviewed_sources": [
         {

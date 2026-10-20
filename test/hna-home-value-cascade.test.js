@@ -229,6 +229,8 @@ const rawAcsProfile = {
   DP04_0089E: 250000,
   DP04_0134E: 1250,
   DP03_0062E: 70000,
+  // Under 65,000 people: only the 5-year survey is published (D2).
+  DP05_0001E: 12000,
 };
 const zhviProfile = fruita;
 // Constructed, not harvested. These used to be adjustedSummaries[0] and
@@ -285,7 +287,7 @@ assertNarrativeHomeValueAgreement(surfaceCtx, rawAcsProfile, 'raw ACS fixture');
 assertNarrativeHomeValueAgreement(surfaceCtx, zhviProfile, 'Fruita ZHVI');
 assertNarrativeHomeValueAgreement(surfaceCtx, adjustedProfile, adjustedProfile.NAME || 'county-adjusted fixture');
 assertNarrativeHomeValueAgreement(surfaceCtx, suppressedProfile, suppressedProfile.NAME || 'suppressed fixture');
-assert.equal(surfaceCtx.window.HNAUtils.homeValueInfo(rawAcsProfile).sourceText, 'ACS DP04_0089E · ACS 2024 5-year', 'Raw ACS source text should carry the field and ACS vintage');
+assert.equal(surfaceCtx.window.HNAUtils.homeValueInfo(rawAcsProfile).sourceText, 'ACS DP04_0089E · ACS 2020-2024 5-year', 'Raw ACS source text should carry the field and ACS vintage');
 assert.equal(surfaceCtx.window.HNAUtils.homeValueInfo(zhviProfile).sourceText, 'Zillow ZHVI city index · ' + fruitaHomeValue.as_of + ' · high', 'ZHVI source text should carry source, as_of, and confidence');
 
 console.log('hna-home-value-cascade: ok');

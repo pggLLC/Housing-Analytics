@@ -60,7 +60,11 @@ for (const value of [undefined, null, '']) {
   assert.equal(caption.textContent, card.title, 'absence is visible, not tooltip-only');
 }
 render({ ami_estimate: 999999, median_gross_rent: 1800, affordable_rent_60pct: 1500 });
-assert.equal(card.textContent, '-300/mo', 'gap uses only the supplied bedroom-weighted rent');
+assert.equal(card.textContent, '\u2212$300/mo', 'gap uses only the supplied bedroom-weighted rent, shown in dollars');
+assert.match(caption.textContent, /60% AMI rent.*minus median gross rent/, 'caption explains the sign of the gap');
+render({ ami_estimate: 999999, median_gross_rent: 1500, affordable_rent_60pct: 1800 });
+assert.equal(card.textContent, '+$300/mo', 'positive gap carries a plus sign and dollar sign');
+render({ ami_estimate: 999999, median_gross_rent: 1800, affordable_rent_60pct: 1500 });
 assert(caption.textContent.includes('$1,500/mo'));
 assert.match(caption.textContent, /HUD.*bedroom-mix weighted.*not a CHFA LIHTC limit/);
 for (const value of [0, -1]) {

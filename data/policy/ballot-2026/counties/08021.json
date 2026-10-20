@@ -45,7 +45,7 @@
       "limitations": [
         "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
         "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
-        "No official town website was found; townofantonito.colorado.gov did not resolve through the network proxy on 2026-10-12 (connection failed, not a 403 from the town)."
+        "No official town website was found; townofantonito.colorado.gov could not be reached on 2026-10-12."
       ],
       "reviewed_sources": [
         {

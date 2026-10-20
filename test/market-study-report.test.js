@@ -147,10 +147,13 @@ assert(preview.includes('<p><strong>Subsidy per unit:</strong> Owner input requi
 const engineBoundMoney = money(model.landOutcomes[0].lifecycle.results[5].monthlyHousingCost);
 assert(preview.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
 assert(exported.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
-assert.equal(model.settlement.publicSubsidyRetainedInHome, 20000);
-assert.equal(model.settlement.publicSubsidyRecapturedAtSale, 80000);
-assert(preview.includes('$20,000') && preview.includes('$80,000'));
-assert(exported.includes('$20,000') && exported.includes('$80,000'));
+// The default resale formula is fixed appreciation, so no public appreciation
+// share is charged on top of it: recovery is the $50,000 public loan alone.
+assert.equal(model.settlement.publicAppreciationSharePaid, 0);
+assert.equal(model.settlement.publicSubsidyRetainedInHome, 50000);
+assert.equal(model.settlement.publicSubsidyRecapturedAtSale, 50000);
+assert(preview.includes('$50,000') && preview.includes(money(model.settlement.ownerNetProceeds)));
+assert(exported.includes('$50,000') && exported.includes(money(model.settlement.ownerNetProceeds)));
 
 const shares = {};
 EffectiveDemand.STAGE_IDS.forEach((id) => { shares[id] = id === 'contract_fallout' ? 0.85 : 0.8; });
@@ -462,7 +465,7 @@ dom.window.document.getElementById('marketStudyReportDownload').click();
 // every reader's disk: a screening draft for another jurisdiction would be
 // filed, and later read, as that town's.
 assert.equal(filename, 'example-for-sale-market-study-screening-draft.html');
-assert(blobParts && blobParts[0].includes('$20,000') && blobParts[0].includes('$80,000'));
+assert(blobParts && blobParts[0].includes('$50,000') && blobParts[0].includes(money(model.settlement.ownerNetProceeds)));
 Report.REQUIRED_CAVEATS.forEach((entry) => assert(blobParts[0].includes(entry)));
 global.Blob = priorBlob;
 global.URL = priorUrl;

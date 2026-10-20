@@ -7,7 +7,7 @@
     "sections": [
       { "key": "current", "label": "Current policy status", "note": "Checked against official sources on a schedule. A review badge appears when a check is due." },
       { "key": "analysis", "label": "Analysis and research briefs", "note": "Dated pieces, newest first. They are not updated after publication; the date says how current they are." },
-      { "key": "papers", "label": "Papers and methods", "note": "COHO's own method, written up and regenerated from the repository." },
+      { "key": "papers", "label": "Papers and methods", "note": "COHO's own method, written up and rebuilt from the site’s own data." },
       { "key": "reference", "label": "Reference and guides", "note": "Standing references and practical guides." },
       { "key": "data", "label": "Data explorations", "note": "Pages that render from COHO's data files. Each shows the vintage of the data it uses." }
     ]
@@ -88,7 +88,7 @@
       "title": "Instrumenting Housing Need",
       "url": "working-paper.html",
       "summary": "How this system learned to say \"we don't know\", and why a coerced zero misallocates as well as misinforms: the place-level method, the apportionment and PITI decisions, a worked jurisdiction, and what is still missing.",
-      "sources": ["COHO repository"],
+      "sources": ["COHO Analytics data"],
       "maintenance": "generated",
       "published": "2026-09-15"
     },
@@ -99,7 +99,7 @@
       "title": "Deciding About Housing With Public Data",
       "url": "apa-white-paper.html",
       "summary": "A plain-language companion to the working paper for planners: what the evidence can and cannot establish, with a worked Colorado example.",
-      "sources": ["COHO repository"],
+      "sources": ["COHO Analytics data"],
       "maintenance": "dated",
       "published": "2026-09-28"
     },
@@ -110,7 +110,7 @@
       "title": "What the Numbers Actually Do",
       "url": "methods.html",
       "summary": "The full computational specification: tract-to-place apportionment, the ACS household anchor, cost burden, the ownership affordability models, the scoring chain and the absence rules. Every constant is read from the file that defines it.",
-      "sources": ["COHO repository"],
+      "sources": ["COHO Analytics data"],
       "maintenance": "generated",
       "published": "2026-09-15"
     },

@@ -13,9 +13,10 @@
       "B25003_002E": "owner_occupied",
       "B25003_003E": "renter_occupied",
       "B25034_001E": "housing_units_year_built_total",
-      "B25034_010E": "built_2010_or_later"
+      "B25034_002E": "built_2020_or_later",
+      "B25034_003E": "built_2010_to_2019"
     },
-    "notes": "State-level ACS 5-year estimates. Year is auto-selected from recent candidates for robustness."
+    "notes": "State-level ACS 5-year estimates. Year is auto-selected from recent candidates for robustness. built_2010_or_later was removed: it had been read from B25034_010E, which in ACS 2020 and later is units built 1940 to 1949. Units built 2010 or later are B25034_002E (2020 or later) plus B25034_003E (2010 to 2019), stored as built_2020_or_later and built_2010_to_2019 when present."
   },
   "data": [
     {
@@ -30,8 +31,9 @@
       "owner_occupied": 1402155,
       "renter_occupied": 595092,
       "housing_units_year_built_total": 2337265,
-      "built_2010_or_later": 80756,
-      "renter_share": 0.2979561366220603
+      "renter_share": 0.2979561366220603,
+      "built_2020_or_later": 52951,
+      "built_2010_to_2019": 254580
     },
     {
       "state_name": "Alaska",
@@ -45,8 +47,9 @@
       "owner_occupied": 180833,
       "renter_occupied": 89700,
       "housing_units_year_built_total": 328491,
-      "built_2010_or_later": 4986,
-      "renter_share": 0.33156768305530193
+      "renter_share": 0.33156768305530193,
+      "built_2020_or_later": 2909,
+      "built_2010_to_2019": 30585
     },
     {
       "state_name": "Arizona",
@@ -60,8 +63,9 @@
       "owner_occupied": 1924098,
       "renter_occupied": 931983,
       "housing_units_year_built_total": 3192839,
-      "built_2010_or_later": 47049,
-      "renter_share": 0.32631532509056993
+      "renter_share": 0.32631532509056993,
+      "built_2020_or_later": 89481,
+      "built_2010_to_2019": 369584
     },
     {
       "state_name": "Arkansas",
@@ -75,8 +79,9 @@
       "owner_occupied": 800864,
       "renter_occupied": 405123,
       "housing_units_year_built_total": 1394673,
-      "built_2010_or_later": 44603,
-      "renter_share": 0.3359265066704699
+      "renter_share": 0.3359265066704699,
+      "built_2020_or_later": 29455,
+      "built_2010_to_2019": 168483
     },
     {
       "state_name": "California",
@@ -90,8 +95,9 @@
       "owner_occupied": 7567568,
       "renter_occupied": 5980523,
       "housing_units_year_built_total": 14644735,
-      "built_2010_or_later": 787955,
-      "renter_share": 0.4414292020920143
+      "renter_share": 0.4414292020920143,
+      "built_2020_or_later": 195611,
+      "built_2010_to_2019": 957313
     },
     {
       "state_name": "Colorado",
@@ -105,8 +111,9 @@
       "owner_occupied": 1571735,
       "renter_occupied": 802483,
       "housing_units_year_built_total": 2589053,
-      "built_2010_or_later": 59512,
-      "renter_share": 0.33799886952251224
+      "renter_share": 0.33799886952251224,
+      "built_2020_or_later": 78909,
+      "built_2010_to_2019": 330831
     },
     {
       "state_name": "Connecticut",
@@ -120,8 +127,9 @@
       "owner_occupied": 952989,
       "renter_occupied": 481018,
       "housing_units_year_built_total": 1541822,
-      "built_2010_or_later": 96711,
-      "renter_share": 0.3354362984281109
+      "renter_share": 0.3354362984281109,
+      "built_2020_or_later": 10811,
+      "built_2010_to_2019": 69596
     },
     {
       "state_name": "Delaware",
@@ -135,8 +143,9 @@
       "owner_occupied": 293383,
       "renter_occupied": 108655,
       "housing_units_year_built_total": 464203,
-      "built_2010_or_later": 16934,
-      "renter_share": 0.27026052263716366
+      "renter_share": 0.27026052263716366,
+      "built_2020_or_later": 14493,
+      "built_2010_to_2019": 57147
     },
     {
       "state_name": "District of Columbia",
@@ -150,8 +159,9 @@
       "owner_occupied": 134683,
       "renter_occupied": 189808,
       "housing_units_year_built_total": 361014,
-      "built_2010_or_later": 34585,
-      "renter_share": 0.5849407225470044
+      "renter_share": 0.5849407225470044,
+      "built_2020_or_later": 10380,
+      "built_2010_to_2019": 49156
     },
     {
       "state_name": "Florida",
@@ -165,8 +175,9 @@
       "owner_occupied": 5918647,
       "renter_occupied": 2834163,
       "housing_units_year_built_total": 10256470,
-      "built_2010_or_later": 178564,
-      "renter_share": 0.32380035668545304
+      "renter_share": 0.32380035668545304,
+      "built_2020_or_later": 328925,
+      "built_2010_to_2019": 1128982
     },
     {
       "state_name": "Georgia",
@@ -180,8 +191,9 @@
       "owner_occupied": 2676357,
       "renter_occupied": 1398009,
       "housing_units_year_built_total": 4541835,
-      "built_2010_or_later": 110969,
-      "renter_share": 0.34312307730822417
+      "renter_share": 0.34312307730822417,
+      "built_2020_or_later": 121125,
+      "built_2010_to_2019": 525240
     },
     {
       "state_name": "Hawaii",
@@ -195,8 +207,9 @@
       "owner_occupied": 310247,
       "renter_occupied": 182206,
       "housing_units_year_built_total": 567896,
-      "built_2010_or_later": 17636,
-      "renter_share": 0.36999673065246835
+      "renter_share": 0.36999673065246835,
+      "built_2020_or_later": 6018,
+      "built_2010_to_2019": 46197
     },
     {
       "state_name": "Idaho",
@@ -210,8 +223,9 @@
       "owner_occupied": 514361,
       "renter_occupied": 198644,
       "housing_units_year_built_total": 795014,
-      "built_2010_or_later": 27659,
-      "renter_share": 0.2786011318293701
+      "renter_share": 0.2786011318293701,
+      "built_2020_or_later": 31124,
+      "built_2010_to_2019": 112851
     },
     {
       "state_name": "Illinois",
@@ -225,8 +239,9 @@
       "owner_occupied": 3378910,
       "renter_occupied": 1657539,
       "housing_units_year_built_total": 5457452,
-      "built_2010_or_later": 305095,
-      "renter_share": 0.3291086636636249
+      "renter_share": 0.3291086636636249,
+      "built_2020_or_later": 40260,
+      "built_2010_to_2019": 270358
     },
     {
       "state_name": "Indiana",
@@ -240,8 +255,9 @@
       "owner_occupied": 1916243,
       "renter_occupied": 799766,
       "housing_units_year_built_total": 2976568,
-      "built_2010_or_later": 155256,
-      "renter_share": 0.2944636781395054
+      "renter_share": 0.2944636781395054,
+      "built_2020_or_later": 49568,
+      "built_2010_to_2019": 239092
     },
     {
       "state_name": "Iowa",
@@ -255,8 +271,9 @@
       "owner_occupied": 943396,
       "renter_occupied": 372311,
       "housing_units_year_built_total": 1437699,
-      "built_2010_or_later": 66133,
-      "renter_share": 0.28297409681638847
+      "renter_share": 0.28297409681638847,
+      "built_2020_or_later": 24063,
+      "built_2010_to_2019": 132666
     },
     {
       "state_name": "Kansas",
@@ -270,8 +287,9 @@
       "owner_occupied": 788409,
       "renter_occupied": 385651,
       "housing_units_year_built_total": 1293635,
-      "built_2010_or_later": 66332,
-      "renter_share": 0.3284763981397884
+      "renter_share": 0.3284763981397884,
+      "built_2020_or_later": 18286,
+      "built_2010_to_2019": 101382
     },
     {
       "state_name": "Kentucky",
@@ -285,8 +303,9 @@
       "owner_occupied": 1239908,
       "renter_occupied": 574561,
       "housing_units_year_built_total": 2023116,
-      "built_2010_or_later": 80506,
-      "renter_share": 0.31665517570154134
+      "renter_share": 0.31665517570154134,
+      "built_2020_or_later": 36745,
+      "built_2010_to_2019": 183114
     },
     {
       "state_name": "Louisiana",
@@ -300,8 +319,9 @@
       "owner_occupied": 1216127,
       "renter_occupied": 588653,
       "housing_units_year_built_total": 2108902,
-      "built_2010_or_later": 78768,
-      "renter_share": 0.3261632996819557
+      "renter_share": 0.3261632996819557,
+      "built_2020_or_later": 38488,
+      "built_2010_to_2019": 250535
     },
     {
       "state_name": "Maine",
@@ -315,8 +335,9 @@
       "owner_occupied": 443573,
       "renter_occupied": 153586,
       "housing_units_year_built_total": 751876,
-      "built_2010_or_later": 32808,
-      "renter_share": 0.2571944825415007
+      "renter_share": 0.2571944825415007,
+      "built_2020_or_later": 10472,
+      "built_2010_to_2019": 53593
     },
     {
       "state_name": "Maryland",
@@ -330,8 +351,9 @@
       "owner_occupied": 1597565,
       "renter_occupied": 765363,
       "housing_units_year_built_total": 2560784,
-      "built_2010_or_later": 127483,
-      "renter_share": 0.32390449476243033
+      "renter_share": 0.32390449476243033,
+      "built_2020_or_later": 34933,
+      "built_2010_to_2019": 206826
     },
     {
       "state_name": "Massachusetts",
@@ -345,8 +367,9 @@
       "owner_occupied": 1741158,
       "renter_occupied": 1043884,
       "housing_units_year_built_total": 3030406,
-      "built_2010_or_later": 155678,
-      "renter_share": 0.37481804583198386
+      "renter_share": 0.37481804583198386,
+      "built_2020_or_later": 30285,
+      "built_2010_to_2019": 189012
     },
     {
       "state_name": "Michigan",
@@ -360,8 +383,9 @@
       "owner_occupied": 2984190,
       "renter_occupied": 1092179,
       "housing_units_year_built_total": 4622236,
-      "built_2010_or_later": 321245,
-      "renter_share": 0.26792937538284683
+      "renter_share": 0.26792937538284683,
+      "built_2020_or_later": 44840,
+      "built_2010_to_2019": 227931
     },
     {
       "state_name": "Minnesota",
@@ -375,8 +399,9 @@
       "owner_occupied": 1666687,
       "renter_occupied": 641268,
       "housing_units_year_built_total": 2545030,
-      "built_2010_or_later": 104208,
-      "renter_share": 0.2778511712750032
+      "renter_share": 0.2778511712750032,
+      "built_2020_or_later": 48918,
+      "built_2010_to_2019": 216010
     },
     {
       "state_name": "Mississippi",
@@ -390,8 +415,9 @@
       "owner_occupied": 801788,
       "renter_occupied": 343643,
       "housing_units_year_built_total": 1341114,
-      "built_2010_or_later": 41114,
-      "renter_share": 0.30001196056331636
+      "renter_share": 0.30001196056331636,
+      "built_2020_or_later": 22567,
+      "built_2010_to_2019": 147265
     },
     {
       "state_name": "Missouri",
@@ -405,8 +431,9 @@
       "owner_occupied": 1708413,
       "renter_occupied": 799814,
       "housing_units_year_built_total": 2825287,
-      "built_2010_or_later": 122321,
-      "renter_share": 0.31887624206262033
+      "renter_share": 0.31887624206262033,
+      "built_2020_or_later": 44101,
+      "built_2010_to_2019": 227201
     },
     {
       "state_name": "Montana",
@@ -420,8 +447,9 @@
       "owner_occupied": 317400,
       "renter_occupied": 141459,
       "housing_units_year_built_total": 528419,
-      "built_2010_or_later": 23570,
-      "renter_share": 0.30828424417958455
+      "renter_share": 0.30828424417958455,
+      "built_2020_or_later": 12065,
+      "built_2010_to_2019": 62058
     },
     {
       "state_name": "Nebraska",
@@ -435,8 +463,9 @@
       "owner_occupied": 530878,
       "renter_occupied": 266969,
       "housing_units_year_built_total": 863444,
-      "built_2010_or_later": 37205,
-      "renter_share": 0.3346117739366069
+      "renter_share": 0.3346117739366069,
+      "built_2020_or_later": 15654,
+      "built_2010_to_2019": 82058
     },
     {
       "state_name": "Nevada",
@@ -450,8 +479,9 @@
       "owner_occupied": 721197,
       "renter_occupied": 481396,
       "housing_units_year_built_total": 1326471,
-      "built_2010_or_later": 13423,
-      "renter_share": 0.4002983553039141
+      "renter_share": 0.4002983553039141,
+      "built_2020_or_later": 42936,
+      "built_2010_to_2019": 160593
     },
     {
       "state_name": "New Hampshire",
@@ -465,8 +495,9 @@
       "owner_occupied": 404453,
       "renter_occupied": 151369,
       "housing_units_year_built_total": 648472,
-      "built_2010_or_later": 22243,
-      "renter_share": 0.2723335888108063
+      "renter_share": 0.2723335888108063,
+      "built_2020_or_later": 8373,
+      "built_2010_to_2019": 42546
     },
     {
       "state_name": "New Jersey",
@@ -480,8 +511,9 @@
       "owner_occupied": 2239128,
       "renter_occupied": 1268573,
       "housing_units_year_built_total": 3791354,
-      "built_2010_or_later": 246754,
-      "renter_share": 0.3616536871301174
+      "renter_share": 0.3616536871301174,
+      "built_2020_or_later": 41626,
+      "built_2010_to_2019": 235019
     },
     {
       "state_name": "New Mexico",
@@ -495,8 +527,9 @@
       "owner_occupied": 585937,
       "renter_occupied": 251477,
       "housing_units_year_built_total": 956964,
-      "built_2010_or_later": 33327,
-      "renter_share": 0.3003018817454688
+      "renter_share": 0.3003018817454688,
+      "built_2020_or_later": 13373,
+      "built_2010_to_2019": 80522
     },
     {
       "state_name": "New York",
@@ -510,8 +543,9 @@
       "owner_occupied": 4196985,
       "renter_occupied": 3525661,
       "housing_units_year_built_total": 8585241,
-      "built_2010_or_later": 656472,
-      "renter_share": 0.45653536365644626
+      "renter_share": 0.45653536365644626,
+      "built_2020_or_later": 64884,
+      "built_2010_to_2019": 457894
     },
     {
       "state_name": "North Carolina",
@@ -525,8 +559,9 @@
       "owner_occupied": 2853493,
       "renter_occupied": 1428852,
       "housing_units_year_built_total": 4895668,
-      "built_2010_or_later": 149880,
-      "renter_share": 0.33366111324519626
+      "renter_share": 0.33366111324519626,
+      "built_2020_or_later": 144653,
+      "built_2010_to_2019": 663072
     },
     {
       "state_name": "North Dakota",
@@ -540,8 +575,9 @@
       "owner_occupied": 208084,
       "renter_occupied": 122979,
       "housing_units_year_built_total": 377281,
-      "built_2010_or_later": 13479,
-      "renter_share": 0.3714670621603743
+      "renter_share": 0.3714670621603743,
+      "built_2020_or_later": 6638,
+      "built_2010_to_2019": 69654
     },
     {
       "state_name": "Ohio",
@@ -555,8 +591,9 @@
       "owner_occupied": 3267904,
       "renter_occupied": 1595287,
       "housing_units_year_built_total": 5292391,
-      "built_2010_or_later": 295103,
-      "renter_share": 0.32803297258939657
+      "renter_share": 0.32803297258939657,
+      "built_2020_or_later": 60404,
+      "built_2010_to_2019": 297207
     },
     {
       "state_name": "Oklahoma",
@@ -570,8 +607,9 @@
       "owner_occupied": 1027837,
       "renter_occupied": 534552,
       "housing_units_year_built_total": 1775127,
-      "built_2010_or_later": 84551,
-      "renter_share": 0.34213758545407064
+      "renter_share": 0.34213758545407064,
+      "built_2020_or_later": 35682,
+      "built_2010_to_2019": 199671
     },
     {
       "state_name": "Oregon",
@@ -585,8 +623,9 @@
       "owner_occupied": 1087983,
       "renter_occupied": 630439,
       "housing_units_year_built_total": 1857992,
-      "built_2010_or_later": 92722,
-      "renter_share": 0.36687088503289644
+      "renter_share": 0.36687088503289644,
+      "built_2020_or_later": 38649,
+      "built_2010_to_2019": 180195
     },
     {
       "state_name": "Pennsylvania",
@@ -600,8 +639,9 @@
       "owner_occupied": 3656971,
       "renter_occupied": 1617882,
       "housing_units_year_built_total": 5806452,
-      "built_2010_or_later": 404460,
-      "renter_share": 0.30671603549899873
+      "renter_share": 0.30671603549899873,
+      "built_2020_or_later": 57704,
+      "built_2010_to_2019": 298876
     },
     {
       "state_name": "Rhode Island",
@@ -615,8 +655,9 @@
       "owner_occupied": 281002,
       "renter_occupied": 160568,
       "housing_units_year_built_total": 485932,
-      "built_2010_or_later": 30096,
-      "renter_share": 0.3636297755735218
+      "renter_share": 0.3636297755735218,
+      "built_2020_or_later": 3536,
+      "built_2010_to_2019": 18038
     },
     {
       "state_name": "South Carolina",
@@ -630,8 +671,9 @@
       "owner_occupied": 1522121,
       "renter_occupied": 595868,
       "housing_units_year_built_total": 2443039,
-      "built_2010_or_later": 63566,
-      "renter_share": 0.2813366830517061
+      "renter_share": 0.2813366830517061,
+      "built_2020_or_later": 90897,
+      "built_2010_to_2019": 360385
     },
     {
       "state_name": "South Dakota",
@@ -645,8 +687,9 @@
       "owner_occupied": 250621,
       "renter_occupied": 114923,
       "housing_units_year_built_total": 408584,
-      "built_2010_or_later": 15766,
-      "renter_share": 0.3143889654870549
+      "renter_share": 0.3143889654870549,
+      "built_2020_or_later": 9592,
+      "built_2010_to_2019": 53661
     },
     {
       "state_name": "Tennessee",
@@ -660,8 +703,9 @@
       "owner_occupied": 1890569,
       "renter_occupied": 933708,
       "housing_units_year_built_total": 3143670,
-      "built_2010_or_later": 123373,
-      "renter_share": 0.33060071657277246
+      "renter_share": 0.33060071657277246,
+      "built_2020_or_later": 94479,
+      "built_2010_to_2019": 376738
     },
     {
       "state_name": "Texas",
@@ -675,8 +719,9 @@
       "owner_occupied": 6879255,
       "renter_occupied": 4113561,
       "housing_units_year_built_total": 12128515,
-      "built_2010_or_later": 328029,
-      "renter_share": 0.37420448045341614
+      "renter_share": 0.37420448045341614,
+      "built_2020_or_later": 480590,
+      "built_2010_to_2019": 2114874
     },
     {
       "state_name": "Utah",
@@ -690,8 +735,9 @@
       "owner_occupied": 790144,
       "renter_occupied": 334678,
       "housing_units_year_built_total": 1223468,
-      "built_2010_or_later": 36427,
-      "renter_share": 0.29753863277923087
+      "renter_share": 0.29753863277923087,
+      "built_2020_or_later": 50822,
+      "built_2010_to_2019": 200334
     },
     {
       "state_name": "Vermont",
@@ -705,8 +751,9 @@
       "owner_occupied": 200079,
       "renter_occupied": 73337,
       "housing_units_year_built_total": 339042,
-      "built_2010_or_later": 10131,
-      "renter_share": 0.2682249758609591
+      "renter_share": 0.2682249758609591,
+      "built_2020_or_later": 2981,
+      "built_2010_to_2019": 22502
     },
     {
       "state_name": "Virginia",
@@ -720,8 +767,9 @@
       "owner_occupied": 2266609,
       "renter_occupied": 1099123,
       "housing_units_year_built_total": 3684756,
-      "built_2010_or_later": 153664,
-      "renter_share": 0.32656283982206546
+      "renter_share": 0.32656283982206546,
+      "built_2020_or_later": 61023,
+      "built_2010_to_2019": 365075
     },
     {
       "state_name": "Washington",
@@ -735,8 +783,9 @@
       "owner_occupied": 1954777,
       "renter_occupied": 1110043,
       "housing_units_year_built_total": 3306620,
-      "built_2010_or_later": 140314,
-      "renter_share": 0.3621886440312971
+      "renter_share": 0.3621886440312971,
+      "built_2020_or_later": 75547,
+      "built_2010_to_2019": 399441
     },
     {
       "state_name": "West Virginia",
@@ -750,8 +799,9 @@
       "owner_occupied": 545595,
       "renter_occupied": 183060,
       "housing_units_year_built_total": 861325,
-      "built_2010_or_later": 57039,
-      "renter_share": 0.25123000596990347
+      "renter_share": 0.25123000596990347,
+      "built_2020_or_later": 8341,
+      "built_2010_to_2019": 60071
     },
     {
       "state_name": "Wisconsin",
@@ -765,8 +815,9 @@
       "owner_occupied": 1682214,
       "renter_occupied": 797266,
       "housing_units_year_built_total": 2778572,
-      "built_2010_or_later": 146155,
-      "renter_share": 0.3215456466678497
+      "renter_share": 0.3215456466678497,
+      "built_2020_or_later": 38983,
+      "built_2010_to_2019": 197957
     },
     {
       "state_name": "Wyoming",
@@ -780,8 +831,9 @@
       "owner_occupied": 174619,
       "renter_occupied": 68699,
       "housing_units_year_built_total": 277141,
-      "built_2010_or_later": 11425,
-      "renter_share": 0.28234244897623684
+      "renter_share": 0.28234244897623684,
+      "built_2020_or_later": 4119,
+      "built_2010_to_2019": 28356
     },
     {
       "state_name": "Puerto Rico",
@@ -795,7 +847,6 @@
       "owner_occupied": 876586,
       "renter_occupied": 414280,
       "housing_units_year_built_total": 1634357,
-      "built_2010_or_later": 58723,
       "renter_share": 0.3209318395557711
     }
   ]
