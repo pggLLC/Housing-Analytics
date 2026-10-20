@@ -5325,6 +5325,18 @@
       };
       renderHousingTypeNeed(htnData);
 
+      // The scoring drops an ACS burden share the ranking index rejected, and
+      // reads that from the ranking cache. If the cache was still loading,
+      // render again once it settles, so the result never depends on timing.
+      var _narr = window.HNANarratives && window.HNANarratives._internals;
+      if (geoid && _narr && _narr.rankingEntryFor && !_narr.rankingEntryFor(geoid) && U().acsBurdenRejected) {
+        U().acsBurdenRejected(geoid).then(function (rejected) {
+          var cur = S() && S().state && S().state.current;
+          if (!rejected || (cur && cur.geoid && cur.geoid !== geoid)) return;
+          renderHousingTypeNeed(htnData);
+        });
+      }
+
       // Then add the 15-year pencil lines once the CHFA limits and rules are in
       // (fetched once per page; the ranking above does not wait for them).
       var mcCounty = '';
