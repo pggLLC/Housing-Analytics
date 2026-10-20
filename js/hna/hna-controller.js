@@ -2851,6 +2851,12 @@
    */
   function buildNeedReconciliation(input) {
     const num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
+    // A total below zero is a surplus, said in words, never a bare minus sign.
+    const signedHomes = (v) => {
+      const n = Math.round(v);
+      const f = (x) => (window.HNAUtils && window.HNAUtils.fmtNum ? window.HNAUtils.fmtNum(x) : x.toLocaleString('en-US'));
+      return n < 0 ? 'a surplus of ' + f(Math.abs(n)) + ' homes' : f(n) + ' homes';
+    };
     const endYear = input.endYear || null;
     const basis = (input.basis === 'resident_growth_plus_incommuters' || input.basis === 'resident_growth') ? input.basis : null;
     const used = num(input.usedUnits);
@@ -2935,7 +2941,7 @@
     if (basis === 'resident_growth_plus_incommuters') {
       why = growthName + ' plus homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer.'
         + (growth !== null && incHigh !== null
-          ? ' If half moved closer, the figure would be ' + Math.round(growth + incHigh).toLocaleString('en-US') + '.'
+          ? ' If half moved closer, the figure would be ' + signedHomes(growth + incHigh) + '.'
           : '');
     } else if (basis === 'resident_growth') {
       why = growthName + ' alone, because there is no in-commuter figure for this geography.';
@@ -2960,7 +2966,7 @@
     }
     const withReplacement = (used !== null && replacement !== null) ? {
       units: used + replacement,
-      text: 'Figure used plus homes lost to age' + by + ': ' + fmt(used + replacement) + ' homes. '
+      text: 'Figure used plus homes lost to age' + by + ': ' + signedHomes(used + replacement) + '. '
         + 'The figure used assumes every home standing today will still be standing; this adds the homes that must be replaced to stand still. '
         + 'Homes that stay standing but rise out of reach, and income-restricted homes whose restrictions end, are not yet counted.',
     } : null;
@@ -3066,9 +3072,10 @@
 
   function formatIncrementalUnitsDisplay(incUnits) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
-    const rounded = Math.round(Number(incUnits));
+    // || 0 turns a rounded -0 into 0, which fmtNum would print as "-0".
+    const rounded = Math.round(Number(incUnits)) || 0;
     if (rounded < 0) {
-      return `Estimated surplus of ${window.HNAUtils.fmtNum(Math.abs(rounded))} units (excess capacity)`;
+      return `Estimated surplus of ${window.HNAUtils.fmtNum(Math.abs(rounded))} units (households projected to fall)`;
     }
     return window.HNAUtils.fmtNum(rounded);
   }
@@ -3085,7 +3092,8 @@
     const plus = basis === 'resident_growth_plus_incommuters' && known(growthUnits) && known(incommuterUnits);
     const part = plus ? Number(growthUnits) : Number(incUnits);
     const added = plus
-      ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer: ${window.HNAUtils.fmtNum(Math.round(Number(incUnits)))} in all.`
+      ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer: `
+        + (Number(incUnits) < 0 ? `a surplus of ${window.HNAUtils.fmtNum(Math.abs(Math.round(Number(incUnits))))}` : window.HNAUtils.fmtNum(Math.round(Number(incUnits)))) + ' in all.'
       : '';
     const display = formatIncrementalUnitsDisplay(part);
     const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
@@ -3649,7 +3657,10 @@
               : methodAt === 'mixed'
                 ? 'from its household forecast where published and a constant headship rate elsewhere'
                 : 'from its published county series';
-          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units by ${endYear} ${basis}; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
+          const dolaAmount = Math.round(dolaInc) < 0
+            ? `${window.HNAUtils.fmtNum(Math.abs(Math.round(dolaInc)))} fewer units needed`
+            : `${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units`;
+          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${dolaAmount} by ${endYear} ${basis}; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
         }
       }
     }

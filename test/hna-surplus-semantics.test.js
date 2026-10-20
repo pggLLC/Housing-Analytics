@@ -6,7 +6,10 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
-const SURPLUS_TEXT = 'Estimated surplus of 65 units (excess capacity)';
+// The tile's surplus wording, read from the page once it renders; every other
+// surface must carry the same words. Only the claim is pinned: a surplus of 65
+// units, said as a surplus, with the reason a figure falls below zero.
+let SURPLUS_TEXT = null;
 
 function freshRequire(relPath) {
   const abs = path.join(ROOT, relPath);
@@ -203,7 +206,11 @@ async function main() {
   await applyFixture(akron);
 
   assert.equal(window.__placeProjectionFetches, 1, 'place projection fixture should be fetched once');
-  assert.equal(document.getElementById('statUnitsNeed').textContent, SURPLUS_TEXT, 'statUnitsNeed should render surplus wording');
+  SURPLUS_TEXT = document.getElementById('statUnitsNeed').textContent;
+  assert(/^Estimated surplus of 65 units\b/.test(SURPLUS_TEXT), 'statUnitsNeed should render surplus wording: ' + SURPLUS_TEXT);
+  // A figure falls below zero only where projected households fall
+  // (test/production-need-counts-the-workforce.test.mjs), so that is the reason given.
+  assert(/households projected to fall/.test(SURPLUS_TEXT), 'the surplus does not say why: ' + SURPLUS_TEXT);
   assert.equal(document.getElementById('decisionProductionValue').textContent, SURPLUS_TEXT, 'decision tile value should render surplus wording');
   assert.equal(document.getElementById('decisionProductionRead').textContent, 'Surplus', 'decision tile read should remain Surplus');
   assert(document.getElementById('needNote').textContent.includes(SURPLUS_TEXT), 'need note should render surplus wording');

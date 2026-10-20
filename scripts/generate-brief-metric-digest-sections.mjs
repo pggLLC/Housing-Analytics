@@ -89,6 +89,13 @@ function valueText(digest, field, style = "number") {
   return num(value, Number.isInteger(value) ? 0 : 1);
 }
 
+// Below zero is a surplus where projected households fall, said in words.
+function futureUnitsText(digest) {
+  const value = metric(digest, "future_units_needed_20yr").value;
+  if (typeof value === "number" && value < 0) return `a surplus of ${num(Math.abs(value), 0)} homes as projected households fall`;
+  return `${valueText(digest, "future_units_needed_20yr")} future units needed`;
+}
+
 function sourceFor(geoid, id, field, label) {
   const m = readJson(path.join(DIGEST_DIR, `${geoid}.json`)).metrics[field];
   return {
@@ -136,7 +143,7 @@ export function sectionFor(brief, digest) {
           `${valueText(digest, "population")}. LEHD-based commuting signals show ` +
           `${valueText(digest, "in_commuters")} in-commuters and a commute ratio of ` +
           `${valueText(digest, "commute_ratio", "pct")}. The digest's county-context projection ` +
-          `shows ${valueText(digest, "future_units_needed_20yr")} future units needed over 20 years, ` +
+          `shows ${futureUnitsText(digest)} over 20 years, ` +
           `so that projection should be read as county context rather than a place trend.`,
         cites: ["d11", "d12", "d13", "d14"],
       },

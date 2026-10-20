@@ -179,6 +179,27 @@ async function renderTile(selection, countyFips) {
     assert(!/in-commuter/i.test(c.plain), `growth alone still mentions in-commuters: "${c.plain}"`);
   });
 
+  await test('a figure below zero is a surplus in words, never a minus sign', () => {
+    // Where projected households fall, growth is negative and so may be the
+    // total. "Roughly -1,030 additional homes" was the Recommendation for Las
+    // Animas County before this was held.
+    let surplus = 0;
+    const raw = [];
+    for (const f of files) {
+      const d = JSON.parse(read(`${DIGEST_DIR}/${f}`));
+      const fu = d.metrics.future_units_needed_20yr && d.metrics.future_units_needed_20yr.value;
+      const c = Contract.build({ digest: d, generatedAt: 'x' }).conclusions.find((x) => x.id === 'production');
+      if (!c || !c.verdict) continue;
+      if (/(^|[\s(:])[-\u2212]\d/.test(c.verdict + ' ' + c.plain)) raw.push(`${f}: ${c.verdict} | ${c.plain}`);
+      if (typeof fu === 'number' && fu < 0) {
+        surplus += 1;
+        if (!/surplus/i.test(c.verdict) || !/surplus/i.test(c.plain)) raw.push(`${f}: ${fu} is not called a surplus: ${c.plain}`);
+      }
+    }
+    assert(surplus >= 10, `only ${surplus} digests carry a figure below zero; too few to mean anything`);
+    assert.deepStrictEqual(raw.slice(0, 5), [], `${raw.length} answers print a minus sign or skip the word surplus`);
+  });
+
   if (failures) { console.log(`\n${failures} failed`); process.exit(1); }
   console.log('\nproduction-figure-names-its-reading: PASS');
 })();

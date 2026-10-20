@@ -91,9 +91,15 @@ function install(dom) {
   freshRequire('js/hna/hna-controller.js');
 }
 
-async function render(selection, countyFips) {
+async function render(selection, countyFips, headship) {
   const dom = new JSDOM(page(), { url: 'http://127.0.0.1/housing-needs-assessment.html' });
   install(dom);
+  if (headship) {
+    // The page's own control, set as a click would leave it; the fixture's
+    // older radio is cleared so it cannot shadow the choice.
+    document.querySelectorAll('input[name="headship"]').forEach((x) => { x.checked = false; });
+    document.querySelector(`input[name="assumpHeadship"][value="${headship}"]`).checked = true;
+  }
   window.HNAState.state.currentSelection = selection;
   const proj = JSON.parse(read(`data/hna/projections/${countyFips}.json`));
   await window.HNAController.applyAssumptions(proj, selection);
@@ -395,6 +401,31 @@ async function render(selection, countyFips) {
     assert(none.rows.find((x) => x.key === 'growth').unavailable, 'the missing growth reading does not say it is unavailable');
     assert.strictEqual(build({ endYear: 2044, usedUnits: 2000, basis: 'workforce', growthUnits: 300, workforceUnits: 2000 }).used.basis, null,
       'the retired jobs reading is still accepted as a basis');
+  });
+
+  await test('where households fall, every county page says surplus in words, never with a minus sign', async () => {
+    // The scan is every county whose published figure is below zero; it must
+    // find some, or this checks nothing. Las Animas County read "about -1,128
+    // additional units" and "-1,030 in all" before this was held.
+    const idx = JSON.parse(read('data/hna/ranking-index.json'));
+    const falling = idx.rankings.filter((x) => x.type === 'county' && x.metrics && x.metrics.future_units_needed_20yr < 0);
+    assert(falling.length >= 5, `only ${falling.length} counties read below zero; this scan checks too little`);
+    const bad = [];
+    for (const x of falling) {
+      // Forecast is the page's default, and the reading the index takes.
+      const c = await render({ geoType: 'county', geoid: x.geoid, label: x.name,
+        profile: { DP02_0001E: 5000, DP04_0001E: 6000, DP05_0001E: 12000 } }, x.geoid, 'forecast');
+      // The households line is a signed change in households, labelled as one.
+      const hh = document.querySelector('.hna-recon-households');
+      if (hh) hh.remove();
+      const text = ['statUnitsNeed', 'needNote', 'hnaNeedReconciliation', 'decisionNeedValue']
+        .map((id) => (document.getElementById(id) || {}).textContent || '').join(' ');
+      const m = text.match(/(^|[\s(:])[-\u2212]\d[\d,]*/);
+      if (m) bad.push(`${x.name}: "${text.slice(Math.max(0, m.index - 60), m.index + 20)}"`);
+      if (!/surplus/i.test(document.getElementById('statUnitsNeed').textContent)) bad.push(`${x.name}: the tile does not say surplus`);
+      if (c.rec && c.rec.used.units >= 0) bad.push(`${x.name}: the page reads ${c.rec.used.units}, the index ${x.metrics.future_units_needed_20yr}`);
+    }
+    assert.deepStrictEqual(bad, [], bad.join('\n  '));
   });
 
   console.log(failures ? `\n${failures} failure(s)` : '\nAll checks passed ✅');

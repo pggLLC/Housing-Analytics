@@ -285,18 +285,35 @@
       var reading = metrics.future_units_reading ? metrics.future_units_reading.value : null;
       var growth = metrics.future_units_growth_20yr ? num(metrics.future_units_growth_20yr.value) : null;
       var incommuters = metrics.incommuter_need_units ? num(metrics.incommuter_need_units.value) : null;
-      var how = '';
-      if (future !== null && reading === 'resident_growth_plus_incommuters' && growth !== null && incommuters !== null) {
-        how = ': ' + growth.toLocaleString('en-US') + ' for projected resident growth, plus '
-          + incommuters.toLocaleString('en-US') + ' for a quarter of today\u2019s lower- and middle-wage in-commuters if they moved closer';
-      } else if (future !== null && reading === 'resident_growth') {
-        how = ', from projected resident growth';
+      var fmt = function (v) { return Math.abs(v).toLocaleString('en-US'); };
+      var withInc = reading === 'resident_growth_plus_incommuters' && growth !== null && incommuters !== null;
+      var incText = fmt(incommuters || 0) + ' for a quarter of today\u2019s lower- and middle-wage in-commuters if they moved closer';
+      // Where projected households fall, growth is negative and so may be the
+      // total: a total below zero is a surplus, said in words, never as
+      // "-1,030 additional homes".
+      var lead = '';
+      if (future !== null && future < 0) {
+        lead = 'The homes needed for projected households fall by about ' + fmt(growth !== null ? growth : future) + ' over 20 years'
+          + (withInc ? ', more than the ' + incText : '')
+          + ': a surplus of roughly ' + fmt(future) + ' homes';
+      } else if (future !== null) {
+        var how = '';
+        if (withInc && growth >= 0) {
+          how = ': ' + fmt(growth) + ' for projected resident growth, plus ' + incText;
+        } else if (withInc) {
+          how = ': ' + incText + ', less ' + fmt(growth) + ' as projected households fall';
+        } else if (reading === 'resident_growth') {
+          how = ', from projected resident growth';
+        }
+        lead = 'Roughly ' + fmt(future) + ' additional homes over 20 years' + how;
       }
       return {
         verdict: future === null
           ? 'Gap of ' + gap.toLocaleString('en-US') + ' homes today'
-          : future.toLocaleString('en-US') + ' homes over 20 years',
-        plain: (future === null ? '' : 'Roughly ' + future.toLocaleString('en-US') + ' additional homes over 20 years' + how)
+          : future < 0
+            ? 'Surplus of ' + fmt(future) + ' homes over 20 years'
+            : fmt(future) + ' homes over 20 years',
+        plain: lead
           + (gap === null ? '' : (future === null ? 'A gap of ' : ', against a gap of ')
             + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.',
         basis: reading
