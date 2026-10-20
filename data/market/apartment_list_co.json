@@ -3,7 +3,7 @@
     "source": "Apartment List monthly Rent Report \u2014 narrative-scraped",
     "source_pattern": "https://www.apartmentlist.com/rent-report/co/<slug>",
     "vintage_label": "report current at fetch time; AL refreshes monthly mid-month",
-    "generated_at_utc": "2026-10-11T04:30:32Z",
+    "generated_at_utc": "2026-10-20T10:26:12Z",
     "scope": "Colorado: scraped 21 cities, 2 failures",
     "failures": [
       "Loveland",

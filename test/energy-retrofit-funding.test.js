@@ -37,6 +37,7 @@ const OFFICIAL_HOSTS = new Set([
   'www.colorado.gov',
   'colorado.gov',
   'cdphe.colorado.gov',
+  'energyoffice.colorado.gov',
   'www.leg.colorado.gov',
   'leg.colorado.gov',
   'content.govdelivery.com'

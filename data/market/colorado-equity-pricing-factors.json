@@ -2,8 +2,8 @@
   "schema": "colorado-equity-pricing-factors/v1",
   "meta": {
     "title": "Colorado LIHTC Equity Pricing Factor Snapshot",
-    "as_of": "2026-07-17",
-    "review_by": "2026-10-17",
+    "as_of": "2026-10-20",
+    "review_by": "2027-01-20",
     "methodology": "Curated Colorado-specific factors that can move LIHTC equity pricing away from the national Novogradac benchmark. This file documents verified public inputs and qualitative pressure signals only; it does not model cents-per-credit pricing.",
     "important_disclaimer": "Do not treat these factors as a pricing formula. Use data/market/novogradac-equity-pricing.json as the market-price anchor, then use this file to disclose Colorado-specific factors that require deal counsel, syndicator, and CHFA verification."
   },
@@ -29,14 +29,14 @@
         "price_low": null,
         "price_high": null,
         "status": "VERIFY",
-        "source_note": "No fetchable official CHFA or state source reviewed on 2026-07-17 published current cents-per-credit pricing for Colorado state AHTC. Keep pricing null until an official or directly citable market source publishes it."
+        "source_note": "No fetchable official CHFA or state source reviewed on 2026-10-20 published current cents-per-credit pricing for Colorado state AHTC. Keep pricing null until an official or directly citable market source publishes it."
       },
       "source_urls": [
         "https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit",
         "https://leg.colorado.gov/bills/HB24-1434"
       ],
-      "last_verified": "2026-07-17",
-      "review_by": "2026-10-17"
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     },
     "property_insurance_regional_adjustment": {
       "label": "Property-insurance shock: hail and wildfire",
@@ -50,8 +50,8 @@
       ],
       "source_url": "https://doi.colorado.gov/news-releases-consumer-advisories/governor-polis-and-division-of-insurance-we-must-find-innovative",
       "source_note": "Colorado DOI 2026 carrier-data release identifies hail as a large homeowner-insurance premium driver and wildfire as a targeted high-risk factor; COHO local climate-hazard data identifies hail and wildfire risk geographies.",
-      "last_verified": "2026-07-17",
-      "review_by": "2026-10-17"
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     },
     "pab_volume_cap_pressure": {
       "label": "PAB volume-cap pressure",
@@ -81,9 +81,9 @@
       "pricing_relevance": "Colorado local-government ROFR/ROFO can affect exit timing and preservation-transfer diligence for existing affordable multifamily assets.",
       "watchlist_entry_id": "hb24-1175-local-government-rofr-rofo",
       "source_url": "https://leg.colorado.gov/bills/HB24-1175",
-      "source_note": "HB23-1190 was vetoed and did not become law; the enacted Colorado ROFR/ROFO authority is HB24-1175.",
-      "last_verified": "2026-07-17",
-      "review_by": "2026-10-17"
+      "source_note": "HB23-1190 was vetoed and did not become law; the enacted Colorado ROFR/ROFO authority is HB24-1175. Both rights expire on December 31, 2029 unless already exercised.",
+      "last_verified": "2026-10-20",
+      "review_by": "2027-01-20"
     }
   }
 }

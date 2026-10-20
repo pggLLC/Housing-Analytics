@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-19T13:46:36Z",
-    "as_of": "2026-10-19",
+    "generated": "2026-10-20T08:42:54Z",
+    "as_of": "2026-10-20",
     "stale_days": 30,
-    "events_as_of": "2026-10-19",
+    "events_as_of": "2026-10-20",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [
+        {
+          "title": "Denver officials celebrate opening of affordable housing community",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSnd2ekRXR28ycWZoZnVaa3pCNExyYzVkcGdWenJERURiUTU3azlNTzhIZFBmdi1QX0NSSFU4UFdTdlNSY0s0QlBya0JRYmEwdjgzSWE0bHowNWxqSkZ0ajRlZ1pZc1V3Wjg1ZU5LUkkwMWxTaGctTVZ3aEYtcjR4YzVLQ1dlS0dMS0JRN1NNclB6eEZmZTNYdFpHY1YwRkI3dlZuOE9sZDZQZw?oc=5",
+          "date": "2026-10-20",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "State money will help build 82 condos near Denver Health",
           "source": "Denverite",
@@ -80,6 +88,7 @@
         }
       ],
       "reasons": [
+        "1 new story naming it",
         "4 older stories not read yet"
       ]
     },
@@ -90,7 +99,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [
         {
           "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
@@ -132,7 +141,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -166,7 +175,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [
         {
           "title": "Telluride School District talks housing developments",
@@ -191,7 +200,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -203,7 +212,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -215,7 +224,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": [
@@ -229,7 +238,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [
         {
@@ -250,7 +259,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -262,7 +271,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -274,7 +283,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -286,7 +295,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -298,7 +307,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": [
@@ -312,7 +321,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": [
@@ -326,7 +335,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -338,7 +347,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": [
@@ -352,7 +361,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
@@ -364,7 +373,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 1,
+      "days_since_review": 2,
       "stories": [],
       "events": [],
       "reasons": []
