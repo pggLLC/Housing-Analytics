@@ -92,6 +92,9 @@ const neg = Object.assign({}, result, { documents_read: -3, numbers: Object.assi
 ok(L.keyNumbers(neg)[0].big === 'Not counted' && !/quiet/.test(L.meaning(neg)) && L.keyNumbers(neg)[2].big === 'Steady' && /document count not available/.test(R(neg)), 'a negative count is unknown, not zero');
 const nested = JSON.parse(JSON.stringify(result)); nested.timeline[0].quotes = 'x'; nested.check_here[0].page = 'y'; nested.numbers.next_check = 'z';
 ok(/Board: agenda/.test(R(nested)), 'malformed nested lists do not break the panel');
+const hollow = JSON.parse(JSON.stringify(result)); hollow.numbers.next_check = {}; hollow.numbers.hearing = []; hollow.check_here.push({ body: 'Board' });
+const hk = L.keyNumbers(hollow), hh = R(hollow);
+ok(hk[1].big === 'None' && hk[3].big === 'None' && !/undefined|date not found/.test(hh) && /Dates and pages to check \(1\)/.test(hh), 'empty or partial records are not shown as present');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.

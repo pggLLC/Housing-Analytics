@@ -32,20 +32,29 @@
   // Counts from the backend become plain numbers before they reach the page.
   // A count or share the backend did not supply (absent, null, not a number, or below zero) is unknown, never zero.
   function has(v) { return typeof v === 'number' && Number.isFinite(v) && v >= 0; }
-  function rising(n) { var w = n && n.rising; return w && w.term && has(w.from) && has(w.to) ? w : null; }
+  function rising(n) { var w = n && n.rising; return w && typeof w.term === 'string' && w.term && typeof w.quarter === 'string' && has(w.from) && has(w.to) ? w : null; }
   function num(v) { return has(v) ? Math.round(v) : 0; }
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
   function okFlag(f) { return f.kind === 'first' || (has(f.from) && has(f.to)); }
+  function isDay(d) { return typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d); }
+  // A date to check is shown only with its board and both dates.
+  function okCheck(c) { c = obj(c); return typeof c.body === 'string' && c.body.trim() !== '' && isDay(c.check_on) && isDay(c.meeting); }
   // One pass over what the backend sent, so a partial or older result can't break a section.
   function clean(r) {
     var lex = obj(r.lexicon);
     return Object.assign({}, r, {
-      numbers: (function (n) { n = Object.assign({}, obj(n)); ['next_check', 'hearing', 'rising'].forEach(function (k) { if (!n[k] || typeof n[k] !== 'object') n[k] = null; }); return n; })(r.numbers), how_read: obj(r.how_read),
+      numbers: (function (n) {
+        n = Object.assign({}, obj(n));
+        n.next_check = okCheck(n.next_check) ? n.next_check : null;
+        n.hearing = isDay(obj(n.hearing).date) ? n.hearing : null;
+        n.rising = Object.keys(obj(n.rising)).length ? n.rising : null;
+        return n;
+      })(r.numbers), how_read: obj(r.how_read),
       lexicon: { quarters: (Array.isArray(lex.quarters) ? lex.quarters : []).filter(function (q) { return typeof q === 'string'; }),
         counts: obj(lex.counts), flags: arr(lex.flags).filter(okFlag) },
       terms: arr(r.terms), news: arr(r.news), sources: arr(r.sources),
-      check_here: arr(r.check_here).map(function (c) { return Object.assign({}, c, { page: c.page && typeof c.page === 'object' ? c.page : null }); }),
+      check_here: arr(r.check_here).filter(okCheck).map(function (c) { return Object.assign({}, c, { page: c.page && typeof c.page === 'object' ? c.page : null }); }),
       timeline: arr(r.timeline).map(function (t) { return Object.assign({}, t, { quotes: arr(t.quotes) }); })
     });
   }
@@ -78,7 +87,7 @@
     out.push(w ? { big: '“' + w.term + '”', text: 'fastest-rising housing word: ' + num(w.from) + '% of housing words in the 4 quarters before, ' + num(w.to) + '% in ' + w.quarter + ' (at least 20 words in each).' }
       : { big: 'Steady', text: 'no word has risen yet; that needs at least 20 housing words in this quarter and in the year before.' });
     var h = n.hearing;
-    out.push(h ? { big: day(h.date), text: 'next public hearing or comment date with housing on it (' + h.body + ').' }
+    out.push(h ? { big: day(h.date), text: 'next public hearing or comment date with housing on it' + (typeof h.body === 'string' && h.body ? ' (' + h.body + ')' : '') + '.' }
       : { big: 'None', text: 'no upcoming public hearing or comment deadline found.' });
     return out;
   }
