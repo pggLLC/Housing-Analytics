@@ -396,10 +396,14 @@
       na: rows.filter(function (r) { return r.answer === 'na'; }).length };
   }
 
+  // 3.L caps a project at $1.7M with the 3.B.9 pilot; 3.L.1 allows $1.8M if pilot gap funds are not available.
+  // Which applies is not known until CHFA says, so a request between the two is flagged, not called over.
   function creditCheck(rules, annualCredits) {
-    var cap = rules.credit_caps.federal_9pct_annual;
-    if (annualCredits == null) return { status: 'unknown', cap: cap };
-    return { status: annualCredits > cap ? 'over' : 'ok', cap: cap, value: annualCredits };
+    var cc = rules.credit_caps, cap = cc.federal_9pct_annual;
+    var alt = cc.without_pilot ? cc.without_pilot.federal_9pct_annual : cap;
+    if (annualCredits == null) return { status: 'unknown', cap: cap, altCap: alt };
+    var status = annualCredits <= cap ? 'ok' : annualCredits <= alt ? 'depends' : 'over';
+    return { status: status, cap: status === 'over' ? alt : cap, altCap: alt, value: annualCredits };
   }
 
   // ── Whole review and summary ──────────────────────────────────────────────
@@ -422,6 +426,7 @@
     if (s.total < s.minimum) risks.push({ level: 'red', text: 'Score ' + pts(s.total) + ' is ' + pts(s.minimum - s.total) + ' points under the ' + s.minimum + ' minimum.' });
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
     if (credit.status === 'over') risks.push({ level: 'red', text: 'Annual federal credit ' + money(credit.value) + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
+    if (credit.status === 'depends') risks.push({ level: 'yellow', text: 'Annual federal credit ' + money(credit.value) + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
     if (num(eng.fundingGap) > 0) risks.push({ level: 'yellow', text: 'Funding gap of ' + money(num(eng.fundingGap)) + ' after the modeled sources.' });
     lane.flags.forEach(function (f) { risks.push({ level: 'yellow', text: f }); });
     if (!s.needEntered) risks.push({ level: 'yellow', text: 'Housing need points are not entered; the score leaves them out.' });
@@ -849,7 +854,8 @@
         l.quotes.map(function (q) { return '<div class="rw-quote">"' + esc(q) + '" (QAP 3.B.9, p. ' + rules.gap_pilot.page + ')</div>'; }).join('') +
         (l.mustPay ? '<p class="sr-muted">This lane is a must-pay loan, so it reduces debt coverage. Put it in the Deal Calculator as a must-pay tranche to see the effect.</p>' : '');
       var cr = r.credit;
-      $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : 'Annual federal credit ' + money(cr.value) + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.');
+      $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.value) + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
+        : 'Annual federal credit ' + money(cr.value) + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.'));
       $('srSummary').innerHTML = summaryLines(r).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var shown = state.stress ? { base: state.stress.base, tests: state.stress.tests.filter(function (t) { return t.id !== 'ami1'; }) } : null;
       var ami = state.stress ? amiStress(rules, prop123, state.version) : null;

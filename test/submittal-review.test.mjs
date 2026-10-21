@@ -106,7 +106,10 @@ ok(SR.stressFails(rules, { scoreBefore: 120, scoreAfter: 119 }, {}) === '', 'a s
 // Thresholds and credit cap.
 const th = SR.thresholdStatus(rules, { T2: 'ready', T3: 'missing' }, { rehab: false });
 ok(th.missing === 1 && th.rows.find((r) => r.id === 'T4').answer === 'na', 'rehab-only thresholds do not apply to new construction');
-ok(SR.creditCheck(rules, 1750000).status === 'over' && SR.creditCheck(rules, 1600000).status === 'ok', 'the 9% credit cap is checked');
+ok(SR.creditCheck(rules, 1850000).status === 'over' && SR.creditCheck(rules, 1600000).status === 'ok', 'the 9% credit cap is checked');
+// Codex review on fc2a5fd1e: $1.7M-$1.8M depends on whether pilot gap funds are available (3.L.1).
+const between = SR.creditCheck(rules, 1750000);
+ok(between.status === 'depends' && between.cap === 1700000 && between.altCap === 1800000, 'a request between the pilot and 3.L.1 caps is flagged, not called over');
 
 // Whole review and summary.
 const r = SR.review(rules, prop123, { deal: { mix, place: filed.name }, claims: {}, thresholds: { T3: 'missing' }, engine: { fundingGap: 300000, annualCredits: 1800000 } });
