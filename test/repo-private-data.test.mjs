@@ -27,6 +27,9 @@ const PRIVATE_PATHS = [
 // Text that only private material carries.
 const PRIVATE_TEXT = [
   { label: 'contact CSV header', re: /^name,[^\n]*\bemail\b[^\n]*\bphone\b/im },
+  // A JSON file whose records carry both email and phone keys is a contact
+  // list, whatever it is named (public agency lists, if ever added, go in ALLOWED).
+  { label: 'JSON contact records (email + phone)', re: /"from_award_lists"\s*:|"email"\s*:[\s\S]*"phone"\s*:|"phone"\s*:[\s\S]*"email"\s*:/, ext: /\.json$/i },
   { label: 'pipeline relationship field', re: /\brelationship_tier\b/ },
   { label: 'pipeline last-talked field', re: /\blast_talked\b/ },
   { label: 'pipeline next-action column', re: /\bnext_action(_due)?\b/, ext: /\.(csv|tsv|json)$/i },
@@ -104,6 +107,7 @@ const mustCatch = [
   ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
   ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
   ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['archive/private/x.json'], ['backup/dossiers/brief.pdf'],
+  ['data/people.json', '[{"name":"Pat","org":"X","phone":"555","email":"p@x.org"}]'], ['data/awards-copy.json', '{"from_award_lists":[]}'],
   ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
