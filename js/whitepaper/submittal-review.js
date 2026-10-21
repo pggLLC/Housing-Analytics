@@ -63,6 +63,12 @@
   function money(v) { return v == null ? '—' : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'); }
   function pts(v) { return v == null ? '—' : (Math.round(v * 100) / 100).toLocaleString('en-US', { maximumFractionDigits: 2 }); }
 
+  // Every AMI tier in a mix: the form's bands plus any other numeric tier an export brought (a schedule can have 90%).
+  function tiersOf(mix) {
+    var out = TIERS.slice();
+    Object.keys(mix || {}).forEach(function (k) { var n = Number(k); if (k !== 'market' && isFinite(n) && n > 0 && out.indexOf(n) === -1) out.push(n); });
+    return out.sort(function (a, b) { return a - b; });
+  }
   var SPLIT_BR = ['studio', '1br', '2br', '3br', '4br'];
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
@@ -80,7 +86,7 @@
   function mixTotals(mix, election) {
     var ceiling = SET_ASIDE[electionOf(election)].creditCeiling;
     var restricted = 0, workforce = 0, weighted = 0, market = num(mix && mix.market) || 0;
-    TIERS.forEach(function (t) {
+    tiersOf(mix).forEach(function (t) {
       var u = num(mix && mix[t]) || 0;
       if (t <= ceiling) restricted += u; else workforce += u;
       weighted += u * t;
@@ -91,7 +97,7 @@
   // Does the mix meet its elected federal set-aside? Mirrors evaluateMinimumSetAside in js/deal-engine.js.
   function setAsideCheck(mix, election) {
     var e = electionOf(election), c = SET_ASIDE[e], t = mixTotals(mix, e), inSetAside = 0;
-    TIERS.forEach(function (tier) { if (tier <= c.setAsideCeiling) inSetAside += num(mix && mix[tier]) || 0; });
+    tiersOf(mix).forEach(function (tier) { if (tier <= c.setAsideCeiling) inSetAside += num(mix && mix[tier]) || 0; });
     var reasons = [];
     if (!t.total || inSetAside / t.total < c.minimumShare) reasons.push('fewer than ' + Math.round(c.minimumShare * 100) + '% of units are at or below ' + c.setAsideCeiling + '% AMI');
     if (e === 'average-income') {
@@ -405,7 +411,7 @@
     if (fromSchedule) {
       sched.rows.forEach(function (r) {
         var u = num(r && r.units); if (!(u > 0)) return;
-        var key = r.tier === 'market' ? 'market' : (TIERS.indexOf(num(r.tier)) !== -1 ? num(r.tier) : 'market');
+        var t = num(r && r.tier), key = r.tier === 'market' || !(t > 0) ? 'market' : t;
         mix[key] = (mix[key] || 0) + u;
       });
     } else
@@ -665,7 +671,7 @@
   function sameDeal(d, calc) {
     if (!calc || !calc.mix) return true; // versions saved before the export's mix was kept
     if ((d.election || '40-60') !== (calc.election || '40-60')) return false;
-    return TIERS.concat(['market']).every(function (t) { return (num(d.mix[t]) || 0) === (num(calc.mix[t]) || 0); });
+    return tiersOf(d.mix).concat(tiersOf(calc.mix), ['market']).every(function (t) { return (num(d.mix[t]) || 0) === (num(calc.mix[t]) || 0); });
   }
 
   function mount(doc, rules, prop123, store) {
@@ -695,6 +701,10 @@
         var ref = doc.querySelector('[data-tref="' + el.getAttribute('data-threshold') + '"]'); if (ref) v.thresholds[el.getAttribute('data-threshold') + ':ref'] = ref.value.slice(0, 200);
       });
     }
+    function extraTierNote(mix) {
+      var extra = tiersOf(mix).filter(function (t) { return TIERS.indexOf(t) === -1 && num(mix[t]) > 0; });
+      return extra.length ? ' Also in the export, not editable here: ' + extra.map(function (t) { return mix[t] + ' at ' + t + '% AMI'; }).join(', ') + '.' : '';
+    }
     function writeForm() {
       var v = state.version, d = v.deal;
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); if (el) el.value = d.mix[t] ? d.mix[t] : ''; });
@@ -714,7 +724,7 @@
         var ref = doc.querySelector('[data-tref="' + id + '"]'); if (ref) ref.value = v.thresholds[id + ':ref'] || '';
       });
       $('sr-docs').innerHTML = v.documents.length ? v.documents.map(function (f) { return '<li>' + esc(f.name) + ' <span class="sr-muted">(' + Math.round(f.size / 1024) + ' KB, fingerprint ' + esc(f.sha256.slice(0, 12)) + '…, not stored)</span></li>'; }).join('') : '<li class="sr-muted">None yet.</li>';
-      $('sr-calc-status').textContent = v.calculator ? 'Deal Calculator export loaded' + (v.calculator.exportedAt ? ' (exported ' + v.calculator.exportedAt.slice(0, 10) + ')' : '') + '. Unit mix and model results come from it.' : 'No Deal Calculator export loaded. Type the unit mix below; stress tests need an export.';
+      $('sr-calc-status').textContent = v.calculator ? 'Deal Calculator export loaded' + (v.calculator.exportedAt ? ' (exported ' + v.calculator.exportedAt.slice(0, 10) + ')' : '') + '. Unit mix and model results come from it.' + extraTierNote(d.mix) : 'No Deal Calculator export loaded. Type the unit mix below; stress tests need an export.';
       setStressButton();
     }
     function setStressButton() {

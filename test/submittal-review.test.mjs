@@ -191,6 +191,14 @@ ok(schedExp.mix[30] === 6 && schedExp.mix[50] === 24 && schedExp.mix.market === 
 ok(SR.fromCalculatorExport({ url: 'https://x.test/d', outputs: {}, inputs: { units: '10', 'units-60': '10' }, rentSchedule: { mode: 'manual', rows: [{ tier: 30, units: 99 }] } }).mix[60] === 10, 'a manual-mode export still reads the grid');
 ok(['100', '110', '120'].every((t) => read('developer-submittal-review.html').includes('id="sr-mix-' + t + '"')), 'the form has the 100-120% bands');
 
+// Codex review on 5950acd95: a schedule tier outside the form's bands (90%) keeps its AMI.
+const s90 = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: {}, rentSchedule: { mode: 'schedule', rows: [{ tier: 40, units: 40 }, { tier: 90, units: 20 }] } });
+ok(s90.mix[90] === 20 && !s90.mix.market, 'a 90% schedule row stays a 90% tier');
+near(SR.amiMidpoint(s90.mix).value, (40 * 40 + 20 * 90) / 60, '90% units count in the midpoint');
+ok(SR.gapLane(rules, { mix: s90.mix }, { status: 'yes', text: 'filed' }).lane === 'OEDIT', 'a 56.67% midpoint takes the OEDIT lane');
+ok(SR.mixTotals(s90.mix, '40-60').restricted === 40 && SR.mixTotals(s90.mix, '40-60').total === 60, '90% units are not tax credit units but count in the total');
+ok(!SR.sameDeal({ mix: { 40: 40 } }, { mix: s90.mix }), 'dropping the 90% tier makes the export stale');
+
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
 const s1 = await st.save({ name: 'Made-up site', label: 'one', data: { a: 1 } });
