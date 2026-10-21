@@ -71,6 +71,14 @@
      Sits below the main row, full-width, so the existing 4-col grid
      keeps its tidy alignment and the button has room for its inline
      form (max-width is enforced inside pipeline-add-button.js). */
+  .ib-region { margin-top:var(--sp4); }
+  .ib-region h2 { font-size:1.15rem; margin:0 0 .35rem; }
+  .ib-region p { color:var(--muted); margin:0 0 .6rem; max-width:75ch; }
+  .ib-region-wrap { overflow-x:auto; }
+  .ib-region table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  .ib-region th, .ib-region td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid var(--border); vertical-align:top; }
+  .ib-region td.num, .ib-region th.num { text-align:right; }
+  .ib-region a { display:inline-block; min-height:44px; line-height:44px; }
   .ib-row-pipeline { grid-column:1 / -1; padding:0 0 .25rem 2.6rem; }
   .ib-row-pipeline .pab-wrap { margin:.2rem 0 0; }
   .ib-row-rank {
@@ -125,6 +133,7 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css">
 <link rel="stylesheet" href="css/land-banking-map.css">
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/whitepaper/dev-terms.js"></script>
 </head>
 <body>
 <header id="siteHeader"></header>
@@ -139,6 +148,10 @@
       Filtered + scored shortlist tuned for liberal-leaning + recreational + small-to-mid CO towns.
       Sources: <strong>curated policy progress dataset</strong> (33 jurisdictions) + Prop 123 + HUD FMR + ACS + ZORI / Apartment List where available.
       Each row's score has a one-sentence reason — no naked numbers.
+    </p>
+    <p>
+      Places sort into <abbr data-glossary="tier">tiers</abbr> by score; the <abbr data-glossary="confidence">confidence</abbr> label says how much the score rests on.
+      A <abbr data-glossary="signal">signal</abbr> is a dated public event, such as an RFP or land offered, that can move a place up.
     </p>
   </div>
 
@@ -160,12 +173,13 @@
       <div class="ib-filter">
         <label for="filterRegion">Region</label>
         <select id="filterRegion">
-          <option value="any">All target regions</option>
-          <option value="western_slope">Western Slope</option>
-          <option value="resort">Resort / mountain</option>
-          <option value="front_range">Front Range progressive</option>
-          <option value="boulder_county">Boulder County</option>
-          <option value="other">Other CO</option>
+          <option value="any">All regions</option>
+          <option value="Southwest">Southwest</option>
+          <option value="San Luis Valley">San Luis Valley</option>
+          <option value="Western Slope">Western Slope</option>
+          <option value="Mountains">Mountains</option>
+          <option value="Front Range">Front Range</option>
+          <option value="Eastern Plains">Eastern Plains</option>
         </select>
       </div>
       <div class="ib-filter">
@@ -199,6 +213,11 @@
     <div class="ib-loading">Loading…</div>
   </div>
 
+  <!-- With a region chosen: every town and county in it, ranked by housing need,
+       since the shortlist above covers only the places with a policy record. -->
+  <p id="regionNeedStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <section id="regionNeed" class="ib-region" hidden></section>
+
   <!-- Prop 123 land banking awards. Kept below the shortlist so the shortlist stays the
        first answer. The public version, without named contacts, is land-banking-awards.html. -->
   <section class="lbm" data-land-banking-map data-lbm-contacts="data/jurisdiction-briefs/_land-banking-contacts.json" data-lbm-report="developer-brief.html?geoid=" aria-labelledby="lbm-heading">
@@ -217,7 +236,7 @@
   </section>
 
   <footer style="margin-top:var(--sp4);padding-top:var(--sp3);border-top:1px solid var(--border);font-size:var(--tiny);color:var(--muted);">
-    <strong>IOI methodology:</strong>
+    <strong><abbr data-glossary="IOI">IOI</abbr> methodology:</strong>
     Need (CHAS-derived placeholder) +
     Capacity (HNA + Prop 123 + Land + Funding + Tap-fee) +
     Feasibility (Capture advantage placeholder) +
@@ -235,6 +254,8 @@
 <script src="js/vendor/leaflet.js"></script>
 <script src="js/config/basemaps.js"></script>
 <script src="js/land-banking-map.js"></script>
+<script defer src="js/components/table-header-tips.js"></script>
+<script defer src="js/components/table-sort.js"></script>
 <script>
 (function () {
   'use strict';
@@ -242,25 +263,21 @@
   // -------------------------------------------------------------------------
   // Region taxonomy — based on counties
   // -------------------------------------------------------------------------
-  const COUNTY_REGION = {
-    // Western Slope (broad)
-    '08029': 'western_slope', '08051': 'western_slope', '08053': 'western_slope',
-    '08057': 'western_slope', '08067': 'western_slope', '08077': 'western_slope',
-    '08081': 'western_slope', '08083': 'western_slope', '08085': 'western_slope',
-    '08091': 'western_slope', '08103': 'western_slope', '08111': 'western_slope',
-    '08113': 'western_slope', '08033': 'western_slope', '08045': 'western_slope',
-    // Resort / mountain
-    '08037': 'resort', '08049': 'resort', '08097': 'resort',
-    '08107': 'resort', '08117': 'resort', '08019': 'resort',
-    '08065': 'resort', '08079': 'resort', '08109': 'resort',
-    // Boulder County
-    '08013': 'boulder_county', '08014': 'boulder_county',
-    // Front Range progressive
-    '08001': 'front_range', '08005': 'front_range', '08013': 'front_range',
-    '08031': 'front_range', '08059': 'front_range', '08069': 'front_range',
-    '08123': 'front_range',
-    // Other (everything else maps to 'other' by default)
+  // The six regions every COHO page uses (DOLA planning regions folded
+  // together; scripts/hna/build_ranking_index.py REGIONS, pinned by
+  // test/region-membership.test.js).
+  const REGIONS = {
+    'Front Range':    ['08001', '08005', '08013', '08014', '08019', '08031', '08035', '08041', '08059', '08069', '08101', '08123'],
+    'Western Slope':  ['08029', '08045', '08051', '08053', '08077', '08081', '08085', '08091', '08103', '08113'],
+    'Mountains':      ['08015', '08027', '08037', '08043', '08047', '08049', '08057', '08065', '08093', '08097', '08107', '08117', '08119'],
+    'Eastern Plains': ['08009', '08011', '08017', '08025', '08039', '08055', '08061', '08063', '08071', '08073', '08075', '08087',
+                       '08089', '08095', '08099', '08115', '08121', '08125'],
+    'San Luis Valley':['08003', '08021', '08023', '08079', '08105', '08109'],
+    'Southwest':      ['08007', '08033', '08067', '08083', '08111']
   };
+  const COUNTY_REGION = {};
+  Object.keys(REGIONS).forEach(r => REGIONS[r].forEach(f => { COUNTY_REGION[f] = r; }));
+
 
   function prop123Key(name) {
     return String(name || '').toLowerCase().trim().replace(/^(city and county|city|town) of /, '');
@@ -419,6 +436,55 @@
       // The page sits behind the developer gate so we don't need an
       // additional auth check here.
       wirePipelineButtons();
+      renderRegionNeed(region, t1Show.length + t2Show.length + t3Show.length);
+    }
+
+    // The ranking index is large (about 3 MB), so it loads only once a region is picked.
+    let rankingIndex = null;
+    function loadRanking() {
+      if (!rankingIndex) rankingIndex = fetch('data/hna/ranking-index.json').then(r => r.json()).catch(() => null);
+      return rankingIndex;
+    }
+
+    function renderRegionNeed(region, onList) {
+      const box = document.getElementById('regionNeed');
+      // A short status is announced; the table itself stays out of the live region.
+      const status = document.getElementById('regionNeedStatus');
+      if (region === 'any') { box.hidden = true; box.innerHTML = ''; status.textContent = ''; return; }
+      box.hidden = false;
+      box.innerHTML = '<p>Loading every place in ' + esc(region) + '…</p>';
+      loadRanking().then(idx => {
+        if (document.getElementById('filterRegion').value !== region) return;   // the reader moved on
+        const rows = ((idx && idx.rankings) || [])
+          .filter(r => r.region === region && r.type !== 'county' && r.metrics && r.metrics.overall_need_score != null)
+          .sort((a, b) => b.metrics.overall_need_score - a.metrics.overall_need_score);
+        const counties = ((idx && idx.rankings) || []).filter(r => r.region === region && r.type === 'county');
+        const names = {};
+        counties.forEach(c => { names[c.geoid] = c.name; });
+        status.textContent = rows.length ? region + ': ' + rows.length + ' places ranked by housing need, below the shortlist.' : region + ': the housing needs ranking could not be loaded.';
+        box.innerHTML = '<h2>' + esc(region) + ': every town ranked by housing need</h2>' +
+          '<p>' + (onList ? onList + ' place' + (onList === 1 ? ' is' : 's are') + ' on the shortlist above. '
+            : 'No place in ' + esc(region) + ' makes the shortlist above under these settings (it covers only places with a policy record). ') +
+          'This list ranks all ' + rows.length + ' towns and communities in the region' +
+          (counties.length ? ' (' + counties.length + ' counties)' : '') +
+          ' by the need score from the housing needs assessment, highest first. Open a report to check the place before outreach.</p>' +
+          (rows.length ? '<div class="ib-region-wrap"><table><thead><tr>' +
+            '<th class="num" data-tip="Order by need score within the region, 1 = highest need">Rank</th>' +
+            '<th data-tip="Town or Census community, linked to its report">Place</th>' +
+            '<th data-tip="The county the place sits in">County</th>' +
+            '<th class="num" data-tip="Overall housing need score, 0 to 100, from the housing needs assessment ranking">Need score</th>' +
+            '<th class="num" data-tip="Low-wage jobs in the place minus homes affordable at 60% of area income">Workforce gap (homes)</th>' +
+            '<th class="num" data-tip="Year of the most recent tax credit award inside the place">Last tax credit award</th>' +
+            '</tr></thead><tbody>' +
+            rows.map((r, i) => '<tr><td class="num">' + (i + 1) + '</td>' +
+              '<td><a href="developer-brief.html?geoid=' + esc(r.geoid) + '">' + esc(r.name) + '</a></td>' +
+              '<td>' + esc(names[r.containingCounty] || '—') + '</td>' +
+              '<td class="num">' + esc(Math.round(r.metrics.overall_need_score)) + '</td>' +
+              '<td class="num">' + (r.metrics.workforce_gap_units != null ? esc(Math.round(r.metrics.workforce_gap_units).toLocaleString('en-US')) : '—') + '</td>' +
+              '<td class="num">' + esc(r.metrics.latest_lihtc_year || '—') + '</td></tr>').join('') +
+            '</tbody></table></div>'
+            : '<p>The housing needs ranking could not be loaded.</p>');
+      });
     }
 
     function wirePipelineButtons() {
@@ -461,7 +527,7 @@
                 <div class="ib-row-name"><a href="developer-brief.html?geoid=${esc(r.geoid)}">${esc(r.name)}</a></div>
                 <div class="ib-row-reasons">
                   ${r.reasons.slice(0, 4).map(x => `<span class="why why-${esc(x.cls)}">${esc(x.tag)}</span>`).join('')}
-                  ${r.region !== 'other' ? `<span class="why">${esc(r.region.replace('_', ' '))}</span>` : ''}
+                  ${r.region !== 'other' ? `<span class="why">${esc(r.region)}</span>` : ''}
                 </div>
               </div>
               <div>

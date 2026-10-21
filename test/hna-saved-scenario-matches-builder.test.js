@@ -160,6 +160,15 @@ function builderChange(r) {
   assert.strictEqual(failed, null, 'a missing county file draws no partial line');
   assert(says() && disclosure.textContent !== statewideReason, 'and the page says the files did not load');
 
+  // A saved scenario that only holds households per person changes homes, not
+  // people: its line is the page's own, and the page says why (Codex, #2446).
+  window.ScenarioStorage.save({ id: 'custom-held', name: 'Held', parameters: { births_pct: 100, deaths_pct: 100, migration_pct: 100, headship: 'held' } });
+  const heldLine = await overlay('builder:custom-held', readJson('data/hna/projections/08077.json'), zeroLine, years, 2024, '08077',
+    { geoType: 'county', geoid: '08077', label: 'Mesa County' }, null);
+  assert(heldLine && heldLine.series.every((row) => Math.abs(row.population) < 1e-6), 'held households per person leave the population line where it is');
+  assert(/custom line is/.test(disclosure.textContent) && /holds households per person at 2024’s/.test(disclosure.textContent) &&
+    /does not move this line/.test(disclosure.textContent), `and the page says so: "${disclosure.textContent}"`);
+
   // A saved scenario's files still loading when the reader switches back to a
   // built-in scenario: the later render stands, and the earlier one, resuming,
   // draws no saved line, shows no disclosure and exports no saved series.

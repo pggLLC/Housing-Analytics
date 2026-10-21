@@ -1,0 +1,549 @@
+{
+ "slug": "iliff-senior-apartments-denver",
+ "name": "Iliff Senior Apartments",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "MGL Partners is building Iliff Senior Apartments (marketed as Iliff Apartments), a 50-unit, four-story rental for adults 62 and older at 30% to 80% AMI on a former office site at E. Iliff Avenue and S. Dahlia Street in Denver's University Hills, financed with 2024 Round One 9% and state housing tax credits.",
+ "why_it_matters": "It shows a 9% senior deal on a bought-and-demolished office site using income averaging, including 80% AMI units, plus a Denver linkage-fee loan and an Impact Development Fund land loan; the city loan closed in June 2025 and construction started in August 2025.",
+ "status": {
+  "label": "Under construction since August 2025; completion was expected September 2026 (not confirmed)",
+  "detail": "Denver's HOST loan closed on 2025-06-11 (per a city resolution request), and MGL announced the groundbreaking on 2025-08-20 with completion expected in September 2026. No public record of completion, a certificate of occupancy or lease-up was found as of 2026-10-21.",
+  "src": [
+   "denver-rr-25-1797",
+   "kdvr-release-2025-08-20",
+   "milehighcre-2025-08-21"
+  ]
+ },
+ "next_step": "Watch for a Denver certificate of occupancy and leasing notices from MGL or Silva Management Partners for 4750/4770 E. Iliff Ave.",
+ "key_numbers": [
+  {
+   "value": "50 senior homes at 30% to 80% AMI",
+   "meaning": "44 one-bedroom and 6 two-bedroom units for ages 62+, averaging 55% AMI; the 5 units at 80% AMI were underwritten at 65% AMI rents.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,396,651 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $14.0M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "$2,250,000 Denver HOST cash-flow loan",
+   "meaning": "Approved by Resolution 25-0711 on 2025-05-19, paid from the Affordable Housing Linkage Fee Fund, with a covenant of at least 60 years.",
+   "src": [
+    "denver-25-0711",
+    "denver-rr-25-1797"
+   ]
+  },
+  {
+   "value": "About $25.8M total development cost",
+   "meaning": "MGL's estimate at groundbreaking (August 2025); the 2024 application estimated $24,008,384.",
+   "src": [
+    "kdvr-release-2025-08-20",
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4770 E. Iliff Ave., Denver, CO 80222 (CHFA, application, city loan); groundbreaking coverage uses 4750 E. Iliff Ave.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "denver-rr-25-1797",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, senior/older adult",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.12 acres at E. Iliff Ave. and S. Dahlia St.; zoned G-MX-3, where four stories are allowed with on-site affordable units; not in a QCT or DDA; about 0.5 mile from RTD light rail and bus",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Single four-story wood-frame building over slab, two elevators, roof deck and lounge, 40 surface parking spaces (0.8 per unit), 25 resident storage units; designed to 2020 NGBS Bronze, all-electric-ready",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 605 to 725 sq ft",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "5 fully accessible units (10%) and 2 units for hearing or visual disabilities (4%); the rest Type B convertible",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Iliff Senior Apartments LLLP",
+   "src": [
+    "denver-25-0711"
+   ]
+  },
+  {
+   "item": "Affordability term (city covenant)",
+   "value": "At least 60 years",
+   "src": [
+    "denver-rr-25-1797"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 12
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  },
+  {
+   "level": "80% AMI",
+   "units": 5
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 44
+  },
+  {
+   "type": "2BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "denver-rr-25-1797"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,396,651 per year",
+   "note": "2024 Round One award; the February 2024 request was $1,445,003. Investor: RBC (per Mile High CRE).",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "Investor: Sugar Creek Capital (per Mile High CRE).",
+   "src": [
+    "chfa-2024-r1-award",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "source": "Federal credit equity (application estimate)",
+   "amount": "$13,149,526",
+   "note": "At $0.91 per credit, sized on the requested credit amount, in the 2024 application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Denver HOST cash-flow loan (Affordable Housing Linkage Fee Fund)",
+   "amount": "$2,250,000",
+   "note": "Resolution 25-0711, adopted 2025-05-19; closed 2025-06-11. City documents give the term as 240 months and, later, 270 months. Resolution 25-1797 (adopted 2025-11-24) amended only the legal description.",
+   "src": [
+    "denver-25-0711",
+    "denver-rr-25-1797",
+    "denver-25-1797"
+   ]
+  },
+  {
+   "source": "Impact Development Fund loan (AHIF), for land",
+   "amount": "$2,700,000",
+   "note": "Low-cost, 18-year subordinate loan earmarked to buy the site, per the application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA risk-share permanent loan (application)",
+   "amount": "$2,575,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing cash-flow loan (application)",
+   "amount": "$2,500,000",
+   "note": "No public record of the final amount was found.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee (application)",
+   "amount": "$1,083,858",
+   "note": "About 39% of the fee, repaid by year 14.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation and Denver CASR all-electric rebates",
+   "amount": "Not public",
+   "note": "Named as sources at groundbreaking.",
+   "src": [
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "source": "Sales, use and property tax exemption",
+   "amount": "Not public",
+   "note": "Through a public partner as special limited partner (see discrepancies).",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2025-08-21"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and developer (as CHFA prints it)",
+   "name": "MGL Partners",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Owner entity / city borrower",
+   "name": "Iliff Senior Apartments LLLP",
+   "src": [
+    "denver-25-0711"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Santulan Architecture",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "BC Builders (named in the application's development team; Mile High CRE lists it as a project partner)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Silva Management Partners (Silva-Markham Partners in the application)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "role": "Service coordinator",
+   "name": "Eaton Senior Communities (at least 4 hours a week, paid from the operating budget)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Equity investors",
+   "name": "RBC (federal credit); Sugar Creek Capital (state credit)",
+   "src": [
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "role": "City lender",
+   "name": "City and County of Denver, Department of Housing Stability (HOST)",
+   "src": [
+    "denver-25-0711"
+   ]
+  },
+  {
+   "role": "Land lender",
+   "name": "Impact Development Fund",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: MGL contracted to buy the Bethesda Professional Office Building Condominium (built 1983) for $2.7M (about $54,000 per unit) with a June 2024 closing; Mile High CRE reported the purchase complete on 2024-07-08. The office building was to be demolished after NEPA review, with about $100,000 budgeted for demolition and asbestos abatement.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2024-07-08"
+   ]
+  },
+  {
+   "text": "Zoning was by right; the project entered Denver's Affordable Housing Review Team expedited process. In June 2025 Denver dedicated city-owned parcels at E. Iliff Ave. and S. Dahlia St. as public right-of-way (Resolution 25-0737), inferred to be related frontage work.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "denver-25-0737"
+   ]
+  },
+  {
+   "text": "Income averaging: units at 30%, 40%, 50%, 60% and 80% AMI average 55% AMI. The applicant says these would be the only 61-80% AMI senior tax credit units in the market area; the market study flagged 50% and 60% AMI capture rates above CHFA's 25% guideline.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "City loan: Denver council adopted Resolution 25-0711 on 2025-05-19 approving a $2.25M HOST loan to Iliff Senior Apartments LLLP; the city's later request says the loan closed 2025-06-11 and that rental restrictions are secured by a covenant of at least 60 years.",
+   "src": [
+    "denver-25-0711",
+    "denver-rr-25-1797"
+   ]
+  },
+  {
+   "text": "Groundbreaking was announced 2025-08-20, with the cost estimated at $25.8M and completion expected in September 2026.",
+   "src": [
+    "kdvr-release-2025-08-20",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "text": "The application estimated $24,008,384 ($480,168 per unit) in total cost, with a 1.19 debt coverage ratio, and said the tax credit partnership would close and construction start within 13 months of award.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (request $1,445,003)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-08",
+   "event": "Mile High CRE reports MGL's $2.7M purchase of the office site",
+   "src": [
+    "milehighcre-2024-07-08"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report ($1,396,651 federal 9%, $700,000 state)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-05-19",
+   "event": "Denver council adopts Resolution 25-0711 approving the $2.25M HOST loan",
+   "src": [
+    "denver-25-0711"
+   ]
+  },
+  {
+   "date": "2025-06-11",
+   "event": "HOST loan closes",
+   "src": [
+    "denver-rr-25-1797"
+   ]
+  },
+  {
+   "date": "2025-08-20",
+   "event": "Groundbreaking announced",
+   "src": [
+    "kdvr-release-2025-08-20"
+   ]
+  },
+  {
+   "date": "2025-11-24",
+   "event": "Council adopts Resolution 25-1797 amending the loan's legal description",
+   "src": [
+    "denver-25-1797"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Expected completion (as announced in August 2025; not confirmed)",
+   "src": [
+    "kdvr-release-2025-08-20"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Iliff Apartments",
+   "url": "https://digital-release.kdvr.com/?p=3530623",
+   "kind": "rendering",
+   "made_by": "Santulan Architecture (credited in MGL's press release)",
+   "note": "Press release web page, not a paged document",
+   "src": [
+    "kdvr-release-2025-08-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA, the application and Denver's loan documents give the address as 4770 E. Iliff Ave., while the groundbreaking coverage gives 4750 E. Iliff Ave.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "denver-rr-25-1797",
+    "milehighcre-2025-08-21",
+    "kdvr-release-2025-08-20"
+   ]
+  },
+  {
+   "text": "The application lists $2,000,000 of HOST cash-flow debt, while the loan Denver approved is $2,250,000.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "denver-25-0711"
+   ]
+  },
+  {
+   "text": "The application says the Denver Housing Authority would be special limited partner to provide the sales, use and property tax exemption, while groundbreaking coverage names Eaton Senior Communities as the special limited partner providing the property tax exemption.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "milehighcre-2025-08-21"
+   ]
+  },
+  {
+   "text": "Denver's resolution 25-0711 gives the HOST loan term as 240 months, while the attached request form and the later amendment request give 270 months.",
+   "src": [
+    "denver-25-0711",
+    "denver-loan-request-25-0711",
+    "denver-rr-25-1797"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether construction finished in September 2026 as planned; no certificate of occupancy or leasing notice was found.",
+  "The final Division of Housing amount and the CHFA permanent loan amount.",
+  "The final equity price and the date the tax credit partnership closed.",
+  "Which entity holds the tax exemption (Denver Housing Authority or Eaton Senior Communities).",
+  "The term of the CHFA affordability covenant (the city covenant runs at least 60 years)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (Iliff Apartments, PDF pages 54-58)",
+   "publisher": "CHFA",
+   "date": "2024-02",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "denver-25-0711",
+   "title": "Denver City Council Resolution 25-0711 (loan agreement with Iliff Senior Apartments LLLP), Legistar record",
+   "publisher": "City and County of Denver",
+   "date": "2025-05-19",
+   "url": "https://webapi.legistar.com/v1/denver/matters/27337"
+  },
+  {
+   "id": "denver-loan-request-25-0711",
+   "title": "Ordinance/Resolution Request for 25-0711 (attachment 'Loan Agreement_Iliff-Senior Apartments LLLP')",
+   "publisher": "City and County of Denver",
+   "date": "2025-04-22",
+   "url": "https://denver.legistar1.com/denver/attachments/f7ab7021-b9ff-48ab-85b9-f6d185ae6ca8.pdf"
+  },
+  {
+   "id": "denver-25-1797",
+   "title": "Denver City Council Resolution 25-1797 (amendatory agreement with Iliff Senior Apartments LLLP), Legistar record",
+   "publisher": "City and County of Denver",
+   "date": "2025-11-24",
+   "url": "https://webapi.legistar.com/v1/denver/matters/28365"
+  },
+  {
+   "id": "denver-rr-25-1797",
+   "title": "Resolution Request for 25-1797, HOST Iliff Senior (2025-10-30)",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-10-30",
+   "url": "https://denver.legistar1.com/denver/attachments/9d591a78-dfaa-466f-9350-37192733e033.docx"
+  },
+  {
+   "id": "denver-25-0737",
+   "title": "Denver City Council Resolution 25-0737 (right-of-way dedication at E. Iliff Ave. and S. Dahlia St.), Legistar record",
+   "publisher": "City and County of Denver",
+   "date": "2025-06-02",
+   "url": "https://webapi.legistar.com/v1/denver/matters/27363"
+  },
+  {
+   "id": "milehighcre-2024-07-08",
+   "title": "MGL Partners to Add 50 Units of Senior Housing in Denver",
+   "publisher": "Mile High CRE",
+   "date": "2024-07-08",
+   "url": "https://milehighcre.com/mgl-partners-to-add-50-units-of-senior-housing-in-denver/"
+  },
+  {
+   "id": "milehighcre-2025-08-21",
+   "title": "MGL Partners Breaks Ground on Iliff Apartments",
+   "publisher": "Mile High CRE",
+   "date": "2025-08-21",
+   "url": "https://milehighcre.com/mgl-partners-breaks-ground-on-iliff-apartments/"
+  },
+  {
+   "id": "kdvr-release-2025-08-20",
+   "title": "MGL Partners press release on the Iliff Apartments groundbreaking (KDVR digital release)",
+   "publisher": "MGL Partners via KDVR",
+   "date": "2025-08-20",
+   "url": "https://digital-release.kdvr.com/?p=3530623"
+  }
+ ]
+}

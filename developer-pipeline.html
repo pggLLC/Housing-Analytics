@@ -60,6 +60,7 @@
   .ws-template pre { white-space: pre-wrap; font-family: inherit; font-size: var(--small); margin: .4rem 0 0; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/whitepaper/dev-terms.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
 </head>
@@ -84,6 +85,7 @@
     <p>Two lists: your pipeline places and the specific sites in them. Each row says why it sits where it does.
       The suggested order puts places with the readiest site first. Switch to <em>My order</em> to move,
       pin or select rows; your order is kept.</p>
+    <p class="ws-status">Each site's <abbr data-glossary="ripeness">ripeness</abbr> reading comes from its site dossier: <abbr data-glossary="Ripe">ripe</abbr> means ready to apply, <abbr data-glossary="Ripening">ripening</abbr> means close with one named thing left, <abbr data-glossary="Not yet">not yet</abbr> means key questions are open.</p>
     <div id="ready"></div>
   </section>
 
@@ -144,15 +146,15 @@
   <p>
     A weekly-maintained pipeline of Colorado jurisdictions where we are actively
     pursuing housing development opportunities. The pipeline tracks the full
-    lifecycle from <em>"I noticed a signal"</em> → <em>"a contract is executed"</em>,
+    lifecycle from <em>"I noticed a <abbr data-glossary="signal">signal</abbr>"</em> → <em>"a contract is executed"</em>,
     plus the network of contacts, dropped targets, and re-usable outreach templates
     that support it.
   </p>
 
   <h2>The 5 stages (left-to-right on the kanban)</h2>
   <ol>
-    <li><strong>Screen</strong> — passed the Opportunity Finder filter (above the IOI threshold) but no signal logged yet. Default landing column for new entries.</li>
-    <li><strong>Signal</strong> — at least one <em>moderate</em>-or-<em>strong</em> signal logged in the last 90 days (HNA refresh, RFP open, dedicated funding move, etc).</li>
+    <li><strong>Screen</strong> — passed the Opportunity Finder filter (above the <abbr data-glossary="IOI">IOI</abbr> threshold) but no signal logged yet. Default landing column for new entries.</li>
+    <li><strong>Signal</strong> — at least one <em><abbr data-glossary="moderate signal">moderate</abbr></em>-or-<em><abbr data-glossary="strong signal">strong</abbr></em> signal logged in the last 90 days (HNA refresh, RFP open, dedicated funding move, etc).</li>
     <li><strong>Outreach</strong> — email sent or call scheduled in the last 30 days. Move here as soon as a real conversation is in flight.</li>
     <li><strong>IC</strong> — feasibility analysis or Investment Committee packet underway; specific site / partner identified.</li>
     <li><strong>Active</strong> — executed LOI / MOU / contract. The actual deal is live.</li>
@@ -308,7 +310,7 @@
     // Signal log.
     var sig = (f.signals || []).slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
     $('panel-signals').innerHTML = f.signals === null ? empty('The signal log file did not load.') : sig.length ? table(
-      [th('Date', 'When the signal was seen'), th('Place', 'Open the jurisdiction report'), th('Signal', 'Signal type and what happened'), th('Strength', 'weak, moderate or strong'), th('Follow-up', 'Next step and review date'), th('Source', 'Where the signal was found')],
+      [th('Date', 'When the signal was seen'), th('Place', 'Open the jurisdiction report'), th('Signal', 'Signal type and what happened'), th('Strength', 'weak = not actionable yet; moderate = act within 30 to 90 days; strong = act this week'), th('Follow-up', 'Next step and review date'), th('Source', 'Where the signal was found')],
       sig.map(function (r) {
         return '<tr><td>' + esc(r.date) + '</td><td>' + report(r.geoid, r.jurisdiction) + '</td><td><strong>' + esc(r.signal_type) + '</strong><br>' + esc(r.summary) + '</td><td>' + esc(r.strength) +
           '</td><td>' + esc(r.follow_up_action) + (r.next_review_date ? '<br><span style="color:var(--muted);">review ' + esc(r.next_review_date) + '</span>' : '') +

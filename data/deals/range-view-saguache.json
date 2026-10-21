@@ -1,0 +1,553 @@
+{
+ "slug": "range-view-saguache",
+ "name": "Range View",
+ "city": "Saguache",
+ "county": "Saguache",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 32,
+ "researched_on": "2026-10-21",
+ "headline": "Northwest Real Estate Capital Corp. and the Saguache County Housing Authority built Range View, 32 family apartments at 30% to 60% AMI at 250 Gunnison Ave. in the Town of Saguache, on housing authority land, with a 2024 Round One 9% and state credit award from CHFA; a grand opening was set for 2026-09-17.",
+ "why_it_matters": "It shows how a very small rural county (about 6,500 people) closed a roughly $16.1M 9% deal: a nonprofit developer partnered with the housing authority for a nominal ground lease, and a DOLA Strong Communities grant paid for the water line, hydrants and paving the town could not fund.",
+ "status": {
+  "label": "Grand opening scheduled 2026-09-17; move-ins expected from September 2026",
+  "detail": "Groundbreaking was held on 2025-07-09. Applications opened in June 2026, and the county housing authority page says move-ins were expected to begin the first week of September 2026 (while noting the building was still under construction). Heart of the Rockies Radio reported on 2026-09-16 that the grand opening and ribbon cutting would be held the next day. No record of a certificate of occupancy or occupancy level was found.",
+  "src": [
+   "ccc-2025-07-12",
+   "hotr-2026-06-04",
+   "scha-page",
+   "hotr-2026-09-16"
+  ]
+ },
+ "next_step": "Watch for a report of the 2026-09-17 ribbon cutting and CHFA's placed-in-service record.",
+ "key_numbers": [
+  {
+   "value": "32 family apartments, all at 30% to 60% AMI",
+   "meaning": "7 at 30%, 7 at 40%, 11 at 50% and 7 at 60% AMI; the 60% units are underwritten at 50% rents, per the applicant.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,340,823 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $13.4M in federal credit over 10 years (inferred). The applicant had requested $1,450,000 a year.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "value": "$639,616 DOLA Strong Communities infrastructure grant",
+   "meaning": "Awarded to Saguache County in April 2024 for off-site infrastructure; the county agreed to a 20% match of up to $200,000.",
+   "src": [
+    "dola-strong-communities",
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "value": "About $16.1M total cost",
+   "meaning": "The Crestone Eagle reported the project fully funded at $16.1 million in July 2024, about $503,000 per unit (inferred).",
+   "src": [
+    "crestone-eagle-2024-07-01"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "250 Gunnison Avenue, Saguache, CO 81149 (adjacent to U.S. Highway 285; four blocks from Mountain Valley School)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction; 32 units, 32 low-income",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two-story walk-ups around a central courtyard with a playground and garden beds; gable roofs, stucco with stone accents chosen through a December visual preference survey; community building with lounge, leasing office, computer lab, fitness room and laundry",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities; all-electric design per CHFA; photovoltaic-ready; two EV charging stations and two EV-ready spaces",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Land deal",
+   "value": "Long-term ground lease from the Saguache County Housing Authority at a nominal annual rate; the authority is the special limited partner. The Crestone Eagle reports that Saguache County spent $63,000 to buy the parcel.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "In perpetuity at 30% to 60% AMI, per the applicant, because the land is leased from the housing authority",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Local approvals",
+   "value": "Town adopted a multi-unit ordinance in early 2023 (before then only single-family homes and duplexes were allowed); variances approved for building and running water and sewer lines across lot lines and for modular/panelized construction",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Saguache County commissioners' 2024-01-23 agenda lists a housing authority item, \"Tax Exemption for Rangeview and resolutions\" (outcome not found)",
+   "src": [
+    "saguache-bocc-2024-01-23"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Within a quarter mile of the Eagle Line shuttle stop (free Mountain Valley Transit service to Alamosa and Salida)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Northwest Stepping Stones and the virtual Bridge2Community referral program",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "ccc-2025-07-12"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 7
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 7
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 14
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  },
+  {
+   "type": "3BR (from the application narrative; not in CHFA's award description)",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,340,823 per year",
+   "note": "2024 Round One award; the application requested $1,450,000.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award",
+    "ccc-2025-07-12"
+   ]
+  },
+  {
+   "source": "Tax credits (as the Crestone Eagle reports them)",
+   "amount": "$12,323,768",
+   "note": "The article does not say whether this is equity or credit; it matches neither 10 years of the federal award nor the state credit (inferred).",
+   "src": [
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "source": "DOLA Strong Communities infrastructure grant",
+   "amount": "$639,616",
+   "note": "Awarded to Saguache County, April 2024; covers about 80% of the off-site water line, hydrants and paving of the alley and 2nd Street.",
+   "src": [
+    "dola-strong-communities",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Saguache County matching grant",
+   "amount": "$200,000",
+   "note": "20% match to the DOLA grant.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "source": "Town of Saguache",
+   "amount": "$20,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "source": "Saguache County Housing Authority",
+   "amount": "$10,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "source": "Permanent debt through CHFA's Housing Opportunity Fund and Division of Housing funds",
+   "amount": "Not public",
+   "note": "The applicant asked CHFA to waive the debt service coverage ratio and for its discretionary basis boost.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee from Northwest Real Estate Capital Corp.",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land (ground lease)",
+   "amount": "Nominal annual rent",
+   "note": "Saguache County spent $63,000 on the parcel, per the Crestone Eagle.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "crestone-eagle-2024-07-01"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA's award report prints it)",
+   "name": "Northwest Real Estate Capital Corp. (nonprofit founded in 1999; manages about 90 properties in 8 states)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner and land lessor",
+   "name": "Saguache County Housing Authority",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Infrastructure grantee and matching funder",
+   "name": "Saguache County",
+   "src": [
+    "dola-strong-communities",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultant",
+   "name": "RCH Jones",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Energy and green certification consultant",
+   "name": "Group 14 Engineering",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Northwest Real Estate Capital Corp. (inferred from the narrative's statement that it owns, develops and manages its properties)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site began as a 26-unit concept the Saguache County Housing Authority worked up through CHFA's Small Scale Housing Technical Assistance program, with five public meetings; Northwest then joined as developer and the plan grew to 32 units. A local resident suggested the name.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The two partners earlier developed The Iron Horse in Alamosa together, and the housing authority already manages two small properties in Saguache (12 Section 8 units and 16 HOME units).",
+   "src": [
+    "crestone-eagle-2024-07-01",
+    "scha-page"
+   ]
+  },
+  {
+   "text": "The applicant said a 4% deal was not workable here because of the rural location, small unit count and low incomes in the market area; the market study gave capture rates of 8.3% (primary) and 4.5% (extended).",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Rural cost drivers named by the applicant: a sprinkler system the existing water lines could not serve (no full-time fire department), two new hydrants, paving of the alley and 2nd Street, an elevation of 7,703 feet with a short building season, and few local contractors.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The environmental report found no issues but noted possible remains of a razed house and a gravel pile, to be handled by a soils management plan.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction was planned to run from July 2025 to the end of August 2026, per the groundbreaking announcement.",
+   "src": [
+    "ccc-2025-07-12"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023",
+   "event": "Town of Saguache adopts a multi-unit ordinance (early 2023)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-01-23",
+   "event": "County commissioners' agenda lists a tax exemption for Range View and resolutions",
+   "src": [
+    "saguache-bocc-2024-01-23"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-04",
+   "event": "DOLA awards Saguache County $639,616 from the Strong Communities infrastructure program",
+   "src": [
+    "dola-strong-communities"
+   ]
+  },
+  {
+   "date": "2024-07-01",
+   "event": "Crestone Eagle reports the tax credit award and the project fully funded at $16.1 million",
+   "src": [
+    "crestone-eagle-2024-07-01"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report (as-of date printed on the report)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-05-22",
+   "event": "Housing authority announces construction and opens an interest list",
+   "src": [
+    "hotr-2025-05-22"
+   ]
+  },
+  {
+   "date": "2025-07-09",
+   "event": "Groundbreaking",
+   "src": [
+    "ccc-2025-07-12"
+   ]
+  },
+  {
+   "date": "2026-06-04",
+   "event": "Applications open; move-ins expected in September",
+   "src": [
+    "hotr-2026-06-04",
+    "scha-page"
+   ]
+  },
+  {
+   "date": "2026-09-17",
+   "event": "Grand opening and ribbon cutting scheduled, per a report the day before",
+   "src": [
+    "hotr-2026-09-16"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photo",
+   "url": "https://www.conejoscountycitizen.com/stories/new-affordable-housing-coming-to-saguache,92700",
+   "kind": "photo",
+   "made_by": "Courtesy photo, via The Conejos County Citizen",
+   "note": "Photo at the top of the 2025-07-12 article",
+   "src": [
+    "ccc-2025-07-12"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application narrative lists 14 one-bedroom, 12 two-bedroom and 6 three-bedroom units (32), while CHFA's award description lists only 14 one-bedroom and 12 two-bedroom units (26) for the 32-unit project.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "CHFA's award report names the sponsor Northwest Real Estate Capital Corp., while its award description names Northwest Real Estate Development Capital Corp.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The application narrative says Range View would be the first tax credit property ever built in Saguache County, while CHFA's award description calls it the first tax credit development in the county in over 25 years (the narrative itself lists four tax credit properties in Center, the most recent from 1998).",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the 2026-09-17 grand opening took place and how many units are leased.",
+  "Amounts of the CHFA Housing Opportunity Fund loan and Division of Housing funds, the equity investor and the credit price.",
+  "What the Crestone Eagle's $12,323,768 tax credit figure represents.",
+  "Whether the county approved the property tax exemption on the 2024-01-23 agenda, and the resolution number.",
+  "General contractor (the applicant planned a competitive bid) and architect.",
+  "Ground lease term and rent, and the recorded term of the CHFA covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Range View)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Range View, PDF pages 89-93)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "dola-strong-communities",
+   "title": "Strong Communities Infrastructure Grant Program Awards (Infrastructure Grant, Awarded April 2024)",
+   "publisher": "Colorado Department of Local Affairs, Division of Local Government",
+   "date": "2024-04",
+   "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program-awards"
+  },
+  {
+   "id": "crestone-eagle-2024-07-01",
+   "title": "Housing gets new director",
+   "publisher": "The Crestone Eagle",
+   "date": "2024-07-01",
+   "url": "https://thecrestoneeagle.substack.com/p/housing-gets-new-director"
+  },
+  {
+   "id": "saguache-bocc-2024-01-23",
+   "title": "Saguache County Commissioners preliminary agenda, January 23, 2024",
+   "publisher": "Saguache County",
+   "date": "2024-01-23",
+   "url": "https://saguachecounty.colorado.gov/index.php/events/bocc-meeting-2"
+  },
+  {
+   "id": "scha-page",
+   "title": "Saguache County Housing Authority (Range View applications notice)",
+   "publisher": "Saguache County",
+   "date": "2026",
+   "url": "https://saguachecounty.colorado.gov/saguache-county-housing-authority"
+  },
+  {
+   "id": "ccc-2025-07-12",
+   "title": "New affordable housing coming to Saguache",
+   "publisher": "The Conejos County Citizen",
+   "date": "2025-07-12",
+   "url": "https://www.conejoscountycitizen.com/stories/new-affordable-housing-coming-to-saguache,92700"
+  },
+  {
+   "id": "hotr-2025-05-22",
+   "title": "Saguache County Housing Authority Announces Construction of Range View Apartments",
+   "publisher": "Heart of the Rockies Radio",
+   "date": "2025-05-22",
+   "url": "https://heartoftherockiesradio.com/saguache-county-housing-authority-announces-construction-of-range-view-apartments/"
+  },
+  {
+   "id": "hotr-2026-06-04",
+   "title": "Applications Open for New Affordable Housing Development in Saguache",
+   "publisher": "Heart of the Rockies Radio",
+   "date": "2026-06-04",
+   "url": "https://heartoftherockiesradio.com/applications-open-for-new-affordable-housing-development-in-saguache/"
+  },
+  {
+   "id": "hotr-2026-09-16",
+   "title": "Affordable Housing Apartments Open in Saguache Tomorrow",
+   "publisher": "Heart of the Rockies Radio",
+   "date": "2026-09-16",
+   "url": "https://heartoftherockiesradio.com/affordable-housing-apartments-open-in-saguache-tomorrow/"
+  }
+ ]
+}

@@ -126,7 +126,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.org">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">dfc388db2</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">2c5bd7146</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -154,6 +154,27 @@
           </li>
         </ol>
       </nav>
+
+      <div class="mx-note col" id="how-we-check">
+        <span class="tag">How this site was built and checked</span>
+        <p>
+          pggLLC built COHO Analytics with AI-assisted coding and analysis. AI does not decide what
+          is true here. Every measured figure comes from a named public source (such as the Census Bureau,
+          HUD, CHFA, DOLA, BLS or FRED), and the page that shows it names that source. Where the site
+          estimates instead of measuring, such as projections or the commuter and replacement-loss rates in
+          <a href="#m-loss">§09</a> below, the page says so and states the assumption. On every change, automated
+          tests check many published figures against the source files they come from. Hand-kept
+          reference data, such as policy rules and pricing factors, carries a review-by date, and
+          the checks flag a file once that date passes so it is re-read against its source. The
+          <a href="working-paper.html">working paper</a> tells the full story of how it was built,
+          including what went wrong.
+        </p>
+        <p>
+          Found a figure that does not match its source? Write to
+          <a href="mailto:info@cohoanalytics.com?subject=Figure%20correction">info@cohoanalytics.com</a>
+          with the page and the figure, and we will correct it.
+        </p>
+      </div>
 
       <div class="mx-note col">
         <span class="tag">How to read this, and how to break it</span>

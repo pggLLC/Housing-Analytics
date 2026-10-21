@@ -1,0 +1,458 @@
+{
+ "slug": "aster-place-battlement-mesa",
+ "name": "Aster Place",
+ "city": "Battlement Mesa (Parachute mailing address)",
+ "county": "Garfield",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 58,
+ "researched_on": "2026-10-21",
+ "headline": "Lincoln Avenue Communities, with the Garfield County Housing Authority as special limited partner, is developing Aster Place, a 58-unit all-electric family rental on Stone Quarry Road in the Battlement Mesa PUD (Parachute address) for households at 30% to 80% AMI, which won a 2024 Round One 9% and state credit award.",
+ "why_it_matters": "It would be the first tax credit family rental in the Parachute and Battlement Mesa area, and it shows a rural deal stacking a housing authority partnership (property tax exemption and 8 project-based vouchers), a DOH soft loan and a CHFA SMART permanent loan with a rate buy-down to grow from 40 to 58 units.",
+ "status": {
+  "label": "Pre-leasing advertised for February 2027 move-ins; financing closing and construction start not confirmed",
+  "detail": "In August 2025 Garfield County commissioners signed historic-preservation consultation letters that the developer called one of the last pieces needed to get a permit. A rental listing verified on 2026-10-21 advertises leasing for February 2027 move-ins. No dated public record of the financing closing, a building permit or a groundbreaking was found.",
+  "src": [
+   "postindependent-2025-08-19",
+   "homefinder-listing"
+  ]
+ },
+ "next_step": "Watch for a Garfield County building permit for 5 Stone Quarry Road and a recorded CHFA land use restriction agreement, which would confirm closing; then lease-up ahead of the advertised February 2027 move-ins.",
+ "key_numbers": [
+  {
+   "value": "58 homes, all income-restricted, 30% to 80% AMI",
+   "meaning": "14 one-, 28 two- and 16 three-bedroom units; 8 units at 30% AMI backed by project-based vouchers.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-descriptions",
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $14.5M in federal credit over 10 years (inferred from the annual amount); the applicant said the deal could support $2.63M a year but capped its request.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$24,964,867 total development cost (as applied)",
+   "meaning": "About $430,000 per unit (inferred). Planned sources: $12.6M LIHTC equity, $8.2M first mortgage, $2.9M DOH soft loan, $1.08M deferred fee, $114,000 solar credits.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "8 project-based vouchers",
+   "meaning": "From the Garfield County Housing Authority, which is also the special limited partner, enabling a property tax exemption.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "postindependent-2025-08-19"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "Battlement Mesa Parkway and Stone Quarry Road (CHFA award report); \"TBD Stone Quarry Road, Parachute, CO 81635, adjacent to 10 Stone Quarry Road\" (application); 5 Stone Quarry Road, Parachute (current rental listing)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "homefinder-listing"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 6.38 acres of vacant land in the Battlement Mesa Planned Unit Development, zoned Medium Density Residential (multifamily by right)",
+   "src": [
+    "postindependent-2025-08-19",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Type VB wood frame with prefabricated trusses, wall panels and floor systems; walk-up units off covered, conditioned breezeways; slab on grade; clubhouse, pavilion with playground",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Non-metro Difficult Development Area (automatic 30% basis boost); Parachute Area Transit System stop adjacent, with service to Rifle and connections to RFTA",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "All-electric, DOE Zero Energy Ready Homes and NGBS Bronze; 236-panel rooftop solar array projected to offset over 50% of energy use",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Unit features",
+   "value": "In-unit washer and dryer, patio or balcony, Energy Star appliances",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 4
+  },
+  {
+   "level": "60% AMI",
+   "units": 15
+  },
+  {
+   "level": "70% AMI",
+   "units": 15
+  },
+  {
+   "level": "80% AMI",
+   "units": 11
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 14
+  },
+  {
+   "type": "2BR",
+   "units": 28
+  },
+  {
+   "type": "3BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "postindependent-2025-08-19",
+  "chfa-2024-ahtc-annual"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2024 Round One award; same as the amount requested.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "LIHTC equity",
+   "amount": "$12,615,000 (as applied)",
+   "note": "Equity letter from NEF; applicant cites $0.87 pricing.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "First mortgage (CHFA SMART program)",
+   "amount": "$8,200,000 (as applied)",
+   "note": "40-year amortization; CHFA Housing Opportunity Fund buy-down from 6.75% to 6.25% (plus 0.125% MIP), worth almost $450,000 of extra debt per the applicant. Construction loan from Legacy Bank.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing soft loan",
+   "amount": "$2,900,000 (requested)",
+   "note": "DOH letter of support in the application; no DOH award record found.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1,078,867 (as applied)",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Solar tax credits",
+   "amount": "$114,000 (as applied)",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Contemplated through the Garfield County Housing Authority's special limited partner role.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Not public",
+   "note": "Applicant says the land price is at or below market value; seller not named.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Lincoln Avenue Communities",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "role": "Special limited partner and voucher provider",
+   "name": "Garfield County Housing Authority",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "role": "Equity investor (letter in application)",
+   "name": "NEF",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Construction lender (letter in application)",
+   "name": "Legacy Bank",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Permanent lender (letter in application)",
+   "name": "CHFA (SMART program)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Proposed property manager (2024 application)",
+   "name": "Shelton Residential / Asset Living",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Market analyst",
+   "name": "Prior and Associates",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "This was a resubmission: the prior year's application was for 40 units. The applicant says the DOH loan, tax exemption, income averaging, solar credits and the CHFA rate buy-down let it add 18 units and stay feasible.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market case: the applicant's market study found 0.5% overall vacancy and 0.0% LIHTC vacancy in the market area, an 11% capture rate, and no new family LIHTC project completed in the market area since 2008; the nearest tax credit properties are in Rifle, about 19 miles away.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application proposed no public outreach because the site is zoned for the use and needs only building permit review; it planned to submit plans to Garfield County in September 2024 and start construction in March 2025.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I found no recognized environmental conditions; it flagged a business environmental risk around excavated soils and recommended radon mitigation, which the applicant priced in.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "In August 2025 Garfield County commissioners unanimously signed 10 letters to the State Historic Preservation Office and the Tribal Historic Preservation Officer as part of the project's environmental assessment, confirming no effect on archaeological or historic resources. The Post Independent reported the housing authority expects to allocate eight project-based vouchers.",
+   "src": [
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "text": "The schedule has slipped: in October 2024 the housing authority estimated completion by early 2026; the current listing advertises February 2027 move-ins.",
+   "src": [
+    "postindependent-2024-10-18",
+    "homefinder-listing"
+   ]
+  },
+  {
+   "text": "Application rents ranged from $744 (40% AMI one-bedroom) to $2,382 (30% AMI subsidized three-bedroom, contract rent with voucher). The current listing shows rents from $856 to $2,374.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "homefinder-listing"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (city shown as Parachute; $1,450,000 request)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report (city shown as Battlement Mesa)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2024-10-18",
+   "event": "Garfield County Housing Authority estimates completion by early 2026, per the Post Independent",
+   "src": [
+    "postindependent-2024-10-18"
+   ]
+  },
+  {
+   "date": "2025-08",
+   "event": "Garfield County commissioners sign historic-preservation consultation letters (reported 2025-08-19)",
+   "src": [
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Rental listing advertises leasing for February 2027 move-ins",
+   "src": [
+    "homefinder-listing"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report places the project in Battlement Mesa, while CHFA's applicant report and the application narrative give the city as Parachute.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application describes two three-story buildings with 95 surface parking spaces, while the Post Independent describes one two-story and one three-story building with a 97-space lot.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "postindependent-2025-08-19"
+   ]
+  },
+  {
+   "text": "The application gives unit sizes of 800, 1,100 and 1,250 sq ft for one-, two- and three-bedroom units, while the current rental listing shows 850, 1,150 and 1,300 sq ft.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "homefinder-listing"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the financing has closed and a Garfield County building permit has been issued; no dated record of either, or of a groundbreaking, was found.",
+  "Whether the $2.9M Division of Housing loan was awarded, and final equity, lender and total cost figures.",
+  "Seller and price of the land.",
+  "Current property manager (the 2024 application named Shelton Residential / Asset Living; the listing does not name one in its text).",
+  "No public site plan or rendering was found; the application's Exhibit 15 site plan and renderings are not in the public narrative.",
+  "Term of the CHFA affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Aster Place, Battlement Mesa)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (Aster Place, PDF pages 1-6)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-ahtc-annual",
+   "title": "State Affordable Housing Tax Credit 2024 Annual Report (Aster Place on printed page 3 and page 8)",
+   "publisher": "CHFA",
+   "date": "2024-12-31",
+   "url": "https://chfainfo.com/getattachment/bd590043-b796-4005-8e5b-2ad9446f857f/2024StateAHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "postindependent-2025-08-19",
+   "title": "Aster Place project one step closer to offering affordable housing in Parachute",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2025-08-19",
+   "url": "https://www.postindependent.com/news/aster-place-project-one-step-closer-to-offering-affordable-housing-in-parachute/"
+  },
+  {
+   "id": "postindependent-2024-10-18",
+   "title": "Garfield County Housing Authority reports increase in affordable housing sales, plans for more affordable housing units",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2024-10-18",
+   "url": "https://www.postindependent.com/news/garfield-county-housing-authority-reports-increase-in-affordable-housing-sales-plans-for-more-affordable-housing-units/"
+  },
+  {
+   "id": "homefinder-listing",
+   "title": "Aster Place Apartments - 5 Stone Quarry Rd, Parachute, CO 81635 (rental listing, verified 2026-10-21)",
+   "publisher": "Homefinder.com (Realtor.com), listing provided by Zillow",
+   "date": "2026-10-21",
+   "url": "https://homefinder.com/rentals/details/5-Stone-Quarry-Rd_Parachute_CO_81635_M91246-84559"
+  }
+ ]
+}
