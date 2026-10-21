@@ -30,6 +30,10 @@ const PRIVATE_TEXT = [
   // A JSON file whose records carry both email and phone keys is a contact
   // list, whatever it is named (public agency lists, if ever added, go in ALLOWED).
   { label: 'JSON contact records (email + phone)', re: /"from_award_lists"\s*:|"email"\s*:[\s\S]*"phone"\s*:|"phone"\s*:[\s\S]*"email"\s*:/, ext: /\.json$/i },
+  // The researched place files (_contacts/<geoid>.json, _landscape/<geoid>.json)
+  // under any name, even with one contact channel or none.
+  { label: 'researched contacts record', re: /"contacts"\s*:\s*\[\s*\{/, ext: /\.json$/i },
+  { label: 'researched landscape record', re: /"(housing_involvement|members_public)"\s*:/, ext: /\.json$/i },
   { label: 'pipeline relationship field', re: /\brelationship_tier\b/ },
   { label: 'pipeline last-talked field', re: /\blast_talked\b/ },
   { label: 'pipeline next-action column', re: /\bnext_action(_due)?\b/, ext: /\.(csv|tsv|json)$/i },
@@ -44,7 +48,9 @@ const ALLOWED = new Set([
   'test/repo-private-data.test.mjs',
   'scripts/lib/public-sensitive-patterns.mjs',
   'scripts/audit/public-artifact-guard.mjs',
-  'docs/_external-references/HUD-CHAS-data-dictionary-2018-2022.xlsx'
+  'docs/_external-references/HUD-CHAS-data-dictionary-2018-2022.xlsx',
+  // Public housing agencies' published office contacts, shown on the public site.
+  'data/hna/local-resources.json'
 ]);
 // Code that reads or blocks these field names, never data. Data-like files in
 // the same folders (fixtures, CSVs, JSON) are still scanned.
@@ -119,6 +125,8 @@ const mustCatch = [
   ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
   ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
   ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['archive/private/x.json'], ['backup/dossiers/brief.pdf'],
+  ['data/one.json', '{"geoid":"0805265","contacts":[{"name":"Pat","role":"Mayor","email":"p@x.org"}]}'],
+  ['data/land.json', '{"people":[{"name":"Pat","public_role":"Developer","housing_involvement":"x"}]}'],
   ['data/people.json', '[{"name":"Pat","org":"X","phone":"555","email":"p@x.org"}]'], ['data/awards-copy.json', '{"from_award_lists":[]}'],
   ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
 ];
