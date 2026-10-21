@@ -27,4 +27,9 @@ for (const mode of ['rental', 'ownership']) {
 }
 assert(read('js/deal-calculator.js').includes('id="dc-inputs-col"'), 'the link target exists');
 
-console.log('Answer-first screen: ' + (hnaPages.length + 1) + ' pages checked');
+const ma = read('market-analysis.html');
+assert.match(ma, /id="maMarketArea"[^>]*>[^<]*<a class="ma-start" href="#pmaMap">/, 'Market Analysis opens with a link to place a site');
+assert(ma.includes('id="pmaMap"'), 'the link target exists');
+assert(read('js/market-analysis.js').includes("start.href = '#pmaMap'"), 'the pre-run label keeps the link after a reset');
+
+console.log('Answer-first screen: ' + (hnaPages.length + 2) + ' pages checked');
