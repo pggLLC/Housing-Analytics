@@ -38,7 +38,7 @@
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
   // A shift needs its word and quarter; a change in share also needs both shares.
-  function okFlag(f) { return label(f.term) && label(f.quarter) && (f.kind === 'first' || (share(f.from) && share(f.to))); }
+  function okFlag(f) { return label(f.term) && label(f.quarter) && (f.kind === 'first' || (share(f.from) && share(f.to) && Math.abs(f.to - f.from) >= 10)); }
   function label(v) { return typeof v === 'string' && v.trim() !== ''; }
   // A real calendar date in YYYY-MM-DD form (2026-02-31 is not).
   function isDay(d) {
@@ -211,6 +211,7 @@
     h += '<p><button type="button" class="ld-switch" aria-pressed="' + (on ? 'true' : 'false') + '"' + (o.watchState === 'ok' ? '' : ' disabled') + '>' +
       (on ? 'Planning to submit: on' : 'Mark as planning to submit') + '</button> <span class="ld-switch-status" role="status"></span></p>';
     if (o.watchState === 'error') h += '<p class="ib-muted">The watch list did not load. Check you are still signed in.</p>';
+    if (!r && o.loadError) return h + '<p>The local discussion read did not load. Check you are still signed in, then reload the page.</p></section>';
     if (!r) {
       return h + '<p>' + (on ? 'Not read yet. The first weekly read runs on Monday.' :
         'Mark this place to track council and commission agendas, minutes and local news about housing here, and how the local words change.') + '</p>' +
@@ -237,10 +238,12 @@
     return h + '</section>';
   }
 
+  // null when there is nothing there (404); 'error' when the request failed, so an outage is not read as "nothing yet".
   function getJson(url) {
     return fetch(url, { cache: 'no-cache' }).then(function (r) {
-      return r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : null;
-    }).catch(function () { return null; });
+      if (r.status === 404) return null;
+      return r.ok && /json/.test(r.headers.get('Content-Type') || '') ? r.json() : 'error';
+    }).catch(function () { return 'error'; });
   }
   function post(url, body) {
     return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -281,7 +284,10 @@
       Array.prototype.forEach.call(el.querySelectorAll('.ld-remove'), function (b) {
         b.addEventListener('click', function () {
           b.disabled = true;
-          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = arr(list); draw('.ld-status', '.ld-status', 'Link removed.'); }, function () { b.disabled = false; });
+          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = arr(list); draw('.ld-status', '.ld-status', 'Link removed.'); }, function () {
+            b.disabled = false;
+            var st = el.querySelector('.ld-status'); if (st) { st.textContent = 'Not removed. Check you are still signed in.'; st.focus(); }
+          });
         });
       });
     }
@@ -295,9 +301,13 @@
       o.watchState = Array.isArray(watch) ? 'ok' : 'error';
       o.watched = Array.isArray(watch) && watch.some(function (w) { return w.geoid === geoid; });
       // The newer of the live result and the copy the last deploy carried.
+      var failed = live === 'error' || shipped === 'error';
+      if (live === 'error') live = null;
+      if (shipped === 'error') shipped = null;
       var a = live && live.result, b = shipped;
       o.result = a && b ? ((a.updated || '') >= (b.updated || '') ? a : b) : (a || b || null);
       o.links = arr(live && live.links);
+      o.loadError = failed && !o.result;
       draw();
     });
   }

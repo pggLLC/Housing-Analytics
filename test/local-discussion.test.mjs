@@ -110,6 +110,9 @@ ok(L.keyNumbers(gaps)[2].big === 'Steady' && !/999%/.test(gh), 'shares above 100
 const falling = JSON.parse(JSON.stringify(result)); falling.numbers.rising = { term: 'attainable', from: 31, to: 8, quarter: '2026-Q3' };
 ok(L.keyNumbers(falling)[2].big === 'Steady' && !/moving toward/.test(L.meaning(falling)), 'a falling word is not called rising');
 ok(/draw\('\.ld-switch', '\.ld-switch-status'/.test(read('js/whitepaper/local-discussion.js')), 'focus returns to the switch after a save, with a status');
+const small = JSON.parse(JSON.stringify(result)); small.lexicon.flags[0].from = 20; small.lexicon.flags[0].to = 21;
+ok(/Word shifts \(0\)/.test(R(small)), 'a move under 10 points is not a shift');
+ok(/did not load/.test(L.render({ geoid: '0899999', name: 'Testville', result: null, loadError: true, watched: true, watchState: 'ok', links: [] })), 'a failed load is not shown as not read yet');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.
