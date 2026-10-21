@@ -377,21 +377,21 @@
    "title": "HUD Multifamily Properties - Assisted (property 800003233, Weatherstone), open data feature service query",
    "publisher": "HUD",
    "date": "2026-07-06",
-   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003233%27&outFields=PROPERTY_NAME_TEXT,ADDRESS_LINE1_TEXT,TOTAL_UNIT_COUNT,TOTAL_ASSISTED_UNIT_COUNT,CONTRACT1,PROGRAM_TYPE1,EXPIRATION_DATE1,BD1_CNT1,BD2_CNT1,BD3_CNT1,SOA_NAME1,ORIGINAL_LOAN_AMOUNT,INITIAL_ENDORSEMENT_DATE,TAXCREDIT1,MGMT_AGENT_ORG_NAME&returnGeometry=false&f=pjson"
+   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003233%27&outFields=PROPERTY_NAME_TEXT,ADDRESS_LINE1_TEXT,TOTAL_UNIT_COUNT,TOTAL_ASSISTED_UNIT_COUNT,CONTRACT1,PROGRAM_TYPE1,EXPIRATION_DATE1,BD1_CNT1,BD2_CNT1,BD3_CNT1,SOA_NAME1,ORIGINAL_LOAN_AMOUNT,INITIAL_ENDORSEMENT_DATE,TAXCREDIT1,MGMT_AGENT_ORG_NAME&returnGeometry=false&f=pjson&outSR=4326"
   },
   {
    "id": "arapahoe-parcels",
    "title": "Arapahoe County ArapaMAP, Parcels - Owners layer (owner, reception number, sale date and price for the Weatherstone parcels)",
    "publisher": "Arapahoe County",
    "date": "2026-10-21",
-   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/277/query?where=Owner+like+%27%25WEATHERSTONE%25%27&outFields=PARCEL_ID,Situs_Address,Owner,REC_NMBR,Sale_Date,Price&returnGeometry=false&f=pjson"
+   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/277/query?where=Owner+like+%27%25WEATHERSTONE%25%27&outFields=PARCEL_ID,Situs_Address,Owner,REC_NMBR,Sale_Date,Price&returnGeometry=false&f=pjson&outSR=4326"
   },
   {
    "id": "arapahoe-sales",
    "title": "Arapahoe County ArapaMAP, Current Sales layer (parcel 1975-05-2-10-003)",
    "publisher": "Arapahoe County",
    "date": "2026-10-21",
-   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/154/query?where=PIN%3D%271975-05-2-10-003%27&outFields=PIN,price,qu_flg,saledate&returnGeometry=false&f=pjson"
+   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/154/query?where=PIN%3D%271975-05-2-10-003%27&outFields=PIN,price,qu_flg,saledate&returnGeometry=false&f=pjson&outSR=4326"
   },
   {
    "id": "milehighcre-2025-03-05",
