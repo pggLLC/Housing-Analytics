@@ -233,4 +233,8 @@ ok(SR.thresholdStatus(rules, { T4: 'na' }, { rehab: false }).rows.find((r) => r.
 const t17 = rules.thresholds.find((t) => t.applies === 'existing_credit');
 if (t17) ok(SR.thresholdStatus(rules, { [t17.id]: 'na' }, { existingCredit: true }).rows.find((r) => r.id === t17.id).answer === 'unchecked', 'an existing-credit deal cannot mark that threshold as not applying');
 
+// Codex review on 0d6fc3d83: election-specific tax credit guidance; "New deal" starts blank.
+ok(/20-50 and 40-60 elections, units at or under 60% are tax credit units/.test(page) && !/Units at or under 80% are tax credit units\./.test(page), 'the page explains which units are tax credit units under each election');
+ok(/if \(!state\.deal\) \{ state\.version = blankVersion\(\);/.test(read('js/whitepaper/submittal-review.js')), 'choosing "New deal" clears the loaded version');
+
 console.log(`submittal-review: ${checks} checks passed`);

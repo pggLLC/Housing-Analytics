@@ -860,6 +860,7 @@
       state.deal = $('sr-deal').value || null; state.picked = {}; state.parent = '';
       var opt = $('sr-deal').selectedOptions[0];
       $('sr-name').value = state.deal ? opt.textContent.replace(/ \(\d+ versions?\)$/, '') : '';
+      if (!state.deal) { state.version = blankVersion(); state.stress = null; $('sr-label').value = ''; writeForm(); draw(); }
       refreshVersions().then(function () {
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
