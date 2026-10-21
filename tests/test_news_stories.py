@@ -376,3 +376,10 @@ def test_a_headline_in_both_colorado_and_national_news_stays_colorado(geos):
 def test_regional_federal_reserve_banks_are_listed():
     assert gpb.NATIONAL_SOURCE_RE.match('Atlanta Federal Reserve Bank')
     assert gpb.NATIONAL_SOURCE_RE.match('Federal Reserve Bank of Kansas City')
+
+
+def test_latin_american_and_other_foreign_housing_stories_stay_out_of_national():
+    for t in ('How Venezuela’s Public Housing Towers Were Built to Fail',
+              'Cuba’s housing shortage deepens', 'Housing prices climb across Asia'):
+        assert gpb.NATIONAL_SKIP_RE.search(t), t
+    assert not gpb.NATIONAL_SKIP_RE.search('US pending home sales fall to record low as mortgage rates surge')
