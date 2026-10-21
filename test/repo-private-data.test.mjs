@@ -32,7 +32,7 @@ const PRIVATE_TEXT = [
   { label: 'JSON contact records (email + phone)', re: /"from_award_lists"\s*:|"email"\s*:[\s\S]*"phone"\s*:|"phone"\s*:[\s\S]*"email"\s*:/, ext: /\.json$/i },
   // The researched place files (_contacts/<geoid>.json, _landscape/<geoid>.json)
   // under any name, even with one contact channel or none.
-  { label: 'researched contacts record', re: /"contacts"\s*:\s*\[\s*\{/, ext: /\.json$/i },
+  { label: 'researched contacts record', re: { test: rootContacts }, ext: /\.json$/i },
   { label: 'researched landscape record', re: /"(housing_involvement|members_public)"\s*:/, ext: /\.json$/i },
   { label: 'pipeline relationship field', re: /\brelationship_tier\b/ },
   { label: 'pipeline last-talked field', re: /\blast_talked\b/ },
@@ -48,15 +48,22 @@ const ALLOWED = new Set([
   'test/repo-private-data.test.mjs',
   'scripts/lib/public-sensitive-patterns.mjs',
   'scripts/audit/public-artifact-guard.mjs',
-  'docs/_external-references/HUD-CHAS-data-dictionary-2018-2022.xlsx',
-  // Public housing agencies' published office contacts, shown on the public site.
-  'data/hna/local-resources.json'
+  'docs/_external-references/HUD-CHAS-data-dictionary-2018-2022.xlsx'
 ]);
 // Code that reads or blocks these field names, never data. Data-like files in
 // the same folders (fixtures, CSVs, JSON) are still scanned.
 const CODE_FILE = /\.(js|mjs|cjs|ts|py|sh)$|^developer[a-z-]*\.html$/i;
 const TEXT_EXT = /\.(md|json|csv|txt|html|tsv|yml|yaml)$/i;
 const MAX_TEXT = 30 * 1024 * 1024;
+
+// A researched place file: a root object whose "contacts" is an array of
+// people (objects with a name). Nested public lists don't count.
+function rootContacts(text) {
+  if (!/"contacts"\s*:/.test(text)) return false;
+  let d; try { d = JSON.parse(text); } catch { return /^\s*\{[^{]*"contacts"\s*:\s*\[\s*\{/.test(text); }
+  const roots = Array.isArray(d) ? d : [d];
+  return roots.some((r) => r && typeof r === 'object' && Array.isArray(r.contacts) && r.contacts.some((c) => c && typeof c === 'object' && 'name' in c));
+}
 
 // Bytes to text: UTF-16 exports (with their byte-order mark) and a UTF-8 BOM
 // would otherwise hide a header from the anchored patterns.
@@ -126,6 +133,7 @@ const mustCatch = [
   ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
   ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['archive/private/x.json'], ['backup/dossiers/brief.pdf'],
   ['data/one.json', '{"geoid":"0805265","contacts":[{"name":"Pat","role":"Mayor","email":"p@x.org"}]}'],
+  ['data/hna/local-resources.json', '{"geoid":"0805265","contacts":[{"name":"Pat","role":"Mayor"}]}'],
   ['data/land.json', '{"people":[{"name":"Pat","public_role":"Developer","housing_involvement":"x"}]}'],
   ['data/people.json', '[{"name":"Pat","org":"X","phone":"555","email":"p@x.org"}]'], ['data/awards-copy.json', '{"from_award_lists":[]}'],
   ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
