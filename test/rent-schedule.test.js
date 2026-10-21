@@ -385,6 +385,18 @@ function change(w, selector, value) {
       }
     });
   }
+  await test('an empty unit mix shows one instruction, not nine unavailable totals, until a row is added', async () => {
+    const w = await app({ county_fips: county.fips, total_units: null, vacancy_rate: 0.05, utility_allowance_basis: basis(), unit_mix: [] });
+    try {
+      const summary = w.document.querySelector('[data-role="rent-schedule-summary"]');
+      assert.match(summary.querySelector('[data-role="schedule-empty"]').textContent, /Add a unit-mix row/);
+      assert.equal(summary.querySelectorAll('[data-total]').length, 0);
+      assert(!/unavailable/i.test(w.document.getElementById('sp').textContent), w.document.getElementById('sp').textContent);
+      [...w.document.querySelectorAll('#sp button')].find((b) => b.textContent === '+ Add row').click(); await settle();
+      assert.equal(summary.querySelector('[data-role="schedule-empty"]'), null);
+      assert(summary.querySelectorAll('[data-total]').length > 0);
+    } finally { w.close(); }
+  });
   await test('the schedule suite is reachable from CI and components no longer keep independent rent sums', () => {
     const pkg = require('../package.json');
     assert.equal(pkg.scripts['test:rent-schedule'], 'node test/rent-schedule.test.js');

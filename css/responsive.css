@@ -84,7 +84,7 @@ nav.site-nav > a {
 }
 
 /* Restore natural display for purely textual inline anchors */
-p a, li a, td a, .note a, .sub a, .footer-wrap a {
+p a, li a, td a, .note a, .sub a, .footer-wrap a, .wf-next-action__advisory a {
   display: inline;
   min-height: unset;
   min-width: unset;
