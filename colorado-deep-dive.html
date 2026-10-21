@@ -1502,8 +1502,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <h2 style="margin-bottom:.5rem;">Colorado vs National</h2>
 <p style="color:var(--muted);font-size:.95rem;margin:0 0 1.5rem;max-width:80ch;">
   How Colorado stacks up on LIHTC allocation, vacancy, rent growth, credit pricing,
-  and employment. Macro context (2024 oversupply, 40% cost inflation since 2019,
-  rising interest rates) is documented in the per-card source links below.
+  and employment. Each card links its source.
 </p>
 <div class="chart-card" style="margin: 1.5rem 0;">
 <div class="chart-header">
@@ -1537,8 +1536,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <!-- 9% Credit Pricing — no public feed; updated quarterly from Novogradac surveys -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Credit Pricing (9%)</div>
-<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;">$0.87</div>
-<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac Q1 2026</a></div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" data-equity-price="nine">—</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;">National avg · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac <span data-equity-vintage></span></a></div>
 </div>
 <!-- Unemployment — LIVE via BLS LAUS (existing wiring) -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
@@ -1783,7 +1782,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <h3 class="chart-title">Affordability Ratio Map — Gross Rent as % of Income</h3>
         <p class="chart-subtitle">
           Each dot represents a Colorado census tract, colored by how much of median household income goes to gross rent.
-          Tracts in red spend more than half their income on housing — a signal of severe affordability stress.
+          Tracts in red spend half or more of their income on housing — a signal of severe affordability stress.
         </p>
       </div>
       <div id="affRatioMapWrap" style="position:relative;">
@@ -1791,10 +1790,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <div id="affRatioMapStatus" style="padding:.5rem 0;font-size:.85rem;color:var(--muted);"></div>
         <!-- Legend -->
         <div id="affRatioLegend" style="display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 0;font-size:.82rem;color:var(--text);">
-          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#2ca25f;margin-right:4px;vertical-align:middle;"></span>&lt;25% — Affordable</span>
-          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f0ab00;margin-right:4px;vertical-align:middle;"></span>25–35% — Stressed</span>
-          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e07b00;margin-right:4px;vertical-align:middle;"></span>35–50% — Burdened</span>
-          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--chart-7);margin-right:4px;vertical-align:middle;"></span>&gt;50% — Severely Burdened</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#2ca25f;margin-right:4px;vertical-align:middle;"></span>Under 25%</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f0ab00;margin-right:4px;vertical-align:middle;"></span>25–29% — Near the 30% line</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e07b00;margin-right:4px;vertical-align:middle;"></span>30–49% — Cost-burdened</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--chart-7);margin-right:4px;vertical-align:middle;"></span>50% or more — Severely cost-burdened</span>
         </div>
       </div>
     </section>
@@ -3496,4 +3495,5 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     .catch(function () {});
 }());
 </script>
+<script>window.EquityPricing && window.EquityPricing.fill(document, window.fetch && window.fetch.bind(window));</script>
 </body></html>

@@ -167,3 +167,15 @@ test('legislation does not price equity from unsourced constants', () => {
   assert.doesNotMatch(read('js/lihtc-deal-predictor-enhanced.js'), /LEGISLATIVE_EQUITY_BOOST/);
   assert.doesNotMatch(read('js/cra-expansion-forecast.js'), /getCurrentBills/);
 });
+
+test('the 9% price chips on Dashboard, Regional and the Deep Dive show the file price, not a typed one', async () => {
+  for (const page of ['dashboard.html', 'regional.html', 'colorado-deep-dive.html']) {
+    assert.ok(!/>\$0\.\d\d<\/div>\s*<div[^>]*>[^<]*9% Credit Price|Credit Pricing \(9%\)<\/div>\s*<div[^>]*>\$0\.\d\d</.test(read(page)),
+      `${page} types a 9% credit price instead of reading data/market/novogradac-equity-pricing.json`);
+    const { doc } = render(page);
+    const chips = () => [...doc.querySelectorAll('[data-equity-price="nine"]')];
+    assert.ok(chips().length >= 1, `${page} has no 9% price chip`);
+    await until(() => chips().every((el) => el.textContent !== '—'));
+    for (const el of chips()) assert.equal(el.textContent, money(NAT.credit_9pct), `${page} chip`);
+  }
+});
