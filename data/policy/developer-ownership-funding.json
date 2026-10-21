@@ -62,7 +62,7 @@
       "lien_or_recapture": {"type": "recapture", "terms": "VERIFY"}, "application_cycle": "rolling",
       "commitment_status": "available", "stacking_constraints": ["requires_eligible_chfa_first_mortgage"],
       "source_url": "https://www.chfainfo.com/homeownership/down-payment-assistance",
-      "source_note": "CHFA page read 2026-10-21: Second Mortgage Loan \"Up to the lesser of $25,000 or 4 percent of your first mortgage\", repayment deferred until payoff, sale or refinance; Down Payment Assistance Grant up to the lesser of $25,000 or 3 percent. Buyer-side availability is not a project source.",
+      "source_note": "CHFA page read 2026-10-21: Second Mortgage Loan \"Up to the lesser of $25,000 or 4 percent of your first mortgage\", repayment deferred until certain events, such as payoff of the first mortgage, sale or refinance, or the home no longer being the borrower's primary residence; Down Payment Assistance Grant up to the lesser of $25,000 or 3 percent. Buyer-side availability is not a project source.",
       "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
