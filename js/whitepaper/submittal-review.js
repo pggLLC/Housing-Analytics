@@ -253,7 +253,7 @@
   function findJurisdiction(prop123, place) {
     var q = String(place || '').trim().toLowerCase();
     if (!q || !prop123 || !Array.isArray(prop123.jurisdictions)) return null;
-    var list = prop123.jurisdictions;
+    var list = withNewFilings(prop123);
     var exact = list.filter(function (j) { return j.name.toLowerCase() === q; })[0];
     if (exact) return exact;
     var same = list.filter(function (j) { return bare(j.name) === bare(q); });
@@ -274,6 +274,15 @@
       }
     }
     return same[0] || null;
+  }
+
+  // A 2027-2029 filing from a place with no first-cycle record (Moffat, Stratton) still counts as filed.
+  function withNewFilings(prop123) {
+    var list = prop123.jurisdictions, have = {};
+    list.forEach(function (j) { have[j.name.toLowerCase()] = true; });
+    var extra = ((prop123.next_cycle || {}).filings || []).filter(function (f) { return f && f.name && !have[f.name.toLowerCase()]; })
+      .map(function (f) { return { name: f.name, kind: /\bcounty\b/i.test(f.name) && !/^city and county of/i.test(f.name) ? 'county' : 'municipality', status: 'new filing', next_cycle: { submitted: f.submitted } }; });
+    return extra.length ? list.concat(extra) : list;
   }
 
   // Only a legal form ("City of Lamar", "Town of Lyons") marks a municipality; "Colorado City" and "Lake City" are proper names.
@@ -496,7 +505,7 @@
     ['Modeled credit capacity', function (v, r) { return v.calculator ? money(num(r.engine.annualCredits)) : '—'; }],
     ['Credit equity', function (v, r) { return money(num(r.engine.creditEquity)); }],
     ['Funding gap', function (v, r) { return money(num(r.engine.fundingGap)); }],
-    ['Debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
+    ['Weakest must-pay debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
     ['Deferred developer fee', function (v, r) { return money(num(r.engine.deferredDeveloperFee)); }],
     ['Threshold items missing', function (v, r) { return String(r.thresholds.missing); }],
     ['Stress tests failed', function (v) {
@@ -554,6 +563,9 @@
       engine[k] = o[k] && typeof o[k].value === 'number' ? o[k].value : null;
       if (o[k] && o[k].value == null && o[k].unavailableReason) engine[k + 'Reason'] = o[k].unavailableReason;
     });
+    var cov = mustPayCoverage(function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; }, snap.debtCoverage);
+    engine.dscr = cov.dscr; engine.dscrYear = cov.dscrYear;
+    if (cov.dscr != null) delete engine.dscrReason;
     var q = String(snap.url).indexOf('?'), query = q === -1 ? '' : String(snap.url).slice(q + 1);
     var param = function (k) { var m = query.match(new RegExp('(?:^|&)' + k + '=([^&]*)')); return m ? decodeURIComponent(m[1]) : null; };
     // The credit-rate radios share one key: rate-9=0.09 is 9%, rate-9=0.04 is 4%.
@@ -623,11 +635,24 @@
     });
   }
 
+  // CHFA's coverage minimum applies to all must-pay debt across the forecast, so use the weakest all-must-pay year in the
+  // first 15, then the year-one all-must-pay ratio, then the senior ratio, whichever the calculator measured.
+  function mustPayCoverage(rec, coverage) {
+    var rows = coverage && Array.isArray(coverage.years) ? coverage.years.filter(function (y) { return num(y.allMustPayCoverage) != null && !(num(y.year) > 15); }) : [];
+    if (rows.length) {
+      var low = rows.reduce(function (a, b) { return num(b.allMustPayCoverage) < num(a.allMustPayCoverage) ? b : a; });
+      return { dscr: num(low.allMustPayCoverage), dscrYear: num(low.year) };
+    }
+    var all = rec('allMustPayDscr');
+    return { dscr: all != null ? all : rec('dscr'), dscrYear: null };
+  }
+
   function readEngine(w) {
     var o = w.__DealCalc.getOutputRecords(), r = w.__DealCalc.getResult();
     var v = function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; };
     var why = function (k) { return o[k] && o[k].value == null ? o[k].unavailableReason : null; };
-    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: v('dscr'), dscrReason: why('dscr'), deferredDeveloperFee: v('deferredDeveloperFee'),
+    var cov = mustPayCoverage(v, r && r.coverage);
+    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: cov.dscr, dscrYear: cov.dscrYear, dscrReason: cov.dscr == null ? why('dscr') : null, deferredDeveloperFee: v('deferredDeveloperFee'),
       annualCredits: v('annualCredits'), creditEquity: v('creditEquity'), totalDevelopmentCost: v('totalDevelopmentCost'),
       paybackYear: r && r.exit && num(r.exit.dfYr), engineStress: r && r.stress ? r.stress : null };
   }
@@ -802,7 +827,7 @@
     var ratio = function (x) { return x.toFixed(2) + 'x'; };
     return '<p class="sr-muted">Base run: gap ' + esc(cell(b.fundingGap, money)) + (b.fundingGap == null && b.fundingGapReason ? ' (' + esc(b.fundingGapReason) + ')' : '') +
       ', coverage ' + esc(cell(b.dscr, ratio)) + ', deferred fee ' + esc(cell(b.deferredDeveloperFee, money)) + '.</p>' +
-      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="What changes in the Deal Calculator for this run">Test</th><th scope="col" class="sr-num" data-tip="Sources still needed after the modeled loan, equity and soft funds">Funding gap</th><th scope="col" class="sr-num" data-tip="Debt coverage ratio: net operating income over must-pay debt service">Coverage</th><th scope="col" class="sr-num" data-tip="Developer fee paid later from cash flow">Deferred fee</th><th scope="col" data-tip="Fails when the gap grows, coverage drops under the CHFA 1.15 minimum, the score falls under 130, or the gap-fund lane changes">Result</th></tr></thead><tbody>' +
+      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="What changes in the Deal Calculator for this run">Test</th><th scope="col" class="sr-num" data-tip="Sources still needed after the modeled loan, equity and soft funds">Funding gap</th><th scope="col" class="sr-num" data-tip="Weakest debt coverage in years 1 to 15: net operating income over all must-pay debt service">Coverage</th><th scope="col" class="sr-num" data-tip="Developer fee paid later from cash flow">Deferred fee</th><th scope="col" data-tip="Fails when the gap grows, coverage drops under the CHFA 1.15 minimum, the score falls under 130, or the gap-fund lane changes">Result</th></tr></thead><tbody>' +
       st.tests.map(function (t) {
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
@@ -1183,6 +1208,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
+    mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });

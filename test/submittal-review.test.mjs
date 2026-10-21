@@ -348,6 +348,11 @@ ok(/Annual federal credit requested<\/th><td[^>]*>—<\/td><td[^>]*>\$1,200,000/
 const inelig = SR.review(rules, prop123, { deal: { mix: { 60: 50 } }, claims: {}, thresholds: {}, engine: {} });
 inelig.score.total = 140; inelig.score.meets = false; inelig.score.primaryOk = false;
 ok(/140 of 130 needed \(not eligible/.test(SR.summaryLines(inelig)[0]), 'an ineligible deal over 130 is not called short');
+const rec = (m) => (k) => (k in m ? m[k] : null);
+const covYears = { years: [{ year: 1, allMustPayCoverage: 1.3 }, { year: 9, allMustPayCoverage: 1.1 }, { year: 20, allMustPayCoverage: 0.9 }, { year: 2, allMustPayCoverage: null }] };
+ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.3 }), covYears).dscr === 1.1 && SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.3 }), covYears).dscrYear === 9, 'coverage is the weakest all-must-pay year in the first 15');
+ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === 1.2 && SR.mustPayCoverage(rec({ dscr: 1.4 }), null).dscr === 1.4, 'without a forecast, all-must-pay year one comes before senior coverage');
+ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
 const cond = SR.score(rules, { mix }, { '5B3c-rehab': true, '5B3d-preservation': true });
