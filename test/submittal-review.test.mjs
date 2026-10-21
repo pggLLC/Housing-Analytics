@@ -349,9 +349,12 @@ const inelig = SR.review(rules, prop123, { deal: { mix: { 60: 50 } }, claims: {}
 inelig.score.total = 140; inelig.score.meets = false; inelig.score.primaryOk = false;
 ok(/140 of 130 needed \(not eligible/.test(SR.summaryLines(inelig)[0]), 'an ineligible deal over 130 is not called short');
 const rec = (m) => (k) => (k in m ? m[k] : null);
-const covYears = { years: [{ year: 1, allMustPayCoverage: 1.3 }, { year: 9, allMustPayCoverage: 1.1 }, { year: 20, allMustPayCoverage: 0.9 }, { year: 2, allMustPayCoverage: null }] };
-ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.3 }), covYears).dscr === 1.1 && SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.3 }), covYears).dscrYear === 9, 'coverage is the weakest all-must-pay year in the first 15');
-ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === 1.2 && SR.mustPayCoverage(rec({ dscr: 1.4 }), null).dscr === 1.4, 'without a forecast, all-must-pay year one comes before senior coverage');
+const full = Array.from({ length: 20 }, (_, i) => ({ year: i + 1, allMustPayCoverage: i === 8 ? 1.1 : i === 17 ? 0.9 : 1.3 }));
+const cov15 = SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full });
+ok(cov15.dscr === 1.1 && cov15.dscrYear === 9, 'coverage is the weakest all-must-pay year in the first 15');
+ok(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.slice(0, 5) }).dscr === null && /runs 5 years/.test(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.slice(0, 5) }).dscrReason), 'a 5-year forecast leaves coverage unavailable');
+ok(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.map((y) => (y.year === 4 ? { year: 4, allMustPayCoverage: null } : y)) }).dscr === null, 'a gap in years 1-15 leaves coverage unavailable');
+ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === null, 'year-one coverage alone does not stand in for the 15-year minimum');
 ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');

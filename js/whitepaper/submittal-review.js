@@ -565,7 +565,7 @@
     });
     var cov = mustPayCoverage(function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; }, snap.debtCoverage);
     engine.dscr = cov.dscr; engine.dscrYear = cov.dscrYear;
-    if (cov.dscr != null) delete engine.dscrReason;
+    if (cov.dscr != null) delete engine.dscrReason; else engine.dscrReason = cov.dscrReason;
     var q = String(snap.url).indexOf('?'), query = q === -1 ? '' : String(snap.url).slice(q + 1);
     var param = function (k) { var m = query.match(new RegExp('(?:^|&)' + k + '=([^&]*)')); return m ? decodeURIComponent(m[1]) : null; };
     // The credit-rate radios share one key: rate-9=0.09 is 9%, rate-9=0.04 is 4%.
@@ -635,16 +635,19 @@
     });
   }
 
-  // CHFA's coverage minimum applies to all must-pay debt across the forecast, so use the weakest all-must-pay year in the
-  // first 15, then the year-one all-must-pay ratio, then the senior ratio, whichever the calculator measured.
+  // CHFA's coverage minimum runs through the initial 15-year period, so coverage is the weakest all-must-pay year of a
+  // fully measured 15-year schedule. A shorter forecast, a gap in it, or no schedule leaves coverage unavailable.
   function mustPayCoverage(rec, coverage) {
-    var rows = coverage && Array.isArray(coverage.years) ? coverage.years.filter(function (y) { return num(y.allMustPayCoverage) != null && !(num(y.year) > 15); }) : [];
-    if (rows.length) {
-      var low = rows.reduce(function (a, b) { return num(b.allMustPayCoverage) < num(a.allMustPayCoverage) ? b : a; });
-      return { dscr: num(low.allMustPayCoverage), dscrYear: num(low.year) };
+    var years = coverage && Array.isArray(coverage.years) ? coverage.years.filter(function (y) { return num(y.year) != null && num(y.year) <= 15; }) : [];
+    if (!years.length) return { dscr: null, dscrYear: null, dscrReason: 'The Deal Calculator gave no year-by-year debt coverage; CHFA\'s minimum applies through year 15. Set a 15-year pro forma and export again.' };
+    var measured = years.filter(function (y) { return num(y.allMustPayCoverage) != null; });
+    if (years.length < 15 || measured.length < 15) {
+      return { dscr: null, dscrYear: null, dscrReason: years.length < 15
+        ? 'The pro forma runs ' + years.length + ' years; CHFA\'s coverage minimum applies through year 15. Set the pro forma to 15 years or more and export again.'
+        : 'Debt coverage is not measured in ' + (15 - measured.length) + ' of the first 15 years, so the 15-year minimum cannot be checked.' };
     }
-    var all = rec('allMustPayDscr');
-    return { dscr: all != null ? all : rec('dscr'), dscrYear: null };
+    var low = measured.reduce(function (a, b) { return num(b.allMustPayCoverage) < num(a.allMustPayCoverage) ? b : a; });
+    return { dscr: num(low.allMustPayCoverage), dscrYear: num(low.year), dscrReason: null };
   }
 
   function readEngine(w) {
@@ -652,7 +655,7 @@
     var v = function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; };
     var why = function (k) { return o[k] && o[k].value == null ? o[k].unavailableReason : null; };
     var cov = mustPayCoverage(v, r && r.coverage);
-    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: cov.dscr, dscrYear: cov.dscrYear, dscrReason: cov.dscr == null ? why('dscr') : null, deferredDeveloperFee: v('deferredDeveloperFee'),
+    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: cov.dscr, dscrYear: cov.dscrYear, dscrReason: cov.dscrReason, deferredDeveloperFee: v('deferredDeveloperFee'),
       annualCredits: v('annualCredits'), creditEquity: v('creditEquity'), totalDevelopmentCost: v('totalDevelopmentCost'),
       paybackYear: r && r.exit && num(r.exit.dfYr), engineStress: r && r.stress ? r.stress : null };
   }
@@ -832,7 +835,7 @@
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
           '<td class="sr-num">' + esc(cell(e.fundingGap, money)) + '</td><td class="sr-num">' + esc(cell(e.dscr, ratio)) + '</td><td class="sr-num">' + esc(cell(e.deferredDeveloperFee, money)) + '</td>' +
-          '<td>' + (t.skipped ? '<span class="sr-muted">Not run</span>' : t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : 'Holds') + '</td></tr>';
+          '<td>' + (t.skipped ? '<span class="sr-muted">Not run</span>' : t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : (!t.scoreOnly && (t.engine || {}).dscr == null ? 'Holds; coverage not checked' : 'Holds')) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 
