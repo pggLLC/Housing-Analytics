@@ -99,6 +99,9 @@ const ALLOW_LIST = new Set([
   'https://www.cbsnews.com/colorado/news/new-neuro-diverse-affordable-housing-broomfield',
   // cited by data/deals/harvest-hill-broomfield.json; verified live 2026-10-21.
   'https://www.cbsnews.com/colorado/news/harvest-hill-broomfield-groundbreaking-affordable-housing/',
+  // Kittle Property Group answers non-browser clients with a 307 loop; verified
+  // live 2026-10-21 (200 with a browser UA); cited by data/deals/compass-pointe-pueblo.json.
+  'https://kittleproperties.com/uncategorized/bringing-sought-after-rental-housing-to-pueblo-colorado/',
   'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
   'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
   'https://federalfunds.colorado.gov/solar-for-all',
