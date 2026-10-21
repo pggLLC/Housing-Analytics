@@ -46,7 +46,7 @@ export function wordBag(text, exclude = '') {
 
 function headings(html) {
   // Not from scripts: a heading inside a template literal is code, not a heading.
-  return (String(html).replace(/<script\b[\s\S]*?<\/script>/gi, ' ').match(/<h[1-3][^>]*>[\s\S]*?<\/h[1-3]>/gi) || [])
+  return (String(html).replace(/<script\b[\s\S]*?<\/script\b[^>]*>/gi, ' ').match(/<h[1-3][^>]*>[\s\S]*?<\/h[1-3]>/gi) || [])
     .map(clean).filter(Boolean);
 }
 
