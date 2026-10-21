@@ -1,0 +1,393 @@
+{
+  "schema": "chfa-round-scoring/1",
+  "id": "chfa-2027-r1-9pct",
+  "title": "CHFA 2027 Round One (federal 9% Housing Tax Credit) scoring, thresholds and state gap funds",
+  "status": "draft",
+  "status_note": "Copied from the CHFA 2027-28 QAP Third Draft (posted September 11, 2026). CHFA's QAP page listed only the First, Second and Third Drafts on 2026-10-21; the plan is not adopted. Every figure here is labelled 'Not adopted' until it is. When CHFA adopts the plan, re-copy each line from the adopted PDF and set status to 'adopted'.",
+  "checked_at": "2026-10-21",
+  "review_by": "2027-01-15",
+  "source": {
+    "title": "CHFA 2027-28 Qualified Allocation Plan, Third Draft",
+    "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+    "page_url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+    "posted": "2026-09-11",
+    "reading_note": "The draft is a redline. Quotes below are the clean reading: struck text removed, inserted text kept, read from the rendered PDF pages, not machine text."
+  },
+  "round": {
+    "name": "2027 Round One",
+    "credit": "federal 9% plus standard state credit",
+    "loi_due": "2026-12-01",
+    "application_due": "2027-02-01",
+    "dates_source": "data/chfa-qap-calendar.json (2027-r1-loi, 2027-r1-deadline; QAP Third Draft 3.B.2)"
+  },
+  "minimum_score": {
+    "points": 130,
+    "section": "Threshold #1; Section 5",
+    "page": 16,
+    "quote": "All Applications for federal 9 percent Housing Tax Credit must meet a minimum score of 130 points"
+  },
+  "primary_rule": {
+    "section": "Section 5",
+    "page": 41,
+    "quote": "A proposed project must earn points in both of the primary selection criteria (low-income targeting and low-income use period) to be eligible for Housing Tax Credits in Colorado."
+  },
+  "discretion": {
+    "section": "Section 5",
+    "page": 41,
+    "quote": "Regardless of numerical ranking, the scoring does not operate to vest in an Applicant or project any right or reservation or allocation of Housing Tax Credits in any amount."
+  },
+  "targeting": {
+    "id": "5A1-targeting",
+    "label": "Low-income targeting",
+    "section": "5.A.1 (a)-(c)",
+    "page": 41,
+    "weights": {
+      "60": 50.0,
+      "50": 72.5,
+      "40": 92.5
+    },
+    "rule": "Points = for each tier, (rent-restricted units at that tier / total rent-restricted units) x weight, summed. Units below 40% AMI count in the 40% row. Units above 60% AMI earn no targeting points.",
+    "quote": "projects located in all counties will be allowed to use the weight factor of 50 for selecting the 60 percent AMI threshold, a weight factor of 72.5 for selecting the 50 percent AMI threshold, and a weight factor of 92.5 for selecting the 40 percent AMI threshold.",
+    "change_note": "The Third Draft strikes the note that capped the 40% row at 60 percent of low-income units.",
+    "lowest_ami_bonus": {
+      "id": "5A1-lowest-ami",
+      "label": "Counties with lowest AMI",
+      "points": 20,
+      "page": 42,
+      "quote": "20 additional points for counties with lowest AMI",
+      "unconfirmed": "The QAP does not list which counties qualify; CHFA names them in the application. Claim only with CHFA's list."
+    }
+  },
+  "eli_targeting": {
+    "id": "5A1d-eli",
+    "label": "Extremely low-income (30% AMI) targeting",
+    "section": "5.A.1 (d)",
+    "page": 43,
+    "bands": [
+      {
+        "share": 0.1,
+        "points": 5
+      },
+      {
+        "share": 0.2,
+        "points": 10
+      },
+      {
+        "share": 0.3,
+        "points": 15
+      }
+    ],
+    "quote": "Up to 10% of total units at or below 30% AMI 5 Points ... Up to 20% of total units at or below 30% AMI 10 Points ... Up to 30% of total units at or below 30% AMI 15 Points",
+    "excludes": "5B5-homeless",
+    "needs": "a range of supportive services to the residents, at no cost to the residents",
+    "unconfirmed": "The Third Draft adds 'Up to' to each band. Read as 'at least' (the adopted 2025-26 wording), a share between bands earns the lower band; read as 'up to', it earns the next band. The page counts the lower reading and shows the other. Ask CHFA."
+  },
+  "lines": [
+    {
+      "id": "5A2-extended-use",
+      "group": "primary",
+      "label": "Extended low-income use (25-year extended use, required for 9%)",
+      "points": 40,
+      "section": "5.A.2; Threshold #14",
+      "page": 44,
+      "quote": "15 Years of Compliance + 25 Years of Extended Use - 40 points",
+      "auto": "nine_percent_required"
+    },
+    {
+      "id": "5A3-crp",
+      "group": "primary",
+      "label": "Community revitalization plan (in a QCT)",
+      "points": 1,
+      "section": "5.A.3",
+      "page": 44,
+      "quote": "CHFA will award one point for projects located in a qualified census tract that contribute to a Community Revitalization Plan"
+    },
+    {
+      "id": "5B1-need",
+      "group": "secondary",
+      "label": "Housing need (severe renter cost burden tier)",
+      "points": null,
+      "section": "5.B.1",
+      "page": 44,
+      "quote": "The percent of renter households severely cost burdened will be annually assessed and assigned into five tiers.",
+      "unconfirmed": "The QAP does not state the points for each tier; CHFA publishes the tiers with the application. Enter the points from CHFA's tier list."
+    },
+    {
+      "id": "5B2a-priority",
+      "group": "secondary",
+      "label": "Community affordable housing priority",
+      "points": 3,
+      "section": "5.B.2.a",
+      "page": 45,
+      "quote": "Three points may be earned for proposed projects to be located in a community that has an identified community affordable housing priority."
+    },
+    {
+      "id": "5B2b-toc",
+      "group": "secondary",
+      "label": "Transit-oriented (TOC or TOD) site",
+      "points": 5,
+      "section": "5.B.2.b",
+      "page": 45,
+      "quote": "Five points may be earned for proposed projects located at an existing or planned TOC or TOD site.",
+      "change_note": "Up from three points."
+    },
+    {
+      "id": "5B3a-mixed",
+      "group": "secondary",
+      "label": "Mixed income (no more than 80% tax credit units)",
+      "points": 5,
+      "section": "5.B.3.a",
+      "page": 45,
+      "quote": "(Five points) Project that provides housing for mixed income (i.e., that have no more than 80 percent Tax Credit-eligible total units)",
+      "auto": "mixed_income"
+    },
+    {
+      "id": "5B3b-nonmetro",
+      "group": "secondary",
+      "label": "Non-metro county of 180,000 or fewer people",
+      "points": 5,
+      "section": "5.B.3.b",
+      "page": 45,
+      "quote": "(Five points) Projects located in non-metro counties that have a population of 180,000 or less."
+    },
+    {
+      "id": "5B3c-rehab",
+      "group": "secondary",
+      "label": "Rehab of blighted or historic buildings",
+      "points": 5,
+      "section": "5.B.3.c",
+      "page": 45,
+      "quote": "(Five points) Rehabilitation of blighted buildings or locally or federally designated historic structures."
+    },
+    {
+      "id": "5B3d-preservation",
+      "group": "secondary",
+      "label": "Preservation",
+      "points": 15,
+      "section": "5.B.3.d",
+      "page": 45,
+      "quote": "(Fifteen points) Preservation projects which are defined as existing Tax Credit projects in year 25 or later of their Extended Use period"
+    },
+    {
+      "id": "5B3e-nosmoking",
+      "group": "secondary",
+      "label": "No-smoking policy (whole property)",
+      "points": 1,
+      "section": "5.B.3.e",
+      "page": 45,
+      "quote": "(One point) No-smoking policy, defined as projects that will institute a no-smoking policy for 100 percent of the project"
+    },
+    {
+      "id": "5B3f-modular",
+      "group": "secondary",
+      "label": "Modular or factory-built construction",
+      "points": 5,
+      "section": "5.B.3.f",
+      "page": 45,
+      "quote": "(Five points) Projects maximizing construction efficiency by utilizing modular or factory-built construction."
+    },
+    {
+      "id": "5B3g-universal",
+      "group": "secondary",
+      "label": "Universal design or Type A units (5%+ of units)",
+      "points": 2,
+      "section": "5.B.3.g",
+      "page": 45,
+      "quote": "(Two points) Projects utilizing Universal Design or providing Type A units under technical accessibility standard options of either American National Standards Institute (ANSI) A117.1 or Uniform Federal Accessibility Standards (UFAS), which total at least five percent of the project's total units."
+    },
+    {
+      "id": "5B3h-pets",
+      "group": "secondary",
+      "label": "Pet-inclusive",
+      "points": 1,
+      "section": "5.B.3.h",
+      "page": 45,
+      "quote": "(One point) Projects that are pet-inclusive allowing one or more pet animals"
+    },
+    {
+      "id": "5B4a-nonprofit",
+      "group": "secondary",
+      "label": "Nonprofit or Colorado housing authority as sole general partner",
+      "points": 5,
+      "section": "5.B.4.a",
+      "page": 46,
+      "quote": "(Five points) Applicant is an approved 501(c)3 or 501(c) 4 tax-exempt organization, having an express purpose of fostering low-income housing, or a Colorado public housing authority; is the sole general partner"
+    },
+    {
+      "id": "5B4b-pha",
+      "group": "secondary",
+      "label": "Colorado housing authority as sole or majority co-general partner",
+      "points": 7,
+      "section": "5.B.4.b",
+      "page": 46,
+      "quote": "(Seven points) Applicant is a Colorado public housing authority, will be a sole or majority interest co-general partner"
+    },
+    {
+      "id": "5B5-homeless",
+      "group": "secondary",
+      "label": "25%+ of units for people experiencing homelessness or special populations",
+      "points": 15,
+      "section": "5.B.5",
+      "page": 46,
+      "quote": "Fifteen points may be earned for the set-aside of at least 25 percent of the units for Persons experiencing Homelessness or Special Populations.",
+      "excludes": "5A1d-eli"
+    },
+    {
+      "id": "5B6-waitlist",
+      "group": "secondary",
+      "label": "Housing authority waitlist question on the rental application",
+      "points": 1,
+      "section": "5.B.6",
+      "page": 47,
+      "quote": "One point may be earned by Applicants who commit to collecting information on their rental application about whether a resident applicant is on a housing authority waitlist.",
+      "change_note": "Down from two points, with a new requirement."
+    }
+  ],
+  "thresholds": [
+    {
+      "id": "T2",
+      "label": "Site control (deed, title commitment or executed agreement; an LOI is not site control)",
+      "page": 16,
+      "quote": "Letters of Intent are not valid forms of site Control."
+    },
+    {
+      "id": "T3",
+      "label": "Market study and Walk Score chart by a CHFA-approved, unaffiliated analyst; parking study if required",
+      "page": 17,
+      "quote": "The Market Study must match the submitted Application regarding income targeting, unit mix, unit sizes, parking, and rents."
+    },
+    {
+      "id": "T4",
+      "label": "Appraisal (acquisition/rehab only), no older than six months",
+      "page": 17,
+      "quote": "The appraisal must be provided that is no older than six months from the date of Application.",
+      "applies": "rehab"
+    },
+    {
+      "id": "T5",
+      "label": "No outstanding noncompliance in Colorado; property management questionnaire",
+      "page": 18,
+      "quote": "Applicants must submit the completed \"Property Management Questionnaire\" template"
+    },
+    {
+      "id": "T6",
+      "label": "Latest electronic spreadsheet application",
+      "page": 18,
+      "quote": "Applicants must use the latest Application located on CHFA's website. Older versions will not be accepted."
+    },
+    {
+      "id": "T7",
+      "label": "Readiness to proceed: zoning status letter, approvals and timeline",
+      "page": 18,
+      "quote": "The Applicant must provide zoning status documentation from the planning department that includes parking requirements"
+    },
+    {
+      "id": "T8",
+      "label": "Phase I environmental (Phase II if RECs), no older than 12 months",
+      "page": 18,
+      "quote": "Phase I or Phase II reports must be no older than 12 months from the date of the Application"
+    },
+    {
+      "id": "T9",
+      "label": "Third-party cost estimate on CHFA's cost summary template, CSI format; schematic drawings",
+      "page": 19,
+      "quote": "Unaffiliated third-party cost estimates by an experienced cost estimator or general contractor that is entered on the CHFA Cost Summary template"
+    },
+    {
+      "id": "T10",
+      "label": "Team experience and track record certification",
+      "page": 20,
+      "quote": "An Application not meeting the required experience will be rejected."
+    },
+    {
+      "id": "T11",
+      "label": "Minimum amenities in all units",
+      "page": 20,
+      "quote": "the amenity package for all units or building(s) will include the following minimum standards"
+    },
+    {
+      "id": "T12",
+      "label": "Green building certification (QAP Section 8)",
+      "page": 20,
+      "quote": "the proposed project will receive a green building certification as described under Section 8 of the QAP."
+    },
+    {
+      "id": "T13",
+      "label": "Narrative on CHFA's Word template, one-page executive summary first",
+      "page": 21,
+      "quote": "The narrative must be submitted in Microsoft Word format and follow the document template available on CHFA's website."
+    },
+    {
+      "id": "T14",
+      "label": "25-year extended-use election",
+      "page": 21,
+      "quote": "Federal 9 percent credit and competitive state credit: A 25-year extended-use election is required."
+    },
+    {
+      "id": "T15",
+      "label": "Public hearing in the community (state credit)",
+      "page": 21,
+      "quote": "The Applicant must have conducted a Public Hearing in the community in which the proposed project is located"
+    },
+    {
+      "id": "T16",
+      "label": "Local government contribution, in writing (state credit)",
+      "page": 21,
+      "quote": "the Applicant must provide evidence that local government will provide some monetary, in-kind, or other contribution benefiting the proposed project."
+    },
+    {
+      "id": "T17",
+      "label": "Existing tax credit project: year 25 or later, or 50% expansion",
+      "page": 22,
+      "quote": "Applicants seeking new Housing Tax Credits for existing federal credit projects will not be eligible for the Competitive Housing Tax Credits unless the project is in year 10 or later of the Extended Use period",
+      "applies": "existing_credit"
+    }
+  ],
+  "credit_caps": {
+    "section": "3.L",
+    "page": 30,
+    "federal_9pct_annual": 1700000,
+    "state_standard_with_9pct_annual": 650000,
+    "quote": "CHFA will accept Applications for no more than $1,700,000 in 2027 ... of the annual federal 9 percent Housing Tax Credit for any one project ... CHFA will pair, if requested, a fixed amount of $650,000 in 2027 ... of standard annual state credit",
+    "without_pilot": {
+      "section": "3.L.1",
+      "federal_9pct_annual": 1800000,
+      "state_standard_with_9pct_annual": 600000,
+      "quote": "No more than $1,800,000 of annual federal 9 percent Housing Tax Credit in 2027 and 2028. ... A fixed amount of $600,000 in 2027 ... of standard State Credit"
+    }
+  },
+  "underwriting": {
+    "section": "3.D, Underwriting Criteria",
+    "page": 40,
+    "dcr_min": 1.15,
+    "quote": "Minimum 1.15 to 1.0 for all amortized debt throughout the initial 15-year pro forma period."
+  },
+  "gap_pilot": {
+    "section": "3.B.9",
+    "page": 23,
+    "quote_award": "If state gap funding is requested at the time of Housing Tax Credit Application, and the project is awarded credits, a conditional award from either DOH or OEDIT will be offered.",
+    "doh": {
+      "per_unit": 45000,
+      "max": 2500000,
+      "pool": 12000000,
+      "midpoint_max": 48,
+      "quote": "In 2027, DOH will pilot a commitment of $12 million for Round One with a fixed loan or grant amount of $45,000 per unit and a maximum of $2.5 million per application.",
+      "eligibility_quote": "DOH cash flow loans or grants will be eligible for applications with an average area median income (AMI) midpoint of 48% or below for Round One and 52% or below for Round Two, or that are a Supportive Housing application.",
+      "midpoint_quote": "The AMI midpoint is the sum of the project's units multiplied by the AMI for each unit divided by the total units.",
+      "terms_quote": "DOH loans for for-profit applicants will have 2% interest and a term commensurate with senior debt in the application plus six months and will be a cash flow loan. DOH will provide grant funds to nonprofit or public housing authority applicants.",
+      "unconfirmed": "CHFA's October 1, 2026 webinar said 'Below' where the Third Draft says 'or below'. A deal within half a point of the line is flagged."
+    },
+    "oedit": {
+      "per_unit": 40000,
+      "max": 2250000,
+      "pool": 25000000,
+      "quote": "In 2027, OEDIT will pilot a commitment of $25 million for Round One with a fixed loan amount of $40,000 per unit and a maximum of $2.25 million per application.",
+      "eligibility_quote": "OEDIT funding will be Proposition 123 Concessionary Debt for applications that do not meet DOH gap funding eligibility described below, and are in a Proposition 123 eligible jurisdiction. Loans will have a 2.5% interest and a 40-year amortization schedule in either first or subordinate must-pay position."
+    },
+    "doh_fallback": {
+      "quote": "If an application is outside of a Proposition 123 eligible jurisdiction and does not meet DOH gap funding eligibility described below, or if there are insufficient Proposition 123 gap funds, DOH will provide a loan with a 2.5% interest and 40-year amortization schedule in either first or subordinate must-pay position.",
+      "unconfirmed": "The draft does not say whether this fallback loan uses DOH's $45,000 per unit and $2.5 million cap. The page shows DOH's amounts and labels them unconfirmed."
+    },
+    "prop123_source": "data/policy/prop123_jurisdictions.json (DOLA commitment filings; 2027-2029 filings due 2026-11-01)"
+  }
+}
