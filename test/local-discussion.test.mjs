@@ -80,6 +80,14 @@ ok(L.keyNumbers(junk)[2].big === 'Steady' && !/moving toward/.test(L.meaning(jun
 ok(/document count not available/.test(junkHtml) && !/0 documents on file/.test(junkHtml), 'a missing document count is not zero');
 const skew = JSON.parse(JSON.stringify(result)); delete skew.lexicon.flags[0].from;
 ok(!/from %|rose from|fell from/.test(L.render({ geoid: '0899999', name: 'Testville', result: skew, watched: true, watchState: 'ok', links: [] })), 'a shift missing a share is left out');
+const R = (x) => L.render({ geoid: '0899999', name: 'Testville', result: x, watched: true, watchState: 'ok', links: [] });
+const noCounts = JSON.parse(JSON.stringify(result)); delete noCounts.lexicon.counts;
+ok(/No housing words counted yet/.test(R(noCounts)), 'quarters without a counts map do not break the panel');
+const badQ = JSON.parse(JSON.stringify(result)); badQ.lexicon.counts['2026-Q3'].affordable = 'abc';
+const badHtml = R(badQ);
+ok(/n\/a/.test(badHtml) && /Counts for 2026-Q3 did not come through/.test(badHtml) && !/counted in 2026-Q3/.test(badHtml), 'a quarter with a malformed count shows no shares');
+ok(/Word shifts \(0\)/.test(R(skew)), 'the shifts heading counts only shifts shown');
+ok(/Local discussion/.test(R({ lexicon: 'x', numbers: 5, check_here: 'y', news: {}, timeline: null })), 'a malformed result still draws');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.

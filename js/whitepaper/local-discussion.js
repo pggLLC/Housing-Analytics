@@ -34,6 +34,19 @@
   function has(v) { return typeof v === 'number' && Number.isFinite(v); }
   function rising(n) { var w = n && n.rising; return w && w.term && has(w.from) && has(w.to) ? w : null; }
   function num(v) { return has(v) && v >= 0 ? Math.round(v) : 0; }
+  function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
+  function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
+  function okFlag(f) { return f.kind === 'first' || (has(f.from) && has(f.to)); }
+  // One pass over what the backend sent, so a partial or older result can't break a section.
+  function clean(r) {
+    var lex = obj(r.lexicon);
+    return Object.assign({}, r, {
+      numbers: obj(r.numbers), how_read: obj(r.how_read),
+      lexicon: { quarters: (Array.isArray(lex.quarters) ? lex.quarters : []).filter(function (q) { return typeof q === 'string'; }),
+        counts: obj(lex.counts), flags: arr(lex.flags).filter(okFlag) },
+      terms: arr(r.terms), check_here: arr(r.check_here), timeline: arr(r.timeline), news: arr(r.news), sources: arr(r.sources)
+    });
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function link(url, text) {
     return /^https:\/\//.test(url || '') ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(text) + '</a>' : esc(text);
@@ -51,6 +64,7 @@
 
   // The four key numbers, one sentence each.
   function keyNumbers(r) {
+    r = clean(obj(r));
     var n = r.numbers || {}, out = [];
     var items = has(n.items_90d) ? num(n.items_90d) : null;
     out.push(items === null ? { big: 'Not counted', text: 'the housing item count for the last 90 days did not come through in this read.' }
@@ -68,6 +82,7 @@
   }
 
   function meaning(r) {
+    r = clean(obj(r));
     var n = r.numbers || {};
     if (rising(n)) return 'Local talk is moving toward “' + n.rising.term + '”. Use the town’s own words when you pitch the deal.';
     if (!has(n.items_90d)) return 'Read the newest quotes before you call.';
@@ -93,8 +108,6 @@
   }
 
   function flags(list) {
-    // A shift without both shares makes no claim, so it is left out.
-    list = (list || []).filter(function (f) { return f && (f.kind === 'first' || (has(f.from) && has(f.to))); });
     if (!list.length) return '<p class="ib-muted">No shift yet. ' + RULE + '</p>';
     return '<p class="ib-muted">' + RULE + '</p><ul class="ld-list">' + list.map(function (f) {
       var head = f.kind === 'first'
@@ -104,19 +117,30 @@
     }).join('') + '</ul>';
   }
 
+  // A word missing from a quarter was not used there (the read writes only words it found).
+  // A quarter holding a count that is not a number is unavailable: no shares are worked out for it.
   function wordTable(r) {
-    var lex = r.lexicon || {}, qs = lex.quarters || [], terms = r.terms || [];
-    var used = terms.filter(function (t) { return qs.some(function (q) { return (lex.counts[q] || {})[t.term]; }); });
+    var lex = r.lexicon, qs = lex.quarters, terms = r.terms;
+    var counts = {}, bad = {};
+    qs.forEach(function (q) {
+      counts[q] = obj(lex.counts[q]);
+      bad[q] = Object.keys(counts[q]).some(function (k) { return !has(counts[q][k]) || counts[q][k] < 0; });
+    });
+    var used = terms.filter(function (t) { return qs.some(function (q) { return counts[q][t.term] !== undefined; }); });
     if (!qs.length || !used.length) return '<p class="ib-muted">No housing words counted yet.</p>';
     var tot = {};
-    qs.forEach(function (q) { tot[q] = Object.keys(lex.counts[q] || {}).reduce(function (a, k) { return a + num(lex.counts[q][k]); }, 0); });
+    qs.forEach(function (q) { tot[q] = bad[q] ? null : Object.keys(counts[q]).reduce(function (a, k) { return a + num(counts[q][k]); }, 0); });
     return '<div class="ld-table-wrap"><table class="ld-table"><thead><tr>' +
       '<th data-tip="The housing word or phrase counted. Each counts only in a sentence that also names housing.">Word</th>' +
       '<th data-tip="How housing is named, the tools in play, the form of building, or pushback.">Group</th>' +
-      qs.map(function (q) { return '<th data-tip="Share of all housing words counted in ' + esc(q) + ' (' + num(tot[q]) + ' words).">' + esc(q) + '</th>'; }).join('') +
+      qs.map(function (q) {
+        return '<th data-tip="' + (bad[q] ? 'Counts for ' + esc(q) + ' did not come through in this read, so no shares are shown.'
+          : 'Share of all housing words counted in ' + esc(q) + ' (' + num(tot[q]) + ' words).') + '">' + esc(q) + '</th>';
+      }).join('') +
       '</tr></thead><tbody>' + used.map(function (t) {
         return '<tr><td>' + esc(t.term) + '</td><td>' + esc(t.group) + '</td>' + qs.map(function (q) {
-          var k = num((lex.counts[q] || {})[t.term]);
+          if (bad[q]) return '<td data-sort="">n/a</td>';
+          var k = num(counts[q][t.term]);
           return '<td data-sort="' + (tot[q] ? (100 * k / tot[q]).toFixed(1) : 0) + '">' + (k ? Math.round(100 * k / tot[q]) + '% <span class="ib-muted">(' + k + ')</span>' : '·') + '</td>';
         }).join('') + '</tr>';
       }).join('') + '</tbody></table></div>';
@@ -147,7 +171,7 @@
   }
 
   function linksForm(geoid, links) {
-    var mine = (links || []).map(function (l) {
+    var mine = arr(links).map(function (l) {
       return '<li>' + esc(day(l.date || l.added)) + ' ' + (l.url ? link(l.url, l.title || l.url) : esc(l.title || 'Pasted text')) +
         ' <button type="button" class="ld-remove" data-link="' + esc(l.id) + '">Remove</button></li>';
     }).join('');
@@ -162,7 +186,7 @@
   }
 
   function render(o) {
-    var r = o.result, name = o.name || 'this place', on = !!o.watched;
+    var r = o.result && typeof o.result === 'object' ? clean(o.result) : null, name = o.name || 'this place', on = !!o.watched;
     var h = '<section class="ld-panel" aria-labelledby="ldHead"><h3 id="ldHead">Local discussion</h3>';
     h += '<p><button type="button" class="ld-switch" aria-pressed="' + (on ? 'true' : 'false') + '"' + (o.watchState === 'ok' ? '' : ' disabled') + '>' +
       (on ? 'Planning to submit: on' : 'Mark as planning to submit') + '</button> <span class="ld-switch-status" role="status"></span></p>';
@@ -174,7 +198,7 @@
     }
     if (!on) h += '<p class="ib-muted">' + (r.starting_place ? esc(r.name || name) + ' is on the starting list, so it is read every week either way.'
       : 'Not marked, so this read from ' + esc(day(r.updated)) + ' will not be updated.') + '</p>';
-    var lvl = LEVEL[(r.how_read || {}).level] || LEVEL.hand;
+    var lvl = LEVEL[r.how_read.level] || LEVEL.hand;
     h += '<div class="ld-numbers">' + keyNumbers(r).map(function (k) {
       return '<div class="ld-num"><span class="ld-big">' + esc(k.big) + '</span> <span>' + esc(k.text) + '</span></div>';
     }).join('') + '</div>';
@@ -183,13 +207,13 @@
       esc((r.how_read || {}).text || lvl.note) + ' <span class="ib-muted">Read ' + esc(day(r.updated)) + '; ' + (has(r.documents_read) ? esc(num(r.documents_read)) + ' documents on file' : 'document count not available') +
       '' + (r.history_since ? ' since ' + esc(day(r.history_since)) : '') + '.</span></p>';
     var fold = function (title, body) { return '<details class="ld-fold"><summary>' + esc(title) + '</summary>' + body + '</details>'; };
-    h += fold('Dates and pages to check (' + (r.check_here || []).length + ')', checkList(r.check_here));
-    h += fold('Word shifts (' + ((r.lexicon || {}).flags || []).length + ')', flags((r.lexicon || {}).flags));
+    h += fold('Dates and pages to check (' + r.check_here.length + ')', checkList(r.check_here));
+    h += fold('Word shifts (' + r.lexicon.flags.length + ')', flags(r.lexicon.flags));
     h += fold('Housing words by quarter', wordTable(r));
-    h += fold('What was said (' + (r.timeline || []).length + ')', timeline(r.timeline));
-    h += fold('Local news (' + (r.news || []).length + ')', news(r.news));
+    h += fold('What was said (' + r.timeline.length + ')', timeline(r.timeline));
+    h += fold('Local news (' + r.news.length + ')', news(r.news));
     h += fold('Sources read', sources(r) + '<p class="ib-muted">' + esc(lvl.note) + '</p>');
-    h += fold('Add a link (' + (o.links || []).length + ')', linksForm(o.geoid, o.links));
+    h += fold('Add a link (' + arr(o.links).length + ')', linksForm(o.geoid, o.links));
     return h + '</section>';
   }
 
@@ -213,7 +237,7 @@
       if (sw) sw.addEventListener('click', function () {
         sw.disabled = true;
         post('api/watch', { geoid: geoid, name: name, on: !o.watched }).then(function (list) {
-          o.watched = list.some(function (w) { return w.geoid === geoid; }); draw();
+          o.watched = arr(list).some(function (w) { return w.geoid === geoid; }); draw();
         }, function (e) {
           sw.disabled = false;
           var s = el.querySelector('.ld-switch-status'); if (s) s.textContent = /full/.test(e.message) ? 'The watch list is full (20 places). Unmark one first.' : 'Not saved. Check you are still signed in.';
@@ -225,12 +249,12 @@
         var f = form.elements, status = form.querySelector('.ld-status');
         var body = { geoid: geoid, url: f.url.value.trim(), date: f.date.value, body: f.body.value.trim(), text: f.text.value };
         if (!body.url && !body.text.trim()) { status.textContent = 'Add a link or paste the text.'; status.focus(); return; }
-        post('api/discussion', body).then(function (list) { o.links = list; draw(); }, function () { status.textContent = 'Not added. Check the link starts with https:// and you are still signed in.'; status.focus(); });
+        post('api/discussion', body).then(function (list) { o.links = arr(list); draw(); }, function () { status.textContent = 'Not added. Check the link starts with https:// and you are still signed in.'; status.focus(); });
       });
       Array.prototype.forEach.call(el.querySelectorAll('.ld-remove'), function (b) {
         b.addEventListener('click', function () {
           b.disabled = true;
-          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = list; draw(); }, function () { b.disabled = false; });
+          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = arr(list); draw(); }, function () { b.disabled = false; });
         });
       });
     }
@@ -246,7 +270,7 @@
       // The newer of the live result and the copy the last deploy carried.
       var a = live && live.result, b = shipped;
       o.result = a && b ? ((a.updated || '') >= (b.updated || '') ? a : b) : (a || b || null);
-      o.links = (live && live.links) || [];
+      o.links = arr(live && live.links);
       draw();
     });
   }
