@@ -1,0 +1,580 @@
+{
+ "slug": "townview-phase-i-denver",
+ "name": "Townview Phase I (Townview Apartments Redevelopment Phase 1)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+ "units": 160,
+ "researched_on": "2026-10-21",
+ "headline": "Rocky Mountain Communities plans Townview Phase I, 160 new apartments and townhomes for households at 40% to 80% AMI on the block at 1600 Hooker Street in West Colfax, the first of four phases replacing its 1963 Townview community near Empower Field. It won a 2025 federal 4% award with noncompetitive state and TOC credits from CHFA, backed by City and County of Denver bonds.",
+ "why_it_matters": "A nonprofit is rebuilding its own 1960s affordable property at higher density, whose existing affordability restrictions run only through 2028, with layered state money (a $3.5M Prop 123 loan and a Division of Housing award); the Denver bond inducement has not yet reached City Council, so that is the next gate.",
+ "status": {
+  "label": "Credits awarded; construction expected to start Q2 2027 (sponsor); bonds not yet before Denver City Council",
+  "detail": "RMC's 2025 annual report (April 2026) gives an approximate construction start in Q2 2027 and completion in Q2 2029. A new partnership, Townview Redevelopment I LLLP, was registered in March 2026. No Denver inducement resolution or bond ordinance for Townview was found in Council records through October 2026, and the city's July 2026 bond briefing named other projects as upcoming. No closing, permit or demolition record was found.",
+  "src": [
+   "rmc-ar-2025",
+   "cosos-townview-redev-lllp",
+   "denver-pab-briefing-2026-07"
+  ]
+ },
+ "next_step": "Watch for a Denver City Council inducement resolution and bond ordinance for up to $27.4M of Multifamily Housing Revenue Bonds, then site plan and demolition permits for the 1600 Hooker block.",
+ "key_numbers": [
+  {
+   "value": "160 homes, all income-restricted, 40% to 80% AMI",
+   "meaning": "8 at 40%, 52 at 50%, 74 at 60% and 26 at 80% AMI; 40 one-, 61 two-, 36 three- and 23 four-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "value": "$2,550,233 a year in federal 4% credit",
+   "meaning": "Plus $700,000 of noncompetitive state credit and $200,000 of transit-oriented communities (TOC) credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$27,400,000 in City and County of Denver bonds",
+   "meaning": "Private activity bond amount on CHFA's award report; no Denver council bond action found yet.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-pab-briefing-2026-07"
+   ]
+  },
+  {
+   "value": "$3.5M Prop 123 concessionary debt",
+   "meaning": "Announced 2026-07-21 from the Affordable Housing Financing Fund (OEDIT, administered by CHFA); separately, the Division of Housing lists a $2.6M amount for Townview among its May 2026 rental awards.",
+   "src": [
+    "gov-2026-07-21",
+    "doh-schedule"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1600 Hooker Street, Denver 80204 (CHFA). The rezoned site is the full block bounded by W. 16th Ave, W. 17th Ave, N. Hooker St and N. Grove St, 130,320 sq ft (2.99 acres); RMC lists the existing community at 1699 Hooker Street",
+   "src": [
+    "chfa-4pct-award",
+    "denver-sr-2023-09-25",
+    "rmc-townview"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT, DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "160 total, 160 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building types",
+   "value": "A multifamily apartment building and townhomes",
+   "src": [
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "Townview, built in 1963, 122 units (20 one-, 66 two- and 36 three-bedroom) owned and managed by RMC; the 1963 Planned Building Group on the 1600 block allowed 86 units in 8 structures with 84 parking spaces",
+   "src": [
+    "rmc-townview",
+    "denver-sr-2023-09-25"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "G-RX-5 (General Urban, Residential Mixed Use, 5 stories), rezoned from R-2-A with a Planned Building Group by Council Bill 23-0963, passed 2023-09-25; up to 7 stories and 95 feet with on-site affordable housing incentives",
+   "src": [
+    "denver-cb23-0963",
+    "denver-sr-2023-09-25"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "West Colfax, Council District 3; RTD bus routes 20 and 31 nearby; RMC cites the Knox Court and Decatur-Federal light rail stations",
+   "src": [
+    "denver-sr-2023-09-25",
+    "rmc-townview"
+   ]
+  },
+  {
+   "item": "Design team (sponsor)",
+   "value": "Architect ShopWorks Architecture; general contractor I-KOTA",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 52
+  },
+  {
+   "level": "60% AMI",
+   "units": 74
+  },
+  {
+   "level": "80% AMI",
+   "units": 26
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 40
+  },
+  {
+   "type": "2BR",
+   "units": 61
+  },
+  {
+   "type": "3BR",
+   "units": 36
+  },
+  {
+   "type": "4BR",
+   "units": 23
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,550,233 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$700,000",
+   "note": "As printed in CHFA's Noncompetitive State Credit column.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Transit-oriented communities (TOC) credit",
+   "amount": "$200,000",
+   "note": "As printed in CHFA's TOC Credit column.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (City and County of Denver)",
+   "amount": "$27,400,000",
+   "note": "Issuer and amount per CHFA. Denver's bond process needs an inducement resolution and then a bond ordinance; neither was found for Townview through October 2026.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-pab-briefing-2026-07"
+   ]
+  },
+  {
+   "source": "Prop 123 concessionary debt (Affordable Housing Financing Fund)",
+   "amount": "$3,500,000",
+   "note": "Announced 2026-07-21 among 11 awards.",
+   "src": [
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$2,600,000 (May 2026 rental awards table; column headed Request Amount)",
+   "note": "The same page's letter-of-intent table shows $1,600,000. Program and terms not stated.",
+   "src": [
+    "doh-schedule"
+   ]
+  },
+  {
+   "source": "Existing property loan (NeighborWorks Capital)",
+   "amount": "Not public",
+   "note": "A permanent loan that lets RMC hold the existing property while it plans the redevelopment (2023).",
+   "src": [
+    "nwc-2023-08-17"
+   ]
+  },
+  {
+   "source": "Tax credit equity, construction and permanent loans",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer, manager and resident services",
+   "name": "Rocky Mountain Communities (RMC), a Denver nonprofit",
+   "src": [
+    "chfa-4pct-award",
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "role": "Current landowner (2023 rezoning)",
+   "name": "Town View MHA, Ltd. (a Colorado LLLP registered 1997-02-04 at RMC's address)",
+   "src": [
+    "denver-sr-2023-09-25",
+    "cosos-town-view-mha"
+   ]
+  },
+  {
+   "role": "Likely Phase I owner entity (inferred from name and address)",
+   "name": "Townview Redevelopment I LLLP and Townview Redevelopment I GP LLC, registered 2026-03-26",
+   "src": [
+    "cosos-townview-redev-lllp",
+    "cosos-townview-redev-gp"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City and County of Denver",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Prop 123 lender",
+   "name": "Affordable Housing Financing Fund (OEDIT; administered by CHFA)",
+   "src": [
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "ShopWorks Architecture",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-KOTA",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "RMC bought Townview in 1997 with affordability requirements that run through 2028, and told NeighborWorks Capital in 2023 it planned up to 400 new apartments on the site.",
+   "src": [
+    "nwc-2023-08-17"
+   ]
+  },
+  {
+   "text": "The owner applied on 2023-04-18 to rezone the 1600 block so it could build a 5-story permanently affordable development. The June 2023 Planning Board staff report reviewed G-MU-5; by the September 2023 Council hearing the request was G-RX-5, which Council passed on 2023-09-25 after postponing the 2023-09-11 hearing at the applicant's request.",
+   "src": [
+    "denver-sr-2023-06-14",
+    "denver-sr-2023-09-25",
+    "denver-cb23-0963"
+   ]
+  },
+  {
+   "text": "BusinessDen reported in April 2025 a four-phase plan over about 4.5 acres along 17th Avenue and Grove and Hooker Streets, demolishing the existing buildings over about six years to build about 450 income-restricted units.",
+   "src": [
+    "businessden-2025-04-01"
+   ]
+  },
+  {
+   "text": "RMC describes the redevelopment as four phases serving workers who might otherwise be displaced, with on-site management and resident services. The state says the developers intend the units to help offset the loss of affordable housing in surrounding neighborhoods.",
+   "src": [
+    "rmc-ar-2025",
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "text": "An April 2025 Naked Denver post described a proposed 6-story, 153-unit, 100% income-restricted building (40-80% AMI) at 1650 Hooker Street on the western half of a split parcel, with 109 structured parking spaces and a 3,200 sq ft commercial bay; it did not name the developer, so its link to Townview Phase I is inferred, not confirmed.",
+   "src": [
+    "nakeddenver-2025-04-08"
+   ]
+  },
+  {
+   "text": "Denver's July 2026 private activity bond briefing named only Link and Pin and Green Valley Vistas as upcoming bond projects; Townview was not listed.",
+   "src": [
+    "denver-pab-briefing-2026-07"
+   ]
+  },
+  {
+   "text": "No public record found of Section 8 project-based vouchers; CHFA marks the Section 8 column No.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1963",
+   "event": "Townview built; Planned Building Group approved for the 1600 block",
+   "src": [
+    "rmc-townview",
+    "denver-sr-2023-09-25"
+   ]
+  },
+  {
+   "date": "1997",
+   "event": "RMC buys Townview with affordability requirements running through 2028",
+   "src": [
+    "nwc-2023-08-17"
+   ]
+  },
+  {
+   "date": "2023-04-18",
+   "event": "Rezoning application 2023I-00003 filed for 1600 N. Hooker Street",
+   "src": [
+    "denver-cb23-0963"
+   ]
+  },
+  {
+   "date": "2023-07-25",
+   "event": "Council's Land Use, Transportation and Infrastructure Committee approves the rezoning bill for filing",
+   "src": [
+    "denver-cb23-0963"
+   ]
+  },
+  {
+   "date": "2023-09-25",
+   "event": "City Council passes Council Bill 23-0963 rezoning the block to G-RX-5 (signed by the mayor 2023-09-26)",
+   "src": [
+    "denver-cb23-0963"
+   ]
+  },
+  {
+   "date": "2025-04-01",
+   "event": "BusinessDen reports RMC's four-phase, about 450-unit redevelopment plan",
+   "src": [
+    "businessden-2025-04-01"
+   ]
+  },
+  {
+   "date": "2026-03-26",
+   "event": "Townview Redevelopment I LLLP and its GP LLC registered with the Colorado Secretary of State",
+   "src": [
+    "cosos-townview-redev-lllp",
+    "cosos-townview-redev-gp"
+   ]
+  },
+  {
+   "date": "2026-04",
+   "event": "RMC annual report lists Townview: 160 units, construction start about Q2 2027",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "date": "2026-05",
+   "event": "Division of Housing lists Townview Apartments ($2,600,000, 160 units) among May 2026 rental awards",
+   "src": [
+    "doh-schedule"
+   ]
+  },
+  {
+   "date": "2026-07-21",
+   "event": "State announces $3.5M Prop 123 concessionary debt award",
+   "src": [
+    "gov-2026-07-21"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Approximate construction start, Q2 2027, per RMC",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "date": "2028",
+   "event": "Existing Townview affordability requirements expire",
+   "src": [
+    "nwc-2023-08-17"
+   ]
+  },
+  {
+   "date": "2029",
+   "event": "Approximate completion, Q2 2029, per RMC",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of the Townview redevelopment",
+   "url": "https://rockymountaincommunities.org/wp-content/uploads/2026/04/RMC-Annual-Report-2025.pdf",
+   "kind": "rendering",
+   "made_by": "Rocky Mountain Communities (2025 annual report)",
+   "note": "PDF page 13 (printed page 12), Upcoming Projects",
+   "src": [
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "title": "Existing Townview buildings and surrounding blocks",
+   "url": "https://denver.legistar1.com/denver/attachments/25a056ad-06f7-4c78-bb28-b98838d085de.pdf",
+   "kind": "photo",
+   "made_by": "Denver Community Planning and Development staff report (Google Maps images)",
+   "note": "Pages 3-7: aerial view, zoning maps and street photos of the site",
+   "src": [
+    "denver-sr-2023-09-25"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 40 one-, 61 two-, 36 three- and 23 four-bedroom units (160 total), while RMC's annual report prints 20 one-, 32 two-, 40 three- and 16 four-bedroom units (108) alongside the same 160-unit total.",
+   "src": [
+    "chfa-4pct-award",
+    "rmc-ar-2025"
+   ]
+  },
+  {
+   "text": "NeighborWorks Capital reported in 2023 that RMC planned up to 400 new apartments on the site, while BusinessDen reported in 2025 about 450 new income-restricted units.",
+   "src": [
+    "nwc-2023-08-17",
+    "businessden-2025-04-01"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Denver inducement resolution, bond ordinance, closing date and closed bond amount.",
+  "Total development cost, tax credit investor and equity price, construction and permanent lenders.",
+  "Terms of the Prop 123 loan and the Division of Housing award (program, loan or grant, final amount).",
+  "Site development plan and demolition/building permit records; how many existing households must relocate and the relocation plan.",
+  "Whether the 1650 Hooker Street concept (153 units) is an earlier version of Phase I.",
+  "Land deal: whether Town View MHA, Ltd. will sell or lease the Phase I land to the new partnership, and any property tax exemption.",
+  "Rents and length of the new affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "denver-cb23-0963",
+   "title": "Denver Council Bill 23-0963: rezoning 1600 North Hooker Street from R-2-A to G-RX-5 (legislation record and history)",
+   "publisher": "City and County of Denver",
+   "date": "2023-09-25",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=23713&GUID=05CE215E-F9C1-4F2D-822E-0CEFE1B02DAC"
+  },
+  {
+   "id": "denver-sr-2023-09-25",
+   "title": "Staff Report, Official Zoning Map Amendment Application #2023I-00003, 1600 North Hooker Street (to City Council)",
+   "publisher": "Denver Community Planning and Development",
+   "date": "2023-09-25",
+   "url": "https://denver.legistar1.com/denver/attachments/25a056ad-06f7-4c78-bb28-b98838d085de.pdf"
+  },
+  {
+   "id": "denver-sr-2023-06-14",
+   "title": "Staff Report, Application #2023I-00003, 1600 North Hooker Street (to Planning Board)",
+   "publisher": "Denver Community Planning and Development",
+   "date": "2023-06-14",
+   "url": "https://denver.prelive.opencities.com/files/assets/public/v/1/community-planning-and-development/documents/zoning/map-amendments/2023/2023i-00003_staff-report_6.14.23.pdf"
+  },
+  {
+   "id": "rmc-townview",
+   "title": "Townview, Denver, CO (community page)",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2026",
+   "url": "https://rockymountaincommunities.org/serv/townview-denver-co/"
+  },
+  {
+   "id": "rmc-ar-2025",
+   "title": "RMC Annual Report 2025",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2026-04",
+   "url": "https://rockymountaincommunities.org/wp-content/uploads/2026/04/RMC-Annual-Report-2025.pdf"
+  },
+  {
+   "id": "nwc-2023-08-17",
+   "title": "Visiting Rocky Mountain Communities",
+   "publisher": "NeighborWorks Capital",
+   "date": "2023-08-17",
+   "url": "https://neighborworkscapital.org/visiting-rocky-mountain-communities/"
+  },
+  {
+   "id": "businessden-2025-04-01",
+   "title": "Income-restricted developer has big plans near Mile High Stadium",
+   "publisher": "BusinessDen",
+   "date": "2025-04-01",
+   "url": "https://businessden.com/?p=124711"
+  },
+  {
+   "id": "nakeddenver-2025-04-08",
+   "title": "Affordable Housing Development Near Empower Field Brings Hope to Denver",
+   "publisher": "Naked Denver",
+   "date": "2025-04-08",
+   "url": "https://www.nakeddenver.com/post/affordable-housing-development-near-empower-field-brings-hope-to-denver"
+  },
+  {
+   "id": "gov-2026-07-21",
+   "title": "More Housing Now: Prop 123 Funds to Support 11 New Affordable Housing Developments Across Colorado",
+   "publisher": "Office of the Governor of Colorado",
+   "date": "2026-07-21",
+   "url": "https://governorsoffice.colorado.gov/governor/news/more-housing-now-prop-123-funds-support-11-new-affordable-housing-developments-across-colorado"
+  },
+  {
+   "id": "doh-schedule",
+   "title": "Application Schedule and Awards (May 2026 Letters of Intent, Applications, and Awards)",
+   "publisher": "Colorado Division of Housing (DOLA)",
+   "date": "2026",
+   "url": "https://doh.colorado.gov/application-schedule-and-awards"
+  },
+  {
+   "id": "denver-pab-briefing-2026-07",
+   "title": "Private Activity Bond (PAB) Briefing for the Carryforward Resolution, Link & Pin Inducement, and Green Valley Vistas Inducement (attachment to Denver file 26-0996)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2026-07",
+   "url": "https://denver.legistar1.com/denver/attachments/89c4f680-b31c-41ef-9b16-216a08925249.pdf"
+  },
+  {
+   "id": "cosos-town-view-mha",
+   "title": "Colorado Business Entities record: TOWN VIEW MHA, LTD. (ID 19971017239)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=19971017239"
+  },
+  {
+   "id": "cosos-townview-redev-lllp",
+   "title": "Colorado Business Entities record: Townview Redevelopment I LLLP (ID 20261378254)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=20261378254"
+  },
+  {
+   "id": "cosos-townview-redev-gp",
+   "title": "Colorado Business Entities record: Townview Redevelopment I GP LLC (ID 20261378141)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=20261378141"
+  }
+ ]
+}
