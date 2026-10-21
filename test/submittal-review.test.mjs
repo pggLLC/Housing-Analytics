@@ -113,6 +113,10 @@ ok(between.status === 'depends' && between.cap === 1700000 && between.altCap ===
 // Codex review on 894c38f97: other active applications count against the cap.
 ok(SR.creditCheck(rules, 1000000, 1000000).status === 'over' && SR.creditCheck(rules, 1000000, 0).status === 'ok', 'the applicant-wide cap counts other active applications');
 ok(SR.creditCheck(rules, 1000000).applicantKnown === false && /other active applications/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '' }, claims: {}, thresholds: {}, engine: { annualCredits: 1000000 } }).risks.map((x) => x.text).join(' ')), 'the applicant check stays open until other applications are entered');
+// Codex review on 93a02299b: the paired state credit is a fixed amount; failed Versions-table opens are reported.
+ok(SR.stateCreditCheck(rules, 650000).status === 'ok' && SR.stateCreditCheck(rules, 600000).status === 'depends' && SR.stateCreditCheck(rules, 700000).status === 'off' && SR.stateCreditCheck(rules, null).status === 'none', 'the paired state credit is checked against the fixed amounts');
+ok(/Standard state credit \$700,000 is not the fixed amount/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '', stateCredits: 700000 }, claims: {}, thresholds: {}, engine: {} }).risks.map((x) => x.text).join(' ')), 'an off-amount state credit request is flagged');
+ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
 // The Third Draft strikes the 60% cap on the 40% row (red strikethrough, printed pp. 41-42), so it is not applied.
 ok(Math.abs(SR.targetingPoints(rules, { 40: 100 }, '40-60').points - 92.5) < 1e-9 && !rules.targeting.forty_cap && !/sr-subsidy/.test(read('developer-submittal-review.html')), 'the struck 40% row cap is not applied');
 
