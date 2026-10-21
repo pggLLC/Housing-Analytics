@@ -74,6 +74,8 @@
   }
   // 5.B.4 points only for the general partner the line names.
   var SPONSOR_LINES = { '5B4a-nonprofit': ['nonprofit', 'pha'], '5B4b-pha': ['pha'] };
+  // Lines that only exist for a rehab or an existing tax credit project.
+  var CONDITION_LINES = { '5B3c-rehab': ['rehab', 'acquisition/rehab'], '5B3d-preservation': ['existingCredit', 'existing tax credit project'] };
   var SPLIT_BR = ['studio', '1br', '2br', '3br', '4br'];
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
@@ -207,6 +209,8 @@
         line.possible = null;
         if (v != null && v > 0) { line.points = v; line.status = 'counted'; line.note = 'Points entered from CHFA\'s tier list.'; }
         else line.status = 'needs entry';
+      } else if (claims[l.id] && CONDITION_LINES[l.id] && !deal[CONDITION_LINES[l.id][0]]) {
+        line.status = 'excluded'; line.note = 'Claimed, but the deal is not marked ' + CONDITION_LINES[l.id][1] + '. Tick it or remove the claim.';
       } else if (claims[l.id] && SPONSOR_LINES[l.id] && deal.sponsor && SPONSOR_LINES[l.id].indexOf(deal.sponsor) === -1) {
         line.status = 'excluded'; line.note = 'Claimed, but the general partner is set to ' + deal.sponsor + '. Change the general partner or remove the claim.';
       } else if (claims[l.id]) { line.points = l.points; line.status = 'counted'; }
@@ -438,7 +442,11 @@
     ['Debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
     ['Deferred developer fee', function (v, r) { return money(num(r.engine.deferredDeveloperFee)); }],
     ['Threshold items missing', function (v, r) { return String(r.thresholds.missing); }],
-    ['Stress tests failed', function (v) { return v.stress ? String(v.stress.filter(function (t) { return t.fails; }).length) + ' of ' + v.stress.length : 'not run'; }]
+    ['Stress tests failed', function (v) {
+      if (!v.stress) return 'not run';
+      var ran = v.stress.filter(function (t) { return !t.skipped; }), skipped = v.stress.length - ran.length;
+      return ran.filter(function (t) { return t.fails; }).length + ' of ' + ran.length + (skipped ? ' (' + skipped + ' not run)' : '');
+    }]
   ];
 
   function compareTable(rules, prop123, versions) {
@@ -478,6 +486,8 @@
     });
     var units = num(inp.units);
     var restricted = TIERS.reduce(function (s, t) { return s + (mix[t] || 0); }, 0);
+    // The calculator treats more tier units than total homes as a unit-mix error; so does the review.
+    if (!fromSchedule && units != null && restricted > units) return { error: 'The export has ' + restricted + ' homes in AMI tiers but ' + units + ' total homes. Fix the unit mix in the Deal Calculator and export it again.' };
     if (!fromSchedule && units != null && units > restricted) mix.market = units - restricted;
     var o = snap.outputs || {};
     var engine = {};
@@ -842,6 +852,7 @@
             var snap; try { snap = JSON.parse(t); } catch (e) { snap = null; }
             var c = fromCalculatorExport(snap);
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
+            if (c.error) { flash(c.error); return; }
             var v = started;
             v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine;
             if (c.nine) {

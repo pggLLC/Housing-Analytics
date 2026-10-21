@@ -304,4 +304,14 @@ const skipHtml = SR.stressHtml ? SR.stressHtml(rules, { base: {}, tests: [{ labe
 if (skipHtml) ok(/Not run/.test(skipHtml) && !/Holds/.test(skipHtml), 'a skipped stress test reads "Not run", not "Holds"');
 else ok(/t\.skipped \? '<span class="sr-muted">Not run<\/span>'/.test(srcJs3), 'a skipped stress test reads "Not run", not "Holds"');
 
+// Codex review on 99ffe0d29: over-full tier counts, skipped runs in the comparison, rehab and preservation claims.
+const over = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '10', 'units-40': '8', 'units-60': '8' } });
+ok(over && over.error && /16 homes in AMI tiers but 10 total/.test(over.error) && !over.mix, 'an export with more tier units than homes is refused');
+const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
+ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
+const cond = SR.score(rules, { mix }, { '5B3c-rehab': true, '5B3d-preservation': true });
+ok(cond.lines.filter((l) => /^5B3[cd]/.test(l.id)).every((l) => l.status === 'excluded' && l.points === 0), 'rehab and preservation points need the rehab and existing-credit flags');
+const condOk = SR.score(rules, { mix, rehab: true, existingCredit: true }, { '5B3c-rehab': true, '5B3d-preservation': true });
+ok(condOk.lines.find((l) => l.id === '5B3c-rehab').points === 5 && condOk.lines.find((l) => l.id === '5B3d-preservation').points === 15, 'with the flags set the points count');
+
 console.log(`submittal-review: ${checks} checks passed`);
