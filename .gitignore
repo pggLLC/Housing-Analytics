@@ -84,4 +84,5 @@ docs/developer-pipeline-prototype/
 docs/indibuild-pipeline-prototype/
 gated/
 dossiers/
+data/ripeness.json
 *.docx

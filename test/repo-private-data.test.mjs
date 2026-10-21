@@ -18,6 +18,7 @@ const PRIVATE_PATHS = [
   { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/_[a-z0-9-]*contacts[a-z0-9-]*\.json$/i },
   { label: 'private pipeline files (coho-backend docs/)', re: /^docs\/(developer|indibuild)-pipeline-prototype\// },
   { label: 'coho-backend folder', re: /^(gated|dossiers|ripeness|private|internal)\// },
+  { label: 'readiness readings built from dossiers (coho-backend build)', re: /^data\/ripeness\.json$/ },
   { label: 'dossier, partnership terms or call sheet', re: /(^|\/)[^/]*(dossier|partnership-terms|call-sheet|seller-ask|term-sheet)[^/]*\.(md|json|csv|docx|pdf|html|txt)$/i },
   { label: 'saved deal or uploaded draft', re: /(^|\/)(saved-deals|deal-versions|submittal-uploads|uploads)\// },
   { label: 'office document (keep drafts and dossiers in coho-backend)', re: /\.(docx|doc|pptx|xlsm)$/i }
@@ -64,7 +65,7 @@ const probe = (f, text = '') => PRIVATE_PATHS.some(({ re }) => re.test(f)) || PR
 const mustCatch = [
   ['data/jurisdiction-briefs/_contacts/0805265.json'], ['data/jurisdiction-briefs/_land-banking-contacts.json'],
   ['data/jurisdiction-briefs/_round-watch-contacts.json'], ['docs/developer-pipeline-prototype/04-network.csv'],
-  ['dossiers/bayfield-750-orchard/index.html'], ['docs/Bayfield-Partnership-Terms-750-Orchard-Drive.pdf'],
+  ['dossiers/bayfield-750-orchard/index.html'], ['data/ripeness.json'], ['docs/Bayfield-Partnership-Terms-750-Orchard-Drive.pdf'],
   ['notes/bayfield-call-sheet.md'], ['data/x.docx'], ['data/notes.md', '## Proposed partnership terms\n'],
   ['data/people.csv', 'name,org,email,phone\n']
 ];
