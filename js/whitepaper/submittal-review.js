@@ -280,11 +280,14 @@
       out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until DOLA\'s Prop 123 list loads.';
       out.flags.push(p123 ? p123.text : 'Prop 123 status not known.');
       return out;
-    } else if (p123.status !== 'no') {
+    } else if (p123.status === 'to-confirm') {
+      out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until ' + (p123.name || 'the jurisdiction') + ' files a 2027-2029 Prop 123 commitment.';
+      out.flags.push('OEDIT needs a Prop 123 eligible jurisdiction. ' + p123.text);
+      return out;
+    } else if (p123.status === 'yes') {
       out.lane = 'OEDIT'; out.kind = 'Prop 123 concessionary loan, 2.5%, 40-year, must-pay';
       out.perUnit = g.oedit.per_unit; out.cap = g.oedit.max;
       out.why = 'AMI midpoint ' + mp.value.toFixed(2) + '% is over DOH\'s ' + g.doh.midpoint_max + '% line, and ' + p123.text;
-      if (p123.status === 'to-confirm') out.flags.push('OEDIT needs a Prop 123 eligible jurisdiction. ' + p123.text);
       out.quotes = [g.oedit.eligibility_quote];
     } else {
       out.lane = 'DOH fallback'; out.kind = 'loan, 2.5%, 40-year, must-pay';
@@ -300,12 +303,12 @@
     return out;
   }
 
-  // One unit moved up one tier (the highest-share tier under 60%), for the AMI stress test.
+  // One unit moved up to the next band (from the highest tier from 30% to under 60%, imported tiers included), for the AMI stress test.
   function bumpOneUnit(mix) {
     var out = {}; Object.keys(mix || {}).forEach(function (k) { out[k] = mix[k]; });
-    var cands = TIERS.filter(function (t) { return t >= 30 && t < 60 && (num(out[t]) || 0) > 0; });
+    var cands = tiersOf(out).filter(function (t) { return t >= 30 && t < 60 && (num(out[t]) || 0) > 0; });
     if (!cands.length) return null;
-    var f = cands[cands.length - 1], next = TIERS[TIERS.indexOf(f) + 1];
+    var f = cands[cands.length - 1], next = TIERS.filter(function (t) { return t > f; })[0];
     out[f] = (num(out[f]) || 0) - 1; out[next] = (num(out[next]) || 0) + 1;
     return { mix: out, from: f, to: next };
   }
@@ -314,7 +317,8 @@
     answers = answers || {};
     var rows = rules.thresholds.map(function (t) {
       var a = answers[t.id] || '';
-      if (a === 'na' && !t.applies) a = ''; // only conditional items (rehab, existing credits) can be set aside
+      var appliesNow = (t.applies === 'rehab' && !!deal.rehab) || (t.applies === 'existing_credit' && !!deal.existingCredit);
+      if (a === 'na' && (!t.applies || appliesNow)) a = ''; // only a conditional item whose condition is false can be set aside
       if (!a && t.applies === 'rehab' && !deal.rehab) a = 'na';
       if (!a && t.applies === 'existing_credit' && !deal.existingCredit) a = 'na';
       return { id: t.id, label: t.label, page: t.page, quote: t.quote, answer: a || 'unchecked' };

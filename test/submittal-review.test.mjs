@@ -219,4 +219,18 @@ ok(/<meta name="robots" content="noindex, nofollow">/.test(page) && page.include
 ok(!fs.readdirSync(path.join(ROOT, 'data')).some((f) => /deals?-store|submittal-.*\.json/i.test(f)), 'no saved deals in this repository');
 ['Fruita', 'Orchard'].forEach((w) => ok(!new RegExp(w, 'i').test(page + read('js/whitepaper/submittal-review.js') + JSON.stringify(rules)), `no ${w} project figures in the page, script or rules`));
 
+// Codex review on f57fbc545: unfiled next-cycle places, imported tiers in the AMI stress, conditional thresholds that apply.
+const unfiled = SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, { status: 'to-confirm', name: 'Test County', text: 'Test County has no 2027-2029 filing.' });
+ok(unfiled.lane === 'unknown' && unfiled.amount === undefined && /files a 2027-2029/.test(unfiled.text), 'a place without a 2027-2029 filing gets no OEDIT amount');
+ok(SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, { status: 'yes', text: '' }).lane === 'OEDIT', 'a filed place still gets the OEDIT lane');
+const b35 = SR.bumpOneUnit({ 35: 10, 60: 40 });
+ok(b35 && b35.from === 35 && b35.to === 40 && b35.mix[35] === 9 && b35.mix[40] === 1, 'the AMI stress moves an imported 35% unit to the next band');
+const b45 = SR.bumpOneUnit({ 40: 5, 45: 3, 60: 40 });
+ok(b45 && b45.from === 45 && b45.to === 50, 'the AMI stress takes the highest imported tier under 60%');
+const thRehab = SR.thresholdStatus(rules, { T4: 'na' }, { rehab: true });
+ok(thRehab.rows.find((r) => r.id === 'T4').answer === 'unchecked', 'a rehab deal cannot mark the rehab threshold as not applying');
+ok(SR.thresholdStatus(rules, { T4: 'na' }, { rehab: false }).rows.find((r) => r.id === 'T4').answer === 'na', 'new construction can mark it as not applying');
+const t17 = rules.thresholds.find((t) => t.applies === 'existing_credit');
+if (t17) ok(SR.thresholdStatus(rules, { [t17.id]: 'na' }, { existingCredit: true }).rows.find((r) => r.id === t17.id).answer === 'unchecked', 'an existing-credit deal cannot mark that threshold as not applying');
+
 console.log(`submittal-review: ${checks} checks passed`);
