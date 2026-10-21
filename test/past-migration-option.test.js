@@ -268,6 +268,19 @@ const mesaData = { baselines: { '08077': baselines['08077'] }, projections: proj
     `Fruita: "${$('sbMigrationSdo').textContent}"`);
 }
 
+// Choosing another place clears the page until it loads; the choice of the
+// past waits through that and holds for the new place.
+{
+  load(mesa, mesaData);
+  choose('past');
+  SB.init({ unavailableReason: 'Selection changed to Eagle County.' });
+  assert.equal(pastRadio().disabled, true, 'no place loaded: the past cannot be chosen');
+  load({ geoid: '08037', name: 'Eagle County', type: 'county' }, { baselines: { '08037': baselines['08037'] }, projections: projections('08037') });
+  assert.equal(pastRadio().checked, true, 'the next place loads on the past, as chosen');
+  const share = Number($('sbMigrationPct').value) / 100;
+  assert(Math.abs(avgMigration(SB.getResults().custom) - share * M.pastMigration(baselines['08037']).annual) < 1e-6, 'and runs it');
+}
+
 // A county file from before this build: no past to choose.
 {
   const old = JSON.parse(JSON.stringify(baselines['08077']));
@@ -278,6 +291,8 @@ const mesaData = { baselines: { '08077': baselines['08077'] }, projections: proj
   assert.equal(pastRadio().checked, false, 'and SDO\'s forecast is used');
   assert(SB.getResults().custom.length > 0, 'the projection still shows');
   assert(!/2015/.test($('sbMigrationSdo').textContent), 'and no past is described');
+  load(mesa, mesaData);
+  assert.equal(pastRadio().checked, false, 'a loaded place without the past turns the choice back to SDO\'s');
 }
 
 // The page.

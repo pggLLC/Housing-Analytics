@@ -98,6 +98,10 @@
   let _ctx = null;                // contextFor(): counties, share, vacancy, in-commuters
   let _geography = null;          // { geoid, displayName } of the loaded base population
   let _unavailableReason = null;  // why no projection is shown, when one is not
+  // What the reader chose migration's 100% to be. It outlasts the moment
+  // between choosing a new place and loading it, when there is no past to
+  // offer; only a loaded place without one turns it back to SDO's forecast.
+  let _migrationChoice = 'sdo';
   let _bound = false;
   let _activeResults = {}; // scenarioId → homesSeries rows
   let _forecastError = null; // data/hna/forecast-error.json, once the page has it
@@ -468,6 +472,7 @@
   function _bindMigrationFrom() {
     document.querySelectorAll('input[name="sbMigrationFrom"]').forEach(el => {
       el.addEventListener('change', () => {
+        if (el.checked) _migrationChoice = el.value === 'past' ? 'past' : 'sdo';
         _clearActiveBtn();
         _updateMigrationHelp();
         _runCustom();
@@ -496,16 +501,8 @@
       if (el) el.value = value;
       if (display) display.textContent = value.toFixed(0) + '%';
     });
-    const from = params.migration_from === 'past' ? 'past' : 'sdo';
-    const radio = document.querySelector('input[name="sbMigrationFrom"][value="' + from + '"]');
-    if (radio && !radio.disabled) radio.checked = true;
-    else _checkSdo();
+    _migrationChoice = params.migration_from === 'past' ? 'past' : 'sdo';
     _updateMigrationHelp();
-  }
-
-  function _checkSdo() {
-    const sdo = document.querySelector('input[name="sbMigrationFrom"][value="sdo"]');
-    if (sdo) sdo.checked = true;
   }
 
   // What 100% means for the place loaded, in people a year: SDO's forecast,
@@ -516,10 +513,11 @@
     const pastRadio = document.querySelector('input[name="sbMigrationFrom"][value="past"]');
     const pastLabel = document.getElementById('sbMigrationFromPast');
     const past = _geography ? _pastMigration() : null;
-    if (pastRadio) {
-      pastRadio.disabled = !past;
-      if (!past && pastRadio.checked) _checkSdo();
-    }
+    if (_geography && !past) _migrationChoice = 'sdo';
+    if (pastRadio) pastRadio.disabled = !past;
+    const shown = document.querySelector('input[name="sbMigrationFrom"][value="' +
+      (past && _migrationChoice === 'past' ? 'past' : 'sdo') + '"]');
+    if (shown) shown.checked = true;
     const span = past ? past.from + '\u2013' + past.to : null;
     if (pastLabel && span) pastLabel.textContent = span + ', as SDO estimated it';
     const fromPast = _migrationFrom() === 'past';
