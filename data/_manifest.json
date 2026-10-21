@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T23:09:10.564Z",
+    "generated_at": "2026-10-21T23:19:06.129Z",
     "root": "data/",
-    "file_count": 1972,
-    "total_size_bytes": 198738665,
+    "file_count": 1973,
+    "total_size_bytes": 198762763,
     "kinds": {
-      "json": 1926,
+      "json": 1927,
       "geojson": 34,
       "csv": 12
     }
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-21T23:09:06.499Z",
+      "mtime": "2026-10-21T23:19:02.205Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37727,8 +37727,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 246370,
-      "mtime": "2026-10-21T23:08:35.189Z",
+      "size_bytes": 250843,
+      "mtime": "2026-10-21T23:18:31.302Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39304,7 +39304,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-21T23:09:08.521Z",
+      "mtime": "2026-10-21T23:19:04.129Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39328,7 +39328,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-21T23:09:07.973Z",
+      "mtime": "2026-10-21T23:19:03.668Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41145,6 +41145,42 @@
         "proposed_appointments",
         "history",
         "archived"
+      ]
+    },
+    {
+      "path": "policy/chfa-2027-r1-scoring.json",
+      "kind": "json",
+      "size_bytes": 19625,
+      "mtime": "2026-10-21T23:17:20.143Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "id",
+        "title",
+        "status",
+        "status_note",
+        "checked_at",
+        "review_by",
+        "source",
+        "round",
+        "minimum_score",
+        "primary_rule",
+        "discretion",
+        "targeting",
+        "eli_targeting"
+      ],
+      "key_count": 19,
+      "primary_array_key": "lines",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "group",
+        "label",
+        "points",
+        "section",
+        "page",
+        "quote",
+        "auto"
       ]
     },
     {
