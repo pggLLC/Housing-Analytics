@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T12:21:19.350Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T13:01:02.699Z. Do not edit by hand.
 
 ---
 
@@ -217,7 +217,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 261.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 280.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1939,7 +1939,7 @@
 
 ## Test Files
 
-686 test files found.
+687 test files found.
 
 | File | Size |
 |------|------|
@@ -2401,7 +2401,7 @@
 | `test/prop123-rental-rules.test.js` | 7.0 KB |
 | `test/prop123.test.js` | 12.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
-| `test/public-build-metadata.test.mjs` | 9.5 KB |
+| `test/public-build-metadata.test.mjs` | 9.3 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 11.3 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
@@ -2457,6 +2457,7 @@
 | `test/site-name-agreement.test.js` | 2.5 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
+| `test/site-search.test.mjs` | 5.1 KB |
 | `test/site-transit-evidence.test.js` | 14.7 KB |
 | `test/smoke-f139.test.js` | 14.8 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
@@ -2605,7 +2606,7 @@
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_market_direction.py` | 18.9 KB |
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
-| `tests/test_news_stories.py` | 19.5 KB |
+| `tests/test_news_stories.py` | 20.5 KB |
 | `tests/test_owner_news_picks.py` | 10.7 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
@@ -2668,7 +2669,7 @@
 | `.github/workflows/data-refresh.yml` | 5.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.7 KB |
-| `.github/workflows/deploy.yml` | 4.8 KB |
+| `.github/workflows/deploy.yml` | 5.3 KB |
 | `.github/workflows/developer-url-health.yml` | 3.3 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.5 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |

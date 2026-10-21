@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "7d9a05f84",
+  "generated_from_commit": "dfc388db2",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-21",
-    "total_commits": 8697,
+    "total_commits": 8702,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 1100,
-        "pct_of_peak": 77
+        "commits": 1105,
+        "pct_of_peak": 77.3
       }
     ]
   },
@@ -59,7 +59,7 @@
     "html_pages_toplevel": 76,
     "html_pages_total": 570,
     "workflows": 82,
-    "scripts": 338,
+    "scripts": 339,
     "docs": 504,
     "data_files": 1923,
     "geographies": 546,
@@ -68,7 +68,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 611,
+    "test_files": 612,
     "absence_test_cases": 295,
     "absence_tests": 116,
     "lihtc_features": 926
@@ -246,7 +246,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 480867,
+    "hand_written_lines": 481062,
     "generated_place_page_lines": 226830,
     "top_level_pages": 76,
     "html_nonblank_lines": 51158,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "7d9a05f84",
+    "extracted_at_commit": "dfc388db2",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
