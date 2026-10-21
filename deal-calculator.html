@@ -210,8 +210,8 @@
       <div class="kicker">Step 6 of 7 &middot; Deal Calculator</div>
       <h1><span data-dc-mode="rental">LIHTC Pro Forma &amp; Capital Stack</span><span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility</span></h1>
       <!-- Walkthrough 2026-10-20 (R2): the first phone screen gave no instruction; this line is it. -->
-      <p class="dc-start" data-dc-mode="rental" style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost and units</a>. Credits, equity and the funding gap update as you type.</p>
-      <p class="dc-start" data-dc-mode="ownership" hidden style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost, homes and target income</a>. The price gap per home updates as you type.</p>
+      <p class="dc-start" data-dc-mode="rental" style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost and units</a> Credits, equity and the funding gap update as you type.</p>
+      <p class="dc-start" data-dc-mode="ownership" hidden style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost, homes and target income</a> The price gap per home updates as you type.</p>
       <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
@@ -958,6 +958,9 @@
     .dc-cp-need-align { margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border); }
     .dc-cp-need-desc { font-size: .82rem; color: var(--muted); margin: 0 0 12px; }
 
+    /* The start line is the first-screen action: keep its 44px touch target
+       (responsive.css resets inline `p a` links). */
+    .dc-start a { display: flex; width: fit-content; align-items: center; min-height: 44px; }
     @media (max-width: 640px) {
       .dc-cp-names, .dc-cp-row { grid-template-columns: 1fr; gap: 4px; }
       .dc-cp-names__vs, .dc-cp-row__delta { display: none; }
