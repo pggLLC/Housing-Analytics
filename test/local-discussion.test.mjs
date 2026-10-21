@@ -95,6 +95,14 @@ ok(/Board: agenda/.test(R(nested)), 'malformed nested lists do not break the pan
 const hollow = JSON.parse(JSON.stringify(result)); hollow.numbers.next_check = {}; hollow.numbers.hearing = []; hollow.check_here.push({ body: 'Board' });
 const hk = L.keyNumbers(hollow), hh = R(hollow);
 ok(hk[1].big === 'None' && hk[3].big === 'None' && !/undefined|date not found/.test(hh) && /Dates and pages to check \(1\)/.test(hh), 'empty or partial records are not shown as present');
+const labels = JSON.parse(JSON.stringify(result));
+labels.lexicon.flags.push({ kind: 'first', quarter: '2026-Q3' }, { kind: 'shift', term: 'x', quarter: ' ', from: 1, to: 30 });
+labels.numbers.rising.quarter = '';
+labels.numbers.next_check.check_on = '2026-02-31'; labels.check_here[0].meeting = '2026-13-01';
+const lk = L.keyNumbers(labels), lh = R(labels);
+ok(/Word shifts \(1\)/.test(lh) && !/“” first/.test(lh), 'a shift needs its word and quarter');
+ok(lk[2].big === 'Steady' && !/moving toward/.test(L.meaning(labels)), 'a rising word needs a quarter');
+ok(lk[1].big === 'None' && /Dates and pages to check \(0\)/.test(lh) && !/Mar 3, 2026|Jan 1, 2027/.test(lh), 'calendar-invalid dates are not shown');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.

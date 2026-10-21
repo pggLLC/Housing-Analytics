@@ -32,14 +32,21 @@
   // Counts from the backend become plain numbers before they reach the page.
   // A count or share the backend did not supply (absent, null, not a number, or below zero) is unknown, never zero.
   function has(v) { return typeof v === 'number' && Number.isFinite(v) && v >= 0; }
-  function rising(n) { var w = n && n.rising; return w && typeof w.term === 'string' && w.term && typeof w.quarter === 'string' && has(w.from) && has(w.to) ? w : null; }
+  function rising(n) { var w = n && n.rising; return w && label(w.term) && label(w.quarter) && has(w.from) && has(w.to) ? w : null; }
   function num(v) { return has(v) ? Math.round(v) : 0; }
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
-  function okFlag(f) { return f.kind === 'first' || (has(f.from) && has(f.to)); }
-  function isDay(d) { return typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d); }
+  // A shift needs its word and quarter; a change in share also needs both shares.
+  function okFlag(f) { return label(f.term) && label(f.quarter) && (f.kind === 'first' || (has(f.from) && has(f.to))); }
+  function label(v) { return typeof v === 'string' && v.trim() !== ''; }
+  // A real calendar date in YYYY-MM-DD form (2026-02-31 is not).
+  function isDay(d) {
+    if (typeof d !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return false;
+    var p = d.split('-'), t = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return t.getUTCFullYear() === +p[0] && t.getUTCMonth() === +p[1] - 1 && t.getUTCDate() === +p[2];
+  }
   // A date to check is shown only with its board and both dates.
-  function okCheck(c) { c = obj(c); return typeof c.body === 'string' && c.body.trim() !== '' && isDay(c.check_on) && isDay(c.meeting); }
+  function okCheck(c) { c = obj(c); return label(c.body) && isDay(c.check_on) && isDay(c.meeting); }
   // One pass over what the backend sent, so a partial or older result can't break a section.
   function clean(r) {
     var lex = obj(r.lexicon);
@@ -63,7 +70,7 @@
     return /^https:\/\//.test(url || '') ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(text) + '</a>' : esc(text);
   }
   function day(d) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(d || '')) return 'date not found';
+    if (!isDay(d)) return 'date not found';
     var p = d.split('-');
     return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
   }
@@ -87,7 +94,7 @@
     out.push(w ? { big: '“' + w.term + '”', text: 'fastest-rising housing word: ' + num(w.from) + '% of housing words in the 4 quarters before, ' + num(w.to) + '% in ' + w.quarter + ' (at least 20 words in each).' }
       : { big: 'Steady', text: 'no word has risen yet; that needs at least 20 housing words in this quarter and in the year before.' });
     var h = n.hearing;
-    out.push(h ? { big: day(h.date), text: 'next public hearing or comment date with housing on it' + (typeof h.body === 'string' && h.body ? ' (' + h.body + ')' : '') + '.' }
+    out.push(h ? { big: day(h.date), text: 'next public hearing or comment date with housing on it' + (label(h.body) ? ' (' + h.body + ')' : '') + '.' }
       : { big: 'None', text: 'no upcoming public hearing or comment deadline found.' });
     return out;
   }
