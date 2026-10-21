@@ -489,7 +489,9 @@
     ['Gap-fund amount', function (v, r) { return money(r.lane.amount); }],
     ['Total cost', function (v, r) { return money(num(r.engine.totalDevelopmentCost)); }],
     ['Cost per home', function (v, r) { var t = num(r.engine.totalDevelopmentCost); return t != null && r.lane.units ? money(t / r.lane.units) : '—'; }],
-    ['Annual federal credit', function (v, r) { return money(num(r.engine.annualCredits)); }],
+    // The request, not the calculator's modeled capacity; a blank request shows as a dash.
+    ['Annual federal credit requested', function (v, r) { return money(r.credit.value); }],
+    ['Modeled credit capacity', function (v, r) { return v.calculator ? money(num(r.engine.annualCredits)) : '—'; }],
     ['Credit equity', function (v, r) { return money(num(r.engine.creditEquity)); }],
     ['Funding gap', function (v, r) { return money(num(r.engine.fundingGap)); }],
     ['Debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
