@@ -1,0 +1,495 @@
+{
+ "slug": "launchpad-apartments-colorado-springs",
+ "name": "Launchpad Apartments (The Launchpad)",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Cohen-Esrey Development Group and The PLACE built The Launchpad, 50 supportive apartments for 18-to-24-year-olds leaving homelessness on North 19th Street in west Colorado Springs, all at 30% AMI with Division of Housing project-based vouchers, using $1,198,000 a year in 2022 federal 9% credits; it opened in May 2025.",
+ "why_it_matters": "It is the region's first permanent supportive housing for transition-age youth and survived a neighbor appeal to City Council (denied 6-3 in August 2023) over landslide-risk and density objections, a template for defending administratively approved PSH on a sloped infill site.",
+ "status": {
+  "label": "Built and open (ribbon cutting 2025-05-27; move-ins June 2025)",
+  "detail": "KRDO reported the ribbon cutting on 2025-05-27; the Pikes Peak Bulletin reported residents moving in the week of 2025-06-26; the Gazette reported in June 2026 that it had been open a year. No 8609 or placed-in-service record was found.",
+  "src": [
+   "krdo-2025-05-27",
+   "ppb-2025-06-26",
+   "gazette-2026-06-22"
+  ]
+ },
+ "next_step": "Confirm the 8609 year and final credit amount in CHFA or HUD placed-in-service data.",
+ "key_numbers": [
+  {
+   "value": "50 homes, all at 30% AMI",
+   "meaning": "47 one-bedroom and 3 two-bedroom units for young adults 18 to 24 leaving or at risk of homelessness, all with Division of Housing project-based vouchers.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "$1,198,000 a year in federal 9% credit",
+   "meaning": "About $12M over 10 years (inferred); the equity investor put in $10.9M.",
+   "src": [
+    "chfa-2022-r1-award",
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "value": "$19.7M total development cost",
+   "meaning": "Per the equity investor in early 2024: credit equity, a $2.3M CHFA permanent loan and about $5M of public soft debt.",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "value": "$4.75M state housing development grant",
+   "meaning": "Colorado's contribution, as reported in 2026.",
+   "src": [
+    "gazette-2026-06-22"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA: 810 N. 19th Ave., Colorado Springs 80904; the narrative gives 810 N. 19th St.; just north of West Uintah and North 19th streets",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives",
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, PSH: new construction, permanent supportive housing",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 1.37 acres in Old Colorado City next to Uintah Gardens shopping center (King Soopers); hillside with a potential unstable slope on the west end; not in a 2022 QCT or DDA",
+   "src": [
+    "gazette-2023-06-19",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Furnished units, 24-hour front desk, trauma-informed design by Shopworks; four stories and about 45 feet as presented to the Planning Commission",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "item": "Rental assistance",
+   "value": "20-year Section 8 Housing Assistance Payment contract; tenants pay 30% of income",
+   "src": [
+    "ahtcc-launchpad",
+    "krdo-2025-05-27"
+   ]
+  },
+  {
+   "item": "Recognition",
+   "value": "2025 Charles L. Edson award (Large Metropolitan Area)",
+   "src": [
+    "ahtcc-launchpad"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 50
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 47
+  },
+  {
+   "type": "2BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "gazette-2023-06-19"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,198,000 per year",
+   "note": "No state credit shown on the 2022 Round One report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "source": "Tax credit equity (Merchants Capital)",
+   "amount": "$10.9M",
+   "note": "",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "source": "Construction bridge loan (Merchants Capital)",
+   "amount": "$12.1M",
+   "note": "",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "$2.3M",
+   "note": "",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "source": "Colorado housing development grant (DOLA/Division of Housing)",
+   "amount": "$4.75M",
+   "note": "",
+   "src": [
+    "gazette-2026-06-22"
+   ]
+  },
+  {
+   "source": "Other public soft funds",
+   "amount": "Not itemized",
+   "note": "El Paso County Housing Trust Fund and City of Colorado Springs; the investor put all public soft debt at about $5M. Other named funders: Impact Development Fund, Pikes Peak Real Estate Foundation, Colorado Health Foundation.",
+   "src": [
+    "tca-2024-02-01",
+    "gazette-2026-06-22"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "Cohen-Esrey",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Developer, owner and property manager",
+   "name": "Cohen-Esrey Development Group (management through Cohen-Esrey Communities LLC)",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ppb-2025-06-26"
+   ]
+  },
+  {
+   "role": "Co-developer and lead service provider",
+   "name": "The PLACE (Colorado Springs youth homelessness nonprofit)",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Health services partner",
+   "name": "Peak Vista Community Health Centers",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Tax credit investor and construction lender",
+   "name": "Merchants Capital",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (at application)",
+   "name": "Brinkman Construction",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Possible ownership partner (at application)",
+   "name": "Colorado Springs Housing Authority (expressed intent; not confirmed later)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Development agreement: Cohen-Esrey and The PLACE agreed to share future cash flow and developer fee, and The PLACE holds a right of first offer if the owner sells.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Approvals: city staff administratively approved the development plan on 2023-05-10; neighbors appealed; the Planning Commission upheld it 6-0 in June 2023; City Council denied the further appeal 6-3 on 2023-08-08.",
+   "src": [
+    "gazette-2023-06-19",
+    "koaa-2023-08-09",
+    "cpolitics-2023-08-09"
+   ]
+  },
+  {
+   "text": "Appellants cited landslide risk, density and height; the developer moved the building to the northeast corner away from the slope and added a retaining wall.",
+   "src": [
+    "gazette-2023-06-19",
+    "koaa-2023-08-09"
+   ]
+  },
+  {
+   "text": "Priced with Davis-Bacon wages; the narrative budgeted $100,000 for retaining walls and a $250,000 sitework reserve for the hillside.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "In 2023 an El Paso County commissioner blocked a $20,750 CDBG grant for The PLACE, as reported in 2025.",
+   "src": [
+    "ppb-2025-06-26"
+   ]
+  },
+  {
+   "text": "Under construction in February and August 2024; the investor then expected completion in October 2024, and the building opened in May 2025.",
+   "src": [
+    "tca-2024-02-01",
+    "koaa-2024-08-15",
+    "krdo-2025-05-27"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $1,198,000 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2022-05-27",
+   "event": "Partners say construction will begin later in 2022 and finish in the first half of 2024",
+   "src": [
+    "koaa-2022-05-27"
+   ]
+  },
+  {
+   "date": "2023-05-10",
+   "event": "City staff administratively approve the development plan",
+   "src": [
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "date": "2023-06",
+   "event": "Planning Commission upholds approval 6-0 on appeal",
+   "src": [
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "date": "2023-08-08",
+   "event": "City Council denies appeal 6-3",
+   "src": [
+    "koaa-2023-08-09",
+    "cpolitics-2023-08-09"
+   ]
+  },
+  {
+   "date": "2024-02-01",
+   "event": "Reported under construction",
+   "src": [
+    "tca-2024-02-01"
+   ]
+  },
+  {
+   "date": "2025-05-27",
+   "event": "Ribbon cutting; applications open",
+   "src": [
+    "krdo-2025-05-27"
+   ]
+  },
+  {
+   "date": "2025-06",
+   "event": "First residents move in",
+   "src": [
+    "ppb-2025-06-26"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Location map of the proposed site",
+   "url": "https://gazette.com/news/government/plan-for-colorado-springs-apartment-complex-for-homeless-young-adults-gets-greenlight/article_995485aa-0ede-11ee-adca-1fb2a18adb0a.html",
+   "kind": "plat",
+   "made_by": "The Gazette (map in article)",
+   "note": "Map within the 2023-06-19 article",
+   "src": [
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "title": "Completed building photos",
+   "url": "https://www.taxcreditcoalition.org/gallery/the-launchpad/",
+   "kind": "photo",
+   "made_by": "Affordable Housing Tax Credit Coalition gallery",
+   "note": "Award gallery page",
+   "src": [
+    "ahtcc-launchpad"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award and applicant reports give the address as 810 N. 19th Ave., the application narrative gives 810 N. 19th St., and a 2023 Gazette map caption places the site at 864 N. 19th St.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-narratives",
+    "gazette-2023-06-19"
+   ]
+  },
+  {
+   "text": "The 2023 Gazette reported one four-story building of about 45 feet as presented to the Planning Commission, while the 2026 Gazette describes a three-story building.",
+   "src": [
+    "gazette-2023-06-19",
+    "gazette-2026-06-22"
+   ]
+  },
+  {
+   "text": "CHFA and the application describe residents aged 18 to 24, while KOAA in 2024 described the age limit as 18 to 25.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "koaa-2024-08-15"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Itemized city (HOME/CDBG) and El Paso County Housing Trust Fund amounts and their approval dates.",
+  "Whether the Colorado Springs Housing Authority joined the ownership (and any property tax exemption).",
+  "Final general contractor, final cost and any lawsuit outcome tied to the 2023 approval.",
+  "8609 issuance date and placed-in-service year."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (The Launchpad, PDF pages 56-60)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "koaa-2022-05-27",
+   "title": "Housing community planned for homeless young adults in west Colorado Springs",
+   "publisher": "KOAA News5",
+   "date": "2022-05-27",
+   "url": "https://www.koaa.com/news/state-of-growth/housing-community-planned-for-homeless-young-adults-in-west-colorado-springs"
+  },
+  {
+   "id": "gazette-2023-06-19",
+   "title": "Plan for Colorado Springs apartment complex for homeless young adults gets greenlight",
+   "publisher": "The Gazette (Colorado Springs)",
+   "date": "2023-06-19",
+   "url": "https://gazette.com/news/government/plan-for-colorado-springs-apartment-complex-for-homeless-young-adults-gets-greenlight/article_995485aa-0ede-11ee-adca-1fb2a18adb0a.html"
+  },
+  {
+   "id": "koaa-2023-08-09",
+   "title": "City Council denies appeal to The Launchpad apartments in 6-3 vote, complex will go on as scheduled",
+   "publisher": "KOAA News5",
+   "date": "2023-08-09",
+   "url": "https://www.koaa.com/news/covering-colorado/city-council-denies-appeal-to-the-launchpad-apartments-in-6-3-vote-complex-will-go-on-as-scheduled"
+  },
+  {
+   "id": "cpolitics-2023-08-09",
+   "title": "Colorado Springs City Council approves controversial apartments for homeless young adults",
+   "publisher": "Colorado Politics",
+   "date": "2023-08-09",
+   "url": "https://www.coloradopolitics.com/2023/08/09/colorado-springs-city-council-approves-controversial-apartments-for-homeless-young-adults-85ea29b8-42d2-5548-8f63-423629dcd40d"
+  },
+  {
+   "id": "tca-2024-02-01",
+   "title": "Case Study: Launchpad Apartments, Colorado Springs, CO",
+   "publisher": "Tax Credit Advisor (Housing Credit Advisor magazine)",
+   "date": "2024-02-01",
+   "url": "https://www.taxcreditadvisor.com/articles/case-study-launchpad-apartments-colorado-springs-co/"
+  },
+  {
+   "id": "koaa-2024-08-15",
+   "title": "The Launchpad: New homeless youth resource coming together",
+   "publisher": "KOAA News5",
+   "date": "2024-08-15",
+   "url": "https://www.koaa.com/news/covering-colorado/the-launchpad-new-homeless-youth-resource-coming-together"
+  },
+  {
+   "id": "krdo-2025-05-27",
+   "title": "Apartment complex aiming to help homeless young adults opens its doors in Colorado Springs",
+   "publisher": "KRDO",
+   "date": "2025-05-27",
+   "url": "https://krdo.com/news/2025/05/27/apartment-complex-aiming-to-help-homeless-young-adults-opens-its-doors-in-colorado-springs/"
+  },
+  {
+   "id": "ppb-2025-06-26",
+   "title": "Launchpad Apartments welcome new residents",
+   "publisher": "Pikes Peak Bulletin",
+   "date": "2025-06-26",
+   "url": "https://pikespeakbulletin.org/community/launchpad-apartments-welcome-new-residents/"
+  },
+  {
+   "id": "gazette-2026-06-22",
+   "title": "The Launchpad for homeless young adults provides path to independence",
+   "publisher": "The Gazette (Colorado Springs)",
+   "date": "2026-06-22",
+   "url": "https://gazette.com/2026/06/22/the-launchpad-for-homeless-young-adults-provides-path-to-independence/"
+  },
+  {
+   "id": "ahtcc-launchpad",
+   "title": "The Launchpad (2025 Charles L. Edson Recognition of Housing Tax Credit Excellence, Large Metropolitan Area)",
+   "publisher": "Affordable Housing Tax Credit Coalition",
+   "date": "2025",
+   "url": "https://www.taxcreditcoalition.org/gallery/the-launchpad/"
+  }
+ ]
+}

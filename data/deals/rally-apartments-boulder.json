@@ -1,0 +1,440 @@
+{
+ "slug": "rally-apartments-boulder",
+ "name": "Rally Apartments (now Rally Flats)",
+ "city": "Boulder",
+ "county": "Boulder",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 100,
+ "researched_on": "2026-10-21",
+ "headline": "Boulder Housing Partners, the city's housing authority, built Rally Apartments, now Rally Flats, at 2727 29th Street on the former RallySport gym site: 100 permanently affordable homes at 30% to 60% AMI, 10 of them supportive units with housing authority vouchers, financed partly by a 2022 Round Two award of 4% and state housing tax credits.",
+ "why_it_matters": "A housing authority bought land early (2020), finished Site Review before applying, carried back the full $8.75M land cost, and let the gym stay on as a tenant until demolition. That made a fully entitled, shovel-ready 4% deal, and it reached leasing about three years after the award.",
+ "status": {
+  "label": "Built and leasing (interest list opened August 2025); placed-in-service date not public",
+  "detail": "BHP broke ground in October 2023. Its 2024 annual report put completion in early 2025, it opened the Rally Flats interest list on 2025-08-14 to 2025-08-17, and its property page (updated 2026-07-02) lists studio and one-bedroom units with rents. No public certificate of occupancy or 8609 date was found.",
+  "src": [
+   "bhp-rally-property",
+   "bhp-2024-annual-report",
+   "bhp-rally-interest-list"
+  ]
+ },
+ "next_step": "Check CHFA's property records or BHP's 2025 annual report for the placed-in-service date and final cost.",
+ "key_numbers": [
+  {
+   "value": "100 homes: 10 at 30%, 5 at 40%, 22 at 50%, 63 at 60% AMI",
+   "meaning": "24 studios, 62 one-bedrooms and 14 two-bedrooms. The 10 voucher units serve people leaving homelessness (5 for individuals, 5 for families).",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,778,095 a year in federal 4% credit plus $1,000,000 of state credit",
+   "meaning": "About $17.8M in federal credit over 10 years (inferred).",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "$29,250,000 in CHFA tax-exempt bonds",
+   "meaning": "Paid down to about $9.95M of long-term bonds. CHFA's 2023 TEFRA notice allowed up to $31M.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "chfa-tefra-rally-2023"
+   ]
+  },
+  {
+   "value": "Up to $12M of City of Boulder gap funding (as planned)",
+   "meaning": "The application also cites a share of the city's 2022 bond cap, $700,000 of Boulder County Worthy Cause money, and up to $2M of BHP gap financing.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2727 29th Street, Boulder (corner of 29th and Bluff Streets)",
+   "src": [
+    "chfa-2022-r2-award",
+    "bhp-rally-property"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.86-acre infill site, formerly the RallySport fitness center. Near the Goose Creek path and high-frequency transit on 28th Street and Valmont.",
+   "src": [
+    "bhp-rally-property",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three wood-frame walk-up buildings with no elevators around a shared courtyard. 82 parking stalls (0.82 per unit, a reduction approved by Planning Board). All-electric VRF heating and cooling, a 148 kW rooftop solar system required by city energy code, and in-unit washers and dryers.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Expected owner",
+   "value": "Rally Flats LLLP or another affiliate of the Housing Authority of the City of Boulder (d/b/a Boulder Housing Partners)",
+   "src": [
+    "chfa-tefra-rally-2023"
+   ]
+  },
+  {
+   "item": "Affordability",
+   "value": "BHP describes the homes as permanently affordable",
+   "src": [
+    "bhp-rally-property",
+    "chfa-tefra-rally-2023"
+   ]
+  },
+  {
+   "item": "Listed rents (2026 property page)",
+   "value": "$1,300 for a studio and $1,642 for a one-bedroom, both at 60% AMI, with all utilities included",
+   "src": [
+    "bhp-rally-property",
+    "bhp-rally-interest-list"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 22
+  },
+  {
+   "level": "60% AMI",
+   "units": 63
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 24
+  },
+  {
+   "type": "1BR",
+   "units": 62
+  },
+  {
+   "type": "2BR",
+   "units": 14
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives",
+  "bhp-rally-property"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,778,095 per year",
+   "note": "2022 Round Two award; same as requested.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA conduit issuer)",
+   "amount": "$29,250,000",
+   "note": "Private placement. BHP could assign up to $3M of its own bond cap, and the city committed part of its 2022 cap. A conventional second construction loan was planned to bridge.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Boulder gap financing",
+   "amount": "Up to $12,000,000 (as planned; the narrative prints '$12,00,000')",
+   "note": "Final amount not confirmed.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Worthy Cause",
+   "amount": "$700,000",
+   "note": "Described as committed in the application.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Boulder Housing Partners",
+   "amount": "$8,750,000 land carryback plus up to $2,000,000 gap loan",
+   "note": "Plus 10 project-based vouchers.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer/manager (as CHFA prints it)",
+   "name": "Boulder Housing Partners (Housing Authority of the City of Boulder)",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Ownership entity (expected)",
+   "name": "Rally Flats LLLP",
+   "src": [
+    "chfa-tefra-rally-2023"
+   ]
+  },
+  {
+   "role": "General contractor (as proposed)",
+   "name": "Milender White",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Supportive services",
+   "name": "Boulder Shelter for the Homeless",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-tefra-rally-2023"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land deal: BHP bought the property in July 2020 and owns it outright. In the deal it carried back the full $8,750,000 land cost to the partnership. In June 2020 the gym said it would lease the space back from BHP for at least three years; the application said it would move out in March 2023.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bizwest-rallysport"
+   ]
+  },
+  {
+   "text": "Local approvals: Site Review was approved in February 2021 by a unanimous Planning Board vote, including a parking reduction. Technical document (Tec Doc) approval followed, and drawings were at 90% construction documents when BHP applied. Case number and resolution were not found.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "BHP asked CHFA for a waiver of the federal cost basis limit. It cited the city energy code (a 148 kW solar system adding $400,000; about $7,500 per unit more for HVAC) and city livability standards (about $3,000 per unit).",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "A Phase II environmental study found possible vapor intrusion from offsite sources, so the building has a sub-slab vapor barrier and venting system.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Resident services are paid from a dedicated reserve for the first five years, then from cash flow, according to the application.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA held a TEFRA hearing on 2023-07-17 for up to $31M of bonds for the Rally Flats project.",
+   "src": [
+    "chfa-tefra-rally-2023"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-07",
+   "event": "BHP buys the RallySport site",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2021-02",
+   "event": "City of Boulder Site Review approval",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-11-16",
+   "event": "CHFA announces the 2022 Round Two awards, including Rally Apartments",
+   "src": [
+    "chfa-2022-r2-news",
+    "bhp-2022-annual-report"
+   ]
+  },
+  {
+   "date": "2023-07-17",
+   "event": "CHFA TEFRA hearing on up to $31M of bonds",
+   "src": [
+    "chfa-tefra-rally-2023"
+   ]
+  },
+  {
+   "date": "2023-10",
+   "event": "Groundbreaking",
+   "src": [
+    "bhp-rally-property",
+    "bhp-rally-development"
+   ]
+  },
+  {
+   "date": "2025-08-14",
+   "event": "Rally Flats interest list opens (through 2025-08-17)",
+   "src": [
+    "bhp-rally-interest-list"
+   ]
+  },
+  {
+   "date": "2026-07-02",
+   "event": "BHP property page (last updated this date) lists units and rents",
+   "src": [
+    "bhp-rally-property"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award and applicant reports give the ZIP code as 80301, while the application narrative gives 80302.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "BHP's development page (updated November 2025) still calls the community 'under predevelopment' and expects completion in Q1 2025, while BHP's property page and August 2025 notice describe it as brand-new and leasing.",
+   "src": [
+    "bhp-rally-development",
+    "bhp-rally-property",
+    "bhp-rally-interest-list"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Closing date, final total development cost, equity investor and lenders are not public.",
+  "Final City of Boulder funding amount and the size of its 2022 bond cap contribution were not found.",
+  "Certificate of occupancy, placed-in-service and IRS Form 8609 dates are not public.",
+  "Site Review case number and Planning Board hearing date were not found. City planning packets with the site plan were not located, and BHP's pages show only photos and virtual tours."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "CHFA, 2022 Round 2 Award Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "CHFA, 2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "CHFA, 2022 Round 2 Applicant Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-news",
+   "title": "CHFA Announces 2022 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2022-11-16",
+   "url": "https://www.chfainfo.com/chfa-news/11162022-htc-round-two"
+  },
+  {
+   "id": "chfa-tefra-rally-2023",
+   "title": "Notice of Public Hearing, CHFA Multifamily Housing Revenue Obligations (Rally Flats Project)",
+   "publisher": "CHFA",
+   "date": "2023-07-07",
+   "url": "https://www.chfainfo.com/getattachment/84cf36d9-5809-418f-ae16-f41c52c9624f/TEFRA-Notice-CHFA-Rally-Flats-6-28-23-final-for-posting-77.pdf"
+  },
+  {
+   "id": "bhp-rally-property",
+   "title": "Rally Flats (property page)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2026-07-02",
+   "url": "https://boulderhousing.org/properties/rally-flats/"
+  },
+  {
+   "id": "bhp-rally-development",
+   "title": "Rally Flats (development page)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-11-25",
+   "url": "https://boulderhousing.org/bhp-developments/2727-29th-street-rally/"
+  },
+  {
+   "id": "bhp-rally-interest-list",
+   "title": "Rally Flats Interest List Opens August 14-17",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-08-13",
+   "url": "https://boulderhousing.org/rally-flats-interest-list-opens-august-14-17/"
+  },
+  {
+   "id": "bhp-2024-annual-report",
+   "title": "BHP 2024 Annual Report",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-05",
+   "url": "https://boulderhousing.org/wp-content/uploads/2025/05/BHP-2024-Annual-Report.pdf"
+  },
+  {
+   "id": "bhp-2022-annual-report",
+   "title": "BHP 2022 Annual Report",
+   "publisher": "Boulder Housing Partners",
+   "date": "2023-06",
+   "url": "https://boulderhousing.org/wp-content/uploads/2023/06/BHP-2022-Annual-Report-ENG.pdf"
+  },
+  {
+   "id": "bizwest-rallysport",
+   "title": "RallySport to remain in business as redevelopment plans progress",
+   "publisher": "BizWest",
+   "date": "2020-06-10",
+   "url": "https://bizwest.com/?p=347143"
+  }
+ ]
+}

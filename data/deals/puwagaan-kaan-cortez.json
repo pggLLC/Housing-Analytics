@@ -1,0 +1,413 @@
+{
+ "slug": "puwagaan-kaan-cortez",
+ "name": "Puwagaan Kaan (Healing Home), opened as Tawi Kaan Apartments",
+ "city": "Cortez",
+ "county": "Montezuma",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 42,
+ "researched_on": "2026-10-21",
+ "headline": "The Piñon Project and BlueLine Development built Puwagaan Kaan, renamed Tawi Kaan ('our home' in Ute), 42 permanent supportive apartments for families leaving homelessness at 560 E. Empire St. in Cortez, all at 30% AMI with Division of Housing vouchers and a Ute preference, using $1,233,450 a year in 2022 federal 9% credits; it opened on 2024-10-15.",
+ "why_it_matters": "It is Montezuma County's first supportive housing and a working model of tribe-partnered PSH off reservation: the Ute Mountain Ute Tribe helped design it, supplies a tribal liaison, and its members get a preference, with a local housing authority as special limited partner for tax savings.",
+ "status": {
+  "label": "Built and open (opened 2024-10-15)",
+  "detail": "The Journal reports Tawi Kaan opened on 2024-10-15, and CHFA's own partner story describes its completion. Linking Tawi Kaan to the CHFA ledger name Puwagaan Kaan is inferred: same sponsors, 42 units in a 14/14/14 mix, all at 30% AMI, on Empire Street, and CHFA cites its $1.2M 9% award. No 8609 record was found.",
+  "src": [
+   "journal-2025-10-28",
+   "chfa-tawi-kaan-story",
+   "chfa-2022-r1-descriptions"
+  ]
+ },
+ "next_step": "Confirm the 8609 year and final credit in CHFA or HUD placed-in-service data, and the Montezuma County Housing Authority special limited partnership terms.",
+ "key_numbers": [
+  {
+   "value": "42 homes: 14 one-, 14 two- and 14 three-bedroom",
+   "meaning": "All at 30% AMI for households leaving homelessness, all with Division of Housing project-based vouchers; preference for Ute community members.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "journal-2025-10-28",
+    "ahtcc-tawi-kaan"
+   ]
+  },
+  {
+   "value": "$1,233,450 a year in federal 9% credit",
+   "meaning": "About $12.3M over 10 years (inferred), with CHFA's discretionary 30% basis boost requested; the sponsors said they cut $116,550 a year from the allowable amount.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "Opened 2024-10-15",
+   "meaning": "About 29 months after the May 2022 award (inferred from the dates).",
+   "src": [
+    "journal-2025-10-28",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "2025 national Edson award",
+   "meaning": "Affordable Housing Tax Credit Coalition, Native American Housing category.",
+   "src": [
+    "ahtcc-tawi-kaan",
+    "journal-2025-10-28"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "560 E. Empire St., Cortez, CO 81321 (CHFA lists 'TBD Empire St.')",
+   "src": [
+    "blueline-tawi-kaan",
+    "journal-2025-10-28",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, PSH: new construction, permanent supportive housing",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 3 acres, zoned R2, bought by The Piñon Project in October 2020; next to an Axis Health clinic site; vacant and level",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three stories, Type V wood frame, U-shaped around an enclosed courtyard with fire pit and play area; over 4,500 sq ft of amenity and service space; 84 parking spaces planned; furnished units; washer/dryer in three-bedroom units; NGBS certification",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "bostonfinancial-tawi-kaan"
+   ]
+  },
+  {
+   "item": "Local approval",
+   "value": "Conditional Use Permit approved unanimously by Cortez City Council on January 11 (2022, inferred from the application date) for the use and density",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Tribal role",
+   "value": "Ute Mountain Ute Tribe passed a resolution of support, a tribal council member sat on the design team, the tribe chose the name, and it provides a full-time tribal liaison",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "bostonfinancial-tawi-kaan",
+    "ahtcc-tawi-kaan"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 42
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 14
+  },
+  {
+   "type": "2BR",
+   "units": 14
+  },
+  {
+   "type": "3BR",
+   "units": 14
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "journal-2025-10-28"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,233,450 per year",
+   "note": "No state credit shown on the 2022 Round One report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "source": "Tax credit investor",
+   "amount": "Not stated",
+   "note": "Boston Financial is named as an investor partner.",
+   "src": [
+    "ahtcc-tawi-kaan",
+    "bostonfinancial-tawi-kaan"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not stated",
+   "note": "Homeless Solutions Program grant funds and Enhanced Development Gap funds planned; 42 project-based vouchers; Tenancy Support Services funding sought.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Small permanent loan",
+   "amount": "Not stated",
+   "note": "Planned at application; a waiver of the 1.30 maximum debt coverage ratio was requested.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Montezuma County Housing Authority (special limited partner)",
+   "amount": "About $20,000 a year in savings (estimated)",
+   "note": "Property tax exemption and sales tax savings estimated at hundreds of thousands up front.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA's award report prints it)",
+   "name": "The Piñon Project, Piñon Apartments GP, LLC",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Owner (as CHFA's applicant report prints it) and co-developer",
+   "name": "BlueLine Development, Inc.",
+   "src": [
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Nonprofit co-developer and service provider",
+   "name": "The Piñon Project Family Resource Center",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-tawi-kaan-story"
+   ]
+  },
+  {
+   "role": "Service partners",
+   "name": "Ute Mountain Ute Tribe; Axis Health System",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Special limited partner (planned)",
+   "name": "Montezuma County Housing Authority",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (planned)",
+   "name": "BlueLine Property Management",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "bostonfinancial-tawi-kaan"
+   ]
+  },
+  {
+   "role": "Cost estimator / contractor (at application)",
+   "name": "FCI Constructors",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Origin: Cortez was one of six rural communities chosen in 2020 for a Colorado Health Foundation supportive housing technical assistance pilot.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market at application: zero vacancy and only six existing 30% AMI units in the market area; waitlists of 179 at the Montezuma housing authority and 207 families at the Ute Mountain Ute Tribe.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Outreach: four public meetings (two in January 2021, two in January 2022) plus tribal council video meetings.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Operating cash flow was projected to cover only 17% of the services budget; the rest relies on partners, DOH services money and CHFA's developer fee boost.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application narrative also calls the project 'Piñon Apartments' and 'Healing Homes' in places.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-10",
+   "event": "The Piñon Project buys the site",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-01-11",
+   "event": "Cortez City Council approves the Conditional Use Permit (year inferred)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $1,233,450 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2024-10-15",
+   "event": "Tawi Kaan opens",
+   "src": [
+    "journal-2025-10-28"
+   ]
+  },
+  {
+   "date": "2025",
+   "event": "Wins the AHTCC Edson award (Native American Housing)",
+   "src": [
+    "ahtcc-tawi-kaan",
+    "journal-2025-10-28"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Tawi Kaan photos",
+   "url": "https://bluelinedevelopment.com/community/tawi-kaan/",
+   "kind": "photo",
+   "made_by": "BlueLine Development",
+   "note": "Property page gallery",
+   "src": [
+    "blueline-tawi-kaan"
+   ]
+  },
+  {
+   "title": "Tawi Kaan at sunset",
+   "url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
+   "kind": "photo",
+   "made_by": "Professional photographer credited in The Journal article",
+   "note": "Lead photo",
+   "src": [
+    "journal-2025-10-28"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report names the owner as The Piñon Project, Piñon Apartments GP, LLC, while CHFA's applicant report names BlueLine Development, Inc.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-applicants"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, equity price, DOH grant amounts and permanent lender.",
+  "Whether the Montezuma County Housing Authority joined as special limited partner and the tax exemption terms.",
+  "Construction start date and general contractor of record; building permit number.",
+  "8609 issuance date and placed-in-service year."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (Puwagaan Kaan (Healing Home), PDF pages 71-76)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-tawi-kaan-story",
+   "title": "Tawi Kaan Apartments (customer and partner story)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/tawi-kaan-apartments"
+  },
+  {
+   "id": "journal-2025-10-28",
+   "title": "Affordable Housing Tax Credit Coalition Honors Tawi Kaan Apartments with national award",
+   "publisher": "The Journal (Cortez)",
+   "date": "2025-10-28",
+   "url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/"
+  },
+  {
+   "id": "ahtcc-tawi-kaan",
+   "title": "Tawi Kaan Apartments (2025 Charles L. Edson Recognition of Housing Tax Credit Excellence, Native American Housing)",
+   "publisher": "Affordable Housing Tax Credit Coalition",
+   "date": "2025",
+   "url": "https://www.taxcreditcoalition.org/gallery/tawi-kaan-apartments/"
+  },
+  {
+   "id": "bostonfinancial-tawi-kaan",
+   "title": "Tawi Kaan Apartments (investor property page)",
+   "publisher": "Boston Financial",
+   "date": "2025-09-09",
+   "url": "https://www.boston.financial/property/tawi-kaan/"
+  },
+  {
+   "id": "blueline-tawi-kaan",
+   "title": "Tawi Kaan - Cortez, CO (developer property page)",
+   "publisher": "BlueLine Development",
+   "date": "2026",
+   "url": "https://bluelinedevelopment.com/community/tawi-kaan/"
+  }
+ ]
+}

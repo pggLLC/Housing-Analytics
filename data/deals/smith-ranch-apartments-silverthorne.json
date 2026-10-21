@@ -1,0 +1,488 @@
+{
+ "slug": "smith-ranch-apartments-silverthorne",
+ "name": "Smith Ranch Apartments",
+ "city": "Silverthorne",
+ "county": "Summit",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "researched_on": "2026-10-21",
+ "units": 65,
+ "headline": "Smith Ranch Apartments is a 65-home, three-story tax-credit building for households at 30% to 60% AMI on town-owned land in Silverthorne's Smith Ranch neighborhood; Gorman & Company won 2022 Round Two federal 4% and $300,000 state credits for it, and residents were moving in by early 2025.",
+ "why_it_matters": "It shows a mountain-town template: the Town of Silverthorne ground-leased the land, lent $1.625M and waived taps and permit fees (about $4.65M in all by the developer's count), and Gorman paired the 65 LIHTC units with 70 unsubsidized 80-120% AMI rentals built next door.",
+ "status": {
+  "label": "Built and leasing (move-ins under way by February 2025)",
+  "detail": "Summit Daily reported on 2025-02-06 that move-ins had started and the 65 LIHTC units were about half leased. No public 8609 or placed-in-service date was found.",
+  "src": [
+   "sd-2025-02",
+   "sd-2024-11"
+  ]
+ },
+ "next_step": "Watch for the deal on CHFA's 4% completed-developments (8609) list and for a full-occupancy report on the LIHTC building.",
+ "key_numbers": [
+  {
+   "value": "65 homes, 64 income-restricted",
+   "meaning": "60 units at 60% AMI, 4 at 30% AMI and one manager unit.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$1,348,613 a year in federal 4% credit",
+   "meaning": "Plus $300,000 of state credit; CHFA issued $14,264,000 in tax-exempt bonds.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "About $29.4M total cost",
+   "meaning": "Sources: $8.4M first mortgage, about $14M credit equity, $3.9M-$4M state Division of Housing, $1.625M town loan, about $1.5M deferred fee.",
+   "src": [
+    "tca-2023-06",
+    "nhra-gorman-2023"
+   ]
+  },
+  {
+   "value": "Town contribution about $4.65M",
+   "meaning": "Subordinate loan, tap-fee and permit-fee waivers, and a below-market ground lease, about $71,000 per unit by the application's count.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "105 Ruby Ranch Road, Silverthorne, CO 80498",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "65 total, 64 tax-credit units (one manager unit)",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story, wood-frame, slab-on-grade walk-up building with surface parking (114 spaces in the application); NGBS 2020 Bronze target",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "1BR about 554 sq ft, 2BR about 757 sq ft, 3BR about 1,013 sq ft",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Summit County difficult development area (DDA); next to a Summit Stage free-bus stop",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Affordability",
+   "value": "Described as perpetually affordable in the application",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Companion project",
+   "value": "70 deed-restricted rentals at 80%, 100% and 120% AMI in two other buildings (135 homes in all), funded without tax credits",
+   "src": [
+    "sd-2023-03",
+    "sd-2024-11",
+    "nhra-gorman-2023"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "60% AMI",
+   "units": 60
+  },
+  {
+   "level": "Manager unit",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 27
+  },
+  {
+   "type": "2BR",
+   "units": 24
+  },
+  {
+   "type": "3BR",
+   "units": 13
+  },
+  {
+   "type": "2BR manager unit",
+   "units": 1
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,348,613 per year",
+   "note": "Annual credit, runs 10 years.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$300,000",
+   "note": "The application said this was $4,615 per unit.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$14,264,000",
+   "note": "Application: plus a $2,650,000 taxable tail ($16,914,000 construction financing), private placement; Citi Community Capital named as construction and permanent lender at application. Whose bond cap was used is not stated.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "First mortgage",
+   "amount": "$8,395,000",
+   "note": "Lender not named in the 2023 sources.",
+   "src": [
+    "nhra-gorman-2023",
+    "tca-2023-06"
+   ]
+  },
+  {
+   "source": "Federal and state tax credit equity",
+   "amount": "$12,703,831 federal plus $1,254,719 state",
+   "note": "National Equity Fund gave a letter of interest at application; the closed investor is not named publicly.",
+   "src": [
+    "nhra-gorman-2023",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing loan",
+   "amount": "$3,900,000 (presentation) or $4,000,000 (trade article)",
+   "note": "",
+   "src": [
+    "nhra-gorman-2023",
+    "tca-2023-06"
+   ]
+  },
+  {
+   "source": "Town of Silverthorne subordinate loan",
+   "amount": "$1,625,000",
+   "note": "Town also waived about $869,000 in tap fees and leased the land (land value estimated at $2M by Summit Daily).",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "nhra-gorman-2023",
+    "sd-2023-03"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1,526,644",
+   "note": "About 45% of the fee, repaid over 15 years per the application.",
+   "src": [
+    "nhra-gorman-2023",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not quantified",
+   "note": "Through the Summit Combined Housing Authority, per the application.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Gorman & Company, LLC",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Landowner and ground lessor; subordinate lender",
+   "name": "Town of Silverthorne",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "sd-2023-03"
+   ]
+  },
+  {
+   "role": "Property tax exemption partner",
+   "name": "Summit Combined Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Architect (application)",
+   "name": "Gorman Architectural (Gorman affiliate)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (application)",
+   "name": "Deneuve Construction",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (application)",
+   "name": "Gorman Property Management",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Lender named at application",
+   "name": "Citi Community Capital",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Silverthorne bought the 51-acre Smith Ranch site in 2008 for about $3.5 million, using money from Summit County's 2006 ballot measure 5A; the neighborhood already had 164 deed-restricted for-sale homes at 80-120% AMI when Gorman applied, leaving no rentals for 30-60% AMI households.",
+   "src": [
+    "sd-2024-11",
+    "sd-2025-02",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application cited the coming loss of Blue River Apartments (78 LIHTC units built in 1994), whose extended-use period was set to expire at the end of 2024 with the owner planning to convert to market rate.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Gorman held a public hearing on 2022-06-22 on its state credit and Division of Housing applications (no one attended) and presented the project to Town Council in June 2022.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's market analyst flagged a 31% capture rate (above the 25% guideline); Gorman also asked for a waiver of CHFA's cost-basis limit because of high mountain construction costs.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Silverthorne Town Council gave unanimous final approval to the 135-unit rental project on 2023-02-22; the resolution number was not found.",
+   "src": [
+    "sd-2023-03"
+   ]
+  },
+  {
+   "text": "The workforce side (70 units, about $33.7M) used a $19.4M first mortgage, about $4.9M investor equity, subordinate loans and $3M developer equity, kept separate from the LIHTC deal.",
+   "src": [
+    "nhra-gorman-2023",
+    "tca-2023-06"
+   ]
+  },
+  {
+   "text": "Applications opened in November 2024: the LIHTC units first come, first served, the workforce units by lottery.",
+   "src": [
+    "sd-2024-11"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2008",
+   "event": "Silverthorne buys the 51-acre Smith Ranch site for about $3.5M",
+   "src": [
+    "sd-2024-11"
+   ]
+  },
+  {
+   "date": "2022-06-22",
+   "event": "Public hearing on state credit and Division of Housing applications",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-11",
+   "event": "CHFA awards 2022 Round Two federal 4% and state credits (month per Summit Daily)",
+   "src": [
+    "chfa-2022-r2-award",
+    "sd-2023-03"
+   ]
+  },
+  {
+   "date": "2023-02-22",
+   "event": "Silverthorne Town Council gives unanimous final approval to the 135 rentals",
+   "src": [
+    "sd-2023-03"
+   ]
+  },
+  {
+   "date": "2023-10-03",
+   "event": "Project photographed under construction (Summit Daily photo caption)",
+   "src": [
+    "sd-2025-02"
+   ]
+  },
+  {
+   "date": "2024-11",
+   "event": "Leasing opens: LIHTC interest forms and workforce lottery",
+   "src": [
+    "sd-2024-11"
+   ]
+  },
+  {
+   "date": "2025-02-06",
+   "event": "Move-ins under way; LIHTC units about 50% leased",
+   "src": [
+    "sd-2025-02"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Smith Ranch neighborhood site plan marking the LIHTC and workforce buildings",
+   "url": "https://www.housingonline.com/wp-content/uploads/2023/05/23SDF_Crangle.pdf",
+   "kind": "site plan",
+   "made_by": "Gorman & Company (conference presentation)",
+   "note": "Page 3 of the PDF",
+   "src": [
+    "nhra-gorman-2023"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Gorman's 2023 presentation lists the state Division of Housing loan as $3,900,000, while the 2023 trade case study gives $4 million.",
+   "src": [
+    "nhra-gorman-2023",
+    "tca-2023-06"
+   ]
+  },
+  {
+   "text": "In March 2023 Summit Daily said construction could start as soon as May 2023 and finish in early 2025; later Summit Daily articles say construction began in 2017, which refers to the wider neighborhood rather than this building.",
+   "src": [
+    "sd-2023-03",
+    "sd-2024-11",
+    "sd-2025-02"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, the closed equity investor and credit price, and the final first-mortgage lender.",
+  "Ground lease term and rent, and the Town resolution numbers for the lease and $1.625M loan.",
+  "Placed-in-service date and 8609 issuance; current occupancy of the LIHTC building.",
+  "Whether Deneuve Construction remained the general contractor.",
+  "Whether any units carry project-based vouchers (none mentioned)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "sd-2023-03",
+   "title": "Silverthorne council gives final approval to build income-based Smith Ranch apartments",
+   "publisher": "Summit Daily News",
+   "date": "2023-03-05",
+   "url": "https://www.summitdaily.com/news/silverthorne-council-gives-final-approval-to-build-income-based-smith-ranch-apartments/"
+  },
+  {
+   "id": "sd-2024-11",
+   "title": "Silverthorne officials, developer set to open up applications for the Smith Ranch Apartments",
+   "publisher": "Summit Daily News",
+   "date": "2024-11-10",
+   "url": "https://summitdaily.com/news/silverthorne-officials-developer-set-to-open-up-applications-for-the-smith-ranch-apartments"
+  },
+  {
+   "id": "sd-2025-02",
+   "title": "Developer provides an update on the Smith Ranch apartments",
+   "publisher": "Summit Daily News",
+   "date": "2025-02-06",
+   "url": "https://summitdaily.com/news/developer-provides-an-update-on-the-smith-ranch-apartments"
+  },
+  {
+   "id": "tca-2023-06",
+   "title": "Case Study: Smith Ranch Apartments in Silverthorne, CO",
+   "publisher": "Tax Credit Advisor (National Housing & Rehabilitation Association)",
+   "date": "2023-06-29",
+   "url": "https://www.taxcreditadvisor.com/articles/case-study-smith-ranch-apartments-in-silverthorne-co"
+  },
+  {
+   "id": "nhra-gorman-2023",
+   "title": "Gorman & Company presentation: Smith Ranch Apartments, Silverthorne, CO (NH&RA 2023 Spring Developers Forum)",
+   "publisher": "National Housing & Rehabilitation Association",
+   "date": "2023-05",
+   "url": "https://www.housingonline.com/wp-content/uploads/2023/05/23SDF_Crangle.pdf"
+  }
+ ]
+}

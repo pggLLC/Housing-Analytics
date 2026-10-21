@@ -1,0 +1,460 @@
+{
+ "slug": "residences-at-durango-durango",
+ "name": "Residences at Durango",
+ "city": "Durango",
+ "county": "La Plata",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 120,
+ "researched_on": "2026-10-21",
+ "headline": "Residences at Durango converts the former Best Western Inn & Suites at 21382 US-160 W in west Durango into 72 apartments and adds 48 new homes in two three-story buildings, 120 homes in all for households at 30% to 60% AMI, developed and owned by TWG Development; it won $1,322,959 a year in 2022 federal 4% credit with $16M of CHFA bonds, and the first tenants moved into the motel units on 2025-07-11.",
+ "why_it_matters": "Billed as Colorado's first hotel-to-apartments conversion financed with housing tax credits, it shows both the model (city and nonprofit site control, federal earmark, state grant) and its risks: a hidden water main and a property manager walking away delayed move-ins by about six months.",
+ "status": {
+  "label": "Partly open: 72 converted motel units leasing since July 2025; the 48 new-build units not confirmed complete; 8609s not yet issued",
+  "detail": "The first tenant moved in on 2025-07-11 after the city's building division passed final inspection of the motel units; at that point the new buildings had no projected completion date. No public record found confirms completion of the 48 new units, and CHFA still lists the deal on its 2026-09-21 award report, which excludes developments with 8609s issued.",
+  "src": [
+   "dh-2025-07-20",
+   "dh-2025-06-13",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch the City of Durango for a certificate of occupancy on the two new buildings and for 8609 issuance.",
+ "key_numbers": [
+  {
+   "value": "120 homes: 72 in the old motel, 48 new",
+   "meaning": "6 units at 30% AMI and 114 at 60% AMI; 44 studios, 27 one-bedrooms, 29 two-bedrooms, 20 three-bedrooms.",
+   "src": [
+    "chfa-4pct-award",
+    "dh-2024-05-13",
+    "dh-2025-01-09"
+   ]
+  },
+  {
+   "value": "$1,322,959 a year in federal 4% credit",
+   "meaning": "About $13.2M over 10 years (inferred); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$16M CHFA private activity bonds",
+   "meaning": "CHFA issued; the city said CHFA, La Plata County and Durango together dedicated about $18M of bond allocation.",
+   "src": [
+    "chfa-4pct-award",
+    "dh-2023-03-16"
+   ]
+  },
+  {
+   "value": "$35.6M projected total cost",
+   "meaning": "Per the La Plata County Regional Housing Alliance as of April 2024.",
+   "src": [
+    "dh-2025-07-20"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "21382 US-160 W, Durango 81303 (former Best Western Inn & Suites)",
+   "src": [
+    "chfa-4pct-award",
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction and acquisition/rehabilitation; in a Difficult Development Area (DDA: Yes); Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Scope",
+   "value": "72 motel rooms converted (44 studios, 27 one-bedrooms, 1 two-bedroom) plus two new three-story buildings with 28 two-bedrooms and 20 three-bedrooms; a commercial building for nonprofit tenants was also planned",
+   "src": [
+    "dh-2024-05-13"
+   ]
+  },
+  {
+   "item": "Rents (city data, January 2025)",
+   "value": "30% AMI maximums $580 studio, $621 1BR, $746 2BR, $862 3BR; 60% AMI maximums $1,161, $1,243, $1,492 and $1,724",
+   "src": [
+    "dh-2025-01-09"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "The property accepts housing vouchers; no project-based vouchers reported",
+   "src": [
+    "dh-2025-07-20",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "At least NGBS Bronze, per the city's project description",
+   "src": [
+    "dh-2024-05-13"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "60% AMI",
+   "units": 114
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 44
+  },
+  {
+   "type": "1BR",
+   "units": 27
+  },
+  {
+   "type": "2BR",
+   "units": 29
+  },
+  {
+   "type": "3BR",
+   "units": 20
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "dh-2025-01-09"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,322,959 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$16,000,000",
+   "note": "The 2022 CHFA bond-pool letter of intent requested $13,000,000 for 111 units.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "source": "Congressionally directed spending (via the City of Durango)",
+   "amount": "$3,000,000",
+   "note": "The city had asked for $9.6M.",
+   "src": [
+    "dh-2023-03-16",
+    "dh-2021-11-16"
+   ]
+  },
+  {
+   "source": "DOLA Innovative Housing Incentive Grant (to the City of Durango)",
+   "amount": "$1,000,000",
+   "note": "Awarded March 2023.",
+   "src": [
+    "dh-2023-03-16"
+   ]
+  },
+  {
+   "source": "Other named partners",
+   "amount": "Not public",
+   "note": "R4 Capital, Colorado Division of Housing, Project Moxie and RCH Jones are named as partners.",
+   "src": [
+    "reb-dur"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), owner, builder and developer",
+   "name": "TWG Development, LLC",
+   "src": [
+    "chfa-4pct-award",
+    "dh-2024-05-13",
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "role": "Site acquisition partners (later reimbursed by TWG)",
+   "name": "City of Durango and Project Moxie",
+   "src": [
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Colorado Housing and Finance Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Elmington Property Management (after Ross-Envolve withdrew in May 2025)",
+   "src": [
+    "dh-2025-07-20",
+    "dh-2025-06-13"
+   ]
+  },
+  {
+   "role": "Seller of the motel",
+   "name": "Brunvand Hospitality LLC (listed the property at $7M in 2021)",
+   "src": [
+    "dh-2021-08-16"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In August 2021 the city put down $70,000 of earnest money on the Best Western, which was listed at $7M for a 5.3-acre hotel parcel plus a 56.5-acre hillside parcel; the city said its aim was to act as a conduit, not the long-term owner.",
+   "src": [
+    "dh-2021-08-16",
+    "dh-2021-10-05"
+   ]
+  },
+  {
+   "text": "Durango City Council approved a sale and purchase agreement with TWG Acquisitions in February 2022, with acquisition and development then priced at $30M; the city and Project Moxie bought the property and TWG later reimbursed them.",
+   "src": [
+    "dh-2022-02-18",
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "text": "Construction started after a groundbreaking on 2023-10-27; the original goal was completion by the end of 2024 or early 2025.",
+   "src": [
+    "dh-2023-10-28",
+    "reb-dur"
+   ]
+  },
+  {
+   "text": "Move-ins slipped about six months because crews could not locate a water main where city documents showed it, which held up plumbing, fire and final inspections; the first property manager, Ross-Envolve, pulled out in mid-May 2025, reportedly over nonpayment, and TWG hired Elmington.",
+   "src": [
+    "dh-2025-01-09",
+    "dh-2025-06-13",
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "text": "The city counts the project toward its Proposition 123 commitment of 184 affordable homes by the end of 2026.",
+   "src": [
+    "dh-2025-06-13"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-08",
+   "event": "City council considers a resolution to put $70,000 earnest money on the Best Western",
+   "src": [
+    "dh-2021-08-16"
+   ]
+  },
+  {
+   "date": "2021-11-16",
+   "event": "Due diligence extended; hotel closing date moved to 2022-09-30",
+   "src": [
+    "dh-2021-11-16"
+   ]
+  },
+  {
+   "date": "2022-02",
+   "event": "Council approves sale and purchase agreement with TWG Acquisitions (reported 2022-02-18)",
+   "src": [
+    "dh-2022-02-18"
+   ]
+  },
+  {
+   "date": "2022",
+   "event": "Letter of intent to CHFA's 2022 4% bond pool: 111 units, $13M requested",
+   "src": [
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "date": "2023-03",
+   "event": "City receives a $1M DOLA Innovative Housing Incentive grant",
+   "src": [
+    "dh-2023-03-16"
+   ]
+  },
+  {
+   "date": "2023-10-27",
+   "event": "Groundbreaking",
+   "src": [
+    "dh-2023-10-28"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Ross-Envolve withdraws as property manager",
+   "src": [
+    "dh-2025-06-13"
+   ]
+  },
+  {
+   "date": "2025-07-11",
+   "event": "First tenant moves into the converted motel units",
+   "src": [
+    "dh-2025-07-20"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report shows $16,000,000 of CHFA bonds, while the city said in 2023 that CHFA, La Plata County and Durango had dedicated about $18 million of private activity bond allocation.",
+   "src": [
+    "chfa-4pct-award",
+    "dh-2023-03-16"
+   ]
+  },
+  {
+   "text": "The 2022 bond letter of intent listed 111 units, while the award report and later coverage give 120.",
+   "src": [
+    "chfa-2022-pab-loi",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final purchase price for the motel and the amounts TWG reimbursed to the city and Project Moxie.",
+  "Completion date of the two new buildings (48 units) and current occupancy.",
+  "Amounts from the Division of Housing, R4 Capital and other partners; equity investor and price."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-loi",
+   "title": "2022 CHFA 4% PAB Pool Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "reb-dur",
+   "title": "TWG to Convert Former Hotel into $35M Affordable Housing Property in Durango, Colorado",
+   "publisher": "REBusinessOnline",
+   "date": "2023-11-02",
+   "url": "https://rebusinessonline.com/twg-to-convert-former-hotel-into-35m-affordable-housing-property-in-durango-colorado/"
+  },
+  {
+   "id": "dh-2021-08-16",
+   "title": "Our View: Housing",
+   "publisher": "Durango Herald",
+   "date": "2021-08-16",
+   "url": "https://www.durangoherald.com/?p=172315"
+  },
+  {
+   "id": "dh-2021-10-05",
+   "title": "Durango hires developer to assess cost of converting hotel to affordable housing",
+   "publisher": "Durango Herald",
+   "date": "2021-10-05",
+   "url": "https://www.durangoherald.com/?p=171292"
+  },
+  {
+   "id": "dh-2021-11-16",
+   "title": "Durango extends due diligence period in effort to purchase hotel for affordable housing",
+   "publisher": "Durango Herald",
+   "date": "2021-11-16",
+   "url": "https://www.durangoherald.com/?p=169968"
+  },
+  {
+   "id": "dh-2022-02-18",
+   "title": "Durango City Council approves three apartment projects",
+   "publisher": "Durango Herald",
+   "date": "2022-02-18",
+   "url": "https://www.durangoherald.com/?p=167057"
+  },
+  {
+   "id": "dh-2023-03-16",
+   "title": "City of Durango lands $1M grant to help convert Best Western into affordable units",
+   "publisher": "Durango Herald",
+   "date": "2023-03-16",
+   "url": "https://www.durangoherald.com/?p=155556"
+  },
+  {
+   "id": "dh-2023-10-28",
+   "title": "Groundbreaking cues construction on Residences at Durango",
+   "publisher": "Durango Herald",
+   "date": "2023-10-28",
+   "url": "https://www.durangoherald.com/?p=149440"
+  },
+  {
+   "id": "dh-2024-05-13",
+   "title": "Durango's motel-to-apartments housing project should be ready for tenants by end of year",
+   "publisher": "Durango Herald",
+   "date": "2024-05-13",
+   "url": "https://www.durangoherald.com/?p=140935"
+  },
+  {
+   "id": "dh-2025-01-09",
+   "title": "72 units in Residences at Durango motel conversion nearing completion",
+   "publisher": "Durango Herald",
+   "date": "2025-01-09",
+   "url": "https://www.durangoherald.com/?p=120738"
+  },
+  {
+   "id": "dh-2025-06-13",
+   "title": "Tenants ask: When will Residences at Durango open?",
+   "publisher": "Durango Herald",
+   "date": "2025-06-13",
+   "url": "https://www.durangoherald.com/?p=104297"
+  },
+  {
+   "id": "dh-2025-07-20",
+   "title": "Tenants move into Residences at Durango",
+   "publisher": "Durango Herald",
+   "date": "2025-07-20",
+   "url": "https://www.durangoherald.com/?p=101216"
+  }
+ ]
+}

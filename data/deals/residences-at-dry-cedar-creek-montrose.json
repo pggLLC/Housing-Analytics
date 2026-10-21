@@ -1,0 +1,476 @@
+{
+ "slug": "residences-at-dry-cedar-creek-montrose",
+ "name": "Residences at Dry Cedar Creek",
+ "city": "Montrose",
+ "county": "Montrose",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-21",
+ "units": 60,
+ "headline": "Residences at Dry Cedar Creek is a 60-home mixed-income family rental complex (54 income-restricted, 6 market-rate) beside the Montrose Recreation Center, developed by RealAmerica Development with a 2022 Round One federal 9% credit award; it opened in October 2024.",
+ "why_it_matters": "It is a built, fully leased Western Slope 9% deal whose ownership, city and housing-authority support and lease-up record (221-household waitlist) RealAmerica is now reusing for its neighbouring Cedar Creek Commons and Black Canyon Flats deals.",
+ "status": {
+  "label": "Built and occupied (opened October 2024)",
+  "detail": "KREX reported the ribbon cutting on Tuesday 2024-10-08 (date inferred from the 2024-10-09 story) with 87% of homes leased; RealAmerica's 2026 CHFA application says it opened in October 2024, stabilized by December 2024 and is fully occupied with a 221-household waitlist. No placed-in-service or 8609 record was found online.",
+  "src": [
+   "krex-2024-10-09",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch Montrose County Assessor records for the housing-authority tax exemption and CHFA compliance listings for a placed-in-service date.",
+ "key_numbers": [
+  {
+   "value": "60 homes, 54 income-restricted",
+   "meaning": "Six at 30% AMI, 21 at 50%, 27 at 60%, plus six market-rate homes.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,349,678 a year in federal 9% credit",
+   "meaning": "About $13.5M over 10 years; no state credit is shown on the award report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "$1.89M from the Division of Housing",
+   "meaning": "Named in the application and again in 2023 press coverage of the groundbreaking.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "value": "6 project-based vouchers",
+   "meaning": "From the Montrose County Housing Authority, which also committed property and sales tax exemptions while the homes stay affordable.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (award report)",
+   "value": "65919 Ogden Rd., Montrose 81401",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Address (operating)",
+   "value": "1906 Ogden Road, Montrose, CO 81401",
+   "src": [
+    "realamerica-dcc"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two three-story wood-frame walk-up buildings plus a stand-alone community building; NGBS Silver target",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Vacant infill site directly east of the Montrose Recreation Center; all buildings north of Dry Cedar Creek, leaving over four acres of open space to the south",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "R-2, to be rezoned to R-3A; Planning Commission voted 7-0 for the rezone on 2022-01-26, with council hearings to follow",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction",
+   "value": "RealAmerica Construction (in-house); factory-built and prefabricated components planned",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Management",
+   "value": "RealAmerica Management",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 21
+  },
+  {
+   "level": "60% AMI",
+   "units": 27
+  },
+  {
+   "level": "Market rate",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 12
+  },
+  {
+   "type": "2BR",
+   "units": 36
+  },
+  {
+   "type": "3BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives",
+  "krex-2024-10-09"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,349,678 per year",
+   "note": "Application requested $1,350,000; the narrative puts tax credit equity at $12,418,858.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA first mortgage",
+   "amount": "$4,500,000",
+   "note": "As proposed in the application.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA second mortgage",
+   "amount": "$215,000",
+   "note": "As proposed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (DOLA) loans/grants",
+   "amount": "$1,890,000",
+   "note": "Letter of interest at application; the 2023 press report gives about $1,890,000.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "source": "City of Montrose fee waivers",
+   "amount": "$235,645",
+   "note": "Building permit fees, city construction use tax and plan check fee; the city also signalled possible waivers of $311,808 in tap and unit charges. The 2023 press report puts total city support at about $935,000.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$547,862",
+   "note": "As proposed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "City sidewalk along Ogden Road",
+   "amount": "$235,000 (final construction cost)",
+   "note": "City project built to serve the complex; completed May 2024.",
+   "src": [
+    "montrose-sidewalk"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "RealAmerica Development, LLC",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "General contractor (planned)",
+   "name": "RealAmerica Construction",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "RealAmerica Management",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Vouchers and tax exemption",
+   "name": "Montrose County Housing Authority",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Local funder",
+   "name": "City of Montrose",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "role": "State funder",
+   "name": "Colorado Division of Housing (DOLA)",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "After a CHFA concept meeting on 2022-01-06, RealAmerica added seven affordable homes (four at 50% AMI, three at 60%) to reach 54 affordable and 6 market-rate homes.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The award report's asterisk is on its Market Units column; the footnote says housing tax credit proceeds will not be used to support the development of market-rate units.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "text": "The site was under contract at application, with closing scheduled on or before 2022-10-31. Seller and price are not public in the sources checked.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Montrose County Housing Authority committed six project-based vouchers and property and sales tax exemptions for as long as the homes stay affordable (implies a housing-authority ownership role; structure not public).",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The application cited zero vacancies across 554 low-income rental units in the market area, waiting lists at all four existing tax-credit properties, and the hospital's 100+ unfilled jobs blamed on housing.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Montrose Press reported a groundbreaking ceremony in the week of 2023-10-12 with a mid-2024 completion target; it gave 30% AMI one-bedroom rents near $415 and 60% AMI three-bedroom rents over $1,200.",
+   "src": [
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "text": "KREX reported a ribbon cutting in October 2024, with 12 one-bedroom, 36 two-bedroom and 12 three-bedroom homes and 87% leased; the developer said the project took about three years.",
+   "src": [
+    "krex-2024-10-09"
+   ]
+  },
+  {
+   "text": "RealAmerica's 2026 Round One application for the adjacent Cedar Creek Commons says Dry Cedar Creek stabilized by December 2024 and holds a 221-household waitlist.",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-01-06",
+   "event": "CHFA concept meeting",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-01-13",
+   "event": "Neighbourhood open house at the Montrose Recreation Center",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-01-26",
+   "event": "Planning Commission votes 7-0 for the R-2 to R-3A rezone",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-02-14",
+   "event": "Application narrative published in CHFA's 2022 Round One narratives",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "CHFA Round One award report lists $1,349,678 federal 9% credit",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2023-10",
+   "event": "Groundbreaking ceremony reported (Montrose Press, 2023-10-12)",
+   "src": [
+    "montrose-press-2023-10-12"
+   ]
+  },
+  {
+   "date": "2024-05",
+   "event": "City completes Ogden Road sidewalk extension serving the complex",
+   "src": [
+    "montrose-sidewalk"
+   ]
+  },
+  {
+   "date": "2024-10-08",
+   "event": "Ribbon cutting; 87% leased (date inferred from KREX story of 2024-10-09)",
+   "src": [
+    "krex-2024-10-09"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Stabilized occupancy (per 2026 RealAmerica application)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Property photos and floor plans",
+   "url": "https://realamericallc.com/portfolio/residences-at-dry-cedar-creek/",
+   "kind": "photo",
+   "made_by": "RealAmerica LLC",
+   "note": "Developer's portfolio page",
+   "src": [
+    "realamerica-dcc"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report and the application give the address as 65919 Ogden Road, while the developer's property page gives 1906 Ogden Road.",
+   "src": [
+    "chfa-2022-r1-award",
+    "realamerica-dcc"
+   ]
+  },
+  {
+   "text": "The Montrose Press groundbreaking story describes 48 units with 42 at or below 60% AMI, while CHFA's award report, award description and the 2024 KREX opening story give 60 units (54 restricted).",
+   "src": [
+    "montrose-press-2023-10-12",
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions",
+    "krex-2024-10-09"
+   ]
+  },
+  {
+   "text": "The application counts $235,645 of city fee waivers (with up to $311,808 more possible), while the 2023 press report puts city support at about $935,000.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "montrose-press-2023-10-12"
+   ]
+  }
+ ],
+ "open_questions": [
+  "City Council rezoning ordinance number and date (application expected hearings in February and early March 2022); not found online.",
+  "Land seller and price; closing date of the land purchase.",
+  "Financial closing date, final equity investor and lender, total development cost.",
+  "Housing authority ownership structure behind the tax exemption.",
+  "Placed-in-service date and IRS Form 8609 issuance.",
+  "Affordability period (not stated in the public sources checked)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "2022 Round One - 9% Competitive Housing Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One 9% Housing Credit Application Narratives (Residences at Dry Cedar Creek, PDF pp. 82-86)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Cedar Creek Commons, describing Residences at Dry Cedar Creek, PDF pp. 33-34)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "montrose-press-2023-10-12",
+   "title": "Affordable apartments near Rec Center will be ready next summer",
+   "publisher": "Montrose Daily Press",
+   "date": "2023-10-12",
+   "url": "https://www.montrosepress.com/news/affordable-apartments-near-rec-center-will-be-ready-next-summer/article_2d432fe6-687b-11ee-aa4c-9f67f3596552.html"
+  },
+  {
+   "id": "krex-2024-10-09",
+   "title": "Ribbon cutting for Residences at Dry Cedar Creek (KREX, via Yahoo News)",
+   "publisher": "KREX / WesternSlopeNow",
+   "date": "2024-10-09",
+   "url": "https://www.yahoo.com/news/ribbon-cutting-residences-dry-cedar-193526096.html"
+  },
+  {
+   "id": "montrose-sidewalk",
+   "title": "Ogden Road Sidewalk Extension",
+   "publisher": "City of Montrose",
+   "date": "2024-05",
+   "url": "https://www.cityofmontrose.org/609/Ogden-Road-Sidewalk-Extension"
+  },
+  {
+   "id": "realamerica-dcc",
+   "title": "Residences at Dry Cedar Creek (portfolio page)",
+   "publisher": "RealAmerica LLC",
+   "date": "",
+   "url": "https://realamericallc.com/portfolio/residences-at-dry-cedar-creek/"
+  }
+ ]
+}

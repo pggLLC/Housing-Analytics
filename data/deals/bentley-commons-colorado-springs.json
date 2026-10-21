@@ -1,0 +1,560 @@
+{
+ "slug": "bentley-commons-colorado-springs",
+ "name": "Bentley Commons",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 192,
+ "researched_on": "2026-10-21",
+ "headline": "Bentley Commons is a 192-home affordable community in southeast Colorado Springs: three local nonprofits renovated the 24 existing apartments and built 168 new ones for households at 30% to 60% of AMI, including units for formerly homeless veterans with VASH vouchers. It won $2,735,647 a year in federal 4% credit and $1,000,000 in state credit in CHFA's 2022 Round Two.",
+ "why_it_matters": "It shows a locally owned nonprofit joint venture taking a site rescued from a failed condo project in 2009 to full build-out, with the city's bond cap, a housing authority tax-exemption partnership, a county housing authority loan and project-based VASH vouchers, and no out-of-state developer.",
+ "status": {
+  "label": "Completed and open: grand opening 2025-10-07",
+  "detail": "Financing closed in December 2023 and ground was broken on 2024-01-30. Partners in Housing said on 2025-10-03 that construction was complete on all 192 units, and the partners held a grand opening on 2025-10-07. No placed-in-service or 8609 record was found.",
+  "src": [
+   "koaa-2024-01-17",
+   "krdo-2024-01-30",
+   "pih-2025-10-03",
+   "koaa-2025-10-07"
+  ]
+ },
+ "next_step": "Watch for CHFA's property records or the sponsors' reports to show the placed-in-service year and stabilized occupancy.",
+ "key_numbers": [
+  {
+   "value": "192 homes: 24 renovated, 168 new, all income-restricted",
+   "meaning": "27 at 30% AMI, 19 at 40%, 102 at 50% and 44 at 60%; one-, two- and three-bedroom units.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$2,735,647 a year federal 4% credit plus $1,000,000 state credit",
+   "meaning": "About $27.4M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "About $64M to $65M total cost",
+   "meaning": "Reported budget for the expansion; no public sources-and-uses table was found.",
+   "src": [
+    "koaa-2024-01-17",
+    "gazette-2024-12-18",
+    "pih-cpr-2024-02-07"
+   ]
+  },
+  {
+   "value": "25 to 28 VASH units",
+   "meaning": "Units for veterans exiting chronic homelessness, with VA vouchers and services; CHFA said 25, later sources say 28.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-tefra-bentley-2023",
+    "pih-2025-10-03"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2730 Bentley Point, Colorado Springs (CHFA); the bond notice gives 2710-2730 Bentley Point and the sponsors now give 2715 Bentley Point; near Hancock Expressway and Astrozon Boulevard",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-tefra-bentley-2023",
+    "pih-2025-10-03"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N and A/R (new construction plus acquisition/rehabilitation), target M (mixed)",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 7.8 acres: the original Bentley Commons parcel plus an adjacent parcel the partners bought later",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Six new apartment buildings, the two existing buildings (24 units, built 2005) renovated, and the community center and leasing office refurbished",
+   "src": [
+    "pih-press-2022-11-18",
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "item": "Zoning and approvals",
+   "value": "Multifamily use by right; amended development plan approved June 2022; environmental conditions handled through CDPHE's Voluntary Cleanup Program",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rents and incomes",
+   "value": "All units at or below 60% AMI; the application said about 80% would be at 50% AMI or below",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "koaa-2024-01-17"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 27
+  },
+  {
+   "level": "40% AMI",
+   "units": 19
+  },
+  {
+   "level": "50% AMI",
+   "units": 102
+  },
+  {
+   "level": "60% AMI",
+   "units": 44
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  },
+  {
+   "type": "2BR",
+   "units": 105
+  },
+  {
+   "type": "3BR",
+   "units": 27
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "pih-press-2022-11-18"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,735,647 per year",
+   "note": "2022 Round Two award; same as the amount requested.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$30,000,000 (award report); up to $39,000,000 (CHFA hearing notice)",
+   "note": "The award report names the City of Colorado Springs as issuer; the application said the city would supply two-thirds of the bond cap and asked CHFA to assign the rest to the city. CHFA's October 2023 hearing notice is for CHFA-issued bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "chfa-tefra-bentley-2023"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs grant funding",
+   "amount": "Not public",
+   "note": "Named in the application and listed as a funder by the sponsors.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "source": "El Paso County Housing Authority low-interest loan",
+   "amount": "Not public",
+   "note": "Conditionally approved at application.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not public",
+   "note": "Listed as a funder by the sponsors.",
+   "src": [
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "source": "Myron Stratton Home Foundation predevelopment loan",
+   "amount": "Not public",
+   "note": "Low-interest predevelopment loan.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "U.S. Bank is the tax credit investor; CHFA provided the financing.",
+   "src": [
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Effectively $0",
+   "note": "GPR Properties financed the sale of the land into the deal.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Greccio Housing / Partners in Housing / RMCLT",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "GPR Properties III, a partnership of Greccio Housing Unlimited, Partners in Housing and Rocky Mountain Community Land Trust",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-tefra-bentley-2023"
+   ]
+  },
+  {
+   "role": "Expected owner",
+   "name": "Bentley Commons LLC (or another affiliate of GPR Properties III)",
+   "src": [
+    "chfa-tefra-bentley-2023"
+   ]
+  },
+  {
+   "role": "Managing partner and property manager",
+   "name": "Greccio Housing",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "pih-2025-10-03"
+   ]
+  },
+  {
+   "role": "Development and construction management consultant",
+   "name": "Medici Consulting Group",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Palace Construction",
+   "src": [
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "U.S. Bank",
+   "src": [
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "role": "Tax-exemption partner",
+   "name": "Colorado Springs Housing Authority (planned partner for property tax exemption; already a minority partner in the existing property)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Voucher and services provider",
+   "name": "U.S. Department of Veterans Affairs (project-based VASH)",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In 2009 the three nonprofits used Neighborhood Stabilization Program funds to buy a bankrupt, abandoned 24-unit condominium property known as Bentley Commons, the only two buildings a private developer finished before the 2008 crash, and ran it as affordable rentals.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "pih-cpr-2024-02-07"
+   ]
+  },
+  {
+   "text": "The partners later bought an adjacent parcel to build out the site; much of the expansion had been approved for the earlier condo developer before the recession.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Part of the site sits next to a historic inert landfill; buried material on the site was to be removed, buildings get sub-slab vapor barriers, and methane monitoring wells stay in use, under a plan approved in CDPHE's Voluntary Cleanup Program.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Rehab of the 24 existing units: the application planned new HVAC, accessibility updates, community and leasing space changes and new siding; by December 2024 the work also covered mold remediation, mechanical rooms, water heaters, furnaces, air conditioning, flooring and paint, and was complete.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "text": "The application planned a property tax exemption through a partnership with the Colorado Springs Housing Authority and 25 project-based VASH vouchers administered by the VA.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "No asterisk footnote applies to this row in the award report; its asterisks only key the Type and Target codes.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2009",
+   "event": "GPR partners buy the abandoned 24-unit condo property with NSP funds",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-06",
+   "event": "Amended development plan approved",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2022-11-18",
+   "event": "Sponsors announce the CHFA state credit award",
+   "src": [
+    "pih-press-2022-11-18"
+   ]
+  },
+  {
+   "date": "2023-10-23",
+   "event": "CHFA bond (TEFRA) hearing for up to $39M of bonds",
+   "src": [
+    "chfa-tefra-bentley-2023"
+   ]
+  },
+  {
+   "date": "2023-12",
+   "event": "Financing closed",
+   "src": [
+    "koaa-2024-01-17"
+   ]
+  },
+  {
+   "date": "2024-01-30",
+   "event": "Groundbreaking",
+   "src": [
+    "krdo-2024-01-30",
+    "pih-bentley-page"
+   ]
+  },
+  {
+   "date": "2024-09-23",
+   "event": "All six new foundations complete; framing under way",
+   "src": [
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "date": "2024-12-18",
+   "event": "Rehab of existing units complete; first new building to open leasing in January 2025",
+   "src": [
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "date": "2025-10-03",
+   "event": "Sponsors report construction complete on all 192 units",
+   "src": [
+    "pih-2025-10-03"
+   ]
+  },
+  {
+   "date": "2025-10-07",
+   "event": "Grand opening and ribbon cutting",
+   "src": [
+    "koaa-2025-10-07",
+    "pih-bentley-page"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The award report names the City of Colorado Springs as bond issuer for $30,000,000, but CHFA held the bond hearing for CHFA-issued bonds of up to $39,000,000, and the sponsors say the financing is through CHFA.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-tefra-bentley-2023",
+    "pih-progress-2024-09-23"
+   ]
+  },
+  {
+   "text": "CHFA's award description and the application say 25 VASH units, while CHFA's 2023 bond notice and later reporting say 28 units for formerly homeless veterans.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "chfa-tefra-bentley-2023",
+    "pih-2025-10-03"
+   ]
+  },
+  {
+   "text": "The application said renovations would not require relocating tenants, but existing residents were temporarily moved for a couple of weeks to a month during the rehab.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "text": "The address appears as 2730 Bentley Point with ZIP 80901 in the award report, 2730 Bentley Point with ZIP 80910 in the application, 2710-2730 Bentley Point in the bond notice and 2715 Bentley Point in the sponsors' completion notice.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "chfa-tefra-bentley-2023",
+    "pih-2025-10-03"
+   ]
+  },
+  {
+   "text": "The total cost is reported as close to $65 million by KOAA and the Gazette and as $64 million in the Colorado Public Radio article.",
+   "src": [
+    "koaa-2024-01-17",
+    "gazette-2024-12-18",
+    "pih-cpr-2024-02-07"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final bond amount and issuer at closing, and how much of the city's bond cap was used.",
+  "Dollar amounts of the City of Colorado Springs grant, El Paso County Housing Authority loan and Division of Housing funds.",
+  "Total development cost breakdown, equity price and permanent lender terms.",
+  "Placed-in-service date and 8609 issuance; affordability period and recorded covenant.",
+  "Whether the Colorado Springs Housing Authority property tax exemption partnership was completed."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% housing credit application narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "2022 HTC Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-tefra-bentley-2023",
+   "title": "Notice of Public Hearing, CHFA Multi-Family Project Class I Bonds (Bentley Commons Project)",
+   "publisher": "CHFA",
+   "date": "2023-10-13",
+   "url": "https://www.chfainfo.com/getattachment/307b1cd5-ebc0-498d-993d-4be0b2c62846/TEFRA-Notice-CHFA-MFP-2023FG-Bentley-Commons-Oct2023.pdf"
+  },
+  {
+   "id": "pih-press-2022-11-18",
+   "title": "Bentley Commons Press Release",
+   "publisher": "Partners in Housing",
+   "date": "2022-11-18",
+   "url": "https://partnersinhousing.org/bentley-commons-press-release/"
+  },
+  {
+   "id": "pih-bentley-page",
+   "title": "The Bentley Commons Development Project",
+   "publisher": "Partners in Housing",
+   "date": "2025",
+   "url": "https://partnersinhousing.org/bentley-commons-development/"
+  },
+  {
+   "id": "koaa-2024-01-17",
+   "title": "'Huge for our community': 168 affordable housing units coming to Colorado Springs",
+   "publisher": "KOAA News5",
+   "date": "2024-01-17",
+   "url": "https://www.koaa.com/news/covering-colorado/huge-for-our-community-168-affordable-housing-units-coming-to-colorado-springs"
+  },
+  {
+   "id": "krdo-2024-01-30",
+   "title": "Housing advocates break ground on affordable housing expansion in southeast Colorado Springs",
+   "publisher": "KRDO NewsChannel 13",
+   "date": "2024-01-30",
+   "url": "https://krdo.com/news/2024/01/30/housing-advocates-break-ground-on-affordable-housing-expansion-in-southeast-colorado-springs/"
+  },
+  {
+   "id": "pih-cpr-2024-02-07",
+   "title": "New affordable housing units to Colorado Springs (excerpt of a Colorado Public Radio article)",
+   "publisher": "Partners in Housing",
+   "date": "2024-02-07",
+   "url": "https://partnersinhousing.org/new-affordable-units-coming/"
+  },
+  {
+   "id": "pih-progress-2024-09-23",
+   "title": "Great progress being made at Bentley Commons",
+   "publisher": "Partners in Housing",
+   "date": "2024-09-23",
+   "url": "https://partnersinhousing.org/great-progress-being-made-at-bentley-commons/"
+  },
+  {
+   "id": "gazette-2024-12-18",
+   "title": "Affordable housing project catches Gov. Polis' eye during Colorado Springs visit",
+   "publisher": "The Gazette (Colorado Springs)",
+   "date": "2024-12-18",
+   "url": "https://gazette.com/2024/12/18/affordable-housing-project-catches-gov-polis-eye-during-colorado-springs-visit/"
+  },
+  {
+   "id": "pih-2025-10-03",
+   "title": "Affordable Housing Expansion",
+   "publisher": "Partners in Housing",
+   "date": "2025-10-03",
+   "url": "https://partnersinhousing.org/affordable-housing-expansion/"
+  },
+  {
+   "id": "koaa-2025-10-07",
+   "title": "More affordable housing coming to southeast side of Colorado Springs",
+   "publisher": "KOAA News5",
+   "date": "2025-10-07",
+   "url": "https://www.koaa.com/news/local-news/more-affordable-housing-coming-to-southeast-side-of-colorado-springs"
+  }
+ ]
+}

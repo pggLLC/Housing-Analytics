@@ -1,0 +1,369 @@
+{
+ "slug": "spine-road-apartments-boulder",
+ "name": "Spine Road Apartments",
+ "city": "Boulder",
+ "county": "Boulder",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 65,
+ "researched_on": "2026-10-21",
+ "headline": "Spine Road Apartments is a 65-home affordable rental community for households at 30% to 70% AMI at 4775 Spine Road in Boulder's Gunbarrel area, developed by Koelbel and Company with the Boulder County Housing Authority as part of a larger mixed-income site; it won $973,572 a year in 2022 federal 4% credit with $13.35M of CHFA bonds, but financing only closed in June 2026.",
+ "why_it_matters": "Nearly four years passed between the 2022 credit cycle and closing, with the unit count growing from 59 to 65 and a $3.25M state cash flow loan added in 2024, so it is a live example of how long small 4% deals in high-cost markets can take to assemble.",
+ "status": {
+  "label": "Financing closed June 2026; construction expected to start June 2026; completion targeted Q4 2027",
+  "detail": "Koelbel announced on 2026-06-16 that financing had closed and that construction was expected to begin that month, with completion in Q4 2027. No dated building permit or groundbreaking record was found to confirm work is under way.",
+  "src": [
+   "mhcre-spine-close"
+  ]
+ },
+ "next_step": "Look for a City of Boulder building permit or groundbreaking announcement for 4775 Spine Road.",
+ "key_numbers": [
+  {
+   "value": "65 homes, all income-restricted (30% to 70% AMI)",
+   "meaning": "CHFA shows 4 units at 30% AMI and 61 at 60%; 2 studios, 36 one-bedrooms, 9 two-bedrooms, 18 three-bedrooms.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "value": "$973,572 a year in federal 4% credit",
+   "meaning": "About $9.7M over 10 years (inferred); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$13.35M CHFA private activity bonds",
+   "meaning": "The 2022 bond-pool letter of intent requested $11M for 59 units.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "value": "$3.25M Division of Housing cash flow loan",
+   "meaning": "Awarded by the State Housing Board in November 2024.",
+   "src": [
+    "dola-2024-11-18"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4775 Spine Rd, Boulder 80301 (Gunbarrel)",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT, DDA or SADDA; Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Eight buildings; Koelbel's 2026 release says two stories, the 2024 DOLA release said three stories",
+   "src": [
+    "mhcre-spine-close",
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "From 507 sq ft studios to 1,662 sq ft three-bedroom, three-bath homes; in-unit washers and dryers",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "item": "Site approval",
+   "value": "City of Boulder Site and Use Review LUR2020-00063 for the 9.87-acre site at 4775, 4725 and 4649 Spine Road (230 attached homes, cafe, library, art space, mobility hub); Planning Board heard a request to extend that approval on 2023-11-07",
+   "src": [
+    "boulder-pb-2023-11-07"
+   ]
+  },
+  {
+   "item": "Shared amenities",
+   "value": "Central park shared with neighboring market-rate housing, mobility hub with EV chargers, car share, e-bikes and e-scooters, and discounted access to the market-rate site's pool and fitness center",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "60% AMI",
+   "units": 61
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 2
+  },
+  {
+   "type": "1BR",
+   "units": 36
+  },
+  {
+   "type": "2BR",
+   "units": 9
+  },
+  {
+   "type": "3BR",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$973,572 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$13,350,000",
+   "note": "From CHFA's 2022 4% bond pool (letter of intent requested $11,000,000).",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing cash flow loan",
+   "amount": "$3,250,000",
+   "note": "State Housing Board award announced 2024-11-18.",
+   "src": [
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "source": "Other named funding partners",
+   "amount": "Not public",
+   "note": "CHFA/OEDIT (inferred to be Proposition 123 funds), City of Boulder, Division of Housing (HDG), Sares-Regis Group and Wells Fargo.",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Koelbel and Company",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "role": "Development partner",
+   "name": "Boulder County Housing Authority",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Colorado Housing and Finance Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Funding partners",
+   "name": "Sares-Regis Group; Wells Fargo; City of Boulder",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The affordable rentals are one piece of a larger 9.87-acre Koelbel site at 4775, 4725 and 4649 Spine Road approved by the City of Boulder for 230 attached homes plus community uses; in November 2023 the Planning Board considered extending that approval.",
+   "src": [
+    "boulder-pb-2023-11-07",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "Koelbel describes it as the first dedicated affordable rental community in Gunbarrel and its 12th affordable project since 2011.",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "The project grew from 59 units in the 2022 bond letter of intent to 65 units at award and closing.",
+   "src": [
+    "chfa-2022-pab-loi",
+    "chfa-4pct-award",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "RTD's Route J is expected to return to the area when the project is complete, per the developer.",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Letter of intent to CHFA's 2022 4% bond pool: 59 units, $11M requested",
+   "src": [
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "date": "2023-11-07",
+   "event": "City of Boulder Planning Board hearing on extending Site and Use Review LUR2020-00063",
+   "src": [
+    "boulder-pb-2023-11-07"
+   ]
+  },
+  {
+   "date": "2024-11-18",
+   "event": "State Housing Board awards a $3.25M cash flow loan",
+   "src": [
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "date": "2026-06",
+   "event": "Financing closes; construction expected to start (announced 2026-06-16)",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027-Q4",
+   "event": "Targeted completion",
+   "src": [
+    "mhcre-spine-close"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the federal 4% credit under cycle year 2022, while the Division of Housing release says the project was awarded 4% federal tax credits in 2023.",
+   "src": [
+    "chfa-4pct-award",
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "text": "The Division of Housing release describes eight three-story buildings, while Koelbel's closing release describes eight two-story buildings.",
+   "src": [
+    "dola-2024-11-18",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "The Division of Housing release calls Gunbarrel an unincorporated community governed by Boulder County, while the site's land use review was heard by the City of Boulder Planning Board and the City of Boulder is a funding partner.",
+   "src": [
+    "dola-2024-11-18",
+    "boulder-pb-2023-11-07",
+    "mhcre-spine-close"
+   ]
+  },
+  {
+   "text": "CHFA's award report lists only 30% and 60% AMI units, while the developer describes the homes as serving households between 30% and 70% AMI.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-spine-close"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Building permit and groundbreaking dates.",
+  "Boulder County Housing Authority's role (ownership, tax exemption) and the size of the City of Boulder and CHFA/OEDIT funds.",
+  "Whether the Planning Board granted the 2023 extension and the decision date.",
+  "Total development cost, equity investor and price."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-loi",
+   "title": "2022 CHFA 4% PAB Pool Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "mhcre-spine-close",
+   "title": "Koelbel Closes on Spine Road Affordable Project in Boulder County",
+   "publisher": "Mile High CRE",
+   "date": "2026-06-16",
+   "url": "https://milehighcre.com/koelbel-closes-on-spine-road-affordable-project-in-boulder-county/"
+  },
+  {
+   "id": "dola-2024-11-18",
+   "title": "Colorado State Housing Board Announces $6.85M in Housing Awards, Providing 185 Rental Units Statewide",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2024-11-18",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-announces-685m-in-housing-awards-providing-185-rental"
+  },
+  {
+   "id": "boulder-pb-2023-11-07",
+   "title": "Planning Board Meeting agenda, 2023-11-07 (item 4A, LUR2020-00063)",
+   "publisher": "City of Boulder",
+   "date": "2023-11-07",
+   "url": "https://bouldercolorado.gov/events/planning-board-meeting-73"
+  }
+ ]
+}

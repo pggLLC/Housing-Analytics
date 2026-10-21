@@ -1,0 +1,487 @@
+{
+ "slug": "ridgegate-senior-lone-tree",
+ "name": "RidgeGate Senior (now Forte)",
+ "city": "Lone Tree",
+ "county": "Douglas",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 101,
+ "researched_on": "2026-10-21",
+ "headline": "Koelbel and Company built RidgeGate Senior, now Forte, at 10760 Crossfield Street in RidgeGate East, Lone Tree: 101 income-averaged apartments for older adults at 30% to 80% AMI, the city's first age-restricted tax credit building, financed partly by a 2022 Round Two award of 4% and state housing tax credits.",
+ "why_it_matters": "This is a suburb with almost no affordable stock. The city helped with permit-fee and use-tax waivers rather than cash, and Douglas County Housing Partnership joined as special limited partner, which shows what support a high-cost suburb can offer for senior 4% deals. The deal also took about two years from award to construction start.",
+ "status": {
+  "label": "Construction started December 2024; ribbon cutting announced April 2026; placed-in-service date not public",
+  "detail": "Construction began in early December 2024, a ceremonial groundbreaking followed on 2025-06-12, and completion was targeted for May 2026. Senior Housing News reported on 2026-04-16 that Koelbel had announced a ribbon cutting for Forte. No public certificate of occupancy or 8609 date was found.",
+  "src": [
+   "mhcre-2025-02-24",
+   "mhcre-2025-06-17",
+   "ccm-2025-06-16",
+   "shn-2026-04-16"
+  ]
+ },
+ "next_step": "Confirm the certificate of occupancy and lease-up through Lone Tree records or the property's leasing site. Check CHFA's placed-in-service record.",
+ "key_numbers": [
+  {
+   "value": "101 homes from 30% to 80% AMI (average 56% AMI)",
+   "meaning": "74 one-bedrooms and 27 two-bedrooms. 11 at 30%, 11 at 40%, 17 at 50%, 38 at 60%, 16 at 70% and 8 at 80% AMI.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,845,371 a year in federal 4% credit plus $1,000,000 of state credit",
+   "meaning": "About $18.5M in federal credit over 10 years (inferred). The application asked for $1,850,863.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "value": "$20,000,000 in CHFA tax-exempt bonds",
+   "meaning": "$6.9M was to be retired at conversion, leaving $13.1M of permanent bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $264,000 per unit construction estimate (2022)",
+   "meaning": "Alliance Construction Solutions' pricing at application. That works out to about $26.7M of construction for 101 units (inferred). Total development cost is not public.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "10760 Crossfield St, Lone Tree. CHFA listed it as approximately 12500 E. RidgeGate Pkwy, on the east side of the RidgeGate Parkway couplet.",
+   "src": [
+    "mhcre-2025-06-17",
+    "ccm-2025-06-16",
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, senior",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "RidgeGate Planned Development (6th Amendment), planning area C/M-U#4, with multifamily permitted by right",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four floors of Type V-A wood frame over a one-story post-tension concrete podium with 75 covered parking spaces, two elevators, NGBS Bronze target and electrification-ready design. Units range from 594 to 1,074 sq ft.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "mhcre-2025-06-17"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Served by Lone Tree's free Link On Demand shuttle. RTD RidgeGate Parkway Station is under 2 miles away.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Site control",
+   "value": "Executed purchase and sale agreement with the landowner (at application)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 11
+  },
+  {
+   "level": "40% AMI",
+   "units": 11
+  },
+  {
+   "level": "50% AMI",
+   "units": 17
+  },
+  {
+   "level": "60% AMI",
+   "units": 38
+  },
+  {
+   "level": "70% AMI",
+   "units": 16
+  },
+  {
+   "level": "80% AMI",
+   "units": 8
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 74
+  },
+  {
+   "type": "2BR",
+   "units": 27
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,845,371 per year",
+   "note": "2022 Round Two award",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$20,000,000",
+   "note": "Privately placed with the construction and permanent lender. Any added construction money was to come from a taxable portion of the loan, not taxable bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing HOME funds",
+   "amount": "Not public",
+   "note": "Anticipated in the application",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Lone Tree",
+   "amount": "Not public",
+   "note": "Waivers of application and permit fees and of construction use tax, per letters cited in the application",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Douglas County Housing Partnership",
+   "amount": "Not public",
+   "note": "Special limited partner participation (CHFA's description calls it the Douglas County Housing Authority)",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "Koelbel and Company",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Special limited partner (as proposed)",
+   "name": "Douglas County Housing Partnership",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Bryant Flink Architecture + Design (BFAD)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Contractor/pricing (as proposed)",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (as proposed)",
+   "name": "Mission Rock Residential",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Master developer of RidgeGate",
+   "name": "Coventry Development Corporation",
+   "src": [
+    "mhcre-2025-02-24"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Koelbel's second affordable deal in RidgeGate, after Talus (67 units, 30% to 80% AMI), which began leasing at the end of 2022.",
+   "src": [
+    "mhcre-2023-03-13",
+    "mhcre-2025-02-24"
+   ]
+  },
+  {
+   "text": "Local approvals: Lone Tree site improvement plan (SIP) approval came in 2023, per Koelbel's release. In March 2023 the master developer said construction depended on city approval. The SIP number and date were not found.",
+   "src": [
+    "mhcre-2025-02-24",
+    "mhcre-2023-03-13"
+   ]
+  },
+  {
+   "text": "The construction start slipped from 2023 (planned in March 2023) to 2024 (planned in January 2024) and finally to early December 2024.",
+   "src": [
+    "mhcre-2023-03-13",
+    "mhcre-2024-01-30",
+    "mhcre-2025-02-24"
+   ]
+  },
+  {
+   "text": "Koelbel asked CHFA for a basis limit waiver because of high construction costs. A public meeting advertised in local papers on July 6 (2022) had no attendees, since the site had no neighbors yet.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application said there were no senior tax credit or age-restricted market-rate apartments in the market area, only continuing-care communities.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2022-11-16",
+   "event": "CHFA announces the 2022 Round Two awards, including RidgeGate Senior",
+   "src": [
+    "chfa-2022-r2-news"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Lone Tree SIP approval (per developer release)",
+   "src": [
+    "mhcre-2025-02-24"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Construction begins (early December)",
+   "src": [
+    "mhcre-2025-02-24",
+    "ccd-2025-02-25"
+   ]
+  },
+  {
+   "date": "2025-06-12",
+   "event": "Ceremonial groundbreaking for Forte",
+   "src": [
+    "mhcre-2025-06-17",
+    "ccm-2025-06-16"
+   ]
+  },
+  {
+   "date": "2026-04-16",
+   "event": "Senior Housing News reports Koelbel announced a ribbon cutting for Forte",
+   "src": [
+    "shn-2026-04-16"
+   ]
+  },
+  {
+   "date": "2026-05",
+   "event": "Targeted completion and opening",
+   "src": [
+    "mhcre-2025-02-24",
+    "ccm-2025-06-16"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior rendering",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+   "kind": "rendering",
+   "made_by": "Applicant (Koelbel and Company team), in CHFA's 2022 Round Two narratives",
+   "note": "PDF page 68",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "title": "RidgeGate East Villages plan map with the site highlighted in the Central Village Couplet District",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+   "kind": "site plan",
+   "made_by": "Applicant, from the RidgeGate East Villages Sub-Area Plan",
+   "note": "PDF page 72",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description and the application say the building is for adults 62 and older, while Senior Housing News calls Forte a 55+ community.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "shn-2026-04-16"
+   ]
+  },
+  {
+   "text": "CHFA reserved the credits in its 2022 Round Two (announced November 2022), while Koelbel's 2025 release says CHFA tax credit approval came in 2023.",
+   "src": [
+    "chfa-2022-r2-news",
+    "chfa-2022-r2-award",
+    "mhcre-2025-02-24"
+   ]
+  },
+  {
+   "text": "A January 2024 RidgeGate update calls the project 100 units, while CHFA and later releases give 101.",
+   "src": [
+    "mhcre-2024-01-30",
+    "chfa-2022-r2-award",
+    "mhcre-2025-06-17"
+   ]
+  },
+  {
+   "text": "Koelbel's February 2025 release says construction started in early December 2024, while June 2025 coverage marks a groundbreaking on 2025-06-12 as the kickoff of construction.",
+   "src": [
+    "mhcre-2025-02-24",
+    "mhcre-2025-06-17"
+   ]
+  },
+  {
+   "text": "The award report shows $1,845,371 of federal credit, while the applicant report shows $1,850,863.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, lenders, equity investor and final development cost are not public.",
+  "Value of Lone Tree's fee and use tax waivers, Division of Housing HOME amount, and Douglas County Housing Partnership's role (and any property tax exemption) were not found.",
+  "Lone Tree SIP number and approval date were not found.",
+  "Certificate of occupancy, opening date, placed-in-service year and 8609 date are not confirmed. A City of Lone Tree page saying Forte has opened returned HTTP 429 to the required check, so it is not cited.",
+  "Affordability covenant term is not public."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "CHFA, 2022 Round 2 Award Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "CHFA, 2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "CHFA, 2022 Round 2 Applicant Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-news",
+   "title": "CHFA Announces 2022 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2022-11-16",
+   "url": "https://www.chfainfo.com/chfa-news/11162022-htc-round-two"
+  },
+  {
+   "id": "mhcre-2025-02-24",
+   "title": "New Senior Affordable Community Coming to RidgeGate",
+   "publisher": "Mile High CRE",
+   "date": "2025-02-24",
+   "url": "https://milehighcre.com/?p=54107"
+  },
+  {
+   "id": "ccd-2025-02-25",
+   "title": "Koelbel and Company Begins Construction of Senior Affordable Housing Community in RidgeGate in Lone Tree",
+   "publisher": "Colorado Construction & Design",
+   "date": "2025-02-25",
+   "url": "https://ccdmag.com/project-updates/koelbel-senior-housing-lonetree/"
+  },
+  {
+   "id": "mhcre-2025-06-17",
+   "title": "Koelbel Breaks Ground on Senior Affordable Housing in Lone Tree",
+   "publisher": "Mile High CRE",
+   "date": "2025-06-17",
+   "url": "https://milehighcre.com/koelbel-breaks-ground-on-senior-affordable-housing-in-lone-tree/"
+  },
+  {
+   "id": "ccm-2025-06-16",
+   "title": "Lone Tree announces Senior Affordable Housing Community in RidgeGate to open in May 2026",
+   "publisher": "Colorado Community Media (Douglas County News-Press)",
+   "date": "2025-06-16",
+   "url": "https://coloradocommunitymedia.com/2025/06/16/lone-tree-announces-senior-affordable-housing"
+  },
+  {
+   "id": "shn-2026-04-16",
+   "title": "In the Pipeline (April 16, 2026)",
+   "publisher": "Senior Housing News",
+   "date": "2026-04-16",
+   "url": "https://seniorhousingnews.com/2026/04/16/in-the-pipeline-clearwater-opens-california-luxury-community-evertrue-plans-renovations-in-pennsylvania/"
+  },
+  {
+   "id": "mhcre-2023-03-13",
+   "title": "RidgeGate in Lone Tree Poised to Make Significant Progress in 2023",
+   "publisher": "Mile High CRE",
+   "date": "2023-03-13",
+   "url": "https://milehighcre.com/ridgegate-in-lone-tree-poised-to-make-significant-progress-in-2023/"
+  },
+  {
+   "id": "mhcre-2024-01-30",
+   "title": "RidgeGate in Lone Tree Continues Development Progress in 2024",
+   "publisher": "Mile High CRE",
+   "date": "2024-01-30",
+   "url": "https://milehighcre.com/ridgegate-in-lone-tree-continues-development-progress-in-2024/"
+  }
+ ]
+}

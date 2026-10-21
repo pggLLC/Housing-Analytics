@@ -1,0 +1,470 @@
+{
+ "slug": "bluebird-longmont",
+ "name": "Bluebird Longmont (opened as Zinnia)",
+ "city": "Longmont",
+ "county": "Boulder",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 55,
+ "researched_on": "2026-10-21",
+ "headline": "Element Properties' Bluebird Longmont, a 55-unit permanent supportive housing building for people leaving homelessness at 2000 Sunset Way in Longmont, all at 30% AMI, won $653,854 a year in 2022 federal 9% credits and opened in October 2024 under the name Zinnia.",
+ "why_it_matters": "It shows a city-plus-housing-authority land contribution, fee waivers and a housing authority tax exemption carrying a small-credit (about $11,900 per unit per year) PSH deal from award to opening in about 29 months, next to an existing housing authority PSH property for shared management.",
+ "status": {
+  "label": "Built and open (October 2024)",
+  "detail": "A City of Longmont and Longmont Housing Authority development summary presented to Boulder County in February 2025 lists Zinnia at 2000 Sunset Way as completed, opened in October 2024, with 55 one-bedroom units at 30% AMI, LIHTC and state vouchers. Linking the name Zinnia to the CHFA ledger name Bluebird Longmont is inferred from the same developer, address and unit count. No 8609 or placed-in-service record was found.",
+  "src": [
+   "bc-aaht-2025-02",
+   "mhcre-2024-05-15",
+   "chfa-2022-r1-award"
+  ]
+ },
+ "next_step": "Look for the property on CHFA's placed-in-service lists or HUD's LIHTC database under the name Zinnia to confirm the 8609 year and final credit amount.",
+ "key_numbers": [
+  {
+   "value": "55 homes, all one-bedroom, all at 30% AMI",
+   "meaning": "Permanent supportive housing for adults leaving homelessness, with project-based vouchers from the Colorado Division of Housing and Longmont Housing Authority.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "$653,854 a year in federal 9% credit",
+   "meaning": "About $6.5M over 10 years (inferred); the developer told the press the credits would raise almost $5.7M in equity.",
+   "src": [
+    "chfa-2022-r1-award",
+    "ll-2022-06-09"
+   ]
+  },
+  {
+   "value": "$4,125,000 Division of Housing award",
+   "meaning": "State gap funding at $75,000 per unit, awarded in 2023 per a 2024 grant announcement.",
+   "src": [
+    "mhcre-2024-05-15",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "Opened October 2024",
+   "meaning": "About 29 months after the May 2022 award (inferred from the dates).",
+   "src": [
+    "bc-aaht-2025-02",
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2000 Sunset Way, Longmont, CO 80501 (city resource list now gives 2005 Sunset Way for Zinnia)",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives",
+    "longmont-ah-list"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, PSH: new construction, permanent supportive housing",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, about 39,430 sq ft, Type V wood frame, one elevator; furnished units with full kitchens; 35 kW rooftop solar planned; NGBS Bronze target",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Subdivided parcel next to the Longmont Housing Authority's Suites Supportive Housing and behind the Village at the Peaks mall; not in a QCT or DDA; about 1.38 acres per a city staff report as reported",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ll-2022-03-26"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD BOLT route; nearest stop 0.2 miles away on Highway 119",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Earlier names",
+   "value": "Called Sunset Heights and Sunset Permanent Supportive Housing in 2022 city coverage; Zinnia from 2024",
+   "src": [
+    "ll-2022-03-26",
+    "ll-2022-08-07",
+    "mhcre-2024-05-15"
+   ]
+  },
+  {
+   "item": "Competition",
+   "value": "One of 12 awards from 26 Round One applications; the applicant report shows $603,092 requested",
+   "src": [
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 55
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 55
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$653,854 per year",
+   "note": "No state credit shown on the 2022 Round One report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "$4,125,000",
+   "note": "$75,000 per unit; the narrative described it as the maximum DOH gap request.",
+   "src": [
+    "mhcre-2024-05-15",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Worthy Cause funds",
+   "amount": "$500,000",
+   "note": "Already awarded at application.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ll-2022-06-09"
+   ]
+  },
+  {
+   "source": "City of Longmont predevelopment loan",
+   "amount": "$250,000",
+   "note": "Plus a waiver of half of building permit and development fees (more than $470,000) and a parking reduction.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Longmont Housing Authority loan",
+   "amount": "$635,000",
+   "note": "As reported in 2024.",
+   "src": [
+    "ll-2024-05-17"
+   ]
+  },
+  {
+   "source": "Land contribution (City of Longmont and Longmont Housing Authority)",
+   "amount": "Not stated",
+   "note": "The developer valued city and housing authority support (land, tax exemption, fee reductions, services) at more than $3M.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ll-2022-06-09"
+   ]
+  },
+  {
+   "source": "Supportive services budget",
+   "amount": "$8,818 per unit per year (planned)",
+   "note": "Also applied for $198,000 a year in DOH Tenancy Support Services funding.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it) and developer",
+   "name": "Element Properties",
+   "src": [
+    "chfa-2022-r1-award",
+    "bc-aaht-2025-02"
+   ]
+  },
+  {
+   "role": "Land partners and property tax exemption",
+   "name": "City of Longmont and Longmont Housing Authority",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Longmont Housing Authority",
+   "src": [
+    "bc-aaht-2025-02",
+    "ll-2022-03-26"
+   ]
+  },
+  {
+   "role": "Supportive services (planned at application)",
+   "name": "Boulder Shelter for the Homeless, with Mental Health Partners and others",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Supportive services (listed at opening)",
+   "name": "All Roads",
+   "src": [
+    "bc-aaht-2025-02"
+   ]
+  },
+  {
+   "role": "Voucher management (listed at opening)",
+   "name": "Clinica Family Health",
+   "src": [
+    "bc-aaht-2025-02"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (at application)",
+   "name": "I-Kota Construction",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: the City of Longmont and the Longmont Housing Authority jointly own the parcel and agreed in 2019 to transfer it to Element under an option that was due to expire in December 2022; the narrative calls it a land contribution.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ll-2022-03-26"
+   ]
+  },
+  {
+   "text": "The application was a second try: the narrative says the 9% request fell almost 34% from the prior year's application after adding $2.4M of debt and seeking the maximum DOH gap funding.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Estimated total cost at application was about $331,000 per unit, of which $224,000 was hard cost (about $18.2M total for 55 units, inferred).",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals: the narrative says site plan and building permit needed no discretionary approvals once an emergency access easement was secured from the neighboring mall owner.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Property tax exemption through the Longmont Housing Authority was part of the plan at application.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ll-2022-06-09"
+   ]
+  },
+  {
+   "text": "A 2024 grant announcement also lists CHFA private activity bonds among the funders; no bond amount or issuer record was found, and the CHFA 4% award report has no row for this deal.",
+   "src": [
+    "mhcre-2024-05-15"
+   ]
+  },
+  {
+   "text": "Under construction in May 2024 with a target completion in October 2024.",
+   "src": [
+    "mhcre-2024-05-15"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2019",
+   "event": "Element, the City of Longmont and Longmont Housing Authority sign an option agreement for the site",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report ($603,092 requested)",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $653,854 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2022-06-09",
+   "event": "Developer tells press it plans to break ground in spring 2023 and finish in summer 2024",
+   "src": [
+    "ll-2022-06-09"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Colorado Division of Housing awards $4,125,000",
+   "src": [
+    "mhcre-2024-05-15"
+   ]
+  },
+  {
+   "date": "2024-05-15",
+   "event": "Reported under construction as Zinnia, target completion October 2024",
+   "src": [
+    "mhcre-2024-05-15"
+   ]
+  },
+  {
+   "date": "2024-10",
+   "event": "Zinnia opens",
+   "src": [
+    "bc-aaht-2025-02"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Zinnia building image",
+   "url": "https://milehighcre.com/boulder-shelter-for-the-homeless-receives-50k-grant-from-wells-fargo/",
+   "kind": "rendering",
+   "made_by": "Element Properties (credited 'courtesy of Element Properties')",
+   "note": "Top of article",
+   "src": [
+    "mhcre-2024-05-15"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2022 applicant report shows $603,092 of credit requested, the narrative cites a request of $650,824, and the award report shows $653,854 awarded.",
+   "src": [
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "text": "CHFA and the city's 2025 development summary give the address as 2000 Sunset Way, while the city's affordable housing resource list gives Zinnia's address as 2005 Sunset Way.",
+   "src": [
+    "chfa-2022-r1-award",
+    "bc-aaht-2025-02",
+    "longmont-ah-list"
+   ]
+  },
+  {
+   "text": "At application the lead service provider was the Boulder Shelter for the Homeless, while the 2025 city summary lists supportive services by All Roads.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "bc-aaht-2025-02"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final total development cost, equity price and investor, permanent lender, and final general contractor.",
+  "Whether CHFA private activity bonds were used (construction financing) and in what amount.",
+  "Land transfer terms (price, deed or ground lease) and the city council action and resolution number approving the land deal and fee waivers.",
+  "8609 issuance date and placed-in-service year.",
+  "Whether All Roads is the Boulder Shelter for the Homeless under a new name (not confirmed from public sources reviewed)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (Bluebird Longmont, PDF pages 6-10)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "ll-2022-03-26",
+   "title": "Sunset Heights slated to become newest housing option for Longmont's homeless",
+   "publisher": "Longmont Leader",
+   "date": "2022-03-26",
+   "url": "https://www.longmontleader.com/local-news/sunset-heights-slated-to-become-newest-housing-option-for-longmonts-homeless-5195449"
+  },
+  {
+   "id": "ll-2022-06-09",
+   "title": "Development aimed at housing the city's homeless on its way (Bluebird Longmont)",
+   "publisher": "Longmont Leader (BizWest)",
+   "date": "2022-06-09",
+   "url": "https://www.longmontleader.com/local-news/development-aimed-at-housing-the-citys-homeless-on-its-way-5458478"
+  },
+  {
+   "id": "ll-2022-08-07",
+   "title": "Longmont housing development caters to the homeless",
+   "publisher": "Longmont Leader",
+   "date": "2022-08-07",
+   "url": "https://www.longmontleader.com/local-news/longmont-housing-development-caters-to-the-homeless-5664332"
+  },
+  {
+   "id": "mhcre-2024-05-15",
+   "title": "Boulder Shelter for the Homeless Receives $50K Grant from Wells Fargo (Zinnia Permanent Supportive Housing)",
+   "publisher": "Mile High CRE",
+   "date": "2024-05-15",
+   "url": "https://milehighcre.com/boulder-shelter-for-the-homeless-receives-50k-grant-from-wells-fargo/"
+  },
+  {
+   "id": "ll-2024-05-17",
+   "title": "Boulder Shelter receives $50,000 grant",
+   "publisher": "Longmont Leader",
+   "date": "2024-05-17",
+   "url": "https://www.longmontleader.com/local-news/boulder-shelter-receives-50000-grant-8755403"
+  },
+  {
+   "id": "bc-aaht-2025-02",
+   "title": "Affordable and Attainable Housing Tax administrative meeting deck, incl. City of Longmont & Longmont Housing Authority development summary (Zinnia on PDF page 19)",
+   "publisher": "Boulder County Housing Department",
+   "date": "2025-02-07",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/02/aaht-administrative-meeting-feb-2025.pdf"
+  },
+  {
+   "id": "longmont-ah-list",
+   "title": "Affordable Housing Resources (Zinnia Supportive Housing listing)",
+   "publisher": "City of Longmont",
+   "date": "2026",
+   "url": "https://longmontcolorado.gov/housing-and-community-investment/affordable-housing-resource-list/"
+  }
+ ]
+}

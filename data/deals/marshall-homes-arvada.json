@@ -1,0 +1,420 @@
+{
+ "slug": "marshall-homes-arvada",
+ "name": "Marshall Homes (now Marshall Street Landing)",
+ "city": "Arvada",
+ "county": "Jefferson",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 85,
+ "researched_on": "2026-10-21",
+ "headline": "Family Tree, Inc. built Marshall Homes, now called Marshall Street Landing, at 5549 Marshall Street in Arvada: 85 permanent supportive apartments for people leaving homelessness, all at 30% AMI and all with project-based vouchers, financed partly by a 2022 Round Two award of 4% and state housing tax credits.",
+ "why_it_matters": "A nonprofit service provider used land it had owned for more than 25 years, three voucher sources (Division of Housing, Foothills Regional Housing, Arvada Housing Authority) and a fee-based development partner (BlueLine) to deliver an all-30%-AMI supportive building in a suburb. That is a structure other suburban service providers could copy.",
+ "status": {
+  "label": "Built and occupied (residents living there by March 2026); placed-in-service date not public",
+  "detail": "Construction started in March 2024, and the investor's April 2024 release targeted completion in summer 2025. A Jefferson County Heading Home newsletter dated 2026-03-17 describes the building as operating, with residents, case workers and a mental health worker on site. No public 8609 or certificate-of-occupancy date was found.",
+  "src": [
+   "cp-cvs-2024-04-25",
+   "cvs-2024-04-24",
+   "jeffco-heading-home-2026-03"
+  ]
+ },
+ "next_step": "Look for the City of Arvada certificate of occupancy and the year CHFA records the building as placed in service. The city's site blocked automated checks during this research.",
+ "key_numbers": [
+  {
+   "value": "85 homes, all at 30% AMI (70 one-bedroom, 15 two-bedroom)",
+   "meaning": "Every unit is supportive housing for people leaving homelessness who have a disabling condition.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,553,542 a year in federal 4% credit plus $648,429 of state credit",
+   "meaning": "About $15.5M in federal credit over 10 years (inferred). The application asked for $1,565,275 federal and $624,256 state.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "value": "$17,075,000 in CHFA tax-exempt bonds",
+   "meaning": "Planned as a private placement, with $11,150,000 staying as permanent tax-exempt debt.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "$19.2M of tax credit equity from CVS Health through Boston Financial",
+   "meaning": "Announced in April 2024, after construction had started.",
+   "src": [
+    "cvs-2024-04-24"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5549 Marshall Street, Arvada 80002",
+   "src": [
+    "chfa-2022-r2-award",
+    "cp-cvs-2024-04-25"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction; homeless target population",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.7 acres in a Qualified Census Tract. It held five structures, to be demolished, one with possible past methamphetamine use. Zoned Mixed-Use-Suburban (MX-S), with multifamily allowed by Conditional Use Permit.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building (as proposed)",
+   "value": "Four-story wood-frame building on a slab, two elevators, about 5,600 sq ft of ground-floor office, service and amenity space, an enclosed courtyard, NGBS Bronze target, solar-ready roof",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Furnishing",
+   "value": "Units are fully furnished",
+   "src": [
+    "cvs-2024-04-24",
+    "jeffco-heading-home-2026-03"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "85 project-based vouchers: 60 from the Colorado Division of Housing, 15 from Foothills Regional Housing, 10 from the Arvada Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Family Tree is lead provider (case management, crisis help, life skills). Jefferson Center for Mental Health provides behavioral health and substance use services. Funding comes from Medicaid, Division of Housing Tenant Support Services, a 5% supportive-housing developer fee boost, cash flow and Continuum of Care funds.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "cvs-2024-04-24"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 85
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 70
+  },
+  {
+   "type": "2BR",
+   "units": 15
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives",
+  "jeffco-heading-home-2026-03"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,553,542 per year",
+   "note": "2022 Round Two award. The application narrative projected $15,652,750 over 10 years and $13,930,948 of equity.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$648,429",
+   "note": "The narrative's $3,745,542 total over six years equals six times the $624,256 applied for, so the report figure appears to be an annual amount claimed over six years (inferred). Projected state equity was $2,696,789.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$17,075,000",
+   "note": "Plus a planned $1,925,000 taxable bond, for $19,000,000 of construction financing. $11,150,000 permanent tax-exempt debt was expected.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax credit equity (CVS Health via Boston Financial)",
+   "amount": "$19.2M",
+   "note": "",
+   "src": [
+    "cvs-2024-04-24",
+    "cp-cvs-2024-04-25"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (Housing Development Grant), City of Arvada, Jefferson County HOME and CDBG",
+   "amount": "Not public",
+   "note": "Named as gap sources in the application. CHFA's award description says the city and county are giving financial support.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA's award report prints it)",
+   "name": "Family Tree, Inc.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Development partner (co-developer in CHFA's award description)",
+   "name": "BlueLine Development, Inc.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "cvs-2024-04-24"
+   ]
+  },
+  {
+   "role": "Consultant (as proposed)",
+   "name": "BeauxSimone Consulting",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (as proposed)",
+   "name": "BlueLine Property Management",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Pre-construction contractor (as proposed)",
+   "name": "Denueve Construction Services",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "CVS Health, through Boston Financial",
+   "src": [
+    "cvs-2024-04-24"
+   ]
+  },
+  {
+   "role": "Behavioral health services",
+   "name": "Jefferson Center for Mental Health",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "cvs-2024-04-24"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land deal: Family Tree owned the site, according to news coverage for more than 25 years, and said it would sell the parcel to the tax credit partnership at financial closing.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "cp-cvs-2024-04-25"
+   ]
+  },
+  {
+   "text": "Local approvals: a required community meeting for the Conditional Use Permit was held at Arvada City Hall on 2022-06-02 (41 attendees), and the conditional use application went to Arvada Planning on 2022-07-06. The approval date and resolution number were not found.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Family Tree has run homelessness programs in Jefferson County since 1989. The project uses a Housing First model with trauma-informed services.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project now goes by Marshall Street Landing. The investor release and news coverage use that name for the same 85-unit building at 5549 Marshall Street.",
+   "src": [
+    "cvs-2024-04-24",
+    "cp-cvs-2024-04-25"
+   ]
+  },
+  {
+   "text": "It is a different project from Marshall Pointe Apartments at 5170/5190 Marshall Street, a 260-unit Lincoln Avenue Communities deal in which Family Tree provides services for 13 supportive units.",
+   "src": [
+    "ccm-2025-01-09"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-06-02",
+   "event": "Community meeting for the Conditional Use Permit held at Arvada City Hall",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-07-06",
+   "event": "Conditional use application submitted to Arvada Planning",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2022-11-16",
+   "event": "CHFA announces the 2022 Round Two awards, including Marshall Homes",
+   "src": [
+    "chfa-2022-r2-news"
+   ]
+  },
+  {
+   "date": "2024-03",
+   "event": "Groundbreaking (reported in April 2024 as 'last month')",
+   "src": [
+    "cp-cvs-2024-04-25"
+   ]
+  },
+  {
+   "date": "2024-04-24",
+   "event": "CVS Health announces its $19.2M equity investment; completion targeted for summer 2025",
+   "src": [
+    "cvs-2024-04-24"
+   ]
+  },
+  {
+   "date": "2026-03-17",
+   "event": "Jefferson County newsletter describes the building as open and occupied, with on-site staff",
+   "src": [
+    "jeffco-heading-home-2026-03"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists the owner as Family Tree, Inc., while its earlier applicant report lists BlueLine Development, Inc.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "text": "The application describes a four-story building, while the 2026 county newsletter calls the finished building three-story.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "jeffco-heading-home-2026-03"
+   ]
+  },
+  {
+   "text": "The award report gives $1,553,542 federal and $648,429 state credit, while the applicant report shows $1,565,275 federal and $624,256 state.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Closing date, final total development cost and lender are not public.",
+  "Amounts of City of Arvada, Jefferson County HOME/CDBG and Division of Housing grant funds were not found.",
+  "Conditional Use Permit approval date and resolution number were not found; the City of Arvada website refused automated requests.",
+  "Certificate of occupancy date, placed-in-service year, IRS Form 8609 date and the length of the affordability covenant are not public.",
+  "No public site plan or rendering was found. The CHFA narrative pages for this deal hold only a generic header image."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "CHFA, 2022 Round 2 Award Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "CHFA, 2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "CHFA, 2022 Round 2 Applicant Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-news",
+   "title": "CHFA Announces 2022 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2022-11-16",
+   "url": "https://www.chfainfo.com/chfa-news/11162022-htc-round-two"
+  },
+  {
+   "id": "cvs-2024-04-24",
+   "title": "CVS Health invests $19.2 million in affordable housing in Arvada, Colorado",
+   "publisher": "CVS Health",
+   "date": "2024-04-24",
+   "url": "https://www.cvshealth.com/news/health-equity/cvs-health-invests-19-2m-in-affordable-housing-in-arvada-colorado.html"
+  },
+  {
+   "id": "cp-cvs-2024-04-25",
+   "title": "CVS Health invests $19.2M in Arvada affordable housing project",
+   "publisher": "Colorado Politics",
+   "date": "2024-04-25",
+   "url": "https://www.coloradopolitics.com/2024/04/25/cvs-health-invests-19-2m-in-arvada-affordable-housing-project"
+  },
+  {
+   "id": "jeffco-heading-home-2026-03",
+   "title": "Heading Home Community Engagement Newsletter (March update)",
+   "publisher": "Jefferson County",
+   "date": "2026-03-17",
+   "url": "https://www.jeffco.us/CivicSend/ViewMessage/message/285462"
+  },
+  {
+   "id": "ccm-2025-01-09",
+   "title": "Arvada City Council briefs: Funding for Marshall Pointe Apartments",
+   "publisher": "Colorado Community Media",
+   "date": "2025-01-09",
+   "url": "https://www.coloradocommunitymedia.com/archives/arvada/news/local-government/article_c280839e-36aa-5b24-8d9e-a67f53ae8301.html"
+  }
+ ]
+}
