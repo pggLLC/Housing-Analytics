@@ -1,0 +1,595 @@
+{
+ "slug": "sugar-commons-sterling",
+ "name": "Sugar Commons",
+ "city": "Sterling",
+ "county": "Logan",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 54,
+ "researched_on": "2026-10-21",
+ "headline": "Völker's Sugar Commons is a planned three-story, 54-unit family apartment building for households earning 30% to 70% AMI at 777 N. 4th Street in Sterling. It won 2025 Round Two federal 4% and state housing tax credits from CHFA and is billed as the first tax credit family housing in Sterling in over 25 years.",
+ "why_it_matters": "It is a rare rural Eastern Plains 4% bond deal. It has state support (tax credits plus a $2.3M Prop 123 loan selected in July 2026), but local approval is unresolved: Sterling City Council's 3-2 vote on its conditional use was recorded as failing in October 2025.",
+ "status": {
+  "label": "Credits awarded; local land-use approval and closing not confirmed",
+  "detail": "A motion to approve the conditional use failed on 2025-10-14: the vote was 3-2 with two members absent. The hearing returned to the council agendas of 2025-11-18 and 2025-11-25, but minutes for those meetings are not posted online, so the outcome is not public. OEDIT preliminarily selected the project for a $2,299,500 Prop 123 loan on 2026-07-21. No closing, building permit or groundbreaking record was found. The applicant had targeted a financial closing by October 2026.",
+  "src": [
+   "sterling-min-2025-10-14",
+   "sterling-agenda-2025-11-18",
+   "sterling-agenda-2025-11-25",
+   "sterling-agendas-page",
+   "oedit-prop123-cd-2026",
+   "chfa-2025-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for Sterling City Council minutes from November 2025 showing the conditional use outcome, a rezoning to R3, and a financial closing or building permit in late 2026.",
+ "key_numbers": [
+  {
+   "value": "54 family homes, all income-restricted",
+   "meaning": "18 one-bedroom, 21 two-bedroom and 15 three-bedroom units at 30% to 70% AMI; 16 of them at or below 50% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$1,059,696 a year in federal 4% credit",
+   "meaning": "About $10.6M over 10 years, plus $1,324,619 of accelerated state credit and $10,250,000 of CHFA bonds.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "$2,299,500 Prop 123 loan",
+   "meaning": "LIHTC gap loan from the Affordable Housing Financing Fund, preliminarily approved 2026-07-21; final terms set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-2026",
+    "ahff-fy2526-cd-r2"
+   ]
+  },
+  {
+   "value": "Conditional use vote failed 3-2 on 2025-10-14",
+   "meaning": "The Planning Commission had recommended approval. The outcome of the November 2025 rehearing is not in posted records.",
+   "src": [
+    "sterling-min-2025-10-14",
+    "sterling-agenda-2025-11-18",
+    "sterling-agenda-2025-11-25"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "777 N. 4th Street, Sterling 80751",
+   "src": [
+    "chfa-2025-r2-award",
+    "vmwp-sugar"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: new construction, individuals/families",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "54 total, 54 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story, wood-frame walk-up building on a slab, with shingle roof and cementitious siding. Average unit sizes 535 (1BR), 750 (2BR) and 936 (3BR) sq ft. Three-bedroom units have in-unit washers and dryers; the others share a laundry room",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Infill site in a qualified census tract, formerly a one-story brick building and parking lots that have been demolished. The applicant gives 3.97 acres; the architect gives 2.10 acres and 25.7 units per acre",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "vmwp-sugar",
+    "vmwp-sugar-sheet"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Community Business (CB). The council motion paired the conditional use with a map amendment to High Density Residential (R3) before construction, after the developer acquires the site",
+   "src": [
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "item": "Site control",
+   "value": "Executed purchase and sale agreement, per the applicant",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "South-facing family courtyard with play areas, community room, fitness room, pet amenities, on-site management, controlled access, EV charging",
+   "src": [
+    "vmwp-sugar",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "NGBS Silver target, at least six EV-ready spaces, electrification-ready and solar-ready design, planned solar garden participation",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions",
+    "vmwp-sugar"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Prairie Express local bus runs next to the site (every 30 minutes); CDOT Bustang regional service links Sterling to Denver and Greeley",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Service coordination by the property management team, funded in the operating budget, with referrals to nearby agencies such as the Family Resource Center and Centennial Mental Health Center",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Construction estimate",
+   "value": "About $16M, per the architect's project sheet",
+   "src": [
+    "vmwp-sugar-sheet"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Planned exemption through a partnership with the Sterling Housing Authority, per the applicant",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 21
+  },
+  {
+   "type": "3BR",
+   "units": 15
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,059,696 per year",
+   "note": "Awarded in 2025 Round Two; amounts subject to change.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,324,619",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$10,250,000",
+   "note": "The application sought $11,500,000 of CHFA conduit bonds, all tax-exempt: $4,432,907 construction-to-permanent and $7,067,093 construction-only. Whose volume cap was used is not stated publicly.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Prop 123 Concessionary Debt, LIHTC Gap (Affordable Housing Financing Fund)",
+   "amount": "$2,299,500",
+   "note": "FY25-26 Round Two selection, preliminarily approved 2026-07-21; final terms set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-2026",
+    "ahff-fy2526-cd-r2"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (Housing Development Grant) subordinate cash-flow funding",
+   "amount": "Not public",
+   "note": "The applicant says a conditional state award was included in its application.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "CHFA Capital Magnet Fund subordinate loan",
+   "amount": "Not public",
+   "note": "Per the applicant.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Sterling fee waivers; property and sales tax exemptions via the housing authority",
+   "amount": "Not public",
+   "note": "Expected, per the applicant; no city approval record was found.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "The applicant calls it significant.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Völker Housing Partners, LLC",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Developer / land-use applicant",
+   "name": "Volker Development, Inc. (Völker)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Van Meter Williams Pollack (VMWP)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "vmwp-sugar"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Ross-Envolve",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Planned tax exemption partner",
+   "name": "Sterling Housing Authority (Housing Authority of the City of Sterling)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Prop 123 lender",
+   "name": "Affordable Housing Financing Fund (OEDIT, administered by CHFA)",
+   "src": [
+    "oedit-prop123-cd-2026"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The applicant says the project came out of work with City of Sterling staff, who had earlier identified the property as a good site for family affordable housing.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Planning Commission recommended approval of the conditional use on 2025-09-03. At the 2025-10-14 council hearing one member of the public spoke against it. The motion to approve the conditional use, with a rezoning from CB to R3 before construction, got three yes and two no votes and was recorded as failing.",
+   "src": [
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "text": "Two of seven council members were absent on 2025-10-14, and a three-yes, two-abstain consent agenda vote also failed that night. This suggests four votes are needed to pass (inferred; the minutes do not state the rule).",
+   "src": [
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "text": "The conditional use hearing was placed on the 2025-11-18 agenda as new business and on the 2025-11-25 agenda as unfinished business.",
+   "src": [
+    "sterling-agenda-2025-11-18",
+    "sterling-agenda-2025-11-25"
+   ]
+  },
+  {
+   "text": "The applicant had expected the conditional use and a parking reduction to be approved before the end of October 2025, with building permits issued in time for a financial closing by October 2026.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study found a 96% occupancy rate, an 11.7% overall capture rate and lease-up of about 15 units a month. It noted the 60% and 70% AMI rents are slightly above comparable properties.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The primary market area has three LIHTC projects with 173 income-restricted units, including the senior-only Deer Run Apartments next to the site. The nearest LIHTC property outside it is more than 35 miles away in Brush.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The budget includes housing for the construction superintendent and project engineer because of the rural location.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I environmental assessment found no recognized environmental conditions.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-08-06",
+   "event": "Round Two application narratives published",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-09-03",
+   "event": "Sterling Planning Commission recommends approval of the conditional use",
+   "src": [
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "date": "2025-10-14",
+   "event": "City Council motion to approve the conditional use fails on a 3-2 vote",
+   "src": [
+    "sterling-min-2025-10-14"
+   ]
+  },
+  {
+   "date": "2025-11-05",
+   "event": "CHFA announces 2025 Round Two awards; award report dated 2025-11-07",
+   "src": [
+    "chfa-news-2025-11-05",
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2025-11-18",
+   "event": "Conditional use public hearing back on the City Council agenda",
+   "src": [
+    "sterling-agenda-2025-11-18"
+   ]
+  },
+  {
+   "date": "2025-11-25",
+   "event": "Hearing listed as unfinished business on the revised council agenda; outcome not posted",
+   "src": [
+    "sterling-agenda-2025-11-25"
+   ]
+  },
+  {
+   "date": "2025-11-26",
+   "event": "Architect's project sheet lists 2027 completion and a $16M construction estimate",
+   "src": [
+    "vmwp-sugar-sheet"
+   ]
+  },
+  {
+   "date": "2026-07-21",
+   "event": "Selected for a $2,299,500 Prop 123 Concessionary Debt loan (preliminary)",
+   "src": [
+    "oedit-prop123-cd-2026"
+   ]
+  },
+  {
+   "date": "2026-10",
+   "event": "Applicant's target for financial closing (not confirmed)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Estimated completion, per the architect",
+   "src": [
+    "vmwp-sugar",
+    "vmwp-sugar-sheet"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Sugar Commons rendering and project sheet",
+   "url": "https://www.vmwp.com/wpress/wp-content/uploads/2522-25_1118-Sugar_Commons.pdf",
+   "kind": "rendering",
+   "made_by": "Van Meter Williams Pollack",
+   "note": "One-page project sheet (page 1)",
+   "src": [
+    "vmwp-sugar-sheet"
+   ]
+  },
+  {
+   "title": "Sugar Commons project page rendering",
+   "url": "https://www.vmwp.com/projects/sugar-commons-workforce-housing/",
+   "kind": "rendering",
+   "made_by": "Van Meter Williams Pollack",
+   "note": "Lead image on the project page",
+   "src": [
+    "vmwp-sugar"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application sought $11,500,000 of bonds, while CHFA's award report lists $10,250,000.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "text": "The application describes a 3.97-acre site, while the architect lists 91,575 square feet (2.10 acres).",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "vmwp-sugar",
+    "vmwp-sugar-sheet"
+   ]
+  },
+  {
+   "text": "The application says proper zoning is in place, while the council motion required a rezoning from Community Business to High Density Residential (R3) before construction.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "sterling-min-2025-10-14"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Outcome of the conditional use rehearing on 2025-11-18 or 2025-11-25, and whether the site was rezoned to R3; the minutes are not posted online.",
+  "Whether the parking reduction request was approved.",
+  "Amounts of the Division of Housing award, the CHFA Capital Magnet Fund loan and the deferred developer fee; total development cost (only a $16M construction estimate is public).",
+  "Whose bond volume cap backs the $10,250,000 of bonds; lender and equity investor.",
+  "Terms of the Sterling Housing Authority tax exemption partnership and any City of Sterling fee waivers.",
+  "Closing date, building permit and construction start; rents."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-07",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (Sugar Commons, PDF pages 91-95, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2025-08-06",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2025-11-05",
+   "title": "CHFA Announces 2025 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2025-11-05",
+   "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards"
+  },
+  {
+   "id": "oedit-prop123-cd-2026",
+   "title": "More Housing Now: Prop 123 Funds to Support 11 New Affordable Housing Developments Across Colorado",
+   "publisher": "Colorado Office of Economic Development and International Trade",
+   "date": "2026-07-21",
+   "url": "https://oedit.colorado.gov/press-release/more-housing-now-prop-123-funds-to-support-11-new-affordable-housing-developments"
+  },
+  {
+   "id": "ahff-fy2526-cd-r2",
+   "title": "Affordable Housing Financing Fund, FY25-26 Concessionary Debt Program Selections - Round Two",
+   "publisher": "OEDIT / CHFA (Prop 123 Affordable Housing Financing Fund)",
+   "date": "2026-07",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf"
+  },
+  {
+   "id": "sterling-min-2025-10-14",
+   "title": "City of Sterling City Council minutes, October 14, 2025 (page 3: public hearing on Volker Development conditional use, 777 N. 4th Street)",
+   "publisher": "City of Sterling",
+   "date": "2025-10-14",
+   "url": "https://www.sterlingcolo.com/City%20Council/Agenda,%20Packet,%20Minutes/2025/10-14-2025%20City%20Council%20Minutes.pdf"
+  },
+  {
+   "id": "sterling-agenda-2025-11-18",
+   "title": "City of Sterling Regular City Council agenda, November 18, 2025 (item 7.A)",
+   "publisher": "City of Sterling",
+   "date": "2025-11-18",
+   "url": "https://www.sterlingcolo.com/City%20Council/Agenda,%20Packet,%20Minutes/2025/11-18-2025%20Regular%20Council%20and%20Work%20Session%20Agendas.pdf"
+  },
+  {
+   "id": "sterling-agenda-2025-11-25",
+   "title": "City of Sterling Revised Regular City Council agenda, November 25, 2025 (item 6.A)",
+   "publisher": "City of Sterling",
+   "date": "2025-11-25",
+   "url": "https://www.sterlingcolo.com/City%20Council/Agenda,%20Packet,%20Minutes/2025/11-25-2025%20Revised%20City%20Council%20Agenda.pdf"
+  },
+  {
+   "id": "sterling-agendas-page",
+   "title": "City Council Agenda (agendas and minutes list)",
+   "publisher": "City of Sterling",
+   "date": "2026-10",
+   "url": "https://www.sterlingcolo.com/government/city_council/city_council_agenda.php"
+  },
+  {
+   "id": "vmwp-sugar",
+   "title": "Sugar Commons, Sterling, CO (project page)",
+   "publisher": "Van Meter Williams Pollack",
+   "date": "2025-11",
+   "url": "https://www.vmwp.com/projects/sugar-commons-workforce-housing/"
+  },
+  {
+   "id": "vmwp-sugar-sheet",
+   "title": "Sugar Commons project sheet",
+   "publisher": "Van Meter Williams Pollack",
+   "date": "2025-11-26",
+   "url": "https://www.vmwp.com/wpress/wp-content/uploads/2522-25_1118-Sugar_Commons.pdf"
+  }
+ ]
+}

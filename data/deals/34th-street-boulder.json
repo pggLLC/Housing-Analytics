@@ -1,0 +1,443 @@
+{
+ "slug": "34th-street-boulder",
+ "name": "34th Street (Harvest34)",
+ "city": "Boulder",
+ "county": "Boulder",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 44,
+ "researched_on": "2026-10-21",
+ "headline": "Boulder Housing Partners, the City of Boulder's housing authority, plans Harvest34, 44 all-electric, townhouse-style rental homes for households at 40% and 60% AMI, with a community center, on a 4.5-acre site it land-banked in 2015 at 3125 34th Street in north Boulder. It won a 2025 federal 4% award with state and TOC credit from CHFA.",
+ "why_it_matters": "It is a small, low-density family deal carried by a housing authority's own land bank, city money and banked bond cap; CHFA lists Longmont Housing Authority as bond issuer even though BHP's board induced the bonds itself, and as of mid-2026 the project was still in city permitting.",
+ "status": {
+  "label": "Credits awarded; in city permitting, construction start not confirmed",
+  "detail": "Boulder Housing Partners' project page (updated 2026-06-17) says Harvest34 is in the permitting process with the City of Boulder and construction is expected to start later in 2026. No public record of a financial closing, building permit or groundbreaking was found.",
+  "src": [
+   "bhp-harvest34-page",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for a Boulder building permit, a bond issuance resolution (Longmont Housing Authority or BHP) and a closing or groundbreaking notice from BHP.",
+ "key_numbers": [
+  {
+   "value": "44 homes, all income-restricted",
+   "meaning": "10 one-bedroom, 24 two-bedroom and 10 three-bedroom homes; 6 at 40% AMI and 38 at 60% AMI.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1,448,752 a year in federal 4% credit",
+   "meaning": "Plus $440,000 noncompetitive state credit and $57,200 TOC credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$15,018,617 in private activity bonds",
+   "meaning": "CHFA lists Longmont Housing Authority as issuer; BHP's board had induced up to $20,000,000 of its own bonds in 2024.",
+   "src": [
+    "chfa-4pct-award",
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "value": "$4,400,000 from the City of Boulder",
+   "meaning": "Affordable Housing Fund award announced 2025-11-26, on top of $3,000,000 in city money used to buy the land in 2015.",
+   "src": [
+    "boulder-ahf-2025-11-26",
+    "bhp-board-2024-07"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3125 34th St., Boulder 80301",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "CHFA classification",
+   "value": "Family, new construction; cycle year 2025; QCT yes, DDA no; no Section 8",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "44 total, 44 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "4.5-acre vacant lot east of the Orchard Grove Mobile Home Park; formerly known as the Orchard Grove Project; the name Harvest34 refers to the site's history as an orchard",
+   "src": [
+    "bhp-harvest34-page",
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "44 townhouse-style (single-family-style) rental homes, a net-zero community center, playground, community and pollinator gardens and walking paths; all-electric; keeps a wildlife corridor and open space along the community ditch",
+   "src": [
+    "bhp-harvest34-page",
+    "bhp-board-2024-07",
+    "boulder-ahf-2025-11-26"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "By-right under current zoning; Site Review went to city planning staff, with Planning Board only if called up",
+   "src": [
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "item": "Bond issuer (CHFA)",
+   "value": "Longmont Housing Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Bond cap",
+   "value": "BHP planned to use CHFA cap and cap it already held; it held $31,733,410 of banked cap in September 2024, including $6,647,089 of 2024 City of Boulder cap carried forward for projects including 34th Street",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-board-2024-09"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "60% AMI",
+   "units": 38
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 10
+  },
+  {
+   "type": "2BR",
+   "units": 24
+  },
+  {
+   "type": "3BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,448,752 per year",
+   "note": "Amounts on CHFA's report are subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Colorado noncompetitive state housing tax credit",
+   "amount": "$440,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$57,200",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Private activity bonds",
+   "amount": "$15,018,617",
+   "note": "Issuer listed by CHFA: Longmont Housing Authority. BHP Resolution #2024-5 (2024-07-10) declared BHP's intent to issue up to $20,000,000 of multifamily housing revenue bonds for the project.",
+   "src": [
+    "chfa-4pct-award",
+    "bhp-board-2024-07",
+    "bhp-board-2024-09"
+   ]
+  },
+  {
+   "source": "City of Boulder Affordable Housing Fund",
+   "amount": "$4,400,000",
+   "note": "Announced 2025-11-26.",
+   "src": [
+    "boulder-ahf-2025-11-26"
+   ]
+  },
+  {
+   "source": "Land (BHP land bank)",
+   "amount": "$3,450,000 purchase in 2015",
+   "note": "$3,000,000 in City of Boulder funding and $450,000 of BHP funds.",
+   "src": [
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "source": "Boulder County funds",
+   "amount": "Not public",
+   "note": "Listed as an anticipated source in July 2024; no award record found.",
+   "src": [
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "source": "Developer fee",
+   "amount": "$3,985,000 (anticipated, July 2024)",
+   "note": "Standalone BHP project.",
+   "src": [
+    "bhp-board-2024-07"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (not printed in the first table of CHFA's report; the mix table names it) and developer",
+   "name": "Boulder Housing Partners (Housing Authority of the City of Boulder)",
+   "src": [
+    "chfa-4pct-award",
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "role": "Bond issuer (as CHFA prints it)",
+   "name": "Longmont Housing Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Bond counsel firm that briefed BHP's board on the bond cap process for 34th Street (September 2024)",
+   "name": "Kutak Rock",
+   "src": [
+    "bhp-board-2024-10"
+   ]
+  },
+  {
+   "role": "Gap funder",
+   "name": "City of Boulder",
+   "src": [
+    "boulder-ahf-2025-11-26",
+    "bhp-board-2024-07"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "BHP bought the vacant 4.5-acre lot in 2015 with $3,000,000 of city money and $450,000 of its own to land-bank it for affordable housing, and began planning in 2017.",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-harvest34-page"
+   ]
+  },
+  {
+   "text": "After several site layouts, BHP settled on 44 townhome-style units, a community center, playground and community garden, built to current zoning and shaped by community input. A community meeting in May 2024 was mostly supportive, per board minutes.",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-board-2024-09"
+   ]
+  },
+  {
+   "text": "BHP's board adopted Inducement Resolution #2024-5 on 2024-07-10, declaring intent to issue up to $20,000,000 of multifamily housing revenue bonds and allowing reimbursement of pre-closing costs by the future LIHTC partnership.",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-board-2024-09"
+   ]
+  },
+  {
+   "text": "In July 2024 BHP planned to apply on 2024-08-01 for 4% federal credits, state credits and bonds, close and start construction in late 2025. The award came in the 2025 cycle and the start slipped to 2026.",
+   "src": [
+    "bhp-board-2024-07",
+    "chfa-4pct-award",
+    "bhp-harvest34-page"
+   ]
+  },
+  {
+   "text": "BHP's 2024 annual report lists 3125 34th St (44 units) among entitlements completed in 2024.",
+   "src": [
+    "bhp-annual-2024"
+   ]
+  },
+  {
+   "text": "On 2024-09-11 BHP's board carried forward $6,647,089 of 2024 City of Boulder bond cap for future projects including 34th Street (Resolution #2024-8).",
+   "src": [
+    "bhp-board-2024-09",
+    "bhp-board-2024-10"
+   ]
+  },
+  {
+   "text": "The city calls the homes permanently affordable.",
+   "src": [
+    "boulder-ahf-2025-11-26"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2015",
+   "event": "BHP buys the 4.5-acre site with city support",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-harvest34-page"
+   ]
+  },
+  {
+   "date": "2017",
+   "event": "BHP begins planning",
+   "src": [
+    "bhp-harvest34-page"
+   ]
+  },
+  {
+   "date": "2024-05",
+   "event": "Community meeting on the project",
+   "src": [
+    "bhp-board-2024-09"
+   ]
+  },
+  {
+   "date": "2024-07-10",
+   "event": "BHP board adopts Inducement Resolution #2024-5 (up to $20M of bonds); Site Review is with city staff",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-board-2024-09"
+   ]
+  },
+  {
+   "date": "2024-09-11",
+   "event": "BHP board carries forward 2024 bond cap for projects including 34th Street (Resolution #2024-8)",
+   "src": [
+    "bhp-board-2024-09",
+    "bhp-board-2024-10"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "Entitlements completed, per BHP's 2024 annual report",
+   "src": [
+    "bhp-annual-2024"
+   ]
+  },
+  {
+   "date": "2025-11-26",
+   "event": "City of Boulder announces a $4,400,000 Affordable Housing Fund award",
+   "src": [
+    "boulder-ahf-2025-11-26"
+   ]
+  },
+  {
+   "date": "2026-06-17",
+   "event": "BHP project page says Harvest34 is in permitting, with construction expected later in 2026",
+   "src": [
+    "bhp-harvest34-page"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed under cycle year 2025 on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report names Longmont Housing Authority as the bond issuer, while BHP's 2024 inducement resolution declared BHP's own intent to issue the bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "bhp-board-2024-07"
+   ]
+  },
+  {
+   "text": "The City of Boulder says the homes will serve households at 30% to 60% AMI, while CHFA's award report lists 6 units at 40% AMI and 38 at 60% AMI, with none at 30%.",
+   "src": [
+    "boulder-ahf-2025-11-26",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "BHP's July 2024 board memo describes 44 apartment homes in townhome-style units, while its current project page describes 44 single-family-style rental homes and the city says townhouse-style homes.",
+   "src": [
+    "bhp-board-2024-07",
+    "bhp-harvest34-page",
+    "boulder-ahf-2025-11-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Why Longmont Housing Authority is the bond issuer, and whose bond cap backs the $15,018,617 of bonds (BHP's banked City of Boulder cap, CHFA cap or other).",
+  "Site Review approval date and case number, and building permit status.",
+  "Total development cost, lender, tax credit investor, equity price and general contractor.",
+  "Whether Boulder County or the Colorado Division of Housing put money in.",
+  "Financial closing and construction start dates.",
+  "Public site plans or renderings in a city planning packet (none located)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "bhp-harvest34-page",
+   "title": "Harvest34 (3125 34th Street) development page",
+   "publisher": "Boulder Housing Partners",
+   "date": "2026-06-17",
+   "url": "https://boulderhousing.org/bhp-developments/3125-34th-street/"
+  },
+  {
+   "id": "boulder-ahf-2025-11-26",
+   "title": "City of Boulder Announces Affordable Housing Fund Awards",
+   "publisher": "City of Boulder",
+   "date": "2025-11-26",
+   "url": "https://bouldercolorado.gov/news/city-boulder-announces-affordable-housing-fund-awards"
+  },
+  {
+   "id": "bhp-board-2024-07",
+   "title": "BHP Board of Commissioners packet, July 10, 2024 (34th Street Inducement Resolution #2024-5 memo and resolution, PDF pages 33-36)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2024-07-10",
+   "url": "https://boulderhousing.org/wp-content/uploads/2024/07/Board-Packet-July-2024.pdf"
+  },
+  {
+   "id": "bhp-board-2024-09",
+   "title": "BHP Board of Commissioners packet, September 11, 2024 (minutes of 2024-07-10 at PDF page 8; PAB carryforward Resolution #2024-8 memo at PDF page 41)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2024-09-11",
+   "url": "https://boulderhousing.org/wp-content/uploads/2024/09/Board-Packet-September-2024.pdf"
+  },
+  {
+   "id": "bhp-board-2024-10",
+   "title": "BHP Board of Commissioners packet, October 2024 (minutes of 2024-09-11 at PDF page 10)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2024-10",
+   "url": "https://boulderhousing.org/wp-content/uploads/2024/10/Board-Packet-October-2024.pdf"
+  },
+  {
+   "id": "bhp-annual-2024",
+   "title": "BHP 2024 Annual Report",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-05",
+   "url": "https://boulderhousing.org/wp-content/uploads/2025/05/BHP-2024-Annual-Report.pdf"
+  }
+ ]
+}

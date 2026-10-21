@@ -1,0 +1,626 @@
+{
+ "slug": "1001-lincoln-street-denver",
+ "name": "1001 Lincoln Street",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 118,
+ "researched_on": "2026-10-21",
+ "headline": "Kentro Group and ComCap Ventures plan 1001 Lincoln Street, a 118-unit income-restricted apartment building for households at 30% to 70% AMI, built on top of a vacant 1970s brutalist office building and its parking garage at E. 10th Avenue and Lincoln Street in Denver's Golden Triangle. It won 2025 Round Two federal 4%, accelerated state and TOC credits from CHFA, with $18.04M of CHFA bonds.",
+ "why_it_matters": "It is a rare office-to-housing reuse in a LIHTC deal: keeping the garage, foundation and precast walls saves an estimated $4.4M to $4.5M (about $35,000 per unit) of hard cost, and the sponsors say the deal only works with the DDA basis boost and the state credit.",
+ "status": {
+  "label": "Credits awarded and site plan approved; construction start not confirmed",
+  "detail": "CHFA reserved the credits in November 2025. The project went to Denver urban design review in late 2025 and early 2026, and Developing MyCity reported Site Development Plan approval in mid-2026, with building permits still ahead. No public record of a bond closing, building permit or groundbreaking was found; the application had targeted a March 2026 start and November 2027 completion.",
+  "src": [
+   "chfa-2025-r2-award",
+   "chfa-news-2025-11-05",
+   "denver-ddab-2026-01-27",
+   "dmc-1001-lincoln",
+   "chfa-2025-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for a Denver building permit under project 2023-PROJMSTR-0000118, a CHFA bond closing, and a groundbreaking notice.",
+ "key_numbers": [
+  {
+   "value": "118 homes, all income-restricted",
+   "meaning": "13 studios, 77 one-bedroom, 23 two-bedroom and 5 three-bedroom units, using income averaging at 30% to 70% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives",
+    "bisnow-2025-11-12"
+   ]
+  },
+  {
+   "value": "$2,053,643 a year in federal 4% credit",
+   "meaning": "About $20.5M over 10 years, plus $1,800,000 accelerated state credit and $153,400 TOC credit.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "$18,040,000 in CHFA private activity bonds",
+   "meaning": "CHFA is the bond issuer; the application had proposed $24.8M of tax-exempt construction bonds and $14.396M permanent bonds, both privately placed.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $4.4M to $4.5M hard-cost savings from reuse",
+   "meaning": "Keeping the existing garage, foundation and precast walls saves about $35,000 per unit, 3,000 cubic yards of concrete and an estimated five to six months of construction, per the sponsors.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2024-r2-narratives",
+    "denver-ddab-2026-01-27"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1001 Lincoln Street, Denver 80203 (southeast corner of E. 10th Avenue and Lincoln Street)",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "Golden Triangle/Civic Center per the application and CHFA; Developing MyCity calls it Capitol Hill",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions",
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: individuals/families, new construction",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "118 total, 118 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Existing site",
+   "value": "A 1970s-era vacant one-story brutalist office building (about 18,500 sq ft) with an underground parking garage on a 0.53-acre lot",
+   "src": [
+    "denver-ddab-2026-01-27",
+    "bden-2023-03-20",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Seven stories per the application and design package: the existing garage and exterior walls are kept, a transfer slab is added, and five stories of wood framing (Type III) go on top, with two elevators",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2024-r2-narratives",
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "item": "Ground floor",
+   "value": "About 3,975 sq ft of office and cafe space; the design package says the office area will house the nonprofit NEWSED",
+   "src": [
+    "dmc-1001-lincoln",
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "39 vehicle spaces in the existing garage and 83 bicycle spaces",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus stop for RTD Routes 0 and 6 about 370 feet away, Route 10 at 0.2 mile, Route 52 at 0.3 mile, Civic Center Station 0.7 mile. Residents get EcoPasses and Transportation Solutions TMA membership",
+   "src": [
+    "chfa-2025-r2-toc-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "NGBS Gold, solar panels, electrification-ready design",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning and city cases",
+   "value": "Zoned D-GT; Denver project 2023-PROJMSTR-0000118 and site plan 2024-SDP-0000187; in the city's Affordable Housing Review Team (AHRT) program",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "denver-ddab-2026-01-27",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Lincoln LLLP",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "The application plans a special limited partnership with the Denver Housing Authority for sales/use tax and property tax exemption",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "In a Difficult Development Area (DDA); the 2024 application says the tract lost its Qualified Census Tract status in 2024",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 13
+  },
+  {
+   "level": "50% AMI",
+   "units": 42
+  },
+  {
+   "level": "60% AMI",
+   "units": 47
+  },
+  {
+   "level": "70% AMI",
+   "units": 16
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 13
+  },
+  {
+   "type": "1BR",
+   "units": 77
+  },
+  {
+   "type": "2BR",
+   "units": 23
+  },
+  {
+   "type": "3BR",
+   "units": 5
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,053,643 per year",
+   "note": "2025 Round Two.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "The applicant says the state credit provides over $8 million in equity and lets 46.6% of units serve households at 50% AMI and below.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$153,400",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$18,040,000",
+   "note": "CHFA is the issuer. The application proposed $24,800,000 construction-period bonds and $14,396,000 permanent bonds, privately placed, plus a taxable construction loan of about $8,760,000.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "Not public",
+   "note": "Planned in the 2025 application; no award record found. Contingencies named: a 50-year amortization loan product, Proposition 123 funds or more DOH money. The 2024 application had planned Denver HOST gap funding instead.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "Sponsors plan to defer more than 50% of the developer fee.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Denver Housing Authority partnership (tax exemption)",
+   "amount": "Not public",
+   "note": "Sales/use tax and property tax exemption through a special limited partnership.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsors (as CHFA prints it)",
+   "name": "Kentro Group and ComCap Ventures LLC",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Lincoln LLLP",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "ComCap Management (named as manager of the sponsors' earlier deals; its role here is inferred)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "NEWSED Community Development Corporation",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "role": "Landscape architect and surveyor",
+   "name": "Flow Design Collaborative; RR Engineers",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "role": "Cost estimators",
+   "name": "I-Kota (named general contractor in the 2024 application) and Brinkmann (June 2024 pricing)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Transportation management association",
+   "name": "Transportation Solutions",
+   "src": [
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Kentro Group bought the 0.53-acre site with its 18,500 sq ft office building in December 2022 for $4.5 million. BusinessDen describes it as a former Gart site.",
+   "src": [
+    "bden-2023-03-20"
+   ]
+  },
+  {
+   "text": "The plan has grown and changed: a five-story, 104-unit building in March 2023 plans; a seven-story, 127-unit building in the 2024 CHFA application (19 studios, 89 one-bedroom, 19 two-bedroom); and 118 units in 2025 after studios were cut and three-bedroom units added at the city's request, with the same parking.",
+   "src": [
+    "bden-2023-03-20",
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project first applied to CHFA in 2023 and reapplied in 2024 before winning in 2025 Round Two. The 2024 application named Kentro Group and Lexton McDermott as sponsors and targeted a June 2025 groundbreaking.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Both design overlays, the Golden Triangle Creative District and the Downtown Design Advisory Board, approved the preliminary design, and the project was released from concept review. Public meetings were held on 2023-07-19 and 2024-07-18, with no members of the public attending.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "A design development package was submitted to Denver urban design review on 2025-12-12 for the Downtown Design Advisory Board meeting of 2026-01-27. It frames the job as a Major Exterior Building Improvement that keeps the brutalist base.",
+   "src": [
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "text": "Council Member Chris Hinds (District 10) and the nonprofit Thriving Families sent support letters, and no opposition is known, per the applicant.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study shows an 8.0% overall capture rate and LIHTC vacancy in the market area falling from 6.7% to 5.6%. The 70% AMI rents are set 5% below the maximum because they compete with discounted market-rate units.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project does not serve homeless or special-needs households, and no project-based vouchers are described. The Phase I found no recognized environmental conditions.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The sponsors' track record includes Lynwood Senior Apartments (62 units, 9% credits in 2019) and Krisana Apartments (151 units, 4% credits in 2022, finished 2024).",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-12",
+   "event": "Kentro Group buys 1001 Lincoln Street for $4.5 million",
+   "src": [
+    "bden-2023-03-20"
+   ]
+  },
+  {
+   "date": "2023-03",
+   "event": "Plans for a five-story, 104-unit building submitted to the city",
+   "src": [
+    "bden-2023-03-20"
+   ]
+  },
+  {
+   "date": "2023-09-09",
+   "event": "Design public meeting with the Golden Triangle Urban Design Committee",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-05-14",
+   "event": "Design public meeting with the Downtown Design Advisory Board",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "127-unit version applies in CHFA 2024 Round Two; not awarded (inferred from the 2025 reapplication)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-11-05",
+   "event": "CHFA announces 2025 Round Two awards, including 1001 Lincoln Street",
+   "src": [
+    "chfa-news-2025-11-05",
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2025-12-12",
+   "event": "Design development package submitted for Denver urban design review",
+   "src": [
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "date": "2026-01-27",
+   "event": "Scheduled Downtown Design Advisory Board meeting on the design package",
+   "src": [
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "date": "2026-07",
+   "event": "Developing MyCity reports Site Development Plan approval (page dated Jul 1 with no year; 2026 inferred because it cites the 2025 Round Two award)",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "date": "2027-11",
+   "event": "Completion targeted in the application (stabilization April 2028)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Street-scape renderings",
+   "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/urban-design/ddab/2026/012726-meeting/26_1002_ud-package_1001-lincoln_optimized.pdf",
+   "kind": "rendering",
+   "made_by": "Project design team (Shopworks Architecture), via City and County of Denver urban design review",
+   "note": "PDF pages 41-45; before/after images on page 4; elevations and material perspectives on pages 28-31",
+   "src": [
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "title": "Site plan and floor plans",
+   "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/urban-design/ddab/2026/012726-meeting/26_1002_ud-package_1001-lincoln_optimized.pdf",
+   "kind": "site plan",
+   "made_by": "Project design team, via City and County of Denver urban design review",
+   "note": "First level site plan on PDF page 20; parking and upper floor plans on pages 21-24; grading and landscape plans on pages 48-49",
+   "src": [
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "title": "1001 Lincoln concept renderings",
+   "url": "https://www.developingmycity.com/denver/news/1001-lincoln-apartment-project-approved-capitol-hill",
+   "kind": "rendering",
+   "made_by": "Shopworks Architecture, via Developing MyCity",
+   "note": "Article images (full rendering and interior open space)",
+   "src": [
+    "dmc-1001-lincoln"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The CHFA applications and the city design package describe a seven-story building, while Developing MyCity describes six stories.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-ddab-2026-01-27",
+    "dmc-1001-lincoln"
+   ]
+  },
+  {
+   "text": "The award report lists $18,040,000 in bonds, while the application proposed $24,800,000 of tax-exempt construction-period bonds.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA and the application include five three-bedroom units, while the city design package describes a mix of studio, one- and two-bedroom apartments.",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives",
+    "denver-ddab-2026-01-27"
+   ]
+  },
+  {
+   "text": "The application places the site in the Golden Triangle/Civic Center neighborhood, while Developing MyCity and BusinessDen place it in Capitol Hill.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "dmc-1001-lincoln",
+    "bden-2023-03-20"
+   ]
+  },
+  {
+   "text": "The 2025 application says reuse saves $4,445,000 in one place and about $4.5 million in another.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the CHFA bonds have closed and a building permit has been issued; the March 2026 start target has passed with no public record of either.",
+  "Total development cost, equity price and investor, bond purchaser and taxable lender.",
+  "Whether the Division of Housing or Proposition 123 funds were awarded; no award record was found.",
+  "Who the general contractor is now (I-Kota was named in 2024).",
+  "Terms of the Denver Housing Authority tax-exemption partnership and the CHFA affordability period.",
+  "Rents, and the role of Lexton McDermott after the 2024 application."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two Application Narratives (1001 Lincoln Street, PDF pages 1-5)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-toc-narratives",
+   "title": "2025 TOC Round Two Narratives (1001 Lincoln Street, PDF pages 1-2)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/6935f661-2e97-4732-b427-de84231f2063/2025-TOC-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (1001 Lincoln Street, PDF pages 1-5)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2025-11-05",
+   "title": "CHFA announces 2025 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2025-11-05",
+   "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards"
+  },
+  {
+   "id": "bisnow-2025-11-12",
+   "title": "7 Denver-Area Affordable Housing Projects Awarded Tax Credits",
+   "publisher": "Bisnow",
+   "date": "2025-11-12",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/affordable-housing-tax-credits-support-over-800-new-units-131863"
+  },
+  {
+   "id": "bden-2023-03-20",
+   "title": "Kentro eyes income-restricted housing for former Gart site in Cap Hill",
+   "publisher": "BusinessDen",
+   "date": "2023-03-20",
+   "url": "https://businessden.com/kentro-eyes-income-restricted-housing-for-former-gart-site-in-cap-hill/"
+  },
+  {
+   "id": "denver-ddab-2026-01-27",
+   "title": "1001 Lincoln Street, Denver Urban Design Review, Design Development 1st Submittal (2023-PROJMSTR-0000118, 2024-SDP-0000187), DDAB meeting 2026-01-27",
+   "publisher": "City and County of Denver, Community Planning and Development",
+   "date": "2025-12-12",
+   "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/urban-design/ddab/2026/012726-meeting/26_1002_ud-package_1001-lincoln_optimized.pdf"
+  },
+  {
+   "id": "dmc-1001-lincoln",
+   "title": "1001 Lincoln Apartment Project Approved as 118-Unit Capitol Hill Redevelopment Moves Forward",
+   "publisher": "Developing MyCity",
+   "date": "2026-07-01",
+   "url": "https://www.developingmycity.com/denver/news/1001-lincoln-apartment-project-approved-capitol-hill"
+  }
+ ]
+}

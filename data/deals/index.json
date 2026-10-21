@@ -3,9 +3,26 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 38
+  "count": 50
  },
  "deals": [
+  {
+   "slug": "1001-lincoln-street-denver",
+   "name": "1001 Lincoln Street",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 118,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "1001 Lincoln Street"
+    ]
+   }
+  },
   {
    "slug": "101-main-frisco",
    "name": "101 Main (The Bella)",
@@ -24,6 +41,23 @@
    }
   },
   {
+   "slug": "1139-delaware-street-denver",
+   "name": "1139 Delaware Street (1139 Delaware)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 80,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "1139 Delaware Street"
+    ]
+   }
+  },
+  {
    "slug": "123-manitou-manitou-springs",
    "name": "123 Manitou",
    "city": "Manitou Springs",
@@ -37,6 +71,40 @@
     "year": 2026,
     "names": [
      "123 Manitou"
+    ]
+   }
+  },
+  {
+   "slug": "34th-street-boulder",
+   "name": "34th Street (Harvest34)",
+   "city": "Boulder",
+   "county": "Boulder",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 44,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "34th Street"
+    ]
+   }
+  },
+  {
+   "slug": "4965-washington-street-denver",
+   "name": "4965 Washington Street",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 170,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "4965 Washington Street"
     ]
    }
   },
@@ -75,6 +143,23 @@
    }
   },
   {
+   "slug": "atwood-commons-longmont",
+   "name": "Atwood Commons",
+   "city": "Longmont",
+   "county": "Boulder",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 72,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Atwood Commons"
+    ]
+   }
+  },
+  {
    "slug": "barth-hotel-denver",
    "name": "Barth Hotel",
    "city": "Denver",
@@ -109,6 +194,23 @@
    }
   },
   {
+   "slug": "bradley-ridge-colorado-springs",
+   "name": "Bradley Ridge (Bradley Ridge Apartments)",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 336,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Bradley Ridge"
+    ]
+   }
+  },
+  {
    "slug": "cedar-creek-commons-montrose",
    "name": "Cedar Creek Commons",
    "city": "Montrose",
@@ -122,6 +224,40 @@
     "year": 2026,
     "names": [
      "Cedar Creek Commons"
+    ]
+   }
+  },
+  {
+   "slug": "central-park-station-phase-i-denver",
+   "name": "Central Park Station Phase I",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 156,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Central Park Station Phase I"
+    ]
+   }
+  },
+  {
+   "slug": "cole-train-denver",
+   "name": "Cole Train (Cole Train Apartments)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 63,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Cole Train"
     ]
    }
   },
@@ -157,6 +293,23 @@
     "year": 2026,
     "names": [
      "Crawford Commons"
+    ]
+   }
+  },
+  {
+   "slug": "crossbar-commons-aurora",
+   "name": "Crossbar Commons",
+   "city": "Aurora",
+   "county": "Adams",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 104,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Crossbar Commons"
     ]
    }
   },
@@ -554,6 +707,23 @@
    }
   },
   {
+   "slug": "sugar-commons-sterling",
+   "name": "Sugar Commons",
+   "city": "Sterling",
+   "county": "Logan",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 54,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Sugar Commons"
+    ]
+   }
+  },
+  {
    "slug": "switchgrass-crossing-fort-collins",
    "name": "Switchgrass Crossing",
    "city": "Fort Collins",
@@ -605,6 +775,23 @@
    }
   },
   {
+   "slug": "university-building-lofts-denver",
+   "name": "University Building Lofts",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 120,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "University Building Lofts"
+    ]
+   }
+  },
+  {
    "slug": "ute-mountain-homes-i-towaoc",
    "name": "Ute Mountain Homes I",
    "city": "Towaoc",
@@ -618,6 +805,23 @@
     "year": 2026,
     "names": [
      "Ute Mountain Homes I"
+    ]
+   }
+  },
+  {
+   "slug": "village-on-eastbrook-fort-collins",
+   "name": "Village on Eastbrook",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2025,
+   "units": 73,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Village on Eastbrook"
     ]
    }
   },

@@ -61,6 +61,18 @@ MATCH = {
     'elmwood-north-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Elmwood North']},
     'park-place-apartments-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Park Place Apartments']},
     'st-louis-landing-building-c-fraser': {'agency': 'CHFA', 'year': 2025, 'names': ['St. Louis Landing Building C']},
+    '1001-lincoln-street-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['1001 Lincoln Street']},
+    '1139-delaware-street-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['1139 Delaware Street']},
+    'atwood-commons-longmont': {'agency': 'CHFA', 'year': 2025, 'names': ['Atwood Commons']},
+    'sugar-commons-sterling': {'agency': 'CHFA', 'year': 2025, 'names': ['Sugar Commons']},
+    'central-park-station-phase-i-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Central Park Station Phase I']},
+    'cole-train-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Cole Train']},
+    'crossbar-commons-aurora': {'agency': 'CHFA', 'year': 2025, 'names': ['Crossbar Commons']},
+    'university-building-lofts-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['University Building Lofts']},
+    'village-on-eastbrook-fort-collins': {'agency': 'CHFA', 'year': 2025, 'names': ['Village on Eastbrook']},
+    '34th-street-boulder': {'agency': 'CHFA', 'year': 2025, 'names': ['34th Street']},
+    '4965-washington-street-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['4965 Washington Street']},
+    'bradley-ridge-colorado-springs': {'agency': 'CHFA', 'year': 2025, 'names': ['Bradley Ridge']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
