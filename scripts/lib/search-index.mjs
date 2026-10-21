@@ -45,7 +45,8 @@ export function wordBag(text, exclude = '') {
 }
 
 function headings(html) {
-  return (String(html).match(/<h[1-3][^>]*>[\s\S]*?<\/h[1-3]>/gi) || [])
+  // Not from scripts: a heading inside a template literal is code, not a heading.
+  return (String(html).replace(/<script\b[\s\S]*?<\/script>/gi, ' ').match(/<h[1-3][^>]*>[\s\S]*?<\/h[1-3]>/gi) || [])
     .map(clean).filter(Boolean);
 }
 
@@ -53,7 +54,9 @@ function record(t, u, d, headingList, bodyHtml, { body = true } = {}) {
   const k = Array.from(new Set(headingList)).join(' · ');
   const rec = { t, u, d, k };
   if (body) {
-    const b = wordBag(pageText(bodyHtml), `${t} ${d} ${k}`);
+    // A map or chart has no visible words of its own; its aria-label says what it shows.
+    const labels = Array.from(String(bodyHtml).matchAll(/\saria-label="([^"]*)"/gi), (m) => m[1]).join(' ');
+    const b = wordBag(`${pageText(bodyHtml)} ${decode(labels)}`, `${t} ${d} ${k}`);
     if (b) rec.b = b;
   }
   return rec;
