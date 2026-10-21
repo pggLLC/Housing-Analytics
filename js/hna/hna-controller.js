@@ -2755,6 +2755,25 @@
     };
   }
 
+  // The 20-year tile's one-line reading. Where households fall but today's
+  // in-commuters still need homes, the figure is small because its two parts
+  // pull apart, so the reading names both (Rangely: 23 for in-commuters, less
+  // 21 as households fall, reads 2). The parts are the rounded figure and the
+  // rounded growth, so they add up to what the tile shows.
+  // Kept self-contained: a test evaluates this function on its own.
+  function productionRead(incUnits, growthUnits, basis) {
+    const num = (v) => (v == null || !Number.isFinite(Number(v)) ? null : Number(v));
+    const total = num(incUnits);
+    if (total === null) return 'Unavailable';
+    if (total === 0) return 'At target';
+    if (total < 0) return 'Surplus';
+    const growth = num(growthUnits);
+    if (basis !== 'resident_growth_plus_incommuters' || growth === null || Math.round(growth) >= 0) return 'Gap remains';
+    const g = Math.round(growth);
+    const fmt = (v) => Math.abs(v).toLocaleString('en-US');
+    return 'Gap remains: ' + fmt(Math.round(total) - g) + ' for in-commuters, less ' + fmt(g) + ' as households fall';
+  }
+
   function unitsNeedBasisLabel(basis, usedPlaceProjection) {
     // Kept self-contained: a test evaluates this function on its own.
     const growth = usedPlaceProjection ? 'Resident growth (place projection)' : 'Resident growth (DOLA household projection)';
@@ -3627,11 +3646,7 @@
       window.HNARenderers.updateDecisionStrip({
         production: {
           value: incUnitsDisplay,
-          read: incUnits !== null && Number.isFinite(Number(incUnits))
-            ? (incUnits > 0 ? 'Gap remains'
-              : incUnits === 0 ? 'At target'
-              : 'Surplus')
-            : 'Unavailable',
+          read: productionRead(incUnits, growthUnits, incUnitsBasis),
           href: '#statUnitsNeed',
         },
       });

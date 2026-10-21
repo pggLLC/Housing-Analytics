@@ -1,0 +1,406 @@
+{
+ "slug": "dawson-square-denver",
+ "name": "Dawson Square (Dawson Square Apartments)",
+ "city": "Denver (unincorporated Adams County, Thornton area; 80229)",
+ "county": "Adams",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 35,
+ "researched_on": "2026-10-21",
+ "headline": "Related Affordable plans to buy and renovate Dawson Square, a 1982 project-based Section 8 complex of 35 to 36 two- and three-bedroom apartments at 8710 Dawson Street in the Thornton area of Adams County, and won a 2025 federal 4% credit award from CHFA backed by $9.4M of Maiker Housing Partners bonds.",
+ "why_it_matters": "This is a small HUD Section 8 preservation deal that had to piece together bond cap from several places: Fort Collins turned it down, and Thornton assigned its 2025 cap in July 2025, then reassigned 2024 and 2026 cap through Maiker in July 2026. That suggests it had not closed by mid-2026 (inferred).",
+ "status": {
+  "label": "Credits awarded; closing and renovation start not confirmed",
+  "detail": "CHFA lists the award under cycle year 2025. Thornton's housing page says construction is scheduled to begin in 2026 and finish in 2027. On 2026-07-28 Thornton reassigned its 2024 bond allocation to Maiker for the benefit of Related Affordable and authorized assigning its 2026 allocation the same way. No public record found confirms a bond closing, the property transfer or a start of work.",
+  "src": [
+   "chfa-4pct-award",
+   "thornton-housing",
+   "thornton-votes-2026"
+  ]
+ },
+ "next_step": "Watch for a Maiker Housing Partners bond issue for Dawson Square, a recorded deed to a new Related ownership entity in Adams County, and the start of renovation.",
+ "key_numbers": [
+  {
+   "value": "35 homes, all income-restricted, with Section 8",
+   "meaning": "CHFA lists 11 units at 30% AMI and 24 at 60% AMI (20 two-bedroom, 15 three-bedroom), with project-based Section 8.",
+   "src": [
+    "chfa-4pct-award",
+    "related-loi-2025"
+   ]
+  },
+  {
+   "value": "$860,347 a year in federal 4% credit",
+   "meaning": "About $8.6M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$9,425,799 in bonds from Adams County HA dba Maiker Housing Partners",
+   "meaning": "Related's 2025 plan assumed $12,000,000 of bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "related-loi-2025"
+   ]
+  },
+  {
+   "value": "About $22M total cost, about $3.6M of renovation",
+   "meaning": "Related's 2025 budget: $15M acquisition and $3,618,000 of construction (about $100,500 a unit).",
+   "src": [
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA's award report prints 8710 Dawson Street, Denver 80229 (Adams County). CHFA's LIHTC property list prints 8670 Dawson Street, Thornton 80229. Related and the City of Thornton use 8710 Dawson St.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list",
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; not in a QCT, DDA or SADDA; Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "35 total, 35 low-income per the award report; the CHFA LIHTC property list, Related and Thornton say 36 units",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list",
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Built in 1982; four two- and three-story buildings; about 104 residents",
+   "src": [
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  },
+  {
+   "item": "Existing restrictions",
+   "value": "A Section 8 Use Agreement and a LIHTC Land Use Restriction Agreement from the property's last full renovation in 2003",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "item": "Planned affordability",
+   "value": "Related says the Section 8 contract will be extended for 20 years, and a new LURA of at least 30 years (to 2056) will restrict all units to 60% AMI or less",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "item": "Renovation scope",
+   "value": "Electrical, plumbing, HVAC (new high-efficiency boilers), cabinets and countertops, appliances, flooring, windows, roofs, siding, accessibility upgrades, a call system, parking lot resurfacing and a new main water line",
+   "src": [
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 20
+  },
+  {
+   "type": "3BR",
+   "units": 15
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$860,347 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Adams County Housing Authority dba Maiker Housing Partners)",
+   "amount": "$9,425,799",
+   "note": "Bond cap comes at least partly from the City of Thornton: a 2025 assignment to Related Affordable (2025-07-08), then on 2026-07-28 a reassignment of Thornton's 2024 allocation to Maiker for Related Affordable and CHFA, and an assignment of its 2026 allocation to Maiker for Related Affordable and another developer. The amounts in each resolution are not public in the records found.",
+   "src": [
+    "chfa-4pct-award",
+    "thornton-votes-2025",
+    "thornton-votes-2026",
+    "thornton-housing"
+   ]
+  },
+  {
+   "source": "Planned permanent sources (May 2025 plan)",
+   "amount": "$22,843,000",
+   "note": "$12,000,000 tax-exempt bond loan, $678,000 taxable loan, $7,730,000 4% credit equity, $1,435,000 deferred developer fee, $1,000,000 income during construction. Superseded by the award terms; final figures not public.",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "source": "Section 8 project-based rental assistance",
+   "amount": "Not public",
+   "note": "Related says the contract will be extended for 20 years.",
+   "src": [
+    "related-loi-2025"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Related Affordable, LLC (a subsidiary of The Related Companies, L.P.)",
+   "src": [
+    "chfa-4pct-award",
+    "related-loi-2025"
+   ]
+  },
+  {
+   "role": "Bond issuer and partner",
+   "name": "Adams County Housing Authority dba Maiker Housing Partners",
+   "src": [
+    "chfa-4pct-award",
+    "related-loi-2025"
+   ]
+  },
+  {
+   "role": "Bond cap provider",
+   "name": "City of Thornton",
+   "src": [
+    "thornton-votes-2025",
+    "thornton-votes-2026",
+    "thornton-housing"
+   ]
+  },
+  {
+   "role": "Current control",
+   "name": "Related Affordable says it is already the non-member manager of the current ownership with all control rights; the owner entity is not named",
+   "src": [
+    "related-loi-2025"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Related described this as a 4% credit acquisition, renovation and preservation in partnership with Maiker Housing Partners. A new single-purpose entity would buy the property from the current ownership, which Related already controls as non-member manager. The 2025 plan budgeted $15,000,000 for acquisition, but no seller name, recorded price or sale date was found.",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "text": "Related asked Fort Collins for $11,184,752 of its 2025 bond cap. Fort Collins staff called the request incomplete, late and outside the city. On 2025-06-17 Council took up Resolution 2025-066, which assigned the cap to Housing Catalyst for local projects instead.",
+   "src": [
+    "fc-ais-2025-066",
+    "related-loi-2025"
+   ]
+  },
+  {
+   "text": "Thornton City Council passed a resolution assigning the city's 2025 private activity bond allocation to Related Affordable, LLC at its 2025-07-08 meeting; the city's housing page says staff presented on 2025-07-02.",
+   "src": [
+    "thornton-votes-2025",
+    "thornton-housing"
+   ]
+  },
+  {
+   "text": "On 2026-07-28 Thornton held a public hearing and passed three resolutions. They revoked and reassigned the city's 2024 allocation to Maiker for the benefit of Related Affordable and CHFA, revoked and reassigned its 2025 allocation to Maiker and to Maiker for another developer, and assigned its 2026 allocation partly to Maiker for Related Affordable. Inferred: the 2025 cap first given to Related was moved, and the deal was still assembling cap in mid-2026.",
+   "src": [
+    "thornton-votes-2026"
+   ]
+  },
+  {
+   "text": "Related's 2025 timeline targeted a credit closing in January 2026, renovation from February 2026 to January 2027, and 8609s in July 2027.",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "text": "Related says it controls 17 Colorado properties and previously preserved an elderly high-rise in Arvada with 4% credits and bonds.",
+   "src": [
+    "related-loi-2025"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1982",
+   "event": "Dawson Square built",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "date": "2003",
+   "event": "Last comprehensive renovation, with a LIHTC LURA",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Related Affordable submits a bond cap letter of interest to Fort Collins (and others)",
+   "src": [
+    "related-loi-2025"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Fort Collins Council considers Resolution 2025-066, assigning its 2025 cap to Housing Catalyst instead of Dawson Square",
+   "src": [
+    "fc-ais-2025-066"
+   ]
+  },
+  {
+   "date": "2025-07-08",
+   "event": "Thornton City Council assigns its 2025 bond allocation to Related Affordable",
+   "src": [
+    "thornton-votes-2025"
+   ]
+  },
+  {
+   "date": "2026-07-28",
+   "event": "Thornton reassigns its 2024 allocation and assigns its 2026 allocation to Maiker for the benefit of Related Affordable",
+   "src": [
+    "thornton-votes-2026"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Renovation completion expected, per Thornton",
+   "src": [
+    "thornton-housing"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report counts 35 units (20 two-bedroom, 15 three-bedroom), while CHFA's LIHTC property list, Related and Thornton count 36 units, and Related lists 20 two-bedroom and 16 three-bedroom.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list",
+    "related-loi-2025",
+    "thornton-housing"
+   ]
+  },
+  {
+   "text": "CHFA's award report gives the address as 8710 Dawson Street, Denver, while CHFA's LIHTC property list gives 8670 Dawson Street, Thornton.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "text": "Related's letter calls the property elderly-designated in one place and family-designated in another, and Fort Collins staff describe it as income and age restricted, while CHFA lists it as Family.",
+   "src": [
+    "related-loi-2025",
+    "fc-ais-2025-066",
+    "chfa-4pct-award",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "text": "Related planned $12,000,000 of tax-exempt bonds, while CHFA's award report shows $9,425,799.",
+   "src": [
+    "related-loi-2025",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Related's plan restricts all units to 60% AMI, while CHFA's award report places 11 units at 30% AMI and 24 at 60% AMI.",
+   "src": [
+    "related-loi-2025",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date and final bond amount; how much of the cap came from Thornton's 2024, 2025 and 2026 allocations.",
+  "Current owner entity, recorded sale price and date (Adams County records not checked online).",
+  "Section 8 contract terms and HAP rents, and whether the 30% AMI units track the Section 8 units.",
+  "Tax credit investor, lender, general contractor and final total development cost.",
+  "Whether Maiker holds an ownership interest that brings a property tax exemption.",
+  "No public site plans or renderings found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-lihtc-list",
+   "title": "LIHTC Property List",
+   "publisher": "CHFA",
+   "date": "2026-09-01",
+   "url": "https://www.chfainfo.com/getmedia/f67935e1-9eea-460e-a2bd-1722498222ea/LIHTCPropertyList.pdf"
+  },
+  {
+   "id": "related-loi-2025",
+   "title": "Related Affordable, LLC letter of interest for private activity bonds, Dawson Square (attachment to Fort Collins Council item)",
+   "publisher": "Related Affordable, LLC, via City of Fort Collins",
+   "date": "2025-05",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-001-5d7a843ebc99461687fae3c4c66da461.pdf"
+  },
+  {
+   "id": "fc-ais-2025-066",
+   "title": "City Council Agenda Item Summary: Resolution 2025-066 assigning the City's 2025 Private Activity Bond Allocation to Housing Catalyst",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-004-42434479bb8c4f9d8fec909ff40ef8f5.pdf"
+  },
+  {
+   "id": "thornton-housing",
+   "title": "Housing (Private Activity Bonds: Dawson Square Apartments)",
+   "publisher": "City of Thornton",
+   "date": "2026",
+   "url": "https://www.thorntonco.gov/community-culture/housing-homelessness"
+  },
+  {
+   "id": "thornton-votes-2025",
+   "title": "City Council Record of Votes - 2025 (July 8, 2025 meeting)",
+   "publisher": "City of Thornton",
+   "date": "2025-07-08",
+   "url": "https://www.thorntonco.gov/government/mayor-council/upcoming-meetings/council-record-votes/2025"
+  },
+  {
+   "id": "thornton-votes-2026",
+   "title": "Council Record of Votes (July 28, 2026 meeting)",
+   "publisher": "City of Thornton",
+   "date": "2026-07-28",
+   "url": "https://www.thorntonco.gov/government/mayor-council/council-meeting-information/council-record-votes"
+  }
+ ]
+}

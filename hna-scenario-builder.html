@@ -123,9 +123,9 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
-        what: 'Change the State Demography Office (SDO) forecast of births, deaths and migration, and see the homes a place would need over 20 years. Three presets: SDO’s forecast, half its migration, and one and a half times its migration.',
+        what: 'Change the State Demography Office (SDO) forecast of births, deaths and migration, and see the homes a place would need over 20 years. Three presets: SDO’s forecast, half its migration, and one and a half times its migration. Migration can also follow the ten years before the forecast.',
         why: 'LIHTC compliance periods are 15-30 years. Lenders, investors, and CHFA need confidence that housing demand will persist. Demographic projections help justify long-term viability and inform unit mix decisions.',
-        not: 'Projections are scenarios, not predictions. Each setting scales SDO’s own forecast; the builder does not tie migration to jobs, wages or home prices. Towns and CDPs take a share of their county’s forecast, the share the HNA page uses.',
+        not: 'Projections are scenarios, not predictions. Each setting scales SDO’s own forecast, or for migration the ten years before it; the builder does not tie migration to jobs, wages or home prices. Towns and CDPs take a share of their county’s forecast, the share the HNA page uses.',
         nextSteps: [
           { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the financial feasibility' }
         ]
@@ -223,11 +223,16 @@
               <span>People moving in (net)</span>
               <span class="sb-slider-value" id="sbMigrationPctVal">100%</span>
             </div>
+            <fieldset class="sb-mig-from">
+              <legend>As a share of</legend>
+              <label><input type="radio" name="sbMigrationFrom" value="sdo" checked> <span>SDO's forecast</span></label>
+              <label><input type="radio" name="sbMigrationFrom" value="past" disabled> <span id="sbMigrationFromPast">The ten years before it, as SDO estimated them</span></label>
+            </fieldset>
             <input type="range" id="sbMigrationPct" class="sb-slider"
               min="0" max="200" step="5" value="100"
               aria-label="People moving in minus people moving out, as a percentage of SDO's forecast">
             <p class="sb-slider-help">
-              100% = SDO's forecast of people moving in minus people moving out. <span id="sbMigrationSdo"></span>
+              <span id="sbMigrationBasis">100% = SDO's forecast of people moving in minus people moving out.</span> <span id="sbMigrationSdo"></span>
             </p>
           </div>
 
@@ -306,7 +311,7 @@
             <dt style="color:var(--muted);font-weight:600;">Births and deaths</dt>
             <dd style="margin:0;">Colorado's rates by age (NCHS: <a href="https://www.cdc.gov/nchs/data/nvsr/nvsr73/nvsr73-07.pdf" target="_blank" rel="noopener">state life tables, 2021</a>; <a href="https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr74-1.pdf" target="_blank" rel="noopener">births, 2023</a>), scaled each year so each county's totals equal SDO's forecast</dd>
             <dt style="color:var(--muted);font-weight:600;">Migration by age</dt>
-            <dd style="margin:0;">SDO's forecast: the change in its population by age that births and deaths do not explain</dd>
+            <dd style="margin:0;">SDO's forecast: the change in its population by age that births and deaths do not explain. Or the same residual from SDO's estimates for the ten years before the forecast, averaged and carried forward each year (Smith, Tayman and Swanson, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Households</dt>
             <dd style="margin:0;">SDO's household forecast by age of householder (18-24, 25-44, 45-64, 65 and over)</dd>
             <dt style="color:var(--muted);font-weight:600;">Vacancy target</dt>
