@@ -581,7 +581,7 @@
     var o = w.__DealCalc.getOutputRecords(), r = w.__DealCalc.getResult();
     var v = function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; };
     var why = function (k) { return o[k] && o[k].value == null ? o[k].unavailableReason : null; };
-    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: v('dscr'), deferredDeveloperFee: v('deferredDeveloperFee'),
+    return { fundingGap: v('fundingGap'), fundingGapReason: why('fundingGap'), dscr: v('dscr'), dscrReason: why('dscr'), deferredDeveloperFee: v('deferredDeveloperFee'),
       annualCredits: v('annualCredits'), creditEquity: v('creditEquity'), totalDevelopmentCost: v('totalDevelopmentCost'),
       paybackYear: r && r.exit && num(r.exit.dfYr), engineStress: r && r.stress ? r.stress : null };
   }
@@ -605,7 +605,12 @@
         var e = readEngine(w);
         f.remove();
         if (i === 0) base = e;
-        else results.push({ id: STRESS[i - 1].id, label: STRESS[i - 1].label, why: STRESS[i - 1].why, note: note, engine: e });
+        else if (e.fundingGap == null && e.dscr == null) {
+          // Nothing to judge: the calculator could not work out a gap or coverage for this run.
+          var reason = e.fundingGapReason || e.dscrReason;
+          results.push({ id: STRESS[i - 1].id, label: STRESS[i - 1].label, why: STRESS[i - 1].why, engine: e, skipped: true,
+            note: 'The calculator could not compute a funding gap or coverage for this test' + (reason ? ': ' + reason : '.') });
+        } else results.push({ id: STRESS[i - 1].id, label: STRESS[i - 1].label, why: STRESS[i - 1].why, note: note, engine: e });
         if (onProgress) onProgress(i, STRESS.length);
         return step(i + 1);
       });

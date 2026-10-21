@@ -364,4 +364,8 @@ const srcJs8 = read('js/whitepaper/submittal-review.js');
 ok(/if \(el\.value === 'na' && rule && \(!rule\.applies \|\| applies\)\) el\.value = '';/.test(srcJs8), 'ticking a condition clears its "Does not apply" answer in the form and the saved version');
 ok(/state\.opening = t;/.test(srcJs8) && /if \(state\.loading \|\| state\.opening\)/.test(srcJs8), 'saving waits while a version is opening');
 
+// Codex review on 966fa921d: a stress run with no gap and no coverage is "Not run", not "Holds".
+const srcJs9 = read('js/whitepaper/submittal-review.js');
+ok(/else if \(e\.fundingGap == null && e\.dscr == null\) \{[\s\S]{0,300}skipped: true/.test(srcJs9), 'a stress run the calculator could not compute is not counted as holding');
+
 console.log(`submittal-review: ${checks} checks passed`);
