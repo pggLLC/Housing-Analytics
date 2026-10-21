@@ -265,7 +265,6 @@ def test_rolling_application_takes_a_deal_off_the_list_from_its_date():
 
 
 def test_ledger_application_event_keeps_its_report_date():
-    a, l, e = base()
     chfa = {'agency': 'CHFA', 'program': 'Housing tax credit 9% application', 'stage': 'not_funded', 'year': 2025,
             'announced': None, 'as_of': '2025-02-12', 'source_url': URL, 'quote': 'Name: Manitou Test; Total Units: 43'}
     d = dola('Manitou Test', '2025-11')
