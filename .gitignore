@@ -74,3 +74,14 @@ docs/developer-pipeline-prototype/
 # repo (gated/data/jurisdiction-briefs/), which the gated deploy lays over this build.
 data/jurisdiction-briefs/_contacts/
 data/jurisdiction-briefs/_landscape/
+
+# Developer gate private material lives only in the private coho-backend repo
+# (test/repo-private-data.test.mjs fails if any is tracked here).
+data/jurisdiction-briefs/_contacts/
+data/jurisdiction-briefs/_landscape/
+data/jurisdiction-briefs/*contacts*.json
+docs/developer-pipeline-prototype/
+docs/indibuild-pipeline-prototype/
+gated/
+dossiers/
+*.docx
