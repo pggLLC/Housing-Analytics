@@ -152,7 +152,7 @@
     "test:hna-decade-trend-copy": "node test/hna-decade-trend-source-copy.test.js",
     "test:hna-takeaways-chas-disclosure": "node test/hna-takeaways-chas-disclosure.test.js",
     "test:metric-semantics": "node test/metric-semantics-wording.test.js",
-    "test:scenario-presets": "node test/scenario-presets-shared.test.js && node test/forecast-error-band.test.js && node test/past-migration-option.test.js && node test/headship-held-option.test.js && node test/scenario-builder-loaded-geography.test.js && node test/scenario-baseline-reproduces-sdo.test.js && node test/unit/cohort-component-model.test.js && node test/unit/scenario-storage.test.js && node test/hna-saved-scenario-matches-builder.test.js",
+    "test:scenario-presets": "node test/scenario-presets-shared.test.js && node test/forecast-error-band.test.js && node test/past-migration-option.test.js && node test/headship-held-option.test.js && node test/hamilton-perry-option.test.js && node test/scenario-builder-loaded-geography.test.js && node test/scenario-baseline-reproduces-sdo.test.js && node test/unit/cohort-component-model.test.js && node test/unit/scenario-storage.test.js && node test/hna-saved-scenario-matches-builder.test.js",
     "test:metric-truth-crosssurface": "node test/metric-truth-crosssurface.test.js",
     "test:hna-ownership-need": "node test/hna-ownership-need.test.js",
     "test:hna-ownership-strategy": "node test/hna-ownership-strategy.test.js",

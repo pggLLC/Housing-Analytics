@@ -23,6 +23,12 @@
  * headship 'held' the base year's rates stay as they are every year in place
  * of the way SDO's forecast moves them (constant headship rates by age).
  *
+ * Towns: townShares() and townProjection() give a town or CDP its share of
+ * its county's people in each age group, from Hamilton-Perry projections of
+ * the town and the county (data/hna/place-hamilton-perry.json), in place of
+ * one share of the county's growth for every age (town_share:
+ * 'hamilton_perry'). project() ignores the setting; it is the builder's.
+ *
  * _step below is build_scenario_baseline.py step(); keep the two the same.
  *
  * Exposes: window.CohortComponentModel
@@ -67,14 +73,20 @@
     return { sm, sf, births, deaths };
   }
 
-  function _households(pm, pf, groups, rates) {
+  // People and households in each household age group. A town's
+  // Hamilton-Perry share differs by group, so a row carries both by group.
+  function _byGroup(pm, pf, groups, rates) {
+    const people = [];
+    const households = [];
     let hh = 0;
     groups.forEach(function (g, i) {
-      let people = 0;
-      for (let a = g.minAge; a <= g.maxAge; a++) people += pm[a] + pf[a];
-      hh += people * rates[i];
+      let n = 0;
+      for (let a = g.minAge; a <= g.maxAge; a++) n += pm[a] + pf[a];
+      people.push(n);
+      households.push(n * rates[i]);
+      hh += n * rates[i];
     });
-    return hh;
+    return { people: people, households: households, total: hh };
   }
 
   /**
@@ -83,8 +95,10 @@
    * @param {Object} [params] - {births_pct, deaths_pct, migration_pct}; 100 = SDO's forecast;
    *   migration_from 'past' runs the baseline's past migration by age instead;
    *   headship 'held' keeps the base year's households per person by age
-   * @returns {Array<{year, population, households, births, deaths, migration}>}
-   *   one row per year from baseYear to endYear; the base year has no flows.
+   * @returns {Array<{year, population, households, births, deaths, migration,
+   *   groupPeople, groupHouseholds}>} one row per year from baseYear to
+   *   endYear; the base year has no flows. groupPeople and groupHouseholds
+   *   follow baseline.households.groups.
    */
   function project(baseline, params) {
     if (!baseline || !baseline.base || !baseline.steps || !baseline.rates) return [];
@@ -101,11 +115,13 @@
 
     let pm = baseline.base.male.slice();
     let pf = baseline.base.female.slice();
+    const g0 = _byGroup(pm, pf, groups, hhRates[0]);
     const rows = [{
       year: baseline.baseYear,
       population: _sum(pm) + _sum(pf),
-      households: _households(pm, pf, groups, hhRates[0]),
+      households: g0.total,
       births: null, deaths: null, migration: null,
+      groupPeople: g0.people, groupHouseholds: g0.households,
     }];
     for (let i = 0; i < steps.deathScale.length; i++) {
       const s = _step(pm, pf, baseline.rates, steps.deathScale[i], steps.birthScale[i], deathsMult, birthsMult);
@@ -141,13 +157,16 @@
       }
       pm = s.sm;
       pf = s.sf;
+      const g = _byGroup(pm, pf, groups, held ? hhRates[0] : hhRates[i + 1]);
       rows.push({
         year: baseline.baseYear + i + 1,
         population: _sum(pm) + _sum(pf),
-        households: _households(pm, pf, groups, held ? hhRates[0] : hhRates[i + 1]),
+        households: g.total,
         births: s.births,
         deaths: s.deaths,
         migration: migration,
+        groupPeople: g.people,
+        groupHouseholds: g.households,
       });
     }
     return rows;
@@ -229,6 +248,7 @@
       };
       if (s.migration_from === 'past') out.migration_from = 'past';
       if (s.headship === 'held') out.headship = 'held';
+      if (s.town_share === 'hamilton_perry') out.town_share = 'hamilton_perry';
       return out;
     }
     const fert = _given(s.fertility_multiplier);
@@ -263,6 +283,91 @@
     } else if (pct > RANGES.migration_pct[1]) {
       out.migrationNote = asSaved + ', more than ' + RANGES.migration_pct[1] / 100 +
         ' times SDO’s forecast for this place; migration is set to ' + RANGES.migration_pct[1] + '%, the most the builder models.';
+    }
+    return out;
+  }
+
+  /**
+   * A town's share of its counties' people in each age group, by year: its
+   * Hamilton-Perry projection over theirs, from data/hna/place-hamilton-perry.json
+   * (scripts/hna/build_place_hamilton_perry.py). The file has 2020, 2030, 2040
+   * and 2050; a year between two takes the straight line between them, and a
+   * year after the last holds the last.
+   * @param {Object} hp - the file
+   * @param {string} geoid - the town's
+   * @param {string[]} fipsList - its counties, from countiesFor()
+   * @returns {function(number): number[]|null} for a year, the shares of
+   *   people under 18 and then of each household group (hp.groups); null
+   *   when the file has no projection for the town or one of its counties
+   */
+  function townShares(hp, geoid, fipsList) {
+    const place = hp && hp.places && hp.places[geoid];
+    const years = hp && hp.years;
+    if (!place || !Array.isArray(years) || !Array.isArray(fipsList) || !fipsList.length) return null;
+    const counties = fipsList.map(function (f) { return hp.counties && hp.counties[f]; });
+    if (counties.some(function (c) { return !c; })) return null;
+    const shares = years.map(function (_, t) {
+      return place.people[t].map(function (v, g) {
+        let total = 0;
+        counties.forEach(function (c) { total += c.people[t][g]; });
+        return total > 0 ? Math.min(1, v / total) : 0;
+      });
+    });
+    return function (year) {
+      if (year <= years[0]) return shares[0];
+      for (let t = 1; t < years.length; t++) {
+        if (year <= years[t]) {
+          const w = (year - years[t - 1]) / (years[t] - years[t - 1]);
+          return shares[t].map(function (s, g) { return shares[t - 1][g] + w * (s - shares[t - 1][g]); });
+        }
+      }
+      return shares[shares.length - 1];
+    };
+  }
+
+  /**
+   * A town's people and households by year with Hamilton-Perry shares. Each
+   * county's scenario is held to SDO's totals as the builder holds a county
+   * (the scenario's change from the model's run of SDO, added to SDO's
+   * figures) and spread over its age groups as the model has them; the town
+   * takes its share of each group.
+   * @param {Object[]} baselines - one per county, in the order of shareAt's counties
+   * @param {Object} params - the scenario, as for project()
+   * @param {function} shareAt - from townShares()
+   * @returns {Array<{year, population, households: number[], migration}>}
+   *   households from each county, in baselines' order; migration is the
+   *   town's share of each county's people that year times the county's
+   *   net migration, null in the base year
+   */
+  function townProjection(baselines, params, shareAt) {
+    const runs = baselines.map(function (b) {
+      return { run: project(b, params), def: project(b, DEFAULT_PARAMS), sdo: b.sdo };
+    });
+    if (!runs.length || runs.some(function (r) { return !r.run.length || !r.sdo; })) return [];
+    const n = Math.min.apply(null, runs.map(function (r) {
+      return Math.min(r.run.length, r.def.length, r.sdo.population.length, r.sdo.households.length);
+    }));
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const s = shareAt(runs[0].run[i].year);
+      let population = 0;
+      let migration = 0;
+      const households = [];
+      runs.forEach(function (r) {
+        const row = r.run[i];
+        const kp = row.population > 0 ? (row.population - r.def[i].population + r.sdo.population[i]) / row.population : 1;
+        const kh = row.households > 0 ? (row.households - r.def[i].households + r.sdo.households[i]) / row.households : 1;
+        let p = s[0] * (row.population - _sum(row.groupPeople));
+        let h = 0;
+        row.groupPeople.forEach(function (v, g) {
+          p += s[g + 1] * v;
+          h += s[g + 1] * row.groupHouseholds[g];
+        });
+        population += p * kp;
+        households.push(h * kh);
+        if (i > 0 && row.population > 0) migration += row.migration * p / row.population;
+      });
+      out.push({ year: runs[0].run[i].year, population: population, households: households, migration: i > 0 ? migration : null });
     }
     return out;
   }
@@ -315,6 +420,8 @@
     pastMigration: pastMigration,
     paramsFromSaved: paramsFromSaved,
     countiesFor: countiesFor,
+    townShares: townShares,
+    townProjection: townProjection,
     DEFAULT_PARAMS: Object.freeze(Object.assign({}, DEFAULT_PARAMS)),
     RANGES: Object.freeze(Object.assign({}, RANGES)),
     N_AGES: N_AGES,
