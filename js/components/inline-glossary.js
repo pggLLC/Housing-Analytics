@@ -331,6 +331,12 @@
       decorateExplicit(root);
       autoDecorate(root);
     },
+    // Explicit <abbr data-glossary> marks only: for terms added by define() and
+    // for re-rendered mounts, without a second automatic first-use scan.
+    decorateMarks: function (root) {
+      ensureStyles();
+      decorateExplicit(root);
+    },
     terms: function () { return Object.assign({}, TERMS); },
     define: function (terms) {
       Object.keys(terms || {}).forEach(function (k) { EXTRA[k] = terms[k]; });

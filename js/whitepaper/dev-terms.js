@@ -30,10 +30,11 @@
     'confidence': 'How much the score rests on: high = a curated policy record plus Prop 123 plus solid Census figures; medium = the curated record only; low = sparse data.'
   };
   // The glossary may already have scanned the page (deferred scripts run once the
-  // document is parsed), so scan again now that these terms are known.
+  // document is parsed), so decorate the explicit marks again now that these terms
+  // are known. Only the marks: a second automatic scan would wrap a second use.
   if (root.InlineGlossary && root.InlineGlossary.define) {
     root.InlineGlossary.define(TERMS);
-    if (root.document) root.InlineGlossary.decorate(root.document);
+    if (root.document && root.InlineGlossary.decorateMarks) root.InlineGlossary.decorateMarks(root.document);
   }
   if (typeof module === 'object' && module.exports) module.exports = TERMS;
 })(typeof self !== 'undefined' ? self : this);

@@ -368,7 +368,7 @@
         }).join('') + '</ol>' : '<p class="ws-status">' + (ui.selectedOnly ? 'Nothing selected yet. Tick the box beside a row to select it.' : 'Nothing in this list yet.') + '</p>') +
         '<p class="ws-status" style="margin-top:.6rem">Sites come from the state\'s Prop 123 land banking awards and CHFA tax credit applications since 2023, for the places in your pipeline or with a dossier; land banked only for ownership is left out. Rebuilt at each deploy, last ' + esc(data.generated || 'unknown') +
           '. A reading of ripe, ripening or not yet comes only from a site dossier; every other site shows as on file until one is written.</p></div>';
-      if (typeof window !== 'undefined' && window.InlineGlossary) window.InlineGlossary.decorate(el);
+      if (typeof window !== 'undefined' && window.InlineGlossary && window.InlineGlossary.decorateMarks) window.InlineGlossary.decorateMarks(el);
     }
 
     function shownKeys(all) { return arrange(lists[ui.tab], state[ui.tab], ui.mode, all ? false : ui.selectedOnly).map(function (it) { return it.key; }); }

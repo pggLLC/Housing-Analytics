@@ -28,4 +28,5 @@ ok(/60 days/.test(DEV['strong signal']) && /30 to 90 days/.test(DEV['moderate si
 ok(/seven questions/.test(DEV.ripeness), 'ripeness names the seven readiness questions');
 // A tap opens a term on a phone, and the bubble stays on screen there.
 ok(glossary.includes("el.addEventListener('click', function () { el.focus(); });") && glossary.includes('@media (max-width: 600px)'), 'tooltips open on tap and stay on a phone screen');
+ok(!readFileSync('js/whitepaper/dev-terms.js', 'utf8').includes('.decorate(root.document)'), 'dev-terms decorates its marks only, not a second automatic scan');
 console.log(`dev-terms: ${n} checks passed`);
