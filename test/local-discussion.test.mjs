@@ -88,6 +88,10 @@ const badHtml = R(badQ);
 ok(/n\/a/.test(badHtml) && /Counts for 2026-Q3 did not come through/.test(badHtml) && !/counted in 2026-Q3/.test(badHtml), 'a quarter with a malformed count shows no shares');
 ok(/Word shifts \(0\)/.test(R(skew)), 'the shifts heading counts only shifts shown');
 ok(/Local discussion/.test(R({ lexicon: 'x', numbers: 5, check_here: 'y', news: {}, timeline: null })), 'a malformed result still draws');
+const neg = Object.assign({}, result, { documents_read: -3, numbers: Object.assign({}, result.numbers, { items_90d: -1, rising: { term: 'attainable', from: -5, to: 31, quarter: '2026-Q3' } }) });
+ok(L.keyNumbers(neg)[0].big === 'Not counted' && !/quiet/.test(L.meaning(neg)) && L.keyNumbers(neg)[2].big === 'Steady' && /document count not available/.test(R(neg)), 'a negative count is unknown, not zero');
+const nested = JSON.parse(JSON.stringify(result)); nested.timeline[0].quotes = 'x'; nested.check_here[0].page = 'y'; nested.numbers.next_check = 'z';
+ok(/Board: agenda/.test(R(nested)), 'malformed nested lists do not break the panel');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.

@@ -30,10 +30,10 @@
 
   var RULE = 'A shift is a word whose share of housing words moves 10 points or more against the past 4 quarters, with at least 20 words in each; or a word used for the first time in an adopted ordinance, resolution or plan.';
   // Counts from the backend become plain numbers before they reach the page.
-  // A count the backend did not supply (absent, null or not a number) is unknown, never zero.
-  function has(v) { return typeof v === 'number' && Number.isFinite(v); }
+  // A count or share the backend did not supply (absent, null, not a number, or below zero) is unknown, never zero.
+  function has(v) { return typeof v === 'number' && Number.isFinite(v) && v >= 0; }
   function rising(n) { var w = n && n.rising; return w && w.term && has(w.from) && has(w.to) ? w : null; }
-  function num(v) { return has(v) && v >= 0 ? Math.round(v) : 0; }
+  function num(v) { return has(v) ? Math.round(v) : 0; }
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
   function okFlag(f) { return f.kind === 'first' || (has(f.from) && has(f.to)); }
@@ -41,10 +41,12 @@
   function clean(r) {
     var lex = obj(r.lexicon);
     return Object.assign({}, r, {
-      numbers: obj(r.numbers), how_read: obj(r.how_read),
+      numbers: (function (n) { n = Object.assign({}, obj(n)); ['next_check', 'hearing', 'rising'].forEach(function (k) { if (!n[k] || typeof n[k] !== 'object') n[k] = null; }); return n; })(r.numbers), how_read: obj(r.how_read),
       lexicon: { quarters: (Array.isArray(lex.quarters) ? lex.quarters : []).filter(function (q) { return typeof q === 'string'; }),
         counts: obj(lex.counts), flags: arr(lex.flags).filter(okFlag) },
-      terms: arr(r.terms), check_here: arr(r.check_here), timeline: arr(r.timeline), news: arr(r.news), sources: arr(r.sources)
+      terms: arr(r.terms), news: arr(r.news), sources: arr(r.sources),
+      check_here: arr(r.check_here).map(function (c) { return Object.assign({}, c, { page: c.page && typeof c.page === 'object' ? c.page : null }); }),
+      timeline: arr(r.timeline).map(function (t) { return Object.assign({}, t, { quotes: arr(t.quotes) }); })
     });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -124,7 +126,7 @@
     var counts = {}, bad = {};
     qs.forEach(function (q) {
       counts[q] = obj(lex.counts[q]);
-      bad[q] = Object.keys(counts[q]).some(function (k) { return !has(counts[q][k]) || counts[q][k] < 0; });
+      bad[q] = Object.keys(counts[q]).some(function (k) { return !has(counts[q][k]); });
     });
     var used = terms.filter(function (t) { return qs.some(function (q) { return counts[q][t.term] !== undefined; }); });
     if (!qs.length || !used.length) return '<p class="ib-muted">No housing words counted yet.</p>';
