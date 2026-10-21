@@ -107,15 +107,33 @@
       const s = _step(pm, pf, baseline.rates, steps.deathScale[i], steps.birthScale[i], deathsMult, birthsMult);
       const mm = past ? past.male : steps.migrationMale[i];
       const mf = past ? past.female : steps.migrationFemale[i];
-      // Above 100%, SDO's net departures at an age can exceed the people of
-      // that age; no more than everyone can leave, so a cohort stops at zero.
+      // Net departures at an age can exceed the people of that age: SDO's
+      // above 100%, or the past's on a smaller cohort. No more than everyone
+      // can leave, so a cohort stops at zero, and the departures it could not
+      // supply come from everyone else in proportion to their numbers. The
+      // year's net migration is then the one asked for while anyone is left;
+      // clipping departures alone would keep the arrivals and could turn net
+      // departures into net arrivals.
+      let wanted = 0;
       let migration = 0;
       for (let a = 0; a < N_AGES; a++) {
-        const m = Math.max(-s.sm[a], mm[a] * migMult);
-        const f = Math.max(-s.sf[a], mf[a] * migMult);
+        const wm = mm[a] * migMult;
+        const wf = mf[a] * migMult;
+        const m = Math.max(-s.sm[a], wm);
+        const f = Math.max(-s.sf[a], wf);
         s.sm[a] += m;
         s.sf[a] += f;
+        wanted += wm + wf;
         migration += m + f;
+      }
+      if (wanted < migration) {
+        const left = _sum(s.sm) + _sum(s.sf);
+        const keep = left > 0 ? Math.max(0, 1 - (migration - wanted) / left) : 0;
+        for (let a = 0; a < N_AGES; a++) {
+          s.sm[a] *= keep;
+          s.sf[a] *= keep;
+        }
+        migration -= left * (1 - keep);
       }
       pm = s.sm;
       pf = s.sf;

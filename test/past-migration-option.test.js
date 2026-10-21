@@ -153,6 +153,30 @@ const n = (v) => Math.round(Math.abs(v)).toLocaleString('en-US');
   assert.equal(M.project(old, { migration_from: 'past' }).length, 0, 'a file without the past runs no past');
 }
 
+// Every county, both choices: each year's net migration is the one asked for.
+// A small cohort can be fewer than the past's departures at its age (or SDO's
+// above 100%); stopping it at zero alone kept the arrivals at other ages and
+// turned Hinsdale's 5 more people leaving a year into arrivals.
+for (const b of Object.values(baselines)) {
+  const past = M.pastMigration(b).annual;
+  const sdo = (i) => sum(b.steps.migrationMale[i]) + sum(b.steps.migrationFemale[i]);
+  for (const [params, want] of [
+    [{ migration_from: 'past' }, () => past],
+    [{ migration_from: 'past', migration_pct: 200 }, () => 2 * past],
+    [{ migration_pct: 150 }, (i) => 1.5 * sdo(i)],
+    [{ migration_pct: 200 }, (i) => 2 * sdo(i)],
+  ]) {
+    M.project(b, params).slice(1).forEach((r, i) => {
+      assert(Math.abs(r.migration - want(i)) < 0.01, `${b.name || b.geoid} ${JSON.stringify(params)} ${r.year}: migration ${r.migration.toFixed(2)}, asked ${want(i).toFixed(2)}`);
+    });
+  }
+}
+{
+  const hinsdale = baselines['08053'];
+  assert(M.pastMigration(hinsdale).annual < -4, 'Hinsdale: more left than arrived in 2015-2024');
+  assert(M.project(hinsdale, { migration_from: 'past' }).slice(1).every((r) => r.migration < 0), 'Hinsdale: and on the past, more leave every year');
+}
+
 // 3. The page.
 const projections = (geoid) => ({ [geoid]: readJson(`data/hna/projections/${geoid}.json`) });
 function load(geo, data) {

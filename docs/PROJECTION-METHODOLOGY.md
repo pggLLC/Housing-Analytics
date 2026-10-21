@@ -36,7 +36,7 @@ next(age+1, sex)   = people(age, sex) − deaths(age, sex) + migration(age+1, se
 - `f` is Colorado's births per woman by five-year age of mother, 2023, from NCHS Births: Final Data for 2023 (NVSR vol. 74 no. 1), Table 8. Their sum ×5 is the printed total fertility rate, 1,454.0 per 1,000; `scripts/hna/fetch_colorado_vital_rates.py` checks it.
 - `kd` and `kb` scale those Colorado rates so each county's deaths and births in each year equal SDO's. Only the age pattern comes from NCHS; every total comes from SDO.
 - `migration(age, sex)` is what SDO's forecast population by age leaves after the survivors and births above: the migration SDO's forecast implies, by age.
-- Above 100%, SDO's net departures at an age can outnumber the people of that age (at 150% they would in 37 of the 64 counties). No more than everyone can leave, so a cohort stops at zero and the migration shown counts only the people who left.
+- Net departures at an age can outnumber the people of that age: SDO's above 100% (at 150% they would in 37 of the 64 counties), or the past's (below) on a smaller cohort. No more than everyone can leave, so a cohort stops at zero, and the departures it could not supply come from everyone else in proportion to their numbers. Each year's net migration is then the one the setting asks for. Stopping departures alone would keep the arrivals at other ages: in Summit County at 200% it turned net departures into net arrivals.
 
 With every slider at 100% the model reproduces SDO's population for every county and year to within rounding (5 people, checked by the build script and by `test/scenario-baseline-reproduces-sdo.test.js`).
 
