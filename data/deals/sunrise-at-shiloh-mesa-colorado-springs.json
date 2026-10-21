@@ -1,0 +1,575 @@
+{
+ "slug": "sunrise-at-shiloh-mesa-colorado-springs",
+ "name": "Sunrise at Shiloh Mesa",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Greccio Housing built Sunrise at Shiloh Mesa, a 50-unit, four-story apartment building for seniors 62 and older at 30% to 50% AMI, on about an acre donated by Woodmen Valley Chapel's Center for Strategic Ministry in northeast Colorado Springs. It won $1,377,143 a year in federal 9% credit and $700,000 in state credit in CHFA's 2024 Round One, broke ground in July 2025 and held its grand opening in August 2026.",
+ "why_it_matters": "It is a finished example of church land donated for deeply affordable senior housing: the free site kept debt low enough to put every unit at or below 50% AMI, and church volunteers supply transportation and services.",
+ "status": {
+  "label": "Open: residents moved in by 2026-08-17; grand opening set for 2026-08-20",
+  "detail": "Greccio closed its construction financing in late June 2025 and broke ground on 2025-07-17. A Gazette story published 2026-08-17 describes residents living in their new apartments and a public grand opening that Thursday (2026-08-20, inferred from the article date).",
+  "src": [
+   "greccio-project-page",
+   "cpol-2026-08-17"
+  ]
+ },
+ "next_step": "Look for the property on CHFA's placed-in-service list and for Greccio's report on lease-up.",
+ "key_numbers": [
+  {
+   "value": "50 senior homes, all at or below 50% AMI",
+   "meaning": "15 at 30%, 12 at 40% and 23 at 50% AMI; 45 one-bedroom and 5 two-bedroom units for residents 62 and older.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,377,143 a year in federal 9% credit plus $700,000 state credit",
+   "meaning": "About $13.8M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "About $18 million project",
+   "meaning": "Greccio's cost figure at groundbreaking; it was the third application for credits, starting in 2022.",
+   "src": [
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "value": "About 1 acre of donated land",
+   "meaning": "Given at no cost by the Center for Strategic Ministry, an affiliate of Woodmen Valley Chapel.",
+   "src": [
+    "gazette-2025-06-26",
+    "cpol-2026-08-17",
+    "chfa-2024-r1-descriptions"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (CHFA)",
+   "value": "8292 Woodman Valley View, Colorado Springs",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Address (grand opening notice)",
+   "value": "7727 Mulberry Wood Drive, near Shiloh Mesa Drive, west of Woodmen Valley Chapel's Woodmen Heights campus, near Woodmen and Marksheffel roads",
+   "src": [
+    "cpol-2026-08-17",
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "S, N: senior/older adult, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income; age 62+",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories stepping down to three on the north side, wood frame, elevators, about 44,872 sq ft; in-unit washers and dryers, community room, activity and fitness room, library, rooftop terrace, garden",
+   "src": [
+    "mhcre-2025-07-23",
+    "cpol-2026-08-17",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with heat pump space and water heating; NGBS 2020 certification planned",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Rent example",
+   "value": "$655 a month for a 570 sq ft one-bedroom at the 30% AMI level",
+   "src": [
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "item": "Location note",
+   "value": "In a SADDA, per the applicant; part of the master-planned Shiloh Mesa neighborhood on about 110 acres the Center for Strategic Ministry owned since the early 2000s",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gazette-2021-08-11"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 15
+  },
+  {
+   "level": "40% AMI",
+   "units": 12
+  },
+  {
+   "level": "50% AMI",
+   "units": 23
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 45
+  },
+  {
+   "type": "2BR",
+   "units": 5
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,377,143 per year",
+   "note": "2024 Round One award (request was $1,450,000).",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Donated land",
+   "amount": "Not public",
+   "note": "About 1 to 1.1 acres donated by the Center for Strategic Ministry.",
+   "src": [
+    "gazette-2025-06-26",
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "source": "CHFA first mortgage",
+   "amount": "Not public",
+   "note": "Listed in the application's financing plan.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing HOME / Housing Development Grant",
+   "amount": "Not public",
+   "note": "Listed in the application's financing plan.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs HOME, fee waivers and sales tax abatement on materials",
+   "amount": "Not public",
+   "note": "The city's 2023 CAPER lists Shiloh Mesa (50 units) among HOME-pipeline projects preparing for financial closing.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cos-caper-2023"
+   ]
+  },
+  {
+   "source": "El Paso County Housing Authority loan",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Myron Stratton Home and Foundation predevelopment loan",
+   "amount": "Not public",
+   "note": "Low-interest predevelopment loan.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Resident shuttle vehicle",
+   "amount": "Not public",
+   "note": "Funded by the Pikes Peak Area Council of Governments, per the application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor, developer and property manager (as CHFA prints it)",
+   "name": "Greccio Housing (Colorado Springs nonprofit, founded 1990)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "role": "Land donor and service partner",
+   "name": "Center for Strategic Ministry and Woodmen Valley Chapel (Woodmen Heights campus volunteers)",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "role": "Fee developer",
+   "name": "Medici Consulting Group",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "mhcre-2025-07-23",
+    "greccio-project-page"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Way Architects",
+   "src": [
+    "mhcre-2025-07-23"
+   ]
+  },
+  {
+   "role": "Other funders shown on Greccio's project page",
+   "name": "City of Colorado Springs, El Paso County Housing Authority, Pikes Peak Area Council of Governments (logos)",
+   "src": [
+    "greccio-project-page"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land deal: the Center for Strategic Ministry, Woodmen Valley Chapel's outreach arm, set aside about an acre of its master-planned Shiloh Mesa holdings and agreed in 2021 to donate it to Greccio for senior housing; the site had been planned as a parking lot.",
+   "src": [
+    "gazette-2021-08-11",
+    "csm-2021-summary",
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "text": "Three applications: the project first applied in CHFA's 2022 Round One and again in 2023 Round One before winning in 2024. The 2022 plan had 12 units at 30%, 18 at 40% and 20 at 50% AMI; the 2023 and 2024 applications shifted to 15, 12 and 23. Between rounds Greccio added a transportation plan and an expanded church service agreement, including emergency rent help.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2023-r1-narratives",
+    "chfa-2024-r1-narratives",
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "text": "Approvals: density is set by the neighborhood PUD and the applicant said only administrative site plan approval was needed. Neighbor input led to the stepped three-to-four-story north end so the building does not block Pikes Peak views or overlook backyards.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "text": "Cost savings cited by the applicant: free land, low Colorado Springs tap fees, utility infrastructure offsets, the city's affordable housing materials tax abatement and a regional stormwater system that avoids on-site detention.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Services: church volunteers provide transportation (a shuttle until public bus service reaches the Woodmen Road corridor), activities, food pantry access and welcome support; Greccio adds its resident resources programs. The 2021 plan targeted an opening in spring 2024.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cpol-2026-08-17",
+    "csm-2021-summary"
+   ]
+  },
+  {
+   "text": "Market: the application's study found no vacancies and waitlists at surveyed tax credit properties, a two-month lease-up and a 15.9% overall capture rate; Greccio's Atrium at Austin Bluffs senior property had a waitlist of more than 400 seniors in 2025.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "text": "The plan grew from the 2021 concept of a three-story building with 45 to 50 units to the four-story, 50-unit building in the 2024 application.",
+   "src": [
+    "gazette-2021-08-11",
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-08-11",
+   "event": "Gazette reports the Center for Strategic Ministry is donating about an acre to Greccio for senior housing",
+   "src": [
+    "gazette-2021-08-11"
+   ]
+  },
+  {
+   "date": "2022",
+   "event": "First 9% application, CHFA 2022 Round One",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Second 9% application, CHFA 2023 Round One",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-12-13",
+   "event": "Listed on CHFA's 2024 Round One letters-of-intent report",
+   "src": [
+    "chfa-2024-r1-loi"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-05-30",
+   "event": "CHFA announces 2024 Round One awards, including Sunrise at Shiloh Mesa",
+   "src": [
+    "chfa-2024-r1-news",
+    "greccio-project-page"
+   ]
+  },
+  {
+   "date": "2025-06",
+   "event": "Construction financing closes and the contractor moves on site (Greccio's timeline gives 2025-06-26/27)",
+   "src": [
+    "greccio-project-page"
+   ]
+  },
+  {
+   "date": "2025-06-30",
+   "event": "Site preparation begins (the Monday after the Gazette's 2025-06-26 story; inferred date)",
+   "src": [
+    "gazette-2025-06-26"
+   ]
+  },
+  {
+   "date": "2025-07-17",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "greccio-project-page",
+    "gazette-2025-06-26",
+    "koaa-groundbreaking",
+    "mhcre-2025-07-23"
+   ]
+  },
+  {
+   "date": "2026-08-17",
+   "event": "Gazette reports residents living in the new building",
+   "src": [
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "date": "2026-08-20",
+   "event": "Public grand opening and ribbon cutting (the Thursday after the 2026-08-17 story; inferred date)",
+   "src": [
+    "cpol-2026-08-17"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering, site plan and overview map",
+   "url": "https://www.greccio.org/sunriseatshilohmesa",
+   "kind": "rendering",
+   "made_by": "Greccio Housing",
+   "note": "Project page images labeled \"Sunrise at Shiloh Mesa Renderings\", \"Sunrise at Shiloh Mesa Plan\" and \"Overview Map\"",
+   "src": [
+    "greccio-project-page"
+   ]
+  },
+  {
+   "title": "Photos of the finished building and interiors",
+   "url": "https://www.coloradopolitics.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/",
+   "kind": "photo",
+   "made_by": "The Gazette",
+   "note": "News photos taken 2026-08-17",
+   "src": [
+    "cpol-2026-08-17"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 8292 Woodman Valley View, the application narrative gives 8292 E. Woodmen Valley Road, and the grand opening notice gives 7727 Mulberry Wood Drive.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "cpol-2026-08-17"
+   ]
+  },
+  {
+   "text": "CHFA's award description gives 15 units at 30% AMI, 12 at 40% and 23 at 50%, while the Gazette's 2025 groundbreaking story gives 12 at 30%, 18 at 40% and 20 at 50%, which matches the 2022 application.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "gazette-2025-06-26",
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Amounts of the City of Colorado Springs HOME loan, Division of Housing funds, El Paso County Housing Authority loan and CHFA first mortgage.",
+  "Equity investor and credit price; final total development cost beyond the reported $18 million.",
+  "Certificate of occupancy date and CHFA placed-in-service date.",
+  "Term of the CHFA affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-loi",
+   "title": "2024 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2023-12-13",
+   "url": "https://www.chfainfo.com/getattachment/893aae70-46ec-49b6-844c-c100904aaead/2024-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-news",
+   "title": "CHFA Announces 2024 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-05-30",
+   "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Sunrise at Shiloh Mesa, PDF pages 108-112)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Sunrise at Shiloh Mesa, PDF page 108 onward)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One application narratives (Sunrise at Shiloh Mesa, PDF page 121 onward)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "gazette-2021-08-11",
+   "title": "Colorado Springs church donates land to nonprofit to build apartments for low-income seniors",
+   "publisher": "Colorado Springs Gazette",
+   "date": "2021-08-11",
+   "url": "https://gazette.com/2021/08/11/colorado-springs-church-donates-land-to-nonprofit-to-build-apartments-for-low-income-seniors-db345eba-fad5-11eb-b7b5-abb0e2561c0f/"
+  },
+  {
+   "id": "csm-2021-summary",
+   "title": "Sunrise at Shiloh Mesa, WVC - Woodmen Heights Campus (neighborhood information sheet)",
+   "publisher": "Center for Strategic Ministry / Greccio Housing",
+   "date": "2021-10-06",
+   "url": "https://centerforstrategicministry.squarespace.com/s/Sunrise-at-Shiloh-Mesa-neighborhood-info-106.pdf"
+  },
+  {
+   "id": "cos-caper-2023",
+   "title": "City of Colorado Springs 2023 CAPER, draft for public comment",
+   "publisher": "City of Colorado Springs",
+   "date": "2024-05-20",
+   "url": "https://coloradosprings.gov/system/files/2024-05/2023%20CAPER%20Draft%20for%20Public%20Comment%205-20-2024.pdf"
+  },
+  {
+   "id": "gazette-2025-06-26",
+   "title": "Second affordable senior housing complex on church property in Colorado Springs breaking ground",
+   "publisher": "Colorado Springs Gazette",
+   "date": "2025-06-26",
+   "url": "https://gazette.com/2025/06/26/second-affordable-senior-housing-complex-on-church-property-in-colorado-springs-breaking-ground/"
+  },
+  {
+   "id": "koaa-groundbreaking",
+   "title": "New affordable housing option for seniors in Colorado Springs breaks ground",
+   "publisher": "KOAA News5",
+   "date": "2025-07",
+   "url": "https://www.koaa.com/news/local-news/new-affordable-housing-option-for-seniors-in-colorado-springs-breaks-ground"
+  },
+  {
+   "id": "mhcre-2025-07-23",
+   "title": "Groundbreaking: Sunrise at Shiloh Mesa Apartments in Colorado Springs",
+   "publisher": "Mile High CRE",
+   "date": "2025-07-23",
+   "url": "https://milehighcre.com/groundbreaking-sunrise-at-shiloh-mesa-apartments-in-colorado-springs/"
+  },
+  {
+   "id": "greccio-project-page",
+   "title": "Sunrise at Shiloh Mesa (project page with timeline; viewed 2026-10-21)",
+   "publisher": "Greccio Housing",
+   "date": "2026-10-21",
+   "url": "https://www.greccio.org/sunriseatshilohmesa"
+  },
+  {
+   "id": "cpol-2026-08-17",
+   "title": "Second affordable housing project on church land opens in Colorado Springs (Gazette story)",
+   "publisher": "Colorado Politics / Colorado Springs Gazette",
+   "date": "2026-08-17",
+   "url": "https://www.coloradopolitics.com/2026/08/17/second-affordable-housing-project-on-church-land-opens-in-colorado-springs/"
+  }
+ ]
+}

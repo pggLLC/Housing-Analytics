@@ -49,6 +49,18 @@ rate(group, year) = SDO households headed by that group ÷ SDO people of that ag
 
 The rates change by year as SDO's forecast does. At 100% this is SDO's household forecast.
 
+### Households per person held at 2024's
+
+Below the sliders, the reader can hold each age group's rate at its 2024 value every year instead of following SDO's forecast: the constant headship rate method, the usual alternative to a forecast's own household assumption (Smith, Tayman and Swanson, 2013).
+
+```
+rate(group, year) = rate(group, 2024)   for every year
+```
+
+- Households then change only as the number of people in each age group does. Population, births, deaths and migration are unchanged.
+- The difference from SDO's forecast is how far SDO moves the rates. In Vintage 2024 it lowers every age group's rate in Douglas County, so holding 2024's adds about 25,000 households by 2044. It raises some rates in Larimer and Mesa counties (Larimer's 45-64 from 0.57 to 0.65, Mesa's 65 and over from 0.67 to 0.74), so holding 2024's gives about 8,800 fewer households in Larimer and 4,600 fewer in Mesa.
+- The 2024 rates are SDO's. The Census Bureau's survey gives similar ones: its 2020-2024 rates (ACS 5-year tables B25007 and B01001), held the same way, put household growth to 2044 within 4% of these in every county over 100,000 people. In smaller counties its count of householders under 25 is too uncertain to use (a coefficient of variation above 30% in 37 of the 64 counties).
+
 ### Homes needed
 
 The builder uses the HNA page's formula, so with nothing changed it shows the HNA page's 20-year figure exactly:
@@ -111,7 +123,7 @@ Scenarios saved before 2026-10-20 held multipliers and a number of people moving
 ### Limitations
 
 - The builder changes SDO's forecast; it does not make a new one. Migration is not tied to jobs, wages or home prices.
-- Household rates by age are SDO's; a scenario changes the number of people of each age, not how likely they are to head a household.
+- Household rates by age are SDO's, as forecast or held at 2024's; no setting ties them to home prices or incomes.
 - A town's share of county growth is fixed over the 20 years.
 
 ---

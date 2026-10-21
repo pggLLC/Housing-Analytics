@@ -8,6 +8,8 @@ Reads only files the repo already builds:
       funded and not, with derived outcomes (build_lihtc_applications.py)
   data/market/development-activity.json  one row per project across CHFA,
       OEDIT Prop 123 and DOLA awards (build_development_activity.py)
+  data/co-place-centroids.json, data/hna/cross-county-places.json  each
+      deal's town location for the map, and its region (the site's six)
 
 From 2023 to 2026 every Round One applicant asked for 9% credits and every
 Round Two applicant for 4% plus state credits, so each round is scored on its
@@ -42,7 +44,9 @@ The owner's excluded project (_lihtc-applications-excluded.json) is dropped.
 
 Writes data/jurisdiction-briefs/_round-watch.json (developer-gated: the
 public build leaves the folder out). No network, no clock: the output
-depends only on the inputs.
+depends only on the inputs and the file it replaces, which supplies each
+deal's history (the date it joined the list and its last band change) so
+the page can mark what is new or has moved.
 
 Usage:
   python3 scripts/funding/build_round_watch.py          # write
@@ -64,6 +68,11 @@ _spec = importlib.util.spec_from_file_location(
 dev = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(dev)
 apps_mod = dev.apps_mod
+_spec = importlib.util.spec_from_file_location(
+    'build_ranking_index', os.path.join(ROOT, 'scripts', 'hna', 'build_ranking_index.py'))
+_rank = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_rank)
+COUNTY_REGION = _rank.COUNTY_REGION   # the six site regions, pinned by test/region-membership.test.js
 
 APPLICATIONS = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')
 EXCLUDED = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications-excluded.json')
@@ -71,6 +80,8 @@ LEDGER = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
 AWARD_LEDGER = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'ledger.json')
 DOLA = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'dola-awards.json')
 DEALS = os.path.join(ROOT, 'data', 'deals', 'index.json')
+CENTROIDS = os.path.join(ROOT, 'data', 'co-place-centroids.json')
+PLACE_COUNTIES = os.path.join(ROOT, 'data', 'hna', 'cross-county-places.json')
 OUT = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json')
 
 ROUND_CREDIT = {1: '9%', 2: '4%'}
@@ -256,7 +267,8 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
 
 def backtest(D):
     """Score each past round with two earlier rounds of its type, as of the
-    day its applicant report came out, and count who applied."""
+    day its applicant report came out, and count who applied and who was
+    awarded credit in that round (as CHFA's award report shows it)."""
     rounds, per_signal = [], defaultdict(lambda: [0, 0])
     for target in D.rounds:
         if len([r for r in D.rounds if r < target and r[1] == target[1]]) < 2 or target not in D.report_date:
@@ -264,20 +276,41 @@ def backtest(D):
         cutoff = D.report_date[target]
         scored = score_round(D, target, cutoff, keep_all=True)
         listed = {k: v for k, v in scored.items() if v['band']}
-        applied = {a['_entity'] for a in D.round_apps if (a['year'], a['round']) == target}
+        round_apps = {}
+        for a in D.round_apps:
+            if (a['year'], a['round']) == target:
+                round_apps.setdefault(a['_entity'], a)
+        applied = set(round_apps)
+        awarded = {k for k, a in round_apps.items() if a['outcome'] == 'awarded'}
+        # the round's award report: the evidence for a decision either way (no report yet while CHFA decides)
+        award_report = next((round_apps[k]['award']['source_url'] for k in sorted(awarded)
+                             if (round_apps[k].get('award') or {}).get('source_url')), None)
+
+        def decision_url(a):
+            if a['outcome'] == 'awarded':
+                return (a.get('award') or {}).get('source_url') or award_report
+            return award_report if a['outcome'] == 'not_awarded' else None
+        undecided = sum(1 for a in round_apps.values() if a['outcome'] in UNDECIDED)
         for key, v in scored.items():
             for s in v['signals']:
                 k = s['kind'] + ('_' + ROUND_CREDIT[target[1]] if s['kind'] == 'lost_last_same' else '')
                 per_signal[k][0] += 1  # projects with the signal
                 per_signal[k][1] += key in applied
         bands = {b: {'listed': sum(1 for v in listed.values() if v['band'] == b),
-                     'applied': sum(1 for k, v in listed.items() if v['band'] == b and k in applied)} for b, _ in BANDS}
+                     'applied': sum(1 for k, v in listed.items() if v['band'] == b and k in applied),
+                     'awarded': sum(1 for k, v in listed.items() if v['band'] == b and k in awarded)} for b, _ in BANDS}
+        # each listed deal that applied, with its outcome in that round, strongest first
+        picks = sorted(({'name': round_apps[k]['name'], 'city': round_apps[k].get('city'), 'band': v['band'],
+                         'outcome': round_apps[k]['outcome'], 'source_url': round_apps[k]['source_url'],
+                         'decision_url': decision_url(round_apps[k])}
+                        for k, v in listed.items() if k in applied),
+                       key=lambda p: ([b for b, _ in BANDS].index(p['band']), p['name'].lower()))
         rounds.append({'round': label(target), 'credit': ROUND_CREDIT[target[1]], 'as_of': cutoff,
                        'applicants': len(applied), 'caught': len(applied & set(listed)),
                        'below_list': len(applied & set(scored) - set(listed)),
-                       'no_sign_before': len(applied - set(scored)), 'bands': bands})
-    totals = {b: {'listed': sum(r['bands'][b]['listed'] for r in rounds),
-                  'applied': sum(r['bands'][b]['applied'] for r in rounds)} for b, _ in BANDS}
+                       'no_sign_before': len(applied - set(scored)), 'bands': bands,
+                       'awarded': len(awarded), 'undecided': undecided, 'picks': picks})
+    totals = {b: {k: sum(r['bands'][b][k] for r in rounds) for k in ('listed', 'applied', 'awarded')} for b, _ in BANDS}
     return {'rounds': rounds, 'bands': totals,
             'applicants': sum(r['applicants'] for r in rounds), 'caught': sum(r['caught'] for r in rounds),
             'below_list': sum(r['below_list'] for r in rounds), 'no_sign_before': sum(r['no_sign_before'] for r in rounds),
@@ -359,15 +392,24 @@ def award_orgs(v, D):
     return out
 
 
-def item(key, v, credit, bt, D):
+def item(key, v, credit, bt, D, places=None, place_counties=None):
     p, apps = v['project'], v['apps']
     last = apps[-1] if apps else None
+    geoid = (p or {}).get('place_geoid') or ((last or {}).get('place_geoids') or [None])[0]
+    # a town that spans counties (Aurora) carries no county; use its main one
+    fips = ((p or {}).get('county_fips') or (last or {}).get('county_fips')
+            or ((place_counties or {}).get(geoid) or {}).get('primary_county'))
+    town = (places or {}).get(geoid) or {}
     return {
         'id': key if not key.startswith('app:') else 'app-' + re.sub(r'[^a-z0-9]+', '-', key[4:].lower()).strip('-'),
         'name': (p or {}).get('name') or last['name'],
         'city': (p or {}).get('city') or (last or {}).get('city'),
         'county': (p or {}).get('county'),
-        'place_geoid': (p or {}).get('place_geoid') or ((last or {}).get('place_geoids') or [None])[0],
+        'place_geoid': geoid,
+        'region': COUNTY_REGION.get(fips),
+        # the town's Census centroid, for the map; a deal sits at its town, not its parcel
+        'lat': town.get('lat'),
+        'lng': town.get('lng'),
         'homes': v['units'],
         'sponsor': (last or {}).get('sponsor'),
         'award_orgs': award_orgs(v, D),
@@ -403,7 +445,7 @@ def next_round(D, rnd):
     return (latest[0] + 1, rnd) if latest else None
 
 
-def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals=()):
+def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals=(), places=None, place_counties=None):
     excluded = {e['sha256'] for e in excluded_doc.get('excluded', [])}
     D = Data(apps_doc, ledger_doc, excluded, award_rows, dola_rows)
     bt = backtest(D)
@@ -415,7 +457,7 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
         listed = score_round(D, target, as_of, live=True)
         latest = max(r for r in D.rounds if r[1] == rnd)
         pending = [a for a in D.round_apps if (a['year'], a['round']) == latest and a['outcome'] == 'pending']
-        items = sorted((item(k, v, credit, bt, D) for k, v in listed.items()),
+        items = sorted((item(k, v, credit, bt, D, places, place_counties) for k, v in listed.items()),
                        key=lambda i: (-i['score'], i['name'].lower()))
         for i in items:
             i['deal_summary'] = deal_summary(i, deals)
@@ -459,12 +501,44 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
             'contacts_note': 'Contacts are kept only on the private developer site, never in this file.',
             'sources': {'applications': 'data/jurisdiction-briefs/_lihtc-applications.json',
                         'ledger': 'data/market/development-activity.json',
-                        'award_orgs': 'data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)'},
+                        'award_orgs': 'data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)',
+                        'map': 'data/co-place-centroids.json (2024 Census Gazetteer town centroids)',
+                        'regions': 'scripts/hna/build_ranking_index.py REGIONS (DOLA planning regions in six groups)'},
         },
         'backtest': bt,
         'rounds': rounds,
         'rolling_4pct': rolling,
     }
+
+
+def carry_history(out, prev):
+    """Each deal's history from the file being replaced, matched by round
+    position (Round One to Round One) and deal id: first_listed, the date it
+    joined the list, and band_before/band_since, its band before the last
+    change and the date of that change. A deal that is new to the list gets
+    first_listed = this build's date. Deals already listed when tracking
+    began (the previous file has no history) get None, so the first build
+    marks nothing new. Rebuilding on the same data changes nothing."""
+    as_of = out['meta']['generated_at']
+    pm = (prev or {}).get('meta') or {}
+    tracked = 'tracking_since' in pm
+    out['meta']['tracking_since'] = pm.get('tracking_since') or as_of
+    for n, r in enumerate(out['rounds']):
+        prev_items = {}
+        if prev and n < len(prev.get('rounds') or []):
+            prev_items = {i['id']: i for i in prev['rounds'][n]['items']}
+        for i in r['items']:
+            old = prev_items.get(i['id'])
+            if old is None:
+                i['first_listed'] = as_of if (tracked or not prev) and as_of != out['meta']['tracking_since'] else None
+                i['band_before'] = i['band_since'] = None
+            else:
+                i['first_listed'] = old.get('first_listed')
+                if old['band'] != i['band'] and tracked:
+                    i['band_before'], i['band_since'] = old['band'], as_of
+                else:
+                    i['band_before'], i['band_since'] = old.get('band_before'), old.get('band_since')
+    return out
 
 
 def without_deal_links(doc):
@@ -495,7 +569,10 @@ def main():
     dola = read(DOLA)
     out = build(read(APPLICATIONS), read(LEDGER), read(EXCLUDED), read(AWARD_LEDGER)['awards'],
                 dola['awards'] if isinstance(dola, dict) else dola,
-                read(DEALS)['deals'] if os.path.exists(DEALS) else [])
+                read(DEALS)['deals'] if os.path.exists(DEALS) else [], read(CENTROIDS)['byGeoid'],
+                read(PLACE_COUNTIES)['places'])
+    prev = read(OUT) if os.path.exists(OUT) else None
+    carry_history(out, prev)
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
         same = links_only = False

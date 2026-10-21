@@ -1,0 +1,495 @@
+{
+ "slug": "residences-at-delta-ii-delta",
+ "name": "Residences at Delta II",
+ "city": "Delta",
+ "county": "Delta",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "TWG Development and the Delta Housing Authority are behind Residences at Delta II, a 50-unit family rental for households at 30% to 60% AMI next to the Residences at Delta I senior building on Villa Street in Delta. It won $1,449,981 a year in federal 9% credit and $700,000 in state credit in CHFA's 2024 Round One, and the financing closed in December 2024.",
+ "why_it_matters": "It shows how a second phase in a small rural town can be built on the same site and with the same team as the first: the housing authority partnership supplies the property tax exemption and the management, and the city waived about $400,000 in fees.",
+ "status": {
+  "label": "Financing closed 2024-12; leasing website says \"Now Open!\"; no dated completion record",
+  "detail": "TWG announced the financing closing and planned construction on 2024-12-27. On 2026-10-21 the property's leasing website showed a \"Now Open!\" banner and took applications, but the page is undated and no certificate of occupancy or other dated completion record was found.",
+  "src": [
+   "twg-2024-12-27",
+   "rad2-site"
+  ]
+ },
+ "next_step": "Look for a dated certificate of occupancy or placed-in-service record from the City of Delta or CHFA's property list to fix when the 50 units were finished.",
+ "key_numbers": [
+  {
+   "value": "50 family homes, all at 30% to 60% AMI",
+   "meaning": "24 one-bedroom, 8 two-bedroom and 18 three-bedroom units in two three-story buildings.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,449,981 a year in federal 9% credit plus $700,000 state credit",
+   "meaning": "About $14.5M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "About $18 million total",
+   "meaning": "TWG's figure for the development when it announced the closing in December 2024.",
+   "src": [
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "value": "$400,000 in city fee waivers",
+   "meaning": "The City of Delta's contribution of tap, impact and permit fees; total soft funding was expected to exceed $3 million (about $63,000 per unit).",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (CHFA)",
+   "value": "1498 Villa Street, Delta, CO 81416 (corner of 15th and Villa Streets)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Address (leasing website)",
+   "value": "1510 Villa Street, Delta, CO 81416",
+   "src": [
+    "rad2-contact"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "F, N: family, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Two three-story wood-frame buildings, about 57,000 gross sq ft, slab on grade, surface parking, brick and fiber cement siding to match phase one",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze; all-electric design with solar panels; EV-ready spaces",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Census tract",
+   "value": "Tract 9649; not a 2024 QCT or DDA (it was in 2023), per the applicant",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Neighbors",
+   "value": "Residences at Delta I (senior, leased up by Q1 2024) and the Delta Housing Authority's Villas at the Bluff I and II family tax credit properties (built 2008 and 2015)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "All Points Transit Dial-A-Ride door-to-door service",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 25
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 24
+  },
+  {
+   "type": "2BR",
+   "units": 8
+  },
+  {
+   "type": "3BR",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,449,981 per year",
+   "note": "2024 Round One award (request was $1,450,000).",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "City of Delta fee waivers (tap, impact and permit fees)",
+   "amount": "$400,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing soft loan",
+   "amount": "Not public",
+   "note": "Proposed in the application; together with the fee waivers, soft funding was expected to exceed $3 million.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "Not public",
+   "note": "Named in the application; CHFA is also listed as a partner at closing.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "Not public",
+   "note": "The application assumed Horizon Bank; Horizon Bank and Cedar Rapids Bank and Trust are listed as partners at closing.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "source": "Tax credit equity (9% and solar credits)",
+   "amount": "Not public",
+   "note": "The application named Redstone Equity Partners; TWG's closing announcement lists Monarch Private Capital and Huntington Community Impact Capital.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Through the Delta Housing Authority as special limited partner.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "TWG guarantees payoff of any balance at the end of the compliance period.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "TWG Development, LLC",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "role": "Housing authority partner (special limited partner, property manager)",
+   "name": "Delta Housing Authority",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Property owner of record at rezoning",
+   "name": "Residences at Delta, LLLP",
+   "src": [
+    "hcs-2024-08-26"
+   ]
+  },
+  {
+   "role": "Consultants",
+   "name": "RCH Jones Consulting and KDM Consulting",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "role": "Equity and lending partners at closing",
+   "name": "Monarch Private Capital, Huntington Community Impact Capital, Cedar Rapids Bank and Trust, Horizon Bank, CHFA",
+   "src": [
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Not stated publicly; the application says TWG Construction usually builds TWG projects and that the phase one team was reused (inferred, not confirmed)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Phase two of a campus: the family building sits next to Residences at Delta I, a 50-unit senior building TWG completed in 2023, and two Delta Housing Authority family tax credit properties, so the partners describe it as an intergenerational campus.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Local deal: the Delta Housing Authority is special limited partner, which brings a property tax exemption, and it manages the property. The City of Delta waived about $400,000 in tap, impact and permit fees.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Zoning: the application said the site was zoned for the use and only administrative plan review was needed. In August 2024 the Delta Planning Commission (2024-08-05) recommended and City Council (2024-08-20, first reading) approved a rezoning to allow the two-building, three-story development, requested by Residences at Delta, LLLP and TWG; the Delta Housing Authority supported it and a phase one senior resident raised noise and traffic concerns.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "hcs-2024-08-26"
+   ]
+  },
+  {
+   "text": "Need: the application cites a 3.8% submarket vacancy rate and a Delta Housing Authority waitlist of 428 applicants; the housing authority board chair cited 204 applicants at the August 2024 planning hearing.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "hcs-2024-08-26"
+   ]
+  },
+  {
+   "text": "Services: a part-time on-site service coordinator plus nonprofit programs (nutrition and wellness, education, intergenerational programs, veteran services, transportation).",
+   "src": [
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Costs: the applicant says rural location drives costs up, with most materials trucked from Grand Junction about 40 miles away and a thin subcontractor pool. The Phase I environmental report found no recognized environmental conditions.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Financing team changed between application and closing: the application named Redstone Equity Partners as equity investor, while the December 2024 closing announcement lists Monarch Private Capital and Huntington Community Impact Capital among partners.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "twg-2024-12-27"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-12-13",
+   "event": "Listed on CHFA's 2024 Round One letters-of-intent report",
+   "src": [
+    "chfa-2024-r1-loi"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-05-30",
+   "event": "CHFA announces 2024 Round One awards, including Residences at Delta II",
+   "src": [
+    "chfa-2024-r1-news"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Date of CHFA's public 2024 Round One award report",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2024-08-05",
+   "event": "Delta Planning Commission recommends the rezoning of 1498 Villa Street",
+   "src": [
+    "hcs-2024-08-26"
+   ]
+  },
+  {
+   "date": "2024-08-20",
+   "event": "Delta City Council approves the rezoning on first reading",
+   "src": [
+    "hcs-2024-08-26"
+   ]
+  },
+  {
+   "date": "2024-12-27",
+   "event": "TWG announces the financing closing and planned construction",
+   "src": [
+    "twg-2024-12-27"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Leasing website shows \"Now Open!\" (undated banner, viewed this date)",
+   "src": [
+    "rad2-site"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Property photos (gallery on leasing site)",
+   "url": "https://www.residencesatdelta2.com/",
+   "kind": "photo",
+   "made_by": "Residences at Delta II property management",
+   "note": "Home page image carousel; images are not dated",
+   "src": [
+    "rad2-site"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 1498 Villa Street, while the property's leasing website gives 1510 Villa Street.",
+   "src": [
+    "chfa-2024-r1-award",
+    "rad2-contact"
+   ]
+  },
+  {
+   "text": "The application says the site was already zoned for the intended use, while the City of Delta took up a rezoning in August 2024 to allow the two-building, three-story development.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "hcs-2024-08-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Exact completion and first move-in dates (no dated certificate of occupancy or CHFA placed-in-service record found).",
+  "Whether the August 2024 rezoning was adopted on second reading (the City of Delta document links found did not load).",
+  "Amount of the Colorado Division of Housing loan and the CHFA permanent loan; credit price; final total development cost beyond TWG's $18 million figure.",
+  "General contractor of record.",
+  "Rents and the term of the CHFA affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-loi",
+   "title": "2024 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2023-12-13",
+   "url": "https://www.chfainfo.com/getattachment/893aae70-46ec-49b6-844c-c100904aaead/2024-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-news",
+   "title": "CHFA Announces 2024 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-05-30",
+   "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Residences at Delta II, PDF pages 94-97)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "twg-2024-12-27",
+   "title": "TWG announces phase 2 on affordable multifamily community in Delta, CO (Residences at Delta II)",
+   "publisher": "TWG Development",
+   "date": "2024-12-27",
+   "url": "https://www.twgdev.com/blog/3177-twg-announces-phase-2-on-affordable-multifamily-community-in-delta-co"
+  },
+  {
+   "id": "hcs-2024-08-26",
+   "title": "Delta City Council - Affordable Housing and Study Session on Code Violations",
+   "publisher": "High Country Spotlight",
+   "date": "2024-08-26",
+   "url": "https://www.highcountryspotlight.com/spotlight/civically_engaged/delta-city-council-affordable-housing-and-study-session-on-code-violations/article_c2e8235a-63be-11ef-bdcb-b74564d6380b.html"
+  },
+  {
+   "id": "rad2-site",
+   "title": "Residences at Delta II (property leasing website, home page; viewed 2026-10-21)",
+   "publisher": "Residences at Delta II (property management)",
+   "date": "2026-10-21",
+   "url": "https://www.residencesatdelta2.com/"
+  },
+  {
+   "id": "rad2-contact",
+   "title": "Residences at Delta II, Contact page (lists 1510 Villa Street; viewed 2026-10-21)",
+   "publisher": "Residences at Delta II (property management)",
+   "date": "2026-10-21",
+   "url": "https://www.residencesatdelta2.com/Contact.aspx"
+  }
+ ]
+}

@@ -1,0 +1,515 @@
+{
+ "slug": "sanctuary-on-potomac-aurora",
+ "name": "Sanctuary on Potomac",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 43,
+ "researched_on": "2026-10-21",
+ "headline": "The Aurora Housing Authority is building Sanctuary on Potomac, a 43-unit permanent supportive housing building for people leaving homelessness who have mental illness, on Aurora Mental Health and Recovery's Potomac campus at 1280 S. Potomac St. Every unit has a project-based voucher. It won $1,408,140 a year in federal 9% credit and $700,000 in state credit in CHFA's 2024 Round One.",
+ "why_it_matters": "It puts supportive housing on the same campus as a 24-hour crisis and detox center, with clinical case management from the mental health center and services paid partly from a $235,000 tenant services reserve funded by a CHFA cost basis waiver, a structure other housing authorities can copy.",
+ "status": {
+  "label": "Under construction: building permit issued 2025-05-28; no certificate of occupancy found",
+  "detail": "Aurora's permit data show the 43-unit building permit applied for 2024-12-23 and issued 2025-05-28, a construction trailer permit in July 2025 and plan revisions through 2026-10-12. In April 2025 the housing authority told a city committee that construction was underway with completion expected in August 2026; its website still says \"Coming 2026\", and Aurora's 2026 certificate of occupancy layer has no entry for 1280 S. Potomac St.",
+  "src": [
+   "aurora-permits-1280",
+   "aurora-hnsr-minutes-2025-04-16",
+   "aha-dev-projects",
+   "aurora-co-2026"
+  ]
+ },
+ "next_step": "Watch Aurora's certificate of occupancy data for 1280 S. Potomac St. and the housing authority's site for an opening date.",
+ "key_numbers": [
+  {
+   "value": "43 one-bedroom supportive homes: 33 at 30% AMI, 10 at 50% AMI",
+   "meaning": "For people experiencing homelessness with mental illness, referred by Aurora Mental Health and Recovery.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "43 project-based vouchers",
+   "meaning": "One for every unit, committed by the Aurora Housing Authority; the application assumes residents arrive with little or no income.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,408,140 a year in federal 9% credit plus $700,000 state credit",
+   "meaning": "About $14.1M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "$14.1M construction budget",
+   "meaning": "The application's construction cost ($14,085,959), priced from 50% design development drawings.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1280 S. Potomac Street, Aurora, CO 80012 (Lot 3, Block 1 of the Aurora Mental Health and Recovery campus)",
+   "src": [
+    "chfa-2024-r1-award",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "PSH, N: permanent supportive housing, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "43 total, 43 low-income; all one-bedroom, about 492 sq ft, fully furnished",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, two elevators, 36,349 sq ft, wood frame on slab; lobby, offices, community room, wellness room and courtyard; 45 surface parking spaces under a shared parking easement with the mental health center",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "Housing First, trauma-informed design; NGBS Bronze; all-electric-ready; 24-hour staffing and after-hours security",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions",
+    "aurora-hnsr-minutes-2025-04-16"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "MU-OI Mixed Use - Office/Institutional",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 11 bus; Florida light rail station (H and R lines) about 0.3 miles away",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Campus neighbor",
+   "value": "Aurora Mental Health and Recovery's crisis center (walk-in crisis, stabilization, detox, respite and substance use treatment) next door",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 33
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 43
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,408,140 per year",
+   "note": "2024 Round One award; the request was $1,450,000, sized with a cost basis waiver to fund the tenant services reserve.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "City of Aurora ARPA predevelopment funds",
+   "amount": "$1,000,000",
+   "note": "Also described by the housing authority to a city committee in April 2025 as $1 million in predevelopment funding.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aurora-hnsr-minutes-2025-04-16"
+   ]
+  },
+  {
+   "source": "Arapahoe County HOME-ARP",
+   "amount": "$1,200,000",
+   "note": "The application says another $600,000 in HOME was forthcoming.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Tenant services reserve",
+   "amount": "$235,000",
+   "note": "Funded by the 5% developer fee boost under a CHFA cost basis waiver; services also paid through Medicaid billing and Division of Housing tenant support services.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "43 units",
+   "note": "From the Aurora Housing Authority.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "First mortgage and construction loan",
+   "amount": "Not public",
+   "note": "The July 2024 RFP says construction and permanent financing were anticipated from First Bank.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not public",
+   "note": "Listed as a source in the application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land and site work",
+   "amount": "About $1,000,000",
+   "note": "The housing authority buys its lot from Aurora Mental Health and Recovery and pays a pro rata share of site improvements totaling $1.0M; the mental health center put Arapahoe County ARPA money into about $3.6M of campus infrastructure, which includes Sanctuary's.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and owner (as CHFA prints it)",
+   "name": "Aurora Housing Authority (Housing Authority of the City of Aurora)",
+   "src": [
+    "chfa-2024-r1-award",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "role": "Service partner and land seller",
+   "name": "Aurora Mental Health and Recovery (referrals, clinical case management, Medicaid billing)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Davis Partnership Architects",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "role": "Owner's representative",
+   "name": "Artaic Group",
+   "src": [
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "role": "Financial advisor",
+   "name": "Affordable Advisors, LLC",
+   "src": [
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Not confirmed: the application said Denueve Construction priced the drawings; the housing authority re-solicited CM/GC services in July 2024 and the selection was not found",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Aurora Housing Authority (full-time manager and maintenance technician planned)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Campus model: the building is part of Aurora Mental Health and Recovery's Potomac campus, which also holds a 24-hour crisis center and detox center, with a community health clinic planned; the mental health center assembled $7.0M, $5.0M and $1.3M in ARPA money from Aurora, Arapahoe County and Adams County for the campus (about $13.3M in all, inferred sum).",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Second try: the project applied in CHFA's 2023 Round Two with the same 43 units and AMI split. Between rounds it added $1.2M from Arapahoe County, won Planning Commission site plan approval and recorded a parking easement.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals: the Aurora Planning and Zoning Commission recommended the site plan for approval at a public hearing on 2023-11-21 with no public opposition registered; the campus infrastructure site plan was submitted in June 2023. A HUD environmental assessment was done by City of Aurora staff and the old building on the site was demolished.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Cost drivers: the parcel only fits 43 units, so per-unit cost is high; the applicant also cites full-time on-site staff, overnight security and extra architectural detail the city required because the building does not front Potomac.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market: the study found 572 people homeless in Aurora in the 2023 point-in-time count and only 108 PSH units in the city (Renaissance Veterans Apartments at Fitzsimons and Providence at the Heights); it projected a two-month lease-up.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Permits: Aurora's permit data list the 43-unit multifamily building permit (24-2498416-000-00, valuation $10,000,000) issued 2025-05-28, followed by fire sprinkler (2025-10), fire alarm (2025-11) and emergency radio (2026-01) sub-permits and structural RFI confirmation of as-built conditions in April 2026.",
+   "src": [
+    "aurora-permits-1280"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023",
+   "event": "Applied in CHFA's 2023 Round Two (not funded that round; inferred from the 2024 reapplication)",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-11-21",
+   "event": "Aurora Planning and Zoning Commission recommends the site plan for approval",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-12-13",
+   "event": "Listed on CHFA's 2024 Round One letters-of-intent report",
+   "src": [
+    "chfa-2024-r1-loi"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-05-30",
+   "event": "CHFA announces 2024 Round One awards, including Sanctuary on Potomac",
+   "src": [
+    "chfa-2024-r1-news"
+   ]
+  },
+  {
+   "date": "2024-07-19",
+   "event": "Housing authority issues RFP for CM/GC services; schedule targets construction start in May 2025",
+   "src": [
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "date": "2024-12-23",
+   "event": "Building permit application filed for the 43-unit building",
+   "src": [
+    "aurora-permits-1280"
+   ]
+  },
+  {
+   "date": "2025-04-16",
+   "event": "Housing authority tells a city council committee construction is underway, completion expected August 2026",
+   "src": [
+    "aurora-hnsr-minutes-2025-04-16"
+   ]
+  },
+  {
+   "date": "2025-05-28",
+   "event": "Building permit issued",
+   "src": [
+    "aurora-permits-1280"
+   ]
+  },
+  {
+   "date": "2025-07-16",
+   "event": "Construction trailer permit issued",
+   "src": [
+    "aurora-permits-1280"
+   ]
+  },
+  {
+   "date": "2026-10-12",
+   "event": "Latest plan revision filed (mechanical); no certificate of occupancy listed",
+   "src": [
+    "aurora-permits-1280",
+    "aurora-co-2026"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior and unit interior renderings",
+   "url": "https://www.aurorahousing.org/development-projects",
+   "kind": "rendering",
+   "made_by": "Aurora Housing Authority (project page)",
+   "note": "Sanctuary on Potomac section: exterior image plus living room, kitchen, bedroom and bathroom renderings",
+   "src": [
+    "aha-dev-projects"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's letters-of-intent report gives the project address as 2290 S. Xanadu Way, while the applicant report, award report and the housing authority's RFP give 1280 S. Potomac Street.",
+   "src": [
+    "chfa-2024-r1-loi",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-award",
+    "aha-rfp-2024-07-19"
+   ]
+  },
+  {
+   "text": "The application gives a construction budget of $14,085,959, while Aurora's building permit lists a valuation of $10,000,000.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "aurora-permits-1280"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Opening date and lease-up (expected completion was August 2026; no certificate of occupancy found by 2026-10-21).",
+  "Who was selected as CM/GC after the July 2024 RFP.",
+  "Total development cost, lender terms, equity investor and credit price.",
+  "Whether the additional $600,000 Arapahoe County HOME and any Division of Housing award were made, and in what amounts.",
+  "Land price paid to Aurora Mental Health and Recovery and the term of the CHFA affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-loi",
+   "title": "2024 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2023-12-13",
+   "url": "https://www.chfainfo.com/getattachment/893aae70-46ec-49b6-844c-c100904aaead/2024-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-news",
+   "title": "CHFA Announces 2024 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-05-30",
+   "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Sanctuary on Potomac, PDF pages 98-102)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two application narratives (Sanctuary on Potomac, PDF page 167 onward)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "aha-rfp-2024-07-19",
+   "title": "Housing Authority of the City of Aurora, RFP No. RFP20240705, CM/GC Services, Sanctuary on Potomac",
+   "publisher": "Aurora Housing Authority",
+   "date": "2024-07-19",
+   "url": "https://irp.cdn-website.com/cb9d28f1/files/uploaded/RFP20240705_Sanctuary_on_Potomac_GC.pdf"
+  },
+  {
+   "id": "aha-dev-projects",
+   "title": "Development Projects (Sanctuary on Potomac, \"Coming 2026\"; viewed 2026-10-21)",
+   "publisher": "Aurora Housing Authority",
+   "date": "2026-10-21",
+   "url": "https://www.aurorahousing.org/development-projects"
+  },
+  {
+   "id": "aurora-hnsr-minutes-2025-04-16",
+   "title": "Housing, Neighborhood Services and Redevelopment Policy Committee agenda packet for 2025-11-19, containing draft minutes of the 2025-04-16 meeting (Aurora Housing Authority pipeline update, packet page 4)",
+   "publisher": "City of Aurora",
+   "date": "2025-04-16",
+   "url": "https://www.auroragov.org/common/pages/GetFile.ashx?key=j1dBATGp"
+  },
+  {
+   "id": "aurora-permits-1280",
+   "title": "City of Aurora open data, building permits layer (Multi-Family Building), query for property 1280 S Potomac St (queried 2026-10-21)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=PropertyRSN%3D236791&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html"
+  },
+  {
+   "id": "aurora-co-2026",
+   "title": "City of Aurora open data, Certificate of Occupancy 2026 layer, query for S Potomac St addresses (queried 2026-10-21)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=ADDRESS+LIKE+%27%25POTOMAC%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME&returnGeometry=false&f=html"
+  }
+ ]
+}

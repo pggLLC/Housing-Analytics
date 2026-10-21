@@ -182,6 +182,11 @@
 .sb-mig-from input:disabled + span {
   color: var(--muted);
 }
+/* Households per person stands alone, so its legend is the group's label. */
+.sb-headship legend {
+  color: var(--text);
+  font-size: 0.87rem;
+}
 
 /* ---------------------------------------------------------------------------
    Save / Load

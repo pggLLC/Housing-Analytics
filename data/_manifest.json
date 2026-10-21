@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T13:01:26.999Z",
+    "generated_at": "2026-10-21T14:46:02.349Z",
     "root": "data/",
-    "file_count": 1884,
-    "total_size_bytes": 197269635,
+    "file_count": 1897,
+    "total_size_bytes": 197545303,
     "kinds": {
-      "json": 1838,
+      "json": 1851,
       "geojson": 34,
       "csv": 12
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7709,
-      "mtime": "2026-10-20T13:36:32.875Z",
+      "size_bytes": 7708,
+      "mtime": "2026-10-21T14:37:39.949Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-21T13:01:24.310Z",
+      "mtime": "2026-10-21T14:45:58.217Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1588,6 +1588,37 @@
       ]
     },
     {
+      "path": "deals/annex-boulder.json",
+      "kind": "json",
+      "size_bytes": 16726,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
       "path": "deals/arapahoe-psh-aurora.json",
       "kind": "json",
       "size_bytes": 19555,
@@ -1648,6 +1679,38 @@
       "primary_array_first_keys": [
         "date",
         "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/aster-place-battlement-mesa.json",
+      "kind": "json",
+      "size_bytes": 15541,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "money",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "source",
+        "amount",
+        "note",
         "src"
       ]
     },
@@ -1713,6 +1776,39 @@
         "date",
         "event",
         "src"
+      ]
+    },
+    {
+      "path": "deals/beeler-park-flats-denver.json",
+      "kind": "json",
+      "size_bytes": 17429,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
       ]
     },
     {
@@ -1991,6 +2087,39 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/current-grand-junction.json",
+      "kind": "json",
+      "size_bytes": 21410,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 19,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -2322,6 +2451,39 @@
       ]
     },
     {
+      "path": "deals/grove-at-cottonwood-broomfield.json",
+      "kind": "json",
+      "size_bytes": 16747,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/grove-at-pinewood-aurora.json",
       "kind": "json",
       "size_bytes": 17269,
@@ -2353,10 +2515,43 @@
       ]
     },
     {
+      "path": "deals/iliff-senior-apartments-denver.json",
+      "kind": "json",
+      "size_bytes": 17402,
+      "mtime": "2026-10-21T14:38:55.722Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/index.json",
       "kind": "json",
-      "size_bytes": 23323,
-      "mtime": "2026-10-21T11:12:41.178Z",
+      "size_bytes": 28255,
+      "mtime": "2026-10-21T14:38:55.723Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -2364,7 +2559,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "deals",
-      "primary_array_length": 61,
+      "primary_array_length": 74,
       "primary_array_first_keys": [
         "slug",
         "name",
@@ -2406,6 +2601,37 @@
         "source",
         "amount",
         "note",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/kappa-tower-iii-denver.json",
+      "kind": "json",
+      "size_bytes": 16106,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "item",
+        "value",
         "src"
       ]
     },
@@ -2598,6 +2824,38 @@
       "primary_array_first_keys": [
         "date",
         "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/montview-flats-littleton.json",
+      "kind": "json",
+      "size_bytes": 15620,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "money",
+      "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "source",
+        "amount",
+        "note",
         "src"
       ]
     },
@@ -2798,6 +3056,39 @@
       ]
     },
     {
+      "path": "deals/range-view-saguache.json",
+      "kind": "json",
+      "size_bytes": 18107,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/ravenfield-brighton.json",
       "kind": "json",
       "size_bytes": 14273,
@@ -2862,6 +3153,39 @@
       ]
     },
     {
+      "path": "deals/residences-at-delta-ii-delta.json",
+      "kind": "json",
+      "size_bytes": 15661,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/rita-bass-apartments-denver.json",
       "kind": "json",
       "size_bytes": 20564,
@@ -2886,6 +3210,39 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 16,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/sanctuary-on-potomac-aurora.json",
+      "kind": "json",
+      "size_bytes": 17899,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 12,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -3018,6 +3375,39 @@
         "item",
         "value",
         "src"
+      ]
+    },
+    {
+      "path": "deals/sunrise-at-shiloh-mesa-colorado-springs.json",
+      "kind": "json",
+      "size_bytes": 18712,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 16,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
       ]
     },
     {
@@ -3271,6 +3661,37 @@
       "key_count": 24,
       "primary_array_key": "timeline",
       "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/vina-senior-residences-denver.json",
+      "kind": "json",
+      "size_bytes": 19665,
+      "mtime": "2026-10-21T14:38:55.723Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 14,
       "primary_array_first_keys": [
         "date",
         "event",
@@ -34267,8 +34688,8 @@
     {
       "path": "jurisdiction-briefs/_round-watch.json",
       "kind": "json",
-      "size_bytes": 262394,
-      "mtime": "2026-10-21T08:23:11.028Z",
+      "size_bytes": 304383,
+      "mtime": "2026-10-21T14:38:55.725Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34885,8 +35306,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 238982,
-      "mtime": "2026-10-21T13:01:02.663Z",
+      "size_bytes": 240707,
+      "mtime": "2026-10-21T14:45:04.160Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -36461,8 +36882,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16096,
-      "mtime": "2026-10-21T13:01:25.644Z",
+      "size_bytes": 16094,
+      "mtime": "2026-10-21T14:46:00.176Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -36486,7 +36907,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-21T13:01:25.307Z",
+      "mtime": "2026-10-21T14:45:59.670Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

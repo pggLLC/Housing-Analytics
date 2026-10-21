@@ -1,0 +1,521 @@
+{
+ "slug": "beeler-park-flats-denver",
+ "name": "Beeler Park Flats",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 64,
+ "researched_on": "2026-10-21",
+ "headline": "Mile High Development is building Beeler Park Flats, a five-story, 64-unit family rental in the Beeler Park area of Denver's Central Park neighborhood for households at 30% to 60% AMI, financed with a 2024 Round One 9% and state credit award, a $2.1M City of Denver loan and KeyBank debt and equity.",
+ "why_it_matters": "It is an example of affordable housing required by the Central Park master plan being carved out of a market-rate developer's parcel, with the city's linkage-fee fund and a 60-year covenant filling the gap.",
+ "status": {
+  "label": "Financing closed (August 2025, per KeyBank); 64-unit building permit issued 2025-09-04 (inferred to be this project); completion not confirmed",
+  "detail": "KeyBank lists a construction loan, LIHTC equity and Freddie Mac forward commitment for Beeler Park Flats dated August 2025. Denver's permit data shows a new-building permit for 64 units at 5601 N Chester Way in Central Park issued 2025-09-04 (valuation $13.2M), with follow-on permits through 2026-10-08 and no certificate of occupancy; matching that permit to this project is inferred from the unit count, location and timing.",
+  "src": [
+   "keybank-deal",
+   "denver-permits-5601-chester"
+  ]
+ },
+ "next_step": "Watch Denver's permit data for a certificate of occupancy at 5601 N Chester Way, and for lease-up by the property manager.",
+ "key_numbers": [
+  {
+   "value": "64 homes, all at 30% to 60% AMI",
+   "meaning": "Mostly family-sized: 51 two-bedroom and 8 three-bedroom units; 7 units at 30% AMI.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-descriptions",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "value": "$1,410,698 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $14.1M in federal credit over 10 years (inferred from the annual amount). The application had asked for $1,450,000 a year.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "value": "$2.1M City of Denver loan at 1%, 20 years",
+   "meaning": "Non-recourse cash-flow loan from the Affordable Housing Linkage Fee Fund, approved by council 2025-08-11 (CR25-0809), with a 60-year affordability covenant.",
+   "src": [
+    "denver-legistar-25-0809",
+    "denver-resolution-request",
+    "denver-resolution-cr25-0809"
+   ]
+  },
+  {
+   "value": "Building permit issued 2025-09-04",
+   "meaning": "64-unit new building at 5601 N Chester Way, valuation $13,214,797 (inferred to be this project).",
+   "src": [
+    "denver-permits-5601-chester"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5652 N Boston Court, Denver 80239 (CHFA, application, city loan request); permit address 5601 N Chester Way (inferred); Front Porch places it at 56th Avenue and Chester Way",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "denver-resolution-request",
+    "denver-permits-5601-chester",
+    "frontporch-2025-02-01"
+   ]
+  },
+  {
+   "item": "Legal description",
+   "value": "Part of Lot 1, Block 39, Stapleton Filing No. 49",
+   "src": [
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 2 acres, zoned M-MX-5; next to The Bluffs and North Commons Lawn open spaces and just north of the Northfield High School campus; not in a QCT or DDA",
+   "src": [
+    "denver-resolution-request",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five stories, Type IIIB wood frame on slab, masonry and metal panel base with fiber-cement upper walls, two elevators; clubhouse, fitness center, bike storage and ground-floor office space",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "frontporch-2025-02-01"
+   ]
+  },
+  {
+   "item": "Council district",
+   "value": "Denver Council District 8",
+   "src": [
+    "denver-legistar-25-0809"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "National Green Building Standard; electric-ready with mini-split heat pumps and a convertible high-efficiency gas hot-water system; EV charging",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "City covenant of at least 60 years; units are floating",
+   "src": [
+    "denver-resolution-request",
+    "denver-loan-agreement"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 7
+  },
+  {
+   "level": "50% AMI",
+   "units": 21
+  },
+  {
+   "level": "60% AMI",
+   "units": 29
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 5
+  },
+  {
+   "type": "2BR",
+   "units": 51
+  },
+  {
+   "type": "3BR",
+   "units": 8
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "denver-loan-agreement",
+  "chfa-2024-ahtc-annual"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,410,698 per year",
+   "note": "2024 Round One award.",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "City of Denver (HOST) loan",
+   "amount": "$2,100,000",
+   "note": "Non-recourse, 1% simple interest, 240-month cash-flow loan from the Affordable Housing Linkage Fee Fund; contract HOST-202579145; loan to close by 2026-03-17; expenses before 2025-02-27 ineligible.",
+   "src": [
+    "denver-resolution-request",
+    "denver-loan-agreement",
+    "denver-legistar-25-0809"
+   ]
+  },
+  {
+   "source": "KeyBank construction loan, LIHTC equity and Freddie Mac forward commitment",
+   "amount": "Not public",
+   "note": "KeyBank Community Development Lending & Investment; deal dated August 2025.",
+   "src": [
+    "keybank-deal"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not public",
+   "note": "Listed as a planned source in the application; no award record found.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Not public",
+   "note": "Bought from the market-rate developer of the larger parcel at what the applicant calls a price well below market, to meet Central Park master plan affordable housing requirements.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and developer (as CHFA prints it)",
+   "name": "Mile High Development",
+   "src": [
+    "chfa-2024-r1-award",
+    "denver-resolution-request"
+   ]
+  },
+  {
+   "role": "Co-sponsor (per KeyBank)",
+   "name": "BMC Investments",
+   "src": [
+    "keybank-deal"
+   ]
+  },
+  {
+   "role": "Borrower / owner entity",
+   "name": "Beeler Park Flats Owner, LLC",
+   "src": [
+    "denver-legistar-25-0809",
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "role": "Lender and tax credit investor",
+   "name": "KeyBank (construction loan, LIHTC equity, Freddie Mac forward commitment)",
+   "src": [
+    "keybank-deal"
+   ]
+  },
+  {
+   "role": "Architect (application)",
+   "name": "KTGY",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (application)",
+   "name": "Brinkmann Constructors",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Contractor on the 5601 N Chester Way permit (inferred to be this project)",
+   "name": "Alliance Construction Solutions LLC",
+   "src": [
+    "denver-permits-5601-chester"
+   ]
+  },
+  {
+   "role": "Property manager (application)",
+   "name": "Com Cap Property Services",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Resident services and on-site tenant",
+   "name": "Foundation for Sustainable Urban Communities (with Northeast Transportation Connections bike library and be well health programs)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions",
+    "keybank-deal"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land deal: the applicant says a market-rate developer did due diligence for a multifamily project on the property and then agreed to sell part of it to Mile High Development to satisfy the Central Park master plan's affordable housing requirement.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says it could not use income averaging because the Central Park requirement caps these units at 60% AMI or below; the market study had recommended more 40% and 80% units.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "This was a repeat attempt: Mile High Development had submitted an earlier LIHTC application for the site in 2020, and the 2024 version proposes more family units in a smaller project.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Front Porch reported in February 2025 that construction was expected to start that August and take 13 months, with ground-floor office space for the Foundation for Sustainable Urban Communities, and that a second building is planned but depends on more tax credits.",
+   "src": [
+    "frontporch-2025-02-01"
+   ]
+  },
+  {
+   "text": "Denver's loan approval: the Safety, Housing, Education & Homelessness Committee approved filing by consent on 2025-06-04 and City Council adopted resolution CR25-0809 on 2025-08-11.",
+   "src": [
+    "denver-legistar-25-0809",
+    "denver-resolution-cr25-0809"
+   ]
+  },
+  {
+   "text": "Denver's loan agreement fixes the bedroom-by-income split: 1BR 1/1/1/2, 2BR 5/5/17/24 and 3BR 1/1/3/3 at 30/40/50/60% AMI, and requires at least 5% mobility-accessible and 2% hearing/vision-accessible units, plus an affirmative marketing plan.",
+   "src": [
+    "denver-loan-agreement"
+   ]
+  },
+  {
+   "text": "The applicant cites a 14.9% capture rate and a Phase I with no recognized environmental conditions; the nearest family LIHTC properties are Northfield Apartments and Pinecrest, about 1.5 miles away.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020",
+   "event": "Earlier LIHTC application for the site",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report ($1,450,000 request)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report ($1,410,698 federal, $700,000 state)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-02-01",
+   "event": "Front Porch reports construction expected to start in August 2025",
+   "src": [
+    "frontporch-2025-02-01"
+   ]
+  },
+  {
+   "date": "2025-05-19",
+   "event": "Building permit application received for a 64-unit building at 5601 N Chester Way (inferred to be this project); HOST loan request dated the same day",
+   "src": [
+    "denver-permits-5601-chester",
+    "denver-resolution-request"
+   ]
+  },
+  {
+   "date": "2025-06-04",
+   "event": "Council committee approves the HOST loan by consent",
+   "src": [
+    "denver-legistar-25-0809"
+   ]
+  },
+  {
+   "date": "2025-08",
+   "event": "KeyBank financing (construction loan, LIHTC equity, Freddie Mac forward commitment), per KeyBank's deal page",
+   "src": [
+    "keybank-deal"
+   ]
+  },
+  {
+   "date": "2025-08-11",
+   "event": "Denver City Council adopts CR25-0809 approving the $2.1M loan",
+   "src": [
+    "denver-legistar-25-0809"
+   ]
+  },
+  {
+   "date": "2025-09-04",
+   "event": "New-building permit 2025-COMMCON-0001092 issued (64 units, inferred to be this project)",
+   "src": [
+    "denver-permits-5601-chester"
+   ]
+  },
+  {
+   "date": "2026-10-08",
+   "event": "Latest follow-on permit at 5601 N Chester Way issued; no certificate of occupancy recorded",
+   "src": [
+    "denver-permits-5601-chester"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Illustration of the plan for Beeler Flats",
+   "url": "https://frontporchne.com/more-affordable-housing-coming-to-central-park/",
+   "kind": "rendering",
+   "made_by": "Not credited; published by Front Porch NE",
+   "note": "Lead image of the 2025-02-01 article",
+   "src": [
+    "frontporch-2025-02-01"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application names Brinkmann Constructors as general contractor, while the Denver permit for the 64-unit building at 5601 N Chester Way lists Alliance Construction Solutions LLC.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "denver-permits-5601-chester"
+   ]
+  },
+  {
+   "text": "CHFA and the city loan request give the address as 5652 N Boston Court, while the 64-unit building permit is filed under 5601 N Chester Way.",
+   "src": [
+    "chfa-2024-r1-award",
+    "denver-resolution-request",
+    "denver-permits-5601-chester"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Confirmation that permit 2025-COMMCON-0001092 at 5601 N Chester Way is Beeler Park Flats (the match is inferred).",
+  "Expected completion date and lease-up; no certificate of occupancy found as of 2026-10-21.",
+  "Total development cost, KeyBank loan and equity amounts, and whether DOH funding was awarded.",
+  "Seller and price of the land, and the role of BMC Investments.",
+  "Whether the second building mentioned by Front Porch has applied for credits.",
+  "Term of the CHFA affordability covenant (the city covenant runs at least 60 years)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Beeler Park Flats, Denver)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (Beeler Park Flats, PDF pages 7-11)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-ahtc-annual",
+   "title": "State Affordable Housing Tax Credit 2024 Annual Report (Beeler Park Flats on printed page 3 and page 8)",
+   "publisher": "CHFA",
+   "date": "2024-12-31",
+   "url": "https://chfainfo.com/getattachment/bd590043-b796-4005-8e5b-2ad9446f857f/2024StateAHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "denver-legistar-25-0809",
+   "title": "Denver City Council File 25-0809 (Resolution, adopted 2025-08-11): Agreement with Beeler Park Flats Owner, LLC",
+   "publisher": "City and County of Denver",
+   "date": "2025-08-11",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=7411925&GUID=1A0E85EE-D5E8-4E28-93E6-9DAC130EFE92"
+  },
+  {
+   "id": "denver-resolution-request",
+   "title": "Ordinance/Resolution Request, HOST loan to Beeler Park Flats Owner, LLC (HOST-202579145)",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-05-19",
+   "url": "https://denver.legistar.com/View.ashx?M=F&ID=14237843&GUID=D447BD00-58C3-4C7D-95B0-189DC8A751A5"
+  },
+  {
+   "id": "denver-loan-agreement",
+   "title": "Loan Agreement, City and County of Denver and Beeler Park Flats Owner, LLC (Contract HOST-202579145-00)",
+   "publisher": "City and County of Denver",
+   "date": "2025",
+   "url": "https://denver.legistar.com/View.ashx?M=F&ID=14573426&GUID=D61333D9-FF1B-46D4-B69F-135D236A1F7F"
+  },
+  {
+   "id": "denver-resolution-cr25-0809",
+   "title": "Resolution No. CR25-0809, Series of 2025",
+   "publisher": "City and County of Denver",
+   "date": "2025-08-07",
+   "url": "https://denver.legistar.com/View.ashx?M=F&ID=14576737&GUID=08ABCCB5-F51D-4FAE-8BDA-A2437E4CFC8C"
+  },
+  {
+   "id": "denver-permits-5601-chester",
+   "title": "Denver Open Data, Commercial Construction Permits: query for 5601 N Chester Way (permit 2025-COMMCON-0001092 and follow-on permits)",
+   "publisher": "City and County of Denver (ArcGIS open data)",
+   "date": "2026-10-21",
+   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%275601%25Chester%25%27&outFields=*&returnGeometry=false&f=pjson"
+  },
+  {
+   "id": "keybank-deal",
+   "title": "Beeler Park Flats: Construction Loan, LIHTC Equity, & Permanent Loan (deal page, August 2025)",
+   "publisher": "KeyBank",
+   "date": "2025-08",
+   "url": "https://www.key.com/businesses-institutions/our-transactions/deals/beeler-park-flats.html"
+  },
+  {
+   "id": "frontporch-2025-02-01",
+   "title": "More Affordable Housing Coming to Central Park",
+   "publisher": "Front Porch NE",
+   "date": "2025-02-01",
+   "url": "https://frontporchne.com/more-affordable-housing-coming-to-central-park/"
+  }
+ ]
+}

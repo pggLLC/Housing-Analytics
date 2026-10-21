@@ -129,8 +129,36 @@
     });
   }
 
+  /**
+   * Fill the small price chips other pages show: [data-equity-price="nine"|"four"]
+   * gets the current national price, [data-equity-yoy="nine"|"four"] the change
+   * on the same quarter a year earlier, [data-equity-vintage] the quarter.
+   * Chips stay as typed ("—") when the files cannot be read.
+   */
+  function fill(doc, fetchImpl) {
+    var d = doc || (typeof document !== 'undefined' ? document : null);
+    if (!d) return Promise.resolve(null);
+    return load(fetchImpl).then(function (data) {
+      var c = current(data.benchmark);
+      if (!c) return null;
+      Array.prototype.forEach.call(d.querySelectorAll('[data-equity-price]'), function (el) {
+        var v = c[el.getAttribute('data-equity-price')];
+        if (v != null) el.textContent = money(v);
+      });
+      Array.prototype.forEach.call(d.querySelectorAll('[data-equity-yoy]'), function (el) {
+        var v = agrees(data.benchmark, data.history) ? change(data.history, el.getAttribute('data-equity-yoy'), 4) : null;
+        if (v != null) el.textContent = pct(v) + ' vs a year earlier';
+      });
+      Array.prototype.forEach.call(d.querySelectorAll('[data-equity-vintage]'), function (el) {
+        if (c.vintage) el.textContent = c.vintage.replace('-', ' ');
+      });
+      return c;
+    });
+  }
+
   return {
     URLS: URLS,
+    fill: fill,
     current: current,
     quarters: quarters,
     change: change,

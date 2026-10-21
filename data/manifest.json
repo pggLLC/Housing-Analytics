@@ -1,15 +1,15 @@
 {
-  "generated": "2026-10-21T13:01:29.840389Z",
+  "generated": "2026-10-21T14:46:05.078925Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 940764
+      "bytes": 949743
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7709
+      "bytes": 7708
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -351,6 +351,11 @@
       "placeholder": false,
       "bytes": 26327
     },
+    "data/deals/annex-boulder.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16726
+    },
     "data/deals/arapahoe-psh-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -361,6 +366,11 @@
       "placeholder": false,
       "bytes": 12545
     },
+    "data/deals/aster-place-battlement-mesa.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15541
+    },
     "data/deals/atwood-commons-longmont.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -370,6 +380,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17585
+    },
+    "data/deals/beeler-park-flats-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17429
     },
     "data/deals/blossom-commons-westminster.json": {
       "featureCount": 0,
@@ -415,6 +430,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14327
+    },
+    "data/deals/current-grand-junction.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21410
     },
     "data/deals/dawson-square-denver.json": {
       "featureCount": 0,
@@ -466,20 +486,35 @@
       "placeholder": false,
       "bytes": 23536
     },
+    "data/deals/grove-at-cottonwood-broomfield.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16747
+    },
     "data/deals/grove-at-pinewood-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17269
     },
+    "data/deals/iliff-senior-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17402
+    },
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23323
+      "bytes": 28255
     },
     "data/deals/ives-ii-wheat-ridge.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18655
+    },
+    "data/deals/kappa-tower-iii-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16106
     },
     "data/deals/kite-route-crossing-superior.json": {
       "featureCount": 0,
@@ -511,6 +546,11 @@
       "placeholder": false,
       "bytes": 17845
     },
+    "data/deals/montview-flats-littleton.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15620
+    },
     "data/deals/montview-heights-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -541,6 +581,11 @@
       "placeholder": false,
       "bytes": 16870
     },
+    "data/deals/range-view-saguache.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 18107
+    },
     "data/deals/ravenfield-brighton.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -551,10 +596,20 @@
       "placeholder": false,
       "bytes": 17853
     },
+    "data/deals/residences-at-delta-ii-delta.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15661
+    },
     "data/deals/rita-bass-apartments-denver.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 20564
+    },
+    "data/deals/sanctuary-on-potomac-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17899
     },
     "data/deals/silver-key-apartments-colorado-springs.json": {
       "featureCount": 0,
@@ -575,6 +630,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19222
+    },
+    "data/deals/sunrise-at-shiloh-mesa-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 18712
     },
     "data/deals/switchgrass-crossing-fort-collins.json": {
       "featureCount": 0,
@@ -615,6 +675,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 22691
+    },
+    "data/deals/vina-senior-residences-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19665
     },
     "data/deals/wildflower-flats-fort-lupton.json": {
       "featureCount": 0,
@@ -8154,7 +8219,7 @@
     "data/jurisdiction-briefs/_round-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 262394
+      "bytes": 304383
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -8669,7 +8734,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16096
+      "bytes": 16094
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

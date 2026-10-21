@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T13:01:02.699Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T14:45:30.170Z. Do not edit by hand.
 
 ---
 
@@ -20,7 +20,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.4 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.2 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
@@ -29,7 +29,7 @@
 | `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 23.8 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.7 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.1 KB |
-| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
+| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.4 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 81.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.1 KB |
@@ -37,19 +37,19 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 81.9 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.5 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.7 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
-| `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.2 KB |
-| `developer-round-watch.html` | Next Round Watch — COHO Analytics | 6.4 KB |
-| `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
+| `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
+| `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
+| `developer-where.html` | Where Should I Build? — COHO Analytics | 28.5 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
-| `developer.html` | Developer Home — COHO Analytics | 19.4 KB |
+| `developer.html` | Developer Home — COHO Analytics | 19.7 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.1 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.0 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.6 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 39.2 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 40.0 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.6 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.4 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.6 KB |
@@ -70,14 +70,14 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 151.6 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 76.7 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 78.1 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.8 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.3 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 27.6 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 27.7 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 22.8 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.8 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
@@ -91,11 +91,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1839 JSON files found.
+1852 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 918.7 KB | ✅ | — |
+| `data/_manifest.json` | 927.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -156,10 +156,13 @@
 | `data/deals/123-manitou-manitou-springs.json` | 18.8 KB | ✅ | — |
 | `data/deals/34th-street-boulder.json` | 13.2 KB | ✅ | — |
 | `data/deals/4965-washington-street-denver.json` | 25.7 KB | ✅ | — |
+| `data/deals/annex-boulder.json` | 16.3 KB | ✅ | — |
 | `data/deals/arapahoe-psh-aurora.json` | 19.1 KB | ✅ | — |
 | `data/deals/ascent-at-salt-flats-grand-junction.json` | 12.3 KB | ✅ | — |
+| `data/deals/aster-place-battlement-mesa.json` | 15.2 KB | ✅ | — |
 | `data/deals/atwood-commons-longmont.json` | 32.4 KB | ✅ | — |
 | `data/deals/barth-hotel-denver.json` | 17.2 KB | ✅ | — |
+| `data/deals/beeler-park-flats-denver.json` | 17.0 KB | ✅ | — |
 | `data/deals/blossom-commons-westminster.json` | 17.0 KB | ✅ | — |
 | `data/deals/bradley-ridge-colorado-springs.json` | 19.2 KB | ✅ | — |
 | `data/deals/cedar-creek-commons-montrose.json` | 13.2 KB | ✅ | — |
@@ -169,6 +172,7 @@
 | `data/deals/crawford-commons-clifton.json` | 13.8 KB | ✅ | — |
 | `data/deals/crossbar-commons-aurora.json` | 17.4 KB | ✅ | — |
 | `data/deals/crossroads-at-divide-divide.json` | 14.0 KB | ✅ | — |
+| `data/deals/current-grand-junction.json` | 20.9 KB | ✅ | — |
 | `data/deals/dawson-square-denver.json` | 14.0 KB | ✅ | — |
 | `data/deals/eagle-villas-eagle.json` | 16.1 KB | ✅ | — |
 | `data/deals/elmwood-north-denver.json` | 16.8 KB | ✅ | — |
@@ -179,28 +183,36 @@
 | `data/deals/green-valley-vistas-denver.json` | 17.6 KB | ✅ | — |
 | `data/deals/greenbriar-apartments-fort-collins.json` | 17.1 KB | ✅ | — |
 | `data/deals/gregory-highlands-ranch.json` | 23.0 KB | ✅ | — |
+| `data/deals/grove-at-cottonwood-broomfield.json` | 16.4 KB | ✅ | — |
 | `data/deals/grove-at-pinewood-aurora.json` | 16.9 KB | ✅ | — |
-| `data/deals/index.json` | 22.8 KB | ✅ | — |
+| `data/deals/iliff-senior-apartments-denver.json` | 17.0 KB | ✅ | — |
+| `data/deals/index.json` | 27.6 KB | ✅ | — |
 | `data/deals/ives-ii-wheat-ridge.json` | 18.2 KB | ✅ | — |
+| `data/deals/kappa-tower-iii-denver.json` | 15.7 KB | ✅ | — |
 | `data/deals/kite-route-crossing-superior.json` | 18.8 KB | ✅ | — |
 | `data/deals/link-and-pin-denver.json` | 14.9 KB | ✅ | — |
 | `data/deals/lumberyard-apartments-aspen.json` | 26.6 KB | ✅ | — |
 | `data/deals/marq-trinidad.json` | 15.4 KB | ✅ | — |
 | `data/deals/metro-center-apartments-aurora.json` | 14.7 KB | ✅ | — |
 | `data/deals/montbello-townhomes-denver.json` | 17.4 KB | ✅ | — |
+| `data/deals/montview-flats-littleton.json` | 15.3 KB | ✅ | — |
 | `data/deals/montview-heights-aurora.json` | 10.4 KB | ✅ | — |
 | `data/deals/mountain-view-plaza-longmont.json` | 26.7 KB | ✅ | — |
 | `data/deals/park-avenue-apartments-denver.json` | 23.9 KB | ✅ | — |
 | `data/deals/park-place-apartments-denver.json` | 20.4 KB | ✅ | — |
 | `data/deals/parkside-apartments-longmont.json` | 26.3 KB | ✅ | — |
 | `data/deals/ponderosa-pines-parker.json` | 16.5 KB | ✅ | — |
+| `data/deals/range-view-saguache.json` | 17.7 KB | ✅ | — |
 | `data/deals/ravenfield-brighton.json` | 13.9 KB | ✅ | — |
 | `data/deals/reserve-at-south-creek-englewood.json` | 17.4 KB | ✅ | — |
+| `data/deals/residences-at-delta-ii-delta.json` | 15.3 KB | ✅ | — |
 | `data/deals/rita-bass-apartments-denver.json` | 20.1 KB | ✅ | — |
+| `data/deals/sanctuary-on-potomac-aurora.json` | 17.5 KB | ✅ | — |
 | `data/deals/silver-key-apartments-colorado-springs.json` | 21.7 KB | ✅ | — |
 | `data/deals/squire-village-northglenn.json` | 13.8 KB | ✅ | — |
 | `data/deals/st-louis-landing-building-c-fraser.json` | 18.6 KB | ✅ | — |
 | `data/deals/sugar-commons-sterling.json` | 18.8 KB | ✅ | — |
+| `data/deals/sunrise-at-shiloh-mesa-colorado-springs.json` | 18.3 KB | ✅ | — |
 | `data/deals/switchgrass-crossing-fort-collins.json` | 17.6 KB | ✅ | — |
 | `data/deals/tapestry-denver.json` | 23.5 KB | ✅ | — |
 | `data/deals/tierra-azul-alamosa.json` | 20.0 KB | ✅ | — |
@@ -209,6 +221,7 @@
 | `data/deals/university-building-lofts-denver.json` | 24.6 KB | ✅ | — |
 | `data/deals/ute-mountain-homes-i-towaoc.json` | 13.7 KB | ✅ | — |
 | `data/deals/village-on-eastbrook-fort-collins.json` | 22.2 KB | ✅ | — |
+| `data/deals/vina-senior-residences-denver.json` | 19.2 KB | ✅ | — |
 | `data/deals/wildflower-flats-fort-lupton.json` | 16.7 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-2-lafayette.json` | 18.0 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
@@ -1715,7 +1728,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 341.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_news-used.json` | 67.4 KB | ✅ | — |
-| `data/jurisdiction-briefs/_round-watch.json` | 256.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_round-watch.json` | 297.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803620.json` | 22.6 KB | ✅ | — |
@@ -1738,7 +1751,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 233.4 KB | ✅ | — |
+| `data/manifest.json` | 235.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1939,7 +1952,7 @@
 
 ## Test Files
 
-687 test files found.
+689 test files found.
 
 | File | Size |
 |------|------|
@@ -2083,6 +2096,7 @@
 | `test/denver-income-limits.test.js` | 2.6 KB |
 | `test/dependency-overrides-hold.test.mjs` | 4.6 KB |
 | `test/derived-commit-rebase.test.mjs` | 6.8 KB |
+| `test/dev-terms.test.mjs` | 2.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 2.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
@@ -2099,7 +2113,7 @@
 | `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
 | `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
 | `test/equity-pricing-drivers.test.js` | 11.5 KB |
-| `test/equity-pricing-single-source.test.mjs` | 9.1 KB |
+| `test/equity-pricing-single-source.test.mjs` | 9.9 KB |
 | `test/equity-pricing-watch.test.mjs` | 6.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
@@ -2154,6 +2168,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.6 KB |
+| `test/headship-held-option.test.js` | 13.0 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/deal-engine-b1-expected.cjs` | 3.7 KB |
@@ -2206,7 +2221,7 @@
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
 | `test/hna-reading-path.test.js` | 5.3 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.6 KB |
-| `test/hna-saved-scenario-matches-builder.test.js` | 13.1 KB |
+| `test/hna-saved-scenario-matches-builder.test.js` | 14.0 KB |
 | `test/hna-scenario-builder-saved.test.js` | 8.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-scorecard-small-place.test.js` | 4.8 KB |
@@ -2419,7 +2434,7 @@
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.7 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |
-| `test/region-membership.test.js` | 3.9 KB |
+| `test/region-membership.test.js` | 4.5 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
@@ -2437,7 +2452,7 @@
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
 | `test/ripeness.test.mjs` | 12.9 KB |
-| `test/round-watch-page.test.mjs` | 5.5 KB |
+| `test/round-watch-page.test.mjs` | 14.8 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
@@ -2510,7 +2525,7 @@
 | `test/ui-audit-clean.test.js` | 4.3 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
-| `test/unit/cohort-component-model.test.js` | 10.0 KB |
+| `test/unit/cohort-component-model.test.js` | 10.9 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 8.1 KB |
@@ -2619,7 +2634,7 @@
 | `tests/test_projection_household_series.py` | 13.0 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
-| `tests/test_round_watch.py` | 15.0 KB |
+| `tests/test_round_watch.py` | 18.0 KB |
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
