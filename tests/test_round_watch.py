@@ -117,6 +117,16 @@ def test_history_marks_new_and_moved_deals_only_after_tracking_starts():
     assert later['meta']['tracking_since'] == first['meta']['tracking_since']
 
 
+def test_backtest_counts_who_was_awarded():
+    a, l, e = base()
+    a['applications'] += [app('Came Back', 'Longmont', 2025, 1, 'not_awarded'), app('Came Back', 'Longmont', 2026, 1, 'awarded'),
+                          app('Tried Again', 'Lyons', 2025, 1, 'not_awarded'), app('Tried Again', 'Lyons', 2026, 1, 'not_awarded')]
+    r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
+    assert r['bands']['High'] == {'listed': 2, 'applied': 2, 'awarded': 1}
+    assert {(p['name'], p['outcome']) for p in r['picks']} == {('Came Back', 'awarded'), ('Tried Again', 'not_awarded')}
+    assert r['undecided'] == 0 and r['awarded'] == 2   # Came Back and the filler
+
+
 def test_awarded_and_undecided_leave_the_list():
     a, l, e = base()
     a['applications'] += [app('Won Later', 'Longmont', 2025, 1, 'not_awarded'), app('Won Later', 'Longmont', 2026, 1, 'awarded'),

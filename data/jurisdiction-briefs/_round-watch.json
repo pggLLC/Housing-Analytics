@@ -50,17 +50,87 @@
     "bands": {
      "High": {
       "listed": 8,
-      "applied": 6
+      "applied": 6,
+      "awarded": 3
      },
      "Medium": {
       "listed": 13,
-      "applied": 1
+      "applied": 1,
+      "awarded": 0
      },
      "Watch": {
       "listed": 46,
-      "applied": 2
+      "applied": 2,
+      "awarded": 2
      }
-    }
+    },
+    "awarded": 12,
+    "undecided": 0,
+    "picks": [
+     {
+      "name": "Canyons Affordable Apartments",
+      "city": "Castle Pines",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Commons Phase II",
+      "city": "Colorado Springs",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "GardenWalk of Cañon City",
+      "city": "Canon City",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Kite Route Crossing",
+      "city": "Superior",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Marq",
+      "city": "Trinidad",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Park Avenue Apartments",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Pinewood Modular",
+      "city": "Aurora",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "101 Main Street",
+      "city": "Frisco",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Tierra Azul",
+      "city": "Alamosa",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2025 Round Two",
@@ -73,17 +143,80 @@
     "bands": {
      "High": {
       "listed": 17,
-      "applied": 7
+      "applied": 7,
+      "awarded": 5
      },
      "Medium": {
       "listed": 15,
-      "applied": 0
+      "applied": 0,
+      "awarded": 0
      },
      "Watch": {
       "listed": 40,
-      "applied": 1
+      "applied": 1,
+      "awarded": 0
      }
-    }
+    },
+    "awarded": 8,
+    "undecided": 1,
+    "picks": [
+     {
+      "name": "1001 Lincoln Street",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "1139 Delaware Street",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Atwood Commons",
+      "city": "Longmont",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Reserves at Green Valley Ranch Phase II",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Stanley 98",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "University Building Lofts",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Village on Eastbrook",
+      "city": "Fort Collins",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Metro Caring Housing",
+      "city": "Denver",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2026 Round One",
@@ -96,17 +229,164 @@
     "bands": {
      "High": {
       "listed": 12,
-      "applied": 9
+      "applied": 9,
+      "awarded": 5
      },
      "Medium": {
       "listed": 17,
-      "applied": 8
+      "applied": 8,
+      "awarded": 5
      },
      "Watch": {
       "listed": 48,
-      "applied": 3
+      "applied": 3,
+      "awarded": 1
      }
-    }
+    },
+    "awarded": 14,
+    "undecided": 0,
+    "picks": [
+     {
+      "name": "123 Manitou",
+      "city": "Manitou Springs",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Commons Phase II",
+      "city": "Colorado Springs",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Crossroads at Divide",
+      "city": "Divide",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "GardenWalk of Cañon City",
+      "city": "Canon City",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Grove at Pinewood",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Harbart House",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Living Tower Senior Living",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Waldown",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Wildflower Flats",
+      "city": "Fort Lupton",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "1886 Hover",
+      "city": "Longmont",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Barth Hotel",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Commons at Mosaic",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Crawford Commons",
+      "city": "Clifton",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Montbello Townhomes",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Mountain Vista Apartments",
+      "city": "Westminster",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Silver Key Apartments at North Weber",
+      "city": "Colorado Springs",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Stables II",
+      "city": "Aurora",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "10660 E Colfax",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "40th Ave Apartments",
+      "city": "Denver",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     },
+     {
+      "name": "Metro Center Apartments",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2026 Round Two",
@@ -119,31 +399,125 @@
     "bands": {
      "High": {
       "listed": 11,
-      "applied": 6
+      "applied": 6,
+      "awarded": 0
      },
      "Medium": {
       "listed": 21,
-      "applied": 4
+      "applied": 4,
+      "awarded": 0
      },
      "Watch": {
       "listed": 53,
-      "applied": 2
+      "applied": 2,
+      "awarded": 0
      }
-    }
+    },
+    "awarded": 0,
+    "undecided": 26,
+    "picks": [
+     {
+      "name": "Castleton Heights",
+      "city": "Castle Rock",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Haven at Salt Flats",
+      "city": "Grand Junction",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Metro Caring Housing",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Reserves at Green Valley Ranch Phase II",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Stanley 98",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Starlight",
+      "city": "Littleton",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "4745 N Federal Blvd",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Irving Street Senior Apartments",
+      "city": "Westminster",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Platte River Commons",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Welby",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "1218-1268 Dallas Street",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     },
+     {
+      "name": "Ironton Apartments",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+     }
+    ]
    }
   ],
   "bands": {
    "High": {
     "listed": 48,
-    "applied": 28
+    "applied": 28,
+    "awarded": 13
    },
    "Medium": {
     "listed": 66,
-    "applied": 13
+    "applied": 13,
+    "awarded": 5
    },
    "Watch": {
     "listed": 187,
-    "applied": 8
+    "applied": 8,
+    "awarded": 3
    }
   },
   "applicants": 102,

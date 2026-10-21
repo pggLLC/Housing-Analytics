@@ -92,6 +92,8 @@ const cal = JSON.parse(read('data/chfa-qap-calendar.json'));
 const r1dates = RW.roundDates({ round: '2027 Round One' }, cal);
 ok(r1dates.length === 2 && r1dates[0].date === '2026-12-01' && r1dates[1].date === '2027-02-01', 'Round One shows CHFA\'s letter of intent and application dates');
 const dh = RW.datesHtml({ round: '2027 Round One' }, cal, '2026-11-21');
+ok(r1dates[0].url === cal.metadata.qap_sources['2027-28-qap-third-draft'].url && dh.includes('href="' + r1dates[0].url + '"'),
+  'the countdown links the plan its dates come from');
 ok(dh.includes('10 days to go') && dh.includes('rw-soon') && dh.includes('not yet adopted'), 'the countdown counts days, flags the last 30, and says the plan is a draft');
 ok(RW.roundDates({ round: '2027 Round Two' }, cal)[0].date === '2027-06-01' && RW.roundDates({ round: 'x' }, cal).length === 0, 'Round Two has its own dates; an unknown round shows none');
 const csv = RW.csvFor({ round: '2027 Round One', credit: '9%' }, [Object.assign({}, item, { name: '=HYPERLINK("x")', region: 'Front Range' })], contacts, '2026-10-18');
@@ -104,6 +106,7 @@ ok(RW.detailHtml(Object.assign({}, item, { place_geoid: '0845970' }), contacts).
 
 const byContact = RW.sortItems([{ name: 'A', _contact: { name: 'Zed' } }, { name: 'B', _contact: null }, { name: 'C', _contact: { org: 'Acme' } }], 'contact', 'asc');
 ok(byContact.map((i) => i.name).join() === 'C,A,B', 'the First contact column sorts by the name it shows, deals without one last');
+ok(RW.sortItems(byContact, 'contact', 'desc').map((i) => i.name).join() === 'A,C,B', 'deals without a contact stay last when the sort is reversed');
 
 // First contact in the list.
 ok(RW.firstContactCell(item, contacts).includes('Pat') && RW.firstContactCell(item, contacts).includes('mailto:pat@org.example'),
@@ -115,6 +118,19 @@ ok(sorted[0].name === 'A', 'the list sorts by homes');
 const stats = RW.statsHtml({ rounds: [{ round: '2027 Round One', credit: '9%', applications_due: 'February 2027', counts: { High: 3 }, undecided_last_round: 0 }],
   backtest: { bands: { High: { listed: 4, applied: 2 } }, caught: 5, applicants: 10, below_list: 1, no_sign_before: 4, rounds: [{}, {}, {}] } });
 ok(stats.includes('3 rounds tested'), 'the stats count the rounds the backtest ran');
+const bt2 = { bands: { High: { listed: 4, applied: 3, awarded: 1 } }, caught: 5, applicants: 10, below_list: 1, no_sign_before: 4, signals: {},
+  rounds: [{ round: '2026 Round One', credit: '9%', applicants: 10, caught: 5, awarded: 4, undecided: 0,
+             bands: { High: { listed: 2, applied: 2, awarded: 1 }, Medium: { listed: 1, applied: 0, awarded: 0 }, Watch: { listed: 1, applied: 0, awarded: 0 } },
+             picks: [{ name: '<P>', band: 'High', outcome: 'awarded', source_url: 'https://example.com/r.pdf' }, { name: 'Q', band: 'High', outcome: 'not_awarded' }] },
+           { round: '2026 Round Two', credit: '4%', applicants: 3, caught: 1, awarded: 0, undecided: 3,
+             bands: { High: { listed: 2, applied: 1, awarded: 0 }, Medium: { listed: 0, applied: 0, awarded: 0 }, Watch: { listed: 0, applied: 0, awarded: 0 } },
+             picks: [{ name: 'R', band: 'High', outcome: 'pending' }] }] };
+const bth = RW.backtestHtml(bt2);
+ok(bth.includes('2 of 2 applied') && bth.includes('1 awarded') && bth.includes('awards not yet announced'), 'the backtest shows who was awarded, and says when CHFA has not decided');
+ok(bth.includes('&lt;P&gt;: <strong>Awarded</strong>') && bth.includes('Q: <strong>Not funded</strong>') && bth.includes('R: <strong>Awaiting CHFA</strong>'),
+  'each listed deal that applied shows what CHFA decided');
+const st2 = RW.statsHtml({ rounds: [{ round: 'R', credit: '9%', applications_due: 'February', counts: { High: 1 }, undecided_last_round: 0 }], backtest: bt2 });
+ok(st2.includes('1 were awarded credit and 1 await CHFA'), 'the headline counts awarded High picks and those still waiting');
 ok(stats.includes('5 of 10') && stats.includes('1 had a weaker sign and 4 showed no sign we score'), 'the stats split weak signs from no sign');
 
 // 4. Gating.

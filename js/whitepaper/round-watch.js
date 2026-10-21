@@ -73,10 +73,10 @@
     name: function (i) { return String(i.name).toLowerCase(); },
     town: function (i) { return String(i.city || '~').toLowerCase(); },
     region: function (i) { return (i.region ? REGIONS.indexOf(i.region) : 99) * 10000 + BAND_RANK[i.band] * 1000 - i.score; },
-    homes: function (i) { return i.homes == null ? Infinity : i.homes; },
+    homes: function (i) { return i.homes == null ? null : i.homes; },
     sponsor: function (i) { return String(i.sponsor || (i.award_orgs || [])[0] || '~').toLowerCase(); },
-    // by the name the column shows (person, else organisation); none last
-    contact: function (i) { return i._contact ? String(i._contact.name || i._contact.org || '~').toLowerCase() : '~~'; }
+    // by the name the column shows (person, else organisation)
+    contact: function (i) { return i._contact ? String(i._contact.name || i._contact.org || '~').toLowerCase() : null; }
   };
 
   function days(from, to) {
@@ -116,7 +116,9 @@
     var key = m[1] + '-r' + ROUND_NO[m[2]] + '-';
     return [['loi', 'Letter of intent due'], ['deadline', 'Applications due']].map(function (k) {
       var e = cal.events.filter(function (x) { return x.id === key + k[0]; })[0];
-      return e ? { label: k[1], date: e.date, draft: e.qap_status === 'draft', url: e.url } : null;
+      // the document the date comes from (the draft plan for 2027 on), else the event's own page
+      var src = e && ((cal.metadata && cal.metadata.qap_sources) || {})[e.qap_source];
+      return e ? { label: k[1], date: e.date, draft: e.qap_status === 'draft', url: (src && src.url) || e.url } : null;
     }).filter(Boolean);
   }
 
@@ -129,7 +131,7 @@
   function datesHtml(round, cal, today) {
     var ds = roundDates(round, cal);
     if (!ds.length) return '';
-    var src = cal.metadata && safeUrl(cal.metadata.source_url);
+    var src = safeUrl(ds[0].url);
     return '<div class="rw-dates">' + ds.map(function (d) {
       var n = days(today, d.date);
       var left = n == null ? '' : n > 1 ? n + ' days to go' : n === 1 ? 'tomorrow' : n === 0 ? 'today' : 'passed';
@@ -167,6 +169,8 @@
     var d = dir === 'desc' ? -1 : 1;
     return items.slice().sort(function (a, b) {
       var x = f(a), y = f(b);
+      // a blank value (no homes printed, no contact) stays last in both directions
+      if ((x == null) !== (y == null)) return x == null ? 1 : -1;
       if (x < y) return -d;
       if (x > y) return d;
       return String(a.name).localeCompare(String(b.name));
@@ -299,20 +303,39 @@
     var r1 = data.rounds[0];
     var bt = data.backtest;
     var hi = bt.bands.High;
+    var hiWaiting = bt.rounds.reduce(function (n, r) {
+      return n + (r.picks || []).filter(function (p) { return p.band === 'High' && /^(pending|in_review)$/.test(p.outcome); }).length;
+    }, 0);
     var undecided = data.rounds.reduce(function (n, r) { return n + (r.undecided_last_round || 0); }, 0);
     return '<div class="rw-stats">' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(r1.counts.High) + '</div><div>High-likelihood deals for ' + esc(r1.round) + ' (' + esc(r1.credit) + '), applications due in ' + esc(r1.applications_due) + '.</div></div>' +
-      '<div class="rw-stat"><div class="rw-stat-v">' + esc(pct(hi.applied, hi.listed)) + '</div><div>of past High picks applied (' + esc(hi.applied) + ' of ' + esc(hi.listed) + ', ' + esc(bt.rounds.length) + ' rounds tested).</div></div>' +
+      '<div class="rw-stat"><div class="rw-stat-v">' + esc(pct(hi.applied, hi.listed)) + '</div><div>of past High picks applied (' + esc(hi.applied) + ' of ' + esc(hi.listed) + ', ' + esc(bt.rounds.length) + ' rounds tested)' +
+        (hi.awarded != null ? '; ' + esc(hi.awarded) + ' were awarded credit' + (hiWaiting ? ' and ' + esc(hiWaiting) + ' await CHFA' : '') : '') + '.</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(bt.caught) + ' of ' + esc(bt.applicants) + '</div><div>past applicants were on the list before their round; ' + esc(bt.below_list) + ' had a weaker sign and ' + esc(bt.no_sign_before) + ' showed no sign we score.</div></div>' +
       '<div class="rw-stat"><div class="rw-stat-v">' + esc(undecided) + '</div><div>applications still waiting on CHFA; any not funded join the next list.</div></div>' +
       '</div>';
   }
 
   function backtestHtml(bt) {
+    function waiting(r) { return r.undecided && r.undecided === r.applicants; }   // CHFA has not announced the round yet
     var rows = bt.rounds.map(function (r) {
-      function cell(b) { return esc(r.bands[b].applied) + ' of ' + esc(r.bands[b].listed); }
+      function cell(b) {
+        var x = r.bands[b];
+        return esc(x.applied) + ' of ' + esc(x.listed) + ' applied' +
+          (x.applied ? '<br><span class="rw-muted">' + (waiting(r) ? 'awards not yet announced' : esc(x.awarded) + ' awarded') + '</span>' : '');
+      }
       return '<tr><td>' + esc(r.round) + ' (' + esc(r.credit) + ')</td><td class="rw-num">' + esc(r.applicants) + '</td><td class="rw-num">' + esc(r.caught) +
+        '</td><td class="rw-num">' + (waiting(r) ? '<span class="rw-muted">not yet</span>' : esc(r.awarded)) +
         '</td><td>' + cell('High') + '</td><td>' + cell('Medium') + '</td><td>' + cell('Watch') + '</td></tr>';
+    }).join('');
+    var OUTCOME = { awarded: 'Awarded', not_awarded: 'Not funded', pending: 'Awaiting CHFA', in_review: 'Awaiting CHFA', unresolved: 'Unclear on the award report' };
+    var picks = bt.rounds.filter(function (r) { return (r.picks || []).length; }).map(function (r) {
+      return '<h4>' + esc(r.round) + ' (' + esc(r.credit) + ')</h4><ul class="rw-picks">' + r.picks.map(function (p) {
+        var u = safeUrl(p.source_url);
+        return '<li class="rw-' + esc(String(p.band).toLowerCase()) + '"><span class="rw-band">' + esc(p.band) + '</span> ' + esc(p.name) +
+          (p.city ? ' <span class="rw-muted">' + esc(p.city) + '</span>' : '') + ': <strong>' + esc(OUTCOME[p.outcome] || String(p.outcome).replace(/_/g, ' ')) + '</strong>' +
+          (u ? ' · <a href="' + esc(u) + '" target="_blank" rel="noopener">applicant report</a>' : '') + '</li>';
+      }).join('') + '</ul>';
     }).join('');
     var names = {
       'lost_last_same_9%': 'Not funded a year earlier, 9% round', 'lost_last_same_4%': 'Not funded a year earlier, 4% round',
@@ -329,8 +352,10 @@
     return '<table class="rw-table"><thead><tr><th scope="col" data-tip="Each round scored as of the day its applicant report came out, using only what was public then.">Round tested</th>' +
       '<th scope="col" data-tip="Projects on CHFA\'s applicant report for that round.">Applicants</th>' +
       '<th scope="col" data-tip="Applicants that were on the list (any band) before the round.">On the list</th>' +
-      '<th scope="col" data-tip="Applied, of those rated High.">High</th><th scope="col" data-tip="Applied, of those rated Medium.">Medium</th>' +
-      '<th scope="col" data-tip="Applied, of those rated Watch.">Watch</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<th scope="col" data-tip="Applicants CHFA awarded credit in that round, as its award report shows.">Awarded</th>' +
+      '<th scope="col" data-tip="Of the deals rated High, how many applied, and how many of those CHFA awarded.">High</th><th scope="col" data-tip="Of the deals rated Medium, how many applied and were awarded.">Medium</th>' +
+      '<th scope="col" data-tip="Of the deals rated Watch, how many applied and were awarded.">Watch</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      (picks ? '<h3>Listed deals that applied, and what CHFA decided</h3>' + picks : '') +
       '<h3>How often each signal was followed by an application</h3>' +
       '<table class="rw-table"><thead><tr><th scope="col" data-tip="Public evidence before the round.">Signal</th>' +
       '<th scope="col" data-tip="Projects with this signal across the rounds tested.">Projects</th>' +

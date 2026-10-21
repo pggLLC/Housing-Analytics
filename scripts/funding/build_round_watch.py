@@ -267,7 +267,8 @@ def score_round(D, target, cutoff, keep_all=False, live=False):
 
 def backtest(D):
     """Score each past round with two earlier rounds of its type, as of the
-    day its applicant report came out, and count who applied."""
+    day its applicant report came out, and count who applied and who was
+    awarded credit in that round (as CHFA's award report shows it)."""
     rounds, per_signal = [], defaultdict(lambda: [0, 0])
     for target in D.rounds:
         if len([r for r in D.rounds if r < target and r[1] == target[1]]) < 2 or target not in D.report_date:
@@ -275,20 +276,32 @@ def backtest(D):
         cutoff = D.report_date[target]
         scored = score_round(D, target, cutoff, keep_all=True)
         listed = {k: v for k, v in scored.items() if v['band']}
-        applied = {a['_entity'] for a in D.round_apps if (a['year'], a['round']) == target}
+        round_apps = {}
+        for a in D.round_apps:
+            if (a['year'], a['round']) == target:
+                round_apps.setdefault(a['_entity'], a)
+        applied = set(round_apps)
+        awarded = {k for k, a in round_apps.items() if a['outcome'] == 'awarded'}
+        undecided = sum(1 for a in round_apps.values() if a['outcome'] in UNDECIDED)
         for key, v in scored.items():
             for s in v['signals']:
                 k = s['kind'] + ('_' + ROUND_CREDIT[target[1]] if s['kind'] == 'lost_last_same' else '')
                 per_signal[k][0] += 1  # projects with the signal
                 per_signal[k][1] += key in applied
         bands = {b: {'listed': sum(1 for v in listed.values() if v['band'] == b),
-                     'applied': sum(1 for k, v in listed.items() if v['band'] == b and k in applied)} for b, _ in BANDS}
+                     'applied': sum(1 for k, v in listed.items() if v['band'] == b and k in applied),
+                     'awarded': sum(1 for k, v in listed.items() if v['band'] == b and k in awarded)} for b, _ in BANDS}
+        # each listed deal that applied, with its outcome in that round, strongest first
+        picks = sorted(({'name': round_apps[k]['name'], 'city': round_apps[k].get('city'), 'band': v['band'],
+                         'outcome': round_apps[k]['outcome'], 'source_url': round_apps[k]['source_url']}
+                        for k, v in listed.items() if k in applied),
+                       key=lambda p: ([b for b, _ in BANDS].index(p['band']), p['name'].lower()))
         rounds.append({'round': label(target), 'credit': ROUND_CREDIT[target[1]], 'as_of': cutoff,
                        'applicants': len(applied), 'caught': len(applied & set(listed)),
                        'below_list': len(applied & set(scored) - set(listed)),
-                       'no_sign_before': len(applied - set(scored)), 'bands': bands})
-    totals = {b: {'listed': sum(r['bands'][b]['listed'] for r in rounds),
-                  'applied': sum(r['bands'][b]['applied'] for r in rounds)} for b, _ in BANDS}
+                       'no_sign_before': len(applied - set(scored)), 'bands': bands,
+                       'awarded': len(awarded), 'undecided': undecided, 'picks': picks})
+    totals = {b: {k: sum(r['bands'][b][k] for r in rounds) for k in ('listed', 'applied', 'awarded')} for b, _ in BANDS}
     return {'rounds': rounds, 'bands': totals,
             'applicants': sum(r['applicants'] for r in rounds), 'caught': sum(r['caught'] for r in rounds),
             'below_list': sum(r['below_list'] for r in rounds), 'no_sign_before': sum(r['no_sign_before'] for r in rounds),
