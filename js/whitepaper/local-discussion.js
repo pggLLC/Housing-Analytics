@@ -30,6 +30,9 @@
 
   var RULE = 'A shift is a word whose share of housing words moves 10 points or more against the past 4 quarters, with at least 20 words in each; or a word used for the first time in an adopted ordinance, resolution or plan.';
   // Counts from the backend become plain numbers before they reach the page.
+  // A count the backend did not supply (absent, null or not a number) is unknown, never zero.
+  function has(v) { return v != null && v !== '' && isFinite(Number(v)); }
+  function rising(n) { var w = n && n.rising; return w && w.term && has(w.from) && has(w.to) ? w : null; }
   function num(v) { var n = Number(v); return isFinite(n) && n >= 0 ? Math.round(n) : 0; }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function link(url, text) {
@@ -49,13 +52,13 @@
   // The four key numbers, one sentence each.
   function keyNumbers(r) {
     var n = r.numbers || {}, out = [];
-    var items = n.items_90d == null || !isFinite(Number(n.items_90d)) ? null : num(n.items_90d);
+    var items = has(n.items_90d) ? num(n.items_90d) : null;
     out.push(items === null ? { big: 'Not counted', text: 'the housing item count for the last 90 days did not come through in this read.' }
       : { big: String(items), text: 'housing items on agendas, minutes or packets in the last 90 days.' });
     var c = n.next_check;
     out.push(c ? { big: day(c.check_on), text: 'next date to check: ' + c.body + ' meets ' + day(c.meeting) + '.' }
       : { big: 'None', text: 'no meeting to check in the next 60 days on file.' });
-    var w = n.rising;
+    var w = rising(n);
     out.push(w ? { big: '“' + w.term + '”', text: 'fastest-rising housing word: ' + num(w.from) + '% of housing words in the 4 quarters before, ' + num(w.to) + '% in ' + w.quarter + ' (at least 20 words in each).' }
       : { big: 'Steady', text: 'no word has risen yet; that needs at least 20 housing words in this quarter and in the year before.' });
     var h = n.hearing;
@@ -66,8 +69,8 @@
 
   function meaning(r) {
     var n = r.numbers || {};
-    if (n.rising) return 'Local talk is moving toward “' + n.rising.term + '”. Use the town’s own words when you pitch the deal.';
-    if (n.items_90d == null) return 'Read the newest quotes before you call.';
+    if (rising(n)) return 'Local talk is moving toward “' + n.rising.term + '”. Use the town’s own words when you pitch the deal.';
+    if (!has(n.items_90d)) return 'Read the newest quotes before you call.';
     if (!num(n.items_90d)) return 'Housing has been quiet on agendas lately. A first call can set the terms before a debate starts.';
     return 'Housing is on the agenda. Read the latest quotes before you call, so the pitch answers what was said.';
   }
@@ -175,8 +178,8 @@
     }).join('') + '</div>';
     h += '<p><strong>What this means:</strong> ' + esc(meaning(r)) + '</p><p><strong>Next step:</strong> ' + nextStep(r) + '</p>';
     h += '<p class="ld-how"><span class="ld-level ld-level-' + esc((r.how_read || {}).level) + '">' + esc(lvl.label) + '</span> ' +
-      esc((r.how_read || {}).text || lvl.note) + ' <span class="ib-muted">Read ' + esc(day(r.updated)) + '; ' + esc(r.documents_read || 0) +
-      ' documents on file' + (r.history_since ? ' since ' + esc(day(r.history_since)) : '') + '.</span></p>';
+      esc((r.how_read || {}).text || lvl.note) + ' <span class="ib-muted">Read ' + esc(day(r.updated)) + '; ' + (has(r.documents_read) ? esc(num(r.documents_read)) + ' documents on file' : 'document count not available') +
+      '' + (r.history_since ? ' since ' + esc(day(r.history_since)) : '') + '.</span></p>';
     var fold = function (title, body) { return '<details class="ld-fold"><summary>' + esc(title) + '</summary>' + body + '</details>'; };
     h += fold('Dates and pages to check (' + (r.check_here || []).length + ')', checkList(r.check_here));
     h += fold('Word shifts (' + ((r.lexicon || {}).flags || []).length + ')', flags((r.lexicon || {}).flags));

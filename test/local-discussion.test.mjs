@@ -73,6 +73,11 @@ const hostileHtml = L.render({ geoid: '0899999', name: 'Testville', result: host
 ok(!/<img|<b>9/.test(hostileHtml), 'backend counts never reach the page as markup');
 const missing = Object.assign({}, result, { numbers: Object.assign({}, result.numbers, { items_90d: undefined }) });
 ok(L.keyNumbers(missing)[0].big === 'Not counted' && !/quiet/.test(L.meaning(Object.assign({}, missing, { numbers: { items_90d: null } }))), 'a missing count is not shown as zero');
+const junk = Object.assign({}, result, { documents_read: null, numbers: Object.assign({}, result.numbers, { items_90d: 'abc', rising: { term: 'attainable', from: null, to: 31, quarter: '2026-Q3' } }) });
+const junkHtml = L.render({ geoid: '0899999', name: 'Testville', result: junk, watched: true, watchState: 'ok', links: [] });
+ok(L.keyNumbers(junk)[0].big === 'Not counted' && !/quiet/.test(L.meaning(junk)), 'a malformed 90-day count is unknown in both places');
+ok(L.keyNumbers(junk)[2].big === 'Steady' && !/moving toward/.test(L.meaning(junk)), 'a rising word without both shares is not shown');
+ok(/document count not available/.test(junkHtml) && !/0 documents on file/.test(junkHtml), 'a missing document count is not zero');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.
