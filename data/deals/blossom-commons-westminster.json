@@ -1,0 +1,573 @@
+{
+ "slug": "blossom-commons-westminster",
+ "name": "Blossom Commons",
+ "city": "Westminster",
+ "county": "Jefferson",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-20",
+ "headline": "Volker Development is building Blossom Commons, 50 one- and two-bedroom apartments for adults 55+ earning 30% to 70% AMI on city-donated land in Downtown Westminster. It won 2025 Round One federal 9%, state and TOC credits from CHFA and broke ground on 2026-04-14.",
+ "why_it_matters": "It shows a city land-write-down model: the Westminster Economic Development Authority gave the land for $1, the city added fee rebates, a ground-floor lease and its HOME allocation, and in return got a 60-year affordability term in its redeveloped downtown.",
+ "status": {
+  "label": "Under construction (groundbreaking 2026-04-14)",
+  "detail": "Downtown Westminster reports the project broke ground on 2026-04-14, after Boston Capital Finance announced on 2026-03-23 that it had closed a forward permanent loan. The project website says applications are not open yet. No completion date or building permit record was found.",
+  "src": [
+   "dtw-2026-05-20",
+   "bostoncap-2026-03-23",
+   "blossom-site"
+  ]
+ },
+ "next_step": "Watch for the opening of the leasing interest list on the project website and a certificate of occupancy for 9145 Eaton Street.",
+ "key_numbers": [
+  {
+   "value": "50 homes for adults 55+, all income-restricted",
+   "meaning": "25 one-bedroom and 25 two-bedroom units for households at 30% to 70% AMI; 20 units at or below 50% AMI.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 state credit and $65,000 TOC credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "Land for $1",
+   "meaning": "City-owned downtown parcel valued at $306,500, plus $628,515 in fee waivers and rebates and part of the streetscape costs.",
+   "src": [
+    "ccm-2024-12-31",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "About $26 million total cost",
+   "meaning": "As stated at the April 2026 groundbreaking; a December 2024 city staff report put it at $24 million.",
+   "src": [
+    "dtw-2026-05-20",
+    "ccm-2024-12-31"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "Southwest corner of 91st Place and Eaton Street (CHFA); 9145 Eaton Street, Westminster, CO 80031 (project website). About 1.4 acres bounded by 90th Avenue, Eaton Street, 91st Place and Fenton Street, next to the Bowlero bowling alley",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "blossom-site",
+    "bizwest-aster"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, OA: new construction, older adult",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story elevator building with double-loaded interior hallways; post-tension slab, wood frame, flat TPO roof; brick, metal and cementitious siding. One-bedrooms are about 600 sq ft and two-bedrooms about 800 sq ft",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "Surface parking at 0.8 spaces per unit; the city allowed surface instead of structured parking and eased facade standards",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Ground floor",
+   "value": "Commercial space to be leased by the City of Westminster for a Community Resource Center",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "westminster-ccsp-2026-02-23"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Within a half mile of the US 36 and Sheridan bus rapid transit station (Flatiron Flyer). A $150,000 transportation reserve funds bus passes",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Green building",
+   "value": "LEED Silver target; 2021 IECC; 3 EV charging spaces plus EV-ready and EV-capable spaces",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "60 years (deed restriction tied to the WEDA land donation)",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "item": "Planning name",
+   "value": "Called Aster Place in late 2024 and Blossom Crossing in later Westminster planning documents",
+   "src": [
+    "ccm-2024-12-31",
+    "bizwest-2025-10-16"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 14
+  },
+  {
+   "level": "70% AMI",
+   "units": 16
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 25
+  },
+  {
+   "type": "2BR",
+   "units": 25
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One. The application cited an equity letter at $0.87 per federal credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "Application equity letter at $0.72 per state and TOC credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$65,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Land from the Westminster Economic Development Authority",
+   "amount": "Sold for $1 (estimated value $306,500)",
+   "note": "Council approved the purchase and sale agreement in December 2024 by a 6-1 vote.",
+   "src": [
+    "ccm-2024-12-31",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "City of Westminster fee waivers and rebates",
+   "amount": "$628,515",
+   "note": "Plus part of the streetscape improvements, per the December 2024 staff report.",
+   "src": [
+    "ccm-2024-12-31"
+   ]
+  },
+  {
+   "source": "City of Westminster lease and construction cost contribution",
+   "amount": "Not public",
+   "note": "Council Resolution No. 5 of 2026-02-23 approved a Lease and Construction Cost Contribution Agreement with Blossom Commons, LLC.",
+   "src": [
+    "westminster-ccsp-2026-02-23"
+   ]
+  },
+  {
+   "source": "Adams County HOME Consortium loan (Westminster's annual HOME allocation)",
+   "amount": "Not public",
+   "note": "Low-interest loan to Volker Development authorized by Resolution No. 7 on 2026-02-23.",
+   "src": [
+    "westminster-ccsp-2026-02-23"
+   ]
+  },
+  {
+   "source": "Jefferson County subordinate funding",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "source": "Colorado Department of Local Affairs",
+   "amount": "Not public",
+   "note": "Named as a partner at the groundbreaking; program not stated.",
+   "src": [
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "source": "Boston Capital Finance forward permanent loan",
+   "amount": "Not public",
+   "note": "Fixed-rate forward taxable permanent loan closed, announced 2026-03-23.",
+   "src": [
+    "bostoncap-2026-03-23"
+   ]
+  },
+  {
+   "source": "Property tax exemption through Foothills Regional Housing",
+   "amount": "Not public",
+   "note": "Named in the application financing plan; Foothills is listed as a partner at the groundbreaking.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Volker Housing Partners, LLC",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "Volker Development, Inc.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "role": "Project entity",
+   "name": "Blossom Commons, LLC (named in the 2026-02-23 council resolution)",
+   "src": [
+    "westminster-ccsp-2026-02-23"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Westminster Economic Development Authority / City of Westminster",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "ccm-2024-12-31"
+   ]
+  },
+  {
+   "role": "Tax-exemption partner",
+   "name": "Foothills Regional Housing",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "role": "Financing partners",
+   "name": "Midwest Housing Equity Group; Boston Capital Finance; BOK Financial; Mercy Community Capital",
+   "src": [
+    "dtw-2026-05-20",
+    "bostoncap-2026-03-23"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Coburn Architecture",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Craft Civil Design",
+   "src": [
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction Services",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Ross-Envolve (per the application)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site is part of the 105-acre Downtown Westminster redevelopment on the former Westminster Mall, which the city bought between 2009 and 2011. The city aims for 15 to 20 percent of downtown housing to be affordable.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "In December 2024 City Council approved a $1 purchase and sale agreement with Volker for the then-named Aster Place senior project; Councilmember Kristine Ireland cast the lone no vote.",
+   "src": [
+    "ccm-2024-12-31"
+   ]
+  },
+  {
+   "text": "The applicant said the land purchase contract would end on 2026-03-31, which together with the November 2025 council election made an early credit award urgent.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The city moved the building footprint so the site fell inside the DOLA Transit-Oriented Communities buffer.",
+   "src": [
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "In October 2025 BizWest reported Volker had received the city's go-ahead for a development agreement for the project, called Blossom Crossing in planning documents.",
+   "src": [
+    "bizwest-2025-10-16"
+   ]
+  },
+  {
+   "text": "City due diligence flagged possible abandoned asbestos-containing utility pipes under the site; the application says abatement is in the construction budget.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Services: an on-site resident services navigator paid from the operating budget. The city plans to restart a Via Mobility partnership for senior and disabled riders.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The market study cited by the applicant found 97% occupancy at comparable senior LIHTC properties and projected lease-up of about 15 units per month.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-12",
+   "event": "City Council approves the $1 land purchase and sale agreement (reported 2024-12-31)",
+   "src": [
+    "ccm-2024-12-31"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "9% application narrative filed with CHFA (narratives PDF date)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-10-16",
+   "event": "BizWest reports the development agreement go-ahead",
+   "src": [
+    "bizwest-2025-10-16"
+   ]
+  },
+  {
+   "date": "2026-02-23",
+   "event": "Council adopts Resolution No. 5 (lease and construction cost contribution with Blossom Commons, LLC) and Resolution No. 7 (HOME loan to Volker)",
+   "src": [
+    "westminster-ccsp-2026-02-23"
+   ]
+  },
+  {
+   "date": "2026-03-23",
+   "event": "Boston Capital Finance announces closing of the forward permanent loan",
+   "src": [
+    "bostoncap-2026-03-23"
+   ]
+  },
+  {
+   "date": "2026-04-14",
+   "event": "Groundbreaking",
+   "src": [
+    "dtw-2026-05-20"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photos",
+   "url": "https://www.downtownwestminster.us/blossom-commons-development-breaks-ground/",
+   "kind": "photo",
+   "made_by": "Downtown Westminster (City of Westminster)",
+   "note": "Lead image and photo gallery on the 2026-05-20 post",
+   "src": [
+    "dtw-2026-05-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The December 2024 city staff report as reported by Colorado Community Media described 24 one-bedroom and 25 two-bedroom units with 8 at 30% AMI, 14 at 50%, 14 at 60% and 14 at 80%, while CHFA's award lists 25 one-bedroom and 25 two-bedroom units with 5 at 30%, 15 at 50%, 14 at 60% and 16 at 70% AMI.",
+   "src": [
+    "ccm-2024-12-31",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The December 2024 staff report put the project cost at $24 million, while the 2026 groundbreaking post says $26 million.",
+   "src": [
+    "ccm-2024-12-31",
+    "dtw-2026-05-20"
+   ]
+  },
+  {
+   "text": "CHFA describes the land as donated by WEDA, while the city's agreement sells it for $1.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "ccm-2024-12-31"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Building permit number and expected completion and lease-up dates.",
+  "Amounts of the Adams County HOME loan, Jefferson County funds, DOLA funds, the city's lease and construction contribution, the permanent loan and tax credit equity.",
+  "Recorded land deed and the terms of the 60-year covenant; text of the October 2025 development agreement and the WEDA resolution.",
+  "Rents and whether any units carry project-based vouchers (none are shown in CHFA's records)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Blossom Commons, PDF pages 16-20)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 Round One TOC credit narratives (Blossom Commons, PDF pages 3-4)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "ccm-2024-12-31",
+   "title": "Westminster opens the door for affordable senior housing in the downtown area",
+   "publisher": "Colorado Community Media",
+   "date": "2024-12-31",
+   "url": "https://www.coloradocommunitymedia.com/archives/westminster/news/housing/article_c9b4f0b7-2e95-5176-b975-562db2a8fee1.html"
+  },
+  {
+   "id": "bizwest-aster",
+   "title": "Aster Place/Blossom Crossing senior housing (project listing)",
+   "publisher": "BizWest BreakingGround",
+   "date": "undated",
+   "url": "https://breakingground.biz/breaking-ground/aster-place-senior-housing/"
+  },
+  {
+   "id": "bizwest-2025-10-16",
+   "title": "Affordable senior housing moving forward in downtown Westminster",
+   "publisher": "BizWest",
+   "date": "2025-10-16",
+   "url": "https://breakingground.biz/2025/10/affordable-senior-housing-moving-forward-in-downtown-westminster/"
+  },
+  {
+   "id": "westminster-ccsp-2026-02-23",
+   "title": "City Council Summary of Proceedings, February 23, 2026",
+   "publisher": "City of Westminster",
+   "date": "2026-02-23",
+   "url": "https://www.westminsterco.gov/DocumentCenter/View/6200/February-23-2026---City-Council-Summary-of-Proceedings-PDF"
+  },
+  {
+   "id": "bostoncap-2026-03-23",
+   "title": "Blossom Commons (loan closing announcement)",
+   "publisher": "Boston Capital",
+   "date": "2026-03-23",
+   "url": "https://bostoncapital.com/blossom-commons/"
+  },
+  {
+   "id": "dtw-2026-05-20",
+   "title": "Blossom Commons Development Breaks Ground",
+   "publisher": "Downtown Westminster (City of Westminster)",
+   "date": "2026-05-20",
+   "url": "https://www.downtownwestminster.us/blossom-commons-development-breaks-ground/"
+  },
+  {
+   "id": "blossom-site",
+   "title": "Blossom Commons | 55+ Affordable Apartments in Westminster, CO",
+   "publisher": "Volker Development",
+   "date": "2026-10-20",
+   "url": "https://www.blossom-commons.com/"
+  }
+ ]
+}

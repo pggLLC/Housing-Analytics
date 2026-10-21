@@ -1,0 +1,582 @@
+{
+ "slug": "ives-ii-wheat-ridge",
+ "name": "Ives II",
+ "city": "Wheat Ridge",
+ "county": "Jefferson",
+ "award": "2025 Federal 9% (Round One) and 4% housing tax credits (paired)",
+ "units": 98,
+ "researched_on": "2026-10-20",
+ "headline": "Foothills Regional Housing (the Jefferson County Housing Authority) is developing Ives II, a 98-unit, four-story family rental at 7525 W. 44th Ave. in Wheat Ridge for households at 30% to 70% AMI, financed by a 54-unit 9% award and a 44-unit 4% bond award that CHFA made in 2025.",
+ "why_it_matters": "It is a working example of pairing a 9% award with a 4% bond deal in one building: the housing authority used its own bond cap and city-donated land to reach 98 units where a 9% award alone would have funded 54.",
+ "status": {
+  "label": "Groundbreaking scheduled 2026-07-24; financing closing and building permit not confirmed",
+  "detail": "Jefferson County's calendar listed an Ives II groundbreaking for 2026-07-24. Hoodline reported on 2026-07-25 that the county commissioners approved a property tax exemption and bonds, that demolition was complete, and that the remaining financing and final permits were still needed before vertical construction. No public record of the financing closing or a building permit was found.",
+  "src": [
+   "jeffco-calendar-groundbreaking",
+   "hoodline-2026-07-25"
+  ]
+ },
+ "next_step": "Watch for a City of Wheat Ridge building permit for 7525 W. 44th Ave. and a recorded CHFA land use restriction agreement, which would confirm the financing closed.",
+ "key_numbers": [
+  {
+   "value": "98 homes: 54 under the 9% award, 44 under the 4% award",
+   "meaning": "One building, split into two tax credit pieces. All units serve 30% to 70% AMI; one unit in the 4% piece is not income-restricted.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit plus $772,287 a year in federal 4% credit",
+   "meaning": "About $23.7M in federal credit over 10 years (inferred from the annual amounts), plus $650,000 of state credit on each side.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$11.2M in private activity bonds",
+   "meaning": "Issued by the Jefferson County Housing Authority (the sponsor itself) for the 4% piece, per CHFA's 4% award report.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "30 project-based vouchers",
+   "meaning": "Committed by Foothills Regional Housing from its own voucher allocation.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "7525 W. 44th Avenue, Wheat Ridge, CO 80033 (northeast corner of Wadsworth Boulevard and 44th Avenue)",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, individuals/families",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "9% piece (Round One)",
+   "value": "54 units, 54 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "4% piece (CHFA ledger name \"Ives II 4\")",
+   "value": "44 units, 43 low-income; cycle year 2025; not in a QCT or DDA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, wood frame, two elevators, about 4,500 sq ft of leasing and amenity space, 58 parking spaces (0.59 per unit)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 550 sq ft (1BR), 761 sq ft (2BR) and 1,050 sq ft (3BR)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Neighbor",
+   "value": "Adjacent to Ives I, a 50-unit one-bedroom Foothills Regional Housing property that began leasing in June 2024",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ccm-2024-07-22"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Next to the RTD bus stop at Wadsworth Blvd. and W. 44th Ave.; the applicant says the site is in a Transit-Oriented Community",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities; air source heat pumps; electrification-ready and photovoltaic-ready design",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 15
+  },
+  {
+   "level": "50% AMI",
+   "units": 5
+  },
+  {
+   "level": "60% AMI",
+   "units": 13
+  },
+  {
+   "level": "70% AMI",
+   "units": 54
+  },
+  {
+   "level": "Not income-restricted (4% piece)",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 53
+  },
+  {
+   "type": "2BR",
+   "units": 36
+  },
+  {
+   "type": "3BR",
+   "units": 8
+  },
+  {
+   "type": "Unit not in CHFA's mix (4% piece)",
+   "units": 1
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-4pct-award",
+  "chfa-2025-ahtc-annual"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "2025 Round One award for the 54-unit piece.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit (9% piece)",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "TOC credit (9% piece)",
+   "amount": "$70,200",
+   "note": "Equals $1,300 per unit for 54 units (inferred).",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$772,287 per year",
+   "note": "2025 4% award for the 44-unit piece; CHFA marks amounts subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Colorado noncompetitive state credit (4% piece)",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "TOC credit (4% piece)",
+   "amount": "$57,200",
+   "note": "Equals $1,300 per unit for 44 units (inferred). The TOC narrative gives $637,000 in aggregate TOC credits for both pieces and $433,160 in equity at $0.68; that aggregate is five times the two awards combined, and the narrative does not state the basis.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$11,200,000",
+   "note": "Issuer: Jefferson County Housing Authority. Hoodline reports county commissioners authorized $6.6 million in bonds in July 2026.",
+   "src": [
+    "chfa-4pct-award",
+    "hoodline-2026-07-25"
+   ]
+  },
+  {
+   "source": "Bond volume cap assigned by the City of Wheat Ridge",
+   "amount": "$1,900,000",
+   "note": "Allocated to Foothills Regional Housing for Ives phase 2 in 2024 (third reading of the council resolution set for 2024-07-22). Golden (2023) and Jefferson County (2022) also gave the agency cap.",
+   "src": [
+    "ccm-2024-07-22"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Not public",
+   "note": "The City of Wheat Ridge donated part of the site at no cost.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "City of Wheat Ridge soft funds",
+   "amount": "Not public",
+   "note": "The applicant says the city committed soft funding.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Seller carry-back note and sponsor capital from Foothills Regional Housing",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan, 45L equity, deferred developer fee",
+   "amount": "Not public",
+   "note": "The loan is sized with the help of the 30 project-based vouchers.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Approved by Jefferson County commissioners in July 2026, per Hoodline.",
+   "src": [
+    "hoodline-2026-07-25"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Foothills Regional Housing (Jefferson County Housing Authority d/b/a Foothills Regional Housing; developing and managing housing in Jefferson County since 1975)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Jefferson County Housing Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-ahtc-annual"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Calcon Construction",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Owner's representative",
+   "name": "GL Development Advisors",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Deal structure and underwriting consultants",
+   "name": "RCH Jones and KDM Consultants",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Service providers",
+   "name": "Jefferson Center for Mental Health (services at Ives I) and Developmental Disability Resource Center",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "hoodline-2026-07-25"
+   ]
+  },
+  {
+   "role": "Land donor and soft lender",
+   "name": "City of Wheat Ridge",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "How the pieces fit: one 98-unit building is split into two tax credit projects. The competitive 9% award funds 54 units and a noncompetitive 4% award, backed by tax-exempt bonds, funds the other 44. Each piece also got $650,000 of state credit and a TOC credit.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The applicant says this is a change from its 2024 application: it added a 4% piece using Foothills Regional Housing's own bond cap to reach 98 units, which it says is more cost-efficient and was preferred by neighbors.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 2025 state credit annual report lists Ives II twice: 54 units under state and federal 9% credit and 44 units under federal 4% and noncompetitive state credit, both with TOC credit. Foothills Regional Housing's development chief is quoted saying 20% of the equity for the 98 units comes from the state credit.",
+   "src": [
+    "chfa-2025-ahtc-annual"
+   ]
+  },
+  {
+   "text": "In July 2024, before the CHFA application, Foothills Regional Housing told Wheat Ridge council that Ives phase 2 needed about $20 million to complete, and that it had no approved site plan or building permit yet.",
+   "src": [
+    "ccm-2024-07-22"
+   ]
+  },
+  {
+   "text": "The applicant says the site is correctly zoned and could close within nine months of an award. A single-story bank building had to be demolished, adding about $250,000. Stormwater detention goes on the roof because the infill site is tight.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I environmental report found one recognized environmental condition. The plan includes a groundwater-use restriction, a soils management plan, sub-slab vapor mitigation and radon mitigation.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The project grew between rounds: CHFA's December 2024 letter-of-intent report lists the 9% piece at 50 units with a $65,000 TOC request; the February 2025 applicant report and the award list 54 units and $70,200.",
+   "src": [
+    "chfa-2025-r1-loi",
+    "chfa-2025-r1-applicants",
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "text": "Services: residents can use Jefferson Center for Mental Health services at Ives I next door, and Developmental Disability Resource Center will provide other services.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-06",
+   "event": "Ives I, next door, opens and begins leasing",
+   "src": [
+    "ccm-2024-07-22",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-07-22",
+   "event": "Wheat Ridge council set for third reading of a resolution assigning $1.9M of bond cap for Ives phase 2",
+   "src": [
+    "ccm-2024-07-22"
+   ]
+  },
+  {
+   "date": "2024-12-11",
+   "event": "Listed on CHFA's 2025 Round One letters-of-intent report (50 units)",
+   "src": [
+    "chfa-2025-r1-loi"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "Listed on CHFA's 2025 Round One applicant report (54 units, federal 9% request $1,600,000)",
+   "src": [
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA state credit annual report lists both the 9% and 4% pieces as 2025 awards",
+   "src": [
+    "chfa-2025-ahtc-annual"
+   ]
+  },
+  {
+   "date": "2026-07",
+   "event": "Jefferson County commissioners approve a property tax exemption and authorize bonds, per Hoodline",
+   "src": [
+    "hoodline-2026-07-25"
+   ]
+  },
+  {
+   "date": "2026-07-24",
+   "event": "Groundbreaking event on Jefferson County's calendar",
+   "src": [
+    "jeffco-calendar-groundbreaking"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed (cycle year 2025, as \"Ives II 4\") on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Conceptual rendering of Ives II",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Shopworks Architecture, via CHFA",
+   "note": "Printed page 17 (PDF page 19) of CHFA's 2025 state credit annual report",
+   "src": [
+    "chfa-2025-ahtc-annual"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's 4% award report gives $11.2 million in private activity bonds for the 4% piece, while Hoodline reports the county authorized $6.6 million in bonds in July 2026.",
+   "src": [
+    "chfa-4pct-award",
+    "hoodline-2026-07-25"
+   ]
+  },
+  {
+   "text": "The 9% narrative describes 54 one-bedroom, 36 two-bedroom and 8 three-bedroom units (98), while CHFA's award descriptions list 53 one-bedroom, 36 two-bedroom and 8 three-bedroom units (97), because the 4% piece's mix covers only 43 of its 44 units.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the financing closed after the July 2026 groundbreaking, and whether a Wheat Ridge building permit has been issued.",
+  "Total development cost, lender, equity investor and credit price (the TOC narrative assumes $0.68 for TOC credits).",
+  "Amounts of the City of Wheat Ridge soft funds, the seller carry-back note and the value of the donated land.",
+  "Why the county's bond authorization ($6.6M, as reported) differs from CHFA's $11.2M bond figure.",
+  "What the one unit outside the 4% income mix is (likely a manager's unit; inferred).",
+  "The term of the CHFA affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "CHFA, 2025 Round One Award Descriptions (Ives II)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (The Ives II, PDF pages 51-55)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 Round One TOC credit narratives (The Ives II, PDF pages 8-9)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 Round One - Applicant Report, Federal 9% and Standard State Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-loi",
+   "title": "2025 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2024-12-11",
+   "url": "https://www.chfainfo.com/getattachment/ba28736a-7a08-4abd-b052-2cf8a13a22a4/2025-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); Ives II 4 listed under cycle year 2025",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2025-ahtc-annual",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "ccm-2024-07-22",
+   "title": "What's happening with The Ives Phase 2 Project in Wheat Ridge?",
+   "publisher": "Colorado Community Media (Jeffco Transcript)",
+   "date": "2024-07-22",
+   "url": "https://www.coloradocommunitymedia.com/archives/jeffco/news/article_bd3498e0-ad8b-5361-967f-9447b56fc745.html"
+  },
+  {
+   "id": "hoodline-2026-07-25",
+   "title": "Jeffco greenlights big tax break to get Wheat Ridge's Ives II off the ground",
+   "publisher": "Hoodline",
+   "date": "2026-07-25",
+   "url": "https://hoodline.com/2026/07/jeffco-greenlights-big-tax-break-to-get-wheat-ridge-s-ives-ii-off-the-ground-6983953/"
+  },
+  {
+   "id": "jeffco-calendar-groundbreaking",
+   "title": "Foothills Regional Housing - The Ives 2 Groundbreaking (calendar event, 2026-07-24)",
+   "publisher": "Jefferson County, Colorado",
+   "date": "2026-07-24",
+   "url": "https://www.jeffco.us/Calendar.aspx?EID=16552"
+  }
+ ]
+}

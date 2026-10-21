@@ -1,0 +1,596 @@
+{
+ "slug": "rita-bass-apartments-denver",
+ "name": "Rita Bass Apartments (now marketed as The Ford Apartments)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-20",
+ "headline": "Evergreen Real Estate Group plans a six-story building with 60 family apartments (one to three bedrooms, 30% to 80% AMI) on a former Denver Health parking lot at 155 W. 5th Ave. in Baker, aimed largely at the hospital's workforce. It won 2025 Round One federal 9%, state and TOC credits from CHFA.",
+ "why_it_matters": "It is a hospital-land housing deal: Denver Health land goes through Elevation Community Land Trust on ground leases, paired with a 70-unit affordable for-sale condo next door. The capital stack has almost no soft money. More than a year after the award, there is still no public record of a construction start.",
+ "status": {
+  "label": "Credits awarded and land closed; construction start not confirmed",
+  "detail": "Evergreen said in August 2025 that it had closed on the land. Its groundbreaking target moved from early 2026 to spring 2026 (contractor's page) and then to summer 2026 (Evergreen, April 2026). Evergreen's 2026-09-02 release still calls the project in development, and the general contractor's page lists it as preconstruction. No public record of a financing closing, building permit or groundbreaking was found.",
+  "src": [
+   "mhcre-2025-08-14",
+   "mw-ford",
+   "evergreen-2026-04-27",
+   "evergreen-2026-09-02"
+  ]
+ },
+ "next_step": "Watch for a Denver building permit or AHRT release for 155 W. 5th Ave., a recorded ground lease from Elevation Community Land Trust, and an Evergreen groundbreaking announcement.",
+ "key_numbers": [
+  {
+   "value": "60 homes, all income-restricted",
+   "meaning": "20 one-bedroom, 20 two-bedroom and 20 three-bedroom units, with 15 each at 30%, 60%, 70% and 80% AMI.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 state credit and $78,000 TOC credit.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "value": "About $456,000 per unit total cost",
+   "meaning": "The applicant puts total development cost at just under $456,477 per unit, or about $27.4M for 60 units (inferred). Residential construction is $320,089 per unit.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "Groundbreaking target slipped three times",
+   "meaning": "The target moved from early 2026 to spring 2026 and then summer 2026, and no start has been reported. Completion was targeted for fall 2027.",
+   "src": [
+    "mhcre-2025-08-14",
+    "mw-ford",
+    "evergreen-2026-04-27"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "155 W. 5th Ave., Denver 80204 (Baker neighborhood, next to the Denver Health main campus)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "CHFA lists it as Rita Bass Apartments, after the adjacent Denver Health Rita Bass Trauma and EMS Institute. Evergreen now markets it as The Ford Apartments, for Dr. Justina Ford, the first Black woman licensed as a physician in Colorado.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, I/F: new construction, individuals and families (code meanings inferred from the project description)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "60 total, 60 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Six stories, Type I-B, about 70,435 sq ft, with five residential floors over a ground floor of amenities. Brick and metal panel facade. 48 surface parking spaces.",
+   "src": [
+    "mw-ford",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "A former Denver Health surface parking lot. The applicant says it is zoned for multifamily, with no recognized environmental conditions in the Phase I.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "item": "Target residents",
+   "value": "Families and Denver Health workers. The applicant cites Denver Health data showing more than 2,800 employee households would qualify.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "An RTD bus stop sits next to the site on Bannock. A bike room holds 30 bikes, and every resident gets an RTD transit pass. The TOC narrative plans to rebuild the bus stop as a bus island with the bike lane moved inside it.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "All-electric, targeting Enterprise Green Communities and Zero Energy Ready Homes certification",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 15
+  },
+  {
+   "level": "70% AMI",
+   "units": 15
+  },
+  {
+   "level": "80% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 20
+  },
+  {
+   "type": "2BR",
+   "units": 20
+  },
+  {
+   "type": "3BR",
+   "units": 20
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One (award report as of 2025-05-08).",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$78,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "Not public",
+   "note": "Press coverage says it includes CHFA Healthy Housing, Healthy Communities funds. The application names CHFA as permanent lender and mentions CHFA Housing Opportunity Funds.",
+   "src": [
+    "mhcre-2025-08-14",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Federal 45L energy credit, possible Greenhouse Gas Reduction Fund money via National Equity Fund, possible Robert Wood Johnson Foundation funds",
+   "amount": "Not public",
+   "note": "The applicant calls the last two 'eligible', not committed.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "City and County of Denver contribution toward land acquisition",
+   "amount": "$5,000,000 (as the applicant states it)",
+   "note": "The application says Denver is contributing $5M toward land acquisition but also describes the stack as having no soft funds. The only matching public city record found is Resolution 25-1000 (adopted 2025-07-21). It moved an existing $5,557,500 ARPA loan from Shanahan Development's Lincoln Park project to 155 Bannock Development, LLC, secured by a substitute property. Linking it to this deal is inferred.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-25-1000",
+    "denver-23-0228"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "About 30% of the allowable fee",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), developer and property manager",
+   "name": "Evergreen Real Estate Group (Chicago-based; Denver office). Its affiliate Evergreen Real Estate Services manages the property.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "role": "Land seller and partner",
+   "name": "Denver Health",
+   "src": [
+    "mhcre-2025-08-14",
+    "mw-ford"
+   ]
+  },
+  {
+   "role": "Land trust / ground lessor",
+   "name": "Elevation Community Land Trust",
+   "src": [
+    "mhcre-2025-08-14",
+    "mw-ford"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Meridian 105 Architecture",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "meridian105-ford"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Milender White",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mw-ford"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Family Tree, Inc. (on-site office)",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "role": "Market analyst",
+   "name": "JRES Intelica CRE",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Adjacent for-sale condo developer (70 units)",
+   "name": "Shanahan Development, with KTGY as architect and Brinkmann Constructors as GC",
+   "src": [
+    "mhcre-2025-08-14",
+    "nakeddenver-2026-05-05"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Evergreen and Shanahan Development each acquired their sites from Denver Health through Elevation Community Land Trust. The trust will sign ground leases with both developers, creating a mixed rental and for-sale campus.",
+   "src": [
+    "mhcre-2025-08-14",
+    "mw-ford"
+   ]
+  },
+  {
+   "text": "BusinessDen reported in July 2025 that a Shanahan-linked LLC was under contract to pay Denver Health $5M for the 1.1-acre 155 W. 5th Ave. parking lot, about $104 per sq ft. Naked Denver says Shanahan bought the 1.1-acre parcel for $5M and that the land trust holds the condo land under a 99-year ground lease. How the lot was split between the condo and Evergreen's rental parcel is not public.",
+   "src": [
+    "bden-2025-07-23",
+    "nakeddenver-2026-05-05"
+   ]
+  },
+  {
+   "text": "On 2025-07-21 the City Council adopted Resolution 25-1000. It reassigned a 2023 city ARPA loan to Shanahan Development ($5,557,500, Resolution 23-0228) to 155 Bannock Development, LLC and substituted a new property as security. The original covenant stays on the first site.",
+   "src": [
+    "denver-25-1000",
+    "denver-23-0228"
+   ]
+  },
+  {
+   "text": "The applicant says it worked with HOST on deep targeting and with Denver Health on workforce needs. It says the Baker Historic Neighborhood Association and Denver Health wrote support letters and that no significant opposition has been raised.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Readiness claims in the application: the project was accepted into Denver's Affordable Housing Review Team, with release from concept design expected in February 2025. Environmental, geotechnical, survey and the Part 58 NEPA checklist were complete. The applicant aimed to permit and close by the end of 2025, which did not happen on that schedule (inferred from later announcements).",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "evergreen-2026-04-27"
+   ]
+  },
+  {
+   "text": "Amenities: community room, fitness center, co-working space, children's playroom, secure bike storage, in-unit washer/dryer and step-in showers. 10 percent of units will be accessible.",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "text": "Evergreen also won 2025 credits elsewhere in Colorado and has other Denver projects underway. These include the 170-unit 4965 N. Washington St. in Globeville, under construction, and Park Place Apartments in Sun Valley.",
+   "src": [
+    "evergreen-2026-04-27",
+    "evergreen-2026-09-02"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-02-12",
+   "event": "Listed on CHFA's 2025 Round One applicant report",
+   "src": [
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "CHFA awards 2025 Round One credits",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-07-21",
+   "event": "City Council adopts Resolution 25-1000, moving Shanahan's ARPA loan to 155 Bannock Development, LLC",
+   "src": [
+    "denver-25-1000"
+   ]
+  },
+  {
+   "date": "2025-07-23",
+   "event": "BusinessDen reports the $5M Denver Health lot deal could close in mid-August",
+   "src": [
+    "bden-2025-07-23"
+   ]
+  },
+  {
+   "date": "2025-08-14",
+   "event": "Evergreen announces it has closed on the land; groundbreaking expected early 2026 and completion fall 2027",
+   "src": [
+    "evergreen-2025-08-14",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "date": "2026-04-27",
+   "event": "Evergreen says the project is expected to break ground in summer 2026",
+   "src": [
+    "evergreen-2026-04-27"
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "event": "Evergreen still lists the project as in development",
+   "src": [
+    "evergreen-2026-09-02"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion targeted for fall 2027 (as of August 2025)",
+   "src": [
+    "mhcre-2025-08-14"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Renderings of The Ford Apartments",
+   "url": "https://www.meridian105.com/the-ford",
+   "kind": "rendering",
+   "made_by": "Meridian 105 Architecture",
+   "note": "Image gallery at the top of the project page",
+   "src": [
+    "meridian105-ford"
+   ]
+  },
+  {
+   "title": "Exterior rendering, brick and metal-clad facade",
+   "url": "https://milehighcre.com/chicago-developer-to-build-60-unit-affordable-housing-project/",
+   "kind": "rendering",
+   "made_by": "Meridian 105 Architecture, via Mile High CRE",
+   "note": "Lead image of the article",
+   "src": [
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "title": "Photo of the Denver Health parking lot at 155 W. 5th Ave.",
+   "url": "https://businessden.com/shanahan-development-broncos-federal-loan-transfer-housing/",
+   "kind": "photo",
+   "made_by": "BusinessDen",
+   "note": "Lead photo, dated 2025-07-22",
+   "src": [
+    "bden-2025-07-23"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award records call the project Rita Bass Apartments, while Evergreen, its contractor and its architect call it The Ford Apartments.",
+   "src": [
+    "chfa-2025-r1-award",
+    "mhcre-2025-08-14",
+    "mw-ford",
+    "meridian105-ford"
+   ]
+  },
+  {
+   "text": "The application says the adjacent bus stop serves RTD Route 52, while Mile High CRE says Route 53.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mhcre-2025-08-14"
+   ]
+  },
+  {
+   "text": "BusinessDen and Naked Denver describe the whole 1.1-acre 155 W. 5th Ave. lot as sold to Shanahan for $5M, while CHFA, Evergreen and Milender White place Evergreen's rental building at the same address.",
+   "src": [
+    "bden-2025-07-23",
+    "nakeddenver-2026-05-05",
+    "chfa-2025-r1-award",
+    "mw-ford"
+   ]
+  },
+  {
+   "text": "Milender White gives the building size as 70,435 sq ft, while Meridian 105 gives 69,000 sq ft.",
+   "src": [
+    "mw-ford",
+    "meridian105-ford"
+   ]
+  },
+  {
+   "text": "Mile High CRE says Evergreen got its site through Elevation Community Land Trust under a ground lease, while WhatNow says Evergreen purchased the land.",
+   "src": [
+    "mhcre-2025-08-14",
+    "whatnow-2025-08-19"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the financing has closed and a building permit has been issued; no dated record was found as of 2026-10-20.",
+  "Ground lease terms (length, rent) between Elevation Community Land Trust and Evergreen, and the price Evergreen paid for its parcel or leasehold.",
+  "Whether the city's $5M land contribution named in the application is the ARPA loan moved under Resolution 25-1000 or a separate award.",
+  "Construction lender, tax credit investor, equity price and CHFA permanent loan amount.",
+  "Length of the CHFA affordability period (LURA) and whether any project-based vouchers apply; CHFA's description lists none."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Rita Bass Apartments, PDF pages 91-95)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 Round One TOC credit narratives (Rita Bass Apartments, PDF pages 16-17)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "evergreen-2025-08-14",
+   "title": "Evergreen Real Estate Group Announces New Affordable Housing Community Near Denver Health Hospital Campus",
+   "publisher": "Evergreen Real Estate Group",
+   "date": "2025-08-14",
+   "url": "https://www.evergreenreg.com/blog/evergreen-real-estate-group-announces-new-affordable-housing-community-near-denver-health-hospital-campus/"
+  },
+  {
+   "id": "mhcre-2025-08-14",
+   "title": "Chicago Developer to Build 60-Unit Affordable Housing Project",
+   "publisher": "Mile High CRE",
+   "date": "2025-08-14",
+   "url": "https://milehighcre.com/chicago-developer-to-build-60-unit-affordable-housing-project/"
+  },
+  {
+   "id": "whatnow-2025-08-19",
+   "title": "New Affordable Housing Community Set to Rise Near Denver Health Hospital",
+   "publisher": "WhatNow Denver",
+   "date": "2025-08-19",
+   "url": "https://whatnow.com/denver/real-estate/new-affordable-housing-community-set-to-rise-near-denver-health-hospital/"
+  },
+  {
+   "id": "evergreen-2026-04-27",
+   "title": "Evergreen Real Estate Group Completes 60-Unit Affordable Rental Community in Rifle, Colo.",
+   "publisher": "Evergreen Real Estate Group",
+   "date": "2026-04-27",
+   "url": "https://www.evergreenreg.com/blog/evergreen-real-estate-group-completes-60-unit-affordable-rental-community-in-rifle-colo/"
+  },
+  {
+   "id": "evergreen-2026-09-02",
+   "title": "Affordable Rental Community Crawford Commons Apartments in Clifton, Colo., Awarded 9% Low-Income Housing Tax Credits",
+   "publisher": "Evergreen Real Estate Group",
+   "date": "2026-09-02",
+   "url": "https://www.evergreenreg.com/blog/affordable-rental-community-crawford-commons-apartments-in-clifton-colo-awarded-9-low-income-housing-tax-credits/"
+  },
+  {
+   "id": "mw-ford",
+   "title": "The Ford Apartments (project page)",
+   "publisher": "Milender White",
+   "date": "2026",
+   "url": "https://www.milenderwhite.com/our-work/the-ford-apartments/"
+  },
+  {
+   "id": "meridian105-ford",
+   "title": "The Ford Apartments (project page)",
+   "publisher": "Meridian 105 Architecture",
+   "date": "2026",
+   "url": "https://www.meridian105.com/the-ford"
+  },
+  {
+   "id": "bden-2025-07-23",
+   "title": "Developer to pay $5M for Denver Health lot as council approves loan transfer",
+   "publisher": "BusinessDen",
+   "date": "2025-07-23",
+   "url": "https://businessden.com/shanahan-development-broncos-federal-loan-transfer-housing/"
+  },
+  {
+   "id": "nakeddenver-2026-05-05",
+   "title": "70-Unit Affordable Condo Project Planned in Baker",
+   "publisher": "Naked Denver",
+   "date": "2026-05-05",
+   "url": "https://www.nakeddenver.com/post/70-unit-affordable-condo-project-planned-in-baker"
+  },
+  {
+   "id": "denver-25-1000",
+   "title": "Denver Council Resolution 25-1000: Amendatory Agreement with Shanahan Development, LLC and 155 Bannock Development, LLC",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2025-07-21",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27613&GUID=36986E1F-769D-4A08-AA10-B7D8F96D0691"
+  },
+  {
+   "id": "denver-23-0228",
+   "title": "Denver Council Resolution 23-0228: Loan Agreement with Shanahan Development, LLC (1530 W. 13th Ave.)",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2023-03-20",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=22978&GUID=0F64BCEF-E86B-479A-8538-4EFD4EF8FC70"
+  }
+ ]
+}

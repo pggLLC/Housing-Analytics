@@ -1,0 +1,621 @@
+{
+ "slug": "kite-route-crossing-superior",
+ "name": "Kite Route Crossing",
+ "city": "Superior",
+ "county": "Boulder",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-20",
+ "headline": "Pennrose is building Kite Route Crossing, 50 income-restricted apartments for adults 55+ at 30% to 70% AMI in Downtown Superior. It is the town's first tax credit and first age-restricted rental community, and it won 2025 Round One federal 9% and state credits from CHFA.",
+ "why_it_matters": "It shows how a 9% senior deal in a high-cost town with no prior LIHTC stock was closed by stacking Marshall Fire recovery money (CDBG-DR, a community foundation grant), Boulder County's new sales-tax housing fund and town fee relief on top of the credits.",
+ "status": {
+  "label": "Under construction (groundbreaking 2026-03-05); opening expected summer 2027",
+  "detail": "Pennrose announced a groundbreaking on 2026-03-05 and named its equity investors and construction and permanent lenders, which indicates financing closed (inferred). Opening is expected in summer 2027. No public building permit record or lease-up information was found.",
+  "src": [
+   "pennrose-2026-03-05",
+   "rebusiness-2026-03-06"
+  ]
+ },
+ "next_step": "Watch for Pennrose leasing announcements and a certificate of occupancy for 2101 Old Rail Way ahead of the expected summer 2027 opening.",
+ "key_numbers": [
+  {
+   "value": "50 homes for adults 55+, all income-restricted",
+   "meaning": "44 one-bedroom and 6 two-bedroom units at 30%, 50%, 60% and 70% AMI.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 in state credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$26.35M total development cost",
+   "meaning": "As Pennrose stated at groundbreaking (REBusiness reported $26.3M).",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "value": "About $2M in local and recovery gap money",
+   "meaning": "Up to $521,554 CDBG-DR (per the application), $500,000 from Community Foundation Boulder County, and $1,000,000 recommended from Boulder County's housing tax, plus town fee relief.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "cfbc-2026-02-18",
+    "boulder-aaht-2026-budget"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 0 Canary Lane, Superior, CO 80027; Pennrose now uses 2101 Old Rail Way, Superior, CO 80027",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "pennrose-project-page",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, OA: new construction, older adult",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "Adults aged 55 and older, with a preference for eligible households displaced or affected by the 2021 Marshall Fire",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "cfbc-2026-02-18"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.78-acre infill site in Downtown Superior, next to the commercial core; sloped with expansive soils, needing drilled piers and retaining walls",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-project-page"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Wood-frame residential floors over a covered parking deck with ground-floor amenity space; elevator and stair access; all-electric, Enterprise Green Communities, rooftop solar intended",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-project-page",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "item": "Income averaging",
+   "value": "Uses CHFA's income averaging option to serve 30% to 70% AMI",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Firsts",
+   "value": "First LIHTC and first income- or age-restricted rental community in the Town of Superior",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-2026-03-05"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 18
+  },
+  {
+   "level": "70% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 44
+  },
+  {
+   "type": "2BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives",
+  "pennrose-2026-03-05"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One. Equity purchased by Hudson Housing Capital and JPMorgan Chase.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Senior construction loan",
+   "amount": "Not public",
+   "note": "JPMorgan Chase.",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "Not public",
+   "note": "Berkadia.",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "source": "CDBG-DR (Marshall Fire recovery) via DOLA",
+   "amount": "Up to $521,554",
+   "note": "Per the application, DOLA gave a letter of support for up to this amount; the final award is not public. CHFA's award description says the deal uses disaster relief funding.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Community Foundation Boulder County (Boulder County Wildfire Fund)",
+   "amount": "$500,000",
+   "note": "Announced 2026-02-18 as one of the fund's final distributions.",
+   "src": [
+    "cfbc-2026-02-18",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Affordable and Attainable Housing Tax (AAHT)",
+   "amount": "$1,000,000 recommended",
+   "note": "Listed for the Town of Superior / Kite Route Crossing in the county's 2026 AAHT budget presentation (October 2025). Final approval and terms were not found.",
+   "src": [
+    "boulder-aaht-2026-budget"
+   ]
+  },
+  {
+   "source": "Town of Superior fee waivers/rebate",
+   "amount": "About $725,000 to $767,000",
+   "note": "The application cites about $767,000 in waivers and reductions; Yellow Scene described a rebate of 47% of permit and review fees, about $725,000, tied to pulling a building permit by 2025-12-31.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "yellowscene-2025-03-03"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing and Boulder County support",
+   "amount": "Not public",
+   "note": "Pennrose lists grants, subordinate loans and fee waivers from CDOH, DOLA, Boulder County, the town and the foundation without amounts.",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "source": "Total development cost",
+   "amount": "$26,350,000",
+   "note": "",
+   "src": [
+    "pennrose-2026-03-05"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Pennrose LLC",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Pennrose Management Company",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Ownership entity named in town resolution",
+   "name": "Kite Route Crossing LLC",
+   "src": [
+    "superior-council-2025-09"
+   ]
+  },
+  {
+   "role": "Proposed special limited partner (tax exemption)",
+   "name": "Boulder County Housing Authority (indicated interest in the application)",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shears Adkins Rockmore (SAR)",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "sar-project-page"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-KOTA",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Civil Resources",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financing consultant",
+   "name": "RCH Jones Housing",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Energy consultant",
+   "name": "Group 14",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Geotechnical engineer",
+   "name": "CTL Thompson",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Tax credit investors",
+   "name": "Hudson Housing Capital and JPMorgan Chase",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "role": "Construction lender / permanent lender",
+   "name": "JPMorgan Chase / Berkadia",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "role": "Local government partner",
+   "name": "Town of Superior",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "superior-council-2025-09"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Pennrose first applied in 2024 Round One with 48 units and a $1,450,000 federal 9% request; it was not funded that round (inferred from the 2025 re-application). For 2025 it went to 50 units with more one-bedrooms and fewer two-bedrooms and adjusted the income mix.",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application says Pennrose negotiated a $350,000 reduction in the land price. Yellow Scene reported in March 2025 that the property was under contract; the seller and price are not public.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "yellowscene-2025-03-03"
+   ]
+  },
+  {
+   "text": "Per the application, Superior's Town Council unanimously approved a Planned Development amendment in March and a bundle of fee waivers and reductions in September of the year before the February 2025 application (inferred to be 2024).",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "In September 2025 the Town Council approved a resolution adopting the Kite Route pre-development agreement and a resolution approving a development agreement with Kite Route Crossing LLC. Resolution numbers are not shown in the town's action summary.",
+   "src": [
+    "superior-council-2025-09"
+   ]
+  },
+  {
+   "text": "The application says CHFA and OEDIT invited the town to submit a full Prop 123 Land Banking application for the site. No award record was found, and Pennrose's groundbreaking release does not list Prop 123.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "text": "The Boulder County Housing Authority indicated interest in a special limited partnership to bring property tax and sales and use tax exemptions. Whether this was done at closing is not public.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study found all surveyed senior LIHTC properties above 98% occupancy and a 522-household waitlist at the newest senior project. The 50% and 60% AMI senior penetration rates (43.9% and 86.7%) are above CHFA's preferred threshold.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The building is designed beyond the 2021 IFC for fire resiliency, with fire-resistant exterior materials, full sprinklers and a planned defensible zone next to the site. The Marshall Fire destroyed 391 homes in Superior.",
+   "src": [
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "text": "Amenities include a community room, fitness room, dog wash, package room, bike storage and a second-floor sun deck; units have in-unit washers and dryers and walk-in closets. EV charging is planned at 10 stalls.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-2026-03-05"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-12-30",
+   "event": "Marshall Fire destroys over 1,000 homes in Boulder County, 391 in Superior",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (48 units, $1,450,000 federal 9% request)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-03-03",
+   "event": "Yellow Scene reports the town approved a pre-development fee rebate agreement and Pennrose sought a council support letter for its CHFA application",
+   "src": [
+    "yellowscene-2025-03-03"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report (federal 9% and state credits)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2025-09",
+   "event": "Superior Town Council approves the pre-development agreement and a development agreement with Kite Route Crossing LLC",
+   "src": [
+    "superior-council-2025-09"
+   ]
+  },
+  {
+   "date": "2025-10",
+   "event": "Boulder County 2026 AAHT budget presentation recommends $1,000,000 for the project",
+   "src": [
+    "boulder-aaht-2026-budget"
+   ]
+  },
+  {
+   "date": "2026-02-18",
+   "event": "Community Foundation Boulder County announces a $500,000 award",
+   "src": [
+    "cfbc-2026-02-18"
+   ]
+  },
+  {
+   "date": "2026-03-05",
+   "event": "Groundbreaking celebration",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Opening expected in summer 2027",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Kite Route Crossing renderings",
+   "url": "https://sararch.com/project/kite-route-crossing/",
+   "kind": "rendering",
+   "made_by": "Shears Adkins Rockmore (architect)",
+   "note": "Three project images on the architect's project page",
+   "src": [
+    "sar-project-page"
+   ]
+  },
+  {
+   "title": "Kite Route Crossing unit floor plans",
+   "url": "https://pennrose.com/apartments/colorado/kite-route-crossing",
+   "kind": "site plan",
+   "made_by": "Pennrose",
+   "note": "Unit plan tabs (1A.1, 1A.1A, 1B, 2A, 2A.A, 2B) on the property page",
+   "src": [
+    "pennrose-project-page"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 0 Canary Lane, while Pennrose now gives 2101 Old Rail Way.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "pennrose-project-page",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "text": "The 2025 application puts the town's fee waivers and reductions at about $767,000, while Yellow Scene reported an estimated rebate of about $725,000 (47% of permit and review fees).",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "yellowscene-2025-03-03"
+   ]
+  },
+  {
+   "text": "Yellow Scene in March 2025 described 48 units (36 one-bedroom, 12 two-bedroom), while CHFA's award description and Pennrose list 50 units (44 one-bedroom, 6 two-bedroom).",
+   "src": [
+    "yellowscene-2025-03-03",
+    "chfa-2025-r1-descriptions",
+    "pennrose-2026-03-05"
+   ]
+  },
+  {
+   "text": "Pennrose states a $26.35M development cost, while REBusiness reported $26.3M.",
+   "src": [
+    "pennrose-2026-03-05",
+    "rebusiness-2026-03-06"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Land seller and final purchase price.",
+  "Final amounts of the CDBG-DR, CDOH and Boulder County (AAHT) money, and whether BCHA joined as special limited partner for a tax exemption.",
+  "Building permit number and date, and the final fee rebate amount paid by the town.",
+  "Construction and permanent loan amounts, equity price, and rents.",
+  "Length of the CHFA affordability period (LURA).",
+  "Whether any project-based vouchers apply; none are mentioned in public sources."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Kite Route Crossing, PDF pages 56-60)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "pennrose-2026-03-05",
+   "title": "Pennrose Breaks Ground on Kite Route Crossing, Superior's First Affordable Housing Development",
+   "publisher": "Pennrose",
+   "date": "2026-03-05",
+   "url": "https://www.pennrose.com/news-views/news/2026/pennrose-breaks-ground-on-kite-route-crossing-superior-s-first-affordable-housing-development/"
+  },
+  {
+   "id": "rebusiness-2026-03-06",
+   "title": "Pennrose Breaks Ground on 50-Unit Affordable Housing Community in Superior, Colorado",
+   "publisher": "REBusinessOnline",
+   "date": "2026-03-06",
+   "url": "https://rebusinessonline.com/pennrose-breaks-ground-on-50-unit-affordable-housing-community-in-superior-colorado/"
+  },
+  {
+   "id": "pennrose-project-page",
+   "title": "Kite Route Crossing property page",
+   "publisher": "Pennrose",
+   "date": "2026",
+   "url": "https://pennrose.com/apartments/colorado/kite-route-crossing"
+  },
+  {
+   "id": "yellowscene-2025-03-03",
+   "title": "Superior's First Affordable Housing Units in Pre-Development",
+   "publisher": "Yellow Scene Magazine",
+   "date": "2025-03-03",
+   "url": "https://yellowscene.com/2025/03/03/superiors-first-affordable-housing-units-in-pre-development/"
+  },
+  {
+   "id": "cfbc-2026-02-18",
+   "title": "Boulder County Wildfire Fund Announces Final Distributions",
+   "publisher": "Community Foundation Boulder County",
+   "date": "2026-02-18",
+   "url": "https://www.commfound.org/blog/boulder-county-wildfire-fund-announces-final-distributions/"
+  },
+  {
+   "id": "boulder-aaht-2026-budget",
+   "title": "Affordable and Attainable Housing Tax 2026 Budget presentation (page 2)",
+   "publisher": "Boulder County",
+   "date": "2025-10-06",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/10/07_affordable-and-attainable-housing-tax-2026-budget-presentation.pdf"
+  },
+  {
+   "id": "superior-council-2025-09",
+   "title": "September 2025 Town Council Actions",
+   "publisher": "Town of Superior",
+   "date": "2025-09-23",
+   "url": "https://content.govdelivery.com/attachments/COSUPERIOR/2025/09/23/file_attachments/3397327/September%20Town%20Council%20Actions.pdf"
+  },
+  {
+   "id": "sar-project-page",
+   "title": "Kite Route Crossing project page",
+   "publisher": "Shears Adkins Rockmore",
+   "date": "2026",
+   "url": "https://sararch.com/project/kite-route-crossing/"
+  }
+ ]
+}

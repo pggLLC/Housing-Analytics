@@ -43,6 +43,9 @@ const ALLOW_LIST = new Set([
   // data/market/redfin-city-observations-co.json
   // (Colorado Springs supplement, #2089).
   "https://www.redfin.com/city/4147/CO/Colorado-Springs/housing-market",
+  // CBS News returns 406 to CI probes; verified live 2026-10-20 (200 with a
+  // browser UA); cited by data/deals/arapahoe-psh-aurora.json.
+  "https://www.cbsnews.com/colorado/news/us-bank-grant-brothers-redevelopment-build-affordable-homes-aurora",
   'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
   'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
   'https://federalfunds.colorado.gov/solar-for-all',
