@@ -40,7 +40,7 @@
     // The 464 place profiles are near-identical apart from the name. If the query didn't hit the
     // place name (title), it's a topic query — down-weight so the relevant topic/dashboard pages
     // rank above the profiles instead of being buried under them.
-    if (!titleHit && /^places\/\d+\.html$/.test(it.u)) s *= 0.25;
+    if (!titleHit && /(^|\/)places\/\d+\.html$/.test(it.u)) s *= 0.25;
     return s;
   }
 

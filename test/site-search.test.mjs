@@ -90,6 +90,9 @@ if (!live) {
     if (!gatedTop.includes('developer-where.html')) {
       failures.push(`developer site: "land banking map" should list developer-where.html; got ${gatedTop.join(', ')}`);
     }
+    // Rewritten place URLs still rank below topic pages on a topic search.
+    const topical = rank(records, 'rent burden').slice(0, 10).filter((r) => r.u.includes('places/'));
+    if (topical.length > 2) failures.push(`developer site: "rent burden" top 10 has ${topical.length} place profiles`);
     assert(records.filter((r) => r.u.includes('places/')).every((r) => r.u.startsWith('https://cohoanalytics.com/places/')),
       'developer site: place profiles must link to the public site, which serves them');
   } finally {
