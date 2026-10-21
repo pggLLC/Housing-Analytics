@@ -20,19 +20,19 @@
   .rw-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp2); margin-bottom: var(--sp3); }
   .rw-stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp2) var(--sp3); line-height: 1.45; }
   .rw-stat-v { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
-  .rw-stat.sr-bad { border-left: 4px solid var(--bad, #c0392b); }
-  .rw-stat.sr-warn { border-left: 4px solid var(--warn, #b7791f); }
-  .rw-stat.sr-ok { border-left: 4px solid var(--good, #2f855a); }
+  .rw-stat.sr-bad { border-left: 4px solid var(--bad); }
+  .rw-stat.sr-warn { border-left: 4px solid var(--warn); }
+  .rw-stat.sr-ok { border-left: 4px solid var(--good); }
   .sr-of { font-size: .95rem; color: var(--muted); font-weight: 600; }
   .rw-decide { border-left: 4px solid var(--accent); }
   .rw-decide ul, #srAdd, #sr-docs { padding-left: 1.2rem; }
   .rw-band { display: inline-block; font-weight: 700; font-size: .8rem; padding: 2px 8px; border-radius: 9999px; border: 1px solid var(--accent); color: var(--accent); }
   .rw-quote { margin: .25rem 0 .25rem .5rem; padding-left: .6rem; border-left: 2px solid var(--border); color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
   .sr-muted { color: var(--muted); font-size: .85rem; }
-  .sr-flag, .sr-red { color: var(--bad, #c0392b); }
+  .sr-flag, .sr-red { color: var(--bad); }
   .sr-yellow { color: var(--text); }
-  .sr-yellow::marker { color: var(--warn, #b7791f); }
-  .sr-red::marker { color: var(--bad, #c0392b); }
+  .sr-yellow::marker { color: var(--warn); }
+  .sr-red::marker { color: var(--bad); }
   .sr-scroll { overflow-x: auto; }
   .sr-table { border-collapse: collapse; width: 100%; font-size: var(--small, .9rem); }
   .sr-table th, .sr-table td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -61,6 +61,8 @@
     .sr-row input, .sr-row select { width: 100%; }
   }
 </style>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>

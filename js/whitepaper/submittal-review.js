@@ -325,7 +325,7 @@
 
   function compareTable(rules, prop123, versions) {
     var reviews = versions.map(function (v) { return review(rules, prop123, v); });
-    var head = '<tr><th scope="col">Figure</th>' + versions.map(function (v) {
+    var head = '<tr><th scope="col" data-tip="Changed rows are highlighted">Figure</th>' + versions.map(function (v) {
       return '<th scope="col">' + esc(v.label || v.name || 'Version') + '<br><span class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + '</span></th>';
     }).join('') + '</tr>';
     var body = COMPARE_ROWS.map(function (row) {
@@ -333,7 +333,7 @@
       var differs = cells.some(function (c) { return c !== cells[0]; });
       return '<tr' + (differs ? ' class="sr-diff"' : '') + '><th scope="row">' + esc(row[0]) + '</th>' + cells.map(function (c) { return '<td class="sr-num">' + esc(c) + '</td>'; }).join('') + '</tr>';
     }).join('');
-    return '<div class="sr-scroll"><table class="sr-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
+    return '<div class="sr-scroll"><table class="sr-table" data-no-sort><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
   }
 
   // ── Calculator export ─────────────────────────────────────────────────────
@@ -549,7 +549,7 @@
 
   function linesTableHtml(r) {
     var label = { counted: 'Counted', 'not claimed': 'Not claimed', missing: 'Not earned', excluded: 'Not counted', 'needs entry': 'Enter points' };
-    return '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col">Scoring line</th><th scope="col" class="sr-num">Points</th><th scope="col" class="sr-num">Possible</th><th scope="col">Status</th></tr></thead><tbody>' +
+    return '<div class="sr-scroll"><table class="sr-table" data-no-sort><thead><tr><th scope="col" data-tip="One scoring item from QAP Section 5, with CHFA wording">Scoring line</th><th scope="col" class="sr-num" data-tip="Points this draft earns on the line">Points</th><th scope="col" class="sr-num" data-tip="Most the line can earn">Possible</th><th scope="col" data-tip="Counted, not claimed, not earned, or not counted because another line excludes it">Status</th></tr></thead><tbody>' +
       r.score.lines.map(function (l) {
         return '<tr><td><strong>' + esc(l.label) + '</strong> <span class="sr-muted">QAP ' + esc(l.section) + ', p. ' + esc(l.page) + '</span>' +
           (l.note ? '<div class="sr-muted">' + esc(l.note) + '</div>' : '') +
@@ -567,7 +567,7 @@
     var ratio = function (x) { return x.toFixed(2) + 'x'; };
     return '<p class="sr-muted">Base run: gap ' + esc(cell(b.fundingGap, money)) + (b.fundingGap == null && b.fundingGapReason ? ' (' + esc(b.fundingGapReason) + ')' : '') +
       ', coverage ' + esc(cell(b.dscr, ratio)) + ', deferred fee ' + esc(cell(b.deferredDeveloperFee, money)) + '.</p>' +
-      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col">Test</th><th scope="col" class="sr-num">Funding gap</th><th scope="col" class="sr-num">Coverage</th><th scope="col" class="sr-num">Deferred fee</th><th scope="col">Result</th></tr></thead><tbody>' +
+      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="What changes in the Deal Calculator for this run">Test</th><th scope="col" class="sr-num" data-tip="Sources still needed after the modeled loan, equity and soft funds">Funding gap</th><th scope="col" class="sr-num" data-tip="Debt coverage ratio: net operating income over must-pay debt service">Coverage</th><th scope="col" class="sr-num" data-tip="Developer fee paid later from cash flow">Deferred fee</th><th scope="col" data-tip="Fails when the gap grows, coverage drops under the CHFA 1.15 minimum, the score falls under 130, or the gap-fund lane changes">Result</th></tr></thead><tbody>' +
       st.tests.map(function (t) {
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
@@ -699,7 +699,7 @@
           return '<option value="' + esc(d.id) + '">' + esc(d.name) + ' (' + d.versions + ' version' + (d.versions === 1 ? '' : 's') + ')</option>';
         }).join('');
         if (selectId) $('sr-deal').value = selectId;
-        $('srStore').textContent = store.mode() === 'server' ? 'Saved on the developer site for everyone signed in. A save never overwrites an earlier version.' : 'The save service is not reachable, so versions are kept on this device only.';
+        $('srStore').textContent = store.mode() === 'server' ? 'Saved to your own login on the developer site; teammates do not see your deals. A save never overwrites an earlier version.' : 'The save service is not reachable, so versions are kept on this device only.';
       });
     }
     function refreshVersions() {
@@ -708,7 +708,7 @@
         state.versions = res.versions; state.hidden = res.hidden || []; state.baseline = res.baseline || '';
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
-        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col">Compare</th><th scope="col">Version</th><th scope="col" class="sr-num">Score</th><th scope="col">Lane</th><th scope="col" class="sr-num">Gap</th><th scope="col">Actions</th></tr></thead><tbody>' +
+        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, or hide">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
             return '<tr><td><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></td>' +
