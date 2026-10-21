@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isSensitive } from '../scripts/lib/public-sensitive-patterns.mjs';
@@ -121,18 +122,15 @@ assert(tabbedPages > 0, 'no page with page-level tabs found; the tab coverage ch
 assert(redirects > 0, 'no redirect stubs found; the old-name check checked nothing');
 
 // The ranking js/site-search.js applies, run against the built index.
-const searchSource = await readFile('js/site-search.js', 'utf8');
-const runSearch = new Function('index',
-  `${searchSource.slice(searchSource.indexOf('function norm'), searchSource.indexOf('function render'))}; return search;`)(searchIndex);
+const { rank } = createRequire(import.meta.url)('../js/site-search.js');
+const runSearch = (q) => rank(searchIndex, q);
 const firstFor = (q) => (runSearch(q)[0] || {}).u;
 const constructionTab = searchIndex.find((r) => /construction/i.test(r.u + r.k) && r.u.includes('#'));
 assert(constructionTab, 'expected a Construction Labor & Costs tab result');
 assert.equal(firstFor(constructionTab.k.split(' · ')[0]), constructionTab.u, 'a tab\'s own name must rank that tab first');
 assert(firstFor(counties[0].name).startsWith(`housing-needs-assessment.html?geoid=${counties[0].geoid}&`),
   `searching "${counties[0].name}" must rank the county first`);
-const bodyOnly = new Function('index',
-  `${searchSource.slice(searchSource.indexOf('function norm'), searchSource.indexOf('function render'))}; return search;`)(
-  [{ t: 'Page', u: 'p.html', d: '', k: '', b: 'family dynamic' }]);
+const bodyOnly = (q) => rank([{ t: 'Page', u: 'p.html', d: '', k: '', b: 'family dynamic' }], q);
 assert.equal(bodyOnly('ami').length, 0, 'body words match from the start of a word: "ami" must not hit "family"');
 assert.equal(bodyOnly('fam').length, 1, 'a body word must match its own prefix');
 

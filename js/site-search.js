@@ -8,32 +8,25 @@
  * and work identically from the root and from /places/ pages. Fully self-contained and
  * guarded — if anything is missing it no-ops rather than throwing.
  */
-(function () {
+(function (root) {
   'use strict';
 
-  var BASE = (window.APP_BASE_PATH || '/');
-  var input = document.getElementById('siteSearchInput');
-  var results = document.getElementById('siteSearchResults');
-  var status = document.getElementById('siteSearchStatus');
-  if (!input || !results) return;
-
-  var index = null;
-
-  function escapeHtml(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
   function norm(s) { return String(s || '').toLowerCase(); }
+  function squash(s) { return norm(s).replace(/[^a-z0-9]+/g, ''); }
 
   // Every term must appear somewhere (AND). Title hits outrank old names (a) outrank headings
   // outrank description outrank body words (b); a title prefix match is best.
   function scoreItem(it, terms) {
     var t = norm(it.t), d = norm(it.d), k = norm(it.k), a = norm(it.a), b = ' ' + norm(it.b);
+    // Spaces and punctuation dropped, so "landbanking" or "prop123" finds "Land Banking" and
+    // "Prop 123". Cached on the record: the index is scored on every keystroke.
+    if (it._jt == null) { it._jt = squash(it.t); it._jo = squash(it.a) + ' ' + squash(it.k) + ' ' + squash(it.d); }
     var s = 0, titleHit = false;
     for (var i = 0; i < terms.length; i++) {
       var term = terms[i];
       var inT = t.indexOf(term), inA = a.indexOf(term), inK = k.indexOf(term), inD = d.indexOf(term);
+      if (inT < 0 && term.length >= 4 && it._jt.indexOf(term) >= 0) inT = 1;
+      if (inA < 0 && inK < 0 && inD < 0 && term.length >= 4 && it._jo.indexOf(term) >= 0) inK = 1;
       // Body words only match from the start of a word, so "ami" does not hit "family".
       var inB = b.indexOf(' ' + term);
       if (inT < 0 && inA < 0 && inK < 0 && inD < 0 && inB < 0) return 0;
@@ -47,11 +40,11 @@
     // The 464 place profiles are near-identical apart from the name. If the query didn't hit the
     // place name (title), it's a topic query — down-weight so the relevant topic/dashboard pages
     // rank above the profiles instead of being buried under them.
-    if (!titleHit && /^places\/\d+\.html$/.test(it.u)) s *= 0.25;
+    if (!titleHit && /(^|\/)places\/\d+\.html$/.test(it.u)) s *= 0.25;
     return s;
   }
 
-  function search(q) {
+  function rank(index, q) {
     // Strip punctuation so "Silt, Colorado" → ["silt","colorado"] and "silt" hits the title.
     var terms = norm(q).replace(/[^a-z0-9\s]+/g, ' ').split(/\s+/).filter(Boolean);
     if (!terms.length || !Array.isArray(index)) return [];
@@ -62,6 +55,24 @@
       .slice(0, 60)
       .map(function (x) { return x.it; });
   }
+
+  // Node (the search tests and the post-deploy live check) gets the ranking alone.
+  if (typeof module === 'object' && module.exports) { module.exports = { rank: rank }; return; }
+
+  var BASE = (root.APP_BASE_PATH || '/');
+  var input = document.getElementById('siteSearchInput');
+  var results = document.getElementById('siteSearchResults');
+  var status = document.getElementById('siteSearchStatus');
+  if (!input || !results) return;
+
+  var index = null;
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function search(q) { return rank(index, q); }
 
   function render(q) {
     if (!q.trim()) {
@@ -84,7 +95,9 @@
         ' result' + (matches.length === 1 ? '' : 's') + ' for “' + q + '”.';
     }
     results.innerHTML = matches.map(function (it) {
-      return '<a class="search-result" href="' + BASE + escapeHtml(it.u) + '">' +
+      // The developer site links place profiles to the public site, by full URL.
+      var href = /^https?:\/\//.test(it.u) ? it.u : BASE + it.u;
+      return '<a class="search-result" href="' + escapeHtml(href) + '">' +
         '<span class="search-result-title">' + escapeHtml(it.t) + '</span>' +
         (it.d ? '<span class="search-result-desc">' + escapeHtml(it.d) + '</span>' : '') +
         '</a>';
@@ -114,4 +127,4 @@
     debounce = setTimeout(function () { render(input.value); }, 90);
   });
   try { input.focus(); } catch (e) { /* ignore */ }
-})();
+})(typeof window !== 'undefined' ? window : this);
