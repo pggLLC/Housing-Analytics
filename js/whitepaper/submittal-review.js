@@ -409,6 +409,7 @@
     var eng = stale ? {} : (v.engine || {});
     var credit = creditCheck(rules, num(eng.annualCredits));
     var risks = [];
+    if (deal.calcRegime) risks.push({ level: 'yellow', text: 'The Deal Calculator export used ' + deal.calcRegime + ' rent limits, not CHFA LIHTC, so only its unit mix is used here. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.' });
     if (deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to 4%, so only its unit mix is used here. Export the deal at 9% for gap, coverage, credit and stress results.' });
     if (stale) risks.push({ level: 'yellow', text: 'The unit mix or set-aside election differs from the Deal Calculator export, so its gap, coverage, credit and stress results are not shown. Change the deal in the Deal Calculator and export it again.' });
     if (!s.setAside.qualifies) risks.push({ level: 'red', text: 'The unit mix does not meet the ' + ELECTION_LABEL[s.setAside.election] + ': ' + s.setAside.reasons.join('; ') + '. The deal is not eligible for credits.' });
@@ -494,7 +495,7 @@
       var raw = num(inp['units-' + t]), u = split > 0 ? split : (raw > 0 ? Math.floor(raw) : 0);
       if (u) mix[t] = u;
     });
-    var units = num(inp.units);
+    var units = num(inp.units); units = units != null && units >= 0 ? Math.floor(units) : null; // whole homes only
     var restricted = TIERS.reduce(function (s, t) { return s + (mix[t] || 0); }, 0);
     // The calculator treats more tier units than total homes as a unit-mix error; so does the review.
     if (!fromSchedule && units != null && restricted > units) return { error: 'The export has ' + restricted + ' homes in AMI tiers but ' + units + ' total homes. Fix the unit mix in the Deal Calculator and export it again.' };
@@ -511,7 +512,10 @@
     var rate = num(inp['rate-9'] != null ? inp['rate-9'] : param('rate-9'));
     var election = String(inp['minimum-set-aside'] || param('minimum-set-aside') || '40-60');
     if (!ELECTION_LABEL[election]) election = '40-60';
-    return { mix: mix, engine: engine, query: query, nine: rate != null && rate > 0.06, election: election, exportedAt: snap.exportedAt || null };
+    // The calculator defaults to CHFA LIHTC rents; HOME, Prop 123, other-AMI and market rents are a different model.
+    var regime = String(inp['rent-limit-regime'] || param('rent-limit-regime') || 'chfa_lihtc');
+    var REGIME_LABEL = { home_high: 'High HOME', home_low: 'Low HOME', prop123: 'Prop 123', ami_formula: 'other AMI-formula', market: 'market-rate' };
+    return { mix: mix, engine: engine, query: query, nine: rate != null && rate > 0.06, chfa: regime === 'chfa_lihtc', regime: REGIME_LABEL[regime] || 'non-CHFA', election: election, exportedAt: snap.exportedAt || null };
   }
 
   // ── Stress tests (browser only) ───────────────────────────────────────────
@@ -772,7 +776,7 @@
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
-      var ac = num($('sr-credits').value); if (ac != null) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
+      var ac = num($('sr-credits').value); if (ac != null && ac >= 0) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim');
         var n = num(el.value);
@@ -866,13 +870,15 @@
             if (c.error) { flash(c.error); return; }
             var v = started;
             v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine;
-            if (c.nine) {
+            v.deal.calcRegime = c.nine && !c.chfa ? c.regime : null;
+            if (c.nine && c.chfa) {
               v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: true, election: c.election, mix: Object.assign({}, c.mix), stale: false };
               v.engine = c.engine;
             } else {
               // A 4% model's credits and financing do not belong beside a 9% score: keep only the unit mix.
               v.calculator = null; v.engine = {};
-              flash('This export is set to 4%, so only its unit mix was used. Export the deal at 9% for gap, coverage, credit and stress results.');
+              flash(c.nine ? 'This export uses ' + c.regime + ' rent limits, not CHFA LIHTC, so only its unit mix was used. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.'
+                : 'This export is set to 4%, so only its unit mix was used. Export the deal at 9% for gap, coverage, credit and stress results.');
             }
             writeForm(); state.stress = null; draw();
           });
@@ -955,6 +961,8 @@
       return getVersion(v).then(function (rec) { if (t === state.nav) openVersion(rec); });
     }
 
+    function clearForm() { state.version = blankVersion(); state.stress = null; state.parent = ''; $('sr-label').value = ''; writeForm(); draw(); }
+
     $('sr-deal').addEventListener('change', function () {
       state.nav++;
       state.deal = $('sr-deal').value || null; state.picked = {}; state.parent = '';
@@ -962,15 +970,18 @@
       drawCompare();
       var opt = $('sr-deal').selectedOptions[0];
       $('sr-name').value = state.deal ? opt.textContent.replace(/ \(\d+ versions?\)$/, '') : '';
-      if (!state.deal) { state.version = blankVersion(); state.stress = null; $('sr-label').value = ''; writeForm(); draw(); }
+      if (!state.deal) clearForm();
       var deal = state.deal;
       refreshVersions().then(function () {
         if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
         if (pick) return openLatest(pick);
-      }).catch(function (e) { flash('Could not load that deal: ' + e.message); })
-        .then(function () { if (state.deal === deal) state.loading = false; });
+        clearForm(); // no version to open: never leave the previous deal's figures under this one
+      }).catch(function (e) {
+        if (state.deal !== deal) return;
+        clearForm(); flash('Could not load that deal: ' + e.message + '. The form was cleared so the other deal\'s figures are not saved under it.');
+      }).then(function () { if (state.deal === deal) state.loading = false; });
     });
     $('sr-show-hidden').addEventListener('change', refreshVersions);
 
@@ -993,11 +1004,14 @@
       else store.meta(state.deal, act, v).then(refreshVersions);
     });
 
+    var compareTok = 0;
     function drawCompare() {
+      var tok = ++compareTok; // a later pick or deal change supersedes reads still in flight
       var ids = Object.keys(state.picked).filter(function (k) { return state.picked[k]; });
       if (ids.length < 2) { $('srCompare').innerHTML = '<p class="sr-muted">Tick two to four versions above to compare them. Changed rows are highlighted.</p>'; return; }
       if (ids.length > 4) { $('srCompare').innerHTML = '<p class="sr-flag">Pick four or fewer.</p>'; return; }
       Promise.all(ids.map(getVersion)).then(function (vs) {
+        if (tok !== compareTok) return;
         vs = vs.filter(Boolean).sort(function (a, b) { return a.v < b.v ? -1 : 1; });
         $('srCompare').innerHTML = compareTable(rules, prop123, vs);
       });

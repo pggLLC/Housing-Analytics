@@ -243,7 +243,7 @@ for (const [e, c] of Object.entries(SR.SET_ASIDE)) {
   ok(new RegExp((e === 'average-income' ? 'Average Income' : e) + '[^.]*units at or under ' + c.creditCeiling + '% are tax credit units').test(note), 'the note gives the ' + e + ' ceiling of ' + c.creditCeiling + '%');
   ok(SR.mixTotals({ [c.creditCeiling]: 1, [c.creditCeiling + 10]: 1 }, e).restricted === 1, 'the scorer counts tax credit units up to ' + c.creditCeiling + '% under ' + e);
 }
-ok(/if \(!state\.deal\) \{ state\.version = blankVersion\(\);/.test(read('js/whitepaper/submittal-review.js')), 'choosing "New deal" clears the loaded version');
+ok(/if \(!state\.deal\) clearForm\(\);/.test(read('js/whitepaper/submittal-review.js')) && /function clearForm\(\) \{ state\.version = blankVersion\(\);/.test(read('js/whitepaper/submittal-review.js')), 'choosing "New deal" clears the loaded version');
 
 // Codex review on 596f5ed78: same-name city and county, set-aside in the AMI stress, T17 wording, document reads bound to their version.
 const amb = SR.prop123Status(prop123, 'Pueblo');
@@ -330,5 +330,20 @@ const srcJs5 = read('js/whitepaper/submittal-review.js');
 ok(/state\.loading = !!state\.deal;[^\n]*\n\s*drawCompare\(\);/.test(srcJs5), 'changing deals redraws the comparison');
 ok(/v\.claims\[id\] = el\.type === 'checkbox' \? el\.checked : \(n > 0 \? Math\.floor\(n\) : null\)/.test(srcJs5), 'typed claim points are whole and non-negative');
 ok(/if \(state\.loading\) \{ flash\('Wait for the deal to finish opening/.test(srcJs5) && /if \(state\.deal === deal\) state\.loading = false;/.test(srcJs5), 'saving waits until the picked deal has opened');
+
+// Codex review on 851cbe4f6: rent regime, whole total homes, failed opens, stale comparisons, negative credits.
+{
+  const base = { inputs: { 'rate-9': '0.09', units: '10', 'units-60': '10' }, outputs: {}, url: 'http://127.0.0.1:8799/deal-calculator.html?rate-9=0.09' };
+  const home = SR.fromCalculatorExport({ ...base, inputs: { ...base.inputs, 'rent-limit-regime': 'home_low' } });
+  ok(home.nine && home.chfa === false && home.regime === 'Low HOME', 'a 9% export with HOME rents is flagged as non-CHFA');
+  ok(SR.fromCalculatorExport(base).chfa === true, 'an export with no rent setting is read as the calculator default, CHFA LIHTC');
+  const frac = SR.fromCalculatorExport({ ...base, inputs: { ...base.inputs, units: '10.9' } });
+  ok(!frac.mix.market, 'a fractional total-home count does not invent a market-rate home');
+}
+const srcJs6 = read('js/whitepaper/submittal-review.js');
+ok(/v\.deal\.calcRegime = c\.nine && !c\.chfa/.test(srcJs6) && /if \(c\.nine && c\.chfa\)/.test(srcJs6), 'only a 9% CHFA-rent export brings engine results and stress tests');
+ok(/\.catch\(function \(e\) \{\s*if \(state\.deal !== deal\) return;\s*clearForm\(\)/.test(srcJs6), 'a failed deal open clears the form before saving is allowed again');
+ok(/if \(tok !== compareTok\) return;/.test(srcJs6), 'a superseded comparison read is dropped');
+ok(/if \(ac != null && ac >= 0\) v\.engine\.annualCredits = ac/.test(srcJs6), 'a negative annual credit entry is not stored');
 
 console.log(`submittal-review: ${checks} checks passed`);
