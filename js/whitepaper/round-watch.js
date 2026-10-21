@@ -10,7 +10,9 @@
  *       private backend only (coho-backend gated/). Never in this repository.
  *
  * A contact shows only with a public https source. Everything shown is
- * escaped.
+ * escaped. The map puts each deal at its town's Census centroid, coloured by
+ * likelihood, and follows the same round, region and likelihood filters as
+ * the list.
  *
  * Lives in js/whitepaper/ because the gated bundle copies that folder and the
  * public build excludes it. window.RoundWatch in the browser; module.exports in Node.
@@ -24,6 +26,9 @@
   var DATA_URL = 'data/jurisdiction-briefs/_round-watch.json';
   var CONTACTS_URL = 'data/jurisdiction-briefs/_round-watch-contacts.json';
   var BAND_RANK = { High: 0, Medium: 1, Watch: 2 };
+  // the six site regions, west to east, as scripts/hna/build_ranking_index.py groups counties
+  var REGIONS = ['Southwest', 'San Luis Valley', 'Western Slope', 'Mountains', 'Front Range', 'Eastern Plains'];
+  var LEVELS = { high: 'High only', hm: 'High and Medium', all: 'All, with Watch' };
   var KIND_LABEL = {
     chfa_applicant: 'Named by CHFA on its applicant report',
     land_banking: 'Named for the Prop 123 land banking award',
@@ -58,9 +63,22 @@
     band: function (i) { return BAND_RANK[i.band] * 1000 - i.score; },
     name: function (i) { return String(i.name).toLowerCase(); },
     town: function (i) { return String(i.city || '~').toLowerCase(); },
+    region: function (i) { return (i.region ? REGIONS.indexOf(i.region) : 99) * 10000 + BAND_RANK[i.band] * 1000 - i.score; },
     homes: function (i) { return i.homes == null ? Infinity : i.homes; },
-    sponsor: function (i) { return String(i.sponsor || (i.award_orgs || [])[0] || '~').toLowerCase(); }
+    sponsor: function (i) { return String(i.sponsor || (i.award_orgs || [])[0] || '~').toLowerCase(); },
+    contact: function (i) { return i._contact ? 0 : 1; }
   };
+
+  /** The deals a round shows under the current filters: likelihood (High
+   *  only, High and Medium, or all with Watch) and region. */
+  function visibleItems(round, state) {
+    var level = state.level || (state.showWatch ? 'all' : 'hm');
+    return round.items.filter(function (i) {
+      if (level === 'high' && i.band !== 'High') return false;
+      if (level === 'hm' && i.band === 'Watch') return false;
+      return !state.region || state.region === 'all' || i.region === state.region;
+    });
+  }
 
   function sortItems(items, key, dir) {
     var f = SORTS[key] || SORTS.band;
@@ -129,6 +147,19 @@
       (apps ? '<h3>CHFA applications on file</h3><ul class="rw-apps">' + apps + '</ul>' : '') + '</div>';
   }
 
+  /** The first contact, short, for the list: who, then a phone or email. */
+  function firstContactCell(i, contacts) {
+    if (contacts == null) return '<span class="rw-muted">Developer site only</span>';
+    var c = contactsFor(contacts, i.id)[0];
+    if (!c) return '<span class="rw-muted">None found yet</span>';
+    var who = c.name ? esc(c.name) + (c.role ? ', ' + esc(c.role) : '') + '<br><span class="rw-muted">' + esc(c.org || '') + '</span>'
+      : esc(c.org || '') + ' <span class="rw-muted">(main office)</span>';
+    var reach = c.phone ? '<a href="tel:' + esc(String(c.phone).replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>'
+      : c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>'
+        : safeUrl(c.url) ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">Website</a>' : '';
+    return who + (reach ? '<br>' + reach : '');
+  }
+
   function headline(i) {
     var first = i.why[0] ? i.why[0].text : '';
     var cut = first.indexOf('.') > 0 ? first.slice(0, first.indexOf('.') + 1) : first;
@@ -143,31 +174,39 @@
         '<td data-sort-value="' + esc(BAND_RANK[i.band]) + '"><span class="rw-band">' + esc(i.band) + '</span></td>' +
         '<td><button type="button" class="rw-toggle" aria-expanded="' + isOpen + '" aria-controls="' + rid + '" data-id="' + esc(i.id) + '">' +
           esc(i.name) + '</button><div class="rw-muted">' + esc(i.city || '') + (i.county ? ', ' + esc(i.county) : '') + '</div></td>' +
+        '<td>' + (i.region ? esc(i.region) : '<span class="rw-muted">—</span>') + '</td>' +
         '<td class="rw-num">' + (i.homes == null ? '—' : esc(i.homes)) + '</td>' +
         '<td>' + org(i) + '</td>' +
+        '<td class="rw-first">' + firstContactCell(i, contacts) + '</td>' +
         '<td>' + headline(i) + '</td></tr>' +
-        '<tr class="rw-detail-row" id="' + rid + '"' + (isOpen ? '' : ' hidden') + '><td colspan="5">' + detailHtml(i, contacts) + '</td></tr>';
+        '<tr class="rw-detail-row" id="' + rid + '"' + (isOpen ? '' : ' hidden') + '><td colspan="7">' + detailHtml(i, contacts) + '</td></tr>';
     }).join('');
   }
 
   var TIPS = {
     band: 'High: 50+ points, usually a deal CHFA turned down a year earlier in this round type. Medium: 25-49. Watch: 10-24.',
     name: 'Tap a project for every reason it is listed, the sources, and the first contact.',
+    region: 'The site\'s six regions, built from the state\'s (DOLA) planning regions. Sorting by region keeps the likelihood order inside each.',
     homes: 'Total homes as the latest application or award prints them.',
     sponsor: 'Sponsor on the latest CHFA application; otherwise the organisation the state award names.',
+    contact: 'The best public contact: the person CHFA printed on the application, else the land banking contact, else the main office. Tap the project for every contact and its source. Confirm before outreach.',
     why: 'The strongest reason first. Tap the project for the rest.'
   };
 
   function tableHtml(round, contacts, state) {
-    var items = round.items.filter(function (i) { return state.showWatch || i.band !== 'Watch'; });
+    var items = visibleItems(round, state).map(function (i) {
+      return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0 });
+    });
     items = sortItems(items, state.sort, state.dir);
+    if (!items.length) return '<p class="rw-muted">No deals match these filters.</p>';
     function th(key, label) {
       var cur = state.sort === key;
       return '<th scope="col" data-sort="' + key + '" data-tip="' + esc(TIPS[key]) + '" aria-sort="' +
         (cur ? (state.dir === 'desc' ? 'descending' : 'ascending') : 'none') + '">' + label + '</th>';
     }
     return '<div class="rw-scroll"><table class="rw-table"><thead><tr>' +
-      th('band', 'Likelihood') + th('name', 'Project') + th('homes', 'Homes') + th('sponsor', 'Sponsor') +
+      th('band', 'Likelihood') + th('name', 'Project') + th('region', 'Region') + th('homes', 'Homes') + th('sponsor', 'Sponsor') +
+      th('contact', 'First contact') +
       '<th scope="col" data-tip="' + esc(TIPS.why) + '">Why</th></tr></thead><tbody>' +
       rowsHtml(items, contacts, state.open) + '</tbody></table></div>';
   }
@@ -227,34 +266,179 @@
       }).join('') + '</tbody></table>';
   }
 
+  // ---- Map: one pin per town, coloured by its strongest deal --------------
+
+  var CO_BOUNDS = [[36.99, -109.06], [41.0, -102.04]];
+  var MIN_HIT_RADIUS = 22;   // every pin answers a tap within 22px: a 44px target
+
+  /** Deals grouped by town, strongest first; deals with no town printed are
+   *  returned apart, so the page can name them. */
+  function townsFor(items) {
+    var by = {}, towns = [], unmapped = [];
+    items.forEach(function (i) {
+      if (typeof i.lat !== 'number' || typeof i.lng !== 'number') { unmapped.push(i); return; }
+      var k = i.place_geoid || (i.lat + ',' + i.lng);
+      if (!by[k]) { by[k] = { key: k, name: i.city || '', lat: i.lat, lng: i.lng, items: [] }; towns.push(by[k]); }
+      by[k].items.push(i);
+    });
+    towns.forEach(function (t) {
+      t.items.sort(function (a, b) { return BAND_RANK[a.band] - BAND_RANK[b.band] || b.score - a.score; });
+      t.band = t.items[0].band;
+    });
+    return { towns: towns, unmapped: unmapped };
+  }
+
+  function pinRadius(t) { return 7 + 3 * Math.sqrt(t.items.length - 1); }
+
+  function townsNear(towns, point, project) {
+    return towns.map(function (t) {
+      var p = project([t.lat, t.lng]);
+      return { t: t, d: Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y, 2)) };
+    }).filter(function (x) { return x.d <= Math.max(MIN_HIT_RADIUS, pinRadius(x.t)); })
+      .sort(function (a, b) { return a.d - b.d; })
+      .map(function (x) { return x.t; });
+  }
+
+  /** The panel under the map for the towns a tap reached: each deal is a
+   *  button that opens it in the list. */
+  function townPanelHtml(towns) {
+    return towns.map(function (t) {
+      return '<div class="rw-town"><h3>' + esc(t.name) + ' <span class="rw-muted">' + esc(t.items.length) +
+        (t.items.length === 1 ? ' deal' : ' deals') + '</span></h3><ul>' +
+        t.items.map(function (i) {
+          return '<li class="rw-' + esc(i.band.toLowerCase()) + '"><span class="rw-band">' + esc(i.band) + '</span> ' +
+            '<button type="button" class="rw-open" data-open="' + esc(i.id) + '">' + esc(i.name) + '</button>' +
+            (i.homes == null ? '' : ' <span class="rw-muted">' + esc(i.homes) + ' homes</span>') + '</li>';
+        }).join('') + '</ul></div>';
+    }).join('');
+  }
+
+  function cssVar(doc, name, fallback) {
+    try { return doc.defaultView.getComputedStyle(doc.documentElement).getPropertyValue(name).trim() || fallback; }
+    catch (e) { return fallback; }
+  }
+
+  function initMap(doc, el) {
+    var w = doc.defaultView;
+    var L = w && w.L;
+    if (!L || !el) return null;
+    var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25 });
+    map.fitBounds(CO_BOUNDS, { padding: [8, 8] });
+    var dark = doc.documentElement.getAttribute('data-theme') === 'dark';
+    var base = w.COHOBasemaps ? (dark ? w.COHOBasemaps.dark() : w.COHOBasemaps.light()) : null;
+    if (base) base.addTo(map);
+    if (typeof w.ResizeObserver === 'function') {
+      try { new w.ResizeObserver(function () { map.invalidateSize(); }).observe(el); } catch (e) { /* keeps its first size */ }
+    }
+    return { L: L, map: map, layer: L.layerGroup().addTo(map), towns: [] };
+  }
+
+  function drawPins(doc, m, towns) {
+    if (!m) return;
+    var colour = { High: cssVar(doc, '--accent', '#096e65'), Medium: cssVar(doc, '--accent2', '#b5651d'), Watch: cssVar(doc, '--muted', '#777777') };
+    m.layer.clearLayers();
+    // weaker pins first, so a High pin is drawn on top
+    towns.slice().sort(function (a, b) { return BAND_RANK[b.band] - BAND_RANK[a.band]; }).forEach(function (t) {
+      m.L.circleMarker([t.lat, t.lng], {
+        radius: pinRadius(t), interactive: false,
+        color: '#ffffff', weight: 1.5, fillColor: colour[t.band], fillOpacity: 0.9
+      }).addTo(m.layer);
+    });
+    m.towns = towns;
+  }
+
+  function controlsHtml(data, state) {
+    var r = data.rounds[state.round];
+    var counts = {};
+    r.items.forEach(function (i) { if (i.region) counts[i.region] = (counts[i.region] || 0) + 1; });
+    return '<div class="rw-tabs" role="tablist">' + data.rounds.map(function (x, n) {
+      return '<button type="button" role="tab" aria-selected="' + (n === state.round) + '" data-round="' + n + '">' + esc(x.round) + ' · ' + esc(x.credit) + '</button>';
+    }).join('') + '</div>' +
+      '<div class="rw-filters"><label>Region <select data-filter="region"><option value="all">All regions</option>' +
+      REGIONS.filter(function (g) { return counts[g]; }).map(function (g) {
+        return '<option value="' + esc(g) + '"' + (state.region === g ? ' selected' : '') + '>' + esc(g) + '</option>';
+      }).join('') + '</select></label>' +
+      '<label>Likelihood <select data-filter="level">' + Object.keys(LEVELS).map(function (k) {
+        return '<option value="' + k + '"' + (state.level === k ? ' selected' : '') + '>' + esc(LEVELS[k]) + '</option>';
+      }).join('') + '</select></label></div>';
+  }
+
   function mount(doc, data, contacts) {
     var el = doc.getElementById('roundWatch');
     if (!el) return;
-    var state = { round: 0, sort: 'band', dir: 'asc', showWatch: false, open: {} };
+    var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', open: {} };
     doc.getElementById('rwStats').innerHTML = statsHtml(data);
     doc.getElementById('rwBacktest').innerHTML = backtestHtml(data.backtest);
     doc.getElementById('rwRolling').innerHTML = rollingHtml(data.rolling_4pct || []);
     doc.getElementById('rwMethod').textContent = data.meta.method;
     doc.getElementById('rwLimits').innerHTML = data.meta.limits.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('');
     doc.getElementById('rwAsOf').textContent = data.meta.generated_at;
+    var controls = doc.getElementById('rwControls');
+    var panel = doc.getElementById('rwMapDetail');
+    var note = doc.getElementById('rwMapNote');
+    var m = null;
+    try { m = initMap(doc, doc.getElementById('rwMap')); } catch (e) { m = null; }
+    if (!m && doc.getElementById('rwMapWrap')) doc.getElementById('rwMapWrap').hidden = true;
 
     function draw() {
       var r = data.rounds[state.round];
-      var watch = r.counts.Watch;
-      el.innerHTML = '<div class="rw-tabs" role="tablist">' + data.rounds.map(function (x, n) {
-        return '<button type="button" role="tab" aria-selected="' + (n === state.round) + '" data-round="' + n + '">' + esc(x.round) + ' · ' + esc(x.credit) + '</button>';
-      }).join('') + '</div>' +
-        '<p class="rw-muted">' + esc(r.counts.High) + ' High, ' + esc(r.counts.Medium) + ' Medium' + (state.showWatch ? ', ' + esc(watch) + ' Watch' : '') + '.' +
-        (r.note ? ' ' + esc(r.note) : '') + '</p>' +
-        tableHtml(r, contacts, state) +
-        (watch ? '<button type="button" class="rw-more" data-watch="1">' + (state.showWatch ? 'Hide' : 'Show') + ' the ' + esc(watch) + ' Watch deals (weaker signals; few applied)</button>' : '');
+      var shown = visibleItems(r, state);
+      if (controls) controls.innerHTML = controlsHtml(data, state);
+      el.innerHTML = '<p class="rw-muted">Showing ' + esc(shown.length) + ' of ' + esc(r.items.length) + ': ' +
+        esc(r.counts.High) + ' High, ' + esc(r.counts.Medium) + ' Medium, ' + esc(r.counts.Watch) + ' Watch in all regions.' +
+        (r.note ? ' ' + esc(r.note) : '') + '</p>' + tableHtml(r, contacts, state);
+      var g = townsFor(shown);
+      drawPins(doc, m, g.towns);
+      // a region zooms to its own pins; all regions shows the whole state
+      if (m) {
+        try {
+          if (state.region !== 'all' && g.towns.length) m.map.fitBounds(g.towns.map(function (t) { return [t.lat, t.lng]; }), { padding: [30, 30], maxZoom: 9, animate: false });
+          else m.map.fitBounds(CO_BOUNDS, { padding: [8, 8], animate: false });
+        } catch (e) { /* the map keeps its view */ }
+      }
+      if (panel) { panel.innerHTML = ''; panel.hidden = true; }
+      if (note) note.textContent = g.unmapped.length
+        ? 'Not on the map, no town printed: ' + g.unmapped.map(function (i) { return i.name; }).join(', ') + '.' : '';
+    }
+
+    function openDeal(id) {
+      state.open[id] = true;
+      var row = doc.getElementById('rw-d-' + id);
+      var btn = el.querySelector('.rw-toggle[data-id="' + id.replace(/["\\]/g, '') + '"]');
+      if (row) row.hidden = false;
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'true');
+        if (btn.scrollIntoView) btn.scrollIntoView({ block: 'center' });
+        btn.focus();
+      }
+    }
+
+    if (m) {
+      m.map.on('click', function (e) {
+        var hit = townsNear(m.towns, e.containerPoint, function (ll) { return m.map.latLngToContainerPoint(ll); });
+        if (!panel) return;
+        panel.innerHTML = hit.length ? townPanelHtml(hit) : '';
+        panel.hidden = !hit.length;
+      });
+    }
+    if (panel) panel.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-open]') : null;
+      if (b) openDeal(b.getAttribute('data-open'));
+    });
+    if (controls) {
+      controls.addEventListener('click', function (e) {
+        var t = e.target.closest ? e.target.closest('[data-round]') : null;
+        if (t) { state.round = +t.getAttribute('data-round'); state.open = {}; draw(); }
+      });
+      controls.addEventListener('change', function (e) {
+        var k = e.target.getAttribute && e.target.getAttribute('data-filter');
+        if (k) { state[k] = e.target.value; draw(); }
+      });
     }
     el.addEventListener('click', function (e) {
       var t = e.target.closest ? e.target.closest('button, th[data-sort]') : null;
       if (!t) return;
-      if (t.hasAttribute('data-round')) { state.round = +t.getAttribute('data-round'); state.open = {}; draw(); }
-      else if (t.hasAttribute('data-watch')) { state.showWatch = !state.showWatch; draw(); }
-      else if (t.hasAttribute('data-sort')) {
+      if (t.hasAttribute('data-sort')) {
         var k = t.getAttribute('data-sort');
         state.dir = state.sort === k && state.dir === 'asc' ? 'desc' : 'asc';
         state.sort = k; draw();
@@ -286,5 +470,6 @@
   }
 
   return { esc: esc, contactsFor: contactsFor, sortItems: sortItems, rowsHtml: rowsHtml, detailHtml: detailHtml,
-    tableHtml: tableHtml, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
+    tableHtml: tableHtml, visibleItems: visibleItems, firstContactCell: firstContactCell, townsFor: townsFor,
+    townsNear: townsNear, townPanelHtml: townPanelHtml, controlsHtml: controlsHtml, REGIONS: REGIONS, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
 });

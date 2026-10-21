@@ -4,7 +4,8 @@
 //      the main office), and only with a public https source;
 //   2. everything shown is escaped;
 //   3. a project row opens to its reasons, sources and contacts; Watch stays
-//      folded until asked for;
+//      folded until asked for; region and likelihood filter the list and the
+//      map alike; the first contact shows in the list;
 //   4. the page is gated: in the developer menu, out of the public build and
 //      the public artifact guard, its headers carry definitions, and no
 //      contacts file is in this repository.
@@ -49,10 +50,41 @@ ok(RW.rowsHtml([item], contacts, { a: true }).includes('id="rw-d-a">'), 'an open
 ok(rows.includes('pat@org.example') && rows.includes('To confirm before outreach'), 'the card lists contacts, marked to confirm');
 ok(RW.detailHtml(item, null).includes('kept only on the private developer site'), 'without the private file the card says where contacts live');
 const round = { items: [item, Object.assign({}, item, { id: 'w', name: 'Weak', band: 'Watch', score: 10 })] };
-const folded = RW.tableHtml(round, contacts, { sort: 'band', dir: 'asc', showWatch: false, open: {} });
-ok(!folded.includes('Weak') && RW.tableHtml(round, contacts, { sort: 'band', dir: 'asc', showWatch: true, open: {} }).includes('Weak'),
+const folded = RW.tableHtml(round, contacts, { sort: 'band', dir: 'asc', level: 'hm', open: {} });
+ok(!folded.includes('Weak') && RW.tableHtml(round, contacts, { sort: 'band', dir: 'asc', level: 'all', open: {} }).includes('Weak'),
   'Watch deals stay folded until asked for');
-ok((folded.match(/<th [^>]*data-tip="[^"]{20,}"/g) || []).length === 5, 'every list header has a definition');
+ok((folded.match(/<th [^>]*data-tip="[^"]{20,}"/g) || []).length === 7, 'every list header has a definition');
+ok(folded.includes('data-sort="region"') && folded.includes('data-sort="contact"'), 'the list sorts by region and by first contact');
+
+// Region and likelihood filters; the map follows them.
+const R = [
+  { id: 'h1', name: 'H1', band: 'High', score: 60, region: 'Front Range', city: 'Denver', place_geoid: '0820000', lat: 39.7, lng: -105, why: [] },
+  { id: 'h2', name: 'H2', band: 'High', score: 55, region: 'Southwest', city: 'Durango', place_geoid: '0822035', lat: 37.3, lng: -107.9, why: [] },
+  { id: 'm1', name: 'M1', band: 'Medium', score: 30, region: 'Front Range', city: 'Denver', place_geoid: '0820000', lat: 39.7, lng: -105, why: [] },
+  { id: 'w1', name: 'W1', band: 'Watch', score: 10, region: 'Front Range', city: null, place_geoid: null, lat: null, lng: null, why: [] }
+];
+const ids = (st) => RW.visibleItems({ items: R }, st).map((i) => i.id).join(',');
+ok(ids({ level: 'high', region: 'all' }) === 'h1,h2', 'High only shows High deals');
+ok(ids({ level: 'hm', region: 'Front Range' }) === 'h1,m1', 'a region shows only its deals');
+ok(ids({ level: 'all', region: 'all' }) === 'h1,h2,m1,w1', 'All shows Watch too');
+const byRegion = RW.sortItems(R, 'region', 'asc').map((i) => i.id).join(',');
+ok(byRegion === 'h2,h1,m1,w1', 'sorting by region runs west to east and keeps likelihood order inside a region');
+const g = RW.townsFor(R);
+ok(g.towns.length === 2 && g.unmapped.length === 1 && g.unmapped[0].id === 'w1', 'deals share their town\'s pin; a deal with no town is named apart');
+const denver = g.towns.find((t) => t.name === 'Denver');
+ok(denver.band === 'High' && denver.items[0].id === 'h1', 'a town pin takes its strongest deal\'s colour');
+const near = RW.townsNear(g.towns, { x: 0, y: 0 }, (ll) => ({ x: ll[1] === -105 ? 15 : 300, y: 0 }));
+ok(near.length === 1 && near[0].name === 'Denver', 'a tap within 22px of a pin opens its town');
+const panel = RW.townPanelHtml([Object.assign({}, denver, { name: '<x>' })]);
+ok(panel.includes('data-open="h1"') && panel.includes('&lt;x&gt;') && !panel.includes('<x>'), 'the town panel opens each deal in the list and escapes the town');
+const ctl = RW.controlsHtml({ rounds: [{ round: 'R', credit: '9%', items: R }] }, { round: 0, level: 'hm', region: 'Southwest' });
+ok(ctl.includes('<option value="Southwest" selected>') && !ctl.includes('value="Eastern Plains"'), 'the region menu lists only regions with deals');
+
+// First contact in the list.
+ok(RW.firstContactCell(item, contacts).includes('Pat') && RW.firstContactCell(item, contacts).includes('mailto:pat@org.example'),
+  'the list shows the best contact and how to reach them');
+ok(RW.firstContactCell(item, null).includes('Developer site only') && RW.firstContactCell({ id: 'none' }, contacts).includes('None found yet'),
+  'without the private file or a contact, the cell says so');
 const sorted = RW.sortItems([{ name: 'B', band: 'Medium', score: 30, homes: 10 }, { name: 'A', band: 'High', score: 50, homes: 90 }], 'homes', 'desc');
 ok(sorted[0].name === 'A', 'the list sorts by homes');
 const stats = RW.statsHtml({ rounds: [{ round: '2027 Round One', credit: '9%', applications_due: 'February 2027', counts: { High: 3 }, undecided_last_round: 0 }],
@@ -66,6 +98,12 @@ ok(Nav.PAGES.some((p) => p.href === 'developer-round-watch.html'), 'the develope
 ok(read('scripts/build-public-site.mjs').includes("'developer-round-watch.html'"), 'the public build leaves the page out');
 ok((read('scripts/audit/public-artifact-guard.mjs').match(/'developer-round-watch\.html'/g) || []).length === 2, 'the public artifact guard blocks the page and links to it');
 ok(/<meta name="robots" content="noindex, nofollow">/.test(page) && page.includes('js/whitepaper/round-watch.js'), 'the page is noindex and loads its script');
+ok(page.includes('js/vendor/leaflet.js') && page.indexOf('js/vendor/leaflet.js') < page.indexOf('js/whitepaper/round-watch.js') && page.includes('id="rwMap"'),
+  'the page loads the map library before its script');
+const built = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/jurisdiction-briefs/_round-watch.json'), 'utf8'));
+const all = built.rounds.flatMap((r) => r.items);
+ok(all.every((i) => i.region === null || RW.REGIONS.includes(i.region)) && all.filter((i) => typeof i.lat === 'number').length >= all.length * 0.9,
+  'the data file gives each deal a site region and nearly all a town location');
 ok(!fs.existsSync(path.join(ROOT, 'data/jurisdiction-briefs/_round-watch-contacts.json')), 'no contacts file in this repository');
 ok(/Contacts are kept only on the private developer site/.test(fs.readFileSync(path.join(ROOT, 'data/jurisdiction-briefs/_round-watch.json'), 'utf8')),
   'the data file says where contacts live');

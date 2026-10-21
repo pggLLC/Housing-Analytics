@@ -8,6 +8,8 @@ Reads only files the repo already builds:
       funded and not, with derived outcomes (build_lihtc_applications.py)
   data/market/development-activity.json  one row per project across CHFA,
       OEDIT Prop 123 and DOLA awards (build_development_activity.py)
+  data/co-place-centroids.json, data/hna/cross-county-places.json  each
+      deal's town location for the map, and its region (the site's six)
 
 From 2023 to 2026 every Round One applicant asked for 9% credits and every
 Round Two applicant for 4% plus state credits, so each round is scored on its
@@ -64,6 +66,11 @@ _spec = importlib.util.spec_from_file_location(
 dev = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(dev)
 apps_mod = dev.apps_mod
+_spec = importlib.util.spec_from_file_location(
+    'build_ranking_index', os.path.join(ROOT, 'scripts', 'hna', 'build_ranking_index.py'))
+_rank = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_rank)
+COUNTY_REGION = _rank.COUNTY_REGION   # the six site regions, pinned by test/region-membership.test.js
 
 APPLICATIONS = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')
 EXCLUDED = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications-excluded.json')
@@ -71,6 +78,8 @@ LEDGER = os.path.join(ROOT, 'data', 'market', 'development-activity.json')
 AWARD_LEDGER = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'ledger.json')
 DOLA = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'dola-awards.json')
 DEALS = os.path.join(ROOT, 'data', 'deals', 'index.json')
+CENTROIDS = os.path.join(ROOT, 'data', 'co-place-centroids.json')
+PLACE_COUNTIES = os.path.join(ROOT, 'data', 'hna', 'cross-county-places.json')
 OUT = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_round-watch.json')
 
 ROUND_CREDIT = {1: '9%', 2: '4%'}
@@ -359,15 +368,24 @@ def award_orgs(v, D):
     return out
 
 
-def item(key, v, credit, bt, D):
+def item(key, v, credit, bt, D, places=None, place_counties=None):
     p, apps = v['project'], v['apps']
     last = apps[-1] if apps else None
+    geoid = (p or {}).get('place_geoid') or ((last or {}).get('place_geoids') or [None])[0]
+    # a town that spans counties (Aurora) carries no county; use its main one
+    fips = ((p or {}).get('county_fips') or (last or {}).get('county_fips')
+            or ((place_counties or {}).get(geoid) or {}).get('primary_county'))
+    town = (places or {}).get(geoid) or {}
     return {
         'id': key if not key.startswith('app:') else 'app-' + re.sub(r'[^a-z0-9]+', '-', key[4:].lower()).strip('-'),
         'name': (p or {}).get('name') or last['name'],
         'city': (p or {}).get('city') or (last or {}).get('city'),
         'county': (p or {}).get('county'),
-        'place_geoid': (p or {}).get('place_geoid') or ((last or {}).get('place_geoids') or [None])[0],
+        'place_geoid': geoid,
+        'region': COUNTY_REGION.get(fips),
+        # the town's Census centroid, for the map; a deal sits at its town, not its parcel
+        'lat': town.get('lat'),
+        'lng': town.get('lng'),
         'homes': v['units'],
         'sponsor': (last or {}).get('sponsor'),
         'award_orgs': award_orgs(v, D),
@@ -403,7 +421,7 @@ def next_round(D, rnd):
     return (latest[0] + 1, rnd) if latest else None
 
 
-def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals=()):
+def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals=(), places=None, place_counties=None):
     excluded = {e['sha256'] for e in excluded_doc.get('excluded', [])}
     D = Data(apps_doc, ledger_doc, excluded, award_rows, dola_rows)
     bt = backtest(D)
@@ -415,7 +433,7 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
         listed = score_round(D, target, as_of, live=True)
         latest = max(r for r in D.rounds if r[1] == rnd)
         pending = [a for a in D.round_apps if (a['year'], a['round']) == latest and a['outcome'] == 'pending']
-        items = sorted((item(k, v, credit, bt, D) for k, v in listed.items()),
+        items = sorted((item(k, v, credit, bt, D, places, place_counties) for k, v in listed.items()),
                        key=lambda i: (-i['score'], i['name'].lower()))
         for i in items:
             i['deal_summary'] = deal_summary(i, deals)
@@ -459,7 +477,9 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
             'contacts_note': 'Contacts are kept only on the private developer site, never in this file.',
             'sources': {'applications': 'data/jurisdiction-briefs/_lihtc-applications.json',
                         'ledger': 'data/market/development-activity.json',
-                        'award_orgs': 'data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)'},
+                        'award_orgs': 'data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)',
+                        'map': 'data/co-place-centroids.json (2024 Census Gazetteer town centroids)',
+                        'regions': 'scripts/hna/build_ranking_index.py REGIONS (DOLA planning regions in six groups)'},
         },
         'backtest': bt,
         'rounds': rounds,
@@ -495,7 +515,8 @@ def main():
     dola = read(DOLA)
     out = build(read(APPLICATIONS), read(LEDGER), read(EXCLUDED), read(AWARD_LEDGER)['awards'],
                 dola['awards'] if isinstance(dola, dict) else dola,
-                read(DEALS)['deals'] if os.path.exists(DEALS) else [])
+                read(DEALS)['deals'] if os.path.exists(DEALS) else [], read(CENTROIDS)['byGeoid'],
+                read(PLACE_COUNTIES)['places'])
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
         same = links_only = False

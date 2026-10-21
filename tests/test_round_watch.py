@@ -12,7 +12,8 @@ Pins:
      details (those live only on the private developer site);
   8. a backtest sizes a project as printed before the cutoff, not by a
      later record;
-  9. every reason, the sponsor's included, carries its source rows.
+  9. every reason, the sponsor's included, carries its source rows;
+ 10. each deal carries its site region and its town's map location.
 """
 import copy
 import importlib.util
@@ -81,6 +82,20 @@ def test_loser_last_year_is_high_with_reason():
     assert i['why'][0]['source_url'] == URL and 'Hover Place' in i['why'][0]['quote']
     # a 9% loss is "the other round type" for Round Two: Watch at most
     assert items(out, 2)['Hover Place']['band'] == 'Watch'
+
+
+def test_region_and_town_location_for_the_map():
+    a, l, e = base()
+    a['applications'].append(app('Hover Place', 'Longmont', 2026, 1, 'not_awarded'))
+    multi = app('Hub', 'Aurora', 2026, 1, 'not_awarded')
+    multi.update(county_fips=None, county_fips_all=[], place_geoids=['0804000'])
+    a['applications'].append(multi)
+    out = rw.build(a, l, e, places={'0845970': {'name': 'Longmont city', 'lat': 40.17, 'lng': -105.1}},
+                   place_counties={'0804000': {'primary_county': '08005'}})
+    hover, hub = items(out, 1)['Hover Place'], items(out, 1)['Hub']
+    assert (hover['region'], hover['lat'], hover['lng']) == ('Front Range', 40.17, -105.1)
+    # a town that spans counties takes its main county's region; no centroid, no pin
+    assert hub['region'] == 'Front Range' and hub['lat'] is None
 
 
 def test_awarded_and_undecided_leave_the_list():
