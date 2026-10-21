@@ -685,7 +685,7 @@
     "CEO-LBD-SHOWCASE": {
       "name": "Large Building Decarbonization Showcase Grant Program",
       "county": "All",
-      "status": "active",
+      "status": "active-watch",
       "available": null,
       "awarded": null,
       "capacity": null,
@@ -709,7 +709,7 @@
       "adminEntity": "Colorado Energy Office",
       "source_note": "CEO program page read 2026-10-21: \"Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects.\" The page also says CEO \"will distribute $35 million across two funding rounds\". Round 1: Governor's release of February 25, 2026 (\"$7.2 million in grants\", 15 awards), re-opened 2026-10-21. No later round is announced.",
       "last_verified": "2026-10-21",
-      "review_by": "2026-11-23",
+      "review_by": "2026-10-24",
       "warning": "Retrofits of existing buildings covered by Building Performance Colorado only; not new construction. Round 2 closes October 23, 2026.",
       "funding_type": "grant",
       "rate_pct": null,
