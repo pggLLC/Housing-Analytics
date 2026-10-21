@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T16:14:00.891790Z",
+  "generated": "2026-10-21T18:56:59.162447Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 949743
+      "bytes": 959401
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -346,6 +346,11 @@
       "placeholder": false,
       "bytes": 13523
     },
+    "data/deals/4340-south-monaco-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21750
+    },
     "data/deals/4965-washington-street-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -416,10 +421,20 @@
       "placeholder": false,
       "bytes": 17986
     },
+    "data/deals/compass-pointe-pueblo.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14880
+    },
     "data/deals/crawford-commons-clifton.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14181
+    },
+    "data/deals/creekside-flats-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17046
     },
     "data/deals/crossbar-commons-aurora.json": {
       "featureCount": 0,
@@ -471,6 +486,11 @@
       "placeholder": false,
       "bytes": 15280
     },
+    "data/deals/glenwood-gardens-glenwood-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20808
+    },
     "data/deals/green-valley-vistas-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -496,6 +516,16 @@
       "placeholder": false,
       "bytes": 17269
     },
+    "data/deals/grove-in-bloom-fort-collins.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17892
+    },
+    "data/deals/harvest-hill-broomfield.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16330
+    },
     "data/deals/iliff-senior-apartments-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -504,12 +534,17 @@
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28255
+      "bytes": 33642
     },
     "data/deals/ives-ii-wheat-ridge.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18655
+    },
+    "data/deals/jet-wing-flats-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15475
     },
     "data/deals/kappa-tower-iii-denver.json": {
       "featureCount": 0,
@@ -526,15 +561,30 @@
       "placeholder": false,
       "bytes": 15230
     },
+    "data/deals/loretto-heights-family-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16534
+    },
     "data/deals/lumberyard-apartments-aspen.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 27222
     },
+    "data/deals/maiker-uplands-westminster.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17606
+    },
     "data/deals/marq-trinidad.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 15729
+    },
+    "data/deals/marshall-pointe-apartments-arvada.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13000
     },
     "data/deals/metro-center-apartments-aurora.json": {
       "featureCount": 0,
@@ -626,10 +676,20 @@
       "placeholder": false,
       "bytes": 19042
     },
+    "data/deals/stables-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16926
+    },
     "data/deals/sugar-commons-sterling.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19222
+    },
+    "data/deals/summit-at-granby-apartments-granby.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24946
     },
     "data/deals/sunrise-at-shiloh-mesa-colorado-springs.json": {
       "featureCount": 0,
@@ -645,6 +705,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 24088
+    },
+    "data/deals/tiara-apartments-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12888
     },
     "data/deals/tierra-azul-alamosa.json": {
       "featureCount": 0,
@@ -680,6 +745,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19665
+    },
+    "data/deals/weatherstone-apartments-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12982
     },
     "data/deals/wildflower-flats-fort-lupton.json": {
       "featureCount": 0,
