@@ -431,8 +431,9 @@ function initPolicyPanel(panelId) {
       addTiles(map);
 
       function ratioColor(pct) {
+        // HUD's lines: 30% or more is cost-burdened, 50% or more severely.
         if (pct <  25) return '#2ca25f';
-        if (pct <  35) return '#f0ab00';
+        if (pct <  30) return '#f0ab00';
         if (pct <  50) return '#e07b00';
         return '#991b1b';
       }
