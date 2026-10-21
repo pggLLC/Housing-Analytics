@@ -119,6 +119,12 @@ export const CHAIN = [
        + 'project; every workflow that refreshes one of those commits through this chain',
   },
   {
+    id: 'round-watch',
+    argv: ['python3', 'scripts/funding/build_round_watch.py'],
+    why: 'data/jurisdiction-briefs/_round-watch.json scores the CHFA applicant reports and '
+       + 'the development ledger for the gated Next round watch page; it runs after the ledger it reads',
+  },
+  {
     id: 'market-direction',
     argv: ['python3', 'scripts/market/build_market_direction.py'],
     why: 'data/market/market-direction.json reads permits, DOLA projections, LEHD jobs, '
