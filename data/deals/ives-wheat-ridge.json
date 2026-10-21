@@ -1,0 +1,396 @@
+{
+ "slug": "ives-wheat-ridge",
+ "name": "Ives (The Ives, phase one)",
+ "city": "Wheat Ridge",
+ "county": "Jefferson",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Foothills Regional Housing (the Jefferson County Housing Authority) built The Ives, 50 one-bedroom apartments at 4470 Wadsworth Blvd. in Wheat Ridge with 25 project-based-voucher units for people leaving homelessness and 24 units at 60% AMI, using $1,210,000 a year in 2022 federal 9% credits; it opened in June 2024.",
+ "why_it_matters": "It is the first phase of a housing-authority campus on land the authority already owned, and it set up Ives II (98 units, 2025 awards) next door with city-donated land and city-assigned bond cap.",
+ "status": {
+  "label": "Built and occupied (opened June 2024)",
+  "detail": "Ground was broken on April 25 (2023, inferred from a December 2023 article describing work under way); Foothills Regional Housing says it opened the doors in June 2024 and the property is occupied. Foothills lists it as completed in 2024. No 8609 or placed-in-service record was found.",
+  "src": [
+   "ngazette-2023-12-05",
+   "ccm-2024-07-22",
+   "aamd-denver-rising-32",
+   "frh-income-restricted"
+  ]
+ },
+ "next_step": "Confirm the 8609 year and final credit in CHFA or HUD placed-in-service data; follow Ives II (ives-ii-wheat-ridge.json) for the next phase.",
+ "key_numbers": [
+  {
+   "value": "50 one-bedroom homes; 25 for people leaving homelessness",
+   "meaning": "15 at 30% AMI, 10 at 50%, 24 at 60%, plus one employee unit; 25 project-based vouchers from the housing authority's own allocation.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,210,000 a year in federal 9% credit",
+   "meaning": "About $12.1M over 10 years (inferred), $24,200 per unit per year.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "$3.25M state grant and $1M county federal funds",
+   "meaning": "Colorado Department of Local Affairs and Jefferson County money for phase one, as reported in 2023.",
+   "src": [
+    "ngazette-2023-12-05"
+   ]
+  },
+  {
+   "value": "Opened June 2024",
+   "meaning": "About 25 months after the May 2022 award and 14 months after groundbreaking (inferred from the dates).",
+   "src": [
+    "ccm-2024-07-22",
+    "aamd-denver-rising-32",
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4470 Wadsworth Blvd., Wheat Ridge, CO 80033 (northeast corner of 44th Avenue and Wadsworth)",
+   "src": [
+    "chfa-2022-r1-award",
+    "ngazette-2023-12-05"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family; CHFA counts 49 low-income units of 50 (one employee unit)",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, wood frame, brick and metal panel, one elevator, about 5,600 sq ft of leasing and amenity space; units about 554-560 sq ft",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "aamd-denver-rising-32"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "MU-C; site plan and plat by administrative approval; no public hearings required",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Owned by Foothills Regional Housing; next to Apel-Bacher Park; not in a QCT or DDA; RTD bus on Wadsworth",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "38 spaces",
+   "src": [
+    "calcon-ives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze target; air source heat pumps; EV charging",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "aamd-denver-rising-32"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 15
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  },
+  {
+   "level": "Employee unit (not income-restricted)",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 50
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,210,000 per year",
+   "note": "No state credit shown on the 2022 Round One report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado Department of Local Affairs (Division of Housing)",
+   "amount": "$3,250,000",
+   "note": "Reported in 2023; the application planned $55,000 per unit of DOH EDG funds (about $2.75M, inferred).",
+   "src": [
+    "ngazette-2023-12-05",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Jefferson County federal housing funds (HOME or CDBG)",
+   "amount": "$1,000,000",
+   "note": "Reported in 2023; the application planned up to $500,000.",
+   "src": [
+    "ngazette-2023-12-05",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Seller carry-back note from Foothills Regional Housing",
+   "amount": "Not stated",
+   "note": "The housing authority sold its own land to the partnership with a carry-back note (planned).",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Conventional construction-to-permanent loan",
+   "amount": "Not stated",
+   "note": "Planned at application.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it) and developer",
+   "name": "Foothills Regional Housing (Jefferson County Housing Authority)",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Service partner",
+   "name": "Jefferson Center for Mental Health",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "calcon-ives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Calcon Constructors",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "calcon-ives"
+   ]
+  },
+  {
+   "role": "Financial consultant (at application)",
+   "name": "RCH Jones Consulting",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: the housing authority already owned the site (with a garage built in 2011) and also owns the adjacent former Pep Boys, O'Reilly Auto Parts and Bank of the West properties, where it plans further phases.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ngazette-2023-12-05"
+   ]
+  },
+  {
+   "text": "The 25 homeless units are a preference rather than a hard set-aside: they can be leased to other qualified low-income tenants if no referral is available.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Neighbors said at an October 2023 meeting they had not been told before work started; the housing authority said it met all city notice requirements because the site was already zoned for multifamily.",
+   "src": [
+    "ngazette-2023-12-05"
+   ]
+  },
+  {
+   "text": "For phase two, the City of Wheat Ridge assigned more than $1.9M of its private activity bond cap to Foothills and, on 2023-09-25, rezoned the city-owned former Bank of the West parcel so it could be sold to Foothills for $10.",
+   "src": [
+    "ngazette-2023-12-05",
+    "ccm-2024-07-22"
+   ]
+  },
+  {
+   "text": "The Wadsworth Boulevard widening ('Improve Wadsworth', about $70M) began in October 2021 alongside the site.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report (only Jefferson County 9% application that round, per the narrative)",
+   "src": [
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $1,210,000 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2023-04-25",
+   "event": "Groundbreaking (year inferred from a December 2023 report)",
+   "src": [
+    "ngazette-2023-12-05"
+   ]
+  },
+  {
+   "date": "2024-06",
+   "event": "Opens and welcomes first residents",
+   "src": [
+    "ccm-2024-07-22",
+    "aamd-denver-rising-32"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "The Ives project photos",
+   "url": "https://www.calconci.com/multifamily-projects/the-ives/",
+   "kind": "photo",
+   "made_by": "Calcon Constructors",
+   "note": "Project page gallery",
+   "src": [
+    "calcon-ives"
+   ]
+  },
+  {
+   "title": "Construction photos",
+   "url": "https://ngazette.com/subsidized-housing-project-causes-neighborhood-worries/",
+   "kind": "photo",
+   "made_by": "Foothills Regional Housing (credited in the article)",
+   "note": "Photos within the article",
+   "src": [
+    "ngazette-2023-12-05"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description gives 15 units at 30% AMI, 10 at 50% and 24 at 60% plus one employee unit, while a 2025 trade association summary says 25 units are at 30% to 50% AMI and the remaining 25 at 60%.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "aamd-denver-rising-32"
+   ]
+  },
+  {
+   "text": "The application planned up to $500,000 of Jefferson County HOME or CDBG money and $55,000 per unit from DOH, while 2023 reporting gives $1 million of county federal funds and $3.25 million from the Department of Local Affairs.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ngazette-2023-12-05"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, equity price and investor, permanent lender and loan amount.",
+  "Wheat Ridge building permit number and date; certificate of occupancy date.",
+  "8609 issuance date and placed-in-service year."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (The Ives, PDF pages 51-55)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "ngazette-2023-12-05",
+   "title": "Subsidized Housing Project Causes Neighborhood Worries",
+   "publisher": "Neighborhood Gazette",
+   "date": "2023-12-05",
+   "url": "https://ngazette.com/subsidized-housing-project-causes-neighborhood-worries/"
+  },
+  {
+   "id": "ccm-2024-07-22",
+   "title": "What's happening with The Ives Phase 2 Project in Wheat Ridge?",
+   "publisher": "Colorado Community Media (Jeffco Transcript)",
+   "date": "2024-07-22",
+   "url": "https://www.coloradocommunitymedia.com/archives/jeffco/news/article_bd3498e0-ad8b-5361-967f-9447b56fc745.html"
+  },
+  {
+   "id": "aamd-denver-rising-32",
+   "title": "Denver Rising Part 32: Over 1,500 Affordable Units Opened in 2024 (The Ives entry)",
+   "publisher": "Apartment Association of Metro Denver",
+   "date": "2025",
+   "url": "https://aamdhq.org/news/denver-rising-part-32-over-1500-affordable-units-opened-in-2024"
+  },
+  {
+   "id": "calcon-ives",
+   "title": "The Ives (project page)",
+   "publisher": "Calcon Constructors",
+   "date": "2024",
+   "url": "https://www.calconci.com/multifamily-projects/the-ives/"
+  },
+  {
+   "id": "frh-income-restricted",
+   "title": "Income Restricted communities (The Ives entry)",
+   "publisher": "Foothills Regional Housing",
+   "date": "2026",
+   "url": "https://www.foothillsrh.org/income-restricted.html"
+  }
+ ]
+}

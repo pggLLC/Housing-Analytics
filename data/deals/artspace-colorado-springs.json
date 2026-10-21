@@ -1,0 +1,426 @@
+{
+ "slug": "artspace-colorado-springs",
+ "name": "Artspace Colorado Springs",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2022 Federal 4% housing tax credit",
+ "researched_on": "2026-10-21",
+ "units": 51,
+ "headline": "Artspace Colorado Springs is a 51-home, five-story, all-electric live/work building for artists and creative households at 60% AMI in the downtown Creative District, with ground-floor creative commercial space; Artspace Projects won a 2022 federal 4% award backed by El Paso County bonds, and the building was leasing in 2026.",
+ "why_it_matters": "It shows how a small 4% deal closed with heavy non-housing money (a $5M state creative-industries grant, ARPA, foundations and a downtown development authority land buy) on a roughly $29.4M budget, about $577,000 per home (inferred).",
+ "status": {
+  "label": "Built and leasing (2026); 8609 not yet issued",
+  "detail": "Artspace's January 2026 flyer listed rents and invited applications, its project page shows a March 2026 open house and now says 'Now Leasing!' with a move-in special. The deal is still on CHFA's 2026-09-21 active list, which leaves out developments with 8609s issued. No dated certificate of occupancy was found.",
+  "src": [
+   "artspace-flyer-2026-01",
+   "artspace-cos-page",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for the deal on CHFA's 4% completed-developments (8609) list and for commercial-space lease-up.",
+ "key_numbers": [
+  {
+   "value": "51 live/work homes at 60% AMI",
+   "meaning": "One- and two-bedroom units marketed to artists and creative households, with an artist preference in leasing.",
+   "src": [
+    "chfa-4pct-award",
+    "artspace-cos-page",
+    "artspace-flyer-2026-01"
+   ]
+  },
+  {
+   "value": "$1,281,899 a year in federal 4% credit",
+   "meaning": "About $12.8M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$29,445,254 estimated cost",
+   "meaning": "Up from about $26M estimated in January 2022.",
+   "src": [
+    "artspace-cos-page",
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "value": "$5M state creative-industries grant",
+   "meaning": "Colorado Creative Industries (OEDIT) Community Revitalization Grant, January 2022.",
+   "src": [
+    "gazette-2022-01"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (Artspace)",
+   "value": "315 E Costilla St, Colorado Springs, CO 80903",
+   "src": [
+    "artspace-cos-page",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "item": "Type",
+   "value": "New construction, family",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "QCT / DDA",
+   "value": "In a qualified census tract; not in a DDA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five-story, all-electric mixed-use building built to NGBS guidelines, with solar capacity, EV-ready parking, outdoor art commons and two five-story mural walls; bond counsel notes it preserves a 1928 Spanish-style building",
+   "src": [
+    "artspace-cos-page",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "item": "Commercial space",
+   "value": "About 1,775 sq ft of creative commercial space; five small units listed from 259 to 465 sq ft",
+   "src": [
+    "artspace-cos-page",
+    "artspace-commercial-flyer"
+   ]
+  },
+  {
+   "item": "Rents (January 2026 flyer)",
+   "value": "1BR $1,191 and 2BR $1,418 a month net of utility allowance",
+   "src": [
+    "artspace-flyer-2026-01"
+   ]
+  },
+  {
+   "item": "Property manager",
+   "value": "Asset Living handles residential leasing",
+   "src": [
+    "artspace-cos-page"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 51
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 40
+  },
+  {
+   "type": "2BR",
+   "units": 11
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "artspace-flyer-2026-01"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,281,899 per year",
+   "note": "Amount marked subject to change by CHFA. Annual credit, runs 10 years.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (El Paso County issuer)",
+   "amount": "$13,500,000 (CHFA) / $14,500,000 (bond counsel)",
+   "note": "Bond counsel: El Paso County Multifamily Housing Revenue Draw Down Bond (Artspace Colorado Springs Project) Series 2022. Issued by the county, so county bond cap (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "source": "Colorado Creative Industries Community Revitalization Grant (OEDIT)",
+   "amount": "$5,000,000",
+   "note": "",
+   "src": [
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "source": "Other financing partners (amounts not public)",
+   "amount": "Not public",
+   "note": "Artspace lists ARPA, Artspace Projects, City of Colorado Springs, Colorado Division of Housing, CHFA, OEDIT, El Paso County Housing Authority, El Paso County, J.P. Morgan and Raymond James, plus many foundations led by the Bee Vradenburg, El Pomar, GE Johnson and John & Margot Lane foundations.",
+   "src": [
+    "artspace-cos-page"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), owner and developer",
+   "name": "Artspace Projects, Inc.",
+   "src": [
+    "chfa-4pct-award",
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "role": "Originator and site purchaser",
+   "name": "Colorado Springs Downtown Development Authority",
+   "src": [
+    "artspace-cos-page",
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "El Paso County, Colorado",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Bryan Construction",
+   "src": [
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "HHL Architects",
+   "src": [
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "role": "Financing partners (likely lender and equity, inferred)",
+   "name": "J.P. Morgan; Raymond James",
+   "src": [
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "role": "Residential leasing",
+   "name": "Asset Living",
+   "src": [
+    "artspace-cos-page"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project grew from a Colorado Springs Downtown Development Authority effort to give the Creative District a permanent home for artists; the DDA bought the site in 2019 with help from the GE Johnson and John and Margot Lane foundations.",
+   "src": [
+    "artspace-cos-page",
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "text": "In January 2022 Artspace and the DDA had about $18M of a then-estimated $26M budget lined up, and hoped to start construction in summer 2022.",
+   "src": [
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "text": "Groundbreaking was held on 2023-04-07, with completion then expected toward the end of 2024.",
+   "src": [
+    "krdo-2023-04"
+   ]
+  },
+  {
+   "text": "El Paso County issued a $14.5M Series 2022 draw-down bond; bond counsel describes 51 units for low- and middle-income residents plus 20 commercial artist studios.",
+   "src": [
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "text": "Artspace's commercial leasing flyer described the building as slated to open in spring 2026; the residential flyer dated 2026-01-06 shows photos of the finished building and interiors (inferred from the images).",
+   "src": [
+    "artspace-commercial-flyer",
+    "artspace-flyer-2026-01"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2019",
+   "event": "Downtown Development Authority buys the site",
+   "src": [
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "date": "2022-01-27",
+   "event": "$5M Colorado Creative Industries grant reported",
+   "src": [
+    "gazette-2022-01"
+   ]
+  },
+  {
+   "date": "2022",
+   "event": "CHFA 2022 cycle 4% award; El Paso County Series 2022 bond",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "date": "2023-01-18",
+   "event": "Bond counsel announces the $14.5M El Paso County draw-down bond",
+   "src": [
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "date": "2023-04-07",
+   "event": "Groundbreaking",
+   "src": [
+    "krdo-2023-04"
+   ]
+  },
+  {
+   "date": "2026-01-06",
+   "event": "Residential leasing flyer issued with rents",
+   "src": [
+    "artspace-flyer-2026-01"
+   ]
+  },
+  {
+   "date": "2026-03",
+   "event": "Open house event at the building (photo gallery on Artspace's page)",
+   "src": [
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still on CHFA's active 4% award list (no 8609 yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Building exterior and interior photos",
+   "url": "https://www.artspace.org/sites/default/files/downloads/10338-CO-cos-leasing-flyer-v03_0.pdf",
+   "kind": "photo",
+   "made_by": "Artspace Projects, Inc.",
+   "note": "Page 1 (single-page flyer)",
+   "src": [
+    "artspace-flyer-2026-01"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 345 East Costilla St, while Artspace and bond counsel give 315 E Costilla St.",
+   "src": [
+    "chfa-4pct-award",
+    "artspace-cos-page",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "text": "CHFA lists $13,500,000 of El Paso County bonds, while bond counsel describes a $14,500,000 Series 2022 draw-down bond.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "text": "CHFA and Artspace's January 2026 flyer show 40 one-bedroom and 11 two-bedroom units, while Artspace's project page says 43 one-bedroom and 8 two-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "artspace-flyer-2026-01",
+    "artspace-cos-page"
+   ]
+  },
+  {
+   "text": "Commercial space is given as about 1,775 sq ft on Artspace's page, about 7,000 sq ft in the 2022 news report, and 20 commercial artist studios by bond counsel.",
+   "src": [
+    "artspace-cos-page",
+    "gazette-2022-01",
+    "kutak-2023-01"
+   ]
+  },
+  {
+   "text": "Artspace's project page lists the one-bedroom rent at $1,171 ($1,266 gross less $95 utility allowance), while the January 2026 flyer gives $1,191 ($1,260 gross less $75).",
+   "src": [
+    "artspace-cos-page",
+    "artspace-flyer-2026-01"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, lender and equity investor and credit price (J.P. Morgan and Raymond James are listed only as financing partners).",
+  "Amounts from the City of Colorado Springs, ARPA, Division of Housing and El Paso County Housing Authority.",
+  "Certificate of occupancy date, first move-in date, placed-in-service date and 8609 issuance.",
+  "Affordability term of the land use restriction agreement."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "artspace-cos-page",
+   "title": "Artspace Colorado Springs (project page)",
+   "publisher": "Artspace Projects, Inc.",
+   "date": "",
+   "url": "https://www.artspace.org/cos"
+  },
+  {
+   "id": "artspace-flyer-2026-01",
+   "title": "Artspace Colorado Springs residential leasing flyer (last updated 2026-01-06)",
+   "publisher": "Artspace Projects, Inc.",
+   "date": "2026-01-06",
+   "url": "https://www.artspace.org/sites/default/files/downloads/10338-CO-cos-leasing-flyer-v03_0.pdf"
+  },
+  {
+   "id": "artspace-commercial-flyer",
+   "title": "Artspace Colorado Springs commercial leasing flyer",
+   "publisher": "Artspace Projects, Inc.",
+   "date": "",
+   "url": "https://www.artspace.org/sites/default/files/downloads/10343-CO-COS-commercial-leasing-v03.pdf"
+  },
+  {
+   "id": "kutak-2023-01",
+   "title": "Kutak Rock serves as bond counsel: El Paso County Artspace project",
+   "publisher": "Kutak Rock LLP",
+   "date": "2023-01-18",
+   "url": "https://www.kutakrock.com/newspublications/news/2023/january/kutakrockbondcounsel-el-paso-countyartspaceproject"
+  },
+  {
+   "id": "gazette-2022-01",
+   "title": "$5 million state grant boosts apartment project for artists",
+   "publisher": "Denver Gazette",
+   "date": "2022-01-27",
+   "url": "https://www.denvergazette.com/2022/01/27/5-million-state-grant-boosts-apartment-project-for-artists-97d9c5b1-f0d1-55b8-b132-08b29ab1d143"
+  },
+  {
+   "id": "krdo-2023-04",
+   "title": "New affordable housing designed for artists and creatives coming to Colorado Springs",
+   "publisher": "KRDO",
+   "date": "2023-04-07",
+   "url": "https://krdo.com/news/2023/04/07/new-affordable-housing-designed-for-artists-and-creatives-coming-to-colorado-springs/"
+  }
+ ]
+}

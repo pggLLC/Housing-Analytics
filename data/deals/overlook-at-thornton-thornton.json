@@ -1,0 +1,283 @@
+{
+ "slug": "overlook-at-thornton-thornton",
+ "name": "Overlook at Thornton",
+ "city": "Thornton",
+ "county": "Adams",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 160,
+ "researched_on": "2026-10-21",
+ "headline": "Overlook at Thornton is an existing 160-unit, 1973-built apartment complex at 647 W. 91st Avenue in Thornton, long run by Adams County's housing authority (now Maiker Housing Partners), being acquired and rehabilitated as a 60% AMI tax credit property by 647 OAT, LLLP; it won $3,425,457 a year in 2022 federal 4% credit and $43.5M of bonds issued by the housing authority itself.",
+ "why_it_matters": "It is a housing authority recapitalizing its own aging portfolio with self-issued bonds and 4% credit, keeping all 160 homes at or below 60% AMI.",
+ "status": {
+  "label": "Bonds issued October 2023; rehab completion not confirmed; 8609s not yet issued",
+  "detail": "Bond counsel announced the $43.5M Series 2023 bonds on 2023-10-30 and said the work was expected to take 19 months, which would have put completion around mid-2025 (inferred). No dated permit, completion or placed-in-service record was found, and CHFA still lists the deal on its 2026-09-21 award report, which excludes developments with 8609s issued.",
+  "src": [
+   "kutak-oat",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Look for Thornton building permit or final inspection records for 647/773 W. 91st Ave and for 8609 issuance.",
+ "key_numbers": [
+  {
+   "value": "160 homes, all at 60% AMI",
+   "meaning": "60 one-bedrooms, 75 two-bedrooms and 25 three-bedrooms; rents capped at 30% of 60% AMI.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-oat"
+   ]
+  },
+  {
+   "value": "$3,425,457 a year in federal 4% credit",
+   "meaning": "About $34.3M over 10 years (inferred); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$43.5M housing authority bonds",
+   "meaning": "Multifamily Housing Revenue Bonds (Overlook at Thornton Project) Series 2023, issued by Maiker (legally the Adams County Housing Authority).",
+   "src": [
+    "kutak-oat",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 647 W. 91st Avenue, Thornton 80260; the county assessor parcel 0171922302008 (Clarice PUD Subd Lot Amnd 2 Lot 1A) carries 773 W 91st Ave",
+   "src": [
+    "chfa-4pct-award",
+    "adams-parcel-oat"
+   ]
+  },
+  {
+   "item": "Current owner of record",
+   "value": "647 OAT LLLP c/o Maiker Housing Partners",
+   "src": [
+    "adams-parcel-oat",
+    "kutak-oat"
+   ]
+  },
+  {
+   "item": "Existing buildings",
+   "value": "Nine apartment buildings under three stories plus a clubhouse, all built 1973, frame siding (assessor records)",
+   "src": [
+    "adams-improvements-oat"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; not in a QCT, DDA or SADDA; Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site amenities",
+   "value": "Playground, barbecue/picnic area, basketball court, laundry facilities, 233 parking spaces; units have baseboard hydronic heat and through-wall air conditioners",
+   "src": [
+    "kutak-oat"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 160
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  },
+  {
+   "type": "2BR",
+   "units": 75
+  },
+  {
+   "type": "3BR",
+   "units": 25
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "kutak-oat"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,425,457 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Multifamily Housing Revenue Bonds, Series 2023 (issuer: Adams County Housing Authority dba Maiker Housing Partners)",
+   "amount": "$43,500,000",
+   "note": "To finance part of the acquisition and rehabilitation; bond counsel Kutak Rock.",
+   "src": [
+    "kutak-oat",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Maiker Housing Partners",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Adams County Housing Authority (Maiker Housing Partners)",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-oat"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "647 OAT, LLLP",
+   "src": [
+    "kutak-oat",
+    "adams-parcel-oat"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock",
+   "src": [
+    "kutak-oat"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The property was already an Adams County Housing Authority (ACHA) affordable property before this deal: a 2009 post by the architects describes a full interior and exterior remodel after 2006 as-built drawings, and an ACHA news item describes a Colorado Health Foundation grant of $46,500 for a new playground for Overlook children.",
+   "src": [
+    "evstudio-oat",
+    "maiker-oat-playground"
+   ]
+  },
+  {
+   "text": "The 2022 deal is a recapitalization: bond proceeds finance acquisition by 647 OAT, LLLP plus rehabilitation; the seller was presumably the housing authority itself, but no sale price appears in the county's public sales table (inferred).",
+   "src": [
+    "kutak-oat",
+    "adams-parcel-oat"
+   ]
+  },
+  {
+   "text": "All 160 units are to be held for households at or below 60% AMI with rents capped at 30% of 60% AMI, per the bond documents summary.",
+   "src": [
+    "kutak-oat"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2009-02-17",
+   "event": "Architect's post shows the complex after an earlier full remodel under the Adams County Housing Authority",
+   "src": [
+    "evstudio-oat"
+   ]
+  },
+  {
+   "date": "2023-10",
+   "event": "$43.5M Series 2023 bonds issued; 19-month rehab expected (announced 2023-10-30)",
+   "src": [
+    "kutak-oat"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Acquisition price paid by 647 OAT, LLLP and the date of the transfer.",
+  "Rehab scope and budget, general contractor, and whether the work is complete.",
+  "Tax credit investor, other loans, and whether any units carry project-based vouchers.",
+  "Length of the new affordability covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "kutak-oat",
+   "title": "Kutak Rock Serves as Bond Counsel for Maiker Housing Partner's Overlook at Thornton Project",
+   "publisher": "Kutak Rock",
+   "date": "2023-10-30",
+   "url": "https://www.kutakrock.com/newspublications/news/2023/october/bond-counsel-maiker-housing-partner-overlook"
+  },
+  {
+   "id": "evstudio-oat",
+   "title": "Overlook at Thornton Affordable Housing Apartment Complex Remodel",
+   "publisher": "EVstudio",
+   "date": "2009-02-17",
+   "url": "https://evstudio.com/overlook-at-thornton-affordable-housing-apartment-complex-remodel/"
+  },
+  {
+   "id": "maiker-oat-playground",
+   "title": "New Playground Means More Fun for Overlook Children! (undated; refers to a fall 2018 ribbon cutting)",
+   "publisher": "Maiker Housing Partners",
+   "date": "2018",
+   "url": "https://maikerhp.org/new-playground-means-more-fun-for-overlook-children/"
+  },
+  {
+   "id": "adams-parcel-oat",
+   "title": "Adams County parcels layer, query for parcel 0171922302008 (queried 2026-10-21)",
+   "publisher": "Adams County",
+   "date": "2026-10-21",
+   "url": "https://services3.arcgis.com/4PNQOtAivErR7nbT/ArcGIS/rest/services/Parcels/FeatureServer/0/query?where=PARCELNB%3D%270171922302008%27&outFields=PARCELNB%2CCONCATADDR1%2CLOCCITY%2COWNERNAMEFULL%2CLEGAL&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "adams-improvements-oat",
+   "title": "Adams County property improvements table, query for parcel 0171922302008 (queried 2026-10-21)",
+   "publisher": "Adams County",
+   "date": "2026-10-21",
+   "url": "https://services3.arcgis.com/4PNQOtAivErR7nbT/ArcGIS/rest/services/Property_Improvements/FeatureServer/0/query?where=PARCELNB%3D%270171922302008%27&outFields=*&returnGeometry=false&f=html&outSR=4326"
+  }
+ ]
+}

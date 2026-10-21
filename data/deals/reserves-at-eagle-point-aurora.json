@@ -1,0 +1,419 @@
+{
+ "slug": "reserves-at-eagle-point-aurora",
+ "name": "Reserves at Eagle Point",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 192,
+ "researched_on": "2026-10-21",
+ "headline": "Overland Property Group built the Reserves at Eagle Point in eastern Aurora, 192 all-electric garden apartments for families at 30% to 80% AMI (income averaging), financed partly by a 2022 Round Two award of 4% and state housing tax credits; the contractor reports it is complete, with a grand opening in March 2026.",
+ "why_it_matters": "This is the largest 2022 Round Two deal by credit amount ($3.28M a year). It shows a for-profit, income-averaging, Zero Energy Ready garden-apartment model placed early in a fast-growing master-planned area, with Division of Housing gap money and a Freddie Mac TEL take-out.",
+ "status": {
+  "label": "Construction complete; grand opening held 2026-03-18; leasing",
+  "detail": "ARCO National Construction announced completion on 2026-02-17 and reported a grand opening with Overland Property Group and Mission Rock Residential on March 18 (2026, inferred from the article's 2026-04-02 date). Mission Rock's leasing site lists the community at 431 N Picadilly Rd. The construction start date and 8609 date are not public.",
+  "src": [
+   "arco-complete-2026",
+   "arco-grand-opening-2026",
+   "mission-rock-eagle-point"
+  ]
+ },
+ "next_step": "Look for CHFA's placed-in-service record, and check whether City of Aurora or Aurora Housing Authority loans closed and for how much.",
+ "key_numbers": [
+  {
+   "value": "192 homes from 30% to 80% AMI",
+   "meaning": "20 at 30%, 20 at 40%, 22 at 50%, 86 at 60%, 28 at 70% and 16 at 80% AMI, under income averaging.",
+   "src": [
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$3,276,397 a year in federal 4% credit plus $1,000,000 of state credit",
+   "meaning": "About $32.8M in federal credit over 10 years (inferred). The application asked for $3,286,362.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "value": "$36,000,000 in CHFA tax-exempt bonds",
+   "meaning": "$7.5M was to be retired at conversion, leaving $28.5M of permanent bonds under Freddie Mac's Tax-Exempt Loan program.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $370,000 total cost per unit (applicant estimate)",
+   "meaning": "About $71M for 192 units (inferred).",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Location",
+   "value": "E Stephen D. Hogan Parkway at S Picadilly Road (application); leasing address 431 N Picadilly Rd, Aurora 80018",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-award",
+    "mission-rock-eagle-point"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 8 acres in the Aurora One master-planned area, next to Coal Creek open space. Zoned Mixed-Use Regional (MU-R, Subarea C) and Mixed-Use Corridor (MU-C). A noise study for nearby Buckley base found 60 dB DNL, within HUD's acceptable range.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Building (as built)",
+   "value": "Eight three-story wood-frame walk-up residential buildings plus a clubhouse of about 5,000 sq ft (nine buildings in all), 234,528 sq ft, 384 bedrooms, 233 surface parking spaces",
+   "src": [
+    "arco-complete-2026",
+    "arco-eagle-point-project"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with heat pumps, DOE Zero Energy Ready Homes and Enterprise Green Communities certification targeted, solar-ready",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Unit sizes (as proposed)",
+   "value": "828 sq ft one-bedroom, 1,037 sq ft two-bedroom, 1,216 sq ft three-bedroom",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 20
+  },
+  {
+   "level": "40% AMI",
+   "units": 20
+  },
+  {
+   "level": "50% AMI",
+   "units": 22
+  },
+  {
+   "level": "60% AMI",
+   "units": 86
+  },
+  {
+   "level": "70% AMI",
+   "units": 28
+  },
+  {
+   "level": "80% AMI",
+   "units": 16
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 96
+  },
+  {
+   "type": "3BR",
+   "units": 48
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,276,397 per year",
+   "note": "2022 Round Two award",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$36,000,000",
+   "note": "Privately placed. The application names Wells Fargo Multifamily Capital as construction and permanent lender, with a Freddie Mac TEL forward commitment for $28.5M permanent. No taxable tail.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$3,700,000 (as planned in the application)",
+   "note": "A final award was not verified from a source that loads.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Aurora",
+   "amount": "$1,000,000 (assumed in the application)",
+   "note": "The developer planned to apply for city Community Investment funding. CHFA's award description says the City of Aurora and the Aurora Housing Authority are giving financial support.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "Overland Property Group",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "General contractor (design-build)",
+   "name": "ARCO National Construction",
+   "src": [
+    "arco-complete-2026"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Mission Rock Residential",
+   "src": [
+    "arco-grand-opening-2026",
+    "mission-rock-eagle-point"
+   ]
+  },
+  {
+   "role": "Architect (as proposed)",
+   "name": "Jones Gillam Renz Architects",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Consultant (as proposed)",
+   "name": "Dan Morgan and Associates",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Lender (as proposed)",
+   "name": "Wells Fargo Multifamily Capital; Freddie Mac TEL permanent",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Local approvals: the developer held a City of Aurora pre-application meeting on 2022-06-02 and expected to go to building permit through administrative site plan review, since the use is allowed under the zoning. No council action or site plan approval number was found.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Overland Property Group, founded in Salina, Kansas, had built the Reserves at Green Valley Ranch in Denver nearby and other Colorado deals in Leadville and Steamboat Springs. It said Green Valley Ranch drew more than 400 applications for 144 affordable units.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "arco-grand-opening-2026"
+   ]
+  },
+  {
+   "text": "The application said the deal did not directly meet the QAP's priority categories. It argued instead for placing affordable housing early in an area with about 2,500 luxury units under construction and 5,000 more planned within two miles.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Market study capture rates were 9.9% overall for the tax credit units: 5.9%, 7.1%, 11.1%, 14.7%, 14.5% and 1.3% at 30, 40, 50, 60, 70 and 80% AMI.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The leasing site advertises brand-new apartments, a waitlist and 'affordable options'. It does not show rents by AMI tier.",
+   "src": [
+    "mission-rock-eagle-point"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-06-02",
+   "event": "Pre-application meeting with the City of Aurora",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2022-11-16",
+   "event": "CHFA announces the 2022 Round Two awards, including Reserves at Eagle Point",
+   "src": [
+    "chfa-2022-r2-news"
+   ]
+  },
+  {
+   "date": "2026-02-17",
+   "event": "ARCO announces completion of the community",
+   "src": [
+    "arco-complete-2026"
+   ]
+  },
+  {
+   "date": "2026-03-18",
+   "event": "Grand opening (year inferred from the 2026-04-02 article)",
+   "src": [
+    "arco-grand-opening-2026"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior rendering of a residential building",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+   "kind": "rendering",
+   "made_by": "Applicant (Overland Property Group team), in CHFA's 2022 Round Two narratives",
+   "note": "PDF page 59",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application narrative says 48 one-bedroom, 96 two-bedroom and 38 three-bedroom units, which add up to 182, while CHFA's award description says 48 three-bedrooms for a 192-unit total.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "text": "CHFA's reports spell the street 'Steven D. Hogan Pkwy' and put the site at 'S Picadilly Road', while the narrative says 'Stephen D Hogan Parkway' and the leasing site gives 431 N Picadilly Rd.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "mission-rock-eagle-point"
+   ]
+  },
+  {
+   "text": "ARCO gives the building area as 234,528 sq ft on two pages and about 230,000 sq ft on its project page.",
+   "src": [
+    "arco-complete-2026",
+    "arco-eagle-point-project"
+   ]
+  },
+  {
+   "text": "The award report shows $3,276,397 of federal credit, while the applicant report shows $3,286,362.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing and construction start dates are not public.",
+  "The final Division of Housing award could not be verified. A DOLA press release reported in search results as a $4,000,000 State Housing Board award returned HTTP 404 to the required check, so it is not cited.",
+  "Amounts and terms of any City of Aurora or Aurora Housing Authority support (including any property tax exemption through the housing authority) were not found.",
+  "Placed-in-service year, IRS Form 8609 date, affordability period, equity investor and final development cost are not public."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "CHFA, 2022 Round 2 Award Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "CHFA, 2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "CHFA, 2022 Round 2 Applicant Report, 4% Federal Credit and State Credit",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-news",
+   "title": "CHFA Announces 2022 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2022-11-16",
+   "url": "https://www.chfainfo.com/chfa-news/11162022-htc-round-two"
+  },
+  {
+   "id": "arco-complete-2026",
+   "title": "ARCO Completes Affordable Housing Community in Aurora, Colorado for Overland Property Group",
+   "publisher": "ARCO National Construction",
+   "date": "2026-02-17",
+   "url": "https://www.arconational.com/arco-completes-affordable-housing-community-in-aurora-co/"
+  },
+  {
+   "id": "arco-eagle-point-project",
+   "title": "The Reserves at Eagle Point (project page)",
+   "publisher": "ARCO National Construction",
+   "date": "2026-02-17",
+   "url": "https://www.arconational.com/the-reserves-at-eagle-point-aurora-co/"
+  },
+  {
+   "id": "arco-grand-opening-2026",
+   "title": "ARCO & Overland Property Group Celebrate Grand Opening of New Affordable Housing Community in Aurora, Colorado",
+   "publisher": "ARCO National Construction",
+   "date": "2026-04-02",
+   "url": "https://www.arconational.com/arco-overland-property-group-celebrate-grand-opening-of-reserves-at-eagle-point/"
+  },
+  {
+   "id": "mission-rock-eagle-point",
+   "title": "The Reserves at Eagle Point (leasing site)",
+   "publisher": "Mission Rock Residential",
+   "date": "2026-10-21",
+   "url": "https://www.missionrockresidential.com/apartments/co/aurora/the-reserves-at-eagle-point"
+  }
+ ]
+}

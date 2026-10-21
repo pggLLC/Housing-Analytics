@@ -1,0 +1,474 @@
+{
+ "slug": "irving-at-mile-high-vista-denver",
+ "name": "Irving at Mile High Vista",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 102,
+ "researched_on": "2026-10-21",
+ "headline": "The Irving at Mile High Vista is a seven-story, all-electric building of 102 affordable apartments (20% to 80% of AMI) at 3270 W. Colfax Ave., built by Urban Land Conservancy with Cho Development on ULC-owned land next to Denver's Corky Gonzales library; it won $1,934,593 a year in federal 4% credit and $1,000,000 in state credit in CHFA's 2022 Round Two and opened in January 2026.",
+ "why_it_matters": "It shows land banking paying off: ULC bought the site for about $25 a square foot in 2010-2011 with the Denver TOD Fund, held it for over a decade, and contributed the last parcel through a 99-year ground lease with community land trust affordability, layered with Proposition 123 gap money and a city loan.",
+ "status": {
+  "label": "Completed and open: grand opening 2026-01-22",
+  "detail": "Ground was broken on 2024-05-29, the building topped out in July 2025, and CHFA attended the grand opening on 2026-01-22. No placed-in-service or 8609 record was found.",
+  "src": [
+   "denvergazette-2024-05-29",
+   "mhcre-2025-07-30",
+   "chfa-impact-2026-02"
+  ]
+ },
+ "next_step": "Watch for CHFA records of the placed-in-service year and final credit amounts (CHFA's 2026 report cites $2.2M of federal credit, above the 2022 award).",
+ "key_numbers": [
+  {
+   "value": "102 homes, 20% to 80% AMI",
+   "meaning": "5 at 20% AMI, 20 at 30%, 29 at 50%, 17 at 60% and 31 at 80%; mostly one-bedrooms.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,934,593 a year federal 4% credit plus $1,000,000 state credit (2022 award)",
+   "meaning": "CHFA's February 2026 report says it supported the project with $2.2M of federal 4% credit and $23.5M of bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "value": "$4M city loan, $1M Prop 123",
+   "meaning": "A $4M Denver HOST loan and $100,000 climate grant, plus $1M from the Proposition 123 Concessionary Debt LIHTC Gap Finance program.",
+   "src": [
+    "denvergazette-2024-05-29",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "value": "99-year affordability",
+   "meaning": "Through ULC's community land trust and ground lease.",
+   "src": [
+    "mhcre-2026-01-23",
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3270 W Colfax Ave, Denver 80204",
+   "src": [
+    "chfa-2022-r2-award",
+    "denvergazette-2024-05-29"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Last parcel of ULC's 2-acre Mile High Vista site (former Festival Plaza parking lot), sharing a zone lot with the Corky Gonzales branch library and Del Norte's Avondale Apartments",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "ulc-2024-05-20"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Seven stories: concrete podium with about 38 covered parking spaces, leasing, community room and bike storage, then six residential floors; rooftop deck; CMX-12 zoning",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with heat pumps, rooftop solar and EV charging; built to exceed NGBS",
+   "src": [
+    "mhcre-2025-07-30",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD 16 bus on the block; Decatur-Federal and Knox light rail stations on the W Line within half a mile; in a Qualified Census Tract",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Resident features",
+   "value": "Universal design; transit passes for all residents (per CHFA's award description)",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "20% AMI",
+   "units": 5
+  },
+  {
+   "level": "30% AMI",
+   "units": 20
+  },
+  {
+   "level": "50% AMI",
+   "units": 29
+  },
+  {
+   "level": "60% AMI",
+   "units": 17
+  },
+  {
+   "level": "80% AMI",
+   "units": 31
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 6
+  },
+  {
+   "type": "1BR",
+   "units": 78
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  },
+  {
+   "type": "3BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,934,593 per year (2022 award)",
+   "note": "CHFA's February 2026 impact report cites $2.2 million of federal 4% credit.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "source": "Private activity bonds (CHFA issuer)",
+   "amount": "$19,400,000 (award report); $23.5 million (CHFA 2026 report)",
+   "note": "The application planned a Freddie Mac tax-exempt loan with Wells Fargo as seller-servicer: $24.7M construction ($19.4M tax-exempt, $5.3M taxable) and $10.2M permanent.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-impact-2026-02",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Proposition 123 Concessionary Debt LIHTC Gap Finance",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability loan",
+   "amount": "$4,000,000",
+   "note": "",
+   "src": [
+    "denvergazette-2024-05-29"
+   ]
+  },
+  {
+   "source": "Denver Office of Climate Action, Sustainability and Resiliency grant",
+   "amount": "$100,000",
+   "note": "For energy-efficiency infrastructure.",
+   "src": [
+    "denvergazette-2024-05-29",
+    "ulc-2024-05-20"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not public",
+   "note": "Named among 12 financial partners.",
+   "src": [
+    "mhcre-2025-07-30"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "99-year ground lease from ULC",
+   "note": "ULC also planned to defer almost 40% of its developer fee.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not quantified",
+   "note": "Through the Denver Housing Authority.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Urban Land Conservancy",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Co-developer",
+   "name": "Cho Development",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Studio Completiva",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Pinkard Construction",
+   "src": [
+    "mhcre-2025-07-30",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "role": "Owner's representative",
+   "name": "Artaic Group",
+   "src": [
+    "mhcre-2025-07-30"
+   ]
+  },
+  {
+   "role": "Tax-exemption partner",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Property manager (ULC's manager per application; not confirmed for this building)",
+   "name": "Syringa Property Management",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "ULC bought the 2-plus-acre Festival Plaza parking lot for $2.1M (about $25 per sq ft) using the Denver TOD Fund, completed brownfield remediation and infrastructure by 2013, and served as master developer for Avondale Apartments (2014) and the Corky Gonzales library (2015).",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Earlier plans for the last parcel (co-op, condos, middle-income rentals) did not proceed; ULC decided to develop permanently affordable rentals itself, its first ground-up housing development.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "text": "The 2022 application kept gas for central domestic hot water with electric PTACs; the finished building is described as all-electric with heat pumps.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "text": "The application requested a cost basis waiver and used steel construction to reach seven stories without triggering high-rise costs.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "No asterisk footnote applies to this row in the award report; its asterisks only key the Type and Target codes.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2011",
+   "event": "ULC buys the Festival Plaza parking lot (ULC's later releases say 2010)",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "ulc-2024-05-20"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2024-05-29",
+   "event": "Groundbreaking with Denver's mayor",
+   "src": [
+    "denvergazette-2024-05-29"
+   ]
+  },
+  {
+   "date": "2025-07-24",
+   "event": "Topping out",
+   "src": [
+    "mhcre-2025-07-30"
+   ]
+  },
+  {
+   "date": "2026-01-22",
+   "event": "Grand opening",
+   "src": [
+    "chfa-impact-2026-02"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Artist rendering of The Irving from West Colfax Avenue",
+   "url": "https://urbanlandc.org/urban-land-conservancy-mile-high-vista-development/",
+   "kind": "rendering",
+   "made_by": "Urban Land Conservancy (published)",
+   "note": "Web page, first image below the opening paragraphs",
+   "src": [
+    "ulc-2024-05-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2022 award report shows $1,934,593 a year of federal credit and $19,400,000 of bonds, while CHFA's February 2026 report says it supported the project with $2.2 million of federal 4% credit and $23.5 million of bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-impact-2026-02"
+   ]
+  },
+  {
+   "text": "The application says ULC bought the site in 2011, while ULC's 2024 release and the opening announcement say 2010.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "ulc-2024-05-20",
+    "mhcre-2026-01-23"
+   ]
+  },
+  {
+   "text": "Mile High CRE dates the topping-out celebration to July 24, 2025, while Colorado Construction & Design says July 30, 2025.",
+   "src": [
+    "mhcre-2025-07-30",
+    "ccd-2025-07-25"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Why and when the federal credit and bond amounts rose above the 2022 award (supplemental allocation or re-sizing).",
+  "Total development cost, equity investor and price, and final lender (the application named Wells Fargo/Freddie Mac).",
+  "Colorado Division of Housing amount and terms.",
+  "Placed-in-service date and 8609s."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% housing credit application narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "2022 HTC Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "ulc-2024-05-20",
+   "title": "Urban Land Conservancy to deliver The Irving at Mile High Vista in the West Colfax neighborhood",
+   "publisher": "Urban Land Conservancy",
+   "date": "2024-05-20",
+   "url": "https://urbanlandc.org/urban-land-conservancy-mile-high-vista-development/"
+  },
+  {
+   "id": "denvergazette-2024-05-29",
+   "title": "Denver breaks ground on 102-unit affordable housing site in West Colfax using $4.1 million of city money",
+   "publisher": "Denver Gazette",
+   "date": "2024-05-29",
+   "url": "https://www.denvergazette.com/2024/05/29/denver-breaks-ground-on-102-unit-affordable-housing-site-in-west-colfax-using-41-million-of-city-money/"
+  },
+  {
+   "id": "mhcre-2025-07-30",
+   "title": "Pinkard Tops Out ULC's The Irving at Mile High Vista",
+   "publisher": "Mile High CRE",
+   "date": "2025-07-30",
+   "url": "https://milehighcre.com/pinkard-tops-out-ulcs-the-irving-at-mile-high-vista/"
+  },
+  {
+   "id": "ccd-2025-07-25",
+   "title": "The Irving at Mile High Vista Brings 102 Affordable Homes to West Colfax",
+   "publisher": "Colorado Construction & Design",
+   "date": "2025-07-25",
+   "url": "https://ccdmag.com/project-updates/irving-milehigh-colfax/"
+  },
+  {
+   "id": "mhcre-2026-01-23",
+   "title": "Grand Opening: The Irving at Mile High Vista",
+   "publisher": "Mile High CRE",
+   "date": "2026-01-23",
+   "url": "https://milehighcre.com/grand-opening-the-irving-at-mile-high-vista/"
+  },
+  {
+   "id": "chfa-impact-2026-02",
+   "title": "CHFA Monthly Impact Report, February 2026",
+   "publisher": "CHFA",
+   "date": "2026-02",
+   "url": "https://www.impact.chfainfo.com/february2026"
+  }
+ ]
+}

@@ -1,0 +1,428 @@
+{
+ "slug": "silver-key-senior-apartments-colorado-springs",
+ "name": "Silver Key Senior Apartments",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-21",
+ "units": 50,
+ "headline": "Silver Key Senior Apartments (Silver Key Apartments at South Murray) is a 50-home, all income-restricted building for adults 62+ in southeast Colorado Springs, with 13 VASH homes for older homeless veterans, sponsored by nonprofit Silver Key Senior Services with turnkey developer MGL Partners; it won a 2022 Round One federal 9% award and opened in late 2024.",
+ "why_it_matters": "It shows a service-provider nonprofit using its own land (sold in with seller carryback), VASH vouchers and on-campus services to get a first 9% deal built and fully leased in about three months, a template it is now repeating at North Weber.",
+ "status": {
+  "label": "Built and occupied (move-ins from November 2024)",
+  "detail": "Groundbreaking was 2023-09-22; residents began moving in at the start of November 2024 and the public ribbon cutting was 2024-12-04. Silver Key's 2026 application says the building was fully leased in three months. No placed-in-service or 8609 record was found online.",
+  "src": [
+   "flashalert-2023-09",
+   "gazette-2024-10-30",
+   "kktv-2024-12-05",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch for CHFA compliance or placed-in-service records; Silver Key's second deal (North Weber, 2026 award) is the follow-on.",
+ "key_numbers": [
+  {
+   "value": "50 homes for adults 62+",
+   "meaning": "48 one-bedroom and 2 two-bedroom homes; 13 reserved for older homeless veterans with VASH vouchers.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,312,545 a year in federal 9% credit",
+   "meaning": "About $13.1M over 10 years; no state credit is shown on the award report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "Average 45.6% AMI",
+   "meaning": "13 homes at 30% AMI, 10 at 40%, 13 at 50% and 14 at 60%.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$17.7M planned cost",
+   "meaning": "Application budget of $17,673,061, including $3.01M of Division of Housing gap funds.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1575 S. Murray Blvd., Colorado Springs 80916 (next to Silver Key headquarters at 1625 S. Murray Blvd.)",
+   "src": [
+    "chfa-2022-r1-award",
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, S, V: new construction, senior, veterans",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "3.23-acre vacant site in a qualified census tract, zoned PBC with airport and streamside overlays; multifamily as a conditional use",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three stories, interior corridors, two elevators; 59 surface parking spaces; NGBS Bronze minimum; solar-ready",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Silver Key's food pantry, café meals, transportation, behavioral health and case management next door; VA case management for VASH residents",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "item": "Team",
+   "value": "MGL Partners (turnkey developer), B.C. Builders (contractor), Way Architecture (application), Silva-Markham Partners (management)",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "item": "Rents at opening",
+   "value": "From $780 for a 40% AMI one-bedroom; $1,170 at the top band (as reported)",
+   "src": [
+    "gazette-2024-10-30"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 13
+  },
+  {
+   "level": "40% AMI",
+   "units": 10
+  },
+  {
+   "level": "50% AMI",
+   "units": 13
+  },
+  {
+   "level": "60% AMI",
+   "units": 14
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 2
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,312,545 per year",
+   "note": "Application put equity at $11,419,141.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Enhanced Gap Funds",
+   "amount": "$3,010,000",
+   "note": "As proposed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "$1,900,000",
+   "note": "Underwritten from a bank letter of intent.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs HOME funds",
+   "amount": "$500,000",
+   "note": "Anticipated at application, plus possible fee waivers.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Seller carryback note from Silver Key",
+   "amount": "About $358,780",
+   "note": "For the land sold into the partnership at appraised value.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Springs Health Foundation / Silver Key fundraising / deferred fee",
+   "amount": "$100,000 / $100,000 / $285,086",
+   "note": "As proposed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation grant",
+   "amount": "$400,000",
+   "note": "Announced with the groundbreaking.",
+   "src": [
+    "flashalert-2023-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "Silver Key Senior Services",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Turnkey developer",
+   "name": "MGL Partners",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "B.C. Builders",
+   "src": [
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Silva-Markham Partners",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Voucher provider (VASH)",
+   "name": "Colorado Division of Housing",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Silver Key bought the land in 2017 and owns it free and clear; it planned to sell it into the tax-credit partnership at appraised value with seller carryback financing while keeping full ownership of the general partner.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "An earlier tax-credit application was for 70 units; Silver Key cut it to 50, hired MGL as turnkey developer, added a second access through its campus and added 13 VASH homes.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The City Planning Commission unanimously approved the multifamily conditional use on 2022-01-20, and the city gave the project Rapid Response certification to speed entitlements.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Because Silver Key is a nonprofit serving seniors, the application expected a statutory property tax exemption.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study's overall (26.2%) and 50% AMI (32%) capture rates were above CHFA guidelines; the application relied on low vacancies and waiting lists at existing senior properties.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Silver Key pledged half of cash flow for five years, plus Medicaid, Older Americans Act and VA funds, to pay for services for the VASH residents.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Silver Key received more than 550 applications for the 50 homes; residents began moving in at the start of November 2024.",
+   "src": [
+    "gazette-2024-10-30"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2017",
+   "event": "Silver Key buys the South Murray site",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021-09-28",
+   "event": "Community meeting at Silver Key headquarters (75+ attendees)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-01-20",
+   "event": "Planning Commission approves the conditional use unanimously",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "CHFA Round One award report lists $1,312,545 federal 9% credit",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2023-09-22",
+   "event": "Groundbreaking",
+   "src": [
+    "flashalert-2023-09"
+   ]
+  },
+  {
+   "date": "2024-11-01",
+   "event": "First residents move in (Gazette said move-ins start Friday after 2024-10-30)",
+   "src": [
+    "gazette-2024-10-30"
+   ]
+  },
+  {
+   "date": "2024-12-04",
+   "event": "Public ribbon cutting",
+   "src": [
+    "koaa-2024-11-21",
+    "kktv-2024-12-05"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking rendering",
+   "url": "https://flashalert.net/images/news/2023-09/3595/166233/Silver_Key_Ground_Rendering_SMALL.jpg",
+   "kind": "rendering",
+   "made_by": "Silver Key Senior Services (press release attachment)",
+   "note": "Image attached to the September 2023 groundbreaking release",
+   "src": [
+    "flashalert-2023-09"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA, the Gazette and KOAA give the address as 1575 S. Murray Blvd., while KKTV placed the apartments at 1625 S. Murray Blvd., which the Gazette identifies as Silver Key's headquarters next door.",
+   "src": [
+    "chfa-2022-r1-award",
+    "gazette-2024-10-30",
+    "koaa-2024-11-21",
+    "kktv-2024-12-05"
+   ]
+  },
+  {
+   "text": "The application budgeted $17,673,061, while the Gazette's opening story refers to a $14.7 million project (inferred to mean this complex from the article's context).",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "gazette-2024-10-30"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financial closing date, equity investor, final lender and whether the $500,000 HOME loan closed.",
+  "Final development cost.",
+  "Affordability period and recorded covenant.",
+  "Placed-in-service date and 8609 issuance.",
+  "2022 Round One applicant report not located on chfainfo.com."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "2022 Round One - 9% Competitive Housing Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One 9% Housing Credit Application Narratives (Silver Key Apartments at South Murray, PDF pp. 98-103)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Silver Key Apartments at North Weber, describing South Murray, PDF pp. 126-129)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "flashalert-2023-09",
+   "title": "Silver Key Senior Services to break ground on senior apartments",
+   "publisher": "Silver Key Senior Services (via FlashAlert)",
+   "date": "2023-09",
+   "url": "https://flashalert.net/id/SilverKey/166233"
+  },
+  {
+   "id": "gazette-2024-10-30",
+   "title": "Two new affordable-housing apartment projects come online in southeast Colorado Springs",
+   "publisher": "Colorado Springs Gazette",
+   "date": "2024-10-30",
+   "url": "https://gazette.com/2024/10/30/two-new-affordable-housing-apartment-projects-come-online-in-southeast-colorado-springs/"
+  },
+  {
+   "id": "koaa-2024-11-21",
+   "title": "Silver Key Senior Services opens affordable housing for seniors",
+   "publisher": "KOAA",
+   "date": "2024-11-21",
+   "url": "https://www.koaa.com/news/covering-colorado/silver-key-senior-services-opens-affordable-housing-for-seniors"
+  },
+  {
+   "id": "kktv-2024-12-05",
+   "title": "'We're moving a dream to action': Affordable housing for seniors in Colorado Springs now open",
+   "publisher": "KKTV",
+   "date": "2024-12-05",
+   "url": "https://www.kktv.com/2024/12/05/were-moving-dream-action-affordable-housing-seniors-colorado-springs-now-open/"
+  }
+ ]
+}

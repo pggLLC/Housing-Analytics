@@ -1,0 +1,449 @@
+{
+ "slug": "sp-crossing-commerce-city",
+ "name": "SP Crossing",
+ "city": "Commerce City",
+ "county": "Adams",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-21",
+ "units": 60,
+ "headline": "SP Crossing (now South Platte Crossing Apartments) is a 60-home, all income-restricted family building at 72nd Avenue and Colorado Boulevard in Commerce City, beside the N Line station, developed by Nesbitt Development and Brinshore Development on Urban Land Conservancy land trust ground with a 2022 Round One federal 9% award; it opened in June 2025.",
+ "why_it_matters": "It is a working model of a community land trust ground lease (99+ years) paired with 9% credits, income averaging up to 80% AMI and a housing-authority special limited partner for tax exemption, and it shows a 2022 award taking three years to open.",
+ "status": {
+  "label": "Built and open (grand opening 2025-06-09)",
+  "detail": "Construction was under way by January 2024 and the partners held a grand opening on 2025-06-09. No placed-in-service or 8609 record was found online.",
+  "src": [
+   "denver7-2024-01-26",
+   "ulc-2025-06-10"
+  ]
+ },
+ "next_step": "Watch for CHFA compliance or placed-in-service records and any Commerce City Housing Authority filings on the special limited partnership.",
+ "key_numbers": [
+  {
+   "value": "60 homes, all income-restricted",
+   "meaning": "Two studios, 29 one-bedroom, 26 two-bedroom and 3 three-bedroom homes; 70% at or below 50% AMI.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions",
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "value": "$1,350,000 a year in federal 9% credit",
+   "meaning": "About $13.5M over 10 years; no state credit is shown on the award report.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "99+ year land trust",
+   "meaning": "Urban Land Conservancy keeps the land and ground-leases it to the developers.",
+   "src": [
+    "ulc-2024-01-03",
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "value": "$28 million",
+   "meaning": "Project size as reported at opening.",
+   "src": [
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "7190 Colorado Blvd., Commerce City 80022",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "0.81-acre unused parking lot in a qualified census tract, under 0.2 miles from the Commerce City/72nd Ave N Line station; PUD allows 60 units",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four-story elevator building: three wood-frame levels over a concrete podium with 40 garage spaces, plus 35 shared spaces (1.25 per unit)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "Phase I ESA (December 2021) flagged a possible historic landfill; soil sampling and an engineered vapor barrier planned",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Next to the Commerce City Community Campus (C4) in ULC's South Platte Crossing office building; RTD passes for residents",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "item": "Architect / GC (as built)",
+   "value": "Carvell Architects / Alliance Construction Solutions",
+   "src": [
+    "ulc-2024-01-03",
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 12
+  },
+  {
+   "level": "50% AMI",
+   "units": 22
+  },
+  {
+   "level": "70% AMI",
+   "units": 6
+  },
+  {
+   "level": "80% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 2
+  },
+  {
+   "type": "1BR",
+   "units": 29
+  },
+  {
+   "type": "2BR",
+   "units": 26
+  },
+  {
+   "type": "3BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,350,000 per year",
+   "note": "Income averaging election confirmed by the investor at application.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Commerce City sales/use tax reimbursement and fee waivers",
+   "amount": "About $350,000",
+   "note": "Approved by City Council on 2021-11-22, per the application.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Adams County HOME funds",
+   "amount": "Not stated",
+   "note": "Made possible by Commerce City joining the Adams County HOME Consortium.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Other planned sources",
+   "amount": "Not stated",
+   "note": "First mortgage, CHFA Housing Opportunity Fund, Colorado Division of Housing soft funds, deferred developer fee.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Total project",
+   "amount": "$28 million",
+   "note": "As reported at opening.",
+   "src": [
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "Nesbitt Development, LLC",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Co-developer",
+   "name": "Brinshore Development, LLC",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "ulc-2024-01-03"
+   ]
+  },
+  {
+   "role": "Landowner / ground lessor (community land trust)",
+   "name": "Urban Land Conservancy",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ulc-2024-01-03"
+   ]
+  },
+  {
+   "role": "Special limited partner (tax exemption)",
+   "name": "Commerce City Housing Authority",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (planned)",
+   "name": "ComCap Management",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Carvell Architects",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "ulc-2024-01-03",
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "ULC bought the site specifically for affordable housing; it ground-leases the land to the developers and keeps it in its community land trust for at least 99 years. ULC has partly owned the adjacent South Platte Crossing office building since 2018.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ulc-2024-01-03",
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "text": "City Council unanimously approved the PUD zoning on 2021-01-04; the appeal period ended 2021-01-15 with no appeals.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Commerce City Housing Authority approved a special limited partnership so the project is exempt from state sales/use tax and property tax.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The deal pairs a first-time, Black-owned developer (Nesbitt Development, founded 2019) with an experienced partner (Brinshore) as a mentoring joint venture.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions",
+    "ulc-2024-01-03"
+   ]
+  },
+  {
+   "text": "The application named Brinkmann Constructors as the cost source; the project was ultimately built by Alliance Construction Solutions.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ulc-2024-01-03"
+   ]
+  },
+  {
+   "text": "ULC applied in January 2022 for a Colorado Community Revitalization grant for the hub; if funded, three homes would carry a preference for income-qualified artists. No outcome found.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction had begun by late January 2024 with a 14-month schedule; the grand opening was held 2025-06-09, with 70% of homes for households at or below 50% AMI.",
+   "src": [
+    "denver7-2024-01-26",
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-12",
+   "event": "Developers present to two community groups",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021-01-04",
+   "event": "City Council approves the PUD zoning unanimously",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021-02",
+   "event": "Neighbourhood meeting with Spanish interpretation",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021-11-22",
+   "event": "City Council approves about $350,000 in tax reimbursement and fee waivers",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "CHFA Round One award report lists $1,350,000 federal 9% credit",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2024-01-03",
+   "event": "ULC announces the ground-lease agreement and construction team",
+   "src": [
+    "ulc-2024-01-03"
+   ]
+  },
+  {
+   "date": "2024-01-26",
+   "event": "Denver7 reports construction under way, about 14 months to completion",
+   "src": [
+    "denver7-2024-01-26"
+   ]
+  },
+  {
+   "date": "2025-06-09",
+   "event": "Grand opening of South Platte Crossing Apartments",
+   "src": [
+    "ulc-2025-06-10",
+    "ccd-2025-06-10"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Grand opening photos",
+   "url": "https://urbanlandc.org/grand-opening-south-platte-crossing-commerce-city/",
+   "kind": "photo",
+   "made_by": "Urban Land Conservancy",
+   "note": "Photos in the 2025-06-10 news post",
+   "src": [
+    "ulc-2025-06-10"
+   ]
+  },
+  {
+   "title": "Building photo",
+   "url": "https://ccdmag.com/project-updates/south-platte-apartments/",
+   "kind": "photo",
+   "made_by": "Carvell Architects (photo credit)",
+   "note": "Lead image of the article",
+   "src": [
+    "ccd-2025-06-10"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Denver7 described the homes as one-, two- and three-bedroom plans, while CHFA's award description and ULC's opening release include studios (two studios).",
+   "src": [
+    "denver7-2024-01-26",
+    "chfa-2022-r1-descriptions",
+    "ulc-2025-06-10"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financial closing date, lender, equity investor and final Division of Housing, CHFA HOF and Adams County HOME amounts.",
+  "Ground lease rent and exact term (sources say at least 99 years).",
+  "Placed-in-service date and 8609 issuance.",
+  "Whether the artist preference was adopted (depended on a grant).",
+  "Why construction started about 20 months after the award (not explained publicly).",
+  "2022 Round One applicant report not located on chfainfo.com."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "2022 Round One - 9% Competitive Housing Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One 9% Housing Credit Application Narratives (SP Crossing Apartments, PDF pp. 104-108)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "ulc-2024-01-03",
+   "title": "Urban Land Conservancy to deliver 60 affordable apartments in Commerce City via innovative community land trust",
+   "publisher": "Urban Land Conservancy",
+   "date": "2024-01-03",
+   "url": "https://urbanlandc.org/urban-land-conservancy-to-deliver-60-affordable-apartments-in-commerce-city-via-innovative-community-land-trust/"
+  },
+  {
+   "id": "denver7-2024-01-26",
+   "title": "South Platte Crossing affordable apartments coming to Commerce City",
+   "publisher": "Denver7",
+   "date": "2024-01-26",
+   "url": "https://www.denver7.com/news/local-news/south-platte-crossing-affordable-apartments-coming-to-commerce-city"
+  },
+  {
+   "id": "ulc-2025-06-10",
+   "title": "ULC and partners celebrate 60 new, transit-oriented, affordable apartments in Commerce City",
+   "publisher": "Urban Land Conservancy",
+   "date": "2025-06-10",
+   "url": "https://urbanlandc.org/grand-opening-south-platte-crossing-commerce-city/"
+  },
+  {
+   "id": "ccd-2025-06-10",
+   "title": "New, Transit-Oriented, Affordable Apartments Open in Commerce City",
+   "publisher": "Colorado Construction & Design",
+   "date": "2025-06-10",
+   "url": "https://ccdmag.com/project-updates/south-platte-apartments/"
+  }
+ ]
+}

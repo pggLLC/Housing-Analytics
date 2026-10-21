@@ -1,0 +1,348 @@
+{
+ "slug": "retreat-at-brighton-ridge-homes-brighton",
+ "name": "Retreat at Brighton Ridge Homes",
+ "city": "Brighton",
+ "county": "Adams",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 264,
+ "researched_on": "2026-10-21",
+ "headline": "The Retreat at Brighton Ridge is a 264-home, all-60%-AMI family apartment community by Pedcor Investments on Lot 2 of Brighton Ridge Filing 1 near 120th Avenue and Potomac Street in Brighton (now addressed 560 Gateway St); it won $4,758,924 a year in 2022 federal 4% credit, the largest of this group, with $51.2M of CHFA bonds.",
+ "why_it_matters": "A large garden-style 60% AMI deal by an out-of-state tax credit developer that bought its land in mid-2023 and now markets the property, but with almost no public record of local approvals, financing partners or construction dates.",
+ "status": {
+  "label": "Marketed for lease by Pedcor; no dated construction or completion record found; 8609s not yet issued",
+  "detail": "Pedcor bought the land in June 2023 and moved it to its project partnership in July 2024; the City of Brighton's address layer now lists eight residential buildings and four garage buildings at 560 Gateway St, and Pedcor's leasing site markets the community (viewed 2026-10-21). No permit, certificate of occupancy or opening date was found, and CHFA still lists the deal on its 2026-09-21 award report, which excludes developments with 8609s issued.",
+  "src": [
+   "adams-sales-bri",
+   "brighton-address-bri",
+   "pedcor-bri",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Look for City of Brighton building permit and certificate of occupancy records for 560 Gateway St and for 8609 issuance.",
+ "key_numbers": [
+  {
+   "value": "264 homes, all at 60% AMI",
+   "meaning": "96 one-bedrooms, 120 two-bedrooms and 48 three-bedrooms.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$4,758,924 a year in federal 4% credit",
+   "meaning": "About $47.6M over 10 years (inferred); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$51.2M CHFA private activity bonds",
+   "meaning": "The 2022 bond-pool letter of intent requested $46.2M.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "value": "$2.6M land purchase (2023)",
+   "meaning": "Recorded sale price for the lot from Walk Off LLC to Pedcor Investments LLC.",
+   "src": [
+    "adams-sales-bri"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists \"South and West of 120th and Potomac\", Brighton 80640; the city address layer and Pedcor use 560 Gateway St, Brighton 80640",
+   "src": [
+    "chfa-4pct-award",
+    "brighton-address-bri",
+    "pedcor-brochure-bri"
+   ]
+  },
+  {
+   "item": "Parcel",
+   "value": "0172101118026, Brighton Ridge Subd Filing 1 Lot 2; owner of record Pedcor Investments-2021-CLXXXIV LP",
+   "src": [
+    "adams-parcel-bri"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "R-3 under City of Brighton Ordinance 2388 dated 2022-08-02 (case 21-00083), per the city's zoning layer",
+   "src": [
+    "brighton-zoning-bri"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a Small Area Difficult Development Area (SADDA: Yes); Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Unit sizes and amenities",
+   "value": "1BR 775 sq ft, 2BR 1,105 sq ft, 3BR 1,368 sq ft; clubhouse, fitness center, pool, playground, bark park, garages available",
+   "src": [
+    "pedcor-brochure-bri"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 264
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 96
+  },
+  {
+   "type": "2BR",
+   "units": 120
+  },
+  {
+   "type": "3BR",
+   "units": 48
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$4,758,924 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$51,200,000",
+   "note": "From CHFA's 2022 4% bond pool (letter of intent requested $46,200,000).",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Pedcor Investments, A Limited Liability Company",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Owner of record",
+   "name": "Pedcor Investments-2021-CLXXXIV LP",
+   "src": [
+    "adams-parcel-bri",
+    "adams-sales-bri"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Colorado Housing and Finance Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Walk Off LLC",
+   "src": [
+    "adams-sales-bri"
+   ]
+  },
+  {
+   "role": "Property manager (as marketed)",
+   "name": "Pedcor (Pedcor Living)",
+   "src": [
+    "pedcor-bri"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Pedcor Investments LLC bought Lot 2 from Walk Off LLC by special warranty deed dated 2023-06-01 (recorded 2023-06-02) for $2,596,076, then deeded it to Pedcor Investments-2021-CLXXXIV LP on 2024-07-01 (recorded 2024-07-18) for a recorded $639,417; the partnership transfer likely coincided with the financing closing (inferred).",
+   "src": [
+    "adams-sales-bri"
+   ]
+  },
+  {
+   "text": "The City of Brighton rezoned about 17.7 acres around the site to R-3 by Ordinance 2388 on 2022-08-02, and its development phasing layer lists Brighton Ridge Filing 1 with a development agreement and a partial assignment (inferred to be the local approvals behind the project).",
+   "src": [
+    "brighton-zoning-bri",
+    "brighton-phasing-bri"
+   ]
+  },
+  {
+   "text": "The city's address layer shows site addresses for buildings 1 to 8 and garages G1 to G4 at 560 Gateway St, plus individual unit addresses; it does not by itself prove the units are occupied.",
+   "src": [
+    "brighton-address-bri"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Letter of intent to CHFA's 2022 4% bond pool: 264 units, $46.2M requested",
+   "src": [
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "date": "2022-08-02",
+   "event": "City of Brighton Ordinance 2388 zones the area R-3",
+   "src": [
+    "brighton-zoning-bri"
+   ]
+  },
+  {
+   "date": "2023-06-01",
+   "event": "Pedcor Investments LLC buys the lot for $2,596,076",
+   "src": [
+    "adams-sales-bri"
+   ]
+  },
+  {
+   "date": "2024-07-01",
+   "event": "Lot deeded to Pedcor Investments-2021-CLXXXIV LP",
+   "src": [
+    "adams-sales-bri"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Pedcor's leasing site markets the community",
+   "src": [
+    "pedcor-bri"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Floor plans and amenity brochure",
+   "url": "https://devoppstorage.blob.core.windows.net/management/The%20Retreat%20at%20Brighton%20Ridge%20-%20EBrochure.pdf",
+   "kind": "rendering",
+   "made_by": "Pedcor",
+   "note": "Two-page leasing brochure; page 2 has the 1, 2 and 3 bedroom floor plans",
+   "src": [
+    "pedcor-brochure-bri"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Building permit, construction start and certificate of occupancy dates.",
+  "Tax credit investor, lender, total development cost and rents.",
+  "Whether all 264 units sit on Lot 2 or some are on another lot.",
+  "Any housing authority partnership or property tax exemption."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-loi",
+   "title": "2022 CHFA 4% PAB Pool Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "pedcor-bri",
+   "title": "The Retreat at Brighton Ridge (leasing page, viewed 2026-10-21)",
+   "publisher": "Pedcor Living",
+   "date": "2026-10-21",
+   "url": "https://www.pedcorliving.com/apartments/the-retreat-at-brighton-ridge"
+  },
+  {
+   "id": "pedcor-brochure-bri",
+   "title": "The Retreat at Brighton Ridge e-brochure",
+   "publisher": "Pedcor",
+   "date": "2026",
+   "url": "https://devoppstorage.blob.core.windows.net/management/The%20Retreat%20at%20Brighton%20Ridge%20-%20EBrochure.pdf"
+  },
+  {
+   "id": "adams-parcel-bri",
+   "title": "Adams County parcels layer, query for parcel 0172101118026 (queried 2026-10-21)",
+   "publisher": "Adams County",
+   "date": "2026-10-21",
+   "url": "https://services3.arcgis.com/4PNQOtAivErR7nbT/ArcGIS/rest/services/Parcels/FeatureServer/0/query?where=PARCELNB%3D%270172101118026%27&outFields=PARCELNB%2CLOCCITY%2COWNERNAMEFULL%2CLEGAL%2CSUBNAME&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "adams-sales-bri",
+   "title": "Adams County property sales table, query for parcel 0172101118026 (queried 2026-10-21)",
+   "publisher": "Adams County",
+   "date": "2026-10-21",
+   "url": "https://services3.arcgis.com/4PNQOtAivErR7nbT/ArcGIS/rest/services/Property_Sales/FeatureServer/0/query?where=parcelnb%3D%270172101118026%27&outFields=*&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "brighton-zoning-bri",
+   "title": "City of Brighton OpenGov zoning layer, point query at the site (queried 2026-10-21)",
+   "publisher": "City of Brighton",
+   "date": "2026-10-21",
+   "url": "https://maps.brightonco.gov/public/rest/services/Dept_Com_Dev/OpenGovLayers/MapServer/15/query?geometry=-104.8315%2C39.91231&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=false&f=pjson&outSR=4326"
+  },
+  {
+   "id": "brighton-phasing-bri",
+   "title": "City of Brighton OpenGov development phasing layer, query for Brighton Ridge (queried 2026-10-21)",
+   "publisher": "City of Brighton",
+   "date": "2026-10-21",
+   "url": "https://maps.brightonco.gov/public/rest/services/Dept_Com_Dev/OpenGovLayers/MapServer/12/query?where=SUBNAME%3D%27Brighton+Ridge%27&outFields=*&returnGeometry=false&f=pjson&outSR=4326"
+  },
+  {
+   "id": "brighton-address-bri",
+   "title": "City of Brighton OpenGov address layer, building-level addresses for PIN 172101118026 (queried 2026-10-21)",
+   "publisher": "City of Brighton",
+   "date": "2026-10-21",
+   "url": "https://maps.brightonco.gov/public/rest/services/Dept_Com_Dev/OpenGovLayers/MapServer/0/query?where=PIN%3D%27172101118026%27+AND+Un_Num_2+IS+NULL&outFields=ADDR_FULL%2CAddr_Type&returnGeometry=false&f=pjson&outSR=4326"
+  }
+ ]
+}

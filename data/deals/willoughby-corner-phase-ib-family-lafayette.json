@@ -1,0 +1,523 @@
+{
+ "slug": "willoughby-corner-phase-ib-family-lafayette",
+ "name": "Willoughby Corner Phase IB Family Apartments",
+ "city": "Lafayette",
+ "county": "Boulder",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "researched_on": "2026-10-21",
+ "units": 129,
+ "headline": "Willoughby Corner Phase IB is 129 all-electric, zero-energy-ready family apartments (four buildings) at or below 60% AMI in Boulder County Housing Authority's 400-home Willoughby Corner neighborhood in Lafayette; BCHA won 2022 Round Two federal 4% and $1M state credits, and the phase was complete, fully leased and placed in service by November 2025.",
+ "why_it_matters": "It is the bond-financed half of the 192-home first phase (paired with a 9% senior building), built on land Lafayette bought and with half the water rights paid by the city, and it set aside a preference for income-qualified Marshall Fire survivors.",
+ "status": {
+  "label": "Completed, fully leased, placed in service (November 2025)",
+  "detail": "BCHA's 2026 CHFA application for Phase 2A says the first phase, including the 129 family apartments, was fully leased and placed in service in November 2025; Phase 1 held its grand opening on 2025-08-21. No 8609 record was found.",
+  "src": [
+   "chfa-2026-r1-narratives",
+   "longmont-leader-2025-09",
+   "bc-willoughby-page"
+  ]
+ },
+ "next_step": "Watch for 8609 issuance and for Phase 2A (32 IDD homes), which won 2026 Round One credits.",
+ "key_numbers": [
+  {
+   "value": "129 homes, all income-restricted",
+   "meaning": "87 one-bedroom, 30 two-bedroom and 12 three-bedroom apartments for families at or below 60% AMI.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$3,099,664 a year in federal 4% credit",
+   "meaning": "Plus $1,000,000 of state credit; BCHA itself issued $33,250,000 in tax-exempt bonds.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "Average 52.9% AMI (inferred)",
+   "meaning": "7 units at 30%, 9 at 40%, 52 at 50% and 61 at 60% AMI.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $73.5M bond-financed project cost",
+   "meaning": "Bond counsel's figure for the Series 2023 Willoughby Corner Multifamily bonds; it does not say which buildings it covers.",
+   "src": [
+    "kutak-2023-05"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (CHFA)",
+   "value": "N. 120th Street and E. Emma Street, Lafayette, CO 80026",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two three-story apartment buildings with elevators and two two-story nine-unit flats, plus a one-story community building; named Bluestem Place, Sugar Beet House, Peach Tree House and Purple Prairie Place",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, geothermal heating and cooling, rooftop and ground-mounted solar; Zero Energy Ready Homes certification target",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "longmont-leader-2025-09"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Part of a 24-acre site in a qualified census tract (608.00), zoned R-4 high-density residential with a PUD overlay",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-pud-2022"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD DASH and 225D service extended to the neighborhood; residents get a free RTD Eco-Pass",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rent (BCHA page)",
+   "value": "One-bedroom 60% AMI units listed at $1,642 a month including all utilities; all 30%, 40% and 50% AMI units leased",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "Not project-based Section 8; Housing Choice Voucher holders may apply",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 52
+  },
+  {
+   "level": "60% AMI",
+   "units": 61
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 87
+  },
+  {
+   "type": "2BR",
+   "units": 30
+  },
+  {
+   "type": "3BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,099,664 per year",
+   "note": "Annual credit, runs 10 years. Federal credit investor: Hudson Housing Capital.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "State credit investor: Monarch Private Capital.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (BCHA issuer)",
+   "amount": "$33,250,000 (CHFA award report)",
+   "note": "Application: private placement, $15,400,000 permanent bonds and about $6,600,000 taxable construction loan. Bond counsel later described Series 2023 bonds of up to $37,791,108. BCHA as issuer implies BCHA's own or assigned bond cap (inferred).",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "kutak-2023-05"
+   ]
+  },
+  {
+   "source": "Lender",
+   "amount": "Not public",
+   "note": "BCHA names FirstBank as lender.",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "source": "Other gap sources named in the application",
+   "amount": "Not public",
+   "note": "Colorado Division of Housing soft funds, Boulder County Worthy Cause funds, BCHA gap funding and deferred developer fee.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Lafayette land, water and fees (whole neighborhood)",
+   "amount": "$3.1M-$3.5M land, half of water rights, about $1.5M fee waivers",
+   "note": "Water rights for the site received $5.3M in grants; Boulder County added nearly $13M of county and ARPA money across the first phase.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-news-2023-04"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), developer, bond issuer, owner and manager",
+   "name": "Boulder County Housing Authority (BCHA)",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "role": "Land partner (IGA)",
+   "name": "City of Lafayette",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Federal credit investor",
+   "name": "Hudson Housing Capital",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "role": "State credit investor",
+   "name": "Monarch Private Capital",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "role": "Lender",
+   "name": "FirstBank",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "HRS&H (formerly HB&A) Architecture and Planning",
+   "src": [
+    "bc-willoughby-page",
+    "norris-topout"
+   ]
+  },
+  {
+   "role": "Contractor",
+   "name": "Pinkard Construction (named for preconstruction by BCHA and as builder in the topping-out report)",
+   "src": [
+    "bc-willoughby-page",
+    "norris-topout"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock LLP",
+   "src": [
+    "kutak-2023-05"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "GL Development Advisors",
+   "src": [
+    "bc-willoughby-page"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Lafayette, Boulder County and BCHA control the 24-acre site under an intergovernmental agreement that dedicates the land to permanently affordable housing; the city bought the land and assigned it to BCHA.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "text": "Phase 1A (63 apartments for adults 55+, now Búho Place) won 9% credits in May 2022; Phase 1B is the 4% family half of Phase 1, and BCHA planned to close both together.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-news-2022-05",
+    "bc-willoughby-page"
+   ]
+  },
+  {
+   "text": "Lafayette rezoned the site to R-4 in April 2022 and the Planning Commission approved the PUD overlay 6-0; the final PUD was recorded on 2022-11-30.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-news-2022-05",
+    "bc-pud-2022"
+   ]
+  },
+  {
+   "text": "Lafayette City Council unanimously approved BCHA's site plan for the first phase on 2023-04-18.",
+   "src": [
+    "bc-news-2023-04"
+   ]
+  },
+  {
+   "text": "CHFA's award description says BCHA will give a preference to income-qualified residents displaced by the December 2021 Marshall Fire.",
+   "src": [
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "text": "Each phase repays BCHA its share of site infrastructure (Phase 1B: 129 of 400 homes, 32.25%); the first phase included about $15M in infrastructure.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "longmont-leader-2025-09"
+   ]
+  },
+  {
+   "text": "The application targeted a January 2023 closing; Boulder County later expected first-phase loans to close in early May 2023, and bond counsel announced the Series 2023 bonds on 2023-05-22.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-news-2023-04",
+    "kutak-2023-05"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-04",
+   "event": "Lafayette rezones the site to R-4",
+   "src": [
+    "bc-news-2022-05"
+   ]
+  },
+  {
+   "date": "2022-05",
+   "event": "Phase 1A senior building wins 9% credits",
+   "src": [
+    "bc-news-2022-05"
+   ]
+  },
+  {
+   "date": "2022-08-12",
+   "event": "CHFA posts Round Two narratives including Phase 1B",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-11-30",
+   "event": "Final Willoughby Corner PUD recorded",
+   "src": [
+    "bc-pud-2022"
+   ]
+  },
+  {
+   "date": "2023-04-18",
+   "event": "Lafayette City Council approves first-phase site plan",
+   "src": [
+    "bc-news-2023-04"
+   ]
+  },
+  {
+   "date": "2023-05-22",
+   "event": "Bond counsel announces BCHA Series 2023 Willoughby Corner Multifamily bonds (up to $37,791,108)",
+   "src": [
+    "kutak-2023-05"
+   ]
+  },
+  {
+   "date": "2023-07-19",
+   "event": "Groundbreaking for the neighborhood",
+   "src": [
+    "bc-news-2023-07"
+   ]
+  },
+  {
+   "date": "2025-08-21",
+   "event": "Grand opening of Phase 1 (192 homes)",
+   "src": [
+    "longmont-leader-2025-09"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Phase 1 fully leased and placed in service, per BCHA",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Willoughby Corner final PUD: overall site plan",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2024/03/willoughby-corner-planned-unit-development.pdf",
+   "kind": "site plan",
+   "made_by": "Norris Design for BCHA (recorded PUD)",
+   "note": "Sheet 2 of 16",
+   "src": [
+    "bc-pud-2022"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $33,250,000 of BCHA bonds, while bond counsel describes the Series 2023 Willoughby Corner Multifamily bonds as up to $37,791,108.",
+   "src": [
+    "chfa-2022-r2-award",
+    "kutak-2023-05"
+   ]
+  },
+  {
+   "text": "Bond counsel puts total project cost at about $73.5 million; the topping-out report's headline says $80 million and its text says total development and construction costs are $114 million, likely for different scopes.",
+   "src": [
+    "kutak-2023-05",
+    "norris-topout"
+   ]
+  },
+  {
+   "text": "The narrative says Lafayette paid $3.5 million for the land, while Boulder County's April 2023 release says $3.1 million.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "bc-news-2023-04"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Exact financial closing date and the split of the bonds and costs between the family phase and the senior building.",
+  "Division of Housing, Worthy Cause and BCHA gap amounts for Phase 1B.",
+  "8609 issuance date.",
+  "How many units were leased under the Marshall Fire preference."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "bc-willoughby-page",
+   "title": "Willoughby Corner (BCHA project page)",
+   "publisher": "Boulder County",
+   "date": "",
+   "url": "https://bouldercounty.gov/departments/housing/housing-developments/willoughby-corner/"
+  },
+  {
+   "id": "bc-news-2022-05",
+   "title": "Willoughby Corner Receives Key Funding from the Colorado Housing and Finance Authority, Rezoning Approval from City of Lafayette",
+   "publisher": "Boulder County",
+   "date": "2022-05-25",
+   "url": "https://bouldercounty.gov/news/willoughby-corner-receives-key-funding-from-the-colorado-housing-and-finance-authority-rezoning-approval-from-city-of-lafayette/"
+  },
+  {
+   "id": "bc-news-2023-04",
+   "title": "Willoughby Corner Receives Approvals to Begin First Phase Construction",
+   "publisher": "Boulder County",
+   "date": "2023-04-21",
+   "url": "https://bouldercounty.gov/news/willoughby-corner-receives-approvals-to-begin-first-phase-construction/"
+  },
+  {
+   "id": "bc-news-2023-07",
+   "title": "New Neighborhood of Affordable Homes Breaks Ground in Lafayette",
+   "publisher": "Boulder County",
+   "date": "2023-07-20",
+   "url": "https://bouldercounty.gov/news/new-neighborhood-of-affordable-homes-breaks-ground-in-lafayette/"
+  },
+  {
+   "id": "kutak-2023-05",
+   "title": "Kutak Rock serves as bond counsel: Willoughby Corner project",
+   "publisher": "Kutak Rock LLP",
+   "date": "2023-05-22",
+   "url": "https://www.kutakrock.com/newspublications/news/2023/may/willoughby-corner-project"
+  },
+  {
+   "id": "norris-topout",
+   "title": "Pinkard Construction tops out $80 million Willoughby Corner in Boulder County (reprinted from CREJ)",
+   "publisher": "Norris Design",
+   "date": "",
+   "url": "https://www.norris-design.com/featured/pinkard-construction-tops-out-80-million-willoughby-corner-in-boulder-county/"
+  },
+  {
+   "id": "longmont-leader-2025-09",
+   "title": "Willoughby Corner Affordable Housing Community Opens in Boulder County With 192 Units",
+   "publisher": "Longmont Leader",
+   "date": "2025-09-03",
+   "url": "https://www.longmontleader.com/local-news/willoughby-corner-affordable-housing-community-opens-in-boulder-county-with-192-units-11160625"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Willoughby Corner Phase 2A, p. 156)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bc-pud-2022",
+   "title": "Willoughby Corner Final Planned Unit Development (recorded 2022-11-30)",
+   "publisher": "Boulder County (BCHA document library)",
+   "date": "2022-11-30",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2024/03/willoughby-corner-planned-unit-development.pdf"
+  }
+ ]
+}
