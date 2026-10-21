@@ -65,6 +65,16 @@ ok(!/<locals>/.test(html) && /&lt;locals&gt;/.test(html), 'quotes are escaped');
 ok(!/javascript:/.test(html), 'only https links');
 ok(/data-tip=/.test(html), 'table headers explain themselves');
 
+// Counts are numbers, a missing count is not a zero, and a shift states its rule.
+const hostile = JSON.parse(JSON.stringify(result));
+hostile.lexicon.counts['2026-Q3'].attainable = '<img src=x onerror=alert(1)>';
+hostile.sources[0].new_docs = '<b>9</b>';
+const hostileHtml = L.render({ geoid: '0899999', name: 'Testville', result: hostile, watched: true, watchState: 'ok', links: [] });
+ok(!/<img|<b>9/.test(hostileHtml), 'backend counts never reach the page as markup');
+const missing = Object.assign({}, result, { numbers: Object.assign({}, result.numbers, { items_90d: undefined }) });
+ok(L.keyNumbers(missing)[0].big === 'Not counted' && !/quiet/.test(L.meaning(Object.assign({}, missing, { numbers: { items_90d: null } }))), 'a missing count is not shown as zero');
+ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
+
 // Not watched and not read yet.
 const empty = L.render({ geoid: '0899999', name: 'Testville', result: null, watched: false, watchState: 'ok', links: [] });
 ok(/Mark as planning to submit/.test(empty) && /aria-pressed="false"/.test(empty), 'switch offered');

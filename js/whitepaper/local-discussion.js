@@ -28,6 +28,9 @@
     hand: { label: 'Check by hand', note: 'Nothing here can be read automatically. Check the pages on the dates below, then paste what you find.' }
   };
 
+  var RULE = 'A shift is a word whose share of housing words moves 10 points or more against the past 4 quarters, with at least 20 words in each; or a word used for the first time in an adopted ordinance, resolution or plan.';
+  // Counts from the backend become plain numbers before they reach the page.
+  function num(v) { var n = Number(v); return isFinite(n) && n >= 0 ? Math.round(n) : 0; }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function link(url, text) {
     return /^https:\/\//.test(url || '') ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(text) + '</a>' : esc(text);
@@ -46,12 +49,14 @@
   // The four key numbers, one sentence each.
   function keyNumbers(r) {
     var n = r.numbers || {}, out = [];
-    out.push({ big: String(n.items_90d || 0), text: 'housing items on agendas, minutes or packets in the last 90 days.' });
+    var items = n.items_90d == null || !isFinite(Number(n.items_90d)) ? null : num(n.items_90d);
+    out.push(items === null ? { big: 'Not counted', text: 'the housing item count for the last 90 days did not come through in this read.' }
+      : { big: String(items), text: 'housing items on agendas, minutes or packets in the last 90 days.' });
     var c = n.next_check;
     out.push(c ? { big: day(c.check_on), text: 'next date to check: ' + c.body + ' meets ' + day(c.meeting) + '.' }
       : { big: 'None', text: 'no meeting to check in the next 60 days on file.' });
     var w = n.rising;
-    out.push(w ? { big: '“' + w.term + '”', text: 'fastest-rising housing word: ' + w.from + '% of housing words before, ' + w.to + '% in ' + w.quarter + '.' }
+    out.push(w ? { big: '“' + w.term + '”', text: 'fastest-rising housing word: ' + num(w.from) + '% of housing words in the 4 quarters before, ' + num(w.to) + '% in ' + w.quarter + ' (at least 20 words in each).' }
       : { big: 'Steady', text: 'no word has risen yet; that needs at least 20 housing words in this quarter and in the year before.' });
     var h = n.hearing;
     out.push(h ? { big: day(h.date), text: 'next public hearing or comment date with housing on it (' + h.body + ').' }
@@ -62,7 +67,8 @@
   function meaning(r) {
     var n = r.numbers || {};
     if (n.rising) return 'Local talk is moving toward “' + n.rising.term + '”. Use the town’s own words when you pitch the deal.';
-    if (!n.items_90d) return 'Housing has been quiet on agendas lately. A first call can set the terms before a debate starts.';
+    if (n.items_90d == null) return 'Read the newest quotes before you call.';
+    if (!num(n.items_90d)) return 'Housing has been quiet on agendas lately. A first call can set the terms before a debate starts.';
     return 'Housing is on the agenda. Read the latest quotes before you call, so the pitch answers what was said.';
   }
 
@@ -84,8 +90,8 @@
   }
 
   function flags(list) {
-    if (!list || !list.length) return '<p class="ib-muted">No shift yet. A shift is a word whose share of housing words moves 10 points or more against the year before, with at least 20 words in each; or a word used for the first time in an adopted ordinance, resolution or plan.</p>';
-    return '<ul class="ld-list">' + list.map(function (f) {
+    if (!list || !list.length) return '<p class="ib-muted">No shift yet. ' + RULE + '</p>';
+    return '<p class="ib-muted">' + RULE + '</p><ul class="ld-list">' + list.map(function (f) {
       var head = f.kind === 'first'
         ? '“' + esc(f.term) + '” first appears in an adopted item (' + esc(f.quarter) + ')'
         : '“' + esc(f.term) + '” ' + (f.to > f.from ? 'rose' : 'fell') + ' from ' + esc(f.from) + '% to ' + esc(f.to) + '% of housing words (' + esc(f.quarter) + ')';
@@ -98,14 +104,14 @@
     var used = terms.filter(function (t) { return qs.some(function (q) { return (lex.counts[q] || {})[t.term]; }); });
     if (!qs.length || !used.length) return '<p class="ib-muted">No housing words counted yet.</p>';
     var tot = {};
-    qs.forEach(function (q) { tot[q] = Object.keys(lex.counts[q] || {}).reduce(function (a, k) { return a + lex.counts[q][k]; }, 0); });
+    qs.forEach(function (q) { tot[q] = Object.keys(lex.counts[q] || {}).reduce(function (a, k) { return a + num(lex.counts[q][k]); }, 0); });
     return '<div class="ld-table-wrap"><table class="ld-table"><thead><tr>' +
       '<th data-tip="The housing word or phrase counted. Each counts only in a sentence that also names housing.">Word</th>' +
       '<th data-tip="How housing is named, the tools in play, the form of building, or pushback.">Group</th>' +
-      qs.map(function (q) { return '<th data-tip="Share of all housing words counted in ' + esc(q) + ' (' + tot[q] + ' words).">' + esc(q) + '</th>'; }).join('') +
+      qs.map(function (q) { return '<th data-tip="Share of all housing words counted in ' + esc(q) + ' (' + num(tot[q]) + ' words).">' + esc(q) + '</th>'; }).join('') +
       '</tr></thead><tbody>' + used.map(function (t) {
         return '<tr><td>' + esc(t.term) + '</td><td>' + esc(t.group) + '</td>' + qs.map(function (q) {
-          var k = (lex.counts[q] || {})[t.term] || 0;
+          var k = num((lex.counts[q] || {})[t.term]);
           return '<td data-sort="' + (tot[q] ? (100 * k / tot[q]).toFixed(1) : 0) + '">' + (k ? Math.round(100 * k / tot[q]) + '% <span class="ib-muted">(' + k + ')</span>' : '·') + '</td>';
         }).join('') + '</tr>';
       }).join('') + '</tbody></table></div>';
@@ -131,7 +137,7 @@
     var s = r.sources || [];
     if (!s.length) return '';
     return '<ul class="ld-list">' + s.map(function (x) {
-      return '<li>' + link(x.url, x.label) + ': ' + (x.ok ? 'read this week' + (x.new_docs ? ', ' + x.new_docs + ' new' : '') : 'could not be read this week') + '</li>';
+      return '<li>' + link(x.url, x.label) + ': ' + (x.ok ? 'read this week' + (num(x.new_docs) ? ', ' + num(x.new_docs) + ' new' : '') : 'could not be read this week') + '</li>';
     }).join('') + '</ul>';
   }
 
