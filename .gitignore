@@ -84,5 +84,16 @@ docs/developer-pipeline-prototype/
 docs/indibuild-pipeline-prototype/
 gated/
 dossiers/
+ripeness/
+private/
+internal/
+saved-deals/
+deal-versions/
+submittal-uploads/
+uploads/
 data/ripeness.json
+*contacts*.csv
 *.docx
+*.doc
+*.pptx
+*.xlsm

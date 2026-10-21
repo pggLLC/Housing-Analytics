@@ -15,7 +15,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Paths that are private wherever they appear.
 const PRIVATE_PATHS = [
   { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/_(contacts|landscape)\// },
-  { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/_[a-z0-9-]*contacts[a-z0-9-]*\.json$/i },
+  { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/[^/]*contacts[^/]*\.(json|csv)$/i },
+  { label: 'contact export (coho-backend gated/)', re: /(^|\/)[^/]*contacts?[^/]*\.(csv|tsv|xlsx|xls)$/i },
   { label: 'private pipeline files (coho-backend docs/)', re: /^docs\/(developer|indibuild)-pipeline-prototype\// },
   { label: 'coho-backend folder', re: /^(gated|dossiers|ripeness|private|internal)\// },
   { label: 'readiness readings built from dossiers (coho-backend build)', re: /^data\/ripeness\.json$/ },
@@ -28,6 +29,7 @@ const PRIVATE_TEXT = [
   { label: 'contact CSV header', re: /^name,[^\n]*\bemail\b[^\n]*\bphone\b/im },
   { label: 'pipeline relationship field', re: /\brelationship_tier\b/ },
   { label: 'pipeline last-talked field', re: /\blast_talked\b/ },
+  { label: 'pipeline next-action column', re: /\bnext_action(_due)?\b/, ext: /\.(csv|tsv|json)$/i },
   { label: 'partnership terms heading', re: /^#+\s*Proposed partnership terms\b/im },
   { label: 'call sheet heading', re: /^#+\s*Call sheet\b/im }
 ];
@@ -52,8 +54,9 @@ function scanFile(f, readText) {
   for (const { label, re } of PRIVATE_PATHS) if (re.test(f)) out.push(`${f}: ${label}`);
   if (!TEXT_EXT.test(f) || CODE_FILE.test(f)) return out;
   const text = readText();
-  if (text == null || text.length > MAX_TEXT) return out;
-  for (const { label, re } of PRIVATE_TEXT) if (re.test(text)) out.push(`${f}: ${label}`);
+  if (text == null) return out;
+  if (text.length > MAX_TEXT) return out.concat(`${f}: too large to check (${Math.round(text.length / 1048576)} MB); keep exports out of the public repo`);
+  for (const { label, re, ext } of PRIVATE_TEXT) if ((!ext || ext.test(f)) && re.test(text)) out.push(`${f}: ${label}`);
   return out;
 }
 
@@ -61,6 +64,20 @@ const files = execFileSync('git', ['ls-files', '-z'], { cwd: ROOT, encoding: 'ut
 const findings = [];
 for (const f of files) {
   findings.push(...scanFile(f, () => { try { return readFileSync(path.join(ROOT, f), 'utf8'); } catch { return null; } }));
+}
+
+// On a pull request, also every file the PR's own commits added or changed,
+// even one a later commit deleted: its blob stays readable in the PR history.
+const base = process.env.GITHUB_BASE_REF;
+if (base) {
+  const git = (...a) => execFileSync('git', a, { cwd: ROOT, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  let raw = '';
+  try { raw = git('log', '--format=', '--raw', '--no-abbrev', '--no-renames', '--diff-filter=AM', `origin/${base}..HEAD`); } catch { console.warn(`repo-private-data: origin/${base} not available; PR history not scanned`); }
+  for (const line of raw.split('\n')) {
+    const m = line.match(/^:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AM]\t(.+)$/);
+    if (!m) continue;
+    for (const x of scanFile(m[2], () => { try { return git('cat-file', '-p', m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
+  }
 }
 
 if (findings.length) {
@@ -77,9 +94,12 @@ const mustCatch = [
   ['notes/bayfield-call-sheet.md'], ['data/x.docx'], ['data/notes.md', '## Proposed partnership terms\n'],
   ['data/people.csv', 'name,org,email,phone\n'],
   ['test/fixtures/private-contact-leak.csv', 'name,org,email,phone\nPat,Org,pat@example.com,555\n'],
-  ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n']
+  ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
+  ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
+  ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
-const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['data/hna/x.json', '{"a":1}']];
+const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['data/hna/x.json', '{"a":1}'],
+  ['docs/api/js__components__pipeline-store.md', 'next_action']];
 for (const [f, t] of mustPass) if (scanFile(f, () => t).length) { console.error('guard wrongly flags ' + f); process.exit(1); }
 console.log(`repo-private-data: ${files.length} tracked files checked, none private.`);
