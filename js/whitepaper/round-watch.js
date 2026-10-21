@@ -622,7 +622,12 @@
       controls.addEventListener('click', function (e) {
         if (e.target.closest && e.target.closest('[data-download]')) { download(); return; }
         var t = e.target.closest ? e.target.closest('[data-round]') : null;
-        if (t) { state.round = +t.getAttribute('data-round'); state.open = {}; draw(); }
+        if (t) {
+          state.round = +t.getAttribute('data-round'); state.open = {};
+          // a region the new round has no deals in is not in its menu: show all rather than a hidden filter
+          if (!data.rounds[state.round].items.some(function (i) { return i.region === state.region; })) state.region = 'all';
+          draw();
+        }
       });
       controls.addEventListener('change', function (e) {
         var k = e.target.getAttribute && e.target.getAttribute('data-filter');
