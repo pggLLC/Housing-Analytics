@@ -16,7 +16,8 @@
 // (window.__HNA_buildScenarioBuilderOverlayForTest), fed by the committed
 // files; the builder side is ScenarioBuilder.homesSeries on contextFor.
 // Statewide, which the builder does not model, the page draws no line and
-// says why rather than drawing nothing silently.
+// says why rather than drawing nothing silently. A saved scenario whose files
+// finish loading after the reader has moved on draws nothing (Codex, #2407).
 
 const assert = require('assert');
 const fs = require('fs');
@@ -159,5 +160,72 @@ function builderChange(r) {
   assert.strictEqual(failed, null, 'a missing county file draws no partial line');
   assert(says() && disclosure.textContent !== statewideReason, 'and the page says the files did not load');
 
-  console.log(`hna-saved-scenario-matches-builder: PASS (${compared} places, ${multiCounty} across more than one county, equal year by year on both pages)`);
+  // A saved scenario's files still loading when the reader switches back to a
+  // built-in scenario: the later render stands, and the earlier one, resuming,
+  // draws no saved line, shows no disclosure and exports no saved series.
+  // Run through the page's own applyAssumptions.
+  const sel = document.getElementById('projScenario');
+  const opt = document.createElement('option');
+  opt.value = key; opt.textContent = 'Agreement';
+  sel.appendChild(opt);
+  const R = window.HNARenderers;
+  const renderScenario = R._renderScenarioSection;
+  const drawn = [];
+  R._renderScenarioSection = function (...a) {
+    drawn.push((a[6] && a[6].customScenario && a[6].customScenario.key) || null);
+    return renderScenario.apply(this, a);
+  };
+  window.HNAState.state.scenarioBaselines = {};
+  const plainFetch = window.fetch;
+  let release;
+  let reached;
+  const held = new Promise((res) => { release = res; });
+  const atLoad = new Promise((res) => { reached = res; });
+  window.fetch = async (u) => (/scenario-baseline\/08077\.json$/.test(String(u).split('?')[0]) ? (reached(), held.then(() => plainFetch(u))) : plainFetch(u));
+  global.fetch = window.fetch;
+  const mesa = { geoType: 'county', geoid: '08077', label: 'Mesa County', profile: { DP02_0001E: 64000, DP04_0001E: 70000, DP05_0001E: 160000 } };
+  const mesaProj = readJson('data/hna/projections/08077.json');
+  window.HNAState.state.currentSelection = mesa;
+  sel.value = key;
+  const earlier = window.HNAController.applyAssumptions(mesaProj, mesa);
+  await Promise.race([atLoad, earlier.then(() => { throw new Error('the saved-scenario render finished without loading its county file'); })]);
+  sel.value = 'baseline';
+  await window.HNAController.applyAssumptions(mesaProj, mesa);
+  assert.deepStrictEqual(drawn, [null], 'the later, built-in render drew the scenario chart once, with no saved line');
+  release();
+  await earlier;
+  window.fetch = plainFetch; global.fetch = plainFetch;
+  assert.deepStrictEqual(drawn, [null], 'a saved-scenario render that resumed after the reader switched back redrew the chart');
+  assert(document.getElementById('customScenarioDisclosure').hidden, 'and must not show the saved scenario\'s disclosure');
+  assert(!Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes(key), 'or export its series');
+  assert(Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes('baseline'), 'the later render exported the built-in series');
+
+  // An earlier Colorado render still waiting on its county files when a Mesa
+  // render with the saved scenario finishes: resuming, it must not replace
+  // Mesa's saved line or its disclosure with the statewide message.
+  drawn.length = 0;
+  let releaseState;
+  let stateHeld;
+  const heldState = new Promise((res) => { releaseState = res; });
+  const atState = new Promise((res) => { stateHeld = res; });
+  window.fetch = async (u) => (/projections\/08\d{3}\.json$/.test(String(u).split('?')[0]) ? (stateHeld(), heldState.then(() => plainFetch(u))) : plainFetch(u));
+  global.fetch = window.fetch;
+  const colorado = { geoType: 'state', geoid: '08', label: 'Colorado', profile: { DP02_0001E: 2300000, DP04_0001E: 2600000, DP05_0001E: 5900000 } };
+  sel.value = key;
+  window.HNAState.state.currentSelection = colorado;
+  const stateRender = window.HNAController.applyAssumptions(readJson('data/hna/projections/08.json'), colorado);
+  await Promise.race([atState, stateRender.then(() => { throw new Error('the Colorado render finished without reading the county files'); })]);
+  window.fetch = plainFetch; global.fetch = plainFetch;
+  window.HNAState.state.currentSelection = mesa;
+  await window.HNAController.applyAssumptions(mesaProj, mesa);
+  const mesaDisclosure = disclosure.textContent;
+  assert.deepStrictEqual(drawn, [key], 'the Mesa render drew the saved line');
+  assert(!disclosure.hidden && /custom line is/.test(mesaDisclosure), 'and described it');
+  releaseState();
+  await stateRender;
+  assert.deepStrictEqual(drawn, [key], 'the earlier Colorado render, resuming, redrew the scenario chart over Mesa\'s');
+  assert.strictEqual(disclosure.textContent, mesaDisclosure, 'the earlier Colorado render, resuming, replaced Mesa\'s saved-scenario disclosure');
+  assert(Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes(key), 'Mesa\'s saved series is still the one exported');
+
+  console.log(`hna-saved-scenario-matches-builder: PASS (${compared} places, ${multiCounty} across more than one county, equal year by year on both pages; a stale saved-scenario load draws nothing)`);
 })().catch((e) => { console.error(e); process.exit(1); });

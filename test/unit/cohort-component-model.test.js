@@ -150,10 +150,23 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
     { births_pct: 90, deaths_pct: 105, migration_pct: 40, migrationNote: null }, 'new records read as saved');
   const legacy = M.paramsFromSaved({ fertility_multiplier: 1.05, mortality_multiplier: 0.98, net_migration_annual: 1000 }, 500);
   assert.deepEqual([legacy.births_pct, legacy.deaths_pct, legacy.migration_pct], [105, 98, 200], 'earlier records convert');
+  // Signed: where SDO expects net departures, a saved 0 or net departure is a
+  // share of SDO's; a count the other way loads at the nearest setting, 0%.
+  const zero = M.paramsFromSaved({ net_migration_annual: 0 }, -57);
+  assert.deepEqual([zero.migration_pct, zero.migrationNote], [0, null], 'a saved 0 where SDO expects departures is 0%');
+  assert.equal(M.paramsFromSaved({ net_migration_annual: -57 }, -57).migration_pct, 100, 'SDO\'s own departures are 100%');
+  assert.equal(M.paramsFromSaved({ net_migration_annual: -114 }, -57).migration_pct, 200, 'twice SDO\'s departures are 200%');
   const out = M.paramsFromSaved({ net_migration_annual: 250 }, -40);
-  assert.equal(out.migration_pct, 100, 'a migrant count cannot be a share of net departures');
-  assert(/250 people moving in a year/.test(out.migrationNote), 'and the note says what was saved');
-  assert.equal(M.paramsFromSaved({ net_migration_annual: -300 }, 600).migration_pct, 0, 'a negative count converts to 0%, the slider\'s floor');
+  assert.equal(out.migration_pct, 0, 'arrivals where SDO expects departures load at the nearest setting, 0%');
+  assert(/250 people moving in a year/.test(out.migrationNote) && /0%/.test(out.migrationNote), 'and the note says what was saved and what loads');
+  const down = M.paramsFromSaved({ net_migration_annual: -300 }, 600);
+  assert.equal(down.migration_pct, 0, 'departures where SDO expects arrivals load at 0%');
+  assert(/300 more people leaving than arriving/.test(down.migrationNote), 'with a note, not silently');
+  const small = M.paramsFromSaved({ net_migration_annual: -50 }, 10000);
+  assert.deepEqual([small.migration_pct, /0%/.test(small.migrationNote || '')], [0, true], 'a small count the other way, rounding to 0%, still carries the note');
+  const flat = M.paramsFromSaved({ net_migration_annual: 100 }, 0);
+  assert.equal(flat.migration_pct, 100, 'where SDO\'s average is zero there is nothing to take a share of');
+  assert(flat.migrationNote, 'and the reader is told');
   const none = M.paramsFromSaved({ fertility_multiplier: 1.0, mortality_multiplier: 1.0, net_migration_annual: null }, 600);
   assert.equal(none.migration_pct, 100, 'no saved migrant count keeps SDO\'s migration, not 0%');
   assert.equal(none.migrationNote, null, 'and needs no note');
