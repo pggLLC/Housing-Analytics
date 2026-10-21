@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T11:14:44.740879Z",
+  "generated": "2026-10-21T11:28:52.030755Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 939164
+      "bytes": 940764
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -4909,322 +4909,322 @@
     "data/hna/scenario-baseline/08001.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 38770
+      "bytes": 40152
     },
     "data/hna/scenario-baseline/08003.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35199
+      "bytes": 36460
     },
     "data/hna/scenario-baseline/08005.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40827
+      "bytes": 42276
     },
     "data/hna/scenario-baseline/08007.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34903
+      "bytes": 36142
     },
     "data/hna/scenario-baseline/08009.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33796
+      "bytes": 35032
     },
     "data/hna/scenario-baseline/08011.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34322
+      "bytes": 35547
     },
     "data/hna/scenario-baseline/08013.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 38920
+      "bytes": 40321
     },
     "data/hna/scenario-baseline/08014.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36353
+      "bytes": 37644
     },
     "data/hna/scenario-baseline/08015.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34864
+      "bytes": 36093
     },
     "data/hna/scenario-baseline/08017.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32424
+      "bytes": 33630
     },
     "data/hna/scenario-baseline/08019.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34833
+      "bytes": 36064
     },
     "data/hna/scenario-baseline/08021.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34660
+      "bytes": 35914
     },
     "data/hna/scenario-baseline/08023.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33639
+      "bytes": 34839
     },
     "data/hna/scenario-baseline/08025.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33835
+      "bytes": 35068
     },
     "data/hna/scenario-baseline/08027.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33890
+      "bytes": 35086
     },
     "data/hna/scenario-baseline/08029.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35975
+      "bytes": 37232
     },
     "data/hna/scenario-baseline/08031.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43619
+      "bytes": 45129
     },
     "data/hna/scenario-baseline/08033.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32794
+      "bytes": 33977
     },
     "data/hna/scenario-baseline/08035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 38969
+      "bytes": 40356
     },
     "data/hna/scenario-baseline/08037.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36686
+      "bytes": 38017
     },
     "data/hna/scenario-baseline/08039.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36600
+      "bytes": 37877
     },
     "data/hna/scenario-baseline/08041.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40736
+      "bytes": 42147
     },
     "data/hna/scenario-baseline/08043.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36804
+      "bytes": 38089
     },
     "data/hna/scenario-baseline/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35617
+      "bytes": 36903
     },
     "data/hna/scenario-baseline/08047.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34402
+      "bytes": 35603
     },
     "data/hna/scenario-baseline/08049.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35005
+      "bytes": 36277
     },
     "data/hna/scenario-baseline/08051.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35472
+      "bytes": 36751
     },
     "data/hna/scenario-baseline/08053.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 30927
+      "bytes": 32073
     },
     "data/hna/scenario-baseline/08055.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34197
+      "bytes": 35406
     },
     "data/hna/scenario-baseline/08057.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 31934
+      "bytes": 33131
     },
     "data/hna/scenario-baseline/08059.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40422
+      "bytes": 41841
     },
     "data/hna/scenario-baseline/08061.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32231
+      "bytes": 33437
     },
     "data/hna/scenario-baseline/08063.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34145
+      "bytes": 35403
     },
     "data/hna/scenario-baseline/08065.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34428
+      "bytes": 35658
     },
     "data/hna/scenario-baseline/08067.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36216
+      "bytes": 37516
     },
     "data/hna/scenario-baseline/08069.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 38723
+      "bytes": 40083
     },
     "data/hna/scenario-baseline/08071.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35042
+      "bytes": 36296
     },
     "data/hna/scenario-baseline/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34120
+      "bytes": 35332
     },
     "data/hna/scenario-baseline/08075.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35029
+      "bytes": 36312
     },
     "data/hna/scenario-baseline/08077.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35920
+      "bytes": 37247
     },
     "data/hna/scenario-baseline/08079.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 30947
+      "bytes": 32103
     },
     "data/hna/scenario-baseline/08081.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35010
+      "bytes": 36253
     },
     "data/hna/scenario-baseline/08083.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35529
+      "bytes": 36770
     },
     "data/hna/scenario-baseline/08085.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36164
+      "bytes": 37418
     },
     "data/hna/scenario-baseline/08087.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34792
+      "bytes": 36041
     },
     "data/hna/scenario-baseline/08089.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35610
+      "bytes": 36855
     },
     "data/hna/scenario-baseline/08091.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33659
+      "bytes": 34868
     },
     "data/hna/scenario-baseline/08093.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35342
+      "bytes": 36582
     },
     "data/hna/scenario-baseline/08095.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34061
+      "bytes": 35280
     },
     "data/hna/scenario-baseline/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34916
+      "bytes": 36195
     },
     "data/hna/scenario-baseline/08099.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35318
+      "bytes": 36560
     },
     "data/hna/scenario-baseline/08101.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 37416
+      "bytes": 38757
     },
     "data/hna/scenario-baseline/08103.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34386
+      "bytes": 35621
     },
     "data/hna/scenario-baseline/08105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35110
+      "bytes": 36360
     },
     "data/hna/scenario-baseline/08107.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35515
+      "bytes": 36783
     },
     "data/hna/scenario-baseline/08109.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34044
+      "bytes": 35257
     },
     "data/hna/scenario-baseline/08111.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 31223
+      "bytes": 32400
     },
     "data/hna/scenario-baseline/08113.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34034
+      "bytes": 35268
     },
     "data/hna/scenario-baseline/08115.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32976
+      "bytes": 34189
     },
     "data/hna/scenario-baseline/08117.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35843
+      "bytes": 37166
     },
     "data/hna/scenario-baseline/08119.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35509
+      "bytes": 36775
     },
     "data/hna/scenario-baseline/08121.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34237
+      "bytes": 35446
     },
     "data/hna/scenario-baseline/08123.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 37406
+      "bytes": 38748
     },
     "data/hna/scenario-baseline/08125.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35089
+      "bytes": 36335
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
