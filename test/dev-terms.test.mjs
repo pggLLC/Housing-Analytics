@@ -19,10 +19,15 @@ for (const f of files) {
   if (f.endsWith('.html')) ok(src.indexOf('js/whitepaper/dev-terms.js') > src.indexOf('js/components/inline-glossary.js') && src.includes('js/components/inline-glossary.js'),
     `${f} loads dev-terms.js after the glossary`);
 }
-// Each ripeness label the cards print is defined.
-const LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', all_taken: 'No open site', none: 'No site on file' };
-for (const v of Object.values(LABEL)) ok(DEV[v], `the "${v}" badge has a definition`);
-for (const f of ['js/whitepaper/place-card.js', 'js/whitepaper/ripeness.js']) ok(readFileSync(f, 'utf8').includes("var LABEL = { ripe: 'Ripe', ripening: 'Ripening', on_file: 'Site on file', not_yet: 'Not yet', all_taken: 'No open site', none: 'No site on file' };"), `${f} prints the labels defined here`);
+// Each ripeness label the cards print is defined: read the labels from the
+// renderers themselves, so a reworded badge stays green when its definition moves with it.
+for (const f of ['js/whitepaper/place-card.js', 'js/whitepaper/ripeness.js']) {
+  const m = readFileSync(f, 'utf8').match(/var LABEL = (\{[^}]*\});/);
+  ok(m, `${f} declares its badge labels`);
+  const labels = Object.values(Function('return ' + m[1])());
+  ok(labels.length >= 4, `${f} has badge labels to check`);
+  for (const v of labels) ok(DEV[v], `${f} prints the "${v}" badge, which has a definition`);
+}
 // Signal strength definitions follow the Pipeline method's rules.
 ok(/60 days/.test(DEV['strong signal']) && /30 to 90 days/.test(DEV['moderate signal']), 'signal strengths match the Pipeline method');
 ok(/seven questions/.test(DEV.ripeness), 'ripeness names the seven readiness questions');
