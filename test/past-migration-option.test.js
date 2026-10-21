@@ -124,9 +124,10 @@ const dom = new JSDOM(`<!doctype html><body>
   <input type="range" id="sbBirthsPct" min="50" max="150" step="5" value="100"><span id="sbBirthsPctVal"></span>
   <input type="range" id="sbDeathsPct" min="80" max="120" step="5" value="100"><span id="sbDeathsPctVal"></span>
   <span id="sbMigrationBasis"></span><span id="sbMigrationSdo"></span>
-  <div id="sbKeyNumbers"><span id="sbKeyMigration"></span></div>
+  <div id="sbKeyNumbers"><span id="sbKeyHomesLabel"></span><span id="sbKeyHomes"></span><span id="sbKeyPopLabel"></span><span id="sbKeyPop"></span><span id="sbKeyMigration"></span></div>
   <input id="sbScenarioName"><button id="sbSaveScenario"></button><div id="sbSavedScenarios"></div>
   <canvas id="sbProjectionChart"></canvas><table><tbody id="sbResultsBody"></tbody></table>
+  <div id="sbLiveRegion" aria-live="polite" aria-atomic="true"></div>
 </body>`, { runScripts: 'outside-only', url: 'http://localhost/hna-scenario-builder.html' });
 const w = dom.window;
 w.Chart = class { constructor(c, cfg) { this.data = cfg.data; this.options = cfg.options; } update() {} destroy() {} };
@@ -212,11 +213,16 @@ const mesaData = { baselines: { '08077': baselines['08077'] }, projections: proj
   assert.equal($('sbKeyMigration').textContent, n(past), 'and the key number says so');
   assert(Math.abs(custom[20].homesNeeded - SB.getResults().baseline[20].homesNeeded) > 100, 'with a different number of homes');
   assert.equal(w.document.querySelector('.sb-scenario-btn.active'), null, 'no preset is marked as chosen');
+  assert.equal($('sbLiveRegion').textContent, `Scenario updated. ${$('sbKeyHomesLabel').textContent}: ${$('sbKeyHomes').textContent}. ${$('sbKeyPopLabel').textContent}: ${$('sbKeyPop').textContent}.`,
+    `a screen reader hears the new figures: "${$('sbLiveRegion').textContent}"`);
+  console.log(`  Heard: ${$('sbLiveRegion').textContent}`);
   console.log(`  Mesa County, past: ${$('sbMigrationBasis').textContent} ${$('sbMigrationSdo').textContent}`);
 
   // A preset is a share of SDO's forecast, so it goes back to SDO's.
+  $('sbLiveRegion').textContent = '';
   w.document.querySelector('[data-scenario="low_growth"]').dispatchEvent(new w.Event('click'));
   assert.equal(pastRadio().checked, false, 'a preset goes back to SDO\'s forecast');
+  assert(/^Scenario updated\. Homes needed by \d{4}: /.test($('sbLiveRegion').textContent), 'and a preset is heard too');
   assert.match($('sbMigrationBasis').textContent, /^100% = SDO's forecast/);
 
   // Saved, it loads with the past, and the HNA page's saved line runs it.

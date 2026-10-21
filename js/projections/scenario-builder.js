@@ -453,7 +453,7 @@
       slider.addEventListener('input', () => {
         if (display) display.textContent = Number(slider.value).toFixed(0) + '%';
         _clearActiveBtn();
-        _debouncedRunCustom();
+        _debouncedRunAndAnnounce();
       });
     });
   }
@@ -471,6 +471,7 @@
         _clearActiveBtn();
         _updateMigrationHelp();
         _runCustom();
+        _announceResult();
       });
     });
   }
@@ -568,6 +569,7 @@
         _applyScenarioToSliders(sc.params);
         _setActiveBtn(btn);
         _runCustom();
+        _announceResult();
       });
     });
   }
@@ -615,7 +617,16 @@
     _updateResultsTable();
   }
 
-  const _debouncedRunCustom = _debounce(_runCustom, 300);
+  const _debouncedRunAndAnnounce = _debounce(function () { _runCustom(); _announceResult(); }, 300);
+
+  // A screen reader hears the new figures when a control changes them.
+  function _announceResult() {
+    const wrap = document.getElementById('sbKeyNumbers');
+    const text = (id) => { const el = document.getElementById(id); return el ? el.textContent : ''; };
+    if (!wrap || wrap.hidden) return;
+    _announce('Scenario updated. ' + text('sbKeyHomesLabel') + ': ' + text('sbKeyHomes') + '. ' +
+      text('sbKeyPopLabel') + ': ' + text('sbKeyPop') + '.');
+  }
 
   // ---------------------------------------------------------------------------
   // Key numbers
