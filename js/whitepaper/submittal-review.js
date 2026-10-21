@@ -28,6 +28,9 @@
 
   var RULES_URL = 'data/policy/chfa-2027-r1-scoring.json';
   var PROP123_URL = 'data/policy/prop123_jurisdictions.json';
+  var PLACES_URL = 'data/co-place-centroids.json'; // 2024 Census Gazetteer: Colorado cities, towns and CDPs
+  // Colorado's 64 counties, to tell a county that is not on DOLA's list from a misspelling.
+  var CO_COUNTIES = ['Adams', 'Alamosa', 'Arapahoe', 'Archuleta', 'Baca', 'Bent', 'Boulder', 'Broomfield', 'Chaffee', 'Cheyenne', 'Clear Creek', 'Conejos', 'Costilla', 'Crowley', 'Custer', 'Delta', 'Denver', 'Dolores', 'Douglas', 'Eagle', 'El Paso', 'Elbert', 'Fremont', 'Garfield', 'Gilpin', 'Grand', 'Gunnison', 'Hinsdale', 'Huerfano', 'Jackson', 'Jefferson', 'Kiowa', 'Kit Carson', 'La Plata', 'Lake', 'Larimer', 'Las Animas', 'Lincoln', 'Logan', 'Mesa', 'Mineral', 'Moffat', 'Montezuma', 'Montrose', 'Morgan', 'Otero', 'Ouray', 'Park', 'Phillips', 'Pitkin', 'Prowers', 'Pueblo', 'Rio Blanco', 'Rio Grande', 'Routt', 'Saguache', 'San Juan', 'San Miguel', 'Sedgwick', 'Summit', 'Teller', 'Washington', 'Weld', 'Yuma'];
   var API = '/api/deals';
   var LOCAL_KEY = 'coho-submittal-review-local';
   var TIERS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120]; // the Deal Calculator's AMI bands
@@ -233,7 +236,6 @@
     var q = String(place || '').trim().toLowerCase();
     if (!q || !prop123 || !Array.isArray(prop123.jurisdictions)) return null;
     var list = prop123.jurisdictions;
-    var bare = function (n) { return String(n).toLowerCase().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, ''); };
     var exact = list.filter(function (j) { return j.name.toLowerCase() === q; })[0];
     if (exact) return exact;
     var same = list.filter(function (j) { return bare(j.name) === bare(q); });
@@ -243,12 +245,33 @@
     return same[0] || null;
   }
 
+  function bare(n) { return String(n).toLowerCase().trim().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, ''); }
+  // Census Gazetteer names end in "city", "town" or "CDP" ("Lake City town", "Canon City city").
+  function gazName(n) { return String(n).toLowerCase().replace(/\s+(city|town|cdp)$/, ''); }
+
+  // A place not on DOLA's list: a real Colorado county, city or town is "not listed"; anything else stays unresolved.
+  function placeRegistry(prop123, place) {
+    var q = String(place).toLowerCase(), b = bare(place);
+    var county = CO_COUNTIES.some(function (c) { return c.toLowerCase() === b; });
+    if (/\bcounty\b/.test(q)) return county ? 'county' : null;
+    var hit = (prop123.places || []).filter(function (n) { return gazName(n) === b; });
+    if (/\b(city|town)\b/.test(q)) hit = hit.filter(function (n) { return !/ CDP$/.test(n); });
+    if (hit.some(function (n) { return !/ CDP$/.test(n); })) return 'municipality';
+    if (hit.length) return 'cdp';
+    return county ? 'county' : null;
+  }
+
   // 'yes' = filed for 2027-2029; 'to-confirm' = on DOLA's list without a 2027-2029 filing yet; 'no' = not on the list.
   function prop123Status(prop123, place) {
     if (!prop123 || !Array.isArray(prop123.jurisdictions)) return { status: 'unknown', text: 'DOLA\'s Prop 123 list did not load, so OEDIT eligibility is not known. Reload the page.' };
     if (!String(place || '').trim()) return { status: 'missing', text: 'Enter the town or county to check DOLA\'s Prop 123 list.' };
     var j = findJurisdiction(prop123, place);
     if (j && j.ambiguous) return { status: 'ambiguous', text: '"' + place + '" could be ' + j.ambiguous.join(' or ') + '. Enter which one.' };
+    if (!j) {
+      var kind = placeRegistry(prop123, place);
+      if (kind === 'cdp') return { status: 'unmatched', text: '"' + place + '" is an unincorporated place; enter its county.' };
+      if (!kind) return { status: 'unmatched', text: '"' + place + '" does not match a Colorado county, city or town' + (prop123.places ? '' : ' (the Census place list did not load)') + '. Check the spelling.' };
+    }
     if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + (prop123.updated || 'the last refresh') + ').' };
     if (j.next_cycle && j.next_cycle.submitted) {
       return { status: 'yes', name: j.name, text: j.name + ' filed its 2027-2029 Prop 123 commitment on ' + j.next_cycle.submitted + '.' };
@@ -290,8 +313,8 @@
       out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until DOLA\'s Prop 123 list loads.';
       out.flags.push(p123 ? p123.text : 'Prop 123 status not known.');
       return out;
-    } else if (p123.status === 'ambiguous' || p123.status === 'missing') {
-      out.lane = 'unknown'; out.text = p123.status === 'missing' ? 'OEDIT or DOH fallback: not known until the town or county is entered.' : 'OEDIT or DOH fallback: not known until the place names the city or town or the county.';
+    } else if (p123.status === 'ambiguous' || p123.status === 'missing' || p123.status === 'unmatched') {
+      out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until ' + (p123.status === 'missing' ? 'the town or county is entered.' : p123.status === 'ambiguous' ? 'the place names the city or town or the county.' : 'the place matches a Colorado county, city or town.');
       out.flags.push(p123.text);
       return out;
     } else if (p123.status === 'to-confirm') {
@@ -438,7 +461,7 @@
       var on = inp['chk-' + t];
       if (on != null && (on === false || String(on) === '0' || String(on) === 'false')) return;
       var split = SPLIT_BR.reduce(function (s, br) { var n = num(inp['units-' + t + '-' + br]); return s + (n > 0 ? Math.floor(n) : 0); }, 0);
-      var u = split > 0 ? split : num(inp['units-' + t]);
+      var raw = num(inp['units-' + t]), u = split > 0 ? split : (raw > 0 ? Math.floor(raw) : 0);
       if (u) mix[t] = u;
     });
     var units = num(inp.units);
@@ -991,7 +1014,8 @@
 
   function start(doc) {
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
-    Promise.all([get(RULES_URL), get(PROP123_URL)]).then(function (res) {
+    Promise.all([get(RULES_URL), get(PROP123_URL), get(PLACES_URL)]).then(function (res) {
+      if (res[1] && res[2] && res[2].byGeoid) res[1].places = Object.keys(res[2].byGeoid).map(function (k) { return res[2].byGeoid[k].name; });
       if (!res[0]) { doc.getElementById('srMain').innerHTML = '<p>The scoring rules did not load.</p>'; return; }
       var f = formHtml(res[0]);
       doc.getElementById('srClaims').innerHTML = f.claims;

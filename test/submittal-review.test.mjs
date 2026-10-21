@@ -13,6 +13,8 @@ const SR = require(path.join(ROOT, 'js/whitepaper/submittal-review.js'));
 const Nav = (() => { const g = {}; new Function('window', 'document', read('js/whitepaper/developer-nav.js'))(g, undefined); return g.DeveloperNav || g; })();
 const rules = JSON.parse(read('data/policy/chfa-2027-r1-scoring.json'));
 const prop123 = JSON.parse(read('data/policy/prop123_jurisdictions.json'));
+const places = JSON.parse(read('data/co-place-centroids.json'));
+prop123.places = Object.values(places.byGeoid).map((p) => p.name); // as start() attaches it
 
 let checks = 0;
 const ok = (cond, msg) => { if (!cond) { console.error('FAIL: ' + msg); process.exit(1); } checks++; };
@@ -76,7 +78,7 @@ const filed = prop123.jurisdictions.find((j) => j.next_cycle && j.next_cycle.sub
 const firstOnly = prop123.jurisdictions.find((j) => !j.next_cycle && j.status);
 ok(SR.prop123Status(prop123, filed.name).status === 'yes', 'a 2027-2029 filing makes a place Prop 123 eligible');
 if (firstOnly) ok(SR.prop123Status(prop123, firstOnly.name).status === 'to-confirm', 'a first-cycle-only place is "to confirm"');
-ok(SR.prop123Status(prop123, 'Nowhere Junction').status === 'no', 'an unlisted place is not eligible');
+ok(SR.prop123Status(prop123, 'Town of Aguilar').status === 'no', 'a real town not on DOLA\'s list is not eligible');
 
 let lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 } }, { status: 'no' });
 ok(lane.lane === 'DOH' && lane.kind === 'cash flow loan at 2%' && lane.amount === 2500000 && lane.capped, 'midpoint 40% goes to DOH, capped at $2.5M');
@@ -268,5 +270,16 @@ ok(noPlaceLane.lane === 'unknown' && noPlaceLane.amount === undefined && /town o
 const srcJs2 = read('js/whitepaper/submittal-review.js');
 ok(/if \(t === state\.nav\) openVersion\(rec\)/.test(srcJs2) && !/getVersion\([^)]*\)\.then\(openVersion\)/.test(srcJs2), 'only the latest version open lands');
 ok(/if \(state\.nav !== nav \|\| state\.version !== ver\)/.test(srcJs2), 'a save that finishes after navigation does not move the open deal');
+
+// Codex review on e11845a22: an unmatched or unincorporated place stays unresolved; calculator tier counts are whole and non-negative.
+const typo = SR.prop123Status(prop123, 'Town of Bayfeld');
+ok(typo.status === 'unmatched' && SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, typo).amount === undefined, 'a misspelled place gets no DOH fallback amount');
+ok(SR.prop123Status(prop123, 'Highlands Ranch').status === 'unmatched' && /enter its county/.test(SR.prop123Status(prop123, 'Highlands Ranch').text), 'an unincorporated place asks for its county');
+ok(SR.prop123Status(prop123, 'Jackson County').status === 'no', 'a real county not on DOLA\'s list is not eligible');
+ok(SR.prop123Status(prop123, 'Lake City').status !== 'unmatched', 'a town whose name ends in "City" still matches');
+const noReg = Object.assign({}, prop123, { places: undefined });
+ok(SR.prop123Status(noReg, 'Town of Aguilar').status === 'unmatched', 'without the Census place list an unlisted town stays unresolved');
+const normExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '10', 'units-40': '-5', 'units-60': '2.9' } });
+ok(!normExp.mix[40] && normExp.mix[60] === 2 && normExp.mix.market === 8, 'calculator tier counts are normalized like the engine');
 
 console.log(`submittal-review: ${checks} checks passed`);
