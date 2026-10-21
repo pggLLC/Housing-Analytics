@@ -1,0 +1,620 @@
+{
+ "slug": "1139-delaware-street-denver",
+ "name": "1139 Delaware Street (1139 Delaware)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 80,
+ "researched_on": "2026-10-21",
+ "headline": "Sherman Associates and the Denver Housing Authority plan 1139 Delaware, an 80-unit permanent supportive housing building for people exiting homelessness, including people with intellectual and developmental disabilities, with every unit at 30% AMI and backed by project-based vouchers, on DHA land in Denver's Golden Triangle. It won 2025 Round Two federal 4% and accelerated state credits from CHFA, with $20.9M of CHFA bonds.",
+ "why_it_matters": "It shows the DHA Delivers for Denver (D3) model at work: DHA bought the land with bond money, leases it for $100 a year, provides a property tax exemption and 60 project-based vouchers, and the state adds 20 Section 811 vouchers and a $3.5M Proposition 123 loan. The deal was cut from 132 mixed-income units to 80 PSH units to win credits.",
+ "status": {
+  "label": "Credits awarded and Prop 123 loan preliminarily approved; closing and construction not confirmed",
+  "detail": "CHFA reserved the credits in November 2025, and the state preliminarily approved a $3.5M Proposition 123 concessionary loan on 2026-07-21. The project was in Denver concept plan review in early 2026; the application targeted building permits and financial closing in the third quarter of 2026. No public record of a closing, permit or groundbreaking was found.",
+  "src": [
+   "chfa-2025-r2-award",
+   "chfa-news-2025-11-05",
+   "co-gov-2026-07-21",
+   "dmc-1139-delaware",
+   "chfa-2025-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for a CHFA bond closing, Denver HOST loan and services agreements at City Council, demolition and building permits, and a groundbreaking.",
+ "key_numbers": [
+  {
+   "value": "80 supportive homes, all at 30% AMI",
+   "meaning": "8 studios, 52 one-bedroom, 12 two-bedroom and 8 three-bedroom units for individuals and families experiencing or at risk of homelessness; units come furnished.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,640,385 a year in federal 4% credit",
+   "meaning": "About $16.4M over 10 years, plus $1,800,000 accelerated state credit.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "80 project-based vouchers",
+   "meaning": "60 Housing Choice Vouchers from DHA and 20 Section 811 vouchers from the Colorado Division of Housing.",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "$3.5M Proposition 123 concessionary loan",
+   "meaning": "Preliminarily approved by OEDIT and CHFA in July 2026, with final terms set in underwriting.",
+   "src": [
+    "co-gov-2026-07-21"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1139 Delaware Street, Denver 80204; the site combines 1101, 1123 and 1139 Delaware, near Delaware Street and 11th Avenue",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "denver7-1139-delaware"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "Golden Triangle, described by the applicant as a High Opportunity Area",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "SH, N: supportive housing, new construction",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "80 total, 80 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "0.65 acre, previously a three-story office building with 9Health Fair branding; two existing structures would be demolished",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "bden-2023-12-12",
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five stories per the application (one post-tension podium level with parking and service space, four wood-frame levels), about 65 feet and about 97,000 sq ft; kept under high-rise code. Brick, stucco and metal exterior",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-1139-delaware"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "33 structured spaces, alley access only, plus bicycle parking and TDM measures; no underground parking",
+   "src": [
+    "dmc-1139-delaware",
+    "nakeddenver-1139-delaware",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Services space",
+   "value": "About 2,700 sq ft of supportive services space and more than 6,500 sq ft of lobby, leasing and amenity space on the ground floor; front desk staff",
+   "src": [
+    "nakeddenver-1139-delaware",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "Trauma-informed design, all-electric, solar-ready, NGBS Silver",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Land deal",
+   "value": "DHA owns the land, bought through its D3 bond program, and will give a long-term ground lease at $100 a year",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Exempt through a special limited partnership with DHA, per the applicant",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Referrals",
+   "value": "Family Tree, the Metro Denver Homeless Initiative's Coordinated Entry System and the Colorado Division of Housing",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus routes 9, 16 and 52 nearby, Colfax at Auraria light rail station 0.7 mile away; each household gets an RTD NECO pass",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Labor",
+   "value": "Commercial Davis-Bacon wages apply because of the vouchers and building height, adding over $1 million to construction cost",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 80
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 8
+  },
+  {
+   "type": "1BR",
+   "units": 52
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  },
+  {
+   "type": "3BR",
+   "units": 8
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,640,385 per year",
+   "note": "2025 Round Two.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$20,907,615",
+   "note": "CHFA is issuer and volume cap provider. The application proposed $23,059,433 construction-period bonds and $12,928,000 permanent bonds by public sale, plus a $3,678,799 taxable construction loan.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Proposition 123 concessionary debt (OEDIT/CHFA)",
+   "amount": "$3,500,000",
+   "note": "Preliminary approval announced 2026-07-21; final terms set in underwriting.",
+   "src": [
+    "co-gov-2026-07-21"
+   ]
+  },
+  {
+   "source": "Denver HOST gap funding and Tenancy Support Services funding",
+   "amount": "Not public",
+   "note": "Named in the application and in CHFA's description; no City Council approval record was found.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "Not public",
+   "note": "Named in the application.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Federal Home Loan Bank Affordable Housing Program",
+   "amount": "Not public",
+   "note": "Named in the application.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "DHA ground lease, tax exemption and 60 project-based vouchers",
+   "amount": "Ground lease $100 per year",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Section 811 project-based vouchers (Colorado Division of Housing)",
+   "amount": "20 vouchers",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Services funding",
+   "amount": "About $725,000 per year in service costs",
+   "note": "To be covered by Medicaid, HOST TSS, project cash flow and a services reserve funded from paid developer fee, plus a deferred developer fee in the capital stack.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Sherman Associates Development LLC",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Landowner, ground lessor, voucher provider and tax-exemption partner",
+   "name": "Denver Housing Authority (Housing Authority of the City and County of Denver)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "role": "Supportive services",
+   "name": "Family Tree, Inc.",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "KTGY",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "milehighcre-2023-12-11",
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "H+K Engineering (Craft Civil Design is also listed on the team by Naked Denver)",
+   "src": [
+    "dmc-1139-delaware",
+    "nakeddenver-1139-delaware"
+   ]
+  },
+  {
+   "role": "Cost estimator / general contractor",
+   "name": "Palace Construction (named GC in 2023; cost estimator in the 2025 application)",
+   "src": [
+    "milehighcre-2023-12-11",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Lease-up partner",
+   "name": "Blueline Development (proposed, for pre-leasing through the first six months)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "City applicant",
+   "name": "RH Group",
+   "src": [
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "DHA assembled the site and bought it for $5.85 million through its D3 program, which is backed by city bonds; DHA then ran an RFQ and picked Sherman Associates in fall 2023.",
+   "src": [
+    "denver7-1139-delaware",
+    "chfa-2025-r2-narratives",
+    "bden-2023-12-12"
+   ]
+  },
+  {
+   "text": "The original plan, announced in December 2023, was about 132 units: 80 PSH units plus 52 units at 60% AMI, with groundbreaking as soon as spring 2025 and completion in fall 2026. Denver7 put the cost at about $58 million.",
+   "src": [
+    "milehighcre-2023-12-11",
+    "bden-2023-12-12",
+    "denver7-1139-delaware"
+   ]
+  },
+  {
+   "text": "The 132-unit, seven-story version applied for 2024 4% and state credits and was not awarded. It had proposed 40 DHA and 40 DOH vouchers, Capital Magnet Fund money, and volume cap from both Denver and CHFA.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "After funder feedback, Sherman cut the project to 80 units, all PSH at 30% AMI, citing the cost and management strain of mixing supportive and general-occupancy housing.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Zoning is in place. The project is in the city's Affordable Housing Review Team program and had received preliminary concept plan comments at application; it was still in concept plan review when Developing MyCity reported in early 2026.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "text": "The Phase I found two recognized environmental conditions; a Phase II found no further investigation warranted, and a materials management plan will be followed.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Sherman held community meetings at the Evans School on 2024-02-15 and 2024-02-21 and joined the Golden Triangle Creative District association.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market analyst expects lease-up of about 15 units a month and notes 3,108 existing PSH units in the market area, with Forum Apartments the closest at 0.3 mile.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The applicant requested a cost basis waiver, citing the small site, podium parking, Davis-Bacon wages and extra services space.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-12-11",
+   "event": "DHA announces Sherman Associates as developer of about 132 units",
+   "src": [
+    "milehighcre-2023-12-11",
+    "bden-2023-12-12"
+   ]
+  },
+  {
+   "date": "2024-02-15",
+   "event": "First of two community meetings at the Evans School (second on 2024-02-21)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "132-unit version applies for CHFA 4% and state credits; not awarded",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-11-05",
+   "event": "CHFA announces 2025 Round Two awards, including 1139 Delaware Street",
+   "src": [
+    "chfa-news-2025-11-05",
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Developing MyCity reports the 80-unit plan in Denver concept plan review (page dated Jan 14 with no year; 2026 inferred)",
+   "src": [
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "date": "2026-07-21",
+   "event": "Governor, OEDIT and CHFA announce a $3.5M Proposition 123 concessionary debt award (preliminary)",
+   "src": [
+    "co-gov-2026-07-21"
+   ]
+  },
+  {
+   "date": "2026-Q3",
+   "event": "Target for building permits and financial closing in the application; not confirmed",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "1139 Delaware renderings",
+   "url": "https://www.developingmycity.com/denver/news/1139-delaware-supportive-housing-renderings",
+   "kind": "rendering",
+   "made_by": "Project team (KTGY), taken from the city urban design plans, via Developing MyCity",
+   "note": "Article images (exterior massing)",
+   "src": [
+    "dmc-1139-delaware"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "DHA's project page still lists 132 units (80 at 30% AMI and 52 at 60% AMI) with completion expected in fall 2026, while CHFA lists 80 units, all at 30% AMI.",
+   "src": [
+    "dha-1139-delaware",
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "text": "The application and Naked Denver describe a five-story building, while Developing MyCity describes six stories.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-1139-delaware",
+    "dmc-1139-delaware"
+   ]
+  },
+  {
+   "text": "The award report lists $20,907,615 in bonds, while the application proposed $23,059,433 of construction-period bonds.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Bisnow describes the project as supportive housing for people with intellectual and developmental disabilities, while CHFA and the application describe it as housing for people exiting or at risk of homelessness, some of whom may have such disabilities.",
+   "src": [
+    "bisnow-2025-11-12",
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Developing MyCity names DHA as owner/developer and Sherman as affordable housing partner/operator, while CHFA names Sherman Associates Development LLC as sponsor.",
+   "src": [
+    "dmc-1139-delaware",
+    "chfa-2025-r2-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the bonds have closed and permits have been issued; the third-quarter 2026 target has passed with no public record.",
+  "Total development cost now (the $58M estimate was for the 132-unit plan), equity price and investor, bond buyer.",
+  "Amounts of the HOST gap loan, HOST TSS services funding, DOH gap funding and FHLB AHP award.",
+  "Term of the DHA ground lease and CHFA affordability period.",
+  "Who the general contractor will be at closing."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two Application Narratives (1139 Delaware, PDF pages 6-10)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (1139 Delaware, starting PDF page 11)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2025-11-05",
+   "title": "CHFA announces 2025 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2025-11-05",
+   "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards"
+  },
+  {
+   "id": "bisnow-2025-11-12",
+   "title": "7 Denver-Area Affordable Housing Projects Awarded Tax Credits",
+   "publisher": "Bisnow",
+   "date": "2025-11-12",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/affordable-housing-tax-credits-support-over-800-new-units-131863"
+  },
+  {
+   "id": "co-gov-2026-07-21",
+   "title": "More Housing Now: Prop 123 Funds to Support 11 New Affordable Housing Developments Across Colorado",
+   "publisher": "Office of Governor Jared Polis",
+   "date": "2026-07-21",
+   "url": "https://governorsoffice.colorado.gov/governor/news/more-housing-now-prop-123-funds-support-11-new-affordable-housing-developments-across-colorado"
+  },
+  {
+   "id": "milehighcre-2023-12-11",
+   "title": "132 Units of Affordable Housing Being Developed in Downtown Denver",
+   "publisher": "Mile High CRE",
+   "date": "2023-12-11",
+   "url": "https://milehighcre.com/132-units-of-affordable-housing-being-developed-in-downtown-denver/"
+  },
+  {
+   "id": "bden-2023-12-12",
+   "title": "DHA picks developer to build housing on Golden Triangle site",
+   "publisher": "BusinessDen",
+   "date": "2023-12-12",
+   "url": "https://businessden.com/dha-picks-developer-to-build-housing-on-golden-triangle-site/"
+  },
+  {
+   "id": "denver7-1139-delaware",
+   "title": "Affordable housing project planned for one of Denver's high-cost neighborhoods",
+   "publisher": "Denver7",
+   "date": "undated (covers the 2023 plan)",
+   "url": "https://www.denver7.com/news/front-range/denver/affordable-housing-project-planned-for-one-of-denvers-high-cost-neighborhoods"
+  },
+  {
+   "id": "dha-1139-delaware",
+   "title": "Denver Housing Authority affordable housing property listing (1139 Delaware entry)",
+   "publisher": "Denver Housing Authority",
+   "date": "undated (viewed 2026-10-21)",
+   "url": "https://www.denverhousing.org/?p=5297"
+  },
+  {
+   "id": "dmc-1139-delaware",
+   "title": "New Renderings Released for 80-Unit Supportive Housing at 1139 Delaware",
+   "publisher": "Developing MyCity",
+   "date": "2026-01-14",
+   "url": "https://www.developingmycity.com/denver/news/1139-delaware-supportive-housing-renderings"
+  },
+  {
+   "id": "nakeddenver-1139-delaware",
+   "title": "1139 N Delaware Street (supportive housing)",
+   "publisher": "Naked Denver",
+   "date": "undated",
+   "url": "https://www.nakeddenver.com/post/supportive-housing-1139-delaware"
+  }
+ ]
+}

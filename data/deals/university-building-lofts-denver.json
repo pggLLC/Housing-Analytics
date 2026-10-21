@@ -1,0 +1,732 @@
+{
+ "slug": "university-building-lofts-denver",
+ "name": "University Building Lofts",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 120,
+ "researched_on": "2026-10-21",
+ "headline": "Mile High Development and BMC Investments plan to convert the upper 11 floors of the historic 12-story University Building at 910 16th Street in downtown Denver from offices into 120 small apartments for households earning 30% to 80% AMI. The project won 2025 Round Two federal 4%, state and TOC credits from CHFA.",
+ "why_it_matters": "It is one of Denver's first office-to-affordable conversions financed by the new Downtown Development Authority: a $14.7M TIF-backed loan, approved by Denver City Council in October 2026, sits alongside about $43M of housing and historic tax credit equity in a $73M budget.",
+ "status": {
+  "label": "Credits awarded; city funding approved October 2026; closing targeted by March 2027",
+  "detail": "Denver City Council passed the DDDA funding agreement (Council Bill 26-1336) on 2026-10-05, and the Mayor signed it on 2026-10-07. The DDDA loan documents set a closing date on or before 2027-03-31, the same deadline for starting construction, and require a certificate of occupancy by 2028-12-31. A revised concept plan was still under city review in April 2026. No record of an acquisition closing, building permit or construction start was found.",
+  "src": [
+   "denver-26-1336",
+   "denver-ddda-agreement",
+   "developingmycity-2026-04-13"
+  ]
+ },
+ "next_step": "Watch for the purchase and financing closing (DDDA loan closing by 2027-03-31), the building permit, and the federal historic tax credit Part 2 approval.",
+ "key_numbers": [
+  {
+   "value": "120 homes, all income-restricted, in a 1911 landmark",
+   "meaning": "57 studios, 52 one-bedroom and 11 two-bedroom units at 30% to 80% AMI, with an average of 59.3% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "$3,098,211 a year in federal 4% credit",
+   "meaning": "About $31M over 10 years, plus $1,800,000 in state credit and $156,000 in TOC credit, with $36,500,000 in CHFA bonds.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "$73,020,416 total budget",
+   "meaning": "The sources and uses in the DDDA loan documents: $8M for the building, $44.6M for construction, and $43.2M of tax credit equity (housing and historic).",
+   "src": [
+    "denver-ddda-agreement",
+    "bisnow-2025-08-14"
+   ]
+  },
+  {
+   "value": "$14,700,000 DDDA loan",
+   "meaning": "A 2% cash-flow loan over 40 years from the Denver Downtown Development Authority, repaid by the project and funded from DDDA tax increment.",
+   "src": [
+    "denver-ddda-agreement",
+    "denver-br26-1336"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "910 16th Street (900-918 16th Street), Denver 80202, at 16th and Champa on the former 16th Street Mall",
+   "src": [
+    "chfa-2025-r2-award",
+    "denver-br26-1336",
+    "bisnow-2025-08-14"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, A/R: individuals/families, acquisition/rehab (adaptive reuse of a commercial building)",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "120 total, 120 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Twelve-story concrete office building, about 110,000 sq ft, designed by Fisher & Fisher, listed on the National Register of Historic Places in 1978",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-2025-08-04",
+    "bden-2025-11-07"
+   ]
+  },
+  {
+   "item": "Ownership split",
+   "value": "A condominium regime: the housing entity buys floors 2 to 12 plus the lobby and part of the basement, and the seller keeps the ground-floor retail (tenants such as Sportsfan and Modern Market are expected to stay)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-ddda-agreement",
+    "bisnow-2025-08-14"
+   ]
+  },
+  {
+   "item": "Current owner and seller",
+   "value": "910 Associates, Inc., which took title from Naiman Family Ltd. Liability Co. LLC by a May 2023 deed recorded as a merger of title",
+   "src": [
+    "denver-ddda-agreement",
+    "denver-br26-1336"
+   ]
+  },
+  {
+   "item": "Buyer/borrower entity",
+   "value": "University Building Lofts Owner LLC, a Delaware LLC care of Mile High Development",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "item": "Zoning and review",
+   "value": "D-TD, UO-1; multifamily allowed. The city released the project from concept review straight to building permit, skipping the site development plan. A revised concept plan was filed under Denver's Prop 123 fast-track review in April 2026",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "developingmycity-2026-04-13"
+   ]
+  },
+  {
+   "item": "Scope",
+   "value": "Full interior renovation of floors 2 to 12: new mechanical, electrical, plumbing and life-safety systems, a new pressurized stair core, repaired or replaced windows and rehabilitated elevators, with no exterior changes. Steam heat is replaced by a four-pipe fan coil system with a central boiler sized for later heat-pump conversion",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "developingmycity-2026-04-13"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Community room, fitness center, on-site management, bike storage, public restrooms and space for a food pantry; in-unit washers and dryers where feasible",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "D, H and L light rail lines 0.1 mile away, free MallRide and MetroRide, Walk Score 98 and Transit Score 87. Residents get RTD NECO passes",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "Enterprise Green Communities; electrification-ready and solar-ready",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Basis boost and waiver",
+   "value": "In a Small Area Difficult Development Area (basis boost); the applicant asked CHFA to waive its basis limit because of historic adaptive reuse costs",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Construction period",
+   "value": "About 18 months, per the applicant",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 12
+  },
+  {
+   "level": "40% AMI",
+   "units": 12
+  },
+  {
+   "level": "50% AMI",
+   "units": 17
+  },
+  {
+   "level": "60% AMI",
+   "units": 27
+  },
+  {
+   "level": "70% AMI",
+   "units": 35
+  },
+  {
+   "level": "80% AMI",
+   "units": 17
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 57
+  },
+  {
+   "type": "1BR",
+   "units": 52
+  },
+  {
+   "type": "2BR",
+   "units": 11
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives",
+  "chfa-ahtc-2025-report"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,098,211 per year",
+   "note": "Awarded in 2025 Round Two. Amounts are as CHFA's award report prints them.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$156,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$36,500,000",
+   "note": "CHFA is issuer. The application planned a private placement with KeyBank, with $23,000,000 retired at completion, plus about $12,000,000 of taxable construction debt. The DDDA documents cap senior debt at $45M before and $18M after permanent loan closing; the budget shows a $13,360,000 permanent loan.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "source": "Denver Downtown Development Authority (DDDA) loan",
+   "amount": "$14,700,000",
+   "note": "2% interest compounding annually, paid from excess cash flow and refinancing proceeds, 40-year maturity, nonrecourse and subordinate to senior debt. It may not pay for the building purchase. The money is advanced by the City from the DDDA's PNC loan, repaid from DDDA tax increment. The DDDA board approved the loan on 2026-06-24 and the funding agreement on 2026-08-26; Council passed CB 26-1336 on 2026-10-05.",
+   "src": [
+    "denver-ddda-agreement",
+    "denver-br26-1336",
+    "denver-26-1336"
+   ]
+  },
+  {
+   "source": "Federal and state housing and historic tax credit equity",
+   "amount": "$43,177,760 (budget); about $43,000,000 (loan agreement recital)",
+   "note": "The DDDA loan documents name PNC Bank as federal limited partner and a Sugar Creek Capital affiliate as state limited partner.",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1,782,656",
+   "note": "Developer and consultant fees total $7,416,079 in the budget.",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "source": "Seller price concession",
+   "amount": "Price cut by $5,000,000 to $8,000,000",
+   "note": "In return the seller gets a 20% non-controlling stake in the project's manager entity, with no say and no developer fee, per the applicant.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-ddda-agreement"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Mile High Development and BMC Investments",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Applicant and developer",
+   "name": "Mile High Development (BMC Investments is described as consultant in the narrative and co-sponsor by CHFA)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Buyer/borrower entity",
+   "name": "University Building Lofts Owner LLC",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "role": "Building owner and seller (keeps the retail condo)",
+   "name": "910 Associates, Inc. (Naiman family); Naked Denver credits Robert L. Naiman Co. as co-developer, and the city's concept filing lists 910 Associates Inc as developer",
+   "src": [
+    "denver-br26-1336",
+    "denver-ddda-agreement",
+    "developingmycity-2026-04-13"
+   ]
+  },
+  {
+   "role": "Subordinate lender",
+   "name": "Denver Downtown Development Authority",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "role": "Federal tax credit investor",
+   "name": "PNC Bank, National Association (per the DDDA loan documents)",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "role": "State tax credit investor",
+   "name": "An affiliate of Sugar Creek Capital (per the DDDA loan documents)",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture (concept plan)",
+   "src": [
+    "developingmycity-2026-04-13"
+   ]
+  },
+  {
+   "role": "Historic tax credit consultant",
+   "name": "Heritage Consulting Group",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Cost estimating (pre-construction)",
+   "name": "Alliance Construction",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "ComCap Property Management",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Mile High Development first applied for the project in CHFA's 2024 Round Two with the same 120-unit mix and a Warren Village services partnership. It was not among the 2024 Round Two awards.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "text": "For the 2025 application the team cut the purchase price from $13M to $8M, added Heritage Consulting for historic credits, dropped Warren Village because of capacity limits, added TOC credits and secured a preliminary DDDA award of up to $15M.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The DDDA board approved the owner's petition to bring the property into the DDDA on 2025-07-30 and announced $14.5M for the project that day in its first $100M funding round. Council approved the inclusion by ordinance (file 26-1187), passed in September 2026.",
+   "src": [
+    "denver-br26-1336",
+    "denver-ddda-agreement",
+    "coloradopolitics-2025-07-30",
+    "denver-26-1187"
+   ]
+  },
+  {
+   "text": "The DDDA project summary in the funding agreement says construction would begin by December 2025, while the loan agreement attached to it sets a 2027-03-31 deadline to start construction and 2028-12-31 for a certificate of occupancy.",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "text": "The DDDA loan requires CHFA tax credit financing for all 120 affordable units and the purchase to close before any loan money is paid out, and the borrower must follow all CHFA covenant terms.",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "text": "The applicant says the building is occupied, earlier owners spent little on capital work while expecting a sale, and no public money has gone into the building before.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "A 2023 City of Denver and Gensler study scored the building 91%, the highest of the downtown buildings it checked for office-to-residential conversion.",
+   "src": [
+    "nakeddenver-2025-08-04"
+   ]
+  },
+  {
+   "text": "The market study shows a 14.1% overall capture rate, with high capture at 40% to 60% AMI and a thin gap between maximum tax credit rents and market rents. The applicant sets its 70% and 80% AMI rents below the maximum.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "There are no homeless set-aside units or project-based vouchers in the application. The downtown neighborhood organization and Mayor Mike Johnston sent letters of support.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-05",
+   "event": "Naiman Family LLC deeds the building to 910 Associates, Inc.",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "Applies in CHFA's 2024 Round Two; not awarded",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "date": "2025-07-11",
+   "event": "Owner petitions to bring the property into the Denver Downtown Development Authority",
+   "src": [
+    "denver-br26-1336"
+   ]
+  },
+  {
+   "date": "2025-07-30",
+   "event": "DDDA board approves the inclusion petition; DDDA announces $14.5M for the project",
+   "src": [
+    "denver-br26-1336",
+    "coloradopolitics-2025-07-30"
+   ]
+  },
+  {
+   "date": "2025-08-14",
+   "event": "Bisnow reports a $73M redevelopment that depends on CHFA credits",
+   "src": [
+    "bisnow-2025-08-14"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "CHFA awards 2025 Round Two federal 4%, state and TOC credits (award report file dated 2025-11-13)",
+   "src": [
+    "chfa-2025-r2-award",
+    "bden-2025-11-07",
+    "bisnow-2025-11-12"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA's 2025 state credit annual report lists the project with an image",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "date": "2026-04-13",
+   "event": "Revised concept plan for the conversion reported under city review",
+   "src": [
+    "developingmycity-2026-04-13"
+   ]
+  },
+  {
+   "date": "2026-06-24",
+   "event": "DDDA board approves a loan of up to $14,700,000",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "date": "2026-08-26",
+   "event": "DDDA board approves the funding agreement",
+   "src": [
+    "denver-br26-1336"
+   ]
+  },
+  {
+   "date": "2026-09-17",
+   "event": "Council ordinance adding the property to the DDDA (26-1187) passes",
+   "src": [
+    "denver-26-1187"
+   ]
+  },
+  {
+   "date": "2026-10-05",
+   "event": "Denver City Council passes CB 26-1336 approving the $14.7M DDDA funding agreement; Mayor signs on 2026-10-07",
+   "src": [
+    "denver-26-1336"
+   ]
+  },
+  {
+   "date": "2027-03-31",
+   "event": "Deadline in the DDDA documents for the loan closing and construction start",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "date": "2028-12-31",
+   "event": "Deadline in the DDDA documents for a certificate of occupancy",
+   "src": [
+    "denver-ddda-agreement"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Image of University Building Lofts",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Mile High Development, via CHFA",
+   "note": "Printed page 18 (PDF page 20) of CHFA's 2025 state AHTC annual report; CHFA lists it among conceptual renderings on the last page",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "title": "Historic photo of the University Building",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf",
+   "kind": "photo",
+   "made_by": "Applicant, via CHFA",
+   "note": "PDF page 96 of the 2025 Round Two application narratives",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "title": "Building photos",
+   "url": "https://www.developingmycity.com/denver/news/university-building-affordable-housing-denver",
+   "kind": "photo",
+   "made_by": "Developing MyCity",
+   "note": "Article photos of the front and back of the building, April 2026",
+   "src": [
+    "developingmycity-2026-04-13"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The DDDA loan is $14,700,000 in the funding agreement and council bill request, while Colorado Politics and Naked Denver reported $14.5 million in July and August 2025 and the application cited a preliminary award of up to $15,000,000.",
+   "src": [
+    "denver-ddda-agreement",
+    "denver-br26-1336",
+    "coloradopolitics-2025-07-30",
+    "nakeddenver-2025-08-04",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application says KeyBank CDC proposed to buy the federal and state credits, while the DDDA loan documents name PNC Bank as federal investor and a Sugar Creek Capital affiliate as state investor.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-ddda-agreement"
+   ]
+  },
+  {
+   "text": "The 2025 application and Naked Denver say the building was built in 1911, while the 2024 application says 1910.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-2025-08-04",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application puts the permanent bonds at what reads as $13.5 million ($36.5M less $23M retired), while the DDDA budget shows a $13,360,000 permanent loan.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-ddda-agreement"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the building purchase and financing have closed, and the building permit and construction start dates.",
+  "Senior construction and permanent lender at closing (KeyBank at application; left blank in the DDDA loan agreement) and the equity prices.",
+  "Federal and state historic tax credit amounts and National Park Service Part 2 approval status.",
+  "Length of the CHFA LURA affordability period and any property tax exemption structure.",
+  "General contractor for construction and the final architect of record.",
+  "Food pantry or services partner after Warren Village left the project."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-13",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (University Building Lofts, PDF pages 96-100)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-toc-narratives",
+   "title": "2025 TOC Round Two narratives (University Building Lofts, PDF pages 17-18)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/6935f661-2e97-4732-b427-de84231f2063/2025-TOC-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two application narratives (University Building Lofts, PDF pages 135-139)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-ahtc-2025-report",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "denver-26-1336",
+   "title": "Denver Council Bill 26-1336: DDDA Development Project Funding Agreement, University Building, 900-918 16th Street",
+   "publisher": "City and County of Denver",
+   "date": "2026-10-07",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=57488&GUID=B630C299-DAE3-4CC7-97B1-CD4C1FC1BC1A"
+  },
+  {
+   "id": "denver-br26-1336",
+   "title": "Bill request BR26-1336, Department of Finance, DDDA University Building (with key contract terms)",
+   "publisher": "City and County of Denver",
+   "date": "2026-09-04",
+   "url": "https://denver.legistar1.com/denver/attachments/d63e8066-49da-4ec6-b065-24dda03f0101.pdf"
+  },
+  {
+   "id": "denver-ddda-agreement",
+   "title": "DDDA Development Project Funding Agreement (University Building), vendor-signed, with exhibits including the University Building Loan and Subordinate Security Agreement (project summary PDF page 63, loan agreement from PDF page 64, sources and uses PDF page 86, deeds from PDF page 32)",
+   "publisher": "City and County of Denver / Denver Downtown Development Authority",
+   "date": "2026-09",
+   "url": "https://denver.legistar1.com/denver/attachments/dc30ca14-66c3-4be8-befd-571174336a51.pdf"
+  },
+  {
+   "id": "denver-26-1187",
+   "title": "Denver Council File 26-1187: ordinance amending the boundaries of the Denver Downtown Development Authority",
+   "publisher": "City and County of Denver",
+   "date": "2026-09-17",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=57359&GUID=43FAEA3A-BD5B-4C0E-A889-2CD62F3E9BC5"
+  },
+  {
+   "id": "coloradopolitics-2025-07-30",
+   "title": "First wave of downtown Denver's $570M is here: see what 10 projects got funding",
+   "publisher": "Colorado Politics",
+   "date": "2025-07-30",
+   "url": "https://www.coloradopolitics.com/2025/07/30/first-wave-of-downtown-denvers-570m-is-here-see-what-10-projects-got-funding-9bd3d6a8-5892-5fea-a52a-3a0611a5f4b1/"
+  },
+  {
+   "id": "nakeddenver-2025-08-04",
+   "title": "Historic University Building Transforms into Downtown Denver Housing",
+   "publisher": "Naked Denver",
+   "date": "2025-08-04",
+   "url": "https://www.nakeddenver.com/post/historic-university-building-transforms-into-downtown-denver-housing"
+  },
+  {
+   "id": "bisnow-2025-08-14",
+   "title": "Historic 16th Street Buildings Up For Conversion To Residential",
+   "publisher": "Bisnow",
+   "date": "2025-08-14",
+   "url": "https://www.bisnow.com/news/denver/adaptive-reuse/denver-16th-street-buildings-renovations-office-to-residential-130580"
+  },
+  {
+   "id": "bden-2025-11-07",
+   "title": "Downtown office conversion among 9 housing projects awarded tax credits",
+   "publisher": "BusinessDen",
+   "date": "2025-11-07",
+   "url": "https://businessden.com/downtown-office-conversion-among-9-housing-projects-awarded-tax-credits/"
+  },
+  {
+   "id": "bisnow-2025-11-12",
+   "title": "7 Denver-Area Affordable Housing Projects Awarded Tax Credits",
+   "publisher": "Bisnow",
+   "date": "2025-11-12",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/affordable-housing-tax-credits-support-over-800-new-units-131863"
+  },
+  {
+   "id": "developingmycity-2026-04-13",
+   "title": "Concept Plan Resubmitted To Convert University Building Into 120 Affordable Housing Units",
+   "publisher": "Developing MyCity",
+   "date": "2026-04-13",
+   "url": "https://www.developingmycity.com/denver/news/university-building-affordable-housing-denver"
+  }
+ ]
+}
