@@ -112,7 +112,6 @@ ok(L.keyNumbers(falling)[2].big === 'Steady' && !/moving toward/.test(L.meaning(
 ok(/draw\('\.ld-switch', '\.ld-switch-status'/.test(read('js/whitepaper/local-discussion.js')), 'focus returns to the switch after a save, with a status');
 const small = JSON.parse(JSON.stringify(result)); small.lexicon.flags[0].from = 20; small.lexicon.flags[0].to = 21;
 ok(/Word shifts \(0\)/.test(R(small)), 'a move under 10 points is not a shift');
-ok(/did not load/.test(L.render({ geoid: '0899999', name: 'Testville', result: null, loadError: true, watched: true, watchState: 'ok', links: [] })), 'a failed load is not shown as not read yet');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.
@@ -128,5 +127,27 @@ ok(/'js\/whitepaper'/.test(read('scripts/build-public-site.mjs')), 'the public b
 ok(!fs.existsSync(path.join(ROOT, 'data/local-discussion')), 'no local discussion data in this repository');
 const src = read('js/whitepaper/local-discussion.js');
 ok(!/\b(AI|repo|repository|GitHub|Claude)\b/.test(src.replace(/^\s*(\/\/|\/?\*).*$/gm, '')), 'no tool or repository words on screen');
+
+// The loader: a 404 means not read yet; a network error, 5xx or non-JSON reply is a failed load.
+const reply = (status, body, type = 'application/json') => Promise.resolve({ ok: status >= 200 && status < 300, status,
+  headers: { get: () => type }, json: () => Promise.resolve(body), text: () => Promise.resolve('') });
+async function mounted(discussionReply) {
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (url) => /api\/watch/.test(url) ? reply(200, [{ geoid: '0899999' }]) : discussionReply();
+  const el = { innerHTML: '', querySelector: () => null, querySelectorAll: () => [] };
+  try { L.mount(el, '0899999', 'Testville'); await new Promise((r) => setTimeout(r, 20)); }
+  finally { globalThis.fetch = realFetch; }
+  return el.innerHTML;
+}
+const notThere = await mounted(() => reply(404, null, 'text/plain'));
+const failures = await Promise.all([
+  mounted(() => Promise.reject(new Error('offline'))),
+  mounted(() => reply(503, null, 'text/plain')),
+  mounted(() => reply(200, null, 'text/html'))
+]);
+ok(/Not read yet/.test(notThere), 'a 404 from both sources means not read yet');
+ok(failures.every((h) => h === failures[0] && h !== notThere && !/Not read yet/.test(h)), 'network, 5xx and non-JSON replies are a failed load, not an empty read');
+const partial = await mounted(() => reply(200, { result: result, links: [] }));
+ok(/ld-numbers/.test(partial), 'a good reply renders the read');
 
 console.log(`local-discussion: ${checks} checks passed`);
