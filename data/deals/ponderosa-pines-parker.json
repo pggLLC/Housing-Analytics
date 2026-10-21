@@ -1,0 +1,558 @@
+{
+ "slug": "ponderosa-pines-parker",
+ "name": "Ponderosa Pines",
+ "city": "Parker",
+ "county": "Douglas",
+ "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+ "units": 204,
+ "researched_on": "2026-10-21",
+ "headline": "Ulysses Development Group is building Ponderosa Pines, 204 new one- to three-bedroom apartments for households averaging 60% AMI, at Scott Avenue and Parker Road on the Parker side of unincorporated Douglas County. It won a 2025 federal 4% credit award plus noncompetitive state credit from CHFA, with Douglas County Housing Partnership as bond issuer.",
+ "why_it_matters": "This is the same developer's Scott Avenue workforce-housing site, which the county Planning Commission rejected and neighbors sued over in 2023 (inferred to be the same site). It shows a contested suburban rezoning carried through to a closed deal by stacking DCHP bonds, recycled CHFA bonds, a Prop 123 loan and county More Housing Now money.",
+ "status": {
+  "label": "Financing closed and groundbreaking held (September 2026); under construction per developer",
+  "detail": "Mile High CRE reported the financial close on 2026-09-14 and the groundbreaking ceremony on 2026-09-30, and the developer's project page lists the deal as closed in September 2026 and under construction. Completion is targeted for 2028.",
+  "src": [
+   "milehighcre-2026-09-14",
+   "milehighcre-2026-09-30",
+   "udg-project"
+  ]
+ },
+ "next_step": "Watch for Douglas County building permits and construction progress, and lease-up with a Douglas County employment preference in 2028.",
+ "key_numbers": [
+  {
+   "value": "204 homes, all income-restricted",
+   "meaning": "48 one-, 78 two- and 78 three-bedroom units; 11 at 30%, 9 at 50%, 164 at 60% and 20 at 70% AMI (averaging about 59% AMI, computed).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$4,442,978 a year in federal 4% credit, plus $700,000 state credit",
+   "meaning": "Federal credit runs 10 years; amounts are marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$50,000,000 in Douglas County Housing Partnership bonds",
+   "meaning": "The CHFA figure and the county's TEFRA cap; the closing announcement describes $27M of DCHP bonds plus $15M of recycled CHFA bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "dcnp-2026-08-28",
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "value": "$180 million project",
+   "meaning": "Total cost reported at closing; the developer's press list cites a $97M figure instead.",
+   "src": [
+    "milehighcre-2026-09-14",
+    "udg-press"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints 6793 Scott Avenue, Parker 80134; news places the site at the northwest corner of Scott Avenue and Parker Road, and the closing and groundbreaking articles give 6010 Pinery Center Blvd",
+   "src": [
+    "chfa-4pct-award",
+    "dcnp-2026-08-28",
+    "milehighcre-2026-09-14",
+    "milehighcre-2026-09-30"
+   ]
+  },
+  {
+   "item": "Jurisdiction",
+   "value": "The state and DCHP describe the site as unincorporated Douglas County (Parker mailing address); it sits across Parker Road from Pinery Country Club",
+   "src": [
+    "gov-2025-07-30",
+    "dchp-guide",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT or DDA; in a SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "204 total, 204 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Buildings and amenities",
+   "value": "Six residential buildings and a clubhouse; pool, fitness center, children's play areas and green space",
+   "src": [
+    "udg-project",
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "item": "Public improvements",
+   "value": "The developer committed to a three-acre public park, extending Pinery Center Blvd, stabilizing the Cherry Creek bank and extending a CORE Electric feeder line; the state describes over 20 acres of open space",
+   "src": [
+    "dcnp-2026-08-28",
+    "gov-2025-07-30"
+   ]
+  },
+  {
+   "item": "Tenant preference",
+   "value": "The developer intends a preference for applicants employed in Douglas County, subject to CHFA approval and fair housing rules",
+   "src": [
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "item": "Architect",
+   "value": "KTGY",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 11
+  },
+  {
+   "level": "50% AMI",
+   "units": 9
+  },
+  {
+   "level": "60% AMI",
+   "units": 164
+  },
+  {
+   "level": "70% AMI",
+   "units": 20
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 78
+  },
+  {
+   "type": "3BR",
+   "units": 78
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$4,442,978 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$700,000",
+   "note": "As CHFA prints it; Colorado Politics reported $3.36M in state credits.",
+   "src": [
+    "chfa-4pct-award",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Douglas County Housing Partnership)",
+   "amount": "$50,000,000 per CHFA; up to $50,000,000 under the county's TEFRA approval",
+   "note": "The Board of County Commissioners approved the TEFRA public approval resolution on 2026-08-25 (federal tax purposes only; no county or DCHP liability). At closing, DCHP's share was reported as $27M.",
+   "src": [
+    "chfa-4pct-award",
+    "dcnp-2026-08-28",
+    "milehighcre-2026-09-14",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "source": "Recycled tax-exempt bonds (CHFA)",
+   "amount": "$15,000,000",
+   "note": "Reported at financial close.",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "source": "Tax credit equity and construction loan (U.S. Bank)",
+   "amount": "$37.75M equity; $66.4M construction loan",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "source": "Permanent loan (Citi)",
+   "amount": "$36.19M",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "source": "Prop 123 concessionary debt (OEDIT/CHFA)",
+   "amount": "$4.35M at closing; $6M preliminary award announced 2025-07-30",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14",
+    "cpol-2026-10-16",
+    "gov-2025-07-30",
+    "dchp-guide"
+   ]
+  },
+  {
+   "source": "Subordinate financing (BlackRock)",
+   "amount": "$4.6M",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "source": "DOLA subordinate funding",
+   "amount": "$1M",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "source": "More Housing Now (DOLA Division of Local Government and Douglas County)",
+   "amount": "$580,000",
+   "note": "",
+   "src": [
+    "milehighcre-2026-09-14",
+    "cpol-2026-10-16"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Ulysses Development Group",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "role": "Bond issuer (conduit) and special limited partner",
+   "name": "Douglas County Housing Partnership",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2026-09-30"
+   ]
+  },
+  {
+   "role": "TEFRA approval",
+   "name": "Douglas County Board of County Commissioners",
+   "src": [
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "KTGY",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "role": "Tax credit investor and construction lender",
+   "name": "U.S. Bank",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "role": "Permanent lender",
+   "name": "Citi",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "role": "Prop 123 lender",
+   "name": "OEDIT and CHFA (Affordable Housing Financing Fund)",
+   "src": [
+    "milehighcre-2026-09-14",
+    "gov-2025-07-30"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In February 2023 BusinessDen reported that Ulysses planned 220 workforce apartments on 35 acres at State Highway 83 (Parker Road) and Scott Avenue; the county Planning Commission voted 8-0 to deny it on 2022-12-19, the county commissioners approved it 2-1, and 106 Pinery-area residents sued. This is inferred to be the Ponderosa Pines site, given the matching corner and developer.",
+   "src": [
+    "bden-2023-02-10",
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "text": "The developer described the project as a five-year effort, including getting the site rezoned for multifamily.",
+   "src": [
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "text": "The state announced a preliminary $6M Prop 123 concessionary debt award on 2025-07-30, one of six awards totaling $27,053,646; final terms were left to underwriting. The amount reported at closing was $4.35M.",
+   "src": [
+    "gov-2025-07-30",
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "text": "The county commissioners took up the TEFRA resolution for up to $50M of DCHP bonds at their 2026-08-25 business meeting; the county said bonds will finance at least 25% of aggregate basis to qualify for the 4% credit.",
+   "src": [
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "text": "No public document found shows the deal in CHFA's 2025 competitive rounds.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-12-19",
+   "event": "County Planning Commission votes 8-0 against the earlier Ulysses Scott Avenue workforce-housing plan (inferred same site)",
+   "src": [
+    "bden-2023-02-10"
+   ]
+  },
+  {
+   "date": "2023-02-10",
+   "event": "BusinessDen reports county approval (2-1) and a resident lawsuit",
+   "src": [
+    "bden-2023-02-10"
+   ]
+  },
+  {
+   "date": "2025-07-30",
+   "event": "State announces a preliminary $6M Prop 123 concessionary debt award",
+   "src": [
+    "gov-2025-07-30"
+   ]
+  },
+  {
+   "date": "2026-08-25",
+   "event": "Douglas County commissioners approve the TEFRA resolution for up to $50M of DCHP bonds",
+   "src": [
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "date": "2026-09-14",
+   "event": "Financial close reported",
+   "src": [
+    "milehighcre-2026-09-14"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-09-30",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "milehighcre-2026-09-30"
+   ]
+  },
+  {
+   "date": "2028",
+   "event": "Completion targeted (Q3 to late 2028 across reports)",
+   "src": [
+    "milehighcre-2026-09-14",
+    "milehighcre-2026-09-30",
+    "dcnp-2026-08-28"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Ponderosa Pines",
+   "url": "https://www.douglascountynewspress.com/news/housing/article_23bafc32-20d6-4949-a069-ec4359226b4e.html",
+   "kind": "rendering",
+   "made_by": "Ulysses Development Group (courtesy image in the Douglas County News-Press)",
+   "note": "Lead image of the 2026-08-28 article",
+   "src": [
+    "dcnp-2026-08-28"
+   ]
+  },
+  {
+   "title": "Renderings of Ponderosa Pines",
+   "url": "https://www.coloradopolitics.com/2026/10/16/despite-vacancies-denver-apartment-developers-could-still-face-demand/",
+   "kind": "rendering",
+   "made_by": "Ulysses Development Group (courtesy renderings in Colorado Politics)",
+   "note": "Two images in the 'Affordable units head to Parker' section",
+   "src": [
+    "cpol-2026-10-16"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA prints the address as 6793 Scott Avenue, while the closing and groundbreaking articles give 6010 Pinery Center Blvd.",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2026-09-14",
+    "milehighcre-2026-09-30"
+   ]
+  },
+  {
+   "text": "CHFA lists one- to three-bedroom units only, while the groundbreaking article and Colorado Politics describe one- to four-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2026-09-30",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "text": "CHFA and the county's TEFRA approval put the Douglas County Housing Partnership bonds at $50M, while the closing announcement describes $27M of DCHP bonds plus $15M of recycled CHFA bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "dcnp-2026-08-28",
+    "milehighcre-2026-09-14",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "text": "The state's 2025 announcement and DCHP give a $6M Prop 123 award, while closing reports give $4.35M.",
+   "src": [
+    "gov-2025-07-30",
+    "dchp-guide",
+    "milehighcre-2026-09-14",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "text": "Mile High CRE reports a $180 million project, while the developer's press list cites a Colorado Real Estate Journal headline of $97 million.",
+   "src": [
+    "milehighcre-2026-09-14",
+    "udg-press"
+   ]
+  },
+  {
+   "text": "CHFA lists $4,442,978 a year of federal credit (about $44.4M over 10 years) and $700,000 of state credit, while Colorado Politics reported $34.5M in federal credits and $3.36M in state credits.",
+   "src": [
+    "chfa-4pct-award",
+    "cpol-2026-10-16"
+   ]
+  },
+  {
+   "text": "News reports place the project in Parker, while the state and DCHP describe it as in unincorporated Douglas County.",
+   "src": [
+    "dcnp-2026-08-28",
+    "gov-2025-07-30",
+    "dchp-guide"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Douglas County site improvement plan, plat and building permit records for the site (not found online).",
+  "Whether the 2023 lawsuit by Pinery-area residents was resolved and how.",
+  "The signed TEFRA resolution number and the final closed bond amounts by issuer.",
+  "Land price, seller and closing date; ground lease, if any.",
+  "Rents and whether DCHP's special limited partner role brings a property tax exemption."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two Award Report",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "gov-2025-07-30",
+   "title": "Housing Coloradans Can Afford: Proposition 123 Concessionary Debt Funds to Support the Creation of 728 Rental Units",
+   "publisher": "Office of the Governor of Colorado",
+   "date": "2025-07-30",
+   "url": "https://governorsoffice.colorado.gov/governor/news/housing-coloradans-can-afford-proposition-123-concessionary-debt-funds-support-creation-728"
+  },
+  {
+   "id": "dchp-guide",
+   "title": "Affordable Housing Douglas County: 2026 Guide",
+   "publisher": "Douglas County Housing Partnership",
+   "date": "2026-05-10",
+   "url": "https://douglascountyhousingpartnership.org/affordable-housing-douglas-county/"
+  },
+  {
+   "id": "dcnp-2026-08-28",
+   "title": "Ponderosa Pines set to bring affordable housing options to Parker",
+   "publisher": "Douglas County News-Press (Colorado Community Media)",
+   "date": "2026-08-28",
+   "url": "https://www.douglascountynewspress.com/news/housing/article_23bafc32-20d6-4949-a069-ec4359226b4e.html"
+  },
+  {
+   "id": "milehighcre-2026-09-14",
+   "title": "204 New Affordable Units to be Built in Douglas County",
+   "publisher": "Mile High CRE",
+   "date": "2026-09-14",
+   "url": "https://milehighcre.com/204-new-affordable-units-to-be-built-in-douglas-county/"
+  },
+  {
+   "id": "milehighcre-2026-09-30",
+   "title": "UDG Celebrates the Groundbreaking of Ponderosa Pines",
+   "publisher": "Mile High CRE",
+   "date": "2026-09-30",
+   "url": "https://milehighcre.com/udg-celebrates-the-groundbreaking-of-ponderosa-pines/"
+  },
+  {
+   "id": "cpol-2026-10-16",
+   "title": "Despite vacancies, Denver apartment developers could still face demand",
+   "publisher": "Colorado Politics",
+   "date": "2026-10-16",
+   "url": "https://www.coloradopolitics.com/2026/10/16/despite-vacancies-denver-apartment-developers-could-still-face-demand/"
+  },
+  {
+   "id": "udg-project",
+   "title": "Ponderosa Pines (project page)",
+   "publisher": "Ulysses Development Group",
+   "date": "2026",
+   "url": "https://ulyssesdevelopment.com/communities/ponderosa-pines/"
+  },
+  {
+   "id": "udg-press",
+   "title": "News & Press Coverage",
+   "publisher": "Ulysses Development Group",
+   "date": "2026-10",
+   "url": "https://ulyssesdevelopment.com/press/"
+  },
+  {
+   "id": "bden-2023-02-10",
+   "title": "Homeowners south of Parker sue in bid to stop planned apartment complex",
+   "publisher": "BusinessDen",
+   "date": "2023-02-10",
+   "url": "https://businessden.com/2023/02/10/homeowners-south-of-parker-sue-in-bid-to-stop-planned-apartment-complex/"
+  }
+ ]
+}
