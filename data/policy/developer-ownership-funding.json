@@ -28,8 +28,8 @@
       "eligible_geography": ["western_mountain_region"], "max_per_household": null, "max_per_project": null,
       "affordability_period_years": null, "lien_or_recapture": {"type": "retention", "terms": "VERIFY"},
       "application_cycle": "rolling", "commitment_status": "available", "stacking_constraints": ["VERIFY"],
-      "source_url": "https://www.wmrhousing.org/gooddeeds", "source_note": "Official WMRHC page supports the program, not the legacy 30% screening cap retained from v1. That cap has no external evidence and must be replaced with owner input before use. Project availability is not an award.",
-      "last_verified": "2026-07-22", "review_by": "2026-10-20", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_url": "https://www.wmrhousing.org/gooddeeds", "source_note": "WMRHC Good Deeds page read 2026-10-21: \"The WMRHC will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property.\" The program buys a perpetual deed restriction from an eligible buyer household (an average of 1,400 work hours a year, at least 75% of them for a business located in Pitkin, West Eagle or Garfield County). The page caps the purchase price at $1,200,000 in Garfield County up valley of Glenwood Springs and $800,000 in the rest of Garfield County; its Pitkin County cap is printed as \"$1,500,00\" and needs confirming with WMRHC. The 30% is of the contract price; this screening applies 30% to development cost per unit, which is a modeling choice, not the program's basis. Project availability is not an award.",
+      "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {
       "id": "aspen-affordable-housing-mitigation", "name": "Aspen affordable housing mitigation",
@@ -45,8 +45,8 @@
       "lien_or_recapture": {"type": "retention", "terms": "VERIFY"}, "application_cycle": "rolling",
       "commitment_status": "available", "stacking_constraints": ["project_specific_mitigation_review"],
       "source_url": "https://aspen.gov/1384/2022-Residential-Building-Regulations-Up",
-      "source_note": "Official City of Aspen page; specific dollar terms are not encoded.",
-      "last_verified": "2026-07-22", "review_by": "2026-10-20", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official City of Aspen page, re-opened 2026-10-21; it lists the adopted updates to affordable housing mitigation, the Housing Mitigation Fee-in-Lieu and FTE generation rates. Specific dollar terms are not encoded.",
+      "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "chfa-dpa-layering", "name": "CHFA down-payment assistance layering",
@@ -62,8 +62,8 @@
       "lien_or_recapture": {"type": "recapture", "terms": "VERIFY"}, "application_cycle": "rolling",
       "commitment_status": "available", "stacking_constraints": ["requires_eligible_chfa_first_mortgage"],
       "source_url": "https://www.chfainfo.com/homeownership/down-payment-assistance",
-      "source_note": "Official CHFA page retained from v1; buyer-side availability is not a project source.",
-      "last_verified": "2026-07-22", "review_by": "2026-10-20", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "CHFA page read 2026-10-21: Second Mortgage Loan \"Up to the lesser of $25,000 or 4 percent of your first mortgage\", repayment deferred until certain events, such as payoff of the first mortgage, sale or refinance, or the home no longer being the borrower's primary residence; Down Payment Assistance Grant up to the lesser of $25,000 or 3 percent. Buyer-side availability is not a project source.",
+      "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "dola-prop123-new-construction", "name": "DOLA Proposition 123 new construction / acquisition rehabilitation",
