@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T11:28:11.603Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T11:44:50.525Z. Do not edit by hand.
 
 ---
 
@@ -95,7 +95,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 917.2 KB | ✅ | — |
+| `data/_manifest.json` | 918.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1939,7 +1939,7 @@
 
 ## Test Files
 
-685 test files found.
+686 test files found.
 
 | File | Size |
 |------|------|
@@ -2429,6 +2429,7 @@
 | `test/rent-limit-programs.test.js` | 11.1 KB |
 | `test/rent-schedule.test.js` | 25.5 KB |
 | `test/rent-vs-buy-breakeven.test.js` | 4.1 KB |
+| `test/repo-private-data.test.mjs` | 9.9 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 16.0 KB |
