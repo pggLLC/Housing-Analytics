@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T14:45:30.170Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T16:13:19.614Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 81.9 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.7 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 53.3 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
@@ -1952,7 +1952,7 @@
 
 ## Test Files
 
-689 test files found.
+690 test files found.
 
 | File | Size |
 |------|------|
@@ -2293,6 +2293,7 @@
 | `test/livability-brief.test.mjs` | 10.6 KB |
 | `test/loan-obligations-page.test.js` | 5.8 KB |
 | `test/loan-obligations.test.js` | 8.1 KB |
+| `test/local-discussion.test.mjs` | 12.4 KB |
 | `test/local-incentives.test.mjs` | 13.8 KB |
 | `test/local-resources-discovery.test.js` | 8.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
