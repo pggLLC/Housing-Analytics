@@ -32,12 +32,13 @@
   // Counts from the backend become plain numbers before they reach the page.
   // A count or share the backend did not supply (absent, null, not a number, or below zero) is unknown, never zero.
   function has(v) { return typeof v === 'number' && Number.isFinite(v) && v >= 0; }
-  function rising(n) { var w = n && n.rising; return w && label(w.term) && label(w.quarter) && has(w.from) && has(w.to) ? w : null; }
+  function share(v) { return has(v) && v <= 100; }
+  function rising(n) { var w = n && n.rising; return w && label(w.term) && label(w.quarter) && share(w.from) && share(w.to) ? w : null; }
   function num(v) { return has(v) ? Math.round(v) : 0; }
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
   // A shift needs its word and quarter; a change in share also needs both shares.
-  function okFlag(f) { return label(f.term) && label(f.quarter) && (f.kind === 'first' || (has(f.from) && has(f.to))); }
+  function okFlag(f) { return label(f.term) && label(f.quarter) && (f.kind === 'first' || (share(f.from) && share(f.to))); }
   function label(v) { return typeof v === 'string' && v.trim() !== ''; }
   // A real calendar date in YYYY-MM-DD form (2026-02-31 is not).
   function isDay(d) {
@@ -136,13 +137,14 @@
   }
 
   // A word missing from a quarter was not used there (the read writes only words it found).
-  // A quarter holding a count that is not a number is unavailable: no shares are worked out for it.
+  // A quarter with no counts map, or holding a count that is not a number, is unavailable: no shares are worked out for it.
   function wordTable(r) {
     var lex = r.lexicon, qs = lex.quarters, terms = r.terms;
     var counts = {}, bad = {};
     qs.forEach(function (q) {
-      counts[q] = obj(lex.counts[q]);
-      bad[q] = Object.keys(counts[q]).some(function (k) { return !has(counts[q][k]); });
+      var raw = lex.counts[q];
+      counts[q] = obj(raw);
+      bad[q] = counts[q] !== raw || Object.keys(counts[q]).some(function (k) { return !has(counts[q][k]); });
     });
     var used = terms.filter(function (t) { return qs.some(function (q) { return counts[q][t.term] !== undefined; }); });
     if (!qs.length || !used.length) return '<p class="ib-muted">No housing words counted yet.</p>';

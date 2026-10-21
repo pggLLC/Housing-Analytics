@@ -103,6 +103,10 @@ const lk = L.keyNumbers(labels), lh = R(labels);
 ok(/Word shifts \(1\)/.test(lh) && !/“” first/.test(lh), 'a shift needs its word and quarter');
 ok(lk[2].big === 'Steady' && !/moving toward/.test(L.meaning(labels)), 'a rising word needs a quarter');
 ok(lk[1].big === 'None' && /Dates and pages to check \(0\)/.test(lh) && !/Mar 3, 2026|Jan 1, 2027/.test(lh), 'calendar-invalid dates are not shown');
+const gaps = JSON.parse(JSON.stringify(result)); delete gaps.lexicon.counts['2026-Q2']; gaps.numbers.rising.to = 101; gaps.lexicon.flags[0].to = 999;
+const gh = R(gaps);
+ok(/Counts for 2026-Q2 did not come through/.test(gh) && !/counted in 2026-Q2/.test(gh), 'a quarter missing its counts is unavailable');
+ok(L.keyNumbers(gaps)[2].big === 'Steady' && !/999%/.test(gh), 'shares above 100 are not shown');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.
