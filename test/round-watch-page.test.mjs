@@ -96,6 +96,7 @@ ok(r1dates[0].url === cal.metadata.qap_sources['2027-28-qap-third-draft'].url &&
   'the countdown links the plan its dates come from');
 ok(dh.includes('10 days to go') && dh.includes('rw-soon') && dh.includes('not yet adopted'), 'the countdown counts days, flags the last 30, and says the plan is a draft');
 ok(RW.roundDates({ round: '2027 Round Two' }, cal)[0].date === '2027-06-01' && RW.roundDates({ round: 'x' }, cal).length === 0, 'Round Two has its own dates; an unknown round shows none');
+ok(RW.localDate(new Date(2026, 10, 30, 19, 30)) === '2026-11-30', 'the countdown counts from the viewer\'s own date, not UTC');
 const csv = RW.csvFor({ round: '2027 Round One', credit: '9%' }, [Object.assign({}, item, { name: '=HYPERLINK("x")', region: 'Front Range' })], contacts, '2026-10-18');
 const lines = csv.trim().split('\r\n');
 ok(lines.length === 2 && lines[0].startsWith('Round,Likelihood') && lines[1].includes('pat@org.example') && lines[1].includes('Front Range'),

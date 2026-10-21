@@ -122,6 +122,12 @@
     }).filter(Boolean);
   }
 
+  /** The viewer's own calendar date (not UTC, which in Colorado turns over at 6 or 7 pm). */
+  function localDate(d) {
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate());
+  }
+
   function fmtDate(iso) {
     var mo = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var p = String(iso).split('-');
@@ -479,7 +485,7 @@
     var el = doc.getElementById('roundWatch');
     if (!el) return;
     var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', fresh: 'all', open: {}, asOf: data.meta.generated_at };
-    var today = new Date().toISOString().slice(0, 10);
+    var today = localDate(new Date());
     doc.getElementById('rwStats').innerHTML = statsHtml(data);
     doc.getElementById('rwBacktest').innerHTML = backtestHtml(data.backtest);
     doc.getElementById('rwRolling').innerHTML = rollingHtml(data.rolling_4pct || []);
@@ -644,5 +650,5 @@
   return { esc: esc, contactsFor: contactsFor, sortItems: sortItems, rowsHtml: rowsHtml, detailHtml: detailHtml,
     tableHtml: tableHtml, visibleItems: visibleItems, firstContactCell: firstContactCell, townsFor: townsFor,
     townsNear: townsNear, townPanelHtml: townPanelHtml, controlsHtml: controlsHtml, REGIONS: REGIONS,
-    freshTag: freshTag, roundDates: roundDates, datesHtml: datesHtml, csvFor: csvFor, CAL_URL: CAL_URL, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
+    freshTag: freshTag, roundDates: roundDates, localDate: localDate, datesHtml: datesHtml, csvFor: csvFor, CAL_URL: CAL_URL, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
 });
