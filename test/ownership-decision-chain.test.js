@@ -131,6 +131,17 @@ window.OwnershipDecisionChain.render(nullValueMount, nullValueResult, {
 assert(nullValueMount.textContent.includes('Max resale price at holding period: Value unavailable'), 'real null-value place renders unavailable resale price');
 assert(nullValueMount.textContent.includes('Owner gross equity screen: Value unavailable'), 'real null-value place renders unavailable owner equity');
 
+// Readers never see an internal function or id name, whether the calculator loads or not.
+const missingMount = document.createElement('div');
+const missing = window.OwnershipDecisionChain.render(missingMount, result, { dealCalculator: {}, resaleConventionsDoc: { conventions: [] } });
+assert.equal(missing.feasibility.status, 'missing-calculator', 'a page without the Deal Calculator reports it missing');
+assert(missingMount.textContent.includes('for-sale screen did not load'), 'a missing calculator is explained in plain words');
+for (const [label, el] of [['loaded', mount], ['missing calculator', missingMount], ['null home value', nullValueMount]]) {
+  for (const code of ['DealCalculator', 'computeForSaleFeasibility', 'fixed_simple', 'home-value cascade']) {
+    assert(!el.textContent.includes(code), label + ': readers see the internal name "' + code + '"');
+  }
+}
+
 const stageEls = Array.from(document.querySelectorAll('[data-own-chain-stage]'));
 assert.equal(stageEls.length, 5, 'rendered DOM has one stage per decision step');
 stageEls.forEach((stage) => {

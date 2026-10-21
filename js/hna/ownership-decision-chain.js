@@ -67,6 +67,7 @@
       return {
         status: 'missing-calculator',
         source: 'DealCalculator.computeForSaleFeasibility unavailable',
+        sourceLabel: 'The Deal Calculator’s for-sale screen did not load on this page, so the figures below are not available.',
       };
     }
     var units = Math.max(1, Math.round(num(options.units) || 1));
@@ -92,6 +93,7 @@
     };
     var out = dealCalculator.computeForSaleFeasibility(input);
     out.source = 'DealCalculator.computeForSaleFeasibility';
+    out.sourceLabel = 'Source: the Deal Calculator’s for-sale screen.';
     out.input = {
       units: units,
       targetAmiPct: targetAmiPct,
@@ -121,7 +123,7 @@
     stages.push(stage('site-price-context', 'Site / price context',
       '<p>County price anchor: <strong>' + esc(fmtMoney(price.medianHomeValue)) + '</strong></p>' +
       '<p>Affordability class: <strong>' + (window.ProvenanceLabel ? window.ProvenanceLabel.html(price) : 'Owner input required') + '</strong></p>' +
-      '<p>Source: ' + esc(price.source || 'home-value cascade') + '</p>'));
+      '<p>Source: ' + esc(price.source || 'the site’s home-value sources') + '</p>'));
 
     var bandRows = priceBand && Array.isArray(priceBand.rows) ? priceBand.rows : [];
     // priceBandDemandScreen() returns null when there is no 4-person AMI to anchor
@@ -151,7 +153,8 @@
     }
 
     stages.push(stage('per-unit-subsidy-gap', 'Per-unit subsidy gap',
-      '<p>Source: ' + esc(feasibility.source || 'DealCalculator.computeForSaleFeasibility') + '</p>' +
+      // source is the internal function name; readers see sourceLabel
+      '<p>' + esc(feasibility.sourceLabel || 'Source: the Deal Calculator’s for-sale screen.') + '</p>' +
       '<p>Per-unit cost screen: <strong>' + esc(fmtMoney(feasibility.tdcPerUnit)) + '</strong></p>' +
       '<p>Max affordable sale price: <strong>' + esc(fmtMoney(feasibility.maxAffordableSalePrice)) + '</strong></p>' +
       '<p>Subsidy gap per unit: <strong>' + esc(fmtMoney(feasibility.subsidyGapPerUnit)) + '</strong></p>'));
@@ -166,7 +169,7 @@
       ? resale.rows.filter(function (row) { return row && row.conventionId === 'fixed_simple'; })[0]
       : null;
     stages.push(stage('resale-deed-restriction', 'Resale / deed-restriction tradeoff',
-      '<p>Default convention: <strong>' + esc((defaultConvention && (defaultConvention.label || defaultConvention.source_program)) || 'fixed_simple') + '</strong></p>' +
+      '<p>Default convention: <strong>' + esc((defaultConvention && (defaultConvention.label || defaultConvention.source_program)) || 'Fixed simple appreciation') + '</strong></p>' +
       '<p>Max resale price at holding period: <strong>' + esc(fmtMoney(defaultRow && defaultRow.maxResalePrice)) + '</strong></p>' +
       '<p>Owner gross equity screen: <strong>' + esc(fmtMoney(defaultRow && defaultRow.ownerGrossEquity)) + '</strong></p>' +
       '<p>Preserves affordability: <strong>' + esc(defaultRow ? defaultRow.preservationLabel : 'Value unavailable') + '</strong></p>'));
