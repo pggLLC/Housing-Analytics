@@ -32,7 +32,8 @@ assert.deepEqual(fe, JSON.parse(fs.readFileSync(tmp, 'utf8')),
 // 2. The same study, written again: SDO's county estimates, Broomfield and the
 //    four counties it came from as one area, every launch year from 1980 with
 //    a 10-year base, the average of linear and exponential trend, the 67th
-//    percentile of absolute percent error, never falling with years out.
+//    percentile of the miss as a percent of the forecast, never falling with
+//    years out.
 const lines = read('data/hna/source/dola_components_county.csv').split(/\r?\n/);
 const head = lines.findIndex((l) => l.startsWith('id,'));
 const cols = lines[head].split(',');
@@ -59,7 +60,7 @@ for (const s of pop.values()) {
       const actual = s.get(L + h);
       if (!actual) continue;
       const f = ((p0 + (p0 - pb) / 10 * h) + p0 * Math.pow(p0 / pb, h / 10)) / 2;
-      errs[classOf(p0)][h - 1].push(Math.abs(f - actual) / actual * 100);
+      errs[classOf(p0)][h - 1].push(Math.abs(f - actual) / f * 100);
     }
   }
 }
@@ -75,6 +76,10 @@ errs.forEach((byH, c) => {
     assert(Math.abs(fe.errorPct[c][h] - worst) <= 0.051,
       `size ${c}, ${h + 1} years out: file ${fe.errorPct[c][h]}%, recomputed ${worst.toFixed(2)}%`);
     assert.equal(fe.forecasts[c][h], e.length, `size ${c}, ${h + 1} years out: forecast count`);
+    // What the chart claims: a range of this many percent either side of a
+    // forecast held at least 2 in 3 past outcomes.
+    const inside = e.filter((x) => x <= fe.errorPct[c][h] + 0.05).length / e.length;
+    assert(inside >= 0.66, `size ${c}, ${h + 1} years out: ${(inside * 100).toFixed(1)}% of past outcomes inside the range, not 2 in 3`);
   });
 });
 

@@ -13,7 +13,9 @@ Education and Research 27, 2008):
      average of a linear and an exponential trend through the launch year and
      ten years before it.
   2. Compare each forecast, 1 to 20 years out, with SDO's later estimate for
-     that year: the absolute percent error.
+     that year: the miss as a percent of the forecast. The chart's range is
+     drawn around a forecast (SDO's), so this is the measure it needs: a miss
+     of e% of the actual would put the forecast's range at F/(1+e) to F/(1-e).
   3. Group the errors by the county's population at launch and by years out,
      and keep the error two in three forecasts stayed within (the 67th
      percentile). A later horizon never shows less error than an earlier one.
@@ -107,7 +109,7 @@ def main():
                 linear = p0 + (p0 - pb) / BASE_PERIOD * h
                 exponential = p0 * (p0 / pb) ** (h / BASE_PERIOD)
                 forecast = (linear + exponential) / 2
-                errors[c][h - 1].append(abs(forecast - actual) / actual * 100)
+                errors[c][h - 1].append(abs(forecast - actual) / forecast * 100)
 
     error_pct, counts = [], []
     for c, by_h in enumerate(errors):
@@ -121,11 +123,11 @@ def main():
         counts.append([len(e) for e in by_h])
 
     out = {
-        'about': ('Absolute percent error that two in three past trend forecasts of Colorado county '
-                  'population stayed within, by population at launch and years out.'),
+        'about': ('Miss, as a percent of the forecast, that two in three past trend forecasts of Colorado '
+                  'county population stayed within, by population at launch and years out.'),
         'source': f'Colorado State Demography Office county population estimates, {first}-{last} ({vintage})',
         'method': ('Launch years {0}-{1}; 10-year base period; average of linear and exponential trend; '
-                   'error against SDO\'s later estimate; 67th percentile, never falling with years out. '
+                   'miss against SDO\'s later estimate as a percent of the forecast; 67th percentile, never falling with years out. '
                    'Adams, Boulder, Broomfield, Jefferson and Weld combined.').format(first + BASE_PERIOD, last - 1),
         'references': [
             'Smith, Tayman and Swanson, A Practitioner\'s Guide to State and Local Population Projections (Springer, 2013), ch. 13',
@@ -145,4 +147,4 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
