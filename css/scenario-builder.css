@@ -157,6 +157,32 @@
   margin-top: 3px;
 }
 
+/* Which migration the slider scales: SDO's forecast or the years before it. */
+.sb-mig-from {
+  border: 0;
+  padding: 0;
+  margin: 0 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--sp3);
+  font-size: .8125rem;
+}
+.sb-mig-from legend {
+  padding: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+.sb-mig-from label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.sb-mig-from input:disabled + span {
+  color: var(--muted);
+}
+
 /* ---------------------------------------------------------------------------
    Save / Load
    --------------------------------------------------------------------------- */

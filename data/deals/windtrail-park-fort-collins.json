@@ -1,0 +1,564 @@
+{
+ "slug": "windtrail-park-fort-collins",
+ "name": "Windtrail Park (Windtrail Park Apartments)",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "CARE Communities is renovating Windtrail Park, its 50 ground-floor two- and three-bedroom apartments for households at 30% to 60% AMI (10 for seniors 55+) at 2120 Bridgefield Lane and 945 Rolland Moore Drive in Fort Collins, by selling it to a new tax credit partnership. It won a 2025 federal 4% award from CHFA backed by Housing Catalyst bonds.",
+ "why_it_matters": "A local nonprofit is recapitalizing its own 2001 tax credit property with a $4.45M seller loan, city CDBG and capital-tax money and a state grant, adding air conditioning and in-unit laundry and resetting affordability for 60 years; it shows how tariffs and Buy America rules widened a small preservation deal's gap by about $2M.",
+ "status": {
+  "label": "Ownership moved to the new partnership (assessor record); rehab start not confirmed",
+  "detail": "Larimer County parcel records (run 2026-10-08) list Windtrail Park LLLP, registered 2025-09-10, as owner of both parcels, which indicates the acquisition closed (inferred; the deed date and price were not found). CARE targeted a late-February 2026 closing and a 2026-03-02 construction start; no permit, groundbreaking or completion record was found.",
+  "src": [
+   "larimer-parcels",
+   "cosos-windtrail-lllp",
+   "fc-ais-2026-02-03",
+   "fc-care-request-2026"
+  ]
+ },
+ "next_step": "Watch for City of Fort Collins building permits and a completion or lease-up notice from CARE Communities.",
+ "key_numbers": [
+  {
+   "value": "50 homes at 30% to 60% AMI",
+   "meaning": "5 at 30%, 25 at 40%, 16 at 50% and 4 at 60% AMI; 44 two- and 6 three-bedroom units; 10 reserved for seniors 55+.",
+   "src": [
+    "chfa-4pct-award",
+    "fc-pab-request-2025"
+   ]
+  },
+  {
+   "value": "$835,124 a year in federal 4% credit",
+   "meaning": "About $8.4M over 10 years; no state credit. CARE budgets $6,983,894 of tax credit equity.",
+   "src": [
+    "chfa-4pct-award",
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "value": "$9,000,000 in Housing Catalyst bonds",
+   "meaning": "Issued from Fort Collins' 2025 private activity bond cap of $11,184,752, which the city assigned to Housing Catalyst.",
+   "src": [
+    "chfa-4pct-award",
+    "fc-ais-res-2025-066"
+   ]
+  },
+  {
+   "value": "$18,573,766 total cost",
+   "meaning": "$371,475 per unit, including $5,153,825 of acquisition cost and $8,542,446 of construction; CARE carries back a $4,450,000 seller loan.",
+   "src": [
+    "fc-care-request-2026",
+    "fc-ord-009-2026-detail"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2120 Bridgefield Ln, Fort Collins 80526 (CHFA). CARE says 40 units are at 2120 Bridgefield Lane and 10 across the street at 945 Rolland Moore Drive; parcels 9723371001 and 9723371002, Lots 1 and 2 of CARE Housing at Windtrail Park PUD; census tract 001111",
+   "src": [
+    "chfa-4pct-award",
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "Built in 2001 with low-income housing tax credits and federal HOME funds (from DOLA, the City's CDBG program and the state), 13 residential buildings, a clubhouse and a community garden; all units are ground-floor homes; not renovated since construction",
+   "src": [
+    "fc-ord-009-2026-detail",
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Medium Density Mixed-Use Neighborhood (MMN)",
+   "src": [
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "New heat pumps that add air conditioning for the first time, washers and dryers in every unit, interior and exterior paint, new flooring, cabinets and windows, ENERGY STAR fixtures and appliances including tankless water heaters and LED lighting, more accessible units and paths, bike storage, community Wi-Fi and a clubhouse expansion; built to Enterprise Green Communities 2020 criteria",
+   "src": [
+    "fc-care-request-2026",
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "item": "Rents before rehab",
+   "value": "A two-bedroom, one-bath unit rented for $565 to $1,254 depending on income, against a 2024 Q3 Fort Collins average of $1,643, per CARE's application",
+   "src": [
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Windtrail Park LLLP (registered 2025-09-10); CARE Windtrail Park LLC registered the same day at CARE's address (inferred general partner)",
+   "src": [
+    "larimer-parcels",
+    "cosos-windtrail-lllp",
+    "cosos-care-windtrail-llc"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 25
+  },
+  {
+   "level": "50% AMI",
+   "units": 16
+  },
+  {
+   "level": "60% AMI",
+   "units": 4
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 44
+  },
+  {
+   "type": "3BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "fc-pab-request-2025"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$835,124 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Housing Catalyst)",
+   "amount": "$9,000,000",
+   "note": "Fort Collins assigned its 2025 bond cap ($11,184,752) to Housing Catalyst for this project under Resolution 2025-066 (June 17, 2025 consent item). Taft Stettinius & Hollister wrote the bond eligibility letter as likely bond counsel.",
+   "src": [
+    "chfa-4pct-award",
+    "fc-ais-res-2025-066",
+    "fc-agenda-2025-06-17",
+    "fc-pab-request-2025"
+   ]
+  },
+  {
+   "source": "Federal tax credit equity",
+   "amount": "$6,983,894",
+   "note": "Investor not named.",
+   "src": [
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "source": "CARE seller loan",
+   "amount": "$4,450,000",
+   "note": "CARE, the selling owner, lends back part of the price.",
+   "src": [
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "$3,500,000",
+   "note": "Lender not named.",
+   "src": [
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "source": "City of Fort Collins CDBG",
+   "amount": "$1,000,000",
+   "note": "Awarded through the city's 2025 competitive process (Resolution 2025-065).",
+   "src": [
+    "fc-res-2026-018",
+    "fc-ais-2026-02-03"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Housing Development Grant",
+   "amount": "$950,000",
+   "note": "Listed among October 2025 rental awards; CARE cut its request from $1.5M on state advice.",
+   "src": [
+    "doh-schedule",
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "source": "Fort Collins Affordable Housing Capital Fund (quarter-cent capital tax)",
+   "amount": "$950,000",
+   "note": "Due-on-sale loan under Resolution 2026-018 on the 2026-02-03 agenda, from funds appropriated by Ordinance No. 009, 2026.",
+   "src": [
+    "fc-res-2026-018",
+    "fc-agenda-2026-02-03",
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$739,872",
+   "note": "",
+   "src": [
+    "fc-care-request-2026"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), developer, general partner and property manager",
+   "name": "CARE Communities (Community Affordable Residences Enterprise, Inc.; formerly CARE Housing), a Fort Collins nonprofit CHDO",
+   "src": [
+    "chfa-4pct-award",
+    "fc-pab-request-2025",
+    "fc-res-2026-018"
+   ]
+  },
+  {
+   "role": "Seller and prior owner",
+   "name": "CARE Communities (it owned Windtrail before the deal); a CARE affiliate, CARE Housing/Windtrail Holdings Ltd., was registered in 1999 (inferred to be the original ownership entity)",
+   "src": [
+    "fc-pab-request-2025",
+    "cosos-care-windtrail-holdings"
+   ]
+  },
+  {
+   "role": "Buyer/owner entity",
+   "name": "Windtrail Park LLLP",
+   "src": [
+    "larimer-parcels",
+    "cosos-windtrail-lllp"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Catalyst (Fort Collins housing authority)",
+   "src": [
+    "chfa-4pct-award",
+    "fc-ais-res-2025-066"
+   ]
+  },
+  {
+   "role": "Local funder and bond cap source",
+   "name": "City of Fort Collins",
+   "src": [
+    "fc-ais-res-2025-066",
+    "fc-res-2026-018"
+   ]
+  },
+  {
+   "role": "State funder",
+   "name": "Colorado Division of Housing",
+   "src": [
+    "doh-schedule"
+   ]
+  },
+  {
+   "role": "Sustainability consultant",
+   "name": "Energetics",
+   "src": [
+    "fc-ord-009-2026-detail"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "CARE built Windtrail in 2001 as a tax credit property; the city backed the original development with a $901,000 award in 1999.",
+   "src": [
+    "fc-ord-009-2026-detail",
+    "fc-ais-2026-02-03"
+   ]
+  },
+  {
+   "text": "Deal structure: CARE sells the property to a new partnership it controls, carries back a $4,450,000 seller loan, and says the proceeds and earned developer fee will be reinvested in its five-year pipeline. The sale price is not public; the budget's acquisition cost rose from $4,551,250 to $5,153,825 mainly because the appraised value went up.",
+   "src": [
+    "fc-pab-request-2025",
+    "fc-care-request-2026",
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "text": "The rehab resets the 2001 affordability restrictions for at least another 60 years.",
+   "src": [
+    "fc-pab-request-2025",
+    "fc-ais-2026-02-03"
+   ]
+  },
+  {
+   "text": "CARE first sought bonds in March 2024 for a combined Greenbriar and Windtrail rehab under one partnership ($16M of bonds, $10,812,010 from the city); in 2025 it filed Windtrail alone.",
+   "src": [
+    "fc-pab-request-2024",
+    "fc-pab-request-2025"
+   ]
+  },
+  {
+   "text": "Fort Collins received two 2025 bond cap requests; its committee and the Affordable Housing Board (May 2025) backed Windtrail as the complete, on-time, in-city request and recommended assigning the cap to Housing Catalyst.",
+   "src": [
+    "fc-ais-res-2025-066"
+   ]
+  },
+  {
+   "text": "Costs rose from $16,575,311 (February 2025) to $18,573,766 (December 2025) because of tariffs, Build America Buy America rules tied to the federal CDBG money, interest rates and higher appraised value; a hoped-for $500,000 from a Larimer County preservation fund never materialized. CARE cut landscaping, asphalt, garden and clubhouse scope.",
+   "src": [
+    "fc-care-request-2026",
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "text": "CARE budgets $300,000 for temporary resident relocation and compares the job to its 2022 occupied rehab of the 84-unit Swallow Road Apartments, where residents moved temporarily while units were renovated; an occupied rehab at Windtrail is inferred, not stated.",
+   "src": [
+    "fc-pab-request-2025",
+    "fc-ord-009-2026-detail"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1999",
+   "event": "City of Fort Collins awards $901,000 toward the original development",
+   "src": [
+    "fc-ais-2026-02-03"
+   ]
+  },
+  {
+   "date": "2001",
+   "event": "Windtrail Park built with tax credits",
+   "src": [
+    "fc-pab-request-2025"
+   ]
+  },
+  {
+   "date": "2024-03-15",
+   "event": "CARE requests city bond cap for a combined Greenbriar-Windtrail rehab",
+   "src": [
+    "fc-pab-request-2024"
+   ]
+  },
+  {
+   "date": "2025-02-18",
+   "event": "CARE applies to the city's spring 2025 housing funding round for Windtrail",
+   "src": [
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "date": "2025-02-25",
+   "event": "CARE requests $9M of the city's 2025 bond cap, with Housing Catalyst as issuer",
+   "src": [
+    "fc-pab-request-2025"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Resolution 2025-066 assigning the city's 2025 bond cap to Housing Catalyst on the City Council consent agenda",
+   "src": [
+    "fc-agenda-2025-06-17",
+    "fc-ais-res-2025-066"
+   ]
+  },
+  {
+   "date": "2025-09-10",
+   "event": "Windtrail Park LLLP and CARE Windtrail Park LLC registered",
+   "src": [
+    "cosos-windtrail-lllp",
+    "cosos-care-windtrail-llc"
+   ]
+  },
+  {
+   "date": "2025-10",
+   "event": "Division of Housing lists a $950,000 award for Windtrail Park",
+   "src": [
+    "doh-schedule"
+   ]
+  },
+  {
+   "date": "2025-12-18",
+   "event": "CARE asks the city for $950,000 more to cover tariff and Buy America cost increases",
+   "src": [
+    "fc-ord-009-2026-detail"
+   ]
+  },
+  {
+   "date": "2026-02-03",
+   "event": "Resolution 2026-018 ($950,000 capital fund loan) on the City Council agenda",
+   "src": [
+    "fc-agenda-2026-02-03",
+    "fc-res-2026-018"
+   ]
+  },
+  {
+   "date": "2026-03-02",
+   "event": "Planned construction start (CARE); actual start not confirmed",
+   "src": [
+    "fc-care-request-2026"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-08",
+   "event": "Larimer County parcel data show Windtrail Park LLLP as owner",
+   "src": [
+    "larimer-parcels"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Windtrail Park location map",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-001-9646bf2f35994f74aba7932546609da8.pdf",
+   "kind": "map",
+   "made_by": "City of Fort Collins (attachment to the June 17, 2025 bond cap item)",
+   "note": "Page 1; shows the buildings around 2120 Bridgefield Lane and Rolland Moore Drive",
+   "src": [
+    "fc-agenda-2025-06-17"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Recorded deed date and price for the sale from CARE to Windtrail Park LLLP, and the closed bond amount.",
+  "Tax credit investor, equity price, construction and permanent lenders.",
+  "Building permits, actual construction start and completion dates.",
+  "Signed copies or minutes confirming adoption of Resolutions 2025-066 and 2026-018 (the agenda packets show them as consent items).",
+  "Post-rehab rents and whether any units get project-based vouchers (CHFA marks Section 8 No).",
+  "General contractor and architect names (CARE says a design team and GC were selected in 2023-2024)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "fc-pab-request-2025",
+   "title": "CARE Communities request for City of Fort Collins private activity bonds, Windtrail Park, with bond counsel letter (attachment to Resolution 2025-066)",
+   "publisher": "City of Fort Collins (submitted by CARE Communities)",
+   "date": "2025-02-25",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-001-c803190e19af4ed6ab7a973c26c8c941.pdf"
+  },
+  {
+   "id": "fc-ais-res-2025-066",
+   "title": "Agenda Item Summary: Resolution 2025-066 assigning the City's 2025 Private Activity Bond allocation to Housing Catalyst",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-1b8aaf903396446db23335580b2462a4/ITEM-Attachment-004-42434479bb8c4f9d8fec909ff40ef8f5.pdf"
+  },
+  {
+   "id": "fc-agenda-2025-06-17",
+   "title": "City Council Regular Meeting agenda, June 17, 2025",
+   "publisher": "City of Fort Collins",
+   "date": "2025-06-17",
+   "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&me=1b8aaf903396446db23335580b2462a4&ip=True"
+  },
+  {
+   "id": "fc-pab-request-2024",
+   "title": "CARE Housing request for private activity bonds, Greenbriar and Windtrail",
+   "publisher": "City of Fort Collins (submitted by CARE Housing)",
+   "date": "2024-03-15",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-21d37494d76c4bb898a0045c2ee97d55/ITEM-Attachment-001-b4cdbd0d8f9045fc8fb327c7afdcef3f.pdf"
+  },
+  {
+   "id": "fc-ord-009-2026-detail",
+   "title": "Ordinance No. 009, 2026, AIS Attachment 2: Affordable Housing Appropriation Detail (includes CARE's Windtrail request, 2025 application and sources and uses)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-01-20",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-b46a56ade860446797870b68cd984b93/ITEM-Attachment-003-139ac70a8eff4ad8986a03cd529c721d.pdf"
+  },
+  {
+   "id": "fc-agenda-2026-02-03",
+   "title": "City Council Regular Meeting agenda, February 3, 2026",
+   "publisher": "City of Fort Collins",
+   "date": "2026-02-03",
+   "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&me=f4b194d224904154a209bc817043ed65&ip=True"
+  },
+  {
+   "id": "fc-ais-2026-02-03",
+   "title": "Agenda Item Summary: Resolutions 2026-017 and 2026-018, Affordable Housing Capital Fund funding agreements",
+   "publisher": "City of Fort Collins",
+   "date": "2026-02-03",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-f4b194d224904154a209bc817043ed65/ITEM-Attachment-004-9489fdbf61624187992b44c90b30f130.pdf"
+  },
+  {
+   "id": "fc-res-2026-018",
+   "title": "Resolution 2026-018 (council packet copy): funding agreement with Community Affordable Residences Enterprise, Inc. for Windtrail Park",
+   "publisher": "City of Fort Collins",
+   "date": "2026-02-03",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-f4b194d224904154a209bc817043ed65/ITEM-Attachment-001-08ade834030e473d9c1d26242a6aa26b.pdf"
+  },
+  {
+   "id": "fc-care-request-2026",
+   "title": "Windtrail Park Apartments Rehabilitation: Request for Quarter Cent Capital Tax - Affordable Housing Capital Fund Support",
+   "publisher": "City of Fort Collins (submitted by CARE Communities)",
+   "date": "2026-01",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-f4b194d224904154a209bc817043ed65/ITEM-Attachment-001-5a2c0acb2fbb4e93a49961bc6e388a16.pdf"
+  },
+  {
+   "id": "doh-schedule",
+   "title": "Application Schedule and Awards (October 2025 Letters of Intent, Applications, and Awards)",
+   "publisher": "Colorado Division of Housing (DOLA)",
+   "date": "2026",
+   "url": "https://doh.colorado.gov/application-schedule-and-awards"
+  },
+  {
+   "id": "larimer-parcels",
+   "title": "Larimer County Tax Parcels layer query, parcels 9723371001 and 9723371002",
+   "publisher": "Larimer County GIS",
+   "date": "2026-10-08",
+   "url": "https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3/query?where=PARCELNUM+in+%28%279723371001%27%2C%279723371002%27%29&outFields=PARCELNUM%2CLOCADDRESS%2CNAME%2CRUNDATE&returnGeometry=false&f=json"
+  },
+  {
+   "id": "cosos-windtrail-lllp",
+   "title": "Colorado Business Entities record: Windtrail Park LLLP (ID 20258005555)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=20258005555"
+  },
+  {
+   "id": "cosos-care-windtrail-llc",
+   "title": "Colorado Business Entities record: CARE Windtrail Park LLC (ID 20258005528)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=20258005528"
+  },
+  {
+   "id": "cosos-care-windtrail-holdings",
+   "title": "Colorado Business Entities record: CARE HOUSING/WINDTRAIL HOLDINGS LTD. (ID 19991224266)",
+   "publisher": "Colorado Secretary of State via Colorado Information Marketplace",
+   "date": "2026-10-21",
+   "url": "https://data.colorado.gov/resource/4ykn-tg5h.json?entityid=19991224266"
+  }
+ ]
+}

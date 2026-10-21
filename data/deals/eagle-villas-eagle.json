@@ -1,0 +1,531 @@
+{
+ "slug": "eagle-villas-eagle",
+ "name": "Eagle Villas (Eagle Villas Apartments)",
+ "city": "Eagle",
+ "county": "Eagle",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 120,
+ "researched_on": "2026-10-21",
+ "headline": "Ulysses Development Group bought and renovated Eagle Villas, a 120-unit 1990s tax credit complex of two- to four-bedroom apartments at 405 Nogal Road in the Town of Eagle, to keep it affordable after its old restrictions expired. It won a 2025 federal 4% credit award from CHFA backed by $32M of Eagle County Housing and Development Authority bonds.",
+ "why_it_matters": "This is a resort-county preservation model. A housing authority bridge loan and a $5M state loan let the developer buy at market price ($39M) under a 90-day deadline. Eleven months later a bond and 4% credit resyndication repaid the bridge money, paid for the renovation and set 60 years of affordability. The housing authority's partner role brings a property tax exemption.",
+ "status": {
+  "label": "Renovation complete; grand reopening held 2026-08-11",
+  "detail": "UDG announced its financial closing and resyndication in May 2025. Enterprise dates the bond and equity closing and the start of rehab to June 2025. A grand reopening on 2026-08-11 marked completion of a $12.6M renovation of all 120 apartments.",
+  "src": [
+   "realvail-2025-05-19",
+   "mhcre-2025-05-19",
+   "enterprise-2025-12",
+   "mhcre-2026-08-12"
+  ]
+ },
+ "next_step": "Watch for CHFA Form 8609 issuance; the deal should then move to CHFA's placed-in-service list.",
+ "key_numbers": [
+  {
+   "value": "120 homes, all income-restricted",
+   "meaning": "CHFA lists 36 units at 50% AMI, 72 at 60% AMI and 12 at 80% AMI, in 48 two-bedroom, 68 three-bedroom and 4 four-bedroom apartments.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$2,771,093 a year in federal 4% credit",
+   "meaning": "About $27.7M over 10 years; no state credit. National Equity Fund invested $22.9M of equity.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "value": "$32,000,000 in ECHDA bonds",
+   "meaning": "The Eagle County Housing and Development Authority issued the multifamily housing revenue bonds. JPMorgan Chase is the construction ($41.4M) and permanent ($25.4M) lender.",
+   "src": [
+    "chfa-4pct-award",
+    "realvail-2025-05-19",
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "value": "$39M purchase, about $69M total cost",
+   "meaning": "Bought in June 2024 for $39M (about $325,000 a unit). The permanent financing totals $68.8M.",
+   "src": [
+    "northmarq-2024-06-19",
+    "enterprise-2025-12",
+    "realvail-2025-05-19"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "405 Nogal Road, Eagle 81631",
+   "src": [
+    "chfa-4pct-award",
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a DDA; not in a QCT or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "120 total, 120 low-income; about 133,000 sq ft; apartments of 874 to 1,200 sq ft",
+   "src": [
+    "chfa-4pct-award",
+    "enterprise-2025-12",
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "item": "Original development",
+   "value": "Built as a LIHTC property in two phases: Phase I of 100 units, completed in 1994 under a 30-year LURA, and Phase II of 20 units, completed in 1997 under a 50-year LURA",
+   "src": [
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "item": "Seller",
+   "value": "Eagle Villas LLC, which acquired the property in 2013; it listed the property for sale in November 2023 and marketed it as a market-rate opportunity",
+   "src": [
+    "northmarq-2024-06-19",
+    "realvail-2024-06-18"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Eagle Villas Owner LP (the tax credit partnership took title at acquisition, 11 months before the bond closing); ECHDA is special limited partner",
+   "src": [
+    "enterprise-2025-12",
+    "realvail-2025-05-19"
+   ]
+  },
+  {
+   "item": "Affordability",
+   "value": "A new 60-year LURA. ECHDA required it in exchange for its acquisition loan, with rents unchanged",
+   "src": [
+    "realvail-2024-06-18",
+    "northmarq-2024-06-19",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "item": "Renovation scope",
+   "value": "Remodeled kitchens and bathrooms, Energy Star appliances, new flooring, insulation and paint; new siding, windows, roofs and gutters; ADA compliance, LED lighting, rooftop solar and clubhouse improvements",
+   "src": [
+    "mhcre-2025-05-19",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "Enterprise's chart puts Eagle Villas rents $459 (2BR), $284 (3BR) and $1,635 (4BR) below Eagle County medians. The county said rents would have had to rise by more than $1,900 a month without the public sources",
+   "src": [
+    "enterprise-2025-12",
+    "realvail-2025-05-19"
+   ]
+  },
+  {
+   "item": "Local share",
+   "value": "UDG says Eagle Villas is over half of the affordable housing in the Town of Eagle",
+   "src": [
+    "mhcre-2025-05-19"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "50% AMI",
+   "units": 36
+  },
+  {
+   "level": "60% AMI",
+   "units": 72
+  },
+  {
+   "level": "80% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 48
+  },
+  {
+   "type": "3BR",
+   "units": 68
+  },
+  {
+   "type": "4BR",
+   "units": 4
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,771,093 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt multifamily housing revenue bonds (Eagle County Housing and Development Authority)",
+   "amount": "$32,000,000",
+   "note": "ECHDA acted as issuer. Whose bond cap was used is not stated in the sources found.",
+   "src": [
+    "chfa-4pct-award",
+    "realvail-2025-05-19"
+   ]
+  },
+  {
+   "source": "JPMorgan Chase construction and permanent loans",
+   "amount": "$41.4M construction; $25.4M permanent",
+   "note": "",
+   "src": [
+    "mhcre-2025-05-19",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "source": "Tax credit equity (National Equity Fund)",
+   "amount": "$22.9M",
+   "note": "NEF also provided a $27M bridge loan for the 2024 acquisition.",
+   "src": [
+    "mhcre-2025-05-19",
+    "realvail-2024-06-18",
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "source": "Eagle County / ECHDA loan",
+   "amount": "$4M (permanent); $6.5M at acquisition",
+   "note": "ECHDA gave $6.5M of subordinate (bridge) debt at the 2024 purchase. $3.5M of it was to be repaid at resyndication.",
+   "src": [
+    "realvail-2024-06-18",
+    "enterprise-2025-12",
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "source": "DOLA loans",
+   "amount": "$5M and $3.4M",
+   "note": "Sources call the $5M a Transformational Affordable Housing Loan Fund loan (Mile High CRE in 2026 groups it with Affordable Housing Revolving Loans); the $3.4M is HOME funds. The 2024 county release said the $5M DOLA acquisition loan would be repaid at resyndication; whether the $5M in the permanent stack is the same loan is not stated.",
+   "src": [
+    "realvail-2024-06-18",
+    "mhcre-2025-05-19",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "source": "Developer equity at acquisition",
+   "amount": "$2 million",
+   "note": "UDG's own equity in the June 2024 acquisition.",
+   "src": [
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not quantified",
+   "note": "Through ECHDA's role as special limited partner.",
+   "src": [
+    "realvail-2024-06-18",
+    "realvail-2025-05-19"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), developer and owner",
+   "name": "Ulysses Development Group",
+   "src": [
+    "chfa-4pct-award",
+    "realvail-2024-06-18"
+   ]
+  },
+  {
+   "role": "Bond issuer, subordinate lender and special limited partner",
+   "name": "Eagle County Housing and Development Authority (ECHDA)",
+   "src": [
+    "chfa-4pct-award",
+    "realvail-2025-05-19"
+   ]
+  },
+  {
+   "role": "State lender",
+   "name": "Colorado Department of Local Affairs (DOLA)",
+   "src": [
+    "realvail-2024-06-18",
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "role": "Construction and permanent lender",
+   "name": "JPMorgan Chase",
+   "src": [
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "role": "Tax credit investor and acquisition bridge lender",
+   "name": "National Equity Fund",
+   "src": [
+    "mhcre-2025-05-19",
+    "realvail-2024-06-18"
+   ]
+  },
+  {
+   "role": "Seller",
+   "name": "Eagle Villas LLC (broker: Northmarq)",
+   "src": [
+    "northmarq-2024-06-19"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The old restrictions covered 100 of the 120 units and were about to expire (see discrepancies). The owner listed the property in late 2023 as a market-rate conversion. Without a preservation buyer, most units would have gone to market rent.",
+   "src": [
+    "realvail-2024-06-18",
+    "realvail-2025-05-19",
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "text": "UDG went under contract in February 2024 and closed the purchase on 2024-06-14 with ECHDA and DOLA. It used a step-in-the-shoes structure, with the future tax credit partnership buying first, to meet the market price and a short closing window.",
+   "src": [
+    "enterprise-2025-12",
+    "realvail-2024-06-18"
+   ]
+  },
+  {
+   "text": "Northmarq reported the sale at $39 million on 2024-06-19 after a competitive bid process. Enterprise gives the acquisition cost as about $325,000 a unit, consistent with that price.",
+   "src": [
+    "northmarq-2024-06-19",
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "text": "In 2024 the county said the second closing, with tax-exempt bonds and LIHTC equity, would repay $3.5M of the ECHDA loan and the $5M DOLA loan and fund the renovation; the 2025 and 2026 releases still list a $4M county loan and a $5M DOLA loan in the permanent financing. The county put the cash contributions from equity, DOLA and ECHDA at $35.4M.",
+   "src": [
+    "realvail-2024-06-18",
+    "realvail-2025-05-19",
+    "mhcre-2025-05-19",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "text": "Enterprise estimates that building the 120-unit, 133,000 sq ft community new would cost $80-93 million, against $69 million total for the preservation.",
+   "src": [
+    "enterprise-2025-12"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1994",
+   "event": "Phase I (100 units) completed with LIHTC",
+   "src": [
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "date": "1997",
+   "event": "Phase II (20 units) completed with LIHTC (Enterprise says 1996)",
+   "src": [
+    "northmarq-2024-06-19",
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "date": "2013",
+   "event": "Eagle Villas LLC acquires the property",
+   "src": [
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "date": "2023-11",
+   "event": "Property listed for sale",
+   "src": [
+    "northmarq-2024-06-19"
+   ]
+  },
+  {
+   "date": "2024-02",
+   "event": "UDG goes under contract",
+   "src": [
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "date": "2024-06-14",
+   "event": "UDG closes the acquisition with ECHDA and DOLA",
+   "src": [
+    "realvail-2024-06-18"
+   ]
+  },
+  {
+   "date": "2025-05-19",
+   "event": "Financial closing and resyndication announced",
+   "src": [
+    "realvail-2025-05-19",
+    "mhcre-2025-05-19"
+   ]
+  },
+  {
+   "date": "2025-06",
+   "event": "Bond and LIHTC equity closing; rehabilitation starts (per Enterprise)",
+   "src": [
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "date": "2026-08-11",
+   "event": "Grand reopening marks completion of the $12.6M renovation",
+   "src": [
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photographs of Eagle Villas",
+   "url": "https://www.enterprisecommunity.org/sites/default/files/2025-12/Ulysses_Development_Group_Eagle_Villas.pdf",
+   "kind": "photo",
+   "made_by": "Enterprise Community Partners case study",
+   "note": "Pages 1-2 and 5-11 of the December 2025 case study",
+   "src": [
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "title": "Grand reopening photos",
+   "url": "https://milehighcre.com/eagle-apartment-community-fights-back-against-market-rate-conversion/",
+   "kind": "photo",
+   "made_by": "Ulysses Development Group (via Mile High CRE)",
+   "note": "Article of 2026-08-12",
+   "src": [
+    "mhcre-2026-08-12"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Sources disagree on when the old restrictions expired: Eagle County said the end of 2024, Northmarq said 2025, and Enterprise said 2026.",
+   "src": [
+    "realvail-2024-06-18",
+    "realvail-2025-05-19",
+    "northmarq-2024-06-19",
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "text": "Eagle County and the 2026 reopening release describe residents at 45-60% AMI, UDG's 2025 release and Enterprise say 45-80% AMI, and CHFA's award lists 50%, 60% and 80% AMI units.",
+   "src": [
+    "realvail-2024-06-18",
+    "mhcre-2026-08-12",
+    "mhcre-2025-05-19",
+    "enterprise-2025-12",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The renovation budget is given as about $9.5M ($80,000 a unit) by Eagle County, $10M by UDG in 2025, $11.5M by Enterprise and $12.6M (about $104,000 a unit) at the 2026 reopening.",
+   "src": [
+    "realvail-2025-05-19",
+    "mhcre-2025-05-19",
+    "enterprise-2025-12",
+    "mhcre-2026-08-12"
+   ]
+  },
+  {
+   "text": "Northmarq dates Phase II to 1997, while Enterprise says the property was built in 1994 and 1996.",
+   "src": [
+    "northmarq-2024-06-19",
+    "enterprise-2025-12"
+   ]
+  },
+  {
+   "text": "The financial closing was announced in May 2025, while Enterprise dates the bond and equity closing to June 2025.",
+   "src": [
+    "realvail-2025-05-19",
+    "mhcre-2025-05-19",
+    "enterprise-2025-12"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whose private activity bond cap backed the $32M of ECHDA bonds, and the ECHDA board resolution and date.",
+  "Exact closing date of the bond issue and whether the full $32M was issued.",
+  "Post-renovation rent schedule by AMI band.",
+  "General contractor and architect for the renovation.",
+  "Placed-in-service date and 8609 issuance.",
+  "The Colorado Sun's 2026-08-26 article on the deal returned HTTP 429 to the required check and is not cited."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "realvail-2024-06-18",
+   "title": "Housing Authority, partners maintain affordability at Eagle Villas Apartments (Eagle County press release of 2024-06-17)",
+   "publisher": "Real Vail / Eagle County",
+   "date": "2024-06-18",
+   "url": "https://www.realvail.com/housing-authority-partners-maintain-affordability-at-eagle-villas-apartments/a19383/"
+  },
+  {
+   "id": "northmarq-2024-06-19",
+   "title": "Northmarq's Denver office announces $39 million sale of 120-unit LIHTC multifamily property in Eagle, CO",
+   "publisher": "Northmarq",
+   "date": "2024-06-19",
+   "url": "https://northmarq.com/transactions/eagle-villas-sale-2024-06"
+  },
+  {
+   "id": "realvail-2025-05-19",
+   "title": "Eagle Villas Apartments to remain affordable housing (Eagle County press release)",
+   "publisher": "Real Vail / Eagle County",
+   "date": "2025-05-19",
+   "url": "https://www.realvail.com/eagle-villas-apartments-to-remain-affordable-housing/a22364"
+  },
+  {
+   "id": "mhcre-2025-05-19",
+   "title": "Renovation Planned for Affordable Housing Community in Eagle",
+   "publisher": "Mile High CRE",
+   "date": "2025-05-19",
+   "url": "https://milehighcre.com/renovation-planned-for-affordable-housing-community-in-eagle/"
+  },
+  {
+   "id": "enterprise-2025-12",
+   "title": "Case Study: Eagle Villas | Ulysses Development Group",
+   "publisher": "Enterprise Community Partners",
+   "date": "2025-12",
+   "url": "https://www.enterprisecommunity.org/sites/default/files/2025-12/Ulysses_Development_Group_Eagle_Villas.pdf"
+  },
+  {
+   "id": "mhcre-2026-08-12",
+   "title": "Eagle Apartment Community Fights Back Against Market-Rate Conversion",
+   "publisher": "Mile High CRE",
+   "date": "2026-08-12",
+   "url": "https://milehighcre.com/eagle-apartment-community-fights-back-against-market-rate-conversion/"
+  }
+ ]
+}
