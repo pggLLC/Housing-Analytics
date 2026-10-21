@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 74
+  "count": 88
  },
  "deals": [
   {
@@ -88,6 +88,23 @@
     "year": 2025,
     "names": [
      "34th Street"
+    ]
+   }
+  },
+  {
+   "slug": "4340-south-monaco-denver",
+   "name": "4340 South Monaco (Lofts on Monaco)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 143,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "4340 South Monaco"
     ]
    }
   },
@@ -331,6 +348,23 @@
    }
   },
   {
+   "slug": "compass-pointe-pueblo",
+   "name": "Compass Pointe",
+   "city": "Pueblo",
+   "county": "Pueblo",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 192,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Compass Pointe"
+    ]
+   }
+  },
+  {
    "slug": "crawford-commons-clifton",
    "name": "Crawford Commons",
    "city": "Clifton",
@@ -344,6 +378,23 @@
     "year": 2026,
     "names": [
      "Crawford Commons"
+    ]
+   }
+  },
+  {
+   "slug": "creekside-flats-denver",
+   "name": "Creekside Flats",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 150,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Creekside Flats"
     ]
    }
   },
@@ -518,6 +569,23 @@
    }
   },
   {
+   "slug": "glenwood-gardens-glenwood-springs",
+   "name": "Glenwood Gardens (now Canyon Vista Apartments)",
+   "city": "Glenwood Springs",
+   "county": "Garfield",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 80,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Glenwood Gardens"
+    ]
+   }
+  },
+  {
    "slug": "green-valley-vistas-denver",
    "name": "Green Valley Vistas",
    "city": "Denver",
@@ -603,6 +671,40 @@
    }
   },
   {
+   "slug": "grove-in-bloom-fort-collins",
+   "name": "Grove in Bloom",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 264,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Grove in Bloom"
+    ]
+   }
+  },
+  {
+   "slug": "harvest-hill-broomfield",
+   "name": "Harvest Hill",
+   "city": "Broomfield",
+   "county": "Broomfield",
+   "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2024,
+   "units": 152,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Harvest Hill"
+    ]
+   }
+  },
+  {
    "slug": "iliff-senior-apartments-denver",
    "name": "Iliff Senior Apartments",
    "city": "Denver",
@@ -635,6 +737,23 @@
      "Ives II",
      "Tax Credit Paired with 4% Ives II",
      "Ives II 4"
+    ]
+   }
+  },
+  {
+   "slug": "jet-wing-flats-colorado-springs",
+   "name": "Jet Wing Flats",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 68,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Jet Wing Flats"
     ]
    }
   },
@@ -690,6 +809,23 @@
    }
   },
   {
+   "slug": "loretto-heights-family-apartments-denver",
+   "name": "Loretto Heights Family Apartments (Astraea at Loretto Heights)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2024,
+   "units": 100,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Loretto Heights Family Apartments"
+    ]
+   }
+  },
+  {
    "slug": "lumberyard-apartments-aspen",
    "name": "Lumberyard Apartments (Phase B)",
    "city": "Aspen",
@@ -707,6 +843,23 @@
    }
   },
   {
+   "slug": "maiker-uplands-westminster",
+   "name": "Maiker Uplands (now Verrbena)",
+   "city": "Westminster",
+   "county": "Adams",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 70,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Maiker Uplands"
+    ]
+   }
+  },
+  {
    "slug": "marq-trinidad",
    "name": "Marq (The Marq)",
    "city": "Trinidad",
@@ -720,6 +873,23 @@
     "year": 2025,
     "names": [
      "Marq"
+    ]
+   }
+  },
+  {
+   "slug": "marshall-pointe-apartments-arvada",
+   "name": "Marshall Pointe Apartments",
+   "city": "Arvada",
+   "county": "Jefferson",
+   "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2024,
+   "units": 260,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Marshall Pointe Apartments"
     ]
    }
   },
@@ -1030,6 +1200,23 @@
    }
   },
   {
+   "slug": "stables-aurora",
+   "name": "Stables (The Stables, Phase I)",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 85,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Stables"
+    ]
+   }
+  },
+  {
    "slug": "sugar-commons-sterling",
    "name": "Sugar Commons",
    "city": "Sterling",
@@ -1043,6 +1230,23 @@
     "year": 2025,
     "names": [
      "Sugar Commons"
+    ]
+   }
+  },
+  {
+   "slug": "summit-at-granby-apartments-granby",
+   "name": "Summit at Granby Apartments",
+   "city": "Granby",
+   "county": "Grand",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 67,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Summit at Granby Apartments"
     ]
    }
   },
@@ -1094,6 +1298,23 @@
     "year": 2025,
     "names": [
      "Tapestry LIHTC"
+    ]
+   }
+  },
+  {
+   "slug": "tiara-apartments-aurora",
+   "name": "Tiara Apartments",
+   "city": "Aurora",
+   "county": "Adams",
+   "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2024,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Tiara Apartments"
     ]
    }
   },
@@ -1214,6 +1435,23 @@
     "names": [
      "Viña Senior Residences",
      "Vina Senior Residences"
+    ]
+   }
+  },
+  {
+   "slug": "weatherstone-apartments-aurora",
+   "name": "Weatherstone Apartments",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2024 Federal 4% housing tax credit",
+   "year": 2024,
+   "units": 204,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Weatherstone Apartments"
     ]
    }
   },

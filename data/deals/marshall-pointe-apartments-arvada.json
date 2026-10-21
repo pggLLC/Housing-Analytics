@@ -1,0 +1,445 @@
+{
+ "slug": "marshall-pointe-apartments-arvada",
+ "name": "Marshall Pointe Apartments",
+ "city": "Arvada",
+ "county": "Jefferson",
+ "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+ "units": 260,
+ "researched_on": "2026-10-21",
+ "headline": "Lincoln Avenue Communities is building Marshall Pointe Apartments, 260 new mostly one- and two-bedroom apartments for households at 30% to 70% AMI on Marshall Street in Arvada, including 13 supportive units with Family Tree. It won a 2024-cycle federal 4% credit plus $700,000 of noncompetitive state credit from CHFA, with $63M of CHFA bonds.",
+ "why_it_matters": "One of the larger 4% bond deals in the cycle: DOLA bridged the land purchase through Operation Turn Key and a separate $2M DOLA grant passed through Arvada covers sewer and water connection fees, a fee-relief model other cities can copy.",
+ "status": {
+  "label": "Under construction since June 2025 groundbreaking; leasing targeted for fall 2026, not yet confirmed",
+  "detail": "The developer held a groundbreaking on 2025-06-03 and said leasing would start in September 2026; a June 2025 trade report put completion in the second half of 2026. No dated public record found confirms completion or move-ins.",
+  "src": [
+   "elsemanario-2025-06-05",
+   "connectcre-2025-06-06"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy and the start of leasing, and the Arvada Housing Authority's project-based voucher contract for 8 units.",
+ "key_numbers": [
+  {
+   "value": "260 homes, all income-restricted",
+   "meaning": "149 one-, 84 two- and 27 three-bedroom units; 13 at 30%, 208 at 60% and 39 at 70% AMI (averaging 60% AMI, computed).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$5,687,557 a year in federal 4% credit, plus $700,000 state credit",
+   "meaning": "Federal credit runs 10 years; amounts are marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$63,000,000 in CHFA tax-exempt bonds",
+   "meaning": "JPMorgan Chase made two construction loans of $63M and $33.7M (about $96.7M); CHFA provides the permanent financing.",
+   "src": [
+    "chfa-4pct-award",
+    "connectcre-2025-06-06",
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "value": "13 supportive housing units",
+   "meaning": "Family Tree provides services; 8 of the 13 carry Arvada Housing Authority project-based vouchers.",
+   "src": [
+    "elsemanario-2025-06-05",
+    "ccm-2025-01-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints 5170 Marshall St, Arvada 80002; news and the city council coverage give 5190 Marshall St",
+   "src": [
+    "chfa-4pct-award",
+    "connectcre-2025-06-06",
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Mixed resident type, new construction; in a QCT; not in a DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "260 total, 260 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site and building",
+   "value": "4.36 acres, about 60 units per acre; four-story residential buildings wrapping a five-story parking structure with 377 spaces; average unit about 764 sq ft; NGBS Bronze",
+   "src": [
+    "kephart-portfolio"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Two courtyards (one for children, one for adults), fitness center, game room and lounge; about 5,190 sq ft of amenity space",
+   "src": [
+    "connectcre-2025-06-06",
+    "kephart-portfolio"
+   ]
+  },
+  {
+   "item": "Supportive housing",
+   "value": "13 units set aside for people experiencing homelessness, with economic, medical, mental health and general services from Family Tree",
+   "src": [
+    "ccm-2025-01-09",
+    "elsemanario-2025-06-05"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 13
+  },
+  {
+   "level": "60% AMI",
+   "units": 208
+  },
+  {
+   "level": "70% AMI",
+   "units": 39
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 149
+  },
+  {
+   "type": "2BR",
+   "units": 84
+  },
+  {
+   "type": "3BR",
+   "units": 27
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$5,687,557 per year",
+   "note": "2024 cycle; amounts marked subject to change. National Equity Fund is named as a partner (equity role inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$63,000,000",
+   "note": "Matches the $63M JPMorgan Chase construction loan (bond-backed loan inferred). Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award",
+    "connectcre-2025-06-06"
+   ]
+  },
+  {
+   "source": "Construction loans (JPMorgan Chase)",
+   "amount": "$63M and $33.7M (about $96.7M)",
+   "note": "",
+   "src": [
+    "connectcre-2025-06-06"
+   ]
+  },
+  {
+   "source": "Permanent financing (CHFA)",
+   "amount": "Not stated",
+   "note": "",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "source": "Land acquisition bridge (DOLA Operation Turn Key)",
+   "amount": "$5M",
+   "note": "Bridge funding for the land purchase.",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "source": "DOLA Energy and Mineral Impact Assistance grant, passed through the City of Arvada",
+   "amount": "$2,000,000",
+   "note": "Pays part of the sewer and water connection and impact fees; no city funds. Council approved the IGA with DOLA 6-0 on 2025-01-06.",
+   "src": [
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "source": "Project-based Housing Choice Vouchers (Arvada Housing Authority)",
+   "amount": "8 vouchers",
+   "note": "For 8 of the 13 supportive units.",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Lincoln Avenue Communities",
+   "src": [
+    "chfa-4pct-award",
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "role": "Bond issuer, credit allocator and permanent lender",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "JPMorgan Chase",
+   "src": [
+    "connectcre-2025-06-06"
+   ]
+  },
+  {
+   "role": "Partner (equity role inferred)",
+   "name": "National Equity Fund",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "role": "Project-based vouchers and partner",
+   "name": "Arvada Housing Authority",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "role": "Supportive services provider",
+   "name": "Family Tree",
+   "src": [
+    "elsemanario-2025-06-05",
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "role": "Land bridge funder and fee grant",
+   "name": "Colorado Department of Local Affairs",
+   "src": [
+    "elsemanario-2025-06-05",
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Kephart",
+   "src": [
+    "kephart-portfolio"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "On 2025-01-06 Arvada City Council approved, 6-0 with one member absent, an intergovernmental agreement for a $2,000,000 DOLA Energy and Mineral Impact Assistance grant that the city applied for to pay part of Marshall Pointe's sewer and water connection fees, at no cost to the city.",
+   "src": [
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "text": "DOLA provided $5M of bridge funding for the land acquisition through its Operation Turn Key program; the seller, price and date are not stated.",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "text": "Lincoln Avenue Communities held the groundbreaking on 2025-06-03 and said leasing would begin in September 2026.",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "text": "CHFA's 13 units at 30% AMI match the 13 Family Tree supportive units (link inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "text": "No public document found shows the deal in CHFA's 2024 competitive rounds (Round One applicants, Round Two applicants or awards).",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-01-06",
+   "event": "Arvada City Council approves the $2M DOLA grant IGA for connection fees (6-0)",
+   "src": [
+    "ccm-2025-01-09"
+   ]
+  },
+  {
+   "date": "2025-06-03",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "date": "2025-06-06",
+   "event": "Construction loans from JPMorgan Chase reported (about $96.7M)",
+   "src": [
+    "connectcre-2025-06-06"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Leasing targeted to begin (not confirmed)",
+   "src": [
+    "elsemanario-2025-06-05"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2024",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026",
+   "event": "Completion targeted for the second half of 2026",
+   "src": [
+    "connectcre-2025-06-06"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Marshall Pointe project sheet with renderings",
+   "url": "https://kephart.com/wp-content/uploads/Marshall-Pointe.pdf",
+   "kind": "rendering",
+   "made_by": "Kephart (architect)",
+   "note": "Project sheet PDF, page 1",
+   "src": [
+    "kephart-sheet"
+   ]
+  },
+  {
+   "title": "Marshall Pointe portfolio images",
+   "url": "https://kephart.com/portfolio/marshall-pointe/",
+   "kind": "rendering",
+   "made_by": "Kephart (architect)",
+   "note": "Image gallery at top of the portfolio page",
+   "src": [
+    "kephart-portfolio"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA prints the address as 5170 Marshall St, while ConnectCRE and Colorado Community Media give 5190 Marshall St.",
+   "src": [
+    "chfa-4pct-award",
+    "connectcre-2025-06-06",
+    "ccm-2025-01-09"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Arvada land-use approvals (rezoning, site plan, plat) and dates for the site.",
+  "Land seller, price and closing date, and the terms of the DOLA Operation Turn Key bridge.",
+  "Whose private activity bond cap backs the $63M CHFA bonds, and the closing date.",
+  "Equity amount and investor, permanent loan amount, total development cost and affordability period.",
+  "Certificate of occupancy and lease-up status as of October 2026."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "ccm-2025-01-09",
+   "title": "Arvada City Council briefs: Funding for Marshall Pointe Apartments, Arvada Housing Advisory Committee Bylaws fail",
+   "publisher": "Colorado Community Media (Arvada Press)",
+   "date": "2025-01-09",
+   "url": "https://www.coloradocommunitymedia.com/archives/arvada/news/local-government/article_c280839e-36aa-5b24-8d9e-a67f53ae8301.html"
+  },
+  {
+   "id": "elsemanario-2025-06-05",
+   "title": "Lincoln Avenue Communities Breaks Ground on Affordable Housing Development in Arvada, Colorado",
+   "publisher": "El Semanario (developer press release)",
+   "date": "2025-06-05",
+   "url": "https://www.elsemanarioonline.com/lincoln-avenue-communities-breaks-ground-on-affordable-housing-development-in-arvada-colorado/"
+  },
+  {
+   "id": "connectcre-2025-06-06",
+   "title": "260 Affordable Housing Units Planned for Arvada",
+   "publisher": "Connect CRE",
+   "date": "2025-06-06",
+   "url": "https://www.connectcre.com/stories/260-affordable-housing-units-planned-for-arvada/"
+  },
+  {
+   "id": "kephart-portfolio",
+   "title": "Marshall Pointe (portfolio page)",
+   "publisher": "Kephart",
+   "date": "2025",
+   "url": "https://kephart.com/portfolio/marshall-pointe/"
+  },
+  {
+   "id": "kephart-sheet",
+   "title": "Marshall Pointe (project sheet PDF)",
+   "publisher": "Kephart",
+   "date": "2025",
+   "url": "https://kephart.com/wp-content/uploads/Marshall-Pointe.pdf"
+  }
+ ]
+}

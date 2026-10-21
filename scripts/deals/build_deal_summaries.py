@@ -97,6 +97,20 @@ MATCH = {
     'sanctuary-on-potomac-aurora': {'agency': 'CHFA', 'year': 2024, 'names': ['Sanctuary on Potomac']},
     'sunrise-at-shiloh-mesa-colorado-springs': {'agency': 'CHFA', 'year': 2024, 'names': ['Sunrise at Shiloh Mesa']},
     'vina-senior-residences-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Viña Senior Residences', 'Vina Senior Residences']},
+    '4340-south-monaco-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['4340 South Monaco']},
+    'compass-pointe-pueblo': {'agency': 'CHFA', 'year': 2024, 'names': ['Compass Pointe']},
+    'creekside-flats-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Creekside Flats']},
+    'glenwood-gardens-glenwood-springs': {'agency': 'CHFA', 'year': 2024, 'names': ['Glenwood Gardens']},
+    'grove-in-bloom-fort-collins': {'agency': 'CHFA', 'year': 2024, 'names': ['Grove in Bloom']},
+    'jet-wing-flats-colorado-springs': {'agency': 'CHFA', 'year': 2024, 'names': ['Jet Wing Flats']},
+    'maiker-uplands-westminster': {'agency': 'CHFA', 'year': 2024, 'names': ['Maiker Uplands']},
+    'stables-aurora': {'agency': 'CHFA', 'year': 2024, 'names': ['Stables']},
+    'summit-at-granby-apartments-granby': {'agency': 'CHFA', 'year': 2024, 'names': ['Summit at Granby Apartments']},
+    'tiara-apartments-aurora': {'agency': 'CHFA', 'year': 2024, 'names': ['Tiara Apartments']},
+    'harvest-hill-broomfield': {'agency': 'CHFA', 'year': 2024, 'names': ['Harvest Hill']},
+    'loretto-heights-family-apartments-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Loretto Heights Family Apartments']},
+    'marshall-pointe-apartments-arvada': {'agency': 'CHFA', 'year': 2024, 'names': ['Marshall Pointe Apartments']},
+    'weatherstone-apartments-aurora': {'agency': 'CHFA', 'year': 2024, 'names': ['Weatherstone Apartments']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
