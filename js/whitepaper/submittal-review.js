@@ -246,6 +246,7 @@
   // 'yes' = filed for 2027-2029; 'to-confirm' = on DOLA's list without a 2027-2029 filing yet; 'no' = not on the list.
   function prop123Status(prop123, place) {
     if (!prop123 || !Array.isArray(prop123.jurisdictions)) return { status: 'unknown', text: 'DOLA\'s Prop 123 list did not load, so OEDIT eligibility is not known. Reload the page.' };
+    if (!String(place || '').trim()) return { status: 'missing', text: 'Enter the town or county to check DOLA\'s Prop 123 list.' };
     var j = findJurisdiction(prop123, place);
     if (j && j.ambiguous) return { status: 'ambiguous', text: '"' + place + '" could be ' + j.ambiguous.join(' or ') + '. Enter which one.' };
     if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + (prop123.updated || 'the last refresh') + ').' };
@@ -289,8 +290,8 @@
       out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until DOLA\'s Prop 123 list loads.';
       out.flags.push(p123 ? p123.text : 'Prop 123 status not known.');
       return out;
-    } else if (p123.status === 'ambiguous') {
-      out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until the place names the city or town or the county.';
+    } else if (p123.status === 'ambiguous' || p123.status === 'missing') {
+      out.lane = 'unknown'; out.text = p123.status === 'missing' ? 'OEDIT or DOH fallback: not known until the town or county is entered.' : 'OEDIT or DOH fallback: not known until the place names the city or town or the county.';
       out.flags.push(p123.text);
       return out;
     } else if (p123.status === 'to-confirm') {
@@ -695,7 +696,7 @@
 
   function mount(doc, rules, prop123, store) {
     var $ = function (id) { return doc.getElementById(id); };
-    var state = { deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
+    var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
     function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
@@ -876,8 +877,14 @@
         state.cache[key] = out; return out;
       });
     }
+    // Every deal pick or version open bumps state.nav; a slower, earlier request then lands on nothing.
+    function openLatest(v) {
+      var t = ++state.nav;
+      return getVersion(v).then(function (rec) { if (t === state.nav) openVersion(rec); });
+    }
 
     $('sr-deal').addEventListener('change', function () {
+      state.nav++;
       state.deal = $('sr-deal').value || null; state.picked = {}; state.parent = '';
       var opt = $('sr-deal').selectedOptions[0];
       $('sr-name').value = state.deal ? opt.textContent.replace(/ \(\d+ versions?\)$/, '') : '';
@@ -887,7 +894,7 @@
         if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
-        if (pick) return getVersion(pick).then(openVersion);
+        if (pick) return openLatest(pick);
       });
     });
     $('sr-show-hidden').addEventListener('change', refreshVersions);
@@ -907,7 +914,7 @@
       if (t.classList.contains('sr-pick')) { state.picked[t.getAttribute('data-v')] = t.checked; drawCompare(); return; }
       var act = t.getAttribute && t.getAttribute('data-act'); if (!act) return;
       var v = t.getAttribute('data-v');
-      if (act === 'open') getVersion(v).then(openVersion);
+      if (act === 'open') openLatest(v);
       else store.meta(state.deal, act, v).then(refreshVersions);
     });
 
@@ -930,11 +937,13 @@
       if (state.shownStress) { data.stress = state.shownStress.tests; data.stressBase = state.shownStress.base; }
       data.review = { score: r.score.total, meets: r.score.meets, lane: r.lane.lane, laneAmount: r.lane.amount, midpoint: r.lane.midpoint, summary: summaryLines(r), rules: rules.id, rulesStatus: rules.status, rulesChecked: rules.checked_at };
       var btn = $('sr-save'); btn.disabled = true;
+      var nav = state.nav, ver = state.version;
       store.save({ deal: state.deal || undefined, name: name, label: $('sr-label').value.trim() || 'Version', parent: state.parent || undefined, data: data,
         summary: { score: Math.round(r.score.total * 100) / 100, gap: num(r.engine.fundingGap), lane: r.lane.lane } })
         .then(function (res) {
-          state.deal = res.deal; state.parent = res.v;
           state.cache[res.deal + '/' + res.v] = Object.assign({}, data, { v: res.v, label: res.meta.label, name: name, at: res.meta.at, by: res.meta.by });
+          if (state.nav !== nav || state.version !== ver) { flash('Saved "' + name + '" as a new version.'); return refreshDeals(state.deal); } // another deal or version is open now
+          state.deal = res.deal; state.parent = res.v;
           flash('Saved as a new version.');
           return refreshDeals(res.deal).then(function () {
             return refreshVersions().then(function () {

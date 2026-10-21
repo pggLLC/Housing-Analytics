@@ -260,4 +260,13 @@ const srcJs = read('js/whitepaper/submittal-review.js');
 ok(/var v = started;/.test(srcJs) && /was not imported: another deal or version was opened/.test(srcJs), 'a calculator import finished after navigation is dropped');
 ok(/if \(state\.deal !== deal\) return; \/\/ another deal was picked/.test(srcJs) && /key = deal \+ '\/' \+ v/.test(srcJs), 'a late version list or version from another deal is dropped');
 
+// Codex review on 9466d2780: an empty place stays unresolved; late saves and version opens are dropped.
+const noPlace = SR.prop123Status(prop123, '');
+ok(noPlace.status === 'missing', 'an empty town or county is not read as "outside DOLA\'s list"');
+const noPlaceLane = SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, noPlace);
+ok(noPlaceLane.lane === 'unknown' && noPlaceLane.amount === undefined && /town or county is entered/.test(noPlaceLane.text), 'no gap-fund amount until the place is entered');
+const srcJs2 = read('js/whitepaper/submittal-review.js');
+ok(/if \(t === state\.nav\) openVersion\(rec\)/.test(srcJs2) && !/getVersion\([^)]*\)\.then\(openVersion\)/.test(srcJs2), 'only the latest version open lands');
+ok(/if \(state\.nav !== nav \|\| state\.version !== ver\)/.test(srcJs2), 'a save that finishes after navigation does not move the open deal');
+
 console.log(`submittal-review: ${checks} checks passed`);
