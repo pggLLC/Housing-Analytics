@@ -314,4 +314,10 @@ ok(cond.lines.filter((l) => /^5B3[cd]/.test(l.id)).every((l) => l.status === 'ex
 const condOk = SR.score(rules, { mix, rehab: true, existingCredit: true }, { '5B3c-rehab': true, '5B3d-preservation': true });
 ok(condOk.lines.find((l) => l.id === '5B3c-rehab').points === 5 && condOk.lines.find((l) => l.id === '5B3d-preservation').points === 15, 'with the flags set the points count');
 
+// Codex review on b35f038b1: a bare name that is a county and a town asks even when only one is on DOLA's list.
+ok(SR.prop123Status(prop123, 'Alamosa').status === 'ambiguous' && SR.prop123Status(prop123, 'Kit Carson').status === 'ambiguous', 'Alamosa and Kit Carson ask for the city or town or the county');
+ok(SR.prop123Status(prop123, 'Alamosa County').status !== 'ambiguous' && SR.prop123Status(prop123, 'City of Alamosa').status !== 'ambiguous', 'naming the county or the city resolves it');
+ok(SR.prop123Status(prop123, 'Lake City').status !== 'ambiguous', 'a town with no same-name county is not ambiguous');
+ok(SR.prop123Status(prop123, 'Denver').status !== 'ambiguous' && SR.prop123Status(prop123, 'Broomfield').status !== 'ambiguous', 'the consolidated city and counties are one place');
+
 console.log(`submittal-review: ${checks} checks passed`);

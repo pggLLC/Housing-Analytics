@@ -257,6 +257,16 @@
     if (/\bcounty\b/.test(q)) same = same.filter(function (j) { return j.kind === 'county'; });
     else if (/\b(city|town)\b/.test(q)) same = same.filter(function (j) { return j.kind !== 'county'; });
     if (same.length > 1) return { ambiguous: same.map(function (j) { return j.name; }) }; // e.g. "Pueblo": the city or the county
+    // A bare name can be both a county and a city or town even when only one of them is on DOLA's list ("Alamosa").
+    if (!/\b(county|city|town)\b/.test(q)) {
+      var b = bare(q);
+      var isCounty = CO_COUNTIES.some(function (c) { return c.toLowerCase() === b; });
+      var isPlace = (prop123.places || []).some(function (n) { return !/ CDP$/.test(n) && gazName(n) === b; });
+      if (isCounty && isPlace && b !== 'denver' && b !== 'broomfield') { // the two consolidated city and counties are one place
+        var title = b.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+        return { ambiguous: [title + ' County', 'the city or town of ' + title] };
+      }
+    }
     return same[0] || null;
   }
 
