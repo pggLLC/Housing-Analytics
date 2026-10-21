@@ -1,0 +1,153 @@
+// The Local discussion panel on the gated place card (js/whitepaper/local-discussion.js).
+// Pins:
+//   1. executive view first: four key numbers, what it means, the next step;
+//   2. the panel says plainly how the place is read (automatic, partly, by hand);
+//   3. dates to check carry their rule and source, and say when unconfirmed;
+//   4. the panel escapes what it shows and links only https sources;
+//   5. it is mounted on the gated page only, and no discussion data is in this repository.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const require = createRequire(import.meta.url);
+const L = require(path.join(ROOT, 'js/whitepaper/local-discussion.js'));
+const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+let checks = 0;
+function ok(cond, msg) { assert.ok(cond, msg); checks++; }
+
+const result = {
+  geoid: '0899999', name: 'Testville', updated: '2026-10-21', starting_place: true,
+  how_read: { level: 'partly', text: 'The commission is read automatically; council agendas are checked by hand.' },
+  documents_read: 12, history_since: '2024-10-22',
+  sources: [{ label: 'Testville Agenda Center', url: 'https://example.org/AgendaCenter', ok: true, new_docs: 3 }],
+  numbers: {
+    items_90d: 4,
+    next_check: { body: 'Town Board', meeting: '2026-11-03', check_on: '2026-10-29', url: 'https://example.org/agendas' },
+    rising: { term: 'attainable', from: 8, to: 31, quarter: '2026-Q3' },
+    hearing: null
+  },
+  lexicon: { quarters: ['2026-Q2', '2026-Q3'], counts: { '2026-Q2': { affordable: 20, attainable: 2 }, '2026-Q3': { affordable: 9, attainable: 4 } },
+    flags: [{ kind: 'shift', term: 'attainable', quarter: '2026-Q3', from: 8, to: 31,
+      before: { quote: 'affordable housing for <locals>', date: '2026-04-01', title: 'Board: minutes', url: 'javascript:alert(1)' },
+      after: { quote: 'attainable homes for our workforce', date: '2026-09-01', title: 'Board: agenda', url: 'https://example.org/a.pdf' } }] },
+  terms: [{ term: 'affordable', group: 'How housing is named' }, { term: 'attainable', group: 'How housing is named' }, { term: 'parking', group: 'Form' }],
+  check_here: [
+    { body: 'Town Board', meeting: '2026-11-03', check_on: '2026-10-29', url: 'https://example.org/agendas', rule: 'First and third Tuesday. Unconfirmed: from a 2017 notice.', confirmed: false, source_url: 'https://example.org/notice', source_quote: 'two meetings per month', page: { status: 'blocked', note: 'The page refuses automated reads (HTTP 403). Check it by hand.' } }
+  ],
+  timeline: [{ date: '2026-09-01', title: 'Board: agenda', url: 'https://example.org/a.pdf', quotes: [{ text: 'attainable homes for our workforce' }] }],
+  news: [{ date: '2026-10-03', title: 'Testville seeks housing credits', source: 'Local Voice', url: 'https://example.org/n', blocked: false }]
+};
+
+// 1. Executive view first.
+const nums = L.keyNumbers(result);
+ok(nums.length === 4, 'four key numbers');
+ok(/90 days/.test(nums[0].text) && nums[0].big === '4', 'housing items in 90 days');
+ok(/Oct 29, 2026/.test(nums[1].big) && /Town Board meets Nov 3, 2026/.test(nums[1].text), 'next date to check, with the meeting');
+ok(/attainable/.test(nums[2].big) && /8%.*31%/.test(nums[2].text), 'fastest-rising word with before and after shares');
+ok(nums[3].big === 'None', 'no hearing says so');
+ok(/attainable/.test(L.meaning(result)), 'what it means names the rising word');
+const html = L.render({ geoid: '0899999', name: 'Testville', result, watched: true, watchState: 'ok', links: [] });
+ok(html.indexOf('ld-numbers') < html.indexOf('<details'), 'numbers come before anything folded');
+ok(html.indexOf('Next step:') < html.indexOf('<details'), 'the next step is above the fold');
+
+// 2. How the place is read.
+ok(/Partly automatic/.test(html) && /checked by hand/.test(html), 'says how the place is read');
+ok(L.LEVEL.reads && L.LEVEL.partly && L.LEVEL.hand, 'three plain levels');
+
+// 3. Dates to check.
+ok(/Unconfirmed/.test(html) && /two meetings per month/.test(html) && /refuses automated reads/.test(html), 'rule, source quote and page status shown');
+
+// 4. Escaping and links.
+ok(!/<locals>/.test(html) && /&lt;locals&gt;/.test(html), 'quotes are escaped');
+ok(!/javascript:/.test(html), 'only https links');
+ok(/data-tip=/.test(html), 'table headers explain themselves');
+
+// Counts are numbers, a missing count is not a zero, and a shift states its rule.
+const hostile = JSON.parse(JSON.stringify(result));
+hostile.lexicon.counts['2026-Q3'].attainable = '<img src=x onerror=alert(1)>';
+hostile.sources[0].new_docs = '<b>9</b>';
+const hostileHtml = L.render({ geoid: '0899999', name: 'Testville', result: hostile, watched: true, watchState: 'ok', links: [] });
+ok(!/<img|<b>9/.test(hostileHtml), 'backend counts never reach the page as markup');
+const missing = Object.assign({}, result, { numbers: Object.assign({}, result.numbers, { items_90d: undefined }) });
+ok(L.keyNumbers(missing)[0].big === 'Not counted' && !/quiet/.test(L.meaning(Object.assign({}, missing, { numbers: { items_90d: null } }))), 'a missing count is not shown as zero');
+const junk = Object.assign({}, result, { documents_read: null, numbers: Object.assign({}, result.numbers, { items_90d: 'abc', rising: { term: 'attainable', from: null, to: 31, quarter: '2026-Q3' } }) });
+const junkHtml = L.render({ geoid: '0899999', name: 'Testville', result: junk, watched: true, watchState: 'ok', links: [] });
+ok(L.keyNumbers(junk)[0].big === 'Not counted' && !/quiet/.test(L.meaning(junk)), 'a malformed 90-day count is unknown in both places');
+ok(L.keyNumbers(junk)[2].big === 'Steady' && !/moving toward/.test(L.meaning(junk)), 'a rising word without both shares is not shown');
+ok(/document count not available/.test(junkHtml) && !/0 documents on file/.test(junkHtml), 'a missing document count is not zero');
+const skew = JSON.parse(JSON.stringify(result)); delete skew.lexicon.flags[0].from;
+ok(!/from %|rose from|fell from/.test(L.render({ geoid: '0899999', name: 'Testville', result: skew, watched: true, watchState: 'ok', links: [] })), 'a shift missing a share is left out');
+const R = (x) => L.render({ geoid: '0899999', name: 'Testville', result: x, watched: true, watchState: 'ok', links: [] });
+const noCounts = JSON.parse(JSON.stringify(result)); delete noCounts.lexicon.counts;
+ok(/No housing words counted yet/.test(R(noCounts)), 'quarters without a counts map do not break the panel');
+const badQ = JSON.parse(JSON.stringify(result)); badQ.lexicon.counts['2026-Q3'].affordable = 'abc';
+const badHtml = R(badQ);
+ok(/n\/a/.test(badHtml) && /Counts for 2026-Q3 did not come through/.test(badHtml) && !/counted in 2026-Q3/.test(badHtml), 'a quarter with a malformed count shows no shares');
+ok(/Word shifts \(0\)/.test(R(skew)), 'the shifts heading counts only shifts shown');
+ok(/Local discussion/.test(R({ lexicon: 'x', numbers: 5, check_here: 'y', news: {}, timeline: null })), 'a malformed result still draws');
+const neg = Object.assign({}, result, { documents_read: -3, numbers: Object.assign({}, result.numbers, { items_90d: -1, rising: { term: 'attainable', from: -5, to: 31, quarter: '2026-Q3' } }) });
+ok(L.keyNumbers(neg)[0].big === 'Not counted' && !/quiet/.test(L.meaning(neg)) && L.keyNumbers(neg)[2].big === 'Steady' && /document count not available/.test(R(neg)), 'a negative count is unknown, not zero');
+const nested = JSON.parse(JSON.stringify(result)); nested.timeline[0].quotes = 'x'; nested.check_here[0].page = 'y'; nested.numbers.next_check = 'z';
+ok(/Board: agenda/.test(R(nested)), 'malformed nested lists do not break the panel');
+const hollow = JSON.parse(JSON.stringify(result)); hollow.numbers.next_check = {}; hollow.numbers.hearing = []; hollow.check_here.push({ body: 'Board' });
+const hk = L.keyNumbers(hollow), hh = R(hollow);
+ok(hk[1].big === 'None' && hk[3].big === 'None' && !/undefined|date not found/.test(hh) && /Dates and pages to check \(1\)/.test(hh), 'empty or partial records are not shown as present');
+const labels = JSON.parse(JSON.stringify(result));
+labels.lexicon.flags.push({ kind: 'first', quarter: '2026-Q3' }, { kind: 'shift', term: 'x', quarter: ' ', from: 1, to: 30 });
+labels.numbers.rising.quarter = '';
+labels.numbers.next_check.check_on = '2026-02-31'; labels.check_here[0].meeting = '2026-13-01';
+const lk = L.keyNumbers(labels), lh = R(labels);
+ok(/Word shifts \(1\)/.test(lh) && !/“” first/.test(lh), 'a shift needs its word and quarter');
+ok(lk[2].big === 'Steady' && !/moving toward/.test(L.meaning(labels)), 'a rising word needs a quarter');
+ok(lk[1].big === 'None' && /Dates and pages to check \(0\)/.test(lh) && !/Mar 3, 2026|Jan 1, 2027/.test(lh), 'calendar-invalid dates are not shown');
+const gaps = JSON.parse(JSON.stringify(result)); delete gaps.lexicon.counts['2026-Q2']; gaps.numbers.rising.to = 101; gaps.lexicon.flags[0].to = 999;
+const gh = R(gaps);
+ok(/Counts for 2026-Q2 did not come through/.test(gh) && !/counted in 2026-Q2/.test(gh), 'a quarter missing its counts is unavailable');
+ok(L.keyNumbers(gaps)[2].big === 'Steady' && !/999%/.test(gh), 'shares above 100 are not shown');
+const falling = JSON.parse(JSON.stringify(result)); falling.numbers.rising = { term: 'attainable', from: 31, to: 8, quarter: '2026-Q3' };
+ok(L.keyNumbers(falling)[2].big === 'Steady' && !/moving toward/.test(L.meaning(falling)), 'a falling word is not called rising');
+ok(/draw\('\.ld-switch', '\.ld-switch-status'/.test(read('js/whitepaper/local-discussion.js')), 'focus returns to the switch after a save, with a status');
+const small = JSON.parse(JSON.stringify(result)); small.lexicon.flags[0].from = 20; small.lexicon.flags[0].to = 21;
+ok(/Word shifts \(0\)/.test(R(small)), 'a move under 10 points is not a shift');
+ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
+
+// Not watched and not read yet.
+const empty = L.render({ geoid: '0899999', name: 'Testville', result: null, watched: false, watchState: 'ok', links: [] });
+ok(/Mark as planning to submit/.test(empty) && /aria-pressed="false"/.test(empty), 'switch offered');
+const unmarked = L.render({ geoid: '0899999', name: 'Testville', result: Object.assign({}, result, { starting_place: false }), watched: false, watchState: 'ok', links: [] });
+ok(/will not be updated/.test(unmarked), 'an unmarked place says its read is not updated');
+
+// 5. Gated page only; no data here.
+const page = read('developer-brief.html');
+ok(/js\/whitepaper\/local-discussion\.js/.test(page) && /localDiscussionMount/.test(page), 'mounted on the gated report');
+ok(/'js\/whitepaper'/.test(read('scripts/build-public-site.mjs')), 'the public build leaves js/whitepaper out');
+ok(!fs.existsSync(path.join(ROOT, 'data/local-discussion')), 'no local discussion data in this repository');
+const src = read('js/whitepaper/local-discussion.js');
+ok(!/\b(AI|repo|repository|GitHub|Claude)\b/.test(src.replace(/^\s*(\/\/|\/?\*).*$/gm, '')), 'no tool or repository words on screen');
+
+// The loader: a 404 means not read yet; a network error, 5xx or non-JSON reply is a failed load.
+const reply = (status, body, type = 'application/json') => Promise.resolve({ ok: status >= 200 && status < 300, status,
+  headers: { get: () => type }, json: () => Promise.resolve(body), text: () => Promise.resolve('') });
+async function mounted(discussionReply) {
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (url) => /api\/watch/.test(url) ? reply(200, [{ geoid: '0899999' }]) : discussionReply();
+  const el = { innerHTML: '', querySelector: () => null, querySelectorAll: () => [] };
+  try { L.mount(el, '0899999', 'Testville'); await new Promise((r) => setTimeout(r, 20)); }
+  finally { globalThis.fetch = realFetch; }
+  return el.innerHTML;
+}
+const notThere = await mounted(() => reply(404, null, 'text/plain'));
+const failures = await Promise.all([
+  mounted(() => Promise.reject(new Error('offline'))),
+  mounted(() => reply(503, null, 'text/plain')),
+  mounted(() => reply(200, null, 'text/html'))
+]);
+ok(/Not read yet/.test(notThere), 'a 404 from both sources means not read yet');
+ok(failures.every((h) => h === failures[0] && h !== notThere && !/Not read yet/.test(h)), 'network, 5xx and non-JSON replies are a failed load, not an empty read');
+const partial = await mounted(() => reply(200, { result: result, links: [] }));
+ok(/ld-numbers/.test(partial), 'a good reply renders the read');
+
+console.log(`local-discussion: ${checks} checks passed`);
