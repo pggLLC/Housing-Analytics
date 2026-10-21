@@ -175,7 +175,8 @@
 
   // ── Score ─────────────────────────────────────────────────────────────────
   // deal: {mix, nine: true}; claims: {<line id>: true, '5B1-need': <points>, '5A1-lowest-ami': true, '5A1d-eli': true}
-  function score(rules, deal, claims) {
+  // thresholds (optional): the Threshold answers; a missing 25-year election (T14) withholds the extended-use points.
+  function score(rules, deal, claims, thresholds) {
     claims = claims || {};
     var mix = deal.mix || {};
     var lines = [];
@@ -202,7 +203,11 @@
     rules.lines.forEach(function (l) {
       var line = { id: l.id, group: l.group, label: l.label, possible: l.points, points: 0, section: l.section, page: l.page,
         quote: l.quote, unconfirmed: l.unconfirmed || null, change: l.change_note || null };
-      if (l.auto === 'nine_percent_required') { line.points = l.points; line.status = 'counted'; line.auto = true; line.note = 'Required for 9% (Threshold #14).'; }
+      if (l.auto === 'nine_percent_required') {
+        line.auto = true;
+        if (thresholds && thresholds.T14 === 'missing') { line.status = 'missing'; line.note = 'Threshold #14 (the 25-year extended-use election) is marked missing, so these points are not counted.'; }
+        else { line.points = l.points; line.status = 'counted'; line.note = 'Required for 9% (Threshold #14).'; }
+      }
       else if (l.auto === 'mixed_income') {
         var t = mixTotals(mix, deal.election), share = t.total ? t.restricted / t.total : 1;
         line.auto = true; line.note = Math.round(share * 1000) / 10 + '% of units are tax credit units.';
@@ -443,7 +448,7 @@
   // ── Whole review and summary ──────────────────────────────────────────────
   function review(rules, prop123, v) {
     var deal = v.deal || {};
-    var s = score(rules, deal, v.claims);
+    var s = score(rules, deal, v.claims, v.thresholds);
     var p = prop123Status(prop123, deal.place);
     var lane = gapLane(rules, deal, p);
     var th = thresholdStatus(rules, v.thresholds, deal);
