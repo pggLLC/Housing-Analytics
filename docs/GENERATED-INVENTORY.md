@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T02:28:27.961Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T08:24:24.129Z. Do not edit by hand.
 
 ---
 
@@ -91,7 +91,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1815 JSON files found.
+1827 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -149,15 +149,24 @@
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/cra/co-bank-branches.json` | 223.3 KB | ✅ | — |
 | `data/dda-colorado.json` | 692.7 KB | ✅ | 44 features |
+| `data/deals/1001-lincoln-street-denver.json` | 20.2 KB | ✅ | — |
 | `data/deals/101-main-frisco.json` | 20.9 KB | ✅ | — |
+| `data/deals/1139-delaware-street-denver.json` | 19.6 KB | ✅ | — |
 | `data/deals/123-manitou-manitou-springs.json` | 18.8 KB | ✅ | — |
+| `data/deals/34th-street-boulder.json` | 13.2 KB | ✅ | — |
+| `data/deals/4965-washington-street-denver.json` | 25.7 KB | ✅ | — |
 | `data/deals/arapahoe-psh-aurora.json` | 19.1 KB | ✅ | — |
 | `data/deals/ascent-at-salt-flats-grand-junction.json` | 12.3 KB | ✅ | — |
+| `data/deals/atwood-commons-longmont.json` | 32.4 KB | ✅ | — |
 | `data/deals/barth-hotel-denver.json` | 17.2 KB | ✅ | — |
 | `data/deals/blossom-commons-westminster.json` | 17.0 KB | ✅ | — |
+| `data/deals/bradley-ridge-colorado-springs.json` | 19.2 KB | ✅ | — |
 | `data/deals/cedar-creek-commons-montrose.json` | 13.2 KB | ✅ | — |
+| `data/deals/central-park-station-phase-i-denver.json` | 18.7 KB | ✅ | — |
+| `data/deals/cole-train-denver.json` | 19.7 KB | ✅ | — |
 | `data/deals/commons-at-mosaic-denver.json` | 17.6 KB | ✅ | — |
 | `data/deals/crawford-commons-clifton.json` | 13.8 KB | ✅ | — |
+| `data/deals/crossbar-commons-aurora.json` | 17.4 KB | ✅ | — |
 | `data/deals/crossroads-at-divide-divide.json` | 14.0 KB | ✅ | — |
 | `data/deals/elmwood-north-denver.json` | 16.8 KB | ✅ | — |
 | `data/deals/fairbrooke-heights-fort-collins.json` | 18.8 KB | ✅ | — |
@@ -166,7 +175,7 @@
 | `data/deals/greenbriar-apartments-fort-collins.json` | 17.1 KB | ✅ | — |
 | `data/deals/gregory-highlands-ranch.json` | 23.0 KB | ✅ | — |
 | `data/deals/grove-at-pinewood-aurora.json` | 16.9 KB | ✅ | — |
-| `data/deals/index.json` | 14.3 KB | ✅ | — |
+| `data/deals/index.json` | 18.7 KB | ✅ | — |
 | `data/deals/ives-ii-wheat-ridge.json` | 18.2 KB | ✅ | — |
 | `data/deals/kite-route-crossing-superior.json` | 18.8 KB | ✅ | — |
 | `data/deals/lumberyard-apartments-aspen.json` | 26.6 KB | ✅ | — |
@@ -182,10 +191,13 @@
 | `data/deals/rita-bass-apartments-denver.json` | 20.1 KB | ✅ | — |
 | `data/deals/silver-key-apartments-colorado-springs.json` | 21.7 KB | ✅ | — |
 | `data/deals/st-louis-landing-building-c-fraser.json` | 18.6 KB | ✅ | — |
+| `data/deals/sugar-commons-sterling.json` | 18.8 KB | ✅ | — |
 | `data/deals/switchgrass-crossing-fort-collins.json` | 17.6 KB | ✅ | — |
 | `data/deals/tapestry-denver.json` | 23.5 KB | ✅ | — |
 | `data/deals/tierra-azul-alamosa.json` | 20.0 KB | ✅ | — |
+| `data/deals/university-building-lofts-denver.json` | 24.6 KB | ✅ | — |
 | `data/deals/ute-mountain-homes-i-towaoc.json` | 13.7 KB | ✅ | — |
+| `data/deals/village-on-eastbrook-fort-collins.json` | 22.2 KB | ✅ | — |
 | `data/deals/wildflower-flats-fort-lupton.json` | 16.7 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-2-lafayette.json` | 18.0 KB | ✅ | — |
 | `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
