@@ -480,8 +480,8 @@
       name:       'Census ACS (state)',
       file:       'census-acs-state.json',
       tsPath:     ['meta', 'pulled_at_utc'],
-      maxAgeDays: 3,
-      notes:      'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
+      maxAgeDays: 8,
+      notes:      'Checked weekly (Saturdays) by fetch-census-acs.yml; ACS itself is released once a year. Requires CENSUS_API_KEY.',
     },
     {
       name:       'CO County Demographics',
