@@ -1,0 +1,329 @@
+{
+ "slug": "tiffany-square-lakewood",
+ "name": "Tiffany Square (Tiffany Square Apartments)",
+ "city": "Lakewood",
+ "county": "Jefferson",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 52,
+ "researched_on": "2026-10-21",
+ "headline": "Related Affordable is buying and renovating Tiffany Square, an existing 52-unit project-based Section 8 tax credit complex for families at 935 Sheridan Blvd in Lakewood's Molholm Two Creeks neighborhood. It won a 2025 federal 4% credit award from CHFA with bonds from Metro West Housing Solutions.",
+ "why_it_matters": "A preservation deal for a mostly two-bedroom family Section 8 property near the W Line, financed with Lakewood's bond cap: the city assigns its cap to Metro West each year, and here the housing authority lends the bond proceeds to the Related buyer.",
+ "status": {
+  "label": "Bond approval granted June 2026; acquisition closing not confirmed",
+  "detail": "Lakewood City Council approved the TEFRA resolution for up to $25M of Metro West bonds on 2026-06-08. No public record found confirms the bond sale, the acquisition closing or the start of renovation.",
+  "src": [
+   "lakewood-r-2026-42",
+   "lakewood-minutes-2026-06-08"
+  ]
+ },
+ "next_step": "Watch for the Metro West bond issue and closing, the recorded deed to Tiffany Square Preservation, L.P., and Lakewood building permits for the rehab.",
+ "key_numbers": [
+  {
+   "value": "52 homes, 51 income-restricted",
+   "meaning": "All 51 at 60% AMI: 1 one-bedroom, 46 two-bedroom and 4 three-bedroom units; the 52nd unit is not restricted (likely a manager's unit, inferred).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1,123,495 a year in federal 4% credit",
+   "meaning": "About $11.2M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$7,700,000 in Metro West Housing Solutions bonds",
+   "meaning": "CHFA's figure; Lakewood's TEFRA approval caps the issue at $25M, using Lakewood's 2024 and 2025 carryforward and 2026 cap.",
+   "src": [
+    "chfa-4pct-award",
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "value": "100% project-based Section 8",
+   "meaning": "Rent is based on income; portable vouchers are not accepted.",
+   "src": [
+    "tiffany-site",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "935 Sheridan Blvd and 5255 West 9th Ave, Lakewood 80214 (CHFA); Lakewood's resolution names 935 Sheridan Boulevard",
+   "src": [
+    "chfa-4pct-award",
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "Existing LIHTC and project-based Section 8 community with one-, two- and three-bedroom units, a courtyard, playground and on-site laundry; in the Molholm Two Creeks neighborhood near the W Line and the 40 West Arts District",
+   "src": [
+    "tiffany-site",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 613 sq ft (1BR), 960 sq ft (2BR) and 1,200 sq ft (3BR), per a listing site",
+   "src": [
+    "aho-listing"
+   ]
+  },
+  {
+   "item": "Borrower entity",
+   "value": "Tiffany Square Preservation, L.P., a New York limited partnership, or another affiliate of Related Affordable, LLC",
+   "src": [
+    "lakewood-r-2026-42",
+    "lakewood-memo-4b"
+   ]
+  },
+  {
+   "item": "Use of bonds",
+   "value": "Acquisition, rehabilitation, renovation and equipping of the 52-unit project",
+   "src": [
+    "lakewood-r-2026-42"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 51
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 1
+  },
+  {
+   "type": "2BR",
+   "units": 46
+  },
+  {
+   "type": "3BR",
+   "units": 4
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,123,495 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Metro West Housing Solutions)",
+   "amount": "$7,700,000 per CHFA; not to exceed $25,000,000 under Lakewood's TEFRA approval",
+   "note": "Multifamily Housing Revenue Bonds (Tiffany Square Apartments Project). Metro West expects to use 2024 and 2025 carryforward and 2026 direct volume cap assigned by the City of Lakewood. The staff memo describes Metro West releasing existing bonds to make the loan.",
+   "src": [
+    "chfa-4pct-award",
+    "lakewood-r-2026-42",
+    "lakewood-memo-4b"
+   ]
+  },
+  {
+   "source": "City of Lakewood 2026 bond cap assigned to Metro West",
+   "amount": "$10,593,609",
+   "note": "Assigned by Resolution R-2026-41 on the same night; not earmarked to this project in the memo.",
+   "src": [
+    "lakewood-memo-4a",
+    "lakewood-minutes-2026-06-08"
+   ]
+  },
+  {
+   "source": "Acquisition price, other loans and equity",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "lakewood-r-2026-42"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and buyer",
+   "name": "Related Affordable, LLC",
+   "src": [
+    "chfa-4pct-award",
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Tiffany Square Preservation, L.P.",
+   "src": [
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Authority of the City of Lakewood, d/b/a Metro West Housing Solutions",
+   "src": [
+    "chfa-4pct-award",
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "role": "TEFRA approval",
+   "name": "Lakewood City Council (Resolution R-2026-42)",
+   "src": [
+    "lakewood-r-2026-42",
+    "lakewood-minutes-2026-06-08"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Metro West held the TEFRA public hearing by teleconference on 2026-03-13; no one appeared and no comments were received.",
+   "src": [
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "text": "Lakewood City Council adopted R-2026-42 on the consent agenda on 2026-06-08 by a 10-0 vote, approving up to $25M of Metro West bonds for the project for federal tax purposes only; the city carries no liability for the bonds.",
+   "src": [
+    "lakewood-r-2026-42",
+    "lakewood-minutes-2026-06-08"
+   ]
+  },
+  {
+   "text": "On the same consent vote the council adopted R-2026-41, assigning $10,593,609 of the city's 2026 bond cap to Metro West.",
+   "src": [
+    "lakewood-memo-4a",
+    "lakewood-minutes-2026-06-08"
+   ]
+  },
+  {
+   "text": "The property is already restricted under the tax credit program and a project-based Section 8 contract; the seller, sale price and the length of any extended affordability term are not in the public records found.",
+   "src": [
+    "tiffany-site",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "text": "Related Affordable is also the CHFA sponsor of two other 2025 rolling 4% preservation awards, Squire Village (Northglenn) and Dawson Square.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2026-03-13",
+   "event": "Metro West holds the TEFRA public hearing",
+   "src": [
+    "lakewood-r-2026-42"
+   ]
+  },
+  {
+   "date": "2026-06-08",
+   "event": "Lakewood City Council adopts R-2026-42 (TEFRA approval, up to $25M) and R-2026-41 (2026 bond cap to Metro West), 10-0",
+   "src": [
+    "lakewood-r-2026-42",
+    "lakewood-minutes-2026-06-08"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award, its LIHTC property list and Lakewood's resolution give 52 units, while the property's website lists 51 units.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list",
+    "lakewood-r-2026-42",
+    "tiffany-site"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Seller, sale price and deed date (Jefferson County records were not checked successfully; city web pages were blocked).",
+  "Rehab scope and budget, general contractor and timing.",
+  "Section 8 HAP contract term and the length of the new affordability covenant.",
+  "Final bond amount and closing date, lender and tax credit investor.",
+  "What the second CHFA address, 5255 West 9th Ave, covers (a second building or parcel).",
+  "No public site plan or rendering was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "lakewood-r-2026-42",
+   "title": "Resolution R-2026-42 approving issuance by Metro West Housing Solutions of Multifamily Housing Revenue Bonds for the Tiffany Square Apartments Project (with TEFRA certificate and hearing report)",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2026-06-08",
+   "url": "https://lakewoodspeaks.org/attachments/8710/embedded"
+  },
+  {
+   "id": "lakewood-memo-4b",
+   "title": "Staff memo, Item 4B: Metro West Housing Solutions Multifamily Housing Revenue Bonds for 935 Sheridan Boulevard",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2026-06-08",
+   "url": "https://lakewoodspeaks.org/attachments/8677/embedded"
+  },
+  {
+   "id": "lakewood-memo-4a",
+   "title": "Staff memo, Item 4A: 2026 Private Activity Bond Volume Cap Allocation",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2026-06-08",
+   "url": "https://lakewoodspeaks.org/attachments/8676/embedded"
+  },
+  {
+   "id": "lakewood-minutes-2026-06-08",
+   "title": "City Council Regular Meeting Minutes, June 8, 2026",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2026-06-08",
+   "url": "https://lakewoodspeaks.org/attachments/8797/embedded"
+  },
+  {
+   "id": "tiffany-site",
+   "title": "Tiffany Square (property website)",
+   "publisher": "Tiffany Square",
+   "date": "2026",
+   "url": "https://www.tiffanysquareapartments.com/"
+  },
+  {
+   "id": "chfa-lihtc-list",
+   "title": "LIHTC Property List",
+   "publisher": "CHFA",
+   "date": "2026-09-01",
+   "url": "https://www.chfainfo.com/getmedia/f67935e1-9eea-460e-a2bd-1722498222ea/LIHTCPropertyList.pdf"
+  },
+  {
+   "id": "aho-listing",
+   "title": "Tiffany Square Apartments in Lakewood, Colorado",
+   "publisher": "Affordable Housing Online",
+   "date": "2026",
+   "url": "https://affordablehousingonline.com/housing-search/Colorado/Lakewood/Tiffany-Square-Apartments/10010618"
+  }
+ ]
+}

@@ -12,8 +12,9 @@
 //      capped at everyone; the 100+ group stays in place.
 //   4. Births: women 10-49 x rate x scale x the births slider, split by the
 //      sex ratio at birth.
-//   5. Migration adds the stored people by age, scaled by the slider, and no
-//      more than everyone of an age can leave.
+//   5. Migration adds the stored people by age, scaled by the slider; no
+//      more than everyone of an age can leave, and departures a cohort cannot
+//      supply come from everyone else, so the net is the one asked for.
 //   6. Households: each group's rate x the scenario's people of that age.
 //   7. changeFromSdo is zero at 100% and the difference from 100% otherwise.
 //   8. averageAnnualMigration over a window and over the whole forecast.
@@ -110,9 +111,23 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   const b = baseline({ people: [[30, 100, 100]], migMale: mm });
   close(M.project(b)[1].population, 120, 'at 100% 80 of the 100 men aged 31 leave');
   const r = M.project(b, { migration_pct: 200 })[1];
-  close(r.population, 100, 'at 200% the 160 departures stop at the 100 men there are');
-  close(r.migration, -100, 'and migration counts the 100 who left');
+  close(r.population, 40, 'at 200% the 160 departures take the 100 men there are and 60 of the women');
+  close(r.migration, -160, 'so migration is the 160 asked for');
   close(M.project(b, { migration_pct: null })[1].population, 120, 'a missing setting is SDO\'s, not zero');
+}
+{
+  // Departures at one age, arrivals at another: clipping the departures alone
+  // would keep the arrivals and turn 100 more leaving into 40.
+  const mm = zeros(); mm[31] = -80;
+  const mf = zeros(); mf[31] = 30;
+  const b = baseline({ people: [[30, 100, 100]], migMale: mm, migFemale: mf });
+  const r = M.project(b, { migration_pct: 200 })[1];
+  close(r.migration, -100, 'at 200% of 50 more leaving, 100 more leave');
+  close(r.population, 100, 'and the population falls by 100');
+  const few = baseline({ people: [[30, 10, 10]], migMale: mm });
+  const gone = M.project(few)[1];
+  close(gone.population, 0, 'departures above everyone there is leave no one');
+  close(gone.migration, -20, 'and migration counts the 20 who left');
 }
 
 // 6. Households

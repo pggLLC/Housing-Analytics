@@ -1,0 +1,454 @@
+{
+ "slug": "link-and-pin-denver",
+ "name": "Link and Pin (Link and Pin Apartments)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+ "units": 150,
+ "researched_on": "2026-10-21",
+ "headline": "Lincoln Avenue Communities plans Link and Pin, about 150 new apartments (mostly studios and one-bedrooms) for households at 30% to 80% AMI on Fox Street in Globeville, near the 41st and Fox rail station. It won a 2025 federal 4% award from CHFA plus noncompetitive state credit and transit-oriented communities (TOC) credit, backed by City of Denver bonds.",
+ "why_it_matters": "This bond deal is in Denver's pipeline right now. The issuance ordinance (up to $27M, including $19.4M of city bond cap) was filed on 2026-10-20 for committee on 2026-10-27 and council readings in November, and it names the bonds Series 2027A and 2027B.",
+ "status": {
+  "label": "Credits awarded; bond ordinance before Denver City Council; not closed",
+  "detail": "Denver adopted the bond inducement on 2026-07-27. The issuance ordinance was introduced on 2026-10-20, with committee planned for 2026-10-27 and final reading for 2026-11-16. No financial closing, building permit or groundbreaking record was found.",
+  "src": [
+   "den-cr26-0998",
+   "den-26-1605",
+   "den-br26-1605"
+  ]
+ },
+ "next_step": "Watch for Denver's Finance and Business Committee vote on Bill 26-1605 (2026-10-27) and the council readings on 2026-11-09 and 2026-11-16, then the bond closing.",
+ "key_numbers": [
+  {
+   "value": "150 homes, all income-restricted (per CHFA)",
+   "meaning": "30 at 30% AMI, 68 at 60%, 14 at 70% and 38 at 80%. The mix is 72 studios, 50 one-bedroom, 14 two-bedroom and 14 three-bedroom units. Denver's records count 149 units.",
+   "src": [
+    "chfa-4pct-award",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "value": "$2,827,116 a year in federal 4% credit",
+   "meaning": "About $28.3M over 10 years. CHFA also lists $700,000 of noncompetitive state credit and $195,000 of TOC credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$17,400,000 in Denver bonds (per CHFA)",
+   "meaning": "Denver's ordinance would allow up to $27M in tax-exempt Series 2027A and taxable Series 2027B bonds, using up to $19.4M of city bond cap.",
+   "src": [
+    "chfa-4pct-award",
+    "den-26-1605",
+    "den-cr26-0998"
+   ]
+  },
+  {
+   "value": "$2,500,000 state grant request",
+   "meaning": "Lincoln Avenue applied to the Division of Housing in the February 2026 round. No award was found.",
+   "src": [
+    "doh-loi-awards"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints 4159 Fox St, Denver 80216. Denver's bond records place the project at 4187 Fox Street in Globeville.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998-signed",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction, in a QCT (not a DDA or SADDA); Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "150 total, 150 low-income per CHFA; about 149 per Denver and the Division of Housing",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998-signed",
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "Link and Pin Apartments LP, a Colorado limited partnership",
+   "src": [
+    "den-cr26-0998-signed",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "item": "Council district",
+   "value": "District 9, per the inducement resolution (the October 2026 bill request says District 11)",
+   "src": [
+    "den-cr26-0998",
+    "den-cr26-0998-signed"
+   ]
+  },
+  {
+   "item": "Zoning history",
+   "value": "In 2015 Denver rezoned 4143-4159 North Fox Street from light industrial (I-A, UO-2) to C-MS-8 (urban center main street, 8 stories), as part of a rezoning near the 41st and Fox station. Bill 15-0586 passed on 2015-09-28. Whether it covers the whole current site is inferred, not confirmed.",
+   "src": [
+    "den-15-0586"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 30
+  },
+  {
+   "level": "60% AMI",
+   "units": 68
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  },
+  {
+   "level": "80% AMI",
+   "units": 38
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 72
+  },
+  {
+   "type": "1BR",
+   "units": 50
+  },
+  {
+   "type": "2BR",
+   "units": 14
+  },
+  {
+   "type": "3BR",
+   "units": 14
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,827,116 per year",
+   "note": "2025 cycle. CHFA marks the amounts subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$700,000",
+   "note": "Listed in CHFA's Noncompetitive State Credit column.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Transit-oriented communities (TOC) credit",
+   "amount": "$195,000",
+   "note": "Listed in CHFA's TOC column.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Private activity bonds (City and County of Denver; CHFA prints the issuer as Denver HOST)",
+   "amount": "$17,400,000 per CHFA. Denver allows up to $27,000,000 in total bonds, with up to $19,400,000 of city bond cap.",
+   "note": "Inducement Resolution CR26-0998 (adopted 2026-07-27) awards up to $19.4M of city cap, limited to the greater of 30% of eligible basis or the permanent loan amount. Bill 26-1605 (introduced 2026-10-20) would authorize tax-exempt Series 2027A and taxable Series 2027B bonds and approve an indenture, financing agreement, tax regulatory agreement and bond purchase agreement.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998",
+    "den-cr26-0998-signed",
+    "den-26-1605",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (State Housing Development Grant / HOME round)",
+   "amount": "$2,500,000 requested",
+   "note": "February 2026 round, which offered State Housing Development Grant vendor-fee funds and federal HOME. The page lists applications for that round but no award.",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "source": "City HOST gap loan, land cost, equity, construction loan",
+   "amount": "Not public",
+   "note": "No Denver HOST loan resolution for Link and Pin was found in council records.",
+   "src": [
+    "den-26-1605"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Lincoln Avenue Communities",
+   "src": [
+    "chfa-4pct-award",
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Link and Pin Apartments LP",
+   "src": [
+    "den-cr26-0998-signed",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City and County of Denver (Department of Finance; CHFA lists Denver HOST)",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998"
+   ]
+  },
+  {
+   "role": "Earlier sponsor of a 270-unit Link and Pin proposal on the same block (2023)",
+   "name": "Rainier Development",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-loi"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The name predates Lincoln Avenue. In CHFA's 2023 Round Two, Rainier Development applied for a 270-unit, all-affordable project called Link and Pin at 4149 Fox Street. It asked for $4,225,835 a year in 4% credit, $1.1M in state credit and $44M in CHFA bonds. Its letter of intent called the project Fox Street, at 4159 North Fox Street.",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-loi"
+   ]
+  },
+  {
+   "text": "The 2023 Rainier application was not among the 10 developments CHFA awarded in 2023 Round Two.",
+   "src": [
+    "chfa-2023-r2-news"
+   ]
+  },
+  {
+   "text": "Lincoln Avenue Communities applied to the Division of Housing for $2.5M for Link & Pin Apartments (149 units) in the February 2026 round.",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "text": "Denver's Finance and Business Committee approved the inducement on 2026-07-14, and City Council adopted Resolution CR26-0998 on 2026-07-27. It is subject to a bond purchase commitment, City approvals and design approval, and a final bond ordinance. The cap award expires after one year unless extended.",
+   "src": [
+    "den-cr26-0998",
+    "den-cr26-0998-signed"
+   ]
+  },
+  {
+   "text": "The Department of Finance's 2026-10-16 bill request sets out the calendar: Finance and Business Committee on 2026-10-27, Mayor-Council on 2026-11-03, first reading on 2026-11-09 and second reading on 2026-11-16.",
+   "src": [
+    "den-br26-1605"
+   ]
+  },
+  {
+   "text": "The 2027A/2027B series names suggest the bonds are expected to be issued in 2027 (inferred from the names only).",
+   "src": [
+    "den-26-1605"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2015-09-28",
+   "event": "Denver passes the rezoning of 4143-4159 North Fox Street to C-MS-8 (Bill 15-0586)",
+   "src": [
+    "den-15-0586"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Rainier Development applies to CHFA 2023 Round Two for a 270-unit Link and Pin; not awarded",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-news"
+   ]
+  },
+  {
+   "date": "2026-02-02",
+   "event": "Application deadline for the Division of Housing round in which Lincoln Avenue requested $2.5M",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "date": "2026-07-27",
+   "event": "Denver City Council adopts bond inducement Resolution CR26-0998 (up to $19.4M of bond cap)",
+   "src": [
+    "den-cr26-0998",
+    "den-cr26-0998-signed"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-20",
+   "event": "Bond issuance ordinance (Bill 26-1605) introduced, up to $27M",
+   "src": [
+    "den-26-1605"
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "event": "Planned second reading of the bond ordinance at City Council",
+   "src": [
+    "den-br26-1605"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 150 units, while Denver's bond records and the Division of Housing list 149 units.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998-signed",
+    "den-br26-1605",
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "text": "CHFA gives the address as 4159 Fox St, while Denver's bond records place the project at 4187 Fox Street.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998-signed",
+    "den-br26-1605"
+   ]
+  },
+  {
+   "text": "CHFA lists 68 units at 60% AMI, while Denver's October 2026 bill request lists 67. The July 2026 inducement request listed 30 units at 30%, 75 at 60% and 30 at 80% AMI.",
+   "src": [
+    "chfa-4pct-award",
+    "den-br26-1605",
+    "den-rr-inducement"
+   ]
+  },
+  {
+   "text": "CHFA lists the bonds at $17,400,000, while Denver's inducement and ordinance award up to $19,400,000 of city bond cap within up to $27,000,000 of total bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0998",
+    "den-26-1605"
+   ]
+  },
+  {
+   "text": "The inducement resolution places the project in Council District 9, while the October 2026 bill request lists Council District 11.",
+   "src": [
+    "den-cr26-0998-signed",
+    "den-br26-1605"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Exact parcel(s) and whether the site at 4159 or 4187 Fox Street is owned or under contract, and at what price.",
+  "Whether the Division of Housing awarded any of the $2.5M request.",
+  "Any Denver HOST gap loan, Prop 123 money or land deal for the project.",
+  "Bond buyer, construction lender, tax credit investor, total development cost, general contractor and architect.",
+  "Site development plan and building permits. No public site plan or rendering was found, so pictures is empty.",
+  "Whether Lincoln Avenue's project is a successor to Rainier Development's 2023 proposal on the same block."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "den-cr26-0998",
+   "title": "Denver File 26-0998: Resolution evidencing intent to issue up to $19,400,000 Multifamily Housing Revenue Bonds for Link and Pin Apartments",
+   "publisher": "City and County of Denver",
+   "date": "2026-07-27",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=57173&GUID=6AE95614-512F-49C1-A8AC-318D5C73B2C8"
+  },
+  {
+   "id": "den-cr26-0998-signed",
+   "title": "Filed Resolution CR26-0998, Link & Pin 2026 Inducement Resolution",
+   "publisher": "City and County of Denver",
+   "date": "2026-07-27",
+   "url": "https://denver.legistar1.com/denver/attachments/14d19cc5-c21a-4860-a71d-1d35028e7922.pdf"
+  },
+  {
+   "id": "den-rr-inducement",
+   "title": "Resolution Request, PAB Inducement Resolution, Link and Pin (26-0998)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2026-07-02",
+   "url": "https://denver.legistar1.com/denver/attachments/885e30d3-fcd6-4775-9296-6dc760bc5ab2.docx"
+  },
+  {
+   "id": "den-26-1605",
+   "title": "Denver File 26-1605: Ordinance authorizing up to $27,000,000 Multifamily Housing Revenue Bonds (Link and Pin Apartments), Series 2027A and 2027B (Taxable)",
+   "publisher": "City and County of Denver",
+   "date": "2026-10-20",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=57748&GUID=168BDAED-398D-4670-9E82-F57EF34C8F42"
+  },
+  {
+   "id": "den-br26-1605",
+   "title": "Bill Request, PAB Issuance Ordinance, Link and Pin (26-1605)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2026-10-16",
+   "url": "https://denver.legistar1.com/denver/attachments/6f509bac-c7b2-40e0-999a-d3f95bc87c77.docx"
+  },
+  {
+   "id": "den-15-0586",
+   "title": "Denver File 15-0586: Rezoning of 4245 North Fox Street, 642 West 43rd Avenue and 4211, 4205 and 4143-4159 North Fox Street",
+   "publisher": "City and County of Denver",
+   "date": "2015-09-28",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=11724&GUID=929A8566-B164-438D-A348-E81CE53185FF"
+  },
+  {
+   "id": "doh-loi-awards",
+   "title": "Letters of Intent, Applications, Awards (February 2026 round)",
+   "publisher": "Colorado Department of Local Affairs, Division of Housing",
+   "date": "2026",
+   "url": "https://doh.colorado.gov/letters-of-intent-applications-awards"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-loi",
+   "title": "2023 Round 2 LOI Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/7f19c63e-f96e-4477-aaa6-93233ce358d0/2023-Round-2-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-news",
+   "title": "CHFA announces 2023 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  }
+ ]
+}

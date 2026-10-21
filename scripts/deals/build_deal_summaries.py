@@ -73,6 +73,17 @@ MATCH = {
     '34th-street-boulder': {'agency': 'CHFA', 'year': 2025, 'names': ['34th Street']},
     '4965-washington-street-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['4965 Washington Street']},
     'bradley-ridge-colorado-springs': {'agency': 'CHFA', 'year': 2025, 'names': ['Bradley Ridge']},
+    'dawson-square-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Dawson Square']},
+    'eagle-villas-eagle': {'agency': 'CHFA', 'year': 2025, 'names': ['Eagle Villas']},
+    'flats-at-sand-creek-colorado-springs': {'agency': 'CHFA', 'year': 2025, 'names': ['Flats at Sand Creek']},
+    'green-valley-vistas-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Green Valley Vistas']},
+    'link-and-pin-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Link and Pin']},
+    'montview-heights-aurora': {'agency': 'CHFA', 'year': 2025, 'names': ['Montview Heights']},
+    'ponderosa-pines-parker': {'agency': 'CHFA', 'year': 2025, 'names': ['Ponderosa Pines']},
+    'squire-village-northglenn': {'agency': 'CHFA', 'year': 2025, 'names': ['Squire Village']},
+    'tiffany-square-lakewood': {'agency': 'CHFA', 'year': 2025, 'names': ['Tiffany Square']},
+    'townview-phase-i-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Townview Phase I']},
+    'windtrail-park-fort-collins': {'agency': 'CHFA', 'year': 2025, 'names': ['Windtrail Park']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']

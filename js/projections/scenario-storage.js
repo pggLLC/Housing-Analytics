@@ -161,11 +161,14 @@
         net_migration_annual:  p.net_migration_annual  ?? null,
       };
     }
-    return {
+    const out = {
       births_pct:    p.births_pct    ?? 100,
       deaths_pct:    p.deaths_pct    ?? 100,
       migration_pct: p.migration_pct ?? 100,
     };
+    // Migration from the years before SDO's forecast instead of its forecast.
+    if (p.migration_from === 'past') out.migration_from = 'past';
+    return out;
   }
 
   function _normalizeLegacyKey(value) {

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-20",
+  "lastUpdated": "2026-10-21",
   "vintage": "2026-Q4",
   "note": "Program terms checked against the cited official pages on 2026-10-09 (Colorado Home Energy Rebates rechecked 2026-10-20) unless an earlier last_verified is explicitly retained after a blocked recheck. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances. Legacy identifiers are retained for consumers but are not additional awards.",
   "programs": {
@@ -689,7 +689,7 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": null,
+      "deadline": "2026-10-23",
       "competitiveness": "high",
       "eligibleExecution": [
         "9%",
@@ -699,23 +699,31 @@
       "useCases": [
         "multifamily-retrofit"
       ],
-      "maxPerProject": null,
-      "description": "Colorado announced a first 2026 LBD Showcase award round for large-building efficiency and electrification projects, including affordable senior housing, and anticipated another implementation round in summer 2026. Current remaining funds and application window require program-page verification.",
-      "contactUrl": "https://www.colorado.gov/governor/news/polis-administration-announces-funding-support-large-building-energy-efficiency-and",
+      "maxPerProject": 2000000,
+      "description": "The Colorado Energy Office's LBD Showcase funds emissions cuts in large buildings covered by Building Performance Colorado. Round 1 awarded $7.2 million to 15 building owners on February 25, 2026. Round 2 is for implementation projects only: $500,000 to $2 million per award, covering 50 to 65% of implementation costs, with $8.5 million in total. CEO extended the Round 2 deadline to October 23, 2026.",
+      "contactUrl": "https://energyoffice.colorado.gov/large-building-decarbonization-showcase-grant-program",
       "relatedSourceUrls": [
+        "https://www.colorado.gov/governor/news/polis-administration-announces-funding-support-large-building-energy-efficiency-and",
         "https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule"
       ],
       "adminEntity": "Colorado Energy Office",
-      "source_note": "Official Governor/CEO release and CDPHE Building Performance Standards page verified 2026-07-18. The previously cited release could not be re-opened on 2026-10-09 (HTTP 403). No new funding type, interest rate, loan term, repayment or maximum award is verified; each is left blank. Prior verification date is retained, not advanced.",
-      "last_verified": "2026-07-18",
-      "review_by": "2026-10-18",
-      "warning": "Context only. Verify current LBD NOFA status and project eligibility before assuming availability.",
-      "funding_type": null,
+      "source_note": "CEO program page read 2026-10-21: \"Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects.\" The page also says CEO \"will distribute $35 million across two funding rounds\". Round 1: Governor's release of February 25, 2026 (\"$7.2 million in grants\", 15 awards), re-opened 2026-10-21. No later round is announced.",
+      "last_verified": "2026-10-21",
+      "review_by": "2026-10-24",
+      "warning": "Retrofits of existing buildings covered by Building Performance Colorado only; not new construction. Round 2 closes October 23, 2026.",
+      "funding_type": "grant",
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
-      "max_rule": null,
-      "source_url": "https://www.colorado.gov/governor/news/polis-administration-announces-funding-support-large-building-energy-efficiency-and"
+      "max_rule": {
+        "text": "$500,000 to $2 million per award, 50 to 65% of implementation costs, up to $2 million.",
+        "max_amount": 2000000,
+        "min_amount": 500000,
+        "max_per_unit": null,
+        "max_project_cost_pct": 65,
+        "must_pay_dscr": null
+      },
+      "source_url": "https://energyoffice.colorado.gov/large-building-decarbonization-showcase-grant-program"
     },
     "PROP123-LIHTC-GAP": {
       "name": "Proposition 123 LIHTC Gap Finance",

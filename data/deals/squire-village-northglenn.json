@@ -1,0 +1,435 @@
+{
+ "slug": "squire-village-northglenn",
+ "name": "Squire Village (Squire Village Apartments)",
+ "city": "Northglenn",
+ "county": "Adams",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Related Affordable, with Maiker Housing Partners as special limited partner, is buying and renovating Squire Village, a 1982 complex of about 50 one-bedroom project-based Section 8 apartments for seniors on Grant Drive in Northglenn. It won a 2025 federal 4% credit award from CHFA, and Maiker sold $13.3M of Fannie Mae MBS-backed bonds for it in July 2026.",
+ "why_it_matters": "A small Section 8 senior preservation deal: the buyer extends the Section 8 use agreement by 20 years and the tax credit restrictions from 2033 to 2056, and $3.7M ($75,000 a unit) of rehab is funded mostly by bonds, a taxable mortgage and 4% equity.",
+ "status": {
+  "label": "Bonds priced July 2026; acquisition closing and rehab start not confirmed",
+  "detail": "Maiker's $13,295,000 bonds sold on 2026-07-23 with a dated date of 2026-07-30, which suggests the acquisition financing closed around then (inferred). No public record confirms the recorded sale or the start of renovation; the 2025 plan had renovation running from February 2026 to January 2027.",
+  "src": [
+   "bondbuyer-2026-07-27",
+   "northglenn-cr77"
+  ]
+ },
+ "next_step": "Watch for the recorded deed to Squire Village Preservation, L.P., Northglenn building permits for the rehab, and the new LURA.",
+ "key_numbers": [
+  {
+   "value": "50 one-bedroom homes, all income-restricted",
+   "meaning": "CHFA's award lists 16 at 30% AMI and 34 at 60% AMI; city and owner documents describe 51 senior units with project-based Section 8.",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "value": "$1,144,109 a year in federal 4% credit",
+   "meaning": "About $11.4M over 10 years; no state credit. The 2025 plan expected $7,858,000 of equity.",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "value": "$13,295,000 in Maiker bonds sold 2026-07-23",
+   "meaning": "Fannie Mae MBS-secured; CHFA's award shows $10,019,950 of bond cap.",
+   "src": [
+    "bondbuyer-2026-07-27",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$22.9M total cost, $14.5M acquisition",
+   "meaning": "From the buyer's 2025 budget; rehab about $3.7M, or $75,000 a unit.",
+   "src": [
+    "northglenn-cr77"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints 11180 Grant Drive, Northglenn 80233; city and county documents also use 11170 Grant Drive (parcel 0171903409015)",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77",
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "Built 1982 and renovated 2002; five single-story buildings of one-bedroom units on about 3.0 acres (31,856 sq ft of buildings); about 60 residents with an average age of 70 and a 28-person (roughly 10-year) waitlist",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "item": "Existing restrictions",
+   "value": "Project-based Section 8 use agreement and a LIHTC LURA expiring in 2033; CHFA's LIHTC property list shows it as an elderly property of 50 one-bedroom units",
+   "src": [
+    "northglenn-cr77",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "item": "Affordability after the deal",
+   "value": "Section 8 use agreement extended 20 years and LIHTC restrictions 30 years; new LURA to 2056 with 100% of units for seniors at or below 60% AMI (per the 2025 buyer memo)",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "New cabinets, counters, appliances, tubs and surrounds, vinyl flooring, lighting and paint; pendant emergency call system; four units converted to ADA and one to hearing/vision accessible; high-efficiency PTACs, boilers and thermostats; new roofs, siding, gutters and windows; updated leasing office, community room and laundry; signage, mailboxes, landscaping and parking",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "item": "Resident services (planned)",
+   "value": "On-site services coordinator, with proposed partners including InnovAge Colorado PACE and UC Health",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "RM-1; legal nonconforming for parking (50 spaces against 56 required) per a 2022 zoning report",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "item": "Borrower entity",
+   "value": "Squire Village Preservation, L.P., a New York limited partnership",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 16
+  },
+  {
+   "level": "60% AMI",
+   "units": 34
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 50
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,144,109 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Maiker Housing Partners)",
+   "amount": "$10,019,950 per CHFA; $13,295,000 sold",
+   "note": "Multifamily Housing Revenue Bonds, 2026 (Fannie Mae MBS-Secured) (Squire Village Apartments): sold 2026-07-23, dated 2026-07-30, maturing 2027-03-01 to 2042-09-01, non-callable; Wells Fargo underwriter, Kutak Rock bond counsel. Adams County's TEFRA approval allows up to $18,000,000.",
+   "src": [
+    "chfa-4pct-award",
+    "bondbuyer-2026-07-27",
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "source": "City of Northglenn 2025 bond cap",
+   "amount": "$2,460,746",
+   "note": "Assigned to CHFA by CR-77 on 2025-08-11 for the Squire Village project; the buyer expected about $4M more through CHFA's Top-Off program.",
+   "src": [
+    "northglenn-cr77",
+    "northglenn-action-2025-08-11"
+   ]
+  },
+  {
+   "source": "Planned permanent sources (2025 budget)",
+   "amount": "$22,943,498 total",
+   "note": "$6,400,000 tax-exempt bond loan, $6,915,479 taxable first mortgage, $7,858,000 4% equity, $944,153 deferred developer fee, $825,866 income during construction. Uses: $14,500,000 acquisition, $3,794,353 construction, $1,603,496 developer fee.",
+   "src": [
+    "northglenn-cr77"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and buyer",
+   "name": "Related Affordable, LLC",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Squire Village Preservation, L.P.",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "role": "Bond issuer and special limited partner",
+   "name": "Maiker Housing Partners (Housing Authority of the County of Adams)",
+   "src": [
+    "chfa-4pct-award",
+    "adams-res-2026-158",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "role": "TEFRA approval",
+   "name": "Adams County Board of County Commissioners (Resolution 2026-158)",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "role": "Bond underwriter",
+   "name": "Wells Fargo Corporate & Investment Banking",
+   "src": [
+    "bondbuyer-2026-07-27"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock",
+   "src": [
+    "bondbuyer-2026-07-27"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The buyer told Northglenn in 2025 that it was under contract to buy the property with all control rights and would form a new single-purpose entity before closing. The seller is not named in public records found.",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "text": "A 2022 zoning report in the city packet was prepared for Wells Fargo Multifamily Capital for a Fannie Mae loan and lists Related Fund Management entities as reliance parties, which suggests a Related affiliate was already involved with the property's financing in 2022 (inferred).",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "text": "Northglenn City Council passed CR-77 7-0 on 2025-08-11, assigning the city's $2,460,746 2025 bond cap to CHFA for Squire Village, with CHFA to use it elsewhere in the city if the project did not proceed.",
+   "src": [
+    "northglenn-cr77",
+    "northglenn-action-2025-08-11"
+   ]
+  },
+  {
+   "text": "Maiker held a TEFRA hearing on 2026-04-16 with no objections, and the Adams County commissioners approved up to $18M of bonds 5-0; the clerk certified the resolution on 2026-05-05.",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "text": "The 2025 timeline targeted a tax credit closing on 2026-01-01, renovation from 2026-02-01 to 2027-01-01, stabilization by 2027-04-01 and Forms 8609 by 2027-07-01.",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "text": "Maiker sold bonds for another Related Affordable deal, Dawson Square Apartments ($12,970,000), in the same week.",
+   "src": [
+    "bondbuyer-2026-07-27",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1982",
+   "event": "Built",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "date": "2002",
+   "event": "Last renovated",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "date": "2025-08-11",
+   "event": "Northglenn City Council passes CR-77 (7-0), assigning its 2025 bond cap to CHFA for the project",
+   "src": [
+    "northglenn-cr77",
+    "northglenn-action-2025-08-11"
+   ]
+  },
+  {
+   "date": "2026-04-16",
+   "event": "Maiker holds the TEFRA public hearing",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "date": "2026-05-05",
+   "event": "Adams County Resolution 2026-158 (TEFRA approval, up to $18M) certified",
+   "src": [
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "date": "2026-07-23",
+   "event": "Maiker sells $13,295,000 of bonds (dated 2026-07-30)",
+   "src": [
+    "bondbuyer-2026-07-27"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2033",
+   "event": "Year the existing LIHTC LURA would have expired",
+   "src": [
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "date": "2056",
+   "event": "New LURA term end (planned)",
+   "src": [
+    "northglenn-cr77"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Minor Subdivision of the Berg Tract (plat of the site)",
+   "url": "https://webdocs.northglenn.org/file/103843/packet/Cr-77.pdf",
+   "kind": "plat",
+   "made_by": "J.W. Williams and Associates, Consulting Engineers (1980-81 plat, in a City of Northglenn council packet)",
+   "note": "Page 21 of 105 of the CR-77 packet",
+   "src": [
+    "northglenn-cr77"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award lists the deal as family housing, while the city packet and CHFA's own LIHTC property list describe it as elderly housing.",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77",
+    "chfa-lihtc-list"
+   ]
+  },
+  {
+   "text": "CHFA's award and LIHTC list show 50 units, while the city packet and the Adams County resolution describe about 51 units.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-lihtc-list",
+    "northglenn-cr77",
+    "adams-res-2026-158"
+   ]
+  },
+  {
+   "text": "CHFA's award puts 16 units at 30% AMI and 34 at 60% AMI, while the buyer's 2025 memo says all units will be at or below 60% AMI.",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "text": "CHFA prints the address as 11180 Grant Drive, while the county resolution and the city memo use 11170 Grant Drive.",
+   "src": [
+    "chfa-4pct-award",
+    "adams-res-2026-158",
+    "northglenn-cr77"
+   ]
+  },
+  {
+   "text": "CHFA shows $10,019,950 of bonds and the 2025 plan expected about $6.4M, while Maiker sold $13,295,000 of bonds in July 2026.",
+   "src": [
+    "chfa-4pct-award",
+    "northglenn-cr77",
+    "bondbuyer-2026-07-27"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Seller, recorded sale price and deed date (the Adams County assessor site could not be reached; the 2025 budget shows $14.5M for acquisition).",
+  "How the city's 2025 cap assigned to CHFA relates to the Maiker-issued bonds, and the final split of bond cap sources.",
+  "Section 8 HAP contract terms and expiration after the deal.",
+  "General contractor, rehab start date and whether residents stay in place during renovation.",
+  "Final tax credit equity price and investor."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "northglenn-cr77",
+   "title": "CR-77 - Private Activity Bonds 2025 Assignment to CHFA (staff memo with Related Affordable letter of interest and exhibits)",
+   "publisher": "City of Northglenn",
+   "date": "2025-08-11",
+   "url": "https://webdocs.northglenn.org/file/103843/packet/Cr-77.pdf"
+  },
+  {
+   "id": "northglenn-action-2025-08-11",
+   "title": "City Council action summary, August 11, 2025",
+   "publisher": "City of Northglenn",
+   "date": "2025-08-11",
+   "url": "https://webdocs.northglenn.org/file/103843/action/action081125.pdf"
+  },
+  {
+   "id": "adams-res-2026-158",
+   "title": "Resolution 2026-158 approving the public hearing and issuance of up to $18,000,000 Multifamily Housing Revenue Bonds (Squire Village Apartments) Series 2026",
+   "publisher": "Adams County Board of County Commissioners",
+   "date": "2026-05-05",
+   "url": "https://apps.adcogov.org/BOCCResolutionDocs/api/document?id=6896956"
+  },
+  {
+   "id": "bondbuyer-2026-07-27",
+   "title": "Market Data: Negotiated sales, July 27, 2026",
+   "publisher": "The Bond Buyer",
+   "date": "2026-07-27",
+   "url": "https://www.bondbuyer.com/market-data/negotiated-sales/2026/07/27/"
+  },
+  {
+   "id": "chfa-lihtc-list",
+   "title": "LIHTC Property List",
+   "publisher": "CHFA",
+   "date": "2026-09-01",
+   "url": "https://www.chfainfo.com/getmedia/f67935e1-9eea-460e-a2bd-1722498222ea/LIHTCPropertyList.pdf"
+  }
+ ]
+}

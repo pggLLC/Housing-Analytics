@@ -1,0 +1,591 @@
+{
+ "slug": "flats-at-sand-creek-colorado-springs",
+ "name": "Flats at Sand Creek",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 144,
+ "researched_on": "2026-10-21",
+ "headline": "Lincoln Avenue Communities is building Flats at Sand Creek, 144 two- to four-bedroom apartments for households at or below 60% AMI in six three-story buildings on 6.94 acres at the northeast corner of Peterson Road and North Carefree Circle, across from Sand Creek High School in northeast Colorado Springs. It won a 2025 federal 4% credit award from CHFA backed by up to $31.15M of El Paso County bonds.",
+ "why_it_matters": "The project was allowed by existing R-5 zoning and approved administratively. It survived appeals to the Planning Commission (6-2) and City Council (7-2) over traffic and neighborhood fit, a by-right path worth noting for other infill sites. It also pairs a $4.05M Prop 123 land banking award with county bond cap.",
+ "status": {
+  "label": "Under construction (groundbreaking December 2025; foundations under way February 2026)",
+  "detail": "El Paso County adopted the bond resolution (No. 25-284) on 2025-10-21. CSI Construction Company posted on 2025-12-08 that it had broken ground, and KOAA reported on 2026-02-10 that crews were laying foundations. The note closing date and completion date are not public.",
+  "src": [
+   "epc-minutes-2025-10-21",
+   "csi-2025-12-08",
+   "koaa-2026-02-10"
+  ]
+ },
+ "next_step": "Watch for building permits and vertical construction, then lease-up timing; also the Peterson Road school zone and signal changes the city has discussed.",
+ "key_numbers": [
+  {
+   "value": "144 homes, all at 60% AMI",
+   "meaning": "72 two-bedroom, 36 three-bedroom and 36 four-bedroom apartments in six 24-unit buildings.",
+   "src": [
+    "chfa-4pct-award",
+    "cos-project-statement"
+   ]
+  },
+  {
+   "value": "$3,015,572 a year in federal 4% credit",
+   "meaning": "About $30.2M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$31,150,339 El Paso County multifamily housing revenue note",
+   "meaning": "Sand Creek Apartments Project, Series 2025, funded by Citibank, N.A. as funding lender; authorized by Resolution 25-284 on 2025-10-21.",
+   "src": [
+    "chfa-4pct-award",
+    "epc-agenda-memo",
+    "epc-bond-res-draft",
+    "epc-minutes-2025-10-21"
+   ]
+  },
+  {
+   "value": "$4,050,000 Prop 123 land banking award",
+   "meaning": "To Fairview Housing Partners Ltd for this project, announced 2025-05-07; Fairview said it would work with Lincoln Avenue Communities.",
+   "src": [
+    "oedit-2025-05-07",
+    "kktv-2025-05-08"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "Northeast corner of Peterson Road and North Carefree Circle, Colorado Springs 80922 (county tax schedule no. 5330400035)",
+   "src": [
+    "chfa-4pct-award",
+    "epc-bond-res-draft",
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT or DDA; in a SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site and buildings",
+   "value": "6.94 acres of vacant land zoned R-5/AP-O (multi-family high with airport overlay); six three-story, wood-framed buildings of 24 units each, 37.5 ft tall, plus a clubhouse, fitness area, playground, dog parks and carports with solar panel infrastructure",
+   "src": [
+    "cos-project-statement",
+    "cos-appeal-staff-report",
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "item": "Landowner of record (development plan)",
+   "value": "Carefree Landowner LLC; developer listed as Lincoln Avenue Capital; applicant N.E.S. Inc.",
+   "src": [
+    "cos-dev-plan",
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "item": "Borrower/owner entity",
+   "value": "Flats at Sand Creek LP; general partner Sand Creek GP LLC (Delaware); guarantors are Lincoln Avenue Capital entities",
+   "src": [
+    "epc-bond-res-draft",
+    "epc-borrower-loan-draft"
+   ]
+  },
+  {
+   "item": "Bond affordability test",
+   "value": "At least 40% of completed units to Low Income Tenants for the Qualified Project Period under the draft tax regulatory agreement (the tax credit restricts all 144 to 60% AMI)",
+   "src": [
+    "epc-tra-draft",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Traffic",
+   "value": "About 1,000 daily trips (67 morning and 82 evening peak-hour trips) per the applicant's study. City crash data show 23 crashes at the intersection since 2022, and signal changes are planned",
+   "src": [
+    "cos-project-statement",
+    "koaa-2026-02-10"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 144
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 72
+  },
+  {
+   "type": "3BR",
+   "units": 36
+  },
+  {
+   "type": "4BR",
+   "units": 36
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,015,572 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bond note (El Paso County)",
+   "amount": "$31,150,339 per CHFA; not to exceed $31,150,339 per Resolution 25-284",
+   "note": "Multifamily Housing Revenue Note (Sand Creek Apartments Project), Series 2025: a Citibank, N.A. funding loan to the county, lent on to the borrower; maximum rate 12%, final maturity up to 40 years. The county's 2025 inducement resolution planned up to $28,341,587 from its own $14,739,412 cap plus $1,970,777 assigned by Fountain and $11,631,398 by Colorado Springs, plus any statewide balance. Inferred: the $31.15M note needed statewide balance or other cap; not confirmed.",
+   "src": [
+    "chfa-4pct-award",
+    "epc-agenda-memo",
+    "epc-bond-res-draft",
+    "epc-funding-loan-draft",
+    "epc-inducement-2025",
+    "epc-inducement-tracker"
+   ]
+  },
+  {
+   "source": "Prop 123 land banking (Affordable Housing Financing Fund)",
+   "amount": "$4,050,000",
+   "note": "Awarded to Fairview Housing Partners Ltd for 144 rental units at Flats at Sand Creek; announced 2025-05-07.",
+   "src": [
+    "oedit-2025-05-07",
+    "kktv-2025-05-08",
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "source": "Subordinate loans (draft bond documents)",
+   "amount": "Bracketed in draft: $1,000,000 and $500,000, plus a Citibank subordinate taxable construction loan (amount blank)",
+   "note": "The draft loan agreement lists a $1,000,000 loan, bracketed as AHIF, from a lender bracketed as the Pikes Peak Real Estate Foundation, and a $500,000 loan bracketed as HTF. Placeholders, not final.",
+   "src": [
+    "epc-borrower-loan-draft"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "The draft loan agreement leaves the equity investor blank.",
+   "src": [
+    "epc-borrower-loan-draft"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Lincoln Avenue Communities (Lincoln Avenue Capital)",
+   "src": [
+    "chfa-4pct-award",
+    "cos-dev-plan",
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Flats at Sand Creek LP (general partner Sand Creek GP LLC)",
+   "src": [
+    "epc-bond-res-draft",
+    "epc-borrower-loan-draft"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "El Paso County, Colorado",
+   "src": [
+    "chfa-4pct-award",
+    "epc-minutes-2025-10-21"
+   ]
+  },
+  {
+   "role": "Funding lender and servicer (bond note)",
+   "name": "Citibank, N.A.",
+   "src": [
+    "epc-bond-res-draft",
+    "epc-borrower-loan-draft"
+   ]
+  },
+  {
+   "role": "Prop 123 land banking recipient",
+   "name": "Fairview Housing Partners Ltd",
+   "src": [
+    "oedit-2025-05-07",
+    "kktv-2025-05-08"
+   ]
+  },
+  {
+   "role": "Landowner of record on the development plan",
+   "name": "Carefree Landowner LLC",
+   "src": [
+    "cos-dev-plan",
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "CSI Construction Company",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Way Architects (listed as a project partner)",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "role": "Land planner/applicant",
+   "name": "N.E.S. Inc.",
+   "src": [
+    "cos-project-statement",
+    "cos-dev-plan"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock LLP (appointed in the county's 2025 inducement resolution; notice party in the loan agreement)",
+   "src": [
+    "epc-inducement-2025",
+    "epc-borrower-loan-draft"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In 2002 conditions of record limited the site to a religious institution, which was never built. On 2021-10-12 City Council removed those conditions (R-5 with airport overlay) for a 72-townhome concept that never got permits. The Gazette reports Lincoln then bought the land.",
+   "src": [
+    "cos-appeal-staff-report",
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "text": "City Planning staff approved the development plan (DEPN-24-0133) administratively on 2025-02-24, with an administrative adjustment (ADRF-24-0073) for an 8-foot wall on the north edge in response to neighbors.",
+   "src": [
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "text": "Neighbors appealed. The Planning Commission upheld the approval on 2025-04-09 (APPL-25-0003; 6-2 per the Gazette), and City Council denied the further appeal 7-2 on 2025-07-08 (APPL-25-0004). Concerns were traffic and pedestrian safety at Carefree and Peterson, views and neighborhood fit. School District 49 supported the project.",
+   "src": [
+    "cos-appl-25-0003-history",
+    "cos-appl-25-0004-history",
+    "gazette-2025-07-08",
+    "koaa-2025-07-14"
+   ]
+  },
+  {
+   "text": "A traffic study was not required because the use was allowed by zoning, but the developer ran two (June 2024 and April 2025). The second showed more impact but no change in the intersection's risk level.",
+   "src": [
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "text": "The county adopted Resolution 25-284 on its 2025-10-21 consent calendar, approving the borrower loan agreement, funding loan agreement and tax regulatory agreement. The county says it has no repayment obligation on the conduit note.",
+   "src": [
+    "epc-minutes-2025-10-21",
+    "epc-agenda-memo"
+   ]
+  },
+  {
+   "text": "Lincoln Avenue said the project had also received more than $20 million in federal funding (likely the 4% credits; inferred).",
+   "src": [
+    "gazette-2025-07-08",
+    "koaa-2025-07-14"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-10-12",
+   "event": "City Council rezones the site to remove the church-only condition (townhome concept)",
+   "src": [
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "date": "2024-08",
+   "event": "N.E.S. Inc. submits the development plan project statement for Lincoln Ave Capital",
+   "src": [
+    "cos-project-statement"
+   ]
+  },
+  {
+   "date": "2025-02-24",
+   "event": "City Planning administratively approves the development plan",
+   "src": [
+    "cos-appeal-staff-report"
+   ]
+  },
+  {
+   "date": "2025-04-09",
+   "event": "Planning Commission upholds the approval on appeal",
+   "src": [
+    "cos-appl-25-0003-history",
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "date": "2025-05-07",
+   "event": "State announces the $4,050,000 Prop 123 land banking award",
+   "src": [
+    "oedit-2025-05-07"
+   ]
+  },
+  {
+   "date": "2025-07-08",
+   "event": "City Council denies the appeal 7-2",
+   "src": [
+    "cos-appl-25-0004-history",
+    "gazette-2025-07-08"
+   ]
+  },
+  {
+   "date": "2025-08-05",
+   "event": "El Paso County adopts its 2025 housing bond inducement resolution (BOC 30/2025)",
+   "src": [
+    "epc-inducement-tracker",
+    "epc-inducement-2025"
+   ]
+  },
+  {
+   "date": "2025-10-21",
+   "event": "El Paso County adopts Resolution 25-284 authorizing the note of up to $31,150,339",
+   "src": [
+    "epc-minutes-2025-10-21",
+    "epc-agenda-memo"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "CSI Construction Company posts that it has broken ground",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "date": "2026-02-10",
+   "event": "KOAA reports crews laying foundations",
+   "src": [
+    "koaa-2026-02-10"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Development plan (site plan)",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/36d3362e-f611-46e6-8b63-dccdb67729e9.pdf",
+   "kind": "site plan",
+   "made_by": "N.E.S. Inc. for Lincoln Avenue Capital, in a City of Colorado Springs Council packet",
+   "note": "Sheet 2 of 14 (Development Plan); sheets 5 and 8 are landscape and grading plans",
+   "src": [
+    "cos-dev-plan"
+   ]
+  },
+  {
+   "title": "Apartment and amenity center elevations",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/36d3362e-f611-46e6-8b63-dccdb67729e9.pdf",
+   "kind": "rendering",
+   "made_by": "Project team, in the approved development plan",
+   "note": "Sheets 10-11 (apartment elevations) and 12 (amenity center elevations) of 14",
+   "src": [
+    "cos-dev-plan"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The county's agenda memo says the required public hearing was held on 2025-09-05, while the draft bond resolution says the hearing notice was published on 2025-09-05 and the hearing was conducted on 2025-08-21.",
+   "src": [
+    "epc-agenda-memo",
+    "epc-bond-res-draft"
+   ]
+  },
+  {
+   "text": "The Gazette reports that Lincoln purchased the land, while the development plan and the city's appeal staff report list Carefree Landowner LLC as property owner, and the Prop 123 land banking award went to Fairview Housing Partners Ltd.",
+   "src": [
+    "gazette-2025-07-08",
+    "cos-dev-plan",
+    "cos-appeal-staff-report",
+    "oedit-2025-05-07"
+   ]
+  },
+  {
+   "text": "The draft resolution names the borrower Flats at Sand Creek LP, while the draft borrower loan agreement describes it as a limited liability company organized under Colorado law.",
+   "src": [
+    "epc-bond-res-draft",
+    "epc-borrower-loan-draft"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Note closing date and amount actually funded; whose bond cap made up the $31.15M (county, Colorado Springs and Fountain assignments, statewide balance).",
+  "Relationship between Carefree Landowner LLC, Fairview Housing Partners and Lincoln Avenue, and how the Prop 123 money is structured (land purchase, ground lease or the bracketed $1M subordinate loan).",
+  "Final subordinate loans (the draft brackets $1M and $500,000), tax credit investor, equity price and total development cost.",
+  "Building permit records, expected completion and lease-up dates.",
+  "Rents; the project statement and award show only bedroom and AMI mix."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "epc-agenda-memo",
+   "title": "El Paso Board of County Commissioners Agenda Item Summary, Item 5.d: Multifamily Housing Revenue Note (Sand Creek Apartments Project), Series 2025",
+   "publisher": "El Paso County",
+   "date": "2025-10-21",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50573"
+  },
+  {
+   "id": "epc-bond-res-draft",
+   "title": "El Paso County - Sand Creek - Bond Resolution (packet draft)",
+   "publisher": "El Paso County",
+   "date": "2025-10",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50563"
+  },
+  {
+   "id": "epc-borrower-loan-draft",
+   "title": "El Paso County - Sand Creek - Borrower Loan Agreement (packet draft)",
+   "publisher": "El Paso County",
+   "date": "2025-10",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50565"
+  },
+  {
+   "id": "epc-funding-loan-draft",
+   "title": "El Paso County - Sand Creek - Funding Loan Agreement (packet draft)",
+   "publisher": "El Paso County",
+   "date": "2025-10",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50567"
+  },
+  {
+   "id": "epc-tra-draft",
+   "title": "El Paso County - Sand Creek - Tax Regulatory Agreement (packet draft)",
+   "publisher": "El Paso County",
+   "date": "2025-10",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50569"
+  },
+  {
+   "id": "epc-minutes-2025-10-21",
+   "title": "Board of County Commissioners Minutes, October 21, 2025",
+   "publisher": "El Paso County",
+   "date": "2025-10-21",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/50843"
+  },
+  {
+   "id": "epc-inducement-2025",
+   "title": "Resolution declaring the intent of El Paso County to issue revenue bonds or mortgage credit certificates (2025, packet draft)",
+   "publisher": "El Paso County",
+   "date": "2025-08-05",
+   "url": "https://www.agendasuite.org/iip/elpaso/file/getfile/49488"
+  },
+  {
+   "id": "epc-inducement-tracker",
+   "title": "Resolution details, BOC 30/2025 (housing bond inducement)",
+   "publisher": "El Paso County",
+   "date": "2025-08-05",
+   "url": "https://www.agendasuite.org/iip/elpaso/itemtracker/details/7768"
+  },
+  {
+   "id": "cos-project-statement",
+   "title": "Flats at Sand Creek Multi-Family Development Plan, Project Statement (Attachment 1 to APPL-25-0003)",
+   "publisher": "N.E.S. Inc., via City of Colorado Springs",
+   "date": "2024-08",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/9c755323-d8f2-4773-a155-98c29a4f3edd.pdf"
+  },
+  {
+   "id": "cos-dev-plan",
+   "title": "Flats at Sand Creek Development Plan, DEPN-24-0133 (Attachment 2 to APPL-25-0004)",
+   "publisher": "City of Colorado Springs (prepared by N.E.S. Inc.)",
+   "date": "2025-02",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/36d3362e-f611-46e6-8b63-dccdb67729e9.pdf"
+  },
+  {
+   "id": "cos-appeal-staff-report",
+   "title": "Flats at Sand Creek DP Appeal Staff Report (APPL-25-0004, City Council)",
+   "publisher": "City of Colorado Springs Planning Department",
+   "date": "2025-07",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/bf9b4535-dbc8-48ff-a461-cc0a5a6caf63.docx"
+  },
+  {
+   "id": "cos-appl-25-0003-history",
+   "title": "Legistar matter history, APPL-25-0003 (Planning Commission appeal)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-04-09",
+   "url": "https://webapi.legistar.com/v1/coloradosprings/matters/12427/histories"
+  },
+  {
+   "id": "cos-appl-25-0004-history",
+   "title": "Legistar matter history, APPL-25-0004 (City Council appeal)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-07-08",
+   "url": "https://webapi.legistar.com/v1/coloradosprings/matters/12612/histories"
+  },
+  {
+   "id": "gazette-2025-07-08",
+   "title": "City Council allows affordable apartments by Sand Creek High School despite concerns",
+   "publisher": "The Gazette",
+   "date": "2025-07-08",
+   "url": "https://gazette.com/2025/07/08/city-council-allows-affordable-apartments-by-sand-creek-high-school-despite-concerns/"
+  },
+  {
+   "id": "koaa-2025-07-14",
+   "title": "'We are done', homeowners frustrated over decision on affordable housing proposal",
+   "publisher": "KOAA",
+   "date": "2025-07-14",
+   "url": "https://www.koaa.com/news/local-news/we-are-done-homeowners-frustrated-over-decision-on-affordable-housing-proposal"
+  },
+  {
+   "id": "koaa-2026-02-10",
+   "title": "Residents raise concerns as 144-unit complex brings safety fears to accident-prone intersection",
+   "publisher": "KOAA",
+   "date": "2026-02-10",
+   "url": "https://www.koaa.com/news/state-of-growth/residents-threaten-to-move-as-144-unit-complex-brings-safety-fears-to-accident-prone-intersection"
+  },
+  {
+   "id": "oedit-2025-05-07",
+   "title": "Proposition 123 Land Banking Funds to Support New Housing Options Coloradans can Afford Across the State",
+   "publisher": "Colorado OEDIT",
+   "date": "2025-05-07",
+   "url": "https://oedit.colorado.gov/press-release/proposition-123-land-banking-funds-to-support-new-housing-options-coloradans-can"
+  },
+  {
+   "id": "kktv-2025-05-08",
+   "title": "2 affordable housing projects set to break ground in Colorado Springs",
+   "publisher": "KKTV",
+   "date": "2025-05-08",
+   "url": "https://www.kktv.com/2025/05/09/2-affordable-housing-projects-set-break-ground-colorado-springs/"
+  },
+  {
+   "id": "csi-2025-12-08",
+   "title": "Flats at Sand Creek Apartments Breaks Ground",
+   "publisher": "CSI Construction Company",
+   "date": "2025-12-08",
+   "url": "https://www.csigc.com/news/flats-at-sand-creek-apartments-breaks-ground"
+  }
+ ]
+}
