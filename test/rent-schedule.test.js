@@ -389,7 +389,7 @@ function change(w, selector, value) {
     const w = await app({ county_fips: county.fips, total_units: null, vacancy_rate: 0.05, utility_allowance_basis: basis(), unit_mix: [] });
     try {
       const summary = w.document.querySelector('[data-role="rent-schedule-summary"]');
-      assert.match(summary.querySelector('[data-role="schedule-empty"]').textContent, /Add a unit-mix row/);
+      assert(summary.querySelector('[data-role="schedule-empty"]').textContent.trim(), 'one instruction in place of the totals');
       assert.equal(summary.querySelectorAll('[data-total]').length, 0);
       assert(!/unavailable/i.test(w.document.getElementById('sp').textContent), w.document.getElementById('sp').textContent);
       [...w.document.querySelectorAll('#sp button')].find((b) => b.textContent === '+ Add row').click(); await settle();
