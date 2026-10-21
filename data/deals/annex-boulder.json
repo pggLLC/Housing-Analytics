@@ -1,0 +1,528 @@
+{
+ "slug": "annex-boulder",
+ "name": "Annex (Grace Commons Annex)",
+ "city": "Boulder",
+ "county": "Boulder",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 30,
+ "researched_on": "2026-10-21",
+ "headline": "Grace Commons Church is building the Annex, a four-story mixed-use building at 1603 Walnut Street in downtown Boulder with 30 studio and one-bedroom apartments for households at 30% to 70% AMI over a ground-floor café and workforce-training space and a rooftop event center, funded in part by a 2024 Round One 9% and state credit award.",
+ "why_it_matters": "It shows a congregation turning its own downtown land into permanently affordable housing by leasing the ground to the tax credit deal for cash-flow rent and pairing the units with a commercial event space and café meant to cross-subsidize the church's mission.",
+ "status": {
+  "label": "Under construction since January 2025; topped out 2025-11-20; completion targeted September 2026, not confirmed",
+  "detail": "The church reports that financing closed on 2024-12-31, ground was broken in January 2025, the final steel beam was set on 2025-11-20, and completion was targeted for September 2026 after a three-month opening delay. Element Properties lists the project as under construction with completion expected in Q3 2026. No public record of a certificate of occupancy or lease-up was found as of 2026-10-21.",
+  "src": [
+   "gracecommons-updates",
+   "element-annex"
+  ]
+ },
+ "next_step": "Watch for a City of Boulder certificate of occupancy for 1603 Walnut Street and Brothers Property Management opening applications (the church said applications go out about 90 days before opening).",
+ "key_numbers": [
+  {
+   "value": "30 homes, all income-restricted (18 studios, 12 one-bedrooms)",
+   "meaning": "Income averaging across 30% to 70% AMI; 4 units at 30% AMI.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$961,773 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $9.6M in federal credit over 10 years (inferred from the annual amount). The application had asked for $1,160,637 a year.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "value": "About $603,000 total cost per unit",
+   "meaning": "Applicant's figure ($603,046 per unit, $413,183 of it hard cost), including the ground-floor community service facility; about $18.1M for 30 units (inferred).",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "Financing closed 2024-12-31",
+   "meaning": "Per the church; it then broke ground in January 2025 and topped out in November 2025.",
+   "src": [
+    "gracecommons-updates"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1603 Walnut Street, Boulder (diagonally across from the church's main campus at 1820 15th Street)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, Type IIA steel frame with brick, cedar and metal cladding, two elevators; café/bakery and workforce-training space on floor 1, apartments on floors 2 and 3, private event space and roof decks on floor 4",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "coburn-annex"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "About a block from the Pearl Street Mall and the Downtown Boulder RTD station; in a Qualified Census Tract; Walk Score 98 per the applicant",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Entitlements",
+   "value": "Site Review approved in 2022 with two six-month extensions; the applicant said the approval required substantial completion by January 2026",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "The church said it would record a permanent affordability covenant",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Silver, solar, all-electric-ready design",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Commercial pieces",
+   "value": "Rooftop event center branded VUE/Boulder; a café/bakery lease and a condominium association were still to be finalized as of February 2026",
+   "src": [
+    "gracecommons-updates"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "40% AMI",
+   "units": 3
+  },
+  {
+   "level": "50% AMI",
+   "units": 3
+  },
+  {
+   "level": "60% AMI",
+   "units": 17
+  },
+  {
+   "level": "70% AMI",
+   "units": 3
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 18
+  },
+  {
+   "type": "1BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "chfa-2024-ahtc-annual"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$961,773 per year",
+   "note": "2024 Round One award.",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "City of Boulder",
+   "amount": "$3,100,000 (as planned in the application)",
+   "note": "The application says the city encouraged a gap-funding request after a 9% award; Element Properties confirms city funds were obtained but gives no amount.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "element-annex"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$1,200,000 (as planned in the application)",
+   "note": "Not confirmed in a DOH record.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Worthy Cause",
+   "amount": "$150,000",
+   "note": "Awarded in 2022, per the applicant.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Grace Commons Church cash",
+   "amount": "$750,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land",
+   "amount": "Not public",
+   "note": "Contributed by the church through a land lease paid from remaining cash flow. The church says it owns the parcel outright; it was gifted to the church decades ago.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "source": "Permanent debt",
+   "amount": "$2,260,000 (as planned in the application)",
+   "note": "Lender not public. The church listed permanent financing as a remaining step in February 2026.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "source": "Solar tax credits and deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Total soft funds and grants",
+   "amount": "$5,340,000",
+   "note": "Applicant's total, about 30% of the affordable housing development cost.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and owner (as CHFA prints it)",
+   "name": "Grace Commons Church",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "Element Properties",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "element-annex"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Coburn Partners",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "coburn-annex"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-Kota (KOTA Construction)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Brothers Property Management",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "brothers-annex"
+   ]
+  },
+  {
+   "role": "Service partners",
+   "name": "TGTHR (referral path for young adults leaving 1440 Pine supportive housing) and A Precious Child (workforce training)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Waitlist partner",
+   "name": "Boulder County Housing Authority (access to its waitlist)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The parcel, originally a tire center, was gifted to the church decades ago and later housed youth ministry and clothing distribution. The Annex is phase 2 of the church's Boulder Vision Project, which the church says has had a development agreement with the City of Boulder since January 2022.",
+   "src": [
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "text": "This was a repeat application. The church reports CHFA denied its 2023 tax credit application in late May 2023. For 2024 the team switched to income averaging, added a 30% unit and three 40% units, changed general contractor to I-Kota, cut hard costs by about $1.4M and lowered the credit request by almost $200,000.",
+   "src": [
+    "gracecommons-updates",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA awarded $961,773 a year in federal credit, below the $1,160,637 requested on the February 2024 applicant list (where the project appears as Grace Commons Annex).",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "text": "The ground-floor career-counseling space for 15- to 24-year-olds is to be included in eligible basis as a Section 42 community service facility.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I report flagged the former tire and auto repair use as a recognized environmental condition; a Phase II found no further evidence. The old building had non-friable asbestos roofing and trace asbestos in drywall.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study gave a 30.8% capture rate, above CHFA's 25% threshold, but argued demand was understated; surveyed LIHTC units in the market area were 99% occupied.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction slipped from the application's plan (financial close about September 2024, construction start September 2024) to a 2024-12-31 closing and January 2025 start. The church's February 2026 update lists a seven-month Xcel delay, foundation and buried-lift surprises, and a three-month opening delay, and says the job was on budget with contingency remaining.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "text": "Demand: the church reported 90 people had expressed interest to Brothers Property Management by February 2026; leasing is first-come among qualified applicants.",
+   "src": [
+    "gracecommons-updates"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Site Review approval; Boulder County Worthy Cause awards $150,000",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Building permit application submitted to the City of Boulder",
+   "src": [
+    "gracecommons-updates",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-05",
+   "event": "Church learns its 2023 CHFA tax credit application was denied",
+   "src": [
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report as Grace Commons Annex, requesting $1,160,637 a year",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report ($961,773 federal, $700,000 state)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2024-11-11",
+   "event": "Deconstruction of the existing building under way",
+   "src": [
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "date": "2024-12-31",
+   "event": "Financing closed, per the church",
+   "src": [
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "date": "2025-01",
+   "event": "Groundbreaking; construction starts",
+   "src": [
+    "gracecommons-updates",
+    "element-annex"
+   ]
+  },
+  {
+   "date": "2025-03-06",
+   "event": "Brothers Property Management announces it will manage the property",
+   "src": [
+    "brothers-annex"
+   ]
+  },
+  {
+   "date": "2025-11-20",
+   "event": "Topping-off: final steel beam installed",
+   "src": [
+    "gracecommons-updates"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Targeted completion and opening, per the church (not confirmed)",
+   "src": [
+    "gracecommons-updates"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior rendering of 1603 Walnut, plus café, event space and studio interiors",
+   "url": "https://cdn.prod.website-files.com/5ea728009d83428de2d8ea2d/64275ea36a10ec0e064bb778_BVP%20-%20March%2019%2C2023%20Renderings.pdf",
+   "kind": "rendering",
+   "made_by": "Coburn Partners, published by Grace Commons Church",
+   "note": "Exterior on PDF page 1; interiors on pages 2-6 (March 2023 set)",
+   "src": [
+    "gracecommons-renderings",
+    "gracecommons-updates"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The church's 2023 update says the building permit application was submitted in March 2023, while the CHFA narrative says April 2023.",
+   "src": [
+    "gracecommons-updates",
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the building opened in September 2026 as targeted; no certificate of occupancy or lease-up record was found.",
+  "Final amounts of City of Boulder and Division of Housing funds, and the lender and equity investor.",
+  "Land lease terms and the value of the contributed land.",
+  "Recorded CHFA affordability covenant term (the church said it would be permanent) and how the condominium split between housing and commercial space is structured.",
+  "Rents and whether any units carry project-based vouchers (the application mentions tenant-based vouchers via TGTHR)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Annex, Boulder)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (The Annex, PDF pages 43-48)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-ahtc-annual",
+   "title": "State Affordable Housing Tax Credit 2024 Annual Report (Annex listed on printed page 3 and page 8)",
+   "publisher": "CHFA",
+   "date": "2024-12-31",
+   "url": "https://chfainfo.com/getattachment/bd590043-b796-4005-8e5b-2ad9446f857f/2024StateAHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "gracecommons-updates",
+   "title": "Boulder Vision Project Updates (updates from 2023 through 2026-02-01)",
+   "publisher": "Grace Commons Church",
+   "date": "2026-02-01",
+   "url": "https://www.gracecommons.org/about/boulder-vision-project-updates"
+  },
+  {
+   "id": "gracecommons-renderings",
+   "title": "BVP - March 19, 2023 Renderings (1603 Walnut)",
+   "publisher": "Grace Commons Church",
+   "date": "2023-03-19",
+   "url": "https://cdn.prod.website-files.com/5ea728009d83428de2d8ea2d/64275ea36a10ec0e064bb778_BVP%20-%20March%2019%2C2023%20Renderings.pdf"
+  },
+  {
+   "id": "element-annex",
+   "title": "Grace Commons Annex project page",
+   "publisher": "Element Properties",
+   "date": "2026",
+   "url": "https://www.elementproperties.com/project/grace-commons-annex/"
+  },
+  {
+   "id": "brothers-annex",
+   "title": "Brothers Property Management to Oversee Grace Commons Annex, Expanding Affordable Housing in Boulder",
+   "publisher": "Brothers Redevelopment",
+   "date": "2025-03-06",
+   "url": "https://brothersredevelopment.org/grace-commons-annex-affordable-housing-boulder/"
+  },
+  {
+   "id": "coburn-annex",
+   "title": "Grace Commons project page",
+   "publisher": "Coburn Partners",
+   "date": "2026",
+   "url": "https://coburnpartners.com/project/grace-commons/"
+  }
+ ]
+}

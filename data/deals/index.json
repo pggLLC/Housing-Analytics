@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 61
+  "count": 74
  },
  "deals": [
   {
@@ -109,6 +109,23 @@
    }
   },
   {
+   "slug": "annex-boulder",
+   "name": "Annex (Grace Commons Annex)",
+   "city": "Boulder",
+   "county": "Boulder",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 30,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Annex"
+    ]
+   }
+  },
+  {
    "slug": "arapahoe-psh-aurora",
    "name": "Arapahoe PSH (now Wagoner on the Creek)",
    "city": "Aurora",
@@ -143,6 +160,23 @@
    }
   },
   {
+   "slug": "aster-place-battlement-mesa",
+   "name": "Aster Place",
+   "city": "Battlement Mesa (Parachute mailing address)",
+   "county": "Garfield",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 58,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Aster Place"
+    ]
+   }
+  },
+  {
    "slug": "atwood-commons-longmont",
    "name": "Atwood Commons",
    "city": "Longmont",
@@ -173,6 +207,23 @@
     "year": 2026,
     "names": [
      "Barth Hotel"
+    ]
+   }
+  },
+  {
+   "slug": "beeler-park-flats-denver",
+   "name": "Beeler Park Flats",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 64,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Beeler Park Flats"
     ]
    }
   },
@@ -327,6 +378,23 @@
     "year": 2026,
     "names": [
      "Crossroads at Divide"
+    ]
+   }
+  },
+  {
+   "slug": "current-grand-junction",
+   "name": "The Current",
+   "city": "Grand Junction",
+   "county": "Mesa",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 54,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Current"
     ]
    }
   },
@@ -501,6 +569,23 @@
    }
   },
   {
+   "slug": "grove-at-cottonwood-broomfield",
+   "name": "Grove at Cottonwood",
+   "city": "Broomfield",
+   "county": "Broomfield",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 40,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Grove at Cottonwood"
+    ]
+   }
+  },
+  {
    "slug": "grove-at-pinewood-aurora",
    "name": "The Grove at Pinewood",
    "city": "Aurora",
@@ -514,6 +599,23 @@
     "year": 2026,
     "names": [
      "Grove at Pinewood"
+    ]
+   }
+  },
+  {
+   "slug": "iliff-senior-apartments-denver",
+   "name": "Iliff Senior Apartments",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Iliff Senior Apartments"
     ]
    }
   },
@@ -533,6 +635,23 @@
      "Ives II",
      "Tax Credit Paired with 4% Ives II",
      "Ives II 4"
+    ]
+   }
+  },
+  {
+   "slug": "kappa-tower-iii-denver",
+   "name": "Kappa Tower III",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 30,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Kappa Tower III"
     ]
    }
   },
@@ -639,6 +758,23 @@
    }
   },
   {
+   "slug": "montview-flats-littleton",
+   "name": "Montview Flats",
+   "city": "Littleton",
+   "county": "Arapahoe",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Montview Flats"
+    ]
+   }
+  },
+  {
    "slug": "montview-heights-aurora",
    "name": "Montview Heights (Montview Heights Apartments)",
    "city": "Aurora",
@@ -741,6 +877,23 @@
    }
   },
   {
+   "slug": "range-view-saguache",
+   "name": "Range View",
+   "city": "Saguache",
+   "county": "Saguache",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 32,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Range View"
+    ]
+   }
+  },
+  {
    "slug": "ravenfield-brighton",
    "name": "Ravenfield",
    "city": "Brighton",
@@ -775,6 +928,23 @@
    }
   },
   {
+   "slug": "residences-at-delta-ii-delta",
+   "name": "Residences at Delta II",
+   "city": "Delta",
+   "county": "Delta",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Residences at Delta II"
+    ]
+   }
+  },
+  {
    "slug": "rita-bass-apartments-denver",
    "name": "Rita Bass Apartments (now marketed as The Ford Apartments)",
    "city": "Denver",
@@ -788,6 +958,23 @@
     "year": 2025,
     "names": [
      "Rita Bass Apartments"
+    ]
+   }
+  },
+  {
+   "slug": "sanctuary-on-potomac-aurora",
+   "name": "Sanctuary on Potomac",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 43,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Sanctuary on Potomac"
     ]
    }
   },
@@ -856,6 +1043,23 @@
     "year": 2025,
     "names": [
      "Sugar Commons"
+    ]
+   }
+  },
+  {
+   "slug": "sunrise-at-shiloh-mesa-colorado-springs",
+   "name": "Sunrise at Shiloh Mesa",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2024 Federal 9% and state housing tax credits (Round One)",
+   "year": 2024,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Sunrise at Shiloh Mesa"
     ]
    }
   },
@@ -992,6 +1196,24 @@
     "year": 2025,
     "names": [
      "Village on Eastbrook"
+    ]
+   }
+  },
+  {
+   "slug": "vina-senior-residences-denver",
+   "name": "Viña Senior Residences",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2024 Federal 9% (Round One) and 4% housing tax credits (paired)",
+   "year": 2024,
+   "units": 152,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2024,
+    "names": [
+     "Viña Senior Residences",
+     "Vina Senior Residences"
     ]
    }
   },

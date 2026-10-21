@@ -1,0 +1,609 @@
+{
+ "slug": "vina-senior-residences-denver",
+ "name": "Viña Senior Residences",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 9% (Round One) and 4% housing tax credits (paired)",
+ "units": 152,
+ "researched_on": "2026-10-21",
+ "headline": "Columbia Ventures is building Viña Senior Residences, a six-story, 152-unit building for seniors 62 and older at 30% to 60% AMI, with an 8,000 sq ft senior center on the ground floor, at 2150 E. 49th Ave. in Denver's Elyria-Swansea neighborhood. It is financed by a 50-unit 9% award from CHFA's 2024 Round One and a 102-unit 4% bond award, and Denver issued its building permit in August 2025.",
+ "why_it_matters": "It is a 'twinned' 9% and 4% deal in one building split into two condominiums, with CHFA as bond issuer and volume cap provider, Denver linkage fee loans on both sides and a Denver Housing Authority partnership for the property tax exemption.",
+ "status": {
+  "label": "Under construction: Denver building permit issued 2025-08-07; placed in service targeted Q2 2027",
+  "detail": "Denver's permit data show a foundation and excavation permit issued 2025-07-08 and a new-building permit for 152 units (valuation $20,219,551, contractor I-Kota) issued 2025-08-07, plus a further permit issued 2026-03-06. Denver City Council approved both city loans on 2025-06-16. Columbia Ventures targets placed in service in Q2 2027; no certificate of occupancy was found.",
+  "src": [
+   "denver-permits-2150",
+   "denver-25-0811",
+   "denver-25-0812",
+   "cv-project-page"
+  ]
+ },
+ "next_step": "Watch Denver's permit data for a certificate of occupancy at 2150 E. 49th Ave. and CHFA's placed-in-service records for both condominiums.",
+ "key_numbers": [
+  {
+   "value": "152 senior homes: 50 under the 9% award, 102 under the 4% award",
+   "meaning": "One building split into two condominiums by vertical unit stacks; all units 30% to 60% AMI.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1,333,863 a year in federal 9% credit plus $1,840,510 a year in federal 4% credit",
+   "meaning": "About $31.7M in federal credit over 10 years (inferred from the annual amounts), plus $700,000 and $800,000 of state credit.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$20.64M in tax-exempt bonds",
+   "meaning": "CHFA is issuer and volume cap provider; the application gives $11.24M remaining as a permanent CHFA risk-share loan.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$5.83M in Denver loans, 60-year covenants",
+   "meaning": "$5,270,000 for the 4% side and $560,000 for the 9% side from Denver's linkage fee, approved 2025-06-16.",
+   "src": [
+    "denver-25-0811",
+    "denver-25-0812"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2150 E. 49th Avenue, Denver, CO 80216 (corner of 49th and Vine)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-4pct-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "S, N: senior/older adult, new construction (both pieces)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "9% piece (Round One)",
+   "value": "50 units, 50 low-income",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "4% piece (CHFA ledger name \"Vina Senior Residences\")",
+   "value": "102 units, 102 low-income; cycle year 2024; in a QCT, not a DDA; no Section 8 units listed",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Six stories: five stories of Type IIIA wood frame over a one-story concrete podium with parking; two elevators; elevated courtyard; rooftop PV; rooftop stormwater detention",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cv-project-page"
+   ]
+  },
+  {
+   "item": "Senior center",
+   "value": "8,000 sq ft community service facility on the ground floor, to be operated by Senior Housing Options",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cv-project-page"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities; electric heat pumps; Denver Green Ordinance compliance",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Census tract",
+   "value": "35.01 (QCT); zoned C-MX-8",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About a third of a mile from the 48th and Brighton / National Western Center RTD station; bus routes 44 and 48 one block away",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Resident perks",
+   "value": "Free Denver Parks and Recreation memberships and RTD EcoPasses; access to the Tepeyac Community Health Center at the adjacent Viña Apartments",
+   "src": [
+    "chfa-2024-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 11
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 26
+  },
+  {
+   "level": "60% AMI",
+   "units": 110
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 128
+  },
+  {
+   "type": "2BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-4pct-award",
+  "chfa-2024-r1-narratives",
+  "denver-25-0811",
+  "denver-25-0812"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,333,863 per year",
+   "note": "2024 Round One award for the 50-unit piece (request was $1,450,000), conditioned on the paired 4% award.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit (9% piece)",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,840,510 per year",
+   "note": "For the 102-unit piece; CHFA marks amounts subject to change.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado noncompetitive state credit (4% piece)",
+   "amount": "$800,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$20,640,000",
+   "note": "Issuer: CHFA, which also provides the volume cap. Cash-collateralized bonds during construction, then a CHFA risk-share tax-exempt permanent loan of $11,240,000 (PAIRABLE program), per the application.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Taxable construction loan (4% piece)",
+   "amount": "$22,867,880",
+   "note": "Per the application; Columbia Ventures lists US Bank among financial partners.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cv-project-page"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability loan (4% piece)",
+   "amount": "$5,270,000",
+   "note": "Linkage fee money; 360-month term; 60-year rental and occupancy covenant.",
+   "src": [
+    "denver-25-0811"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability loan (9% piece)",
+   "amount": "$560,000",
+   "note": "Linkage fee money; 360-month term; 60-year covenant; the loan agreement required closing by 2026-02-24.",
+   "src": [
+    "denver-25-0812"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Capital Magnet Fund subordinate loan, CHFA Housing Opportunity Fund",
+   "amount": "Not public",
+   "note": "Listed as gap sources in the application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Through a special limited partnership with the Denver Housing Authority.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "CV Colorado, LLC (Columbia Ventures)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-4pct-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Borrowers of the Denver loans",
+   "name": "CVCO 49th & Vine 4% Property Owner, LLP and CVCO 49th & Vine 9% Property Owner, LLP",
+   "src": [
+    "denver-25-0811",
+    "denver-25-0812"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Housing authority partner (property tax exemption)",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "cv-project-page"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "flow-project-page"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-Kota",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "denver-permits-2150"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Ware Malcomb",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Landscape architect",
+   "name": "Flow Design Collaborative",
+   "src": [
+    "flow-project-page"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Syringa Property Management",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Senior center operator",
+   "name": "Senior Housing Options",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Original land owner",
+   "name": "Urban Land Conservancy (acquired, remediated and rezoned the site)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "dbj-2023-03-31"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "How the pieces fit: one 152-unit building is split into two condominiums, mostly by vertical stacks of units. The competitive 9% award funds 50 units and the bond-backed 4% award funds 102; sharing the core, shell and infrastructure is the applicant's main cost-containment argument.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Master plan: it is phase two of the 6.2-acre 48th and Race site next to the National Western Center. Phase one, the 150-unit Viña Apartments with the Tepeyac clinic and retail, was completed in April 2022. Urban Land Conservancy bought, remediated and rezoned the land (with City Council hearings in 2015 and 2016 on a land acquisition loan and rezoning), and a Columbia Ventures subsidiary bought the phase two site in June 2023.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "dbj-2023-03-31"
+   ]
+  },
+  {
+   "text": "Community process: six community meetings in 2018 led to a Community Benefits Agreement, and Columbia Ventures holds quarterly community meetings; the January 2024 meeting covered the senior building. The developer plans to notify Elyria-Swansea residents of openings first and to extend local hiring.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The concept changed before the application: in March 2023 the developer described 150 to 180 units at 30% to 70% AMI, with groundbreaking targeted for Q3 2024 and completion in 2026; the 2024 application set 152 units at 30% to 60% AMI and a closing by May 2025.",
+   "src": [
+    "dbj-2023-03-31",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Denver's loans: City Council's housing committee approved both loan resolutions by consent on 2025-06-04 and full Council adopted them on 2025-06-16. Each requires a covenant recorded against the property for at least 60 years. The 4% side's restrictions are 6 units at 30% AMI (5 one-bedroom, 1 two-bedroom) and 96 at 60% AMI; the 9% side's are 5 at 30%, 5 at 40%, 26 at 50% and 14 at 60%.",
+   "src": [
+    "denver-25-0811",
+    "denver-25-0812"
+   ]
+  },
+  {
+   "text": "The market study flagged 40%, 50% and 60% AMI penetration rates above CHFA's preferred thresholds; the applicant answered with 98% occupancy and waitlists at comparable senior properties and a 17.4% overall capture rate. The Phase I reports found no recognized environmental conditions on or next to the parcel.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-04",
+   "event": "Phase one, Viña Apartments (150 units), completed",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-03-31",
+   "event": "Denver Business Journal reports a concept plan for a senior building at 2150 E. 49th Ave.",
+   "src": [
+    "dbj-2023-03-31"
+   ]
+  },
+  {
+   "date": "2023-06",
+   "event": "Columbia Ventures subsidiary buys the site from Urban Land Conservancy",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-12-13",
+   "event": "Listed on CHFA's 2024 Round One letters-of-intent report (sponsor shown as Columbia Ventures, LLC)",
+   "src": [
+    "chfa-2024-r1-loi"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (9% request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-05-30",
+   "event": "CHFA announces 2024 Round One awards, including the paired 4% award to this project",
+   "src": [
+    "chfa-2024-r1-news"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Date of CHFA's public 2024 Round One award report (9% award conditioned on the paired 4% award)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-02-18",
+   "event": "Foundation and excavation permit application received by Denver",
+   "src": [
+    "denver-permits-2150"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "New-building permit application received by Denver",
+   "src": [
+    "denver-permits-2150"
+   ]
+  },
+  {
+   "date": "2025-06-16",
+   "event": "Denver City Council adopts the $5.27M and $560,000 loan resolutions (25-0811 and 25-0812)",
+   "src": [
+    "denver-25-0811",
+    "denver-25-0812"
+   ]
+  },
+  {
+   "date": "2025-07-08",
+   "event": "Foundation and excavation permit issued",
+   "src": [
+    "denver-permits-2150"
+   ]
+  },
+  {
+   "date": "2025-08-07",
+   "event": "New-building permit issued (152 units, valuation $20,219,551, contractor I-Kota)",
+   "src": [
+    "denver-permits-2150"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed (cycle year 2024) on CHFA's Federal 4% award report",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027-Q2",
+   "event": "Columbia Ventures' target for placed in service",
+   "src": [
+    "cv-project-page"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Northeast and northwest renderings",
+   "url": "https://columbiaven.com/work/vina-senior-residences/",
+   "kind": "rendering",
+   "made_by": "Columbia Ventures",
+   "note": "Project page gallery, images labeled \"North East Rendering\" and \"North West Rendering\"",
+   "src": [
+    "cv-project-page"
+   ]
+  },
+  {
+   "title": "Model photos and amenity deck vignette",
+   "url": "https://flowdcla.com/project/vina-senior-apartments/",
+   "kind": "rendering",
+   "made_by": "Flow Design Collaborative",
+   "note": "Project page gallery",
+   "src": [
+    "flow-project-page"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Whether the 4% and 9% financings closed and on what date (the Denver 9% loan agreement set a closing deadline of 2026-02-24; no closing record was found).",
+  "Total development cost, equity investor and credit prices.",
+  "Amounts of the Division of Housing, Capital Magnet Fund and CHFA Housing Opportunity Fund money.",
+  "Land price paid to Urban Land Conservancy in June 2023.",
+  "Whether any units will receive project-based vouchers (CHFA's 4% report lists no Section 8 units)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-loi",
+   "title": "2024 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2023-12-13",
+   "url": "https://www.chfainfo.com/getattachment/893aae70-46ec-49b6-844c-c100904aaead/2024-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-news",
+   "title": "CHFA Announces 2024 Round One Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-05-30",
+   "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one"
+  },
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Viña Senior Residences, 4% and 9% narrative, PDF pages 113-117)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "denver-25-0811",
+   "title": "Denver City Council Resolution 25-0811: loan agreement with CVCO 49th & Vine 4% Property Owner, LLP ($5,270,000), with resolution request and loan agreement attachments",
+   "publisher": "City and County of Denver",
+   "date": "2025-06-16",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27437&GUID=128FCF99-182E-48E9-83C6-925A1FD6F95D"
+  },
+  {
+   "id": "denver-25-0812",
+   "title": "Denver City Council Resolution 25-0812: loan agreement with CVCO 49th & Vine 9% Property Owner, LLP ($560,000), with resolution request and loan agreement attachments",
+   "publisher": "City and County of Denver",
+   "date": "2025-06-16",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27438&GUID=C825C101-4182-4281-A38C-732FCF9057DC"
+  },
+  {
+   "id": "denver-permits-2150",
+   "title": "City and County of Denver open data, Commercial Construction Permits, query for 2150 E 49th Ave (queried 2026-10-21)",
+   "publisher": "City and County of Denver",
+   "date": "2026-10-21",
+   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%272150+E+49th%25%27&outFields=DATE_ISSUED%2CPERMIT_NUM%2CADDRESS%2CCLASS%2CUNITS%2CVALUATION%2CCONTRACTOR_NAME%2CDATE_RECEIVED&returnGeometry=false&f=html"
+  },
+  {
+   "id": "cv-project-page",
+   "title": "Viña Senior Residences (project page)",
+   "publisher": "Columbia Ventures",
+   "date": "2024-11-14",
+   "url": "https://columbiaven.com/work/vina-senior-residences/"
+  },
+  {
+   "id": "dbj-2023-03-31",
+   "title": "Senior affordable housing proposed as next phase of Denver development (Denver Business Journal story, reposted by Columbia Ventures)",
+   "publisher": "Denver Business Journal via Columbia Ventures",
+   "date": "2023-03-31",
+   "url": "https://columbiaven.com/senior-affordable-housing-proposed-as-next-phase-of-denver-development/"
+  },
+  {
+   "id": "flow-project-page",
+   "title": "Viña Senior Apartments (landscape architect project page)",
+   "publisher": "Flow Design Collaborative",
+   "date": "2026",
+   "url": "https://flowdcla.com/project/vina-senior-apartments/"
+  }
+ ]
+}

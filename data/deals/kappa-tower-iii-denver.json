@@ -1,0 +1,482 @@
+{
+ "slug": "kappa-tower-iii-denver",
+ "name": "Kappa Tower III",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 30,
+ "researched_on": "2026-10-21",
+ "headline": "Kappa Housing Inc., a nonprofit founded by members of the Kappa Alpha Psi fraternity, built Kappa Tower III, a 30-unit building for seniors 62 and older at 30% to 50% AMI next to its Kappa Tower II in Denver's Central Park neighborhood, with a 2024 Round One 9% and state credit award from CHFA.",
+ "why_it_matters": "It shows how a small nonprofit used its own already-improved land and a second-phase site next to an existing building to win a 9% award for a 30-unit deeply affordable senior project, after losing in 2023, and reached a grand opening about two years after the award.",
+ "status": {
+  "label": "Grand opening held 2026-07-16, per the architect; lease-up not confirmed",
+  "detail": "Front Porch reported a groundbreaking in late September 2025. Denver announced City Council approval of a $1,050,000 loan on 2026-06-17. The architect, KEPHART, posted on 2026-07-24 that the grand opening was held on July 16 (the year 2026 is inferred from the post date). No public record of a certificate of occupancy or occupancy level was found.",
+  "src": [
+   "frontporch-2025-11",
+   "denver-host-2026-06-17",
+   "kephart-2026-07-24"
+  ]
+ },
+ "next_step": "Watch for a CHFA placed-in-service record or 8609 and a property listing showing occupancy at the 9095 E. 48th Ave. address.",
+ "key_numbers": [
+  {
+   "value": "30 senior homes: 18 one-bedroom, 12 two-bedroom",
+   "meaning": "All income-restricted for seniors 62+: 9 at 30% AMI, 9 at 40% AMI and 12 at 50% AMI.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$941,084 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $9.4M in federal credit over 10 years (inferred). The applicant had requested $1,168,378 a year.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "value": "$1,050,000 City of Denver loan with a 60-year covenant",
+   "meaning": "Approved by Denver City Council, per the Department of Housing Stability's 2026-06-17 announcement.",
+   "src": [
+    "denver-host-2026-06-17"
+   ]
+  },
+  {
+   "value": "Land at no cost",
+   "meaning": "Built on part of the existing Kappa Tower II site, which already had paving, parking, curb and gutter and utilities.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions",
+    "denver-host-2026-06-17"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (as CHFA's award report prints it)",
+   "value": "9063 Northfield Boulevard, Denver",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Address (as Denver's loan announcement gives it)",
+   "value": "9095 East 48th Avenue, Denver (Central Park Blvd. and E. 48th Ave., per Front Porch)",
+   "src": [
+    "denver-host-2026-06-17",
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Senior/older adult, new construction; 30 units, 30 low-income",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Zoning and census tract",
+   "value": "Zoned M-IMX-5 (multifamily use by right); the applicant says the site is in a Qualified Census Tract",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, all-electric, wood frame on a concrete slab, one elevator; about 10,815 sq ft of common area; a walkway connects it to Kappa Tower II and residents share amenities in both buildings",
+   "src": [
+    "denver-host-2026-06-17",
+    "chfa-2024-r1-narratives",
+    "kephart-2026-07-24"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Applicant planned 2020 Enterprise Green Communities and Zero Energy Ready Homes certification, high-efficiency heat pump space and water heating, and 45L credits",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Utilities",
+   "value": "Owner pays all utilities, per the application narrative",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus stop at the northeast corner of the site with service to Central Park Station; Runway 35 park half a block west; Shops at Northfield nearby",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Kappa Tower II's resident services coordinator; partners named by CHFA include the Center for African American Health, Denver Health, Volunteers of America, WellPower, Mobile Physicians Network and the Alzheimer's Association",
+   "src": [
+    "chfa-2024-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "40% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$941,084 per year",
+   "note": "2024 Round One award; the application requested $1,168,378.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Tax credit equity (as projected in the application)",
+   "amount": "$9,931,212",
+   "note": "Based on the requested $1,168,378 credit, not the smaller award; about $0.85 per federal credit dollar (inferred).",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan",
+   "amount": "$1,050,000",
+   "note": "Approved by City Council (announced 2026-06-17); 60-year covenant at 30% to 50% AMI. The narrative also refers to it as a $1.1M soft loan from Denver's Revolving Affordable Housing Loan Fund.",
+   "src": [
+    "denver-host-2026-06-17",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$1,050,000 (as projected)",
+   "note": "The narrative calls it a $1.050M loan in one place and a $1.1M grant in another; no Division of Housing record was found.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA first mortgage (risk share)",
+   "amount": "$1,000,000 (as projected)",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Sponsor loan from Kappa Housing",
+   "amount": "$600,000 (as projected)",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Donated land",
+   "amount": "Not public",
+   "note": "Part of the Kappa Tower II site, at no cost.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions",
+    "denver-host-2026-06-17"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Kappa Housing Inc (owner and co-developer; a 501(c)(3) nonprofit founded by members of Kappa Alpha Psi Fraternity, which opened Kappa Tower I in 1984 and Kappa Tower II in 2021)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "Medici Consulting Group",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (as named in the application)",
+   "name": "Alliance Construction",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (as named in the application)",
+   "name": "Silva Markum Partners",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect (both phases, per its own post)",
+   "name": "KEPHART",
+   "src": [
+    "kephart-2026-07-24"
+   ]
+  },
+  {
+   "role": "Soft lender",
+   "name": "City and County of Denver, Department of Housing Stability",
+   "src": [
+    "denver-host-2026-06-17"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Kappa Tower III is the second phase on the Kappa Tower II site. Kappa Tower II, a 70-unit senior building for 30% to 60% AMI, was completed in 2021; Denver says it was the first age- and income-restricted housing added to the Central Park area since 2003.",
+   "src": [
+    "denver-host-2026-06-17",
+    "kephart-2026-07-24",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The project applied in 2023 and did not win: CHFA's 2023 Round One letter-of-intent report lists Kappa Tower III (30 units) with a $1,300,000 request. The 2024 narrative says the plans had not changed and that the contractor kept cost increases small.",
+   "src": [
+    "chfa-2023-r1-loi",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The award was smaller than the request: $941,084 against $1,168,378 requested in the 2024 applicant report.",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "text": "Readiness as stated in the application: use-by-right zoning, a pre-application meeting held with the city, about six months of construction documents and seven months of permitting, and construction start in the second quarter of 2025. Front Porch reported the groundbreaking in late September 2025.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "text": "The market study in the application gave a capture rate of 23.4% for existing projects, rising to 25.3% with these 30 units, and forecast lease-up within two months. The environmental report found no concerns.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Accessibility: the applicant planned ADA-accessible tubs in this phase at residents' request, and Denver says the units include features for residents with disabilities who need help with daily living.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "denver-host-2026-06-17"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021",
+   "event": "Kappa Tower II (phase one, 70 units) completed next door",
+   "src": [
+    "denver-host-2026-06-17",
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "date": "2022-12-08",
+   "event": "Listed on CHFA's 2023 Round One letters-of-intent report ($1,300,000 request); not awarded in 2023",
+   "src": [
+    "chfa-2023-r1-loi",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (federal 9% request $1,168,378)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report (as-of date printed on the report)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-09",
+   "event": "Groundbreaking ceremony (late September), per Front Porch",
+   "src": [
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "date": "2026-06-17",
+   "event": "Denver announces City Council approval of a $1,050,000 loan agreement",
+   "src": [
+    "denver-host-2026-06-17"
+   ]
+  },
+  {
+   "date": "2026-07-16",
+   "event": "Grand opening, per KEPHART (year inferred from the 2026-07-24 post date)",
+   "src": [
+    "kephart-2026-07-24"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photo",
+   "url": "https://frontporchne.com/ne-news-updates-nov25/",
+   "kind": "photo",
+   "made_by": "Front Porch",
+   "note": "Item 1 of the November 2025 NE News Updates",
+   "src": [
+    "frontporch-2025-11"
+   ]
+  },
+  {
+   "title": "Project images, Kappa Tower III",
+   "url": "https://kephart.com/project-update-kappa-tower-iii/",
+   "kind": "photo",
+   "made_by": "KEPHART",
+   "note": "Images on the architect's project update page; whether each is a photo or a rendering was not checked",
+   "src": [
+    "kephart-2026-07-24"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award and applicant reports give the address as 9063 Northfield Boulevard, the application narrative and CHFA's 2023 letter-of-intent report give 9020 Northfield Blvd. (Kappa Tower II's address), and Denver's loan announcement gives 9095 East 48th Avenue.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-narratives",
+    "chfa-2023-r1-loi",
+    "denver-host-2026-06-17"
+   ]
+  },
+  {
+   "text": "KEPHART describes Kappa Tower III as serving seniors at 30% to 60% AMI, while CHFA's award description and Denver's loan announcement put all units at 30% to 50% AMI.",
+   "src": [
+    "kephart-2026-07-24",
+    "chfa-2024-r1-descriptions",
+    "denver-host-2026-06-17"
+   ]
+  },
+  {
+   "text": "The application narrative says the land is donated by Forest City, while CHFA's award description says the sponsor is providing the land at no cost and Denver says the building uses part of the Kappa Tower II site.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions",
+    "denver-host-2026-06-17"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the building is leased up, and when it was placed in service.",
+  "Why Denver's loan approval was announced in June 2026, about nine months after groundbreaking and a month before the grand opening (for example, whether the loan funds at completion).",
+  "Final amounts of the Division of Housing award, CHFA loan and sponsor loan, and how the financing gap from the smaller-than-requested credit award was filled.",
+  "Total development cost, equity investor and credit price.",
+  "Who holds title to the land and on what terms (ground lease or transfer from the Kappa Tower II owner).",
+  "The term of the CHFA affordability covenant (Denver's covenant is 60 years)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Kappa Tower III)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Kappa Tower III, PDF pages 59-62)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-loi",
+   "title": "LIHTC Letters of Intent, 2023 Round 1, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2022-12-08",
+   "url": "https://www.chfainfo.com/getattachment/dbf61afd-d40d-4c59-bb1b-a891b4b66e53/2023-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "denver-host-2026-06-17",
+   "title": "Denver Approves $1,050,000 Loan to Support Affordable Senior Housing",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2026-06-17",
+   "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Denver-Approves-1050000-Loan-to-Support-Development-of-30-Income%E2%80%91Restricted-Senior-Housing-Units-in-Central-Park"
+  },
+  {
+   "id": "frontporch-2025-11",
+   "title": "...NE News Updates (November 2025): New Affordable Housing in NE Denver",
+   "publisher": "Front Porch",
+   "date": "2025-11-01",
+   "url": "https://frontporchne.com/ne-news-updates-nov25/"
+  },
+  {
+   "id": "kephart-2026-07-24",
+   "title": "Project Update: Kappa Tower III",
+   "publisher": "KEPHART",
+   "date": "2026-07-24",
+   "url": "https://kephart.com/project-update-kappa-tower-iii/"
+  }
+ ]
+}
