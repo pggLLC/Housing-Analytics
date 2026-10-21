@@ -69,6 +69,8 @@ ok(ids({ level: 'hm', region: 'Front Range' }) === 'h1,m1', 'a region shows only
 ok(ids({ level: 'all', region: 'all' }) === 'h1,h2,m1,w1', 'All shows Watch too');
 const byRegion = RW.sortItems(R, 'region', 'asc').map((i) => i.id).join(',');
 ok(byRegion === 'h2,h1,m1,w1', 'sorting by region runs west to east and keeps likelihood order inside a region');
+const byRegionDesc = RW.sortItems(R, 'region', 'desc').map((i) => i.id).join(',');
+ok(byRegionDesc === 'h1,m1,w1,h2', 'reversing the region sort keeps High first inside each region');
 const g = RW.townsFor(R);
 ok(g.towns.length === 2 && g.unmapped.length === 1 && g.unmapped[0].id === 'w1', 'deals share their town\'s pin; a deal with no town is named apart');
 const denver = g.towns.find((t) => t.name === 'Denver');

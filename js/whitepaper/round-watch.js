@@ -72,7 +72,8 @@
     band: function (i) { return BAND_RANK[i.band] * 1000 - i.score; },
     name: function (i) { return String(i.name).toLowerCase(); },
     town: function (i) { return String(i.city || '~').toLowerCase(); },
-    region: function (i) { return (i.region ? REGIONS.indexOf(i.region) : 99) * 10000 + BAND_RANK[i.band] * 1000 - i.score; },
+    // region only; likelihood order inside a region comes from THEN below
+    region: function (i) { return i.region ? REGIONS.indexOf(i.region) : 99; },
     homes: function (i) { return i.homes == null ? null : i.homes; },
     sponsor: function (i) { return String(i.sponsor || (i.award_orgs || [])[0] || '~').toLowerCase(); },
     // by the name the column shows (person, else organisation)
@@ -180,6 +181,9 @@
     return [head].concat(rows).map(function (r) { return r.map(csvCell).join(','); }).join('\r\n') + '\r\n';
   }
 
+  // tie-breakers that keep their own direction whichever way the column runs
+  var THEN = { region: SORTS.band };
+
   function sortItems(items, key, dir) {
     var f = SORTS[key] || SORTS.band;
     var d = dir === 'desc' ? -1 : 1;
@@ -189,6 +193,8 @@
       if ((x == null) !== (y == null)) return x == null ? 1 : -1;
       if (x < y) return -d;
       if (x > y) return d;
+      var t = THEN[key];
+      if (t && t(a) !== t(b)) return t(a) < t(b) ? -1 : 1;
       return String(a.name).localeCompare(String(b.name));
     });
   }
@@ -494,8 +500,9 @@
   function mount(doc, data, contacts, cal) {
     var el = doc.getElementById('roundWatch');
     if (!el) return;
-    var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', fresh: 'all', open: {}, asOf: data.meta.generated_at };
     var today = localDate(new Date());
+    // tags age by the viewer's date: a quiet week of rebuilds keeps generated_at fixed
+    var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', fresh: 'all', open: {}, asOf: today };
     doc.getElementById('rwStats').innerHTML = statsHtml(data);
     doc.getElementById('rwBacktest').innerHTML = backtestHtml(data.backtest);
     doc.getElementById('rwRolling').innerHTML = rollingHtml(data.rolling_4pct || []);
