@@ -353,9 +353,10 @@
     var OUTCOME = { awarded: 'Awarded', not_awarded: 'Not funded', pending: 'Awaiting CHFA', in_review: 'Awaiting CHFA', unresolved: 'Unclear on the award report' };
     var picks = bt.rounds.filter(function (r) { return (r.picks || []).length; }).map(function (r) {
       return '<h4>' + esc(r.round) + ' (' + esc(r.credit) + ')</h4><ul class="rw-picks">' + r.picks.map(function (p) {
-        var u = safeUrl(p.source_url);
+        var u = safeUrl(p.source_url), dec = safeUrl(p.decision_url);
         return '<li class="rw-' + esc(String(p.band).toLowerCase()) + '"><span class="rw-band">' + esc(p.band) + '</span> ' + esc(p.name) +
           (p.city ? ' <span class="rw-muted">' + esc(p.city) + '</span>' : '') + ': <strong>' + esc(OUTCOME[p.outcome] || String(p.outcome).replace(/_/g, ' ')) + '</strong>' +
+          (dec ? ' · <a href="' + esc(dec) + '" target="_blank" rel="noopener">award report</a>' : '') +
           (u ? ' · <a href="' + esc(u) + '" target="_blank" rel="noopener">applicant report</a>' : '') + '</li>';
       }).join('') + '</ul>';
     }).join('');
@@ -528,9 +529,9 @@
       }
       if (controls) controls.innerHTML = controlsHtml(data, state) + datesHtml(r, cal, today);
       if (refocus && controls.querySelector(refocus)) controls.querySelector(refocus).focus();
-      var fresh = r.items.filter(function (i) { return freshTag(i, state.asOf); }).length;
+      var fresh = shown.filter(function (i) { return freshTag(i, state.asOf); }).length;
       var summary = summaryText(shown, r.items.length, state) + ' ' +
-        (fresh ? fresh + ' new or moved in the last ' + FRESH_DAYS + ' days.'
+        (fresh ? fresh + ' of these new or moved in the last ' + FRESH_DAYS + ' days.'
           : 'None new or moved in the last ' + FRESH_DAYS + ' days (tracked since ' + fmtDate(data.meta.tracking_since || state.asOf) + ').');
       // a polite live region outside the redrawn list, so a screen reader hears each filter's result
       if (count) count.textContent = summary;

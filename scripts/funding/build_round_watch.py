@@ -282,6 +282,14 @@ def backtest(D):
                 round_apps.setdefault(a['_entity'], a)
         applied = set(round_apps)
         awarded = {k for k, a in round_apps.items() if a['outcome'] == 'awarded'}
+        # the round's award report: the evidence for a decision either way (no report yet while CHFA decides)
+        award_report = next((round_apps[k]['award']['source_url'] for k in sorted(awarded)
+                             if (round_apps[k].get('award') or {}).get('source_url')), None)
+
+        def decision_url(a):
+            if a['outcome'] == 'awarded':
+                return (a.get('award') or {}).get('source_url') or award_report
+            return award_report if a['outcome'] == 'not_awarded' else None
         undecided = sum(1 for a in round_apps.values() if a['outcome'] in UNDECIDED)
         for key, v in scored.items():
             for s in v['signals']:
@@ -293,7 +301,8 @@ def backtest(D):
                      'awarded': sum(1 for k, v in listed.items() if v['band'] == b and k in awarded)} for b, _ in BANDS}
         # each listed deal that applied, with its outcome in that round, strongest first
         picks = sorted(({'name': round_apps[k]['name'], 'city': round_apps[k].get('city'), 'band': v['band'],
-                         'outcome': round_apps[k]['outcome'], 'source_url': round_apps[k]['source_url']}
+                         'outcome': round_apps[k]['outcome'], 'source_url': round_apps[k]['source_url'],
+                         'decision_url': decision_url(round_apps[k])}
                         for k, v in listed.items() if k in applied),
                        key=lambda p: ([b for b, _ in BANDS].index(p['band']), p['name'].lower()))
         rounds.append({'round': label(target), 'credit': ROUND_CREDIT[target[1]], 'as_of': cutoff,

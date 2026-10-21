@@ -121,10 +121,13 @@ def test_backtest_counts_who_was_awarded():
     a, l, e = base()
     a['applications'] += [app('Came Back', 'Longmont', 2025, 1, 'not_awarded'), app('Came Back', 'Longmont', 2026, 1, 'awarded'),
                           app('Tried Again', 'Lyons', 2025, 1, 'not_awarded'), app('Tried Again', 'Lyons', 2026, 1, 'not_awarded')]
+    a['applications'][-3]['award'] = {'source_url': 'https://example.com/award-2026.pdf'}
     r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
     assert r['bands']['High'] == {'listed': 2, 'applied': 2, 'awarded': 1}
     assert {(p['name'], p['outcome']) for p in r['picks']} == {('Came Back', 'awarded'), ('Tried Again', 'not_awarded')}
     assert r['undecided'] == 0 and r['awarded'] == 2   # Came Back and the filler
+    # both decisions link to the round's award report, not the applicant report
+    assert {p['decision_url'] for p in r['picks']} == {'https://example.com/award-2026.pdf'}
 
 
 def test_awarded_and_undecided_leave_the_list():

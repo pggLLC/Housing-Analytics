@@ -127,7 +127,7 @@ ok(stats.includes('3 rounds tested'), 'the stats count the rounds the backtest r
 const bt2 = { bands: { High: { listed: 4, applied: 3, awarded: 1 } }, caught: 5, applicants: 10, below_list: 1, no_sign_before: 4, signals: {},
   rounds: [{ round: '2026 Round One', credit: '9%', applicants: 10, caught: 5, awarded: 4, undecided: 0,
              bands: { High: { listed: 2, applied: 2, awarded: 1 }, Medium: { listed: 1, applied: 0, awarded: 0 }, Watch: { listed: 1, applied: 0, awarded: 0 } },
-             picks: [{ name: '<P>', band: 'High', outcome: 'awarded', source_url: 'https://example.com/r.pdf' }, { name: 'Q', band: 'High', outcome: 'not_awarded' }] },
+             picks: [{ name: '<P>', band: 'High', outcome: 'awarded', source_url: 'https://example.com/r.pdf', decision_url: 'https://example.com/award.pdf' }, { name: 'Q', band: 'High', outcome: 'not_awarded' }] },
            { round: '2026 Round Two', credit: '4%', applicants: 3, caught: 1, awarded: 0, undecided: 3,
              bands: { High: { listed: 2, applied: 1, awarded: 0 }, Medium: { listed: 0, applied: 0, awarded: 0 }, Watch: { listed: 0, applied: 0, awarded: 0 } },
              picks: [{ name: 'R', band: 'High', outcome: 'pending' }] }] };
@@ -135,6 +135,7 @@ const bth = RW.backtestHtml(bt2);
 ok(bth.includes('2 of 2 applied') && bth.includes('1 awarded') && bth.includes('awards not yet announced'), 'the backtest shows who was awarded, and says when CHFA has not decided');
 ok(bth.includes('&lt;P&gt;: <strong>Awarded</strong>') && bth.includes('Q: <strong>Not funded</strong>') && bth.includes('R: <strong>Awaiting CHFA</strong>'),
   'each listed deal that applied shows what CHFA decided');
+ok(bth.includes('href="https://example.com/award.pdf" target="_blank" rel="noopener">award report</a>'), 'a decision links to the award report');
 const st2 = RW.statsHtml({ rounds: [{ round: 'R', credit: '9%', applications_due: 'February', counts: { High: 1 }, undecided_last_round: 0 }], backtest: bt2 });
 ok(st2.includes('1 were awarded credit and 1 await CHFA'), 'the headline counts awarded High picks and those still waiting');
 ok(stats.includes('5 of 10') && stats.includes('1 had a weaker sign and 4 showed no sign we score'), 'the stats split weak signs from no sign');
