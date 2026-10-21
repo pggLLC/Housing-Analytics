@@ -741,7 +741,9 @@
         scenarioId: 'band',
         bandEdge: key,
         data: band.map(b => (b ? Math.round(b[key]) : null)),
-        borderColor: resolved.band.border,
+        // No edge line: the range is its shading, and its legend key the same
+        // shade, apart from SDO's line in the same colour.
+        borderColor: resolved.band.bg,
         backgroundColor: resolved.band.bg,
         borderWidth: 0,
         pointRadius: 0,
@@ -785,8 +787,19 @@
         plugins: {
           legend: {
             position: 'top',
-            // One legend entry for the range: its high edge.
-            labels: { filter: (item, data) => data.datasets[item.datasetIndex].bandEdge !== 'low' },
+            // One legend entry for the range: its high edge. Lines show as
+            // lines and the range as a shaded square, so SDO's line and the
+            // range around it, in one colour, still read as two keys.
+            labels: {
+              usePointStyle: true,
+              // With point styles Chart.js takes a key's style from a point,
+              // which has no dash; the dash comes from the line itself.
+              generateLabels: (chart) => Chart.defaults.plugins.legend.labels.generateLabels(chart).map((item) => {
+                const ds = chart.data.datasets[item.datasetIndex];
+                return Object.assign(item, { pointStyle: ds.bandEdge ? 'rect' : 'line', lineDash: ds.borderDash || [] });
+              }),
+              filter: (item, data) => data.datasets[item.datasetIndex].bandEdge !== 'low',
+            },
           },
           tooltip: {
             callbacks: {
