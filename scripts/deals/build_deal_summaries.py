@@ -171,7 +171,7 @@ MATCH = {
     'meadowmark-castle-rock': {'agency': 'CHFA', 'year': 2022, 'names': ['Meadowmark']},
     'overlook-at-thornton-thornton': {'agency': 'CHFA', 'year': 2022, 'names': ['Overlook at Thornton']},
     'residences-at-durango-durango': {'agency': 'CHFA', 'year': 2022, 'names': ['Residences at Durango']},
-    'retreat-at-brighton-ridge-homes-brighton': {'agency': 'CHFA', 'year': 2022, 'names': ['Retreat at Brighton Ridge Homes']},
+    'retreat-at-brighton-ridge-homes-brighton': {'agency': 'CHFA', 'year': 2022, 'names': ['Retreat at Brighton Ridge Homes', 'Retreat at Brighton Ridge']},
     'sable-station-aurora': {'agency': 'CHFA', 'year': 2022, 'names': ['Sable Station']},
     'spine-road-apartments-boulder': {'agency': 'CHFA', 'year': 2022, 'names': ['Spine Road Apartments']},
 }
