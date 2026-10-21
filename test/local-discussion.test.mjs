@@ -78,6 +78,8 @@ const junkHtml = L.render({ geoid: '0899999', name: 'Testville', result: junk, w
 ok(L.keyNumbers(junk)[0].big === 'Not counted' && !/quiet/.test(L.meaning(junk)), 'a malformed 90-day count is unknown in both places');
 ok(L.keyNumbers(junk)[2].big === 'Steady' && !/moving toward/.test(L.meaning(junk)), 'a rising word without both shares is not shown');
 ok(/document count not available/.test(junkHtml) && !/0 documents on file/.test(junkHtml), 'a missing document count is not zero');
+const skew = JSON.parse(JSON.stringify(result)); delete skew.lexicon.flags[0].from;
+ok(!/from %|rose from|fell from/.test(L.render({ geoid: '0899999', name: 'Testville', result: skew, watched: true, watchState: 'ok', links: [] })), 'a shift missing a share is left out');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.

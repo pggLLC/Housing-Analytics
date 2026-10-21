@@ -31,9 +31,9 @@
   var RULE = 'A shift is a word whose share of housing words moves 10 points or more against the past 4 quarters, with at least 20 words in each; or a word used for the first time in an adopted ordinance, resolution or plan.';
   // Counts from the backend become plain numbers before they reach the page.
   // A count the backend did not supply (absent, null or not a number) is unknown, never zero.
-  function has(v) { return v != null && v !== '' && isFinite(Number(v)); }
+  function has(v) { return typeof v === 'number' && Number.isFinite(v); }
   function rising(n) { var w = n && n.rising; return w && w.term && has(w.from) && has(w.to) ? w : null; }
-  function num(v) { var n = Number(v); return isFinite(n) && n >= 0 ? Math.round(n) : 0; }
+  function num(v) { return has(v) && v >= 0 ? Math.round(v) : 0; }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function link(url, text) {
     return /^https:\/\//.test(url || '') ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(text) + '</a>' : esc(text);
@@ -93,11 +93,13 @@
   }
 
   function flags(list) {
-    if (!list || !list.length) return '<p class="ib-muted">No shift yet. ' + RULE + '</p>';
+    // A shift without both shares makes no claim, so it is left out.
+    list = (list || []).filter(function (f) { return f && (f.kind === 'first' || (has(f.from) && has(f.to))); });
+    if (!list.length) return '<p class="ib-muted">No shift yet. ' + RULE + '</p>';
     return '<p class="ib-muted">' + RULE + '</p><ul class="ld-list">' + list.map(function (f) {
       var head = f.kind === 'first'
         ? '“' + esc(f.term) + '” first appears in an adopted item (' + esc(f.quarter) + ')'
-        : '“' + esc(f.term) + '” ' + (f.to > f.from ? 'rose' : 'fell') + ' from ' + esc(f.from) + '% to ' + esc(f.to) + '% of housing words (' + esc(f.quarter) + ')';
+        : '“' + esc(f.term) + '” ' + (f.to > f.from ? 'rose' : 'fell') + ' from ' + num(f.from) + '% to ' + num(f.to) + '% of housing words (' + esc(f.quarter) + ')';
       return '<li><strong>' + head + '</strong>' + (f.before ? '<br>Before:' + quote(f.before) : '') + (f.after ? (f.before ? 'After:' : '') + quote(f.after) : '') + '</li>';
     }).join('') + '</ul>';
   }
