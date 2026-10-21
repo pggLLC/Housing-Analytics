@@ -69,6 +69,8 @@
     Object.keys(mix || {}).forEach(function (k) { var n = Number(k); if (k !== 'market' && isFinite(n) && n > 0 && out.indexOf(n) === -1) out.push(n); });
     return out.sort(function (a, b) { return a - b; });
   }
+  // 5.B.4 points only for the general partner the line names.
+  var SPONSOR_LINES = { '5B4a-nonprofit': ['nonprofit', 'pha'], '5B4b-pha': ['pha'] };
   var SPLIT_BR = ['studio', '1br', '2br', '3br', '4br'];
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
@@ -191,6 +193,8 @@
         line.possible = null;
         if (v != null && v > 0) { line.points = v; line.status = 'counted'; line.note = 'Points entered from CHFA\'s tier list.'; }
         else line.status = 'needs entry';
+      } else if (claims[l.id] && SPONSOR_LINES[l.id] && deal.sponsor && SPONSOR_LINES[l.id].indexOf(deal.sponsor) === -1) {
+        line.status = 'excluded'; line.note = 'Claimed, but the general partner is set to ' + deal.sponsor + '. Change the general partner or remove the claim.';
       } else if (claims[l.id]) { line.points = l.points; line.status = 'counted'; }
       else line.status = 'not claimed';
       lines.push(line);
@@ -788,19 +792,20 @@
     $('sr-file').addEventListener('change', function (ev) {
       var files = Array.prototype.slice.call(ev.target.files || []);
       files.forEach(function (file) {
+        var started = state.version;
         if (/\.json$/i.test(file.name)) {
           file.text().then(function (t) {
+            if (state.version !== started) { flash(file.name + ' was not imported: another deal or version was opened while it was read. Add it again.'); return; }
             var snap; try { snap = JSON.parse(t); } catch (e) { snap = null; }
             var c = fromCalculatorExport(snap);
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
-            var v = state.version;
+            var v = started;
             v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: c.nine, election: c.election, mix: Object.assign({}, c.mix), stale: false };
             v.engine = c.engine; v.deal.mix = c.mix; v.deal.election = c.election;
             if (!c.nine) flash('This export is set to 4%. The score is for a 9% Round One application.');
             writeForm(); state.stress = null; draw();
           });
         } else {
-          var started = state.version;
           file.arrayBuffer().then(function (buf) { return crypto.subtle.digest('SHA-256', buf); }).then(function (h) {
             if (state.version !== started) { flash(file.name + ' was not recorded: another deal or version was opened while it was read. Add it again.'); return; }
             var hex = Array.prototype.map.call(new Uint8Array(h), function (x) { return x.toString(16).padStart(2, '0'); }).join('');
@@ -842,7 +847,9 @@
     }
     function refreshVersions() {
       if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; return Promise.resolve(); }
-      return store.versions(state.deal).then(function (res) {
+      var deal = state.deal;
+      return store.versions(deal).then(function (res) {
+        if (state.deal !== deal) return; // another deal was picked while this loaded
         state.versions = res.versions; state.hidden = res.hidden || []; state.baseline = res.baseline || '';
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
@@ -860,12 +867,13 @@
       });
     }
     function getVersion(v) {
-      if (state.cache[v]) return Promise.resolve(state.cache[v]);
-      return store.get(state.deal, v).then(function (rec) {
-        if (!rec) return null;
+      var deal = state.deal, key = deal + '/' + v;
+      if (state.cache[key]) return Promise.resolve(state.cache[key]);
+      return store.get(deal, v).then(function (rec) {
+        if (!rec || state.deal !== deal) return null; // dropped if another deal was picked meanwhile
         var data = rec.data || {};
         var out = Object.assign({}, data, { v: rec.v, label: rec.label, name: rec.name, at: rec.at, by: rec.by });
-        state.cache[v] = out; return out;
+        state.cache[key] = out; return out;
       });
     }
 
@@ -874,7 +882,9 @@
       var opt = $('sr-deal').selectedOptions[0];
       $('sr-name').value = state.deal ? opt.textContent.replace(/ \(\d+ versions?\)$/, '') : '';
       if (!state.deal) { state.version = blankVersion(); state.stress = null; $('sr-label').value = ''; writeForm(); draw(); }
+      var deal = state.deal;
       refreshVersions().then(function () {
+        if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
         if (pick) return getVersion(pick).then(openVersion);
@@ -924,7 +934,7 @@
         summary: { score: Math.round(r.score.total * 100) / 100, gap: num(r.engine.fundingGap), lane: r.lane.lane } })
         .then(function (res) {
           state.deal = res.deal; state.parent = res.v;
-          state.cache[res.v] = Object.assign({}, data, { v: res.v, label: res.meta.label, name: name, at: res.meta.at, by: res.meta.by });
+          state.cache[res.deal + '/' + res.v] = Object.assign({}, data, { v: res.v, label: res.meta.label, name: name, at: res.meta.at, by: res.meta.by });
           flash('Saved as a new version.');
           return refreshDeals(res.deal).then(function () {
             return refreshVersions().then(function () {

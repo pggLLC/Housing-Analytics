@@ -249,4 +249,15 @@ const t17r = rules.thresholds.find((t) => t.id === 'T17');
 ok(/year 10 or later of Extended Use/.test(t17r.label) && /year 25 or later beginning with the first year/.test(t17r.quote), 'T17 states the year-10 Extended Use test');
 ok(/if \(state\.version !== started\)/.test(read('js/whitepaper/submittal-review.js')), 'a file read finished after navigation is not added to another version');
 
+// Codex review on fa7d3aac5: sponsor lines follow the general partner; late reads and deal loads are dropped.
+const spFor = SR.score(rules, { mix, sponsor: 'for-profit' }, { '5B4b-pha': true, '5B4a-nonprofit': true });
+ok(spFor.lines.filter((l) => /^5B4/.test(l.id)).every((l) => l.status === 'excluded' && l.points === 0), 'a for-profit general partner gets no nonprofit or housing authority points');
+const spNp = SR.score(rules, { mix, sponsor: 'nonprofit' }, { '5B4b-pha': true, '5B4a-nonprofit': true });
+ok(spNp.lines.find((l) => l.id === '5B4a-nonprofit').points === 5 && spNp.lines.find((l) => l.id === '5B4b-pha').points === 0, 'a nonprofit general partner gets the nonprofit line only');
+const spPha = SR.score(rules, { mix, sponsor: 'pha' }, { '5B4b-pha': true });
+ok(spPha.lines.find((l) => l.id === '5B4b-pha').points === 7, 'a housing authority general partner gets the housing authority line');
+const srcJs = read('js/whitepaper/submittal-review.js');
+ok(/var v = started;/.test(srcJs) && /was not imported: another deal or version was opened/.test(srcJs), 'a calculator import finished after navigation is dropped');
+ok(/if \(state\.deal !== deal\) return; \/\/ another deal was picked/.test(srcJs) && /key = deal \+ '\/' \+ v/.test(srcJs), 'a late version list or version from another deal is dropped');
+
 console.log(`submittal-review: ${checks} checks passed`);
