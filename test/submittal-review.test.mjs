@@ -110,6 +110,13 @@ ok(SR.creditCheck(rules, 1850000).status === 'over' && SR.creditCheck(rules, 160
 // Codex review on fc2a5fd1e: $1.7M-$1.8M depends on whether pilot gap funds are available (3.L.1).
 const between = SR.creditCheck(rules, 1750000);
 ok(between.status === 'depends' && between.cap === 1700000 && between.altCap === 1800000, 'a request between the pilot and 3.L.1 caps is flagged, not called over');
+// Codex review on 894c38f97: other active applications count against the cap; the 40% row is capped at 60% without subsidy.
+ok(SR.creditCheck(rules, 1000000, 1000000).status === 'over' && SR.creditCheck(rules, 1000000, 0).status === 'ok', 'the applicant-wide cap counts other active applications');
+ok(SR.creditCheck(rules, 1000000).applicantKnown === false && /other active applications/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '' }, claims: {}, thresholds: {}, engine: { annualCredits: 1000000 } }).risks.map((x) => x.text).join(' ')), 'the applicant check stays open until other applications are entered');
+const all40 = SR.targetingPoints(rules, { 40: 100 }, '40-60', false);
+ok(all40.rows[0].units === 60 && all40.rows[1].units === 40 && Math.abs(all40.points - (0.6 * 92.5 + 0.4 * 72.5)) < 1e-9 && all40.moved === 40, 'without subsidy only 60% of units score in the 40% row');
+ok(Math.abs(SR.targetingPoints(rules, { 40: 100 }, '40-60', true).points - 92.5) < 1e-9, 'with rental assistance or an operating subsidy the 40% row is not capped');
+ok(SR.score(rules, { mix: { 40: 100 }, election: '40-60', rentalSubsidy: false }, {}).lines[0].points < 92.5, 'the score applies the 40% cap');
 
 // Whole review and summary.
 const r = SR.review(rules, prop123, { deal: { mix, place: filed.name }, claims: {}, thresholds: { T3: 'missing' }, engine: { fundingGap: 300000, annualCredits: 1800000 } });

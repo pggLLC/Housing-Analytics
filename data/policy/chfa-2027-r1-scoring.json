@@ -46,6 +46,11 @@
       "50": 72.5,
       "40": 92.5
     },
+    "forty_cap": {
+      "share": 0.6,
+      "page": 41,
+      "quote": "No more than 60 percent of total number of the low-income units can be designated as serving tenants at or below 40 percent AMI for purposes of determining the points in the 40 percent AMI category unless the project has project-based rental assistance or operating subsidies."
+    },
     "tables": {
       "20-50": {
         "rows": [

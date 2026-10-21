@@ -139,7 +139,9 @@
     var tables = rules.targeting.tables || {};
     return (tables[election] || tables['40-60'] || { rows: [60, 50, 40] }).rows;
   }
-  function targetingPoints(rules, mix, election) {
+  // QAP 5.A.1 note: without project-based rental assistance or operating subsidies, no more than 60% of the low-income
+  // units count in the 40% row; the rest still serve tenants at or below 50% AMI, so they score in the 50% row.
+  function targetingPoints(rules, mix, election, subsidy) {
     var w = rules.targeting.weights, t = mixTotals(mix, election), allowed = electionRows(rules, election || '40-60');
     if (!t.restricted) return { points: 0, rows: [] };
     var rows = [{ tier: 40, units: 0 }, { tier: 50, units: 0 }, { tier: 60, units: 0 }];
@@ -147,12 +149,17 @@
       var u = num(mix[tier]) || 0;
       if (tier <= 40) rows[0].units += u; else if (tier <= 50) rows[1].units += u; else if (tier <= 60) rows[2].units += u;
     });
+    var cap = rules.targeting.forty_cap, moved = 0;
+    if (cap && !subsidy) {
+      var most = Math.floor(cap.share * t.restricted + 1e-9);
+      if (rows[0].units > most) { moved = rows[0].units - most; rows[0].units = most; rows[1].units += moved; }
+    }
     var total = 0;
     rows.forEach(function (r) {
       r.share = r.units / t.restricted; r.inTable = allowed.indexOf(r.tier) !== -1;
       r.weight = r.inTable ? w[r.tier] : 0; r.points = r.share * r.weight; total += r.points;
     });
-    return { points: total, rows: rows, restricted: t.restricted, election: election || '40-60' };
+    return { points: total, rows: rows, restricted: t.restricted, election: election || '40-60', moved: moved };
   }
 
   // Both readings of the Third Draft's "Up to" bands; the lower one counts.
@@ -176,11 +183,12 @@
     claims = claims || {};
     var mix = deal.mix || {};
     var lines = [];
-    var tp = targetingPoints(rules, mix, deal.election);
+    var tp = targetingPoints(rules, mix, deal.election, deal.rentalSubsidy);
     var tg = rules.targeting;
     lines.push({ id: '5A1-targeting', group: 'primary', label: tg.label, possible: tg.weights['40'], points: tp.points,
       status: tp.points > 0 ? 'counted' : 'missing', auto: true, section: tg.section, page: tg.page, quote: tg.quote,
-      note: ELECTION_LABEL[tp.election || '40-60'] + ' table: ' + tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points) + (r.inTable === false && r.units ? ' (no row in this table)' : ''); }).join('; ') });
+      note: ELECTION_LABEL[tp.election || '40-60'] + ' table: ' + tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points) + (r.inTable === false && r.units ? ' (no row in this table)' : ''); }).join('; ') +
+        (tp.moved ? '. ' + tp.moved + ' units at 40% or below are scored in the 50% row: without project-based rental assistance or an operating subsidy, no more than 60% of tax credit units count in the 40% row' : '') });
     var lb = tg.lowest_ami_bonus;
     lines.push({ id: lb.id, group: 'primary', label: lb.label, possible: lb.points, points: claims[lb.id] ? lb.points : 0,
       status: claims[lb.id] ? 'counted' : 'not claimed', section: tg.section, page: lb.page, quote: lb.quote, unconfirmed: lb.unconfirmed });
@@ -398,12 +406,16 @@
 
   // 3.L caps a project at $1.7M with the 3.B.9 pilot; 3.L.1 allows $1.8M if pilot gap funds are not available.
   // Which applies is not known until CHFA says, so a request between the two is flagged, not called over.
-  function creditCheck(rules, annualCredits) {
+  // The cap is also per Applicant, Affiliate or Turn-key Project Developer: other active applications count against it.
+  // Until those are entered (0 if none), only the per-project check is made and the applicant check stays open.
+  function creditCheck(rules, annualCredits, otherActive) {
     var cc = rules.credit_caps, cap = cc.federal_9pct_annual;
     var alt = cc.without_pilot ? cc.without_pilot.federal_9pct_annual : cap;
-    if (annualCredits == null) return { status: 'unknown', cap: cap, altCap: alt };
-    var status = annualCredits <= cap ? 'ok' : annualCredits <= alt ? 'depends' : 'over';
-    return { status: status, cap: status === 'over' ? alt : cap, altCap: alt, value: annualCredits };
+    var known = otherActive != null && otherActive >= 0;
+    if (annualCredits == null) return { status: 'unknown', cap: cap, altCap: alt, applicantKnown: known };
+    var total = annualCredits + (known ? otherActive : 0);
+    var status = total <= cap ? 'ok' : total <= alt ? 'depends' : 'over';
+    return { status: status, cap: status === 'over' ? alt : cap, altCap: alt, value: annualCredits, total: total, other: known ? otherActive : null, applicantKnown: known };
   }
 
   // ── Whole review and summary ──────────────────────────────────────────────
@@ -416,7 +428,7 @@
     // Model results describe the exported deal; once the mix or election is edited they no longer apply.
     var stale = !!(v.calculator && v.calculator.stale);
     var eng = stale ? {} : (v.engine || {});
-    var credit = creditCheck(rules, num(eng.annualCredits));
+    var credit = creditCheck(rules, num(eng.annualCredits), num(deal.otherActiveCredits));
     var risks = [];
     if (deal.calcRegime) risks.push({ level: 'yellow', text: 'The Deal Calculator export used ' + deal.calcRegime + ' rent limits, not CHFA LIHTC, so only its unit mix is used here. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.' });
     if (deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to 4%, so only its unit mix is used here. Export the deal at 9% for gap, coverage, credit and stress results.' });
@@ -425,8 +437,10 @@
     else if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
     if (s.total < s.minimum) risks.push({ level: 'red', text: 'Score ' + pts(s.total) + ' is ' + pts(s.minimum - s.total) + ' points under the ' + s.minimum + ' minimum.' });
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
-    if (credit.status === 'over') risks.push({ level: 'red', text: 'Annual federal credit ' + money(credit.value) + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
-    if (credit.status === 'depends') risks.push({ level: 'yellow', text: 'Annual federal credit ' + money(credit.value) + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
+    var creditWhat = credit.other ? 'Annual federal credit ' + money(credit.value) + ' plus ' + money(credit.other) + ' in other active applications (' + money(credit.total) + ')' : 'Annual federal credit ' + money(credit.value);
+    if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
+    if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
+    if (credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
     if (num(eng.fundingGap) > 0) risks.push({ level: 'yellow', text: 'Funding gap of ' + money(num(eng.fundingGap)) + ' after the modeled sources.' });
     lane.flags.forEach(function (f) { risks.push({ level: 'yellow', text: f }); });
     if (!s.needEntered) risks.push({ level: 'yellow', text: 'Housing need points are not entered; the score leaves them out.' });
@@ -782,7 +796,7 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, rentalSubsidy: false, otherActiveCredits: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -794,6 +808,8 @@
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
+      d.rentalSubsidy = $('sr-subsidy').checked;
+      var oc = num($('sr-other-credits').value); d.otherActiveCredits = oc != null && oc >= 0 ? oc : null;
       var ac = num($('sr-credits').value); if (ac != null && ac >= 0) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim');
@@ -820,6 +836,7 @@
       $('sr-sponsor').value = d.sponsor || 'for-profit';
       $('sr-election').value = d.election || '40-60';
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit;
+      $('sr-subsidy').checked = !!d.rentalSubsidy; $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
       $('sr-credits').value = v.engine.annualCredits != null ? v.engine.annualCredits : '';
       $('sr-credits').disabled = !!v.calculator;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
@@ -854,8 +871,9 @@
         l.quotes.map(function (q) { return '<div class="rw-quote">"' + esc(q) + '" (QAP 3.B.9, p. ' + rules.gap_pilot.page + ')</div>'; }).join('') +
         (l.mustPay ? '<p class="sr-muted">This lane is a must-pay loan, so it reduces debt coverage. Put it in the Deal Calculator as a must-pay tranche to see the effect.</p>' : '');
       var cr = r.credit;
-      $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.value) + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
-        : 'Annual federal credit ' + money(cr.value) + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.'));
+      $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
+        : 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.')) +
+        (cr.status !== 'unknown' && !cr.applicantKnown ? ' Other active applications not entered yet.' : '');
       $('srSummary').innerHTML = summaryLines(r).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var shown = state.stress ? { base: state.stress.base, tests: state.stress.tests.filter(function (t) { return t.id !== 'ami1'; }) } : null;
       var ami = state.stress ? amiStress(rules, prop123, state.version) : null;
