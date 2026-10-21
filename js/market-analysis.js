@@ -1603,9 +1603,18 @@
     // a future run. Also works when the score card is absent on a surface.
     if (area) {
       area.dataset.boundary = !result ? 'not_drawn' : isTract ? 'tract' : 'buffer';
-      area.textContent = 'Market area: ' + (!result ? 'not yet drawn — place a site to start'
+      area.textContent = 'Market area: ' + (!result ? 'not yet drawn.'
         : isTract ? tracts + ' census tracts you selected'
         : mi + 'circular buffer around your site — not the jurisdiction boundary');
+      // Walkthrough 2026-10-21 (R2): before a run, the first phone screen's
+      // one instruction is this link, ahead of the step card's forward button.
+      if (!result) {
+        var start = document.createElement('a');
+        start.href = '#pmaMap';
+        start.className = 'ma-start';
+        start.textContent = 'Start here: place your site on the map';
+        area.appendChild(start);
+      }
     }
     // With no result, the controller owns the pending/unavailable score status.
     if (!node || !result) return;
