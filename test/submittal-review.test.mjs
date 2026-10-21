@@ -320,4 +320,9 @@ ok(SR.prop123Status(prop123, 'Alamosa County').status !== 'ambiguous' && SR.prop
 ok(SR.prop123Status(prop123, 'Lake City').status !== 'ambiguous', 'a town with no same-name county is not ambiguous');
 ok(SR.prop123Status(prop123, 'Denver').status !== 'ambiguous' && SR.prop123Status(prop123, 'Broomfield').status !== 'ambiguous', 'the consolidated city and counties are one place');
 
+// Codex review on b35f038b1: 44px compare targets; a late deal-list refresh does not move the selector.
+const srcJs4 = read('js/whitepaper/submittal-review.js');
+ok(/<label class="sr-pick-wrap"><input type="checkbox" class="sr-pick"/.test(srcJs4) && /\.sr-pick-wrap \{[^}]*min-width: 44px; min-height: 44px/.test(page), 'the compare checkbox has a 44px target');
+ok(/\$\('sr-deal'\)\.value = \(state\.nav === nav && selectId\) \|\| state\.deal \|\| '';/.test(srcJs4), 'a late deal-list refresh keeps the deal that is open');
+
 console.log(`submittal-review: ${checks} checks passed`);

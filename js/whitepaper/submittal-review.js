@@ -907,11 +907,13 @@
 
     // Saving and versions
     function refreshDeals(selectId) {
+      var nav = state.nav;
       return store.deals().then(function (deals) {
         $('sr-deal').innerHTML = '<option value="">New deal</option>' + deals.map(function (d) {
           return '<option value="' + esc(d.id) + '">' + esc(d.name) + ' (' + d.versions + ' version' + (d.versions === 1 ? '' : 's') + ')</option>';
         }).join('');
-        if (selectId) $('sr-deal').value = selectId;
+        // A deal picked while the list loaded wins over the one this refresh was asked to show.
+        $('sr-deal').value = (state.nav === nav && selectId) || state.deal || '';
         $('srStore').textContent = store.mode() === 'server' ? 'Saved to your own login on the developer site; teammates do not see your deals. A save never overwrites an earlier version.' : 'The save service is not reachable, so versions are kept on this device only.';
       });
     }
@@ -926,7 +928,7 @@
         $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, or hide">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
-            return '<tr><td><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></td>' +
+            return '<tr><td><label class="sr-pick-wrap"><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></label></td>' +
               '<td><strong>' + esc(v.label || 'Untitled') + '</strong>' + (base ? ' <span class="rw-band">Baseline</span>' : '') + (hid ? ' <span class="sr-muted">(hidden)</span>' : '') +
               '<div class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + ' · ' + esc(v.by || '') + '</div></td>' +
               '<td class="sr-num">' + esc(pts(v.score)) + '</td><td>' + esc(v.lane || '—') + '</td><td class="sr-num">' + esc(money(v.gap)) + '</td>' +
