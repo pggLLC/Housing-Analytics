@@ -73,6 +73,7 @@
     return out.sort(function (a, b) { return a - b; });
   }
   // 5.B.4 points only for the general partner the line names.
+  // 5.B.4 asks both that the QAP-defined Applicant qualify and that it hold the general partner role.
   var SPONSOR_LINES = { '5B4a-nonprofit': ['nonprofit', 'pha'], '5B4b-pha': ['pha'] };
   // Lines that only exist for a rehab or an existing tax credit project.
   // Line id -> [deal flags, any one of which qualifies; what to tick].
@@ -219,6 +220,10 @@
         else line.status = 'needs entry';
       } else if (claims[l.id] && CONDITION_LINES[l.id] && !conditionMet(l.id, deal)) {
         line.status = 'excluded'; line.note = 'Claimed, but the deal is not marked ' + CONDITION_LINES[l.id][1] + '. Tick it or remove the claim.';
+      } else if (claims[l.id] && SPONSOR_LINES[l.id] && !deal.applicant) {
+        line.status = 'excluded'; line.note = 'Claimed, but the Applicant type is not entered; 5.B.4 asks the Applicant itself to qualify. Enter it.';
+      } else if (claims[l.id] && SPONSOR_LINES[l.id] && SPONSOR_LINES[l.id].indexOf(deal.applicant) === -1) {
+        line.status = 'excluded'; line.note = 'Claimed, but the Applicant is set to ' + deal.applicant + '. Change the Applicant or remove the claim.';
       } else if (claims[l.id] && SPONSOR_LINES[l.id] && deal.sponsor && SPONSOR_LINES[l.id].indexOf(deal.sponsor) === -1) {
         line.status = 'excluded'; line.note = 'Claimed, but the general partner is set to ' + deal.sponsor + '. Change the general partner or remove the claim.';
       } else if (claims[l.id]) { line.points = l.points; line.status = 'counted'; }
@@ -603,11 +608,20 @@
       apply: function (d, w) {
         var delta = 0, t = d.getElementById('dc-tdc');
         var ids = (w && w.DealCostBasis && w.DealCostBasis.HARD_COST_IDS) || HARD_COST_IDS;
+        if (!t || !num(t.value)) return { skip: 'No total development cost entered.' };
+        var itemizedHard = ids.some(function (id) { var el = d.getElementById('dc-cost-' + id); return el && num(el.value) > 0; });
+        if (itemizedHard) {
+          // Cost nobody itemized could be hard, land or soft (js/deal-cost-basis.js), so a partly itemized budget cannot
+          // be given an honest hard-cost +10%.
+          var r = w && w.__DealCalc && w.__DealCalc.getResult(), su = r && r.costBasis && r.costBasis.summary;
+          var ni = su && !su.reason ? num(su.notItemized) : null;
+          if (ni == null) return { skip: 'The calculator could not say how much of Total Development Cost is itemized, so hard cost +10% was not run.' };
+          if (ni > 0.5) return { skip: money(ni) + ' of Total Development Cost is not itemized and could be hard, land or soft cost. Itemize all of it and run again.' };
+        }
         ids.forEach(function (id) {
           var el = d.getElementById('dc-cost-' + id), v = el && num(el.value);
           if (v) { var nv = Math.round(v * 1.1); delta += nv - v; el.value = String(nv); }
         });
-        if (!t || !num(t.value)) return { skip: 'No total development cost entered.' };
         // Itemized lines may not exceed Total Development Cost, so the total moves with them.
         if (delta) { t.value = String(num(t.value) + delta); return null; }
         t.value = String(Math.round(num(t.value) * 1.1));

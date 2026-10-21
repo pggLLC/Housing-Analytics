@@ -67,7 +67,7 @@ ok(!s.meets && s.primaryOk, 'primary criteria met but under 130');
 ok(s.addable[0].id === '5B3e-nosmoking' || s.addable[0].rank === 1, 'cheapest points come first');
 ok(line(s, '5B1-need').status === 'needs entry', 'housing need asks for CHFA\'s tier points');
 
-s = SR.score(rules, { mix }, { '5A1d-eli': true, '5B5-homeless': true, '5B4a-nonprofit': true, '5B4b-pha': true, '5B1-need': 6, '5B3e-nosmoking': true });
+s = SR.score(rules, { mix, applicant: 'pha' }, { '5A1d-eli': true, '5B5-homeless': true, '5B4a-nonprofit': true, '5B4b-pha': true, '5B1-need': 6, '5B3e-nosmoking': true });
 ok(line(s, '5A1d-eli').status === 'excluded' && line(s, '5B5-homeless').points === 15, 'ELI and homeless set-aside cannot both count; the larger stays');
 ok(line(s, '5B4a-nonprofit').status === 'excluded' && line(s, '5B4b-pha').points === 7, 'one sponsor line counts');
 ok(line(s, '5B1-need').points === 6, 'entered housing need points count');
@@ -300,10 +300,15 @@ ok(/if \(state\.version !== started\)/.test(read('js/whitepaper/submittal-review
 // Codex review on fa7d3aac5: sponsor lines follow the general partner; late reads and deal loads are dropped.
 const spFor = SR.score(rules, { mix, sponsor: 'for-profit' }, { '5B4b-pha': true, '5B4a-nonprofit': true });
 ok(spFor.lines.filter((l) => /^5B4/.test(l.id)).every((l) => l.status === 'excluded' && l.points === 0), 'a for-profit general partner gets no nonprofit or housing authority points');
-const spNp = SR.score(rules, { mix, sponsor: 'nonprofit' }, { '5B4b-pha': true, '5B4a-nonprofit': true });
+const spNp = SR.score(rules, { mix, sponsor: 'nonprofit', applicant: 'nonprofit' }, { '5B4b-pha': true, '5B4a-nonprofit': true });
 ok(spNp.lines.find((l) => l.id === '5B4a-nonprofit').points === 5 && spNp.lines.find((l) => l.id === '5B4b-pha').points === 0, 'a nonprofit general partner gets the nonprofit line only');
-const spPha = SR.score(rules, { mix, sponsor: 'pha' }, { '5B4b-pha': true });
+const spPha = SR.score(rules, { mix, sponsor: 'pha', applicant: 'pha' }, { '5B4b-pha': true });
 ok(spPha.lines.find((l) => l.id === '5B4b-pha').points === 7, 'a housing authority general partner gets the housing authority line');
+const apFor = SR.score(rules, { mix, sponsor: 'nonprofit', applicant: 'for-profit' }, { '5B4a-nonprofit': true });
+ok(apFor.lines.find((l) => l.id === '5B4a-nonprofit').points === 0, 'a for-profit Applicant gets no 5.B.4 points even with a nonprofit general partner');
+const apNone = SR.score(rules, { mix, sponsor: 'pha' }, { '5B4b-pha': true });
+ok(apNone.lines.find((l) => l.id === '5B4b-pha').points === 0 && /Applicant type is not entered/.test(apNone.lines.find((l) => l.id === '5B4b-pha').note), 'a blank Applicant leaves 5.B.4 unresolved');
+ok(/is not itemized and could be hard, land or soft cost/.test(read('js/whitepaper/submittal-review.js')), 'hard cost +10% is not run on a partly itemized budget');
 const srcJs = read('js/whitepaper/submittal-review.js');
 ok(/var v = started, hadCalc = !!v.calculator;/.test(srcJs) && /was not imported: another deal or version was opened/.test(srcJs), 'a calculator import finished after navigation is dropped');
 ok(/if \(state\.deal !== deal\) return; \/\/ another deal was picked/.test(srcJs) && /key = deal \+ '\/' \+ v/.test(srcJs), 'a late version list or version from another deal is dropped');
