@@ -288,7 +288,7 @@
       { key: 'medianHomeValue',       label: _cardLabel('statHomeValue', 'Median home value'),            value: s.medianHomeValue,       sub: 'Owner-occupied DP04' },
       { key: 'medianGrossRent',       label: _cardLabel('statRent', 'Median gross rent'),                 value: s.medianGrossRent,       sub: 'Renter-occupied DP04' },
       { key: 'ownerRenterTenure',     label: _cardLabel('statTenure', 'Renter-occupied (tenure)'),        value: s.ownerRenterTenure,     sub: 'DP04 tenure' },
-      { key: 'rentBurden30Plus',      label: _cardLabel('statRentBurden', 'Rent burdened (≥30%)'),   value: s.rentBurden30Plus,      sub: 'ACS DP04 GRAPI' },
+      { key: 'rentBurden30Plus',      label: _cardLabel('statRentBurden', 'Rent burdened (30% or more)'),   value: s.rentBurden30Plus,      sub: 'ACS DP04 GRAPI' },
       { key: 'incomeNeededToBuy',     label: _cardLabel('statIncomeNeed', 'Income needed to buy (est.)'), value: s.incomeNeededToBuy,     sub: 'Implied 30% PITI' },
       { key: 'meanCommute',           label: _cardLabel('statCommute', 'Mean commute time'),              value: s.meanCommute,           sub: 'ACS S0801' },
       { key: 'baselineUnits',         label: _cardLabel('statBaseUnits', 'Current housing units'),        value: hs.baselineUnits,        sub: 'DP04 total' },
