@@ -481,11 +481,12 @@ NATIONAL_SKIP_RE = re.compile(
     r'korea\w*|seoul|dubai|uae|emirati|saudi\w*|qatar\w*|egypt\w*|israel\w*|lebanon|lebanese|'
     r'hezbollah|gaza|iran\w*|iraq\w*|syria\w*|ukrain\w*|russia\w*|moscow|africa\w*|nigeria\w*|'
     r'kenya\w*|ghana\w*|venezuel\w*|caracas|cuba\w*|havana|haiti\w*|dominican|jamaica\w*|guatemal\w*|'
-    r'hondura\w*|salvador\w*|nicaragua\w*|panama(?!\s+city\b)\w*|costa rica\w*|ecuador\w*|bolivia\w*|uruguay\w*|'
-    r'paraguay\w*|latin america\w*|caribbean|asia(?:-pacific)?|middle east\w*|morocc\w*|ethiopia\w*|afghan\w*|'
+    r'hondura\w*|salvador\w*|nicaragua\w*|panama(?!\s+city\b.*\bfl(?:orida|a\.?)\b)\w*|costa rica\w*|ecuador\w*|bolivia\w*|uruguay\w*|'
+    r'paraguay\w*|latin america\w*|caribbean|asia\w*|middle east\w*|morocc\w*|ethiopia\w*|afghan\w*|'
     r'sri lanka\w*|nepal\w*|myanmar|cambodia\w*|mongolia\w*|iceland\w*|hungar\w*|czech\w*|romania\w*|'
     r'bulgaria\w*|serbia\w*|croatia\w*)\b'
-    # "Cuban Americans", "Indian-American buyers": a U.S. community, not a place abroad.
+    # "Cuban Americans", "Asian-American buyers": a U.S. community, not a place abroad.
+    # Panama City counts as Florida only when the headline says so.
     r'(?![\s-]+americans?\b)', re.I)
 
 

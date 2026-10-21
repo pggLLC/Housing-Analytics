@@ -389,3 +389,5 @@ def test_latin_american_and_other_foreign_housing_stories_stay_out_of_national()
               'Indian-American buyers drive suburban demand'):
         assert not gpb.NATIONAL_SKIP_RE.search(t), t
     assert gpb.NATIONAL_SKIP_RE.search('Haiti housing crisis worsens after storm')
+    assert gpb.NATIONAL_SKIP_RE.search('Asian housing markets face rising mortgage rates')
+    assert gpb.NATIONAL_SKIP_RE.search('Panama City home prices rise amid international demand')
