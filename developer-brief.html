@@ -151,6 +151,30 @@
   .pc-note-form input, .pc-note-form textarea { font:inherit;padding:.45rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);min-height:44px;max-width:100%; }
   .pc-note-form button, .pc-note-remove { min-height:44px;cursor:pointer; }
   .pc-note-remove { background:none;border:0;color:var(--muted);text-decoration:underline;padding:0 .4rem; }
+  .ld-panel { font-size:var(--small);line-height:1.55;margin-top:var(--sp3);border-top:1px solid var(--border);padding-top:var(--sp2); }
+  .ld-panel h3 { margin:0 0 var(--sp2); }
+  .ld-numbers { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.5rem;margin:0 0 var(--sp2); }
+  .ld-num { border:1px solid var(--border);border-radius:var(--radius-sm);padding:.5rem .65rem;background:var(--bg2); }
+  .ld-big { display:block;font-size:1.15rem;font-weight:700;color:var(--text); }
+  .ld-level { display:inline-block;padding:.1rem .55rem;border-radius:999px;font-weight:700;border:1px solid var(--border); }
+  .ld-level-reads { border-color:var(--good);color:var(--good); }
+  .ld-level-partly { border-color:var(--accent);color:var(--accent); }
+  .ld-level-hand { border-color:var(--warn);color:var(--text); }
+  .ld-fold { border:1px solid var(--border);border-radius:var(--radius-sm);margin:.4rem 0;padding:0 .65rem; }
+  .ld-fold summary { cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center; }
+  .ld-list { margin:0 0 var(--sp2);padding-left:1.1rem; }
+  .ld-list li { margin-bottom:.6rem;overflow-wrap:anywhere; }
+  .ld-quote { margin:.3rem 0 .3rem .2rem;padding-left:.6rem;border-left:3px solid var(--border);overflow-wrap:anywhere; }
+  .ld-table-wrap { overflow-x:auto;-webkit-overflow-scrolling:touch; }
+  .ld-table { border-collapse:collapse;min-width:420px; }
+  .ld-table th, .ld-table td { padding:.3rem .45rem;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap; }
+  .ld-switch, .ld-form button, .ld-remove { min-height:44px;cursor:pointer;font:inherit; }
+  .ld-switch { padding:.45rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:700; }
+  .ld-switch[aria-pressed="true"] { background:var(--accent);color:var(--bg); }
+  .ld-form fieldset { border:1px solid var(--border);border-radius:var(--radius-sm);padding:var(--sp2);display:grid;gap:.5rem; }
+  .ld-form label { display:grid;gap:.2rem;font-weight:600; }
+  .ld-form input, .ld-form textarea { font:inherit;padding:.45rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);min-height:44px;max-width:100%; }
+  .ld-remove { background:none;border:0;color:var(--muted);text-decoration:underline;padding:0 .4rem; }
   .ib-pipe-line { font-size:var(--small);line-height:1.55;margin:0 0 var(--sp2); }
   .ib-anti-flag { border-left:3px solid var(--warn);padding:.35rem .6rem;font-size:var(--small); }
   .ib-sig-list { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.55; }
@@ -219,6 +243,7 @@
 <script src="js/mix-check.js"></script>
 <script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
 <script src="js/whitepaper/place-card.js"></script>
+<script src="js/whitepaper/local-discussion.js"></script>
 <script>
 (function () {
   'use strict';
@@ -377,6 +402,7 @@
       $('pickerStatus').textContent = model.error || ('Report for ' + model.name + ', built ' + model.generated + ' from the current data.');
       wireTools(geoid, name, pipe, brief);
       mountPlaceCard(geoid, name, related, window.PlaceCard ? window.PlaceCard.researchedFor(contacts, relatedContacts) : [], contacts && contacts.about);
+      if (window.LocalDiscussion) window.LocalDiscussion.mount($('localDiscussionMount'), geoid, name);
     }).catch(e => { $('briefContent').innerHTML = '<div class="ib-prompt">Could not build the report: ' + esc(e.message) + '</div>'; });
   }
 
@@ -456,10 +482,10 @@
   function privateSection(name, geoid, related, researched) {
     let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">' + esc(name) + ': place card</h2>';
     if (!WS || !WS.reachable) {
-      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '<div id="placeCardMount"></div></section>';
+      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '<div id="placeCardMount"></div><div id="localDiscussionMount"></div></section>';
     }
     const mine = PW.forPlace(WS, PIPE_ROWS, geoid, related);
-    h += '<p>Everything on file for ' + esc(name) + ' in one place. Not in the report, the PDF or the downloaded file.</p><div id="placeCardMount"></div>';
+    h += '<p>Everything on file for ' + esc(name) + ' in one place. Not in the report, the PDF or the downloaded file.</p><div id="placeCardMount"></div><div id="localDiscussionMount"></div>';
     h += '<h3>All your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network, researched) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet.</p>') +
       (researched.length ? '<p>The report\'s <strong>Who to contact</strong> section below lists ' + researched.length + ' researched public contacts with their phones, emails and sources.</p>' : '');
     if (mine.own.signals.length) h += '<h3>Signals you logged</h3>' + signalList(mine.own.signals);
