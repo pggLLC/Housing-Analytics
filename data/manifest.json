@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T10:55:01.315446Z",
+  "generated": "2026-10-21T11:14:44.740879Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 931615
+      "bytes": 939164
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -134,7 +134,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 645399
+      "bytes": 659543
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -416,6 +416,16 @@
       "placeholder": false,
       "bytes": 14327
     },
+    "data/deals/dawson-square-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14340
+    },
+    "data/deals/eagle-villas-eagle.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16471
+    },
     "data/deals/elmwood-north-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -426,6 +436,11 @@
       "placeholder": false,
       "bytes": 19207
     },
+    "data/deals/flats-at-sand-creek-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20735
+    },
     "data/deals/flocrit-decatur-place-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -435,6 +450,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 15280
+    },
+    "data/deals/green-valley-vistas-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17977
     },
     "data/deals/greenbriar-apartments-fort-collins.json": {
       "featureCount": 0,
@@ -454,7 +474,7 @@
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19169
+      "bytes": 23323
     },
     "data/deals/ives-ii-wheat-ridge.json": {
       "featureCount": 0,
@@ -465,6 +485,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19257
+    },
+    "data/deals/link-and-pin-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15230
     },
     "data/deals/lumberyard-apartments-aspen.json": {
       "featureCount": 0,
@@ -486,6 +511,11 @@
       "placeholder": false,
       "bytes": 17845
     },
+    "data/deals/montview-heights-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 10642
+    },
     "data/deals/mountain-view-plaza-longmont.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -506,6 +536,11 @@
       "placeholder": false,
       "bytes": 26943
     },
+    "data/deals/ponderosa-pines-parker.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 16870
+    },
     "data/deals/ravenfield-brighton.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -525,6 +560,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 22195
+    },
+    "data/deals/squire-village-northglenn.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14092
     },
     "data/deals/st-louis-landing-building-c-fraser.json": {
       "featureCount": 0,
@@ -551,6 +591,16 @@
       "placeholder": false,
       "bytes": 20457
     },
+    "data/deals/tiffany-square-lakewood.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 10596
+    },
+    "data/deals/townview-phase-i-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19603
+    },
     "data/deals/university-building-lofts-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -575,6 +625,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18416
+    },
+    "data/deals/windtrail-park-fort-collins.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20035
     },
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
@@ -8994,7 +9049,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20803
+      "bytes": 21833
     },
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
@@ -9149,7 +9204,7 @@
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7610
+      "bytes": 7744
     },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
@@ -9164,7 +9219,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 45867
+      "bytes": 46545
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
