@@ -45,8 +45,8 @@
     '5B3g-universal': { rank: 2, how: 'Design at least 5% of units as Type A (ANSI A117.1 or UFAS).' },
     '5B2a-priority': { rank: 2, how: 'Cite the local housing needs assessment or plan that names this need.' },
     '5A1d-eli': { rank: 3, how: 'Move units to 30% AMI and line up supportive services at no cost to residents.' },
-    '5B4b-pha': { rank: 3, how: 'Bring in a Colorado housing authority as sole or majority co-general partner.' },
-    '5B4a-nonprofit': { rank: 3, how: 'A qualifying nonprofit or housing authority as sole general partner.' },
+    '5B4b-pha': { rank: 3, how: 'Make a Colorado housing authority the Applicant, as sole or majority co-general partner.' },
+    '5B4a-nonprofit': { rank: 3, how: 'Make a qualifying nonprofit or housing authority the Applicant, as sole general partner.' },
     '5B3f-modular': { rank: 4, how: 'Modular or factory-built construction, with box and delivery detail.' },
     '5B5-homeless': { rank: 4, how: 'Set aside 25% of units for people experiencing homelessness, with services and MOUs.' },
     '5B2b-toc': { rank: 5, how: 'Only if the site is at an existing or planned transit-oriented site.' },
@@ -412,9 +412,7 @@
       var a = answers[t.id] || '';
       var appliesNow = conditionHolds(t.applies, deal);
       if (a === 'na' && (!t.applies || appliesNow)) a = ''; // only a conditional item whose condition is false can be set aside
-      if (!a && t.applies === 'rehab' && !deal.rehab) a = 'na';
-      if (!a && t.applies === 'existing_credit' && !deal.existingCredit) a = 'na';
-      if (!a && t.applies === 'state_credit' && !appliesNow) a = 'na';
+      if (t.applies && !appliesNow) a = 'na'; // and once its condition is false, an earlier answer no longer counts
       return { id: t.id, label: t.label, page: t.page, quote: t.quote, answer: a || 'unchecked' };
     });
     return { rows: rows, missing: rows.filter(function (r) { return r.answer === 'missing'; }).length,

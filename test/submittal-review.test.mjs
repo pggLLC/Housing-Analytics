@@ -372,6 +372,9 @@ ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === nu
 ok(/yearOneOnly: true/.test(read('js/whitepaper/submittal-review.js')) && /Holds in year one; later years not tested/.test(read('js/whitepaper/submittal-review.js')), 'the calculator\'s own year-one stresses do not claim to hold for 15 years');
 const noT14 = SR.score(rules, { mix }, {}, { T14: 'missing' });
 ok(noT14.lines.find((l) => l.id === '5A2-extended-use').points === 0 && SR.score(rules, { mix }, {}, {}).lines.find((l) => l.id === '5A2-extended-use').points === 40, 'extended-use points are withheld when Threshold #14 is missing');
+const t4 = rules.thresholds.find((t) => t.applies === 'rehab');
+ok(SR.thresholdStatus(rules, { [t4.id]: 'missing' }, { rehab: false }).rows.find((r) => r.id === t4.id).answer === 'na' && SR.thresholdStatus(rules, { [t4.id]: 'missing' }, { rehab: true }).rows.find((r) => r.id === t4.id).answer === 'missing', 'a conditional threshold answer stops counting once its condition is unticked');
+ok(SR.score(rules, { mix, applicant: 'for-profit' }, {}).addable.filter((a) => /^5B4/.test(a.id)).every((a) => /the Applicant/.test(a.how)), '5.B.4 suggestions say the Applicant itself must change');
 ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '', engine: { dscr: 1.3 } }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
