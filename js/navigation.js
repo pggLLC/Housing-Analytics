@@ -507,7 +507,7 @@
              the page's text. -->
         <div class="footer-tools"></div>
         <div class="footer-disclaimer">
-          <small>This site is a public-data reference. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA, DOLA). Not financial or legal advice.</small>
+          <small>This site is a public-data reference. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA, DOLA). Not financial or legal advice. <a href="${normalizeHref('methods.html')}#how-we-check">How we check our figures</a></small>
         </div>
       </div>
     `;
